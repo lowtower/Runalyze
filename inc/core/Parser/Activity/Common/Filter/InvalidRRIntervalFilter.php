@@ -7,7 +7,7 @@ use Runalyze\Parser\Activity\Common\Exception\InvalidDataException;
 
 class InvalidRRIntervalFilter extends AbstractFilter
 {
-    public function filter(ActivityDataContainer $container, bool $strict = false)
+    public function filter(ActivityDataContainer $container, bool $strict = false): void
     {
         $originalLength = count($container->RRIntervals);
         $container->RRIntervals = array_values(array_filter($container->RRIntervals));

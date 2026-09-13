@@ -18,7 +18,7 @@ class MigrationVersions
     /**
      * @param string $version
      */
-    public function setVersion($version)
+    public function setVersion($version): void
     {
         $this->version = $version;
     }

@@ -8,7 +8,7 @@ trait XmlParserTrait
 {
     protected \SimpleXMLElement $Xml;
 
-    public function setXml(\SimpleXMLElement $xml)
+    public function setXml(\SimpleXMLElement $xml): void
     {
         $this->Xml = $xml;
     }
@@ -16,7 +16,7 @@ trait XmlParserTrait
     /**
      * @throws UnsupportedFileException
      */
-    public function setFileContent(string $content)
+    public function setFileContent(string $content): void
     {
         libxml_use_internal_errors(true);
 

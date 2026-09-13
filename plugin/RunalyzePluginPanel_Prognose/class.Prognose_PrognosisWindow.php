@@ -461,7 +461,7 @@ class Prognose_PrognosisWindow
         $this->Formular->addSubmitButton(__('Show prognosis'));
     }
 
-    public function display()
+    public function display(): void
     {
         echo '<div class="panel-heading">';
         $this->displayHeading();

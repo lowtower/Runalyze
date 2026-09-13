@@ -74,7 +74,7 @@ class ActivityDataContainerToActivityContextConverter
         $this->Account = $account;
     }
 
-    public function setAccount(Account $account)
+    public function setAccount(Account $account): void
     {
         $this->Account = $account;
     }

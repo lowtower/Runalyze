@@ -37,7 +37,7 @@ class ElevationsRecalculator
     /**
      * Run recalculations
      */
-    public function run()
+    public function run(): void
     {
         $Query = $this->getQuery();
         $Update = $this->prepareUpdate();

@@ -24,7 +24,7 @@ class TimezoneLookup
     /**
      * @param bool $flag
      */
-    public function silentExceptions($flag = true)
+    public function silentExceptions($flag = true): void
     {
         $this->SilentExceptions = $flag;
     }

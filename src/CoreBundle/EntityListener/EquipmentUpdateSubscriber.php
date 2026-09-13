@@ -22,7 +22,7 @@ class EquipmentUpdateSubscriber implements EventSubscriber
         return ['onFlush'];
     }
 
-    public function onFlush(OnFlushEventArgs $args)
+    public function onFlush(OnFlushEventArgs $args): void
     {
         $entityManager = $args->getObjectManager();
         $unitOfWork = $entityManager->getUnitOfWork();

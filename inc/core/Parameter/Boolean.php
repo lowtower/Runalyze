@@ -18,7 +18,7 @@ class Boolean extends \Runalyze\Parameter
     /**
      * @param string $valueAsString new value
      */
-    public function setFromString(string $valueAsString)
+    public function setFromString(string $valueAsString): void
     {
         $this->set(($valueAsString === 'true'));
     }

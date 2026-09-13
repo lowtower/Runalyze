@@ -37,7 +37,7 @@ class Html extends AbstractSnippetSharer
         return __('HTML');
     }
 
-    public function display()
+    public function display(): void
     {
         $Code = str_replace(["\r", "\n", "\t"], ['', '', ''], $this->codeSnippet());
 

@@ -23,7 +23,7 @@ class Pauses extends StringArrayObject
     /**
      * @param array[] $data array of arrays for single pauses
      */
-    public function fromArray(array $data)
+    public function fromArray(array $data): void
     {
         foreach ($data as $array) {
             $Pause = new Pause();
@@ -52,7 +52,7 @@ class Pauses extends StringArrayObject
      * @param \Runalyze\Model\Trackdata\Pause $pause
      * @throws \InvalidArgumentException
      */
-    public function add($pause)
+    public function add($pause): void
     {
         if (! ($pause) instanceof Pause) {
             throw new \InvalidArgumentException("Element to add has to be of type 'Pause'.");

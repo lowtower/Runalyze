@@ -526,7 +526,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
         return $this;
     }
 
-    public function removeEquipmentType(EquipmentType $equipmentType)
+    public function removeEquipmentType(EquipmentType $equipmentType): void
     {
         $this->equipmentType->removeElement($equipmentType);
     }

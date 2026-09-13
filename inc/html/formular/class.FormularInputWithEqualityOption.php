@@ -27,7 +27,7 @@ class FormularInputWithEqualityOption extends FormularInput
     /**
      * Allow only valid operators for numeric values
      */
-    public function setNumericOptions()
+    public function setNumericOptions(): void
     {
         unset($this->Options['like']);
     }
@@ -35,7 +35,7 @@ class FormularInputWithEqualityOption extends FormularInput
     /**
      * Allow only valid operators for strings
      */
-    public function setStringOptions()
+    public function setStringOptions(): void
     {
         $this->Options = [
             'eq' => '=',

@@ -53,7 +53,7 @@ class FormularInputNumber extends FormularInput
     /**
      * @param int $min
      */
-    public function setMin($min)
+    public function setMin($min): void
     {
         $this->min = $min;
     }
@@ -61,7 +61,7 @@ class FormularInputNumber extends FormularInput
     /**
      * @param int $max
      */
-    public function setMax($max)
+    public function setMax($max): void
     {
         $this->max = $max;
     }

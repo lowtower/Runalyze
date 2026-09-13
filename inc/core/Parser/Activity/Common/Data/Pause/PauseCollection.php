@@ -31,7 +31,7 @@ class PauseCollection implements \Countable, \ArrayAccess, \IteratorAggregate
         return new \ArrayIterator($this->Elements);
     }
 
-    public function add(Pause $pause)
+    public function add(Pause $pause): void
     {
         $this->Elements[] = $pause;
     }
@@ -49,7 +49,7 @@ class PauseCollection implements \Countable, \ArrayAccess, \IteratorAggregate
         return $this->Elements === [];
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->Elements = [];
     }
@@ -79,7 +79,7 @@ class PauseCollection implements \Countable, \ArrayAccess, \IteratorAggregate
      *
      * @throws \InvalidArgumentException
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if (! ($value instanceof Pause)) {
             throw new \InvalidArgumentException('Pause collection does only accept instances of Pause as elements.');
@@ -92,7 +92,7 @@ class PauseCollection implements \Countable, \ArrayAccess, \IteratorAggregate
         }
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->Elements[$offset]);
     }
@@ -106,7 +106,7 @@ class PauseCollection implements \Countable, \ArrayAccess, \IteratorAggregate
         );
     }
 
-    public function rebase()
+    public function rebase(): void
     {
         $this->Elements = array_values($this->Elements);
     }

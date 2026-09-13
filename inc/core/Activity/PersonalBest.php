@@ -48,7 +48,7 @@ class PersonalBest
     /**
      * Activate use of static cache
      */
-    public static function activateStaticCache()
+    public static function activateStaticCache(): void
     {
         self::$USE_STATIC_CACHE = true;
     }
@@ -56,7 +56,7 @@ class PersonalBest
     /**
      * Deactivate use of static cache
      */
-    public static function deactivateStaticCache()
+    public static function deactivateStaticCache(): void
     {
         self::$USE_STATIC_CACHE = false;
         self::$PBs = [];

@@ -62,13 +62,13 @@ class DataBrowserShared extends DataBrowser
     /**
      * Display specific icon-links
      */
-    public function displayIconLinks()
+    public function displayIconLinks(): void
     {
         echo $this->getMonthKmLink();
         echo $this->getWeekKmLink();
     }
 
-    public function displayHoverLinks()
+    public function displayHoverLinks(): void
     {
         echo $this->getRefreshLink();
     }

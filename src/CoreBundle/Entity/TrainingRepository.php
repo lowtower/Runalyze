@@ -507,7 +507,7 @@ class TrainingRepository extends EntityRepository
         }
     }
 
-    public function remove(Training $activity)
+    public function remove(Training $activity): void
     {
         if ($activity->getRoute() !== null) {
             $this->_em->remove($activity->getRoute());

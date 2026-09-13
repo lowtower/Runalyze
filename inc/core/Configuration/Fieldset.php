@@ -31,7 +31,7 @@ class Fieldset extends \FormularFieldset
         $this->Factory = new FieldFactory();
     }
 
-    public function addHandle(Handle $Handle, array $options = [])
+    public function addHandle(Handle $Handle, array $options = []): void
     {
         $this->addField($this->Factory->FieldFor($Handle, $options));
     }

@@ -26,7 +26,7 @@ class Partner extends StringArrayObject
     /**
      * @param string $string
      */
-    public function fromString($string)
+    public function fromString($string): void
     {
         $this->Elements = array_map('trim', explode(self::SEPARATOR, $string));
     }

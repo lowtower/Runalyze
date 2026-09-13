@@ -11,7 +11,7 @@ trait AccountAwareTaskTrait
      */
     protected $Account;
 
-    public function setAccount(Account $account)
+    public function setAccount(Account $account): void
     {
         $this->Account = $account;
     }

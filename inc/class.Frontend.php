@@ -70,7 +70,7 @@ class Frontend
         }
     }
 
-    private function initSystem()
+    private function initSystem(): void
     {
         define('RUNALYZE', true);
         define('FRONTEND_PATH', __DIR__ . '/');
@@ -87,7 +87,7 @@ class Frontend
     /**
      * Set up Autloader
      */
-    private function setAutoloader()
+    private function setAutoloader(): void
     {
         require_once FRONTEND_PATH . '../vendor/autoload.php';
     }
@@ -95,7 +95,7 @@ class Frontend
     /**
      * Setup config
      */
-    private function initConfig()
+    private function initConfig(): void
     {
         // Get parameters from the parameter bag
         $this->yamlConfig = [
@@ -149,7 +149,7 @@ class Frontend
     /**
      * Setup timezone
      */
-    private function initTimezone()
+    private function initTimezone(): void
     {
         Timezone::setPHPTimezone(SessionAccountHandler::getTimezone());
         Timezone::setMysql();
@@ -158,7 +158,7 @@ class Frontend
     /**
      * Setup Language
      */
-    private function initCache()
+    private function initCache(): void
     {
         require_once FRONTEND_PATH . '/system/class.Cache.php';
 
@@ -172,7 +172,7 @@ class Frontend
     /**
      * Init constants
      */
-    private function defineConsts()
+    private function defineConsts(): void
     {
         require_once FRONTEND_PATH . 'system/define.consts.php';
 
@@ -186,14 +186,14 @@ class Frontend
     /**
      * Connect to database
      */
-    private function initDatabase()
+    private function initDatabase(): void
     {
         define('PREFIX', $this->yamlConfig['database_prefix']);
 
         DB::connect($this->yamlConfig['database_host'], $this->yamlConfig['database_port'], $this->yamlConfig['database_user'], $this->yamlConfig['database_password'], $this->yamlConfig['database_name']);
     }
 
-    protected function initSessionAccountHandler()
+    protected function initSessionAccountHandler(): void
     {
         new SessionAccountHandler();
 
@@ -214,9 +214,6 @@ class Frontend
         }
     }
 
-    /**
-     * Forward accountid to database wraper
-     */
     protected function forwardAccountIDtoDatabaseWrapper()
     {
         DB::getInstance()->setAccountID(SessionAccountHandler::getId());
@@ -225,7 +222,7 @@ class Frontend
     /**
      * Display the HTML-Header
      */
-    public function displayHeader()
+    public function displayHeader(): void
     {
 
         if (! Request::isAjax() && ! isset($_GET['hideHtmlHeader'])) {
@@ -236,7 +233,7 @@ class Frontend
     /**
      * Display the HTML-Footer
      */
-    public function displayFooter()
+    public function displayFooter(): void
     {
         if (! Request::isAjax() && ! isset($_GET['hideHtmlHeader'])) {
             include __DIR__ . '/tpl/tpl.Frontend.footer.php';

@@ -97,7 +97,7 @@ class Elevation extends ActivitySeries
      * @param int $yAxis
      * @param bool $addAnnotations [optional]
      */
-    public function addTo(\Plot $Plot, $yAxis, bool $addAnnotations = true)
+    public function addTo(\Plot $Plot, $yAxis, bool $addAnnotations = true): void
     {
         if ($this->Data === []) {
             return;
@@ -137,7 +137,7 @@ class Elevation extends ActivitySeries
     /**
      * @param bool $flag
      */
-    public function showAsFilledLine($flag = true)
+    public function showAsFilledLine($flag = true): void
     {
         $this->ShowAsFilledLine = $flag;
     }

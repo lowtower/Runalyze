@@ -22,7 +22,7 @@ class WeatherDataMerger implements MergerInterface
         $this->DataToMerge = $secondData;
     }
 
-    public function merge()
+    public function merge(): void
     {
         foreach ($this->getPropertiesToMerge() as $property) {
             if ($this->ResultingData->{$property} === null || $this->ResultingData->{$property} === '') {

@@ -71,7 +71,7 @@ class Lap
     /**
      * @param float $duration [s]
      */
-    public function setDuration(float $duration)
+    public function setDuration(float $duration): void
     {
         $this->LapDuration = new Duration($duration);
     }
@@ -79,12 +79,12 @@ class Lap
     /**
      * @param float $distance [km]
      */
-    public function setDistance(float $distance)
+    public function setDistance(float $distance): void
     {
         $this->LapDistance = new Distance($distance);
     }
 
-    public function setMode(LapIntensity $mode)
+    public function setMode(LapIntensity $mode): void
     {
         $this->Mode = $mode;
     }
@@ -100,7 +100,7 @@ class Lap
     /**
      * @param float $duration [s]
      */
-    public function setTrackDuration(float $duration)
+    public function setTrackDuration(float $duration): void
     {
         $this->TrackDurationAtEnd = new Duration($duration);
     }
@@ -108,12 +108,12 @@ class Lap
     /**
      * @param float $distance [km]
      */
-    public function setTrackDistance(float $distance)
+    public function setTrackDistance(float $distance): void
     {
         $this->TrackDistanceAtEnd = new Distance($distance);
     }
 
-    public function setHR(?float $avg, ?float $max)
+    public function setHR(?float $avg, ?float $max): void
     {
         $this->HRavg = new HeartRate($avg, $this->Athlete);
         $this->HRmax = new HeartRate($max, $this->Athlete);
@@ -123,7 +123,7 @@ class Lap
      * @param int $up [m]
      * @param int $down [m]
      */
-    public function setElevation(int $up, int $down)
+    public function setElevation(int $up, int $down): void
     {
         $this->ElevationUp = $up;
         $this->ElevationDown = $down;
@@ -229,7 +229,7 @@ class Lap
         return $this->ElevationDown;
     }
 
-    public function setAdditionalValues(array $data)
+    public function setAdditionalValues(array $data): void
     {
         $this->AdditionalValues = $data;
     }
@@ -245,7 +245,7 @@ class Lap
     /**
      * @param mixed $value
      */
-    public function setAdditionalValue(string $key, $value)
+    public function setAdditionalValue(string $key, $value): void
     {
         $this->AdditionalValues[$key] = $value;
     }

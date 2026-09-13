@@ -28,7 +28,7 @@ class RouteListener
         $this->ElevationCorrection = $elevationCorrection;
     }
 
-    public function prePersist(Route $route, \Doctrine\ORM\Event\PrePersistEventArgs $args)
+    public function prePersist(Route $route, \Doctrine\ORM\Event\PrePersistEventArgs $args): void
     {
         // #TSC if we have barometric data, no correction will be done (although the user wants it)
         if ($route->getElevationsCorrected() === null
@@ -41,7 +41,7 @@ class RouteListener
         $this->calculateElevation($route);
     }
 
-    public function preUpdate(Route $route, PreUpdateEventArgs $args)
+    public function preUpdate(Route $route, PreUpdateEventArgs $args): void
     {
         if ($this->hasChangedElevations($args)) {
             $this->calculateElevation($route);

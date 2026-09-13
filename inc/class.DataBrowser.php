@@ -230,7 +230,7 @@ class DataBrowser
     /**
      * Display the DataBrowser
      */
-    public function display()
+    public function display(): void
     {
         include __DIR__ . '/tpl/tpl.DataBrowser.php';
     }
@@ -238,7 +238,7 @@ class DataBrowser
     /**
      * Display links to navigate in calendar
      */
-    public function displayNavigationLinks()
+    public function displayNavigationLinks(): void
     {
         // #TSC more space between for better usablility on small devices
         // #TSC use fa-lg for larger icons in the navigation (better for tablets)
@@ -248,7 +248,7 @@ class DataBrowser
         echo '<span class="fa-lg" style="width: 25px; text-align: center; display: inline-block;">' . $this->getCurrentLink() . '</span>';
     }
 
-    public function displayTitle()
+    public function displayTitle(): void
     {
         $now = (new LocalTime())->getTimestamp();
         $timestampForLinks = ($this->TimestampStart < $now && $now < $this->TimestampEnd) ? $now : $this->TimestampStart;
@@ -262,7 +262,7 @@ class DataBrowser
     /**
      * Display specific icon-links
      */
-    public function displayIconLinks()
+    public function displayIconLinks(): void
     {
         echo '<ul>';
         echo '<li>' . $this->getSharedListLink() . '</li>';
@@ -272,7 +272,7 @@ class DataBrowser
         echo '</ul>';
     }
 
-    public function displayHoverLinks()
+    public function displayHoverLinks(): void
     {
         echo $this->getConfigLink();
         echo $this->getRefreshLink();
@@ -424,7 +424,7 @@ class DataBrowser
      * Show year links for the previous 20 years
      * #TSC
      */
-    public function getYearLinks()
+    public function getYearLinks(): void
     {
         $t = new DateTime('now', new DateTimeZone('UTC'));
         $oneYear = new DateInterval('P1Y');

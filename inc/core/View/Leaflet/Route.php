@@ -107,7 +107,7 @@ class Route
      * @param string $property
      * @param mixed $value
      */
-    final public function addOption($property, $value)
+    final public function addOption($property, $value): void
     {
         $this->Options[$property] = $value;
     }
@@ -117,7 +117,7 @@ class Route
      *
      * @param array $Info [optional] must be of the same size as $Path
      */
-    final public function addSegment(array $Path, array $Info = [])
+    final public function addSegment(array $Path, array $Info = []): void
     {
         if ($Path === []) {
             return;
@@ -136,7 +136,7 @@ class Route
      * @param string $Icon JS-icon
      * @param string $Tooltip [optional]
      */
-    final public function addMarker($Lat, $Lng, $Icon, $Tooltip = '')
+    final public function addMarker($Lat, $Lng, $Icon, $Tooltip = ''): void
     {
         $this->Marker[] = 'L.marker([' . $Lat . ',' . $Lng . '], {icon: ' . $Icon . ', tooltip: ' . json_encode($Tooltip) . '})';
     }
@@ -147,7 +147,7 @@ class Route
      * @param string $Icon JS-icon
      * @param string $Tooltip [optional]
      */
-    final public function addMarkerGeohash($geohash, $Icon, $Tooltip = '')
+    final public function addMarkerGeohash($geohash, $Icon, $Tooltip = ''): void
     {
         if ($geohash == '7zzzzzzzzzzz') {
             return;

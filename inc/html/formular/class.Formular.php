@@ -72,7 +72,7 @@ class Formular extends HtmlTag
         $this->action = $action;
     }
 
-    public function setAction($action)
+    public function setAction($action): void
     {
         $this->action = $action;
     }
@@ -80,7 +80,7 @@ class Formular extends HtmlTag
     /**
      * @param string $string
      */
-    public function setHeader($string)
+    public function setHeader($string): void
     {
         $this->header = $string;
     }
@@ -89,7 +89,7 @@ class Formular extends HtmlTag
      * @param string $name
      * @param string $value
      */
-    public function addHiddenValue($name, $value = '')
+    public function addHiddenValue($name, $value = ''): void
     {
         if (empty($value) && isset($_POST[$name])) {
             $value = $_POST[$name];
@@ -102,7 +102,7 @@ class Formular extends HtmlTag
      * Add a fieldset to formular
      * @param bool $opened [optional]
      */
-    public function addFieldset(FormularFieldset $Fieldset, $opened = true)
+    public function addFieldset(FormularFieldset $Fieldset, $opened = true): void
     {
         if ($Fieldset->getId() == '') {
             $Fieldset->setId($this->Id . '_legend_' . count($this->fieldsets));
@@ -115,7 +115,7 @@ class Formular extends HtmlTag
         $this->fieldsets[] = $Fieldset;
     }
 
-    final public function validateAllFieldsets()
+    final public function validateAllFieldsets(): void
     {
         foreach ($this->fieldsets as &$Fieldset) {
             $Fieldset->validateAllFields();
@@ -126,12 +126,12 @@ class Formular extends HtmlTag
      * @param string $value
      * @param string $name optional, default 'submit'
      */
-    public function addSubmitButton($value, $name = 'submit')
+    public function addSubmitButton($value, $name = 'submit'): void
     {
         $this->submitButtons[$name] = $value;
     }
 
-    public function setSubmitButtonsCentered()
+    public function setSubmitButtonsCentered(): void
     {
         $this->submitButtonsCentered = true;
     }
@@ -140,7 +140,7 @@ class Formular extends HtmlTag
      * Add a failure, displayed above submit-button
      * @param string $message
      */
-    public function addFailure($message)
+    public function addFailure($message): void
     {
         $this->failures[] = $message;
     }
@@ -148,7 +148,7 @@ class Formular extends HtmlTag
     /**
      * Set a specific layout for all fields in every fieldset
      */
-    public function setLayoutForFields($layout)
+    public function setLayoutForFields($layout): void
     {
         foreach ($this->fieldsets as &$Fieldset) {
             $Fieldset->setLayoutForFields($layout);
@@ -158,7 +158,7 @@ class Formular extends HtmlTag
     /**
      * Set toggle-function: only one opened fieldset
      */
-    public function allowOnlyOneOpenedFieldset()
+    public function allowOnlyOneOpenedFieldset(): void
     {
         foreach ($this->fieldsets as &$Fieldset) {
             $Fieldset->allowOnlyOneOpenedFieldset();
@@ -186,7 +186,7 @@ class Formular extends HtmlTag
     /**
      * Display this formular
      */
-    public function display()
+    public function display(): void
     {
         $this->prepareForDisplay();
 

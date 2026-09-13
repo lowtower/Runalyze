@@ -22,7 +22,7 @@ class SplitsReader
     ) {
     }
 
-    public function readFrom(Splits\Entity $Splits)
+    public function readFrom(Splits\Entity $Splits): void
     {
         foreach ($Splits->asArray() as $Split) {
             $this->Laps->add(new Lap(

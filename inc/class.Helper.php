@@ -155,7 +155,7 @@ class Helper
     /**
      * Recalculate HF_MAX and HF_REST
      */
-    public static function recalculateHFmaxAndHFrest()
+    public static function recalculateHFmaxAndHFrest(): void
     {
         self::recalculateHFmax();
         self::recalculateHFrest();

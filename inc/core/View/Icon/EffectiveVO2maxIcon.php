@@ -92,32 +92,32 @@ class EffectiveVO2maxIcon extends \Runalyze\View\Icon
         }
     }
 
-    public function setTransparent()
+    public function setTransparent(): void
     {
         $this->IsTransparent = true;
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->Direction = self::DIRECTION_UP;
     }
 
-    public function setUpHalf()
+    public function setUpHalf(): void
     {
         $this->Direction = self::DIRECTION_UP_HALF;
     }
 
-    public function setRight()
+    public function setRight(): void
     {
         $this->Direction = self::DIRECTION_RIGHT;
     }
 
-    public function setDownHalf()
+    public function setDownHalf(): void
     {
         $this->Direction = self::DIRECTION_DOWN_HALF;
     }
 
-    public function setDown()
+    public function setDown(): void
     {
         $this->Direction = self::DIRECTION_DOWN;
     }

@@ -48,33 +48,33 @@ class JsonImporter
         return $this->Results->completeString();
     }
 
-    public function enableOverwritingConfig(bool $flag = true)
+    public function enableOverwritingConfig(bool $flag = true): void
     {
         $this->OverwriteConfig = $flag;
     }
 
-    public function enableOverwritingDataset(bool $flag = true)
+    public function enableOverwritingDataset(bool $flag = true): void
     {
         $this->OverwriteDataset = $flag;
     }
 
-    public function enableOverwritingPlugins(bool $flag = true)
+    public function enableOverwritingPlugins(bool $flag = true): void
     {
         $this->OverwritePlugins = $flag;
     }
 
-    public function deleteOldActivities()
+    public function deleteOldActivities(): void
     {
         $this->truncateTable('training');
         $this->truncateTable('route');
     }
 
-    public function deleteOldBodyValues()
+    public function deleteOldBodyValues(): void
     {
         $this->truncateTable('user');
     }
 
-    public function importData()
+    public function importData(): void
     {
         $this->readExistingData();
         $this->readFile();
@@ -86,12 +86,12 @@ class JsonImporter
     /**
      * @param string $table without prefix
      */
-    private function truncateTable(string $table)
+    private function truncateTable(string $table): void
     {
         $this->Results->addDeletes('runalyze_' . $table, $this->DB->query('DELETE FROM `' . $this->DatabasePrefix . $table . '` WHERE `accountid`="' . $this->AccountID . '"')->rowCount());
     }
 
-    private function readExistingData()
+    private function readExistingData(): void
     {
         Configuration::loadAll();
 
@@ -135,7 +135,7 @@ class JsonImporter
         }
     }
 
-    private function readFile()
+    private function readFile(): void
     {
         while (! $this->Reader->eof()) {
             $line = trim($this->Reader->readLine());
@@ -147,7 +147,7 @@ class JsonImporter
         }
     }
 
-    private function readTable(string $tableName)
+    private function readTable(string $tableName): void
     {
         $tableSettings = [
             'import' => [
@@ -183,7 +183,7 @@ class JsonImporter
         }
     }
 
-    private function updateTable(string $tableName)
+    private function updateTable(string $tableName): void
     {
         $line = $this->Reader->readLine();
 
@@ -236,7 +236,7 @@ class JsonImporter
     /**
      * @param array<string, mixed> $row
      */
-    private function runPreparedStatement(string $tableName, \PDOStatement $statement, int $id, array $row)
+    private function runPreparedStatement(string $tableName, \PDOStatement $statement, int $id, array $row): void
     {
         switch ($tableName) {
             case 'runalyze_conf':
@@ -276,7 +276,7 @@ class JsonImporter
         $this->Results->addUpdates($tableName, $statement->rowCount());
     }
 
-    private function importTable(string $tableName)
+    private function importTable(string $tableName): void
     {
         $line = $this->Reader->readLine();
 
@@ -378,7 +378,7 @@ class JsonImporter
     /**
      * @param array<string, mixed> $row
      */
-    private function correctValues(string $tableName, array &$row)
+    private function correctValues(string $tableName, array &$row): void
     {
         if ($tableName === 'runalyze_training') {
             $this->correctActivity($row);
@@ -422,7 +422,7 @@ class JsonImporter
     /**
      * @param array<string, mixed> $activity
      */
-    private function correctActivity(array &$activity)
+    private function correctActivity(array &$activity): void
     {
         if (isset($activity['sportid'])) {
             $activity['sportid'] = $this->correctID('runalyze_sport', $activity['sportid']);
@@ -448,7 +448,7 @@ class JsonImporter
     /**
      * Correct references in configuration
      */
-    private function correctConfigReferences()
+    private function correctConfigReferences(): void
     {
         if (isset($_POST['overwrite_config'])) {
             $configValues = Configuration\Handle::tableHandles();

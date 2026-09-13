@@ -260,7 +260,7 @@ class Weathercache
         return $data;
     }
 
-    public function setWeatherData(WeatherData $data)
+    public function setWeatherData(WeatherData $data): void
     {
         $this->weatherid = $data->InternalConditionId;
         $this->temperature = $data->Temperature;
@@ -271,7 +271,7 @@ class Weathercache
         $this->weatherSource = $data->Source;
     }
 
-    public function setLocation(Location $location)
+    public function setLocation(Location $location): void
     {
         $this->setGeohash($location->getGeohash());
         $this->setTime($location->getTimestamp());

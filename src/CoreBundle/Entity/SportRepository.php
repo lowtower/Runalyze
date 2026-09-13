@@ -181,13 +181,13 @@ class SportRepository extends EntityRepository
         return new SportStatistics((new LocalTime($timestamp))->toServerTime(), $queryBuilder->getQuery()->getResult());
     }
 
-    public function save(Sport $sport)
+    public function save(Sport $sport): void
     {
         $this->_em->persist($sport);
         $this->_em->flush();
     }
 
-    public function remove(Sport $sport)
+    public function remove(Sport $sport): void
     {
         $this->_em->remove($sport);
         $this->_em->flush();

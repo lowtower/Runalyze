@@ -15,7 +15,7 @@ class GeoTiff extends AbstractStrategy implements StrategyInterface
     ) {
     }
 
-    public function setUseSmoothing(bool $flag)
+    public function setUseSmoothing(bool $flag): void
     {
         $this->UseSmoothing = $flag;
     }

@@ -44,7 +44,7 @@ class Temperature
         $this->setTemperature($value, $unit);
     }
 
-    public function setTemperature(?float $value, ?int $unit = null)
+    public function setTemperature(?float $value, ?int $unit = null): void
     {
         if ($unit !== null) {
             $this->unit = $unit;
@@ -88,7 +88,7 @@ class Temperature
     /**
      * Set unit to celsius
      */
-    public function toCelsius()
+    public function toCelsius(): void
     {
         $this->unit = self::CELSIUS;
     }
@@ -96,7 +96,7 @@ class Temperature
     /**
      * Set unit to fahrenheit
      */
-    public function toFahrenheit()
+    public function toFahrenheit(): void
     {
         $this->unit = self::FAHRENHEIT;
     }
@@ -104,7 +104,7 @@ class Temperature
     /**
      * Set unit to kelvin
      */
-    public function toKelvin()
+    public function toKelvin(): void
     {
         $this->unit = self::KELVIN;
     }

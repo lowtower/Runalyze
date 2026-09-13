@@ -9,17 +9,17 @@ class JsonImporterResults
      */
     protected $Results = [];
 
-    public function addUpdates(string $tableName, int $counter)
+    public function addUpdates(string $tableName, int $counter): void
     {
         $this->add($tableName, $counter, 'update');
     }
 
-    public function addDeletes(string $tableName, int $counter)
+    public function addDeletes(string $tableName, int $counter): void
     {
         $this->add($tableName, $counter, 'delete');
     }
 
-    public function addInserts(string $tableName, int $counter)
+    public function addInserts(string $tableName, int $counter): void
     {
         $this->add($tableName, $counter, 'insert');
     }

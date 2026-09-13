@@ -10,7 +10,7 @@ use Runalyze\Model\Trackdata\Entity;
 
 class PaceCalculator
 {
-    public function calculateFor(Trackdata $trackData)
+    public function calculateFor(Trackdata $trackData): void
     {
         $pace = null;
 

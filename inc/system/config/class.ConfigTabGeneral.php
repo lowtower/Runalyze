@@ -42,7 +42,7 @@ class ConfigTabGeneral extends ConfigTab
     /**
      * Set all fieldsets and fields
      */
-    public function setFieldsetsAndFields()
+    public function setFieldsetsAndFields(): void
     {
         $IsFirst = true;
         $Categories = $this->allCategories();
@@ -68,7 +68,7 @@ class ConfigTabGeneral extends ConfigTab
     /**
      * Parse all post values
      */
-    public function parsePostData()
+    public function parsePostData(): void
     {
         $Categories = $this->allCategories();
 

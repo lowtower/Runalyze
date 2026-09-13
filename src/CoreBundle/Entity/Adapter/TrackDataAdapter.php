@@ -20,13 +20,13 @@ class TrackDataAdapter
         $this->TrackData = $trackData;
     }
 
-    public function calculatePace()
+    public function calculatePace(): void
     {
         $calculator = new PaceCalculator();
         $calculator->calculateFor($this->TrackData);
     }
 
-    public function calculateGradient()
+    public function calculateGradient(): void
     {
         if ($this->TrackData->getActivity() !== null && $this->TrackData->getActivity()->hasRoute()) {
             $calculator = new GradientCalculator();
@@ -41,7 +41,7 @@ class TrackDataAdapter
         }
     }
 
-    public function calculateGradeAdjustedPace()
+    public function calculateGradeAdjustedPace(): void
     {
         $this->TrackData->setGradeAdjustedPace();
 
@@ -62,7 +62,7 @@ class TrackDataAdapter
         }
     }
 
-    public function calculateStrideLength()
+    public function calculateStrideLength(): void
     {
         if (! $this->TrackData->hasStrideLength()) {
             $this->TrackData->setStrideLength();
@@ -84,7 +84,7 @@ class TrackDataAdapter
         $this->TrackData->setStrideLength($strideLength);
     }
 
-    public function calculateVerticalRatio()
+    public function calculateVerticalRatio(): void
     {
         if (! $this->TrackData->hasVerticalRatio()) {
             $this->TrackData->setVerticalRatio();
@@ -104,12 +104,12 @@ class TrackDataAdapter
         $this->TrackData->setVerticalRatio($verticalRatio);
     }
 
-    public function getSmoothPace()
+    public function getSmoothPace(): void
     {
         // TODO
     }
 
-    public function getSmoothGradient()
+    public function getSmoothGradient(): void
     {
         // TODO
     }

@@ -31,7 +31,7 @@ class Selection
     /**
      * @param mixed $key
      */
-    public function setCurrentKey($key)
+    public function setCurrentKey($key): void
     {
         $this->CurrentKey = $key;
     }

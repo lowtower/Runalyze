@@ -44,12 +44,12 @@ class NotificationRepository extends EntityRepository
             ->getResult();
     }
 
-    public function markAsRead(Notification $notification)
+    public function markAsRead(Notification $notification): void
     {
         $this->save($notification->setRead());
     }
 
-    public function markAllAsRead(Account $account)
+    public function markAllAsRead(Account $account): void
     {
         $this->createQueryBuilder('n')
             ->update()
@@ -79,7 +79,7 @@ class NotificationRepository extends EntityRepository
         return $numDeleted;
     }
 
-    public function save(Notification $notification)
+    public function save(Notification $notification): void
     {
         $this->_em->persist($notification);
         $this->_em->flush();

@@ -308,7 +308,7 @@ class Factory
      * @param int|bool $id can be empty if the table uses a full fetch and static cache
      * @throws \InvalidArgumentException
      */
-    public function clearCache($tablename = false, $id = false)
+    public function clearCache($tablename = false, $id = false): void
     {
         if ($tablename === false) {
             foreach (array_keys($this->UseStaticCacheAndFullFetch) as $tablename_cached) {

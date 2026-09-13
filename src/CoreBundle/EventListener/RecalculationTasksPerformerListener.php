@@ -17,7 +17,7 @@ class RecalculationTasksPerformerListener
         $this->Manager = $manager;
     }
 
-    public function onTerminate()
+    public function onTerminate(): void
     {
         if ($this->Manager instanceof LazyLoadingInterface && ! $this->Manager->isProxyInitialized()) {
             return;

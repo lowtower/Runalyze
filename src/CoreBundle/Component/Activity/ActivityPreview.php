@@ -98,7 +98,7 @@ class ActivityPreview
     /**
      * @param bool $flag
      */
-    public function setPossibleDuplicate($flag)
+    public function setPossibleDuplicate($flag): void
     {
         $this->IsPossibleDuplicate = $flag;
     }

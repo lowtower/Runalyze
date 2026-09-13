@@ -28,12 +28,12 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
         }
     }
 
-    public function merge(self $other)
+    public function merge(self $other): void
     {
         $this->Elements = array_merge($this->Elements, $other->getElements());
     }
 
-    public function add(FileImportResult $result)
+    public function add(FileImportResult $result): void
     {
         $this->Elements[] = $result;
     }
@@ -89,7 +89,7 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
         }
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->Elements[$offset]);
     }
@@ -104,12 +104,12 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
         return $this->CurrentOffset;
     }
 
-    public function next()
+    public function next(): void
     {
         ++$this->CurrentOffset;
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         $this->CurrentOffset = 0;
     }
@@ -119,7 +119,7 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
         return isset($this->Elements[$this->CurrentOffset]);
     }
 
-    public function reindex()
+    public function reindex(): void
     {
         $this->Elements = array_values($this->Elements);
     }
@@ -178,7 +178,7 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
         return $convertedFiles;
     }
 
-    public function completeAndFilterResults(ActivityDataContainerFilter $filter)
+    public function completeAndFilterResults(ActivityDataContainerFilter $filter): void
     {
         foreach ($this->Elements as $element) {
             $element->completeAndFilterContainer($filter);

@@ -101,7 +101,7 @@ class TimeSeriesStatistics
     /**
      * @param float[] $quantiles
      */
-    public function calculateStatistics(array $quantiles = [])
+    public function calculateStatistics(array $quantiles = []): void
     {
         $dataOfAvailableSeries = [];
 

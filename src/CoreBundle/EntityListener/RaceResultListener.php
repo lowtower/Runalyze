@@ -17,17 +17,17 @@ class RaceResultListener
         $this->RecalculationManager = $manager;
     }
 
-    public function postPersist(Raceresult $race, \Doctrine\ORM\Event\PostPersistEventArgs $args)
+    public function postPersist(Raceresult $race, \Doctrine\ORM\Event\PostPersistEventArgs $args): void
     {
         $this->scheduleCorrectionFactorRecalculationIfRequired($race);
     }
 
-    public function postUpdate(Raceresult $race, \Doctrine\ORM\Event\PostUpdateEventArgs $args)
+    public function postUpdate(Raceresult $race, \Doctrine\ORM\Event\PostUpdateEventArgs $args): void
     {
         $this->scheduleCorrectionFactorRecalculationIfRequired($race);
     }
 
-    public function postRemove(Raceresult $race, \Doctrine\ORM\Event\PostRemoveEventArgs $args)
+    public function postRemove(Raceresult $race, \Doctrine\ORM\Event\PostRemoveEventArgs $args): void
     {
         $this->scheduleCorrectionFactorRecalculationIfRequired($race);
     }

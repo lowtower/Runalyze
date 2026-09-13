@@ -73,7 +73,7 @@ abstract class ActivitySeries extends \Runalyze\View\Plot\Series
      * @param int $yAxis
      * @param bool $addAnnotations [optional]
      */
-    public function addTo(Plot $Plot, $yAxis, bool $addAnnotations = true)
+    public function addTo(Plot $Plot, $yAxis, bool $addAnnotations = true): void
     {
         if ($this->Data === []) {
             return;

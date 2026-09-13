@@ -49,7 +49,7 @@ class Query
         $this->Configuration = $configuration;
     }
 
-    public function showOnlyPublicActivities(bool $flag = true)
+    public function showOnlyPublicActivities(bool $flag = true): void
     {
         $this->ShowOnlyPublicActivites = $flag;
     }
@@ -107,7 +107,7 @@ class Query
         );
     }
 
-    public function resetJoins()
+    public function resetJoins(): void
     {
         $this->JoinTables = [];
     }
@@ -301,7 +301,7 @@ class Query
         return array_merge(['sportid', 'time', 'use_vo2max', 'is_track', 'typeid'], $this->AdditionalColumns);
     }
 
-    public function setAdditionalColumns(array $columns)
+    public function setAdditionalColumns(array $columns): void
     {
         $this->AdditionalColumns = $columns;
     }

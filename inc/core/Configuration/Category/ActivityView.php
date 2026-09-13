@@ -101,7 +101,7 @@ class ActivityView extends \Runalyze\Configuration\Category
     /**
      * @param string $layer
      */
-    public function updateLayer($layer)
+    public function updateLayer($layer): void
     {
         $this->object('TRAINING_LEAFLET_LAYER')
             ->set($layer);
@@ -359,7 +359,7 @@ class ActivityView extends \Runalyze\Configuration\Category
     /**
      * Add handles for plots to fieldset
      */
-    private function addHandlesForPlotsTo(Fieldset &$Fieldset)
+    private function addHandlesForPlotsTo(Fieldset &$Fieldset): void
     {
         $Fieldset->addHandle($this->handle('TRAINING_PLOT_MODE'), [
             'label' => __('Plots: combination'),
@@ -406,7 +406,7 @@ class ActivityView extends \Runalyze\Configuration\Category
     /**
      * Add handles for maps to fieldset
      */
-    private function addHandlesForMapsTo(Fieldset &$Fieldset)
+    private function addHandlesForMapsTo(Fieldset &$Fieldset): void
     {
         $Fieldset->addHandle($this->handle('GMAP_PATH_BREAK'), [
             'label' => __('Map: interrupt route'),
@@ -433,7 +433,7 @@ class ActivityView extends \Runalyze\Configuration\Category
     /**
      * Add handles for elevation to fieldset
      */
-    private function addHandlesForElevationTo(Fieldset &$Fieldset)
+    private function addHandlesForElevationTo(Fieldset &$Fieldset): void
     {
         $Fieldset->addHandle($this->handle('ELEVATION_METHOD'), [
             'label' => __('Elevation: smoothing'),

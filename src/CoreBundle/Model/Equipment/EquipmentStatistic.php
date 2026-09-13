@@ -44,7 +44,7 @@ class EquipmentStatistic
     /**
      * @param null|int $numberOfActivities
      */
-    public function setNumberOfActivities($numberOfActivities)
+    public function setNumberOfActivities($numberOfActivities): void
     {
         $this->NumberOfActivities = $numberOfActivities;
     }
@@ -60,7 +60,7 @@ class EquipmentStatistic
     /**
      * @param float|null $secondsPerKilometer [s/km]
      */
-    public function setMaximalPace($secondsPerKilometer)
+    public function setMaximalPace($secondsPerKilometer): void
     {
         $this->MaximalPace = $secondsPerKilometer;
     }
@@ -76,7 +76,7 @@ class EquipmentStatistic
     /**
      * @param float|null $totalDistance [km]
      */
-    public function setMaximalDistance($totalDistance)
+    public function setMaximalDistance($totalDistance): void
     {
         $this->MaximalDistance = $totalDistance;
     }

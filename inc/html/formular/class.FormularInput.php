@@ -69,7 +69,7 @@ class FormularInput extends FormularField
      * Set standard size, used when no specific size is set (may be overwritten by css)
      * @param string $size
      */
-    public static function setStandardSize($size)
+    public static function setStandardSize($size): void
     {
         self::$standardSize = $size;
     }
@@ -77,12 +77,12 @@ class FormularInput extends FormularField
     /**
      * Set label to the right side
      */
-    public function setLabelToRight()
+    public function setLabelToRight(): void
     {
         $this->labelOnRight = true;
     }
 
-    public function hideLabel()
+    public function hideLabel(): void
     {
         $this->hideLabel = true;
     }
@@ -91,7 +91,7 @@ class FormularInput extends FormularField
      * Size size for this input field
      * @param string $size
      */
-    public function setSize($size)
+    public function setSize($size): void
     {
         $this->size = $size;
     }
@@ -100,7 +100,7 @@ class FormularInput extends FormularField
      * Set specific unit for this input field
      * @param string $unit
      */
-    public function setUnit($unit)
+    public function setUnit($unit): void
     {
         $this->unit = $unit;
     }
@@ -108,7 +108,7 @@ class FormularInput extends FormularField
     /**
      * Set input field disabled
      */
-    public function setDisabled()
+    public function setDisabled(): void
     {
         $this->addAttribute('disabled', 'disabled');
     }
@@ -141,7 +141,7 @@ class FormularInput extends FormularField
     /**
      * @param string $text
      */
-    public function setPlaceholder($text)
+    public function setPlaceholder($text): void
     {
         $this->addAttribute('placeholder', $text);
     }

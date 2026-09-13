@@ -60,7 +60,7 @@ class GeneratePoster
         return $this->pathToSvgDirectory() . $this->Filename;
     }
 
-    public function buildCommand(string $type, string $jsonDir, int $year, Account $account, Sport $sport, ?string $title, string $backgroundColor, string $trackColor, string $textColor, string $raceColor)
+    public function buildCommand(string $type, string $jsonDir, int $year, Account $account, Sport $sport, ?string $title, string $backgroundColor, string $trackColor, string $textColor, string $raceColor): void
     {
         $this->generateRandomFileName($account->getUsername(), (string) $year);
 
@@ -85,7 +85,7 @@ class GeneratePoster
         }
     }
 
-    private function addStatsParameter(Account $account, Sport $sport, int $year)
+    private function addStatsParameter(Account $account, Sport $sport, int $year): void
     {
         $stats = $this->TrainingRepository->getStatsForPoster($account, $sport, $year)
             ->getArrayResult();
@@ -105,7 +105,7 @@ class GeneratePoster
         return ['grid', 'calendar', 'circular', 'heatmap'];
     }
 
-    public function deleteSvg()
+    public function deleteSvg(): void
     {
         $filesystem = new Filesystem();
         $filesystem->remove($this->pathToSvgDirectory() . $this->Filename);

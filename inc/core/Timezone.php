@@ -33,7 +33,7 @@ class Timezone implements InterfaceChoosable
      *
      * @param int $timezone
      */
-    public static function setPHPTimezone($timezone)
+    public static function setPHPTimezone($timezone): void
     {
         if (TimezoneEnum::isValidValue((int) $timezone)) {
             $timezoneName = TimezoneEnum::getFullNameByEnum((int) $timezone);
@@ -47,7 +47,7 @@ class Timezone implements InterfaceChoosable
     /**
      * Set MySQL timezone to UTC
      */
-    public static function setMysql()
+    public static function setMysql(): void
     {
         DB::getInstance()->exec("SET time_zone = '+00:00'");
     }

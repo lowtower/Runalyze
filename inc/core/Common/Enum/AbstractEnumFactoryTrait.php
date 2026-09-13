@@ -46,7 +46,7 @@ trait AbstractEnumFactoryTrait
         return new $className();
     }
 
-    private static function generateNamespace()
+    private static function generateNamespace(): void
     {
         self::$Namespace = substr(static::class, 0, strrpos(static::class, '\\'));
     }
@@ -54,7 +54,7 @@ trait AbstractEnumFactoryTrait
     /**
      * @throws \Exception
      */
-    private static function generateClassNamesArray()
+    private static function generateClassNamesArray(): void
     {
         if (! method_exists(static::class, 'getEnum')) {
             throw new \BadMethodCallException('Classes using this trait must have static method getEnum().');

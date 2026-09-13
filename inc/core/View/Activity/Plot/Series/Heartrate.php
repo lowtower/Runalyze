@@ -109,7 +109,7 @@ class Heartrate extends ActivitySeries
      * @param int $yAxis
      * @param bool $addAnnotations [optional]
      */
-    public function addTo(\Plot $Plot, $yAxis, bool $addAnnotations = true)
+    public function addTo(\Plot $Plot, $yAxis, bool $addAnnotations = true): void
     {
         parent::addTo($Plot, $yAxis, $addAnnotations);
 

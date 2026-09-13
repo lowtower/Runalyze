@@ -9,7 +9,7 @@ use Runalyze\Calculation\Route\Gradient;
 
 class GradientCalculator
 {
-    public function calculateFor(Trackdata $trackData, Route $route, AbstractKernel $kernel)
+    public function calculateFor(Trackdata $trackData, Route $route, AbstractKernel $kernel): void
     {
         if (! $trackData->hasDistance() || ! $route->hasElevations()) {
             $trackData->setGradient();

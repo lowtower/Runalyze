@@ -46,7 +46,7 @@ class PluginFactory
         return $data;
     }
 
-    public static function clearCache()
+    public static function clearCache(): void
     {
         self::$Plugins = null;
         Cache::delete(self::CACHE_KEY);

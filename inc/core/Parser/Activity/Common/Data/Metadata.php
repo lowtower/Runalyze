@@ -52,7 +52,7 @@ class Metadata
      * @param null|int $timestampAssumingUTC timestamp in local time, i.e. assuming the activity was in utc
      * @param null|int $timezoneOffset [min]
      */
-    public function setTimestamp(?int $timestampAssumingUTC, ?int $timezoneOffset = null)
+    public function setTimestamp(?int $timestampAssumingUTC, ?int $timezoneOffset = null): void
     {
         $this->Timestamp = $timestampAssumingUTC;
         $this->TimezoneOffset = $timezoneOffset;
@@ -69,7 +69,7 @@ class Metadata
     /**
      * @param null|int $timezoneOffset [min]
      */
-    public function setTimezoneOffset(?int $timezoneOffset)
+    public function setTimezoneOffset(?int $timezoneOffset): void
     {
         $this->TimezoneOffset = $timezoneOffset;
     }
@@ -82,13 +82,13 @@ class Metadata
         return $this->TimezoneOffset;
     }
 
-    public function interpretTimestampAsServerTime(int $timestamp)
+    public function interpretTimestampAsServerTime(int $timestamp): void
     {
         $this->TimezoneOffset = (int) round((new \DateTime())->setTimestamp($timestamp)->getOffset() / 60);
         $this->Timestamp = LocalTime::fromServerTime($timestamp)->getTimestamp();
     }
 
-    public function setTimestampAndTimezoneOffsetFrom(string $stringWithTimezoneInformation)
+    public function setTimestampAndTimezoneOffsetFrom(string $stringWithTimezoneInformation): void
     {
         try {
             $dateTime = new \DateTime($stringWithTimezoneInformation);
@@ -105,7 +105,7 @@ class Metadata
     /**
      * @param string $string if this string ends with 'Z', its interpreted as in server timezone
      */
-    public function setTimestampAndTimezoneOffsetWithUtcFixFrom(string $string)
+    public function setTimestampAndTimezoneOffsetWithUtcFixFrom(string $string): void
     {
         if (str_ends_with($string, 'Z')) {
             $localTimestamp = LocalTime::fromServerTime(strtotime(substr($string, 0, -1) . ' UTC'))->getTimestamp();
@@ -119,7 +119,7 @@ class Metadata
         }
     }
 
-    public function setSportName(string $sportName)
+    public function setSportName(string $sportName): void
     {
         $this->SportName = $sportName;
     }
@@ -129,7 +129,7 @@ class Metadata
         return $this->SportName;
     }
 
-    public function setInternalSportId(?int $id)
+    public function setInternalSportId(?int $id): void
     {
         $this->InternalSportId = $id;
     }
@@ -139,7 +139,7 @@ class Metadata
         return $this->InternalSportId;
     }
 
-    public function setTypeName(string $typeName)
+    public function setTypeName(string $typeName): void
     {
         $this->TypeName = $typeName;
     }
@@ -149,7 +149,7 @@ class Metadata
         return $this->TypeName;
     }
 
-    public function setCreator(string $creator, string $creatorDetails = '')
+    public function setCreator(string $creator, string $creatorDetails = ''): void
     {
         $this->Creator = $creator;
         $this->CreatorDetails = $creatorDetails;
@@ -168,7 +168,7 @@ class Metadata
     /**
      * @param mixed $value any vendor-specific identifier
      */
-    public function setActivityId($value)
+    public function setActivityId($value): void
     {
         $this->ActivityId = $value;
     }
@@ -184,7 +184,7 @@ class Metadata
     /**
      * @param string $description
      */
-    public function setDescription($description)
+    public function setDescription($description): void
     {
         $this->Description = $description;
     }
@@ -194,7 +194,7 @@ class Metadata
         return $this->Description;
     }
 
-    public function setNotes(string $notes)
+    public function setNotes(string $notes): void
     {
         $this->Notes = $notes;
     }
@@ -204,7 +204,7 @@ class Metadata
         return $this->Notes;
     }
 
-    public function setRouteDescription(string $description)
+    public function setRouteDescription(string $description): void
     {
         $this->RouteDescription = $description;
     }
@@ -214,7 +214,7 @@ class Metadata
         return $this->RouteDescription;
     }
 
-    public function addEquipment(string $name)
+    public function addEquipment(string $name): void
     {
         $this->EquipmentNames[] = $name;
     }
@@ -227,7 +227,7 @@ class Metadata
         return $this->EquipmentNames;
     }
 
-    public function setUploadedFilename(string $filename)
+    public function setUploadedFilename(string $filename): void
     {
         $this->UploadedFilename = $filename;
     }
@@ -237,7 +237,7 @@ class Metadata
         return $this->UploadedFilename;
     }
 
-    public function setWorkoutName(string $workoutName)
+    public function setWorkoutName(string $workoutName): void
     {
         $this->WorkoutName = $workoutName;
     }

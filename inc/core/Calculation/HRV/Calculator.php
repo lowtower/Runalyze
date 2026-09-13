@@ -221,7 +221,7 @@ class Calculator
     /**
      * Calculate all statistics
      */
-    public function calculate()
+    public function calculate(): void
     {
         if ($this->Object->num() < 2) {
             return;

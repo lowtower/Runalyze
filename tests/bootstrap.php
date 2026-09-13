@@ -22,13 +22,13 @@ if (! defined('FRONTEND_PATH')) {
 
 define('TESTS_ROOT', __DIR__);
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 $_SERVER['APP_ENV'] = $_ENV['APP_ENV'] = 'test';
 $_SERVER['APP_DEBUG'] = $_ENV['APP_DEBUG'] = '1';
 
 // Load environment variables
-(new Dotenv())->loadEnv(dirname(__DIR__) . '/.env');
+(new Dotenv())->loadEnv(__DIR__ . '/../.env');
 
 // Boot Kernel, to get access to the container
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);

@@ -82,7 +82,7 @@ class SearchFormular extends Formular
     /**
      * Add hidden page value
      */
-    private function addPager()
+    private function addPager(): void
     {
         $this->addHiddenValue('page', 1);
     }
@@ -90,7 +90,7 @@ class SearchFormular extends Formular
     /**
      * Add field: time range
      */
-    private function addFieldTimeRange()
+    private function addFieldTimeRange(): void
     {
         $Field = new FormularInputSearchTimeRange('search_time_range', __('Time range'));
         $this->Fieldset->addField($Field);
@@ -99,7 +99,7 @@ class SearchFormular extends Formular
     /**
      * Add field: sort
      */
-    private function addFieldSort()
+    private function addFieldSort(): void
     {
         $Field = new FormularSelectSearchSort('search_sort', __('Sorting'));
         $this->Fieldset->addField($Field);
@@ -108,7 +108,7 @@ class SearchFormular extends Formular
     /**
      * Add field: send to multi editor
      */
-    private function addFieldSendToMultiEditor()
+    private function addFieldSendToMultiEditor(): void
     {
         $Label = Ajax::tooltip(
             __('Send to multi editor'),
@@ -125,7 +125,7 @@ class SearchFormular extends Formular
     /**
      * Add field results per page
      */
-    private function addResultsPerPageField()
+    private function addResultsPerPageField(): void
     {
         $Field = new FormularSelectBox('resultsPerPage', __('Results per page'), 20);
         $Field->setOptions([
@@ -143,7 +143,7 @@ class SearchFormular extends Formular
     /**
      * Add field: sport
      */
-    private function addFieldSport()
+    private function addFieldSport(): void
     {
         $Field = new FormularSelectDb('sportid', __('Sport') . $this->shortLinksForSportField());
         $Field->loadOptionsFrom('sport', 'name');
@@ -167,7 +167,7 @@ class SearchFormular extends Formular
     /**
      * Add field: notes
      */
-    private function addFieldNotes()
+    private function addFieldNotes(): void
     {
         $Field = new FormularInput('notes', __('Notes'));
         $Field->setLayout(FormularFieldset::$LAYOUT_FIELD_W100_IN_W33);
@@ -247,7 +247,7 @@ class SearchFormular extends Formular
         // elapsed_time, fit_hrv_analysis, total_strokes, swolf, wind_deg, is_night
     }
 
-    private function addConditionFieldWithChosen(string $name, string $table, string $key, string $label, string $placeholder)
+    private function addConditionFieldWithChosen(string $name, string $table, string $key, string $label, string $placeholder): void
     {
         if ($table === 'weather') {
             $Field = new TrainingSelectWeather($name, $label);
@@ -294,7 +294,7 @@ class SearchFormular extends Formular
      * @param string $unit
      * @param string $type options: all | numeric | string
      */
-    private function addConditionField($key, $label, $size = '', $unit = '', string $type = 'all')
+    private function addConditionField($key, $label, $size = '', $unit = '', string $type = 'all'): void
     {
         $Field = new FormularInputWithEqualityOption($key, $label);
         $Field->setLayout(FormularFieldset::$LAYOUT_FIELD_W33);
@@ -334,7 +334,7 @@ class SearchFormular extends Formular
         $this->Fieldset->addField($Field);
     }
 
-    private function addBooleanField(string $key, string $label)
+    private function addBooleanField(string $key, string $label): void
     {
         $Field = new FormularSelectBox($key, $label);
         $Field->setLayout(FormularFieldset::$LAYOUT_FIELD_W33);
@@ -347,7 +347,7 @@ class SearchFormular extends Formular
         $this->Fieldset->addField($Field);
     }
 
-    public static function transformOldParamsToNewParams()
+    public static function transformOldParamsToNewParams(): void
     {
         if (isset($_POST['val']) && is_array($_POST['val'])) {
             foreach ($_POST['val'] as $key => $value) {

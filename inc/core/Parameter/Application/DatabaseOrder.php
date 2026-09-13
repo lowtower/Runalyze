@@ -65,7 +65,7 @@ class DatabaseOrder extends \Runalyze\Parameter\Select
     /**
      * Sort data
      */
-    public function sort(array &$data)
+    public function sort(array &$data): void
     {
         $key = ($this->value() == self::ALPHA) ? 'name' : 'id';
         $desc = ($this->value() == self::DESC) ? -1 : 1;

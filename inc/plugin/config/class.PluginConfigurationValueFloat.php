@@ -14,7 +14,7 @@ class PluginConfigurationValueFloat extends PluginConfigurationValue
     /**
      * Has to be overwritten in subclasses.
      */
-    public function setValueFromString(string $Value)
+    public function setValueFromString(string $Value): void
     {
         $this->Value = (float) $Value;
     }

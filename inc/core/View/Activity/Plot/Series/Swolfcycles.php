@@ -76,7 +76,7 @@ class Swolfcycles extends ActivityPointSeries
      * @param int $yAxis
      * @param bool $addAnnotations [optional]
      */
-    public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true)
+    public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true): void
     {
         if ($this->Data === []) {
             return;

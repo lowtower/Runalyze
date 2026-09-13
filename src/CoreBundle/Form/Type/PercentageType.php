@@ -12,12 +12,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PercentageType extends AbstractType implements DataTransformerInterface
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addModelTransformer($this);
     }
 
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['input_unit'] = '%';
     }
@@ -40,7 +40,7 @@ class PercentageType extends AbstractType implements DataTransformerInterface
         return $value === null ? null : (float) str_replace(',', '.', $value);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'scale' => 0,

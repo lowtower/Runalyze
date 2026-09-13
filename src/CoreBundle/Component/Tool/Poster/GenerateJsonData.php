@@ -44,7 +44,7 @@ class GenerateJsonData
         return $this->KernelRootDir . '/../var/tmp/' . $this->Directory;
     }
 
-    public function createJsonFilesFor(Account $account, Sport $sport, int $year)
+    public function createJsonFilesFor(Account $account, Sport $sport, int $year): void
     {
         $this->Directory = md5($account->getId() . strtotime('now'));
 
@@ -128,7 +128,7 @@ class GenerateJsonData
         }
     }
 
-    public function deleteGeneratedFiles()
+    public function deleteGeneratedFiles(): void
     {
         $filesystem = new Filesystem();
         $filesystem->remove($this->getPathToJsonFiles());

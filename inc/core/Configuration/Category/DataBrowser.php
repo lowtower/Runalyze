@@ -129,7 +129,7 @@ class DataBrowser extends \Runalyze\Configuration\Category
     /**
      * Reload data browser for new timerange
      */
-    public static function showNewTimerangeInDB()
+    public static function showNewTimerangeInDB(): void
     {
         $mode = \Runalyze\Configuration::DataBrowser()->mode();
 

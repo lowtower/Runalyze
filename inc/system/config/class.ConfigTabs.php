@@ -44,7 +44,7 @@ class ConfigTabs
      * Add message after submit
      * @param string $HTMLcode HTML::info() or HTML::text() or HTML::warning() or HTML::error()
      */
-    public static function addMessage($HTMLcode)
+    public static function addMessage($HTMLcode): void
     {
         self::$Messages[] = $HTMLcode;
     }
@@ -52,13 +52,13 @@ class ConfigTabs
     /**
      * Add a tab and set it as the default one
      */
-    public function addDefaultTab(ConfigTab $Tab)
+    public function addDefaultTab(ConfigTab $Tab): void
     {
         $this->defaultKey = $Tab->getKey();
         $this->addTab($Tab);
     }
 
-    public function addTab(ConfigTab $Tab)
+    public function addTab(ConfigTab $Tab): void
     {
         $this->Tabs[$Tab->getKey()] = $Tab;
     }
@@ -66,7 +66,7 @@ class ConfigTabs
     /**
      * Display tabs
      */
-    public function display()
+    public function display(): void
     {
         if (Request::param('form') == 'true') {
             $this->Tabs[$this->getCurrentKey()]->parsePostData();

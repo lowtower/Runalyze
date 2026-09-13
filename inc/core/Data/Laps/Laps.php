@@ -27,7 +27,7 @@ class Laps
 
     protected bool $CalculateAdditionalValues = false;
 
-    public function enableCalculationOfAdditionalValues(bool $flag = true)
+    public function enableCalculationOfAdditionalValues(bool $flag = true): void
     {
         $this->CalculateAdditionalValues = $flag;
     }
@@ -35,7 +35,7 @@ class Laps
     /**
      * @param \Runalyze\Model\Route\Entity $route
      */
-    public function calculateFrom(array $distances, Trackdata\Entity $trackdata, ?Route\Entity $route = null)
+    public function calculateFrom(array $distances, Trackdata\Entity $trackdata, ?Route\Entity $route = null): void
     {
         $Calculator = new Calculator($this);
         $Calculator->calculateAdditionalValues($this->CalculateAdditionalValues);
@@ -47,7 +47,7 @@ class Laps
      * @param \Runalyze\Model\Route\Entity $route
      * @param \Runalyze\Model\Swimdata\Entity $swimdata
      */
-    public function calculateFromTimes(array $times, Trackdata\Entity $trackdata, ?Route\Entity $route = null, ?Swimdata\Entity $swimdata = null)
+    public function calculateFromTimes(array $times, Trackdata\Entity $trackdata, ?Route\Entity $route = null, ?Swimdata\Entity $swimdata = null): void
     {
         $Calculator = new Calculator($this);
         $Calculator->calculateAdditionalValues($this->CalculateAdditionalValues);
@@ -55,13 +55,13 @@ class Laps
         $Calculator->calculateFrom($trackdata, $route, ($swimdata != null && $swimdata->num() > 0 ? $swimdata : null));
     }
 
-    public function readFrom(Splits\Entity $splits)
+    public function readFrom(Splits\Entity $splits): void
     {
         $SplitsReader = new SplitsReader($this);
         $SplitsReader->readFrom($splits);
     }
 
-    public function add(Lap $object)
+    public function add(Lap $object): void
     {
         $this->Objects[] = $object;
     }

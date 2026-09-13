@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RecoverPasswordType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('username', TextType::class, [
@@ -53,7 +53,7 @@ class RecoverPasswordType extends AbstractType
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Account::class,

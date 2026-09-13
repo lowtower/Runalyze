@@ -60,7 +60,7 @@ class MaxZoneHR
         $this->import = $bool->value();
     }
 
-    public function collect($activity, $container)
+    public function collect($activity, $container): void
     {
         // used this HR if
         // 1. import is allowed by configuration (=IMPORT_MAX_HR_USER)
@@ -246,7 +246,7 @@ class ActivityBulkImportCommand extends Command
     /**
      * TSC: move the imported file to a specified folder under path-argument.
      */
-    private function moveFile(string $path, string $importedFilename, OutputInterface $output)
+    private function moveFile(string $path, string $importedFilename, OutputInterface $output): void
     {
         if (! empty($this->moveFolder)) {
             $path_parts = pathinfo($importedFilename);
@@ -271,7 +271,7 @@ class ActivityBulkImportCommand extends Command
      * this is only build for "single-choice" equipments of the account.
      * if there are more sports assigned, every sport/equipment combination is stored in the array.
      */
-    private function createEquiqmentArray(Account $account, OutputInterface $output)
+    private function createEquiqmentArray(Account $account, OutputInterface $output): void
     {
         $accountEquipment = $account->getEquipment();
 
@@ -297,7 +297,7 @@ class ActivityBulkImportCommand extends Command
      * this means, that the equipments stored in the sportEquipment array are searched for relevant equipment that
      * fits to the activity date. if there more than one equipment found within ONE type/category, the mapping is ignored.
      */
-    private function setEquipmentIfPossible(Training $activity, OutputInterface $output)
+    private function setEquipmentIfPossible(Training $activity, OutputInterface $output): void
     {
         $actDate = $activity->getDateTime();
         $sportId = $activity->getSport()
@@ -352,7 +352,7 @@ class ActivityBulkImportCommand extends Command
      * #TSC
      * Check if the reported max pulse differs from the current one. If yes, create new "User" entity.
      */
-    private function checkStoreMaxZoneHR(Account $account, OutputInterface $output, MaxZoneHR $maxZoneHR)
+    private function checkStoreMaxZoneHR(Account $account, OutputInterface $output, MaxZoneHR $maxZoneHR): void
     {
         /** @var UserRepository $repository */
         $repository = $this->doctrine->getRepository(User::class);

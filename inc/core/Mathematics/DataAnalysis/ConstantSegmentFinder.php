@@ -50,7 +50,7 @@ class ConstantSegmentFinder
     /**
      * @param int|float $delta
      */
-    public function setConstantDelta($delta)
+    public function setConstantDelta($delta): void
     {
         $this->ConstantDelta = $delta;
     }
@@ -58,7 +58,7 @@ class ConstantSegmentFinder
     /**
      * @param int|float $length
      */
-    public function setMinimumIndexDiff($length)
+    public function setMinimumIndexDiff($length): void
     {
         $this->MinimumIndexDiff = $length;
     }
@@ -66,7 +66,7 @@ class ConstantSegmentFinder
     /**
      * @param int|float|null $length
      */
-    public function setMaximumIndexDiff($length)
+    public function setMaximumIndexDiff($length): void
     {
         $this->MaximumIndexDiff = $length;
     }

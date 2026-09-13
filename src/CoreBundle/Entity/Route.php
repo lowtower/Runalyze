@@ -578,7 +578,7 @@ class Route implements AccountRelatedEntityInterface
 
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
-    public function synchronize()
+    public function synchronize(): void
     {
         $this->setStartEndGeohashes();
         $this->synchronizeMinMaxGeohashIfRequired();
@@ -588,14 +588,14 @@ class Route implements AccountRelatedEntityInterface
         }
     }
 
-    public function synchronizeMinMaxGeohashIfRequired()
+    public function synchronizeMinMaxGeohashIfRequired(): void
     {
         if (! $this->areMinMaxSynchronized) {
             $this->setMinMaxGeohashes();
         }
     }
 
-    public function setMinMaxGeohashes()
+    public function setMinMaxGeohashes(): void
     {
         $this->min = null;
         $this->max = null;
@@ -619,7 +619,7 @@ class Route implements AccountRelatedEntityInterface
         $this->areMinMaxSynchronized = true;
     }
 
-    public function setStartEndGeohashes()
+    public function setStartEndGeohashes(): void
     {
         if ($this->geohashes !== null) {
             $this->startpoint = GeohashLine::findFirstNonNullGeohash($this->geohashes, self::BOUNDARIES_GEOHASH_PRECISION);

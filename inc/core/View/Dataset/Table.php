@@ -44,7 +44,7 @@ class Table
      * This does only work, if <code>codeForColumns()</code> is called in
      * respective order.
      */
-    public function activateAutomaticDistanceComparison()
+    public function activateAutomaticDistanceComparison(): void
     {
         $this->AutomaticDistanceComparison = true;
     }

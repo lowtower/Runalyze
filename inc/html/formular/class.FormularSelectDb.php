@@ -21,7 +21,7 @@ class FormularSelectDb extends FormularSelectBox
      * @param string $Table
      * @param string $Label
      */
-    public function loadOptionsFrom($Table, $Label)
+    public function loadOptionsFrom($Table, $Label): void
     {
         self::$OptionsCache[$Table . '.' . $Label] ??= DB::getInstance()->query(
             'SELECT `id`, `' . $Label . '` as `value` ' .

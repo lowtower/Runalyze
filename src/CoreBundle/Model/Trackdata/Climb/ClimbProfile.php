@@ -41,7 +41,7 @@ class ClimbProfile implements \Countable
      *
      * @throws \InvalidArgumentException
      */
-    public function addSegment($distance, $elevation)
+    public function addSegment($distance, $elevation): void
     {
         if ($distance <= 0.0) {
             throw new \InvalidArgumentException('Distance must be positive.');

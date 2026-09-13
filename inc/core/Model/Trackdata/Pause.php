@@ -62,7 +62,7 @@ class Pause
      * Set data from array
      * @param array<string, mixed> $data
      */
-    public function fromArray(array $data)
+    public function fromArray(array $data): void
     {
         $this->Time = $data[self::TIME] ?? 0;
         $this->Duration = $data[self::DURATION] ?? 0;

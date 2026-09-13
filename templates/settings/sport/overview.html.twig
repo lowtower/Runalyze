@@ -40,7 +40,7 @@
                         <td class="small">{{ sport.distances ? sport.speedUnit.unit : '' }}</td>
                         <td class="small">{{ sport.defaultPrivacy ? '<i class="fa fa-lock"></i>' : '<i class="fa fa-unlock"></i>' }}</td>
                         <td>{% if sport.hrZoneBounds is defined %}<i class="fa fa-check"></i>{% endif %}</td>
-                        <td>{{ calendarView.stringFor(sport.short) }}</td>
+                        <td>{{ calendarView.stringFor(sport.short ? constant('Runalyze\\Profile\\View\\DataBrowserRowProfile::ONLY_ICON') : constant('Runalyze\\Profile\\View\\DataBrowserRowProfile::COMPLETE_ROW')) }}</td>
                         <td>
                             {% if main_sport == sport.id %}
                                 <i class="fa fa-fw fa-trash unimportant cursor-not-allowed" rel="tooltip" title="{% trans %}Sport cannot be deleted.{% endtrans %}<br />{% trans %}This is your main sport.{% endtrans %}"></i>

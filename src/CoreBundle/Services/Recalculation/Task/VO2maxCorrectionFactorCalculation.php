@@ -36,7 +36,7 @@ class VO2maxCorrectionFactorCalculation implements RecalculationTaskInterface
         $this->ConfigurationUpdater = $updater;
     }
 
-    public function run()
+    public function run(): void
     {
         if ($this->Account === null) {
             return;

@@ -153,7 +153,7 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
         return false;
     }
 
-    public function save(Account $account)
+    public function save(Account $account): void
     {
         $this->_em->persist($account);
         $this->_em->flush();

@@ -61,7 +61,7 @@ class ActivityCache
     /**
      * @param string $hash
      */
-    public function remove($hash)
+    public function remove($hash): void
     {
         $this->Cache->deleteItem($hash);
     }

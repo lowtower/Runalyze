@@ -13,12 +13,12 @@ trait LineByLineParserTrait
      */
     protected $Handle;
 
-    public function setFileName(string $file)
+    public function setFileName(string $file): void
     {
         $this->FileName = $file;
     }
 
-    public function parseFileLineByLine()
+    public function parseFileLineByLine(): void
     {
         if (! method_exists($this, 'parseLine')) {
             throw new \RuntimeException('Line-by-line parser must implement parseLine($line)');

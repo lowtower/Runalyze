@@ -67,7 +67,7 @@ class IFrame extends AbstractSnippetSharer
         return isset($_POST['height']) && is_numeric($_POST['height']) ? (int) $_POST['height'] : self::DEFAULT_HEIGHT;
     }
 
-    public function display()
+    public function display(): void
     {
         $Code = str_replace(["\r", "\n", "\t"], ['', '', ''], $this->codeSnippet());
 

@@ -34,7 +34,7 @@ class JobLoop extends Job
      */
     protected $ElevationResults = [];
 
-    public function run()
+    public function run(): void
     {
         if ($this->isRequested(self::ELEVATION)) {
             $this->runRouteLoop();

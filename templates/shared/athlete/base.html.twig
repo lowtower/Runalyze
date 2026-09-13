@@ -17,7 +17,7 @@
         <div class="panel" style="width:960px;margin:5px auto;">
             <div id="public-tabs">
                 <div class="panel-heading">
-                    {% if accountStatistics is defined %}
+                    {% if accountStatistics is defined and accountStatistics is not null %}
                         <div class="panel-menu">
                             <ul class="">
                                 <li><a class="triggered change" target="public-tabs" href="#statistics-general">{% trans %}General statistics{% endtrans %}</a></li>

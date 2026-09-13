@@ -76,7 +76,7 @@ class Ajax
     /**
      * Init own JS-library on frontend (direct output)
      */
-    public static function initJSlibrary()
+    public static function initJSlibrary(): void
     {
         $Options = [];
         $Options['sharedView'] = Request::isOnSharedPage();
@@ -100,7 +100,7 @@ class Ajax
     /**
      * @param int $Flag
      */
-    public static function setReloadFlag($Flag)
+    public static function setReloadFlag($Flag): void
     {
         $BothFlags = [$Flag, self::$currentReloadFlag];
 
@@ -117,7 +117,7 @@ class Ajax
      * Set ID of plugin to reload
      * @param int $ID
      */
-    public static function setPluginIDtoReload($ID)
+    public static function setPluginIDtoReload($ID): void
     {
         self::$RELOAD_PLUGIN_ID = $ID;
     }
@@ -410,7 +410,7 @@ class Ajax
      * @param string $selector
      * @param bool $reinit [optional]
      */
-    public static function createTablesorterFor($selector, $reinit = false)
+    public static function createTablesorterFor($selector, $reinit = false): void
     {
         echo self::wrapJSforDocumentReady('$("' . $selector . '").tablesorterAutosort(' . ($reinit ? 'true' : '') . ');');
     }
@@ -420,7 +420,7 @@ class Ajax
      * @param string $selector
      * @param bool $reinit [optional]
      */
-    public static function createTablesorterWithPagerFor($selector, $reinit = false)
+    public static function createTablesorterWithPagerFor($selector, $reinit = false): void
     {
         echo self::getTablesorterWithPagerFor($selector, $reinit);
     }

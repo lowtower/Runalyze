@@ -22,7 +22,7 @@ class PluginRepository extends EntityRepository
         ]);
     }
 
-    public function movePanelUp(Plugin $panel)
+    public function movePanelUp(Plugin $panel): void
     {
         $otherPanel = $this->findPanelByPosition($panel->getAccount(), $panel->getOrder() - 1);
 
@@ -35,7 +35,7 @@ class PluginRepository extends EntityRepository
         }
     }
 
-    public function movePanelDown(Plugin $panel)
+    public function movePanelDown(Plugin $panel): void
     {
         $otherPanel = $this->findPanelByPosition($panel->getAccount(), $panel->getOrder() + 1);
 
@@ -48,12 +48,12 @@ class PluginRepository extends EntityRepository
         }
     }
 
-    public function toggleHidden(Plugin $plugin)
+    public function toggleHidden(Plugin $plugin): void
     {
         $this->save($plugin->toggleHidden());
     }
 
-    public function save(Plugin $plugin)
+    public function save(Plugin $plugin): void
     {
         $this->_em->persist($plugin);
         $this->_em->flush();
@@ -62,7 +62,7 @@ class PluginRepository extends EntityRepository
     /**
      * @param Plugin[] $plugins
      */
-    public function saveMultiple(array $plugins)
+    public function saveMultiple(array $plugins): void
     {
         foreach ($plugins as $plugin) {
             $this->_em->persist($plugin);

@@ -22,7 +22,7 @@ class MetadataMerger implements MergerInterface
         $this->MetadataToMerge = $secondMetadata;
     }
 
-    public function merge()
+    public function merge(): void
     {
         $this->mergeTimestamp();
         $this->mergeSportDetails();

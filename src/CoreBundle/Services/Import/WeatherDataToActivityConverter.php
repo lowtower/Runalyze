@@ -8,7 +8,7 @@ use Runalyze\Profile\Weather\Mapping\EnglishTextMapping;
 
 class WeatherDataToActivityConverter
 {
-    public function setActivityWeatherDataFor(Training $activity, WeatherData $weatherData)
+    public function setActivityWeatherDataFor(Training $activity, WeatherData $weatherData): void
     {
         if ($weatherData->isEmpty()) {
             return;

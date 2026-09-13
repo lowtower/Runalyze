@@ -61,7 +61,7 @@ class Feed
             ->getUnitSystem();
     }
 
-    public function setTranslator(\Symfony\Contracts\Translation\TranslatorInterface $translator)
+    public function setTranslator(\Symfony\Contracts\Translation\TranslatorInterface $translator): void
     {
         $this->Translator = $translator;
     }
@@ -153,7 +153,7 @@ class Feed
         return $content;
     }
 
-    private function createItem(Training $activity)
+    private function createItem(Training $activity): void
     {
         $item = new Rss20ItemBuilder($this->FeedBuilder);
         $valueDecorator = new ValueExtension($this->ConfigurationManager);
@@ -194,7 +194,7 @@ class Feed
         return $title;
     }
 
-    private function createItems()
+    private function createItems(): void
     {
         if ($this->Activities) {
             foreach ($this->Activities as $activity) {

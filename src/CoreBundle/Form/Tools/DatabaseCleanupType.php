@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class DatabaseCleanupType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $notRequiredOptions = [
             'required' => false,

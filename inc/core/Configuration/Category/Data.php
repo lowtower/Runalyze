@@ -48,14 +48,14 @@ class Data extends \Runalyze\Configuration\Category
     /**
      * @param int $starttime timestamp
      */
-    public function updateStartTime($starttime)
+    public function updateStartTime($starttime): void
     {
         $this->object('START_TIME')
             ->set($starttime);
         $this->updateValue($this->handle('START_TIME'));
     }
 
-    public function recalculateStartTime()
+    public function recalculateStartTime(): void
     {
         $this->updateStartTime(
             DB::getInstance()->query('SELECT MIN(`time`) FROM `' . PREFIX . 'training` WHERE accountid = ' . SessionAccountHandler::getId())->fetchColumn()
@@ -73,7 +73,7 @@ class Data extends \Runalyze\Configuration\Category
     /**
      * @param int $heartrate in [bpm]
      */
-    public function updateHRmax($heartrate)
+    public function updateHRmax($heartrate): void
     {
         $this->object('HF_MAX')
             ->set($heartrate);
@@ -91,7 +91,7 @@ class Data extends \Runalyze\Configuration\Category
     /**
      * @param int $heartrate in [bpm]
      */
-    public function updateHRrest($heartrate)
+    public function updateHRrest($heartrate): void
     {
         $this->object('HF_REST')
             ->set($heartrate);
@@ -121,7 +121,7 @@ class Data extends \Runalyze\Configuration\Category
     /**
      * @param float $shape [ml/kg/min]
      */
-    public function updateVO2maxShape($shape)
+    public function updateVO2maxShape($shape): void
     {
         $this->object('VO2MAX_FORM')
             ->set($shape);
@@ -151,7 +151,7 @@ class Data extends \Runalyze\Configuration\Category
     /**
      * @param float $factor
      */
-    public function updateVO2maxCorrector($factor)
+    public function updateVO2maxCorrector($factor): void
     {
         $this->object('VO2MAX_CORRECTOR')
             ->set($factor);
@@ -169,7 +169,7 @@ class Data extends \Runalyze\Configuration\Category
     /**
      * @param int $basicEndurance
      */
-    public function updateBasicEndurance($basicEndurance)
+    public function updateBasicEndurance($basicEndurance): void
     {
         $this->object('BASIC_ENDURANCE')
             ->set($basicEndurance);
@@ -187,7 +187,7 @@ class Data extends \Runalyze\Configuration\Category
     /**
      * @param int $atl
      */
-    public function updateMaxATL($atl)
+    public function updateMaxATL($atl): void
     {
         $this->object('MAX_ATL')
             ->set($atl);
@@ -205,7 +205,7 @@ class Data extends \Runalyze\Configuration\Category
     /**
      * @param int $ctl
      */
-    public function updateMaxCTL($ctl)
+    public function updateMaxCTL($ctl): void
     {
         $this->object('MAX_CTL')
             ->set($ctl);
@@ -223,14 +223,14 @@ class Data extends \Runalyze\Configuration\Category
     /**
      * @param int $trimp
      */
-    public function updateMaxTrimp($trimp)
+    public function updateMaxTrimp($trimp): void
     {
         $this->object('MAX_TRIMP')
             ->set($trimp);
         $this->updateValue($this->handle('MAX_TRIMP'));
     }
 
-    public function recalculateMaxValues()
+    public function recalculateMaxValues(): void
     {
         $Query = new Performance\ModelQuery();
         $Query->execute(\DB::getInstance());
@@ -284,7 +284,7 @@ class Data extends \Runalyze\Configuration\Category
      * Variables in this category store cached values.
      * They can be recalculated all together.
      */
-    public function recalculateEverything()
+    public function recalculateEverything(): void
     {
         $this->recalculateStartTime();
         $this->recalculateMaxValues();

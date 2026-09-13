@@ -28,7 +28,7 @@ class ActivityAdapter
         $this->Activity = $activity;
     }
 
-    public function setAccountToRelatedEntities()
+    public function setAccountToRelatedEntities(): void
     {
         if ($this->Activity->hasRoute()) {
             $this->Activity->getRoute()
@@ -112,14 +112,14 @@ class ActivityAdapter
             ->getHfavg() : 100;
     }
 
-    public function setActivityIdIfEmpty()
+    public function setActivityIdIfEmpty(): void
     {
         if ($this->Activity->getActivityId() === null) {
             $this->Activity->setActivityId((int) floor($this->Activity->getTime() / 60.0) * 60);
         }
     }
 
-    public function updateSimpleCalculatedValues()
+    public function updateSimpleCalculatedValues(): void
     {
         $this->calculateStrideLength();
         $this->calculateVerticalRatio();
@@ -175,7 +175,7 @@ class ActivityAdapter
         ;
     }
 
-    public function calculateEnergyConsumptionIfEmpty()
+    public function calculateEnergyConsumptionIfEmpty(): void
     {
         if ($this->Activity->getKcal() === null || $this->Activity->getKcal() == 0) {
             $energyConsumption = $this->Activity->getSport()
@@ -190,7 +190,7 @@ class ActivityAdapter
      * @param int $heartRateMaximum [bpm]
      * @param int $heartRateResting [bpm]
      */
-    public function calculateTrimp($gender, $heartRateMaximum, $heartRateResting)
+    public function calculateTrimp($gender, $heartRateMaximum, $heartRateResting): void
     {
         $calculator = new TrimpCalculator();
         $calculator->calculateFor($this->Activity, $gender, $heartRateMaximum, $heartRateResting);
@@ -201,13 +201,13 @@ class ActivityAdapter
      * @param int $correctionForPositiveElevation [m]
      * @param int $correctionForNegativeElevation [m]
      */
-    public function calculateEffectiveVO2max(int $heartRateMaximum, int $correctionForPositiveElevation, int $correctionForNegativeElevation)
+    public function calculateEffectiveVO2max(int $heartRateMaximum, int $correctionForPositiveElevation, int $correctionForNegativeElevation): void
     {
         $calculator = new VO2maxCalculator();
         $calculator->calculateFor($this->Activity, $heartRateMaximum, $correctionForPositiveElevation, $correctionForNegativeElevation);
     }
 
-    public function removeEffectiveVO2max()
+    public function removeEffectiveVO2max(): void
     {
         $this->Activity->setVO2maxByTime(null);
         $this->Activity->setVO2max(null);
@@ -218,13 +218,13 @@ class ActivityAdapter
      * @param float|int|null $athleteWeight [kg]
      * @param float|int|null $bikeWeight [kg]
      */
-    public function calculatePower($athleteWeight = null, $bikeWeight = null)
+    public function calculatePower($athleteWeight = null, $bikeWeight = null): void
     {
         $calculator = new PowerCalculator();
         $calculator->calculateFor($this->Activity);
     }
 
-    public function removePower()
+    public function removePower(): void
     {
         $this->Activity->setPowerCalculated(null);
         $this->Activity->setPower(null);
@@ -235,7 +235,7 @@ class ActivityAdapter
         }
     }
 
-    public function removeWeather()
+    public function removeWeather(): void
     {
         $this->Activity->setWeatherid(WeatherConditionProfile::UNKNOWN);
         $this->Activity->setWeatherSource(null);
@@ -247,7 +247,7 @@ class ActivityAdapter
         $this->Activity->setHumidity(null);
     }
 
-    public function calculateIfActivityWasAtNight()
+    public function calculateIfActivityWasAtNight(): void
     {
         if ($this->Activity->getRoute() !== null && $this->Activity->getRoute()->hasGeohashes()) {
             $this->Activity->setNight((new NightDetector())->isActivityAtNight($this->Activity));
@@ -256,13 +256,13 @@ class ActivityAdapter
         }
     }
 
-    public function calculateValuesForSwimming()
+    public function calculateValuesForSwimming(): void
     {
         $this->calculateTotalNumberOfStrokes();
         $this->calculateSwolf();
     }
 
-    public function calculateTotalNumberOfStrokes()
+    public function calculateTotalNumberOfStrokes(): void
     {
         if ($this->Activity->getSwimdata() !== null && $this->Activity->getSwimdata()->hasStrokes()) {
             $this->Activity->setTotalStrokes(array_sum($this->Activity->getSwimdata()->getStroke()));
@@ -271,7 +271,7 @@ class ActivityAdapter
         }
     }
 
-    public function calculateSwolf()
+    public function calculateSwolf(): void
     {
         $swolf = null;
         if ($this->Activity->getTotalStrokes() !== null) {
@@ -310,7 +310,7 @@ class ActivityAdapter
         $this->Activity->setSwolf($swolf);
     }
 
-    public function useElevationFromRoute()
+    public function useElevationFromRoute(): void
     {
         if ($this->Activity->hasRoute()) {
             $this->Activity->setElevation($this->Activity->getRoute()->getElevation());
@@ -319,7 +319,7 @@ class ActivityAdapter
         }
     }
 
-    public function calculateClimbScore()
+    public function calculateClimbScore(): void
     {
         if ($this->canCalculateClimbScore()) {
             $elevationsBackup = $this->temporarilyFixStepwiseElevationsInRoute();
@@ -376,7 +376,7 @@ class ActivityAdapter
             ->setElevationsCorrected($backupElevations);
     }
 
-    public function guessTimezoneBasedOnCoordinates(TimezoneLookup $timezoneLookup)
+    public function guessTimezoneBasedOnCoordinates(TimezoneLookup $timezoneLookup): void
     {
         if (
             $this->Activity->getTimezoneOffset() === null &&

@@ -8,7 +8,7 @@ use Runalyze\Metrics\Common\Unit\Simple;
 
 class FlightTime implements QueryValueInterface
 {
-    public function addSelectionToQuery(QueryBuilder $queryBuilder, $alias, $as)
+    public function addSelectionToQuery(QueryBuilder $queryBuilder, $alias, $as): void
     {
         $queryBuilder
             ->addSelect(sprintf('(30000/%s.cadence - %s.groundcontact) as %s', $alias, $alias, $as))

@@ -6,7 +6,7 @@ trait GuessUnknownValuesTrait
 {
     protected bool $GuessUnknown = true;
 
-    public function setGuessUnknownFlag(bool $flag = true)
+    public function setGuessUnknownFlag(bool $flag = true): void
     {
         $this->GuessUnknown = $flag;
     }
@@ -15,7 +15,7 @@ trait GuessUnknownValuesTrait
      * @param array $altitudes [m]
      * @param int|bool $unknownValue
      */
-    public function guessUnknown(?array &$altitudes = null, $unknownValue = -32768)
+    public function guessUnknown(?array &$altitudes = null, $unknownValue = -32768): void
     {
         if (! $this->GuessUnknown || $altitudes === null) {
             return;

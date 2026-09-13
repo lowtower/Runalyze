@@ -61,7 +61,7 @@ class Plot
     ) {
     }
 
-    public function raiseError(string $string)
+    public function raiseError(string $string): void
     {
         $this->ErrorString = $string;
     }
@@ -98,7 +98,7 @@ class Plot
         return self::getDivFor($this->cssID, $this->width, $this->height);
     }
 
-    public function outputDiv()
+    public function outputDiv(): void
     {
         echo $this->getDiv();
     }
@@ -106,7 +106,7 @@ class Plot
     /**
      * @param bool $removeOldPlot
      */
-    public function outputJavaScript($removeOldPlot = false)
+    public function outputJavaScript($removeOldPlot = false): void
     {
         if ($removeOldPlot) {
             echo Ajax::wrapJS('RunalyzePlot.remove("' . $this->cssID . '");');
@@ -155,7 +155,7 @@ class Plot
     /**
      * Convert internal data to correct array for JSON
      */
-    private function convertData()
+    private function convertData(): void
     {
         foreach ($this->Data as $i => $Data) {
             $Points = [];
@@ -183,7 +183,7 @@ class Plot
      * @param float $toX relative repositioning in px
      * @param float $toY relative repositioning in px
      */
-    public function addAnnotation($x, $y, $text, $toX = 0, $toY = 0)
+    public function addAnnotation($x, $y, $text, $toX = 0, $toY = 0): void
     {
         $this->Annotations[] = [
             'x' => $x,
@@ -197,7 +197,7 @@ class Plot
     /**
      * Clear all annotations
      */
-    public function clearAnnotations()
+    public function clearAnnotations(): void
     {
         $this->Annotations = [];
     }
@@ -205,7 +205,7 @@ class Plot
     /**
      * Use chart for a line with steps
      */
-    public function lineWithSteps()
+    public function lineWithSteps(): void
     {
         $this->Options['series']['lines']['steps'] = true;
     }
@@ -213,7 +213,7 @@ class Plot
     /**
      * Use chart for a line with steps
      */
-    public function lineWithPoints()
+    public function lineWithPoints(): void
     {
         $this->Options['series']['lines']['show'] = true;
         $this->Options['series']['points']['show'] = true;
@@ -223,7 +223,7 @@ class Plot
      * Use chart for points
      * @param int $size
      */
-    public function showPoints($size = -1)
+    public function showPoints($size = -1): void
     {
         $this->Options['series']['points']['show'] = true;
 
@@ -236,7 +236,7 @@ class Plot
      * Show series as points
      * @param int $series
      */
-    public function showAsPoints($series)
+    public function showAsPoints($series): void
     {
         $this->Data[$series]['points']['show'] = true;
     }
@@ -246,7 +246,7 @@ class Plot
      * @param int $series
      * @param int $width
      */
-    public function setLineWidth($series, $width)
+    public function setLineWidth($series, $width): void
     {
         $this->Data[$series]['lines']['lineWidth'] = $width;
     }
@@ -256,7 +256,7 @@ class Plot
      * @param int $series
      * @param int $size
      */
-    public function setShadowSize($series, $size)
+    public function setShadowSize($series, $size): void
     {
         $this->Data[$series]['shadowSize'] = $size;
     }
@@ -265,7 +265,7 @@ class Plot
      * Show specific series as bars
      * @param int $series
      */
-    public function showAsBars($series, $barWidth = 0, $lineWidth = 0)
+    public function showAsBars($series, $barWidth = 0, $lineWidth = 0): void
     {
         $this->Data[$series]['bars']['show'] = true;
 
@@ -282,7 +282,7 @@ class Plot
      * Use chart for bar-plot
      * @param bool $withPadding Only useful if ticks are set
      */
-    public function showBars($withPadding = false)
+    public function showBars($withPadding = false): void
     {
         $this->Options['series']['bars']['show'] = true;
 
@@ -302,7 +302,7 @@ class Plot
     /**
      * Use stacked lines/bars
      */
-    public function stacked()
+    public function stacked(): void
     {
         $this->Options['series']['stack'] = 'stack';
         $this->Options['series']['lines']['fill'] = true;
@@ -314,7 +314,7 @@ class Plot
      * @param string $color
      * @param int $lineWidth
      */
-    public function addThreshold($axis, $from, $color = '#000', $lineWidth = 1)
+    public function addThreshold($axis, $from, $color = '#000', $lineWidth = 1): void
     {
         $this->Options['grid']['markings'][] = [
             'color' => $color,
@@ -332,7 +332,7 @@ class Plot
      * @param float $to
      * @param string $color
      */
-    public function addMarkingArea($axis, $from, $to, $color = 'rgba(255,255,255,0.2)')
+    public function addMarkingArea($axis, $from, $to, $color = 'rgba(255,255,255,0.2)'): void
     {
         $this->Options['grid']['markings'][] = [
             'color' => $color,
@@ -347,7 +347,7 @@ class Plot
      * Set the margin for the whole grid
      * @param int $margin
      */
-    public function setMarginForGrid($margin)
+    public function setMarginForGrid($margin): void
     {
         $this->Options['grid']['minBorderMargin'] = $margin;
     }
@@ -355,7 +355,7 @@ class Plot
     /**
      * Put grid above data
      */
-    public function setGridAboveData()
+    public function setGridAboveData(): void
     {
         $this->Options['grid']['aboveData'] = true;
     }
@@ -364,7 +364,7 @@ class Plot
      * Set legend as table (not in one line as default)
      * @param string $position
      */
-    public function setLegendAsTable($position = 'nw')
+    public function setLegendAsTable($position = 'nw'): void
     {
         $this->Options['legend']['noColumns'] = 1;
         $this->Options['legend']['position'] = $position;
@@ -374,7 +374,7 @@ class Plot
      * Set specific lines to be filled
      * @param array $keys
      */
-    public function setLinesFilled($keys = [], $opacity = 0.7)
+    public function setLinesFilled($keys = [], $opacity = 0.7): void
     {
         if (empty($keys)) {
             $keys = array_keys($this->Data);
@@ -388,7 +388,7 @@ class Plot
     /**
      * Set smoothing
      */
-    public function smoothing(bool $flag = true, ?bool $fit = null)
+    public function smoothing(bool $flag = true, ?bool $fit = null): void
     {
         $this->Options['series']['curvedLines']['apply'] = $flag;
         $this->Options['series']['curvedLines']['monotonicFit'] = true;
@@ -401,7 +401,7 @@ class Plot
     /**
      * Hide labels on xaxis
      */
-    public function hideXLabels()
+    public function hideXLabels(): void
     {
         $this->Options['xaxis']['show'] = false;
     }
@@ -410,7 +410,7 @@ class Plot
      * Set labels on xaxis
      * @param array $array
      */
-    public function setXLabels($array)
+    public function setXLabels($array): void
     {
         $this->Options['xaxis']['ticks'] = $array;
     }
@@ -418,7 +418,7 @@ class Plot
     /**
      * Set axis-mode to time
      */
-    public function setXAxisAsTime()
+    public function setXAxisAsTime(): void
     {
         $this->Options['xaxis']['mode'] = 'time';
         $this->Options['xaxis']['monthNames'] = [
@@ -442,7 +442,7 @@ class Plot
      * Set axis-mode to time with specific format
      * @param string $format
      */
-    public function setXAxisTimeFormat($format)
+    public function setXAxisTimeFormat($format): void
     {
         $this->setXAxisAsTime();
         $this->Options['xaxis']['timeformat'] = $format;
@@ -452,7 +452,7 @@ class Plot
      * Set x-axis limits to a specific year
      * @param int $Year
      */
-    public function setXAxisLimitedTo($Year)
+    public function setXAxisLimitedTo($Year): void
     {
         $this->Options['xaxis']['min'] = mktime(1, 0, 0, 1, 1, $Year) . '000';
         $this->Options['xaxis']['max'] = mktime(1, 0, 0, 1, 0, $Year + 1) . '000';
@@ -461,7 +461,7 @@ class Plot
     /**
      * Set maximum of x-axis as today
      */
-    public function setXAxisMaxToToday()
+    public function setXAxisMaxToToday(): void
     {
         $this->Options['xaxis']['max'] = time() . '000';
     }
@@ -470,7 +470,7 @@ class Plot
      * Set axis-mode to time
      * @param int|bool $axis [optional]
      */
-    public function setYAxisAsTime($axis = false)
+    public function setYAxisAsTime($axis = false): void
     {
         if ($axis === false) {
             $this->Options['yaxis']['mode'] = 'time';
@@ -484,7 +484,7 @@ class Plot
      * @param string $format
      * @param int|bool $axis [optional]
      */
-    public function setYAxisTimeFormat($format, $axis = false)
+    public function setYAxisTimeFormat($format, $axis = false): void
     {
         $this->setYAxisAsTime($axis);
 
@@ -501,7 +501,7 @@ class Plot
      * @param bool $align
      * @param int $alignTo
      */
-    public function addYAxis($i, $position, $align = true, $alignTo = 1)
+    public function addYAxis($i, $position, $align = true, $alignTo = 1): void
     {
         $this->Options['yaxes'][$i - 1]['position'] = $position;
 
@@ -513,7 +513,7 @@ class Plot
     /**
      * @param int $i
      */
-    public function hideYAxis($i)
+    public function hideYAxis($i): void
     {
         $this->Options['yaxes'][$i - 1]['show'] = false;
     }
@@ -525,7 +525,7 @@ class Plot
      * @param int $roundTo
      * @param float $factor
      */
-    public function addYUnit($i, $unit, $roundTo = 2, $factor = 1)
+    public function addYUnit($i, $unit, $roundTo = 2, $factor = 1): void
     {
         if ($factor != 1) {
             $this->Options['yaxes'][$i - 1]['tickFormatter'] = 'function (v) { v = v * ' . $factor . '; return ' . $this->jsRoundUnit($roundTo) . " + ' " . $unit . "'; }";
@@ -539,7 +539,7 @@ class Plot
      * @param string $unit
      * @param int $roundTo
      */
-    public function setXUnit($unit, $roundTo = 2)
+    public function setXUnit($unit, $roundTo = 2): void
     {
         $this->Options['xaxis']['tickFormatter'] = 'function (v) { return ' . $this->jsRoundUnit($roundTo) . " + ' " . $unit . "'; }";
     }
@@ -547,7 +547,7 @@ class Plot
     /**
      * @param string $string
      */
-    public function setXLabel($string)
+    public function setXLabel($string): void
     {
         $this->Options['xaxis']['label'] = $string;
     }
@@ -558,7 +558,7 @@ class Plot
      * @param string $unit
      * @param int $roundTo
      */
-    public function setXUnitFactor($factor, $unit, $roundTo = 2)
+    public function setXUnitFactor($factor, $unit, $roundTo = 2): void
     {
         $this->Options['xaxis']['tickFormatter'] = 'function (v) { v = v * ' . $factor . '; return ' . $this->jsRoundUnit($roundTo) . " + ' " . $unit . "'; }";
     }
@@ -582,7 +582,7 @@ class Plot
      * @param int $tickSize
      * @param bool $decimals
      */
-    public function setYTicks($axis, $tickSize, $decimals = false)
+    public function setYTicks($axis, $tickSize, $decimals = false): void
     {
         $this->Options['yaxes'][$axis - 1]['minTickSize'] = $tickSize;
 
@@ -603,7 +603,7 @@ class Plot
      * @param bool $autoscale
      * @param mixed $factor
      */
-    public function setYLimits($axis, $min, $max, $autoscale = false, $factor = 'auto')
+    public function setYLimits($axis, $min, $max, $autoscale = false, $factor = 'auto'): void
     {
         if ($autoscale) {
             $diff = $max - $min;
@@ -630,7 +630,7 @@ class Plot
      * @param int $axis
      * @param array $ticks
      */
-    public function setYAxisLabels($axis, $ticks)
+    public function setYAxisLabels($axis, $ticks): void
     {
         $this->Options['yaxes'][$axis - 1]['ticks'] = $ticks;
     }
@@ -639,7 +639,7 @@ class Plot
      * Set y axis to reverse
      * @param int $axis
      */
-    public function setYAxisReverse($axis)
+    public function setYAxisReverse($axis): void
     {
         $this->Options['yaxes'][$axis - 1]['transform'] = 'function(v){return -v;}';
         $this->Options['yaxes'][$axis - 1]['inverseTransform'] = 'function(v){return -v;}';
@@ -649,7 +649,7 @@ class Plot
      * Set y axis to reverse pace scale
      * @param int $axis
      */
-    public function setYAxisPaceReverse($axis)
+    public function setYAxisPaceReverse($axis): void
     {
         $this->Options['yaxes'][$axis - 1]['transform'] = 'function(v){return 1/(v);}';
         $this->Options['yaxes'][$axis - 1]['inverseTransform'] = 'function(v){return 1/v;}';
@@ -658,7 +658,7 @@ class Plot
     /**
      * Set all zero points to null
      */
-    public function setZeroPointsToNull()
+    public function setZeroPointsToNull(): void
     {
         foreach ($this->Data as $series => $data) {
             $this->Data[$series]['data'] = array_map('PLOT__setZeroToNullMapper', $data['data']);

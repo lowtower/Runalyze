@@ -157,7 +157,7 @@ class VO2max extends \Runalyze\Configuration\Category
         return $Fieldset;
     }
 
-    public static function triggerRecalculation()
+    public static function triggerRecalculation(): void
     {
         if (! self::$TRIGGERED) {
             self::$TRIGGERED = true;

@@ -63,7 +63,7 @@ class FormularValueParser
      * @param mixed $value
      * @param string $parser
      */
-    public static function parse(&$value, $parser, array $parserOptions = [])
+    public static function parse(&$value, $parser, array $parserOptions = []): void
     {
         if ($parser === null) {
             return;
@@ -118,7 +118,7 @@ class FormularValueParser
     /**
      * Parse: timestamp => date-string
      */
-    private static function parseDate(string &$value)
+    private static function parseDate(string &$value): void
     {
         if (is_numeric($value)) {
             $value = date('d.m.Y', $value);
@@ -149,7 +149,7 @@ class FormularValueParser
      * @param mixed $value
      * @param array<string, mixed> $options
      */
-    private static function parseTime(&$value, array $options)
+    private static function parseTime(&$value, array $options): void
     {
         if ($value == 0) {
             if (isset($options['hide-empty'])) {

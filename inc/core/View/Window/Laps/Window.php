@@ -301,7 +301,7 @@ class Window
         $this->Laps->calculateFrom($Distances, $this->Context->trackdata(), $this->Context->route());
     }
 
-    public function display()
+    public function display(): void
     {
         echo '<div class="panel-heading">';
         echo '<h1>' . $this->Context->dataview()->titleWithComment() . '</h1>';

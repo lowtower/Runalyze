@@ -13,7 +13,7 @@ class NonMatchingArraySizeFilter extends AbstractFilter
      */
     public const MIN_MAX_TOLERANCE = 2;
 
-    public function filter(ActivityDataContainer $container, bool $strict = false)
+    public function filter(ActivityDataContainer $container, bool $strict = false): void
     {
         $nonEmptyKeys = $this->getNonEmptyContinuousDataKeys($container->ContinuousData);
 

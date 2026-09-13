@@ -25,17 +25,17 @@ class UserListener
         $this->UserRepository = $repository;
     }
 
-    public function postPersist(User $user, \Doctrine\ORM\Event\PostPersistEventArgs $args)
+    public function postPersist(User $user, \Doctrine\ORM\Event\PostPersistEventArgs $args): void
     {
         $this->updateHeartRateStatsInDataConfiguration($args, $user->getAccount());
     }
 
-    public function postUpdate(User $user, \Doctrine\ORM\Event\PostUpdateEventArgs $args)
+    public function postUpdate(User $user, \Doctrine\ORM\Event\PostUpdateEventArgs $args): void
     {
         $this->updateHeartRateStatsInDataConfiguration($args, $user->getAccount());
     }
 
-    public function postRemove(User $user, \Doctrine\ORM\Event\PostRemoveEventArgs $args)
+    public function postRemove(User $user, \Doctrine\ORM\Event\PostRemoveEventArgs $args): void
     {
         $this->updateHeartRateStatsInDataConfiguration($args, $user->getAccount());
     }

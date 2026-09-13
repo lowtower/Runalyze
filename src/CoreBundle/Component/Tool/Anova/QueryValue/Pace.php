@@ -7,7 +7,7 @@ use Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem;
 
 class Pace implements QueryValueInterface
 {
-    public function addSelectionToQuery(QueryBuilder $queryBuilder, $alias, $as)
+    public function addSelectionToQuery(QueryBuilder $queryBuilder, $alias, $as): void
     {
         $queryBuilder
             ->addSelect(sprintf('%s.s/%s.distance as %s', $alias, $alias, $as))

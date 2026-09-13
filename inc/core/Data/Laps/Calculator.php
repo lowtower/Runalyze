@@ -42,7 +42,7 @@ class Calculator
     ) {
     }
 
-    public function calculateAdditionalValues(bool $flag = true)
+    public function calculateAdditionalValues(bool $flag = true): void
     {
         $this->CalculateAdditionalValues = $flag;
     }
@@ -50,7 +50,7 @@ class Calculator
     /**
      * @param array $lapDistances [km]
      */
-    public function setDistances(array $lapDistances)
+    public function setDistances(array $lapDistances): void
     {
         if (! self::isSorted($lapDistances)) {
             throw new \InvalidArgumentException('Calculator needs sorted array of distances');
@@ -63,7 +63,7 @@ class Calculator
     /**
      * @param array $lapTimes [s]
      */
-    public function setTimes(array $lapTimes)
+    public function setTimes(array $lapTimes): void
     {
         if (! self::isSorted($lapTimes)) {
             throw new \InvalidArgumentException('Calculator needs sorted array of times');
@@ -73,7 +73,7 @@ class Calculator
         $this->Times = $lapTimes;
     }
 
-    public function calculateFrom(Trackdata\Entity $trackdata, ?Route\Entity $route = null, ?Swimdata\Entity $swimdata = null)
+    public function calculateFrom(Trackdata\Entity $trackdata, ?Route\Entity $route = null, ?Swimdata\Entity $swimdata = null): void
     {
         $this->TrackdataLoop = new Trackdata\Loop($trackdata);
         $this->RouteLoop = $route instanceof \Runalyze\Model\Route\Entity ? new Route\Loop($route) : null;
@@ -435,7 +435,7 @@ class Calculator
      * Intended for swimming data where trackpoints commonly represent
      * complete pool lengths rather than one-second samples.
      */
-    public function usePreviousTrackpointForTimeLaps(bool $flag = true)
+    public function usePreviousTrackpointForTimeLaps(bool $flag = true): void
     {
         $this->UsePreviousTrackpointForTimeLaps = $flag;
     }

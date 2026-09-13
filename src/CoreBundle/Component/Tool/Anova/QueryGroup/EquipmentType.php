@@ -24,7 +24,7 @@ class EquipmentType implements QueryGroupInterface
      * @param string $as
      * @param string $sportAlias
      */
-    public function addSelectionToQuery(QueryBuilder $queryBuilder, $alias, $as, $sportAlias)
+    public function addSelectionToQuery(QueryBuilder $queryBuilder, $alias, $as, $sportAlias): void
     {
         $queryBuilder
             ->addSelect(sprintf('%s.id as %s', 'eq', $as))

@@ -246,28 +246,28 @@ class ActivityData
         ];
     }
 
-    public function completeFromContinuousData(ContinuousData $data, RoundCollection $rounds)
+    public function completeFromContinuousData(ContinuousData $data, RoundCollection $rounds): void
     {
         $this->completeTotalValuesFromContinuousData($data);
         $this->completeMaximalValuesFromContinuousData($data);
         $this->completeAverageValuesFromContinuousData($data, $rounds);
     }
 
-    public function completeTotalValuesFromContinuousData(ContinuousData $data)
+    public function completeTotalValuesFromContinuousData(ContinuousData $data): void
     {
         $this->Duration ??= $data->getTotalDuration();
 
         $this->Distance ??= $data->getTotalDistance();
     }
 
-    public function completeMaximalValuesFromContinuousData(ContinuousData $data)
+    public function completeMaximalValuesFromContinuousData(ContinuousData $data): void
     {
         $this->MaxHeartRate ??= $data->getMaximalHeartRate();
 
         $this->MaxPower ??= $data->getMaximalPower();
     }
 
-    public function completeAverageValuesFromContinuousData(ContinuousData $data, RoundCollection $rounds)
+    public function completeAverageValuesFromContinuousData(ContinuousData $data, RoundCollection $rounds): void
     {
         if ($data->Time === []) {
             return;
@@ -314,7 +314,7 @@ class ActivityData
         }
     }
 
-    public function completeStandardAverageValuesFromAverages(TrackdataAverages $averages)
+    public function completeStandardAverageValuesFromAverages(TrackdataAverages $averages): void
     {
         $this->AvgPower ??= $averages->average(Trackdata\Entity::POWER);
 
@@ -323,7 +323,7 @@ class ActivityData
         $this->AvgCadence ??= $averages->average(Trackdata\Entity::CADENCE);
     }
 
-    public function completeRunningDynamicsAverageValuesFromAverages(TrackdataAverages $averages)
+    public function completeRunningDynamicsAverageValuesFromAverages(TrackdataAverages $averages): void
     {
         $this->AvgGroundContactTime ??= $averages->average(Trackdata\Entity::GROUNDCONTACT);
 
@@ -332,7 +332,7 @@ class ActivityData
         $this->AvgGroundContactBalance ??= $averages->average(Trackdata\Entity::GROUNDCONTACT_BALANCE);
     }
 
-    public function completeRunScribeDataAverageValuesFromAverages(TrackdataAverages $averages)
+    public function completeRunScribeDataAverageValuesFromAverages(TrackdataAverages $averages): void
     {
         $this->AvgImpactGsLeft ??= $averages->average(Trackdata\Entity::IMPACT_GS_LEFT);
 
@@ -351,14 +351,14 @@ class ActivityData
         $this->AvgPronationExcursionRight ??= $averages->average(Trackdata\Entity::PRONATION_EXCURSION_RIGHT);
     }
 
-    public function completeFromPauses(PauseCollection $pauses)
+    public function completeFromPauses(PauseCollection $pauses): void
     {
         if ($this->ElapsedTime === null && $this->Duration !== null) {
             $this->ElapsedTime = $this->Duration + $pauses->getTotalDuration();
         }
     }
 
-    public function completeFromRounds(RoundCollection $rounds)
+    public function completeFromRounds(RoundCollection $rounds): void
     {
         if (! $rounds->isEmpty()) {
             $this->Duration ??= $rounds->getTotalDuration();

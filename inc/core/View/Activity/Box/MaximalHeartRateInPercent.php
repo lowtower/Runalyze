@@ -43,7 +43,7 @@ class MaximalHeartRateInPercent extends MaximalHeartRate
         return '&#37;';
     }
 
-    public function addWarningIfMaximalHeartRateIsExceeded(HeartRate $heartRate)
+    public function addWarningIfMaximalHeartRateIsExceeded(HeartRate $heartRate): void
     {
         if ($heartRate->canShowInHRmax() && $heartRate->inPercent() > 100) {
             // TODO: Using 'minus' is currently a dirty hack to color this icon

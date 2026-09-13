@@ -14,7 +14,7 @@ class PluginConfigurationValueArray extends PluginConfigurationValue
     /**
      * Has to be overwritten in subclasses.
      */
-    public function setValueFromString(string $Value)
+    public function setValueFromString(string $Value): void
     {
         $this->Value = array_map('trim', explode(',', $Value));
     }
@@ -27,7 +27,7 @@ class PluginConfigurationValueArray extends PluginConfigurationValue
         return implode(', ', $this->Value);
     }
 
-    public function setValueFromPost()
+    public function setValueFromPost(): void
     {
         if (isset($_POST[$this->Key])) {
             $this->setValueFromString($_POST[$this->Key]);

@@ -47,7 +47,7 @@ class WindChillFactor implements ValueInterface
      * @throws \InvalidArgumentException
      * @see https://en.wikipedia.org/wiki/Wind_chill#North_American_and_United_Kingdom_wind_chill_index
      */
-    public function setFrom(WindSpeed $windSpeed, ActivityTemperature $temperature, ?Pace $activitySpeed = null)
+    public function setFrom(WindSpeed $windSpeed, ActivityTemperature $temperature, ?Pace $activitySpeed = null): void
     {
         if ($windSpeed->isUnknown() || $temperature->isEmpty()) {
             throw new \InvalidArgumentException('Wind speed and temperature must be known. Null value(s) given.');

@@ -50,7 +50,7 @@ class SportStatistic
      * @param int $numberOfActivities
      * @param int|null $numberOfActivitiesWithDistance
      */
-    public function setNumberOfActivities($numberOfActivities, $numberOfActivitiesWithDistance = null)
+    public function setNumberOfActivities($numberOfActivities, $numberOfActivitiesWithDistance = null): void
     {
         $this->NumberOfActivities = (int) $numberOfActivities;
         $this->NumberOfActivitiesWithDistance = $numberOfActivitiesWithDistance !== null ? (int) $numberOfActivitiesWithDistance : null;
@@ -76,7 +76,7 @@ class SportStatistic
     /**
      * @param float $kilometer [km]
      */
-    public function setTotalDistance($kilometer)
+    public function setTotalDistance($kilometer): void
     {
         $this->TotalDistance = $kilometer !== null ? (float) $kilometer : null;
     }
@@ -97,7 +97,7 @@ class SportStatistic
     /**
      * @param float $timeInSeconds [s]
      */
-    public function setTotalDuration($timeInSeconds)
+    public function setTotalDuration($timeInSeconds): void
     {
         $this->TotalDuration = $timeInSeconds !== null ? (float) $timeInSeconds : null;
     }

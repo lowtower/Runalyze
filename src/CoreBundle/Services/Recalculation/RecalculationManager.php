@@ -75,7 +75,7 @@ class RecalculationManager
      * @param int $timestamp
      * @param bool $isRemoved
      */
-    public function addStartTimeCheck(Account $account, $timestamp, $isRemoved)
+    public function addStartTimeCheck(Account $account, $timestamp, $isRemoved): void
     {
         $currentStartTime = $this->getCurrentStartTime($account);
 
@@ -128,7 +128,7 @@ class RecalculationManager
         return $task;
     }
 
-    public function scheduleEffectiveVO2maxCorrectionFactorCalculation(Account $account)
+    public function scheduleEffectiveVO2maxCorrectionFactorCalculation(Account $account): void
     {
         if (! $this->isTaskScheduled($account, VO2maxCorrectionFactorCalculation::class)) {
             $task = new VO2maxCorrectionFactorCalculation($this->RaceResultRepository, $this->ConfigurationManager, $this->ConfigurationUpdater);
@@ -136,7 +136,7 @@ class RecalculationManager
         }
     }
 
-    public function scheduleEffectiveVO2maxShapeCalculation(Account $account)
+    public function scheduleEffectiveVO2maxShapeCalculation(Account $account): void
     {
         if (! $this->isTaskScheduled($account, VO2maxShapeCalculation::class)) {
             if ($this->isTaskScheduled($account, MarathonShapeCalculation::class)) {
@@ -152,7 +152,7 @@ class RecalculationManager
         }
     }
 
-    public function scheduleMarathonShapeCalculation(Account $account)
+    public function scheduleMarathonShapeCalculation(Account $account): void
     {
         if (! $this->isTaskScheduled($account, MarathonShapeCalculation::class)) {
             $task = new MarathonShapeCalculation($this->TrainingRepository, $this->ConfigurationManager, $this->ConfigurationUpdater);
@@ -182,7 +182,7 @@ class RecalculationManager
         $this->AccountRelatedTaskNames[$accountId][$taskName] = $this->Tasks->addTask($task);
     }
 
-    public function runScheduledTasks()
+    public function runScheduledTasks(): void
     {
         $this->Tasks->runAllTasks();
         $this->Tasks->clear();

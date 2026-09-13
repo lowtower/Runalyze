@@ -40,7 +40,7 @@ class RouteAdapter
         return false;
     }
 
-    public function removeElevation()
+    public function removeElevation(): void
     {
         $this->Route->setElevationsCorrected();
         $this->Route->setElevationsSource(null);
@@ -49,7 +49,7 @@ class RouteAdapter
     /**
      * @param int $threshold [m]
      */
-    public function calculateElevation(ElevationMethod $method, $threshold)
+    public function calculateElevation(ElevationMethod $method, $threshold): void
     {
         $calculator = new ElevationCalculator();
         $calculator->calculateFor($this->Route, $method, $threshold);

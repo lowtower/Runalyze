@@ -11,7 +11,7 @@ trait ConfigurationManagerAwareTrait
      */
     protected $ConfigurationManager;
 
-    public function setConfigurationManager(ConfigurationManager $manager)
+    public function setConfigurationManager(ConfigurationManager $manager): void
     {
         $this->ConfigurationManager = $manager;
     }

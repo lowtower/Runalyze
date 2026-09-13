@@ -133,7 +133,7 @@ class Form
      * Activate difference
      * Add checkbox and warning for differences between handmade laps and total distance.
      */
-    public function activateHandmadeDifference()
+    public function activateHandmadeDifference(): void
     {
         $Checkbox = new FormularCheckbox('calculate-for-splits', __('Calculate values for handmade splits although total distance does not match.'));
         $Checkbox->setLayout(FormularFieldset::$LAYOUT_FIELD_W100_CHECKBOX);
@@ -145,12 +145,12 @@ class Form
     /**
      * Add info for handmade laps
      */
-    public function activateHandmadeInfo()
+    public function activateHandmadeInfo(): void
     {
         $this->Fieldset->addInfo(__('Leave lap distances empty to use your handmade laps.'));
     }
 
-    public function display()
+    public function display(): void
     {
         $Formular = new Formular();
         $Formular->setId('rounds-configurator');

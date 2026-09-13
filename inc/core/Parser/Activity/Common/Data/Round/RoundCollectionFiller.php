@@ -11,12 +11,12 @@ class RoundCollectionFiller
     ) {
     }
 
-    public function fillTimesFromArray(array $time, array $distance)
+    public function fillTimesFromArray(array $time, array $distance): void
     {
         $this->fillFromArray($time, $distance, false);
     }
 
-    public function fillDistancesFromArray(array $time, array $distance)
+    public function fillDistancesFromArray(array $time, array $distance): void
     {
         $this->fillFromArray($time, $distance, true);
     }

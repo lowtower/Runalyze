@@ -19,7 +19,7 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
     use ConfigurationManagerAwareTrait;
     use TokenStorageAwareTypeTrait;
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $equipmentCategories = $this->getAccount()
             ->getEquipmentTypes();
@@ -122,7 +122,7 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
         ];
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => null,

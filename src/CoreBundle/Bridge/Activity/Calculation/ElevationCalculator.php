@@ -23,7 +23,7 @@ class ElevationCalculator
      */
     protected $Route;
 
-    public function calculateFor(Route $route, ElevationMethod $method, $threshold)
+    public function calculateFor(Route $route, ElevationMethod $method, $threshold): void
     {
         $this->Route = $route;
         $this->ElevationMethod = $method;

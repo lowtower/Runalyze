@@ -43,7 +43,7 @@ class VO2maxCalculator
         int $heartRateMaximum,
         int $correctionForPositiveElevation,
         int $correctionForNegativeElevation
-    ) {
+    ): void {
         $this->Activity = $activity;
         $this->HeartRateMaximum = $heartRateMaximum;
         $this->CorrectionForPositiveElevation = $correctionForPositiveElevation;

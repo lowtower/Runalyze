@@ -5,8 +5,6 @@ declare(strict_types=1);
 use Rector\Config\RectorConfig;
 use Rector\Renaming\Rector\Name\RenameClassRector;
 use Rector\Set\ValueObject\LevelSetList;
-use Rector\TypeDeclaration\Rector\ClassMethod\ScalarParamTypeByMethodCallTypeRector;
-use Rector\TypeDeclaration\Rector\ClassMethod\StrictArrayParamDimFetchRector;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -29,14 +27,8 @@ return RectorConfig::configure()
     ->withCodingStyleLevel(21)          # max level 21
     ->withRules([])
     ->withSkip([
-        StrictArrayParamDimFetchRector::class => [
-            __DIR__ . '/inc/system/class.PDOforRunalyze.php',
-        ],
         RenameClassRector::class => [
             __DIR__ . '/src/CoreBundle/EventListener/SwitchUserListener.php',
-        ],
-        ScalarParamTypeByMethodCallTypeRector::class => [
-            __DIR__ . '/inc/core/Model/StringObject.php',
         ],
     ])
     ->withComposerBased(

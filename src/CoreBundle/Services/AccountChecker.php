@@ -11,14 +11,14 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class AccountChecker implements UserCheckerInterface
 {
-    public function checkPreAuth(UserInterface $user)
+    public function checkPreAuth(UserInterface $user): void
     {
         if ($user instanceof Account && ! $user->isEnabled()) {
             throw new DisabledException('Your account has not been activated yet.');
         }
     }
 
-    public function checkPostAuth(UserInterface $user)
+    public function checkPostAuth(UserInterface $user): void
     {
         // keine Post-Auth-Prüfung nötig
     }

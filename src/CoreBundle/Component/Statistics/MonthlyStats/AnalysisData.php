@@ -100,7 +100,7 @@ class AnalysisData
         return $this->SportSelection->getCurrentKey();
     }
 
-    public function setValueExtension(ValueExtension $valueExtension)
+    public function setValueExtension(ValueExtension $valueExtension): void
     {
         $this->ValueExtension = $valueExtension;
     }

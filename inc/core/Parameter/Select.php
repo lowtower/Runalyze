@@ -36,7 +36,7 @@ class Select extends \Runalyze\Parameter
      * @param mixed $value new value
      * @throws \InvalidArgumentException
      */
-    public function set($value)
+    public function set($value): void
     {
         if ($this->valueIsAllowed($value)) {
             parent::set($value);

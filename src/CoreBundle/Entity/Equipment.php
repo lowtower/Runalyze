@@ -298,7 +298,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
         return $this;
     }
 
-    public function removeSport(Sport $sport)
+    public function removeSport(Sport $sport): void
     {
         $this->sport->removeElement($sport);
     }
@@ -333,7 +333,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
         return $this;
     }
 
-    public function removeActivity(Training $activity)
+    public function removeActivity(Training $activity): void
     {
         $this->activity->removeElement($activity);
     }

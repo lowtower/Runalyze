@@ -16,7 +16,7 @@ class PluginConfigurationValueBool extends PluginConfigurationValue
     /**
      * Has to be overwritten in subclasses.
      */
-    public function setValueFromString(string $Value)
+    public function setValueFromString(string $Value): void
     {
         $this->Value = ($Value === '1');
     }
@@ -29,7 +29,7 @@ class PluginConfigurationValueBool extends PluginConfigurationValue
         return $this->Value ? '1' : '0';
     }
 
-    public function setValueFromPost()
+    public function setValueFromPost(): void
     {
         $this->setValue(isset($_POST[$this->Key]));
     }

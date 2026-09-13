@@ -36,7 +36,7 @@ class ActivityForm extends \Runalyze\Configuration\Category
         $this->createHandlesForSettings();
     }
 
-    private function createHandlesForLegends()
+    private function createHandlesForLegends(): void
     {
         $this->createHandle('FORMULAR_SHOW_SPORT', new Boolean(true));
         $this->createHandle('FORMULAR_SHOW_GENERAL', new Boolean(true));
@@ -64,7 +64,7 @@ class ActivityForm extends \Runalyze\Configuration\Category
      * @param string $Key possible values: SPORT, GENERAL, DISTANCE, SPLITS,
      * WEATHER, OTHER, NOTES, PUBLIC, ELEVATION, GPS
      */
-    public function update(string $Key, bool $flag)
+    public function update(string $Key, bool $flag): void
     {
         $this->object('FORMULAR_SHOW_' . $Key)->setFromString($flag);
         $this->updateValue($this->handle('FORMULAR_SHOW_' . $Key));
@@ -73,7 +73,7 @@ class ActivityForm extends \Runalyze\Configuration\Category
     /**
      * Create handles for other settings
      */
-    private function createHandlesForSettings()
+    private function createHandlesForSettings(): void
     {
         $this->createHandle('TRAINING_CREATE_MODE', new ActivityCreationMode());
         $this->createHandle('TRAINING_DO_ELEVATION', new Boolean(true));
@@ -166,7 +166,7 @@ class ActivityForm extends \Runalyze\Configuration\Category
      * Add new ID to ignored ones
      * @param string $ID
      */
-    public function ignoreActivityID($ID)
+    public function ignoreActivityID($ID): void
     {
         if (method_exists($this->object('GARMIN_IGNORE_IDS'), 'append')) {
             $this->object('GARMIN_IGNORE_IDS')
@@ -218,7 +218,7 @@ class ActivityForm extends \Runalyze\Configuration\Category
     /**
      * Add handles for weather to fieldset
      */
-    private function addHandlesForWeatherTo(Fieldset $Fieldset)
+    private function addHandlesForWeatherTo(Fieldset $Fieldset): void
     {
         $Fieldset->addHandle($this->handle('TRAINING_LOAD_WEATHER'), [
             'label' => __('Automatically load weather conditions'),
@@ -235,7 +235,7 @@ class ActivityForm extends \Runalyze\Configuration\Category
     /**
      * Add handles for elevation to fieldset
      */
-    private function addHandlesForElevationTo(Fieldset $Fieldset)
+    private function addHandlesForElevationTo(Fieldset $Fieldset): void
     {
         $Fieldset->addHandle($this->handle('TRAINING_DO_ELEVATION'), [
             'label' => __('Automatically correct elevation data'),
@@ -246,7 +246,7 @@ class ActivityForm extends \Runalyze\Configuration\Category
     /**
      * Add handles for sorting to fieldset
      */
-    private function addHandlesForSortingTo(Fieldset $Fieldset)
+    private function addHandlesForSortingTo(Fieldset $Fieldset): void
     {
         $Fieldset->addHandle($this->handle('TRAINING_SORT_SPORTS'), [
             'label' => __('Sort: sports'),

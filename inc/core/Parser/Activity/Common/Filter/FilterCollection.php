@@ -23,7 +23,7 @@ class FilterCollection
         $this->Logger = $logger;
     }
 
-    public function add(FilterInterface $filter)
+    public function add(FilterInterface $filter): void
     {
         if ($this->Logger !== null && $filter instanceof LoggerAwareInterface) {
             $filter->setLogger($this->Logger);
@@ -32,7 +32,7 @@ class FilterCollection
         $this->Filter[] = $filter;
     }
 
-    public function filter(ActivityDataContainer $container)
+    public function filter(ActivityDataContainer $container): void
     {
         foreach ($this->Filter as $filter) {
             $filter->filter($container);

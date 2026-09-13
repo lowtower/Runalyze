@@ -46,7 +46,7 @@ class Pace
      * Read pace from min/km
      * @param string $string see Duration::fromString()
      */
-    public function fromMinPerKm(string $string)
+    public function fromMinPerKm(string $string): void
     {
         $Duration = new Duration($string);
 
@@ -94,7 +94,7 @@ class Pace
         return $this->UnitObject->unit();
     }
 
-    public function setUnit(AbstractUnit $Unit)
+    public function setUnit(AbstractUnit $Unit): void
     {
         $this->UnitObject = $Unit;
     }
@@ -102,7 +102,7 @@ class Pace
     /**
      * Set unit
      */
-    public function setLegacyUnitEnum(int $legacyPaceUnitEnum)
+    public function setLegacyUnitEnum(int $legacyPaceUnitEnum): void
     {
         $Option = new PaceUnitOption();
         $Option->set($legacyPaceUnitEnum);
@@ -113,7 +113,7 @@ class Pace
     /**
      * Set unit
      */
-    public function setNewUnitEnum(int $unitEnum)
+    public function setNewUnitEnum(int $unitEnum): void
     {
         $this->UnitObject = (new LegacyUnitConverter())->getLegacyPaceUnit($unitEnum);
     }
@@ -121,7 +121,7 @@ class Pace
     /**
      * Set unit
      */
-    public function setUnitEnum(int $unitEnum)
+    public function setUnitEnum(int $unitEnum): void
     {
         // TODO: remove
     }

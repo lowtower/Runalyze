@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class LocaleListener implements EventSubscriberInterface
 {
-    public function onKernelRequest(\Symfony\Component\HttpKernel\Event\RequestEvent $event)
+    public function onKernelRequest(\Symfony\Component\HttpKernel\Event\RequestEvent $event): void
     {
         $request = $event->getRequest();
 

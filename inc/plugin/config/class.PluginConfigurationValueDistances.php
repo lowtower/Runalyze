@@ -47,7 +47,7 @@ class PluginConfigurationValueDistances extends PluginConfigurationValueArray
      * Set value from a comma-separated string of distances, given in the
      * preferred unit system, converting each back to km for storage.
      */
-    public function setValueFromString(string $Value)
+    public function setValueFromString(string $Value): void
     {
         $factor = $this->unitSystem()
             ->distanceToKmFactor();
@@ -73,7 +73,7 @@ class PluginConfigurationValueDistances extends PluginConfigurationValueArray
         ));
     }
 
-    public function setValueFromPost()
+    public function setValueFromPost(): void
     {
         if (isset($_POST[$this->Key])) {
             $this->setValueFromString($_POST[$this->Key]);

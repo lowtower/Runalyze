@@ -6,7 +6,7 @@ trait FileContentAwareParserTrait
 {
     protected string $FileContent;
 
-    public function setFileContent(string $content)
+    public function setFileContent(string $content): void
     {
         $this->FileContent = $content;
     }

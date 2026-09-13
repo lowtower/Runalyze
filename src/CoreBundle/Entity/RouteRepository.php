@@ -45,7 +45,7 @@ class RouteRepository extends EntityRepository
         return null;
     }
 
-    public function save(Route $route)
+    public function save(Route $route): void
     {
         $this->_em->persist($route);
         $this->_em->flush();

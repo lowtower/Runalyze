@@ -58,7 +58,7 @@ class Set extends \Runalyze\Parameter
     /**
      * @param string $valueAsString new value
      */
-    public function setFromString(string $valueAsString)
+    public function setFromString(string $valueAsString): void
     {
         $this->set(($valueAsString === 'true'));
 
@@ -83,7 +83,7 @@ class Set extends \Runalyze\Parameter
     /**
      * @param mixed $value
      */
-    public function append($value)
+    public function append($value): void
     {
         $array = $this->value();
         $array[] = $value;

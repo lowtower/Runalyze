@@ -49,7 +49,7 @@ class Cache
     /**
      * Get Cache
      */
-    public static function set(string $keyword, $data, $time, int $nousercache = 0)
+    public static function set(string $keyword, $data, $time, int $nousercache = 0): void
     {
         $key = ($nousercache === 0)
             ? $keyword . SessionAccountHandler::getId()
@@ -106,7 +106,7 @@ class Cache
     /**
      * Clean up all cache
      */
-    public static function clean()
+    public static function clean(): void
     {
         self::$LASTCLEAN = time();
 

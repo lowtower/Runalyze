@@ -486,7 +486,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
         }
     }
 
-    public function addToTable(&$html, $desc, $value, &$count)
+    public function addToTable(&$html, $desc, $value, &$count): void
     {
         if ($count == 0) {
             $html .= '<table class="fitdetail">';

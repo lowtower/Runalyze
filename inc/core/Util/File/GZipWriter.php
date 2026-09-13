@@ -44,7 +44,7 @@ class GZipWriter
     /**
      * Add string to file
      */
-    public function addToFile(string $string)
+    public function addToFile(string $string): void
     {
         if ($this->isOpen()) {
             gzwrite($this->Resource, $string);
@@ -62,7 +62,7 @@ class GZipWriter
     /**
      * Finish: close file
      */
-    public function finish()
+    public function finish(): void
     {
         if ($this->isOpen()) {
             gzclose($this->Resource);

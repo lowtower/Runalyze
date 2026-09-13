@@ -47,7 +47,7 @@ class TrendAnalysisData
         return $data;
     }
 
-    public function setDateFrom(DateTime $dateFrom)
+    public function setDateFrom(DateTime $dateFrom): void
     {
         $this->DateFrom = $dateFrom;
     }
@@ -67,7 +67,7 @@ class TrendAnalysisData
             ->getTimestamp();
     }
 
-    public function setDateTo(DateTime $dateTo)
+    public function setDateTo(DateTime $dateTo): void
     {
         $this->DateTo = $dateTo;
     }
@@ -91,7 +91,7 @@ class TrendAnalysisData
     /**
      * @param Sport[] $sports
      */
-    public function setSport(array $sports)
+    public function setSport(array $sports): void
     {
         $this->Sport = $sports;
     }
@@ -107,7 +107,7 @@ class TrendAnalysisData
     /**
      * @param Type[] $types
      */
-    public function setType(array $types)
+    public function setType(array $types): void
     {
         $this->Type = $types;
     }
@@ -123,7 +123,7 @@ class TrendAnalysisData
     /**
      * @param string|null $valueToLookAt
      */
-    public function setValueToLookAt($valueToLookAt)
+    public function setValueToLookAt($valueToLookAt): void
     {
         $this->ValueToLookAt = $valueToLookAt;
     }

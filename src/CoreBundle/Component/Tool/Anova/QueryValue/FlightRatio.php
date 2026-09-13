@@ -8,7 +8,7 @@ use Runalyze\Metrics\Common\Unit\Factorial;
 
 class FlightRatio implements QueryValueInterface
 {
-    public function addSelectionToQuery(QueryBuilder $queryBuilder, $alias, $as)
+    public function addSelectionToQuery(QueryBuilder $queryBuilder, $alias, $as): void
     {
         $queryBuilder
             ->addSelect(sprintf('(1 - %s.cadence * %s.groundcontact / 30000) as %s', $alias, $alias, $as))

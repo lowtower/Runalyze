@@ -55,7 +55,7 @@ class Table
         $this->init();
     }
 
-    public function display()
+    public function display(): void
     {
         echo $this->code();
     }
@@ -67,7 +67,7 @@ class Table
         return $this->Code;
     }
 
-    private function init()
+    private function init(): void
     {
         $this->achievedPace = new Pace($this->Splits->totalTime(), $this->Splits->totalDistance(), $this->PaceUnit);
 
@@ -93,12 +93,12 @@ class Table
     /**
      * @param int $demandedPace
      */
-    public function setDemandedPace($demandedPace)
+    public function setDemandedPace($demandedPace): void
     {
         $this->demandedPace = new Pace(round($demandedPace), 1, $this->PaceUnit);
     }
 
-    public function setHalfsOfCompetition(array $Halfs)
+    public function setHalfsOfCompetition(array $Halfs): void
     {
         $this->Halfs = $Halfs;
     }
@@ -106,7 +106,7 @@ class Table
     /**
      * Display
      */
-    public function setCode()
+    public function setCode(): void
     {
         $this->Code = '';
 
@@ -122,7 +122,7 @@ class Table
         $this->setTableFooter();
     }
 
-    private function setTableHeader()
+    private function setTableHeader(): void
     {
         $this->Code .= '<table class="fullwidth zebra-style"><tbody>';
 
@@ -203,7 +203,7 @@ class Table
         return $Pace->compareTo($this->achievedPace);
     }
 
-    private function setInstruction()
+    private function setInstruction(): void
     {
         if ($this->demandedPace->isEmpty()) {
             return;
@@ -217,7 +217,7 @@ class Table
 			</tr>';
     }
 
-    private function setAverage()
+    private function setAverage(): void
     {
         if (! $this->achievedPaceActive->isEmpty()) {
             $this->Code .= '
@@ -239,7 +239,7 @@ class Table
     /**
      * Set halfs of competition
      */
-    private function setHalfsOfCompetitionToCode()
+    private function setHalfsOfCompetitionToCode(): void
     {
         if ($this->Halfs === []) {
             return;
@@ -271,7 +271,7 @@ class Table
         }
     }
 
-    private function setTableFooter()
+    private function setTableFooter(): void
     {
         $this->Code .= '</tbody>';
         $this->Code .= '</table>';

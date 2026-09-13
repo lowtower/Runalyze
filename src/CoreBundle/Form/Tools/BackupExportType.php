@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class BackupExportType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('fileFormat', ChoiceType::class, [

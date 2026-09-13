@@ -69,7 +69,7 @@ class GZipReader
         return $this->Resource !== null;
     }
 
-    public function close()
+    public function close(): void
     {
         gzclose($this->Resource);
 

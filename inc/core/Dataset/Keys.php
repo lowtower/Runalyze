@@ -365,7 +365,7 @@ final class Keys extends AbstractEnum
     /**
      * @param bool $flag
      */
-    public static function keepInstances($flag = true)
+    public static function keepInstances($flag = true): void
     {
         self::$KeepInstances = $flag;
     }
@@ -399,7 +399,7 @@ final class Keys extends AbstractEnum
     /**
      * Generate static array with class names
      */
-    private static function generateClassNamesArray()
+    private static function generateClassNamesArray(): void
     {
         self::$ClassNames = [
             self::SPORT => 'Sport',

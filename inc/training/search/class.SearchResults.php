@@ -613,7 +613,7 @@ class SearchResults
         return ' LIMIT ' . $limit . ',' . $this->ResultsPerPage;
     }
 
-    public function display()
+    public function display(): void
     {
         echo '<div id="searchResult">';
         $this->displayResults();

@@ -16,7 +16,7 @@ class ContinuousDataAdapter
     ) {
     }
 
-    public function calculateDistancesIfRequired()
+    public function calculateDistancesIfRequired(): void
     {
         if ($this->distancesShouldBeCalculated()) {
             (new GpsDistanceCalculator())->calculateDistancesFor($this->ContinuousData);
@@ -35,7 +35,7 @@ class ContinuousDataAdapter
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1367
      */
-    public function correctCadenceIfRequired()
+    public function correctCadenceIfRequired(): void
     {
         if ($this->ContinuousData->Cadence !== []) {
             $avg = array_sum($this->ContinuousData->Cadence) / count($this->ContinuousData->Cadence);
@@ -53,7 +53,7 @@ class ContinuousDataAdapter
      * the same range for Longitude (and Altitude). Hope that the two values has the same NULLs.
      * #TSC
      */
-    public function correctPreNullGpsIfRequired()
+    public function correctPreNullGpsIfRequired(): void
     {
         if ($this->ContinuousData->Latitude !== []) {
             $size = count($this->ContinuousData->Latitude);
@@ -78,7 +78,7 @@ class ContinuousDataAdapter
      * #TSC
      * @param array<int, mixed> $values
      */
-    public function correctArraySurroundedNulls(array &$values)
+    public function correctArraySurroundedNulls(array &$values): void
     {
         if ($values !== []) {
             $size = count($values);
@@ -122,7 +122,7 @@ class ContinuousDataAdapter
      * #TSC
      * @param array<int, mixed> $values
      */
-    public function correctArrayNullElements(array &$values)
+    public function correctArrayNullElements(array &$values): void
     {
         if ($values !== []) {
             $size = count($values);
@@ -133,7 +133,7 @@ class ContinuousDataAdapter
         }
     }
 
-    public function filterUnwantedZeros()
+    public function filterUnwantedZeros(): void
     {
         foreach ($this->ContinuousData->getPropertyNamesOfArraysThatShouldNotContainZeros() as $key) {
             if (! empty($this->ContinuousData->{$key})) {
@@ -162,7 +162,7 @@ class ContinuousDataAdapter
         }
     }
 
-    public function clearEmptyArrays()
+    public function clearEmptyArrays(): void
     {
         $arrayKeys = $this->ContinuousData->getPropertyNamesOfArrays();
         $arrayKeysWithData = [];
@@ -238,7 +238,7 @@ class ContinuousDataAdapter
         return $resultingPauses;
     }
 
-    public function reIndexArrays()
+    public function reIndexArrays(): void
     {
         foreach ($this->ContinuousData->getPropertyNamesOfArrays() as $key) {
             $this->ContinuousData->{$key} = array_merge($this->ContinuousData->{$key});

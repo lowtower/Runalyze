@@ -26,7 +26,7 @@ class SportChoiceType extends AbstractTokenStorageAwareType
         $this->SportRepository = $sportRepository;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $mapIdFunction = function ($object) {
             /** @var object $object */

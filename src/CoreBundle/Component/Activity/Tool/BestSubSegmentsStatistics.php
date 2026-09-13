@@ -44,17 +44,17 @@ class BestSubSegmentsStatistics
         $this->Trackdata = $trackdata;
     }
 
-    public function setDistancesToAnalyze(array $distances)
+    public function setDistancesToAnalyze(array $distances): void
     {
         $this->Distances = $distances;
     }
 
-    public function setTimesToAnalyze(array $times)
+    public function setTimesToAnalyze(array $times): void
     {
         $this->Times = $times;
     }
 
-    public function findSegments()
+    public function findSegments(): void
     {
         $num = $this->Trackdata->num();
         $time = $this->Trackdata->time();

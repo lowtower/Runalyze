@@ -44,7 +44,7 @@ class Registration
     /**
      * Add hash to activation_hash
      */
-    public function requireAccountActivation()
+    public function requireAccountActivation(): void
     {
         $this->Account->setActivationHash(self::getNewSalt());
     }
@@ -52,7 +52,7 @@ class Registration
     /**
      * @param string $timezoneName
      */
-    public function setTimezoneByName($timezoneName)
+    public function setTimezoneByName($timezoneName): void
     {
         try {
             $this->Account->setTimezone(Timezone::getEnumByOriginalName($timezoneName));
@@ -61,17 +61,17 @@ class Registration
         }
     }
 
-    public function setLocale(string $locale)
+    public function setLocale(string $locale): void
     {
         $this->Account->setLanguage($locale);
     }
 
-    public function setPassword(string $password)
+    public function setPassword(string $password): void
     {
         $this->Account->setPassword($this->passwordEncoder->encodePassword($this->Account, $password));
     }
 
-    private function setEmptyData()
+    private function setEmptyData(): void
     {
         $this->setEquipmentData();
         $this->setPluginData();
@@ -81,7 +81,7 @@ class Registration
         $this->setSpecialVars();
     }
 
-    private function setEquipmentData()
+    private function setEquipmentData(): void
     {
         $equipmentType = [
             [__('Shoes'), 0],
@@ -98,7 +98,7 @@ class Registration
         }
     }
 
-    private function setPluginData()
+    private function setPluginData(): void
     {
         $pluginData = [
             ['RunalyzePluginPanel_Sports', 'panel', 1, 1],
@@ -132,7 +132,7 @@ class Registration
         $this->em->flush();
     }
 
-    private function setSportData()
+    private function setSportData(): void
     {
         $sportData = [
             [__('Running'), 'icons8-Running', false, 880, 140, true, PaceEnum::SECONDS_PER_KILOMETER, false, true, true, SportProfile::RUNNING],
@@ -163,7 +163,7 @@ class Registration
         $this->em->flush();
     }
 
-    private function setTypeData()
+    private function setTypeData(): void
     {
         $TypeData = [
             [__('Jogging'), __('JOG'), 143, false],
@@ -192,7 +192,7 @@ class Registration
         $this->em->flush();
     }
 
-    private function collectSpecialVars()
+    private function collectSpecialVars(): void
     {
         /** @var SportRepository $repository */
         $repository = $this->em->getRepository(Sport::class);
@@ -230,7 +230,7 @@ class Registration
 
     }
 
-    private function setSpecialVars()
+    private function setSpecialVars(): void
     {
         $Clothes = [__('long sleeve'), __('T-shirt'), __('singlet'), __('jacket'), __('long pants'), __('shorts'), __('gloves'), __('hat')];
         foreach ($Clothes as $cloth) {

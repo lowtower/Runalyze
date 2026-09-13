@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Exception\DisabledException;
 
 class SecurityExceptionListener
 {
-    public function onKernelException(ExceptionEvent $event)
+    public function onKernelException(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
 

@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class ActivityRoundType extends AbstractType implements DataTransformerInterface
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('distance', DistanceType::class, [

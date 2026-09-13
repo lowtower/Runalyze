@@ -89,7 +89,7 @@ class ProgressBar
     /**
      * Add existing bar
      */
-    public function addBar(ProgressBarSingle $SingleBar)
+    public function addBar(ProgressBarSingle $SingleBar): void
     {
         $this->Bars[] = $SingleBar;
     }
@@ -98,7 +98,7 @@ class ProgressBar
      * @param int $Width in percent between 0 and 100
      * @param string $Color
      */
-    public function addNewBar($Width, $Color = '')
+    public function addNewBar($Width, $Color = ''): void
     {
         $this->Bars[] = new ProgressBarSingle($Width, $Color);
     }
@@ -106,7 +106,7 @@ class ProgressBar
     /**
      * @param string $Tooltip
      */
-    public function setTooltip($Tooltip)
+    public function setTooltip($Tooltip): void
     {
         $this->Tooltip = $Tooltip;
     }
@@ -114,7 +114,7 @@ class ProgressBar
     /**
      * Set as inline progress bar
      */
-    public function setInline()
+    public function setInline(): void
     {
         $this->addClass(self::$CLASS_INLINE);
     }
@@ -122,7 +122,7 @@ class ProgressBar
     /**
      * Set as animated
      */
-    public function setAnimated()
+    public function setAnimated(): void
     {
         $this->addClass(self::$CLASS_ANIMATED);
     }
@@ -130,7 +130,7 @@ class ProgressBar
     /**
      * @param string $Class
      */
-    public function addClass($Class)
+    public function addClass($Class): void
     {
         $this->AdditionalClasses .= ' ' . $Class;
     }
@@ -138,12 +138,12 @@ class ProgressBar
     /**
      * @param int $Goal
      */
-    public function setGoalLine($Goal)
+    public function setGoalLine($Goal): void
     {
         $this->Goal = max(0, min(100, (int) $Goal));
     }
 
-    public function display()
+    public function display(): void
     {
         echo $this->getCode();
     }

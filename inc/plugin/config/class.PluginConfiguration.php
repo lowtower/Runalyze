@@ -38,7 +38,7 @@ class PluginConfiguration
     /**
      * Catch values if not done yet
      */
-    final public function catchValuesFromDatabaseIfNotDoneYet()
+    final public function catchValuesFromDatabaseIfNotDoneYet(): void
     {
         if (! $this->CatchedValues) {
             $this->catchValuesFromDatabase();
@@ -50,7 +50,7 @@ class PluginConfiguration
     /**
      * Catch values
      */
-    final public function catchValuesFromDatabase()
+    final public function catchValuesFromDatabase(): void
     {
         $ResultFromDB = Cache::get(self::CACHE_KEY);
 
@@ -71,7 +71,7 @@ class PluginConfiguration
      * Check values
      * @param array<int, mixed> $ResultFromDB
      */
-    private function checkValuesFromDatabase(array $ResultFromDB)
+    private function checkValuesFromDatabase(array $ResultFromDB): void
     {
         $ValuesFromDB = [];
 
@@ -92,7 +92,7 @@ class PluginConfiguration
         }
     }
 
-    private function insertValueToDatabase(PluginConfigurationValue $Value)
+    private function insertValueToDatabase(PluginConfigurationValue $Value): void
     {
         DB::getInstance()->insert(
             'plugin_conf',
@@ -111,7 +111,7 @@ class PluginConfiguration
         Cache::delete(self::CACHE_KEY);
     }
 
-    final public function updateFromPost()
+    final public function updateFromPost(): void
     {
         foreach ($this->Values as $Value) {
             $Value->setValueFromPost();
@@ -122,7 +122,7 @@ class PluginConfiguration
         Cache::delete(self::CACHE_KEY);
     }
 
-    final public function update(string $key)
+    final public function update(string $key): void
     {
         if (isset($this->Values[$key])) {
             DB::getInstance()->updateWhere(
@@ -134,7 +134,7 @@ class PluginConfiguration
         }
     }
 
-    final public function addValue(PluginConfigurationValue $Value)
+    final public function addValue(PluginConfigurationValue $Value): void
     {
         $this->Values[$Value->key()] = $Value;
     }

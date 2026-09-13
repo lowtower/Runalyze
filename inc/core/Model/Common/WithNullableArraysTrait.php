@@ -4,7 +4,7 @@ namespace Runalyze\Model\Common;
 
 trait WithNullableArraysTrait
 {
-    public function ensureArraysToBeNotNull()
+    public function ensureArraysToBeNotNull(): void
     {
         foreach (static::allDatabaseProperties() as $key) {
             if ($this->isArray($key) && $this->get($key) === null) {
@@ -13,7 +13,7 @@ trait WithNullableArraysTrait
         }
     }
 
-    public function ensureArraysToBeNullIfEmpty()
+    public function ensureArraysToBeNullIfEmpty(): void
     {
         foreach (static::allDatabaseProperties() as $key) {
             if ($this->isArray($key) && empty($this->get($key))) {

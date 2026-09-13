@@ -18,7 +18,7 @@ class ActivityLapIntensityChoiceType extends AbstractTokenStorageAwareType
 {
     use ConfigurationManagerAwareTrait;
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'choices' => LapIntensity::getAll(),

@@ -54,7 +54,7 @@ class ConfRepository extends EntityRepository
         return $conf;
     }
 
-    public function save(Conf $conf)
+    public function save(Conf $conf): void
     {
         $this->_em->persist($conf);
         $this->_em->flush();

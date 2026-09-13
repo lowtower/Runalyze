@@ -128,7 +128,7 @@ class BoxedValue
     /**
      * @param string $Value
      */
-    public function setValue($Value)
+    public function setValue($Value): void
     {
         $this->Value = $Value;
     }
@@ -136,7 +136,7 @@ class BoxedValue
     /**
      * @param string $Unit
      */
-    public function setUnit($Unit)
+    public function setUnit($Unit): void
     {
         $this->Unit = $Unit;
     }
@@ -144,7 +144,7 @@ class BoxedValue
     /**
      * @param string $Icon
      */
-    public function setIcon($Icon)
+    public function setIcon($Icon): void
     {
         $this->Icon = $Icon;
     }
@@ -152,7 +152,7 @@ class BoxedValue
     /**
      * @param string $Info
      */
-    public function setInfo($Info)
+    public function setInfo($Info): void
     {
         $this->Info = $Info;
     }
@@ -160,7 +160,7 @@ class BoxedValue
     /**
      * @param string $Glossary
      */
-    public function setGlossary($Glossary)
+    public function setGlossary($Glossary): void
     {
         $this->Glossary = $Glossary;
     }
@@ -168,7 +168,7 @@ class BoxedValue
     /**
      * @param string $Class
      */
-    public function addClass($Class)
+    public function addClass($Class): void
     {
         if (empty($this->AdditionalClasses)) {
             $this->AdditionalClasses .= ' ';
@@ -182,7 +182,7 @@ class BoxedValue
      *
      * @param string $widthClass e.g. "w25", "w33", "w50"
      */
-    public function defineAsFloatingBlock($widthClass)
+    public function defineAsFloatingBlock($widthClass): void
     {
         $this->AsFloatingBlock = true;
         $this->AsFloatingBlockClass = $widthClass;
@@ -192,13 +192,13 @@ class BoxedValue
      * Define as floating block
      * @param int $numberOfBlocks
      */
-    public function defineAsFloatingBlockWithFixedWidth($numberOfBlocks)
+    public function defineAsFloatingBlockWithFixedWidth($numberOfBlocks): void
     {
         $this->AsFloatingBlock = true;
         $this->AsFloatingBlockWidth = round(100 / $numberOfBlocks, 2) . '%';
     }
 
-    public function display()
+    public function display(): void
     {
         echo $this->getCode();
     }
@@ -286,7 +286,7 @@ class BoxedValue
     /**
      * @param string $ValuesString
      */
-    public static function wrapValues($ValuesString)
+    public static function wrapValues($ValuesString): void
     {
         echo self::getWrappedValues($ValuesString);
     }

@@ -12,16 +12,16 @@ class FrontendShared extends Frontend
      */
     public static $IS_SHOWN = false;
 
-    public function displayHeader()
+    public function displayHeader(): void
     {
         self::$IS_SHOWN = true;
     }
 
-    public function displayFooter()
+    public function displayFooter(): void
     {
     }
 
-    protected function initSessionAccountHandler()
+    protected function initSessionAccountHandler(): void
     {
     }
 }

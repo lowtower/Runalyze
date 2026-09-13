@@ -137,7 +137,7 @@ class BasicEndurance extends \Runalyze\Configuration\Category
             ->registerOnchangeEvent(self::class . '::triggerRecalculation');
     }
 
-    public static function triggerRecalculation()
+    public static function triggerRecalculation(): void
     {
         if (! self::$TRIGGERED) {
             self::$TRIGGERED = true;

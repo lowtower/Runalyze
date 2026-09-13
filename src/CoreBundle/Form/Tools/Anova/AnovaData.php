@@ -53,7 +53,7 @@ class AnovaData
         return $data;
     }
 
-    public function setDateFrom(DateTime $dateFrom)
+    public function setDateFrom(DateTime $dateFrom): void
     {
         $this->DateFrom = $dateFrom;
     }
@@ -73,7 +73,7 @@ class AnovaData
             ->getTimestamp();
     }
 
-    public function setDateTo(DateTime $dateTo)
+    public function setDateTo(DateTime $dateTo): void
     {
         $this->DateTo = $dateTo;
     }
@@ -97,7 +97,7 @@ class AnovaData
     /**
      * @param Sport[] $sport
      */
-    public function setSport(array $sport)
+    public function setSport(array $sport): void
     {
         $this->Sport = $sport;
     }
@@ -113,7 +113,7 @@ class AnovaData
     /**
      * @param Type[] $type
      */
-    public function setType(array $type)
+    public function setType(array $type): void
     {
         $this->Type = $type;
     }
@@ -126,7 +126,7 @@ class AnovaData
         return $this->Type;
     }
 
-    public function setValueToGroupBy($valueToGroupBy)
+    public function setValueToGroupBy($valueToGroupBy): void
     {
         $this->ValueToGroupBy = $valueToGroupBy;
     }
@@ -139,7 +139,7 @@ class AnovaData
         return $this->ValueToGroupBy;
     }
 
-    public function setValueToLookAt($valueToLookAt)
+    public function setValueToLookAt($valueToLookAt): void
     {
         $this->ValueToLookAt = $valueToLookAt;
     }

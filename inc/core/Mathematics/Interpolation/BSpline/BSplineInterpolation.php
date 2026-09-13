@@ -72,7 +72,7 @@ class BSplineInterpolation
     /**
      * @param array<int, mixed> $points
      */
-    public function setPoints(array $points, array $weights = [], array $knots = [])
+    public function setPoints(array $points, array $weights = [], array $knots = []): void
     {
         $this->NumPoints = count($points);
         if ($points === []) {
@@ -105,7 +105,7 @@ class BSplineInterpolation
         $this->convertPointsToHomogeneousCoordinates();
     }
 
-    public function setClampedKnotVector()
+    public function setClampedKnotVector(): void
     {
         $this->Knots = array_merge(
             array_fill(0, $this->Degree + 1, 0),

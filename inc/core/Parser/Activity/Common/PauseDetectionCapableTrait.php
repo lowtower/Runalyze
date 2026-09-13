@@ -6,7 +6,7 @@ trait PauseDetectionCapableTrait
 {
     protected bool $DetectPauses = true;
 
-    public function activatePauseDetection(bool $flag = true)
+    public function activatePauseDetection(bool $flag = true): void
     {
         $this->DetectPauses = $flag;
     }

@@ -17,7 +17,7 @@ class ClimbCollection implements \Countable, \ArrayAccess
         $this->Elements = $elements;
     }
 
-    public function add(Climb $climb)
+    public function add(Climb $climb): void
     {
         $this->Elements[] = $climb;
     }
@@ -60,7 +60,7 @@ class ClimbCollection implements \Countable, \ArrayAccess
      *
      * @throws \InvalidArgumentException
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if (! ($value instanceof Climb)) {
             throw new \InvalidArgumentException('Climb collection does only accept instances of Climb as elements.');
@@ -69,7 +69,7 @@ class ClimbCollection implements \Countable, \ArrayAccess
         $this->Elements[$offset] = $value;
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->Elements[$offset]);
     }

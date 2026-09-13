@@ -67,12 +67,12 @@ class Icon
     /**
      * @param string $tooltip
      */
-    public function setTooltip($tooltip)
+    public function setTooltip($tooltip): void
     {
         $this->Tooltip = $tooltip;
     }
 
-    final public function display()
+    final public function display(): void
     {
         echo $this->code();
     }

@@ -4,7 +4,7 @@ namespace Runalyze\Parser\Activity\Common\Data;
 
 class GpsDistanceCalculator
 {
-    public function calculateDistancesFor(ContinuousData $data)
+    public function calculateDistancesFor(ContinuousData $data): void
     {
         $numPoints = count($data->Latitude);
         $data->Distance[0] = 0;

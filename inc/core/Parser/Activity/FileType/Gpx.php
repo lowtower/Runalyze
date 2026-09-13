@@ -11,7 +11,7 @@ class Gpx extends AbstractMultipleParser implements FileContentAwareParserInterf
 {
     use XmlParserTrait;
 
-    public function parse()
+    public function parse(): void
     {
         if (isset($this->Xml->trk)) {
             foreach ($this->Xml->trk as $track) {

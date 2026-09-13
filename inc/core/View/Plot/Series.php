@@ -49,7 +49,7 @@ class Series
 
     protected ?int $YAxis = null;
 
-    public function setLabel(string $label)
+    public function setLabel(string $label): void
     {
         $this->Label = $label;
     }
@@ -59,12 +59,12 @@ class Series
         return $this->Label;
     }
 
-    public function setColor(string $color)
+    public function setColor(string $color): void
     {
         $this->Color = $color;
     }
 
-    public function setData(array $data)
+    public function setData(array $data): void
     {
         $this->Data = $data;
     }
@@ -79,7 +79,7 @@ class Series
      * @param int $yAxis
      * @param bool $addAnnotations [optional]
      */
-    public function addTo(Plot $Plot, $yAxis, bool $addAnnotations = true)
+    public function addTo(Plot $Plot, $yAxis, bool $addAnnotations = true): void
     {
         if ($this->Data === []) {
             return;
@@ -135,7 +135,7 @@ class Series
         }
     }
 
-    public function hideIn(ActivityPlot $plot)
+    public function hideIn(ActivityPlot $plot): void
     {
         if ($this->YAxis !== null) {
             $plot->hideYAxisAndSeries($this->YAxis);

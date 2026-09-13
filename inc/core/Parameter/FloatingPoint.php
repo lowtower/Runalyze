@@ -31,7 +31,7 @@ class FloatingPoint extends \Runalyze\Parameter
     /**
      * @param string $valueAsString new value
      */
-    public function setFromString(string $valueAsString)
+    public function setFromString(string $valueAsString): void
     {
         if ($valueAsString === '' && $this->Options['null']) {
             $this->set(null);
@@ -44,7 +44,7 @@ class FloatingPoint extends \Runalyze\Parameter
      * Set value
      * @param mixed $value new value
      */
-    public function set($value)
+    public function set($value): void
     {
         if ($value === null && $this->Options['null']) {
             $value = null;

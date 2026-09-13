@@ -46,7 +46,7 @@ class AnovaDataQuery
         $this->QueryValue = QueryValues::get($anovaData->getValueToLookAt());
     }
 
-    public function loadAllGroups(EntityManager $entityManager, Account $account)
+    public function loadAllGroups(EntityManager $entityManager, Account $account): void
     {
         $this->Groups = [];
         $groups = $this->QueryGroup->loadAllGroups($entityManager, $account, $this->AnovaData);

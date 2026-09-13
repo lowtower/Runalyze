@@ -62,7 +62,7 @@ class Tooltip
     /**
      * @param string $text
      */
-    public function setText($text)
+    public function setText($text): void
     {
         $this->text = $text;
     }
@@ -70,7 +70,7 @@ class Tooltip
     /**
      * @param string $position
      */
-    public function setPosition($position)
+    public function setPosition($position): void
     {
         $this->position = $position;
     }
@@ -78,7 +78,7 @@ class Tooltip
     /**
      * @param string $code
      */
-    public function wrapAround(&$code)
+    public function wrapAround(&$code): void
     {
         $code = '<span ' . $this->attributes() . '>' . $code . '</span>';
     }

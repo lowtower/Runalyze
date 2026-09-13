@@ -30,14 +30,14 @@ class RunalyzeConfigurationList extends ConfigurationList
         }
     }
 
-    public function mergeWith(array $variables)
+    public function mergeWith(array $variables): void
     {
         parent::mergeWith($variables);
 
         $this->CategoryPool = [];
     }
 
-    public function set($key, $value)
+    public function set($key, $value): void
     {
         parent::set($key, $value);
 

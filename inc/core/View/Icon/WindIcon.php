@@ -54,7 +54,7 @@ class WindIcon extends \Runalyze\View\Icon
         $this->setDefaultTooltip();
     }
 
-    public function setDefaultTooltip()
+    public function setDefaultTooltip(): void
     {
         $strings = [];
 

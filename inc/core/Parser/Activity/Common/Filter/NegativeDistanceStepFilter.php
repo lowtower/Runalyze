@@ -16,7 +16,7 @@ class NegativeDistanceStepFilter extends AbstractFilter
         parent::__construct();
     }
 
-    public function filter(ActivityDataContainer $container, bool $strict = false)
+    public function filter(ActivityDataContainer $container, bool $strict = false): void
     {
         $numberOfPoints = count($container->ContinuousData->Distance);
 

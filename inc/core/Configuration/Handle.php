@@ -94,7 +94,7 @@ class Handle
     /**
      * @param callable $callback
      */
-    final public function registerOnchangeEvent($callback)
+    final public function registerOnchangeEvent($callback): void
     {
         $this->OnchangeCallback = $callback;
     }
@@ -102,7 +102,7 @@ class Handle
     /**
      * @param string $flag
      */
-    final public function registerOnchangeFlag($flag)
+    final public function registerOnchangeFlag($flag): void
     {
         $this->OnchangeReloadFlag = $flag;
     }
@@ -110,7 +110,7 @@ class Handle
     /**
      * Process onchange events
      */
-    final public function processOnchangeEvents()
+    final public function processOnchangeEvents(): void
     {
         if (! empty($this->OnchangeCallback)) {
             call_user_func($this->OnchangeCallback);

@@ -31,7 +31,7 @@ class FormularTextarea extends FormularField
      * Size size for this textarea field
      * @param string $size
      */
-    public function setSize($size)
+    public function setSize($size): void
     {
         $this->addCSSclass($size);
     }

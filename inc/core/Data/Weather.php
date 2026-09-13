@@ -72,7 +72,7 @@ class Weather
     /**
      * @throws \InvalidArgumentException
      */
-    public function setSource(?int $sourceId)
+    public function setSource(?int $sourceId): void
     {
         if ($sourceId !== null && ! Sources::isValidValue($sourceId)) {
             throw new \InvalidArgumentException('Provided source must be null or defined in sources enum.');
@@ -169,7 +169,7 @@ class Weather
     /**
      * Clear weather
      */
-    public function clear()
+    public function clear(): void
     {
         $this->Temperature->setTemperature(null);
         $this->Condition->set(WeatherConditionProfile::UNKNOWN);

@@ -34,7 +34,7 @@ class SessionAccountHandler
      * Set internal account-data
      * @param array $Account
      */
-    public static function setAccount($Account = [])
+    public static function setAccount($Account = []): void
     {
         self::$Account = $Account;
     }
@@ -42,7 +42,7 @@ class SessionAccountHandler
     /**
      * Try to set account from request
      */
-    public static function setAccountFromRequest()
+    public static function setAccountFromRequest(): void
     {
         if (empty(self::$Account)) {
             self::$Account = DB::getInstance()->query('SELECT * FROM `' . PREFIX . 'account` WHERE `id`="' . (int) SharedLinker::getUserId() . '" LIMIT 1')->fetch();

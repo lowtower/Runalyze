@@ -24,7 +24,7 @@ class FitDetailsMerger implements MergerInterface
         $this->DetailsToMerge = $secondDetails;
     }
 
-    public function merge()
+    public function merge(): void
     {
         foreach ($this->getPropertiesToMerge() as $property) {
             $this->ResultingDetails->{$property} ??= $this->DetailsToMerge->{$property};

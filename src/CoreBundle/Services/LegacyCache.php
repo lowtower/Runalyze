@@ -38,7 +38,7 @@ class LegacyCache
         return $this->cache->deleteItem($key);
     }
 
-    public function clearActivityCache(Training $activity)
+    public function clearActivityCache(Training $activity): void
     {
         $accountId = $activity->getAccount()
             ->getId();
@@ -66,7 +66,7 @@ class LegacyCache
         $this->delete('training' . $activity->getId(), $accountId);
     }
 
-    public function clearRaceResultCache(Raceresult $raceResult)
+    public function clearRaceResultCache(Raceresult $raceResult): void
     {
         $accountId = $raceResult->getAccount()
             ->getId();

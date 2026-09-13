@@ -55,7 +55,7 @@ class GroundContact extends ActivityPointSeries
      * @param int $yAxis
      * @param bool $addAnnotations [optional]
      */
-    public function addTo(Plot $Plot, $yAxis, $addAnnotations = true)
+    public function addTo(Plot $Plot, $yAxis, $addAnnotations = true): void
     {
         parent::addTo($Plot, $yAxis, $addAnnotations);
 

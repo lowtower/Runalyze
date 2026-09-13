@@ -53,7 +53,7 @@ class FormularCheckbox extends FormularField
     /**
      * Set label to the right side
      */
-    public function setLabelToRight()
+    public function setLabelToRight(): void
     {
         $this->labelOnRight = true;
     }
@@ -61,7 +61,7 @@ class FormularCheckbox extends FormularField
     /**
      * Add hidden value for sent-flag
      */
-    public function addHiddenSentValue()
+    public function addHiddenSentValue(): void
     {
         $this->addHiddenSent = true;
     }

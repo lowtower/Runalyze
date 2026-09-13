@@ -12,13 +12,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HumidityType extends AbstractType
 {
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['input_unit'] = '%';
         $view->vars['attr']['min'] = 0;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'scale' => 0,

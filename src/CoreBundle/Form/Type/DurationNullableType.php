@@ -7,7 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class DurationNullableType extends DurationType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $options['required'] = false;
 

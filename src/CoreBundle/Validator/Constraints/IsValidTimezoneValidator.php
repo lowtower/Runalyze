@@ -8,7 +8,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 class IsValidTimezoneValidator extends ConstraintValidator
 {
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         if (! Timezone::isValidValue($value)) {
             if (! $constraint instanceof IsValidTimezone) {

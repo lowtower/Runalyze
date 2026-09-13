@@ -7,7 +7,7 @@ use Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem;
 
 class Vo2max extends AbstractOneColumnValue
 {
-    public function addSelectionToQuery(QueryBuilder $queryBuilder, $alias, $as)
+    public function addSelectionToQuery(QueryBuilder $queryBuilder, $alias, $as): void
     {
         parent::addSelectionToQuery($queryBuilder, $alias, $as);
 

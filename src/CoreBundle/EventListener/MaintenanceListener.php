@@ -12,7 +12,7 @@ class MaintenanceListener
     ) {
     }
 
-    public function onKernelRequest(\Symfony\Component\HttpKernel\Event\RequestEvent $event)
+    public function onKernelRequest(\Symfony\Component\HttpKernel\Event\RequestEvent $event): void
     {
         $maintenance = $this->container->hasParameter('app.maintenance') ? $this->container->getParameter('app.maintenance') : false;
 

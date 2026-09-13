@@ -31,7 +31,7 @@ class FilenameHandler
     ) {
     }
 
-    public function setRunalyzeVersion(string $version)
+    public function setRunalyzeVersion(string $version): void
     {
         $this->RunalyzeVersion = $version;
     }

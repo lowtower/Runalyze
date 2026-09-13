@@ -24,7 +24,7 @@ class TrimpCalculator
      * @param int $heartRateMaximum [bpm]
      * @param int $heartRateResting [bpm]
      */
-    public function calculateFor(Training $activity, $gender, $heartRateMaximum, $heartRateResting)
+    public function calculateFor(Training $activity, $gender, $heartRateMaximum, $heartRateResting): void
     {
         $calculator = new Calculator(
             new Athlete($gender, $heartRateMaximum, $heartRateResting),

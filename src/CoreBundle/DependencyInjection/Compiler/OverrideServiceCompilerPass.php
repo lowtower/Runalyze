@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class OverrideServiceCompilerPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $definition = $container->getDefinition('security.authentication.switchuser_listener');
         $definition->setClass(\Runalyze\Bundle\CoreBundle\EventListener\SwitchUserListener::class);

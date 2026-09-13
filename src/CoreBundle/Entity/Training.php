@@ -900,7 +900,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     #[ORM\PrePersist]
-    public function setCreatedToNow()
+    public function setCreatedToNow(): void
     {
         $this->setCreated(time());
     }
@@ -924,7 +924,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     #[ORM\PreUpdate]
-    public function setEditedToNow()
+    public function setEditedToNow(): void
     {
         $this->setEdited(time());
     }
@@ -2279,7 +2279,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this;
     }
 
-    public function setSplitsToClone()
+    public function setSplitsToClone(): void
     {
         $this->splits = clone $this->splits;
     }
@@ -2473,7 +2473,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this;
     }
 
-    public function removeEquipment(Equipment $equipment)
+    public function removeEquipment(Equipment $equipment): void
     {
         $this->equipment->removeElement($equipment);
     }
@@ -2493,7 +2493,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this;
     }
 
-    public function removeTag(Tag $tag)
+    public function removeTag(Tag $tag): void
     {
         $this->tag->removeElement($tag);
     }
@@ -2506,7 +2506,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this->tag;
     }
 
-    public function setTrackdata(?Trackdata $trackData = null)
+    public function setTrackdata(?Trackdata $trackData = null): void
     {
         $this->trackdata = $trackData;
 
@@ -2532,7 +2532,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this->trackdata !== null;
     }
 
-    public function setSwimdata(?Swimdata $swimData = null)
+    public function setSwimdata(?Swimdata $swimData = null): void
     {
         $this->swimdata = $swimData;
 
@@ -2558,7 +2558,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this->swimdata !== null;
     }
 
-    public function setHrv(?Hrv $hrv = null)
+    public function setHrv(?Hrv $hrv = null): void
     {
         $this->hrv = $hrv;
 
@@ -2584,7 +2584,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this->hrv !== null;
     }
 
-    public function setRaceresult(?Raceresult $raceResult = null)
+    public function setRaceresult(?Raceresult $raceResult = null): void
     {
         $this->raceresult = $raceResult;
 
@@ -2622,7 +2622,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
-    public function updateSimpleCalculatedValues()
+    public function updateSimpleCalculatedValues(): void
     {
         if ($this->distance == 0.0) {
             $this->distance = null;
@@ -2633,7 +2633,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     #[ORM\PrePersist]
-    public function useElevationFromRouteIfEmpty()
+    public function useElevationFromRouteIfEmpty(): void
     {
         if ($this->elevation === null || $this->elevation === 0) {
             $this->getAdapter()

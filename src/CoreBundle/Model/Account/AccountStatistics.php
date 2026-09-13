@@ -24,7 +24,7 @@ class AccountStatistics
     /**
      * @param null|int $numberOfActivities
      */
-    public function setNumberOfActivities($numberOfActivities)
+    public function setNumberOfActivities($numberOfActivities): void
     {
         $this->NumberOfActivities = $numberOfActivities;
     }
@@ -40,7 +40,7 @@ class AccountStatistics
     /**
      * @param float|null $totalDuration [s]
      */
-    public function setTotalDuration($totalDuration)
+    public function setTotalDuration($totalDuration): void
     {
         $this->TotalDuration = $totalDuration;
     }
@@ -56,7 +56,7 @@ class AccountStatistics
     /**
      * @param float|null $totalDistance [km]
      */
-    public function setTotalDistance($totalDistance)
+    public function setTotalDistance($totalDistance): void
     {
         $this->TotalDistance = $totalDistance;
     }

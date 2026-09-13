@@ -95,7 +95,7 @@ class Pace extends ActivitySeries
      * @param int $yAxis
      * @param bool $addAnnotations [optional]
      */
-    public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true)
+    public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true): void
     {
         if ($this->Data === []) {
             return;
@@ -182,7 +182,7 @@ class Pace extends ActivitySeries
      * @param int $dataMin
      * @param int $dataMax
      */
-    private function setYAxisForReversePace(Plot $plot, $yAxis, $dataMin, $dataMax, bool $forceMin, bool $forceMax)
+    private function setYAxisForReversePace(Plot $plot, $yAxis, $dataMin, $dataMax, bool $forceMin, bool $forceMax): void
     {
         if ($this->paceUnitEnum === PaceUnit::MIN_PER_MILE) {
             $ticks = [240, 300, 360, 450, 600, 900, 3600];

@@ -930,7 +930,7 @@ class Trackdata implements AccountRelatedEntityInterface
     /**
      * @param array|null $pace [s/km]
      */
-    public function setPace(?array $pace = null)
+    public function setPace(?array $pace = null): void
     {
         $this->pace = $pace;
     }
@@ -956,7 +956,7 @@ class Trackdata implements AccountRelatedEntityInterface
     /**
      * @param array|null $gradeAdjustedPace [s/km]
      */
-    public function setGradeAdjustedPace(?array $gradeAdjustedPace = null)
+    public function setGradeAdjustedPace(?array $gradeAdjustedPace = null): void
     {
         $this->gradeAdjustedPace = $gradeAdjustedPace;
     }
@@ -977,7 +977,7 @@ class Trackdata implements AccountRelatedEntityInterface
     /**
      * @param array|null $gradient (-100 .. 100)
      */
-    public function setGradient(?array $gradient = null)
+    public function setGradient(?array $gradient = null): void
     {
         $this->gradient = $gradient;
     }
@@ -998,7 +998,7 @@ class Trackdata implements AccountRelatedEntityInterface
     /**
      * @param array|null $strideLength [cm]
      */
-    public function setStrideLength(?array $strideLength = null)
+    public function setStrideLength(?array $strideLength = null): void
     {
         $this->strideLength = $strideLength;
     }
@@ -1024,7 +1024,7 @@ class Trackdata implements AccountRelatedEntityInterface
     /**
      * @param array|null $verticalRatio [%]
      */
-    public function setVerticalRatio(?array $verticalRatio = null)
+    public function setVerticalRatio(?array $verticalRatio = null): void
     {
         $this->verticalRatio = $verticalRatio;
     }

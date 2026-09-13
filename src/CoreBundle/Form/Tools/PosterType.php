@@ -55,7 +55,7 @@ class PosterType extends AbstractType
         return $account;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('postertype', ChoiceType::class, [

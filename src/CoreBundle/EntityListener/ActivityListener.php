@@ -69,7 +69,7 @@ class ActivityListener
             ->getDaysToConsider();
     }
 
-    public function prePersist(Training $activity, \Doctrine\ORM\Event\PrePersistEventArgs $args)
+    public function prePersist(Training $activity, \Doctrine\ORM\Event\PrePersistEventArgs $args): void
     {
         $this->setActivityIdIfEmpty($activity);
         $this->checkRelatedEntitiesForConsistency($activity);
@@ -84,14 +84,14 @@ class ActivityListener
         $this->guessTimezoneBasedOnCoordinates($activity);
     }
 
-    public function postPersist(Training $activity, \Doctrine\ORM\Event\PostPersistEventArgs $args)
+    public function postPersist(Training $activity, \Doctrine\ORM\Event\PostPersistEventArgs $args): void
     {
         $this->addStatisticsToEquipment($activity);
         $this->scheduleRunningRelatedRecalculationsIfRequired($activity);
         $this->addStartTimeCheck($activity->getAccount(), $activity->getTime(), false);
     }
 
-    public function preUpdate(Training $activity, PreUpdateEventArgs $args)
+    public function preUpdate(Training $activity, PreUpdateEventArgs $args): void
     {
         $this->checkRelatedEntitiesForConsistency($activity, $args);
 
@@ -124,7 +124,7 @@ class ActivityListener
         }
     }
 
-    public function postRemove(Training $activity, \Doctrine\ORM\Event\PostRemoveEventArgs $args)
+    public function postRemove(Training $activity, \Doctrine\ORM\Event\PostRemoveEventArgs $args): void
     {
         $this->removeStatisticsFromEquipment($activity);
 
@@ -171,7 +171,7 @@ class ActivityListener
         }
     }
 
-    public function removeWeatherIfInside(Training $activity)
+    public function removeWeatherIfInside(Training $activity): void
     {
         if (! $activity->getSport()->getOutside()) {
             $activity->getAdapter()

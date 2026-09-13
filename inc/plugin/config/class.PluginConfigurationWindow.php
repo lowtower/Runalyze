@@ -47,7 +47,7 @@ class PluginConfigurationWindow
         echo Ajax::getReloadCommand();
     }
 
-    public function display()
+    public function display(): void
     {
         $this->displayHeader();
         $this->displayForm();

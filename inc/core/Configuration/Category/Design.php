@@ -58,7 +58,7 @@ class Design extends \Runalyze\Configuration\Category
         return $Fieldset;
     }
 
-    public static function setBackgroundImageToBody()
+    public static function setBackgroundImageToBody(): void
     {
         $url = \Runalyze\Configuration::Design()->backgroundImage();
 

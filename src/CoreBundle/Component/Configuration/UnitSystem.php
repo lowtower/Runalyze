@@ -26,12 +26,12 @@ class UnitSystem
         $this->LegacyUnitConverter = new LegacyUnitConverter();
     }
 
-    public function setPaceUnitFromSport(Sport $sport)
+    public function setPaceUnitFromSport(Sport $sport): void
     {
         $this->PaceUnit = $sport->getSpeedUnit();
     }
 
-    public function setPaceUnit(AbstractPaceUnit $paceUnit)
+    public function setPaceUnit(AbstractPaceUnit $paceUnit): void
     {
         $this->PaceUnit = $paceUnit;
     }

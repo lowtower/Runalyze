@@ -68,7 +68,7 @@ class SearchLink
      * @param int $fromTimestamp
      * @param int $toTimestamp
      */
-    public function fromTo($fromTimestamp, $toTimestamp)
+    public function fromTo($fromTimestamp, $toTimestamp): void
     {
         $this->Params['date-from'] = date('d.m.Y', $fromTimestamp);
         $this->Params['date-to'] = date('d.m.Y', $toTimestamp);
@@ -79,7 +79,7 @@ class SearchLink
      * @param mixed $value may be an array for select types
      * @param string $sign [optional] possible signs: is (default), gt, ge, le, lt, ne, like
      */
-    public function addParam($key, $value, $sign = '')
+    public function addParam($key, $value, $sign = ''): void
     {
         $this->Params[$key] = $value;
 
@@ -92,7 +92,7 @@ class SearchLink
      * @param string $sort key in database
      * @param boolean $asc [optional] sort ascending, default false
      */
-    public function sortBy($sort, $asc = false)
+    public function sortBy($sort, $asc = false): void
     {
         $this->addParam('search-sort-by', $sort);
         $this->addParam('search-sort-order', $asc ? 'ASC' : 'DESC');
@@ -101,7 +101,7 @@ class SearchLink
     /**
      * Send results to multi editor
      */
-    public function sendToMultiEditor()
+    public function sendToMultiEditor(): void
     {
         $this->addParam('send-to-multi-editor', true);
     }

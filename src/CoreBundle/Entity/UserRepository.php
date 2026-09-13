@@ -58,7 +58,7 @@ class UserRepository extends EntityRepository
         return $result ? (int) $result['pulseMax'] : null;
     }
 
-    public function save(User $user, Account $account)
+    public function save(User $user, Account $account): void
     {
         $this->_em->persist($user);
         $this->_em->flush();
@@ -78,7 +78,7 @@ class UserRepository extends EntityRepository
             ->getOneOrNullResult();
     }
 
-    public function remove(User $user)
+    public function remove(User $user): void
     {
         $this->_em->remove($user);
         $this->_em->flush();

@@ -31,7 +31,7 @@ class FormularSelectBox extends FormularField
         // No attributes needed, HTML-function used
     }
 
-    public function setMultiple()
+    public function setMultiple(): void
     {
         $this->multiple = true;
     }
@@ -42,7 +42,7 @@ class FormularSelectBox extends FormularField
      * @param string $text
      * @param array $attributes
      */
-    public function addOption($key, $text, $attributes = [])
+    public function addOption($key, $text, $attributes = []): void
     {
         if (! empty($attributes)) {
             $attributes['text'] = $text;
@@ -56,7 +56,7 @@ class FormularSelectBox extends FormularField
      * Set all options
      * @param array $options keys are values for selectBox
      */
-    public function setOptions($options)
+    public function setOptions($options): void
     {
         $this->options = $options;
     }

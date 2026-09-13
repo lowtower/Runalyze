@@ -29,7 +29,7 @@ class PowerCalculator
      * @param float $athleteWeight [kg]
      * @param float $bikeWeight [kg]
      */
-    public function calculateFor(Training $activity, $athleteWeight = 75.0, $bikeWeight = 0.0)
+    public function calculateFor(Training $activity, $athleteWeight = 75.0, $bikeWeight = 0.0): void
     {
         $this->Activity = $activity;
         $this->AthleteWeight = $athleteWeight;

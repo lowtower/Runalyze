@@ -100,7 +100,7 @@ class FormularFieldset extends HtmlTag
      * Set title for this fieldset
      * @param string $title
      */
-    final public function setTitle($title)
+    final public function setTitle($title): void
     {
         $this->title = $title;
     }
@@ -108,7 +108,7 @@ class FormularFieldset extends HtmlTag
     /**
      * Set this fieldset as collapsed
      */
-    final public function setCollapsed()
+    final public function setCollapsed(): void
     {
         $this->collapsed = true;
     }
@@ -117,7 +117,7 @@ class FormularFieldset extends HtmlTag
      * Set conf value to save current status
      * @param string $confValue
      */
-    final public function setConfValueToSaveStatus($confValue)
+    final public function setConfValueToSaveStatus($confValue): void
     {
         $this->confValueToSaveStatus = $confValue;
 
@@ -129,7 +129,7 @@ class FormularFieldset extends HtmlTag
     /**
      * Set a specific layout for all fields
      */
-    final public function setLayoutForFields($layout)
+    final public function setLayoutForFields($layout): void
     {
         foreach ($this->fields as &$Field) {
             if (is_object($Field)) {
@@ -141,7 +141,7 @@ class FormularFieldset extends HtmlTag
     /**
      * For toggle-function: only one opened fieldset
      */
-    final public function allowOnlyOneOpenedFieldset()
+    final public function allowOnlyOneOpenedFieldset(): void
     {
         $this->allowOnlyOneOpenedFieldset = true;
     }
@@ -150,7 +150,7 @@ class FormularFieldset extends HtmlTag
      * Add a given field to this fieldset
      * @param null|FormularField $Field
      */
-    final public function addField($Field)
+    final public function addField($Field): void
     {
         if ($Field !== null) {
             $this->fields[] = $Field;
@@ -161,14 +161,14 @@ class FormularFieldset extends HtmlTag
      * Add given fields to this fieldset
      * @param FormularField[] $Fields
      */
-    final public function addFields(array $Fields)
+    final public function addFields(array $Fields): void
     {
         foreach ($Fields as $Field) {
             $this->fields[] = $Field;
         }
     }
 
-    final public function validateAllFields()
+    final public function validateAllFields(): void
     {
         foreach ($this->fields as &$Field) {
             $Field->validate();
@@ -178,7 +178,7 @@ class FormularFieldset extends HtmlTag
     /**
      * Display this fieldset
      */
-    public function display()
+    public function display(): void
     {
         if ($this->collapsed) {
             $this->addCSSclass('collapsed');
@@ -202,7 +202,7 @@ class FormularFieldset extends HtmlTag
     /**
      * Display all fields
      */
-    private function displayLegend()
+    private function displayLegend(): void
     {
         if (! empty($this->title)) {
             echo '<legend onclick="' . $this->getLegendOnclick() . '">' . $this->title . '</legend>';
@@ -222,7 +222,7 @@ class FormularFieldset extends HtmlTag
     /**
      * Display all fields
      */
-    private function displayFields()
+    private function displayFields(): void
     {
         foreach ($this->fields as $Field) {
             if (is_object($Field)) {
@@ -237,7 +237,7 @@ class FormularFieldset extends HtmlTag
      * Set individual HTML code
      * @param string $Code
      */
-    public function setHtmlCode($Code)
+    public function setHtmlCode($Code): void
     {
         $this->HtmlCode = $Code;
     }
@@ -245,7 +245,7 @@ class FormularFieldset extends HtmlTag
     /**
      * Display individual html code
      */
-    private function displayHtmlCode()
+    private function displayHtmlCode(): void
     {
         if (! empty($this->HtmlCode)) {
             echo '<div>' . $this->HtmlCode . '</div>';
@@ -255,12 +255,12 @@ class FormularFieldset extends HtmlTag
     /**
      * @param string $code
      */
-    public function setHtmlCodeBeforeFields($code)
+    public function setHtmlCodeBeforeFields($code): void
     {
         $this->HtmlCodeBeforeFields = $code;
     }
 
-    private function displayHtmlCodeBeforeFields()
+    private function displayHtmlCodeBeforeFields(): void
     {
         if (! empty($this->HtmlCodeBeforeFields)) {
             echo '<div>' . $this->HtmlCodeBeforeFields . '</div>';
@@ -270,7 +270,7 @@ class FormularFieldset extends HtmlTag
     /**
      * Display all messages
      */
-    private function displayMessages()
+    private function displayMessages(): void
     {
         echo '<div class="fieldset-messages">';
 
@@ -288,7 +288,7 @@ class FormularFieldset extends HtmlTag
     /**
      * @param string $message
      */
-    private function addMessage($message, string $type)
+    private function addMessage($message, string $type): void
     {
         $this->messages[] = [
             'type' => $type,
@@ -300,7 +300,7 @@ class FormularFieldset extends HtmlTag
      * Add okay to fieldset
      * @param string $message
      */
-    final public function addOkay($message)
+    final public function addOkay($message): void
     {
         $this->addMessage($message, 'okay');
     }
@@ -309,7 +309,7 @@ class FormularFieldset extends HtmlTag
      * Add warning to fieldset
      * @param string $message
      */
-    final public function addWarning($message)
+    final public function addWarning($message): void
     {
         $this->addMessage($message, 'warning');
     }
@@ -318,7 +318,7 @@ class FormularFieldset extends HtmlTag
      * Add error to fieldset
      * @param string $message
      */
-    final public function addError($message)
+    final public function addError($message): void
     {
         $this->addMessage($message, 'error');
     }
@@ -327,7 +327,7 @@ class FormularFieldset extends HtmlTag
      * Add info to fieldset
      * @param string $message
      */
-    final public function addInfo($message)
+    final public function addInfo($message): void
     {
         $this->addMessage($message, 'info');
     }
@@ -336,7 +336,7 @@ class FormularFieldset extends HtmlTag
      * Add small info to fieldset
      * @param string $message
      */
-    final public function addSmallInfo($message)
+    final public function addSmallInfo($message): void
     {
         $this->addMessage($message, 'info small');
     }
@@ -345,7 +345,7 @@ class FormularFieldset extends HtmlTag
      * Add block to fieldset
      * @param string $message
      */
-    final public function addBlock($message)
+    final public function addBlock($message): void
     {
         $this->addMessage($message, 'block');
     }
@@ -354,7 +354,7 @@ class FormularFieldset extends HtmlTag
      * Add text to fieldset
      * @param string $message
      */
-    final public function addText($message)
+    final public function addText($message): void
     {
         $this->addMessage($message, 'text');
     }
@@ -363,7 +363,7 @@ class FormularFieldset extends HtmlTag
      * Add block to fieldset
      * @param string $message
      */
-    final public function addFileBlock($message)
+    final public function addFileBlock($message): void
     {
         $this->addMessage($message, 'file');
     }

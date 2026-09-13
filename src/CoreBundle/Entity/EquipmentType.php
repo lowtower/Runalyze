@@ -202,7 +202,7 @@ class EquipmentType implements AccountRelatedEntityInterface
         return $this;
     }
 
-    public function removeSport(Sport $sport)
+    public function removeSport(Sport $sport): void
     {
         $this->sport->removeElement($sport);
     }

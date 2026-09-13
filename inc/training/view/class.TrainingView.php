@@ -44,7 +44,7 @@ class TrainingView
         $this->initSections();
     }
 
-    private function initToolbarLinks()
+    private function initToolbarLinks(): void
     {
         $Linker = new Linker($this->Context->activity());
 
@@ -245,7 +245,7 @@ class TrainingView
         }
     }
 
-    public function display()
+    public function display(): void
     {
         $this->displayHeader();
         $this->displaySections();

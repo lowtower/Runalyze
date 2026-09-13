@@ -48,7 +48,7 @@ class PluginConfigurationValue
         return $this->Value;
     }
 
-    final public function setLabel(string $Label)
+    final public function setLabel(string $Label): void
     {
         $this->Label = $Label;
     }
@@ -56,7 +56,7 @@ class PluginConfigurationValue
     /**
      * @param string $Tooltip
      */
-    final public function setTooltip($Tooltip)
+    final public function setTooltip($Tooltip): void
     {
         $this->Tooltip = $Tooltip;
     }
@@ -76,7 +76,7 @@ class PluginConfigurationValue
     /**
      * @param mixed $Value
      */
-    final public function setValue($Value)
+    final public function setValue($Value): void
     {
         $this->Value = $Value;
     }
@@ -84,12 +84,12 @@ class PluginConfigurationValue
     /**
      * @param mixed $Value
      */
-    final public function setDefaultValue($Value)
+    final public function setDefaultValue($Value): void
     {
         $this->DefaultValue = $Value;
     }
 
-    final public function setDefaultValueAsValue()
+    final public function setDefaultValueAsValue(): void
     {
         $this->Value = $this->DefaultValue;
     }
@@ -97,7 +97,7 @@ class PluginConfigurationValue
     /**
      * Has to be overwritten in subclasses.
      */
-    public function setValueFromString(string $Value)
+    public function setValueFromString(string $Value): void
     {
         $this->Value = $Value;
     }
@@ -110,7 +110,7 @@ class PluginConfigurationValue
         return $this->value();
     }
 
-    public function setValueFromPost()
+    public function setValueFromPost(): void
     {
         if (isset($_POST[$this->Key])) {
             $this->setValueFromString($_POST[$this->Key]);

@@ -48,7 +48,7 @@ class SelectFile extends Select
         return $this->Options['extensions'];
     }
 
-    public function allowUppercaseVariants(bool $flag = true)
+    public function allowUppercaseVariants(bool $flag = true): void
     {
         $this->AllowUppercaseVariants = $flag;
     }
@@ -58,7 +58,7 @@ class SelectFile extends Select
      * @param mixed $value new value
      * @throws \InvalidArgumentException
      */
-    public function set($value)
+    public function set($value): void
     {
         if ($this->Options['filename_only']) {
             $value = basename($value);

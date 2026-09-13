@@ -22,7 +22,7 @@ class Stroketype
     /**
      * @param int $identifier a class constant
      */
-    public function set($identifier)
+    public function set($identifier): void
     {
         if (in_array($identifier, self::completeList())) {
             $this->Identifier = $identifier;

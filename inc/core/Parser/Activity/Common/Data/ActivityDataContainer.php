@@ -57,7 +57,7 @@ class ActivityDataContainer
         $this->WeatherData = clone $this->WeatherData;
     }
 
-    public function completeContinuousData()
+    public function completeContinuousData(): void
     {
         $this->ContinuousDataAdapter->filterUnwantedZeros();
         $this->ContinuousDataAdapter->clearEmptyArrays();
@@ -74,7 +74,7 @@ class ActivityDataContainer
         $this->applyPauses();
     }
 
-    public function completeActivityData()
+    public function completeActivityData(): void
     {
         $this->ActivityData->completeFromContinuousData($this->ContinuousData, $this->Rounds);
         $this->ActivityData->completeFromRounds($this->Rounds);
@@ -130,7 +130,7 @@ class ActivityDataContainer
         }
     }
 
-    public function filterActivityData(FilterCollection $filter)
+    public function filterActivityData(FilterCollection $filter): void
     {
         $filter->filter($this);
     }

@@ -109,12 +109,12 @@ class ProgressBarSingle
         }
     }
 
-    public function setLeftBalanced()
+    public function setLeftBalanced(): void
     {
         $this->LeftBalanced = true;
     }
 
-    public function setRightBalanced()
+    public function setRightBalanced(): void
     {
         $this->RightBalanced = true;
     }

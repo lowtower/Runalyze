@@ -65,7 +65,7 @@ class Configuration
     /**
      * Set internal flag to activate all keys
      */
-    public function activateAllKeys()
+    public function activateAllKeys(): void
     {
         $this->ShowAllKeys = true;
     }
@@ -73,7 +73,7 @@ class Configuration
     /**
      * Remove internal flag to activate all keys
      */
-    public function deactivateAllKeys()
+    public function deactivateAllKeys(): void
     {
         $this->ShowAllKeys = false;
     }

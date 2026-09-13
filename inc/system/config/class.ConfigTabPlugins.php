@@ -30,7 +30,7 @@ class ConfigTabPlugins extends ConfigTab
     /**
      * Set all fieldsets and fields
      */
-    public function setFieldsetsAndFields()
+    public function setFieldsetsAndFields(): void
     {
         $Panels = new FormularFieldset(__('Panels'));
         $Panels->addInfo(__('Panels are small statistics always shown on the right side.'));
@@ -190,7 +190,7 @@ class ConfigTabPlugins extends ConfigTab
     /**
      * Parse all post values
      */
-    public function parsePostData()
+    public function parsePostData(): void
     {
         $PreparedUpdate = $this->prepareUpdateStatement();
         $Factory = new PluginFactory();

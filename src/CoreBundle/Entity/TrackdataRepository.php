@@ -23,7 +23,7 @@ class TrackdataRepository extends EntityRepository
         ]);
     }
 
-    public function save(Trackdata $trackdata)
+    public function save(Trackdata $trackdata): void
     {
         $this->_em->persist($trackdata);
         $this->_em->flush();

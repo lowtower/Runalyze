@@ -20,7 +20,7 @@ class AccountLastActionListener
     /**
      * Update the user "lastaction" on each request
      */
-    public function onCoreController(\Symfony\Component\HttpKernel\Event\ControllerEvent $event)
+    public function onCoreController(\Symfony\Component\HttpKernel\Event\ControllerEvent $event): void
     {
         if ($event->getRequestType() !== HttpKernel::MASTER_REQUEST) {
             return;

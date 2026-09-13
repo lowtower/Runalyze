@@ -13,7 +13,7 @@ class UserTimezoneListener
     ) {
     }
 
-    public function onKernelRequest()
+    public function onKernelRequest(): void
     {
         if ($this->token->getToken() instanceof \Symfony\Component\Security\Core\Authentication\Token\TokenInterface) {
             $account = $this->token->getToken()

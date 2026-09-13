@@ -32,13 +32,13 @@ class EquipmentTypeRepository extends EntityRepository
         ]);
     }
 
-    public function save(EquipmentType $equipmentType)
+    public function save(EquipmentType $equipmentType): void
     {
         $this->_em->persist($equipmentType);
         $this->_em->flush();
     }
 
-    public function remove(EquipmentType $equipmentType)
+    public function remove(EquipmentType $equipmentType): void
     {
         $this->_em->remove($equipmentType);
         $this->_em->flush();

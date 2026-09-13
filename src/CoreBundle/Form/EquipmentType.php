@@ -50,7 +50,7 @@ class EquipmentType extends AbstractType
         return $account;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         /** @var Equipment $equipment */
         $equipment = $builder->getData();
@@ -128,7 +128,7 @@ class EquipmentType extends AbstractType
         }
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Equipment::class,

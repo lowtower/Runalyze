@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormView;
 
 class HeartRateType extends AbstractType
 {
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['input_unit'] = 'bpm';
         $view->vars['attr']['min'] = 0;

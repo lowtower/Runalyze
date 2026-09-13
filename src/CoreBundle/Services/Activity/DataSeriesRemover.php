@@ -158,7 +158,7 @@ class DataSeriesRemover
     /**
      * @param mixed $formData
      */
-    public function handleRequest($formData, Training $activity)
+    public function handleRequest($formData, Training $activity): void
     {
         if (! is_array($formData)) {
             return;

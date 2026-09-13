@@ -76,7 +76,7 @@ class SportType extends AbstractType
         return $account;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         /** @var Sport $sport */
         $sport = $builder->getData();
@@ -216,7 +216,7 @@ class SportType extends AbstractType
         return array_flip($choicesWithIdsAsKeys);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Sport::class,

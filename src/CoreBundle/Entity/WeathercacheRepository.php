@@ -40,7 +40,7 @@ class WeathercacheRepository extends EntityRepository implements DatabaseCacheIn
         return null;
     }
 
-    public function cacheWeatherData(WeatherData $data, Location $location)
+    public function cacheWeatherData(WeatherData $data, Location $location): void
     {
         if ($this->getCachedWeatherDataFor($location, DatabaseCache::TIME_PRECISION) === null) {
             $cache = new Weathercache();
@@ -51,7 +51,7 @@ class WeathercacheRepository extends EntityRepository implements DatabaseCacheIn
         }
     }
 
-    public function save(Weathercache $cache)
+    public function save(Weathercache $cache): void
     {
         $this->_em->persist($cache);
         $this->_em->flush();

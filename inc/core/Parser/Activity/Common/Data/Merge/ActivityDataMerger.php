@@ -24,7 +24,7 @@ class ActivityDataMerger implements MergerInterface
         $this->DataToMerge = $secondData;
     }
 
-    public function merge()
+    public function merge(): void
     {
         foreach ($this->ResultingData->getPropertyNames() as $property) {
             $this->ResultingData->{$property} ??= $this->DataToMerge->{$property};

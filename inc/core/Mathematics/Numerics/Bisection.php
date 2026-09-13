@@ -51,7 +51,7 @@ class Bisection
     /**
      * @param int $iterations
      */
-    public function setIterations($iterations)
+    public function setIterations($iterations): void
     {
         $this->MaxIterations = $iterations;
     }
@@ -59,7 +59,7 @@ class Bisection
     /**
      * @param float $epsilon
      */
-    public function setEpsilon($epsilon)
+    public function setEpsilon($epsilon): void
     {
         $this->Epsilon = $epsilon;
     }

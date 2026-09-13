@@ -32,7 +32,7 @@ class Condition
     /**
      * @param int $identifier see \Runalyze\Profile\Weather\WeatherConditionProfile
      */
-    public function set($identifier)
+    public function set($identifier): void
     {
         if (! in_array($identifier, self::completeList())) {
             $this->identifier = WeatherConditionProfile::UNKNOWN;

@@ -15,7 +15,7 @@ class ContinuousDataMerger implements MergerInterface
     /**
      * @param bool $checkForEqualSizes if set an exception is thrown if data are of different length
      */
-    public function merge(bool $checkForEqualSizes = true)
+    public function merge(bool $checkForEqualSizes = true): void
     {
         if ($checkForEqualSizes) {
             $this->checkForEqualSizes();

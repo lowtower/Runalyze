@@ -60,7 +60,7 @@ class Monotony
         $this->Trimp = $trimpData;
     }
 
-    public function calculate()
+    public function calculate(): void
     {
         if ($this->Trimp === []) {
             $this->Value = 0;

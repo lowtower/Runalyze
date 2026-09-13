@@ -17,7 +17,7 @@ class ConsoleExceptionListener
         $this->Logger = $logger;
     }
 
-    public function onConsoleError(ConsoleErrorEvent $event)
+    public function onConsoleError(ConsoleErrorEvent $event): void
     {
         $command = $event->getCommand();
         $error = $event->getError();

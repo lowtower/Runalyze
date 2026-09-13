@@ -18,7 +18,7 @@ class StrategyCollection
      */
     protected $LastSuccessfulStrategyIndex = false;
 
-    public function add(StrategyInterface $strategy)
+    public function add(StrategyInterface $strategy): void
     {
         $this->Strategies[] = $strategy;
     }

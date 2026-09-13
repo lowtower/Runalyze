@@ -72,7 +72,7 @@ class FileImporter implements LoggerAwareInterface
         $this->logger = $logger ?: new NullLogger();
     }
 
-    public function disableFileDeletion($flag = true)
+    public function disableFileDeletion($flag = true): void
     {
         $this->RemoveFiles = ! $flag;
     }

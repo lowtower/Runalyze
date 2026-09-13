@@ -74,7 +74,7 @@ class Split extends StringObject
     /**
      * @param string $string
      */
-    public function fromString($string)
+    public function fromString($string): void
     {
         $intensity = LapIntensity::fromValue(substr($string, 0, 1));
         if ($intensity instanceof \Runalyze\Activity\LapIntensity) {
@@ -114,7 +114,7 @@ class Split extends StringObject
      * Set kilometer
      * @param float $kilometer
      */
-    public function setDistance($kilometer)
+    public function setDistance($kilometer): void
     {
         $this->Distance = $kilometer;
     }
@@ -122,7 +122,7 @@ class Split extends StringObject
     /**
      * @param int $seconds
      */
-    public function setTime($seconds)
+    public function setTime($seconds): void
     {
         $this->Time = $seconds;
     }
@@ -131,7 +131,7 @@ class Split extends StringObject
      * Set resting flag
      * @param bool $flag
      */
-    public function setResting($flag = true)
+    public function setResting($flag = true): void
     {
         $this->Intensity = $flag ? LapIntensity::getInstanceRest() : LapIntensity::getInstanceActive();
     }

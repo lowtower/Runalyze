@@ -24,7 +24,7 @@ class RecalculationTaskCollection
         return $this->NextTaskIndex++;
     }
 
-    public function runAllTasks()
+    public function runAllTasks(): void
     {
         usort($this->Tasks, fn (RecalculationTaskInterface $a, RecalculationTaskInterface $b): int => $a->getOrder() <=> $b->getOrder());
 
@@ -45,12 +45,12 @@ class RecalculationTaskCollection
     /**
      * @param int $offset
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->Tasks[$offset]);
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->NextTaskIndex = 0;
         $this->Tasks = [];

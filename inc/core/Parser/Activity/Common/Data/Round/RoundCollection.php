@@ -28,13 +28,13 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
         }
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->Elements = [];
         $this->CurrentOffset = 0;
     }
 
-    public function add(Round $round)
+    public function add(Round $round): void
     {
         $this->Elements[] = $round;
     }
@@ -76,7 +76,7 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
      *
      * @throws \InvalidArgumentException
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if (! ($value instanceof Round)) {
             throw new \InvalidArgumentException('Round collection does only accept instances of Round as elements.');
@@ -89,7 +89,7 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
         }
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->Elements[$offset]);
     }
@@ -104,12 +104,12 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
         return $this->CurrentOffset;
     }
 
-    public function next()
+    public function next(): void
     {
         ++$this->CurrentOffset;
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         $this->CurrentOffset = 0;
     }
@@ -137,7 +137,7 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
         );
     }
 
-    public function roundDurations()
+    public function roundDurations(): void
     {
         foreach ($this->getElements() as $round) {
             $round->roundDuration();

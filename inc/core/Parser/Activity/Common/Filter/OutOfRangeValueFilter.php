@@ -15,7 +15,7 @@ class OutOfRangeValueFilter extends AbstractFilter
      */
     protected $Strict;
 
-    public function filter(ActivityDataContainer $container, bool $strict = false)
+    public function filter(ActivityDataContainer $container, bool $strict = false): void
     {
         $this->Strict = $strict;
 

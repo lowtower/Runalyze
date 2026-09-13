@@ -15,7 +15,7 @@ trait VariablesContainerTrait
      * @param string $key
      * @param mixed $value
      */
-    public function set($key, $value)
+    public function set($key, $value): void
     {
         $this->Variables[$key] = $value;
     }

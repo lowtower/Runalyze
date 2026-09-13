@@ -13,7 +13,7 @@ class ConfigurationList
         $this->Variables = $variables;
     }
 
-    public function mergeWith(array $variables)
+    public function mergeWith(array $variables): void
     {
         $this->Variables = array_merge($this->Variables, $variables);
     }

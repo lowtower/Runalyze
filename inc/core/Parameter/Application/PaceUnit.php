@@ -113,7 +113,7 @@ class PaceUnit extends AbstractEnum
      * @param mixed $id new value
      * @throws \InvalidArgumentException
      */
-    public function set($id)
+    public function set($id): void
     {
         $this->UnitObject = $this->getNewPaceUnitObject($id);
     }

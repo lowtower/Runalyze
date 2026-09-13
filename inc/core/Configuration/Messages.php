@@ -23,7 +23,7 @@ class Messages
     /**
      * Hint: use cleanup tool
      */
-    public static function useCleanup()
+    public static function useCleanup(): void
     {
         // TODO: provide a link for the tool
         $link = '<em>' . __('Database cleanup') . '</em>';
@@ -33,7 +33,7 @@ class Messages
     /**
      * Hint: change sports configuration
      */
-    public static function adjustPacesInSportsConfiguration()
+    public static function adjustPacesInSportsConfiguration(): void
     {
         $link = Ajax::window('<a href="' . ConfigTabs::$CONFIG_URL . '?key=config_tab_sports">' . __('sports configuration') . '</a>');
 
@@ -48,19 +48,19 @@ class Messages
      * @param string $newValue
      * @param string $oldValue
      */
-    public static function addValueRecalculated($what, $newValue, $oldValue)
+    public static function addValueRecalculated($what, $newValue, $oldValue): void
     {
         self::addInfo(
             sprintf(__('%s has been recalculated. New value: <strong>%s</strong> (old value: %s)'), $what, $newValue, $oldValue)
         );
     }
 
-    private static function addWarning(string $message)
+    private static function addWarning(string $message): void
     {
         ConfigTabs::addMessage(HTML::warning($message));
     }
 
-    private static function addInfo(string $message)
+    private static function addInfo(string $message): void
     {
         ConfigTabs::addMessage(HTML::info($message));
     }

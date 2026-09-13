@@ -8,7 +8,7 @@ use Runalyze\Parser\Activity\Common\Exception\InvalidDataException;
 
 class NegativeTimeStepFilter extends AbstractFilter
 {
-    public function filter(ActivityDataContainer $container, bool $strict = false)
+    public function filter(ActivityDataContainer $container, bool $strict = false): void
     {
         $negativeTimeSteps = $this->detectNegativeTimeSteps($container->ContinuousData->Time, $strict);
 

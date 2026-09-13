@@ -40,7 +40,7 @@ class HeartRate
     /**
      * Set value
      */
-    public function setBPM(?float $value)
+    public function setBPM(?float $value): void
     {
         $this->value = $value;
     }

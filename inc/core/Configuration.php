@@ -25,7 +25,7 @@ class Configuration
     /**
      * @param mixed $accountid
      */
-    public static function loadAll($accountid = 'auto')
+    public static function loadAll($accountid = 'auto'): void
     {
         if ($accountid === 'auto') {
             self::$AccountID = self::loadAccountID();
@@ -37,7 +37,7 @@ class Configuration
         self::initAllCategories();
     }
 
-    private static function initAllCategories()
+    private static function initAllCategories(): void
     {
         self::ActivityForm();
         self::ActivityView();
@@ -55,7 +55,7 @@ class Configuration
      * @param mixed $accountid
      * @throws \InvalidArgumentException
      */
-    public static function resetConfiguration($accountid = 'auto')
+    public static function resetConfiguration($accountid = 'auto'): void
     {
         if ($accountid !== 'auto' && ! is_numeric($accountid)) {
             throw new \InvalidArgumentException('Invalid accountid: ' . $accountid);
@@ -74,7 +74,7 @@ class Configuration
         self::initAllCategories();
     }
 
-    private static function fetchAllValues()
+    private static function fetchAllValues(): void
     {
         self::$Categories = [];
 

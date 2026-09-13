@@ -544,7 +544,7 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
         return $this->role;
     }
 
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         $this->setPlainPassword('');
     }
@@ -603,7 +603,7 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
     /**
      * @see \Serializable::unserialize()
      */
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         [
             $this->id,

@@ -42,19 +42,19 @@ class Map
     ) {
     }
 
-    public function addRoute(Route $route)
+    public function addRoute(Route $route): void
     {
         if (! $route->isEmpty()) {
             $this->Routes[] = $route;
         }
     }
 
-    public function setBounds(array $bounds)
+    public function setBounds(array $bounds): void
     {
         $this->Bounds = $bounds;
     }
 
-    public function display()
+    public function display(): void
     {
         echo $this->code();
     }

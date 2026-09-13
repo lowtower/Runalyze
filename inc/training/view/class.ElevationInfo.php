@@ -54,7 +54,7 @@ class ElevationInfo
         $this->Context = $context;
     }
 
-    public function display()
+    public function display(): void
     {
         echo '<div class="panel-heading">';
         $this->displayHeader();

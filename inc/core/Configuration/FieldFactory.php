@@ -77,7 +77,7 @@ class FieldFactory
     /**
      * @param array<string, mixed> $options
      */
-    private function setAttributesToField(\FormularField $Field, array &$options)
+    private function setAttributesToField(\FormularField $Field, array &$options): void
     {
         if (! empty($options['unit']) && method_exists($Field, 'setUnit')) {
             $Field->setUnit($options['unit']);

@@ -26,13 +26,13 @@ class TagRepository extends EntityRepository
         );
     }
 
-    public function save(Tag $tag)
+    public function save(Tag $tag): void
     {
         $this->_em->persist($tag);
         $this->_em->flush();
     }
 
-    public function remove(Tag $tag)
+    public function remove(Tag $tag): void
     {
         $this->_em->remove($tag);
         $this->_em->flush();

@@ -14,7 +14,7 @@ class Month implements QueryGroupInterface
      * @param string $as
      * @param string $sportAlias
      */
-    public function addSelectionToQuery(QueryBuilder $queryBuilder, $alias, $as, $sportAlias)
+    public function addSelectionToQuery(QueryBuilder $queryBuilder, $alias, $as, $sportAlias): void
     {
         $queryBuilder->addSelect(sprintf('MONTH(FROM_UNIXTIME(%s.time)) as %s', $alias, $as));
     }

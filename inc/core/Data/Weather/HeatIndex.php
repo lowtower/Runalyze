@@ -40,7 +40,7 @@ class HeatIndex implements ValueInterface
         return $this;
     }
 
-    public function setFromWeather(Weather $weather)
+    public function setFromWeather(Weather $weather): void
     {
         $this->setFrom(
             new Activity\Temperature($weather->temperature()->value()),
@@ -48,7 +48,7 @@ class HeatIndex implements ValueInterface
         );
     }
 
-    public function setFrom(Temperature $temperature, Humidity $humidity)
+    public function setFrom(Temperature $temperature, Humidity $humidity): void
     {
         if ($temperature->value() !== null && ! $humidity->isUnknown()) {
             $this->HeatIndexTemperature = clone $temperature;
@@ -60,7 +60,7 @@ class HeatIndex implements ValueInterface
         }
     }
 
-    public function setUnknown()
+    public function setUnknown(): void
     {
         $this->HeatIndexTemperature = new Temperature();
     }

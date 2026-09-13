@@ -17,7 +17,7 @@ class ConsoleErrorStatusListener
         $this->Logger = $logger;
     }
 
-    public function onConsoleTerminate(ConsoleTerminateEvent $event)
+    public function onConsoleTerminate(ConsoleTerminateEvent $event): void
     {
         $statusCode = $event->getExitCode();
         $command = $event->getCommand();

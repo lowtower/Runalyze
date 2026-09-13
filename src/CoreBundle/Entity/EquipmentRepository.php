@@ -63,7 +63,7 @@ class EquipmentRepository extends EntityRepository
      * @param float $additionalDistance [km]
      * @param bool $flush
      */
-    public function updateEquipment(array $equipment, $additionalDuration, $additionalDistance = 0.0, $flush = true)
+    public function updateEquipment(array $equipment, $additionalDuration, $additionalDistance = 0.0, $flush = true): void
     {
         foreach ($equipment as $object) {
             $object->addTime($additionalDuration);
@@ -77,13 +77,13 @@ class EquipmentRepository extends EntityRepository
         }
     }
 
-    public function save(Equipment $equipment)
+    public function save(Equipment $equipment): void
     {
         $this->_em->persist($equipment);
         $this->_em->flush();
     }
 
-    public function remove(Equipment $equipment)
+    public function remove(Equipment $equipment): void
     {
         $this->_em->remove($equipment);
         $this->_em->flush();

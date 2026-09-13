@@ -110,13 +110,13 @@ class RaceresultRepository extends EntityRepository
         return max(array_map(fn ($v): float => (float) $v, $result));
     }
 
-    public function save(Raceresult $raceResult)
+    public function save(Raceresult $raceResult): void
     {
         $this->_em->persist($raceResult);
         $this->_em->flush();
     }
 
-    public function delete(Raceresult $raceResult)
+    public function delete(Raceresult $raceResult): void
     {
         $this->_em->remove($raceResult);
         $this->_em->flush();

@@ -15,12 +15,12 @@ class RsvgConverter extends AbstractSvgToPngConverter
         $this->Command = $rsvgPath;
     }
 
-    public function setHeight($height)
+    public function setHeight($height): void
     {
         $this->Parameter[] = '-h ' . (int) $height;
     }
 
-    public function setWidth($width)
+    public function setWidth($width): void
     {
         $this->Parameter[] = '-w ' . (int) $width;
     }

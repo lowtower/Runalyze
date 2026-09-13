@@ -35,7 +35,7 @@ class Round
         }
     }
 
-    public function setIntensity(LapIntensity $intensity)
+    public function setIntensity(LapIntensity $intensity): void
     {
         $this->Intensity = $intensity;
     }
@@ -48,7 +48,7 @@ class Round
     /**
      * @param float $distance [km]
      */
-    public function setDistance(float $distance)
+    public function setDistance(float $distance): void
     {
         $this->Distance = $distance;
     }
@@ -64,7 +64,7 @@ class Round
     /**
      * @param float $duration [s]
      */
-    public function setDuration(float $duration)
+    public function setDuration(float $duration): void
     {
         $this->Duration = $duration;
     }
@@ -77,12 +77,12 @@ class Round
         return $this->Duration;
     }
 
-    public function roundDuration()
+    public function roundDuration(): void
     {
         $this->Duration = round($this->Duration);
     }
 
-    public function setActive(bool $flag = true)
+    public function setActive(bool $flag = true): void
     {
         $this->Intensity = $flag ? LapIntensity::getInstanceActive() : LapIntensity::getInstanceRest();
     }

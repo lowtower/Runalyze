@@ -94,7 +94,7 @@ class Table
         }
     }
 
-    public function setAverage(Pace $pace, ?Duration $time = null)
+    public function setAverage(Pace $pace, ?Duration $time = null): void
     {
         $this->AveragePace = $pace;
         $this->AverageTime = $time;
@@ -103,7 +103,7 @@ class Table
     /**
      * Display rounds
      */
-    public function display()
+    public function display(): void
     {
         $Fieldset = new FormularFieldset(__('Laps'));
         $Fieldset->setId('rounds');

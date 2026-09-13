@@ -28,7 +28,7 @@ class PrivacyData
      */
     public $MapPrivacy = 'always';
 
-    public function setDataFrom(Privacy $privacy)
+    public function setDataFrom(Privacy $privacy): void
     {
         $this->AthletePageActive = $privacy->isListPublic();
         $this->ShowPrivateInList = $privacy->isListShowingAllActivities();

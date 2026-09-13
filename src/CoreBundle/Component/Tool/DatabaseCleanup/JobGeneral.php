@@ -43,7 +43,7 @@ class JobGeneral extends Job
      */
     public const CACHECLEAN = 'cacheclean';
 
-    public function run()
+    public function run(): void
     {
         if ($this->isRequested(self::INTERNALS)) {
             $this->recalculateInternalConstants();

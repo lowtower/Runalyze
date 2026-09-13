@@ -24,7 +24,7 @@ class MultipleTimeSeries
     /**
      * @param float[] $quantiles
      */
-    public function setQuantiles(array $quantiles)
+    public function setQuantiles(array $quantiles): void
     {
         $this->Quantiles = $quantiles;
     }
@@ -36,7 +36,7 @@ class MultipleTimeSeries
      *
      * @throws \InvalidArgumentException
      */
-    public function generateDistributionsFor(array $dataOfMultipleSeries, array $time, array $keysThatAllowZero = [])
+    public function generateDistributionsFor(array $dataOfMultipleSeries, array $time, array $keysThatAllowZero = []): void
     {
         if ($time === []) {
             throw new \InvalidArgumentException('Time array must not be empty.');

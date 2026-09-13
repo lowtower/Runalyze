@@ -36,7 +36,7 @@ class StartTimeCalculation implements RecalculationTaskInterface
         $this->ConfigurationUpdater = $updater;
     }
 
-    public function forceRecalculation()
+    public function forceRecalculation(): void
     {
         $this->ForceRecalculation = true;
     }
@@ -44,14 +44,14 @@ class StartTimeCalculation implements RecalculationTaskInterface
     /**
      * @param int $timestamp
      */
-    public function setNewStartTime($timestamp)
+    public function setNewStartTime($timestamp): void
     {
         if ($this->NewStartTime === null || $timestamp < $this->NewStartTime) {
             $this->NewStartTime = $timestamp;
         }
     }
 
-    public function run()
+    public function run(): void
     {
         if ($this->Account === null) {
             return;

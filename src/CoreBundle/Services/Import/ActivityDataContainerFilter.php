@@ -31,7 +31,7 @@ class ActivityDataContainerFilter implements LoggerAwareInterface
         $this->Filter = new DefaultFilterCollection($this->logger);
     }
 
-    public function filter(ActivityDataContainer $container)
+    public function filter(ActivityDataContainer $container): void
     {
         $this->Filter->filter($container);
     }

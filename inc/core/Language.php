@@ -123,7 +123,7 @@ class Language implements InterfaceChoosable
         textdomain($domain);
     }
 
-    private static function readAvailableLanguages()
+    private static function readAvailableLanguages(): void
     {
         $languages = [];
         $config = Yaml::parse(file_get_contents(__DIR__ . '/../../config/packages/languages.yaml'));
