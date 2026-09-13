@@ -6,15 +6,9 @@ use Runalyze\Parser\Activity\Common\Data\ContinuousData;
 
 class ContinuousDataMerger implements MergerInterface
 {
-    /**
-     * @var ContinuousData
-     */
-    protected $ResultingData;
+    protected ContinuousData $ResultingData;
 
-    /**
-     * @var ContinuousData
-     */
-    protected $DataToMerge;
+    protected ContinuousData $DataToMerge;
 
     public function __construct(ContinuousData $firstData, ContinuousData $secondData)
     {
@@ -25,7 +19,7 @@ class ContinuousDataMerger implements MergerInterface
     /**
      * @param bool $checkForEqualSizes if set an exception is thrown if data are of different length
      */
-    public function merge($checkForEqualSizes = true)
+    public function merge(bool $checkForEqualSizes = true)
     {
         if ($checkForEqualSizes) {
             $this->checkForEqualSizes();

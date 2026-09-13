@@ -76,14 +76,7 @@ class ConfigTabPlugins extends ConfigTab
         foreach ($Plugins as $pos => $Data) {
             $Plugin = $Factory->newInstance($Data['key']);
 
-            if ($Plugin === false) {
-                $Code .= '
-					<tr class="unimportant">
-						<td class="b">' . $Plugin->key() . '</td>
-						<td colspan="4">' . __('The plugin cannot be found.') . '</td>
-					</tr>';
-            } else {
-                $Code .= '
+            $Code .= '
 					<tr id="' . $Plugin->id() . '_tr" class="a' . ($Plugin->isInActive() ? ' unimportant' : '') . '">
 						<td>' . $Plugin->getConfigLink() . '</td>
 						<td class="b">' . $Plugin->name() . '</td>
@@ -99,7 +92,6 @@ class ConfigTabPlugins extends ConfigTab
 							<span class="link" onclick="pluginMove(' . $Plugin->id() . ', \'down\')">' . Icon::$DOWN . '</span>
 						</td>
 					</tr>';
-            }
         }
 
         $Code .= '

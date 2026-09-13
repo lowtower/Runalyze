@@ -40,7 +40,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
     {
         echo HTML::p(__('This plugin tracks your distances for chosen time ranges.'));
         echo HTML::p(__('You can set a goal (value &gt; 0) for every time range. If it is set, you will see how much you have to run to reach it.'));
-        echo HTML::p(__('A virtual Pace Bunny <em>reaches</em> the goal with a steady performance - you can see how far you are ahead or behind.'));
+        echo HTML::p(__('A virtual Pace Bunny &lt;em&gt;reaches&lt;/em&gt; the goal with a steady performance - you can see how far you are ahead or behind.'));
         echo HTML::p(__('Note: &quot;Saison&quot; refers to the current season in the german &quot;kmspiel&quot;.'));
     }
 
@@ -149,7 +149,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
                 $this->addLine(__('avg.') . ' ' . __('Day'), $days > 0 ? $dat['distanz_sum'] / $days : 0);
 
                 if ($days > 7) {
-                    $this->addLine(__('avg.') . ' ' . __('Week'), $days > 0 ? 7 * $dat['distanz_sum'] / $days : 0, $dat['anzahl'] / $days * 7);
+                    $this->addLine(__('avg.') . ' ' . __('Week'), 7 * $dat['distanz_sum'] / $days, $dat['anzahl'] / $days * 7);
                 }
 
                 if ($days > 0) {

@@ -9,15 +9,9 @@ use Runalyze\Model\Activity\Splits;
  */
 class SplitsReaderTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var SplitsReader
-     */
-    protected $object;
+    protected SplitsReader $object;
 
-    /**
-     * @var \Runalyze\Data\Laps\Laps
-     */
-    protected $Laps;
+    protected \Runalyze\Data\Laps\Laps $Laps;
 
     /**
      * Sets up the fixture, for example, opens a network connection.

@@ -103,6 +103,8 @@ abstract class Loop
 
     /**
      * Is at the end?
+     *
+     * @phpstan-impure
      */
     public function isAtEnd(): bool
     {

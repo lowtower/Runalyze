@@ -49,15 +49,9 @@ class Set extends \Runalyze\Parameter
     /**
      * Construct
      * @param array $options [optional]
-     * @throws \InvalidArgumentException
      */
     public function __construct(array $default, array $options = [])
     {
-        if (! is_array($default)) {
-            // Typehint in constructor does not fetch this
-            throw new \InvalidArgumentException('Parameter\Set needs an array as default value.');
-        }
-
         parent::__construct($default, $options);
     }
 

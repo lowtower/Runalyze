@@ -4,7 +4,7 @@ includes:
     - vendor/phpstan/phpstan-doctrine/extension.neon
 
 parameters:
-    level: 3
+    level: 4
     phpVersion: 80030
     reportUnmatchedIgnoredErrors: true
     symfony:
@@ -24,7 +24,7 @@ parameters:
         - plugin/
         - public/
         - src/
-        - tests/
+#        - tests/
 
     doctrine:
         repositoryClass: null

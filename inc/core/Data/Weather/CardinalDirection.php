@@ -23,15 +23,10 @@ class CardinalDirection
     }
 
     /**
-     * @throws \InvalidArgumentException
      * @return \Runalyze\Data\Weather\CardinalDirection $this-reference
      */
     public function setDegree(float $degrees): self
     {
-        if (! is_numeric($degrees)) {
-            throw new \InvalidArgumentException('Value must be numeric.');
-        }
-
         $this->Value = $degrees;
 
         return $this;
@@ -52,10 +47,6 @@ class CardinalDirection
      */
     public static function getDirection(float $bearing): string
     {
-        if (! is_numeric($bearing)) {
-            throw new \InvalidArgumentException('Argument must be numeric');
-        }
-
         if ($bearing >= 337.5 || $bearing < 22.5) {
             return __('N');
         }

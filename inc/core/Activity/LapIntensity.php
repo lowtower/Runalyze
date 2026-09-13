@@ -108,7 +108,7 @@ class LapIntensity extends AbstractEnum
      */
     public static function fromFitToEnum(float $fitValue): ?self
     {
-        if (! is_numeric($fitValue) || (int) $fitValue < 0 || (int) $fitValue > 6) {
+        if ((int) $fitValue < 0 || (int) $fitValue > 6) {
             throw new \InvalidArgumentException(sprintf('Provided workout_step intensity %s is invalid.', $fitValue));
         }
 

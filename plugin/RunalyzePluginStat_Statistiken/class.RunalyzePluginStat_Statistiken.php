@@ -87,7 +87,7 @@ class RunalyzePluginStat_Statistiken extends PluginStat
      */
     protected function prepareForDisplay()
     {
-        if (! $this->showsSpecificYear() && $this->dat = 'allWeeks') {
+        if (! $this->showsSpecificYear() && $this->dat === 'allWeeks') {
             $this->dat = '';
         }
 

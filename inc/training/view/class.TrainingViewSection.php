@@ -19,26 +19,21 @@ abstract class TrainingViewSection
 {
     /**
      * Header
-     * @var string
      */
-    protected $Header = '';
+    protected string $Header = '';
 
     /**
      * All rows
      * @var TrainingViewSectionRowAbstract[]
      */
-    protected $Rows = [];
+    protected array $Rows = [];
 
     /**
      * Is first?
-     * @var bool
      */
-    protected $isFirst = false;
+    protected bool $isFirst = false;
 
-    /**
-     * @var \Runalyze\View\Activity\Context
-     */
-    protected $Context;
+    protected \Runalyze\View\Activity\Context $Context;
 
     public function __construct(?Context $Context = null)
     {
@@ -53,14 +48,10 @@ abstract class TrainingViewSection
 
     /**
      * Has the training all required data?
-     * @return bool
      */
-    abstract protected function hasRequiredData();
+    abstract protected function hasRequiredData(): bool;
 
-    /**
-     * @param string $header
-     */
-    final protected function setHeader($header)
+    final protected function setHeader(string $header)
     {
         $this->Header = $header;
     }
@@ -77,9 +68,8 @@ abstract class TrainingViewSection
 
     /**
      * Is this section empty?
-     * @return bool
      */
-    final public function isEmpty()
+    final public function isEmpty(): bool
     {
         return empty($this->Header) || $this->Rows === [];
     }

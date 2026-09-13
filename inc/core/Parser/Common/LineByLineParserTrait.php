@@ -21,7 +21,7 @@ trait LineByLineParserTrait
     public function parseFileLineByLine()
     {
         if (! method_exists($this, 'parseLine')) {
-            throw new \RuntimeException('Line-by-line parser must implement parseLin($line)');
+            throw new \RuntimeException('Line-by-line parser must implement parseLine($line)');
         }
 
         $this->Handle = @fopen($this->FileName, 'r');

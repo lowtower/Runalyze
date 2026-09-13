@@ -53,10 +53,8 @@ class RunalyzeRoundArray extends Type
         if ($value !== null && trim($value) !== '') {
             $rounds = explode('-', $value);
 
-            if (is_array($rounds)) {
-                foreach ($rounds as $round) {
-                    $collection->add($this->getRoundForNativeValue($round));
-                }
+            foreach ($rounds as $round) {
+                $collection->add($this->getRoundForNativeValue($round));
             }
         }
 

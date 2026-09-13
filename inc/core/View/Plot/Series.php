@@ -109,11 +109,11 @@ class Series
             }
         }
 
-        if ($this->TickSize !== false) {
+        if ($this->TickSize !== null) {
             $Plot->setYTicks($yAxis, $this->TickSize, $this->TickDecimals);
         }
 
-        if ($addAnnotations && $this->ShowAverage && $this->Data !== []) {
+        if ($addAnnotations && $this->ShowAverage) {
             $avg = $this->avg();
 
             $Plot->addThreshold('y' . $yAxis, $avg, 'rgba(0,0,0,0.5)');

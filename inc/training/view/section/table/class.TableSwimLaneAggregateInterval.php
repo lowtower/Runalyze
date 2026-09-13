@@ -144,14 +144,9 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract
                         $this->Code .= '<td>' . $this->difference($prevStrokes, $strokes, $beginLap) . '</td>';
                     }
 
-                    // get the primary stoke type of this 100m interval
-                    if ($stroketypePrimary === []) {
-                        $this->Code .= '<td></td>';
-                    } else {
-                        $t = array_keys($stroketypePrimary, max($stroketypePrimary));
-                        $Stroketype->set($t);
-                        $this->Code .= '<td style="padding-right: 20px;">' . $Stroketype->shortString() . '</td>';
-                    }
+                    $t = array_keys($stroketypePrimary, max($stroketypePrimary));
+                    $Stroketype->set($t);
+                    $this->Code .= '<td style="padding-right: 20px;">' . $Stroketype->shortString() . '</td>';
 
                     $this->Code .= '</tr>';
 

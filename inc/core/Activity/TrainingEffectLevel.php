@@ -51,7 +51,7 @@ class TrainingEffectLevel extends AbstractEnum
      */
     public static function levelFor(float $value): int
     {
-        if (! is_numeric($value) || $value < 1.0 || $value > 5.0) {
+        if ($value < 1.0 || $value > 5.0) {
             throw new \InvalidArgumentException(sprintf('Provided training effect %s is invalid.', $value));
         }
 

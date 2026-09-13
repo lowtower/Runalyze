@@ -14,9 +14,8 @@ abstract class TrainingViewSectionTabbedPlot extends TrainingViewSection
 {
     /**
      * All menus
-     * @var array
      */
-    protected $Links = [];
+    protected array $Links = [];
 
     /**
      * Append row
@@ -57,9 +56,7 @@ abstract class TrainingViewSectionTabbedPlot extends TrainingViewSection
             echo Ajax::change($Title, 'training-view-tabbed-' . $this->cssId(), 'training-view-tabbed-' . $this->cssId() . '-' . $key);
         }
 
-        if (count($this->Links) > 1) {
-            echo Ajax::change('<i class="fa fa-fw fa-bars"></i> ' . __('All'), 'training-view-tabbed-' . $this->cssId(), 'training-view-tabbed-' . $this->cssId());
-        }
+        echo Ajax::change('<i class="fa fa-fw fa-bars"></i> ' . __('All'), 'training-view-tabbed-' . $this->cssId(), 'training-view-tabbed-' . $this->cssId());
 
         echo '</div>';
     }
@@ -77,7 +74,6 @@ abstract class TrainingViewSectionTabbedPlot extends TrainingViewSection
 
     /**
      * CSS-ID
-     * @return string
      */
-    abstract protected function cssId();
+    abstract protected function cssId(): string;
 }

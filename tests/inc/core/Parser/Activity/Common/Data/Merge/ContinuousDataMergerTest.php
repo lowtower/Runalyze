@@ -7,15 +7,9 @@ use Runalyze\Parser\Activity\Common\Data\Merge\ContinuousDataMerger;
 
 class ContinuousDataMergerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var ContinuousData
-     */
-    protected $FirstData;
+    protected ContinuousData $FirstData;
 
-    /**
-     * @var ContinuousData
-     */
-    protected $SecondData;
+    protected ContinuousData $SecondData;
 
     protected function setUp(): void
     {
@@ -61,7 +55,7 @@ class ContinuousDataMergerTest extends \PHPUnit\Framework\TestCase
         (new ContinuousDataMerger($this->FirstData, $this->SecondData))->merge(true);
 
         $this->assertEquals([1, 2, 3], $this->FirstData->Time);
-        $this->assertFalse($this->FirstData->IsAltitudeDataBarometric);
+        $this->assertNull($this->FirstData->IsAltitudeDataBarometric);
     }
 
     public function testThatBarometricAltitudeFromFirstObjectIsPreferred(): void

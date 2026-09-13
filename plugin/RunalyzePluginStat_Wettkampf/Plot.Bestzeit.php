@@ -57,6 +57,6 @@ $Plot->setYAxisTimeFormat($timeFormat, 1);
 
 $Plot->smoothing(false);
 $Plot->lineWithPoints();
-$Plot->setTitle($titleCenter);
+# $Plot->setTitle($titleCenter);
 
 $Plot->outputJavaScript();

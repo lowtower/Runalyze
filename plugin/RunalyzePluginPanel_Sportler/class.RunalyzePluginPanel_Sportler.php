@@ -148,8 +148,8 @@ class RunalyzePluginPanel_Sportler extends PluginPanel
         echo '</div>';
 
         echo '<div id="sportler_flots" class="flot-changeable" style="position:relative;width:320px;height:150px;margin:0 auto;">
-				<div class="flot ' . Ajax::$IMG_WAIT . (false ? ' flot-hide' : '') . '" id="sportler_weights" style="width:320px;height:150px;position:absolute;"></div>
-				<div class="flot ' . Ajax::$IMG_WAIT . (true ? ' flot-hide' : '') . '" id="sportler_analyse" style="width:320px;height:150px;position:absolute;"></div>
+				<div class="flot ' . Ajax::$IMG_WAIT . '" id="sportler_weights" style="width:320px;height:150px;position:absolute;"></div>
+				<div class="flot ' . Ajax::$IMG_WAIT . ' flot-hide" id="sportler_analyse" style="width:320px;height:150px;position:absolute;"></div>
 			</div>';
 
         include FRONTEND_PATH . '../plugin/' . $this->key() . '/Plot.gewicht.php';

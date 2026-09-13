@@ -1,7 +1,126 @@
 parameters:
     ignoreErrors:
+        # ---------------------------------------------------------------
+        # Intentional constructor/hook side-effect calls, no return value
+        # needed. new SessionAccountHandler() sets up a session-scoped
+        # singleton-like state via its constructor; the instance itself is
+        # never used afterwards. This is analogous to the Entity::synchronize()
+        # template-method pattern below.
+        # ---------------------------------------------------------------
+        -
+            message: '#^Call to new SessionAccountHandler\(\) on a separate line has no effect\.$#'
+            identifier: new.resultUnused
+            count: 1
+            path: inc/class.Frontend.php
+
+        # ---------------------------------------------------------------
+        # Legacy jQuery plugin file, not first-party code. $this is used
+        # inside a function that is only ever included/called bound to an
+        # object context; PHPStan cannot verify this across the include
+        # boundary. Left untouched intentionally, as with any third-party
+        # vendored file outside our maintenance scope.
+        # ---------------------------------------------------------------
         -
             message: '#^Variable \$this might not be defined\.$#'
             identifier: variable.undefined
             count: 1
             path: lib/jquery.form.include.php
+
+        # ---------------------------------------------------------------
+        # Known upstream PHPUnit/PHPStan interaction issue (assertEmpty/assertNotEmpty
+        # on Countable objects): https://github.com/sebastianbergmann/phpunit/issues/6199
+        # ---------------------------------------------------------------
+        -
+            message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertEmpty\(\) with Runalyze\\Parser\\Activity\\Common\\Data\\Pause\\PauseCollection will always evaluate to false\.$#'
+            identifier: method.impossibleType
+            count: 1
+            path: tests/inc/core/Parser/Activity/Common/Data/Pause/PauseCollectionTest.php
+        -
+            message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertNotEmpty\(\) with Runalyze\\Parser\\Activity\\Common\\Data\\Pause\\PauseCollection will always evaluate to true\.$#'
+            identifier: method.alreadyNarrowedType
+            count: 1
+            path: tests/inc/core/Parser/Activity/Common/Data/Pause/PauseCollectionTest.php
+        -
+            message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertEmpty\(\) with Runalyze\\Parser\\Activity\\Common\\Data\\Round\\RoundCollection will always evaluate to false\.$#'
+            identifier: method.impossibleType
+            count: 1
+            path: tests/inc/core/Parser/Activity/Common/Data/Round/RoundCollectionTest.php
+        -
+            message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertNotEmpty\(\) with Runalyze\\Parser\\Activity\\Common\\Data\\Round\\RoundCollection will always evaluate to true\.$#'
+            identifier: method.alreadyNarrowedType
+            count: 1
+            path: tests/inc/core/Parser/Activity/Common/Data/Round/RoundCollectionTest.php
+
+        # ---------------------------------------------------------------
+        # Intentional template-method hook: Entity::synchronize() is currently an
+        # empty no-op in the base class, but subclasses call parent::synchronize()
+        # by convention so that future shared logic added to the base class
+        # automatically applies to all entities without needing to touch every
+        # subclass. Removing this call would silently break that extensibility
+        # contract, even though it currently has no runtime effect.
+        # (identical entries for Equipment, EquipmentType, RaceResult, Route, Swimdata)
+        # ---------------------------------------------------------------
+        -
+            message: '#^Call to Runalyze\\Model\\Entity\:\:synchronize\(\) on a separate line has no effect\.$#'
+            identifier: staticMethod.resultUnused
+            count: 1
+            path: inc/core/Model/Activity/Entity.php
+        -
+            message: '#^Call to Runalyze\\Model\\Entity\:\:synchronize\(\) on a separate line has no effect\.$#'
+            identifier: staticMethod.resultUnused
+            count: 1
+            path: inc/core/Model/Equipment/Entity.php
+        -
+            message: '#^Call to Runalyze\\Model\\Entity\:\:synchronize\(\) on a separate line has no effect\.$#'
+            identifier: staticMethod.resultUnused
+            count: 1
+            path: inc/core/Model/EquipmentType/Entity.php
+        -
+            message: '#^Call to Runalyze\\Model\\Entity\:\:synchronize\(\) on a separate line has no effect\.$#'
+            identifier: staticMethod.resultUnused
+            count: 1
+            path: inc/core/Model/RaceResult/Entity.php
+        -
+            message: '#^Call to Runalyze\\Model\\Entity\:\:synchronize\(\) on a separate line has no effect\.$#'
+            identifier: staticMethod.resultUnused
+            count: 1
+            path: inc/core/Model/Route/Entity.php
+        -
+            message: '#^Call to Runalyze\\Model\\Entity\:\:synchronize\(\) on a separate line has no effect\.$#'
+            identifier: staticMethod.resultUnused
+            count: 1
+            path: inc/core/Model/Swimdata/Entity.php
+
+        # ---------------------------------------------------------------
+        # Intentional trait-contract guard: method_exists() here protects against
+        # a FUTURE class using this trait without implementing the required
+        # getEnum() method. PHPStan can only verify this against the currently
+        # existing 8 classes that use the trait (closed-world analysis at
+        # analysis time), so it appears "always true" for each of them - but
+        # removing the check would silently replace the clear
+        # BadMethodCallException with a cryptic fatal error for any class added
+        # in the future that forgets to implement getEnum().
+        # ---------------------------------------------------------------
+        -
+            message: '#^Call to function method_exists\(\) with .* and ''getEnum'' will always evaluate to true\.$#'
+            identifier: function.alreadyNarrowedType
+            path: inc/core/Common/Enum/AbstractEnumFactoryTrait.php
+
+        # ---------------------------------------------------------------
+        # Trait-contract guard: method_exists($this, 'parseLine') protects
+        # against a FUTURE class using LineByLineParserTrait without
+        # implementing the required parseLine() method. PHPStan can only
+        # verify this against the currently existing single usage (Fit),
+        # for which it appears "always true" - but removing the check would
+        # silently replace the clear RuntimeException with a cryptic fatal
+        # error ("Call to undefined method ...::parseLine()") for any class
+        # added later that forgets to implement it. Same pattern as
+        # AbstractEnumFactoryTrait's method_exists('getEnum') guard, which
+        # was fixed the same way during this session (see
+        # inc/core/Common/Enum/AbstractEnumFactoryTrait.php).
+        # ---------------------------------------------------------------
+        -
+            message: '#^Call to function method_exists\(\) with \$this\(Runalyze\\Parser\\Activity\\FileType\\Fit\) and ''parseLine'' will always evaluate to true\.$#'
+            identifier: function.alreadyNarrowedType
+            count: 1
+            path: inc/core/Parser/Common/LineByLineParserTrait.php

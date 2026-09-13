@@ -81,9 +81,9 @@ class LapsComputed extends Laps
         if ($totalDistance < 2 * $singleDistance) {
             $Distances = [$singleDistance];
         } else {
-            $Distances = range($singleDistance, $totalDistance, $singleDistance);
-
-            if ($Distances === false) {
+            try {
+                $Distances = range($singleDistance, $totalDistance, $singleDistance);
+            } catch (\ValueError $valueError) {
                 $Distances = [$singleDistance];
             }
         }

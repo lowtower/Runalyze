@@ -433,7 +433,7 @@ class ActivityDataContainerToActivityContextConverter
         $route->setElevationDown((int) $container->ActivityData->ElevationDescent);
 
         // #TSC store Altitude-Barometric flag
-        $route->setAltitudeBarometric($container->ContinuousData->IsAltitudeDataBarometric);
+        $route->setAltitudeBarometric($container->ContinuousData->IsAltitudeDataBarometric ?? false);
 
         if ($container->ContinuousData->Altitude !== []) {
             // #TSC do not here store the "$route->setElevationsCorrected($container->ContinuousData->Altitude)"

@@ -77,7 +77,7 @@ class FitTrainingEffectBenefit extends AbstractEnum
      */
     public static function fromFitToEnum(float $fitValue): int
     {
-        if (! is_numeric($fitValue) || (int) $fitValue < 1 || (int) $fitValue > 7) {
+        if ((int) $fitValue < 1 || (int) $fitValue > 7) {
             throw new \InvalidArgumentException(sprintf('Provided TrainingEffect benefit %s is invalid.', $fitValue));
         }
 
@@ -139,7 +139,7 @@ class FitTrainingEffectBenefit extends AbstractEnum
      */
     public static function descriptionFromNum(int $num): string
     {
-        if (is_numeric($num) && $num > 0 && $num <= 7) {
+        if ($num > 0 && $num <= 7) {
             $col = self::COLORS[$num - 1];
         } else {
             $col = '#ffff00';

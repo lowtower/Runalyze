@@ -26,7 +26,7 @@ class Factory
     /**
      * Account ID
      */
-    protected int $AccountID;
+    protected ?int $AccountID = null;
 
     /**
      * Array with tablenames that should be cached statically

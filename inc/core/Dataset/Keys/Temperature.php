@@ -56,7 +56,7 @@ class Temperature extends AbstractKey
     public function stringFor(Context $context): string
     {
         // #TSC show the temperatur in the dataset if temp is available; the original code only shows in case of "not indoor"
-        if (! empty($context->activity()->weather()->temperature())) {
+        if (! $context->activity()->weather()->temperature()->isUnknown()) {
             return \Runalyze\Activity\Temperature::format(
                 $context->activity()
                     ->weather()

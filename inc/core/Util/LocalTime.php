@@ -31,17 +31,12 @@ class LocalTime extends \DateTime
      * i.e. no timezone information is needed to get its daytime.
      *
      * @param int|null $timestampInNoTimezone timestamp, it is assumed that this timestamp is correctly shown in +00:00
-     * @throws \InvalidArgumentException
      */
     public function __construct(?int $timestampInNoTimezone = null)
     {
         if ($timestampInNoTimezone === null) {
             parent::__construct('', new \DateTimeZone('UTC'));
         } else {
-            if (! is_numeric($timestampInNoTimezone)) {
-                throw new \InvalidArgumentException('Given timestamp must be numeric.');
-            }
-
             parent::__construct('@' . $timestampInNoTimezone);
 
             $this->setTimezone(new \DateTimeZone('UTC'));
@@ -124,10 +119,7 @@ class LocalTime extends \DateTime
         return $asObject ? $Date : $Date->getTimestamp();
     }
 
-    /**
-     * @return int
-     */
-    public function week()
+    public function week(): int
     {
         return Configuration::General()->weekStart()->phpWeek($this->toServerTimestamp());
     }

@@ -371,7 +371,7 @@ class Table
         $Code .= '<tr class="no-zebra"><td colspan="' . ($this->showIntensity ? '5' : '4') . '" class="r">' . __('Average') . ':</td>';
         $Code .= '<td class="c">' . ($this->AverageTime instanceof Duration ? $this->AverageTime->string() : '') . '</td>';
         $Code .= ($this->DemandedTime->isZero() ? '' : '<td></td>');
-        $Code .= '<td class="c">' . ($this->AveragePace instanceof Pace ? $this->AveragePace->valueWithAppendix() : '') . '</td>';
+        $Code .= '<td class="c">' . $this->AveragePace->valueWithAppendix() . '</td>';
         $Code .= ($this->DemandedPace->isEmpty() ? '' : '<td></td>');
         $Code .= '<td colspan="' . (3 + count($this->AdditionalKeys)) . '"></td>';
         $Code .= '</tr>';

@@ -383,7 +383,7 @@ abstract class PlotSumData extends Plot
     private function setOptions()
     {
         $this->showBars(true);
-        $this->setTitle($this->getTitle());
+        #        $this->setTitle($this->getTitle());
 
         $this->stacked();
     }

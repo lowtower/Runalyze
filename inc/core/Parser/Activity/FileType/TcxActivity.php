@@ -27,42 +27,30 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
     /**
      * @var int [s]
      */
-    protected $PauseInSeconds = 0;
+    protected int $PauseInSeconds = 0;
 
     /**
      * @var int [m]
      */
-    protected $LastPoint = 0;
+    protected int $LastPoint = 0;
 
     /**
      * @var float [m]
      */
-    protected $LastDistance = -1;
+    protected float $LastDistance = -1;
 
-    /**
-     * @var bool
-     */
-    protected $LastPointWasEmpty = false;
+    protected bool $LastPointWasEmpty = false;
 
-    /**
-     * @var bool
-     */
-    protected $IsWithoutDistance = false;
+    protected bool $IsWithoutDistance = false;
 
-    /**
-     * @var bool
-     */
-    protected $DistancesAreEmpty = false;
+    protected bool $DistancesAreEmpty = false;
 
-    /**
-     * @var bool
-     */
-    protected $WasPause = false;
+    protected bool $WasPause = false;
 
     /**
      * @var int [s]
      */
-    protected $PauseDuration = 0;
+    protected int $PauseDuration = 0;
 
     public function __construct(SimpleXMLElement $activity)
     {
@@ -76,7 +64,7 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
     protected function checkThatActivityXmlIsValid(SimpleXMLElement $xml)
     {
         if (! property_exists($xml, 'Id') || ! property_exists($xml, 'Lap')) {
-            throw new UnsupportedFileException('Given XML object is not a valid tcx activity. &lt;Id&gt;- or &lt;Lap&gt;-tag could not be located.');
+            throw new UnsupportedFileException('Given XML object is not a valid tcx activity. <Id>- or <Lap>-tag could not be located.');
         }
     }
 
@@ -198,6 +186,9 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
         }
     }
 
+    /**
+     * @phpstan-impure This method mutates $this->LastPoint (among other properties).
+     */
     protected function parseTrackpoint(SimpleXMLElement &$trackPoint)
     {
         if ($this->DistancesAreEmpty) {

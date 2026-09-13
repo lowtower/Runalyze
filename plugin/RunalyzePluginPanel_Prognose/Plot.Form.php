@@ -40,17 +40,17 @@ if (time() != START_TIME) {
     $withElevation = Configuration::VO2max()->useElevationCorrection();
 
     $Data = DB::getInstance()->query('
-		SELECT
-			DATEDIFF(FROM_UNIXTIME(`time`), "' . date('Y-m-d') . '") as `date_age`,
-			DATE(FROM_UNIXTIME(`time`)) as `date`,
-			`distance`,
-			' . JD\Shape::mysqlVO2maxSum($withElevation) . ' as `vo2max_weighted`,
-			' . JD\Shape::mysqlVO2maxSumTime($withElevation) . ' as `vo2max_sum_time`
-		FROM `' . PREFIX . 'training`
-		WHERE
-			`accountid`=' . \SessionAccountHandler::getId() . ' AND
-			`sportid`=' . Configuration::General()->runningSport() . '
-		ORDER BY `date` ASC')->fetchAll();
+        SELECT
+            DATEDIFF(FROM_UNIXTIME(`time`), "' . date('Y-m-d') . '") as `date_age`,
+            DATE(FROM_UNIXTIME(`time`)) as `date`,
+            `distance`,
+            ' . JD\Shape::mysqlVO2maxSum($withElevation) . ' as `vo2max_weighted`,
+            ' . JD\Shape::mysqlVO2maxSumTime($withElevation) . ' as `vo2max_sum_time`
+        FROM `' . PREFIX . 'training`
+        WHERE
+            `accountid`=' . \SessionAccountHandler::getId() . ' AND
+            `sportid`=' . Configuration::General()->runningSport() . '
+        ORDER BY `date` ASC')->fetchAll();
 
     if (! empty($Data)) {
         $currentFirstIndexForVO2max = 0;
@@ -133,18 +133,18 @@ if (time() != START_TIME) {
         $ResultsData = Cache::get('prognosePlotDistanceData' . $distance);
         if ($ResultsData === null) {
             $ResultsData = DB::getInstance()->query('
-				SELECT
-					`time`,
-					`id`,
-					`official_time`
-				FROM `' . PREFIX . 'raceresult` r
-				    LEFT JOIN `' . PREFIX . 'training` tr ON r.activity_id=tr.id
-				WHERE
-					r.`accountid`=' . \SessionAccountHandler::getId() . ' AND
-					tr.`sportid`="' . Configuration::General()->runningSport() . '"
-					AND r.`official_distance`="' . $distance . '"
-				ORDER BY
-					`time` ASC')->fetchAll();
+                SELECT
+                    `time`,
+                    `id`,
+                    `official_time`
+                FROM `' . PREFIX . 'raceresult` r
+                    LEFT JOIN `' . PREFIX . 'training` tr ON r.activity_id=tr.id
+                WHERE
+                    r.`accountid`=' . \SessionAccountHandler::getId() . ' AND
+                    tr.`sportid`="' . Configuration::General()->runningSport() . '"
+                    AND r.`official_distance`="' . $distance . '"
+                ORDER BY
+                    `time` ASC')->fetchAll();
 
             Cache::set('prognosePlotDistanceData' . $distance, $ResultsData, '600');
         }
@@ -218,7 +218,7 @@ if ($Prognosis !== [] && max($Prognosis) > 1000 * 3600) {
     $Plot->setYAxisTimeFormat('%M:%S');
 }
 
-$Plot->setTitle(__('Prognosis trend') . ' ' . Distance::format($distance));
+# $Plot->setTitle(__('Prognosis trend') . ' ' . Distance::format($distance));
 
 if ($DataFailed) {
     $Plot->raiseError(__('No data available.'));

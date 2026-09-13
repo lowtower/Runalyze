@@ -7,10 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MaintenanceListener
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
+    private ContainerInterface $container;
 
     public function __construct(ContainerInterface $container)
     {
@@ -19,7 +16,7 @@ class MaintenanceListener
 
     public function onKernelRequest(\Symfony\Component\HttpKernel\Event\RequestEvent $event)
     {
-        $maintenance = $this->container->hasParameter('maintenance') ? $this->container->getParameter('maintenance') : false;
+        $maintenance = $this->container->hasParameter('app.maintenance') ? $this->container->getParameter('app.maintenance') : false;
 
         $debug = in_array($this->container->get('kernel')->getEnvironment(), ['test', 'dev']);
         $request = $event->getRequest();

@@ -20,17 +20,19 @@ trait XmlParserTrait
     {
         libxml_use_internal_errors(true);
 
-        $this->Xml = simplexml_load_string(
+        $xml = simplexml_load_string(
             $this->correctXmlNamespace($this->removeBomFromFileContent($content)),
             null,
             LIBXML_PARSEHUGE
         );
 
-        if ($this->Xml === false) {
+        if ($xml === false) {
             $errors = libxml_get_errors();
 
             throw new UnsupportedFileException($errors[0]->message);
         }
+
+        $this->Xml = $xml;
     }
 
     protected function correctXmlNamespace(string $content): string

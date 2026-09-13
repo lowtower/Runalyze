@@ -33,13 +33,13 @@ class Lap
      */
     protected ?LapIntensity $Mode = null;
 
-    protected \Runalyze\Activity\Duration $TrackDurationAtEnd;
+    protected ?\Runalyze\Activity\Duration $TrackDurationAtEnd = null;
 
-    protected \Runalyze\Activity\Distance $TrackDistanceAtEnd;
+    protected ?\Runalyze\Activity\Distance $TrackDistanceAtEnd = null;
 
-    protected \Runalyze\Activity\HeartRate $HRavg;
+    protected ?\Runalyze\Activity\HeartRate $HRavg = null;
 
-    protected \Runalyze\Activity\HeartRate $HRmax;
+    protected ?\Runalyze\Activity\HeartRate $HRmax = null;
 
     /**
      * @var int|bool [m]
@@ -144,16 +144,28 @@ class Lap
         return $this->LapPace;
     }
 
+    /**
+     * @throws \RuntimeException if track duration was never set, check hasTrackValues() first
+     */
     public function trackDuration(): \Runalyze\Activity\Duration
     {
+        if ($this->TrackDurationAtEnd === null) {
+            throw new \RuntimeException('Track duration was never set for this lap. Call hasTrackValues() first.');
+        }
+
         return $this->TrackDurationAtEnd;
     }
 
     /**
+     * @throws \RuntimeException if track distance was never set, check hasTrackValues() first
      * @return \Runalyze\Activity\Distance
      */
     public function trackDistance()
     {
+        if ($this->TrackDistanceAtEnd === null) {
+            throw new \RuntimeException('Track distance was never set for this lap. Call hasTrackValues() first.');
+        }
+
         return $this->TrackDistanceAtEnd;
     }
 
@@ -172,13 +184,27 @@ class Lap
         return $this->HRavg instanceof \Runalyze\Activity\HeartRate;
     }
 
+    /**
+     * @throws \RuntimeException if HR was never set, check hasHR() first
+     */
     public function HRavg(): \Runalyze\Activity\HeartRate
     {
+        if ($this->HRavg === null) {
+            throw new \RuntimeException('HR was never set for this lap. Call hasHR() first.');
+        }
+
         return $this->HRavg;
     }
 
+    /**
+     * @throws \RuntimeException if HR was never set, check hasHR() first
+     */
     public function HRmax(): \Runalyze\Activity\HeartRate
     {
+        if ($this->HRmax === null) {
+            throw new \RuntimeException('HR was never set for this lap. Call hasHR() first.');
+        }
+
         return $this->HRmax;
     }
 

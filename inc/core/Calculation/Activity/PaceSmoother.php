@@ -84,12 +84,8 @@ class PaceSmoother
     /**
      * Set internals
      */
-    protected function set($stepSize, int $mode): void
+    protected function set(int|float $stepSize, int $mode): void
     {
-        if (! is_int($stepSize) && ! is_float($stepSize)) {
-            throw new \InvalidArgumentException('Step size must be an integer or float.');
-        }
-
         if ($stepSize <= 0) {
             throw new \InvalidArgumentException('Step size must be greater than zero.');
         }

@@ -80,16 +80,16 @@ if ($Year >= START_YEAR && $Year <= date('Y') && time() != START_TIME) {
     // Can't cache until we can invalidate it
     $Statement = DB::getInstance()->query(
         'SELECT
-			DATEDIFF(FROM_UNIXTIME(`time`), "' . $StartDay . '") as `index`,
-			`trimp`,
-			`distance`,
-			' . JD\Shape::mysqlVO2MAXsum($withElevation) . ' as `vo2max_weighted`,
-			' . JD\Shape::mysqlVO2MAXsumTime($withElevation) . ' as `vo2max_sum_time`,
-			`sportid` = "' . Configuration::General()->runningSport() . '" as `is_running`
-		FROM `' . PREFIX . 'training`
-		WHERE
-			`accountid`=' . \SessionAccountHandler::getId() . ' AND
-			`time` BETWEEN UNIX_TIMESTAMP("' . $StartDay . '" + INTERVAL -' . $AddDays . ' DAY) AND ' . $EndTime
+            DATEDIFF(FROM_UNIXTIME(`time`), "' . $StartDay . '") as `index`,
+            `trimp`,
+            `distance`,
+            ' . JD\Shape::mysqlVO2MAXsum($withElevation) . ' as `vo2max_weighted`,
+            ' . JD\Shape::mysqlVO2MAXsumTime($withElevation) . ' as `vo2max_sum_time`,
+            `sportid` = "' . Configuration::General()->runningSport() . '" as `is_running`
+        FROM `' . PREFIX . 'training`
+        WHERE
+            `accountid`=' . \SessionAccountHandler::getId() . ' AND
+            `time` BETWEEN UNIX_TIMESTAMP("' . $StartDay . '" + INTERVAL -' . $AddDays . ' DAY) AND ' . $EndTime
     );
 
     while ($activity = $Statement->fetch()) {
@@ -287,11 +287,11 @@ if (($lastHalf || $lastYear || ($Year == date('Y'))) && ! $DataFailed) {
 
 $Plot->setGridAboveData();
 
-if ($All) {
-    $Plot->setTitle(__('Shape for all years'));
-} else {
-    $Plot->setTitle(__('Shape') . ' ' . $Year);
-}
+# if ($All) {
+#    $Plot->setTitle(__('Shape for all years'));
+# } else {
+#    $Plot->setTitle(__('Shape') . ' ' . $Year);
+# }
 
 if ($DataFailed) {
     $Plot->raiseError(__('No data available.'));

@@ -32,20 +32,11 @@ $PLUGINKEY = 'RunalyzePluginStat_Wettkampf';
  */
 class RunalyzePluginStat_Wettkampf extends PluginStat
 {
-    /**
-     * @var array
-     */
-    private $PBdistances = [];
+    private array $PBdistances = [];
 
-    /**
-     * @var \Runalyze\Plugin\Statistic\Races\RaceContainer
-     */
-    protected $RaceContainer;
+    protected \Runalyze\Plugin\Statistic\Races\RaceContainer $RaceContainer;
 
-    /**
-     * @var null|\Runalyze\AgeGrade\Lookup
-     */
-    protected $AgeGradeLookup;
+    protected ?\Runalyze\AgeGrade\Lookup $AgeGradeLookup = null;
 
     final public function name(): string
     {
@@ -517,9 +508,9 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
      * Get edit icon for this competition
      * @param int $id ID of the training
      */
-    private function getEditIconForActivity($id): string
+    private function getEditIconForActivity(int $id): string
     {
-        $SportIcon = (new Factory())->sport($this->sportid)
+        $SportIcon = (new Factory(SessionAccountHandler::getId()))->sport($this->sportid)
             ->icon()
             ->code();
         $url = (new Linker(new Runalyze\Model\Activity\Entity([
@@ -536,9 +527,8 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
     /**
      * Get edit icon for this competition
      * @param int $id ID of the training
-     * @return string
      */
-    private function getEditIconForRaceResult($id): string|array|null
+    private function getEditIconForRaceResult(int $id): string
     {
         $code = (new Icon('far fa-pencil-alt'))->code();
 
@@ -553,7 +543,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
      * Get linked icon for this competition
      * @param int $id ID of the training
      */
-    private function getIconForCompetition($id): string
+    private function getIconForCompetition(int $id): string
     {
         if ($this->isFunCompetition($id)) {
             $tag = 'nofun';

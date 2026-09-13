@@ -56,7 +56,7 @@ class Fit extends AbstractMultipleParserWithSubParser implements FileNameAwarePa
 
     protected function currentContainerIsEmpty(): bool
     {
-        return $this->CurrentSubParser instanceof \Runalyze\Parser\Activity\FileType\FitActivity && $this->CurrentSubParser->getActivityDataContainer()
+        return $this->CurrentSubParser->getActivityDataContainer()
             ->ContinuousData->isEmpty();
     }
 
@@ -73,7 +73,7 @@ class Fit extends AbstractMultipleParserWithSubParser implements FileNameAwarePa
         $this->CurrentSubParser->readMetadataForMultiSessionFrom(end($this->Container)->Metadata);
     }
 
-    protected function checkFirstLine($line)
+    protected function checkFirstLine(string $line)
     {
         if (trim($line) !== 'SUCCESS') {
             fclose($this->Handle);

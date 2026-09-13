@@ -185,16 +185,6 @@ class Plot
     }
 
     /**
-     * Set title to plot
-     * @param string $title
-     * @param string $position
-     */
-    public function setTitle($title, $position = 'center')
-    {
-        // Titles currently not supported anymore
-    }
-
-    /**
      * Add an annotation to plot
      * @param float $x
      * @param float $y

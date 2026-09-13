@@ -17,11 +17,10 @@ class HTML
 {
     /**
      * Encode opening and ending tag-character
-     * @param string $string
      */
-    public static function encodeTags($string): string
+    public static function encodeTags(string $string): string
     {
-        return str_replace(['<', '>'], ['&lt;', '&gt;'], $string);
+        return str_replace(['<', '>'], ['<', '>'], $string);
     }
 
     /**
@@ -29,7 +28,7 @@ class HTML
      * @param int $colspan
      * @param string $string
      */
-    public static function emptyTD($colspan = 0, $string = '&nbsp;', $class = ''): string
+    public static function emptyTD($colspan = 0, $string = '&nbsp;', string $class = ''): string
     {
         $colspan = ($colspan > 0) ? ' colspan="' . $colspan . '"' : '';
         $class = ($class != '') ? ' class="' . $class . '"' : '';
@@ -52,7 +51,7 @@ class HTML
      * @param string $class optional css class
      * @param string $style optional css inline style
      */
-    public static function td($string, $class = '', $style = ''): string
+    public static function td($string, string $class = '', string $style = ''): string
     {
         if ($class != '') {
             $class = ' class="' . $class . '"';
@@ -272,7 +271,7 @@ class HTML
             $value = ($value == $value_to_be_checked);
         }
 
-        if (! isset($value) || $value === null) {
+        if (! isset($value)) {
             $value = false;
         }
 
@@ -287,9 +286,8 @@ class HTML
      * @param array $options Array containing values as indices, displayed text as values (may be array: 'text' => ..., 'data-...' => ...)
      * @param mixed $selected Value to be selected
      * @param string $id [optional]
-     * @param string $class
      */
-    public static function selectBox($name, $options, $selected = false, $id = '', $class = ''): string
+    public static function selectBox($name, $options, $selected = false, $id = '', string $class = ''): string
     {
         if ($selected === false && isset($_POST[$name])) {
             $selected = $_POST[$name];

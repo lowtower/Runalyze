@@ -32,16 +32,11 @@ class DuplicateFinder
 
     /**
      * Find duplicate by original activityID (Timestamp)
-     * @throws \InvalidArgumentException
      */
     public function checkForDuplicate(?int $activityId): bool
     {
         if ($activityId === null) {
             return false;
-        }
-
-        if (! is_numeric($activityId)) {
-            throw new \InvalidArgumentException('Activity id must be numerical.');
         }
 
         return $this->PDO->query('SELECT 1 FROM `' . PREFIX . 'training` WHERE `' . self::COLUMN_WITH_ID . '` = "' . $activityId . '" AND `accountid` = "' . $this->AccountId . '" LIMIT 1')->fetchColumn() == 1;
@@ -57,7 +52,7 @@ class DuplicateFinder
         $result = [];
 
         if (in_array(null, $activityIds)) {
-            $result[null] = false;
+            $result[''] = false;
             $activityIds = array_filter($activityIds, 'strlen');
         }
 

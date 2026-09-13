@@ -21,21 +21,18 @@ class Map
 {
     /**
      * HTML id
-     * @var string
      */
-    protected $id = '';
+    protected string $id = '';
 
     /**
      * Height
-     * @var int
      */
-    protected $height = 0;
+    protected int $height = 0;
 
     /**
      * Width
-     * @var int
      */
-    protected $width = 0;
+    protected int $width = 0;
 
     /**
      * Routes
@@ -45,9 +42,8 @@ class Map
 
     /**
      * Boundaries
-     * @var array
      */
-    protected $Bounds = [];
+    protected array $Bounds = [];
 
     /**
      * Construct new map
@@ -55,7 +51,7 @@ class Map
      * @param int $height [optional]
      * @param int $width [optional]
      */
-    public function __construct($containerID, $height = 0, $width = 0)
+    public function __construct($containerID, int $height = 0, int $width = 0)
     {
         $this->id = $containerID;
         $this->height = $height;
@@ -95,11 +91,11 @@ class Map
         $style = '';
 
         if ($this->height > 0) {
-            $style .= 'height:' . (int) $this->height . 'px;';
+            $style .= 'height:' . $this->height . 'px;';
         }
 
         if ($this->width > 0) {
-            $style .= 'width:' . (int) $this->width . 'px;';
+            $style .= 'width:' . $this->width . 'px;';
         }
 
         if ($style !== '') {
@@ -130,9 +126,7 @@ class Map
             $Code .= 'RunalyzeLeaflet.map().fitBounds([[' . $this->Bounds['lat.min'] . ',' . $this->Bounds['lng.min'] . '],[' . $this->Bounds['lat.max'] . ',' . $this->Bounds['lng.max'] . ']]);';
         }
 
-        if ($this->Routes !== []) {
-            $Code .= 'RunalyzeLeaflet.Routes.routeid="' . $this->Routes[0]->id() . '";';
-        }
+        $Code .= 'RunalyzeLeaflet.Routes.routeid="' . $this->Routes[0]->id() . '";';
 
         $Code = '(function(RL,R){' . str_replace('RunalyzeLeaflet', 'RL', str_replace('RunalyzeLeaflet.Routes', 'R', $Code)) . '})(RunalyzeLeaflet, RunalyzeLeaflet.Routes);';
 

@@ -106,7 +106,7 @@ class BackupToolController extends AbstractController
             ->files()
             ->in($this->getPathToBackupFiles())
             ->filter(fn (\SplFileInfo $file): bool => $fileHandler->validateInternalFilename($file->getFilename()))
-            ->sort(fn (\SplFileInfo $a, \SplFileInfo $b): int|float => $b->getMTime() - $a->getMTime());
+            ->sort(fn (\SplFileInfo $a, \SplFileInfo $b): int => $b->getMTime() - $a->getMTime());
 
         return $this->render('tools/backup/export.html.twig', [
             'backupjobWasCreated' => $this->get('session')

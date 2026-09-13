@@ -7,99 +7,99 @@ class ContinuousData
     /**
      * @var array [s]
      */
-    public array $Time = [];
+    public $Time = [];
 
     /**
      * @var array [km]
      */
-    public array $Distance = [];
+    public $Distance = [];
 
     /**
      * @var array [°]
      */
-    public array $Latitude = [];
+    public $Latitude = [];
 
     /**
      * @var array [°]
      */
-    public array $Longitude = [];
+    public $Longitude = [];
 
     /**
      * @var array [m]
      */
-    public array $Altitude = [];
+    public $Altitude = [];
 
-    public bool $IsAltitudeDataBarometric = false;
+    public ?bool $IsAltitudeDataBarometric = null;
 
     /**
      * @var array [bpm]
      */
-    public array $HeartRate = [];
+    public $HeartRate = [];
 
     /**
      * @var array [rpm]
      */
-    public array $Cadence = [];
+    public $Cadence = [];
 
     /**
      * @var array [W]
      */
-    public array $Power = [];
+    public $Power = [];
 
     /**
      * @var array [°C]
      */
-    public array $Temperature = [];
+    public $Temperature = [];
 
     /**
      * @var array [ms]
      */
-    public array $GroundContactTime = [];
+    public $GroundContactTime = [];
 
     /**
      * @var array [mm]
      */
-    public array $VerticalOscillation = [];
+    public $VerticalOscillation = [];
 
     /**
      * @var array [%ooL]
      */
-    public array $GroundContactBalance = [];
+    public $GroundContactBalance = [];
 
     /**
      * @var array [%SmO2]
      */
-    public array $MuscleOxygenation = [];
+    public $MuscleOxygenation = [];
 
     /**
      * @var array [%SmO2]
      */
-    public array $MuscleOxygenation_2 = [];
+    public $MuscleOxygenation_2 = [];
 
     /**
      * @var array [100 * g/dL]
      */
-    public array $TotalHaemoglobin = [];
+    public $TotalHaemoglobin = [];
 
     /**
      * @var array [100 * g/dL]
      */
-    public array $TotalHaemoglobin_2 = [];
+    public $TotalHaemoglobin_2 = [];
 
     /**
      * @var float[] [G]
      */
-    public array $ImpactGsLeft = [];
+    public $ImpactGsLeft = [];
 
     /**
      * @var float[] [G]
      */
-    public array $ImpactGsRight = [];
+    public $ImpactGsRight = [];
 
     /**
      * @var float[] [G]
      */
-    public array $BrakingGsLeft = [];
+    public $BrakingGsLeft = [];
 
     /**
      * @var float[] [G]

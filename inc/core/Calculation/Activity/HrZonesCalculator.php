@@ -113,8 +113,8 @@ class HrZonesCalculator
                 $defaultZones[$k] = [
                     'hr' => (int) ($hrMaxUser * $i / 10) + 1,
                 ];
-                // in zonee 50-100% use the same colors as upper
-                if ($i >= 5 && $i <= 10) {
+                // in zone 50-100% use the same colors as upper
+                if ($i >= 5) {
                     $defaultZones[$k]['c'] = $majorZoneColors[$c++];
                 }
             }
