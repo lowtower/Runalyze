@@ -6,6 +6,9 @@ use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
 use League\Geotools\Geohash\Geohash;
 
+/**
+ * @extends EntityRepository<Route>
+ */
 class RouteRepository extends EntityRepository
 {
     public function accountHasLockedRoutes(Account $account): bool

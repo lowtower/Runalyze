@@ -4,6 +4,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\DataFixtures;
 
 use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Doctrine\ORM\EntityManager;
+use Doctrine\Persistence\ObjectManager;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -21,12 +22,12 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
 
     protected ?array $FixtureClasses = null;
 
-    protected ?EntityManager $EntityManager = null;
+    protected ?ObjectManager $EntityManager = null;
 
     private string $PreviousPhpTimezone;
 
     /**
-     * @var string|false
+     * @var string|bool
      */
     private $PreviousEnvironmentTimezone;
 
@@ -85,6 +86,22 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
             $this->EntityManager->close();
             $this->EntityManager = null;
         }
+    }
+
+    /**
+     * @throws \LogicException if the manager is not a Doctrine ORM EntityManager
+     */
+    protected function getEntityManager(): EntityManager
+    {
+        if (! $this->EntityManager instanceof EntityManager) {
+            throw new \LogicException(sprintf(
+                'Expected instance of %s, got %s.',
+                EntityManager::class,
+                get_debug_type($this->EntityManager)
+            ));
+        }
+
+        return $this->EntityManager;
     }
 
     protected function getDefaultAccount(): Account

@@ -8,6 +8,9 @@ use Runalyze\Service\WeatherForecast\DatabaseCacheInterface;
 use Runalyze\Service\WeatherForecast\Location;
 use Runalyze\Service\WeatherForecast\Strategy\DatabaseCache;
 
+/**
+ * @extends EntityRepository<WeatherCache>
+ */
 class WeathercacheRepository extends EntityRepository implements DatabaseCacheInterface
 {
     /**

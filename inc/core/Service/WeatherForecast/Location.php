@@ -71,14 +71,12 @@ class Location
         return null;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getGeohash()
+    public function getGeohash(): ?string
     {
         if ($this->hasPosition()) {
-            return (new Geohash())->encode($this->getCoordinate(), 12)
-                ->getGeohash();
+            /** @var Geohash $geohashObj */
+            $geohashObj = (new Geohash())->encode($this->getCoordinate(), 12);
+            return $geohashObj->getGeohash();
         }
 
         return null;

@@ -23,8 +23,10 @@ class EquipmentRepositoryTest extends AbstractRepositoryTestCase
     {
         parent::setUp();
 
-        $this->EquipmentRepository = $this->EntityManager->getRepository(Equipment::class);
-        $this->TrainingRepository = $this->EntityManager->getRepository(Training::class);
+        $this->EquipmentRepository = $this->getEntityManager()
+            ->getRepository(Equipment::class);
+        $this->TrainingRepository = $this->getEntityManager()
+            ->getRepository(Training::class);
         $this->Account = $this->getDefaultAccount();
     }
 

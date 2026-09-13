@@ -8,15 +8,9 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 
 class VO2maxCalculatorTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var VO2maxCalculator
-     */
-    protected $Calculator;
+    protected VO2maxCalculator $Calculator;
 
-    /**
-     * @var Training
-     */
-    protected $Activity;
+    protected Training $Activity;
 
     protected function setUp(): void
     {

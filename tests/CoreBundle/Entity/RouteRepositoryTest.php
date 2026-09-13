@@ -10,16 +10,14 @@ use Runalyze\Bundle\CoreBundle\Entity\RouteRepository;
  */
 class RouteRepositoryTest extends AbstractRepositoryTestCase
 {
-    /**
-     * @var RouteRepository
-     */
-    protected $RouteRepository;
+    protected RouteRepository $RouteRepository;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->RouteRepository = $this->EntityManager->getRepository(Route::class);
+        $this->RouteRepository = $this->getEntityManager()
+            ->getRepository(Route::class);
     }
 
     public function testCheckingForLockedRoutes(): void
@@ -85,7 +83,8 @@ class RouteRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals(0, $route->getElevationDown());
         $this->assertEquals(30, $route->getElevation());
 
-        $this->EntityManager->getUnitOfWork()
+        $this->getEntityManager()
+            ->getUnitOfWork()
             ->refresh($route);
 
         $this->assertEquals(30, $route->getElevationUp());
@@ -100,7 +99,8 @@ class RouteRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals(20, $route->getElevationDown());
         $this->assertEquals(20, $route->getElevation());
 
-        $this->EntityManager->getUnitOfWork()
+        $this->getEntityManager()
+            ->getUnitOfWork()
             ->refresh($route);
 
         $this->assertEquals(0, $route->getElevationUp());

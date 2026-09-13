@@ -8,6 +8,9 @@ use Runalyze\Profile\Sport\Running;
 use Runalyze\Profile\Sport\SportProfile;
 use Runalyze\Util\LocalTime;
 
+/**
+ * @extends EntityRepository<Sport>
+ */
 class SportRepository extends EntityRepository
 {
     /**

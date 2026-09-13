@@ -6,15 +6,17 @@ use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 
+/**
+ * @extends EntityRepository<Account>
+ */
 class AccountRepository extends EntityRepository implements UserLoaderInterface
 {
     /**
      * #TSC: because of the UserLoaderInterface and the configuration in security.yml/provider this method is call while authentication.
      *
      * @param string $username username
-     * @return null|Account
      */
-    public function findByUsername($username)
+    public function findByUsername($username): ?Account
     {
         return $this->createQueryBuilder('u')
             ->where('u.username = :username')
@@ -60,9 +62,8 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
 
     /**
      * @param string $username username or mail
-     * @return null|Account
      */
-    public function loadUserByUsername($username)
+    public function loadUserByUsername($username): ?Account
     {
         return $this->createQueryBuilder('u')
             ->where('u.username = :username OR u.mail = :mail')

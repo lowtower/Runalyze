@@ -2,7 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Account;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\Persistence\ObjectManager;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
@@ -16,20 +16,11 @@ use Symfony\Bundle\FrameworkBundle\Client;
  */
 class RegistrationTest extends WebTestCase
 {
-    /**
-     * @var Client
-     */
-    protected $Client;
+    protected Client $Client;
 
-    /**
-     * @var EntityManager
-     */
-    protected $EntityManager;
+    protected ObjectManager $EntityManager;
 
-    /**
-     * @var AccountRepository
-     */
-    protected $AccountRepository;
+    protected AccountRepository $AccountRepository;
 
     protected function setUp(): void
     {
@@ -48,9 +39,9 @@ class RegistrationTest extends WebTestCase
             ->getManager();
         $this->EntityManager->clear();
 
-        $this->AccountRepository = $this->EntityManager->getRepository(
-            \Runalyze\Bundle\CoreBundle\Entity\Account::class
-        );
+        /** @var AccountRepository $accountRepository */
+        $accountRepository = $this->EntityManager->getRepository(Account::class);
+        $this->AccountRepository = $accountRepository;
     }
 
     public function testThatRegistrationProcessWorks(): void

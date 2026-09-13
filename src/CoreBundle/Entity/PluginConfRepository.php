@@ -5,6 +5,9 @@ namespace Runalyze\Bundle\CoreBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NoResultException;
 
+/**
+ * @extends EntityRepository<PluginConf>
+ */
 class PluginConfRepository extends EntityRepository
 {
     /**

@@ -133,7 +133,10 @@
         "lint:fix": "vendor/bin/ecs check --fix",
         "rector": "vendor/bin/rector process --dry-run",
         "rector:fix": "vendor/bin/rector process",
-        "analyse": "vendor/bin/phpstan analyse",
+        "analyse": [
+            "@cache:dev:warmup",
+            "vendor/bin/phpstan analyse"
+        ],
         "twig:lint": "twigcs templates",
         "fix": [
             "@rector:fix",

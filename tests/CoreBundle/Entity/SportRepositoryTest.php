@@ -24,8 +24,10 @@ class SportRepositoryTest extends AbstractRepositoryTestCase
     {
         parent::setUp();
 
-        $this->SportRepository = $this->EntityManager->getRepository(Sport::class);
-        $this->TrainingRepository = $this->EntityManager->getRepository(Training::class);
+        $this->SportRepository = $this->getEntityManager()
+            ->getRepository(Sport::class);
+        $this->TrainingRepository = $this->getEntityManager()
+            ->getRepository(Training::class);
         $this->Account = $this->getDefaultAccount();
     }
 

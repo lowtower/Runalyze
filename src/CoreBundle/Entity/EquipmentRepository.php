@@ -5,6 +5,9 @@ namespace Runalyze\Bundle\CoreBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 use Runalyze\Bundle\CoreBundle\Model\Equipment\EquipmentStatistics;
 
+/**
+ * @extends EntityRepository<Equipment>
+ */
 class EquipmentRepository extends EntityRepository
 {
     /**

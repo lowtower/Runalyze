@@ -4,6 +4,9 @@ namespace Runalyze\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 
+/**
+ * @extends EntityRepository<Conf>
+ */
 class ConfRepository extends EntityRepository
 {
     /**

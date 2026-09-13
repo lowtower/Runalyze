@@ -6,11 +6,15 @@ includes:
 parameters:
     level: 3
     phpVersion: 80030
+    reportUnmatchedIgnoredErrors: true
+    symfony:
+        containerXmlPath: var/cache/dev/srcApp_KernelDevDebugContainer.xml
 
     bootstrapFiles:
         - vendor/autoload.php
         - inc/class.Helper.php
         - inc/system/define.consts.php
+        - phpstan-bootstrap-constants.php
 
     paths:
         - bin/

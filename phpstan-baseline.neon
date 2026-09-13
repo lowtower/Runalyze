@@ -1,22 +1,7 @@
 parameters:
     ignoreErrors:
         -
-            message: '#^Constant RUNALYZE_DATE not found\.$#'
-            identifier: constant.notFound
-            count: 1
-            path: inc/tpl/tpl.Frontend.header.php
-        -
-            message: '#^Constant RUNALYZE_VERSION not found\.$#'
-            identifier: constant.notFound
-            count: 3
-            path: inc/tpl/tpl.Frontend.header.php
-        -
             message: '#^Variable \$this might not be defined\.$#'
             identifier: variable.undefined
             count: 1
             path: lib/jquery.form.include.php
-        -
-            message: '#^Call to an undefined method League\\Geotools\\Geohash\\GeohashInterface\:\:getGeohash\(\).$#'
-            identifier: method.notFound
-            paths:
-                - inc/core/

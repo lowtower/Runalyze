@@ -11,15 +11,9 @@ use Runalyze\Util\LocalTime;
 
 class NightDetectorTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var NightDetector
-     */
-    protected $Detector;
+    protected NightDetector $Detector;
 
-    /**
-     * @var Training
-     */
-    protected $Activity;
+    protected Training $Activity;
 
     protected function setUp(): void
     {

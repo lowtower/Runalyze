@@ -42,9 +42,11 @@ class GeohashLine
         return $newgeoline;
     }
 
-    public static function findFirstNonNullGeohash(array $geohashes, $precision): ?string
+    public static function findFirstNonNullGeohash(array $geohashes, int $precision): ?string
     {
-        $nullGeohash = (new Geohash())->encode(new Coordinate([0.0, 0.0]), $precision)->getGeohash();
+        /** @var Geohash $nullGeohashObj */
+        $nullGeohashObj = (new Geohash())->encode(new Coordinate([0.0, 0.0]), $precision);
+        $nullGeohash = $nullGeohashObj->getGeohash();
 
         foreach ($geohashes as $geohash) {
             $geohash = substr($geohash, 0, $precision);

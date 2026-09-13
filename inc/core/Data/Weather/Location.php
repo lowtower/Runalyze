@@ -84,8 +84,9 @@ class Location
         if (! $this->hasPosition()) {
             return null;
         }
-
-        return (new Geohash())->encode(new Coordinate([$this->lat(), $this->lon()]), 12)->getGeohash();
+        /** @var Geohash $geohashObj */
+        $geohashObj = (new Geohash())->encode(new Coordinate([$this->lat(), $this->lon()]), 12);
+        return $geohashObj->getGeohash();
     }
 
     /**

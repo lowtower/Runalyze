@@ -404,7 +404,9 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
         $geohashes = [];
 
         for ($i = 0; $i < $size; ++$i) {
-            $geohashes[] = (new Geohash())->encode(new Coordinate([$latitudes[$i], $longitudes[$i]]), self::PATH_GEOHASH_PRECISION)->getGeohash();
+            /** @var Geohash $geohashObj */
+            $geohashObj = (new Geohash())->encode(new Coordinate([$latitudes[$i], $longitudes[$i]]), self::PATH_GEOHASH_PRECISION);
+            $geohashes[] = $geohashObj->getGeohash();
         }
 
         $this->Data[self::GEOHASHES] = $geohashes;
@@ -461,10 +463,14 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 
         if ($latitudes !== [] && $longitudes !== []) {
             $MinCoordinate = new Coordinate([min($latitudes), min($longitudes)]);
-            $this->Data[self::MIN] = (new Geohash())->encode($MinCoordinate, self::BOUNDARIES_GEOHASH_PRECISION)->getGeohash();
+            /** @var Geohash $geohashObj */
+            $geohashObj = (new Geohash())->encode($MinCoordinate, self::BOUNDARIES_GEOHASH_PRECISION);
+            $this->Data[self::MIN] = $geohashObj->getGeohash();
 
             $MaxCoordinate = new Coordinate([max($latitudes), max($longitudes)]);
-            $this->Data[self::MAX] = (new Geohash())->encode($MaxCoordinate, self::BOUNDARIES_GEOHASH_PRECISION)->getGeohash();
+            /** @var Geohash $geohashObj */
+            $geohashObj = (new Geohash())->encode($MaxCoordinate, self::BOUNDARIES_GEOHASH_PRECISION);
+            $this->Data[self::MAX] = $geohashObj->getGeohash();
         } else {
             $this->setMinMaxToNull();
         }
@@ -504,7 +510,9 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 
     protected function findFirstNonNullGeohash(array $geohashes): ?string
     {
-        $nullGeohash = (new Geohash())->encode(new Coordinate([0, 0]), self::BOUNDARIES_GEOHASH_PRECISION)->getGeohash();
+        /** @var Geohash $nullGeohashObj */
+        $nullGeohashObj = (new Geohash())->encode(new Coordinate([0, 0]), self::BOUNDARIES_GEOHASH_PRECISION);
+        $nullGeohash = $nullGeohashObj->getGeohash();
 
         foreach ($geohashes as $geohash) {
             $geohash = substr($geohash, 0, self::BOUNDARIES_GEOHASH_PRECISION);

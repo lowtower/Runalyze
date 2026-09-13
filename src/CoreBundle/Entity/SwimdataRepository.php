@@ -6,6 +6,9 @@ namespace Runalyze\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 
+/**
+ * @extends EntityRepository<Swimdata>
+ */
 class SwimdataRepository extends EntityRepository
 {
     /**

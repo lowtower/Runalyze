@@ -18,7 +18,8 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
 
         parent::setUp();
 
-        $this->AccountRepository = $this->EntityManager->getRepository(Account::class);
+        $this->AccountRepository = $this->getEntityManager()
+            ->getRepository(Account::class);
     }
 
     protected function getNewAccount(string $username, string $mail = ''): Account

@@ -10,6 +10,9 @@ use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\VO2max;
 use Runalyze\Bundle\CoreBundle\Model\Account\AccountStatistics;
 use Runalyze\Sports\Running\MarathonShape;
 
+/**
+ * @extends EntityRepository<Training>
+ */
 class TrainingRepository extends EntityRepository
 {
     /**

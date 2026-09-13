@@ -16,7 +16,8 @@ class ConfRepositoryTest extends AbstractRepositoryTestCase
     {
         parent::setUp();
 
-        $this->ConfRepository = $this->EntityManager->getRepository(Conf::class);
+        $this->ConfRepository = $this->getEntityManager()
+            ->getRepository(Conf::class);
     }
 
     public function testEmptyDatabase(): void

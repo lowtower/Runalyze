@@ -11,15 +11,9 @@ use Runalyze\Profile\Sport\SportProfile;
 
 class PowerCalculatorTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var PowerCalculator
-     */
-    protected $Calculator;
+    protected PowerCalculator $Calculator;
 
-    /**
-     * @var Training
-     */
-    protected $Activity;
+    protected Training $Activity;
 
     protected function setUp(): void
     {

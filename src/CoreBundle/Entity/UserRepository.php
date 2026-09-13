@@ -5,6 +5,9 @@ namespace Runalyze\Bundle\CoreBundle\Entity;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
 
+/**
+ * @extends EntityRepository<User>
+ */
 class UserRepository extends EntityRepository
 {
     /**

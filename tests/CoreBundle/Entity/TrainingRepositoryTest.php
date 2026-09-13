@@ -32,7 +32,8 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
     {
         parent::setUp();
 
-        $this->TrainingRepository = $this->EntityManager->getRepository(Training::class);
+        $this->TrainingRepository = $this->getEntityManager()
+            ->getRepository(Training::class);
         $this->Account = $this->getDefaultAccount();
     }
 
@@ -302,9 +303,9 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
             ->getId();
         $this->TrainingRepository->remove($activity);
 
-        $this->assertNull($this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Route::class)->find($routeId));
-        $this->assertNull($this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Trackdata::class)->findByActivity($activity->getId(), $this->getDefaultAccount()));
-        $this->assertNull($this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Hrv::class)->findByActivity($activity->getId()));
+        $this->assertNull($this->getEntityManager()->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Route::class)->find($routeId));
+        $this->assertNull($this->getEntityManager()->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Trackdata::class)->findByActivity($activity->getId(), $this->getDefaultAccount()));
+        $this->assertNull($this->getEntityManager()->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Hrv::class)->findByActivity($activity->getId()));
     }
 
     public function testThatPowerIsNotRemovedAtUpdate(): void
@@ -362,7 +363,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
 
         $this->TrainingRepository->remove($activity);
 
-        $this->assertNull($this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Raceresult::class)->findByActivity($activity->getId()));
+        $this->assertNull($this->getEntityManager()->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Raceresult::class)->findByActivity($activity->getId()));
     }
 
     public function testActivityWithSwimData(): void
@@ -388,7 +389,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
 
         $this->TrainingRepository->remove($activity);
 
-        $this->assertNull($this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Swimdata::class)->findByActivity($activity->getId()));
+        $this->assertNull($this->getEntityManager()->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Swimdata::class)->findByActivity($activity->getId()));
     }
 
     /**
@@ -412,7 +413,8 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertFalse($recalculationManager->isTaskScheduled($this->getDefaultAccount(), VO2maxShapeCalculation::class));
         $this->assertFalse($recalculationManager->isTaskScheduled($this->getDefaultAccount(), MarathonShapeCalculation::class));
 
-        $this->EntityManager->getUnitOfWork()
+        $this->getEntityManager()
+            ->getUnitOfWork()
             ->refresh($activity);
         $activity->setPulseAvg(150);
 
@@ -617,7 +619,8 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
 
     public function testEquipmentStatistics(): void
     {
-        $someEquipment = $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Equipment::class)
+        $someEquipment = $this->getEntityManager()
+            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Equipment::class)
             ->findBy(
                 [
                     'account' => $this->getDefaultAccount(),
@@ -689,7 +692,8 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
     protected function refreshEquipment(array $entities)
     {
         foreach ($entities as $entity) {
-            $this->EntityManager->getUnitOfWork()
+            $this->getEntityManager()
+                ->getUnitOfWork()
                 ->refresh($entity);
         }
     }
