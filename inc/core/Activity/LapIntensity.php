@@ -57,8 +57,6 @@ class LapIntensity extends AbstractEnum
      */
     private const OTHER = 'O';
 
-    private string $Value;
-
     /**
      * @var LapIntensity
      */
@@ -69,9 +67,9 @@ class LapIntensity extends AbstractEnum
      */
     private static $INST_REST;
 
-    public function __construct(string $value)
-    {
-        $this->Value = $value;
+    public function __construct(
+        private string $Value
+    ) {
     }
 
     public function getValue(): string
@@ -112,24 +110,15 @@ class LapIntensity extends AbstractEnum
             throw new \InvalidArgumentException(sprintf('Provided workout_step intensity %s is invalid.', $fitValue));
         }
 
-        switch ((int) $fitValue) {
-            case 0:
-                return self::getInstanceActive();
-            case 1:
-                return self::getInstanceRest();
-            case 2:
-                return new self(self::WARMUP);
-            case 3:
-                return new self(self::COOLDOWN);
-            case 4:
-                return new self(self::RECOVERY);
-            case 5:
-                return new self(self::INTERVAL);
-            case 6:
-                return new self(self::OTHER);
-            default:
-                return null;
-        }
+        return match ((int) $fitValue) {
+            0 => self::getInstanceActive(),
+            1 => self::getInstanceRest(),
+            2 => new self(self::WARMUP),
+            3 => new self(self::COOLDOWN),
+            4 => new self(self::RECOVERY),
+            5 => new self(self::INTERVAL),
+            6 => new self(self::OTHER),
+        };
     }
 
     /**
@@ -164,24 +153,16 @@ class LapIntensity extends AbstractEnum
      */
     public function getLabel(): string
     {
-        switch ($this->Value) {
-            case '':
-                return 'Active';
-            case 'R':
-                return 'Rest';
-            case 'W':
-                return 'Warmup';
-            case 'C':
-                return 'Cooldown';
-            case 'Y':
-                return 'Recovery';
-            case 'I':
-                return 'Interval';
-            case 'O':
-                return 'Other';
-            default:
-                return 'Unknown';
-        }
+        return match ($this->Value) {
+            '' => 'Active',
+            'R' => 'Rest',
+            'W' => 'Warmup',
+            'C' => 'Cooldown',
+            'Y' => 'Recovery',
+            'I' => 'Interval',
+            'O' => 'Other',
+            default => 'Unknown',
+        };
     }
 
     /**

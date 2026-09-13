@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Component\Tool\Backup;
 
 class FilenameHandler
@@ -19,16 +21,14 @@ class FilenameHandler
      */
     public const SQL_FORMAT = 'sql.gz';
 
-    protected int $AccountId;
-
     protected string $RunalyzeVersion = 'x';
 
     /**
      * @TODO realize as service using DI
      */
-    public function __construct(int $accountId)
-    {
-        $this->AccountId = $accountId;
+    public function __construct(
+        protected int $AccountId
+    ) {
     }
 
     public function setRunalyzeVersion(string $version)
@@ -68,20 +68,20 @@ class FilenameHandler
     {
         $expectedPrefix = $this->AccountId . '-' . self::FILENAME_PREFIX;
 
-        return substr($internalFilename, 0, strlen($expectedPrefix)) === $expectedPrefix;
+        return str_starts_with($internalFilename, $expectedPrefix);
     }
 
     public static function validateFileExtension(string $completeFilename): bool
     {
         return
-            substr($completeFilename, -strlen(self::JSON_FORMAT)) === self::JSON_FORMAT ||
-            substr($completeFilename, -strlen(self::SQL_FORMAT)) === self::SQL_FORMAT
+            str_ends_with($completeFilename, self::JSON_FORMAT) ||
+            str_ends_with($completeFilename, self::SQL_FORMAT)
         ;
     }
 
     public static function validateImportFileExtension(string $completeFilename): bool
     {
-        return substr($completeFilename, -strlen(self::JSON_FORMAT)) === self::JSON_FORMAT;
+        return str_ends_with($completeFilename, self::JSON_FORMAT);
     }
 
     public function generatePublicFilename(string $internalFilename): string

@@ -91,8 +91,7 @@ abstract class ActivitySeries extends \Runalyze\View\Plot\Series
                 $stepSize = Configuration::General()->distanceUnitSystem()->distanceToKmFactor();
 
                 if ($stepSize != round($stepSize)) {
-                    end($this->Data);
-                    $totalDistanceInKm = key($this->Data);
+                    $totalDistanceInKm = array_key_last($this->Data);
 
                     while ($totalDistanceInKm / $stepSize > 15) {
                         $stepSize *= 2;

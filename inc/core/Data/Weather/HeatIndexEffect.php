@@ -70,20 +70,14 @@ class HeatIndexEffect extends AbstractEnum
      */
     public static function label(int $enum): string
     {
-        switch ($enum) {
-            case self::NO_EFFECT:
-                return __('No effect');
-            case self::CAUTION:
-                return __('Caution');
-            case self::EXTREME_CAUTION:
-                return __('Extreme caution');
-            case self::DANGER:
-                return __('Danger');
-            case self::EXTREME_DANGER:
-                return __('Extreme danger');
-            default:
-                throw new \InvalidArgumentException(sprintf('Provided level %u is invalid.', $enum));
-        }
+        return match ($enum) {
+            self::NO_EFFECT => __('No effect'),
+            self::CAUTION => __('Caution'),
+            self::EXTREME_CAUTION => __('Extreme caution'),
+            self::DANGER => __('Danger'),
+            self::EXTREME_DANGER => __('Extreme danger'),
+            default => throw new \InvalidArgumentException(sprintf('Provided level %u is invalid.', $enum)),
+        };
     }
 
     /**
@@ -92,18 +86,13 @@ class HeatIndexEffect extends AbstractEnum
      */
     public static function colorFor(int $enum): string
     {
-        switch ($enum) {
-            case self::CAUTION:
-                return '#ffc930';
-            case self::EXTREME_CAUTION:
-                return '#ff6530';
-            case self::DANGER:
-                return '#e04b27';
-            case self::EXTREME_DANGER:
-                return '#c1321d';
-            default:
-                return '#ccc';
-        }
+        return match ($enum) {
+            self::CAUTION => '#ffc930',
+            self::EXTREME_CAUTION => '#ff6530',
+            self::DANGER => '#e04b27',
+            self::EXTREME_DANGER => '#c1321d',
+            default => '#ccc',
+        };
     }
 
     /**
@@ -113,20 +102,14 @@ class HeatIndexEffect extends AbstractEnum
      */
     public static function description(int $enum): string
     {
-        switch ($enum) {
-            case self::NO_EFFECT:
-                return __('Temperature and humidity should not have any effect.');
-            case self::CAUTION:
-                return __('Fatigue is possible with prolonged exposure and activity. Continuing activity could result in heat cramps.');
-            case self::EXTREME_CAUTION:
-                return __('Heat cramps and heat exhaustion are possible. Continuing activity could result in heat stroke.');
-            case self::DANGER:
-                return __('Heat cramps and heat exhaustion are likely; heat stroke is probable with continued activity.');
-            case self::EXTREME_DANGER:
-                return __('Heat stroke is imminent.');
-            default:
-                throw new \InvalidArgumentException(sprintf('Provided level %u is invalid.', $enum));
-        }
+        return match ($enum) {
+            self::NO_EFFECT => __('Temperature and humidity should not have any effect.'),
+            self::CAUTION => __('Fatigue is possible with prolonged exposure and activity. Continuing activity could result in heat cramps.'),
+            self::EXTREME_CAUTION => __('Heat cramps and heat exhaustion are possible. Continuing activity could result in heat stroke.'),
+            self::DANGER => __('Heat cramps and heat exhaustion are likely; heat stroke is probable with continued activity.'),
+            self::EXTREME_DANGER => __('Heat stroke is imminent.'),
+            default => throw new \InvalidArgumentException(sprintf('Provided level %u is invalid.', $enum)),
+        };
     }
 
     /**
@@ -146,14 +129,9 @@ class HeatIndexEffect extends AbstractEnum
      */
     public static function fontIconName(int $enum): string
     {
-        switch ($enum) {
-            case self::CAUTION:
-            case self::EXTREME_CAUTION:
-            case self::DANGER:
-            case self::EXTREME_DANGER:
-                return 'fa-exclamation-triangle';
-            default:
-                return 'fa-check';
-        }
+        return match ($enum) {
+            self::CAUTION, self::EXTREME_CAUTION, self::DANGER, self::EXTREME_DANGER => 'fa-exclamation-triangle',
+            default => 'fa-check',
+        };
     }
 }

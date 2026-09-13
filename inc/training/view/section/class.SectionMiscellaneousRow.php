@@ -38,14 +38,12 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
     protected $PausesContent = '';
 
     /**
-     * @var bool
+     * @param bool $showCadence
      */
-    protected $showCadence = true;
-
-    public function __construct(?Activity\Context $Context = null, $showCadence = true)
-    {
-        $this->showCadence = $showCadence;
-
+    public function __construct(
+        ?Activity\Context $Context = null,
+        protected $showCadence = true
+    ) {
         parent::__construct($Context);
     }
 

@@ -16,26 +16,15 @@ class DarkskyMapping implements ToInternalMappingInterface
      */
     public function toInternal($value): int
     {
-        switch ($value) {
-            case 'clear-day':
-            case 'clear-night':
-                return WeatherConditionProfile::FAIR;
-            case 'wind':
-                return WeatherConditionProfile::WINDY;
-            case 'fog':
-                return WeatherConditionProfile::FOGGY;
-            case 'partly-cloudy-night':
-            case 'partly-cloudy-day':
-                return WeatherConditionProfile::CHANGEABLE;
-            case 'cloudy':
-                return WeatherConditionProfile::CLOUDY;
-            case 'rain':
-                return WeatherConditionProfile::RAINY;
-            case 'snow':
-            case 'sleet':
-                return WeatherConditionProfile::SNOWING;
-            default:
-                return WeatherConditionProfile::UNKNOWN;
-        }
+        return match ($value) {
+            'clear-day', 'clear-night' => WeatherConditionProfile::FAIR,
+            'wind' => WeatherConditionProfile::WINDY,
+            'fog' => WeatherConditionProfile::FOGGY,
+            'partly-cloudy-night', 'partly-cloudy-day' => WeatherConditionProfile::CHANGEABLE,
+            'cloudy' => WeatherConditionProfile::CLOUDY,
+            'rain' => WeatherConditionProfile::RAINY,
+            'snow', 'sleet' => WeatherConditionProfile::SNOWING,
+            default => WeatherConditionProfile::UNKNOWN,
+        };
     }
 }

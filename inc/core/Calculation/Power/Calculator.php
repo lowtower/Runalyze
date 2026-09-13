@@ -3,7 +3,6 @@
 namespace Runalyze\Calculation\Power;
 
 use Runalyze\Mathematics\Distribution\TimeSeries;
-use Runalyze\Model\Route;
 use Runalyze\Model\Trackdata;
 
 /**
@@ -39,10 +38,6 @@ class Calculator
      */
     public const AREA = 0.5;
 
-    protected \Runalyze\Model\Trackdata\Entity $Trackdata;
-
-    protected ?\Runalyze\Model\Route\Entity $Route;
-
     protected int $Size;
 
     /**
@@ -52,16 +47,12 @@ class Calculator
 
     /**
      * Calculator for activity properties
-     * @param \Runalyze\Model\Route\Entity $route
      */
     public function __construct(
-        Trackdata\Entity $trackdata,
-        ?Route\Entity $route = null
+        protected \Runalyze\Model\Trackdata\Entity $Trackdata,
+        protected ?\Runalyze\Model\Route\Entity $Route = null
     ) {
-        $this->Trackdata = $trackdata;
-        $this->Route = $route;
-
-        $this->Size = $trackdata->num();
+        $this->Size = $this->Trackdata->num();
     }
 
     protected function knowsRoute(): bool

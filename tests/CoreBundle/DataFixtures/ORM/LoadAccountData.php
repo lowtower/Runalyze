@@ -11,12 +11,9 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class LoadAccountData extends AbstractFixture implements OrderedFixtureInterface
 {
-    private ?UserPasswordEncoderInterface $passwordEncoder;
-
     public function __construct(
-        ?UserPasswordEncoderInterface $passwordEncoder = null
+        private ?UserPasswordEncoderInterface $passwordEncoder = null
     ) {
-        $this->passwordEncoder = $passwordEncoder;
     }
 
     public function load(ObjectManager $manager): void

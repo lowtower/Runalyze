@@ -18,44 +18,21 @@ class PluginConfigurationValue
     public const MAXLENGTH = 255;
 
     /**
-     * Key
-     */
-    protected string $Key;
-
-    /**
      * Value
      * @var mixed
      */
     protected $Value;
 
     /**
-     * Default value
-     * @var mixed
-     */
-    protected $DefaultValue;
-
-    /**
-     * Label
-     */
-    protected string $Label;
-
-    /**
-     * Tooltip
-     */
-    protected string $Tooltip;
-
-    /**
      * Construct
-     * @param string $Label [optional]
-     * @param string $Tooltip [optional]
-     * @param string $DefaultValue [optional]
+     * @param mixed $DefaultValue
      */
-    public function __construct(string $Key, string $Label = '', string $Tooltip = '', $DefaultValue = '')
-    {
-        $this->Key = $Key;
-        $this->Label = $Label;
-        $this->Tooltip = $Tooltip;
-        $this->DefaultValue = $DefaultValue;
+    public function __construct(
+        protected string $Key,
+        protected string $Label = '',
+        protected string $Tooltip = '',
+        protected $DefaultValue = ''
+    ) {
     }
 
     final public function key(): string

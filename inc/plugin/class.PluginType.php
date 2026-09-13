@@ -28,14 +28,10 @@ abstract class PluginType
      */
     public static function string(int $Type): string
     {
-        switch ($Type) {
-            case self::PANEL:
-                return 'panel';
-
-            case self::STAT:
-            default:
-                return 'stat';
-        }
+        return match ($Type) {
+            self::PANEL => 'panel',
+            default => 'stat',
+        };
     }
 
     /**
@@ -43,13 +39,9 @@ abstract class PluginType
      */
     public static function readableString(int $Type): string
     {
-        switch ($Type) {
-            case self::PANEL:
-                return __('Panel');
-
-            case self::STAT:
-            default:
-                return __('Statistics');
-        }
+        return match ($Type) {
+            self::PANEL => __('Panel'),
+            default => __('Statistics'),
+        };
     }
 }

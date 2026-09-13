@@ -82,18 +82,11 @@ class InstallCheckCommand extends Command
         'var/tmp/',
     ];
 
-    private ParameterBagInterface $parameterBag;
-
-    private ManagerRegistry $doctrine;
-
     public function __construct(
-        ParameterBagInterface $parameterBag,
-        ManagerRegistry $doctrine
+        private ParameterBagInterface $parameterBag,
+        private ManagerRegistry $doctrine
     ) {
         parent::__construct();
-
-        $this->parameterBag = $parameterBag;
-        $this->doctrine = $doctrine;
     }
 
     protected function configure()

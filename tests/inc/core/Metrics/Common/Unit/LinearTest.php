@@ -11,8 +11,8 @@ class LinearTest extends \PHPUnit\Framework\TestCase
     public function testSimpleFunction(): void
     {
         $unit = new Linear(
-            function ($value): float { return 2.0 * $value + 5.0; },
-            function ($value): float { return ($value - 5.0) / 2.0; },
+            fn ($value): float => 2.0 * $value + 5.0,
+            fn ($value): float => ($value - 5.0) / 2.0,
             'foo',
             1
         );

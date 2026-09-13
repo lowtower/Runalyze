@@ -22,13 +22,7 @@ namespace Runalyze\Calculation\Math;
  */
 class SubSegmentMaximization
 {
-    protected array $Data;
-
-    protected array $IndexData;
-
     protected int $NumData;
-
-    protected array $SegmentLengths;
 
     protected int $NumSegmentLengths;
 
@@ -78,19 +72,19 @@ class SubSegmentMaximization
      *  - segment lengths must be distinct and strictly positive
      *  - both input and index data are treated as deltas, i.e. time data is expected as e.g. [2, 1, 3, 1, 2, 1, 1, ...]
      *
-     * @param array $dataAsDeltas input data that should be maximized (wrt to its sum for a given segment length)
-     * @param array $indexDataAsDeltas index data used to select segments of appropriate length
-     * @param array $segmentLengths lengths for segments to look at
+     * @param array $Data input data that should be maximized (wrt to its sum for a given segment length)
+     * @param array $IndexData index data used to select segments of appropriate length
+     * @param array $SegmentLengths lengths for segments to look at
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct(array $dataAsDeltas, array $indexDataAsDeltas, array $segmentLengths)
-    {
-        $this->Data = $dataAsDeltas;
-        $this->IndexData = $indexDataAsDeltas;
-        $this->NumData = count($dataAsDeltas);
-        $this->SegmentLengths = $segmentLengths;
-        $this->NumSegmentLengths = count($segmentLengths);
+    public function __construct(
+        protected array $Data,
+        protected array $IndexData,
+        protected array $SegmentLengths
+    ) {
+        $this->NumData = count($this->Data);
+        $this->NumSegmentLengths = count($this->SegmentLengths);
 
         $this->checkInputData();
     }

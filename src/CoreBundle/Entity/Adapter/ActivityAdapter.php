@@ -288,9 +288,7 @@ class ActivityAdapter
                     ->hasStrokeTypes()
             ) {
                 $totalTime = $this->Activity->getS();
-                $numberOfPoints = count(array_filter($this->Activity->getSwimdata()->getStroketype(), function ($strokeType): bool {
-                    return $strokeType != StrokeTypeProfile::BREAK;
-                }));
+                $numberOfPoints = count(array_filter($this->Activity->getSwimdata()->getStroketype(), fn ($strokeType): bool => $strokeType != StrokeTypeProfile::BREAK));
             } elseif ($this->Activity->getTrackdata() !== null && $this->Activity->getTrackdata()->hasTime()) {
                 /*
                  * Fallback for swimming data without stroke types:

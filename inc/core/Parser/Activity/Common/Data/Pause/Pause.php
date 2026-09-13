@@ -5,16 +5,6 @@ namespace Runalyze\Parser\Activity\Common\Data\Pause;
 class Pause
 {
     /**
-     * @var int [s]
-     */
-    protected int $TimeIndex;
-
-    /**
-     * @var float [s]
-     */
-    protected float $Duration;
-
-    /**
      * @var int|null [bpm]
      */
     protected ?int $HeartRateAtStart = null;
@@ -39,10 +29,16 @@ class Pause
      */
     protected ?int $PerformanceCondition = null;
 
-    public function __construct(int $timeIndex, float $duration)
-    {
-        $this->TimeIndex = $timeIndex;
-        $this->Duration = $duration;
+    public function __construct(
+        /**
+         * @var int [s]
+         */
+        protected int $TimeIndex,
+        /**
+         * @var float [s]
+         */
+        protected float $Duration
+    ) {
     }
 
     /**

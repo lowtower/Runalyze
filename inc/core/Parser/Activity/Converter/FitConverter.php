@@ -21,14 +21,10 @@ class FitConverter extends AbstractShellBasedFileTypeConverter
      */
     public const PERL_GENERAL_MESSAGE_START = 'perl: warning:';
 
-    protected string $PathToPerl;
-
-    protected string $PathToFitPerlScript;
-
-    public function __construct(string $pathToPerl, string $pathToFitPerlScript)
-    {
-        $this->PathToPerl = $pathToPerl;
-        $this->PathToFitPerlScript = $pathToFitPerlScript;
+    public function __construct(
+        protected string $PathToPerl,
+        protected string $PathToFitPerlScript
+    ) {
     }
 
     public function getConvertibleFileExtension(): string
@@ -51,11 +47,11 @@ class FitConverter extends AbstractShellBasedFileTypeConverter
         if (trim($firstLine) !== 'SUCCESS') {
             $message = 'Reading *.fit-file failed. First line was "' . $firstLine . '".';
 
-            if (substr($firstLine, 0, strlen(self::PERL_FIT_ERROR_MESSAGE_START)) == self::PERL_FIT_ERROR_MESSAGE_START) {
+            if (str_starts_with($firstLine, self::PERL_FIT_ERROR_MESSAGE_START)) {
                 throw new UnexpectedContentException($message);
             }
 
-            if (substr($firstLine, 0, strlen(self::PERL_GENERAL_MESSAGE_START)) == self::PERL_GENERAL_MESSAGE_START) {
+            if (str_starts_with($firstLine, self::PERL_GENERAL_MESSAGE_START)) {
                 $message .= PHP_EOL . PHP_EOL . 'See https://github.com/Runalyze/Runalyze/issues/1701';
 
                 throw new InstallationSpecificException($message);

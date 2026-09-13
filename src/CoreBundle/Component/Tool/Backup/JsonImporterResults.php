@@ -29,13 +29,11 @@ class JsonImporterResults
      */
     protected function add(string $tableName, int $counter, string $key)
     {
-        if (! isset($this->Results[$tableName])) {
-            $this->Results[$tableName] = [
-                'update' => 0,
-                'delete' => 0,
-                'insert' => 0,
-            ];
-        }
+        $this->Results[$tableName] ??= [
+            'update' => 0,
+            'delete' => 0,
+            'insert' => 0,
+        ];
 
         $this->Results[$tableName][$key] += $counter;
     }

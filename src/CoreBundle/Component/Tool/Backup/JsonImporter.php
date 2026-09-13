@@ -13,12 +13,6 @@ class JsonImporter
      */
     protected $Reader;
 
-    protected PDOforRunalyze $DB;
-
-    protected int $AccountID;
-
-    protected string $DatabasePrefix;
-
     /**
      * @var array<string, array<int, int>> Maps [table][oldID] = newID
      */
@@ -39,12 +33,13 @@ class JsonImporter
     /**
      * @param string $fileName absolute path
      */
-    public function __construct(string $fileName, \PDOforRunalyze $pdo, int $accountID, string $databasePrefix)
-    {
+    public function __construct(
+        string $fileName,
+        protected PDOforRunalyze $DB,
+        protected int $AccountID,
+        protected string $DatabasePrefix
+    ) {
         $this->Reader = new GZipReader($fileName);
-        $this->DB = $pdo;
-        $this->AccountID = $accountID;
-        $this->DatabasePrefix = $databasePrefix;
         $this->Results = new JsonImporterResults();
     }
 
@@ -145,7 +140,7 @@ class JsonImporter
         while (! $this->Reader->eof()) {
             $line = trim($this->Reader->readLine());
 
-            if (substr($line, 0, 8) == '{"TABLE"') {
+            if (str_starts_with($line, '{"TABLE"')) {
                 $tableName = substr($line, 10, -2);
                 $this->readTable($tableName);
             }
@@ -223,27 +218,19 @@ class JsonImporter
      */
     private function prepareUpdateStatement(string $tableName): \PDOStatement
     {
-        switch ($tableName) {
-            case 'runalyze_conf':
-                return $this->DB->prepare('UPDATE `' . $this->DatabasePrefix . 'conf` SET `value`=? WHERE `accountid`=' . $this->AccountID . ' AND `key`=?');
-
-            case 'runalyze_dataset':
-                return $this->DB->prepare('
+        return match ($tableName) {
+            'runalyze_conf' => $this->DB->prepare('UPDATE `' . $this->DatabasePrefix . 'conf` SET `value`=? WHERE `accountid`=' . $this->AccountID . ' AND `key`=?'),
+            'runalyze_dataset' => $this->DB->prepare('
 						UPDATE `' . $this->DatabasePrefix . 'dataset`
 						SET
 							`active`=?,
 							`style`=?,
 							`position`=?
-						WHERE `accountid`=' . $this->AccountID . ' AND `keyid`=?');
-
-            case 'runalyze_plugin':
-                return $this->DB->prepare('UPDATE `' . $this->DatabasePrefix . 'plugin` SET `active`=?, `order`=? WHERE `accountid`=' . $this->AccountID . ' AND `key`=?');
-
-            case 'runalyze_plugin_conf':
-                return $this->DB->prepare('UPDATE `' . $this->DatabasePrefix . 'plugin_conf` SET `value`=? WHERE `pluginid`=? AND `config`=?');
-            default:
-                throw new \LogicException('Unhandled table name');
-        }
+						WHERE `accountid`=' . $this->AccountID . ' AND `keyid`=?'),
+            'runalyze_plugin' => $this->DB->prepare('UPDATE `' . $this->DatabasePrefix . 'plugin` SET `active`=?, `order`=? WHERE `accountid`=' . $this->AccountID . ' AND `key`=?'),
+            'runalyze_plugin_conf' => $this->DB->prepare('UPDATE `' . $this->DatabasePrefix . 'plugin_conf` SET `value`=? WHERE `pluginid`=? AND `config`=?'),
+            default => throw new \LogicException('Unhandled table name'),
+        };
     }
 
     /**

@@ -43,15 +43,12 @@ abstract class Loop
      */
     protected int $TotalSize;
 
-    protected ?Loopable $Object = null;
-
     /**
      * Construct
      */
-    public function __construct(?Loopable $object)
-    {
-        $this->Object = $object;
-
+    public function __construct(
+        protected ?Loopable $Object
+    ) {
         $this->countTotalSize();
         $this->reset();
     }

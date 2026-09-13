@@ -67,9 +67,7 @@ class HRV extends ActivityPointSeries
                 ->totalTime();
 
             if ($context->hrv()->num() == $context->trackdata()->num()) {
-                $this->XAxisData = array_map(function ($value) {
-                    return 1000 * $value;
-                }, $context->trackdata()
+                $this->XAxisData = array_map(fn ($value) => 1000 * $value, $context->trackdata()
                     ->time());
             } else {
                 $correctTime = abs(array_sum($context->hrv()->data()) - $totalTime) > 0.005 * $totalTime;

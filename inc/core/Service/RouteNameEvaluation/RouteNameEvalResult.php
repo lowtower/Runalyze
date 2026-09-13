@@ -16,13 +16,12 @@ class RouteNameEvalResult
 
     protected string $names = '';
 
-    protected string $notes = '';
-
-    public function __construct(string $names, string $notes)
-    {
+    public function __construct(
+        string $names,
+        protected string $notes
+    ) {
         // it should never occur, but limit it to 255 (same as the database attribute)
         $this->names = mb_strimwidth($names, 0, 255, '...');
-        $this->notes = $notes;
     }
 
     public function getNames(): string
@@ -53,7 +52,7 @@ class RouteNameEvalResult
             return $taggedNote;
         }
 
-        if (strpos($existingNote, self::NOTES_START) === false) {
+        if (! str_contains($existingNote, self::NOTES_START)) {
             // when append the eval-note the first time, make a newline between for better usability
             return $existingNote . ($this->endsWith($existingNote, PHP_EOL) ? '' : PHP_EOL) . PHP_EOL . $taggedNote;
         }
@@ -64,6 +63,6 @@ class RouteNameEvalResult
 
     protected function endsWith(string $haystack, string $needle): bool
     {
-        return $needle === '' || (substr($haystack, -strlen($needle)) === $needle);
+        return $needle === '' || (str_ends_with($haystack, $needle));
     }
 }

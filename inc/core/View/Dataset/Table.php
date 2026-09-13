@@ -20,8 +20,6 @@ use Runalyze\View\Tooltip;
  */
 class Table
 {
-    protected Configuration $Configuration;
-
     protected array $ActiveKeys = [];
 
     /**
@@ -34,9 +32,9 @@ class Table
      */
     protected float $LastDistance = 0.0;
 
-    public function __construct(Configuration $configuration)
-    {
-        $this->Configuration = $configuration;
+    public function __construct(
+        protected Configuration $Configuration
+    ) {
         $this->ActiveKeys = $this->Configuration->activeKeys();
 
         Keys::keepInstances();

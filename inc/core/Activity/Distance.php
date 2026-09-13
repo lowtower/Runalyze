@@ -46,11 +46,6 @@ class Distance implements ValueInterface
     public static $DefaultDecimalsSplitTable = 2;
 
     /**
-     * Distance [km]
-     */
-    protected float $Kilometer;
-
-    /**
      * @var \Runalyze\Parameter\Application\DistanceUnitSystem
      */
     protected $UnitSystem;
@@ -65,9 +60,13 @@ class Distance implements ValueInterface
         return (new self($km))->string($withUnit, $decimals);
     }
 
-    public function __construct(float $km = 0.0, ?DistanceUnitSystem $unitSystem = null)
-    {
-        $this->Kilometer = $km;
+    public function __construct(
+        /**
+         * Distance [km]
+         */
+        protected float $Kilometer = 0.0,
+        ?DistanceUnitSystem $unitSystem = null
+    ) {
         $this->UnitSystem = ($unitSystem instanceof \Runalyze\Parameter\Application\DistanceUnitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();
     }
 

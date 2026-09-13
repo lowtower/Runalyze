@@ -279,14 +279,10 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
      */
     public function isArray(string $key): bool
     {
-        switch ($key) {
-            case self::ELEVATIONS_ORIGINAL:
-            case self::ELEVATIONS_CORRECTED:
-            case self::GEOHASHES:
-                return true;
-        }
-
-        return false;
+        return match ($key) {
+            self::ELEVATIONS_ORIGINAL, self::ELEVATIONS_CORRECTED, self::GEOHASHES => true,
+            default => false,
+        };
     }
 
     /**
@@ -294,19 +290,10 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
      */
     protected function canBeNull(string $key): bool
     {
-        switch ($key) {
-            case self::ELEVATIONS_ORIGINAL:
-            case self::ELEVATIONS_CORRECTED:
-            case self::ALTITUDE_BAROMETRIC:
-            case self::GEOHASHES:
-            case self::STARTPOINT:
-            case self::ENDPOINT:
-            case self::MIN:
-            case self::MAX:
-                return true;
-        }
-
-        return false;
+        return match ($key) {
+            self::ELEVATIONS_ORIGINAL, self::ELEVATIONS_CORRECTED, self::ALTITUDE_BAROMETRIC, self::GEOHASHES, self::STARTPOINT, self::ENDPOINT, self::MIN, self::MAX => true,
+            default => false,
+        };
     }
 
     /**

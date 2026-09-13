@@ -25,28 +25,13 @@ abstract class AbstractPluginsAwareController extends AbstractController
 
     protected bool $IsShowingAllPanels = false;
 
-    protected ManagerRegistry $doctrine;
-
-    protected ConfigurationManager $configurationManager;
-
-    protected SportSelectionFactory $sportSelectionFactory;
-
-    protected TokenStorageInterface $tokenStorage;
-
-    protected ParameterBagInterface $parameterBag;
-
     public function __construct(
-        ManagerRegistry $doctrine,
-        ConfigurationManager $configurationManager,
-        SportSelectionFactory $sportSelectionFactory,
-        TokenStorageInterface $tokenStorage,
-        ParameterBagInterface $parameterBag
+        protected ManagerRegistry $doctrine,
+        protected ConfigurationManager $configurationManager,
+        protected SportSelectionFactory $sportSelectionFactory,
+        protected TokenStorageInterface $tokenStorage,
+        protected ParameterBagInterface $parameterBag
     ) {
-        $this->doctrine = $doctrine;
-        $this->configurationManager = $configurationManager;
-        $this->sportSelectionFactory = $sportSelectionFactory;
-        $this->tokenStorage = $tokenStorage;
-        $this->parameterBag = $parameterBag;
     }
 
     protected function getResponseForAllEnabledPanels(Request $request, Account $account): Response
@@ -77,7 +62,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
 
         try {
             $plugin = $factory->newInstanceFor($pluginId);
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             $plugin = null;
 
             echo \HTML::error(__('The plugin could not be found.'));

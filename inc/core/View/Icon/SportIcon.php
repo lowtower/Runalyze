@@ -17,20 +17,16 @@ namespace Runalyze\View\Icon;
 class SportIcon extends \Runalyze\View\Icon
 {
     /**
-     * Filename
-     * @var string
-     */
-    protected $Filename;
-
-    /**
      * Sport icon
-     * @param string $filename
+     * @param string $Filename
      */
-    public function __construct($filename)
-    {
+    public function __construct(
+        /**
+         * Filename
+         */
+        protected $Filename
+    ) {
         parent::__construct('');
-
-        $this->Filename = $filename;
     }
 
     /**

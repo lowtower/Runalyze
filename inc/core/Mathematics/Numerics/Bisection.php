@@ -19,22 +19,7 @@ class Bisection
     /**
      * @var float
      */
-    protected $Lower;
-
-    /**
-     * @var float
-     */
     protected $Current;
-
-    /**
-     * @var float
-     */
-    protected $Upper;
-
-    /**
-     * @var float
-     */
-    protected $Target;
 
     /**
      * @var \Closure
@@ -47,15 +32,16 @@ class Bisection
     protected $decreasingFactor;
 
     /**
-     * @param float $target
-     * @param float $lowerBound
-     * @param float $upperBound
+     * @param float $Target
+     * @param float $Lower
+     * @param float $Upper
      */
-    public function __construct($target, $lowerBound, $upperBound, \Closure $function)
-    {
-        $this->Target = $target;
-        $this->Lower = $lowerBound;
-        $this->Upper = $upperBound;
+    public function __construct(
+        protected $Target,
+        protected $Lower,
+        protected $Upper,
+        \Closure $function
+    ) {
         $this->Function = $function;
 
         $this->Current = ($this->Lower + $this->Upper) / 2;

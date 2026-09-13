@@ -112,9 +112,7 @@ class XmlPolarExercise extends AbstractSingleParser
                         break;
 
                     case 'DISTANCE':
-                        $this->Container->ContinuousData->Distance = array_map(function (string $m): float {
-                            return (float) $m / 1000;
-                        }, $data);
+                        $this->Container->ContinuousData->Distance = array_map(fn (string $m): float => (float) $m / 1000, $data);
                         break;
 
                     case 'RUN_CADENCE':

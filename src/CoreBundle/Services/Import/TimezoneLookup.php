@@ -5,35 +5,20 @@ namespace Runalyze\Bundle\CoreBundle\Services\Import;
 class TimezoneLookup
 {
     /**
-     * @var string sqlite-file with time zone database
-     */
-    protected $PathToTimeZoneDatabase;
-
-    /**
-     * @var string depends on os, linux default: mod_spatialite.so
-     */
-    protected $SpatialiteExtensionName;
-
-    /**
      * @var \SQLite3|null|false
      */
     protected $SQLite;
 
     /**
-     * @var bool
+     * @param string $PathToTimeZoneDatabase absolute path to database
+     * @param string $SpatialiteExtensionName
+     * @param bool $SilentExceptions
      */
-    protected $SilentExceptions = false;
-
-    /**
-     * @param string $pathToDatabase absolute path to database
-     * @param string $extensionName
-     * @param bool $silentExceptions
-     */
-    public function __construct($pathToDatabase, $extensionName, $silentExceptions = false)
-    {
-        $this->PathToTimeZoneDatabase = $pathToDatabase;
-        $this->SpatialiteExtensionName = $extensionName;
-        $this->SilentExceptions = $silentExceptions;
+    public function __construct(
+        protected $PathToTimeZoneDatabase,
+        protected $SpatialiteExtensionName,
+        protected $SilentExceptions = false
+    ) {
     }
 
     /**
@@ -113,7 +98,7 @@ class TimezoneLookup
 
         try {
             $loaded = @$this->SQLite->loadExtension($this->SpatialiteExtensionName);
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             $loaded = false;
         }
 

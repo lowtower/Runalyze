@@ -119,8 +119,8 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
         $this->assertStringContainsString('lon=10.7', $url);
         $this->assertStringContainsString('tz=Europe/Berlin', $url);
 
-        $hasExpectedStartDate = strpos($url, 'start=' . $dateBefore->format('Y-m-d')) !== false || strpos($url, 'start=' . $dateAfter->format('Y-m-d')) !== false;
-        $hasExpectedEndDate = strpos($url, 'end=' . $dateBefore->format('Y-m-d')) !== false || strpos($url, 'end=' . $dateAfter->format('Y-m-d')) !== false;
+        $hasExpectedStartDate = str_contains($url, 'start=' . $dateBefore->format('Y-m-d')) || str_contains($url, 'start=' . $dateAfter->format('Y-m-d'));
+        $hasExpectedEndDate = str_contains($url, 'end=' . $dateBefore->format('Y-m-d')) || str_contains($url, 'end=' . $dateAfter->format('Y-m-d'));
 
         $this->assertTrue($hasExpectedStartDate);
         $this->assertTrue($hasExpectedEndDate);

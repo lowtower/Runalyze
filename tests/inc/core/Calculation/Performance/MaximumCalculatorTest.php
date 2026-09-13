@@ -28,16 +28,12 @@ class MaximumCalculatorTest extends \PHPUnit\Framework\TestCase
     public function testNoModelInClosure(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        new MaximumCalculator(function (): \stdClass {
-            return new \stdClass();
-        }, []);
+        new MaximumCalculator(fn (): \stdClass => new \stdClass(), []);
     }
 
     public function testTSBclosure(): void
     {
-        $Calc = new MaximumCalculator(function (array $array): \Runalyze\Sports\Performance\Model\TsbModel {
-            return new TsbModel($array);
-        }, []);
+        $Calc = new MaximumCalculator(fn (array $array): \Runalyze\Sports\Performance\Model\TsbModel => new TsbModel($array), []);
 
         $this->assertEquals(0, $Calc->maxFitness());
         $this->assertEquals(0, $Calc->maxFatigue());
@@ -46,9 +42,7 @@ class MaximumCalculatorTest extends \PHPUnit\Framework\TestCase
 
     public function testFakeModel(): void
     {
-        $Calc = new MaximumCalculator(function (array $array): \Runalyze\Calculation\Performance\FakeAbstractModel {
-            return new FakeAbstractModel($array);
-        }, [10, 0, 50, 100, 0, 75, 13]);
+        $Calc = new MaximumCalculator(fn (array $array): \Runalyze\Calculation\Performance\FakeAbstractModel => new FakeAbstractModel($array), [10, 0, 50, 100, 0, 75, 13]);
 
         $this->assertEquals(200, $Calc->maxFitness());
         $this->assertEquals(500, $Calc->maxFatigue());

@@ -17,32 +17,20 @@ use Runalyze\Activity\Temperature;
  */
 class MinMaxTableForEquipment
 {
-    protected \PDO $PDO;
-
-    /**
-     * @var int
-     */
-    protected $AccountID;
-
-    /**
-     * @var int
-     */
-    protected $EquipmentTypeID;
-
     /**
      * @var string
      */
     protected $DependencyQuery = '';
 
     /**
-     * @param int $accountId
-     * @param int $equipmentTypeId
+     * @param int $AccountID
+     * @param int $EquipmentTypeID
      */
-    public function __construct(\PDO $pdo, $accountId, $equipmentTypeId)
-    {
-        $this->PDO = $pdo;
-        $this->AccountID = $accountId;
-        $this->EquipmentTypeID = $equipmentTypeId;
+    public function __construct(
+        protected \PDO $PDO,
+        protected $AccountID,
+        protected $EquipmentTypeID
+    ) {
     }
 
     /**

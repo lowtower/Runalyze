@@ -84,15 +84,10 @@ class Entity extends Model\Entity implements Model\Loopable
      */
     protected function canBeNull(string $key): bool
     {
-        switch ($key) {
-            case self::STROKE:
-            case self::STROKETYPE:
-            case self::SWOLF:
-            case self::SWOLFCYCLES:
-                return true;
-        }
-
-        return false;
+        return match ($key) {
+            self::STROKE, self::STROKETYPE, self::SWOLF, self::SWOLFCYCLES => true,
+            default => false,
+        };
     }
 
     /**

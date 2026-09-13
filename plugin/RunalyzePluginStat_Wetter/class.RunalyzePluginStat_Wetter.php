@@ -163,13 +163,13 @@ class RunalyzePluginStat_Wetter extends PluginStat
 
         echo '<p>';
         echo '<strong>' . __('Hottest activities') . ':</strong> ';
-        echo (empty($hot) ? __('none') : implode(', ', $hot)) . '<br>';
-        echo (empty($hot) ? __('none') : '<strong>' . __('Coldest activities')) . ':</strong> ';
+        echo ($hot === [] ? __('none') : implode(', ', $hot)) . '<br>';
+        echo ($hot === [] ? __('none') : '<strong>' . __('Coldest activities')) . ':</strong> ';
         echo implode(', ', $cold) . '<br>';
         echo '<strong>' . __('Most windy activities') . ':</strong> ';
-        echo (empty($windiest) ? __('none') : implode(', ', $windiest)) . '<br>';
+        echo ($windiest === [] ? __('none') : implode(', ', $windiest)) . '<br>';
         echo '<strong>' . __('Highest humidity activities') . ':</strong> ';
-        echo (empty($maxhumidity) ? __('none') : implode(', ', $maxhumidity)) . '<br>';
+        echo ($maxhumidity === [] ? __('none') : implode(', ', $maxhumidity)) . '<br>';
         echo '</p>';
     }
 

@@ -11,14 +11,10 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\UsageTrackingTo
 
 class AccountLastActionListener
 {
-    protected UsageTrackingTokenStorage $token;
-
-    protected EntityManager $em;
-
-    public function __construct(UsageTrackingTokenStorage $token, EntityManager $manager)
-    {
-        $this->token = $token;
-        $this->em = $manager;
+    public function __construct(
+        protected UsageTrackingTokenStorage $token,
+        protected EntityManager $em
+    ) {
     }
 
     /**

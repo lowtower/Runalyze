@@ -26,9 +26,7 @@ class ActivityTypeChoiceType extends AbstractTokenStorageAwareType
                 /** @var Type $type */
                 return $type->getName();
             },
-            'choice_value' => function (?Type $type = null) {
-                return $type instanceof \Runalyze\Bundle\CoreBundle\Entity\Type ? $type->getId() : '';
-            },
+            'choice_value' => fn (?Type $type = null) => $type instanceof \Runalyze\Bundle\CoreBundle\Entity\Type ? $type->getId() : '',
             'choice_attr' => function ($type, $key, $index): array {
                 /** @var Type $type */
                 return [

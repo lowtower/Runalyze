@@ -102,7 +102,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
 
     protected function knowsAgeGrade(): bool
     {
-        return $this->AgeGradeLookup !== null;
+        return $this->AgeGradeLookup instanceof \Runalyze\AgeGrade\Lookup;
     }
 
     protected function loadRaces()
@@ -180,7 +180,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
             $this->displayLinkToPerformanceChart();
         }
 
-        if (! empty($this->PBdistances)) {
+        if ($this->PBdistances !== []) {
             $this->displayPersonalBestsImages();
         }
 
@@ -231,7 +231,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
             }
         }
 
-        if (empty($this->PBdistances)) {
+        if ($this->PBdistances === []) {
             $this->displayEmptyTr('<em>' . __('There are no race results for the given distances.') . '</em>');
         }
     }
@@ -296,7 +296,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
             ];
         }
 
-        if ($this->RaceContainer->num() == 0) {
+        if ($this->RaceContainer->num() === 0) {
             return;
         }
 

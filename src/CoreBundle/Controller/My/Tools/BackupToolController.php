@@ -25,11 +25,9 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class BackupToolController extends AbstractController
 {
-    private MessageBusInterface $messageBus;
-
-    public function __construct(MessageBusInterface $messageBus)
-    {
-        $this->messageBus = $messageBus;
+    public function __construct(
+        private MessageBusInterface $messageBus
+    ) {
     }
 
     protected function getPathToBackupFiles(): string

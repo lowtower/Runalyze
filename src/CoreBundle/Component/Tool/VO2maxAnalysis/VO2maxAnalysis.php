@@ -14,11 +14,9 @@ class VO2maxAnalysis
 
     protected int $RunningSportId;
 
-    protected Configuration\Category\VO2max $VO2maxConfig;
-
-    public function __construct(Configuration\Category\VO2max $vo2maxConfig)
-    {
-        $this->VO2maxConfig = $vo2maxConfig;
+    public function __construct(
+        protected Configuration\Category\VO2max $VO2maxConfig
+    ) {
     }
 
     /**

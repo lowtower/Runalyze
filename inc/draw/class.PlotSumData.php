@@ -356,9 +356,7 @@ abstract class PlotSumData extends Plot
 
             if ($factor != 1) {
                 foreach ($this->Data as $index => $plotData) {
-                    $this->Data[$index]['data'] = array_map(function ($v) use ($factor) {
-                        return $v * $factor;
-                    }, $this->Data[$index]['data']);
+                    $this->Data[$index]['data'] = array_map(fn ($v) => $v * $factor, $this->Data[$index]['data']);
                 }
             }
         }
@@ -528,7 +526,7 @@ abstract class PlotSumData extends Plot
             $this->setDataForCompetitionAndTraining();
         }
 
-        if (empty($this->RawData)) {
+        if ($this->RawData === []) {
             $this->setYLimits(1, 0, 10);
         } else {
             $this->setYLimitsFromData();

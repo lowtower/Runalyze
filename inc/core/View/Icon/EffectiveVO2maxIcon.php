@@ -75,9 +75,7 @@ class EffectiveVO2maxIcon extends \Runalyze\View\Icon
     protected function setDirectionBasedOn($value, $currentShape)
     {
         // TODO
-        if ($currentShape === null) {
-            $currentShape = Configuration::Data()->vo2max();
-        }
+        $currentShape ??= Configuration::Data()->vo2max();
 
         $diff = $value - $currentShape;
 

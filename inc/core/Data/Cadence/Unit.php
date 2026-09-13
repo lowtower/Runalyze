@@ -44,12 +44,9 @@ class Unit
      */
     public function get($identifier, $value = 0)
     {
-        switch ($identifier) {
-            case self::RUNNING:
-                return new Running($value);
-            case self::GENERAL:
-            default:
-                return new General($value);
-        }
+        return match ($identifier) {
+            self::RUNNING => new Running($value),
+            default => new General($value),
+        };
     }
 }

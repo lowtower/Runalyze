@@ -23,19 +23,17 @@ class HeartRate
     protected ?float $value = null;
 
     /**
-     * Athlete
-     */
-    protected ?Athlete $Athlete = null;
-
-    /**
      * Preferred heart rate unit
      */
     protected HeartRateUnit $PreferredUnit;
 
-    public function __construct(?float $value, ?Athlete $Athlete = null)
-    {
+    public function __construct(
+        ?float $value, /**
+     * Athlete
+     */
+        protected ?Athlete $Athlete = null
+    ) {
         $this->setBPM($value);
-        $this->Athlete = $Athlete;
         $this->PreferredUnit = Configuration::General()->heartRateUnit();
     }
 

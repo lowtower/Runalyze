@@ -56,59 +56,35 @@ class Condition
 
     public function icon(): WeatherIcon
     {
-        switch ($this->identifier) {
-            case WeatherConditionProfile::SUNNY:
-                return new Weather\Sunny();
-            case WeatherConditionProfile::FAIR:
-                return new Weather\Fair();
-            case WeatherConditionProfile::CLOUDY:
-                return new Weather\Cloudy();
-            case WeatherConditionProfile::FOGGY:
-                return new Weather\Foggy();
-            case WeatherConditionProfile::CHANGEABLE:
-                return new Weather\Changeable();
-            case WeatherConditionProfile::THUNDERSTORM:
-                return new Weather\Thunderstorm();
-            case WeatherConditionProfile::RAINY:
-                return new Weather\Rainy();
-            case WeatherConditionProfile::HEAVYRAIN:
-                return new Weather\Heavyrain();
-            case WeatherConditionProfile::SNOWING:
-                return new Weather\Snowing();
-            case WeatherConditionProfile::WINDY:
-                return new Weather\Windy();
-            case WeatherConditionProfile::UNKNOWN:
-            default:
-                return new Weather\Unknown();
-        }
+        return match ($this->identifier) {
+            WeatherConditionProfile::SUNNY => new Weather\Sunny(),
+            WeatherConditionProfile::FAIR => new Weather\Fair(),
+            WeatherConditionProfile::CLOUDY => new Weather\Cloudy(),
+            WeatherConditionProfile::FOGGY => new Weather\Foggy(),
+            WeatherConditionProfile::CHANGEABLE => new Weather\Changeable(),
+            WeatherConditionProfile::THUNDERSTORM => new Weather\Thunderstorm(),
+            WeatherConditionProfile::RAINY => new Weather\Rainy(),
+            WeatherConditionProfile::HEAVYRAIN => new Weather\Heavyrain(),
+            WeatherConditionProfile::SNOWING => new Weather\Snowing(),
+            WeatherConditionProfile::WINDY => new Weather\Windy(),
+            default => new Weather\Unknown(),
+        };
     }
 
     public function string(): string
     {
-        switch ($this->identifier) {
-            case WeatherConditionProfile::SUNNY:
-                return __('sunny');
-            case WeatherConditionProfile::FAIR:
-                return __('fair');
-            case WeatherConditionProfile::CLOUDY:
-                return __('cloudy');
-            case WeatherConditionProfile::CHANGEABLE:
-                return __('changeable');
-            case WeatherConditionProfile::RAINY:
-                return __('rainy');
-            case WeatherConditionProfile::SNOWING:
-                return __('snowing');
-            case WeatherConditionProfile::HEAVYRAIN:
-                return __('heavy rain');
-            case WeatherConditionProfile::FOGGY:
-                return __('foggy');
-            case WeatherConditionProfile::THUNDERSTORM:
-                return __('thundery');
-            case WeatherConditionProfile::WINDY:
-                return __('windy');
-            case WeatherConditionProfile::UNKNOWN:
-            default:
-                return __('unknown');
-        }
+        return match ($this->identifier) {
+            WeatherConditionProfile::SUNNY => __('sunny'),
+            WeatherConditionProfile::FAIR => __('fair'),
+            WeatherConditionProfile::CLOUDY => __('cloudy'),
+            WeatherConditionProfile::CHANGEABLE => __('changeable'),
+            WeatherConditionProfile::RAINY => __('rainy'),
+            WeatherConditionProfile::SNOWING => __('snowing'),
+            WeatherConditionProfile::HEAVYRAIN => __('heavy rain'),
+            WeatherConditionProfile::FOGGY => __('foggy'),
+            WeatherConditionProfile::THUNDERSTORM => __('thundery'),
+            WeatherConditionProfile::WINDY => __('windy'),
+            default => __('unknown'),
+        };
     }
 }

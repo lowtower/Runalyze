@@ -7,8 +7,6 @@ declare(strict_types=1);
  * @package Runalyze\DataObjects\Training\View\Section
  */
 
-use Runalyze\View\Activity\Context;
-
 /**
  * Section of the training view
  *
@@ -33,12 +31,9 @@ abstract class TrainingViewSection
      */
     protected bool $isFirst = false;
 
-    protected \Runalyze\View\Activity\Context $Context;
-
-    public function __construct(?Context $Context = null)
-    {
-        $this->Context = $Context;
-
+    public function __construct(
+        protected ?\Runalyze\View\Activity\Context $Context = null
+    ) {
         if ($this->hasRequiredData()) {
             $this->setHeaderAndRows();
         }

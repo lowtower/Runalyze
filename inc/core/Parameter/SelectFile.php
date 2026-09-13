@@ -75,7 +75,7 @@ class SelectFile extends Select
         $firstChar = substr($fileName, 0, 1);
         $extension = pathinfo($fileName, PATHINFO_EXTENSION);
 
-        if ($firstChar == '.' || $firstChar == '/') {
+        if ($firstChar === '.' || $firstChar === '/') {
             return false;
         }
 

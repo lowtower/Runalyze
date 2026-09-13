@@ -63,9 +63,7 @@ class AnalysisData
             $month = (int) $result['month'];
             $value = (float) $result['value'];
 
-            if (! isset($this->Data[$year])) {
-                $this->Data[$year] = array_fill(1, 12, 0.0);
-            }
+            $this->Data[$year] ??= array_fill(1, 12, 0.0);
 
             $this->Data[$year][$month] = $value;
 
@@ -80,20 +78,14 @@ class AnalysisData
      */
     protected function getColumn()
     {
-        switch ($this->AnalysisSelection->getCurrentKey()) {
-            case AnalysisSelection::DISTANCE:
-                return 'distance';
-            case AnalysisSelection::TIME:
-                return 's';
-            case AnalysisSelection::ENERGY:
-                return 'kcal';
-            case AnalysisSelection::ELEVATION:
-                return 'elevation';
-            case AnalysisSelection::TRIMP:
-                return 'trimp';
-        }
-
-        return null;
+        return match ($this->AnalysisSelection->getCurrentKey()) {
+            AnalysisSelection::DISTANCE => 'distance',
+            AnalysisSelection::TIME => 's',
+            AnalysisSelection::ENERGY => 'kcal',
+            AnalysisSelection::ELEVATION => 'elevation',
+            AnalysisSelection::TRIMP => 'trimp',
+            default => null,
+        };
     }
 
     /**
@@ -155,19 +147,13 @@ class AnalysisData
         }
 
         $rawValue = $this->getRawValue($year, $month);
-
-        switch ($this->AnalysisSelection->getCurrentKey()) {
-            case AnalysisSelection::DISTANCE:
-                return $this->ValueExtension->distance($rawValue);
-            case AnalysisSelection::TIME:
-                return new DisplayableTime($rawValue);
-            case AnalysisSelection::ENERGY:
-                return $this->ValueExtension->energy($rawValue);
-            case AnalysisSelection::ELEVATION:
-                return $this->ValueExtension->elevation($rawValue);
-        }
-
-        return new DisplayableValue($rawValue, '');
+        return match ($this->AnalysisSelection->getCurrentKey()) {
+            AnalysisSelection::DISTANCE => $this->ValueExtension->distance($rawValue),
+            AnalysisSelection::TIME => new DisplayableTime($rawValue),
+            AnalysisSelection::ENERGY => $this->ValueExtension->energy($rawValue),
+            AnalysisSelection::ELEVATION => $this->ValueExtension->elevation($rawValue),
+            default => new DisplayableValue($rawValue, ''),
+        };
     }
 
     /**

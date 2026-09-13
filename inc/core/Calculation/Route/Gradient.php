@@ -60,7 +60,7 @@ class Gradient
 
     public function calculate(): void
     {
-        if (empty($this->Elevation)) {
+        if ($this->Elevation === []) {
             return;
         }
 
@@ -68,9 +68,7 @@ class Gradient
 
         $this->applyMovingAverage($elevation);
 
-        $this->Gradient = array_map(function ($value) {
-            return $value / 10;
-        }, (new Derivative())->calculate(
+        $this->Gradient = array_map(fn ($value) => $value / 10, (new Derivative())->calculate(
             $elevation,
             $this->Distance
         ));
@@ -78,7 +76,7 @@ class Gradient
 
     protected function applyMovingAverage(array &$elevation)
     {
-        if ($this->MovingAverageKernel !== null) {
+        if ($this->MovingAverageKernel instanceof \Runalyze\Calculation\Math\MovingAverage\Kernel\AbstractKernel) {
             $movingAverage = new WithKernel($elevation);
             $movingAverage->setKernel($this->MovingAverageKernel);
             $movingAverage->calculate();

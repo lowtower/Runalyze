@@ -39,19 +39,16 @@ class MaxZoneHR
 {
     private bool $import;
 
-    private ManagerRegistry $doctrine;
-
     // is import allowed by configuration
     public int $MaxHR = 0;
 
     // max HR of all imported activities
-    public ?int $Time; // timestamp of the first highest HR
+    public ?int $Time = null; // timestamp of the first highest HR
 
-    public function __construct(\Runalyze\Bundle\CoreBundle\Entity\Account $account, ManagerRegistry $doctrine)
-    {
-        // we can't use here in a command not the \Runalyze\Configuration::ActivityForm()
-        // so read the conf via repository
-        $this->doctrine = $doctrine;
+    public function __construct(
+        \Runalyze\Bundle\CoreBundle\Entity\Account $account,
+        private ManagerRegistry $doctrine
+    ) {
         /** @var ConfRepository $repository */
         $repository = $this->doctrine->getRepository(Conf::class);
 
@@ -95,46 +92,18 @@ class ActivityBulkImportCommand extends Command
     // 2 dim-array with 1-Idx=sportId & 2-Idx=Equipment
     private array $sportEquipment = [];
 
-    private ParameterBagInterface $parameterBag;
-
-    private ManagerRegistry $doctrine;
-
-    private TokenStorageInterface $tokenStorage;
-
-    private Filesystem $filesystem;
-
-    private FileImporter $fileImporter;
-
-    private ActivityDataContainerFilter $activityDataContainerFilter;
-
-    private ActivityDataContainerToActivityContextConverter $activityDataContainerConverter;
-
-    private ActivityContextAdapterFactory $activityContextAdapterFactory;
-
-    private ConfigurationManager $configurationManager;
-
     public function __construct(
-        ParameterBagInterface $parameterBag,
-        ManagerRegistry $doctrine,
-        TokenStorageInterface $tokenStorage,
-        Filesystem $filesystem,
-        FileImporter $fileImporter,
-        ActivityDataContainerFilter $activityDataContainerFilter,
-        ActivityDataContainerToActivityContextConverter $activityDataContainerConverter,
-        ActivityContextAdapterFactory $activityContextAdapterFactory,
-        ConfigurationManager $configurationManager
+        private ParameterBagInterface $parameterBag,
+        private ManagerRegistry $doctrine,
+        private TokenStorageInterface $tokenStorage,
+        private Filesystem $filesystem,
+        private FileImporter $fileImporter,
+        private ActivityDataContainerFilter $activityDataContainerFilter,
+        private ActivityDataContainerToActivityContextConverter $activityDataContainerConverter,
+        private ActivityContextAdapterFactory $activityContextAdapterFactory,
+        private ConfigurationManager $configurationManager
     ) {
         parent::__construct();
-
-        $this->parameterBag = $parameterBag;
-        $this->doctrine = $doctrine;
-        $this->tokenStorage = $tokenStorage;
-        $this->filesystem = $filesystem;
-        $this->fileImporter = $fileImporter;
-        $this->activityDataContainerFilter = $activityDataContainerFilter;
-        $this->activityDataContainerConverter = $activityDataContainerConverter;
-        $this->activityContextAdapterFactory = $activityContextAdapterFactory;
-        $this->configurationManager = $configurationManager;
     }
 
     protected function configure()

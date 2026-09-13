@@ -12,19 +12,12 @@ class MarathonShape
     public const MINIMAL_EFFECTIVE_VO2MAX = 25.0;
 
     /**
-     * @var float [ml/kg/min]
+     * @param float $EffectiveVO2max [ml/kg/min]
      */
-    protected $EffectiveVO2max;
-
-    protected BasicEndurance $Configuration;
-
-    /**
-     * @param float $effectiveVO2max [ml/kg/min]
-     */
-    public function __construct($effectiveVO2max, BasicEndurance $configuration)
-    {
-        $this->EffectiveVO2max = $effectiveVO2max;
-        $this->Configuration = $configuration;
+    public function __construct(
+        protected $EffectiveVO2max,
+        protected BasicEndurance $Configuration
+    ) {
     }
 
     /**

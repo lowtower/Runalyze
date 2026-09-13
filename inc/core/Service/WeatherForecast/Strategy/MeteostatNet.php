@@ -31,28 +31,20 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
     public const URL = 'https://meteostat.p.rapidapi.com/point/hourly';
 
     /**
-     * @var string
-     */
-    protected $ApiKey;
-
-    /**
-     * @var string
-     */
-    protected $Proxy;
-
-    /**
      * @var Client
      */
     protected $HttpClient;
 
     /**
-     * @param string $apiKey
-     * @param string $proxy
+     * @param string $ApiKey
+     * @param string $Proxy
      */
-    public function __construct($apiKey, $proxy, Client $client, ?LoggerInterface $logger = null)
-    {
-        $this->ApiKey = $apiKey;
-        $this->Proxy = $proxy;
+    public function __construct(
+        protected $ApiKey,
+        protected $Proxy,
+        Client $client,
+        ?LoggerInterface $logger = null
+    ) {
         $this->HttpClient = $client;
         $this->logger = $logger;
     }
@@ -202,10 +194,10 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
         }
 
         $dateTime = $location->getDateTime();
-        if ($dateTime === null) {
+        if (! $dateTime instanceof \DateTime) {
             try {
                 $timezone = new \DateTimeZone($location->getTimezone());
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 $timezone = new \DateTimeZone(date_default_timezone_get());
             }
 

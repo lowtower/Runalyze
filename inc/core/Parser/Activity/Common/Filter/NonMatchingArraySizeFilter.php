@@ -58,9 +58,7 @@ class NonMatchingArraySizeFilter extends AbstractFilter
             '%s array sizes %s (%s).',
             $sizesHaveBeenFixed ? 'Non-matching' : 'Unrecoverable non-matching',
             $sizesHaveBeenFixed ? 'fixed' : 'detected',
-            implode(', ', array_map(function ($key, int $size): string {
-                return $key . ': ' . $size;
-            }, array_keys($arraySizes), $arraySizes))
+            implode(', ', array_map(fn ($key, int $size): string => $key . ': ' . $size, array_keys($arraySizes), $arraySizes))
         );
     }
 

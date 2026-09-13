@@ -15,15 +15,13 @@ use Runalyze\Parameter\Application\DistanceUnitSystem;
 
 class UnitSystem
 {
-    protected RunalyzeConfigurationList $Configuration;
-
     protected AbstractPaceUnit $PaceUnit;
 
     protected LegacyUnitConverter $LegacyUnitConverter;
 
-    public function __construct(RunalyzeConfigurationList $config)
-    {
-        $this->Configuration = $config;
+    public function __construct(
+        protected RunalyzeConfigurationList $Configuration
+    ) {
         $this->PaceUnit = new KilometerPerHour();
         $this->LegacyUnitConverter = new LegacyUnitConverter();
     }

@@ -46,13 +46,6 @@ class Icon
     public const MAP_ARROW = 'fa-location-arrow';
 
     /**
-     * Key to identfiy FontAwesome icon
-     * @see http://fontawesome.io/icons/
-     * @var string
-     */
-    protected $FontAwesomeName;
-
-    /**
      * Text for tooltip
      * @var string
      */
@@ -60,11 +53,15 @@ class Icon
 
     /**
      * Construct new icon
-     * @param string $fontAwesomeName [optional] class const
+     * @param string $FontAwesomeName [optional] class const
      */
-    public function __construct($fontAwesomeName)
-    {
-        $this->FontAwesomeName = $fontAwesomeName;
+    public function __construct(
+        /**
+         * Key to identfiy FontAwesome icon
+         * @see http://fontawesome.io/icons/
+         */
+        protected $FontAwesomeName
+    ) {
     }
 
     /**

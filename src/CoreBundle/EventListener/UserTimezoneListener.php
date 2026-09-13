@@ -8,11 +8,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\UsageTrackingTo
 
 class UserTimezoneListener
 {
-    private UsageTrackingTokenStorage $token;
-
-    public function __construct(UsageTrackingTokenStorage $token)
-    {
-        $this->token = $token;
+    public function __construct(
+        private UsageTrackingTokenStorage $token
+    ) {
     }
 
     public function onKernelRequest()
@@ -31,7 +29,7 @@ class UserTimezoneListener
 
                     try {
                         new \DateTimeZone($timezoneName);
-                    } catch (\Exception $e) {
+                    } catch (\Exception) {
                         return;
                     }
 

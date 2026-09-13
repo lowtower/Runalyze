@@ -12,25 +12,16 @@ use Twig\Environment;
 
 class AccountMailer
 {
-    protected MailerInterface $mailer;
-
-    protected Environment $twig;
-
-    protected TranslatorInterface $translator;
-
     /**
      * @var string|Address|null
      */
     protected $sender;
 
     public function __construct(
-        MailerInterface $mailer,
-        Environment $twig,
-        TranslatorInterface $translator
+        protected MailerInterface $mailer,
+        protected Environment $twig,
+        protected TranslatorInterface $translator
     ) {
-        $this->mailer = $mailer;
-        $this->twig = $twig;
-        $this->translator = $translator;
     }
 
     public function setFrom(string $senderMail, string $senderName): void
@@ -77,7 +68,7 @@ class AccountMailer
         try {
             $this->twig->render($template . $language . '.html.twig');
             return $template . $language . '.html.twig';
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             return $template . 'html.twig';
         }
     }

@@ -132,13 +132,10 @@ class WeekStart extends \Runalyze\Parameter\Select
      */
     public function mysqlParameter(): int
     {
-        switch ($this->value()) {
-            case self::SUNDAY:
-                return 6;
-            case self::MONDAY:
-            default:
-                return 3;
-        }
+        return match ($this->value()) {
+            self::SUNDAY => 6,
+            default => 3,
+        };
     }
 
     /**
@@ -167,27 +164,19 @@ class WeekStart extends \Runalyze\Parameter\Select
 
     public function firstDayOfWeekForStrtotime(): string
     {
-        switch ($this->value()) {
-            case self::SUNDAY:
-                return 'sunday';
-            case self::SATURDAY:
-                return 'saturday';
-            case self::MONDAY:
-            default:
-                return 'monday';
-        }
+        return match ($this->value()) {
+            self::SUNDAY => 'sunday',
+            self::SATURDAY => 'saturday',
+            default => 'monday',
+        };
     }
 
     public function lastDayOfWeekForStrtotime(): string
     {
-        switch ($this->value()) {
-            case self::SUNDAY:
-                return 'saturday';
-            case self::SATURDAY:
-                return 'friday';
-            case self::MONDAY:
-            default:
-                return 'sunday';
-        }
+        return match ($this->value()) {
+            self::SUNDAY => 'saturday',
+            self::SATURDAY => 'friday',
+            default => 'sunday',
+        };
     }
 }

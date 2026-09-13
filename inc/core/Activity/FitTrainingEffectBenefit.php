@@ -81,25 +81,15 @@ class FitTrainingEffectBenefit extends AbstractEnum
             throw new \InvalidArgumentException(sprintf('Provided TrainingEffect benefit %s is invalid.', $fitValue));
         }
 
-        switch ((int) $fitValue) {
-            case 1:
-                return self::RECOVERY;
-            case 2:
-                return self::BASE;
-            case 3:
-                return self::PACE;
-            case 4:
-                return self::THRESHOLD;
-            case 5:
-                return self::VO2MAX;
-            case 6:
-                return self::ANAEROBIC;
-            case 7:
-                return self::SPRINT;
-            default:
-                // return the original value / this results in an unknown "label"
-                return (int) $fitValue;
-        }
+        return match ((int) $fitValue) {
+            1 => self::RECOVERY,
+            2 => self::BASE,
+            3 => self::PACE,
+            4 => self::THRESHOLD,
+            5 => self::VO2MAX,
+            6 => self::ANAEROBIC,
+            7 => self::SPRINT,
+        };
     }
 
     /**
@@ -110,24 +100,16 @@ class FitTrainingEffectBenefit extends AbstractEnum
      */
     public static function labelOfEnum(int $num): string
     {
-        switch ($num) {
-            case self::RECOVERY:
-                return 'Recovery';
-            case self::BASE:
-                return 'Base';
-            case self::PACE:
-                return 'Pace';
-            case self::THRESHOLD:
-                return 'Schwelle';
-            case self::VO2MAX:
-                return 'VO2Max';
-            case self::ANAEROBIC:
-                return 'Anaerobic';
-            case self::SPRINT:
-                return 'Sprint';
-            default:
-                return sprintf('Unknown %u', $num);
-        }
+        return match ($num) {
+            self::RECOVERY => 'Recovery',
+            self::BASE => 'Base',
+            self::PACE => 'Pace',
+            self::THRESHOLD => 'Schwelle',
+            self::VO2MAX => 'VO2Max',
+            self::ANAEROBIC => 'Anaerobic',
+            self::SPRINT => 'Sprint',
+            default => sprintf('Unknown %u', $num),
+        };
     }
 
     /**

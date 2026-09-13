@@ -47,11 +47,6 @@ class FileImporter implements LoggerAwareInterface
     protected $Filesystem;
 
     /**
-     * @var string|null
-     */
-    protected $DirectoryForFailedImports;
-
-    /**
      * @var ParserException[]
      */
     protected $ConverterExceptions = [];
@@ -62,19 +57,18 @@ class FileImporter implements LoggerAwareInterface
     protected $RemoveFiles = true;
 
     /**
-     * @param string|null $directoryForFailedImports
+     * @param string|null $DirectoryForFailedImports
      */
     public function __construct(
         FitConverter $fitConverter,
         TtbinConverter $ttbinConverter,
-        $directoryForFailedImports = null,
+        protected $DirectoryForFailedImports = null,
         ?LoggerInterface $logger = null
     ) {
         $this->ParserMapping = new FileExtensionToParserMapping();
         $this->Converter = [$fitConverter, $ttbinConverter, new KmzConverter()];
         $this->ZipConverter = new ZipConverter($this->getSupportedFileExtensions());
         $this->Filesystem = new Filesystem();
-        $this->DirectoryForFailedImports = $directoryForFailedImports;
         $this->logger = $logger ?: new NullLogger();
     }
 
@@ -97,9 +91,7 @@ class FileImporter implements LoggerAwareInterface
     {
         return array_merge(
             array_keys(FileExtensionToParserMapping::MAPPING),
-            array_map(function (FileTypeConverterInterface $converter) {
-                return $converter->getConvertibleFileExtension();
-            }, $this->Converter),
+            array_map(fn (FileTypeConverterInterface $converter) => $converter->getConvertibleFileExtension(), $this->Converter),
             ['zip']
         );
     }
@@ -154,7 +146,7 @@ class FileImporter implements LoggerAwareInterface
         $lookupTable = array_flip($results->getAllFileNames());
 
         foreach ($lookupTable as $fileName => $index) {
-            if (substr($fileName, -4) == '.hrm' && isset($lookupTable[substr($fileName, 0, -4) . '.gpx'])) {
+            if (str_ends_with($fileName, '.hrm') && isset($lookupTable[substr($fileName, 0, -4) . '.gpx'])) {
                 $matchingIndices[$index] = $lookupTable[substr($fileName, 0, -4) . '.gpx'];
             }
         }
@@ -200,9 +192,7 @@ class FileImporter implements LoggerAwareInterface
      */
     protected function getFileImportResultFor($fileName, $originalFileName = null): \Runalyze\Bundle\CoreBundle\Services\Import\FileImportResult
     {
-        if ($originalFileName === null) {
-            $originalFileName = $fileName;
-        }
+        $originalFileName ??= $fileName;
 
         try {
             return new FileImportResult(

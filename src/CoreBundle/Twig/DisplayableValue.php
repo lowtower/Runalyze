@@ -4,7 +4,7 @@ namespace Runalyze\Bundle\CoreBundle\Twig;
 
 use Runalyze\Metrics\Common\UnitInterface;
 
-class DisplayableValue
+class DisplayableValue implements \Stringable
 {
     /**
      * @var mixed
@@ -17,29 +17,19 @@ class DisplayableValue
     protected $Unit;
 
     /**
-     * @var int
-     */
-    protected $DefaultDecimals;
-
-    /**
-     * @var string
-     */
-    protected $DefaultDecimalPoint;
-
-    /**
-     * @var string
-     */
-    protected $DefaultThousandsSeparator;
-
-    /**
      * @param mixed $value
      * @param string|UnitInterface $unit
-     * @param int $defaultDecimals
-     * @param string $defaultDecimalPoint
-     * @param string $defaultThousandsSeparator
+     * @param int $DefaultDecimals
+     * @param string $DefaultDecimalPoint
+     * @param string $DefaultThousandsSeparator
      */
-    public function __construct($value, $unit, $defaultDecimals = 0, $defaultDecimalPoint = '.', $defaultThousandsSeparator = ',')
-    {
+    public function __construct(
+        $value,
+        $unit,
+        protected $DefaultDecimals = 0,
+        protected $DefaultDecimalPoint = '.',
+        protected $DefaultThousandsSeparator = ','
+    ) {
         if ($unit instanceof UnitInterface) {
             $value = $unit->fromBaseUnit($value);
             $unit = $unit->getAppendix();
@@ -47,15 +37,9 @@ class DisplayableValue
 
         $this->Value = $value;
         $this->Unit = $unit;
-        $this->DefaultDecimals = $defaultDecimals;
-        $this->DefaultDecimalPoint = $defaultDecimalPoint;
-        $this->DefaultThousandsSeparator = $defaultThousandsSeparator;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getWithUnit();
     }

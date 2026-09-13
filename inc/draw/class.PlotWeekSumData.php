@@ -51,7 +51,7 @@ class PlotWeekSumData extends PlotSumData
     {
         $weeks = [];
         $add = ($this->Year === parent::LAST_6_MONTHS || $this->Year === parent::LAST_12_MONTHS) ? 0 : $this->WeekStart->phpWeek() - $this->timerEnd;
-        $yearDiff = $add == 0 ? 0 : (int) date('Y') - (int) $this->Year;
+        $yearDiff = $add === 0 ? 0 : (int) date('Y') - (int) $this->Year;
 
         for ($w = $this->timerStart; $w <= $this->timerEnd; $w++) {
             $time = strtotime($this->WeekStart->lastDayOfWeekForStrtotime() . ' -' . ($this->timerEnd - $w + $add) . ' weeks -' . $yearDiff . ' years');

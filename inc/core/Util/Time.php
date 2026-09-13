@@ -83,16 +83,15 @@ class Time
      */
     public static function weekday(string $w, bool $short = false): string
     {
-        switch ((int) $w % 7) {
-            case 0: return $short ? __('Sun') : __('Sunday');
-            case 1: return $short ? __('Mon') : __('Monday');
-            case 2: return $short ? __('Tue') : __('Tuesday');
-            case 3: return $short ? __('Wed') : __('Wednesday');
-            case 4: return $short ? __('Thu') : __('Thursday');
-            case 5: return $short ? __('Fri') : __('Friday');
-            case 6:
-            default: return $short ? __('Sat') : __('Saturday');
-        }
+        return match ((int) $w % 7) {
+            0 => $short ? __('Sun') : __('Sunday'),
+            1 => $short ? __('Mon') : __('Monday'),
+            2 => $short ? __('Tue') : __('Tuesday'),
+            3 => $short ? __('Wed') : __('Wednesday'),
+            4 => $short ? __('Thu') : __('Thursday'),
+            5 => $short ? __('Fri') : __('Friday'),
+            default => $short ? __('Sat') : __('Saturday'),
+        };
     }
 
     /**
@@ -103,20 +102,19 @@ class Time
      */
     public static function month(string $m, bool $short = false): string
     {
-        switch ((int) $m % 12) {
-            case 1: return $short ? __('Jan') : __('January');
-            case 2: return $short ? __('Feb') : __('February');
-            case 3: return $short ? __('Mar') : __('March');
-            case 4: return $short ? __('Apr') : __('April');
-            case 5: return $short ? __('May') : __('May');
-            case 6: return $short ? __('Jun') : __('June');
-            case 7: return $short ? __('Jul') : __('July');
-            case 8: return $short ? __('Aug') : __('August');
-            case 9: return $short ? __('Sep') : __('September');
-            case 10: return $short ? __('Oct') : __('October');
-            case 11: return $short ? __('Nov') : __('November');
-            case 0:
-            default: return $short ? __('Dec') : __('December');
-        }
+        return match ((int) $m % 12) {
+            1 => $short ? __('Jan') : __('January'),
+            2 => $short ? __('Feb') : __('February'),
+            3 => $short ? __('Mar') : __('March'),
+            4 => $short ? __('Apr') : __('April'),
+            5 => $short ? __('May') : __('May'),
+            6 => $short ? __('Jun') : __('June'),
+            7 => $short ? __('Jul') : __('July'),
+            8 => $short ? __('Aug') : __('August'),
+            9 => $short ? __('Sep') : __('September'),
+            10 => $short ? __('Oct') : __('October'),
+            11 => $short ? __('Nov') : __('November'),
+            default => $short ? __('Dec') : __('December'),
+        };
     }
 }

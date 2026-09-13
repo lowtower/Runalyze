@@ -161,9 +161,7 @@ class ElevationAlgorithms extends ActivityPlot
         $UnitSystem = Configuration::General()->distanceUnitSystem();
 
         if ($UnitSystem->isImperial()) {
-            $data = array_map(function ($value): float {
-                return round($value * DistanceUnitSystem::FEET_MULTIPLIER / 1000);
-            }, $data);
+            $data = array_map(fn ($value): float => round($value * DistanceUnitSystem::FEET_MULTIPLIER / 1000), $data);
         }
 
         $this->updateLimits([min($data), max($data)]);

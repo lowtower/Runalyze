@@ -6,11 +6,9 @@ namespace Runalyze\Parser\Activity\Common\Data\Round;
 
 class RoundCollectionFiller
 {
-    protected RoundCollection $Rounds;
-
-    public function __construct(RoundCollection &$rounds)
-    {
-        $this->Rounds = $rounds;
+    public function __construct(
+        protected RoundCollection &$Rounds
+    ) {
     }
 
     public function fillTimesFromArray(array $time, array $distance)

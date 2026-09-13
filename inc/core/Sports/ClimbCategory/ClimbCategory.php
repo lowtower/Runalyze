@@ -2,10 +2,8 @@
 
 namespace Runalyze\Sports\ClimbCategory;
 
-class ClimbCategory
+class ClimbCategory implements \Stringable
 {
-    public $Category;
-
     /**
      * @var int
      */
@@ -42,11 +40,11 @@ class ClimbCategory
     public const CATEGORY_NONE = 6;
 
     /**
-     * @param int $category
+     * @param int $Category
      */
-    public function __construct($category = self::CATEGORY_NONE)
-    {
-        $this->Category = $category;
+    public function __construct(
+        public $Category = self::CATEGORY_NONE
+    ) {
     }
 
     /**
@@ -75,7 +73,7 @@ class ClimbCategory
         return $strings[$this->Category];
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getString();
     }

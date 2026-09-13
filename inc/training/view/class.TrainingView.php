@@ -276,7 +276,7 @@ class TrainingView
         echo '<div class="panel-menu"><ul>';
 
         foreach ($this->ToolbarLinks as $link) {
-            if (substr($link, 0, 3) != '<li' && substr($link, 0, 2) != '</') {
+            if (! str_starts_with($link, '<li') && ! str_starts_with($link, '</')) {
                 $link = '<li>' . $link . '</li>';
             }
 

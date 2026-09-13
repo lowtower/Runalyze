@@ -31,13 +31,6 @@ use Symfony\Component\Yaml\Yaml;
 class Frontend
 {
     /**
-     * Symfony token storage for user
-     */
-    protected ?TokenStorageInterface $symfonyToken = null;
-
-    protected ?ParameterBagInterface $parameterBag = null;
-
-    /**
      * Yaml Configuration
      */
     protected array $yamlConfig = [];
@@ -50,11 +43,13 @@ class Frontend
      *
      * @param bool $hideHeaderAndFooter By default a html-header is directly shown
      */
-    public function __construct(bool $hideHeaderAndFooter = false, ?TokenStorageInterface $symfonyToken = null, ?ParameterBagInterface $parameterBag = null)
-    {
-        $this->symfonyToken = $symfonyToken;
-        $this->parameterBag = $parameterBag;
-
+    public function __construct(
+        bool $hideHeaderAndFooter = false, /**
+     * Symfony token storage for user
+     */
+        protected ?TokenStorageInterface $symfonyToken = null,
+        protected ?ParameterBagInterface $parameterBag = null
+    ) {
         $this->initSystem();
         $this->defineConsts();
 
@@ -169,7 +164,7 @@ class Frontend
 
         try {
             new Cache();
-        } catch (Exception $exception) {
+        } catch (Exception) {
             die('Cache directory "./' . Cache::PATH . '/cache/" must be writable.');
         }
     }

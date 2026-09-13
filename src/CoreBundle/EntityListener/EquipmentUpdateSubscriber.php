@@ -61,9 +61,7 @@ class EquipmentUpdateSubscriber implements EventSubscriber
             }
         }
 
-        $handledIds = array_map(function (Equipment $equipment) {
-            return $equipment->getId();
-        }, array_merge($newEquipment, $removedEquipment));
+        $handledIds = array_map(fn (Equipment $equipment) => $equipment->getId(), array_merge($newEquipment, $removedEquipment));
 
         if (! empty($removedEquipment)) {
             $this->EquipmentRepository->updateEquipment($removedEquipment, -$activity->getS(), -$activity->getDistance(), false);

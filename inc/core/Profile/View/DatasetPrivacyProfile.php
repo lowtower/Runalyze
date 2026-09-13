@@ -24,14 +24,11 @@ class DatasetPrivacyProfile extends AbstractEnum implements InterfaceChoosable
      */
     public static function stringFor($id): string
     {
-        switch ($id) {
-            case self::PRIVATE_KEY:
-                return __('private');
-            case self::PUBLIC_KEY:
-                return __('public');
-            default:
-                throw new \InvalidArgumentException('Invalid databrowser row id "' . $id . '".');
-        }
+        return match ($id) {
+            self::PRIVATE_KEY => __('private'),
+            self::PUBLIC_KEY => __('public'),
+            default => throw new \InvalidArgumentException('Invalid databrowser row id "' . $id . '".'),
+        };
     }
 
     public static function getChoices(): array

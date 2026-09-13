@@ -98,13 +98,10 @@ class Entity extends Model\EntityWithID
      */
     protected function canBeNull(string $key): bool
     {
-        switch ($key) {
-            case self::DATE_START:
-            case self::DATE_END:
-                return true;
-        }
-
-        return false;
+        return match ($key) {
+            self::DATE_START, self::DATE_END => true,
+            default => false,
+        };
     }
 
     public function synchronize(): void

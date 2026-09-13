@@ -24,7 +24,7 @@ class ActivityMatcherController extends \Symfony\Bundle\FrameworkBundle\Controll
         $input = explode('&', urldecode(file_get_contents('php://input')));
 
         foreach ($input as $line) {
-            if (substr($line, 0, 12) === 'externalIds=') {
+            if (str_starts_with($line, 'externalIds=')) {
                 $ids[] = substr($line, 12);
             }
         }
@@ -33,7 +33,7 @@ class ActivityMatcherController extends \Symfony\Bundle\FrameworkBundle\Controll
         $ignoredActivityIds = array_map(function ($v): float|int {
             try {
                 return (int) floor($this->parserStrtotime($v) / 60.0) * 60.0;
-            } catch (\Exception $exception) {
+            } catch (\Exception) {
                 return 0;
             }
         }, $this->get('app.configuration_manager')
@@ -46,7 +46,7 @@ class ActivityMatcherController extends \Symfony\Bundle\FrameworkBundle\Controll
                 $possibleDuplicate = $duplicateFinder->isPossibleDuplicate(
                     (new Training())->setTime($this->parserStrtotime($id))
                 );
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 $possibleDuplicate = false;
             }
 
@@ -68,7 +68,7 @@ class ActivityMatcherController extends \Symfony\Bundle\FrameworkBundle\Controll
      */
     private function parserStrtotime($string): int
     {
-        if (substr($string, -1) === 'Z') {
+        if (str_ends_with($string, 'Z')) {
             return LocalTime::fromServerTime((int) strtotime(substr($string, 0, -1) . ' UTC'))->getTimestamp();
         }
 

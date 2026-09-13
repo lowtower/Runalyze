@@ -19,33 +19,25 @@ use Runalyze\Model\Trackdata;
  */
 class TrackdataAverages
 {
-    protected \Runalyze\Model\Trackdata\Entity $Trackdata;
-
-    /**
-     * @var string[] enums of requested keys
-     */
-    protected array $Keys;
-
     /**
      * @var array ['key' => mean]
      */
     protected $Averages = [];
 
-    protected bool $IgnoreZeros = true;
-
     protected array $KeysThatAllowZero;
 
     /**
-     * @param string[] $keys enums
-     * @param bool $ignoreZeros by default 0s are ignored for mean
+     * @param string[] $Keys enums
+     * @param bool $IgnoreZeros by default 0s are ignored for mean
      * @param array|bool $keysThatAllowZero some keys may allow 0s, by default: cadence, temperature
      * @throws \InvalidArgumentException
      */
-    public function __construct(Trackdata\Entity $trackdata, array $keys, bool $ignoreZeros = true, $keysThatAllowZero = false)
-    {
-        $this->Trackdata = $trackdata;
-        $this->Keys = $keys;
-        $this->IgnoreZeros = $ignoreZeros;
+    public function __construct(
+        protected \Runalyze\Model\Trackdata\Entity $Trackdata,
+        protected array $Keys,
+        protected bool $IgnoreZeros = true,
+        $keysThatAllowZero = false
+    ) {
         $this->KeysThatAllowZero = ($keysThatAllowZero !== false) ? $keysThatAllowZero : $this->defaultKeysThatAllowZero();
 
         $this->checkData();

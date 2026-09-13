@@ -15,31 +15,6 @@ namespace Runalyze\Sports\Performance\Model;
 class BussoModel extends AbstractModel
 {
     /**
-     * @var int r1 (adaptive)
-     */
-    protected $r1;
-
-    /**
-     * @var int r2 (fatigue)
-     */
-    protected $r2;
-
-    /**
-     * @var int r3 (for k3)
-     */
-    protected $r3;
-
-    /**
-     * @var int k1 (adaptive)
-     */
-    protected $k1;
-
-    /**
-     * @var int k3 (fatigue)
-     */
-    protected $k3;
-
-    /**
      * @param array $trimpData array('days back' => 'trimp value')
      * @param int $r1
      * @param int $r2
@@ -47,14 +22,14 @@ class BussoModel extends AbstractModel
      * @param int $k1
      * @param int $k3
      */
-    public function __construct(array $trimpData, $r1 = 42, $r2 = 7, $r3 = 4, $k1 = 1, $k3 = 2)
-    {
-        $this->r1 = $r1;
-        $this->r2 = $r2;
-        $this->r3 = $r3;
-        $this->k1 = $k1;
-        $this->k3 = $k3;
-
+    public function __construct(
+        array $trimpData,
+        protected $r1 = 42,
+        protected $r2 = 7,
+        protected $r3 = 4,
+        protected $k1 = 1,
+        protected $k3 = 2
+    ) {
         parent::__construct($trimpData);
     }
 

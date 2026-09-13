@@ -188,7 +188,7 @@ class Splits
         $splits = explode('-', str_replace('\r\n', '-', $this->asString));
 
         foreach ($splits as $split) {
-            if (substr($split, 0, 1) === 'R') {
+            if (str_starts_with($split, 'R')) {
                 $active = false;
                 $split = substr($split, 1);
             } else {
@@ -217,7 +217,7 @@ class Splits
             // else
             $this->asArray[$key]['km'] = $this->formatKM($split['km']);
 
-            if (substr($split['time'], -1) === 's') {
+            if (str_ends_with($split['time'], 's')) {
                 $this->asArray[$key]['time'] = $this->formatTime((float) substr($split['time'], 0, -1));
             }
         }

@@ -47,46 +47,30 @@ class Stroketype
 
     public function string(): string
     {
-        switch ($this->Identifier) {
-            case StrokeTypeProfile::FREESTYLE:
-                return __('Freestyle');
-            case StrokeTypeProfile::BACK:
-                return __('Backstroke');
-            case StrokeTypeProfile::BREAST:
-                return __('Breaststroke');
-            case StrokeTypeProfile::BUTTERFLY:
-                return __('Butterfly');
-            case StrokeTypeProfile::DRILL:
-                return __('Drill');
-            case StrokeTypeProfile::MIXED:
-                return __('Mixed');
-            case StrokeTypeProfile::BREAK:
-                return __('Break');
-        }
-
-        return '';
+        return match ($this->Identifier) {
+            StrokeTypeProfile::FREESTYLE => __('Freestyle'),
+            StrokeTypeProfile::BACK => __('Backstroke'),
+            StrokeTypeProfile::BREAST => __('Breaststroke'),
+            StrokeTypeProfile::BUTTERFLY => __('Butterfly'),
+            StrokeTypeProfile::DRILL => __('Drill'),
+            StrokeTypeProfile::MIXED => __('Mixed'),
+            StrokeTypeProfile::BREAK => __('Break'),
+            default => '',
+        };
     }
 
     public function shortString(): string
     {
-        switch ($this->Identifier) {
-            case StrokeTypeProfile::FREESTYLE:
-                return __('Freestyle');
-            case StrokeTypeProfile::BACK:
-                return __('Back');
-            case StrokeTypeProfile::BREAST:
-                return __('Breast');
-            case StrokeTypeProfile::BUTTERFLY:
-                return __('Butterfly');
-            case StrokeTypeProfile::DRILL:
-                return __('Drill');
-            case StrokeTypeProfile::MIXED:
-                return __('Mixed');
-            case StrokeTypeProfile::BREAK:
-                return __('Break');
-        }
-
-        return '';
+        return match ($this->Identifier) {
+            StrokeTypeProfile::FREESTYLE => __('Freestyle'),
+            StrokeTypeProfile::BACK => __('Back'),
+            StrokeTypeProfile::BREAST => __('Breast'),
+            StrokeTypeProfile::BUTTERFLY => __('Butterfly'),
+            StrokeTypeProfile::DRILL => __('Drill'),
+            StrokeTypeProfile::MIXED => __('Mixed'),
+            StrokeTypeProfile::BREAK => __('Break'),
+            default => '',
+        };
     }
 
     public function isBreak(): bool

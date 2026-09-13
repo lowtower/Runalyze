@@ -26,7 +26,7 @@ class TablePrefixSubscriber implements \Doctrine\Common\EventSubscriber
         $classMetadata = $eventArgs->getClassMetadata();
 
         if (strlen($this->prefix)) {
-            if (strpos($classMetadata->getTableName(), $this->prefix) !== 0) {
+            if (! str_starts_with($classMetadata->getTableName(), $this->prefix)) {
                 $classMetadata->setPrimaryTable([
                     'name' => $this->prefix . $classMetadata->getTableName(),
                 ]);
@@ -44,7 +44,7 @@ class TablePrefixSubscriber implements \Doctrine\Common\EventSubscriber
 
                 $mappedTableName = $classMetadata->associationMappings[$fieldName]['joinTable']['name'];
 
-                if (strpos($mappedTableName, $this->prefix) !== 0) {
+                if (! str_starts_with($mappedTableName, $this->prefix)) {
                     $classMetadata->associationMappings[$fieldName]['joinTable']['name'] = $this->prefix . $mappedTableName;
                 }
             }

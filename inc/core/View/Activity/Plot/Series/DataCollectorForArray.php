@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\View\Activity\Plot\Series;
 
 use Runalyze\Model\Trackdata\Entity as Trackdata;
@@ -8,19 +10,19 @@ class DataCollectorForArray extends DataCollector
 {
     protected array $RawData;
 
-    protected bool $InterpolateData;
-
     /**
      * @throws \InvalidArgumentException
      */
-    public function __construct(Trackdata $trackdata, array $data, bool $interpolateData = true)
-    {
+    public function __construct(
+        Trackdata $trackdata,
+        array $data,
+        protected bool $InterpolateData = true
+    ) {
         if (count($data) !== $trackdata->num()) {
             throw new \InvalidArgumentException('Provided data must be of same size as trackdata.');
         }
 
         $this->RawData = $data;
-        $this->InterpolateData = $interpolateData;
 
         parent::__construct($trackdata, Trackdata::DISTANCE);
     }

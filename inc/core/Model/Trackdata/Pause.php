@@ -35,35 +35,27 @@ class Pause
     public const HR_END = 'hr-end';
 
     /**
-     * Timestamp
-     * Relative to activity
-     */
-    protected int $Time = 0;
-
-    /**
-     * Duration
-     */
-    protected float $Duration = 0.0;
-
-    /**
-     * HR start
-     */
-    protected ?int $HRstart;
-
-    /**
-     * HR end
-     */
-    protected ?int $HRend;
-
-    /**
      * Construct
      */
-    public function __construct(int $time = 0, float $duration = 0, ?int $hrStart = null, ?int $hrEnd = null)
-    {
-        $this->Time = $time;
-        $this->Duration = $duration;
-        $this->HRstart = $hrStart;
-        $this->HRend = $hrEnd;
+    public function __construct(
+        /**
+         * Timestamp
+         * Relative to activity
+         */
+        protected int $Time = 0,
+        /**
+         * Duration
+         */
+        protected float $Duration = 0,
+        /**
+         * HR start
+         */
+        protected ?int $HRstart = null,
+        /**
+         * HR end
+         */
+        protected ?int $HRend = null
+    ) {
     }
 
     /**

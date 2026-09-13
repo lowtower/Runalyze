@@ -101,9 +101,7 @@ class PauseCollection implements \Countable, \ArrayAccess, \IteratorAggregate
     {
         return array_reduce(
             $this->getElements(),
-            function ($carry, Pause $pause): float {
-                return $carry + $pause->getDuration();
-            },
+            fn ($carry, Pause $pause): float => $carry + $pause->getDuration(),
             0
         );
     }

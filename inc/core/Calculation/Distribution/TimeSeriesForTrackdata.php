@@ -10,44 +10,26 @@ use Runalyze\Model\Trackdata;
  */
 class TimeSeriesForTrackdata extends TimeSeries
 {
-    protected \Runalyze\Model\Trackdata\Entity $Trackdata;
-
-    /**
-     * @var string enum
-     */
-    protected $IndexKey;
-
-    /**
-     * @var string[] enums
-     */
-    protected array $SumDifferencesKeys;
-
-    /**
-     * @var string[] enums
-     */
-    protected array $AvgValuesKeys;
-
     /**
      * @var array
      */
     protected $Data = [];
 
     /**
-     * @param string $indexKey enum
-     * @param string[] $sumDifferencesKeys enums
-     * @param string[] $avgValuesKeys enums
+     * @param string $IndexKey enum
+     * @param string[] $SumDifferencesKeys enums
+     * @param string[] $AvgValuesKeys enums
      * @throws \InvalidArgumentException
      */
-    public function __construct(Trackdata\Entity $trackdata, $indexKey, array $sumDifferencesKeys = [], array $avgValuesKeys = [])
-    {
-        $this->Trackdata = $trackdata;
-        $this->IndexKey = $indexKey;
-        $this->SumDifferencesKeys = $sumDifferencesKeys;
-        $this->AvgValuesKeys = $avgValuesKeys;
-
+    public function __construct(
+        protected \Runalyze\Model\Trackdata\Entity $Trackdata,
+        protected $IndexKey,
+        protected array $SumDifferencesKeys = [],
+        protected array $AvgValuesKeys = []
+    ) {
         $this->fillMissingTrackdataArrays();
 
-        parent::__construct($trackdata->get($indexKey), $trackdata->get(Trackdata\Entity::TIME));
+        parent::__construct($this->Trackdata->get($this->IndexKey), $this->Trackdata->get(Trackdata\Entity::TIME));
         $this->collectData();
     }
 

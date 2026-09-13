@@ -59,11 +59,6 @@ class SearchResults
     protected int $Page = 0;
 
     /**
-     * Search and show trainings=
-     */
-    protected bool $WithResults = true;
-
-    /**
      * Results per page
      */
     protected int $ResultsPerPage;
@@ -76,17 +71,19 @@ class SearchResults
 
     protected \Runalyze\Dataset\Query $DatasetQuery;
 
-    public function __construct(bool $withResults = true)
-    {
-        $this->WithResults = $withResults;
-
+    public function __construct(
+        /**
+         * Search and show trainings=
+         */
+        protected bool $WithResults = true
+    ) {
         $this->setAllowedKeys();
         $this->setKeysThatShouldIgnoreNull();
         $this->setKeysThatShouldIgnoreZero();
 
         $this->ResultsPerPage = (isset($_POST['resultsPerPage']) && is_numeric($_POST['resultsPerPage'])) ? $_POST['resultsPerPage'] : 20;
 
-        if ($withResults) {
+        if ($this->WithResults) {
             $this->initDataset();
             $this->searchTrainings();
         }
@@ -371,9 +368,7 @@ class SearchResults
     protected function addConditionForArray($key, array &$conditions)
     {
         $array = array_map(
-            function ($value): int {
-                return (int) $value;
-            },
+            fn ($value): int => (int) $value,
             $_POST[$key]
         );
 
@@ -467,17 +462,16 @@ class SearchResults
      */
     protected function signFor($postSign): string
     {
-        switch ($postSign) {
-            case 'is': return '=';
-            case 'gt': return '>';
-            case 'ge': return '>=';
-            case 'le': return '<=';
-            case 'lt': return '<';
-            case 'ne': return '!=';
-            case 'like': return ' LIKE ';
-        }
-
-        return '=';
+        return match ($postSign) {
+            'is' => '=',
+            'gt' => '>',
+            'ge' => '>=',
+            'le' => '<=',
+            'lt' => '<',
+            'ne' => '!=',
+            'like' => ' LIKE ',
+            default => '=',
+        };
     }
 
     /**
@@ -501,9 +495,7 @@ class SearchResults
     {
         if (is_array($_POST['sportid'])) {
             $array = array_map(
-                function ($value): int {
-                    return (int) $value;
-                },
+                fn ($value): int => (int) $value,
                 $_POST['sportid']
             );
 
@@ -521,9 +513,7 @@ class SearchResults
 
         if (is_array($_POST['equipmentid'])) {
             $array = array_map(
-                function ($value): int {
-                    return (int) $value;
-                },
+                fn ($value): int => (int) $value,
                 $_POST['equipmentid']
             );
 
@@ -541,9 +531,7 @@ class SearchResults
 
         if (is_array($_POST['tagid'])) {
             $array = array_map(
-                function ($value): int {
-                    return (int) $value;
-                },
+                fn ($value): int => (int) $value,
                 $_POST['tagid']
             );
 
@@ -642,9 +630,7 @@ class SearchResults
      */
     public function getIdsForMultiEditor(): array
     {
-        return array_map(function (array $data): int {
-            return (int) $data['id'];
-        }, $this->Trainings);
+        return array_map(fn (array $data): int => (int) $data['id'], $this->Trainings);
     }
 
     protected function displayResults()

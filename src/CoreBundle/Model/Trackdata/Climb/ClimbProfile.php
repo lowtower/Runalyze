@@ -77,9 +77,7 @@ class ClimbProfile implements \Countable
      */
     public function getGradients(): array
     {
-        return array_map(function (float $distance, int $elevation): float {
-            return $elevation / $distance / 1000;
-        }, $this->Distances, $this->Elevations);
+        return array_map(fn (float $distance, int $elevation): float => $elevation / $distance / 1000, $this->Distances, $this->Elevations);
     }
 
     /**
@@ -87,9 +85,7 @@ class ClimbProfile implements \Countable
      */
     public function getDistancesWithGradients(): array
     {
-        return array_map(function (float $distance, int $elevation): array {
-            return [$distance, $elevation / $distance / 1000];
-        }, $this->Distances, $this->Elevations);
+        return array_map(fn (float $distance, int $elevation): array => [$distance, $elevation / $distance / 1000], $this->Distances, $this->Elevations);
     }
 
     /**

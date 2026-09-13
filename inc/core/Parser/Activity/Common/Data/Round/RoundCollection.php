@@ -123,9 +123,7 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
     {
         return array_reduce(
             $this->getElements(),
-            function ($carry, Round $round): float {
-                return $carry + $round->getDuration();
-            },
+            fn ($carry, Round $round): float => $carry + $round->getDuration(),
             0
         );
     }
@@ -134,9 +132,7 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
     {
         return array_reduce(
             $this->getElements(),
-            function (float $carry, Round $round): float {
-                return $carry + $round->getDistance();
-            },
+            fn (float $carry, Round $round): float => $carry + $round->getDistance(),
             0.0
         );
     }
@@ -214,8 +210,6 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
      */
     public function hasInactiveRounds(): bool
     {
-        return count(array_filter($this->getElements(), function ($v, $k): bool {
-            return ! $v->IsActive();
-        }, ARRAY_FILTER_USE_BOTH)) > 0;
+        return count(array_filter($this->getElements(), fn ($v, $k): bool => ! $v->IsActive(), ARRAY_FILTER_USE_BOTH)) > 0;
     }
 }

@@ -45,7 +45,7 @@ class Fit extends AbstractMultipleParserWithSubParser implements FileNameAwarePa
         if (! $this->ParsingStarted) {
             $this->checkFirstLine($line);
         } else {
-            if (substr($line, -20) == 'NAME=sport NUMBER=12' && ! $this->currentContainerIsEmpty()) {
+            if (str_ends_with($line, 'NAME=sport NUMBER=12') && ! $this->currentContainerIsEmpty()) {
                 $this->finishCurrentSubParser();
                 $this->startAnotherSubParser();
             }
@@ -95,11 +95,11 @@ class Fit extends AbstractMultipleParserWithSubParser implements FileNameAwarePa
     {
         $message = 'Reading *.fit-file failed. First line was "' . $line . '".';
 
-        if (substr($line, 0, strlen(self::PERL_FIT_ERROR_MESSAGE_START)) == self::PERL_FIT_ERROR_MESSAGE_START) {
+        if (str_starts_with($line, self::PERL_FIT_ERROR_MESSAGE_START)) {
             throw new UnexpectedContentException($message);
         }
 
-        if (substr($line, 0, strlen(self::PERL_GENERAL_MESSAGE_START)) == self::PERL_GENERAL_MESSAGE_START) {
+        if (str_starts_with($line, self::PERL_GENERAL_MESSAGE_START)) {
             $message .= NL . NL . 'See https://github.com/Runalyze/Runalyze/issues/1701';
 
             throw new InstallationSpecificException($message);

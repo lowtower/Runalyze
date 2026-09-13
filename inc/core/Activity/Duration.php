@@ -184,7 +184,7 @@ class Duration
      */
     protected function formatString($format, $decimals = 2): string
     {
-        if (substr($format, -1) == 'u') {
+        if (str_ends_with($format, 'u')) {
             $fraction = str_pad(round(fmod($this->Time, 1) * 10 ** $decimals), $decimals, '0', STR_PAD_LEFT);
             return $this->formatString(substr($format, 0, -1)) . $fraction;
         }

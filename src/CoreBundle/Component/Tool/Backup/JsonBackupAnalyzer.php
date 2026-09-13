@@ -8,8 +8,6 @@ class JsonBackupAnalyzer
 {
     protected string $VersionString = '';
 
-    protected string $RunalyzeVersion = '';
-
     /**
      * @var array ['table' => #rows]
      */
@@ -18,23 +16,23 @@ class JsonBackupAnalyzer
     /**
      * Construct
      * @param string $fileName absolute path
-     * @param string $runalyzeVersion runalyze version string
+     * @param string $RunalyzeVersion runalyze version string
      */
-    public function __construct(string $fileName, string $runalyzeVersion)
-    {
-        $this->RunalyzeVersion = $runalyzeVersion;
-
+    public function __construct(
+        string $fileName,
+        protected string $RunalyzeVersion
+    ) {
         $reader = new GZipReader($fileName);
 
         while (! $reader->eof()) {
             $line = trim($reader->readLine());
             $tableName = substr($line, 10, -2);
 
-            if (substr($line, 0, 8) == '{"TABLE"') {
+            if (str_starts_with($line, '{"TABLE"')) {
                 $this->NumberOf[$tableName] = 0;
             } elseif ($line !== '' && $line[0] == '{' && isset($this->NumberOf[$tableName])) {
                 $this->NumberOf[$tableName]++;
-            } elseif (substr($line, 0, 8) == 'version=') {
+            } elseif (str_starts_with($line, 'version=')) {
                 $this->VersionString = substr($line, 8);
             }
         }

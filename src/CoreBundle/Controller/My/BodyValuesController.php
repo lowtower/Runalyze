@@ -20,20 +20,11 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class BodyValuesController extends AbstractController
 {
-    public AutomaticReloadFlagSetter $reloadFlagSetter;
-
-    private ConfigurationManager $configurationManager;
-
-    private UserRepository $userRepository;
-
     public function __construct(
-        ConfigurationManager $configurationManager,
-        AutomaticReloadFlagSetter $reloadFlagSetter,
-        UserRepository $userRepository
+        private ConfigurationManager $configurationManager,
+        public AutomaticReloadFlagSetter $reloadFlagSetter,
+        private UserRepository $userRepository
     ) {
-        $this->configurationManager = $configurationManager;
-        $this->reloadFlagSetter = $reloadFlagSetter;
-        $this->userRepository = $userRepository;
     }
 
     /**

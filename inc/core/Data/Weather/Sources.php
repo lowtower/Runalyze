@@ -44,17 +44,12 @@ final class Sources extends AbstractEnum
      */
     public static function stringFor(int $sourceId): string
     {
-        switch ($sourceId) {
-            case self::DARKSKY:
-                return '<a href="https://darksky.net/poweredby/" target="_blank">Powered by Dark Sky</a>';
-            case self::OPENWEATHERMAP:
-                return '<a href="http://openweathermap.org/" target="_blank">openweathermap.org</a>';
-            case self::METEOSTAT_NET:
-                return '<a href="https://meteostat.net/" target="_blank">meteostat.net</a>';
-            case self::DBWEATHERCACHE:
-                return __('internal database');
-            default:
-                throw new \InvalidArgumentException('Invalid source id');
-        }
+        return match ($sourceId) {
+            self::DARKSKY => '<a href="https://darksky.net/poweredby/" target="_blank">Powered by Dark Sky</a>',
+            self::OPENWEATHERMAP => '<a href="http://openweathermap.org/" target="_blank">openweathermap.org</a>',
+            self::METEOSTAT_NET => '<a href="https://meteostat.net/" target="_blank">meteostat.net</a>',
+            self::DBWEATHERCACHE => __('internal database'),
+            default => throw new \InvalidArgumentException('Invalid source id'),
+        };
     }
 }

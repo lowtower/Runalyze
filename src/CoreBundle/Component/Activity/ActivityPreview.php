@@ -57,20 +57,15 @@ class ActivityPreview
      */
     protected $HasRounds;
 
-    /**
-     * @var bool
-     */
-    protected $IsPossibleDuplicate;
-
-    public function __construct(Training $activity, $isPossibleDuplicate = false)
-    {
+    public function __construct(
+        Training $activity,
+        protected $IsPossibleDuplicate = false
+    ) {
         $this->setSimplePropertiesFromActivity($activity);
         $this->setPropertiesFromSport($activity->getSport());
         $this->setPropertiesFromDecorator(new ActivityDecorator(
             new ActivityContext($activity)
         ));
-
-        $this->IsPossibleDuplicate = $isPossibleDuplicate;
     }
 
     protected function setSimplePropertiesFromActivity(Training $activity)

@@ -134,7 +134,7 @@ class ActivityDataContainerToActivityContextConverter
         $activity->setCreatorDetails($metadata->getCreatorDetails());
 
         // TSC: set the uploaded-file name
-        if (! empty($metadata->getDescription()) && substr_compare($metadata->getDescription(), $metadata->getUploadedFilename(), 0) != 0) {
+        if (! empty($metadata->getDescription()) && substr_compare($metadata->getDescription(), $metadata->getUploadedFilename(), 0) !== 0) {
             // description exists and is not the same as the filename, so set existing description and filename as title
             $activity->setTitle($metadata->getDescription() . ' / ' . $metadata->getUploadedFilename());
         } else {
@@ -157,14 +157,12 @@ class ActivityDataContainerToActivityContextConverter
             $sport = $this->SportRepository->findInternalIdFor($internalId, $this->Account);
         }
 
-        if ($sport === null) {
-            $sport = $this->SportRepository->findThisOrAny(
-                $this->ConfigurationManager->getList($this->Account)
-                    ->getGeneral()
-                    ->getMainSport(),
-                $this->Account
-            );
-        }
+        $sport ??= $this->SportRepository->findThisOrAny(
+            $this->ConfigurationManager->getList($this->Account)
+                ->getGeneral()
+                ->getMainSport(),
+            $this->Account
+        );
 
         if ($sport !== null) {
             $activity->setSport($sport);
@@ -182,7 +180,7 @@ class ActivityDataContainerToActivityContextConverter
             return $metadata->getInternalSportId();
         }
 
-        if ($metadata->getSportName() != '') {
+        if ($metadata->getSportName() !== '') {
             $internalId = (new EnglishLanguageMapping())->toInternal($metadata->getSportName());
 
             if ($internalId != SportProfile::GENERIC) {
@@ -199,12 +197,10 @@ class ActivityDataContainerToActivityContextConverter
 
         // #TSC: first set a possible type from the typeName (can be interval or from the evaluation)
         $typeName = $metadata->getTypeName();
-        if ($typeName != '') {
+        if ($typeName !== '') {
             $type = $this->TypeRepository->findByNameFor($typeName, $this->Account, $activity->getSport());
             // #TSC if the name not found, try it with the short-cut
-            if ($type === null) {
-                $type = $this->TypeRepository->findByShortCutFor($typeName, $this->Account, $activity->getSport());
-            }
+            $type ??= $this->TypeRepository->findByShortCutFor($typeName, $this->Account, $activity->getSport());
         }
 
         // #TSC: if not set, try from workoutName
@@ -380,9 +376,7 @@ class ActivityDataContainerToActivityContextConverter
             return null;
         }
 
-        return array_map(function ($v) {
-            return round($v, self::DISTANCE_PRECISION_FOR_TRACK_DATA);
-        }, $distance);
+        return array_map(fn ($v) => round($v, self::DISTANCE_PRECISION_FOR_TRACK_DATA), $distance);
     }
 
     protected function setSwimdataFor(Training $activity, ActivityDataContainer $container)

@@ -24,7 +24,7 @@ class Hrv implements AccountRelatedEntityInterface
     #[ORM\JoinColumn(name: 'activityid', referencedColumnName: 'id')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
-    #[ORM\OneToOne(targetEntity: Training::class, inversedBy: 'hrv')]
+    #[ORM\OneToOne(inversedBy: 'hrv', targetEntity: Training::class)]
     private ?Training $activity = null;
 
     /**

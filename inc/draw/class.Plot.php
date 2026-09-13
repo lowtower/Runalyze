@@ -15,24 +15,6 @@ use Runalyze\Configuration;
 class Plot
 {
     /**
-     * CSS-ID for displaying this plot
-     * @var string
-     */
-    private $cssID = '';
-
-    /**
-     * Width of the image
-     * @var mixed
-     */
-    private $width = false;
-
-    /**
-     * Height of the image
-     * @var int|bool
-     */
-    private $height = false;
-
-    /**
      * Internal Data, is public for direct access
      */
     public array $Data = [];
@@ -63,11 +45,20 @@ class Plot
      * @param mixed $width
      * @param mixed $height
      */
-    public function __construct(string $cssID, $width = 480, $height = 190)
-    {
-        $this->width = $width;
-        $this->height = $height;
-        $this->cssID = $cssID;
+    public function __construct(
+        /**
+         * CSS-ID for displaying this plot
+         */
+        private string $cssID,
+        /**
+         * Width of the image
+         */
+        private $width = 480,
+        /**
+         * Height of the image
+         */
+        private $height = 190
+    ) {
     }
 
     public function raiseError(string $string)

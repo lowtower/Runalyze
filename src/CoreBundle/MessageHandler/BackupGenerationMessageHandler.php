@@ -18,36 +18,18 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class BackupGenerationMessageHandler implements MessageHandlerInterface
 {
-    private AccountRepository $accountRepository;
-
-    private NotificationRepository $notificationRepository;
-
-    private ParameterBagInterface $parameterBag;
-
-    private AccountMailer $accountMailer;
-
     private string $dataDirectory;
 
-    private string $databasePrefix;
-
-    private string $runalyzeVersion;
-
     public function __construct(
-        AccountRepository $accountRepository,
-        NotificationRepository $notificationRepository,
-        ParameterBagInterface $parameterBag,
-        AccountMailer $accountMailer,
+        private AccountRepository $accountRepository,
+        private NotificationRepository $notificationRepository,
+        private ParameterBagInterface $parameterBag,
+        private AccountMailer $accountMailer,
         string $dataDirectory,
-        string $databasePrefix,
-        string $runalyzeVersion
+        private string $databasePrefix,
+        private string $runalyzeVersion
     ) {
-        $this->accountRepository = $accountRepository;
-        $this->notificationRepository = $notificationRepository;
-        $this->parameterBag = $parameterBag;
-        $this->accountMailer = $accountMailer;
         $this->dataDirectory = realpath($dataDirectory);
-        $this->databasePrefix = $databasePrefix;
-        $this->runalyzeVersion = $runalyzeVersion;
     }
 
     public function __invoke(BackupGenerationMessage $message): void

@@ -19,8 +19,6 @@ use Runalyze\Model\Trackdata;
  */
 class Calculator
 {
-    protected \Runalyze\Model\Trackdata\Entity $Trackdata;
-
     /**
      * @var array
      */
@@ -29,9 +27,9 @@ class Calculator
     /**
      * Calculator for stride length
      */
-    public function __construct(Trackdata\Entity $trackdata)
-    {
-        $this->Trackdata = $trackdata;
+    public function __construct(
+        protected \Runalyze\Model\Trackdata\Entity $Trackdata
+    ) {
     }
 
     /**

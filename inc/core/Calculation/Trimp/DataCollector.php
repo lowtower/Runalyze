@@ -31,16 +31,6 @@ use Runalyze\Mathematics\Distribution\TimeSeries;
 class DataCollector
 {
     /**
-     * @var array [bpm]
-     */
-    protected array $HeartRate;
-
-    /**
-     * @var array [s] ascending
-     */
-    protected array $Duration;
-
-    /**
      * @var array
      */
     protected $Histogram;
@@ -50,21 +40,20 @@ class DataCollector
      *
      * Duration array may be empty. In that case equalsized steps of 1s are assumed
      *
-     * @param array $heartRate [bpm]
-     * @param array $duration ascending time in [s]
+     * @param array $HeartRate [bpm]
+     * @param array $Duration ascending time in [s]
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct(array $heartRate, array $duration = [])
-    {
-        $this->HeartRate = $heartRate;
-        $this->Duration = $duration;
-
-        if ($heartRate === []) {
+    public function __construct(
+        protected array $HeartRate,
+        protected array $Duration = []
+    ) {
+        if ($this->HeartRate === []) {
             throw new \InvalidArgumentException('Heart rate array must not be empty.');
         }
 
-        if ($duration !== [] && count($heartRate) !== count($duration)) {
+        if ($this->Duration !== [] && count($this->HeartRate) !== count($this->Duration)) {
             throw new \InvalidArgumentException('Heart rate and duration array must be of equal size.');
         }
 

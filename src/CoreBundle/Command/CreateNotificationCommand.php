@@ -18,18 +18,11 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class CreateNotificationCommand extends Command
 {
-    private ParameterBagInterface $parameterBag;
-
-    private ManagerRegistry $doctrine;
-
     public function __construct(
-        ParameterBagInterface $parameterBag,
-        ManagerRegistry $doctrine
+        private ParameterBagInterface $parameterBag,
+        private ManagerRegistry $doctrine
     ) {
         parent::__construct();
-
-        $this->parameterBag = $parameterBag;
-        $this->doctrine = $doctrine;
     }
 
     protected function configure()
@@ -121,7 +114,7 @@ class CreateNotificationCommand extends Command
     {
         try {
             new TemplateBasedMessage($templateName);
-        } catch (\InvalidArgumentException $invalidArgumentException) {
+        } catch (\InvalidArgumentException) {
             return false;
         }
 
@@ -132,9 +125,7 @@ class CreateNotificationCommand extends Command
     {
         return array_reduce(
             $lang,
-            function (bool $state, $value): bool {
-                return $state && ctype_alpha($value);
-            },
+            fn (bool $state, $value): bool => $state && ctype_alpha($value),
             true
         );
     }
@@ -143,9 +134,7 @@ class CreateNotificationCommand extends Command
     {
         return array_reduce(
             $accountIds,
-            function (bool $state, $value): bool {
-                return $state && ctype_digit($value);
-            },
+            fn (bool $state, $value): bool => $state && ctype_digit($value),
             true
         );
     }

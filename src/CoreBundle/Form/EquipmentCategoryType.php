@@ -25,12 +25,11 @@ class EquipmentCategoryType extends AbstractType
      */
     protected $SportRepository;
 
-    protected TokenStorageInterface $TokenStorage;
-
-    public function __construct(SportRepository $SportRepository, TokenStorageInterface $tokenStorage)
-    {
+    public function __construct(
+        SportRepository $SportRepository,
+        protected TokenStorageInterface $TokenStorage
+    ) {
         $this->SportRepository = $SportRepository;
-        $this->TokenStorage = $tokenStorage;
     }
 
     /**

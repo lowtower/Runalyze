@@ -15,26 +15,22 @@ class Factorial extends Simple implements FormattableUnitInterface
     protected $Appendix;
 
     /**
-     * @var int|float
-     */
-    protected $Factor;
-
-    /**
      * @var int
      */
     protected $Decimals;
 
     /**
      * @param string $appendix
-     * @param int|float $factor
+     * @param int|float $Factor
      * @param int|null $decimals
      */
-    public function __construct($appendix, $factor, $decimals = null)
-    {
+    public function __construct(
+        $appendix,
+        protected $Factor,
+        $decimals = null
+    ) {
         parent::__construct($appendix);
-
-        $this->Factor = $factor;
-        $this->Decimals = $decimals ?: max(0, ceil(log10(1 / $factor)));
+        $this->Decimals = $decimals ?: max(0, ceil(log10(1 / $this->Factor)));
     }
 
     /**

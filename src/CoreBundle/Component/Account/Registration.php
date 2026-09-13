@@ -17,8 +17,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class Registration
 {
-    protected UserPasswordEncoderInterface $passwordEncoder;
-
     /**
      * @var Account
      */
@@ -34,11 +32,13 @@ class Registration
      */
     protected $specialVars;
 
-    public function __construct(\Doctrine\Persistence\ObjectManager $em, Account $account, UserPasswordEncoderInterface $passwordEncoder)
-    {
+    public function __construct(
+        \Doctrine\Persistence\ObjectManager $em,
+        Account $account,
+        protected UserPasswordEncoderInterface $passwordEncoder
+    ) {
         $this->em = $em;
         $this->Account = $account;
-        $this->passwordEncoder = $passwordEncoder;
     }
 
     /**
@@ -56,7 +56,7 @@ class Registration
     {
         try {
             $this->Account->setTimezone(Timezone::getEnumByOriginalName($timezoneName));
-        } catch (\InvalidArgumentException $invalidArgumentException) {
+        } catch (\InvalidArgumentException) {
             $this->Account->setTimezone(Timezone::getEnumByOriginalName(date_default_timezone_get()));
         }
     }

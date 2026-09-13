@@ -18,11 +18,6 @@ namespace Runalyze\Calculation\Elevation\Strategy;
 abstract class AbstractStrategy
 {
     /**
-     * Original elevation data
-     */
-    protected array $ElevationData = [];
-
-    /**
      * Smoothed data
      * @var array
      */
@@ -37,9 +32,12 @@ abstract class AbstractStrategy
     /**
      * Construct
      */
-    public function __construct(array $elevation)
-    {
-        $this->ElevationData = $elevation;
+    public function __construct(
+        /**
+         * Original elevation data
+         */
+        protected array $ElevationData
+    ) {
     }
 
     /**

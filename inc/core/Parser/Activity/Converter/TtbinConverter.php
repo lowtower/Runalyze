@@ -9,16 +9,11 @@ use Runalyze\Parser\Common\AbstractShellBasedFileTypeConverter;
 class TtbinConverter extends AbstractShellBasedFileTypeConverter
 {
     /**
-     * @var string
+     * @param string $PathToConverter
      */
-    protected $PathToConverter;
-
-    /**
-     * @param string $pathToTtbincnv
-     */
-    public function __construct($pathToTtbincnv)
-    {
-        $this->PathToConverter = $pathToTtbincnv;
+    public function __construct(
+        protected $PathToConverter
+    ) {
     }
 
     public function getConvertibleFileExtension(): string
@@ -38,14 +33,14 @@ class TtbinConverter extends AbstractShellBasedFileTypeConverter
 
     protected function checkFirstLineOfOutput($firstLine)
     {
-        if (strpos($firstLine, 'ttbincnv') !== false) {
+        if (str_contains($firstLine, 'ttbincnv')) {
             $message = 'Executing ttbincnv did not work: ' . $firstLine;
             $message .= NL . NL . 'You may need to compile ttbincnv for your environment.';
 
             throw new InstallationSpecificException($message);
         }
 
-        if (substr($firstLine, 0, 1) != '<') {
+        if (! str_starts_with($firstLine, '<')) {
             throw new UnexpectedContentException('Parsing your *.ttbin-file failed: ' . $firstLine);
         }
     }

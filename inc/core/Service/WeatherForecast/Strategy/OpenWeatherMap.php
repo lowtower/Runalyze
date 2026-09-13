@@ -36,28 +36,20 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface
     public const URL_HISTORICAL = 'http://api.openweathermap.org/data/2.5/history';
 
     /**
-     * @var string
-     */
-    protected $ApiKey;
-
-    /**
-     * @var string
-     */
-    protected $Proxy;
-
-    /**
      * @var Client
      */
     protected $HttpClient;
 
     /**
-     * @param string $apiKey
-     * @param string $proxy
+     * @param string $ApiKey
+     * @param string $Proxy
      */
-    public function __construct($apiKey, $proxy, Client $client, ?LoggerInterface $logger = null)
-    {
-        $this->ApiKey = $apiKey;
-        $this->Proxy = $proxy;
+    public function __construct(
+        protected $ApiKey,
+        protected $Proxy,
+        Client $client,
+        ?LoggerInterface $logger = null
+    ) {
         $this->HttpClient = $client;
         $this->logger = $logger;
     }

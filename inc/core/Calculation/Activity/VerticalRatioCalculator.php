@@ -15,8 +15,6 @@ use Runalyze\Model\Trackdata;
  */
 class VerticalRatioCalculator
 {
-    protected \Runalyze\Model\Trackdata\Entity $Trackdata;
-
     /**
      * @var float[]|null[]
      */
@@ -25,9 +23,9 @@ class VerticalRatioCalculator
     /**
      * Calculator for stride length
      */
-    public function __construct(Trackdata\Entity $trackdata)
-    {
-        $this->Trackdata = $trackdata;
+    public function __construct(
+        protected \Runalyze\Model\Trackdata\Entity $Trackdata
+    ) {
     }
 
     /**

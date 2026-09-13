@@ -27,14 +27,12 @@ class PluginConfRepository extends EntityRepository
                 ->setParameter('config', 'fun_ids')
                 ->getQuery()
                 ->getSingleScalarResult();
-        } catch (NoResultException $noResultException) {
+        } catch (NoResultException) {
             return [];
         }
 
         return array_filter(
-            array_map(function ($id): int {
-                return (int) trim($id);
-            }, explode(',', $result))
+            array_map(fn ($id): int => (int) trim($id), explode(',', $result))
         );
     }
 }

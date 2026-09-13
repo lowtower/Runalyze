@@ -5,24 +5,9 @@ namespace Runalyze\Bundle\CoreBundle\Model\Trackdata\Climb;
 class Climb
 {
     /**
-     * @var int|null
-     */
-    protected $TrackdataStartIndex;
-
-    /**
-     * @var int|null
-     */
-    protected $TrackdataEndIndex;
-
-    /**
      * @var float [km]
      */
     protected $Distance;
-
-    /**
-     * @var int [m]
-     */
-    protected $Elevation;
 
     /**
      * @var int|null [m]
@@ -36,20 +21,21 @@ class Climb
 
     /**
      * @param float $distance [km]
-     * @param int $elevation [m]
-     * @param int|null $trackdataStartIndex
-     * @param int|null $trackdataEndIndex
+     * @param int $Elevation [m]
+     * @param int|null $TrackdataStartIndex
+     * @param int|null $TrackdataEndIndex
      */
-    public function __construct($distance, $elevation, $trackdataStartIndex = null, $trackdataEndIndex = null)
-    {
+    public function __construct(
+        $distance,
+        protected $Elevation,
+        protected $TrackdataStartIndex = null,
+        protected $TrackdataEndIndex = null
+    ) {
         if ($distance <= 0.0) {
             throw new \InvalidArgumentException(sprintf('Climb distance must be positive, %f given.', $distance));
         }
 
         $this->Distance = $distance;
-        $this->Elevation = $elevation;
-        $this->TrackdataStartIndex = $trackdataStartIndex;
-        $this->TrackdataEndIndex = $trackdataEndIndex;
     }
 
     /**

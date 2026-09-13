@@ -7,16 +7,11 @@ use Runalyze\Metrics\LegacyUnitConverter;
 abstract class AbstractSport implements ProfileInterface
 {
     /**
-     * @var int enum from SportProfile
+     * @param int $Enum from SportProfile
      */
-    private int $Enum;
-
-    /**
-     * @param int $enum from SportProfile
-     */
-    public function __construct(int $enum)
-    {
-        $this->Enum = $enum;
+    public function __construct(
+        private int $Enum
+    ) {
     }
 
     public function getInternalProfileEnum(): int

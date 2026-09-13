@@ -26,9 +26,7 @@ class PluginFactory
      */
     private static function Plugins(): array
     {
-        if (self::$Plugins === null) {
-            self::$Plugins = self::fetchAllPlugins();
-        }
+        self::$Plugins ??= self::fetchAllPlugins();
 
         return self::$Plugins;
     }

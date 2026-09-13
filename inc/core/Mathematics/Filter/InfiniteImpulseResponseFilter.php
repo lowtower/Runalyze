@@ -16,19 +16,15 @@ namespace Runalyze\Mathematics\Filter;
  */
 class InfiniteImpulseResponseFilter
 {
-    protected array $InputCoefficients = [];
-
-    protected array $OutputCoefficients = [];
-
     protected int $Order = 0;
 
-    public function __construct(array $inputCoefficients, array $outputCoefficients)
-    {
-        $this->InputCoefficients = $inputCoefficients;
-        $this->OutputCoefficients = $outputCoefficients;
-        $this->Order = count($inputCoefficients) - 1;
+    public function __construct(
+        protected array $InputCoefficients,
+        protected array $OutputCoefficients
+    ) {
+        $this->Order = count($this->InputCoefficients) - 1;
 
-        if (count($outputCoefficients) - 1 !== $this->Order) {
+        if (count($this->OutputCoefficients) - 1 !== $this->Order) {
             throw new \InvalidArgumentException('Number of input/output coefficients must be equal.');
         }
     }

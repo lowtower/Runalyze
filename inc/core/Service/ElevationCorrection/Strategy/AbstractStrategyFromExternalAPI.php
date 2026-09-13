@@ -18,11 +18,10 @@ abstract class AbstractStrategyFromExternalAPI extends AbstractStrategy implemen
 
     protected int $PointsPerCall = 20;
 
-    protected Client $HttpClient;
-
-    public function __construct(Client $client, ?LoggerInterface $logger = null)
-    {
-        $this->HttpClient = $client;
+    public function __construct(
+        protected Client $HttpClient,
+        ?LoggerInterface $logger = null
+    ) {
         $this->logger = $logger ?: new NullLogger();
     }
 
@@ -30,7 +29,7 @@ abstract class AbstractStrategyFromExternalAPI extends AbstractStrategy implemen
     {
         try {
             $altitudes = $this->collectGroupWiseAltitudes($latitudes, $longitudes);
-        } catch (StrategyException $strategyException) {
+        } catch (StrategyException) {
             return null;
         }
 

@@ -155,13 +155,13 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     /**
      * @var \Doctrine\Common\Collections\Collection|Type[]
      */
-    #[ORM\OneToMany(targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Type::class, mappedBy: 'sport', fetch: 'EXTRA_LAZY')]
+    #[ORM\OneToMany(mappedBy: 'sport', targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Type::class, fetch: 'EXTRA_LAZY')]
     protected $types;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    #[ORM\OneToMany(targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Training::class, mappedBy: 'sport', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    #[ORM\OneToMany(mappedBy: 'sport', targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Training::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected $trainings;
 
     public function __construct()
@@ -495,7 +495,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
 
             try {
                 $this->internalSport = SportProfile::get($id);
-            } catch (\InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException) {
                 $this->internalSportId = null;
                 $this->internalSport = SportProfile::get(SportProfile::GENERIC);
             }

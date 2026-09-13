@@ -11,14 +11,9 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class AccountValueResolver implements ArgumentValueResolverInterface
 {
-    /**
-     * @var TokenStorageInterface
-     */
-    private $tokenStorage;
-
-    public function __construct(TokenStorageInterface $tokenStorage)
-    {
-        $this->tokenStorage = $tokenStorage;
+    public function __construct(
+        private TokenStorageInterface $tokenStorage
+    ) {
     }
 
     /**

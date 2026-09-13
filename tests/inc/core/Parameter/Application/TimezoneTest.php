@@ -30,7 +30,7 @@ class TimezoneTest extends \PHPUnit\Framework\TestCase
 
             try {
                 new \DateTimeZone($identifier);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 $unknownTimezones[] = $identifier;
             }
         }

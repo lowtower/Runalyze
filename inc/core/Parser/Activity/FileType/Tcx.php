@@ -28,7 +28,7 @@ class Tcx extends AbstractMultipleParser implements FileContentAwareParserInterf
 
     protected function checkOrigin()
     {
-        $this->IsFromRuntastic = strpos($this->Xml['creator'], 'runtastic') !== false;
+        $this->IsFromRuntastic = str_contains($this->Xml['creator'], 'runtastic');
     }
 
     protected function parseMultiSportSessions()

@@ -47,17 +47,11 @@ class SearchFormular extends Formular
 
     protected function setDefaultValues()
     {
-        if (! isset($_POST['sportid'])) {
-            $_POST['sportid'] = array_keys(SportFactory::AllSports());
-        }
+        $_POST['sportid'] ??= array_keys(SportFactory::AllSports());
 
-        if (! isset($_POST['date-from'])) {
-            $_POST['date-from'] = date('d.m.Y', START_TIME);
-        }
+        $_POST['date-from'] ??= date('d.m.Y', START_TIME);
 
-        if (! isset($_POST['date-to'])) {
-            $_POST['date-to'] = date('d.m.Y');
-        }
+        $_POST['date-to'] ??= date('d.m.Y');
     }
 
     /**

@@ -73,7 +73,7 @@ $Plot->addYAxis(2, 'right');
 $Plot->addYUnit(2, '%', 0);
 $Plot->setYTicks(1, 1, 0);
 
-if (empty($Data)) {
+if ($Data === []) {
     $Plot->raiseError(__('No data available.'));
 } elseif (min(min($Adiposes), min($Water), min($Muscles)) == 0 || count($Adiposes) <= 1) {
     $Plot->setZeroPointsToNull();

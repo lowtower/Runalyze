@@ -74,7 +74,7 @@ if ($Wunschgewicht > 1) {
     $Plot->addMarkingArea('y1', $Wunschgewicht, 0);
 }
 
-if (empty($Data)) {
+if ($Data === []) {
     $Plot->raiseError(__('No data available.'));
 } elseif (min(min($Weights), min($HRrests)) == 0 || count($Weights) <= 1) {
     $Plot->setZeroPointsToNull();

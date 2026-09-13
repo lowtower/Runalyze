@@ -160,17 +160,10 @@ class Entity extends Model\Entity
      */
     protected function canBeNull(string $key): bool
     {
-        switch ($key) {
-            case self::PLACE_TOTAL:
-            case self::PLACE_GENDER:
-            case self::PLACE_AGECLASS:
-            case self::PARTICIPANTS_TOTAL:
-            case self::PARTICIPANTS_GENDER:
-            case self::PARTICIPANTS_AGECLASS:
-                return true;
-        }
-
-        return false;
+        return match ($key) {
+            self::PLACE_TOTAL, self::PLACE_GENDER, self::PLACE_AGECLASS, self::PARTICIPANTS_TOTAL, self::PARTICIPANTS_GENDER, self::PARTICIPANTS_AGECLASS => true,
+            default => false,
+        };
     }
 
     public function setDefaultValuesFromActivity(Model\Activity\Entity $activity): void

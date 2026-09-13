@@ -51,14 +51,11 @@ class PosterGeneratedMessage implements MessageInterface
 
     public function getText(\Symfony\Contracts\Translation\TranslatorInterface $translator)
     {
-        switch ($this->State) {
-            case self::STATE_PARTIAL:
-                return $translator->trans('Not all of your posters could be generated.');
-            case self::STATE_FAILED:
-                return $translator->trans('You requested posters could not be generated.');
-        }
-
-        return $translator->trans('Your posters have been generated and are now available for download.');
+        return match ($this->State) {
+            self::STATE_PARTIAL => $translator->trans('Not all of your posters could be generated.'),
+            self::STATE_FAILED => $translator->trans('You requested posters could not be generated.'),
+            default => $translator->trans('Your posters have been generated and are now available for download.'),
+        };
     }
 
     public function hasLink(): bool

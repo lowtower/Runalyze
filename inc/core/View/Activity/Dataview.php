@@ -117,9 +117,7 @@ class Dataview
      */
     protected function object(&$value, \Closure $constructor)
     {
-        if ($value === null) {
-            $value = $constructor($this->Activity);
-        }
+        $value ??= $constructor($this->Activity);
 
         return $value;
     }
@@ -199,9 +197,7 @@ class Dataview
      */
     public function duration()
     {
-        return $this->object($this->Duration, function (Activity\Entity $Activity): \Runalyze\Activity\Duration {
-            return new Duration($Activity->duration());
-        });
+        return $this->object($this->Duration, fn (Activity\Entity $Activity): \Runalyze\Activity\Duration => new Duration($Activity->duration()));
     }
 
     public function elapsedTime(): string
@@ -218,9 +214,7 @@ class Dataview
      */
     public function distance($decimals = null): string
     {
-        if ($decimals === null) {
-            $decimals = Configuration::ActivityView()->decimals();
-        }
+        $decimals ??= Configuration::ActivityView()->decimals();
 
         if ($this->Activity->distance() > 0) {
             if ($this->Activity->isTrack()) {
@@ -258,9 +252,7 @@ class Dataview
      */
     public function pace()
     {
-        return $this->object($this->Pace, function (Activity\Entity $Activity): \Runalyze\Activity\Pace {
-            return new Pace($Activity->duration(), $Activity->distance(), SportFactory::getSpeedUnitFor($Activity->sportid()));
-        });
+        return $this->object($this->Pace, fn (Activity\Entity $Activity): \Runalyze\Activity\Pace => new Pace($Activity->duration(), $Activity->distance(), SportFactory::getSpeedUnitFor($Activity->sportid())));
     }
 
     /**
@@ -298,9 +290,7 @@ class Dataview
      */
     public function strideLength()
     {
-        return $this->object($this->StrideLength, function (Activity\Entity $Activity): \Runalyze\Activity\StrideLength {
-            return new StrideLength($Activity->strideLength());
-        });
+        return $this->object($this->StrideLength, fn (Activity\Entity $Activity): \Runalyze\Activity\StrideLength => new StrideLength($Activity->strideLength()));
     }
 
     public function trimp(): string
@@ -523,9 +513,7 @@ class Dataview
      */
     public function energy()
     {
-        return $this->object($this->Energy, function (Activity\Entity $Activity): \Runalyze\Activity\Energy {
-            return new Energy($Activity->energy());
-        });
+        return $this->object($this->Energy, fn (Activity\Entity $Activity): \Runalyze\Activity\Energy => new Energy($Activity->energy()));
     }
 
     /**
@@ -533,9 +521,7 @@ class Dataview
      */
     public function hrMax()
     {
-        return $this->object($this->HRmax, function (Activity\Entity $Activity): \Runalyze\Activity\HeartRate {
-            return new HeartRate($Activity->hrMax(), GeneralContext::Athlete());
-        });
+        return $this->object($this->HRmax, fn (Activity\Entity $Activity): \Runalyze\Activity\HeartRate => new HeartRate($Activity->hrMax(), GeneralContext::Athlete()));
     }
 
     /**
@@ -543,9 +529,7 @@ class Dataview
      */
     public function hrAvg()
     {
-        return $this->object($this->HRavg, function (Activity\Entity $Activity): \Runalyze\Activity\HeartRate {
-            return new HeartRate($Activity->hrAvg(), GeneralContext::Athlete());
-        });
+        return $this->object($this->HRavg, fn (Activity\Entity $Activity): \Runalyze\Activity\HeartRate => new HeartRate($Activity->hrAvg(), GeneralContext::Athlete()));
     }
 
     /**
@@ -553,9 +537,7 @@ class Dataview
      */
     public function hrAvgActive()
     {
-        return $this->object($this->HRavgActive, function (Activity\Entity $Activity): \Runalyze\Activity\HeartRate {
-            return new HeartRate($Activity->hrAvgActive(), GeneralContext::Athlete());
-        });
+        return $this->object($this->HRavgActive, fn (Activity\Entity $Activity): \Runalyze\Activity\HeartRate => new HeartRate($Activity->hrAvgActive(), GeneralContext::Athlete()));
     }
 
     /**
@@ -563,9 +545,7 @@ class Dataview
      */
     public function elevation()
     {
-        return $this->object($this->Elevation, function (Activity\Entity $Activity): \Runalyze\Activity\Elevation {
-            return new Elevation($Activity->elevation());
-        });
+        return $this->object($this->Elevation, fn (Activity\Entity $Activity): \Runalyze\Activity\Elevation => new Elevation($Activity->elevation()));
     }
 
     /**
@@ -585,14 +565,12 @@ class Dataview
      */
     public function windChillFactor()
     {
-        return $this->object($this->WindChillFactor, function (Activity\Entity $Activity): \Runalyze\Data\Weather\WindChillFactor {
-            return new WindChillFactor(
-                $Activity->weather()
-                    ->windSpeed(),
-                new Temperature($Activity->weather()->temperature()->value()),
-                new Pace($Activity->duration(), $Activity->distance())
-            );
-        });
+        return $this->object($this->WindChillFactor, fn (Activity\Entity $Activity): \Runalyze\Data\Weather\WindChillFactor => new WindChillFactor(
+            $Activity->weather()
+                ->windSpeed(),
+            new Temperature($Activity->weather()->temperature()->value()),
+            new Pace($Activity->duration(), $Activity->distance())
+        ));
     }
 
     /**
@@ -600,13 +578,11 @@ class Dataview
      */
     public function heatIndex()
     {
-        return $this->object($this->HeatIndex, function (Activity\Entity $Activity): \Runalyze\Data\Weather\HeatIndex {
-            return new HeatIndex(
-                new \Runalyze\Activity\Temperature($Activity->weather()->temperature()->value()),
-                $Activity->weather()
-                    ->humidity()
-            );
-        });
+        return $this->object($this->HeatIndex, fn (Activity\Entity $Activity): \Runalyze\Data\Weather\HeatIndex => new HeatIndex(
+            new \Runalyze\Activity\Temperature($Activity->weather()->temperature()->value()),
+            $Activity->weather()
+                ->humidity()
+        ));
     }
 
     public function partner(): string
@@ -641,9 +617,7 @@ class Dataview
     {
         $self = $this;
 
-        return $this->object($this->VO2max, function (Activity\Entity $Activity) use ($self): \Runalyze\Calculation\JD\LegacyEffectiveVO2max {
-            return new LegacyEffectiveVO2max($self->usedVO2maxValue(), new LegacyEffectiveVO2maxCorrector());
-        });
+        return $this->object($this->VO2max, fn (Activity\Entity $Activity): \Runalyze\Calculation\JD\LegacyEffectiveVO2max => new LegacyEffectiveVO2max($self->usedVO2maxValue(), new LegacyEffectiveVO2maxCorrector()));
     }
 
     /**

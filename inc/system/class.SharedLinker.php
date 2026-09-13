@@ -42,9 +42,7 @@ class SharedLinker
      */
     public static function getStandardLinkTo($trainingID, $text = null): string
     {
-        if ($text === null) {
-            $text = Icon::$ATTACH;
-        }
+        $text ??= Icon::$ATTACH;
 
         return '<a href="' . self::getUrlFor($trainingID) . '" target="_blank">' . $text . '</a>';
     }
@@ -55,9 +53,7 @@ class SharedLinker
      */
     public static function getListLinkForCurrentUser($text = null): string
     {
-        if ($text === null) {
-            $text = '<i class="fa far fa-fw fa-address-card"></i>';
-        }
+        $text ??= '<i class="fa far fa-fw fa-address-card"></i>';
 
         if (! Configuration::Privacy()->listIsPublic()) {
             return '<a class=window tab" href="settings?key=config_tab_general" ' . Ajax::tooltip('', __('You can activate your public athlete page at <em>Configuration->Privacy</em>'), false, true) . '>' . $text . '</a>';

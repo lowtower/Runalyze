@@ -15,8 +15,6 @@ namespace Runalyze\Calculation\Math\MovingAverage;
  */
 abstract class AbstractMovingAverage implements MovingAverageInterface
 {
-    protected array $Data = [];
-
     /**
      * @var array
      */
@@ -30,12 +28,14 @@ abstract class AbstractMovingAverage implements MovingAverageInterface
     protected int $Length = 0;
 
     /**
-     * @param array $data data to average
+     * @param array $Data data to average
      * @param bool $indexDataIsAscending set to false if index is not ascending
      */
-    public function __construct(array $data, array $indexData = [], $indexDataIsAscending = true)
-    {
-        $this->Data = $data;
+    public function __construct(
+        protected array $Data,
+        array $indexData = [],
+        $indexDataIsAscending = true
+    ) {
         $this->IndexData = $indexData;
         $this->Length = count($this->Data);
 
@@ -48,7 +48,7 @@ abstract class AbstractMovingAverage implements MovingAverageInterface
     protected function checkIndexData($indexDataIsAscending)
     {
         if ($this->IndexData !== []) {
-            if (count($this->IndexData) != $this->Length) {
+            if (count($this->IndexData) !== $this->Length) {
                 throw new \InvalidArgumentException('Index data must be of same length as provided data.');
             }
 

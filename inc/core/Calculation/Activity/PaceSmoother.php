@@ -34,8 +34,6 @@ class PaceSmoother
      */
     public const MODE_DISTANCE = 2;
 
-    protected Trackdata\Entity $Trackdata;
-
     protected Trackdata\Loop $Loop;
 
     /**
@@ -47,16 +45,14 @@ class PaceSmoother
 
     protected int|float $StepSize = 1;
 
-    protected bool $KeepArraySize = false;
-
     /**
      * Smoother
      */
-    public function __construct(Trackdata\Entity $trackdata, bool $keepArraySize = false)
-    {
-        $this->Trackdata = $trackdata;
-        $this->Loop = new Trackdata\Loop($trackdata);
-        $this->KeepArraySize = $keepArraySize;
+    public function __construct(
+        protected Trackdata\Entity $Trackdata,
+        protected bool $KeepArraySize = false
+    ) {
+        $this->Loop = new Trackdata\Loop($this->Trackdata);
     }
 
     /**

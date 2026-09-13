@@ -41,7 +41,7 @@ final class QueryGroups extends AbstractEnum
 
     public static function getGroup($enum): QueryGroupInterface
     {
-        if (substr($enum, 0, strlen(self::EQUIPMENT_TYPE) + 1) == self::EQUIPMENT_TYPE . '_') {
+        if (substr($enum, 0, strlen(self::EQUIPMENT_TYPE) + 1) === self::EQUIPMENT_TYPE . '_') {
             return new EquipmentType(substr($enum, strlen(self::EQUIPMENT_TYPE) + 1));
         }
 

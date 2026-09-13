@@ -50,9 +50,7 @@ class SportChoiceType extends AbstractTokenStorageAwareType
                 /** @var Sport $sport */
                 return $sport->getName();
             },
-            'choice_value' => function (?Sport $sport = null) {
-                return $sport instanceof \Runalyze\Bundle\CoreBundle\Entity\Sport ? $sport->getId() : '';
-            },
+            'choice_value' => fn (?Sport $sport = null) => $sport instanceof \Runalyze\Bundle\CoreBundle\Entity\Sport ? $sport->getId() : '',
             'choice_attr' => function ($sport, $key, $index) use ($sportToEquipmentCategoryRelations): array {
                 /** @var Sport $sport */
                 $sportId = $sport->getId();

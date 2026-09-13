@@ -12,14 +12,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CleanupRegistrationsCommand extends Command
 {
-    private ManagerRegistry $doctrine;
-
     public function __construct(
-        ManagerRegistry $doctrine
+        private ManagerRegistry $doctrine
     ) {
         parent::__construct();
-
-        $this->doctrine = $doctrine;
     }
 
     protected function configure()

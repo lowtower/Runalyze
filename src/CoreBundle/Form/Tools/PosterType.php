@@ -72,9 +72,7 @@ class PosterType extends AbstractType
             ])
             ->add('year', ChoiceType::class, [
                 'choices' => $this->TrainingRepository->getActiveYearsFor($this->getAccount(), null, 2),
-                'choice_label' => function ($year, $key, $index) {
-                    return $year;
-                },
+                'choice_label' => fn ($year, $key, $index) => $year,
             ])
             ->add('title', TextType::class, [
                 'required' => true,

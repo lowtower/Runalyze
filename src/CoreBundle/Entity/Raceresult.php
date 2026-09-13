@@ -93,7 +93,7 @@ class Raceresult implements AccountRelatedEntityInterface
     #[ORM\JoinColumn(name: 'activity_id', referencedColumnName: 'id')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
-    #[ORM\OneToOne(targetEntity: Training::class, inversedBy: 'raceresult')]
+    #[ORM\OneToOne(inversedBy: 'raceresult', targetEntity: Training::class)]
     private ?Training $activity = null;
 
     /**

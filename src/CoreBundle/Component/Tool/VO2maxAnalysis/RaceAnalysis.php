@@ -12,29 +12,20 @@ use Runalyze\Util\LocalTime;
 class RaceAnalysis
 {
     /**
-     * @var float
-     */
-    protected $VO2maxFactor;
-
-    /**
-     * @var float
-     */
-    protected $VO2maxShape;
-
-    /**
      * @var Model\Activity\Entity
      */
     protected $Activity;
 
     /**
-     * @param float $vo2maxFactor
-     * @param float $vo2maxShape
+     * @param float $VO2maxFactor
+     * @param float $VO2maxShape
      */
-    public function __construct(Model\Activity\Entity $activity, $vo2maxFactor, $vo2maxShape)
-    {
+    public function __construct(
+        Model\Activity\Entity $activity,
+        protected $VO2maxFactor,
+        protected $VO2maxShape
+    ) {
         $this->Activity = $activity;
-        $this->VO2maxFactor = $vo2maxFactor;
-        $this->VO2maxShape = $vo2maxShape;
     }
 
     /**

@@ -194,17 +194,11 @@ abstract class AbstractModel
      */
     private function arrayFor(int $enum)
     {
-        switch ($enum) {
-            case self::FITNESS:
-                return $this->Fitness;
-
-            case self::FATIGUE:
-                return $this->Fatigue;
-
-            case self::PERFORMANCE:
-                return $this->Performance;
-        }
-
-        return [];
+        return match ($enum) {
+            self::FITNESS => $this->Fitness,
+            self::FATIGUE => $this->Fatigue,
+            self::PERFORMANCE => $this->Performance,
+            default => [],
+        };
     }
 }

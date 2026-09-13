@@ -72,24 +72,16 @@ final class SummaryMode extends AbstractEnum
      */
     public static function query($mode, $key): string
     {
-        switch ($mode) {
-            case self::AVG:
-                return self::queryForAvg($key);
-            case self::SUM:
-                return self::queryForSum($key);
-            case self::MAX:
-                return self::queryForMax($key);
-            case self::MIN:
-                return self::queryForMin($key);
-            case self::AVG_WITHOUT_NULL:
-                return self::queryForAvgWithoutNull($key);
-            case self::VO2MAX:
-                return self::queryForVO2max($key);
-            case self::AVG_WITH_ZERO:
-                return self::queryForAvgWithZero($key);
-            default:
-                return '';
-        }
+        return match ($mode) {
+            self::AVG => self::queryForAvg($key),
+            self::SUM => self::queryForSum($key),
+            self::MAX => self::queryForMax($key),
+            self::MIN => self::queryForMin($key),
+            self::AVG_WITHOUT_NULL => self::queryForAvgWithoutNull($key),
+            self::VO2MAX => self::queryForVO2max($key),
+            self::AVG_WITH_ZERO => self::queryForAvgWithZero($key),
+            default => '',
+        };
     }
 
     /**

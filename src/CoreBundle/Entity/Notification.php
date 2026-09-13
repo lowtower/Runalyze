@@ -19,14 +19,12 @@ class Notification implements AccountRelatedEntityInterface
     private ?int $id = null;
 
     /**
-     * @var int
-     *
      * @see \Runalyze\Profile\Notifications\MessageTypeProfile
      */
-    #[ORM\Column(name: 'messageType', columnDefinition: 'tinyint unsigned not null', nullable: false, options: [
+    #[ORM\Column(name: 'messageType', type: 'smallint', nullable: false, options: [
         'unsigned' => true,
     ])]
-    private $messageType;
+    private int $messageType;
 
     /**
      * @var int [timestamp]
@@ -34,7 +32,7 @@ class Notification implements AccountRelatedEntityInterface
     #[ORM\Column(name: 'createdAt', type: 'integer', nullable: false, options: [
         'unsigned' => true,
     ])]
-    private $createdAt;
+    private int $createdAt;
 
     /**
      * @var null|int [timestamp]
@@ -42,36 +40,24 @@ class Notification implements AccountRelatedEntityInterface
     #[ORM\Column(name: 'expirationAt', type: 'integer', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $expirationAt;
+    private ?int $expirationAt = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'data', type: 'text', length: 255)]
-    private $data;
+    private string $data;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'wasRead', type: 'boolean')]
-    protected $wasRead = false;
+    protected bool $wasRead = false;
 
-    /**
-     * @var \Runalyze\Bundle\CoreBundle\Entity\Account
-     */
     #[ORM\JoinColumn(name: 'account_id', referencedColumnName: 'id', nullable: false)]
     #[ORM\ManyToOne(targetEntity: Account::class)]
-    private $account;
+    private Account $account;
 
     public function __construct()
     {
         $this->createdAt = time();
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -83,7 +69,7 @@ class Notification implements AccountRelatedEntityInterface
      */
     public function setMessageType($messageType): self
     {
-        $this->messageType = $messageType;
+        $this->messageType = (int) $messageType;
 
         return $this;
     }

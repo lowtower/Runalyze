@@ -19,16 +19,10 @@ class PrivacyController extends AbstractController
 {
     use AppServiceSubscriberTrait;
 
-    private ConfigurationUpdater $configurationUpdater;
-
-    private TranslatorInterface $translator;
-
     public function __construct(
-        ConfigurationUpdater $configurationUpdater,
-        TranslatorInterface $translator
+        private ConfigurationUpdater $configurationUpdater,
+        private TranslatorInterface $translator
     ) {
-        $this->configurationUpdater = $configurationUpdater;
-        $this->translator = $translator;
     }
 
     protected function getConfRepository(): ConfRepository

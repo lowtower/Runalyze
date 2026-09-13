@@ -23,25 +23,13 @@ class ActivityBulkRouteNameEvaluationCommand extends Command
 {
     private bool $override = false;
 
-    private ManagerRegistry $doctrine;
-
-    private ParameterBagInterface $parameterBag;
-
-    private TrainingRepository $trainingRepository;
-
-    private ActivityContextAdapterFactory $activityContextAdapterFactory;
-
     public function __construct(
-        ManagerRegistry $doctrine,
-        ParameterBagInterface $parameterBag,
-        TrainingRepository $trainingRepository,
-        ActivityContextAdapterFactory $activityContextAdapterFactory
+        private ManagerRegistry $doctrine,
+        private ParameterBagInterface $parameterBag,
+        private TrainingRepository $trainingRepository,
+        private ActivityContextAdapterFactory $activityContextAdapterFactory
     ) {
         parent::__construct();
-        $this->doctrine = $doctrine;
-        $this->parameterBag = $parameterBag;
-        $this->trainingRepository = $trainingRepository;
-        $this->activityContextAdapterFactory = $activityContextAdapterFactory;
     }
 
     protected function configure()

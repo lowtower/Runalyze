@@ -13,16 +13,10 @@ class CallController extends AbstractController
 {
     use AppServiceSubscriberTrait;
 
-    private TokenStorageInterface $tokenStorage;
-
-    private ParameterBagInterface $parameterBag;
-
     public function __construct(
-        TokenStorageInterface $tokenStorage,
-        ParameterBagInterface $parameterBag
+        private TokenStorageInterface $tokenStorage,
+        private ParameterBagInterface $parameterBag
     ) {
-        $this->tokenStorage = $tokenStorage;
-        $this->parameterBag = $parameterBag;
     }
 
     /**
@@ -105,7 +99,7 @@ class CallController extends AbstractController
                 break;
 
             default:
-                if (substr($_GET['key'], 0, 5) === 'show-') {
+                if (str_starts_with($_GET['key'], 'show-')) {
                     $key = substr($_GET['key'], 5);
                     \Runalyze\Configuration::ActivityForm()->update($key, $_GET['value']);
                 }

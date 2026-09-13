@@ -10,7 +10,6 @@ namespace Runalyze\View\Splits;
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\Pace;
-use Runalyze\Model\Activity\Splits;
 use Runalyze\Parameter\Application\PaceUnit;
 
 /**
@@ -21,8 +20,6 @@ use Runalyze\Parameter\Application\PaceUnit;
  */
 class Table
 {
-    protected \Runalyze\Model\Activity\Splits\Entity $Splits;
-
     /**
      * Halfs of a competition to display
      */
@@ -44,23 +41,17 @@ class Table
     protected Pace $achievedPaceActive;
 
     /**
-     * @var int enum
-     */
-    protected int $PaceUnit;
-
-    /**
      * Code
      */
     protected string $Code = '';
 
     /**
-     * @param int $legacyPaceUnitEnum enum
+     * @param int $PaceUnit enum
      */
-    public function __construct(Splits\Entity $splits, int $legacyPaceUnitEnum = PaceUnit::MIN_PER_KM)
-    {
-        $this->Splits = $splits;
-        $this->PaceUnit = $legacyPaceUnitEnum;
-
+    public function __construct(
+        protected \Runalyze\Model\Activity\Splits\Entity $Splits,
+        protected int $PaceUnit = PaceUnit::MIN_PER_KM
+    ) {
         $this->init();
     }
 

@@ -67,7 +67,7 @@ class MainEquipment extends AbstractEquipment
             foreach (array_unique($ids) as $id) {
                 $Equipment = $Factory->equipment($id);
 
-                if ($Equipment->typeid() == $mainTypeID) {
+                if ($Equipment->typeid() === $mainTypeID) {
                     $names[] = Request::isOnSharedPage() ? $Factory->equipment($id)->name() : SearchLink::to('equipmentid', $id, $Factory->equipment($id)->name());
                 }
             }

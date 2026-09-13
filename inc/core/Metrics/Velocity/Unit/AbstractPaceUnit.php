@@ -13,7 +13,7 @@ abstract class AbstractPaceUnit extends AbstractComparableUnit
     {
         $appendix = $this->getAppendix();
 
-        if (substr($appendix, 0, 1) == '/') {
+        if (str_starts_with($appendix, '/')) {
             return 'min' . $appendix;
         }
 

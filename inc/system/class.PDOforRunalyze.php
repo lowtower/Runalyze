@@ -44,25 +44,25 @@ class PDOforRunalyze extends PDO
     protected function addAccountIDtoStatement(string &$statement)
     {
         if (! is_numeric($this->accountID)
-            || strpos($statement, 'SET NAMES') !== false
-            || strpos($statement, 'TRUNCATE') !== false
-            || strpos($statement, 'accountid') !== false
-            || strpos($statement, 'FROM') === false
+            || str_contains($statement, 'SET NAMES')
+            || str_contains($statement, 'TRUNCATE')
+            || str_contains($statement, 'accountid')
+            || ! str_contains($statement, 'FROM')
         ) {
             return;
         }
 
         if (
-            strpos($statement, PREFIX . 'account') === false
-            && strpos($statement, PREFIX . 'plugin_conf') === false
-            && strpos($statement, PREFIX . 'activity_equipment') === false
-            && strpos($statement, PREFIX . 'activity_tag') === false
-            && strpos($statement, PREFIX . 'equipment_sport') === false
-            && strpos($statement, PREFIX . 'equipment_to_sport') === false
-            && strpos($statement, PREFIX . 'weathercache') === false
-            && strpos($statement, PREFIX . 'raceresult') === false
-            && strpos($statement, '`accountid`') === false
-            && strpos($statement, 'accountid=') === false
+            ! str_contains($statement, PREFIX . 'account')
+            && ! str_contains($statement, PREFIX . 'plugin_conf')
+            && ! str_contains($statement, PREFIX . 'activity_equipment')
+            && ! str_contains($statement, PREFIX . 'activity_tag')
+            && ! str_contains($statement, PREFIX . 'equipment_sport')
+            && ! str_contains($statement, PREFIX . 'equipment_to_sport')
+            && ! str_contains($statement, PREFIX . 'weathercache')
+            && ! str_contains($statement, PREFIX . 'raceresult')
+            && ! str_contains($statement, '`accountid`')
+            && ! str_contains($statement, 'accountid=')
         ) {
             if (strpos($statement, 'WHERE') >= 7) {
                 $statement = str_replace('WHERE', 'WHERE `accountid`=' . (int) $this->accountID . ' AND ', $statement);
@@ -196,7 +196,7 @@ class PDOforRunalyze extends PDO
             } elseif (! is_numeric($values) || $forceAsString) {
                 $values = $this->quote($values);
 
-                if ($quotes === false && substr($values, 0, 1) === "'" && substr($values, -1) === "'" && strlen($values) > 2) {
+                if ($quotes === false && str_starts_with($values, "'") && str_ends_with($values, "'") && strlen($values) > 2) {
                     $values = substr($values, 1, -1);
                 }
             }

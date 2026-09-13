@@ -10,18 +10,14 @@ class Selection
     protected $List;
 
     /**
-     * @var mixed
-     */
-    protected $CurrentKey;
-
-    /**
      * @param string[] $list
-     * @param mixed $currentKey
+     * @param mixed $CurrentKey
      */
-    public function __construct(array $list, $currentKey = null)
-    {
+    public function __construct(
+        array $list,
+        protected $CurrentKey = null
+    ) {
         $this->List = $list;
-        $this->CurrentKey = $currentKey;
     }
 
     /**

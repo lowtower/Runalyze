@@ -60,7 +60,7 @@ class UtilityExtension extends \Twig\Extension\AbstractExtension
      */
     private function formatDuration($seconds, string $format, $decimals = 0)
     {
-        if (substr($format, -1) == 'u') {
+        if (str_ends_with($format, 'u')) {
             $time = \DateTime::createFromFormat('!U', (string) (int) floor($seconds), new \DateTimeZone('UTC'));
             $fraction = str_pad((string) round(fmod($seconds, 1) * 10 ** $decimals), $decimals, '0', STR_PAD_LEFT);
 

@@ -23,8 +23,6 @@ use Runalyze\Model\Trackdata;
  */
 class Calculator
 {
-    protected Laps $Laps;
-
     protected array $Distances = [];
 
     protected array $Times = [];
@@ -39,9 +37,9 @@ class Calculator
 
     protected bool $UsePreviousTrackpointForTimeLaps = false;
 
-    public function __construct(Laps $object)
-    {
-        $this->Laps = $object;
+    public function __construct(
+        protected Laps $Laps
+    ) {
     }
 
     public function calculateAdditionalValues(bool $flag = true)
@@ -132,7 +130,7 @@ class Calculator
      */
     public static function getDistancesFromString(string $distanceStr): array
     {
-        if (substr($distanceStr, 0, 1) == '+') {
+        if (str_starts_with($distanceStr, '+')) {
             $distanceStr = substr($distanceStr, 1);
             $distanceArr = explode(',', $distanceStr);
             $distSum = 0;
@@ -160,7 +158,7 @@ class Calculator
     {
         $string = str_replace("'", ':00', $string);
 
-        if (substr($string, 0, 1) == '+') {
+        if (str_starts_with($string, '+')) {
             $times = self::explodeTimeStrings(substr($string, 1));
             $sum = 0;
 

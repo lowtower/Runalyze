@@ -43,12 +43,6 @@ class Formular extends HtmlTag
     protected $action = '';
 
     /**
-     * Formular method
-     * @var string
-     */
-    protected $method = '';
-
-    /**
      * H1-header
      * @var string
      */
@@ -65,14 +59,17 @@ class Formular extends HtmlTag
      * @param string $action
      * @param string $method
      */
-    public function __construct($action = '', $method = 'post')
-    {
+    public function __construct(
+        $action = '', /**
+     * Formular method
+     */
+        protected $method = 'post'
+    ) {
         if (empty($action)) {
             $action = $_SERVER['REQUEST_URI'];
         }
 
         $this->action = $action;
-        $this->method = $method;
     }
 
     public function setAction($action)

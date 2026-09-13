@@ -88,27 +88,27 @@ class Hrm extends AbstractSingleParser implements FileContentAwareParserInterfac
 
     protected function readParam()
     {
-        if (substr($this->CurrentLine, 0, 4) == 'Date') {
+        if (str_starts_with($this->CurrentLine, 'Date')) {
             $this->Container->Metadata->setTimestampAndTimezoneOffsetFrom(substr($this->CurrentLine, 5) . ' 00:00');
-        } elseif (substr($this->CurrentLine, 0, 9) == 'StartTime') {
+        } elseif (str_starts_with($this->CurrentLine, 'StartTime')) {
             $this->Container->Metadata->setTimestamp(
                 $this->Container->Metadata->getTimestamp() + (int) ((new Duration(substr($this->CurrentLine, 10)))->seconds()),
                 $this->Container->Metadata->getTimezoneOffset()
             );
-        } elseif (substr($this->CurrentLine, 0, 6) == 'Length') {
+        } elseif (str_starts_with($this->CurrentLine, 'Length')) {
             $this->Container->ActivityData->Duration = ((new Duration(substr($this->CurrentLine, 7)))->seconds());
-        } elseif (substr($this->CurrentLine, 0, 8) == 'Interval') {
+        } elseif (str_starts_with($this->CurrentLine, 'Interval')) {
             $this->RecordingInterval = (int) trim(substr($this->CurrentLine, 9));
-        } elseif (substr($this->CurrentLine, 0, 4) == 'Mode') {
-            $this->RecordsAltitude = (substr($this->CurrentLine, 5, 1) == '1');
-            $this->UsesImperialUnits = (substr($this->CurrentLine, 7, 1) == '1');
+        } elseif (str_starts_with($this->CurrentLine, 'Mode')) {
+            $this->RecordsAltitude = (substr($this->CurrentLine, 5, 1) === '1');
+            $this->UsesImperialUnits = (substr($this->CurrentLine, 7, 1) === '1');
 
             if ($this->UsesImperialUnits) {
                 $this->setImperialFactors();
             }
-        } elseif (substr($this->CurrentLine, 0, 5) == 'SMode') {
-            $this->RecordsAltitude = (substr($this->CurrentLine, 8, 1) == '1');
-            $this->UsesImperialUnits = (substr($this->CurrentLine, 13, 1) == '1');
+        } elseif (str_starts_with($this->CurrentLine, 'SMode')) {
+            $this->RecordsAltitude = (substr($this->CurrentLine, 8, 1) === '1');
+            $this->UsesImperialUnits = (substr($this->CurrentLine, 13, 1) === '1');
 
             if ($this->UsesImperialUnits) {
                 $this->setImperialFactors();

@@ -14,17 +14,12 @@ class Gradient extends ActivitySeries
     public const COLOR = 'rgb(127,127,127)';
 
     /**
-     * @var int
+     * @param int $KernelWidth
      */
-    protected $KernelWidth;
-
-    /**
-     * @param int $kernelWidth
-     */
-    public function __construct(Activity\Context $context, $kernelWidth = 20)
-    {
-        $this->KernelWidth = $kernelWidth;
-
+    public function __construct(
+        Activity\Context $context,
+        protected $KernelWidth = 20
+    ) {
         $this->initOptions();
         $this->initDataWithRoute($context);
     }

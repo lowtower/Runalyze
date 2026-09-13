@@ -122,7 +122,7 @@ abstract class PluginStat extends Plugin
             $HeaderParts[] = $this->getYearString();
         }
 
-        if (! empty($HeaderParts)) {
+        if ($HeaderParts !== []) {
             $this->setHeader($this->name() . ': ' . implode(', ', $HeaderParts));
         }
     }

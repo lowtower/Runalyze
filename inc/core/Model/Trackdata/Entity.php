@@ -355,35 +355,10 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
      */
     protected function canBeNull(string $key): bool
     {
-        switch ($key) {
-            case self::TIME:
-            case self::DISTANCE:
-            case self::HEARTRATE:
-            case self::CADENCE:
-            case self::POWER:
-            case self::TEMPERATURE:
-            case self::GROUNDCONTACT:
-            case self::VERTICAL_OSCILLATION:
-            case self::GROUNDCONTACT_BALANCE:
-            case self::SMO2_0:
-            case self::SMO2_1:
-            case self::THB_0:
-            case self::THB_1:
-            case self::IMPACT_GS_LEFT:
-            case self::IMPACT_GS_RIGHT:
-            case self::BRAKING_GS_LEFT:
-            case self::BRAKING_GS_RIGHT:
-            case self::FOOTSTRIKE_TYPE_LEFT:
-            case self::FOOTSTRIKE_TYPE_RIGHT:
-            case self::PRONATION_EXCURSION_LEFT:
-            case self::PRONATION_EXCURSION_RIGHT:
-            case self::PERFORMANCE_CONDITION:
-            case self::RESPIRATION_RATE:
-            case self::PAUSES:
-                return true;
-        }
-
-        return false;
+        return match ($key) {
+            self::TIME, self::DISTANCE, self::HEARTRATE, self::CADENCE, self::POWER, self::TEMPERATURE, self::GROUNDCONTACT, self::VERTICAL_OSCILLATION, self::GROUNDCONTACT_BALANCE, self::SMO2_0, self::SMO2_1, self::THB_0, self::THB_1, self::IMPACT_GS_LEFT, self::IMPACT_GS_RIGHT, self::BRAKING_GS_LEFT, self::BRAKING_GS_RIGHT, self::FOOTSTRIKE_TYPE_LEFT, self::FOOTSTRIKE_TYPE_RIGHT, self::PRONATION_EXCURSION_LEFT, self::PRONATION_EXCURSION_RIGHT, self::PERFORMANCE_CONDITION, self::RESPIRATION_RATE, self::PAUSES => true,
+            default => false,
+        };
     }
 
     /**
@@ -391,14 +366,10 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
      */
     protected function notInDatabase(string $key): bool
     {
-        switch ($key) {
-            case self::PACE:
-            case self::STRIDE_LENGTH:
-            case self::VERTICAL_RATIO:
-                return true;
-        }
-
-        return false;
+        return match ($key) {
+            self::PACE, self::STRIDE_LENGTH, self::VERTICAL_RATIO => true,
+            default => false,
+        };
     }
 
     /**

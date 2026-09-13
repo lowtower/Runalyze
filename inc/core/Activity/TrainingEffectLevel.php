@@ -81,20 +81,14 @@ class TrainingEffectLevel extends AbstractEnum
      */
     public static function label(int $enum): string
     {
-        switch ($enum) {
-            case self::EASY:
-                return __('Easy');
-            case self::MAINTAINING:
-                return __('Maintaining workout');
-            case self::IMPROVING:
-                return __('Improving Fitness');
-            case self::HIGHLY_IMPROVING:
-                return __('Highly Improving');
-            case self::OVERREACHING:
-                return __('Overreaching');
-            default:
-                throw new \InvalidArgumentException(sprintf('Provided level %u is invalid.', $enum));
-        }
+        return match ($enum) {
+            self::EASY => __('Easy'),
+            self::MAINTAINING => __('Maintaining workout'),
+            self::IMPROVING => __('Improving Fitness'),
+            self::HIGHLY_IMPROVING => __('Highly Improving'),
+            self::OVERREACHING => __('Overreaching'),
+            default => throw new \InvalidArgumentException(sprintf('Provided level %u is invalid.', $enum)),
+        };
     }
 
     /**
@@ -104,19 +98,13 @@ class TrainingEffectLevel extends AbstractEnum
      */
     public static function description(int $enum): string
     {
-        switch ($enum) {
-            case self::EASY:
-                return __('Helps recovery (short activities). Improves endurance with longer activities (more than 40 minutes).');
-            case self::MAINTAINING:
-                return __('Maintains your aerobic fitness.');
-            case self::IMPROVING:
-                return __('Improves your aerobic fitness if repeated as part of your weekly training program.');
-            case self::HIGHLY_IMPROVING:
-                return __('Highly improves your aerobic fitness if repeated 1-2 times per week with adequate recovery time.');
-            case self::OVERREACHING:
-                return __('Causes temporary overload with high improvement. Train up to this number with extreme care. Requires additional recovery days.');
-            default:
-                throw new \InvalidArgumentException(sprintf('Provided level %u is invalid.', $enum));
-        }
+        return match ($enum) {
+            self::EASY => __('Helps recovery (short activities). Improves endurance with longer activities (more than 40 minutes).'),
+            self::MAINTAINING => __('Maintains your aerobic fitness.'),
+            self::IMPROVING => __('Improves your aerobic fitness if repeated as part of your weekly training program.'),
+            self::HIGHLY_IMPROVING => __('Highly improves your aerobic fitness if repeated 1-2 times per week with adequate recovery time.'),
+            self::OVERREACHING => __('Causes temporary overload with high improvement. Train up to this number with extreme care. Requires additional recovery days.'),
+            default => throw new \InvalidArgumentException(sprintf('Provided level %u is invalid.', $enum)),
+        };
     }
 }

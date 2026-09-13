@@ -590,7 +590,7 @@ services:
             $notificationRepository: '@Runalyze\Bundle\CoreBundle\Entity\NotificationRepository'
             $generateJsonData: '@app.poster.generate_json'
             $generatePoster: '@app.poster.generate_poster'
-            $posterFileHandler: '@app.poster.filehandler'
+            $fileHandler: '@app.poster.filehandler'
             $accountMailer: '@Runalyze\Bundle\CoreBundle\Services\AccountMailer'
             $stateResolver: '@Runalyze\Bundle\CoreBundle\Component\Tool\Poster\PosterGenerationStateResolver'
             $dataDirectory: '%app.data_directory%'

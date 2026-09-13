@@ -149,7 +149,7 @@ class Lap
      */
     public function trackDuration(): \Runalyze\Activity\Duration
     {
-        if ($this->TrackDurationAtEnd === null) {
+        if (! $this->TrackDurationAtEnd instanceof \Runalyze\Activity\Duration) {
             throw new \RuntimeException('Track duration was never set for this lap. Call hasTrackValues() first.');
         }
 
@@ -162,7 +162,7 @@ class Lap
      */
     public function trackDistance()
     {
-        if ($this->TrackDistanceAtEnd === null) {
+        if (! $this->TrackDistanceAtEnd instanceof \Runalyze\Activity\Distance) {
             throw new \RuntimeException('Track distance was never set for this lap. Call hasTrackValues() first.');
         }
 
@@ -189,7 +189,7 @@ class Lap
      */
     public function HRavg(): \Runalyze\Activity\HeartRate
     {
-        if ($this->HRavg === null) {
+        if (! $this->HRavg instanceof \Runalyze\Activity\HeartRate) {
             throw new \RuntimeException('HR was never set for this lap. Call hasHR() first.');
         }
 
@@ -201,7 +201,7 @@ class Lap
      */
     public function HRmax(): \Runalyze\Activity\HeartRate
     {
-        if ($this->HRmax === null) {
+        if (! $this->HRmax instanceof \Runalyze\Activity\HeartRate) {
             throw new \RuntimeException('HR was never set for this lap. Call hasHR() first.');
         }
 

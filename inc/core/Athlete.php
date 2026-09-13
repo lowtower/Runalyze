@@ -11,28 +11,6 @@ class Athlete
     protected ?int $Gender = null;
 
     /**
-     * @var null|int [bpm]
-     */
-    protected ?int $maximalHR = null;
-
-    /**
-     * @var null|int [bpm]
-     */
-    protected ?int $restingHR = null;
-
-    /**
-     * @var null|float [kg]
-     */
-    protected ?float $weight = null;
-
-    protected ?int $birthyear = null;
-
-    /**
-     * @var float [ml/kg/min]
-     */
-    protected float $vo2max = 0.0;
-
-    /**
      * @param null|int $Gender see \Runalyze\Profile\Athlete\Gender
      * @param null|int $maximalHR [bpm]
      * @param null|int $restingHR [bpm]
@@ -41,18 +19,13 @@ class Athlete
      */
     public function __construct(
         ?int $Gender = null,
-        ?int $maximalHR = null,
-        ?int $restingHR = null,
-        ?float $weight = null,
-        ?int $birthyear = null,
-        float $vo2max = 0.0
+        protected ?int $maximalHR = null,
+        protected ?int $restingHR = null,
+        protected ?float $weight = null,
+        protected ?int $birthyear = null,
+        protected float $vo2max = 0.0
     ) {
         $this->Gender = $Gender ?: Gender::NONE;
-        $this->maximalHR = $maximalHR;
-        $this->restingHR = $restingHR;
-        $this->weight = $weight;
-        $this->birthyear = $birthyear;
-        $this->vo2max = $vo2max;
     }
 
     /**

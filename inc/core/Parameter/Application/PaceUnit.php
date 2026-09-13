@@ -79,28 +79,18 @@ class PaceUnit extends AbstractEnum
      */
     public static function stringFor($id): string
     {
-        switch ($id) {
-            case self::KM_PER_H:
-                return 'km/h';
-            case self::MILES_PER_H:
-                return 'mph';
-            case self::MIN_PER_KM:
-                return 'min/km';
-            case self::MIN_PER_MILE:
-                return 'min/mi';
-            case self::M_PER_S:
-                return 'm/s';
-            case self::MIN_PER_100M:
-                return 'min/100m';
-            case self::MIN_PER_100Y:
-                return 'min/100y';
-            case self::MIN_PER_500M:
-                return 'min/500m';
-            case self::MIN_PER_500Y:
-                return 'min/500y';
-            default:
-                throw new \InvalidArgumentException('Invalid pace unit id "' . $id . '".');
-        }
+        return match ($id) {
+            self::KM_PER_H => 'km/h',
+            self::MILES_PER_H => 'mph',
+            self::MIN_PER_KM => 'min/km',
+            self::MIN_PER_MILE => 'min/mi',
+            self::M_PER_S => 'm/s',
+            self::MIN_PER_100M => 'min/100m',
+            self::MIN_PER_100Y => 'min/100y',
+            self::MIN_PER_500M => 'min/500m',
+            self::MIN_PER_500Y => 'min/500y',
+            default => throw new \InvalidArgumentException('Invalid pace unit id "' . $id . '".'),
+        };
     }
 
     public static function getChoices(): array
@@ -134,27 +124,17 @@ class PaceUnit extends AbstractEnum
      */
     protected function getNewPaceUnitObject($id)
     {
-        switch ($id) {
-            case self::KM_PER_H:
-            default:
-                return new PaceUnitObject\KmPerHour();
-            case self::MILES_PER_H:
-                return new PaceUnitObject\MilesPerHour();
-            case self::MIN_PER_KM:
-                return new PaceUnitObject\MinPerKilometer();
-            case self::MIN_PER_MILE:
-                return new PaceUnitObject\MinPerMile();
-            case self::M_PER_S:
-                return new PaceUnitObject\MeterPerSecond();
-            case self::MIN_PER_100M:
-                return new PaceUnitObject\MinPer100m();
-            case self::MIN_PER_100Y:
-                return new PaceUnitObject\MinPer100y();
-            case self::MIN_PER_500M:
-                return new PaceUnitObject\MinPer500m();
-            case self::MIN_PER_500Y:
-                return new PaceUnitObject\MinPer500y();
-        }
+        return match ($id) {
+            self::MILES_PER_H => new PaceUnitObject\MilesPerHour(),
+            self::MIN_PER_KM => new PaceUnitObject\MinPerKilometer(),
+            self::MIN_PER_MILE => new PaceUnitObject\MinPerMile(),
+            self::M_PER_S => new PaceUnitObject\MeterPerSecond(),
+            self::MIN_PER_100M => new PaceUnitObject\MinPer100m(),
+            self::MIN_PER_100Y => new PaceUnitObject\MinPer100y(),
+            self::MIN_PER_500M => new PaceUnitObject\MinPer500m(),
+            self::MIN_PER_500Y => new PaceUnitObject\MinPer500y(),
+            default => new PaceUnitObject\KmPerHour(),
+        };
     }
 
     /**

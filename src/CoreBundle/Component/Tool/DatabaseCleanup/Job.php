@@ -10,11 +10,6 @@ abstract class Job
     private $Messages = [];
 
     /**
-     * @var array
-     */
-    private $RequestData = [];
-
-    /**
      * @var \PDO
      */
     protected $PDO;
@@ -34,9 +29,12 @@ abstract class Job
      */
     protected $RunningSportId;
 
-    public function __construct(array $requestData, \PDO $pdo, int $accountId, string $databasePrefix)
-    {
-        $this->RequestData = $requestData;
+    public function __construct(
+        private array $RequestData,
+        \PDO $pdo,
+        int $accountId,
+        string $databasePrefix
+    ) {
         $this->PDO = $pdo;
         $this->AccountId = $accountId;
         $this->DatabasePrefix = $databasePrefix;

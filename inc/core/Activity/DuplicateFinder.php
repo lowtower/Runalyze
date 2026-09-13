@@ -20,14 +20,10 @@ class DuplicateFinder
      */
     public const COLUMN_WITH_ID = 'activity_id';
 
-    protected \PDO $PDO;
-
-    protected int $AccountId;
-
-    public function __construct(PDO $pdo, int $accountId)
-    {
-        $this->PDO = $pdo;
-        $this->AccountId = $accountId;
+    public function __construct(
+        protected \PDO $PDO,
+        protected int $AccountId
+    ) {
     }
 
     /**

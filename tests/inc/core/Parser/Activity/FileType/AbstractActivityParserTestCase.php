@@ -51,9 +51,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
 
         $this->FilesToClear = $outputFile;
         $path = $this->pathToTestFiles();
-        $outputFile = array_map(function (string $file) use ($path): string {
-            return str_replace($path, '', $file);
-        }, $outputFile);
+        $outputFile = array_map(fn (string $file): string => str_replace($path, '', $file), $outputFile);
 
         $this->assertEquals($expectedOutputFiles, $outputFile);
 
@@ -119,7 +117,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
             }
         }
 
-        if ($this->NumberOfActivities == 1) {
+        if ($this->NumberOfActivities === 1) {
             $this->Container = $this->Container[0];
         }
     }

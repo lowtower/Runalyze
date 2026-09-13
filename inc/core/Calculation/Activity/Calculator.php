@@ -11,20 +11,11 @@ use Runalyze\Model;
 
 class Calculator
 {
-    protected ?Model\Activity\Entity $Activity = null;
-
-    protected ?Model\Trackdata\Entity $Trackdata = null;
-
-    protected ?Model\Route\Entity $Route = null;
-
     public function __construct(
-        Model\Activity\Entity $activity,
-        ?Model\Trackdata\Entity $trackdata = null,
-        ?Model\Route\Entity $route = null
+        protected Model\Activity\Entity $Activity,
+        protected ?Model\Trackdata\Entity $Trackdata = null,
+        protected ?Model\Route\Entity $Route = null
     ) {
-        $this->Activity = $activity;
-        $this->Trackdata = $trackdata;
-        $this->Route = $route;
     }
 
     protected function knowsTrackdata(): bool

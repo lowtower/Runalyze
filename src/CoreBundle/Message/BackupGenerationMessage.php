@@ -6,14 +6,10 @@ namespace Runalyze\Bundle\CoreBundle\Message;
 
 final class BackupGenerationMessage
 {
-    private int $accountId;
-
-    private string $exportType;
-
-    public function __construct(int $accountId, string $exportType)
-    {
-        $this->accountId = $accountId;
-        $this->exportType = $exportType;
+    public function __construct(
+        private int $accountId,
+        private string $exportType
+    ) {
     }
 
     public function getAccountId(): int

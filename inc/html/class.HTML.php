@@ -31,7 +31,7 @@ class HTML
     public static function emptyTD($colspan = 0, $string = '&nbsp;', string $class = ''): string
     {
         $colspan = ($colspan > 0) ? ' colspan="' . $colspan . '"' : '';
-        $class = ($class != '') ? ' class="' . $class . '"' : '';
+        $class = ($class !== '') ? ' class="' . $class . '"' : '';
 
         return '<td' . $colspan . $class . '>' . $string . '</td>';
     }
@@ -53,11 +53,11 @@ class HTML
      */
     public static function td($string, string $class = '', string $style = ''): string
     {
-        if ($class != '') {
+        if ($class !== '') {
             $class = ' class="' . $class . '"';
         }
 
-        if ($style != '') {
+        if ($style !== '') {
             $style = ' style="' . $style . '"';
         }
 
@@ -271,9 +271,7 @@ class HTML
             $value = ($value == $value_to_be_checked);
         }
 
-        if (! isset($value)) {
-            $value = false;
-        }
+        $value ??= false;
 
         return ($value === true)
             ? ' checked'

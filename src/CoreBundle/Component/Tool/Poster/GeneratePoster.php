@@ -11,26 +11,18 @@ use Symfony\Component\Process\Process;
 
 class GeneratePoster
 {
-    public string $Python3Path;
-
     /**
-     * @var array
+     * @var string[]
      */
-    protected $Parameter = [];
-
-    protected string $KernelRootDir;
-
-    protected string $Python3path;
-
-    protected TrainingRepository $TrainingRepository;
+    protected array $Parameter = [];
 
     protected string $Filename;
 
-    public function __construct(string $kernelRootDir, string $python3Path, TrainingRepository $trainingRepository)
-    {
-        $this->KernelRootDir = $kernelRootDir;
-        $this->Python3Path = $python3Path;
-        $this->TrainingRepository = $trainingRepository;
+    public function __construct(
+        protected string $KernelRootDir,
+        protected string $Python3Path,
+        protected TrainingRepository $TrainingRepository
+    ) {
     }
 
     protected function pathToRepository(): string
@@ -45,7 +37,7 @@ class GeneratePoster
 
     protected function generateRandomFileName(string $athlete, string $year)
     {
-        $this->Filename = md5($athlete . $year . strtotime('now')) . '.svg';
+        $this->Filename = md5($athlete . $year . time()) . '.svg';
     }
 
     /**
@@ -77,7 +69,7 @@ class GeneratePoster
         $this->Parameter[] = '--year ' . $year;
         $this->Parameter[] = '--output ' . $this->pathToSvgDirectory() . $this->Filename;
         $this->Parameter[] = '--type ' . $type;
-        $this->Parameter[] = '--title ' . escapeshellarg($title);
+        $this->Parameter[] = '--title ' . escapeshellarg($title ?? '');
         $this->Parameter[] = '--background-color  ' . escapeshellarg($backgroundColor);
         $this->Parameter[] = '--track-color ' . escapeshellarg($trackColor);
         $this->Parameter[] = '--text-color ' . escapeshellarg($textColor);
@@ -86,7 +78,10 @@ class GeneratePoster
         $this->addStatsParameter($account, $sport, $year);
 
         if ((new Filesystem())->exists($jsonDir . '/special.params')) {
-            $this->Parameter[] = file_get_contents($jsonDir . '/special.params');
+            $specialParams = file_get_contents($jsonDir . '/special.params');
+            if ($specialParams !== false) {
+                $this->Parameter[] = $specialParams;
+            }
         }
     }
 

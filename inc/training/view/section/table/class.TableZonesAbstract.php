@@ -7,7 +7,6 @@
 
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
-use Runalyze\View\Activity\Context;
 
 /**
  * Display zones
@@ -22,16 +21,13 @@ abstract class TableZonesAbstract
      */
     public const MINIMUM_TIME_IN_ZONE = 10;
 
-    protected \Runalyze\View\Activity\Context $Context;
-
     protected array $Data = [];
 
     private string $TitlePercent = ''; // #TSC
 
-    public function __construct(Context $context)
-    {
-        $this->Context = $context;
-
+    public function __construct(
+        protected \Runalyze\View\Activity\Context $Context
+    ) {
         if ($this->Context->trackdata()->has(Runalyze\Model\Trackdata\Entity::TIME)) {
             $this->initData();
             $this->convertData();

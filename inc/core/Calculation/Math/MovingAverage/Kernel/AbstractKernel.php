@@ -81,15 +81,11 @@ abstract class AbstractKernel
     {
         $values = array_map(
             [$this, 'atTransformed'],
-            array_map(function ($v) {
-                return $this->TransformationFactor * $v;
-            }, $differences)
+            array_map(fn ($v) => $this->TransformationFactor * $v, $differences)
         );
 
         if ($normalized) {
-            return array_map(function (float $v): float {
-                return $this->NormalizationFactor * $v;
-            }, $values);
+            return array_map(fn (float $v): float => $this->NormalizationFactor * $v, $values);
         }
 
         return $values;

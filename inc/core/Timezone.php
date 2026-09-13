@@ -71,7 +71,7 @@ class Timezone implements InterfaceChoosable
         foreach ($timezones as $timezone) {
             try {
                 $timezone_offsets[(new DateTimeZone($timezone))->getOffset($currentTime)][] = $timezone;
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // Invalid time zone
             }
         }
@@ -113,7 +113,7 @@ class Timezone implements InterfaceChoosable
     {
         try {
             new DateTimeZone($timezone);
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             return false;
         }
 

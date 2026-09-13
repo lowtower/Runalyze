@@ -40,32 +40,14 @@ class ToolsController extends AbstractController
 {
     use AppServiceSubscriberTrait;
 
-    private Availability $posterAvailability;
-
-    private TranslatorInterface $translator;
-
-    private TokenStorageInterface $tokenStorage;
-
-    private ParameterBagInterface $parameterBag;
-
-    private FileHandler $fileHandler;
-
-    private MessageBusInterface $messageBus;
-
     public function __construct(
-        Availability $posterAvailability,
-        TranslatorInterface $translator,
-        TokenStorageInterface $tokenStorage,
-        ParameterBagInterface $parameterBag,
-        FileHandler $fileHandler,
-        MessageBusInterface $messageBus
+        private Availability $posterAvailability,
+        private TranslatorInterface $translator,
+        private TokenStorageInterface $tokenStorage,
+        private ParameterBagInterface $parameterBag,
+        private FileHandler $fileHandler,
+        private MessageBusInterface $messageBus
     ) {
-        $this->posterAvailability = $posterAvailability;
-        $this->translator = $translator;
-        $this->tokenStorage = $tokenStorage;
-        $this->parameterBag = $parameterBag;
-        $this->fileHandler = $fileHandler;
-        $this->messageBus = $messageBus;
     }
 
     /**

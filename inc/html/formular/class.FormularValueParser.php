@@ -50,17 +50,12 @@ class FormularValueParser
             }
         }
 
-        switch ($parser) {
-            case self::$PARSER_DATE:
-                return self::validateDate($key);
-            case self::$PARSER_TIME:
-                return self::validateTime($key, $parserOptions);
-            case self::$PARSER_BOOL:
-                return self::validateBool($key);
-
-            default:
-                return true;
-        }
+        return match ($parser) {
+            self::$PARSER_DATE => self::validateDate($key),
+            self::$PARSER_TIME => self::validateTime($key, $parserOptions),
+            self::$PARSER_BOOL => self::validateBool($key),
+            default => true,
+        };
     }
 
     /**

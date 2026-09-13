@@ -33,18 +33,6 @@ class Table
      */
     public const CSS_ID = 'rounds-info-window';
 
-    protected Laps $Laps;
-
-    /**
-     * Demanded time
-     */
-    protected Duration $DemandedTime;
-
-    /**
-     * Demanded pace
-     */
-    protected Pace $DemandedPace;
-
     protected Pace $AveragePace;
 
     protected ?Duration $AverageTime = null;
@@ -63,21 +51,26 @@ class Table
 
     private bool $showIntensity;
 
-    public function __construct(Laps $laps, Duration $demandedTime, Pace $demandedPace, int $internalSportProfileEnum, ?array $splitsAdditional = null)
-    {
-        $this->Laps = $laps;
-        $this->DemandedTime = $demandedTime;
-        $this->DemandedPace = $demandedPace;
-
+    public function __construct(
+        protected Laps $Laps, /**
+     * Demanded time
+     */
+        protected Duration $DemandedTime, /**
+     * Demanded pace
+     */
+        protected Pace $DemandedPace,
+        int $internalSportProfileEnum,
+        ?array $splitsAdditional = null
+    ) {
         $this->defineAdditionalKeys($internalSportProfileEnum === SportProfile::RUNNING);
 
         // #TSC: parse the additional infos (only if it has the same lap count)
-        if (! empty($splitsAdditional) && count($splitsAdditional['data']) === $laps->num()) {
+        if (! empty($splitsAdditional) && count($splitsAdditional['data']) === $this->Laps->num()) {
             $this->splitsAdditional = $splitsAdditional;
         }
 
         // only show column intensity, if more types than ACTIVE and REST available
-        $this->showIntensity = $laps->hasMoreThanActiveOrRestLaps();
+        $this->showIntensity = $this->Laps->hasMoreThanActiveOrRestLaps();
     }
 
     protected function defineAdditionalKeys(bool $isRunning)
@@ -230,53 +223,20 @@ class Table
         ));
 
         foreach ($this->AdditionalKeys as $key) {
-            switch ($key) {
-                case Activity\Entity::CADENCE:
-                    $Code .= '<td>' . $View->cadence()->asString() . '</td>';
-                    break;
-
-                case Activity\Entity::GROUNDCONTACT:
-                    $Code .= '<td>' . $View->groundcontact() . '</td>';
-                    break;
-
-                case Activity\Entity::GROUNDCONTACT_BALANCE:
-                    $Code .= '<td>' . $View->groundcontactBalance() . '</td>';
-                    break;
-
-                case Activity\Entity::VERTICAL_OSCILLATION:
-                    $Code .= '<td>' . $View->verticalOscillation() . '</td>';
-                    break;
-
-                case Activity\Entity::VERTICAL_RATIO:
-                    $Code .= '<td>' . $View->verticalRatio() . '</td>';
-                    break;
-
-                case Activity\Entity::STRIDE_LENGTH:
-                    $Code .= '<td>' . $View->strideLength()->string() . '</td>';
-                    break;
-
-                case Activity\Entity::VO2MAX:
-                    $Code .= '<td>' . $View->vo2max()->value() . '</td>';
-                    break;
-
-                case Activity\Entity::POWER:
-                    $Code .= '<td>' . $View->power() . '</td>';
-                    break;
-
-                case Swimdata\Entity::STROKE: // #TSC new info from swimming; i'm not using the $View for this
-                    $Code .= '<td>' . round($Lap->additionalValues()[$key], 1) . '</td>';
-                    break;
-
-                case Activity\Entity::TOTAL_STROKES: // #TSC new info from swimming
-                case Swimdata\Entity::SWOLF:
-                case Swimdata\Entity::SWOLFCYCLES:
-                case 'lanes':
-                    $Code .= '<td>' . round($Lap->additionalValues()[$key]) . '</td>';
-                    break;
-
-                default:
-                    $Code .= '<td></td>';
-            }
+            match ($key) {
+                Activity\Entity::CADENCE => $Code .= '<td>' . $View->cadence()->asString() . '</td>',
+                Activity\Entity::GROUNDCONTACT => $Code .= '<td>' . $View->groundcontact() . '</td>',
+                Activity\Entity::GROUNDCONTACT_BALANCE => $Code .= '<td>' . $View->groundcontactBalance() . '</td>',
+                Activity\Entity::VERTICAL_OSCILLATION => $Code .= '<td>' . $View->verticalOscillation() . '</td>',
+                Activity\Entity::VERTICAL_RATIO => $Code .= '<td>' . $View->verticalRatio() . '</td>',
+                Activity\Entity::STRIDE_LENGTH => $Code .= '<td>' . $View->strideLength()->string() . '</td>',
+                Activity\Entity::VO2MAX => $Code .= '<td>' . $View->vo2max()->value() . '</td>',
+                Activity\Entity::POWER => $Code .= '<td>' . $View->power() . '</td>',
+                // #TSC new info from swimming; i'm not using the $View for this
+                Swimdata\Entity::STROKE => $Code .= '<td>' . round($Lap->additionalValues()[$key], 1) . '</td>',
+                Activity\Entity::TOTAL_STROKES, Swimdata\Entity::SWOLF, Swimdata\Entity::SWOLFCYCLES, 'lanes' => $Code .= '<td>' . round($Lap->additionalValues()[$key]) . '</td>',
+                default => $Code .= '<td></td>',
+            };
         }
 
         return $Code;
@@ -287,36 +247,22 @@ class Table
      */
     protected function labelForAdditionalValue($key): string
     {
-        switch ($key) {
-            case Activity\Entity::CADENCE:
-                return __('Cadence');
-            case Activity\Entity::GROUNDCONTACT:
-                return __('Ground contact time');
-            case Activity\Entity::GROUNDCONTACT_BALANCE:
-                return __('Ground contact balance');
-            case Activity\Entity::VERTICAL_OSCILLATION:
-                return __('Vertical oscillation');
-            case Activity\Entity::VERTICAL_RATIO:
-                return __('Vertical ratio');
-            case Activity\Entity::STRIDE_LENGTH:
-                return __('Stride length');
-            case Activity\Entity::VO2MAX:
-                return 'VO<sub>2</sub>max';
-            case Activity\Entity::POWER:
-                return __('Power');
-            case 'lanes':
-                return '# ' . __('Lanes');
-            case Swimdata\Entity::STROKE:
-                return '&#8709; ' . __('Strokes') . '/' . __('Track');
-            case Activity\Entity::TOTAL_STROKES:
-                return __('Total strokes');
-            case Swimdata\Entity::SWOLF:
-                return '&#8709; ' . __('Swolf');
-            case Swimdata\Entity::SWOLFCYCLES:
-                return '&#8709; ' . __('SWOLFcycles');
-        }
-
-        return '';
+        return match ($key) {
+            Activity\Entity::CADENCE => __('Cadence'),
+            Activity\Entity::GROUNDCONTACT => __('Ground contact time'),
+            Activity\Entity::GROUNDCONTACT_BALANCE => __('Ground contact balance'),
+            Activity\Entity::VERTICAL_OSCILLATION => __('Vertical oscillation'),
+            Activity\Entity::VERTICAL_RATIO => __('Vertical ratio'),
+            Activity\Entity::STRIDE_LENGTH => __('Stride length'),
+            Activity\Entity::VO2MAX => 'VO<sub>2</sub>max',
+            Activity\Entity::POWER => __('Power'),
+            'lanes' => '# ' . __('Lanes'),
+            Swimdata\Entity::STROKE => '&#8709; ' . __('Strokes') . '/' . __('Track'),
+            Activity\Entity::TOTAL_STROKES => __('Total strokes'),
+            Swimdata\Entity::SWOLF => '&#8709; ' . __('Swolf'),
+            Swimdata\Entity::SWOLFCYCLES => '&#8709; ' . __('SWOLFcycles'),
+            default => '',
+        };
     }
 
     /**
@@ -346,11 +292,11 @@ class Table
 
         foreach ($this->splitsAdditional['keys'] as $key) {
             if (array_key_exists($key, $obj)) {
-                if (strpos($key, FitWorkoutStep::ADD_TARGET_SPEED) !== false) {
+                if (str_contains($key, FitWorkoutStep::ADD_TARGET_SPEED)) {
                     // if additional is a pace-unit
                     $pace->setDistance($obj[$key] / 1000); // unit is m/s: set km in this one second
                     $Code .= '<td>' . $pace->valueWithAppendix() . '</td>';
-                } elseif (strpos($key, FitWorkoutStep::ADD_TARGET_HR) !== false) {
+                } elseif (str_contains($key, FitWorkoutStep::ADD_TARGET_HR)) {
                     // if additional is a HR
                     $hr->setBPM($obj[$key]);
                     $Code .= '<td>' . $hr->string() . '</td>';

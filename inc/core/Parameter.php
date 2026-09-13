@@ -22,24 +22,22 @@ abstract class Parameter
     public const MAX_LENGTH = 255;
 
     /**
-     * Value
-     * @var mixed
-     */
-    private $Value;
-
-    /**
      * Options
      */
     protected array $Options = [];
 
     /**
      * Construct
-     * @param mixed $default
+     * @param mixed $Value
      * @param array $options [optional]
      */
-    public function __construct($default, array $options = [])
-    {
-        $this->Value = $default;
+    public function __construct(
+        /**
+         * Value
+         */
+        private $Value,
+        array $options = []
+    ) {
         $this->Options = array_merge($this->Options, $options);
     }
 

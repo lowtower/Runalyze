@@ -17,18 +17,11 @@ class InstallDatabaseCommand extends Command
      */
     public const DATABASE_STRUCTURE_FILE = 'inc/install/structure.sql';
 
-    private ParameterBagInterface $parameterBag;
-
-    private ManagerRegistry $doctrine;
-
     public function __construct(
-        ParameterBagInterface $parameterBag,
-        ManagerRegistry $doctrine
+        private ParameterBagInterface $parameterBag,
+        private ManagerRegistry $doctrine
     ) {
         parent::__construct();
-
-        $this->parameterBag = $parameterBag;
-        $this->doctrine = $doctrine;
     }
 
     protected function configure()

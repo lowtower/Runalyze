@@ -389,10 +389,7 @@ final class Keys extends AbstractEnum
         $className = 'Runalyze\\Dataset\\Keys\\' . self::$ClassNames[$keyid];
 
         if (self::$KeepInstances) {
-            if (! isset(self::$Instances[$keyid])) {
-                self::$Instances[$keyid] = new $className();
-            }
-
+            self::$Instances[$keyid] ??= new $className();
             return self::$Instances[$keyid];
         }
 

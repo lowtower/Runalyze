@@ -6,14 +6,10 @@ use Runalyze\Parser\Activity\Common\Data\ContinuousData;
 
 class ContinuousDataMerger implements MergerInterface
 {
-    protected ContinuousData $ResultingData;
-
-    protected ContinuousData $DataToMerge;
-
-    public function __construct(ContinuousData $firstData, ContinuousData $secondData)
-    {
-        $this->ResultingData = $firstData;
-        $this->DataToMerge = $secondData;
+    public function __construct(
+        protected ContinuousData $ResultingData,
+        protected ContinuousData $DataToMerge
+    ) {
     }
 
     /**
@@ -34,7 +30,7 @@ class ContinuousDataMerger implements MergerInterface
         $firstLength = $this->ResultingData->getLength();
         $secondLength = $this->DataToMerge->getLength();
 
-        if ($firstLength > 0 && $secondLength > 0 && $firstLength != $secondLength) {
+        if ($firstLength > 0 && $secondLength > 0 && $firstLength !== $secondLength) {
             throw new \RuntimeException('Continuous data of different lengths cannot be merged.');
         }
     }

@@ -30,22 +30,10 @@ abstract class FormularField extends HtmlTag
     private static $VALIDATION_FAILURES = [];
 
     /**
-     * Name
-     * @var string
-     */
-    protected $name = '';
-
-    /**
      * Value
      * @var string|array
      */
     protected $value = '';
-
-    /**
-     * Label
-     * @var string
-     */
-    protected $label = '';
 
     /**
      * Layout
@@ -118,21 +106,26 @@ abstract class FormularField extends HtmlTag
      * @param string $label
      * @param string|array $value optional, default: loading from $_POST
      */
-    public function __construct($name, $label, $value = '')
-    {
-        $this->name = $name;
-        $this->label = $label;
-
+    public function __construct(
+        /**
+         * Name
+         */
+        protected $name, /**
+     * Label
+     */
+        protected $label,
+        $value = ''
+    ) {
         if (is_array($value)) {
             $this->value = $value;
         } elseif (strlen($value)) {
             $this->value = $value;
-        } elseif (isset($_POST[$name])) {
-            $this->value = $_POST[$name];
-        } elseif (substr($name, -1) == ']') {
-            $posOfBracket = strpos($name, '[');
-            $mainName = substr($name, 0, $posOfBracket);
-            $key = substr($name, $posOfBracket + 1, -1);
+        } elseif (isset($_POST[$this->name])) {
+            $this->value = $_POST[$this->name];
+        } elseif (str_ends_with($this->name, ']')) {
+            $posOfBracket = strpos($this->name, '[');
+            $mainName = substr($this->name, 0, $posOfBracket);
+            $key = substr($this->name, $posOfBracket + 1, -1);
 
             if (isset($_POST[$mainName][$key])) {
                 $this->value = $_POST[$mainName][$key];

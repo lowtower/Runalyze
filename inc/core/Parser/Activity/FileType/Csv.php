@@ -26,11 +26,11 @@ class Csv extends AbstractMultipleParserWithSubParser implements FileContentAwar
 
     protected function isEpsonFile(): bool
     {
-        return strpos($this->FileContent, '[[Training]]') !== false;
+        return str_contains($this->FileContent, '[[Training]]');
     }
 
     protected function isWahooFile(): bool
     {
-        return strpos($this->FileContent, 'File created by Wahoo Fitness iPhone App') !== false;
+        return str_contains($this->FileContent, 'File created by Wahoo Fitness iPhone App');
     }
 }

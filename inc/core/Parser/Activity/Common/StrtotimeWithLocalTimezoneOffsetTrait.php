@@ -11,7 +11,7 @@ trait StrtotimeWithLocalTimezoneOffsetTrait
      */
     protected function strtotime(string $string): int
     {
-        if (substr($string, -1) == 'Z') {
+        if (str_ends_with($string, 'Z')) {
             return LocalTime::fromServerTime(strtotime(substr($string, 0, -1) . ' UTC'))->getTimestamp();
         }
 

@@ -19,12 +19,6 @@ use Runalyze\Parameter\SelectRow;
 class Handle
 {
     /**
-     * Key
-     * @var string
-     */
-    protected $Key;
-
-    /**
      * Parameter
      * @var Parameter
      */
@@ -61,13 +55,14 @@ class Handle
      * Construct
      * @param string $Key
      */
-    public function __construct($Key, Parameter $Parameter)
-    {
-        $this->Key = $Key;
+    public function __construct(
+        protected $Key,
+        Parameter $Parameter
+    ) {
         $this->Parameter = $Parameter;
 
         if ($Parameter instanceof SelectRow) {
-            self::$TableHandles[$Key] = $Parameter->table();
+            self::$TableHandles[$this->Key] = $Parameter->table();
         }
     }
 

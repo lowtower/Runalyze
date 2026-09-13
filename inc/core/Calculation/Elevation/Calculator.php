@@ -19,11 +19,6 @@ use Runalyze\Parameter\Application\ElevationMethod;
 class Calculator
 {
     /**
-     * Elevation points
-     */
-    protected array $ElevationPoints = [];
-
-    /**
      * Elevation method
      * @var \Runalyze\Parameter\Application\ElevationMethod
      */
@@ -65,9 +60,14 @@ class Calculator
      * @param \Runalyze\Parameter\Application\ElevationMethod|null $Method [optional]
      * @param int|null $Threshold [optional]
      */
-    public function __construct(array $ElevationPoints, ?ElevationMethod $Method = null, $Threshold = null)
-    {
-        $this->ElevationPoints = $ElevationPoints;
+    public function __construct(
+        /**
+         * Elevation points
+         */
+        protected array $ElevationPoints,
+        ?ElevationMethod $Method = null,
+        $Threshold = null
+    ) {
         $this->Method = $Method instanceof \Runalyze\Parameter\Application\ElevationMethod ? $Method : Configuration::ActivityView()->elevationMethod();
         $this->Threshold = $Threshold ?? Configuration::ActivityView()->elevationMinDiff();
     }
@@ -118,8 +118,8 @@ class Calculator
         if ($this->ElevationPoints !== []) {
             $this->runStrategy();
 
-            $this->Up = array_sum(array_filter($this->UpDownPoints, function ($value): bool { return $value > 0; }));
-            $this->Down = -1 * array_sum(array_filter($this->UpDownPoints, function ($value): bool { return $value < 0; }));
+            $this->Up = array_sum(array_filter($this->UpDownPoints, fn ($value): bool => $value > 0));
+            $this->Down = -1 * array_sum(array_filter($this->UpDownPoints, fn ($value): bool => $value < 0));
         }
     }
 

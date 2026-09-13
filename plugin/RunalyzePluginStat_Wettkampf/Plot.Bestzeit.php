@@ -25,7 +25,7 @@ $timeFormat = '%M:%S';
 // @phpstan-ignore property.protected (Plot.Bestzeit.php is called only per include from this class, $this ist bound)
 $competitions = $this->RaceContainer->races($distance);
 
-if (! empty($competitions)) {
+if ($competitions !== []) {
     foreach ($competitions as $competition) {
         if (! $this->isFunCompetition($competition['id'])) {
             $Dates[] = $competition['time'];

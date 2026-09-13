@@ -8,19 +8,17 @@ use Runalyze\Profile\Sport\SportProfile;
 class Sport
 {
     /**
-     * ID for this sport in database
-     */
-    private int|bool $id;
-
-    /**
      * Array with all information from database
      */
     private array $data;
 
-    public function __construct(int|bool $id = false)
-    {
-        $this->id = $id;
-        $this->data = SportFactory::DataFor($id);
+    public function __construct(
+        /**
+         * ID for this sport in database
+         */
+        private int|bool $id = false
+    ) {
+        $this->data = SportFactory::DataFor($this->id);
     }
 
     public function id(): int

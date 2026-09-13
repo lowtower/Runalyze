@@ -20,21 +20,6 @@ use Runalyze\Configuration;
 class Map
 {
     /**
-     * HTML id
-     */
-    protected string $id = '';
-
-    /**
-     * Height
-     */
-    protected int $height = 0;
-
-    /**
-     * Width
-     */
-    protected int $width = 0;
-
-    /**
      * Routes
      * @var \Runalyze\View\Leaflet\Route[]
      */
@@ -47,15 +32,14 @@ class Map
 
     /**
      * Construct new map
-     * @param string $containerID
      * @param int $height [optional]
      * @param int $width [optional]
      */
-    public function __construct($containerID, int $height = 0, int $width = 0)
-    {
-        $this->id = $containerID;
-        $this->height = $height;
-        $this->width = $width;
+    public function __construct(
+        protected string $id,
+        protected int $height = 0,
+        protected int $width = 0
+    ) {
     }
 
     public function addRoute(Route $route)

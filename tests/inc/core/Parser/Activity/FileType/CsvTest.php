@@ -56,9 +56,7 @@ class CsvTest extends AbstractActivityParserTestCase
 
         $this->assertEquals(
             [327, 314, 308, 311, 306, 316, 331, 397, 339, 351, 374, 332, 327, 305],
-            array_map(function (Round $v) {
-                return $v->getDuration();
-            }, $this->Container->Rounds->getElements())
+            array_map(fn (Round $v) => $v->getDuration(), $this->Container->Rounds->getElements())
         );
     }
 

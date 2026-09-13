@@ -20,16 +20,10 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 class JsonImportToolController extends AbstractController
 {
-    private TokenStorageInterface $tokenStorage;
-
-    private ParameterBagInterface $parameterBag;
-
     public function __construct(
-        TokenStorageInterface $tokenStorage,
-        ParameterBagInterface $parameterBag
+        private TokenStorageInterface $tokenStorage,
+        private ParameterBagInterface $parameterBag
     ) {
-        $this->tokenStorage = $tokenStorage;
-        $this->parameterBag = $parameterBag;
     }
 
     protected function getImportFilePath(): string

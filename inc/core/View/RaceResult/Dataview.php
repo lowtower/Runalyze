@@ -40,9 +40,7 @@ class Dataview
      */
     public function officialDistance($decimals = null, $isTrack = false): string
     {
-        if ($decimals === null) {
-            $decimals = Configuration::ActivityView()->decimals();
-        }
+        $decimals ??= Configuration::ActivityView()->decimals();
 
         if ($this->RaceResult->officialDistance() > 0) {
             if ($isTrack) {

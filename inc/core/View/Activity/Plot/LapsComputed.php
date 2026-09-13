@@ -83,7 +83,7 @@ class LapsComputed extends Laps
         } else {
             try {
                 $Distances = range($singleDistance, $totalDistance, $singleDistance);
-            } catch (\ValueError $valueError) {
+            } catch (\ValueError) {
                 $Distances = [$singleDistance];
             }
         }

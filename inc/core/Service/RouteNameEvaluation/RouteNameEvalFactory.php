@@ -11,14 +11,9 @@ namespace Runalyze\Service\RouteNameEvaluation;
  */
 class RouteNameEvalFactory
 {
-    protected RouteNameEval $RouteNameEval;
-
-    /**
-     * @param $routeNameEvalOsm a RouteNameEvalOsm implementation
-     */
-    public function __construct(RouteNameEvalOsm $routeNameEvalOsm)
-    {
-        $this->RouteNameEval = $routeNameEvalOsm;
+    public function __construct(
+        protected RouteNameEvalOsm $RouteNameEval
+    ) {
     }
 
     public function getInstance(): RouteNameEval

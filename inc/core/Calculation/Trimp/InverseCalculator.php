@@ -21,8 +21,6 @@ namespace Runalyze\Calculation\Trimp;
  */
 class InverseCalculator
 {
-    protected \Runalyze\Athlete $Athlete;
-
     protected int $value;
 
     /**
@@ -31,10 +29,11 @@ class InverseCalculator
      * @param int $trimp value to reach
      * @throws \InvalidArgumentException
      */
-    public function __construct(\Runalyze\Athlete $Athlete, $heartRate, $trimp)
-    {
-        $this->Athlete = $Athlete;
-
+    public function __construct(
+        protected \Runalyze\Athlete $Athlete,
+        $heartRate,
+        $trimp
+    ) {
         if ($heartRate <= 0 || $trimp <= 0) {
             throw new \InvalidArgumentException('Heart rate and trimp have to be greater than zero.');
         }

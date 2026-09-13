@@ -79,10 +79,7 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
             if ($equipment->getType()->getInput() == EquipmentType::CHOICE_SINGLE) {
                 $categories[$equipment->getType()->getId()] = $equipment;
             } else {
-                if (! isset($categories[$equipment->getType()->getId()])) {
-                    $categories[$equipment->getType()->getId()] = new ArrayCollection();
-                }
-
+                $categories[$equipment->getType()->getId()] ??= new ArrayCollection();
                 $categories[$equipment->getType()->getId()][] = $equipment;
             }
         }

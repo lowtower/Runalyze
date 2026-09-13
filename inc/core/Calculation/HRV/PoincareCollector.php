@@ -9,8 +9,6 @@ declare(strict_types=1);
 
 namespace Runalyze\Calculation\HRV;
 
-use Runalyze\Model\HRV\Entity;
-
 /**
  * Create data for a poincare plot
  *
@@ -19,14 +17,6 @@ use Runalyze\Model\HRV\Entity;
  */
 class PoincareCollector
 {
-    protected \Runalyze\Model\HRV\Entity $Object;
-
-    /**
-     * Filter: maximal difference to include in plot
-     * @var int
-     */
-    protected $Filter = 0;
-
     /**
      * Plot data
      * @var array
@@ -35,13 +25,14 @@ class PoincareCollector
 
     /**
      * Calculator for hrv statistics
-     * @param int $filter [optional] maximal difference to include in plot
+     * @param int $Filter [optional] maximal difference to include in plot
      */
-    public function __construct(Entity $hrvObject, $filter = 200)
-    {
-        $this->Object = $hrvObject;
-        $this->Filter = $filter;
-
+    public function __construct(
+        protected \Runalyze\Model\HRV\Entity $Object, /**
+     * Filter: maximal difference to include in plot
+     */
+        protected $Filter = 200
+    ) {
         $this->collectPlotData();
     }
 

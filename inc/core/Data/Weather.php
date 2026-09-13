@@ -23,49 +23,37 @@ use Runalyze\Profile\Weather\WeatherConditionProfile;
 class Weather
 {
     /**
-     * Temperature
-     */
-    protected Temperature $Temperature;
-
-    /**
-     * Condition
-     */
-    protected Condition $Condition;
-
-    /**
-     * WindSpeed
-     */
-    protected WindSpeed $WindSpeed;
-
-    /**
-     * WindDegree
-     */
-    protected WindDegree $WindDegree;
-
-    /**
-     * Humidity
-     */
-    protected Humidity $Humidity;
-
-    /**
-     * Pressure
-     */
-    protected Pressure $Pressure;
-
-    /**
      * Enum for weather source
      * @see \Runalyze\Data\Weather\Sources
      */
     protected ?int $SourceId = null;
 
-    public function __construct(Temperature $Temperature, Condition $Condition, WindSpeed $WindSpeed, WindDegree $WindDegree, Humidity $Humidity, Pressure $Pressure)
-    {
-        $this->Temperature = $Temperature;
-        $this->Condition = $Condition;
-        $this->WindSpeed = $WindSpeed;
-        $this->WindDegree = $WindDegree;
-        $this->Humidity = $Humidity;
-        $this->Pressure = $Pressure;
+    public function __construct(
+        /**
+         * Temperature
+         */
+        protected Temperature $Temperature,
+        /**
+         * Condition
+         */
+        protected Condition $Condition,
+        /**
+         * WindSpeed
+         */
+        protected WindSpeed $WindSpeed,
+        /**
+         * WindDegree
+         */
+        protected WindDegree $WindDegree,
+        /**
+         * Humidity
+         */
+        protected Humidity $Humidity,
+        /**
+         * Pressure
+         */
+        protected Pressure $Pressure
+    ) {
     }
 
     /**

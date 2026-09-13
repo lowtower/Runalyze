@@ -16,60 +16,18 @@ class EnglishTextMapping implements ToInternalMappingInterface
      */
     public function toInternal($value): int
     {
-        switch (strtolower($value)) {
-            case 'mostly sunny':
-            case 'sunny':
-            case 'clear':
-                return WeatherConditionProfile::SUNNY;
-
-            case 'partly sunny':
-            case 'partly cloudy':
-                return WeatherConditionProfile::FAIR;
-
-            case 'overcast':
-            case 'mostly cloudy':
-            case 'cloudy':
-                return WeatherConditionProfile::CLOUDY;
-
-            case 'fog':
-                return WeatherConditionProfile::FOGGY;
-
-            case 'mist':
-            case 'chance of rain':
-            case 'drizzle':
-                return WeatherConditionProfile::CHANGEABLE;
-
-            case 'rain':
-            case 'light rain':
-            case 'rain and snow':
-            case 'freezing drizzle':
-            case 'sleet':
-                return WeatherConditionProfile::RAINY;
-
-            case 'scattered showers':
-            case 'showers':
-                return WeatherConditionProfile::HEAVYRAIN;
-
-            case 'storm':
-            case 'windy':
-                return WeatherConditionProfile::WINDY;
-
-            case 'chance of tstorm':
-            case 'scattered thunderstorms':
-            case 'thunderstorm':
-                return WeatherConditionProfile::THUNDERSTORM;
-
-            case 'haze':
-            case 'flurries':
-            case 'icy':
-            case 'snow':
-            case 'light snow':
-            case 'chance of snow':
-            case 'scattered snow showers':
-                return WeatherConditionProfile::SNOWING;
-
-            default:
-                return WeatherConditionProfile::UNKNOWN;
-        }
+        return match (strtolower($value)) {
+            'mostly sunny', 'sunny', 'clear' => WeatherConditionProfile::SUNNY,
+            'partly sunny', 'partly cloudy' => WeatherConditionProfile::FAIR,
+            'overcast', 'mostly cloudy', 'cloudy' => WeatherConditionProfile::CLOUDY,
+            'fog' => WeatherConditionProfile::FOGGY,
+            'mist', 'chance of rain', 'drizzle' => WeatherConditionProfile::CHANGEABLE,
+            'rain', 'light rain', 'rain and snow', 'freezing drizzle', 'sleet' => WeatherConditionProfile::RAINY,
+            'scattered showers', 'showers' => WeatherConditionProfile::HEAVYRAIN,
+            'storm', 'windy' => WeatherConditionProfile::WINDY,
+            'chance of tstorm', 'scattered thunderstorms', 'thunderstorm' => WeatherConditionProfile::THUNDERSTORM,
+            'haze', 'flurries', 'icy', 'snow', 'light snow', 'chance of snow', 'scattered snow showers' => WeatherConditionProfile::SNOWING,
+            default => WeatherConditionProfile::UNKNOWN,
+        };
     }
 }

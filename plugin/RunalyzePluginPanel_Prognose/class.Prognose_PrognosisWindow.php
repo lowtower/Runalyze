@@ -145,23 +145,12 @@ class Prognose_PrognosisWindow
 
     protected function readPostData()
     {
-        switch ($_POST['model']) {
-            case 'robert-bock':
-                $this->setupBockPrognosis();
-                break;
-
-            case 'herbert-steffny':
-                $this->setupSteffnyPrognosis();
-                break;
-
-            case 'david-cameron':
-                $this->setupCameronPrognosis();
-                break;
-
-            case 'vo2max':
-            default:
-                $this->setupEffectiveVO2maxPrognosis();
-        }
+        match ($_POST['model']) {
+            'robert-bock' => $this->setupBockPrognosis(),
+            'herbert-steffny' => $this->setupSteffnyPrognosis(),
+            'david-cameron' => $this->setupCameronPrognosis(),
+            default => $this->setupEffectiveVO2maxPrognosis(),
+        };
 
         $this->Distances = $this->distanceValuesToKm(Helper::arrayTrim(explode(',', $_POST['distances'])));
     }
@@ -173,9 +162,7 @@ class Prognose_PrognosisWindow
     protected function distanceValuesToKm(array $values)
     {
         if ($this->UnitSystem->isImperial()) {
-            return array_map(function ($val): float {
-                return round((float) $val / DistanceUnitSystem::MILE_MULTIPLIER, self::DISTANCE_PRECISION);
-            }, $values);
+            return array_map(fn ($val): float => round((float) $val / DistanceUnitSystem::MILE_MULTIPLIER, self::DISTANCE_PRECISION), $values);
         }
 
         return $values;
@@ -187,9 +174,7 @@ class Prognose_PrognosisWindow
     protected function distanceValuesToMiles(array $values)
     {
         if ($this->UnitSystem->isImperial()) {
-            return array_map(function ($val): float {
-                return round($val * DistanceUnitSystem::MILE_MULTIPLIER, self::DISTANCE_PRECISION);
-            }, $values);
+            return array_map(fn ($val): float => round($val * DistanceUnitSystem::MILE_MULTIPLIER, self::DISTANCE_PRECISION), $values);
         }
 
         return $values;

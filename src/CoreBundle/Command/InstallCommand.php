@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class InstallCommand extends Command
 {
-    protected ?Application $Application;
+    protected ?Application $Application = null;
 
     /**
      * @var array<mixed, array<string, string>>

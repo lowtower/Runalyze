@@ -63,11 +63,6 @@ abstract class Plugin
     public static $DONT_RELOAD_FOR_TRAINING_FLAG = 'dont-reload-for-training';
 
     /**
-     * Internal ID from database
-     */
-    private int $id;
-
-    /**
      * Pluginkey
      */
     private string $key;
@@ -105,17 +100,20 @@ abstract class Plugin
     /**
      * Constructor (needs ID)
      */
-    public function __construct(int $id)
-    {
-        $this->id = $id;
+    public function __construct(
+        /**
+         * Internal ID from database
+         */
+        private int $id
+    ) {
         $this->key = static::class;
 
-        if ($id === PluginInstaller::ID) {
+        if ($this->id === PluginInstaller::ID) {
             return;
         }
 
-        if ($id <= 0) {
-            throw new RuntimeException('Invalid id "' . $id . '" given to create a plugin.');
+        if ($this->id <= 0) {
+            throw new RuntimeException('Invalid id "' . $this->id . '" given to create a plugin.');
         }
 
         $this->initConfiguration();

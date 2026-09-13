@@ -11,11 +11,9 @@ class ContinuousDataAdapter
      */
     public const RPM_LIMIT_FOR_CORRECTION = 130;
 
-    protected ContinuousData $ContinuousData;
-
-    public function __construct(ContinuousData $continuousData)
-    {
-        $this->ContinuousData = $continuousData;
+    public function __construct(
+        protected ContinuousData $ContinuousData
+    ) {
     }
 
     public function calculateDistancesIfRequired()
@@ -43,9 +41,7 @@ class ContinuousDataAdapter
             $avg = array_sum($this->ContinuousData->Cadence) / count($this->ContinuousData->Cadence);
 
             if ($avg > self::RPM_LIMIT_FOR_CORRECTION) {
-                $this->ContinuousData->Cadence = array_map(function ($v): float {
-                    return round($v / 2);
-                }, $this->ContinuousData->Cadence);
+                $this->ContinuousData->Cadence = array_map(fn ($v): float => round($v / 2), $this->ContinuousData->Cadence);
             }
         }
     }
@@ -132,9 +128,7 @@ class ContinuousDataAdapter
             $size = count($values);
 
             for ($i = 0; $i < $size; $i++) {
-                if ($values[$i] === null) {
-                    $values[$i] = 0;
-                }
+                $values[$i] ??= 0;
             }
         }
     }
@@ -178,9 +172,7 @@ class ContinuousDataAdapter
             if (! empty($this->ContinuousData->{$key})) {
                 $arrayKeysWithData[] = $key;
 
-                if ($arraySize === null) {
-                    $arraySize = count($this->ContinuousData->{$key});
-                }
+                $arraySize ??= count($this->ContinuousData->{$key});
             }
         }
 
@@ -264,9 +256,7 @@ class ContinuousDataAdapter
 
         $temperatures = array_filter(
             $this->ContinuousData->Temperature,
-            function ($temperature): bool {
-                return $temperature !== null;
-            }
+            fn ($temperature): bool => $temperature !== null
         );
         if ($temperatures === []) {
             return null;

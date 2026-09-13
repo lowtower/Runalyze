@@ -17,14 +17,12 @@ use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
  */
 class ActiveRoundCalculator
 {
-    protected ContinuousData $continuousData;
-
     protected array $activeIdx;
 
-    public function __construct(ContinuousData $continuousData, RoundCollection $rounds)
-    {
-        $this->continuousData = $continuousData;
-
+    public function __construct(
+        protected ContinuousData $continuousData,
+        RoundCollection $rounds
+    ) {
         if (! $rounds->isEmpty()) {
             $this->init($rounds);
         }

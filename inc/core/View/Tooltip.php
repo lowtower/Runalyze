@@ -42,12 +42,6 @@ class Tooltip
     public const ATTRIBUTE = 'title';
 
     /**
-     * Text for tooltip
-     * @var string
-     */
-    protected $text;
-
-    /**
      * Position
      * @var string
      */
@@ -57,9 +51,12 @@ class Tooltip
      * Construct new tooltip
      * @param string $text
      */
-    public function __construct($text)
-    {
-        $this->text = $text;
+    public function __construct(
+        /**
+         * Text for tooltip
+         */
+        protected $text
+    ) {
     }
 
     /**

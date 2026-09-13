@@ -12,18 +12,11 @@ use Symfony\Component\Finder\Finder;
 
 class CleanupBackupCommand extends Command
 {
-    private ParameterBagInterface $parameterBag;
-
-    private Filesystem $filesystem;
-
     public function __construct(
-        ParameterBagInterface $parameterBag,
-        Filesystem $filesystem
+        private ParameterBagInterface $parameterBag,
+        private Filesystem $filesystem
     ) {
         parent::__construct();
-
-        $this->parameterBag = $parameterBag;
-        $this->filesystem = $filesystem;
     }
 
     protected function configure()

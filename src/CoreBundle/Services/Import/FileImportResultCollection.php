@@ -131,9 +131,7 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
     {
         return array_reduce(
             $this->Elements,
-            function ($num, FileImportResult $result) {
-                return $num + $result->getNumberOfActivities();
-            },
+            fn ($num, FileImportResult $result) => $num + $result->getNumberOfActivities(),
             0
         );
     }

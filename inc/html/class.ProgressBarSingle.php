@@ -75,12 +75,6 @@ class ProgressBarSingle
     protected $Width = 0;
 
     /**
-     * Color
-     * @var string
-     */
-    protected $Color = '';
-
-    /**
      * Boolean flag: left balanced?
      * @var bool
      */
@@ -97,10 +91,14 @@ class ProgressBarSingle
      * @param string $Color
      * @param mixed $LeftOrRight [optional] Can be 'left' or 'right' to set balance
      */
-    public function __construct($Width, $Color, $LeftOrRight = false)
-    {
+    public function __construct(
+        $Width, /**
+     * Color
+     */
+        protected $Color,
+        $LeftOrRight = false
+    ) {
         $this->Width = max(0, min(100, (int) $Width));
-        $this->Color = $Color;
 
         if ($LeftOrRight == 'left') {
             $this->setLeftBalanced();

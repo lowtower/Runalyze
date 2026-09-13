@@ -124,23 +124,15 @@ class Ajax
 
     public static function getReloadCommand(): string
     {
-        switch (self::$currentReloadFlag) {
-            case self::$RELOAD_PAGE:
-                return self::wrapJS('Runalyze.reloadPage();');
-            case self::$RELOAD_ALL:
-                return self::wrapJS('Runalyze.reloadContent();');
-            case self::$RELOAD_PLUGINS:
-                return self::wrapJS('Runalyze.reloadAllPlugins(' . self::$RELOAD_PLUGIN_ID . ');');
-            case self::$RELOAD_DATABROWSER_AND_TRAINING:
-                return self::wrapJS('Runalyze.reloadDataBrowserAndTraining();');
-            case self::$RELOAD_TRAINING:
-                return self::wrapJS('Runalyze.Training.reload();');
-            case self::$RELOAD_DATABROWSER:
-                return self::wrapJS('Runalyze.DataBrowser.reload();');
-            case self::$RELOAD_NONE:
-            default:
-                return '';
-        }
+        return match (self::$currentReloadFlag) {
+            self::$RELOAD_PAGE => self::wrapJS('Runalyze.reloadPage();'),
+            self::$RELOAD_ALL => self::wrapJS('Runalyze.reloadContent();'),
+            self::$RELOAD_PLUGINS => self::wrapJS('Runalyze.reloadAllPlugins(' . self::$RELOAD_PLUGIN_ID . ');'),
+            self::$RELOAD_DATABROWSER_AND_TRAINING => self::wrapJS('Runalyze.reloadDataBrowserAndTraining();'),
+            self::$RELOAD_TRAINING => self::wrapJS('Runalyze.Training.reload();'),
+            self::$RELOAD_DATABROWSER => self::wrapJS('Runalyze.DataBrowser.reload();'),
+            default => '',
+        };
     }
 
     /**
@@ -264,7 +256,7 @@ class Ajax
      */
     public static function change($name, $target, $href, $additional_class = ''): string
     {
-        if (substr($href, 0, 1) != '#') {
+        if (! str_starts_with($href, '#')) {
             $href = '#' . $href;
         }
 
@@ -386,7 +378,7 @@ class Ajax
                 $ret = self::json_encode_jsfunc($value, $funcs, 1);
                 $input[$key] = $ret[0];
                 $funcs = $ret[1];
-            } elseif (substr($value, 0, 8) == 'function' || substr($value, 0, 13) == 'RunalyzePlot.') {
+            } elseif (str_starts_with($value, 'function') || str_starts_with($value, 'RunalyzePlot.')) {
                 $func_key = '#' . uniqid(random_int(0, mt_getrandmax()), true) . '#';
                 $funcs[$func_key] = $value;
                 $input[$key] = $func_key;

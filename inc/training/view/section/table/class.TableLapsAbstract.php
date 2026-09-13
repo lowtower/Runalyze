@@ -7,8 +7,6 @@ declare(strict_types=1);
  * @package Runalyze\DataObjects\Training\View\Section
  */
 
-use Runalyze\View\Activity\Context;
-
 /**
  * Table for laps
  *
@@ -17,8 +15,6 @@ use Runalyze\View\Activity\Context;
  */
 abstract class TableLapsAbstract
 {
-    protected \Runalyze\View\Activity\Context $Context;
-
     protected \Runalyze\Data\Laps\Laps $Laps;
 
     /**
@@ -26,10 +22,9 @@ abstract class TableLapsAbstract
      */
     protected string $Code = '';
 
-    public function __construct(Context $context)
-    {
-        $this->Context = $context;
-
+    public function __construct(
+        protected \Runalyze\View\Activity\Context $Context
+    ) {
         $this->setCode();
     }
 

@@ -142,8 +142,8 @@ class QueryTest extends TestCase
             $this->Query->fetchSummaryForSport(3),
         ];
 
-        $this->assertEquals([1, 2, 1], array_map(function (array $data) { return $data['num']; }, $summary));
-        $this->assertEquals([100, 323, 500], array_map(function (array $data) { return $data['s']; }, $summary));
+        $this->assertEquals([1, 2, 1], array_map(fn (array $data) => $data['num'], $summary));
+        $this->assertEquals([100, 323, 500], array_map(fn (array $data) => $data['s'], $summary));
     }
 
     public function testSummaryForWeekTimerange(): void

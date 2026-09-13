@@ -41,11 +41,9 @@ class AutomaticReloadFlagSetter
      */
     public const FLAG_PAGE = 6;
 
-    protected FlashBagInterface $FlashBag;
-
-    public function __construct(FlashBagInterface $flashBag)
-    {
-        $this->FlashBag = $flashBag;
+    public function __construct(
+        protected FlashBagInterface $FlashBag
+    ) {
     }
 
     public function set(int $flag): int
@@ -53,7 +51,7 @@ class AutomaticReloadFlagSetter
         $currentFlag = $this->FlashBag->get(self::FLASH_BAG_KEY);
 
         if (! empty($currentFlag)) {
-            $flag = $this->mergeFlags([$currentFlag[0], $flag]);
+            $flag = $this->mergeFlags([(int) $currentFlag[0], $flag]);
         }
 
         $this->FlashBag->set(self::FLASH_BAG_KEY, (string) $flag);
@@ -66,12 +64,12 @@ class AutomaticReloadFlagSetter
      */
     protected function mergeFlags(array $flags): int
     {
-        if (min($flags) == self::FLAG_DATA_BROWSER) {
-            if (max($flags) == self::FLAG_PLUGINS) {
+        if (min($flags) === self::FLAG_DATA_BROWSER) {
+            if (max($flags) === self::FLAG_PLUGINS) {
                 return self::FLAG_ALL;
             }
 
-            if (max($flags) == self::FLAG_TRAINING) {
+            if (max($flags) === self::FLAG_TRAINING) {
                 return self::FLAG_TRAINING_AND_DATA_BROWSER;
             }
         }

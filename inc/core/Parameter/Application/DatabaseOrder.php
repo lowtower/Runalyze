@@ -55,15 +55,11 @@ class DatabaseOrder extends \Runalyze\Parameter\Select
      */
     public function asQuery(): string
     {
-        switch ($this->value()) {
-            case self::ALPHA:
-                return 'ORDER BY `name` ASC';
-            case self::DESC:
-                return 'ORDER BY `id` DESC';
-            case self::ASC:
-            default:
-                return 'ORDER BY `id` ASC';
-        }
+        return match ($this->value()) {
+            self::ALPHA => 'ORDER BY `name` ASC',
+            self::DESC => 'ORDER BY `id` DESC',
+            default => 'ORDER BY `id` ASC',
+        };
     }
 
     /**

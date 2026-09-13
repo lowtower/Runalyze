@@ -36,36 +36,15 @@ class CreateController extends AbstractController
 {
     use AppServiceSubscriberTrait;
 
-    private FileImporter $fileImporter;
-
-    private ActivityDataContainerFilter $activityDataContainerFilter;
-
-    private ConfigurationManager $configurationManager;
-
-    private ActivityDataContainerToActivityContextConverter $activityDataContainerToActivityContextConverter;
-
-    private ActivityCache $activityCache;
-
-    private DuplicateFinder $duplicateFinder;
-
-    private TranslatorInterface $translator;
-
     public function __construct(
-        FileImporter $fileImporter,
-        ActivityDataContainerFilter $activityDataContainerFilter,
-        ConfigurationManager $configurationManager,
-        ActivityDataContainerToActivityContextConverter $activityDataContainerToActivityContextConverter,
-        ActivityCache $activityCache,
-        DuplicateFinder $duplicateFinder,
-        TranslatorInterface $translator
+        private FileImporter $fileImporter,
+        private ActivityDataContainerFilter $activityDataContainerFilter,
+        private ConfigurationManager $configurationManager,
+        private ActivityDataContainerToActivityContextConverter $activityDataContainerToActivityContextConverter,
+        private ActivityCache $activityCache,
+        private DuplicateFinder $duplicateFinder,
+        private TranslatorInterface $translator
     ) {
-        $this->fileImporter = $fileImporter;
-        $this->activityDataContainerFilter = $activityDataContainerFilter;
-        $this->configurationManager = $configurationManager;
-        $this->activityDataContainerToActivityContextConverter = $activityDataContainerToActivityContextConverter;
-        $this->activityCache = $activityCache;
-        $this->duplicateFinder = $duplicateFinder;
-        $this->translator = $translator;
     }
 
     protected function getTrainingRepository(): TrainingRepository

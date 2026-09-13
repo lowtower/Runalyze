@@ -22,11 +22,9 @@ class InstallController extends AbstractController
 {
     use AppServiceSubscriberTrait;
 
-    private KernelInterface $kernel;
-
-    public function __construct(KernelInterface $kernel)
-    {
-        $this->kernel = $kernel;
+    public function __construct(
+        private KernelInterface $kernel
+    ) {
     }
 
     /**

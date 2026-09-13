@@ -16,14 +16,12 @@ use Runalyze\View\Activity\Context;
 class SectionMiscellaneous extends TrainingViewSectionTabbedPlot
 {
     /**
-     * @var bool
+     * @param bool $showCadence
      */
-    protected $showCadence;
-
-    public function __construct(?Context $Context = null, $showCadence = true)
-    {
-        $this->showCadence = $showCadence;
-
+    public function __construct(
+        ?Context $Context = null,
+        protected $showCadence = true
+    ) {
         parent::__construct($Context);
     }
 

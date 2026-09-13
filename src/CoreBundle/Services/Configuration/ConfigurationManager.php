@@ -12,15 +12,14 @@ class ConfigurationManager
 {
     use TokenStorageAwareServiceTrait;
 
-    protected ConfRepository $Repository;
-
     protected ?RunalyzeConfigurationList $CurrentConfigurationList = null;
 
     protected ?RunalyzeConfigurationList $DefaultList = null;
 
-    public function __construct(ConfRepository $repository, TokenStorageInterface $tokenStorage)
-    {
-        $this->Repository = $repository;
+    public function __construct(
+        protected ConfRepository $Repository,
+        TokenStorageInterface $tokenStorage
+    ) {
         $this->TokenStorageInterface = $tokenStorage;
     }
 

@@ -66,7 +66,7 @@ class RouteAdapter
             return null;
         }
 
-        $fullClassName = get_class($object);
+        $fullClassName = $object::class;
 
         return substr($fullClassName, strrpos($fullClassName, '\\') + 1);
     }

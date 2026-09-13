@@ -13,15 +13,11 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 class InstallFilesystemCommand extends Command
 {
-    private Filesystem $filesystem;
-
-    private KernelInterface $kernel;
-
-    public function __construct(Filesystem $filesystem, KernelInterface $kernel)
-    {
+    public function __construct(
+        private Filesystem $filesystem,
+        private KernelInterface $kernel
+    ) {
         parent::__construct();
-        $this->filesystem = $filesystem;
-        $this->kernel = $kernel;
     }
 
     protected function configure()

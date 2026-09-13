@@ -67,7 +67,7 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    #[ORM\OneToMany(targetEntity: Training::class, mappedBy: 'type', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    #[ORM\OneToMany(mappedBy: 'type', targetEntity: Training::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected $trainings;
 
     /**

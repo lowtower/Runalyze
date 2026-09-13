@@ -167,9 +167,7 @@ class RecalculationManager
     {
         $accountId = $account->getId();
 
-        if (! isset($this->AccountRelatedTaskNames[$accountId])) {
-            $this->AccountRelatedTaskNames[$accountId] = [];
-        }
+        $this->AccountRelatedTaskNames[$accountId] ??= [];
 
         return isset($this->AccountRelatedTaskNames[$accountId][$taskName]);
     }
@@ -177,7 +175,7 @@ class RecalculationManager
     protected function scheduleTaskForAccount(Account $account, RecalculationTaskInterface $task)
     {
         $accountId = $account->getId();
-        $taskName = get_class($task);
+        $taskName = $task::class;
 
         $task->setAccount($account);
 

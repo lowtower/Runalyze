@@ -226,7 +226,7 @@ class FitActivity extends AbstractSingleParser
      */
     public function finishParsing(): void
     {
-        if ($this->Container->Metadata->getCreator() == 'suunto') {
+        if ($this->Container->Metadata->getCreator() === 'suunto') {
             $this->Container->ActivityData->Duration = end($this->Container->ContinuousData->Time);
             $this->Container->Rounds->add(new Round(
                 end($this->Container->ContinuousData->Distance) - $this->Container->Rounds->getTotalDistance(),
@@ -315,9 +315,7 @@ class FitActivity extends AbstractSingleParser
 
         $devFieldName = str_replace(['"', ' '], ['', '_'], $this->Values['field_name'][0]);
         $fieldName = $this->Values['developer_data_index'][0] . '_' . $this->Values['field_definition_number'][0] . '_' . $devFieldName;
-        $fieldName = preg_replace_callback('/(\W)/i', function (array $char): string {
-            return sprintf('_%02x_', ord($char[0]));
-        }, preg_replace('/(\s+)/i', '_', $fieldName));
+        $fieldName = preg_replace_callback('/(\W)/i', fn (array $char): string => sprintf('_%02x_', ord($char[0])), preg_replace('/(\s+)/i', '_', $fieldName));
 
         if (
             isset($this->Values['native_field_num']) &&
@@ -719,9 +717,7 @@ class FitActivity extends AbstractSingleParser
         }
 
         // Fall back to the generic FIT sport mapping.
-        if ($internalId === null) {
-            $internalId = $fitSdkMapping->toInternal($this->Values['sport'][0]);
-        }
+        $internalId ??= $fitSdkMapping->toInternal($this->Values['sport'][0]);
 
         $fitSportName = $this->Values['sport'][1] ?? '';
         $metadata->setInternalSportId($internalId);
@@ -854,21 +850,21 @@ class FitActivity extends AbstractSingleParser
      */
     protected function hasPerformanceCondition(string $creator): bool
     {
-        return substr($creator, 0, 5) === 'fr630' || $creator === '2156' || $creator === '2310' || $creator === '2311' ||                             // GARMIN_FORERUNNER_630
-            substr($creator, 0, 5) === 'fr645' || $creator === '2886' || $creator === '3003' || $creator === '2888' || $creator === '3004' ||       // GARMIN_FORERUNNER_645
-            substr($creator, 0, 5) === 'fr935' || $creator === '2691' || $creator === '2833' ||                                                   // GARMIN_FORERUNNER_935
+        return str_starts_with($creator, 'fr630') || $creator === '2156' || $creator === '2310' || $creator === '2311' ||                             // GARMIN_FORERUNNER_630
+            str_starts_with($creator, 'fr645') || $creator === '2886' || $creator === '3003' || $creator === '2888' || $creator === '3004' ||       // GARMIN_FORERUNNER_645
+            str_starts_with($creator, 'fr935') || $creator === '2691' || $creator === '2833' ||                                                   // GARMIN_FORERUNNER_935
             $creator === '3113' || $creator === '3441' ||                                                                                         // GARMIN_FORERUNNER_945
-            substr($creator, 0, 7) === 'fr735xt' || $creator === '2158' || $creator === '2533' || $creator === '2534' || $creator === '2158' ||     // GARMIN_FORERUNNER_735_X_T
+            str_starts_with($creator, 'fr735xt') || $creator === '2158' || $creator === '2533' || $creator === '2534' || $creator === '2158' ||     // GARMIN_FORERUNNER_735_X_T
                 $creator === '2533' || $creator === '2534' ||
-            substr($creator, 0, 6) === 'fenix3' ||                                                                                              // GARMIN_FENIX 3...
+            str_starts_with($creator, 'fenix3') ||                                                                                              // GARMIN_FENIX 3...
             $creator === '2050' || $creator === '2188' || $creator === '2293' || $creator === '2407' || $creator === '2408' || $creator === '2189' ||
             $creator === '2375' || $creator === '2432' || $creator === '2413' || $creator === '2473' || $creator === '2474' || $creator === '2475' ||
             $creator === '2476' || $creator === '2477' ||
-            substr($creator, 0, 6) === 'fenix5' ||                                                                                              // GARMIN FENIX 5...
+            str_starts_with($creator, 'fenix5') ||                                                                                              // GARMIN FENIX 5...
             $creator === '2697' || $creator === '3110' || $creator === '2796' || $creator === '2797' || $creator === '2544' || $creator === '2604' ||
             $creator === '2798' || $creator === '3089' || $creator === '3135' || $creator === '2900' || $creator === '3134' || $creator === '3111' ||
             $creator === '2798' || $creator === '3089' || $creator === '3135' || $creator === '2900' || $creator === '3134' || $creator === '3111' ||
-            substr($creator, 0, 6) === 'fenix6' ||                                                                                              // GARMIN_FENIX 6...
+            str_starts_with($creator, 'fenix6') ||                                                                                              // GARMIN_FENIX 6...
             $creator === '3287' || $creator === '3288' || $creator === '3289' || $creator === '3290' || $creator === '3291' || $creator === '3512' ||
             $creator === '3513' || $creator === '3514' || $creator === '3515' || $creator === '3516';
     }
@@ -1014,8 +1010,7 @@ class FitActivity extends AbstractSingleParser
 
     protected function mergeRecord()
     {
-        end($this->Container->ContinuousData->Time);
-        $i = key($this->Container->ContinuousData->Time);
+        $i = array_key_last($this->Container->ContinuousData->Time);
 
         foreach ($this->Container->ContinuousData->getPropertyNamesOfArrays() as $key) {
             if (array_key_exists($i, $this->Container->ContinuousData->{$key})) {
@@ -1161,9 +1156,7 @@ class FitActivity extends AbstractSingleParser
         $endTime = (int) ($startTime + round(((int) $this->Values['total_timer_time'][0]) / 1000));
 
         // get the relevant records-times for this lane (inside the start/end-time)
-        $recordTimes = array_filter($this->RecordTime, function ($v, $k) use ($startTime, $endTime): bool {
-            return isset($v) && $v >= $startTime && $v <= $endTime;
-        }, ARRAY_FILTER_USE_BOTH);
+        $recordTimes = array_filter($this->RecordTime, fn ($v, $k): bool => isset($v) && $v >= $startTime && $v <= $endTime, ARRAY_FILTER_USE_BOTH);
 
         // get the indexes of recordTimes to find the corresponing heartrate and temperature
         $heartsVal = [];
@@ -1288,20 +1281,14 @@ class FitActivity extends AbstractSingleParser
             && isset($this->Values['total_distance'])
             && isset($this->Values['pacep_plan_duration']) && isset($this->Values['pacep_plan_distance'])) {
             // init value
-            if ($this->Container->ActivityData->PaceGoal === null) {
-                $this->Container->ActivityData->PaceGoal = [];
-            }
-
+            $this->Container->ActivityData->PaceGoal ??= [];
             $split = [];
-
             // real running values
             $split['t_s'] = $total_timer_time_s;
             $split['dist_m'] = round((int) ($this->Values['total_distance'][0]) / 100);
-
             // pace-pro plan values
             $split['pp_t_s'] = round((int) ($this->Values['pacep_plan_duration'][0]) / 1000);
             $split['pp_dist_m'] = round((int) ($this->Values['pacep_plan_distance'][0]) / 100);
-
             // add it to the existing JSON array
             $this->Container->ActivityData->PaceGoal[] = $split;
             return;

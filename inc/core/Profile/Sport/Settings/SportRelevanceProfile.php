@@ -24,14 +24,11 @@ class SportRelevanceProfile extends AbstractEnum implements InterfaceChoosable
      */
     public static function stringFor($id): string
     {
-        switch ($id) {
-            case self::ALTERNATIVE_SPORT:
-                return __('Alternative sport');
-            case self::MAIN_SPORT:
-                return __('Main Sport');
-            default:
-                throw new \InvalidArgumentException('Invalid sport relevance id "' . $id . '".');
-        }
+        return match ($id) {
+            self::ALTERNATIVE_SPORT => __('Alternative sport'),
+            self::MAIN_SPORT => __('Main Sport'),
+            default => throw new \InvalidArgumentException('Invalid sport relevance id "' . $id . '".'),
+        };
     }
 
     public static function getChoices(): array

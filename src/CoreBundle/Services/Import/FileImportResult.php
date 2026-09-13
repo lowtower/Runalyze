@@ -13,30 +13,22 @@ class FileImportResult
     protected $Container;
 
     /**
-     * @var string
-     */
-    protected $FileName;
-
-    /**
-     * @var string
-     */
-    protected $OriginalFileName;
-
-    /**
      * @var null|\Exception
      */
     protected $Exception;
 
     /**
      * @param ActivityDataContainer[] $container
-     * @param string $fileName
-     * @param string $originalFileName
+     * @param string $FileName
+     * @param string $OriginalFileName
      */
-    public function __construct(array $container, $fileName, $originalFileName, ?\Exception $exception = null)
-    {
+    public function __construct(
+        array $container,
+        protected $FileName,
+        protected $OriginalFileName,
+        ?\Exception $exception = null
+    ) {
         $this->Container = $container;
-        $this->FileName = $fileName;
-        $this->OriginalFileName = $originalFileName;
         $this->Exception = $exception;
     }
 

@@ -97,7 +97,7 @@ class Metadata
                 $dateTime->getTimestamp() + $dateTime->getOffset(),
                 round($dateTime->getOffset() / 60)
             );
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             // Invalid date
         }
     }
@@ -107,7 +107,7 @@ class Metadata
      */
     public function setTimestampAndTimezoneOffsetWithUtcFixFrom(string $string)
     {
-        if (substr($string, -1) == 'Z') {
+        if (str_ends_with($string, 'Z')) {
             $localTimestamp = LocalTime::fromServerTime(strtotime(substr($string, 0, -1) . ' UTC'))->getTimestamp();
 
             $this->setTimestamp(

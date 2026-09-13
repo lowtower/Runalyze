@@ -16,17 +16,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class NotificationsController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
-    private TranslatorInterface $translator;
-
-    private RouterInterface $router;
-
-    private NotificationRepository $notificationRepository;
-
-    public function __construct(TranslatorInterface $translator, RouterInterface $router, NotificationRepository $notificationRepository)
-    {
-        $this->translator = $translator;
-        $this->router = $router;
-        $this->notificationRepository = $notificationRepository;
+    public function __construct(
+        private TranslatorInterface $translator,
+        private RouterInterface $router,
+        private NotificationRepository $notificationRepository
+    ) {
     }
 
     /**

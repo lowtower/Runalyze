@@ -12,9 +12,9 @@ use Runalyze\Util\LocalTime;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'training')]
-#[ORM\Index(name: 'time', columns: ['accountid', 'time'])]
-#[ORM\Index(name: 'sportid', columns: ['accountid', 'sportid'])]
-#[ORM\Index(name: 'typeid', columns: ['accountid', 'typeid'])]
+#[ORM\Index(columns: ['accountid', 'time'], name: 'time')]
+#[ORM\Index(columns: ['accountid', 'sportid'], name: 'sportid')]
+#[ORM\Index(columns: ['accountid', 'typeid'], name: 'typeid')]
 #[ORM\Entity(repositoryClass: TrainingRepository::class)]
 #[ORM\EntityListeners([\Runalyze\Bundle\CoreBundle\EntityListener\ActivityListener::class])]
 #[ORM\HasLifecycleCallbacks]
@@ -227,7 +227,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     #[ORM\Column(name: 'vo2max', type: 'casted_decimal_2', precision: 5, scale: 2, nullable: true, options: [
         'unsigned' => true,
     ])]
-    private ?float $vo2max;
+    private ?float $vo2max = null;
 
     /**
      * @var float|null [ml/kg/min]
@@ -235,7 +235,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     #[ORM\Column(name: 'vo2max_by_time', type: 'casted_decimal_2', precision: 5, scale: 2, nullable: true, options: [
         'unsigned' => true,
     ])]
-    private ?float $vo2maxByTime;
+    private ?float $vo2maxByTime = null;
 
     /**
      * @var float|null [ml/kg/min]
@@ -243,7 +243,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     #[ORM\Column(name: 'vo2max_with_elevation', type: 'casted_decimal_2', precision: 5, scale: 2, nullable: true, options: [
         'unsigned' => true,
     ])]
-    private ?float $vo2maxWithElevation;
+    private ?float $vo2maxWithElevation = null;
 
     /**
      * @var bool
@@ -769,25 +769,25 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var Trackdata|null
      */
-    #[ORM\OneToOne(targetEntity: Trackdata::class, mappedBy: 'activity')]
+    #[ORM\OneToOne(mappedBy: 'activity', targetEntity: Trackdata::class)]
     private $trackdata;
 
     /**
      * @var Swimdata|null
      */
-    #[ORM\OneToOne(targetEntity: Swimdata::class, mappedBy: 'activity')]
+    #[ORM\OneToOne(mappedBy: 'activity', targetEntity: Swimdata::class)]
     private $swimdata;
 
     /**
      * @var Hrv|null
      */
-    #[ORM\OneToOne(targetEntity: Hrv::class, mappedBy: 'activity')]
+    #[ORM\OneToOne(mappedBy: 'activity', targetEntity: Hrv::class)]
     private $hrv;
 
     /**
      * @var Raceresult|null
      */
-    #[ORM\OneToOne(targetEntity: Raceresult::class, mappedBy: 'activity')]
+    #[ORM\OneToOne(mappedBy: 'activity', targetEntity: Raceresult::class)]
     private $raceresult;
 
     /**
@@ -2615,9 +2615,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      */
     public function getAdapter()
     {
-        if ($this->Adapter === null) {
-            $this->Adapter = new ActivityAdapter($this);
-        }
+        $this->Adapter ??= new ActivityAdapter($this);
 
         return $this->Adapter;
     }

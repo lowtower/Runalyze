@@ -19,29 +19,25 @@ class TemplateBasedMessage implements MessageInterface
     protected $TemplateName;
 
     /**
-     * @var null|int [days]
-     */
-    protected $Lifetime;
-
-    /**
      * @var null|array
      */
     protected $TemplateContent;
 
     /**
      * @param string $templateName relative to self::BASE_PATH
-     * @param null|int $lifetime [days] (only required for insert progress)
+     * @param null|int $Lifetime [days] (only required for insert progress)
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct($templateName, $lifetime = null)
-    {
+    public function __construct(
+        $templateName,
+        protected $Lifetime = null
+    ) {
         if (! file_exists(__DIR__ . '/' . self::BASE_PATH . $templateName)) {
             throw new \InvalidArgumentException(sprintf('Given template "%s" cannot be found in "%s".', $templateName, __DIR__ . '/' . self::BASE_PATH));
         }
 
         $this->TemplateName = $templateName;
-        $this->Lifetime = $lifetime;
     }
 
     public function getMessageType(): int
@@ -82,16 +78,14 @@ class TemplateBasedMessage implements MessageInterface
 
     protected function loadTemplateIfNotDoneYet()
     {
-        if ($this->TemplateContent === null) {
-            $this->TemplateContent = Yaml::parse(file_get_contents(__DIR__ . '/' . self::BASE_PATH . $this->TemplateName));
-        }
+        $this->TemplateContent ??= Yaml::parse(file_get_contents(__DIR__ . '/' . self::BASE_PATH . $this->TemplateName));
     }
 
     public function isLinkInternal(): bool
     {
         $this->loadTemplateIfNotDoneYet();
 
-        return isset($this->TemplateContent['internal']) || (isset($this->TemplateContent['link']) && substr($this->TemplateContent['link'], 0, 4) != 'http');
+        return isset($this->TemplateContent['internal']) || (isset($this->TemplateContent['link']) && ! str_starts_with($this->TemplateContent['link'], 'http'));
     }
 
     public function getWindowSizeForInternalLink()

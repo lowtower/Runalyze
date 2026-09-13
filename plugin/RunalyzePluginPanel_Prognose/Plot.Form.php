@@ -21,9 +21,7 @@ if (is_dir(FRONTEND_PATH . '../plugin/RunalyzePluginStat_Wettkampf')) {
     }
 }
 
-if (! isset($distance)) {
-    $distance = 10;
-}
+$distance ??= 10;
 
 $DataFailed = false;
 $Prognosis = [];

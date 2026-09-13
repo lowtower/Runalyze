@@ -50,17 +50,12 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
 
     public const RADIUS_DEFAULT = 20.0;
 
-    protected string $Url;
-
-    protected string $Proxy;
-
-    protected Client $HttpClient;
-
-    public function __construct(string $url, string $proxy, Client $client, ?LoggerInterface $logger = null)
-    {
-        $this->Url = $url;
-        $this->Proxy = $proxy;
-        $this->HttpClient = $client;
+    public function __construct(
+        protected string $Url,
+        protected string $Proxy,
+        protected Client $HttpClient,
+        ?LoggerInterface $logger = null
+    ) {
         $this->logger = $logger;
     }
 

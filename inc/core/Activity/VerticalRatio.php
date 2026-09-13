@@ -16,11 +16,6 @@ namespace Runalyze\Activity;
 class VerticalRatio implements ValueInterface
 {
     /**
-     * Value [%o]
-     */
-    protected int $Permille;
-
-    /**
      * Format vertical ratio
      */
     public static function format(int $permille, bool $withUnit = true): string
@@ -29,11 +24,11 @@ class VerticalRatio implements ValueInterface
     }
 
     /**
-     * @param int $permille [%o]
+     * @param int $Permille [%o]
      */
-    public function __construct(int $permille = 0)
-    {
-        $this->Permille = $permille;
+    public function __construct(
+        protected int $Permille = 0
+    ) {
     }
 
     /**

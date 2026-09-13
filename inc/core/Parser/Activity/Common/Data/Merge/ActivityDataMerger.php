@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Parser\Activity\Common\Data\Merge;
 
 use Runalyze\Parser\Activity\Common\Data\ActivityData;
@@ -25,9 +27,7 @@ class ActivityDataMerger implements MergerInterface
     public function merge()
     {
         foreach ($this->ResultingData->getPropertyNames() as $property) {
-            if ($this->ResultingData->{$property} === null) {
-                $this->ResultingData->{$property} = $this->DataToMerge->{$property};
-            }
+            $this->ResultingData->{$property} ??= $this->DataToMerge->{$property};
         }
     }
 }

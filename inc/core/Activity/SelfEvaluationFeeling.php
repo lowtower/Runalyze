@@ -58,21 +58,15 @@ class SelfEvaluationFeeling extends AbstractEnum
             throw new \InvalidArgumentException(sprintf('Provided evaluation effort %s is invalid.', $fitValue));
         }
 
-        switch ((int) $fitValue) {
-            case 0:
-                return self::VERY_WEAK;
-            case 25:
-                return self::WEAK;
-            case 50:
-                return self::NORMAL;
-            case 75:
-                return self::STRONG;
-            case 100:
-                return self::VERY_STRONG;
-            default:
-                // return the original value as int / this results in an unknown "label"
-                return (int) $fitValue;
-        }
+        return match ((int) $fitValue) {
+            0 => self::VERY_WEAK,
+            25 => self::WEAK,
+            50 => self::NORMAL,
+            75 => self::STRONG,
+            100 => self::VERY_STRONG,
+            // return the original value as int / this results in an unknown "label"
+            default => (int) $fitValue,
+        };
     }
 
     /**
@@ -83,20 +77,14 @@ class SelfEvaluationFeeling extends AbstractEnum
      */
     public static function labelOfEnum(int $num): string
     {
-        switch ($num) {
-            case self::VERY_WEAK:
-                return 'Sehr schwach &#x1F61E;';
-            case self::WEAK:
-                return 'Schwach &#x1F626;';
-            case self::NORMAL:
-                return 'Normal &#x1F610;';
-            case self::STRONG:
-                return 'Stark &#x1F642;';
-            case self::VERY_STRONG:
-                return 'Sehr stark &#x1F600;';
-            default:
-                return sprintf('Unknown %u', $num);
-        }
+        return match ($num) {
+            self::VERY_WEAK => 'Sehr schwach &#x1F61E;',
+            self::WEAK => 'Schwach &#x1F626;',
+            self::NORMAL => 'Normal &#x1F610;',
+            self::STRONG => 'Stark &#x1F642;',
+            self::VERY_STRONG => 'Sehr stark &#x1F600;',
+            default => sprintf('Unknown %u', $num),
+        };
     }
 
     /**

@@ -45,7 +45,7 @@ class DataBrowser
     /**
      * sportid to be displayed
      */
-    protected ?int $SportId;
+    protected ?int $SportId = null;
 
     /**
      * Number of days to be displayed

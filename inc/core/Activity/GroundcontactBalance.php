@@ -16,11 +16,6 @@ namespace Runalyze\Activity;
 class GroundcontactBalance implements ValueInterface
 {
     /**
-     * Value [%oo L]
-     */
-    protected int $BasisPoint;
-
-    /**
      * Format groundcontact balance
      */
     public static function format(int $basispoint, bool $withUnit = true): string
@@ -29,11 +24,11 @@ class GroundcontactBalance implements ValueInterface
     }
 
     /**
-     * @param int $basispoint [%oo L]
+     * @param int $BasisPoint [%oo L]
      */
-    public function __construct(int $basispoint = 0)
-    {
-        $this->BasisPoint = $basispoint;
+    public function __construct(
+        protected int $BasisPoint = 0
+    ) {
     }
 
     /**

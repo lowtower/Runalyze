@@ -24,11 +24,6 @@ class Factory
     protected \PDOforRunalyze $DB;
 
     /**
-     * Account ID
-     */
-    protected ?int $AccountID = null;
-
-    /**
      * Array with tablenames that should be cached statically
      */
     protected array $UseStaticCacheAndFullFetch = [];
@@ -38,10 +33,13 @@ class Factory
      */
     public static array $StaticCache = [];
 
-    public function __construct(?int $accountID = null)
-    {
+    public function __construct(
+        /**
+         * Account ID
+         */
+        protected ?int $AccountID = null
+    ) {
         $this->DB = DB::getInstance();
-        $this->AccountID = $accountID;
         $this->UseStaticCacheAndFullFetch = [
             'sport' => true,
             'type' => true,
@@ -111,9 +109,7 @@ class Factory
      */
     public function allTypes(): array
     {
-        return $this->allObjects('type', function ($data): \Runalyze\Model\Type\Entity {
-            return new Type\Entity($data);
-        });
+        return $this->allObjects('type', fn ($data): \Runalyze\Model\Type\Entity => new Type\Entity($data));
     }
 
     /**
@@ -146,9 +142,7 @@ class Factory
      */
     public function allSports(): array
     {
-        return $this->allObjects('sport', function ($data): \Runalyze\Model\Sport\Entity {
-            return new Sport\Entity($data);
-        });
+        return $this->allObjects('sport', fn ($data): \Runalyze\Model\Sport\Entity => new Sport\Entity($data));
     }
 
     public function equipmentType(int $equipmentTypeid): \Runalyze\Model\EquipmentType\Entity
@@ -198,9 +192,7 @@ class Factory
      */
     public function allTags(): array
     {
-        return $this->allObjects('tag', function ($data): \Runalyze\Model\Tag\Entity {
-            return new Tag\Entity($data);
-        });
+        return $this->allObjects('tag', fn ($data): \Runalyze\Model\Tag\Entity => new Tag\Entity($data));
     }
 
     /**
@@ -363,16 +355,11 @@ class Factory
      */
     protected function primaryKey(string $tablename): string
     {
-        switch ($tablename) {
-            case 'trackdata':
-            case 'hrv':
-            case 'swimdata':
-                return 'activityid';
-            case 'raceresult':
-                return 'activity_id';
-        }
-
-        return 'id';
+        return match ($tablename) {
+            'trackdata', 'hrv', 'swimdata' => 'activityid',
+            'raceresult' => 'activity_id',
+            default => 'id',
+        };
     }
 
     /**
@@ -380,13 +367,10 @@ class Factory
      */
     protected function tableHasAccountid(string $tablename): bool
     {
-        switch ($tablename) {
-            case 'account':
-            case 'plugin_conf':
-                return false;
-        }
-
-        return true;
+        return match ($tablename) {
+            'account', 'plugin_conf' => false,
+            default => true,
+        };
     }
 
     /**
@@ -394,15 +378,11 @@ class Factory
      */
     protected function orderBy(string $tablename): string
     {
-        switch ($tablename) {
-            case 'sport':
-                return \Runalyze\Configuration::ActivityForm()->orderSports()->asQuery();
-            case 'type':
-                return \Runalyze\Configuration::ActivityForm()->orderTypes()->asQuery();
-            case 'equipment':
-                return \Runalyze\Configuration::ActivityForm()->orderEquipment()->asQuery();
-        }
-
-        return '';
+        return match ($tablename) {
+            'sport' => \Runalyze\Configuration::ActivityForm()->orderSports()->asQuery(),
+            'type' => \Runalyze\Configuration::ActivityForm()->orderTypes()->asQuery(),
+            'equipment' => \Runalyze\Configuration::ActivityForm()->orderEquipment()->asQuery(),
+            default => '',
+        };
     }
 }

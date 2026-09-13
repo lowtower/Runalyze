@@ -7,11 +7,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MaintenanceListener
 {
-    private ContainerInterface $container;
-
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
+    public function __construct(
+        private ContainerInterface $container
+    ) {
     }
 
     public function onKernelRequest(\Symfony\Component\HttpKernel\Event\RequestEvent $event)

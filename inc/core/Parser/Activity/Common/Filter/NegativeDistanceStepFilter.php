@@ -8,18 +8,12 @@ use Runalyze\Parser\Activity\Common\Exception\InvalidDataException;
 class NegativeDistanceStepFilter extends AbstractFilter
 {
     /**
-     * @var float [km]
+     * @param float $LimitForDistanceDifferenceToFix [km]
      */
-    protected float $LimitForDistanceDifferenceToFix;
-
-    /**
-     * @param float $limitForDistanceDifferenceToFix [km]
-     */
-    public function __construct(float $limitForDistanceDifferenceToFix = 0.02)
-    {
+    public function __construct(
+        protected float $LimitForDistanceDifferenceToFix = 0.02
+    ) {
         parent::__construct();
-
-        $this->LimitForDistanceDifferenceToFix = $limitForDistanceDifferenceToFix;
     }
 
     public function filter(ActivityDataContainer $container, bool $strict = false)

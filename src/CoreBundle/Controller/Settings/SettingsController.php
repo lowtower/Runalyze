@@ -31,24 +31,12 @@ class SettingsController extends AbstractController
 {
     use AppServiceSubscriberTrait;
 
-    private TranslatorInterface $translator;
-
-    private TokenStorageInterface $tokenStorage;
-
-    private ParameterBagInterface $parameterBag;
-
-    private Sha256SaltedEncoder $encoder;
-
     public function __construct(
-        TranslatorInterface $translator,
-        TokenStorageInterface $tokenStorage,
-        ParameterBagInterface $parameterBag,
-        Sha256SaltedEncoder $encoder
+        private TranslatorInterface $translator,
+        private TokenStorageInterface $tokenStorage,
+        private ParameterBagInterface $parameterBag,
+        private Sha256SaltedEncoder $encoder
     ) {
-        $this->translator = $translator;
-        $this->tokenStorage = $tokenStorage;
-        $this->parameterBag = $parameterBag;
-        $this->encoder = $encoder;
     }
 
     protected function getAccountRepository(): AccountRepository

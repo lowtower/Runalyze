@@ -76,7 +76,7 @@ class EquipmentType implements AccountRelatedEntityInterface
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    #[ORM\OneToMany(targetEntity: Equipment::class, mappedBy: 'type', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    #[ORM\OneToMany(mappedBy: 'type', targetEntity: Equipment::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected $equipment;
 
     public function __construct()

@@ -256,7 +256,7 @@ class Language implements InterfaceChoosable
                 // Assign default low weight for generic values
                 if ($l === '*/*') {
                     $q = 0.01;
-                } elseif (substr($l, -1) == '*') {
+                } elseif (str_ends_with($l, '*')) {
                     $q = 0.02;
                 }
             }
@@ -270,9 +270,7 @@ class Language implements InterfaceChoosable
             if (strlen($k) > 2) {
                 $gen_lang = substr($k, 0, 2);
 
-                if (! isset($matches[$gen_lang])) {
-                    $matches[$gen_lang] = $v - 0.001;
-                }
+                $matches[$gen_lang] ??= $v - 0.001;
             }
         }
 

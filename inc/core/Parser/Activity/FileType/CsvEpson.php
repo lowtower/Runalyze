@@ -26,7 +26,7 @@ class CsvEpson extends AbstractSingleParser implements FileContentAwareParserInt
         while ($line !== false) {
             $line = trim($line);
 
-            if (substr($line, 0, 1) == '[') {
+            if (str_starts_with($line, '[')) {
                 $this->CurrentHeader = substr($line, 1, -1);
                 $this->TmpData = [];
             } else {
@@ -70,11 +70,11 @@ class CsvEpson extends AbstractSingleParser implements FileContentAwareParserInt
 
     protected function readTrainingResult(string $line)
     {
-        if (substr($line, 0, 13) == 'TrainingName,') {
+        if (str_starts_with($line, 'TrainingName,')) {
             $this->Container->Metadata->setDescription(substr($line, 13));
-        } elseif (substr($line, 0, 5) == 'Memo,') {
+        } elseif (str_starts_with($line, 'Memo,')) {
             $this->Container->Metadata->setNotes(substr($line, 5));
-        } elseif (substr($line, 0, 15) == 'TrainingKindId,') {
+        } elseif (str_starts_with($line, 'TrainingKindId,')) {
             $this->TmpData = explode(',', $line);
         } elseif ($this->TmpData !== []) {
             $values = explode(',', $line);
@@ -166,15 +166,11 @@ class CsvEpson extends AbstractSingleParser implements FileContentAwareParserInt
                 break;
 
             case 'GpsLatitude':
-                $this->Container->ContinuousData->Latitude = array_map(function ($value): float {
-                    return (float) $value / 1000000;
-                }, $values);
+                $this->Container->ContinuousData->Latitude = array_map(fn ($value): float => (float) $value / 1000000, $values);
                 break;
 
             case 'GpsLongitude':
-                $this->Container->ContinuousData->Longitude = array_map(function ($value): float {
-                    return (float) $value / 1000000;
-                }, $values);
+                $this->Container->ContinuousData->Longitude = array_map(fn ($value): float => (float) $value / 1000000, $values);
                 break;
         }
 
@@ -193,15 +189,11 @@ class CsvEpson extends AbstractSingleParser implements FileContentAwareParserInt
                 break;
 
             case 'GraphPitch':
-                $this->Container->ContinuousData->Cadence = array_map(function (string $value): float {
-                    return round((float) $value / 2);
-                }, $values);
+                $this->Container->ContinuousData->Cadence = array_map(fn (string $value): float => round((float) $value / 2), $values);
                 break;
 
             case 'GraphDistance':
-                $this->Container->ContinuousData->Distance = array_map(function (string $value): float {
-                    return (float) $value / 1000;
-                }, $values);
+                $this->Container->ContinuousData->Distance = array_map(fn (string $value): float => (float) $value / 1000, $values);
                 break;
 
             case 'HeartRate':

@@ -52,7 +52,7 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
      *     message="Besides digits and letters, only the following characters are allowed: . _ -"
      * )
      */
-    #[ORM\Column(name: 'username', type: 'string', length: 60, nullable: false, unique: true)]
+    #[ORM\Column(name: 'username', type: 'string', length: 60, unique: true, nullable: false)]
     private string $username = '';
 
     #[ORM\Column(name: 'name', type: 'string', length: 50, options: [
@@ -171,22 +171,22 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
     #[ORM\Column(name: 'allow_support', type: 'boolean')]
     private bool $allowSupport = false;
 
-    #[ORM\OneToMany(targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Sport::class, mappedBy: 'account', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Sport::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected Collection $sports;
 
-    #[ORM\OneToMany(targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Type::class, mappedBy: 'account', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Type::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected Collection $activityTypes;
 
-    #[ORM\OneToMany(targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Tag::class, mappedBy: 'account', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Tag::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     #[ORM\OrderBy([
         'tag' => 'ASC',
     ])]
     protected Collection $tags;
 
-    #[ORM\OneToMany(targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Equipment::class, mappedBy: 'account', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Equipment::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected Collection $equipment;
 
-    #[ORM\OneToMany(targetEntity: \Runalyze\Bundle\CoreBundle\Entity\EquipmentType::class, mappedBy: 'account', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: \Runalyze\Bundle\CoreBundle\Entity\EquipmentType::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected Collection $equipmentTypes;
 
     #[ORM\Column(name: 'role', type: 'tinyint', nullable: true, options: [
@@ -409,9 +409,7 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
      */
     public function setLastAction(?int $lastAction = null): self
     {
-        if ($lastAction === null) {
-            $lastAction = (new \DateTime())->getTimestamp();
-        }
+        $lastAction ??= (new \DateTime())->getTimestamp();
 
         $this->lastaction = $lastAction;
 

@@ -244,6 +244,6 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase
 
     protected function endsWith($haystack, $needle): bool
     {
-        return $needle === '' || (substr($haystack, -strlen($needle)) === $needle);
+        return $needle === '' || (str_ends_with($haystack, $needle));
     }
 }

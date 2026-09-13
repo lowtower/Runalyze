@@ -23,18 +23,16 @@ class PluginConfiguration
     protected array $Values = [];
 
     /**
-     * Plugin id
-     */
-    protected int $PluginID;
-
-    /**
      * Catched values?
      */
     private bool $CatchedValues = false;
 
-    public function __construct(int $PluginID)
-    {
-        $this->PluginID = $PluginID;
+    public function __construct(
+        /**
+         * Plugin id
+         */
+        protected int $PluginID
+    ) {
     }
 
     /**

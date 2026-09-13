@@ -119,24 +119,16 @@ class ConfigTabPlugins extends ConfigTab
 			}
 		');
 
-        switch ($PluginType) {
-            case 'panel':
-                $Code .= HTML::info(__('* Hidden plugins only show their headings.'));
-                break;
-            case 'stat':
-                $Code .= HTML::info(__("* Hidden plugins are grouped as 'Miscellaneous'."));
-                break;
-            default:
-                $Code .= '';
-        }
+        match ($PluginType) {
+            PluginType::PANEL => $Code .= HTML::info(__('* Hidden plugins only show their headings.')),
+            PluginType::STAT => $Code .= HTML::info(__("* Hidden plugins are grouped as 'Miscellaneous'.")),
+            default => $Code .= '',
+        };
 
         return $Code;
     }
 
-    /**
-     * @return \Closure
-     */
-    protected function pluginOrderFunction()
+    protected function pluginOrderFunction(): \Closure
     {
         return function (array $a, array $b): int {
             if ($a['active'] == $b['active']) {
@@ -214,10 +206,7 @@ class ConfigTabPlugins extends ConfigTab
         $Factory->clearCache();
     }
 
-    /**
-     * @return \PDOStatement
-     */
-    protected function prepareUpdateStatement()
+    protected function prepareUpdateStatement(): \PDOStatement
     {
         return DB::getInstance()->prepare(
             'UPDATE `' . PREFIX . 'plugin` SET `active` = :active, `order` = :order WHERE `id` = :id'

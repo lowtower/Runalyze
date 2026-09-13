@@ -20,10 +20,6 @@ class PersonalBest
 {
     protected \PDO $PDO;
 
-    protected float $Distance;
-
-    protected int $SportId;
-
     /**
      * @var mixed
      */
@@ -128,17 +124,20 @@ class PersonalBest
     }
 
     /**
-     * @param float $distance [km]
-     * @param int $sportid Sportid for lookup
+     * @param float $Distance [km]
+     * @param int $SportId Sportid for lookup
      * @param \PDO $pdo [optional]
      * @param bool $autoLookup [optional]
      * @param bool $withDetails [optional]
      */
-    public function __construct(float $distance, int $sportid, ?PDO $pdo = null, bool $autoLookup = true, bool $withDetails = false)
-    {
-        $this->Distance = $distance;
+    public function __construct(
+        protected float $Distance,
+        protected int $SportId,
+        ?PDO $pdo = null,
+        bool $autoLookup = true,
+        bool $withDetails = false
+    ) {
         $this->PDO = $pdo instanceof \PDO ? $pdo : DB::getInstance();
-        $this->SportId = $sportid;
 
         if ($autoLookup) {
             if ($withDetails) {

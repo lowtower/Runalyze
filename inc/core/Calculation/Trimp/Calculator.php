@@ -44,31 +44,23 @@ class Calculator
     public const DEFAULT_HR_REST = 60;
 
     /**
-     * Athlete
-     */
-    protected \Runalyze\Athlete $Athlete;
-
-    /**
-     * Data
-     */
-    protected array $Data;
-
-    /**
      * Value
      */
     protected float $value;
 
     /**
      * Construct
-     * @param array $data array('hr' => 'time in seconds')
+     * @param array $Data array('hr' => 'time in seconds')
      * @throws \InvalidArgumentException
      */
-    public function __construct(\Runalyze\Athlete $Athlete, array $data)
-    {
-        $this->Athlete = $Athlete;
-        $this->Data = $data;
-
-        if ($data === []) {
+    public function __construct(
+        /**
+         * Athlete
+         */
+        protected \Runalyze\Athlete $Athlete,
+        protected array $Data
+    ) {
+        if ($this->Data === []) {
             throw new \InvalidArgumentException('Data array must not be empty.');
         }
 

@@ -9,7 +9,13 @@ use Runalyze\Configuration;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 
 /**
- * Plugin configuration value: array
+ * Plugin configuration value: array of distances [km|miles]
+ *
+ * Manages multiple distance values (e.g. for a "distances for yearly
+ * comparison" setting), stored internally in km, displayed/edited in the
+ * athlete's preferred unit system - analogous to the single-value
+ * PluginConfigurationValueDistance, but for an array of values.
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Plugin
  */
@@ -24,58 +30,53 @@ class PluginConfigurationValueDistances extends PluginConfigurationValueArray
 
     /**
      * Construct
-     * @param string $Label [optional]
-     * @param string $Tooltip [optional]
-     * @param string|array $DefaultValue [optional]
+     * @param array<int, float|int|string> $DefaultValue distances in km
      */
-    public function __construct(string $Key, string $Label = '', string $Tooltip = '', $DefaultValue = '')
+    public function __construct(string $Key, string $Label = '', string $Tooltip = '', array $DefaultValue = [])
     {
         parent::__construct($Key, $Label, $Tooltip, $DefaultValue);
 
-        $this->DefaultValue = $this->roundAndTransformValues($this->DefaultValue, true, false);
+        $this->DefaultValue = array_map(
+            fn ($value): float => (float) $value * $this->unitSystem()
+                ->distanceToPreferredUnitFactor(),
+            $this->DefaultValue
+        );
     }
 
     /**
-     * Has to be overwritten in subclasses.
+     * Set value from a comma-separated string of distances, given in the
+     * preferred unit system, converting each back to km for storage.
      */
-    public function setValueFromString(string $Value, bool $transformValues = false)
+    public function setValueFromString(string $Value)
     {
-        parent::setValueFromString($Value);
+        $factor = $this->unitSystem()
+            ->distanceToKmFactor();
 
-        $this->Value = $this->roundAndTransformValues($this->Value, $transformValues, true);
+        $this->Value = array_map(
+            fn (string $v): float => round((float) trim($v) * $factor, self::PRECISION),
+            explode(',', $Value)
+        );
     }
 
     /**
-     * Get value as string
+     * Get value as a comma-separated string, converted to the preferred
+     * unit system for display.
      */
-    public function valueAsString(bool $transformValues = false): string
+    public function valueAsString(): string
     {
-        $values = $this->roundAndTransformValues($this->Value, $transformValues, false);
+        $factor = $this->unitSystem()
+            ->distanceToPreferredUnitFactor();
 
-        return implode(', ', $values);
-    }
-
-    protected function roundAndTransformValues(array $values, bool $transformValues = false, bool $toKm = false): array
-    {
-        if ($transformValues) {
-            $factor = $toKm ? $this->unitSystem()
-                ->distanceToKmFactor() : $this->unitSystem()
-                ->distanceToPreferredUnitFactor();
-
-            return array_map(function ($val) use ($factor): float {
-                return round($val * $factor, self::PRECISION);
-            }, $values);
-        }
-
-        return array_map(function ($val) {
-            return round($val, self::PRECISION);
-        }, $values);
+        return implode(', ', array_map(
+            fn (float $v): string => (string) round($v * $factor, self::PRECISION),
+            $this->Value
+        ));
     }
 
     public function setValueFromPost()
     {
         if (isset($_POST[$this->Key])) {
-            $this->setValueFromString($_POST[$this->Key], true);
+            $this->setValueFromString($_POST[$this->Key]);
         }
     }
 
@@ -84,7 +85,7 @@ class PluginConfigurationValueDistances extends PluginConfigurationValueArray
      */
     public function getFormField(): ?\FormularField
     {
-        $Field = new FormularInput($this->Key, $this->formLabel(), $this->valueAsString(true));
+        $Field = new FormularInput($this->Key, $this->formLabel(), $this->valueAsString());
         $Field->setSize(FormularInput::$SIZE_FULL_INLINE);
         $Field->addAttribute('maxlength', PluginConfigurationValue::MAXLENGTH);
 

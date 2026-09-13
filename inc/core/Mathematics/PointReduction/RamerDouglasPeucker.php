@@ -9,20 +9,16 @@ namespace Runalyze\Mathematics\PointReduction;
 class RamerDouglasPeucker extends AbstractPointReductionAlgorithm
 {
     /**
-     * @var float
+     * @param float $Epsilon
      */
-    protected $Epsilon;
-
-    /**
-     * @param float $epsilon
-     */
-    public function __construct(array $x, array $y, $epsilon)
-    {
+    public function __construct(
+        array $x,
+        array $y,
+        protected $Epsilon
+    ) {
         if (count($x) !== count($y)) {
             throw new \InvalidArgumentException('Arrays must be of same size.');
         }
-
-        $this->Epsilon = $epsilon;
 
         $this->ReducedIndices = [0, count($x) - 1];
         [$this->ReducedX, $this->ReducedY] = $this->reducePointSet($x, $y);

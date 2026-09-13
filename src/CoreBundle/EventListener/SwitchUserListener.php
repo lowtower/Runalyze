@@ -28,48 +28,24 @@ use Symfony\Component\Security\Http\Event\SwitchUserEvent;
  */
 class SwitchUserListener
 {
-    private TokenStorageInterface $tokenStorage;
-
-    private UserProviderInterface $provider;
-
-    private UserCheckerInterface $userChecker;
-
     private string $providerKey;
 
-    private AccessDecisionManagerInterface $accessDecisionManager;
-
-    private string $usernameParameter;
-
-    private string $role;
-
-    private ?LoggerInterface $logger;
-
-    private ?EventDispatcherInterface $dispatcher;
-
     public function __construct(
-        TokenStorageInterface $tokenStorage,
-        UserProviderInterface $provider,
-        UserCheckerInterface $userChecker,
+        private TokenStorageInterface $tokenStorage,
+        private UserProviderInterface $provider,
+        private UserCheckerInterface $userChecker,
         string $providerKey,
-        AccessDecisionManagerInterface $accessDecisionManager,
-        ?LoggerInterface $logger = null,
-        string $usernameParameter = '_switch_user',
-        string $role = 'ROLE_ADMIN',
-        ?EventDispatcherInterface $dispatcher = null
+        private AccessDecisionManagerInterface $accessDecisionManager,
+        private ?LoggerInterface $logger = null,
+        private string $usernameParameter = '_switch_user',
+        private string $role = 'ROLE_ADMIN',
+        private ?EventDispatcherInterface $dispatcher = null
     ) {
         if (empty($providerKey)) {
             throw new \InvalidArgumentException('$providerKey must not be empty.');
         }
 
-        $this->tokenStorage = $tokenStorage;
-        $this->provider = $provider;
-        $this->userChecker = $userChecker;
         $this->providerKey = $providerKey;
-        $this->accessDecisionManager = $accessDecisionManager;
-        $this->usernameParameter = $usernameParameter;
-        $this->role = $role;
-        $this->logger = $logger;
-        $this->dispatcher = $dispatcher;
     }
 
     public function __invoke(GetResponseEvent $event): void

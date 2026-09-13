@@ -33,21 +33,18 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
     public const URL = 'https://api.darksky.net/forecast/';
 
     /**
-     * @var string
-     */
-    protected $ApiKey;
-
-    /**
      * @var Client
      */
     protected $HttpClient;
 
     /**
-     * @param string $apiKey
+     * @param string $ApiKey
      */
-    public function __construct($apiKey, Client $client, ?LoggerInterface $logger = null)
-    {
-        $this->ApiKey = $apiKey;
+    public function __construct(
+        protected $ApiKey,
+        Client $client,
+        ?LoggerInterface $logger = null
+    ) {
         $this->HttpClient = $client;
         $this->logger = $logger ?: new NullLogger();
     }

@@ -62,14 +62,11 @@ class Temperature
             return null;
         }
 
-        switch ($unit) {
-            case self::FAHRENHEIT:
-                return ($value - 32) / 1.8;
-            case self::KELVIN:
-                return $value - 273.15;
-        }
-
-        return $value;
+        return match ($unit) {
+            self::FAHRENHEIT => ($value - 32) / 1.8,
+            self::KELVIN => $value - 273.15,
+            default => $value,
+        };
     }
 
     /**
@@ -81,14 +78,11 @@ class Temperature
             return null;
         }
 
-        switch ($unit) {
-            case self::FAHRENHEIT:
-                return $value * 1.8 + 32;
-            case self::KELVIN:
-                return $value + 273.15;
-        }
-
-        return $value;
+        return match ($unit) {
+            self::FAHRENHEIT => $value * 1.8 + 32,
+            self::KELVIN => $value + 273.15,
+            default => $value,
+        };
     }
 
     /**
@@ -159,15 +153,11 @@ class Temperature
 
     public function unit(): string
     {
-        switch ($this->unit) {
-            case self::CELSIUS:
-                return '&deg;C';
-            case self::FAHRENHEIT:
-                return '&deg;F';
-            case self::KELVIN:
-                return 'K';
-        }
-
-        return '';
+        return match ($this->unit) {
+            self::CELSIUS => '&deg;C',
+            self::FAHRENHEIT => '&deg;F',
+            self::KELVIN => 'K',
+            default => '',
+        };
     }
 }

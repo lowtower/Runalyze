@@ -99,36 +99,22 @@ class BeaufortScale implements ValueInterface
      */
     public function longString(): string
     {
-        switch ($this->Bft) {
-            case 0:
-                return '0 bft (' . __('Calm') . ')';
-            case 1:
-                return '1 bft (' . __('Light air') . ')';
-            case 2:
-                return '2 bft (' . __('Light breeze') . ')';
-            case 3:
-                return '3 bft (' . __('Gentle breeze') . ')';
-            case 4:
-                return '4 bft (' . __('Moderate breeze') . ')';
-            case 5:
-                return '5 bft (' . __('Fresh breeze') . ')';
-            case 6:
-                return '6 bft (' . __('Strong breeze') . ')';
-            case 7:
-                return '7 bft (' . __('High wind') . ')';
-            case 8:
-                return '8 bft (' . __('Fresh gale') . ')';
-            case 9:
-                return '9 bft (' . __('Strong gale') . ')';
-            case 10:
-                return '10 bft (' . __('Whole gale') . ')';
-            case 11:
-                return '11 bft (' . __('Violent storm') . ')';
-            case 12:
-                return '12 bft (' . __('Hurricane force') . ')';
-            default:
-                return __('unknown');
-        }
+        return match ($this->Bft) {
+            0 => '0 bft (' . __('Calm') . ')',
+            1 => '1 bft (' . __('Light air') . ')',
+            2 => '2 bft (' . __('Light breeze') . ')',
+            3 => '3 bft (' . __('Gentle breeze') . ')',
+            4 => '4 bft (' . __('Moderate breeze') . ')',
+            5 => '5 bft (' . __('Fresh breeze') . ')',
+            6 => '6 bft (' . __('Strong breeze') . ')',
+            7 => '7 bft (' . __('High wind') . ')',
+            8 => '8 bft (' . __('Fresh gale') . ')',
+            9 => '9 bft (' . __('Strong gale') . ')',
+            10 => '10 bft (' . __('Whole gale') . ')',
+            11 => '11 bft (' . __('Violent storm') . ')',
+            12 => '12 bft (' . __('Hurricane force') . ')',
+            default => __('unknown'),
+        };
     }
 
     public function shortString(): string

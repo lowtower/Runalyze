@@ -26,29 +26,19 @@ class Pace
      */
     public const STANDARD = PaceUnitOption::KM_PER_H;
 
-    /**
-     * Time [s]
-     */
-    protected int $Time;
-
-    /**
-     * Distance [km]
-     */
-    protected float $Distance;
-
     protected AbstractUnit $UnitObject;
 
     /**
      * Create pace
-     * @param int $time [s]
-     * @param float $distance [optional] [km]
+     * @param int $Time [s]
+     * @param float $Distance [optional] [km]
      * @param int $legacyPaceUnitEnum [optional]
      */
-    public function __construct(int $time, float $distance = 1.0, int $legacyPaceUnitEnum = self::STANDARD)
-    {
-        $this->Time = $time;
-        $this->Distance = $distance;
-
+    public function __construct(
+        protected int $Time,
+        protected float $Distance = 1.0,
+        int $legacyPaceUnitEnum = self::STANDARD
+    ) {
         $this->setLegacyUnitEnum($legacyPaceUnitEnum);
     }
 

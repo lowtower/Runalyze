@@ -25,21 +25,18 @@ class GenerateJsonData
     /**
      * @var string
      */
-    protected $KernelRootDir;
-
-    /**
-     * @var string
-     */
     protected $Directory;
 
     /**
-     * @param string $kernelRootDir
+     * @param string $KernelRootDir
      */
-    public function __construct(TrainingRepository $trainingRepository, RaceresultRepository $raceresultRepository, $kernelRootDir)
-    {
+    public function __construct(
+        TrainingRepository $trainingRepository,
+        RaceresultRepository $raceresultRepository,
+        protected $KernelRootDir
+    ) {
         $this->TrainingRepository = $trainingRepository;
         $this->RaceresultRepository = $raceresultRepository;
-        $this->KernelRootDir = $kernelRootDir;
     }
 
     public function getPathToJsonFiles(): string

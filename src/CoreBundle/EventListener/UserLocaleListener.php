@@ -15,11 +15,9 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
  */
 class UserLocaleListener
 {
-    private Session $session;
-
-    public function __construct(Session $session)
-    {
-        $this->session = $session;
+    public function __construct(
+        private Session $session
+    ) {
     }
 
     public function onInteractiveLogin(InteractiveLoginEvent $event): void

@@ -11,11 +11,9 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class FileHandler
 {
-    protected string $DataDir;
-
-    public function __construct(string $dataDir)
-    {
-        $this->DataDir = $dataDir;
+    public function __construct(
+        protected string $DataDir
+    ) {
     }
 
     protected function pathToImages(): string
@@ -28,9 +26,7 @@ class FileHandler
         $finder = new Finder();
         $finder->files()
             ->name($account->getId() . '-*')
-            ->sort(function (\SplFileInfo $a, \SplFileInfo $b) {
-                return $b->getMTime() - $a->getMTime();
-            })
+            ->sort(fn (\SplFileInfo $a, \SplFileInfo $b) => $b->getMTime() - $a->getMTime())
             ->in($this->pathToImages());
 
         $list = [];

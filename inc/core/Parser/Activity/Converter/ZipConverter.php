@@ -45,9 +45,7 @@ class ZipConverter implements FileTypeConverterInterface
         $this->tryToOpenArchive($archive, $inputFile);
 
         $inputFileNames = $this->getFileNamesFrom($archive);
-        $outputFileNames = array_map(function ($file) use ($inputFile): string {
-            return $inputFile . '.' . $file;
-        }, $inputFileNames);
+        $outputFileNames = array_map(fn ($file): string => $inputFile . '.' . $file, $inputFileNames);
 
         if ($extractFiles) {
             foreach ($inputFileNames as $i => $currentFile) {
@@ -84,7 +82,7 @@ class ZipConverter implements FileTypeConverterInterface
 
             if (
                 is_array($pathinfo) && isset($pathinfo['dirname']) && isset($pathinfo['extension']) &&
-                $pathinfo['dirname'] == '.' && substr($currentFile, 0, 1) != '.' &&
+                $pathinfo['dirname'] == '.' && ! str_starts_with($currentFile, '.') &&
                 $this->isFileExtensionAllowed($pathinfo['extension'])
             ) {
                 $files[] = $currentFile;

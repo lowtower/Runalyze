@@ -7,16 +7,11 @@ namespace Runalyze\Metrics\HeartRate\Unit;
 class PercentMaximum extends AbstractHeartRateUnitInPercent
 {
     /**
-     * @var int
+     * @param int $MaximalHeartRate
      */
-    protected $MaximalHeartRate;
-
-    /**
-     * @param int $maximalHeartRate
-     */
-    public function __construct($maximalHeartRate)
-    {
-        $this->MaximalHeartRate = $maximalHeartRate;
+    public function __construct(
+        protected $MaximalHeartRate
+    ) {
     }
 
     /**

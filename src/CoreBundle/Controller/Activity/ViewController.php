@@ -29,16 +29,10 @@ class ViewController extends AbstractController
 {
     use AppServiceSubscriberTrait;
 
-    private TokenStorageInterface $tokenStorage;
-
-    private ParameterBagInterface $parameterBag;
-
     public function __construct(
-        TokenStorageInterface $tokenStorage,
-        ParameterBagInterface $parameterBag
+        private TokenStorageInterface $tokenStorage,
+        private ParameterBagInterface $parameterBag
     ) {
-        $this->tokenStorage = $tokenStorage;
-        $this->parameterBag = $parameterBag;
     }
 
     protected function getTrainingRepository(): TrainingRepository

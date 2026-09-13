@@ -69,8 +69,6 @@ class OsmCsvDataCollection
      */
     public function getNames(string $category): array
     {
-        return array_keys(array_filter($this->names, function ($v, $k) use ($category): bool {
-            return $v == $category;
-        }, ARRAY_FILTER_USE_BOTH));
+        return array_keys(array_filter($this->names, fn ($v, $k): bool => $v == $category, ARRAY_FILTER_USE_BOTH));
     }
 }

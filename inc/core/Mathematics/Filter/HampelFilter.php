@@ -31,24 +31,20 @@ class HampelFilter
     protected $WindowWidth;
 
     /**
-     * @var float
-     */
-    protected $SigmaFactor;
-
-    /**
      * @param int $windowWidth window [x[i-w] .. x[i] .. x[i+w]]
-     * @param float $sigmaFactor number of standard deviations a sample must differ from local median
+     * @param float $SigmaFactor number of standard deviations a sample must differ from local median
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct($windowWidth = 3, $sigmaFactor = 3.0)
-    {
+    public function __construct(
+        $windowWidth = 3,
+        protected $SigmaFactor = 3.0
+    ) {
         if (! is_int($windowWidth) || $windowWidth < 1) {
             throw new \InvalidArgumentException('Window width must be a positive integer.');
         }
 
         $this->WindowWidth = $windowWidth;
-        $this->SigmaFactor = $sigmaFactor;
     }
 
     /**
@@ -65,9 +61,7 @@ class HampelFilter
 
         for ($i = $this->WindowWidth; $i < $num - $this->WindowWidth; ++$i) {
             $median = $this->median($slicedData);
-            $sigma = self::STD_ESTIMATE_FACTOR * $this->median(array_map(function ($v) use ($median) {
-                return abs($v - $median);
-            }, $slicedData));
+            $sigma = self::STD_ESTIMATE_FACTOR * $this->median(array_map(fn ($v) => abs($v - $median), $slicedData));
 
             if (abs($inputData[$i] - $median) > $this->SigmaFactor * $sigma) {
                 $correctedData[$i] = $median;

@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 
 #[ORM\Table(name: 'conf')]
-#[ORM\Index(name: 'accountid', columns: ['accountid'])]
+#[ORM\Index(columns: ['accountid'], name: 'accountid')]
 #[ORM\Entity(repositoryClass: ConfRepository::class)]
 class Conf implements AccountRelatedEntityInterface
 {

@@ -10,16 +10,6 @@ namespace Runalyze\Sports\Performance\Model;
 class TsbModel extends AbstractModel
 {
     /**
-     * @var int
-     */
-    protected $DaysForCtl;
-
-    /**
-     * @var int
-     */
-    protected $DaysForAtl;
-
-    /**
      * @var float
      */
     protected $LambdaCTL;
@@ -31,14 +21,14 @@ class TsbModel extends AbstractModel
 
     /**
      * @param array $trimpData array('days back' => 'trimp value')
-     * @param int $daysForCtl
-     * @param int $daysForAtl
+     * @param int $DaysForCtl
+     * @param int $DaysForAtl
      */
-    public function __construct(array $trimpData, $daysForCtl = 42, $daysForAtl = 7)
-    {
-        $this->DaysForCtl = $daysForCtl;
-        $this->DaysForAtl = $daysForAtl;
-
+    public function __construct(
+        array $trimpData,
+        protected $DaysForCtl = 42,
+        protected $DaysForAtl = 7
+    ) {
         $this->LambdaCTL = 2 / ($this->DaysForCtl + 1);
         $this->LambdaATL = 2 / ($this->DaysForAtl + 1);
 

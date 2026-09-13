@@ -8,16 +8,6 @@ use Runalyze\Metrics\Common\UnitInterface;
 class Linear implements UnitInterface, FormattableUnitInterface
 {
     /**
-     * @var string
-     */
-    protected $Appendix;
-
-    /**
-     * @var int
-     */
-    protected $Decimals;
-
-    /**
      * @var callable
      */
     protected $TransformationFromBaseUnit;
@@ -28,15 +18,17 @@ class Linear implements UnitInterface, FormattableUnitInterface
     protected $TransformationToBaseUnit;
 
     /**
-     * @param string $appendix
-     * @param int $decimals
+     * @param string $Appendix
+     * @param int $Decimals
      */
-    public function __construct(callable $transformationFromBaseUnit, callable $transformationToBaseUnit, $appendix = '', $decimals = 0)
-    {
+    public function __construct(
+        callable $transformationFromBaseUnit,
+        callable $transformationToBaseUnit,
+        protected $Appendix = '',
+        protected $Decimals = 0
+    ) {
         $this->TransformationFromBaseUnit = $transformationFromBaseUnit;
         $this->TransformationToBaseUnit = $transformationToBaseUnit;
-        $this->Appendix = $appendix;
-        $this->Decimals = $decimals;
     }
 
     public function getAppendix()

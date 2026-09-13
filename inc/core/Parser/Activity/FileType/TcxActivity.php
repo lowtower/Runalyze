@@ -203,7 +203,7 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
         }
 
         if ($this->DetectPauses && ! $this->IsWithoutDistance) {
-            $noMove = ($this->LastDistance == (float) $trackPoint->DistanceMeters);
+            $noMove = ($this->LastDistance === (float) $trackPoint->DistanceMeters);
             $tooSlow = ! $this->LastPointWasEmpty && $thisBreakInMeter > 0 && ($thisBreakInSeconds / $thisBreakInMeter > 6);
         } else {
             $noMove = false;

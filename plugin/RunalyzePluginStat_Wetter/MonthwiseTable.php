@@ -21,18 +21,6 @@ use Runalyze\Util\Time;
  */
 class MonthwiseTable
 {
-    protected \PDO $PDO;
-
-    /**
-     * @var int
-     */
-    protected $AccountID;
-
-    /**
-     * @var int
-     */
-    protected $EquipmentTypeID;
-
     /**
      * @var string
      */
@@ -54,14 +42,14 @@ class MonthwiseTable
     protected $MonthOffsetForHeader = -1;
 
     /**
-     * @param int $accountId
-     * @param int $equipmentTypeId
+     * @param int $AccountID
+     * @param int $EquipmentTypeID
      */
-    public function __construct(\PDO $pdo, $accountId, $equipmentTypeId = 0)
-    {
-        $this->PDO = $pdo;
-        $this->AccountID = $accountId;
-        $this->EquipmentTypeID = $equipmentTypeId;
+    public function __construct(
+        protected \PDO $PDO,
+        protected $AccountID,
+        protected $EquipmentTypeID = 0
+    ) {
     }
 
     /**

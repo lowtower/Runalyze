@@ -82,15 +82,11 @@ class Pace extends ActivitySeries
         if ($this->paceUnit->isTimeFormat()) {
             $factor = $this->paceUnit->factorForUnit();
 
-            $this->Data = array_map(function ($v) use ($factor) {
-                return ($v == 0) ? 3600 * 1000 : 1000 * round($v * $factor);
-            }, $this->Data);
+            $this->Data = array_map(fn ($v) => ($v == 0) ? 3600 * 1000 : 1000 * round($v * $factor), $this->Data);
         } else {
             $dividend = $this->paceUnit->dividendForUnit();
 
-            $this->Data = array_map(function ($v) use ($dividend) {
-                return ($v == 0) ? 0 : round($dividend / $v, 1);
-            }, $this->Data);
+            $this->Data = array_map(fn ($v) => ($v == 0) ? 0 : round($dividend / $v, 1), $this->Data);
         }
     }
 
@@ -143,7 +139,7 @@ class Pace extends ActivitySeries
         $LimitMin = Configuration::ActivityView()->paceYaxisMinimum();
         $LimitMax = Configuration::ActivityView()->paceYaxisMaximum();
 
-        if (Configuration::ActivityView()->paceAxisType()->valueAsString() == PaceAxisType::AS_SPEED) {
+        if (Configuration::ActivityView()->paceAxisType()->valueAsString() === PaceAxisType::AS_SPEED) {
             $min = $LimitMin->automatic() ? $min : $LimitMin->value() * 1000;
             $max = $LimitMax->automatic() ? $max : $LimitMax->value() * 1000;
 
@@ -198,9 +194,7 @@ class Pace extends ActivitySeries
             $ticks = [120, 180, 240, 300, 360, 480, 600, 3600];
         }
 
-        $ticks = array_map(function ($v): int {
-            return $v * 1000;
-        }, $ticks);
+        $ticks = array_map(fn ($v): int => $v * 1000, $ticks);
 
         $firstIndex = 0;
         $lastIndex = count($ticks) - 1;

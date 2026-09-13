@@ -28,24 +28,15 @@ use Twig\Environment;
  */
 class DefaultController extends AbstractPluginsAwareController
 {
-    private AuthorizationCheckerInterface $authorizationChecker;
-
-    private AuthenticationUtils $authenticationUtils;
-
-    private AccountMailer $accountMailer;
-
     public function __construct(
-        AuthorizationCheckerInterface $authorizationChecker,
-        AuthenticationUtils $authenticationUtils,
+        private AuthorizationCheckerInterface $authorizationChecker,
+        private AuthenticationUtils $authenticationUtils,
         TokenStorageInterface $tokenStorage,
         ParameterBagInterface $parameterBag,
-        AccountMailer $accountMailer
+        private AccountMailer $accountMailer
     ) {
-        $this->authorizationChecker = $authorizationChecker;
-        $this->authenticationUtils = $authenticationUtils;
         $this->tokenStorage = $tokenStorage;
         $this->parameterBag = $parameterBag;
-        $this->accountMailer = $accountMailer;
     }
 
     protected function getAccountRepository(): AccountRepository

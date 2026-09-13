@@ -27,16 +27,14 @@ use Runalyze\Profile\Athlete\Gender;
 class Factor
 {
     /**
-     * Gender
-     */
-    protected int $Gender;
-
-    /**
      * Construct
      */
-    public function __construct(int $Gender)
-    {
-        $this->Gender = $Gender;
+    public function __construct(
+        /**
+         * Gender
+         */
+        protected int $Gender
+    ) {
     }
 
     /**

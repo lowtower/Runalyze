@@ -26,56 +26,23 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class PosterGenerationMessageHandler implements MessageHandlerInterface
 {
-    private LoggerInterface $logger;
-
-    private AccountRepository $accountRepository;
-
-    private SportRepository $sportRepository;
-
-    private NotificationRepository $notificationRepository;
-
-    private GenerateJsonData $generateJsonData;
-
-    private GeneratePoster $generatePoster;
-
-    private FileHandler $fileHandler;
-
-    private AccountMailer $accountMailer;
-
-    private PosterGenerationStateResolver $stateResolver;
-
     private string $dataDir;
 
-    private string $rsvgPath;
-
-    private string $inkscapePath;
-
     public function __construct(
-        LoggerInterface $logger,
-        AccountRepository $accountRepository,
-        SportRepository $sportRepository,
-        NotificationRepository $notificationRepository,
-        GenerateJsonData $generateJsonData,
-        GeneratePoster $generatePoster,
-        FileHandler $posterFileHandler,
-        AccountMailer $accountMailer,
-        PosterGenerationStateResolver $stateResolver,
+        private LoggerInterface $logger,
+        private AccountRepository $accountRepository,
+        private SportRepository $sportRepository,
+        private NotificationRepository $notificationRepository,
+        private GenerateJsonData $generateJsonData,
+        private GeneratePoster $generatePoster,
+        private FileHandler $fileHandler,
+        private AccountMailer $accountMailer,
+        private PosterGenerationStateResolver $stateResolver,
         string $dataDirectory,
-        string $rsvgPath,
-        string $inkscapePath
+        private string $rsvgPath,
+        private string $inkscapePath
     ) {
-        $this->logger = $logger;
-        $this->accountRepository = $accountRepository;
-        $this->sportRepository = $sportRepository;
-        $this->notificationRepository = $notificationRepository;
-        $this->generateJsonData = $generateJsonData;
-        $this->generatePoster = $generatePoster;
-        $this->fileHandler = $posterFileHandler;
-        $this->accountMailer = $accountMailer;
-        $this->stateResolver = $stateResolver;
         $this->dataDir = realpath($dataDirectory);
-        $this->rsvgPath = $rsvgPath;
-        $this->inkscapePath = $inkscapePath;
     }
 
     public function __invoke(PosterGenerationMessage $message): void

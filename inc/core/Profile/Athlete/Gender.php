@@ -29,16 +29,12 @@ class Gender extends AbstractEnum implements InterfaceChoosable
      */
     public static function stringFor(int $id): string
     {
-        switch ($id) {
-            case self::NONE:
-                return __('not set');
-            case self::MALE:
-                return __('male');
-            case self::FEMALE:
-                return __('female');
-            default:
-                throw new \InvalidArgumentException('Invalid gender id "' . $id . '".');
-        }
+        return match ($id) {
+            self::NONE => __('not set'),
+            self::MALE => __('male'),
+            self::FEMALE => __('female'),
+            default => throw new \InvalidArgumentException('Invalid gender id "' . $id . '".'),
+        };
     }
 
     public static function getChoices(): array

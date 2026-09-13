@@ -2,26 +2,11 @@
 
 namespace Runalyze\Calculation\JD;
 
-use PDO;
 use Runalyze\Configuration;
 use Runalyze\Util\LocalTime;
 
 class Shape
 {
-    protected \PDO $PDO;
-
-    /**
-     * @var int
-     */
-    protected $AccountID;
-
-    /**
-     * @var int
-     */
-    protected $RunningID;
-
-    protected \Runalyze\Configuration\Category\VO2max $Configuration;
-
     /**
      * @var null|\Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector
      */
@@ -33,15 +18,15 @@ class Shape
     protected $Value;
 
     /**
-     * @param int $accountid
-     * @param int $sportid for running
+     * @param int $AccountID
+     * @param int $RunningID for running
      */
-    public function __construct(PDO $database, $accountid, $sportid, Configuration\Category\VO2max $config)
-    {
-        $this->PDO = $database;
-        $this->AccountID = $accountid;
-        $this->RunningID = $sportid;
-        $this->Configuration = $config;
+    public function __construct(
+        protected \PDO $PDO,
+        protected $AccountID,
+        protected $RunningID,
+        protected \Runalyze\Configuration\Category\VO2max $Configuration
+    ) {
     }
 
     public function setCorrector(LegacyEffectiveVO2maxCorrector $corrector): void

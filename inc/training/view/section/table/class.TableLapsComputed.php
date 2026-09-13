@@ -41,7 +41,7 @@ class TableLapsComputed extends TableLapsAbstract
         } else {
             try {
                 $Distances = range($singleDistance, $totalDistance, $singleDistance);
-            } catch (\ValueError $valueError) {
+            } catch (\ValueError) {
                 $Distances = [$singleDistance];
             }
         }

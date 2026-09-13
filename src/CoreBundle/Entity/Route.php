@@ -288,8 +288,8 @@ class Route implements AccountRelatedEntityInterface
             throw new \InvalidArgumentException('Latitude and longitude array must be of same length.');
         }
 
-        $latitudes = array_map(function ($value): float { return ($value == '') ? 0.0 : (float) $value; }, $latitudes);
-        $longitudes = array_map(function ($value): float { return ($value == '') ? 0.0 : (float) $value; }, $longitudes);
+        $latitudes = array_map(fn ($value): float => ($value == '') ? 0.0 : (float) $value, $latitudes);
+        $longitudes = array_map(fn ($value): float => ($value == '') ? 0.0 : (float) $value, $longitudes);
 
         $this->areMinMaxSynchronized = false;
         $this->geohashes = [];
@@ -604,7 +604,7 @@ class Route implements AccountRelatedEntityInterface
         $latitudes = array_filter($coordinates[0]);
         $longitudes = array_filter($coordinates[1]);
 
-        if (! empty($latitudes) && ! empty($longitudes)) {
+        if ($latitudes !== [] && $longitudes !== []) {
             $minCoordinate = new Coordinate([min($latitudes), min($longitudes)]);
             $maxCoordinate = new Coordinate([max($latitudes), max($longitudes)]);
 

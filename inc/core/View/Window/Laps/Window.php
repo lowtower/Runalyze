@@ -36,8 +36,6 @@ class Window
      */
     public const HANDMADE_LIMIT_DISTANCE = 0.2;
 
-    protected Context $Context;
-
     protected Laps $Laps;
 
     /**
@@ -72,10 +70,9 @@ class Window
      */
     protected array $ManualTimes = [];
 
-    public function __construct(Context $context)
-    {
-        $this->Context = $context;
-
+    public function __construct(
+        protected Context $Context
+    ) {
         $this->prepareProperties();
         $this->readPropertiesFromRequest();
         $this->constructLaps();

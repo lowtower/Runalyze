@@ -50,18 +50,14 @@ class Monotony
     protected $Value;
 
     /**
-     * @var float|null
-     */
-    protected $MaximumPerDay;
-
-    /**
-     * @param float|null $maximumPerDay
+     * @param float|null $MaximumPerDay
      * @throws \InvalidArgumentException
      */
-    public function __construct(array $trimpData, $maximumPerDay = null)
-    {
+    public function __construct(
+        array $trimpData,
+        protected $MaximumPerDay = null
+    ) {
         $this->Trimp = $trimpData;
-        $this->MaximumPerDay = $maximumPerDay;
     }
 
     public function calculate()

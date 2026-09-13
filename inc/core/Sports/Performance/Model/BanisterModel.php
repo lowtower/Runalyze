@@ -21,39 +21,19 @@ namespace Runalyze\Sports\Performance\Model;
 class BanisterModel extends AbstractModel
 {
     /**
-     * @var int r1 (adaptive)
-     */
-    protected $r1;
-
-    /**
-     * @var int r2 (fatigue)
-     */
-    protected $r2;
-
-    /**
-     * @var int k1 (adaptive)
-     */
-    protected $k1;
-
-    /**
-     * @var int k2 (fatigue)
-     */
-    protected $k2;
-
-    /**
      * @param array $trimpData array('days back' => 'trimp value')
      * @param int $r1
      * @param int $r2
      * @param int $k1
      * @param int $k2
      */
-    public function __construct(array $trimpData, $r1 = 42, $r2 = 7, $k1 = 1, $k2 = 2)
-    {
-        $this->r1 = $r1;
-        $this->r2 = $r2;
-        $this->k1 = $k1;
-        $this->k2 = $k2;
-
+    public function __construct(
+        array $trimpData,
+        protected $r1 = 42,
+        protected $r2 = 7,
+        protected $k1 = 1,
+        protected $k2 = 2
+    ) {
         parent::__construct($trimpData);
     }
 

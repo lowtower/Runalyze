@@ -16,23 +16,19 @@ class Select extends \Runalyze\Parameter
     protected bool $UseFallback = true;
 
     /**
-     * @var mixed
-     */
-    protected $Default;
-
-    /**
      * Construct
-     * @param string $default
+     * @param string $Default
      * @param array $options [optional]
      */
-    public function __construct($default, array $options = [])
-    {
-        $this->Default = $default;
+    public function __construct(
+        protected $Default,
+        array $options = []
+    ) {
         $options = array_merge([
             'options' => [],
         ], $options);
 
-        parent::__construct($default, $options);
+        parent::__construct($this->Default, $options);
     }
 
     /**

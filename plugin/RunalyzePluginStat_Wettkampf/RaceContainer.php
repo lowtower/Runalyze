@@ -32,18 +32,14 @@ class RaceContainer
     protected \PDO $PDO;
 
     /**
-     * @var int
-     */
-    protected $SportId;
-
-    /**
      * @param PDO $pdo [optional]
-     * @param int $sportId
+     * @param int $SportId
      */
-    public function __construct($sportId, ?PDO $pdo = null)
-    {
+    public function __construct(
+        protected $SportId,
+        ?PDO $pdo = null
+    ) {
         $this->PDO = ($pdo instanceof \PDO) ? $pdo : DB::getInstance();
-        $this->SportId = $sportId;
     }
 
     public function fetchData(): void

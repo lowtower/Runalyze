@@ -21,22 +21,12 @@ class MailingCommand extends Command
 {
     protected string $customMailDirectory = '/mail/custom/';
 
-    private ParameterBagInterface $parameterBag;
-
-    private AccountMailer $mailer;
-
-    private ManagerRegistry $doctrine;
-
     public function __construct(
-        ParameterBagInterface $parameterBag,
-        AccountMailer $mailer,
-        ManagerRegistry $doctrine
+        private ParameterBagInterface $parameterBag,
+        private AccountMailer $mailer,
+        private ManagerRegistry $doctrine
     ) {
         parent::__construct();
-
-        $this->parameterBag = $parameterBag;
-        $this->mailer = $mailer;
-        $this->doctrine = $doctrine;
     }
 
     protected function configure()
@@ -170,9 +160,7 @@ class MailingCommand extends Command
     {
         return array_reduce(
             $lang,
-            function (bool $state, $value): bool {
-                return $state && ctype_alpha($value);
-            },
+            fn (bool $state, $value): bool => $state && ctype_alpha($value),
             true
         );
     }
@@ -181,9 +169,7 @@ class MailingCommand extends Command
     {
         return array_reduce(
             $accountIds,
-            function (bool $state, $value): bool {
-                return $state && ctype_digit($value);
-            },
+            fn (bool $state, $value): bool => $state && ctype_digit($value),
             true
         );
     }

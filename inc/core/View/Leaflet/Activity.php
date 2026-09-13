@@ -90,19 +90,19 @@ class Activity extends LeafletRoute
     protected $PathShouldBreak = false;
 
     /**
-     * Boolean flag: add icons and info
-     * @var bool
-     */
-    protected $addIconsAndInfo = true;
-
-    /**
      * Construct new route
      * @param \Runalyze\Model\Trackdata\Entity $trackdata [optional]
      * @param bool $addIconsAndInfo [optional]
      * @throws \InvalidArgumentException
      */
-    public function __construct(string $id, Route\Entity $route, ?Trackdata\Entity $trackdata = null, $addIconsAndInfo = true)
-    {
+    public function __construct(
+        string $id,
+        Route\Entity $route,
+        ?Trackdata\Entity $trackdata = null, /**
+     * Boolean flag: add icons and info
+     */
+        protected $addIconsAndInfo = true
+    ) {
         parent::__construct($id);
 
         if (! $route->hasPositionData()) {
@@ -111,7 +111,6 @@ class Activity extends LeafletRoute
 
         $this->Route = $route;
         $this->Trackdata = $trackdata;
-        $this->addIconsAndInfo = $addIconsAndInfo;
 
         $this->addOption('options', [
             'color' => '#FF5500',

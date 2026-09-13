@@ -94,9 +94,7 @@ class BSplineInterpolation
         }
 
         if ($this->Dimension === 1) {
-            $points = array_map(function ($v): array {
-                return [$v];
-            }, $points);
+            $points = array_map(fn ($v): array => [$v], $points);
         }
 
         $this->Points = $points;
@@ -146,9 +144,7 @@ class BSplineInterpolation
         }
 
         if (is_array($t)) {
-            return array_map(function ($v) {
-                return $this->evaluateAt($v);
-            }, $t);
+            return array_map(fn ($v) => $this->evaluateAt($v), $t);
         }
 
         $t = $this->remapPartialValue($t);

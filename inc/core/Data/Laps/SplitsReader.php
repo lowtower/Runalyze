@@ -17,11 +17,9 @@ use Runalyze\Model\Activity\Splits;
  */
 class SplitsReader
 {
-    protected Laps $Laps;
-
-    public function __construct(Laps $object)
-    {
-        $this->Laps = $object;
+    public function __construct(
+        protected Laps $Laps
+    ) {
     }
 
     public function readFrom(Splits\Entity $Splits)

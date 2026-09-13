@@ -255,24 +255,16 @@ class ActivityData
 
     public function completeTotalValuesFromContinuousData(ContinuousData $data)
     {
-        if ($this->Duration === null) {
-            $this->Duration = $data->getTotalDuration();
-        }
+        $this->Duration ??= $data->getTotalDuration();
 
-        if ($this->Distance === null) {
-            $this->Distance = $data->getTotalDistance();
-        }
+        $this->Distance ??= $data->getTotalDistance();
     }
 
     public function completeMaximalValuesFromContinuousData(ContinuousData $data)
     {
-        if ($this->MaxHeartRate === null) {
-            $this->MaxHeartRate = $data->getMaximalHeartRate();
-        }
+        $this->MaxHeartRate ??= $data->getMaximalHeartRate();
 
-        if ($this->MaxPower === null) {
-            $this->MaxPower = $data->getMaximalPower();
-        }
+        $this->MaxPower ??= $data->getMaximalPower();
     }
 
     public function completeAverageValuesFromContinuousData(ContinuousData $data, RoundCollection $rounds)
@@ -301,7 +293,7 @@ class ActivityData
                     Trackdata\Entity::PRONATION_EXCURSION_RIGHT,
                 ]
             );
-        } catch (\InvalidArgumentException $invalidArgumentException) {
+        } catch (\InvalidArgumentException) {
             return;
         }
 
@@ -324,67 +316,39 @@ class ActivityData
 
     public function completeStandardAverageValuesFromAverages(TrackdataAverages $averages)
     {
-        if ($this->AvgPower === null) {
-            $this->AvgPower = $averages->average(Trackdata\Entity::POWER);
-        }
+        $this->AvgPower ??= $averages->average(Trackdata\Entity::POWER);
 
-        if ($this->AvgHeartRate === null) {
-            $this->AvgHeartRate = $averages->average(Trackdata\Entity::HEARTRATE);
-        }
+        $this->AvgHeartRate ??= $averages->average(Trackdata\Entity::HEARTRATE);
 
-        if ($this->AvgCadence === null) {
-            $this->AvgCadence = $averages->average(Trackdata\Entity::CADENCE);
-        }
+        $this->AvgCadence ??= $averages->average(Trackdata\Entity::CADENCE);
     }
 
     public function completeRunningDynamicsAverageValuesFromAverages(TrackdataAverages $averages)
     {
-        if ($this->AvgGroundContactTime === null) {
-            $this->AvgGroundContactTime = $averages->average(Trackdata\Entity::GROUNDCONTACT);
-        }
+        $this->AvgGroundContactTime ??= $averages->average(Trackdata\Entity::GROUNDCONTACT);
 
-        if ($this->AvgVerticalOscillation === null) {
-            $this->AvgVerticalOscillation = $averages->average(Trackdata\Entity::VERTICAL_OSCILLATION);
-        }
+        $this->AvgVerticalOscillation ??= $averages->average(Trackdata\Entity::VERTICAL_OSCILLATION);
 
-        if ($this->AvgGroundContactBalance === null) {
-            $this->AvgGroundContactBalance = $averages->average(Trackdata\Entity::GROUNDCONTACT_BALANCE);
-        }
+        $this->AvgGroundContactBalance ??= $averages->average(Trackdata\Entity::GROUNDCONTACT_BALANCE);
     }
 
     public function completeRunScribeDataAverageValuesFromAverages(TrackdataAverages $averages)
     {
-        if ($this->AvgImpactGsLeft === null) {
-            $this->AvgImpactGsLeft = $averages->average(Trackdata\Entity::IMPACT_GS_LEFT);
-        }
+        $this->AvgImpactGsLeft ??= $averages->average(Trackdata\Entity::IMPACT_GS_LEFT);
 
-        if ($this->AvgImpactGsRight === null) {
-            $this->AvgImpactGsRight = $averages->average(Trackdata\Entity::IMPACT_GS_RIGHT);
-        }
+        $this->AvgImpactGsRight ??= $averages->average(Trackdata\Entity::IMPACT_GS_RIGHT);
 
-        if ($this->AvgBrakingGsLeft === null) {
-            $this->AvgBrakingGsLeft = $averages->average(Trackdata\Entity::BRAKING_GS_LEFT);
-        }
+        $this->AvgBrakingGsLeft ??= $averages->average(Trackdata\Entity::BRAKING_GS_LEFT);
 
-        if ($this->AvgBrakingGsRight === null) {
-            $this->AvgBrakingGsRight = $averages->average(Trackdata\Entity::BRAKING_GS_RIGHT);
-        }
+        $this->AvgBrakingGsRight ??= $averages->average(Trackdata\Entity::BRAKING_GS_RIGHT);
 
-        if ($this->AvgFootstrikeTypeLeft === null) {
-            $this->AvgFootstrikeTypeLeft = $averages->average(Trackdata\Entity::FOOTSTRIKE_TYPE_LEFT);
-        }
+        $this->AvgFootstrikeTypeLeft ??= $averages->average(Trackdata\Entity::FOOTSTRIKE_TYPE_LEFT);
 
-        if ($this->AvgFootstrikeTypeRight === null) {
-            $this->AvgFootstrikeTypeRight = $averages->average(Trackdata\Entity::FOOTSTRIKE_TYPE_RIGHT);
-        }
+        $this->AvgFootstrikeTypeRight ??= $averages->average(Trackdata\Entity::FOOTSTRIKE_TYPE_RIGHT);
 
-        if ($this->AvgPronationExcursionLeft === null) {
-            $this->AvgPronationExcursionLeft = $averages->average(Trackdata\Entity::PRONATION_EXCURSION_LEFT);
-        }
+        $this->AvgPronationExcursionLeft ??= $averages->average(Trackdata\Entity::PRONATION_EXCURSION_LEFT);
 
-        if ($this->AvgPronationExcursionRight === null) {
-            $this->AvgPronationExcursionRight = $averages->average(Trackdata\Entity::PRONATION_EXCURSION_RIGHT);
-        }
+        $this->AvgPronationExcursionRight ??= $averages->average(Trackdata\Entity::PRONATION_EXCURSION_RIGHT);
     }
 
     public function completeFromPauses(PauseCollection $pauses)
@@ -397,13 +361,8 @@ class ActivityData
     public function completeFromRounds(RoundCollection $rounds)
     {
         if (! $rounds->isEmpty()) {
-            if ($this->Duration === null) {
-                $this->Duration = $rounds->getTotalDuration();
-            }
-
-            if ($this->Distance === null) {
-                $this->Distance = $rounds->getTotalDistance();
-            }
+            $this->Duration ??= $rounds->getTotalDuration();
+            $this->Distance ??= $rounds->getTotalDistance();
         }
     }
 }

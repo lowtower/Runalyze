@@ -333,9 +333,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
         $type_data = $this->EmptyData;
 
         foreach ($result as $dat) {
-            if (! isset($type_data[$dat['typeid']])) {
-                $type_data[$dat['typeid']] = [];
-            }
+            $type_data[$dat['typeid']] ??= [];
 
             $type_data[$dat['typeid']][$dat['timer']] = [
                 'num' => $dat['num'],
@@ -398,8 +396,8 @@ class RunalyzePluginStat_Analyse extends PluginStat
             if (! empty($MinMax)) {
                 $speed_min = round((float) $MinMax['max']);
                 $speed_max = round((float) $MinMax['min']);
-                $speed_step = ($speed_min == $speed_max) ? 1 : max(1, (int) round(($speed_min - $speed_max) / 10));
-                $ceil_corr = ($speed_min == $speed_max) ? 1 : $speed_min % $speed_step;
+                $speed_step = ($speed_min === $speed_max) ? 1 : max(1, (int) round(($speed_min - $speed_max) / 10));
+                $ceil_corr = ($speed_min === $speed_max) ? 1 : $speed_min % $speed_step;
             }
         }
 
@@ -531,17 +529,13 @@ class RunalyzePluginStat_Analyse extends PluginStat
      */
     private function setGroupData(array &$data, array &$result): void
     {
-        if (! isset($data[$result['group']])) {
-            $data[$result['group']] = [];
-        }
+        $data[$result['group']] ??= [];
 
-        if (! isset($data[$result['group']][$result['timer']])) {
-            $data[$result['group']][$result['timer']] = [
-                'num' => 0,
-                'distance' => 0,
-                's' => 0,
-            ];
-        }
+        $data[$result['group']][$result['timer']] ??= [
+            'num' => 0,
+            'distance' => 0,
+            's' => 0,
+        ];
 
         $data[$result['group']][$result['timer']]['num'] += $result['num'];
         $data[$result['group']][$result['timer']]['distance'] += $result['distance'];

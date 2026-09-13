@@ -32,10 +32,6 @@ class Query
      */
     protected $Configuration;
 
-    protected \PDO $PDO;
-
-    protected int $AccountID;
-
     protected bool $ShowOnlyPublicActivites = false;
 
     protected array $AdditionalColumns = [];
@@ -45,11 +41,12 @@ class Query
      */
     protected array $JoinTables = [];
 
-    public function __construct(Configuration $configuration, \PDO $pdo, int $accountID)
-    {
+    public function __construct(
+        Configuration $configuration,
+        protected \PDO $PDO,
+        protected int $AccountID
+    ) {
         $this->Configuration = $configuration;
-        $this->PDO = $pdo;
-        $this->AccountID = $accountID;
     }
 
     public function showOnlyPublicActivities(bool $flag = true)

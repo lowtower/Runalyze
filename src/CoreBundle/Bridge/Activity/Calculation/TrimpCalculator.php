@@ -10,23 +10,13 @@ use Runalyze\Calculation\Trimp\DataCollector;
 class TrimpCalculator
 {
     /**
-     * @var int
+     * @param int $MaximalTrimp
+     * @param int $MaximalTrimpPerHour
      */
-    protected $MaximalTrimp;
-
-    /**
-     * @var int
-     */
-    protected $MaximalTrimpPerHour;
-
-    /**
-     * @param int $maximalTrimp
-     * @param int $maximalTrimpPerHour
-     */
-    public function __construct($maximalTrimp = 10000, $maximalTrimpPerHour = 400)
-    {
-        $this->MaximalTrimp = $maximalTrimp;
-        $this->MaximalTrimpPerHour = $maximalTrimpPerHour;
+    public function __construct(
+        protected $MaximalTrimp = 10000,
+        protected $MaximalTrimpPerHour = 400
+    ) {
     }
 
     /**

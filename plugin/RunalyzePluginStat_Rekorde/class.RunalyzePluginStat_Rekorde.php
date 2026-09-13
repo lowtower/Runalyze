@@ -138,7 +138,7 @@ class RunalyzePluginStat_Rekorde extends PluginStat
         echo '<thead><tr><th colspan="11" class="l">' . __('Most kilometers') . '</th></tr></thead>';
         echo '<tbody>';
 
-        if (empty($this->weeks)) {
+        if ($this->weeks === []) {
             echo '<tr><td colspan="11"><em>' . __('No data available') . '</em></td></tr>';
             echo HTML::spaceTR(11);
             echo '</tbody>';

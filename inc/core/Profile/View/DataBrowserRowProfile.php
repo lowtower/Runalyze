@@ -29,16 +29,12 @@ class DataBrowserRowProfile extends AbstractEnum implements InterfaceChoosable
      */
     public static function stringFor($id): string
     {
-        switch ($id) {
-            case self::COMPLETE_ROW:
-                return __('complete row');
-            case self::ONLY_ICON:
-                return __('only icon');
-            case self::INHERIT_FROM_PARENT:
-                return __('Inherit from sport');
-            default:
-                throw new \InvalidArgumentException('Invalid databrowser row id "' . $id . '".');
-        }
+        return match ($id) {
+            self::COMPLETE_ROW => __('complete row'),
+            self::ONLY_ICON => __('only icon'),
+            self::INHERIT_FROM_PARENT => __('Inherit from sport'),
+            default => throw new \InvalidArgumentException('Invalid databrowser row id "' . $id . '".'),
+        };
     }
 
     public static function getChoices(): array

@@ -48,9 +48,9 @@ class ServerParams
 
         $max = ltrim($iniMax, '+');
 
-        if (strpos($max, '0x') === 0) {
+        if (str_starts_with($max, '0x')) {
             $max = intval($max, 16);
-        } elseif (strpos($max, '0') === 0) {
+        } elseif (str_starts_with($max, '0')) {
             $max = intval($max, 8);
         } else {
             $max = (int) $max;
