@@ -4,43 +4,35 @@ namespace Runalyze\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="plugin_conf", indexes={@ORM\Index(name="pluginid", columns={"pluginid"})})
- * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\PluginConfRepository")
- */
+#[ORM\Table(name: 'plugin_conf')]
+#[ORM\Index(name: 'pluginid', columns: ['pluginid'])]
+#[ORM\Entity(repositoryClass: PluginConfRepository::class)]
 class PluginConf
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Column(name: 'id', type: 'integer', nullable: false, options: [
+        'unsigned' => true,
+    ])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private ?int $id = null;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="config", type="string", length=100, nullable=false)
      */
+    #[ORM\Column(name: 'config', type: 'string', length: 100, nullable: false)]
     private $config;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="value", type="string", length=255, nullable=false)
      */
+    #[ORM\Column(name: 'value', type: 'string', length: 255, nullable: false)]
     private $value;
 
     /**
      * @var Plugin
-     *
-     * @ORM\ManyToOne(targetEntity="Plugin")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="pluginid", referencedColumnName="id", nullable=false)
-     * })
      */
+    #[ORM\JoinColumn(name: 'pluginid', referencedColumnName: 'id', nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \Plugin::class)]
     private $plugin;
 
     /**

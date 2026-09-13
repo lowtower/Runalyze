@@ -6,10 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Parser\Activity\Common\Data\WeatherData;
 use Runalyze\Service\WeatherForecast\Location;
 
-/**
- * @ORM\Table(name="weathercache")
- * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\WeathercacheRepository")
- */
+#[ORM\Table(name: 'weathercache')]
+#[ORM\Entity(repositoryClass: WeathercacheRepository::class)]
 class Weathercache
 {
     /**
@@ -22,71 +20,68 @@ class Weathercache
      */
     public const GEOHASH_PRECISION_LOOKUP = 4;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="geohash", type="string", length=5, nullable=false, options={"fixed"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $geohash = '';
+    #[ORM\Column(name: 'geohash', type: 'string', length: 5, nullable: false, options: [
+        'fixed' => true,
+    ])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
+    private string $geohash = '';
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="time", type="integer", precision=11, nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $time;
+    #[ORM\Column(name: 'time', type: 'integer', precision: 11, nullable: false)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
+    private ?int $time = null;
 
     /**
      * @var int|null [°C]
-     *
-     * @ORM\Column(name="temperature", type="tinyint", nullable=true)
      */
+    #[ORM\Column(name: 'temperature', type: 'tinyint', nullable: true)]
     private $temperature;
 
     /**
      * @var int|null [km/h]
-     *
-     * @ORM\Column(name="wind_speed", type="tinyint", nullable=true, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'wind_speed', type: 'tinyint', nullable: true, options: [
+        'unsigned' => true,
+    ])]
     private $windSpeed;
 
     /**
      * @var int|null [°]
-     *
-     * @ORM\Column(name="wind_deg", type="smallint", precision=3, nullable=true, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'wind_deg', type: 'smallint', precision: 3, nullable: true, options: [
+        'unsigned' => true,
+    ])]
     private $windDeg;
 
     /**
      * @var int|null [%]
-     *
-     * @ORM\Column(name="humidity", type="tinyint", nullable=true, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'humidity', type: 'tinyint', nullable: true, options: [
+        'unsigned' => true,
+    ])]
     private $humidity;
 
     /**
      * @var int [hPa]
-     *
-     * @ORM\Column(name="pressure", type="smallint", precision=4, nullable=true, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'pressure', type: 'smallint', precision: 4, nullable: true, options: [
+        'unsigned' => true,
+    ])]
     private $pressure;
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="weatherid", type="smallint", nullable=false)
      */
+    #[ORM\Column(name: 'weatherid', type: 'smallint', nullable: false)]
     private $weatherid = 1;
 
     /**
      * @var int|null
-     *
-     * @ORM\Column(name="weather_source", type="tinyint", nullable=true, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'weather_source', type: 'tinyint', nullable: true, options: [
+        'unsigned' => true,
+    ])]
     private $weatherSource;
 
     /**

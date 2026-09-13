@@ -15,11 +15,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="account", uniqueConstraints={@ORM\UniqueConstraint(name="username", columns={"username"}), @ORM\UniqueConstraint(name="mail", columns={"mail"})})
- * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\AccountRepository")
  * @UniqueEntity("mail", message="This mail address is already in use")
  * @UniqueEntity("username", message="This username is already in use")
  */
+#[ORM\Table(name: 'account')]
+#[ORM\UniqueConstraint(name: 'username', columns: ['username'])]
+#[ORM\UniqueConstraint(name: 'mail', columns: ['mail'])]
+#[ORM\Entity(repositoryClass: AccountRepository::class)]
 class Account implements UserInterface, \Serializable, IdentifiableEntityInterface
 {
     /**
@@ -30,13 +32,12 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
      */
     private string $plainPassword;
 
-    /**
-     * @var int
-     * @ORM\Column(name="id", type="integer", precision=10, unique=true, nullable=false, options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Column(name: 'id', type: 'integer', precision: 10, unique: true, nullable: false, options: [
+        'unsigned' => true,
+    ])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private ?int $id = null;
 
     /**
      * @Assert\NotBlank(message="You need to enter a username.")
@@ -50,13 +51,13 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
      *     match=false,
      *     message="Besides digits and letters, only the following characters are allowed: . _ -"
      * )
-     * @ORM\Column(name="username", type="string", length=60, nullable=false, unique=true)
      */
+    #[ORM\Column(name: 'username', type: 'string', length: 60, nullable: false, unique: true)]
     private string $username = '';
 
-    /**
-     * @ORM\Column(name="name", type="string", length=50, options={"default"=""})
-     */
+    #[ORM\Column(name: 'name', type: 'string', length: 50, options: [
+        'default' => '',
+    ])]
     private string $name = '';
 
     /**
@@ -65,14 +66,16 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
      *     message="The email '{{ value }}' is not a valid email.",
      * )
      * @RunalyzeAssert\ContainsDisposableMailAddress()
-     * @ORM\Column(name="mail", type="string", length=100, nullable=false)
      */
+    #[ORM\Column(name: 'mail', type: 'string', length: 100, nullable: false)]
     private string $mail;
 
     /**
      * @Assert\NotBlank()
-     * @ORM\Column(name="language", type="string", length=5, nullable=false, options={"default"="en"})
      */
+    #[ORM\Column(name: 'language', type: 'string', length: 5, nullable: false, options: [
+        'default' => 'en',
+    ])]
     private string $language = 'en';
 
     /**
@@ -80,110 +83,115 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
      * @Assert\NotBlank()
      * @Assert\Type("int")
      * @RunalyzeAssert\IsValidTimezone()
-     * @ORM\Column(name="timezone", type="smallint", nullable=false, options={"unsigned"=true, "default"=0})
      */
+    #[ORM\Column(name: 'timezone', type: 'smallint', nullable: false, options: [
+        'unsigned' => true,
+        'default' => 0,
+    ])]
     private int $timezone = Timezone::UTC;
 
     /**
-     * @var int enum, see \Runalyze\Profile\Athlete\Gender
+     * @var ?int enum, see \Runalyze\Profile\Athlete\Gender
      * @Assert\Type("int")
-     * @ORM\Column(name="gender", type="tinyint", nullable=true, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'gender', type: 'tinyint', nullable: true, options: [
+        'unsigned' => true,
+    ])]
     private ?int $gender = Gender::NONE;
 
     /**
      * @Assert\Type("int")
-     * @ORM\Column(name="birthyear", type="smallint", nullable=true, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'birthyear', type: 'smallint', nullable: true, options: [
+        'unsigned' => true,
+    ])]
     private ?int $birthyear = null;
 
-    /**
-     * @ORM\Column(name="password", type="string", length=64, nullable=false, options={"default"=""})
-     */
+    #[ORM\Column(name: 'password', type: 'string', length: 64, nullable: false, options: [
+        'default' => '',
+    ])]
     private string $password = '';
 
-    /**
-     * @ORM\Column(name="salt", type="string", length=64, nullable=false, options={"fixed"=true, "default"=""})
-     */
+    #[ORM\Column(name: 'salt', type: 'string', length: 64, nullable: false, options: [
+        'fixed' => true,
+        'default' => '',
+    ])]
     private string $salt = '';
 
     /**
      * @var int|null [timestamp]
      * @Assert\Type("int")
-     * @ORM\Column(name="registerdate", type="integer", nullable=true, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'registerdate', type: 'integer', nullable: true, options: [
+        'unsigned' => true,
+    ])]
     private ?int $registerdate = null;
 
     /**
      * @var int|null [timestmap]
      * @Assert\Type("int")
-     * @ORM\Column(name="lastaction", type="integer", nullable=true, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'lastaction', type: 'integer', nullable: true, options: [
+        'unsigned' => true,
+    ])]
     private ?int $lastaction = null;
 
-    /**
-     * @ORM\Column(name="changepw_hash", type="string", length=32, nullable=true, options={"fixed"=true})
-     */
+    #[ORM\Column(name: 'changepw_hash', type: 'string', length: 32, nullable: true, options: [
+        'fixed' => true,
+    ])]
     private ?string $changepwHash = null;
 
     /**
      * @var int|null [timestamp]
-     *
-     * @ORM\Column(name="changepw_timelimit", type="integer", nullable=true, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'changepw_timelimit', type: 'integer', nullable: true, options: [
+        'unsigned' => true,
+    ])]
     private ?int $changepwTimelimit = null;
 
-    /**
-     * @ORM\Column(name="activation_hash", type="string", length=32, nullable=true, options={"fixed"=true})
-     */
+    #[ORM\Column(name: 'activation_hash', type: 'string', length: 32, nullable: true, options: [
+        'fixed' => true,
+    ])]
     private ?string $activationHash = null;
 
-    /**
-     * @ORM\Column(name="deletion_hash", type="string", length=32, nullable=true, options={"fixed"=true})
-     */
+    #[ORM\Column(name: 'deletion_hash', type: 'string', length: 32, nullable: true, options: [
+        'fixed' => true,
+    ])]
     private ?string $deletionHash = null;
 
     /**
      * @Assert\Type("bool")
-     * @ORM\Column(name="allow_mails", type="boolean")
      */
+    #[ORM\Column(name: 'allow_mails', type: 'boolean')]
     private bool $allowMails = true;
 
     /**
      * @Assert\Type("bool")
-     * @ORM\Column(name="allow_support", type="boolean")
      */
+    #[ORM\Column(name: 'allow_support', type: 'boolean')]
     private bool $allowSupport = false;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Sport", mappedBy="account", cascade={"persist"}, fetch="EXTRA_LAZY")
-     */
+    #[ORM\OneToMany(targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Sport::class, mappedBy: 'account', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected Collection $sports;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Type", mappedBy="account", cascade={"persist"}, fetch="EXTRA_LAZY")
-     */
+    #[ORM\OneToMany(targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Type::class, mappedBy: 'account', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected Collection $activityTypes;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Tag", mappedBy="account", cascade={"persist"}, fetch="EXTRA_LAZY")
-     * @ORM\OrderBy({"tag"="ASC"})
-     */
+    #[ORM\OneToMany(targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Tag::class, mappedBy: 'account', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    #[ORM\OrderBy([
+        'tag' => 'ASC',
+    ])]
     protected Collection $tags;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Equipment", mappedBy="account", cascade={"persist"}, fetch="EXTRA_LAZY")
-     */
+    #[ORM\OneToMany(targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Equipment::class, mappedBy: 'account', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected Collection $equipment;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Runalyze\Bundle\CoreBundle\Entity\EquipmentType", mappedBy="account", cascade={"persist"}, fetch="EXTRA_LAZY")
-     */
+    #[ORM\OneToMany(targetEntity: \Runalyze\Bundle\CoreBundle\Entity\EquipmentType::class, mappedBy: 'account', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected Collection $equipmentTypes;
 
-    /**
-     * @ORM\Column(name="role", type="tinyint", nullable=true, options={"unsigned"=true})
-     */
+    #[ORM\Column(name: 'role', type: 'tinyint', nullable: true, options: [
+        'unsigned' => true,
+    ])]
     private ?int $role = UserRole::ROLE_USER;
 
     public function __construct()

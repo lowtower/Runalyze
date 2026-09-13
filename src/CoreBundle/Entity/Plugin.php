@@ -5,10 +5,8 @@ namespace Runalyze\Bundle\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 
-/**
- * @ORM\Table(name="plugin")
- * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\PluginRepository")
- */
+#[ORM\Table(name: 'plugin')]
+#[ORM\Entity(repositoryClass: PluginRepository::class)]
 class Plugin implements AccountRelatedEntityInterface
 {
     /**
@@ -36,50 +34,48 @@ class Plugin implements AccountRelatedEntityInterface
      */
     public const TYPE_PANEL = 'panel';
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Column(name: 'id', type: 'integer', options: [
+        'unsigned' => true,
+    ])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private ?int $id = null;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="`key`", type="string", length=100, nullable=false)
      */
+    #[ORM\Column(name: '`key`', type: 'string', length: 100, nullable: false)]
     private $key;
 
     /**
      * @var string
-     * @ORM\Column(name="type", type="string", length=5, nullable=false, options={"default"="stat"})
      */
+    #[ORM\Column(name: 'type', type: 'string', length: 5, nullable: false, options: [
+        'default' => 'stat',
+    ])]
     private $type = 'stat';
 
     /**
      * @var int 0: inactive, 1: active, 2: hidden/misc
-     *
-     * @ORM\Column(name="active", type="tinyint", options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'active', type: 'tinyint', options: [
+        'unsigned' => true,
+    ])]
     private $active = 1;
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="`order`", type="tinyint", options={"unsigned"=true})
      */
+    #[ORM\Column(name: '`order`', type: 'tinyint', options: [
+        'unsigned' => true,
+    ])]
     private $order = 0;
 
     /**
      * @var \Runalyze\Bundle\CoreBundle\Entity\Account
-     *
-     * @ORM\ManyToOne(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Account")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
-     * })
      */
+    #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Account::class)]
     private $account;
 
     /**

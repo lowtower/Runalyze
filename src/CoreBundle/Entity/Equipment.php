@@ -8,110 +8,92 @@ use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Common\IdentifiableEntityInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Common\NamedEntityInterface;
 
-/**
- * @ORM\Table(name="equipment")
- * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\EquipmentRepository")
- */
+#[ORM\Table(name: 'equipment')]
+#[ORM\Entity(repositoryClass: EquipmentRepository::class)]
 class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, AccountRelatedEntityInterface
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Column(name: 'id', type: 'integer', options: [
+        'unsigned' => true,
+    ])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private ?int $id = null;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=50, nullable=false)
      */
+    #[ORM\Column(name: 'name', type: 'string', length: 50, nullable: false)]
     private $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="notes", type="text", length=255, nullable=false)
      */
+    #[ORM\Column(name: 'notes', type: 'text', length: 255, nullable: false)]
     private $notes = '';
 
     /**
      * @var float [km]
-     *
-     * @ORM\Column(name="distance", type="casted_decimal_2", precision=8, scale=2, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'distance', type: 'casted_decimal_2', precision: 8, scale: 2, options: [
+        'unsigned' => true,
+    ])]
     private $distance = 0.00;
 
     /**
      * @var int [s]
-     *
-     * @ORM\Column(name="time", type="integer", nullable=false, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'time', type: 'integer', nullable: false, options: [
+        'unsigned' => true,
+    ])]
     private $time = 0;
 
     /**
      * @var int [km]
-     *
-     * @ORM\Column(name="additional_km", type="smallint", nullable=false, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'additional_km', type: 'smallint', nullable: false, options: [
+        'unsigned' => true,
+    ])]
     private $additionalKm = 0;
 
     /**
      * @var null|\DateTime
-     *
-     * @ORM\Column(name="date_start", type="date", nullable=true)
      */
+    #[ORM\Column(name: 'date_start', type: 'date', nullable: true)]
     private $dateStart;
 
     /**
      * @var null|\DateTime
-     *
-     * @ORM\Column(name="date_end", type="date", nullable=true)
      */
+    #[ORM\Column(name: 'date_end', type: 'date', nullable: true)]
     private $dateEnd;
 
     /**
      * @var EquipmentType
-     *
-     * @ORM\ManyToOne(targetEntity="Runalyze\Bundle\CoreBundle\Entity\EquipmentType", inversedBy="equipment")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="typeid", referencedColumnName="id", nullable=false)
-     * })
      */
+    #[ORM\JoinColumn(name: 'typeid', referencedColumnName: 'id', nullable: false)]
+    #[ORM\ManyToOne(targetEntity: EquipmentType::class, inversedBy: 'equipment')]
     private $type;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Sport", inversedBy="equipment")
-     * @ORM\JoinTable(name="equipment_to_sport",
-     *     joinColumns={
-     *         @ORM\JoinColumn(name="equipment_id", referencedColumnName="id")
-     *     },
-     *     inverseJoinColumns={
-     *         @ORM\JoinColumn(name="sportid", referencedColumnName="id")
-     *     }
-     * )
      */
+    #[ORM\JoinTable(name: 'equipment_to_sport')]
+    #[ORM\JoinColumn(name: 'equipment_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'sportid', referencedColumnName: 'id')]
+    #[ORM\ManyToMany(targetEntity: Sport::class, inversedBy: 'equipment')]
     private $sport;
 
     /**
      * @var Account
-     *
-     * @ORM\ManyToOne(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Account", inversedBy="equipment")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
-     * })
      */
+    #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Account::class, inversedBy: 'equipment')]
     private $account;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Training", mappedBy="equipment")
      */
+    #[ORM\ManyToMany(targetEntity: Training::class, mappedBy: 'equipment')]
     private $activity;
 
     public function __construct()

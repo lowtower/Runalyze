@@ -5,42 +5,27 @@ namespace Runalyze\Bundle\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 
-/**
- * @ORM\Table(name="hrv")
- * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\HrvRepository")
- */
+#[ORM\Table(name: 'hrv')]
+#[ORM\Entity(repositoryClass: HrvRepository::class)]
 class Hrv implements AccountRelatedEntityInterface
 {
     /**
      * @var array|null
-     *
-     * @ORM\Column(name="data", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'data', type: 'pipe_array', nullable: true)]
     private $data;
 
-    /**
-     * @var Account
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\ManyToOne(targetEntity="Account")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
-     * })
-     */
-    private $account;
+    #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
+    #[ORM\ManyToOne(targetEntity: Account::class)]
+    private ?Account $account = null;
 
-    /**
-     * @var Training
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Training", inversedBy="hrv")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="activityid", referencedColumnName="id")
-     * })
-     */
-    private $activity;
+    #[ORM\JoinColumn(name: 'activityid', referencedColumnName: 'id')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
+    #[ORM\OneToOne(targetEntity: Training::class, inversedBy: 'hrv')]
+    private ?Training $activity = null;
 
     /**
      * @param array|null $data

@@ -7,48 +7,49 @@ use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Common\IdentifiableEntityInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Table(name="user", indexes={@ORM\Index(name="accountid_time", columns={"accountid", "time"})})
- * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\UserRepository")
- * @ORM\EntityListeners({"Runalyze\Bundle\CoreBundle\EntityListener\UserListener"})
- */
+#[ORM\Table(name: 'user')]
+#[ORM\Index(name: 'accountid_time', columns: ['accountid', 'time'])]
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\EntityListeners([\Runalyze\Bundle\CoreBundle\EntityListener\UserListener::class])]
 class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
 {
-    /**
-     * @var ?int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Column(name: 'id', type: 'integer', nullable: false, options: [
+        'unsigned' => true,
+    ])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private ?int $id = null;
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="time", type="integer", precision=11, nullable=false, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'time', type: 'integer', precision: 11, nullable: false, options: [
+        'unsigned' => true,
+    ])]
     private $time;
 
     /**
      * @var float|null [kg]
-     *
-     * @ORM\Column(name="weight", type="casted_decimal_2", precision=5, scale=2, nullable=true, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'weight', type: 'casted_decimal_2', precision: 5, scale: 2, nullable: true, options: [
+        'unsigned' => true,
+    ])]
     private $weight;
 
     /**
      * @var int|null [bpm]
-     *
-     * @ORM\Column(name="pulse_rest", type="tinyint", nullable=true, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'pulse_rest', type: 'tinyint', nullable: true, options: [
+        'unsigned' => true,
+    ])]
     private $pulseRest;
 
     /**
      * @var int|null [bpm]
-     *
-     * @ORM\Column(name="pulse_max", type="tinyint", nullable=true, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'pulse_max', type: 'tinyint', nullable: true, options: [
+        'unsigned' => true,
+    ])]
     private $pulseMax;
 
     /**
@@ -56,8 +57,8 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
      * @Assert\Range(
      *     min=0,
      *     max=100)
-     * @ORM\Column(name="fat", type="casted_decimal_1", precision=3, scale=1, nullable=true)
      */
+    #[ORM\Column(name: 'fat', type: 'casted_decimal_1', precision: 3, scale: 1, nullable: true)]
     private $fat;
 
     /**
@@ -65,8 +66,8 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
      * @Assert\Range(
      *     min=0,
      *     max=100)
-     * @ORM\Column(name="water", type="casted_decimal_1", precision=3, scale=1, nullable=true)
      */
+    #[ORM\Column(name: 'water', type: 'casted_decimal_1', precision: 3, scale: 1, nullable: true)]
     private $water;
 
     /**
@@ -75,32 +76,29 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
      * @Assert\Range(
      *     min=0,
      *     max=100)
-     * @ORM\Column(name="muscles", type="casted_decimal_1", precision=3, scale=1, nullable=true)
      */
+    #[ORM\Column(name: 'muscles', type: 'casted_decimal_1', precision: 3, scale: 1, nullable: true)]
     private $muscles;
 
     /**
      * @var int|null [min]
-     *
-     * @ORM\Column(name="sleep_duration", type="smallint", precision=3, nullable=true, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'sleep_duration', type: 'smallint', precision: 3, nullable: true, options: [
+        'unsigned' => true,
+    ])]
     private $sleepDuration;
 
     /**
      * @var string|null
-     *
-     * @ORM\Column(name="notes", type="text", length=65535, nullable=true)
      */
+    #[ORM\Column(name: 'notes', type: 'text', length: 65535, nullable: true)]
     private $notes;
 
     /**
      * @var \Runalyze\Bundle\CoreBundle\Entity\Account
-     *
-     * @ORM\ManyToOne(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Account")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
-     * })
      */
+    #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Account::class)]
     private $account;
 
     public function __clone()

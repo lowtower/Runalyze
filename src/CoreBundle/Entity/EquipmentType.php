@@ -6,10 +6,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 
-/**
- * @ORM\Table(name="equipment_type")
- * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\EquipmentTypeRepository")
- */
+#[ORM\Table(name: 'equipment_type')]
+#[ORM\Entity(repositoryClass: EquipmentTypeRepository::class)]
 class EquipmentType implements AccountRelatedEntityInterface
 {
     /**
@@ -22,73 +20,63 @@ class EquipmentType implements AccountRelatedEntityInterface
      */
     public const CHOICE_MULTIPLE = 1;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", precision=10, nullable=false, options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Column(name: 'id', type: 'integer', precision: 10, nullable: false, options: [
+        'unsigned' => true,
+    ])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private ?int $id = null;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=50, nullable=false)
      */
+    #[ORM\Column(name: 'name', type: 'string', length: 50, nullable: false)]
     private $name = '';
 
     /**
      * @var int see self::CHOICE_SINGLE and self::CHOICE_MULTIPLE
-     *
-     * @ORM\Column(name="input", type="tinyint", options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'input', type: 'tinyint', options: [
+        'unsigned' => true,
+    ])]
     private $input = 0;
 
     /**
      * @var null|int [km]
-     *
-     * @ORM\Column(name="max_km", type="integer", nullable=true, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'max_km', type: 'integer', nullable: true, options: [
+        'unsigned' => true,
+    ])]
     private $maxKm;
 
     /**
      * @var null|int [s]
-     *
-     * @ORM\Column(name="max_time", type="integer", nullable=true, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'max_time', type: 'integer', nullable: true, options: [
+        'unsigned' => true,
+    ])]
     private $maxTime;
 
     /**
      * @var Account
-     *
-     * @ORM\ManyToOne(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Account", inversedBy="equipmentTypes")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
-     * })
      */
+    #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Account::class, inversedBy: 'equipmentTypes')]
     private $account;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Sport", inversedBy="equipmentType")
-     * @ORM\JoinTable(name="equipment_sport",
-     *     joinColumns={
-     *         @ORM\JoinColumn(name="equipment_typeid", referencedColumnName="id")
-     *     },
-     *     inverseJoinColumns={
-     *         @ORM\JoinColumn(name="sportid", referencedColumnName="id")
-     *     }
-     * )
      */
+    #[ORM\JoinTable(name: 'equipment_sport')]
+    #[ORM\JoinColumn(name: 'equipment_typeid', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'sportid', referencedColumnName: 'id')]
+    #[ORM\ManyToMany(targetEntity: Sport::class, inversedBy: 'equipmentType')]
     private $sport;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\OneToMany(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Equipment", mappedBy="type", cascade={"persist"}, fetch="EXTRA_LAZY")
      */
+    #[ORM\OneToMany(targetEntity: Equipment::class, mappedBy: 'type', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected $equipment;
 
     public function __construct()

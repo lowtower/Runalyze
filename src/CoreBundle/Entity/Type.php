@@ -8,83 +8,73 @@ use Runalyze\Bundle\CoreBundle\Entity\Common\IdentifiableEntityInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Common\NamedEntityInterface;
 use Runalyze\Profile\View\DataBrowserRowProfile;
 
-/**
- * @ORM\Table(name="type")
- * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\TypeRepository")
- */
+#[ORM\Table(name: 'type')]
+#[ORM\Entity(repositoryClass: TypeRepository::class)]
 class Type implements IdentifiableEntityInterface, NamedEntityInterface, AccountRelatedEntityInterface
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Column(name: 'id', type: 'integer', options: [
+        'unsigned' => true,
+    ])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private ?int $id = null;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=50, nullable=false)
      */
+    #[ORM\Column(name: 'name', type: 'string', length: 50, nullable: false)]
     private $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="abbr", type="string", length=5, nullable=false, options={"default"=""})
      */
+    #[ORM\Column(name: 'abbr', type: 'string', length: 5, nullable: false, options: [
+        'default' => '',
+    ])]
     private $abbr = '';
 
     /**
      * @var Sport
-     *
-     * @ORM\ManyToOne(targetEntity="Sport", inversedBy="types")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="sportid", referencedColumnName="id", nullable=false)
-     * })
      */
+    #[ORM\JoinColumn(name: 'sportid', referencedColumnName: 'id', nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \Sport::class, inversedBy: 'types')]
     private $sport;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="short", type="tinyint", options={"unsigned"=true})
-     *
      * @see \Runalyze\Profile\View\DataBrowserRowProfile
      */
+    #[ORM\Column(name: 'short', type: 'tinyint', options: [
+        'unsigned' => true,
+    ])]
     private $displayMode = 2;
 
     /**
      * @var int [bpm]
-     *
-     * @ORM\Column(name="hr_avg", type="tinyint", options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'hr_avg', type: 'tinyint', options: [
+        'unsigned' => true,
+    ])]
     private $hrAvg = 100;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="quality_session", type="boolean")
      */
+    #[ORM\Column(name: 'quality_session', type: 'boolean')]
     private $qualitySession = false;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\OneToMany(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Training", mappedBy="type", cascade={"persist"}, fetch="EXTRA_LAZY")
      */
+    #[ORM\OneToMany(targetEntity: Training::class, mappedBy: 'type', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected $trainings;
 
     /**
      * @var \Runalyze\Bundle\CoreBundle\Entity\Account
-     *
-     * @ORM\ManyToOne(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Account", inversedBy="activityTypes")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
-     * })
      */
+    #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Account::class, inversedBy: 'activityTypes')]
     private $account;
 
     /**

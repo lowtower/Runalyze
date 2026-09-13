@@ -5,56 +5,41 @@ namespace Runalyze\Bundle\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 
-/**
- * @ORM\Table(name="swimdata")
- * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\SwimdataRepository")
- */
+#[ORM\Table(name: 'swimdata')]
+#[ORM\Entity(repositoryClass: SwimdataRepository::class)]
 class Swimdata implements AccountRelatedEntityInterface
 {
     /**
      * @var array|null
-     *
-     * @ORM\Column(name="stroke", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'stroke', type: 'pipe_array', nullable: true)]
     private $stroke;
 
     /**
      * @var array|null
-     *
-     * @ORM\Column(name="stroketype", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'stroketype', type: 'pipe_array', nullable: true)]
     private $stroketype;
 
     /**
      * @var int [cm]
-     *
-     * @ORM\Column(name="pool_length", type="smallint", precision=5, nullable=false, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'pool_length', type: 'smallint', precision: 5, nullable: false, options: [
+        'unsigned' => true,
+    ])]
     private $poolLength = 0;
 
-    /**
-     * @var Account
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\ManyToOne(targetEntity="Account")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="accountid", referencedColumnName="id")
-     * })
-     */
-    private $account;
+    #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
+    #[ORM\ManyToOne(targetEntity: Account::class)]
+    private ?Account $account = null;
 
-    /**
-     * @var Training
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Training", inversedBy="swimdata")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="activityid", referencedColumnName="id")
-     * })
-     */
-    private $activity;
+    #[ORM\JoinColumn(name: 'activityid', referencedColumnName: 'id')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
+    #[ORM\OneToOne(targetEntity: Training::class, inversedBy: 'swimdata')]
+    private ?Training $activity = null;
 
     public function setStroke(?array $stroke = null): self
     {

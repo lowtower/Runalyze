@@ -5,106 +5,96 @@ namespace Runalyze\Bundle\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 
-/**
- * @ORM\Table(name="raceresult")
- * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\RaceresultRepository")
- * @ORM\EntityListeners({"Runalyze\Bundle\CoreBundle\EntityListener\RaceResultListener"})
- */
+#[ORM\Table(name: 'raceresult')]
+#[ORM\Entity(repositoryClass: RaceresultRepository::class)]
+#[ORM\EntityListeners([\Runalyze\Bundle\CoreBundle\EntityListener\RaceResultListener::class])]
 class Raceresult implements AccountRelatedEntityInterface
 {
     /**
      * @var ?float [km]
-     *
-     * @ORM\Column(name="official_distance", type="casted_decimal_2", precision=6, scale=2, nullable=true)
      */
+    #[ORM\Column(name: 'official_distance', type: 'casted_decimal_2', precision: 6, scale: 2, nullable: true)]
     private $officialDistance;
 
     /**
      * @var float [s]
-     *
-     * @ORM\Column(name="official_time", type="casted_decimal_2", precision=8, scale=2, nullable=false)
      */
+    #[ORM\Column(name: 'official_time', type: 'casted_decimal_2', precision: 8, scale: 2, nullable: false)]
     private $officialTime;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="officially_measured", type="boolean")
      */
+    #[ORM\Column(name: 'officially_measured', type: 'boolean')]
     private $officiallyMeasured = false;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=50, nullable=false, options={"default"=""})
      */
+    #[ORM\Column(name: 'name', type: 'string', length: 50, nullable: false, options: [
+        'default' => '',
+    ])]
     private $name = '';
 
     /**
      * @var int|null
-     *
-     * @ORM\Column(name="place_total", type="integer", nullable=true, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'place_total', type: 'integer', nullable: true, options: [
+        'unsigned' => true,
+    ])]
     private $placeTotal;
 
     /**
      * @var int|null
-     *
-     * @ORM\Column(name="place_gender", type="integer", nullable=true, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'place_gender', type: 'integer', nullable: true, options: [
+        'unsigned' => true,
+    ])]
     private $placeGender;
 
     /**
      * @var int|null
-     *
-     * @ORM\Column(name="place_ageclass", type="integer", nullable=true, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'place_ageclass', type: 'integer', nullable: true, options: [
+        'unsigned' => true,
+    ])]
     private $placeAgeclass;
 
     /**
      * @var int|null
-     *
-     * @ORM\Column(name="participants_total", type="integer", nullable=true, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'participants_total', type: 'integer', nullable: true, options: [
+        'unsigned' => true,
+    ])]
     private $participantsTotal;
 
     /**
      * @var int|null
-     *
-     * @ORM\Column(name="participants_gender", type="integer", nullable=true, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'participants_gender', type: 'integer', nullable: true, options: [
+        'unsigned' => true,
+    ])]
     private $participantsGender;
 
     /**
      * @var int|null
-     *
-     * @ORM\Column(name="participants_ageclass", type="integer", nullable=true, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'participants_ageclass', type: 'integer', nullable: true, options: [
+        'unsigned' => true,
+    ])]
     private $participantsAgeclass;
 
-    /**
-     * @var Account
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\ManyToOne(targetEntity="Account")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="accountid", referencedColumnName="id")
-     * })
-     */
-    private $account;
+    #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
+    #[ORM\ManyToOne(targetEntity: Account::class)]
+    private ?Account $account = null;
 
-    /**
-     * @var Training
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Training", inversedBy="raceresult")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="activity_id", referencedColumnName="id")
-     * })
-     */
-    private $activity;
+    #[ORM\JoinColumn(name: 'activity_id', referencedColumnName: 'id')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
+    #[ORM\OneToOne(targetEntity: Training::class, inversedBy: 'raceresult')]
+    private ?Training $activity = null;
 
     /**
      * @param float $officialDistance [km]

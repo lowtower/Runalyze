@@ -6,20 +6,14 @@ namespace Runalyze\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="migration_versions")
- * @ORM\Entity
- */
+#[ORM\Table(name: 'migration_versions')]
+#[ORM\Entity]
 class MigrationVersions
 {
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="version", type="string", length=255, nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $version;
+    #[ORM\Column(name: 'version', type: 'string', length: 255, nullable: false)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private string $version = '';
 
     /**
      * @param string $version

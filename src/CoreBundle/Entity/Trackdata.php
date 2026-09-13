@@ -8,209 +8,170 @@ use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 use Runalyze\Model;
 use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 
-/**
- * @ORM\Table(name="trackdata")
- * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\TrackdataRepository")
- */
+#[ORM\Table(name: 'trackdata')]
+#[ORM\Entity(repositoryClass: TrackdataRepository::class)]
 class Trackdata implements AccountRelatedEntityInterface
 {
     /**
      * @var array|null [s]
-     *
-     * @ORM\Column(name="time", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'time', type: 'pipe_array', nullable: true)]
     private $time;
 
     /**
      * @var array|null [km]
-     *
-     * @ORM\Column(name="distance", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'distance', type: 'pipe_array', nullable: true)]
     private $distance;
 
     /**
      * @var array|null [bpm]
-     *
-     * @ORM\Column(name="heartrate", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'heartrate', type: 'pipe_array', nullable: true)]
     private $heartrate;
 
     /**
      * @var array|null [rpm]
-     *
-     * @ORM\Column(name="cadence", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'cadence', type: 'pipe_array', nullable: true)]
     private $cadence;
 
     /**
      * @var array|null [W]
-     *
-     * @ORM\Column(name="power", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'power', type: 'pipe_array', nullable: true)]
     private $power;
 
     /**
      * @var array|null [°C]
-     *
-     * @ORM\Column(name="temperature", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'temperature', type: 'pipe_array', nullable: true)]
     private $temperature;
 
     /**
      * @var array|null [ms]
-     *
-     * @ORM\Column(name="groundcontact", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'groundcontact', type: 'pipe_array', nullable: true)]
     private $groundcontact;
 
     /**
      * @var array|null [mm]
-     *
-     * @ORM\Column(name="vertical_oscillation", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'vertical_oscillation', type: 'pipe_array', nullable: true)]
     private $verticalOscillation;
 
     /**
      * @var array|null [%*100]
-     *
-     * @ORM\Column(name="groundcontact_balance", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'groundcontact_balance', type: 'pipe_array', nullable: true)]
     private $groundcontactBalance;
 
     /**
      * @var array|null [%]
-     *
-     * @ORM\Column(name="smo2_0", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'smo2_0', type: 'pipe_array', nullable: true)]
     private $smo20;
 
     /**
      * @var array|null [%]
-     *
-     * @ORM\Column(name="smo2_1", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'smo2_1', type: 'pipe_array', nullable: true)]
     private $smo21;
 
     /**
      * @var array|null [%]
-     *
-     * @ORM\Column(name="thb_0", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'thb_0', type: 'pipe_array', nullable: true)]
     private $thb0;
 
     /**
      * @var array|null [%]
-     *
-     * @ORM\Column(name="thb_1", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'thb_1', type: 'pipe_array', nullable: true)]
     private $thb1;
 
     /**
      * @var array|null [G]
-     *
-     * @ORM\Column(name="impact_gs_left", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'impact_gs_left', type: 'pipe_array', nullable: true)]
     private $impactGsLeft;
 
     /**
      * @var array|null [G]
-     *
-     * @ORM\Column(name="impact_gs_right", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'impact_gs_right', type: 'pipe_array', nullable: true)]
     private $impactGsRight;
 
     /**
      * @var array|null [G]
-     *
-     * @ORM\Column(name="braking_gs_left", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'braking_gs_left', type: 'pipe_array', nullable: true)]
     private $brakingGsLeft;
 
     /**
      * @var array|null [G]
-     *
-     * @ORM\Column(name="braking_gs_right", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'braking_gs_right', type: 'pipe_array', nullable: true)]
     private $brakingGsRight;
 
     /**
      * @var array|null [°]
-     *
-     * @ORM\Column(name="footstrike_type_left", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'footstrike_type_left', type: 'pipe_array', nullable: true)]
     private $footstrikeTypeLeft;
 
     /**
      * @var array|null [°]
-     *
-     * @ORM\Column(name="footstrike_type_right", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'footstrike_type_right', type: 'pipe_array', nullable: true)]
     private $footstrikeTypeRight;
 
     /**
      * @var array|null [°]
-     *
-     * @ORM\Column(name="pronation_excursion_left", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'pronation_excursion_left', type: 'pipe_array', nullable: true)]
     private $pronationExcursionLeft;
 
     /**
      * @var array|null [°]
-     *
-     * @ORM\Column(name="pronation_excursion_right", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'pronation_excursion_right', type: 'pipe_array', nullable: true)]
     private $pronationExcursionRight;
 
     /**
      * @var array|null [n]
-     *
-     * @ORM\Column(name="performance_condition", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'performance_condition', type: 'pipe_array', nullable: true)]
     private $performanceCondition;
 
     /**
      * @var array|null [pm]
-     *
-     * @ORM\Column(name="respiration_rate", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'respiration_rate', type: 'pipe_array', nullable: true)]
     private $respirationRate;
 
     /**
      * @var \Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection
-     *
-     * @ORM\Column(name="pauses", type="runalyze_pause_array", length=65535, nullable=true)
      */
+    #[ORM\Column(name: 'pauses', type: 'runalyze_pause_array', length: 65535, nullable: true)]
     private $pauses;
 
-    /**
-     * @var Training
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Training", inversedBy="trackdata")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="activityid", referencedColumnName="id", unique=true)
-     * })
-     */
-    private $activity;
+    #[ORM\JoinColumn(name: 'activityid', referencedColumnName: 'id', unique: true)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
+    #[ORM\OneToOne(targetEntity: Training::class, inversedBy: 'trackdata')]
+    private ?Training $activity = null;
 
-    /**
-     * @var Account
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\ManyToOne(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Account")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
-     * })
-     */
-    private $account;
+    #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
+    #[ORM\ManyToOne(targetEntity: Account::class)]
+    private ?Account $account = null;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="`lock`", type="boolean")
      */
+    #[ORM\Column(name: '`lock`', type: 'boolean')]
     private $lock = false;
 
     /**

@@ -6,58 +6,56 @@ use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 use Runalyze\Profile\View\DatasetPrivacyProfile;
 
-/**
- * @ORM\Table(name="dataset", indexes={@ORM\Index(name="position", columns={"accountid", "position"})}, uniqueConstraints={@ORM\UniqueConstraint(name="unique_key", columns={"accountid", "keyid"})})
- * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\DatasetRepository")
- */
+#[ORM\Table(name: 'dataset')]
+#[ORM\Index(name: 'position', columns: ['accountid', 'position'])]
+#[ORM\UniqueConstraint(name: 'unique_key', columns: ['accountid', 'keyid'])]
+#[ORM\Entity(repositoryClass: DatasetRepository::class)]
 class Dataset implements AccountRelatedEntityInterface
 {
     /**
      * @var \Runalyze\Bundle\CoreBundle\Entity\Account
-     *
-     * @ORM\ManyToOne(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Account")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
-     * })
-     * @Orm\Id
      */
+    #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Account::class)]
+    #[Orm\Id]
     private $account;
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="keyid", type="tinyint", options={"unsigned"=true})
-     * @ORM\Id
      */
+    #[ORM\Column(name: 'keyid', type: 'tinyint', options: [
+        'unsigned' => true,
+    ])]
+    #[ORM\Id]
     private $keyid;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="active", type="boolean")
      */
+    #[ORM\Column(name: 'active', type: 'boolean')]
     private $active = true;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="style", type="string", length=100, nullable=false, options={"default"=""})
      */
+    #[ORM\Column(name: 'style', type: 'string', length: 100, nullable: false, options: [
+        'default' => '',
+    ])]
     private $style = '';
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="position", type="tinyint", options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'position', type: 'tinyint', options: [
+        'unsigned' => true,
+    ])]
     private $position = 0;
 
     /**
      * @var bool
      * @see \Runalyze\Profile\View\DatasetPrivacyProfile
-     *
-     * @ORM\Column(name="privacy", type="boolean")
      */
+    #[ORM\Column(name: 'privacy', type: 'boolean')]
     private $privacy = true;
 
     public function setAccount(Account $account): self

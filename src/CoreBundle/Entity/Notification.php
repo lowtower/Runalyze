@@ -7,66 +7,60 @@ use Runalyze\Bundle\CoreBundle\Component\Notifications\Message\MessageInterface;
 use Runalyze\Bundle\CoreBundle\Component\Notifications\MessageFactory;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 
-/**
- * @ORM\Table(name="notification")
- * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\NotificationRepository")
- */
+#[ORM\Table(name: 'notification')]
+#[ORM\Entity(repositoryClass: NotificationRepository::class)]
 class Notification implements AccountRelatedEntityInterface
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Column(name: 'id', type: 'integer', options: [
+        'unsigned' => true,
+    ])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private ?int $id = null;
 
     /**
      * @var int
      *
      * @see \Runalyze\Profile\Notifications\MessageTypeProfile
-     *
-     * @ORM\Column(name="messageType", columnDefinition="tinyint unsigned not null", nullable=false, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'messageType', columnDefinition: 'tinyint unsigned not null', nullable: false, options: [
+        'unsigned' => true,
+    ])]
     private $messageType;
 
     /**
      * @var int [timestamp]
-     *
-     * @ORM\Column(name="createdAt", type="integer", nullable=false, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'createdAt', type: 'integer', nullable: false, options: [
+        'unsigned' => true,
+    ])]
     private $createdAt;
 
     /**
      * @var null|int [timestamp]
-     *
-     * @ORM\Column(name="expirationAt", type="integer", nullable=true, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'expirationAt', type: 'integer', nullable: true, options: [
+        'unsigned' => true,
+    ])]
     private $expirationAt;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="data", type="text", length=255)
      */
+    #[ORM\Column(name: 'data', type: 'text', length: 255)]
     private $data;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="wasRead", type="boolean")
      */
+    #[ORM\Column(name: 'wasRead', type: 'boolean')]
     protected $wasRead = false;
 
     /**
      * @var \Runalyze\Bundle\CoreBundle\Entity\Account
-     *
-     * @ORM\ManyToOne(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Account")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="account_id", referencedColumnName="id", nullable=false)
-     * })
      */
+    #[ORM\JoinColumn(name: 'account_id', referencedColumnName: 'id', nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Account::class)]
     private $account;
 
     public function __construct()

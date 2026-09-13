@@ -9,12 +9,10 @@ use Runalyze\Bundle\CoreBundle\Entity\Adapter\RouteAdapter;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 use Runalyze\Calculation\Route\GeohashLine;
 
-/**
- * @ORM\Table(name="route")
- * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\RouteRepository")
- * @ORM\EntityListeners({"Runalyze\Bundle\CoreBundle\EntityListener\RouteListener"})
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'route')]
+#[ORM\Entity(repositoryClass: RouteRepository::class)]
+#[ORM\EntityListeners([\Runalyze\Bundle\CoreBundle\EntityListener\RouteListener::class])]
+#[ORM\HasLifecycleCallbacks]
 class Route implements AccountRelatedEntityInterface
 {
     /**
@@ -27,124 +25,118 @@ class Route implements AccountRelatedEntityInterface
      */
     public const BOUNDARIES_GEOHASH_PRECISION = 10;
 
-    /**
-     * @ORM\Column(name="id", type="integer", precision=10, nullable=false, options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private int $id;
+    #[ORM\Column(name: 'id', type: 'integer', precision: 10, nullable: false, options: [
+        'unsigned' => true,
+    ])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(name="name", type="string", length=255, nullable=false, options={"default"=""})
-     */
+    #[ORM\Column(name: 'name', type: 'string', length: 255, nullable: false, options: [
+        'default' => '',
+    ])]
     private string $name = '';
 
-    /**
-     * @ORM\Column(name="cities", type="string", length=255, nullable=false, options={"default"=""})
-     */
+    #[ORM\Column(name: 'cities', type: 'string', length: 255, nullable: false, options: [
+        'default' => '',
+    ])]
     private string $cities = '';
 
     /**
      * @var float [km]
-     *
-     * @ORM\Column(name="distance", type="casted_decimal_2", precision=6, scale=2, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'distance', type: 'casted_decimal_2', precision: 6, scale: 2, options: [
+        'unsigned' => true,
+    ])]
     private ?float $distance = 0.0;
 
     /**
      * @var int [m]
-     *
-     * @ORM\Column(name="elevation", type="smallint", nullable=false, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'elevation', type: 'smallint', nullable: false, options: [
+        'unsigned' => true,
+    ])]
     private int $elevation = 0;
 
     /**
      * @var int [m]
-     *
-     * @ORM\Column(name="elevation_up", type="smallint", nullable=false, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'elevation_up', type: 'smallint', nullable: false, options: [
+        'unsigned' => true,
+    ])]
     private int $elevationUp = 0;
 
     /**
      * @var int [m]
-     *
-     * @ORM\Column(name="elevation_down", type="smallint", nullable=false, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'elevation_down', type: 'smallint', nullable: false, options: [
+        'unsigned' => true,
+    ])]
     private int $elevationDown = 0;
 
-    /**
-     * @ORM\Column(name="geohashes", type="geohash_array", nullable=true)
-     */
+    #[ORM\Column(name: 'geohashes', type: 'geohash_array', nullable: true)]
     private ?array $geohashes = null;
 
     /**
      * @var array|null [m]
-     *
-     * @ORM\Column(name="elevations_original", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'elevations_original', type: 'pipe_array', nullable: true)]
     private ?array $elevationsOriginal = null;
 
     /**
      * @var array|null [m]
-     *
-     * @ORM\Column(name="elevations_corrected", type="pipe_array", nullable=true)
      */
+    #[ORM\Column(name: 'elevations_corrected', type: 'pipe_array', nullable: true)]
     private ?array $elevationsCorrected = null;
 
-    /**
-     * @ORM\Column(name="elevations_source", type="string", length=255, nullable=false, options={"default"=""})
-     */
+    #[ORM\Column(name: 'elevations_source', type: 'string', length: 255, nullable: false, options: [
+        'default' => '',
+    ])]
     private string $elevationsSource = '';
 
-    /**
-     * @ORM\Column(name="altitude_barometric", type="boolean")
-     */
+    #[ORM\Column(name: 'altitude_barometric', type: 'boolean')]
     private bool $altitudeBarometric = false;
 
     /**
      * @var string|null [geohash]
-     *
-     * @ORM\Column(name="startpoint", type="string", length=10, nullable=true, options={"fixed"=true})
      */
+    #[ORM\Column(name: 'startpoint', type: 'string', length: 10, nullable: true, options: [
+        'fixed' => true,
+    ])]
     private ?string $startpoint = null;
 
     /**
      * @var string|null [geohash]
-     *
-     * @ORM\Column(name="endpoint", type="string", length=10, nullable=true, options={"fixed"=true})
      */
+    #[ORM\Column(name: 'endpoint', type: 'string', length: 10, nullable: true, options: [
+        'fixed' => true,
+    ])]
     private ?string $endpoint = null;
 
     /**
      * @var string|null [geohash]
-     *
-     * @ORM\Column(name="min", type="string", length=10, nullable=true, options={"fixed"=true})
      */
+    #[ORM\Column(name: 'min', type: 'string', length: 10, nullable: true, options: [
+        'fixed' => true,
+    ])]
     private ?string $min = null;
 
     /**
      * @var string|null [geohash]
-     *
-     * @ORM\Column(name="max", type="string", length=10, nullable=true, options={"fixed"=true})
      */
+    #[ORM\Column(name: 'max', type: 'string', length: 10, nullable: true, options: [
+        'fixed' => true,
+    ])]
     private ?string $max = null;
 
-    /**
-     * @ORM\Column(name="in_routenet", type="boolean")
-     */
+    #[ORM\Column(name: 'in_routenet', type: 'boolean')]
     private bool $inRoutenet = false;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Account")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
-     * })
-     */
+    #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Account::class)]
     private Account $account;
 
-    /**
-     * @ORM\Column(name="`lock`", type="boolean")
-     */
+    #[ORM\Column(name: '`lock`', type: 'boolean')]
     private bool $lock = false;
 
     private bool $areMinMaxSynchronized = true;
@@ -584,10 +576,8 @@ class Route implements AccountRelatedEntityInterface
         return $this->Adapter;
     }
 
-    /**
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
-     */
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
     public function synchronize()
     {
         $this->setStartEndGeohashes();

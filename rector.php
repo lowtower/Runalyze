@@ -41,8 +41,8 @@ return RectorConfig::configure()
     ])
     ->withComposerBased(
         true,   // symfony
-        # true,   // doctrine
-        # true,   // phpunit
+        true,   // doctrine
+        true,   // phpunit
         true,   // twig
     )
 ;

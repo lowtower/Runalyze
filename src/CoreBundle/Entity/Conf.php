@@ -5,51 +5,30 @@ namespace Runalyze\Bundle\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 
-/**
- * @ORM\Table(name="conf", indexes={@ORM\Index(name="accountid", columns={"accountid"})})
- * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\ConfRepository")
- */
+#[ORM\Table(name: 'conf')]
+#[ORM\Index(name: 'accountid', columns: ['accountid'])]
+#[ORM\Entity(repositoryClass: ConfRepository::class)]
 class Conf implements AccountRelatedEntityInterface
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Column(name: 'id', type: 'integer', options: [
+        'unsigned' => true,
+    ])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private ?int $id = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="category", type="string", length=32, nullable=false)
-     */
-    private $category;
+    #[ORM\Column(name: 'category', type: 'string', length: 32, nullable: false)]
+    private string $category;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="`key`", type="string", length=100, nullable=false)
-     */
-    private $key;
+    #[ORM\Column(name: '`key`', type: 'string', length: 100, nullable: false)]
+    private string $key;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="value", type="string", length=255, nullable=false)
-     */
-    private $value;
+    #[ORM\Column(name: 'value', type: 'string', length: 255, nullable: false)]
+    private string $value;
 
-    /**
-     * @var \Runalyze\Bundle\CoreBundle\Entity\Account
-     *
-     * @ORM\ManyToOne(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Account")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
-     * })
-     */
-    private $account;
+    #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Account::class)]
+    private Account $account;
 
     /**
      * @return int

@@ -6,43 +6,34 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 
-/**
- * @ORM\Table(name="tag")
- * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\TagRepository")
- */
+#[ORM\Table(name: 'tag')]
+#[ORM\Entity(repositoryClass: TagRepository::class)]
 class Tag implements AccountRelatedEntityInterface
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Column(name: 'id', type: 'integer', nullable: false, options: [
+        'unsigned' => true,
+    ])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private ?int $id = null;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="tag", type="string", length=50, nullable=false)
      */
+    #[ORM\Column(name: 'tag', type: 'string', length: 50, nullable: false)]
     private $tag;
 
     /**
      * @var Account
-     *
-     * @ORM\ManyToOne(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Account", inversedBy="tags")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
-     * })
      */
+    #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Account::class, inversedBy: 'tags')]
     private $account;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Training", mappedBy="tag")
      */
+    #[ORM\ManyToMany(targetEntity: Training::class, mappedBy: 'tag')]
     private $activity;
 
     public function __construct()

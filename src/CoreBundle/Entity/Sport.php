@@ -14,137 +14,124 @@ use Runalyze\Profile\Sport\AbstractSport;
 use Runalyze\Profile\Sport\ProfileInterface;
 use Runalyze\Profile\Sport\SportProfile;
 
-/**
- * @ORM\Table(name="sport", uniqueConstraints={@ORM\UniqueConstraint(name="unique_internal_id", columns={"accountid", "internal_sport_id"})})
- * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\SportRepository")
- */
+#[ORM\Table(name: 'sport')]
+#[ORM\UniqueConstraint(name: 'unique_internal_id', columns: ['accountid', 'internal_sport_id'])]
+#[ORM\Entity(repositoryClass: SportRepository::class)]
 class Sport implements IdentifiableEntityInterface, NamedEntityInterface, AccountRelatedEntityInterface
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Column(name: 'id', type: 'integer', options: [
+        'unsigned' => true,
+    ])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private ?int $id = null;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=50, nullable=false)
      */
+    #[ORM\Column(name: 'name', type: 'string', length: 50, nullable: false)]
     private $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="img", type="string", length=100, nullable=false, options={"default"="icons8-Sports-Mode"})
      */
+    #[ORM\Column(name: 'img', type: 'string', length: 100, nullable: false, options: [
+        'default' => 'icons8-Sports-Mode',
+    ])]
     private $img = 'icons8-Sports-Mode';
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="short", type="boolean")
      */
+    #[ORM\Column(name: 'short', type: 'boolean')]
     private $short = false;
 
     /**
      * @var int [kcal/h]
-     *
-     * @ORM\Column(name="kcal", type="smallint", precision=4, nullable=false, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'kcal', type: 'smallint', precision: 4, nullable: false, options: [
+        'unsigned' => true,
+    ])]
     private $kcal = 0;
 
     /**
      * @var int [bpm]
-     *
-     * @ORM\Column(name="HFavg", type="tinyint", options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'HFavg', type: 'tinyint', options: [
+        'unsigned' => true,
+    ])]
     private $hfavg = 120;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="distances", type="boolean")
      */
+    #[ORM\Column(name: 'distances', type: 'boolean')]
     private $distances = true;
 
     /**
      * @var int see \Runalyze\Metrics\Velocity\Unit\PaceEnum
-     *
-     * @ORM\Column(name="speed", type="tinyint", options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'speed', type: 'tinyint', options: [
+        'unsigned' => true,
+    ])]
     private $speed = 6;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="power", type="boolean")
      */
+    #[ORM\Column(name: 'power', type: 'boolean')]
     private $power = false;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="outside", type="boolean")
      */
+    #[ORM\Column(name: 'outside', type: 'boolean')]
     private $outside = false;
 
     /**
      * @var bool true: defaults to private
-     *
-     * @ORM\Column(name="default_privacy", type="boolean")
      */
+    #[ORM\Column(name: 'default_privacy', type: 'boolean')]
     private $defaultPrivacy = true;
 
     /**
      * @var array|null [string]
-     *
-     * @ORM\Column(name="hr_zone_bounds", type="pipe_array_str", nullable=true)
      */
+    #[ORM\Column(name: 'hr_zone_bounds', type: 'pipe_array_str', nullable: true)]
     private $hrZoneBounds;
 
     /**
      * @var EquipmentType|null
-     *
-     * @ORM\ManyToOne(targetEntity="Runalyze\Bundle\CoreBundle\Entity\EquipmentType")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="main_equipmenttypeid", referencedColumnName="id")
-     * })
      */
+    #[ORM\JoinColumn(name: 'main_equipmenttypeid', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \Runalyze\Bundle\CoreBundle\Entity\EquipmentType::class)]
     private $mainEquipmenttype;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Equipment", mappedBy="sport")
      */
+    #[ORM\ManyToMany(targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Equipment::class, mappedBy: 'sport')]
     private $equipment;
 
     /**
      * @var Type|null
-     *
-     * @ORM\ManyToOne(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Type")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="default_typeid", referencedColumnName="id")
-     * })
      */
+    #[ORM\JoinColumn(name: 'default_typeid', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Type::class)]
     private $defaultType;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="is_main", type="boolean")
      */
+    #[ORM\Column(name: 'is_main', type: 'boolean')]
     private $isMain = false;
 
     /**
      * @var int|null see \Runalyze\Profile\Sport\SportProfile
-     *
-     * @ORM\Column(name="internal_sport_id", type="tinyint", nullable=true, options={"unsigned"=true})
      */
+    #[ORM\Column(name: 'internal_sport_id', type: 'tinyint', nullable: true, options: [
+        'unsigned' => true,
+    ])]
     private $internalSportId;
 
     /**
@@ -154,33 +141,27 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
 
     /**
      * @var Account
-     *
-     * @ORM\ManyToOne(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Account", inversedBy="sports")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
-     * })
      */
+    #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Account::class, inversedBy: 'sports')]
     private $account;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Runalyze\Bundle\CoreBundle\Entity\EquipmentType", mappedBy="sport")
      */
+    #[ORM\ManyToMany(targetEntity: \Runalyze\Bundle\CoreBundle\Entity\EquipmentType::class, mappedBy: 'sport')]
     private $equipmentType;
 
     /**
      * @var \Doctrine\Common\Collections\Collection|Type[]
-     *
-     * @ORM\OneToMany(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Type", mappedBy="sport", fetch="EXTRA_LAZY")
      */
+    #[ORM\OneToMany(targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Type::class, mappedBy: 'sport', fetch: 'EXTRA_LAZY')]
     protected $types;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\OneToMany(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Training", mappedBy="sport", cascade={"persist"}, fetch="EXTRA_LAZY")
      */
+    #[ORM\OneToMany(targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Training::class, mappedBy: 'sport', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected $trainings;
 
     public function __construct()
