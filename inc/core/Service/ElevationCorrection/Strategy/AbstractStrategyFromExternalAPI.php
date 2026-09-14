@@ -12,11 +12,13 @@ use Runalyze\Service\ElevationCorrection\Exception\InvalidResponseException;
 use Runalyze\Service\ElevationCorrection\Exception\NoResponseException;
 use Runalyze\Service\ElevationCorrection\Exception\StrategyException;
 
-abstract class AbstractStrategyFromExternalAPI extends AbstractStrategy implements LoggerAwareInterface
+abstract class AbstractStrategyFromExternalAPI extends AbstractStrategy implements LoggerAwareInterface, LastExceptionAwareInterface
 {
     use LoggerAwareTrait;
 
     protected int $PointsPerCall = 20;
+
+    protected ?\Throwable $LastException = null;
 
     public function __construct(
         protected Client $HttpClient,
@@ -25,11 +27,20 @@ abstract class AbstractStrategyFromExternalAPI extends AbstractStrategy implemen
         $this->logger = $logger ?: new NullLogger();
     }
 
+    public function getLastException(): ?\Throwable
+    {
+        return $this->LastException;
+    }
+
     public function loadAltitudeData(array $latitudes, array $longitudes)
     {
+        $this->LastException = null;
+
         try {
             $altitudes = $this->collectGroupWiseAltitudes($latitudes, $longitudes);
-        } catch (StrategyException) {
+        } catch (StrategyException $strategyException) {
+            $this->LastException = $strategyException;
+
             return null;
         }
 

@@ -17,6 +17,8 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: runalyze43-app
+    env_file:
+      - .env.local
     environment:
       LANG: C.UTF-8
       LANGUAGE: C.UTF-8

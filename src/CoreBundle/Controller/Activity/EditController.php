@@ -190,6 +190,7 @@ class EditController extends AbstractController
         $this->checkThatEntityBelongsToActivity($activity, $account);
 
         $success = false;
+        $specificErrorMessageAlreadyShown = false;
 
         if ($activity->hasRoute()) {
             $routeAdapter = $activity->getRoute()
@@ -202,17 +203,21 @@ class EditController extends AbstractController
                 $success = true;
             } else {
                 $strategy = $this->getElevationCorrectionStrategyFromRequest($request->query->get('strategy'));
+                $elevationCorrectionService = $this->get('app.elevation_correction');
 
-                if ($routeAdapter->correctElevation($this->get('app.elevation_correction'), $strategy)) {
+                if ($routeAdapter->correctElevation($elevationCorrectionService, $strategy)) {
                     $this->addFlash('success', $translator->trans('Elevation data has been corrected.'));
                     $success = true;
+                } elseif (! $strategy instanceof \Runalyze\Service\ElevationCorrection\Strategy\StrategyInterface) {
+                    $this->addFlash('error_html', $this->buildElevationCorrectionErrorMessage($elevationCorrectionService, $translator));
+                    $specificErrorMessageAlreadyShown = true;
                 }
             }
         }
 
         if ($success) {
             $this->adjustAndSaveRouteAndActivityForElevationCorrection($activity);
-        } else {
+        } elseif (! $specificErrorMessageAlreadyShown) {
             $this->addFlash('error', $translator->trans('Elevation data could not be retrieved.'));
         }
 
@@ -220,6 +225,72 @@ class EditController extends AbstractController
             'reloadActivityOverlay' => $success,
             'activityId' => $activity->getId(),
         ]);
+    }
+
+    private function buildElevationCorrectionErrorMessage(
+        \Runalyze\Bundle\CoreBundle\Services\Import\ElevationCorrection $elevationCorrectionService,
+        TranslatorInterface $translator
+    ): string {
+        $reasons = $elevationCorrectionService->getLastAttemptReasons();
+        $exceptions = $elevationCorrectionService->getLastAttemptExceptions();
+
+        $introText = $translator->trans('Elevation data could not be retrieved.');
+
+        if ($reasons === []) {
+            return sprintf('<p>%s</p>', htmlspecialchars($introText, ENT_QUOTES, 'UTF-8'));
+        }
+
+        $strategyLabels = [
+            \Runalyze\Service\ElevationCorrection\Strategy\GeoTiff::class => $translator->trans('Local elevation data') . ' (SRTM)',
+            \Runalyze\Service\ElevationCorrection\Strategy\Geonames::class => 'Geonames',
+            \Runalyze\Service\ElevationCorrection\Strategy\GoogleMaps::class => 'Google Maps',
+        ];
+
+        $exceptionReasonLabels = [
+            \Runalyze\Service\ElevationCorrection\Exception\OverQueryLimitException::class => $translator->trans('query limit exceeded'),
+            \Runalyze\Service\ElevationCorrection\Exception\NoResponseException::class => $translator->trans('no response received (network error)'),
+            \Runalyze\Service\ElevationCorrection\Exception\InvalidResponseException::class => $translator->trans('request was rejected (check API configuration/credentials)'),
+        ];
+
+        $reasonLabels = [
+            'not_possible' => $translator->trans('not configured on this server'),
+            'no_data' => $translator->trans('no data available for this location'),
+        ];
+
+        $listItems = '';
+
+        foreach ($reasons as $strategyClass => $reason) {
+            $label = $strategyLabels[$strategyClass] ?? $strategyClass;
+            $reasonText = $reasonLabels[$reason] ?? $reason;
+
+            if ($reason === 'no_data' && isset($exceptions[$strategyClass])) {
+                $exceptionClass = $exceptions[$strategyClass];
+                $parentClasses = class_parents($exceptionClass);
+                $candidateClasses = array_merge(
+                    [$exceptionClass],
+                    $parentClasses !== false ? array_values($parentClasses) : []
+                );
+
+                foreach ($candidateClasses as $candidateClass) {
+                    if (isset($exceptionReasonLabels[$candidateClass])) {
+                        $reasonText = $exceptionReasonLabels[$candidateClass];
+                        break;
+                    }
+                }
+            }
+
+            $listItems .= sprintf(
+                '<li><strong>%s</strong>: %s</li>',
+                $label,
+                $reasonText
+            );
+        }
+
+        return sprintf(
+            '<p>%s</p><ul>%s</ul>',
+            htmlspecialchars($introText, ENT_QUOTES, 'UTF-8'),
+            $listItems
+        );
     }
 
     protected function adjustAndSaveRouteAndActivityForElevationCorrection(Training $activity)

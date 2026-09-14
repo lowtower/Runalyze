@@ -51,7 +51,16 @@ class GoogleMaps extends AbstractStrategyFromExternalAPI
         }
 
         if (isset($json['status']) && $json['status'] == 'OVER_QUERY_LIMIT') {
-            throw new OverQueryLimitException($json['error_message']);
+            throw new OverQueryLimitException($json['error_message'] ?? 'GoogleMaps: query limit exceeded.');
+        }
+
+        if (
+            isset($json['status'])
+            && in_array($json['status'], ['REQUEST_DENIED', 'INVALID_REQUEST'], true)
+        ) {
+            throw new InvalidResponseException(
+                $json['error_message'] ?? sprintf('GoogleMaps request denied (status: %s).', $json['status'])
+            );
         }
 
         if (! isset($json['results']) || ! isset($json['results'][0]['elevation'])) {

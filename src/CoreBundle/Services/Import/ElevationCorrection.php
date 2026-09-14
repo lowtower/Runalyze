@@ -10,15 +10,9 @@ use Runalyze\Service\ElevationCorrection\Strategy\StrategyInterface;
 
 class ElevationCorrection
 {
-    /**
-     * @var StrategyCollection
-     */
-    protected $StrategyCollection;
+    protected StrategyCollection $StrategyCollection;
 
-    /**
-     * @var null|StrategyInterface
-     */
-    protected $LastSuccessfulStrategy;
+    protected ?StrategyInterface $LastSuccessfulStrategy = null;
 
     public function __construct(
         GeoTiff $geoTiff,
@@ -50,15 +44,28 @@ class ElevationCorrection
         return $this->StrategyCollection->loadAltitudeData($latitudes, $longitudes);
     }
 
-    /**
-     * @return null|StrategyInterface
-     */
-    public function getLastSuccessfulStrategy()
+    public function getLastSuccessfulStrategy(): ?StrategyInterface
     {
-        if ($this->LastSuccessfulStrategy !== null) {
+        if ($this->LastSuccessfulStrategy instanceof \Runalyze\Service\ElevationCorrection\Strategy\StrategyInterface) {
             return $this->LastSuccessfulStrategy;
         }
 
         return $this->StrategyCollection->getLastSuccessfulStrategy();
+    }
+
+    /**
+     * @return array<string, string> strategy class name => 'not_possible'|'no_data'
+     */
+    public function getLastAttemptReasons(): array
+    {
+        return $this->StrategyCollection->getLastAttemptReasons();
+    }
+
+    /**
+     * @return array<string, class-string<\Throwable>> strategy class name => exception class name
+     */
+    public function getLastAttemptExceptions(): array
+    {
+        return $this->StrategyCollection->getLastAttemptExceptions();
     }
 }

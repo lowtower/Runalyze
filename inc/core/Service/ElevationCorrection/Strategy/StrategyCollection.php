@@ -9,12 +9,22 @@ class StrategyCollection
     /**
      * @var StrategyInterface[]
      */
-    protected $Strategies = [];
+    protected array $Strategies = [];
 
     /**
      * @var bool|int
      */
     protected $LastSuccessfulStrategyIndex = false;
+
+    /**
+     * @var array<string, string> strategy class name => reason key
+     */
+    protected array $LastAttemptReasons = [];
+
+    /**
+     * @var array<string, class-string<\Throwable>>
+     */
+    protected array $LastAttemptExceptions = [];
 
     public function add(StrategyInterface $strategy): void
     {
@@ -22,12 +32,32 @@ class StrategyCollection
     }
 
     /**
+     * @return array<string, string> strategy class name => reason key
+     *                                ('not_possible' or 'no_data')
+     */
+    public function getLastAttemptReasons(): array
+    {
+        return $this->LastAttemptReasons;
+    }
+
+    /**
+     * @return array<string, class-string<\Throwable>> strategy class name => exception class name
+     */
+    public function getLastAttemptExceptions(): array
+    {
+        return $this->LastAttemptExceptions;
+    }
+
+    /**
      * @return array|null altitude [m]
      *
      * @throws \InvalidArgumentException
      */
-    public function loadAltitudeData(array $latitudes, array $longitudes)
+    public function loadAltitudeData(array $latitudes, array $longitudes): ?array
     {
+        $this->LastAttemptReasons = [];
+        $this->LastAttemptExceptions = [];
+
         if ($latitudes === []) {
             return null;
         }
@@ -45,16 +75,25 @@ class StrategyCollection
 
                     return $result;
                 }
+
+                $this->LastAttemptReasons[$strategy::class] = 'no_data';
+
+                if ($strategy instanceof \Runalyze\Service\ElevationCorrection\Strategy\LastExceptionAwareInterface) {
+                    $lastException = $strategy->getLastException();
+
+                    if ($lastException instanceof \Throwable) {
+                        $this->LastAttemptExceptions[$strategy::class] = $lastException::class;
+                    }
+                }
+            } else {
+                $this->LastAttemptReasons[$strategy::class] = 'not_possible';
             }
         }
 
         return null;
     }
 
-    /**
-     * @return null|StrategyInterface
-     */
-    public function getLastSuccessfulStrategy()
+    public function getLastSuccessfulStrategy(): ?StrategyInterface
     {
         if ($this->LastSuccessfulStrategyIndex !== false) {
             return $this->Strategies[$this->LastSuccessfulStrategyIndex];
