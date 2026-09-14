@@ -28,7 +28,7 @@ class DataBrowserLinker
     public static function link($name, $startTimestampInNoTimezone, $endTimestampInNoTimezone, $title = '', $rel = '', ?int $sportid = null): string
     {
         if (FrontendShared::$IS_SHOWN) {
-            return DataBrowserShared::getLink($name, $startTimestampInNoTimezone, $endTimestampInNoTimezone, $title = '');
+            return DataBrowserShared::getLink($name, $startTimestampInNoTimezone, $endTimestampInNoTimezone, $title, $sportid);
         }
 
         $href = 'call/call.DataBrowser.display.php?start=' . $startTimestampInNoTimezone . '&end=' . $endTimestampInNoTimezone;

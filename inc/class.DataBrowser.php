@@ -381,7 +381,7 @@ class DataBrowser
     {
         $Link = DataBrowserLinker::link(Icon::$REFRESH, $this->TimestampStart, $this->TimestampEnd, null, null, $this->SportId);
 
-        return str_replace('<a ', '<a id="' . self::REFRESH_BUTTON_ID . '" ' . Ajax::tooltip('', __('Reload current datasheet'), false, true), $Link);
+        return str_replace('<a ', '<a id="' . self::REFRESH_BUTTON_ID . '" ' . Ajax::tooltip('', __('Reload current datasheet'), false, true) . ' ', $Link);
     }
 
     /**

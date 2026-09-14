@@ -84,11 +84,14 @@ class DataBrowserShared extends DataBrowser
      * @param int $start Timestamp for first date in browser
      * @param int $end Timestamp for last date in browser
      * @param string $title title for the link
-     * @return string HTML-link
+     * @param int|null $sportid sport-id to filter one sport
      */
-    public static function getLink($name, $start, $end, $title = ''): string
+    public static function getLink($name, $start, $end, $title = '', ?int $sportid = null): string
     {
         $href = self::getBaseUrl() . '?start=' . $start . '&end=' . $end;
+        if ($sportid !== null) {
+            $href .= '&sport=' . $sportid;
+        }
 
         return Ajax::link($name, 'publicList', $href, '', $title);
     }

@@ -55,7 +55,7 @@ Runalyze.RacePerformanceChartView = function (selector, url, options) {
         };
     };
 
-    d3.json(url, function(raceData){
+    d3.json(url).then(function(raceData){
         try {
             var allRaces = raceData.filter(function(d) {
                 return (+d.sport_id == options.sportId) && !(+d.is_fun);
@@ -327,6 +327,11 @@ Runalyze.RacePerformanceChartView = function (selector, url, options) {
                         return d.distance == dist;
                     })[0];
 
+                if (!pbRace) {
+                    plot.tooltip.cross.style("display", "none");
+                    plot.tooltip.box.style("display", "none");
+                    return;
+                }
                 plot.tooltip.cross.style("display", "initial");
                 plot.tooltip.crossLine.attr("x1", x + .5).attr("x2", x + .5);
                 plot.tooltip.crossText.attr("x", orientationLeft ? x - 10 : x + 10).text(distanceToString(dist)).attr("text-anchor", orientationLeft ? "end" : "start");
@@ -362,5 +367,10 @@ Runalyze.RacePerformanceChartView = function (selector, url, options) {
         } finally {
             $plot.removeClass('loading');
         }
+    }).catch(function(error) {
+        console.log(error);
+
+        $plot.html('<p class="text"><em>' + options.errorMessage + '</em></p>');
+        $plot.removeClass('loading');
     });
 };
