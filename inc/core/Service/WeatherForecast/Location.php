@@ -128,10 +128,7 @@ class Location
         return $this->DateTime instanceof \DateTime;
     }
 
-    /**
-     * @param int $seconds
-     */
-    public function isOlderThan($seconds = 86400): bool
+    public function isOlderThan(int $seconds = 7200): bool
     {
         return $this->hasDateTime() && ($this->getTimestamp() < time() - $seconds);
     }

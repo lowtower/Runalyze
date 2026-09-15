@@ -81,4 +81,68 @@ class OpenWeatherMapTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(0, $result->WindDirection);
     }
+
+    public function testTooOldActivityReturnsNullNotEmptyWeatherData(): void
+    {
+        $openWeatherMap = new OpenWeatherMap('some-api-key', null, $this->getMockForResponses([]));
+
+        $location = new Location();
+        $location->setPosition(49.45, 7.75);
+        // one full day old - well past both the previous hardcoded 7200s
+        // (2h) threshold and any reasonable configured value.
+        $location->setDateTime((new \DateTime())->modify('-1 day'));
+
+        $result = $openWeatherMap->loadForecast($location);
+
+        $this->assertNull(
+            $result,
+            'loadForecast() must return null (not a WeatherData object with '
+            . 'all-null fields) when the activity is too old for this '
+            . 'strategy to even attempt a request - otherwise '
+            . 'WeatherData::isEmpty() incorrectly reports success with no '
+            . 'usable data instead of a proper failure.'
+        );
+    }
+
+    public function testConfigurableMaxAgeAllowsOlderActivityToBeAttempted(): void
+    {
+        $oneDayInSeconds = 86400;
+
+        $openWeatherMap = new OpenWeatherMap('some-api-key', null, $this->getMockForResponses([
+            new Response(200, [], '{
+				"weather":[{"id":800,"main":"Clear","description":"clear sky","icon":"01d"}],
+				"main":{"temp":290,"pressure":1013,"humidity":50},
+				"wind":{"speed":2.0,"deg":90},
+				"cod":200
+			}'),
+        ]), null, $oneDayInSeconds);
+
+        $location = new Location();
+        $location->setPosition(49.45, 7.75);
+        // 5 hours old: would have been rejected by the previous hardcoded
+        // 7200s (2h) default, but is well within a 24h configured threshold.
+        $location->setDateTime((new \DateTime())->modify('-5 hours'));
+
+        $result = $openWeatherMap->loadForecast($location);
+
+        $this->assertNotNull($result);
+        $this->assertEquals(WeatherConditionProfile::SUNNY, $result->InternalConditionId);
+    }
+
+    public function testInvalidApiKeyResponseReturnsNullAndRecordsException(): void
+    {
+        $openWeatherMap = new OpenWeatherMap('invalid-key', null, $this->getMockForResponses([
+            new Response(200, [], '{"cod":401,"message":"Invalid API key. Please see https://openweathermap.org/faq#error401 for more info."}'),
+        ]));
+
+        $location = new Location();
+        $location->setPosition(49.45, 7.75);
+        $location->setDateTime(new \DateTime());
+
+        $result = $openWeatherMap->loadForecast($location);
+
+        $this->assertNull($result);
+        $this->assertNotNull($openWeatherMap->getLastException());
+        $this->assertStringContainsString('401', $openWeatherMap->getLastException()->getMessage());
+    }
 }

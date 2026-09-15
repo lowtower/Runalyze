@@ -23,7 +23,7 @@ use Runalyze\Service\WeatherForecast\Location;
  *
  * @see https://developer.forecast.io/docs/v2
  */
-class DarkSky implements StrategyInterface, LoggerAwareInterface
+class DarkSky implements StrategyInterface, LoggerAwareInterface, LastExceptionAwareInterface
 {
     use LoggerAwareTrait;
 
@@ -33,25 +33,22 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
     public const URL = 'https://api.darksky.net/forecast/';
 
     /**
-     * @var Client
+     * NOTE: newly added - see MeteostatNet.php / OpenWeatherMap.php for the
+     * shared rationale.
      */
-    protected $HttpClient;
+    protected ?\Throwable $LastException = null;
 
-    /**
-     * @param string $ApiKey
-     */
     public function __construct(
-        protected $ApiKey,
-        Client $client,
+        protected string $ApiKey,
+        protected Client $HttpClient,
         ?LoggerInterface $logger = null
     ) {
-        $this->HttpClient = $client;
         $this->logger = $logger ?: new NullLogger();
     }
 
     public function isPossible(): bool
     {
-        return (string) $this->ApiKey !== '';
+        return $this->ApiKey !== '';
     }
 
     public function isCachable(): bool
@@ -59,8 +56,15 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
         return true;
     }
 
-    public function loadForecast(Location $location)
+    public function getLastException(): ?\Throwable
     {
+        return $this->LastException;
+    }
+
+    public function loadForecast(Location $location): ?WeatherData
+    {
+        $this->LastException = null;
+
         $result = $this->tryToLoadForecast($location);
 
         if ($result === []) {
@@ -75,7 +79,7 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
     /**
      * @param array<string, mixed> $currently
      */
-    protected function getWeatherDataFromResult(array $currently): \Runalyze\Parser\Activity\Common\Data\WeatherData
+    protected function getWeatherDataFromResult(array $currently): WeatherData
     {
         $data = new WeatherData();
         $data->Source = WeatherSourceProfile::DARK_SKY;
@@ -135,10 +139,15 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
                 if (is_array($result) && isset($result['currently'])) {
                     return $result;
                 }
+
+                $this->LastException = new \RuntimeException(
+                    'DarkSky returned a response without forecast data.'
+                );
             } catch (RequestException $e) {
                 $this->logger->warning('DarkSky API request failed.', [
                     'exception' => $e,
                 ]);
+                $this->LastException = $e;
             }
         }
 

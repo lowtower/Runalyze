@@ -7,6 +7,7 @@ use GuzzleHttp\Exception\RequestException;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Runalyze\Parser\Activity\Common\Data\WeatherData;
 use Runalyze\Profile\Weather\Mapping\MeteostatNetMapping;
 use Runalyze\Profile\Weather\Source\WeatherSourceProfile;
@@ -21,7 +22,7 @@ use Runalyze\Service\WeatherForecast\Location;
  *
  * @see https://meteostat.net / https://dev.meteostat.net/api/point/hourly.html#endpoint
  */
-class MeteostatNet implements StrategyInterface, LoggerAwareInterface
+class MeteostatNet implements StrategyInterface, LoggerAwareInterface, LastExceptionAwareInterface
 {
     use LoggerAwareTrait;
 
@@ -30,28 +31,20 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
      */
     public const URL = 'https://meteostat.p.rapidapi.com/point/hourly';
 
-    /**
-     * @var Client
-     */
-    protected $HttpClient;
+    protected ?\Throwable $LastException = null;
 
-    /**
-     * @param string $ApiKey
-     * @param string $Proxy
-     */
     public function __construct(
-        protected $ApiKey,
-        protected $Proxy,
-        Client $client,
+        protected string $ApiKey,
+        protected ?string $Proxy,
+        protected Client $HttpClient,
         ?LoggerInterface $logger = null
     ) {
-        $this->HttpClient = $client;
-        $this->logger = $logger;
+        $this->logger = $logger ?: new NullLogger();
     }
 
     public function isPossible(): bool
     {
-        return (string) $this->ApiKey !== '';
+        return $this->ApiKey !== '';
     }
 
     public function isCachable(): bool
@@ -59,11 +52,18 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
         return true;
     }
 
-    public function loadForecast(Location $location)
+    public function getLastException(): ?\Throwable
     {
+        return $this->LastException;
+    }
+
+    public function loadForecast(Location $location): ?WeatherData
+    {
+        $this->LastException = null;
+
         $result = $this->tryToLoadForecast($location);
 
-        if (! is_array($result) || $result === []) {
+        if ($result === []) {
             return null;
         }
 
@@ -119,10 +119,7 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
         return WeatherConditionProfile::UNKNOWN;
     }
 
-    /**
-     * @return array
-     */
-    protected function tryToLoadForecast(Location $location)
+    protected function tryToLoadForecast(Location $location): array
     {
         $url = $this->getUrlFor($location);
         $this->logger->debug(sprintf('url >> %s.', $url));
@@ -150,21 +147,26 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
             // we've get a json with 'meta' and 'data'; 'data' contains one object for every hour
             if (is_array($result)) {
                 if (isset($result['data']) && ! empty($result['data'])) {
-                    // retrieve the data-element with our trainings-time
-                    return $this->getDataElementOfTime($location->hasDateTime() ? $location->getDateTime() : time(), $result['data']);
+                    return $this->getDataElementOfTime($this->getReferenceDateTime($location), $result['data']);
                 }
             }
         } catch (RequestException $requestException) {
             $this->logger->error('MeteostatNet API request failed.', [
                 'exception' => $requestException,
             ]);
-            throw new \RuntimeException('MeteostatNet request resulted in an error: ' . $requestException->getMessage(), 0, $requestException);
+
+            $this->LastException = $requestException;
+
+            return [];
         }
 
         return [];
     }
 
-    protected function getDataElementOfTime($time, $data)
+    /**
+     * @param array<int, array<string, mixed>> $data
+     */
+    protected function getDataElementOfTime(\DateTime $time, array $data)
     {
         // get activity-time in string-format
         $ymdhms = $time->format('Y-m-d H:i:s');
@@ -181,6 +183,21 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
         return [];
     }
 
+    protected function getReferenceDateTime(Location $location): \DateTime
+    {
+        if ($location->hasDateTime()) {
+            return $location->getDateTime();
+        }
+
+        try {
+            $timezone = new \DateTimeZone($location->getTimezone());
+        } catch (\Exception) {
+            $timezone = new \DateTimeZone(date_default_timezone_get());
+        }
+
+        return new \DateTime('now', $timezone);
+    }
+
     protected function getUrlFor(Location $location): string
     {
         $parameter = [];
@@ -193,16 +210,7 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
             throw new \Exception('MeteostatNet cant build URL because we have no location.');
         }
 
-        $dateTime = $location->getDateTime();
-        if (! $dateTime instanceof \DateTime) {
-            try {
-                $timezone = new \DateTimeZone($location->getTimezone());
-            } catch (\Exception) {
-                $timezone = new \DateTimeZone(date_default_timezone_get());
-            }
-
-            $dateTime = new \DateTime('now', $timezone);
-        }
+        $dateTime = $this->getReferenceDateTime($location);
 
         $ymd = $dateTime->format('Y-m-d');
         $parameter[] = 'start=' . $ymd;

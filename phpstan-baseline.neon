@@ -27,31 +27,6 @@ parameters:
             path: lib/jquery.form.include.php
 
         # ---------------------------------------------------------------
-        # Known upstream PHPUnit/PHPStan interaction issue (assertEmpty/assertNotEmpty
-        # on Countable objects): https://github.com/sebastianbergmann/phpunit/issues/6199
-        # ---------------------------------------------------------------
-        -
-            message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertEmpty\(\) with Runalyze\\Parser\\Activity\\Common\\Data\\Pause\\PauseCollection will always evaluate to false\.$#'
-            identifier: method.impossibleType
-            count: 1
-            path: tests/inc/core/Parser/Activity/Common/Data/Pause/PauseCollectionTest.php
-        -
-            message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertNotEmpty\(\) with Runalyze\\Parser\\Activity\\Common\\Data\\Pause\\PauseCollection will always evaluate to true\.$#'
-            identifier: method.alreadyNarrowedType
-            count: 1
-            path: tests/inc/core/Parser/Activity/Common/Data/Pause/PauseCollectionTest.php
-        -
-            message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertEmpty\(\) with Runalyze\\Parser\\Activity\\Common\\Data\\Round\\RoundCollection will always evaluate to false\.$#'
-            identifier: method.impossibleType
-            count: 1
-            path: tests/inc/core/Parser/Activity/Common/Data/Round/RoundCollectionTest.php
-        -
-            message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertNotEmpty\(\) with Runalyze\\Parser\\Activity\\Common\\Data\\Round\\RoundCollection will always evaluate to true\.$#'
-            identifier: method.alreadyNarrowedType
-            count: 1
-            path: tests/inc/core/Parser/Activity/Common/Data/Round/RoundCollectionTest.php
-
-        # ---------------------------------------------------------------
         # Intentional template-method hook: Entity::synchronize() is currently an
         # empty no-op in the base class, but subclasses call parent::synchronize()
         # by convention so that future shared logic added to the base class

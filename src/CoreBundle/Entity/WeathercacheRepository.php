@@ -15,9 +15,8 @@ class WeathercacheRepository extends EntityRepository implements DatabaseCacheIn
 {
     /**
      * @param int $timeTolerance [s]
-     * @return WeatherData|null
      */
-    public function getCachedWeatherDataFor(Location $location, $timeTolerance)
+    public function getCachedWeatherDataFor(Location $location, int $timeTolerance): ?WeatherData
     {
         if ($location->hasPosition()) {
             $result = $this->createQueryBuilder('w')
@@ -42,7 +41,7 @@ class WeathercacheRepository extends EntityRepository implements DatabaseCacheIn
 
     public function cacheWeatherData(WeatherData $data, Location $location): void
     {
-        if ($this->getCachedWeatherDataFor($location, DatabaseCache::TIME_PRECISION) === null) {
+        if (! $this->getCachedWeatherDataFor($location, DatabaseCache::TIME_PRECISION) instanceof \Runalyze\Parser\Activity\Common\Data\WeatherData) {
             $cache = new Weathercache();
             $cache->setWeatherData($data);
             $cache->setLocation($location);

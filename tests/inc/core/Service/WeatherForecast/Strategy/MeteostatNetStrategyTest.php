@@ -9,28 +9,17 @@ use Runalyze\Service\WeatherForecast\Strategy\MeteostatNet;
 
 class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \ReflectionMethod
-     */
-    protected $GetUrlForMethod;
+    protected \ReflectionMethod $GetUrlForMethod;
 
-    /**
-     * @var \ReflectionMethod
-     */
-    protected $GetDataElementOfTimeMethod;
+    protected \ReflectionMethod $GetDataElementOfTimeMethod;
 
-    /**
-     * @var \Runalyze\Service\WeatherForecast\Strategy\MeteostatNet
-     */
-    protected $Strategy;
+    protected \ReflectionMethod $GetWeatherDataFromResultMethod;
 
-    /**
-     * @var \ReflectionMethod
-     */
-    protected $GetWeatherDataFromResultMethod;
+    protected MeteostatNet $Strategy;
 
     protected function setUp(): void
     {
+        /** @var \Psr\Log\LoggerInterface&\PHPUnit\Framework\MockObject\MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
 
         $this->Strategy = new MeteostatNet('test-api-key', null, new \GuzzleHttp\Client(), $logger);
@@ -166,6 +155,7 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
 
     public function testProxyIsPassedToHttpClient(): void
     {
+        /** @var \Psr\Log\LoggerInterface&\PHPUnit\Framework\MockObject\MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
         $location = new Location();
         $location->setPosition(52.4, 10.7);
@@ -196,5 +186,78 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
 
         $this->assertCount(1, $container);
         $this->assertSame('http://proxy.example:8080', $container[0]['options']['proxy']);
+    }
+
+    public function testHandlesLocationWithoutDateTime(): void
+    {
+        $timezone = new \DateTimeZone('Europe/Berlin');
+        $nowInLocationTimezone = new \DateTime('now', $timezone);
+
+        $container = [];
+        $history = \GuzzleHttp\Middleware::history($container);
+
+        $mock = new \GuzzleHttp\Handler\MockHandler([
+            new \GuzzleHttp\Psr7\Response(200, [], json_encode([
+                'data' => [
+                    [
+                        'time' => $nowInLocationTimezone->format('Y-m-d H:i:s'),
+                        'temp' => 12.0,
+                    ],
+                ],
+            ])),
+        ]);
+
+        $handlerStack = \GuzzleHttp\HandlerStack::create($mock);
+        $handlerStack->push($history);
+
+        $client = new \GuzzleHttp\Client([
+            'handler' => $handlerStack,
+        ]);
+
+        $logger = $this->createMock(LoggerInterface::class);
+        $strategy = new MeteostatNet('test-api-key', null, $client, $logger);
+
+        $location = new Location();
+        $location->setPosition(52.4, 10.7);
+        $location->setTimezone('Europe/Berlin');
+
+        $result = $strategy->loadForecast($location);
+
+        $this->assertNotNull(
+            $result,
+            'loadForecast() must not crash and must return usable weather '
+            . 'data for a Location without an explicitly set DateTime, '
+            . 'using "now" in the Location\'s own timezone - not UTC or '
+            . "the test runner's ambient default timezone."
+        );
+        $this->assertEquals(12, $result->Temperature);
+    }
+
+    public function testNetworkFailureIsCaughtAndRecordsException(): void
+    {
+        $request = new \GuzzleHttp\Psr7\Request('GET', 'https://meteostat.p.rapidapi.com/point/hourly');
+        $mock = new \GuzzleHttp\Handler\MockHandler([
+            new \GuzzleHttp\Exception\RequestException('Connection refused', $request),
+        ]);
+        $handlerStack = \GuzzleHttp\HandlerStack::create($mock);
+        $client = new \GuzzleHttp\Client([
+            'handler' => $handlerStack,
+        ]);
+
+        $logger = $this->createMock(LoggerInterface::class);
+        $strategy = new MeteostatNet('test-api-key', null, $client, $logger);
+
+        $location = new Location();
+        $location->setPosition(52.4, 10.7);
+        $location->setTimezone('Europe/Berlin');
+        $location->setDateTime(new \DateTime('2020-10-01 15:30:00'));
+
+        $result = $strategy->loadForecast($location);
+
+        $this->assertNull($result);
+        $this->assertInstanceOf(
+            \GuzzleHttp\Exception\RequestException::class,
+            $strategy->getLastException()
+        );
     }
 }
