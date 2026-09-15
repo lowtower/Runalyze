@@ -2,6 +2,10 @@
 
 namespace Runalyze\Tests\Service\WeatherForecast\Strategy;
 
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Runalyze\Profile\Weather\Source\WeatherSourceProfile;
 use Runalyze\Profile\Weather\WeatherConditionProfile;
@@ -68,5 +72,68 @@ class DarkSkyTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(1013, $result->AirPressure);
         $this->assertEqualsWithDelta(22.8, $result->Temperature, 0.1);
         $this->assertEquals(WeatherSourceProfile::DARK_SKY, $result->Source);
+    }
+
+    public function testSuccessfulResponseIsNotDiscardedAsNull(): void
+    {
+        $darkSky = new DarkSky('', $this->getMockForResponses([
+            new Response(200, [], '{"currently":{"temperature":73.2}}'),
+        ]));
+
+        $location = new Location();
+        $location->setPosition(54.347, 10.1125);
+
+        $result = $darkSky->loadForecast($location);
+
+        $this->assertNotNull(
+            $result,
+            'loadForecast() must return actual weather data for a valid, '
+            . 'successful API response containing a "currently" key - not '
+            . 'null, which would make this strategy permanently '
+            . 'non-functional regardless of API key validity.'
+        );
+    }
+
+    public function testValidJsonWithoutCurrentlyKeyReturnsNullAndRecordsException(): void
+    {
+        $darkSky = new DarkSky('', $this->getMockForResponses([
+            new Response(200, [], '{"latitude":54.347,"longitude":10.1125}'),
+        ]));
+
+        $location = new Location();
+        $location->setPosition(54.347, 10.1125);
+
+        $result = $darkSky->loadForecast($location);
+
+        $this->assertNull($result);
+        $this->assertNotNull(
+            $darkSky->getLastException(),
+            'getLastException() should record a reason when a response '
+            . 'parses as valid JSON but is missing the expected '
+            . '"currently" key, so callers can distinguish this from a '
+            . 'genuine network failure.'
+        );
+    }
+
+    public function testNetworkFailureIsCaughtAndRecordsException(): void
+    {
+        $request = new Request('GET', 'https://api.darksky.net/forecast/test');
+        $mock = new MockHandler([
+            new RequestException('Connection refused', $request),
+        ]);
+        $handlerStack = HandlerStack::create($mock);
+        $client = new \GuzzleHttp\Client([
+            'handler' => $handlerStack,
+        ]);
+
+        $darkSky = new DarkSky('', $client);
+
+        $location = new Location();
+        $location->setPosition(54.347, 10.1125);
+
+        $result = $darkSky->loadForecast($location);
+
+        $this->assertNull($result);
+        $this->assertInstanceOf(RequestException::class, $darkSky->getLastException());
     }
 }

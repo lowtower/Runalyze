@@ -10,9 +10,8 @@ interface DatabaseCacheInterface
 {
     /**
      * @param int $timeTolerance [s]
-     * @return WeatherData|null
      */
-    public function getCachedWeatherDataFor(Location $location, $timeTolerance);
+    public function getCachedWeatherDataFor(Location $location, int $timeTolerance): ?WeatherData;
 
     public function cacheWeatherData(WeatherData $data, Location $location);
 }

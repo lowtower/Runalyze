@@ -2,13 +2,18 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\Internal\Service;
 
+use GuzzleHttp\Exception\RequestException;
 use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Parameter\Application\Timezone;
 use Runalyze\Parser\Activity\Common\Data\WeatherData;
 use Runalyze\Profile\Weather\Source\SourceInterface;
 use Runalyze\Profile\Weather\Source\WeatherSourceProfile;
+use Runalyze\Service\WeatherForecast\Exception\TooOldForCurrentConditionsException;
 use Runalyze\Service\WeatherForecast\Location;
+use Runalyze\Service\WeatherForecast\Strategy\DarkSky;
+use Runalyze\Service\WeatherForecast\Strategy\MeteostatNet;
+use Runalyze\Service\WeatherForecast\Strategy\OpenWeatherMap;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,13 +46,13 @@ class WeatherController extends AbstractController
             return null;
         }
 
-        $weather = $this->get('app.weather_forecast')
-            ->loadForecast($location) ?: new WeatherData();
+        $weatherForecastService = $this->get('app.weather_forecast');
+        $weather = $weatherForecastService->loadForecast($location) ?: new WeatherData();
 
         /** @var SourceInterface|null $source */
         $source = $weather->Source ? WeatherSourceProfile::get($weather->Source) : null;
 
-        return new JsonResponse([
+        $response = [
             'empty' => $weather->isEmpty(),
             'location' => [
                 'name' => $location->getLocationName(),
@@ -66,7 +71,78 @@ class WeatherController extends AbstractController
             'wind_deg' => $weather->WindDirection,
             'humidity' => $weather->Humidity,
             'pressure' => $weather->AirPressure,
-        ]);
+        ];
+
+        if ($weather->isEmpty()) {
+            $response['sources'] = $this->buildSourceDiagnostics($weatherForecastService);
+        }
+
+        return new JsonResponse($response);
+    }
+
+    /**
+     * @return array<int, array{source: string, reason: string, detail: ?string}>
+     */
+    private function buildSourceDiagnostics(\Runalyze\Bundle\CoreBundle\Services\Import\WeatherForecast $weatherForecastService): array
+    {
+        $reasons = $weatherForecastService->getLastAttemptReasons();
+        $exceptions = $weatherForecastService->getLastAttemptExceptions();
+
+        $sourceKeys = [
+            \Runalyze\Service\WeatherForecast\Strategy\DatabaseCache::class => 'cache',
+            DarkSky::class => 'darksky',
+            OpenWeatherMap::class => 'openweathermap',
+            MeteostatNet::class => 'meteostatnet',
+        ];
+
+        $diagnostics = [];
+
+        foreach ($reasons as $strategyClass => $reason) {
+            $sourceKey = $sourceKeys[$strategyClass] ?? $strategyClass;
+
+            if ($sourceKey === 'cache') {
+                continue;
+            }
+
+            $detail = null;
+
+            if ($reason === 'no_data' && isset($exceptions[$strategyClass])) {
+                $reason = $this->classifyException($exceptions[$strategyClass]);
+                $detail = $exceptions[$strategyClass]->getMessage();
+            }
+
+            $diagnostics[] = [
+                'source' => $sourceKey,
+                'reason' => $reason,
+                'detail' => $detail,
+            ];
+        }
+
+        return $diagnostics;
+    }
+
+    private function classifyException(\Throwable $exception): string
+    {
+        if ($exception instanceof TooOldForCurrentConditionsException) {
+            return 'too_old';
+        }
+
+        if ($exception instanceof RequestException && $exception->hasResponse()) {
+            $statusCode = $exception->getResponse()
+                ->getStatusCode();
+
+            if (in_array($statusCode, [401, 403], true)) {
+                return 'auth_failed';
+            }
+
+            if ($statusCode === 429) {
+                return 'rate_limited';
+            }
+
+            return 'request_failed';
+        }
+
+        return 'request_failed';
     }
 
     private function getLocationForRequest(Request $request, Account $account): Location

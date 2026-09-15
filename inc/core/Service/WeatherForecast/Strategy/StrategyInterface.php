@@ -9,18 +9,9 @@ use Runalyze\Service\WeatherForecast\Location;
 
 interface StrategyInterface
 {
-    /**
-     * @return bool
-     */
-    public function isPossible();
+    public function isPossible(): bool;
 
-    /**
-     * @return bool
-     */
-    public function isCachable();
+    public function isCachable(): bool;
 
-    /**
-     * @return WeatherData|null
-     */
-    public function loadForecast(Location $location);
+    public function loadForecast(Location $location): ?WeatherData;
 }
