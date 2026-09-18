@@ -72,7 +72,7 @@ class Privacy extends \Runalyze\Configuration\Category
     protected function registerOnchangeEvents()
     {
         $this->handle('TRAINING_LIST_PUBLIC')
-            ->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_DATABROWSER);
     }
 
     public function Fieldset(): \Runalyze\Configuration\Fieldset

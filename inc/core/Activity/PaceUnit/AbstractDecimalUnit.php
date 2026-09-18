@@ -53,10 +53,10 @@ abstract class AbstractDecimalUnit extends AbstractUnit
      *
      * @return mixed
      */
-    public function rawValue(int $secondsPerKm)
+    public function rawValue(float $secondsPerKm)
     {
-        if ($secondsPerKm === 0) {
-            return 0;
+        if ($secondsPerKm === 0.0) {
+            return 0.0;
         }
 
         return $this->dividendForUnit() / $secondsPerKm;
@@ -65,9 +65,9 @@ abstract class AbstractDecimalUnit extends AbstractUnit
     /**
      * Format pace
      */
-    public function format(int $secondsPerKm): string
+    public function format(float $secondsPerKm): string
     {
-        if ($secondsPerKm === 0) {
+        if ($secondsPerKm === 0.0) {
             return '0' . self::$DecimalSeparator . '0';
         }
 
@@ -79,14 +79,12 @@ abstract class AbstractDecimalUnit extends AbstractUnit
      *
      * This value is positive if $firstPaceInSecondsPerKm is larger than $secondPaceInSecondsPerKm
      *
-     * @param int $firstPaceInSecondsPerKm
-     * @param int $secondPaceInSecondsPerKm
      * @return float [s/km]
      */
-    public function compare($firstPaceInSecondsPerKm, $secondPaceInSecondsPerKm)
+    public function compare(float $firstPaceInSecondsPerKm, float $secondPaceInSecondsPerKm): float
     {
-        if ($firstPaceInSecondsPerKm == $secondPaceInSecondsPerKm) {
-            return 0;
+        if ($firstPaceInSecondsPerKm === $secondPaceInSecondsPerKm) {
+            return 0.0;
         }
 
         return $firstPaceInSecondsPerKm * $secondPaceInSecondsPerKm / ($secondPaceInSecondsPerKm - $firstPaceInSecondsPerKm);

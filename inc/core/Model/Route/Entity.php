@@ -359,8 +359,8 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 
         foreach ($geohashes as $geohash) {
             $coordinate = $this->coordinate($geohash);
-            $latitudes[] = round($coordinate->getLatitude(), 6);
-            $longitudes[] = round($coordinate->getLongitude(), 6);
+            $latitudes[] = round((float) $coordinate->getLatitude(), 6);
+            $longitudes[] = round((float) $coordinate->getLongitude(), 6);
         }
 
         $this->setMinMaxFromLatitudesLongitudes($latitudes, $longitudes);
@@ -414,8 +414,8 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 
         for ($i = 0; $i < $size; $i++) {
             $geo = $this->coordinate($Geohashes[$i]);
-            $Coordinates['lat'][] = round($geo->getLatitude(), 6);
-            $Coordinates['lng'][] = round($geo->getLongitude(), 6);
+            $Coordinates['lat'][] = round((float) $geo->getLatitude(), 6);
+            $Coordinates['lng'][] = round((float) $geo->getLongitude(), 6);
         }
 
         return $Coordinates;

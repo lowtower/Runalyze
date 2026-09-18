@@ -67,21 +67,19 @@ abstract class AbstractUnit
      *
      * @return mixed
      */
-    abstract public function rawValue(int $secondsPerKm);
+    abstract public function rawValue(float $secondsPerKm);
 
     /**
      * Format pace
      */
-    abstract public function format(int $secondsPerKm): string;
+    abstract public function format(float $secondsPerKm): string;
 
     /**
      * Compare two paces
      *
      * This value is positive if $firstPaceInSecondsPerKm is larger than $secondPaceInSecondsPerKm
      *
-     * @param int $firstPaceInSecondsPerKm
-     * @param int $secondPaceInSecondsPerKm
      * @return float [s/km]
      */
-    abstract public function compare($firstPaceInSecondsPerKm, $secondPaceInSecondsPerKm);
+    abstract public function compare(float $firstPaceInSecondsPerKm, float $secondPaceInSecondsPerKm): float;
 }

@@ -27,80 +27,60 @@ class Activity extends LeafletRoute
 {
     /**
      * Route
-     * @var \Runalyze\Model\Route\Entity
      */
-    protected $Route;
+    protected \Runalyze\Model\Route\Entity $Route;
 
     /**
      * Route loop
-     * @var \Runalyze\Model\Route\Loop
      */
-    protected $RouteLoop;
-
-    /**
-     * Trackdata
-     * @var \Runalyze\Model\Trackdata\Entity
-     */
-    protected $Trackdata;
+    protected \Runalyze\Model\Route\Loop $RouteLoop;
 
     /**
      * Trackdata loop
-     * @var \Runalyze\Model\Trackdata\Loop
      */
-    protected $TrackdataLoop;
+    protected ?\Runalyze\Model\Trackdata\Loop $TrackdataLoop = null;
 
     /**
      * Path
-     * @var array
      */
-    protected $Path = [];
+    protected array $Path = [];
 
     /**
      * Info
-     * @var array
      */
-    protected $Info = [];
+    protected array $Info = [];
 
     /**
      * Distance
      * @var int km or miles
      */
-    protected $Dist = 1;
+    protected int $Dist = 1;
 
     /**
      * Time
-     * @var int
      */
-    protected $Time = 0;
+    protected int $Time = 0;
 
     /**
      * Pause limit
      * @var float distance in km
      */
-    protected $PauseLimit = 0.05;
+    protected float $PauseLimit = 0.05;
 
-    /**
-     * @var int
-     */
-    protected $PauseIndex = 0;
+    protected int $PauseIndex = 0;
 
-    /**
-     * @var bool
-     */
-    protected $PathShouldBreak = false;
+    protected bool $PathShouldBreak = false;
 
     /**
      * Construct new route
-     * @param \Runalyze\Model\Trackdata\Entity $trackdata [optional]
+     * @param \Runalyze\Model\Trackdata\Entity $Trackdata [optional]
      * @param bool $addIconsAndInfo [optional]
      * @throws \InvalidArgumentException
      */
     public function __construct(
         string $id,
         Route\Entity $route,
-        ?Trackdata\Entity $trackdata = null, /**
-     * Boolean flag: add icons and info
-     */
+        protected ?\Runalyze\Model\Trackdata\Entity $Trackdata = null,
         protected $addIconsAndInfo = true
     ) {
         parent::__construct($id);
@@ -110,7 +90,6 @@ class Activity extends LeafletRoute
         }
 
         $this->Route = $route;
-        $this->Trackdata = $trackdata;
 
         $this->addOption('options', [
             'color' => '#FF5500',
@@ -149,8 +128,8 @@ class Activity extends LeafletRoute
         $this->RouteLoop->setStepSize($stepSize);
 
         if (
-            $this->Trackdata !== null
-            && ($this->Route->num() == $this->Trackdata->num())
+            $this->Trackdata instanceof \Runalyze\Model\Trackdata\Entity
+            && ($this->Route->num() === $this->Trackdata->num())
             && $this->Trackdata->has(Trackdata\Entity::TIME)
         ) {
             $this->TrackdataLoop = new Trackdata\Loop($this->Trackdata);
@@ -163,7 +142,7 @@ class Activity extends LeafletRoute
      */
     protected function hasTrackdataLoop(): bool
     {
-        return $this->TrackdataLoop !== null;
+        return $this->TrackdataLoop instanceof \Runalyze\Model\Trackdata\Loop;
     }
 
     /**
@@ -195,7 +174,7 @@ class Activity extends LeafletRoute
         /** @var Geohash $geohash */
         $geohash = (new Geotools())->geohash()
             ->decode($this->RouteLoop->geohash());
-        if ($this->RouteLoop->geohash() == '7zzzzzzzzzzz') {
+        if ($this->RouteLoop->geohash() === '7zzzzzzzzzzz') {
             return;
         }
 
@@ -203,8 +182,8 @@ class Activity extends LeafletRoute
 
         if ($this->addIconsAndInfo && $this->hasTrackdataLoop()) {
             $this->Info[] = [
-                (float) $this->TrackdataLoop->distance(),
-                (int) $this->TrackdataLoop->time(),
+                $this->TrackdataLoop->distance(),
+                $this->TrackdataLoop->time(),
             ];
         }
     }
@@ -286,7 +265,7 @@ class Activity extends LeafletRoute
 
     protected function findLimitForPauses()
     {
-        if ($this->Trackdata !== null && $this->Trackdata->has(Trackdata\Entity::DISTANCE)) {
+        if ($this->Trackdata instanceof \Runalyze\Model\Trackdata\Entity && $this->Trackdata->has(Trackdata\Entity::DISTANCE)) {
             $SecondsForDist = (int) Configuration::ActivityView()->routeBreak()->value();
             $AveragePace = $this->Trackdata->totalDistance() > 0 ? $this->Trackdata->totalTime() / $this->Trackdata->totalDistance() : 0;
 
@@ -300,7 +279,7 @@ class Activity extends LeafletRoute
 
     protected function checkForPause()
     {
-        if ($this->Trackdata !== null && $this->Trackdata->hasPauses() && $this->hasTrackdataLoop()) {
+        if ($this->Trackdata instanceof \Runalyze\Model\Trackdata\Entity && $this->Trackdata->hasPauses() && $this->hasTrackdataLoop()) {
             if (
                 $this->PauseIndex < $this->Trackdata->pauses()
                     ->num() &&

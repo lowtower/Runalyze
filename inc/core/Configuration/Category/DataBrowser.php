@@ -84,13 +84,13 @@ class DataBrowser extends \Runalyze\Configuration\Category
     protected function registerOnchangeEvents()
     {
         $this->handle('DB_SHOW_DATASET_LABELS')
-            ->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_DATABROWSER);
         $this->handle('DB_SHOW_CREATELINK_FOR_DAYS')
-            ->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_DATABROWSER);
         $this->handle('DB_SHOW_ACTIVE_DAYS_ONLY')
-            ->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_DATABROWSER);
         $this->handle('DB_REVERSE_MODE')
-            ->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_DATABROWSER);
 
         $this->handle('DB_DISPLAY_MODE')
             ->registerOnchangeEvent(self::class . '::showNewTimerangeInDB');

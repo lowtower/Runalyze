@@ -192,7 +192,7 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
     protected function parseTrackpoint(SimpleXMLElement &$trackPoint)
     {
         if ($this->DistancesAreEmpty) {
-            $trackPoint->addChild('DistanceMeters', 1000 * $this->distanceToTrackpoint($trackPoint));
+            $trackPoint->addChild('DistanceMeters', (string) (1000 * $this->distanceToTrackpoint($trackPoint)));
         }
 
         $thisBreakInMeter = (float) $trackPoint->DistanceMeters - $this->LastDistance;
@@ -246,7 +246,7 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
 
         if ($this->WasPause) {
             $pause = new Pause(end($this->Container->ContinuousData->Time), $this->PauseDuration);
-            $pause->setHeartRateDetails(end($this->Container->ContinuousData->HeartRate), ! empty($trackPoint->HeartRateBpm) ? round((int) $trackPoint->HeartRateBpm->Value) : null);
+            $pause->setHeartRateDetails(end($this->Container->ContinuousData->HeartRate), ! empty($trackPoint->HeartRateBpm) ? (int) round((float) $trackPoint->HeartRateBpm->Value) : null);
 
             $this->Container->Pauses->add($pause);
 

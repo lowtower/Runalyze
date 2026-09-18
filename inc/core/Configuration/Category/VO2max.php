@@ -99,15 +99,15 @@ class VO2max extends \Runalyze\Configuration\Category
         $this->handle('VO2MAX_DAYS')
             ->registerOnchangeEvent(self::class . '::triggerRecalculation');
         $this->handle('VO2MAX_DAYS')
-            ->registerOnchangeFlag(Ajax::$RELOAD_ALL);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_ALL);
 
         $this->handle('VO2MAX_MANUAL_CORRECTOR')
             ->registerOnchangeEvent(self::class . '::triggerRecalculation');
         $this->handle('VO2MAX_MANUAL_CORRECTOR')
-            ->registerOnchangeFlag(Ajax::$RELOAD_ALL);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_ALL);
 
         $this->handle('VO2MAX_MANUAL_VALUE')
-            ->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_PLUGINS);
 
         $this->handle('VO2MAX_USE_CORRECTION_FOR_ELEVATION')
             ->registerOnchangeEvent(\Runalyze\Configuration\Messages::class . '::useCleanup');

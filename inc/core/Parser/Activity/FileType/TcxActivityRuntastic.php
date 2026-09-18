@@ -25,7 +25,7 @@ class TcxActivityRuntastic extends TcxActivity
     protected function parseTrackpoint(SimpleXMLElement &$trackPoint)
     {
         if ($this->DistancesAreEmpty) {
-            $trackPoint->addChild('DistanceMeters', 1000 * $this->distanceToTrackpoint($trackPoint));
+            $trackPoint->addChild('DistanceMeters', (string) (1000 * $this->distanceToTrackpoint($trackPoint)));
         }
 
         if (! empty($trackPoint->HeartRateBpm)) {

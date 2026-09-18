@@ -19,7 +19,7 @@ if (! isset($_GET['distance'])) {
 
 $Submenu = '';
 foreach ($distances as $km) {
-    $km = trim($km);
+    $km = (float) trim($km);
     $link = 'plugin/RunalyzePluginPanel_Prognose/window.plot.php?distance=' . $km;
     $Submenu .= '<li' . ($km == $distance ? ' class="active"' : '') . '>' . Ajax::window('<a href="' . $link . '">' . ((new Distance($km))->stringAuto()) . '</a>') . '</li>';
 }

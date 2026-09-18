@@ -292,7 +292,7 @@ abstract class PlotSumData extends Plot
     /**
      * Link to plot
      * @param string $text
-     * @param int $year
+     * @param string $year
      * @param int $sportid
      * @param string $group
      * @return string
@@ -310,20 +310,11 @@ abstract class PlotSumData extends Plot
         return Ajax::window('<li' . ($current ? ' class="active"' : '') . '><a href="' . self::$URL . '?type=' . $this->ParamType . '&y=' . $year . '&sportid=' . $sportid . '&group=' . $group . '&analysis=' . $analysis . '">' . $text . '</a></li>');
     }
 
-    /**
-     * @return string
-     */
-    abstract protected function getCSSid();
+    abstract protected function getCSSid(): string;
 
-    /**
-     * @return string
-     */
-    abstract protected function getTitle();
+    abstract protected function getTitle(): string;
 
-    /**
-     * @return string
-     */
-    protected function getTitleAppendix()
+    protected function getTitleAppendix(): string
     {
         if ($this->Year === self::LAST_6_MONTHS) {
             return __('last 6 months');
@@ -370,10 +361,10 @@ abstract class PlotSumData extends Plot
         if ($this->Analysis === self::ANALYSIS_DEFAULT) {
             if ($this->usesDistance) {
                 $this->addYUnit(1, Configuration::General()->distanceUnitSystem()->distanceUnit());
-                $this->setYTicks(1, 10, 0);
+                $this->setYTicks(1, 10, false);
             } else {
                 $this->addYUnit(1, 'h');
-                $this->setYTicks(1, 1, 0);
+                $this->setYTicks(1, 1, false);
             }
         }
     }

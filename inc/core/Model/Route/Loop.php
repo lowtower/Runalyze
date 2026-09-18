@@ -68,10 +68,10 @@ class Loop extends \Runalyze\Model\Loop
         $IndexGeohash = $this->decodedGeohash($this->Object->at($this->Index, Entity::GEOHASHES))->getCoordinate();
 
         return Entity::gpsDistance(
-            $LastGeohash->getLatitude(),
-            $LastGeohash->getLongitude(),
-            $IndexGeohash->getLatitude(),
-            $IndexGeohash->getLongitude()
+            (float) $LastGeohash->getLatitude(),
+            (float) $LastGeohash->getLongitude(),
+            (float) $IndexGeohash->getLatitude(),
+            (float) $IndexGeohash->getLongitude()
         );
     }
 

@@ -277,6 +277,6 @@ class PDOforRunalyze extends PDO
             $this->addAccountIDtoStatement($statement);
         }
 
-        return parent::query($statement, $fetchMode, $fetchModeArgs);
+        return parent::query($statement, $fetchMode, ...$fetchModeArgs);
     }
 }

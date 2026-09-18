@@ -177,12 +177,9 @@ class Entity extends Model\Entity
         }
     }
 
-    /**
-     * @return string
-     */
-    public function officialDistance()
+    public function officialDistance(): float
     {
-        return $this->Data[self::OFFICIAL_DISTANCE];
+        return (float) $this->Data[self::OFFICIAL_DISTANCE];
     }
 
     /**

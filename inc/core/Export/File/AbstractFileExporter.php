@@ -60,7 +60,7 @@ abstract class AbstractFileExporter extends AbstractExporter
     {
         return str_replace(
             ['{id}', '{enum}'],
-            [$this->Context->activity()->id(), $this->enum()],
+            [(string) $this->Context->activity()->id(), (string) $this->enum()],
             self::URL
         );
     }

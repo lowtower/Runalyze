@@ -115,7 +115,7 @@ class WeekStart extends \Runalyze\Parameter\Select
         }
 
         if ($this->isSunday() && date('w', $now) == 0) {
-            if (date('W', $now) == 53 || date('W', $now) === date('W', mktime(0, 0, 0, 12, 28, date('Y', $now)))) {
+            if (date('W', $now) == 53 || date('W', $now) === date('W', mktime(0, 0, 0, 12, 28, (int) date('Y', $now)))) {
                 return 1;
             }
 

@@ -83,17 +83,17 @@ class Trimp extends \Runalyze\Configuration\Category
         $this->handle('ATL_DAYS')
             ->registerOnchangeEvent(self::class . '::triggerRecalculation');
         $this->handle('ATL_DAYS')
-            ->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_PLUGINS);
 
         $this->handle('CTL_DAYS')
             ->registerOnchangeEvent(self::class . '::triggerRecalculation');
         $this->handle('CTL_DAYS')
-            ->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_PLUGINS);
 
         $this->handle('TRIMP_MODEL_IN_PERCENT')
-            ->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_PLUGINS);
         $this->handle('TSB_IN_PERCENT')
-            ->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_PLUGINS);
     }
 
     public function Fieldset(): \Runalyze\Configuration\Fieldset
@@ -141,8 +141,8 @@ class Trimp extends \Runalyze\Configuration\Category
             $newCTL = $Data->maxCTL();
             $newATL = $Data->maxATL();
 
-            Messages::addValueRecalculated(__('Maximal CTL'), $newCTL, $oldCTL);
-            Messages::addValueRecalculated(__('Maximal ATL'), $newATL, $oldATL);
+            Messages::addValueRecalculated(__('Maximal CTL'), (string) $newCTL, (string) $oldCTL);
+            Messages::addValueRecalculated(__('Maximal ATL'), (string) $newATL, (string) $oldATL);
         }
     }
 }

@@ -37,10 +37,9 @@ class SharedLinker
 
     /**
      * Get link to a given training
-     * @param int $trainingID
-     * @param string $text [optional]
+     * @param ?string $text [optional]
      */
-    public static function getStandardLinkTo($trainingID, $text = null): string
+    public static function getStandardLinkTo(int $trainingID, ?string $text = null): string
     {
         $text ??= Icon::$ATTACH;
 
@@ -49,9 +48,9 @@ class SharedLinker
 
     /**
      * Get link to shared list for current user
-     * @param string $text [optional]
+     * @param ?string $text [optional]
      */
-    public static function getListLinkForCurrentUser($text = null): string
+    public static function getListLinkForCurrentUser(?string $text = null): string
     {
         $text ??= '<i class="fa far fa-fw fa-address-card"></i>';
 
@@ -70,10 +69,7 @@ class SharedLinker
         return self::urlToId(Request::param('url'));
     }
 
-    /**
-     * @return int
-     */
-    public static function getUserId()
+    public static function getUserId(): int
     {
         if (self::$USER_ID <= 0) {
             if ((string) Request::param('user') !== '') {
@@ -99,28 +95,25 @@ class SharedLinker
 
     /**
      * Get URL for a given training
-     * @param int $trainingID
      */
-    public static function getUrlFor($trainingID): string
+    public static function getUrlFor(?int $trainingID): string
     {
         return self::$URL . self::idToUrl($trainingID);
     }
 
     /**
      * Transform given ID to url
-     * @param int $id
      */
-    private static function idToUrl($id): string
+    private static function idToUrl(?int $id): string
     {
-        return base_convert((int) $id, 10, 35);
+        return base_convert((string) $id, 10, 35);
     }
 
     /**
      * Transform given url to ID
-     * @param string $url
      */
-    private static function urlToId($url): int
+    private static function urlToId(string $url): int
     {
-        return (int) base_convert((string) $url, 35, 10);
+        return (int) base_convert($url, 35, 10);
     }
 }

@@ -39,76 +39,35 @@ use SportFactory;
 
 class Dataview
 {
-    public $GAPace;
+    public ?Pace $GAPace = null;
 
-    /**
-     * @var null|\Runalyze\Model\Activity\Entity
-     */
-    protected $Activity;
+    protected ?Duration $Duration = null;
 
-    /**
-     * @var null|\Runalyze\Activity\Duration
-     */
-    protected $Duration;
+    protected ?Energy $Energy = null;
 
-    /**
-     * @var null|\Runalyze\Activity\Energy
-     */
-    protected $Energy;
+    protected ?HeartRate $HRmax = null;
 
-    /**
-     * @var null|\Runalyze\Activity\HeartRate
-     */
-    protected $HRmax;
+    protected ?HeartRate $HRavg = null;
 
-    /**
-     * @var null|\Runalyze\Activity\HeartRate
-     */
-    protected $HRavg;
+    protected ?HeartRate $HRavgActive = null;
 
-    /**
-     * @var null|\Runalyze\Activity\HeartRate
-     */
-    protected $HRavgActive;
+    protected ?Pace $Pace = null;
 
-    /**
-     * @var null|\Runalyze\Activity\Pace
-     */
-    protected $Pace;
+    protected ?\Runalyze\Calculation\JD\LegacyEffectiveVO2max $VO2max = null;
 
-    /**
-     * @var null|\Runalyze\Calculation\JD\LegacyEffectiveVO2max
-     */
-    protected $VO2max;
+    protected ?\Runalyze\Data\Cadence\AbstractCadence $Cadence = null;
 
-    /**
-     * @var null|\Runalyze\Data\Cadence\AbstractCadence
-     */
-    protected $Cadence;
+    protected ?StrideLength $StrideLength = null;
 
-    /**
-     * @var null|\Runalyze\Activity\StrideLength
-     */
-    protected $StrideLength;
+    protected ?Elevation $Elevation = null;
 
-    /**
-     * @var null|\Runalyze\Activity\Elevation
-     */
-    protected $Elevation;
+    protected ?\Runalyze\Data\Weather\WindChillFactor $WindChillFactor = null;
 
-    /**
-     * @var null|\Runalyze\Data\Weather\WindChillFactor
-     */
-    protected $WindChillFactor;
+    protected ?HeatIndex $HeatIndex = null;
 
-    /**
-     * @var null|HeatIndex
-     */
-    protected $HeatIndex;
-
-    public function __construct(Activity\Entity $activity)
-    {
-        $this->Activity = $activity;
+    public function __construct(
+        protected Activity\Entity $Activity
+    ) {
     }
 
     /**
@@ -122,10 +81,7 @@ class Dataview
         return $value;
     }
 
-    /**
-     * @return string
-     */
-    public function titleByTypeOrSport()
+    public function titleByTypeOrSport(): string
     {
         $Factory = new Factory(SessionAccountHandler::getId());
 
@@ -134,16 +90,13 @@ class Dataview
                 ->name();
         }
 
-        return $Factory->sport((int) $this->Activity->sportid())
+        return $Factory->sport($this->Activity->sportid())
             ->name();
     }
 
-    /**
-     * @return string
-     */
-    public function titleWithComment()
+    public function titleWithComment(): string
     {
-        if ($this->Activity->title() != '') {
+        if ($this->Activity->title() !== '') {
             return $this->titleByTypeOrSport() . ': ' . $this->Activity->title();
         }
 
@@ -153,26 +106,17 @@ class Dataview
     /**
      * @param string $format [optional]
      */
-    public function date($format = 'd.m.Y'): string
+    public function date(string $format = 'd.m.Y'): string
     {
-        if (! is_numeric($this->Activity->timestamp())) {
-            return '';
-        }
-
         return (new LocalTime($this->Activity->timestamp()))->format($format);
     }
 
-    /**
-     * @return string
-     */
-    public function daytime()
+    public function daytime(): string
     {
-        if (is_numeric($this->Activity->timestamp())) {
-            $time = (new LocalTime($this->Activity->timestamp()))->format('H:i');
+        $time = (new LocalTime($this->Activity->timestamp()))->format('H:i');
 
-            if ($time != '00:00') {
-                return $time;
-            }
+        if ($time != '00:00') {
+            return $time;
         }
 
         return '';
@@ -185,19 +129,12 @@ class Dataview
 
     public function weekday(): string
     {
-        if (! is_numeric($this->Activity->timestamp())) {
-            return '';
-        }
-
         return Time::weekday((new LocalTime($this->Activity->timestamp()))->format('w'));
     }
 
-    /**
-     * @return \Runalyze\Activity\Duration
-     */
-    public function duration()
+    public function duration(): Duration
     {
-        return $this->object($this->Duration, fn (Activity\Entity $Activity): \Runalyze\Activity\Duration => new Duration($Activity->duration()));
+        return $this->object($this->Duration, fn (Activity\Entity $Activity): Duration => new Duration($Activity->duration()));
     }
 
     public function elapsedTime(): string
@@ -209,10 +146,7 @@ class Dataview
         return Duration::format($this->Activity->elapsedTime());
     }
 
-    /**
-     * @param int|null $decimals
-     */
-    public function distance($decimals = null): string
+    public function distance(?int $decimals = null): string
     {
         $decimals ??= Configuration::ActivityView()->decimals();
 
@@ -247,34 +181,27 @@ class Dataview
 
     /**
      * Get a string for the speed depending on sportid
-     *
-     * @return \Runalyze\Activity\Pace
      */
-    public function pace()
+    public function pace(): Pace
     {
-        return $this->object($this->Pace, fn (Activity\Entity $Activity): \Runalyze\Activity\Pace => new Pace($Activity->duration(), $Activity->distance(), SportFactory::getSpeedUnitFor($Activity->sportid())));
+        return $this->object($this->Pace, fn (Activity\Entity $Activity): Pace => new Pace($Activity->duration(), $Activity->distance(), SportFactory::getSpeedUnitFor($Activity->sportid())));
     }
 
     /**
      * Get the grade adjusted pace
-     *
-     * @return \Runalyze\Activity\Pace
      */
-    public function GApace(\Runalyze\View\Activity\Context $context)
+    public function GApace(\Runalyze\View\Activity\Context $context): Pace
     {
         // calc the pace based on the continous data time&distance&evaluation
         $GaPaceCalculator = new GradeAdjustedPaceCalculator($context);
         $adjTime = $GaPaceCalculator->getAdjustedTime();
 
-        return $this->object($this->GAPace, function (Activity\Entity $Activity) use (&$adjTime): \Runalyze\Activity\Pace {
+        return $this->object($this->GAPace, function (Activity\Entity $Activity) use (&$adjTime): Pace {
             return new Pace($adjTime, $Activity->distance(), SportFactory::getSpeedUnitFor($Activity->sportid()));
         });
     }
 
-    /**
-     * @return \Runalyze\Data\Cadence\AbstractCadence
-     */
-    public function cadence()
+    public function cadence(): \Runalyze\Data\Cadence\AbstractCadence
     {
         return $this->object($this->Cadence, function (Activity\Entity $Activity) {
             if ($Activity->sportid() == Configuration::General()->runningSport()) {
@@ -285,12 +212,9 @@ class Dataview
         });
     }
 
-    /**
-     * @return \Runalyze\Activity\StrideLength
-     */
-    public function strideLength()
+    public function strideLength(): StrideLength
     {
-        return $this->object($this->StrideLength, fn (Activity\Entity $Activity): \Runalyze\Activity\StrideLength => new StrideLength($Activity->strideLength()));
+        return $this->object($this->StrideLength, fn (Activity\Entity $Activity): StrideLength => new StrideLength($Activity->strideLength()));
     }
 
     public function trimp(): string
@@ -301,10 +225,9 @@ class Dataview
     }
 
     /**
-     * @param bool $valueOnly
      * @return int|null|string
      */
-    public function rpe($valueOnly = false)
+    public function rpe(bool $valueOnly = false)
     {
         if ($valueOnly) {
             return $this->Activity->rpe();
@@ -508,44 +431,29 @@ class Dataview
         );
     }
 
-    /**
-     * @return \Runalyze\Activity\Energy
-     */
-    public function energy()
+    public function energy(): Energy
     {
-        return $this->object($this->Energy, fn (Activity\Entity $Activity): \Runalyze\Activity\Energy => new Energy($Activity->energy()));
+        return $this->object($this->Energy, fn (Activity\Entity $Activity): Energy => new Energy($Activity->energy()));
     }
 
-    /**
-     * @return \Runalyze\Activity\HeartRate
-     */
-    public function hrMax()
+    public function hrMax(): HeartRate
     {
-        return $this->object($this->HRmax, fn (Activity\Entity $Activity): \Runalyze\Activity\HeartRate => new HeartRate($Activity->hrMax(), GeneralContext::Athlete()));
+        return $this->object($this->HRmax, fn (Activity\Entity $Activity): HeartRate => new HeartRate($Activity->hrMax(), GeneralContext::Athlete()));
     }
 
-    /**
-     * @return \Runalyze\Activity\HeartRate
-     */
-    public function hrAvg()
+    public function hrAvg(): HeartRate
     {
-        return $this->object($this->HRavg, fn (Activity\Entity $Activity): \Runalyze\Activity\HeartRate => new HeartRate($Activity->hrAvg(), GeneralContext::Athlete()));
+        return $this->object($this->HRavg, fn (Activity\Entity $Activity): HeartRate => new HeartRate($Activity->hrAvg(), GeneralContext::Athlete()));
     }
 
-    /**
-     * @return \Runalyze\Activity\HeartRate
-     */
-    public function hrAvgActive()
+    public function hrAvgActive(): HeartRate
     {
-        return $this->object($this->HRavgActive, fn (Activity\Entity $Activity): \Runalyze\Activity\HeartRate => new HeartRate($Activity->hrAvgActive(), GeneralContext::Athlete()));
+        return $this->object($this->HRavgActive, fn (Activity\Entity $Activity): HeartRate => new HeartRate($Activity->hrAvgActive(), GeneralContext::Athlete()));
     }
 
-    /**
-     * @return \Runalyze\Activity\Elevation
-     */
-    public function elevation()
+    public function elevation(): Elevation
     {
-        return $this->object($this->Elevation, fn (Activity\Entity $Activity): \Runalyze\Activity\Elevation => new Elevation($Activity->elevation()));
+        return $this->object($this->Elevation, fn (Activity\Entity $Activity): Elevation => new Elevation($Activity->elevation()));
     }
 
     /**
@@ -560,10 +468,7 @@ class Dataview
         return round($this->Activity->elevation() / $this->Activity->distance() / 10, 2) . '&nbsp;&#37;';
     }
 
-    /**
-     * @return WindChillFactor
-     */
-    public function windChillFactor()
+    public function windChillFactor(): WindChillFactor
     {
         return $this->object($this->WindChillFactor, fn (Activity\Entity $Activity): \Runalyze\Data\Weather\WindChillFactor => new WindChillFactor(
             $Activity->weather()
@@ -573,13 +478,10 @@ class Dataview
         ));
     }
 
-    /**
-     * @return HeatIndex
-     */
-    public function heatIndex()
+    public function heatIndex(): HeatIndex
     {
         return $this->object($this->HeatIndex, fn (Activity\Entity $Activity): \Runalyze\Data\Weather\HeatIndex => new HeatIndex(
-            new \Runalyze\Activity\Temperature($Activity->weather()->temperature()->value()),
+            new Temperature($Activity->weather()->temperature()->value()),
             $Activity->weather()
                 ->humidity()
         ));
@@ -610,10 +512,7 @@ class Dataview
         return nl2br(HTML::encodeTags($this->Activity->notes()));
     }
 
-    /**
-     * @return \Runalyze\Calculation\JD\LegacyEffectiveVO2max
-     */
-    public function vo2max()
+    public function vo2max(): \Runalyze\Calculation\JD\LegacyEffectiveVO2max
     {
         $self = $this;
 
@@ -622,10 +521,8 @@ class Dataview
 
     /**
      * Value of used VO2max (uncorrected)
-     *
-     * @return float
      */
-    public function usedVO2maxValue()
+    public function usedVO2maxValue(): float
     {
         if (Configuration::VO2max()->useElevationCorrection()) {
             if ($this->Activity->vo2maxWithElevation() > 0) {
@@ -671,14 +568,9 @@ class Dataview
         return '';
     }
 
-    /**
-     * @param string $leftString
-     * @param string $rightString
-     * @param string $empty
-     */
-    protected function formatTwoPartValue($leftString, $rightString, $empty = '-'): string
+    protected function formatTwoPartValue(string $leftString, string $rightString, string $empty = '-'): string
     {
-        if ($empty == $leftString && $empty == $rightString) {
+        if ($empty === $leftString && $empty === $rightString) {
             return '';
         }
 

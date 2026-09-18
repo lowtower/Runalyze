@@ -72,7 +72,7 @@ class Time
     {
         $start = self::weekstart($time);
 
-        return mktime(23, 59, 50, date('m', $start), date('d', $start) + 6, date('Y', $start));
+        return mktime(23, 59, 50, (int) date('m', $start), (int) date('d', $start) + 6, (int) date('Y', $start));
     }
 
     /**

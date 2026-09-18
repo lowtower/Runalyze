@@ -256,7 +256,7 @@ class DataBrowser
 
         echo DataBrowserLinker::monthLink(Time::month($timeForLinks->format('m')), $timestampForLinks, $this->SportId) . ', ';
         echo DataBrowserLinker::yearLink($timeForLinks->format('Y'), $timestampForLinks, $this->SportId) . ', ';
-        echo DataBrowserLinker::weekLink(Configuration::General()->weekStart()->phpWeek($timestampForLinks, true) . '. ' . __('week'), $timestampForLinks, null, $this->SportId);
+        echo DataBrowserLinker::weekLink(Configuration::General()->weekStart()->phpWeek($timestampForLinks, true) . '. ' . __('week'), $timestampForLinks, false, $this->SportId);
     }
 
     /**
@@ -353,7 +353,7 @@ class DataBrowser
     {
         $timestamp_array = DataBrowserLinker::prevTimestamps($this->TimestampStart, $this->TimestampEnd);
 
-        return DataBrowserLinker::link(Icon::$BACK, $timestamp_array['start'], $timestamp_array['end'], __('back'), null, $this->SportId);
+        return DataBrowserLinker::link(Icon::$BACK, $timestamp_array['start'], $timestamp_array['end'], __('back'), '', $this->SportId);
     }
 
     /**
@@ -363,7 +363,7 @@ class DataBrowser
     {
         $timestamp_array = DataBrowserLinker::nextTimestamps($this->TimestampStart, $this->TimestampEnd);
 
-        return DataBrowserLinker::link(Icon::$NEXT, $timestamp_array['start'], $timestamp_array['end'], __('next'), null, $this->SportId);
+        return DataBrowserLinker::link(Icon::$NEXT, $timestamp_array['start'], $timestamp_array['end'], __('next'), '', $this->SportId);
     }
 
     /**
@@ -371,7 +371,7 @@ class DataBrowser
      */
     protected function getCurrentLink(): string
     {
-        return DataBrowserLinker::link('<i class="fa fa-lg fa-fw fa-circle"></i>', '', '', __('today'), null, $this->SportId);
+        return DataBrowserLinker::link('<i class="fa fa-lg fa-fw fa-circle"></i>', 0, 0, __('today'), '', $this->SportId);
     }
 
     /**
@@ -379,7 +379,7 @@ class DataBrowser
      */
     protected function getRefreshLink(): string
     {
-        $Link = DataBrowserLinker::link(Icon::$REFRESH, $this->TimestampStart, $this->TimestampEnd, null, null, $this->SportId);
+        $Link = DataBrowserLinker::link(Icon::$REFRESH, $this->TimestampStart, $this->TimestampEnd, '', '', $this->SportId);
 
         return str_replace('<a ', '<a id="' . self::REFRESH_BUTTON_ID . '" ' . Ajax::tooltip('', __('Reload current datasheet'), false, true) . ' ', $Link);
     }
@@ -398,7 +398,7 @@ class DataBrowser
                 $this->TimestampStart,
                 $this->TimestampEnd,
                 __($name),
-                null
+                ''
             );
         }
 
@@ -407,7 +407,7 @@ class DataBrowser
             $this->TimestampStart,
             $this->TimestampEnd,
             __($name),
-            null,
+            '',
             $sportId
         );
     }

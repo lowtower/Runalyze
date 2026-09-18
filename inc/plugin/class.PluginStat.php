@@ -334,7 +334,7 @@ abstract class PluginStat extends Plugin
             $add = $this->showsTimeRange() ? date('m') - $num - 1 + 12 : -1;
 
             for ($i = 1; $i <= 12; $i++) {
-                echo '<th' . $width . '>' . Time::month(($i + $add) % 12 + 1, true) . '</th>';
+                echo '<th' . $width . '>' . Time::month((string) (($i + $add) % 12 + 1), true) . '</th>';
             }
         }
     }

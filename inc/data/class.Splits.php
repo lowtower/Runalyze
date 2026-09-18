@@ -107,9 +107,7 @@ class Splits
     }
 
     /**
-     * @param float $km kilometer
      * @param int $timeInSeconds seconds
-     * @param bool $active optional
      */
     public function addSplit(float $km, int $timeInSeconds, bool $active = true): void
     {
@@ -118,7 +116,7 @@ class Splits
         }
 
         $this->asArray[] = [
-            'km' => $this->formatKM($km),
+            'km' => $this->formatKM((string) $km),
             'time' => $this->formatTime($timeInSeconds),
             'active' => $active,
         ];
@@ -152,7 +150,6 @@ class Splits
 
     /**
      * Get splits as readable string
-     * @param bool $restingLaps optional
      */
     public function asReadableString(bool $restingLaps = false): string
     {
@@ -228,7 +225,7 @@ class Splits
      */
     private function formatKM(string $km): string
     {
-        return number_format(Helper::CommaToPoint($km), 3, '.', '');
+        return number_format((float) Helper::CommaToPoint($km), 3, '.', '');
     }
 
     private function formatTime(float $seconds): string
@@ -407,7 +404,7 @@ class Splits
                     $i++;
                 }
 
-                $split['km'] = $this->formatKM($Distance[$i] - $totalDistance);
+                $split['km'] = $this->formatKM((string) ($Distance[$i] - $totalDistance));
             } else {
                 while ($i < $size - 1 && $split['km'] > $Distance[$i] - $totalDistance) {
                     $i++;

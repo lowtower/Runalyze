@@ -43,15 +43,12 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals(0, $this->TrainingRepository->getNumberOfActivitiesFor(new Account()));
     }
 
-    /**
-     * @return Training
-     */
     protected function insertActivityForDefaultAccount(
         ?int $timestamp = null,
         float $duration = 3600,
         ?float $distance = null,
         ?Sport $sport = null
-    ) {
+    ): Training {
         $activity = $this->getActivityForDefaultAccount($timestamp, $duration, $distance, $sport);
 
         $this->TrainingRepository->save($activity);
@@ -591,6 +588,47 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
             $date,
             $date - 7 * 86400
         ));
+    }
+
+    public function testMarathonShapeCalculationTreatsUnknownFirstActivityAsFullyEstablished(): void
+    {
+        $date = mktime(12, 0, 0, 1, 10, 2015);
+        $config = new BasicEndurance();
+        $config->set('BE_DAYS_FOR_LONGJOGS', '100');
+        $config->set('BE_DAYS_FOR_WEEK_KM', '14');
+        $config->set('BE_DAYS_FOR_WEEK_KM_MIN', '7');
+        $config->set('BE_PERCENTAGE_WEEK_KM', '1.00');
+
+        $this->insertActivityForDefaultAccount($date - 7 * 86400, 10800, 32.5);
+
+        $resultWithoutFirstActivityTimestamp = $this->TrainingRepository->calculateMarathonShape(
+            $this->getDefaultAccount(),
+            $config,
+            60.0,
+            $this->getDefaultAccountsRunningSport()
+                ->getId(),
+            $date
+        );
+
+        $resultWithLongEstablishedFirstActivity = $this->TrainingRepository->calculateMarathonShape(
+            $this->getDefaultAccount(),
+            $config,
+            60.0,
+            $this->getDefaultAccountsRunningSport()
+                ->getId(),
+            $date,
+            $date - 200 * 86400
+        );
+
+        $this->assertEquals(16.0, $resultWithoutFirstActivityTimestamp);
+        $this->assertEquals(
+            $resultWithoutFirstActivityTimestamp,
+            $resultWithLongEstablishedFirstActivity,
+            'Omitting $timestampOfFirstActivity must be equivalent to '
+            . 'passing a timestamp far enough in the past that the '
+            . 'account is already fully established - both represent '
+            . '"no leniency", not "brand new account".'
+        );
     }
 
     public function testActivityNavigation(): void

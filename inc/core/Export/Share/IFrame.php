@@ -73,7 +73,7 @@ class IFrame extends AbstractSnippetSharer
 
         $CodeField = new FormularTextarea('code', __('Code'), $Code);
         $CodeField->addCSSclass('fullwidth');
-        $CodeField->addAttribute('rows', 3);
+        $CodeField->addAttribute('rows', '3');
 
         $FieldsetCode = new FormularFieldset(__('HTML-Code'));
 
@@ -84,12 +84,12 @@ class IFrame extends AbstractSnippetSharer
         $FieldsetCode->addField($CodeField);
         $FieldsetCode->addInfo(__('Add this code to your blog/website.'));
 
-        $WidthField = new FormularInputNumber('width', __('Width'), $this->width());
+        $WidthField = new FormularInputNumber('width', __('Width'), (string) $this->width());
         $WidthField->setLayout(FormularFieldset::$LAYOUT_FIELD_W50);
         $WidthField->setMin(200);
         $WidthField->setMax(600);
 
-        $HeightField = new FormularInputNumber('height', __('Height'), $this->height());
+        $HeightField = new FormularInputNumber('height', __('Height'), (string) $this->height());
         $HeightField->setLayout(FormularFieldset::$LAYOUT_FIELD_W50);
         $HeightField->setMin(200);
         $HeightField->setMax(600);

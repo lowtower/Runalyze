@@ -151,7 +151,7 @@ class RunalyzePluginStat_Rekorde extends PluginStat
         if ($this->year === -1) {
             echo '<tr class="r"><td class="c b">' . __('per year') . '</td>';
             foreach ($this->years as $i => $year) {
-                $link = DataBrowserLinker::yearLink(Distance::format($year['km']), $year['time'], false);
+                $link = DataBrowserLinker::yearLink(Distance::format($year['km']), $year['time']);
                 echo '<td class="small"><span title="' . $year['year'] . '">' . $link . '</span></td>';
                 $i++;
             }
@@ -166,7 +166,7 @@ class RunalyzePluginStat_Rekorde extends PluginStat
         // Months
         echo '<tr class="r"><td class="c b">' . __('per month') . '</td>';
         foreach ($this->months as $i => $month) {
-            $link = DataBrowserLinker::monthLink(Distance::format($month['km']), $month['time'], false);
+            $link = DataBrowserLinker::monthLink(Distance::format($month['km']), $month['time']);
             echo '<td class="small"><span title="' . Time::month($month['month']) . ' ' . $month['year'] . '">' . $link . '</span></td>';
             $i++;
         }

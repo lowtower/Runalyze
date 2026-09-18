@@ -32,7 +32,7 @@ class Smo2 extends AbstractBox
 
         $value = new TrackdataAverages($Context->trackdata(), [$trackdataKey]);
         parent::__construct(
-            round($value->average($trackdataKey), 2),
+            (string) round($value->average($trackdataKey), 2),
             '%',
             $label
         );

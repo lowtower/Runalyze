@@ -84,7 +84,7 @@ class SearchFormular extends Formular
      */
     private function addPager(): void
     {
-        $this->addHiddenValue('page', 1);
+        $this->addHiddenValue('page', '1');
     }
 
     /**
@@ -127,7 +127,7 @@ class SearchFormular extends Formular
      */
     private function addResultsPerPageField(): void
     {
-        $Field = new FormularSelectBox('resultsPerPage', __('Results per page'), 20);
+        $Field = new FormularSelectBox('resultsPerPage', __('Results per page'), '20');
         $Field->setOptions([
             10 => 10,
             20 => 20,

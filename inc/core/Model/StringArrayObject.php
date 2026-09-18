@@ -101,7 +101,7 @@ abstract class StringArrayObject extends StringObject
      * @return mixed
      * @throws \InvalidArgumentException
      */
-    public function at(int $index)
+    public function at($index)
     {
         if (! isset($this->Elements[$index])) {
             throw new \InvalidArgumentException('Unknown object index.');

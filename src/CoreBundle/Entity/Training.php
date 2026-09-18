@@ -1030,11 +1030,11 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @param null|int $elapsedTime [s]
+     * @param null|float $elapsedTime [s]
      */
-    public function setElapsedTime(?int $elapsedTime): self
+    public function setElapsedTime(?float $elapsedTime): self
     {
-        $this->elapsedTime = $elapsedTime;
+        $this->elapsedTime = (int) $elapsedTime;
 
         return $this;
     }

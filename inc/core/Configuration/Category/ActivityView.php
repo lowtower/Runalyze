@@ -296,39 +296,39 @@ class ActivityView extends \Runalyze\Configuration\Category
     protected function registerOnchangeEvents()
     {
         $this->handle('TRAINING_PLOT_MODE')
-            ->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER_AND_TRAINING);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_DATABROWSER_AND_TRAINING);
         $this->handle('TRAINING_MAP_SHOW_FIRST')
-            ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_TRAINING);
         $this->handle('TRAINING_MAP_ZOOM_ON_SCROLL')
-            ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_TRAINING);
 
         $this->handle('TRAINING_PLOT_XAXIS_TIME')
-            ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_TRAINING);
         $this->handle('TRAINING_PLOT_MODE')
-            ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_TRAINING);
         $this->handle('TRAINING_PLOT_SMOOTH')
-            ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_TRAINING);
         $this->handle('PACE_Y_LIMIT_MIN')
-            ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_TRAINING);
         $this->handle('PACE_Y_LIMIT_MAX')
-            ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_TRAINING);
         $this->handle('PACE_Y_AXIS_TYPE')
-            ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_TRAINING);
         $this->handle('PACE_HIDE_OUTLIERS')
-            ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_TRAINING);
         $this->handle('TRAINING_PLOT_SPLITS_ZERO')
-            ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_TRAINING);
 
         $this->handle('TRAINING_PLOT_PRECISION')
-            ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_TRAINING);
 
         $this->handle('GMAP_PATH_BREAK')
-            ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_TRAINING);
         $this->handle('GMAP_PATH_PRECISION')
-            ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_TRAINING);
 
         $this->handle('SHOW_SECTIONS_FULLHEIGHT')
-            ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_TRAINING);
 
         $this->handle('ELEVATION_METHOD')
             ->registerOnchangeEvent(\Runalyze\Configuration\Messages::class . '::useCleanup');

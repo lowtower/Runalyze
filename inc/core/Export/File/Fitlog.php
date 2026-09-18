@@ -86,9 +86,9 @@ class Fitlog extends AbstractFileExporter
 
         $this->Activity->addAttribute('StartTime', $this->timeToString($this->Context->activity()->timestamp()));
 
-        $this->Activity->Duration->addAttribute('TotalSeconds', (int) $this->Context->activity()->duration());
-        $this->Activity->Distance->addAttribute('TotalMeters', 1000 * $this->Context->activity()->distance());
-        $this->Activity->Calories->addAttribute('TotalCal', $this->Context->activity()->energy());
+        $this->Activity->Duration->addAttribute('TotalSeconds', (string) $this->Context->activity()->duration());
+        $this->Activity->Distance->addAttribute('TotalMeters', (string) (1000 * $this->Context->activity()->distance()));
+        $this->Activity->Calories->addAttribute('TotalCal', (string) $this->Context->activity()->energy());
     }
 
     /**
@@ -114,7 +114,7 @@ class Fitlog extends AbstractFileExporter
 
         do {
             $Point = $Track->addChild('pt');
-            $Point->addAttribute('tm', $Trackdata->time());
+            $Point->addAttribute('tm', (string) $Trackdata->time());
 
             if ($Route instanceof \Runalyze\Model\Route\Loop) {
                 $Point->addAttribute('lat', $Route->latitude());

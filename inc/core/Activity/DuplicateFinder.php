@@ -49,7 +49,7 @@ class DuplicateFinder
 
         if (in_array(null, $activityIds)) {
             $result[''] = false;
-            $activityIds = array_filter($activityIds, 'strlen');
+            $activityIds = array_filter($activityIds, static fn (?int $id): bool => $id !== null);
         }
 
         if ($activityIds !== []) {

@@ -995,7 +995,7 @@ class Entity extends Model\EntityWithID
      * Average lower bounds of the hr zones
      * @return null|array [bpm]
      */
-    public function hrZoneBounds()
+    public function hrZoneBounds(): ?array
     {
         return $this->Data[self::HR_ZONE_BOUNDS];
     }
@@ -1177,7 +1177,7 @@ class Entity extends Model\EntityWithID
      * Average seconds in the HR zones of hrZoneBounds()
      * @return null|array [bpm]
      */
-    public function fitSecondsInHrZones()
+    public function fitSecondsInHrZones(): ?array
     {
         return $this->Data[self::FIT_SECONDS_HR_ZONES];
     }

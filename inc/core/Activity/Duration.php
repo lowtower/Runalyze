@@ -143,7 +143,6 @@ class Duration
 
     /**
      * Auto format as string
-     * @param int $decimals [optional]
      */
     protected function autoString(int $decimals = 2): string
     {
@@ -166,9 +165,8 @@ class Duration
 
     /**
      * Format for competition results
-     * @param int $decimals [optional]
      */
-    protected function autoCompetitionString($decimals = 2): string
+    protected function autoCompetitionString(int $decimals = 2): string
     {
         if ($this->Time >= 60 || $this->Time == 0) {
             return $this->autoString($decimals);
@@ -179,23 +177,21 @@ class Duration
 
     /**
      * Format with DateTime object
-     * @param string $format
-     * @param int $decimals
      */
-    protected function formatString($format, $decimals = 2): string
+    protected function formatString(string $format, int $decimals = 2): string
     {
         if (str_ends_with($format, 'u')) {
-            $fraction = str_pad(round(fmod($this->Time, 1) * 10 ** $decimals), $decimals, '0', STR_PAD_LEFT);
+            $fraction = str_pad((string) round(fmod($this->Time, 1) * 10 ** $decimals), $decimals, '0', STR_PAD_LEFT);
             return $this->formatString(substr($format, 0, -1)) . $fraction;
         }
 
-        $time = DateTime::createFromFormat('!U', (int) round($this->Time, $decimals), new DateTimeZone('UTC'));
+        $time = DateTime::createFromFormat('!U', (string) (int) round($this->Time, $decimals), new DateTimeZone('UTC'));
 
         if ($time === false) {
-            throw new \InvalidArgumentException("Can't format time (t = " . ((int) round($this->Time)) . ').');
+            throw new \InvalidArgumentException("Can't format time (t = " . (int) round($this->Time, $decimals) . ').');
         }
 
-        if ($format == self::FORMAT_WITH_HOURS) {
+        if ($format === self::FORMAT_WITH_HOURS) {
             /* we need to compute the hours ourselves, since DateTime outputs %G as [0..24) */
             $sec = $time->format('U');
             $s = $sec % 60;

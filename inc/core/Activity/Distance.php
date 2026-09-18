@@ -80,12 +80,12 @@ class Distance implements ValueInterface
 
     /**
      * Set distance
-     * @param float $km [km]
+     * @param mixed $km [km]
      * @return \Runalyze\Activity\Distance $this-reference
      */
     public function set($km): self
     {
-        $this->Kilometer = (float) str_replace(',', '.', $km);
+        $this->Kilometer = (float) str_replace(',', '.', (string) $km);
 
         return $this;
     }
@@ -97,7 +97,7 @@ class Distance implements ValueInterface
      */
     public function setMiles(float $miles): self
     {
-        $this->Kilometer = (float) str_replace(',', '.', $miles) / DistanceUnitSystem::MILE_MULTIPLIER;
+        $this->Kilometer = (float) str_replace(',', '.', (string) $miles) / DistanceUnitSystem::MILE_MULTIPLIER;
 
         return $this;
     }

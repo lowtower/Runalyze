@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e77cd1889872b5a1e58f9140dc33bdf9",
+    "content-hash": "1b9602d8baf3241c47eac33a7f829522",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -3888,30 +3888,13 @@
         },
         {
             "name": "runalyze/translations",
-            "version": "dev-master",
+            "version": "v4.3.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Runalyze/translations.git",
-                "reference": "6068b54251c4b10da17380b937f56b521fd6656c"
+                "url": "https://github.com/lowtower/Runalyze_translations.git",
+                "reference": "master"
             },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Runalyze/translations/zipball/6068b54251c4b10da17380b937f56b521fd6656c",
-                "reference": "6068b54251c4b10da17380b937f56b521fd6656c",
-                "shasum": ""
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Translation of Runalyze",
-            "support": {
-                "issues": "https://github.com/Runalyze/translations/issues",
-                "source": "https://github.com/Runalyze/translations/tree/master"
-            },
-            "abandoned": true,
-            "time": "2019-02-23T22:17:40+00:00"
+            "type": "library"
         },
         {
             "name": "snc/redis-bundle",
@@ -11703,8 +11686,7 @@
         "runalyze/age-grade": 20,
         "runalyze/common": 20,
         "runalyze/dem-reader": 20,
-        "runalyze/devices": 20,
-        "runalyze/translations": 20
+        "runalyze/devices": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

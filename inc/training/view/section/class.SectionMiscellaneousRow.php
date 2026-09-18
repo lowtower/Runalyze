@@ -151,7 +151,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
         if ($this->Context->activity()->power() > 0) {
             $icon = $this->Context->activity()
                 ->isPowerCalculated() ? '<i rel="tooltip" class="unimportant fa fa-fw fa-bolt atRight" title="' . __('This value has been calculated.') . '"></i>' : '';
-            $Power = new BoxedValue($this->Context->activity()->power(), 'W', '&#216; ' . __('Power'), $icon);
+            $Power = new BoxedValue((string) $this->Context->activity()->power(), 'W', '&#216; ' . __('Power'), $icon);
             $Power->defineAsFloatingBlock('w50');
 
             $this->BoxedValues[] = $Power;
@@ -165,13 +165,13 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
     {
         if ($this->Context->hasSwimdata() && ($this->Context->activity()->totalStrokes() > 0 || $this->Context->activity()->swolf() > 0)) {
             if ($this->Context->activity()->totalStrokes() > 0) {
-                $Strokes = new BoxedValue($this->Context->activity()->totalStrokes(), '', __('Strokes'));
+                $Strokes = new BoxedValue((string) $this->Context->activity()->totalStrokes(), '', __('Strokes'));
                 $Strokes->defineAsFloatingBlock('w50');
                 $this->BoxedValues[] = $Strokes;
             }
 
             if ($this->Context->activity()->swolf() > 0) {
-                $Swolf = new BoxedValue($this->Context->activity()->swolf(), '', __('Swolf'));
+                $Swolf = new BoxedValue((string) $this->Context->activity()->swolf(), '', __('Swolf'));
                 $Swolf->defineAsFloatingBlock('w50');
                 $this->BoxedValues[] = $Swolf;
             }
@@ -380,7 +380,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
                 $ltp = new Pace($this->Context->activity()->fitLactateThresholdPace(), 1.0, $this->Context->sport() ? $this->Context->sport()->getLegacyPaceUnitEnum() : Pace::STANDARD);
                 // the previous Pace instancing will not work: for 3.22 m/s the result is a pace of 5:22/km; because of the first parameter time is a int!
                 // so use this: example for 3.22m/s: 3,22*3,6=11,592km/h -> 1/11,592km/h=0,0862h/km -> 0,0862×60=5,17min/km -> function needs second/float -> 5,17min/km*60=316,56sec/km
-                $ltp->fromMinPerKm(1 / ($this->Context->activity()->fitLactateThresholdPace() * 3.6) * 60 * 60);
+                $ltp->fromMinPerKm((string) (1 / ($this->Context->activity()->fitLactateThresholdPace() * 3.6) * 60 * 60));
                 $ltp = $ltp->valueWithAppendix();
             } else {
                 $ltp = '-';
@@ -428,7 +428,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
         $this->FitDetails .= '</div>';
     }
 
-    protected function getGlossaryLink($text, $glossary): string
+    protected function getGlossaryLink(string $text, string $glossary): string
     {
         return '<a class="window left" href="glossary/' . $glossary . '"><i class="fa far fa-question-circle"></i></a>&nbsp;' . $text;
     }
@@ -455,7 +455,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
                 $lookup = new Lookup($table, $athlete->age());
 
                 if ($this->Context->raceResult()->officialDistance() >= $lookup->getMinimalDistance()) {
-                    $ageGrade = $lookup->getAgeGrade($raceResult->officialDistance(), $raceResult->officialTime(), date('Y') - date('Y', $this->Context->activity()->timestamp()));
+                    $ageGrade = $lookup->getAgeGrade($raceResult->officialDistance(), (int) $raceResult->officialTime(), date('Y') - date('Y', $this->Context->activity()->timestamp()));
                     $ageGradeIcon = new View\Icon('fa-info-circle');
                     $ageGradeIcon->setTooltip(
                         __('Age standard') . ': ' . Duration::format($ageGrade->getAgeStandard()) . ', ' .
@@ -486,7 +486,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
         }
     }
 
-    public function addToTable(&$html, $desc, $value, &$count): void
+    public function addToTable(string &$html, string $desc, $value, &$count): void
     {
         if ($count == 0) {
             $html .= '<table class="fitdetail">';

@@ -222,11 +222,13 @@ class Calculator
         }
 
         $AdditionalData = [];
+        /** @var \Runalyze\Model\Trackdata\Entity $SlicedTrackdata */
         $SlicedTrackdata = $this->TrackdataLoop->sliceObject();
         $this->addTrackdataAveragesToDataFrom($SlicedTrackdata, $AdditionalData);
 
         if ($this->SwimdataLoop instanceof \Runalyze\Model\Swimdata\Loop) {
             $SlicedSwimdata = $this->SwimdataLoop->sliceObject();
+            /** @var \Runalyze\Model\Swimdata\Entity $SlicedSwimdata */
             $this->addSwimmdataAveragesToDataFrom($SlicedSwimdata, $AdditionalData);
         }
 
@@ -348,7 +350,7 @@ class Calculator
         $vo2max = new Calculation\JD\LegacyEffectiveVO2max();
         $vo2max->fromPaceAndHR(
             $distance,
-            $Lap->duration()
+            (int) $Lap->duration()
                 ->seconds(),
             $Lap->HRavg()
                 ->inHRmax() / 100

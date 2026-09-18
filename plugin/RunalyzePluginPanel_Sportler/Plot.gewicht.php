@@ -64,10 +64,10 @@ $Plot->PlotOptions['allowSelection'] = false;
 
 $Plot->addYAxis(1, 'left');
 $Plot->addYUnit(1, $Weight->unit(), 1);
-$Plot->setYTicks(1, 2, 0);
+$Plot->setYTicks(1, 2, false);
 $Plot->addYAxis(2, 'right', false);
 $Plot->addYUnit(2, 'bpm', 0);
-$Plot->setYTicks(2, 1, 0);
+$Plot->setYTicks(2, 1, false);
 
 if ($Wunschgewicht > 1) {
     $Plot->addThreshold('y1', $Wunschgewicht);

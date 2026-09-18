@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::RPE
  * @package Runalyze\View\Activity\Box
@@ -32,7 +34,7 @@ class Thb extends AbstractBox
 
         $value = new TrackdataAverages($Context->trackdata(), [$trackdataKey]);
         parent::__construct(
-            round($value->average($trackdataKey) / 100, 2),
+            (string) round($value->average($trackdataKey) / 100, 2),
             'g/dL',
             $label
         );

@@ -114,7 +114,7 @@ class Entity extends StringArrayObject
      * Get split
      * @throws \InvalidArgumentException
      */
-    public function at(int $index): Split
+    public function at($index): Split
     {
         return parent::at($index);
     }

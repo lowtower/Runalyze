@@ -52,10 +52,10 @@ class SectionHRVRow extends TrainingViewSectionRowTabbedPlot
 
         $boxes = [
             new BoxedValue(number_format(log($Calculator->RMSSD()), 1), '', 'lnRMSSD'),
-            new BoxedValue(round($Calculator->mean()), 'ms', __('avg.') . ' ' . __('R-R interval')),
-            new BoxedValue(round($Calculator->RMSSD()), 'ms', 'RMSSD'),
-            new BoxedValue(round($Calculator->SDSD()), 'ms', 'SDSD'),
-            new BoxedValue(round($Calculator->SDNN()), 'ms', 'SDNN'),
+            new BoxedValue((string) round($Calculator->mean()), 'ms', __('avg.') . ' ' . __('R-R interval')),
+            new BoxedValue((string) round($Calculator->RMSSD()), 'ms', 'RMSSD'),
+            new BoxedValue((string) round($Calculator->SDSD()), 'ms', 'SDSD'),
+            new BoxedValue((string) round($Calculator->SDNN()), 'ms', 'SDNN'),
             new BoxedValue($Calculator->SDANN() > 0 ? round($Calculator->SDANN()) : '-', 'ms', '5 min-SDANN'),
             new BoxedValue(number_format($Calculator->pNN50() * 100, 1), '%', 'pNN50'),
             new BoxedValue(number_format($Calculator->pNN20() * 100, 1), '%', 'pNN20'),

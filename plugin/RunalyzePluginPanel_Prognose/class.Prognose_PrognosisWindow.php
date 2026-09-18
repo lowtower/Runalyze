@@ -231,7 +231,7 @@ class Prognose_PrognosisWindow
             $PB->lookupWithDetails();
 
             $VO2maxprognosis = new LegacyEffectiveVO2max();
-            $VO2maxprognosis->fromPace($km, $Prognosis);
+            $VO2maxprognosis->fromPace($km, (int) $Prognosis);
 
             $VO2maxpb = new LegacyEffectiveVO2max();
             $VO2maxpb->fromPace($km, $PB->seconds());

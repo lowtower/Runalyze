@@ -41,7 +41,7 @@ class PluginConfigurationValueArray extends PluginConfigurationValue
     {
         $Field = new FormularInput($this->Key, $this->formLabel(), $this->valueAsString());
         $Field->setSize(FormularInput::$SIZE_FULL_INLINE);
-        $Field->addAttribute('maxlength', PluginConfigurationValue::MAXLENGTH);
+        $Field->addAttribute('maxlength', (string) PluginConfigurationValue::MAXLENGTH);
 
         return $Field;
     }

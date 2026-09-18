@@ -43,33 +43,28 @@ class FormularInput extends FormularField
 
     /**
      * Size
-     * @var string
      */
-    protected $size = '';
+    protected string $size = '';
 
     /**
      * Unit
-     * @var string
      */
-    protected $unit = '';
+    protected string $unit = '';
 
     /**
      * Boolean flag: label is on the right side
-     * @var bool
      */
-    private $labelOnRight = false;
+    private bool $labelOnRight = false;
 
     /**
      * Boolean flag: hide label
-     * @var bool
      */
-    private $hideLabel = false;
+    private bool $hideLabel = false;
 
     /**
      * Set standard size, used when no specific size is set (may be overwritten by css)
-     * @param string $size
      */
-    public static function setStandardSize($size): void
+    public static function setStandardSize(string $size): void
     {
         self::$standardSize = $size;
     }
@@ -89,18 +84,16 @@ class FormularInput extends FormularField
 
     /**
      * Size size for this input field
-     * @param string $size
      */
-    public function setSize($size): void
+    public function setSize(string $size): void
     {
         $this->size = $size;
     }
 
     /**
      * Set specific unit for this input field
-     * @param string $unit
      */
-    public function setUnit($unit): void
+    public function setUnit(string $unit): void
     {
         $this->unit = $unit;
     }
@@ -138,10 +131,7 @@ class FormularInput extends FormularField
         }
     }
 
-    /**
-     * @param string $text
-     */
-    public function setPlaceholder($text): void
+    public function setPlaceholder(string $text): void
     {
         $this->addAttribute('placeholder', $text);
     }
@@ -167,10 +157,8 @@ class FormularInput extends FormularField
 
     /**
      * Wrap input for unit
-     * @param string $inputTag
-     * @return string
      */
-    final protected function wrapInputTagForUnit($inputTag)
+    final protected function wrapInputTagForUnit(string $inputTag): string
     {
         if (empty($this->unit)) {
             return $inputTag;

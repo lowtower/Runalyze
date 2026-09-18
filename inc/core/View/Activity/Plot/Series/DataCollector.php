@@ -140,7 +140,7 @@ class DataCollector
     protected function defineStepSize(Trackdata $trackdata)
     {
         if ($this->Precision->byPoints() && $trackdata->num() > $this->Precision->numberOfPoints()) {
-            $this->Loop->setStepSize(round($trackdata->num() / $this->Precision->numberOfPoints()));
+            $this->Loop->setStepSize((int) round($trackdata->num() / $this->Precision->numberOfPoints()));
         } elseif ($this->Precision->byDistance()) {
             $this->StepDistance = $this->Precision->distanceStep() / 1000;
         }
