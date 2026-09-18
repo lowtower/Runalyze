@@ -30,12 +30,12 @@ class Pace
 
     /**
      * Create pace
-     * @param int $Time [s]
+     * @param float $Time [s]
      * @param float $Distance [optional] [km]
      * @param int $legacyPaceUnitEnum [optional]
      */
     public function __construct(
-        protected int $Time,
+        protected float $Time,
         protected float $Distance = 1.0,
         int $legacyPaceUnitEnum = self::STANDARD
     ) {
@@ -55,10 +55,10 @@ class Pace
     }
 
     /**
-     * @param int $time [s]
+     * @param float $time [s]
      * @return \Runalyze\Activity\Pace $this-reference
      */
-    public function setTime(int $time): self
+    public function setTime(float $time): self
     {
         $this->Time = $time;
 
@@ -128,12 +128,12 @@ class Pace
 
     public function isEmpty(): bool
     {
-        return $this->Distance <= 0 || $this->Time <= 0;
+        return $this->Distance <= 0.0 || $this->Time <= 0.0;
     }
 
     public function secondsPerKm(): int
     {
-        return ($this->Distance > 0) ? (int) ($this->Time / $this->Distance) : 0;
+        return ($this->Distance > 0.0) ? (int) ($this->Time / $this->Distance) : 0;
     }
 
     /**
@@ -204,9 +204,9 @@ class Pace
         }
 
         $comparisonInSecondsPerKm = $this->UnitObject->compare($this->secondsPerKm(), $other->secondsPerKm());
-        $isPositive = ($comparisonInSecondsPerKm >= 0);
+        $isPositive = ($comparisonInSecondsPerKm >= 0.0);
 
-        if ($comparisonInSecondsPerKm == 0 && $this->UnitObject->isTimeFormat()) {
+        if ($comparisonInSecondsPerKm === 0.0 && $this->UnitObject->isTimeFormat()) {
             return $this->formatComparison('0:00', $isPositive, $raw);
         }
 

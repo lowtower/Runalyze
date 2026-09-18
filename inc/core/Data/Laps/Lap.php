@@ -11,6 +11,7 @@ use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\HeartRate;
 use Runalyze\Activity\LapIntensity;
+use Runalyze\Activity\Pace;
 use Runalyze\Context;
 
 /**
@@ -21,11 +22,11 @@ use Runalyze\Context;
  */
 class Lap
 {
-    protected \Runalyze\Activity\Duration $LapDuration;
+    protected Duration $LapDuration;
 
-    protected \Runalyze\Activity\Distance $LapDistance;
+    protected Distance $LapDistance;
 
-    protected ?\Runalyze\Activity\Pace $LapPace = null;
+    protected ?Pace $LapPace = null;
 
     /**
      * #TSC Mode is the "old" name and i dont want to change it.
@@ -33,13 +34,13 @@ class Lap
      */
     protected ?LapIntensity $Mode = null;
 
-    protected ?\Runalyze\Activity\Duration $TrackDurationAtEnd = null;
+    protected ?Duration $TrackDurationAtEnd = null;
 
-    protected ?\Runalyze\Activity\Distance $TrackDistanceAtEnd = null;
+    protected ?Distance $TrackDistanceAtEnd = null;
 
-    protected ?\Runalyze\Activity\HeartRate $HRavg = null;
+    protected ?HeartRate $HRavg = null;
 
-    protected ?\Runalyze\Activity\HeartRate $HRmax = null;
+    protected ?HeartRate $HRmax = null;
 
     /**
      * @var int|bool [m]
@@ -64,6 +65,7 @@ class Lap
         $this->setDuration($duration);
         $this->setDistance($distance);
         $this->setMode($mode);
+        $this->setPace($duration, $distance);
 
         $this->Athlete = Context::Athlete();
     }
@@ -84,15 +86,20 @@ class Lap
         $this->LapDistance = new Distance($distance);
     }
 
+    public function setPace(float $duration, float $distance): void
+    {
+        if ($distance > 0.0) {
+            $this->LapPace = new Pace($duration, $distance);
+        }
+
+    }
+
     public function setMode(LapIntensity $mode): void
     {
         $this->Mode = $mode;
     }
 
-    /**
-     * @return LapIntensity
-     */
-    public function getMode()
+    public function getMode(): LapIntensity
     {
         return $this->Mode;
     }
@@ -129,17 +136,17 @@ class Lap
         $this->ElevationDown = $down;
     }
 
-    public function duration(): \Runalyze\Activity\Duration
+    public function duration(): Duration
     {
         return $this->LapDuration;
     }
 
-    public function distance(): \Runalyze\Activity\Distance
+    public function distance(): Distance
     {
         return $this->LapDistance;
     }
 
-    public function pace(): ?\Runalyze\Activity\Pace
+    public function pace(): ?Pace
     {
         return $this->LapPace;
     }
@@ -147,9 +154,9 @@ class Lap
     /**
      * @throws \RuntimeException if track duration was never set, check hasTrackValues() first
      */
-    public function trackDuration(): \Runalyze\Activity\Duration
+    public function trackDuration(): Duration
     {
-        if (! $this->TrackDurationAtEnd instanceof \Runalyze\Activity\Duration) {
+        if (! $this->TrackDurationAtEnd instanceof Duration) {
             throw new \RuntimeException('Track duration was never set for this lap. Call hasTrackValues() first.');
         }
 
@@ -158,11 +165,10 @@ class Lap
 
     /**
      * @throws \RuntimeException if track distance was never set, check hasTrackValues() first
-     * @return \Runalyze\Activity\Distance
      */
-    public function trackDistance()
+    public function trackDistance(): Distance
     {
-        if (! $this->TrackDistanceAtEnd instanceof \Runalyze\Activity\Distance) {
+        if (! $this->TrackDistanceAtEnd instanceof Distance) {
             throw new \RuntimeException('Track distance was never set for this lap. Call hasTrackValues() first.');
         }
 
@@ -171,7 +177,7 @@ class Lap
 
     public function hasTrackValues(): bool
     {
-        return $this->TrackDurationAtEnd instanceof \Runalyze\Activity\Duration;
+        return $this->TrackDurationAtEnd instanceof Duration;
     }
 
     public function isActive(): bool
@@ -181,15 +187,15 @@ class Lap
 
     public function hasHR(): bool
     {
-        return $this->HRavg instanceof \Runalyze\Activity\HeartRate;
+        return $this->HRavg instanceof HeartRate;
     }
 
     /**
      * @throws \RuntimeException if HR was never set, check hasHR() first
      */
-    public function HRavg(): \Runalyze\Activity\HeartRate
+    public function HRavg(): HeartRate
     {
-        if (! $this->HRavg instanceof \Runalyze\Activity\HeartRate) {
+        if (! $this->HRavg instanceof HeartRate) {
             throw new \RuntimeException('HR was never set for this lap. Call hasHR() first.');
         }
 
@@ -199,9 +205,9 @@ class Lap
     /**
      * @throws \RuntimeException if HR was never set, check hasHR() first
      */
-    public function HRmax(): \Runalyze\Activity\HeartRate
+    public function HRmax(): HeartRate
     {
-        if (! $this->HRmax instanceof \Runalyze\Activity\HeartRate) {
+        if (! $this->HRmax instanceof HeartRate) {
             throw new \RuntimeException('HR was never set for this lap. Call hasHR() first.');
         }
 
@@ -234,10 +240,7 @@ class Lap
         $this->AdditionalValues = $data;
     }
 
-    /**
-     * @return array
-     */
-    public function additionalValues()
+    public function additionalValues(): array
     {
         return $this->AdditionalValues;
     }

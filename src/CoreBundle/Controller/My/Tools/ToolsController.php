@@ -150,7 +150,10 @@ class ToolsController extends AbstractController
             ->getList();
         $correctionFactor = $configuration->getVO2maxCorrectionFactor();
 
-        $analysisTable = new VO2maxAnalysis($configuration->getVO2max()->getLegacyCategory());
+        /** @var \Runalyze\Configuration\Category\VO2max&\Runalyze\Configuration\Category $vo2max */
+        $vo2max = $configuration->getVO2max()
+            ->getLegacyCategory();
+        $analysisTable = new VO2maxAnalysis($vo2max);
         $races = $analysisTable->getAnalysisForAllRaces(
             $correctionFactor,
             $configuration->getGeneral()

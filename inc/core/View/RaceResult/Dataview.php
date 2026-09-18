@@ -63,11 +63,10 @@ class Dataview
 
     /**
      * Get a string for the speed depending on sportid
-     * @param int $sportid
      */
-    public function pace($sportid): \Runalyze\Activity\Pace
+    public function pace(int $sportid): \Runalyze\Activity\Pace
     {
-        return new Pace($this->RaceResult->officialTime(), $this->RaceResult->officialDistance(), SportFactory::getSpeedUnitFor($sportid));
+        return new Pace((float) $this->RaceResult->officialTime(), $this->RaceResult->officialDistance(), SportFactory::getSpeedUnitFor($sportid));
     }
 
     /**
@@ -77,82 +76,74 @@ class Dataview
     public function placementTotalWithTooltip()
     {
         return $this->placementWithTooltip(
-            $this->RaceResult->placeTotal(),
-            $this->RaceResult->participantsTotal(),
+            (int) $this->RaceResult->placeTotal(),
+            (int) $this->RaceResult->participantsTotal(),
             __('of %u overall')
         );
     }
 
     /**
      * Ageclass place with tooltip "of x"
-     * @return string
      */
-    public function placementAgeClassWithTooltip()
+    public function placementAgeClassWithTooltip(): string
     {
         return $this->placementWithTooltip(
-            $this->RaceResult->placeAgeclass(),
-            $this->RaceResult->participantsAgeclass(),
+            (int) $this->RaceResult->placeAgeclass(),
+            (int) $this->RaceResult->participantsAgeclass(),
             __('of %u in your age group')
         );
     }
 
     /**
      * Gender place with tooltip "of x"
-     * @return string
      */
-    public function placementGenderWithTooltip()
+    public function placementGenderWithTooltip(): string
     {
         return $this->placementWithTooltip(
-            $this->RaceResult->placeGender(),
-            $this->RaceResult->participantsGender(),
+            (int) $this->RaceResult->placeGender(),
+            (int) $this->RaceResult->participantsGender(),
             __('of %u men/women')
         );
     }
 
     /**
      * Total place with "of" age group overall
-     * @return string
      */
-    public function placementTotalWithParticipants()
+    public function placementTotalWithParticipants(): string
     {
         return $this->placementWithParticipants(
-            $this->RaceResult->placeTotal(),
-            $this->RaceResult->participantsTotal()
+            (int) $this->RaceResult->placeTotal(),
+            (int) $this->RaceResult->participantsTotal()
         );
     }
 
     /**
      * Ageclass place with "of" age group participants
-     * @return string
      */
-    public function placementAgeClassWithParticipants()
+    public function placementAgeClassWithParticipants(): string
     {
         return $this->placementWithParticipants(
-            $this->RaceResult->placeAgeclass(),
-            $this->RaceResult->participantsAgeclass()
+            (int) $this->RaceResult->placeAgeclass(),
+            (int) $this->RaceResult->participantsAgeclass()
         );
     }
 
     /**
      * Gender place with "of" age group gender
-     * @return string
      */
-    public function placementGenderWithParticipants()
+    public function placementGenderWithParticipants(): string
     {
         return $this->placementWithParticipants(
-            $this->RaceResult->placeGender(),
-            $this->RaceResult->participantsGender()
+            (int) $this->RaceResult->placeGender(),
+            (int) $this->RaceResult->participantsGender()
         );
     }
 
     /**
      * Place with tooltip "of x"
-     * @param null|int $place
-     * @param null|int $participants
      * @param string $sprintfString must contain "%u"
-     * @return string
      */
-    public function placementWithTooltip($place, $participants, $sprintfString, $unknownString = '-')
+    public function placementWithTooltip(?int $place, ?int $participants, string $sprintfString, string $unknownString = '-'): string
     {
         if ($place === null) {
             return $unknownString;
@@ -160,7 +151,7 @@ class Dataview
 
         $placeString = $place . '.';
 
-        if ($participants !== null) {
+        if ($participants !== null && $participants !== 0) {
 
             $Tooltip = new Tooltip(sprintf($sprintfString, $participants) . ' ' . sprintf(__('(first %u%%)'), 100 * $place / $participants));
             $Tooltip->wrapAround($placeString);
@@ -171,12 +162,9 @@ class Dataview
 
     /**
      * Place with "of" for total number of participants
-     * @param int|null $place
-     * @param int|null $participants
      * @param string $unknownString string to display if place is unknown
-     * @return string
      */
-    protected function placementWithParticipants($place, $participants, $unknownString = '-')
+    protected function placementWithParticipants(?int $place, ?int $participants, string $unknownString = '-'): string
     {
         if ($place === null) {
             return $unknownString;

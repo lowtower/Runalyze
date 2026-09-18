@@ -76,7 +76,7 @@ abstract class Laps extends ActivityPlot
         $this->Plot->setXLabels($this->Labels);
         $this->Plot->showBars(true);
 
-        $this->Plot->setYTicks(1, null);
+        $this->Plot->setYTicks(1, 1, false);
         $this->Plot->Options['xaxis']['show'] = true; // force to show xaxis-labels, even if no time or distance array is given
 
         $this->addAnnotations();

@@ -108,12 +108,12 @@ class DataBrowserLinker
         $date = [];
         $factor = $getPrev ? -1 : 1;
         $diff_in_days = round(($end->getTimestamp() - $start->getTimestamp()) / 86400);
-        $start_month = $start->format('m');
-        $start_day = $start->format('d');
-        $start_year = $start->format('Y');
-        $end_month = $end->format('m');
-        $end_day = $end->format('d');
-        $end_year = $end->format('Y');
+        $start_month = (int) $start->format('m');
+        $start_day = (int) $start->format('d');
+        $start_year = (int) $start->format('Y');
+        $end_month = (int) $end->format('m');
+        $end_day = (int) $end->format('d');
+        $end_year = (int) $end->format('Y');
 
         if ($diff_in_days > 360 && $diff_in_days < 370) {
             $start_year += $factor;
@@ -122,7 +122,7 @@ class DataBrowserLinker
             $start_month += $factor;
             $end_month += $factor;
 
-            if ($start_day == 1 && $end_day != 0) {
+            if ($start_day === 1 && $end_day !== 0) {
                 $end_month = $start_month + 1;
                 $end_day = 0;
             }

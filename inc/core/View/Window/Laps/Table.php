@@ -44,7 +44,6 @@ class Table
     protected array $AdditionalKeys = [];
 
     /**
-     * @var array
      * contains the decoded splits-additional infos as a object array.
      */
     protected array $splitsAdditional = [];
@@ -52,12 +51,8 @@ class Table
     private bool $showIntensity;
 
     public function __construct(
-        protected Laps $Laps, /**
-     * Demanded time
-     */
-        protected Duration $DemandedTime, /**
-     * Demanded pace
-     */
+        protected Laps $Laps,
+        protected Duration $DemandedTime,
         protected Pace $DemandedPace,
         int $internalSportProfileEnum,
         ?array $splitsAdditional = null
@@ -126,7 +121,7 @@ class Table
                         '<th class="{sorter: \'distance\'}">' . __('Lap') . '</th>' .
                         '<th class="{sorter: \'resulttime\'}">' . __('Duration') . '</th>' .
                         ($this->DemandedTime->isZero() ? '' : '<th>' . __('Diff.') . '</th>') .
-                        '<th>' . __('Pace') . '</th>' .
+                        '<th>' . ($this->DemandedPace->unit()->isTimeFormat() ? __('Pace') : __('Speed')) . '</th>' .
                         ($this->DemandedPace->isEmpty() ? '' : '<th>' . __('Diff.') . '</th>') .
                         '<th>' . __('avg.') . ' ' . __('HR') . '</th>' .
                         '<th>' . __('max.') . ' ' . __('HR') . '</th>' .
@@ -178,14 +173,13 @@ class Table
         return $Code . '</tbody>';
     }
 
-    /**
-     * @param int $i
-     */
-    protected function tableRowFor($i): string
+    protected function tableRowFor(int $i): string
     {
         $Lap = $this->Laps->at($i);
-        $Lap->pace()
-            ->setUnit($this->DemandedPace->unit());
+        if ($Lap->pace() instanceof \Runalyze\Activity\Pace) {
+            $Lap->pace()
+                ->setUnit($this->DemandedPace->unit());
+        }
 
         return '<tr class="c ' . ($Lap->isActive() ? '' : 'unimportant') . '">' .
                 '<td class="small">' . ($Lap->isActive() ? ($this->IndexActive++) . '.' : '(' . ($this->IndexResting++) . '.)') . '</td>' .
@@ -195,8 +189,8 @@ class Table
                 '<td>' . $Lap->distance()->string() . '</td>' .
                 '<td>' . $Lap->duration()->string() . '</td>' .
                 ($this->DemandedTime->isZero() ? '' : '<td>' . $Lap->duration()->compareTo($this->DemandedTime, true) . '</td>') .
-                '<td>' . $Lap->pace()->valueWithAppendix() . '</td>' .
-                ($this->DemandedPace->isEmpty() ? '' : '<td>' . $Lap->pace()->compareTo($this->DemandedPace) . '</td>') .
+                '<td>' . ($Lap->pace() instanceof \Runalyze\Activity\Pace ? $Lap->pace()->valueWithAppendix() : '-') . '</td>' .
+                ($this->DemandedPace->isEmpty() ? '' : '<td>' . ($Lap->pace() instanceof \Runalyze\Activity\Pace ? $Lap->pace()->compareTo($this->DemandedPace) : '-') . '</td>') .
                 '<td>' . ($Lap->hasHR() ? Helper::Unknown($Lap->HRavg()->string(), '-') : '-') . '</td>' .
                 '<td>' . ($Lap->hasHR() ? Helper::Unknown($Lap->HRmax()->string(), '-') : '-') . '</td>' .
                 '<td>' . ($Lap->hasElevation() ? '+' . Elevation::format($Lap->elevationUp(), false) . '/-' . Elevation::format($Lap->elevationDown(), false) : '-') . '</td>' .
@@ -242,10 +236,7 @@ class Table
         return $Code;
     }
 
-    /**
-     * @param string $key
-     */
-    protected function labelForAdditionalValue($key): string
+    protected function labelForAdditionalValue(string $key): string
     {
         return match ($key) {
             Activity\Entity::CADENCE => __('Cadence'),
@@ -269,8 +260,6 @@ class Table
      * hows the cell values from the json.
      * this is dynamical regarding the json content.
      * #TSC
-     *
-     * @param $idx table row index
      */
     protected function splitsAdditionalCells(int $idx): string
     {

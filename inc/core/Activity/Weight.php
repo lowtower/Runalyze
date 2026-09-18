@@ -82,7 +82,7 @@ class Weight implements ValueInterface
      */
     public function set($weight): self
     {
-        $this->Weight = (float) str_replace(',', '.', $weight);
+        $this->Weight = (float) str_replace(',', '.', (string) $weight);
 
         return $this;
     }
@@ -94,7 +94,7 @@ class Weight implements ValueInterface
      */
     public function setPounds(float $weight): self
     {
-        $this->Weight = (float) str_replace(',', '.', $weight) / self::POUNDS_MULTIPLIER;
+        $this->Weight = (float) str_replace(',', '.', (string) $weight) / self::POUNDS_MULTIPLIER;
 
         return $this;
     }
@@ -106,7 +106,7 @@ class Weight implements ValueInterface
      */
     public function setStones(float $weight): self
     {
-        $this->Weight = (float) str_replace(',', '.', $weight) / self::STONES_MULTIPLIER;
+        $this->Weight = (float) str_replace(',', '.', (string) $weight) / self::STONES_MULTIPLIER;
 
         return $this;
     }

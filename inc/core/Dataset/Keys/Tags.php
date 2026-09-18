@@ -75,7 +75,7 @@ class Tags extends AbstractKey
             $Factory = new \Runalyze\Model\Factory(\SessionAccountHandler::getId());
 
             foreach (array_unique($ids) as $id) {
-                $string .= '#' . $Factory->tag($id)->tag() . ' ';
+                $string .= '#' . $Factory->tag((int) $id)->tag() . ' ';
             }
         }
 

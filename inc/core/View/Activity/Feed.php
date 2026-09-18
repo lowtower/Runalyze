@@ -11,53 +11,26 @@ use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Twig\ValueExtension;
 use Runalyze\Util\LocalTime;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class Feed
 {
-    /**
-     * @var array
-     */
-    protected $Activities;
+    protected array $Activities;
 
-    /**
-     * @var Rss20FeedBuilder
-     */
-    protected $FeedBuilder;
+    protected Rss20FeedBuilder $FeedBuilder;
 
-    /**
-     * @var \Symfony\Contracts\Translation\TranslatorInterface
-     */
-    protected $Translator;
+    protected UnitSystem $UnitSystem;
 
-    /**
-     * @var ActivityContextFactory
-     */
-    protected $ActivityContextFactory;
-
-    /**
-     * @var UrlGeneratorInterface
-     */
-    protected $UrlGenerator;
-
-    /**
-     * @var ConfigurationManager
-     */
-    protected $ConfigurationManager;
-
-    /**
-     * @var UnitSystem
-     */
-    protected $UnitSystem;
-
-    public function __construct(\Symfony\Contracts\Translation\TranslatorInterface $translator, ActivityContextFactory $activityContextFactory, UrlGeneratorInterface $urlGenerator, ConfigurationManager $configurationManager)
-    {
+    public function __construct(
+        protected TranslatorInterface $Translator,
+        protected ActivityContextFactory $ActivityContextFactory,
+        protected UrlGeneratorInterface $UrlGenerator,
+        protected ConfigurationManager $ConfigurationManager
+    ) {
         $this->FeedBuilder = new Rss20FeedBuilder();
-        $this->ActivityContextFactory = $activityContextFactory;
-        $this->Translator = $translator;
-        $this->UrlGenerator = $urlGenerator;
-        $this->ConfigurationManager = $configurationManager;
         $this->FeedBuilder->withDate(new \DateTime());
-        $this->UnitSystem = $configurationManager->getList()
+
+        $this->UnitSystem = $this->ConfigurationManager->getList()
             ->getUnitSystem();
     }
 
@@ -66,52 +39,37 @@ class Feed
         $this->Translator = $translator;
     }
 
-    /**
-     * @return string
-     */
-    public function buildFeed()
+    public function buildFeed(): string
     {
         $this->createItems();
         return $this->FeedBuilder->build();
     }
 
-    /**
-     * @param array $activities
-     */
-    public function setActivities($activities): self
+    public function setActivities(array $activities): self
     {
         $this->Activities = $activities;
         return $this;
     }
 
-    public function setFeedAuthor($author): self
+    public function setFeedAuthor(string $author): self
     {
         $this->FeedBuilder->withAuthor($author);
         return $this;
     }
 
-    /**
-     * @param string $title
-     */
-    public function setFeedTitle($title): self
+    public function setFeedTitle(string $title): self
     {
         $this->FeedBuilder->withTitle($title);
         return $this;
     }
 
-    /**
-     * @param string $feed
-     */
-    public function setFeedUrl($feed): self
+    public function setFeedUrl(string $feed): self
     {
         $this->FeedBuilder->withFeedUrl($feed);
         return $this;
     }
 
-    /**
-     * @param string $site
-     */
-    public function setSiteUrl($site): self
+    public function setSiteUrl(string $site): self
     {
         $this->FeedBuilder->withSiteUrl($site);
         return $this;
@@ -132,7 +90,7 @@ class Feed
         }
 
         $content .= '<br><b>' . $this->Translator->trans('Date') . '</b>: ' . (new LocalTime($activity->getTime()))->format('d.m.Y');
-        $content .= '<br><b>' . $this->Translator->trans('Duration') . '</b>: ' . (new \DateTime())->setTimezone(new \DateTimeZone('UTC'))->setTimestamp($activity->getS())->format('H:i:s');
+        $content .= '<br><b>' . $this->Translator->trans('Duration') . '</b>: ' . (new \DateTime())->setTimezone(new \DateTimeZone('UTC'))->setTimestamp((int) $activity->getS())->format('H:i:s');
 
         if ($activity->getDistance()) {
             $content .= '<br><b>' . $this->Translator->trans('Distance') . '</b>: ' . $valueDecorator->distance($activity->getDistance());
@@ -145,7 +103,7 @@ class Feed
 
         if ($activity->isPublic()) {
             $content .= '<br><a href="' . $this->UrlGenerator->generate('shared-activity', [
-                'activityHash' => base_convert((int) $activity->getId(), 10, 35),
+                'activityHash' => base_convert((string) $activity->getId(), 10, 35),
             ], UrlGeneratorInterface::ABSOLUTE_URL);
             $content .= '?utm_medium=feed&utm_campaign=feed">' . $this->Translator->trans('View full activity') . '</a>';
         }
@@ -165,7 +123,7 @@ class Feed
 
         if ($activity->isPublic()) {
             $item->withUrl($this->UrlGenerator->generate('shared-activity', [
-                'activityHash' => base_convert((int) $activity->getId(), 10, 35),
+                'activityHash' => base_convert((string) $activity->getId(), 10, 35),
             ], UrlGeneratorInterface::ABSOLUTE_URL) . '?utm_medium=feed&utm_campaign=feed');
         }
 
@@ -181,7 +139,7 @@ class Feed
             $title .= ' (' . $activity->getType()->getName() . ')';
         }
 
-        $title .= ': ' . (new \DateTime())->setTimezone(new \DateTimeZone('UTC'))->setTimestamp($activity->getS())->format('H:i:s') . 'h';
+        $title .= ': ' . (new \DateTime())->setTimezone(new \DateTimeZone('UTC'))->setTimestamp((int) $activity->getS())->format('H:i:s') . 'h';
 
         if ($activity->getDistance() > 0) {
             $title .= ' - ' . str_replace('&nbsp;', ' ', $valueDecorator->distance($activity->getDistance()));
@@ -196,10 +154,8 @@ class Feed
 
     private function createItems(): void
     {
-        if ($this->Activities) {
-            foreach ($this->Activities as $activity) {
-                $this->createItem($activity);
-            }
+        foreach ($this->Activities as $activity) {
+            $this->createItem($activity);
         }
     }
 }

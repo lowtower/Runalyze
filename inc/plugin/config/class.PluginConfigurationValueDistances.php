@@ -87,7 +87,7 @@ class PluginConfigurationValueDistances extends PluginConfigurationValueArray
     {
         $Field = new FormularInput($this->Key, $this->formLabel(), $this->valueAsString());
         $Field->setSize(FormularInput::$SIZE_FULL_INLINE);
-        $Field->addAttribute('maxlength', PluginConfigurationValue::MAXLENGTH);
+        $Field->addAttribute('maxlength', (string) PluginConfigurationValue::MAXLENGTH);
 
         if ($this->unitSystem()->isImperial()) {
             $Field->setUnit(FormularUnit::$MILES);

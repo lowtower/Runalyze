@@ -63,7 +63,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
     protected function initConfiguration()
     {
         $Configuration = new PluginConfiguration($this->id());
-        $Configuration->addValue(new PluginConfigurationValueDistance('main_distance', __('Main distance'), '', 10));
+        $Configuration->addValue(new PluginConfigurationValueDistance('main_distance', __('Main distance'), '', '10'));
         $Configuration->addValue(new PluginConfigurationValueDistances('pb_distances', __('Distances for yearly comparison'), '', [1, 3, 5, 10, 21.1, 42.2]));
         $Configuration->addValue(new PluginConfigurationValueHiddenArray('fun_ids', '', '', []));
 
@@ -428,8 +428,8 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
 
         if ($this->knowsAgeGrade() && $this->AgeGradeLookup->getMinimalDistance() <= $RaceResult->officialDistance()) {
             $ageGrade = $this->AgeGradeLookup->getAgeGrade(
-                $RaceResult->officialDistance(),
-                $RaceResult->officialTime(),
+                (float) $RaceResult->officialDistance(),
+                (int) $RaceResult->officialTime(),
                 date('Y') - date('Y', $Activity->timestamp())
             );
             $ageGradeString = number_format(100 * $ageGrade->getPerformance(), 2) . ' &#37;';

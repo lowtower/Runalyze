@@ -88,7 +88,7 @@ class RunalyzePluginStat_Wetter extends PluginStat
 
             foreach ($this->AllTypes as $id => $name) {
                 $active = ($id == $this->EquipmentTypeId);
-                $LinkList[] = '<li' . ($active ? ' class="active"' : '') . '>' . $this->getInnerLink($name, false, false, $id) . '</li>';
+                $LinkList[] = '<li' . ($active ? ' class="active"' : '') . '>' . $this->getInnerLink("{$name}", 0, 0, $id) . '</li>';
             }
         }
 

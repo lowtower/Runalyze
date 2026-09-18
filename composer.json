@@ -29,7 +29,7 @@
         "runalyze/devices": "dev-master",
         "runalyze/glossary": "v4.3.0",
         "runalyze/gpxtrackposter": "v4.3.0",
-        "runalyze/translations": "dev-master",
+        "runalyze/translations": "v4.3.0",
         "snc/redis-bundle": "^3.6",
         "symfony/asset": "~4.4",
         "symfony/console": "~4.4",
@@ -125,6 +125,18 @@
                     "url": "https://github.com/lowtower/Runalyze-Glossary.git",
                     "type": "git",
                     "reference": "v4.3.0"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "runalyze/translations",
+                "version": "v4.3.0",
+                "source": {
+                    "url": "https://github.com/lowtower/Runalyze_translations.git",
+                    "type": "git",
+                    "reference": "master"
                 }
             }
         }],

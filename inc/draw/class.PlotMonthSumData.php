@@ -39,7 +39,7 @@ class PlotMonthSumData extends PlotSumData
         $i = 0;
 
         for ($m = $this->timerStart; $m <= $this->timerEnd; $m++) {
-            $months[] = [$i, Time::month($m + $add, true)];
+            $months[] = [$i, Time::month((string) ($m + $add), true)];
             $i++;
         }
 

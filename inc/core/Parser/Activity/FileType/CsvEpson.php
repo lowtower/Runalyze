@@ -113,7 +113,7 @@ class CsvEpson extends AbstractSingleParser implements FileContentAwareParserInt
 
             $this->Container->Metadata->setTimestamp(
                 strtotime($startDay . ' ' . $startTime . ' UTC'),
-                round((strtotime($startDay . ' ' . $startTime . ' UTC') - strtotime($startDay . ' ' . $startTime)) / 60)
+                (int) round((strtotime($startDay . ' ' . $startTime . ' UTC') - strtotime($startDay . ' ' . $startTime)) / 60)
             );
         }
     }

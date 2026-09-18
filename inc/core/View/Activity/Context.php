@@ -9,8 +9,7 @@ namespace Runalyze\View\Activity;
 
 use Request;
 use Runalyze\Configuration;
-use Runalyze\Model\Activity;
-use Runalyze\Model\Factory;
+use Runalyze\Model;
 
 /**
  * Activity context
@@ -20,58 +19,31 @@ use Runalyze\Model\Factory;
  */
 class Context
 {
-    /**
-     * @var \Runalyze\Model\Activity\Entity
-     */
-    protected $Activity;
+    protected Model\Activity\Entity $Activity;
 
-    /**
-     * @var \Runalyze\Model\Trackdata\Entity
-     */
-    protected $Trackdata;
+    protected Model\Trackdata\Entity $Trackdata;
 
-    /**
-     * @var \Runalyze\Model\Swimdata\Entity
-     */
-    protected $Swimdata;
+    protected ?Model\Swimdata\Entity $Swimdata = null;
 
-    /**
-     * @var \Runalyze\Model\Route\Entity
-     */
-    protected $Route;
+    protected ?Model\Route\Entity $Route = null;
 
-    /**
-     * @var \Runalyze\Model\HRV\Entity
-     */
-    protected $HRV;
+    protected Model\HRV\Entity $HRV;
 
-    /**
-     * @var \Runalyze\Model\Sport\Entity
-     */
-    protected $Sport;
+    protected Model\Sport\Entity $Sport;
 
-    /**
-     * @var \Runalyze\Model\RaceResult\Entity
-     */
-    protected $RaceResult;
+    protected Model\RaceResult\Entity $RaceResult;
 
-    /**
-     * @var \Runalyze\View\Activity\Dataview
-     */
-    protected $Dataview;
+    protected \Runalyze\View\Activity\Dataview $Dataview;
 
-    /**
-     * Construct context
-     */
     public function __construct(int $activityID, int $accountID)
     {
-        $Factory = new Factory($accountID);
+        $Factory = new Model\Factory($accountID);
 
         $this->Activity = $Factory->activity($activityID);
         $this->Trackdata = $Factory->trackdata($activityID);
         $this->Swimdata = $Factory->swimdata($activityID);
         $this->RaceResult = $Factory->raceResult($activityID);
-        $this->Route = $this->Activity->get(Activity\Entity::ROUTEID) ? $Factory->route($this->Activity->get(Activity\Entity::ROUTEID)) : null;
+        $this->Route = $this->Activity->get(Model\Activity\Entity::ROUTEID) ? $Factory->route($this->Activity->get(Model\Activity\Entity::ROUTEID)) : null;
         $this->HRV = $Factory->hrv($activityID);
         $this->Sport = $Factory->sport($this->Activity->sportid());
 
@@ -81,9 +53,6 @@ class Context
         $this->Dataview = new Dataview($this->Activity);
     }
 
-    /**
-     * Clone object
-     */
     public function __clone()
     {
         foreach (get_object_vars($this) as $property => $value) {
@@ -93,66 +62,42 @@ class Context
         }
     }
 
-    /**
-     * @return \Runalyze\Model\Activity\Entity
-     */
-    public function activity()
+    public function activity(): Model\Activity\Entity
     {
         return $this->Activity;
     }
 
-    /**
-     * @return \Runalyze\Model\Trackdata\Entity
-     */
-    public function trackdata()
+    public function trackdata(): Model\Trackdata\Entity
     {
         return $this->Trackdata;
     }
 
-    /**
-     * @return \Runalyze\Model\Swimdata\Entity
-     */
-    public function swimdata()
+    public function swimdata(): Model\Swimdata\Entity
     {
         return $this->Swimdata;
     }
 
-    /**
-     * @return \Runalyze\Model\HRV\Entity
-     */
-    public function hrv()
+    public function hrv(): Model\HRV\Entity
     {
         return $this->HRV;
     }
 
-    /**
-     * @return \Runalyze\Model\Sport\Entity
-     */
-    public function sport()
+    public function sport(): Model\Sport\Entity
     {
         return $this->Sport;
     }
 
-    /**
-     * @return \Runalyze\Model\Route\Entity
-     */
-    public function route()
+    public function route(): Model\Route\Entity
     {
         return $this->Route;
     }
 
-    /**
-     * @return \Runalyze\Model\RaceResult\Entity
-     */
-    public function raceResult()
+    public function raceResult(): Model\RaceResult\Entity
     {
         return $this->RaceResult;
     }
 
-    /**
-     * @return \Runalyze\View\Activity\Dataview
-     */
-    public function dataview()
+    public function dataview(): \Runalyze\View\Activity\Dataview
     {
         return $this->Dataview;
     }
@@ -164,12 +109,12 @@ class Context
 
     public function hasRoute(): bool
     {
-        return $this->Route !== null;
+        return $this->Route instanceof Model\Route\Entity;
     }
 
     public function hasSwimdata(): bool
     {
-        return $this->Swimdata !== null;
+        return $this->Swimdata instanceof Model\Swimdata\Entity;
     }
 
     public function hasHRV(): bool
@@ -182,10 +127,7 @@ class Context
         return ! $this->RaceResult->isEmpty();
     }
 
-    /**
-     * @return bool
-     */
-    public function hideMap()
+    public function hideMap(): bool
     {
         if (! Request::isOnSharedPage()) {
             return false;

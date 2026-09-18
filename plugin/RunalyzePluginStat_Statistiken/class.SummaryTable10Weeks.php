@@ -31,12 +31,12 @@ class SummaryTable10Weeks extends SummaryTable
      */
     protected function rowHead(int $index): string
     {
-        $time = $this->TimeEnd - ($index + 0.5) * 7 * DAY_IN_S;
+        $time = (int) ($this->TimeEnd - ($index + 0.5) * 7 * DAY_IN_S);
         $start = (new LocalTime($time))->weekstart(true);
         $end = (new LocalTime($time))->weekend(true);
         $week = Icon::$CALENDAR . ' ' . __('Week') . ' ' . $start->week();
 
-        return DataBrowserLinker::link($week, $start->getTimestamp(), $end->getTimestamp(), '', null, $this->Sportid > 0 ? $this->Sportid : null) .
+        return DataBrowserLinker::link($week, $start->getTimestamp(), $end->getTimestamp(), '', '', $this->Sportid > 0 ? $this->Sportid : null) .
                 '</span>&nbsp;&nbsp;&nbsp;<span class="small">' . $start->format('d.m') . ' - ' . $end->format('d.m');
     }
 }

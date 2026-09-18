@@ -10,10 +10,7 @@ require_once __DIR__ . '/../../../inc/data/class.Splits.php';
  */
 class SplitsTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var Splits
-     */
-    protected $object;
+    protected Splits $object;
 
     /**
      * Test empty splits

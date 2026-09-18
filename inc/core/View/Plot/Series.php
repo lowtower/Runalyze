@@ -110,7 +110,7 @@ class Series
         }
 
         if ($this->TickSize !== null) {
-            $Plot->setYTicks($yAxis, $this->TickSize, $this->TickDecimals);
+            $Plot->setYTicks($yAxis, (int) $this->TickSize, (bool) $this->TickDecimals);
         }
 
         if ($addAnnotations && $this->ShowAverage) {

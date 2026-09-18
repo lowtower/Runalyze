@@ -53,7 +53,7 @@ class HeatIndex implements ValueInterface
         if ($temperature->value() !== null && ! $humidity->isUnknown()) {
             $this->HeatIndexTemperature = clone $temperature;
             $this->HeatIndexTemperature->setFahrenheit(
-                $this->calculateHeatIndexFor($temperature->fahrenheit(), $humidity->value())
+                $this->calculateHeatIndexFor($temperature->fahrenheit(), (int) $humidity->value())
             );
         } else {
             $this->setUnknown();

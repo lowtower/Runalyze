@@ -367,14 +367,14 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
         $kmend->setTime(0, 0, 0);
 
         $now = new DateTime('now');
-        $kmstart->setISODate(date('Y'), 27, 1);
+        $kmstart->setISODate((int) date('Y'), 27, 1);
 
         if ($kmstart > $now) {
-            $kmstart->setISODate(date('Y'), 1, 1);
-            $kmend->setISODate(date('Y'), 26, 7);
+            $kmstart->setISODate((int) date('Y'), 1, 1);
+            $kmend->setISODate((int) date('Y'), 26, 7);
         } else {
             $weeks = date('W', strtotime(date('Y') . '-12-31'));
-            $kmend->setISODate(date('Y'), $weeks == 53 ? 53 : 52, 7);
+            $kmend->setISODate((int) date('Y'), $weeks == 53 ? 53 : 52, 7);
         }
 
         // Zeitraeume fuer die Prognosen.

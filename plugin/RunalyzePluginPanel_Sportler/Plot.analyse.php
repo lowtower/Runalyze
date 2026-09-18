@@ -68,10 +68,10 @@ $Plot->PlotOptions['allowSelection'] = false;
 
 $Plot->addYAxis(1, 'left');
 $Plot->addYUnit(1, '%', 0);
-$Plot->setYTicks(1, 1, 0);
+$Plot->setYTicks(1, 1, false);
 $Plot->addYAxis(2, 'right');
 $Plot->addYUnit(2, '%', 0);
-$Plot->setYTicks(1, 1, 0);
+$Plot->setYTicks(1, 1, false);
 
 if ($Data === []) {
     $Plot->raiseError(__('No data available.'));

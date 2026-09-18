@@ -90,10 +90,7 @@ class Table
         $this->demandedPace = new Pace(0, 0, $this->PaceUnit);
     }
 
-    /**
-     * @param int $demandedPace
-     */
-    public function setDemandedPace($demandedPace): void
+    public function setDemandedPace(float $demandedPace): void
     {
         $this->demandedPace = new Pace(round($demandedPace), 1, $this->PaceUnit);
     }

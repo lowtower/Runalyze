@@ -154,15 +154,15 @@ class Tcx extends AbstractFileExporter
             $TimeInSeconds = $Loop->difference(Trackdata\Entity::TIME);
 
             $Lap = $this->Activity->addChild('Lap');
-            $Lap->addAttribute('StartTime', $this->timeToString($Starttime + $Loop->time() - $TimeInSeconds));
-            $Lap->addChild('TotalTimeSeconds', $TimeInSeconds);
-            $Lap->addChild('DistanceMeters', 1000 * $Loop->difference(Trackdata\Entity::DISTANCE));
+            $Lap->addAttribute('StartTime', $this->timeToString((int) ($Starttime + $Loop->time() - $TimeInSeconds)));
+            $Lap->addChild('TotalTimeSeconds', (string) $TimeInSeconds);
+            $Lap->addChild('DistanceMeters', (string) (1000 * $Loop->difference(Trackdata\Entity::DISTANCE)));
 
             if ($this->TrackdataHas[Trackdata\Entity::HEARTRATE]) {
                 $Lap->addChild('AverageHeartRateBpm')
-                    ->addChild('Value', $Loop->average(Trackdata\Entity::HEARTRATE));
+                    ->addChild('Value', (string) $Loop->average(Trackdata\Entity::HEARTRATE));
                 $Lap->addChild('MaximumHeartRateBpm')
-                    ->addChild('Value', $Loop->max(Trackdata\Entity::HEARTRATE));
+                    ->addChild('Value', (string) $Loop->max(Trackdata\Entity::HEARTRATE));
             }
 
             $Lap->addChild('Intensity', 'Active');
@@ -226,7 +226,7 @@ class Tcx extends AbstractFileExporter
         }
 
         if ($this->TrackdataHas[Trackdata\Entity::DISTANCE]) {
-            $trackpoint->addChild('DistanceMeters', 1000 * $trackdataLoop->distance());
+            $trackpoint->addChild('DistanceMeters', (string) (1000 * $trackdataLoop->distance()));
         }
 
         if ($this->TrackdataHas[Trackdata\Entity::HEARTRATE]) {
@@ -239,7 +239,7 @@ class Tcx extends AbstractFileExporter
                 ->addChild('TPX', '', 'http://www.garmin.com/xmlschemas/ActivityExtension/v2');
 
             if ($this->TrackdataHas[Trackdata\Entity::PACE]) {
-                $TPX->addChild('Speed', $this->convertPaceToSpeed($trackdataLoop->current(Trackdata\Entity::PACE)));
+                $TPX->addChild('Speed', (string) ($this->convertPaceToSpeed($trackdataLoop->current(Trackdata\Entity::PACE))));
             }
 
             if ($this->TrackdataHas[Trackdata\Entity::POWER]) {

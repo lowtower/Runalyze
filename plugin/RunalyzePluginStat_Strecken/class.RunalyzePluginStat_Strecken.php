@@ -262,11 +262,7 @@ class RunalyzePluginStat_Strecken extends PluginStat
         return $Query . ' AND `routeid`!=0 AND `cities`!=""';
     }
 
-    /**
-     * @param int $sportid
-     * @param int $year
-     */
-    public static function panelMenuForRoutenet($positioninterval, $sportid, $year): string
+    public static function panelMenuForRoutenet(int $positioninterval, int $sportid, int $year): string
     {
         $Code = '<div class="panel-menu"><ul>';
         $Code .= '<li class="with-submenu"><span class="link">Position interval</span><ul class="submenu">' . self::submenuForPositionInterval($positioninterval, $sportid, $year) . '</ul></li>';
@@ -278,16 +274,13 @@ class RunalyzePluginStat_Strecken extends PluginStat
 
     /**
      * Submenu for position interval #TSC.
-     * @param int $positioninterval
-     * @param int $sportid
-     * @param int $year
      */
-    private static function submenuForPositionInterval($positioninterval, $sportid, $year): string
+    private static function submenuForPositionInterval(int $positioninterval, int $sportid, int $year): string
     {
         $i = 1;
-        $Code = '<li' . ($positioninterval == $i ? ' class="active"' : '') . '>' . self::linkToRoutenet(__('All'), $i, $sportid, $year) . '</li>';
+        $Code = '<li' . ($positioninterval === $i ? ' class="active"' : '') . '>' . self::linkToRoutenet(__('All'), $i, $sportid, $year) . '</li>';
         for ($i++; $i <= 5; $i++) {
-            $Code .= '<li' . ($positioninterval == $i ? ' class="active"' : '') . '>' . self::linkToRoutenet($i, $i, $sportid, $year) . '</li>';
+            $Code .= '<li' . ($positioninterval === $i ? ' class="active"' : '') . '>' . self::linkToRoutenet("{$i}", $i, $sportid, $year) . '</li>';
         }
 
         return $Code;

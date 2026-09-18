@@ -24,30 +24,18 @@ abstract class AbstractModel
      */
     public const PERFORMANCE = 2;
 
-    /**
-     * @var array
-     */
-    protected $Trimp = [];
+    protected array $Trimp = [];
 
-    /**
-     * @var array
-     */
-    protected $Fitness = [];
+    protected array $Fitness = [];
 
-    /**
-     * @var array
-     */
-    protected $Fatigue = [];
+    protected array $Fatigue = [];
 
-    /**
-     * @var array
-     */
-    protected $Performance = [];
+    protected array $Performance = [];
 
     /**
      * @var array array('from' => int, 'to' => int)
      */
-    protected $Range = [];
+    protected array $Range = [];
 
     /**
      * @param array $trimpData array('days back' => 'trimp value')
@@ -59,11 +47,7 @@ abstract class AbstractModel
         $this->Trimp = $trimpData;
     }
 
-    /**
-     * @param int $from
-     * @param int $to
-     */
-    final public function setRange($from, $to)
+    final public function setRange(int $from, int $to)
     {
         $this->Range = [
             'from' => $from,
@@ -115,34 +99,22 @@ abstract class AbstractModel
         ];
     }
 
-    /**
-     * @return int
-     */
-    final public function maxFitness()
+    final public function maxFitness(): int
     {
         return (int) round(max($this->Fitness));
     }
 
-    /**
-     * @return int
-     */
-    final public function maxFatigue()
+    final public function maxFatigue(): int
     {
         return (int) round(max($this->Fatigue));
     }
 
-    /**
-     * @return int
-     */
-    final public function maxPerformance()
+    final public function maxPerformance(): int
     {
         return (int) round(max($this->Performance));
     }
 
-    /**
-     * @return int
-     */
-    final public function minPerformance()
+    final public function minPerformance(): int
     {
         return (int) round(min($this->Performance));
     }
@@ -158,18 +130,16 @@ abstract class AbstractModel
 
     /**
      * @param int $index 0 for today
-     * @return int
      */
-    final public function fatigueAt($index)
+    final public function fatigueAt($index): int
     {
         return $this->at($index, self::FATIGUE);
     }
 
     /**
      * @param int $index 0 for today
-     * @return int
      */
-    final public function performanceAt($index)
+    final public function performanceAt($index): int
     {
         return $this->at($index, self::PERFORMANCE);
     }
@@ -178,7 +148,7 @@ abstract class AbstractModel
      * @param int $index e.g. -1 for yesterday
      * @param int $enum enum for value
      */
-    private function at($index, int $enum): int
+    private function at(int $index, int $enum): int
     {
         $Array = $this->arrayFor($enum);
 
@@ -189,10 +159,7 @@ abstract class AbstractModel
         return 0;
     }
 
-    /**
-     * @return array
-     */
-    private function arrayFor(int $enum)
+    private function arrayFor(int $enum): array
     {
         return match ($enum) {
             self::FITNESS => $this->Fitness,

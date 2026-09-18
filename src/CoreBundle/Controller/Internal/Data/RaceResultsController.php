@@ -50,7 +50,7 @@ class RaceResultsController extends \Symfony\Bundle\FrameworkBundle\Controller\A
         foreach ($races as $race) {
             $ageGrade = $ageGradeLookup->getAgeGrade(
                 $race->getOfficialDistance(),
-                $race->getOfficialTime(),
+                (int) $race->getOfficialTime(),
                 (int) $race->getActivity()
                     ->getDateTime()
                     ->diff(new LocalTime())

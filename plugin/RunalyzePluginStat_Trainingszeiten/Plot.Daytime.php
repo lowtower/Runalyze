@@ -83,7 +83,7 @@ $Plot->setLegendAsTable();
 $Plot->setMarginForGrid(5);
 $Plot->addYAxis(1, 'left');
 $Plot->addYUnit(1, 'h');
-$Plot->setYTicks(1, 1, 0);
+$Plot->setYTicks(1, 1, false);
 $Plot->setYLimits(1, 0, $max);
 
 $Plot->showBars(true);

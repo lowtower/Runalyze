@@ -95,7 +95,7 @@ class BackupToolController extends AbstractController
             ));
             $this->get('session')
                 ->getFlashBag()
-                ->set('runalyze.backupjob.created', true);
+                ->set('runalyze.backupjob.created', 'true');    # TODO: check if (string) true is meaningful
         }
 
         $fileHandler = new FilenameHandler($account->getId());

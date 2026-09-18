@@ -98,7 +98,7 @@ class PluginFactory
 
         $plugins = self::Plugins();
         foreach ($plugins as $k => $plugin) {
-            if ($plugin['type'] != PluginType::string($type)) {
+            if ($plugin['type'] != PluginType::string((int) $type)) {
                 unset($plugins[$k]);
             }
         }

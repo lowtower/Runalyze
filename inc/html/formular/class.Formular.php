@@ -14,56 +14,47 @@ class Formular extends HtmlTag
 {
     /**
      * Array with all hidden values, keys are names
-     * @var array
      */
-    protected $hiddenValues = [];
+    protected array $hiddenValues = [];
 
     /**
      * Array with all fieldsets
      * @var FormularFieldset[]
      */
-    protected $fieldsets = [];
+    protected array $fieldsets = [];
 
     /**
      * Array with all submit buttons, keys are names
-     * @var array
      */
-    protected $submitButtons = [];
+    protected array $submitButtons = [];
 
     /**
      * Boolean flag: submit buttons centered
-     * @var bool
      */
-    protected $submitButtonsCentered = false;
+    protected bool $submitButtonsCentered = false;
 
     /**
      * Formular action
-     * @var string
      */
-    protected $action = '';
+    protected string $action = '';
 
     /**
      * H1-header
-     * @var string
      */
-    protected $header = '';
+    protected string $header = '';
 
     /**
      * All failures, beeing displayed above submit-button
-     * @var array
+     * @var string[]
      */
-    protected $failures = [];
+    protected array $failures = [];
 
     /**
      * Construct a new formular
-     * @param string $action
-     * @param string $method
      */
     public function __construct(
-        $action = '', /**
-     * Formular method
-     */
-        protected $method = 'post'
+        string $action = '',
+        protected string $method = 'post'
     ) {
         if (empty($action)) {
             $action = $_SERVER['REQUEST_URI'];
@@ -72,24 +63,17 @@ class Formular extends HtmlTag
         $this->action = $action;
     }
 
-    public function setAction($action): void
+    public function setAction(string $action): void
     {
         $this->action = $action;
     }
 
-    /**
-     * @param string $string
-     */
-    public function setHeader($string): void
+    public function setHeader(string $string): void
     {
         $this->header = $string;
     }
 
-    /**
-     * @param string $name
-     * @param string $value
-     */
-    public function addHiddenValue($name, $value = ''): void
+    public function addHiddenValue(string $name, string $value = ''): void
     {
         if (empty($value) && isset($_POST[$name])) {
             $value = $_POST[$name];
@@ -102,7 +86,7 @@ class Formular extends HtmlTag
      * Add a fieldset to formular
      * @param bool $opened [optional]
      */
-    public function addFieldset(FormularFieldset $Fieldset, $opened = true): void
+    public function addFieldset(FormularFieldset $Fieldset, bool $opened = true): void
     {
         if ($Fieldset->getId() == '') {
             $Fieldset->setId($this->Id . '_legend_' . count($this->fieldsets));
@@ -123,10 +107,9 @@ class Formular extends HtmlTag
     }
 
     /**
-     * @param string $value
      * @param string $name optional, default 'submit'
      */
-    public function addSubmitButton($value, $name = 'submit'): void
+    public function addSubmitButton(string $value, string $name = 'submit'): void
     {
         $this->submitButtons[$name] = $value;
     }
@@ -138,9 +121,8 @@ class Formular extends HtmlTag
 
     /**
      * Add a failure, displayed above submit-button
-     * @param string $message
      */
-    public function addFailure($message): void
+    public function addFailure(string $message): void
     {
         $this->failures[] = $message;
     }

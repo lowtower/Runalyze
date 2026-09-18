@@ -19,12 +19,6 @@ use Runalyze\Parameter\SelectRow;
 class Handle
 {
     /**
-     * Parameter
-     * @var Parameter
-     */
-    protected $Parameter;
-
-    /**
      * Onchange callback
      * @var callable|string
      */
@@ -53,32 +47,28 @@ class Handle
 
     /**
      * Construct
-     * @param string $Key
      */
     public function __construct(
-        protected $Key,
-        Parameter $Parameter
+        protected string $Key,
+        /**
+         * Parameter
+         */
+        protected Parameter $Parameter
     ) {
-        $this->Parameter = $Parameter;
-
-        if ($Parameter instanceof SelectRow) {
-            self::$TableHandles[$this->Key] = $Parameter->table();
+        if ($this->Parameter instanceof SelectRow) {
+            self::$TableHandles[$this->Key] = $this->Parameter->table();
         }
     }
 
-    /**
-     * @return string
-     */
-    final public function key()
+    final public function key(): string
     {
         return $this->Key;
     }
 
     /**
      * Parameter object
-     * @return \Runalyze\Parameter
      */
-    final public function object()
+    final public function object(): \Runalyze\Parameter
     {
         return $this->Parameter;
     }
@@ -99,10 +89,7 @@ class Handle
         $this->OnchangeCallback = $callback;
     }
 
-    /**
-     * @param string $flag
-     */
-    final public function registerOnchangeFlag($flag): void
+    final public function registerOnchangeFlag(string $flag): void
     {
         $this->OnchangeReloadFlag = $flag;
     }

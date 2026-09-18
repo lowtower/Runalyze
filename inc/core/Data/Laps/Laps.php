@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::Laps
  * @package Runalyze\Data\Laps
@@ -23,7 +25,7 @@ class Laps
     /**
      * @var \Runalyze\Data\Laps\Lap[]
      */
-    protected $Objects;
+    protected array $Objects;
 
     protected bool $CalculateAdditionalValues = false;
 
@@ -32,9 +34,6 @@ class Laps
         $this->CalculateAdditionalValues = $flag;
     }
 
-    /**
-     * @param \Runalyze\Model\Route\Entity $route
-     */
     public function calculateFrom(array $distances, Trackdata\Entity $trackdata, ?Route\Entity $route = null): void
     {
         $Calculator = new Calculator($this);
@@ -43,10 +42,6 @@ class Laps
         $Calculator->calculateFrom($trackdata, $route);
     }
 
-    /**
-     * @param \Runalyze\Model\Route\Entity $route
-     * @param \Runalyze\Model\Swimdata\Entity $swimdata
-     */
     public function calculateFromTimes(array $times, Trackdata\Entity $trackdata, ?Route\Entity $route = null, ?Swimdata\Entity $swimdata = null): void
     {
         $Calculator = new Calculator($this);
@@ -67,13 +62,11 @@ class Laps
     }
 
     /**
-     * @param int $index
-     * @return \Runalyze\Data\Laps\Lap
      * @throws \InvalidArgumentException
      */
-    public function at($index)
+    public function at(int $index): \Runalyze\Data\Laps\Lap
     {
-        if (! is_numeric($index) || $index < 0 || $index > $this->num()) {
+        if ($index < 0 || $index > $this->num()) {
             throw new \InvalidArgumentException('Index out of bounds.');
         }
 
@@ -83,7 +76,7 @@ class Laps
     /**
      * @return \Runalyze\Data\Laps\Lap[]
      */
-    public function objects()
+    public function objects(): array
     {
         return $this->Objects;
     }

@@ -1347,7 +1347,7 @@ class FitActivity extends AbstractSingleParser
                 if (count($zones) > 0) {
                     // round to ganzzahl
                     foreach ($zones as &$v) {
-                        $v = round($v);
+                        $v = round((float) $v);
                     }
 
                     $this->Container->FitDetails->SecondsInHrZones = $zones;

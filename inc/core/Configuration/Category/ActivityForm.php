@@ -64,7 +64,7 @@ class ActivityForm extends \Runalyze\Configuration\Category
      * @param string $Key possible values: SPORT, GENERAL, DISTANCE, SPLITS,
      * WEATHER, OTHER, NOTES, PUBLIC, ELEVATION, GPS
      */
-    public function update(string $Key, bool $flag): void
+    public function update(string $Key, string $flag): void
     {
         $this->object('FORMULAR_SHOW_' . $Key)->setFromString($flag);
         $this->updateValue($this->handle('FORMULAR_SHOW_' . $Key));

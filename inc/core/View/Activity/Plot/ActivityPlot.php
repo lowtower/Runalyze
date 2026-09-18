@@ -42,21 +42,18 @@ abstract class ActivityPlot
 
     /**
      * Key
-     * @var string
      */
-    protected $key = '';
+    protected string $key = '';
 
     /**
      * Data
-     * @var array
      */
-    protected $Data = [];
+    protected array $Data = [];
 
     /**
      * CSS id
-     * @var string
      */
-    protected $id;
+    protected string $id;
 
     abstract protected function setKey();
 

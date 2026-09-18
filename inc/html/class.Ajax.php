@@ -379,7 +379,7 @@ class Ajax
                 $input[$key] = $ret[0];
                 $funcs = $ret[1];
             } elseif (str_starts_with($value, 'function') || str_starts_with($value, 'RunalyzePlot.')) {
-                $func_key = '#' . uniqid(random_int(0, mt_getrandmax()), true) . '#';
+                $func_key = '#' . uniqid((string) random_int(0, mt_getrandmax()), true) . '#';
                 $funcs[$func_key] = $value;
                 $input[$key] = $func_key;
             }
@@ -407,10 +407,9 @@ class Ajax
 
     /**
      * Create code for binding tablesorter
-     * @param string $selector
      * @param bool $reinit [optional]
      */
-    public static function createTablesorterFor($selector, $reinit = false): void
+    public static function createTablesorterFor(string $selector, bool $reinit = false): void
     {
         echo self::wrapJSforDocumentReady('$("' . $selector . '").tablesorterAutosort(' . ($reinit ? 'true' : '') . ');');
     }

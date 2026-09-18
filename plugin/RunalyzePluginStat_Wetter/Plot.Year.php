@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Draw weather-plot
  * Call:   include 'Plot.Year.php'
@@ -41,7 +43,7 @@ $Plot->setXAxisAsTime();
 $Plot->setXAxisLimitedTo($Year);
 $Plot->addYAxis(1, 'left');
 $Plot->addYUnit(1, $Temperature->unit(), 0);
-$Plot->setYTicks(1, 5, 0);
+$Plot->setYTicks(1, 5, false);
 
 $Plot->addThreshold('y', 0);
 $Plot->addMarkingArea('y', -99, 0);

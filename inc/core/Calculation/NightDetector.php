@@ -41,8 +41,8 @@ class NightDetector
             throw new \InvalidArgumentException('Provided timestamp must be numerical.');
         }
 
-        $isAfterSunset = $timestamp > date_sunset($timestamp, SUNFUNCS_RET_TIMESTAMP, $coordinate->getLatitude(), $coordinate->getLongitude(), self::ZENITH);
-        $isBeforeSunrise = $timestamp < date_sunrise($timestamp, SUNFUNCS_RET_TIMESTAMP, $coordinate->getLatitude(), $coordinate->getLongitude(), self::ZENITH);
+        $isAfterSunset = $timestamp > date_sunset($timestamp, SUNFUNCS_RET_TIMESTAMP, (float) $coordinate->getLatitude(), (float) $coordinate->getLongitude(), self::ZENITH);
+        $isBeforeSunrise = $timestamp < date_sunrise($timestamp, SUNFUNCS_RET_TIMESTAMP, (float) $coordinate->getLatitude(), (float) $coordinate->getLongitude(), self::ZENITH);
 
         $this->Value = (int) ($isAfterSunset || $isBeforeSunrise);
 
@@ -56,7 +56,7 @@ class NightDetector
     {
         if ($route->hasGeohashes() && $route->get(Route\Entity::STARTPOINT) != '') {
             // TODO use activity's offset if known
-            $timestamp = (new LocalTime($activity->timestamp()))->toServerTimestamp() + 0.5 * $activity->duration();
+            $timestamp = (new LocalTime($activity->timestamp()))->toServerTimestamp() + (int) (0.5 * $activity->duration());
             $coordinate = $this->coordinate($route->get(Route\Entity::STARTPOINT));
 
             $this->setFrom($timestamp, $coordinate);

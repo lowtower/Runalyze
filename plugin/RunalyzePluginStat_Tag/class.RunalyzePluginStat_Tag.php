@@ -100,7 +100,7 @@ class RunalyzePluginStat_Tag extends PluginStat
 
         foreach ($this->AllTags as $id => $name) {
             $active = ($id == $this->TagId);
-            $LinkList[] = '<li' . ($active ? ' class="active"' : '') . '>' . $this->getInnerLink($name, false, false, $id) . '</li>';
+            $LinkList[] = '<li' . ($active ? ' class="active"' : '') . '>' . $this->getInnerLink("{$name}", 0, 0, $id) . '</li>';
         }
 
         $LinkList[] = '</ul></li>';

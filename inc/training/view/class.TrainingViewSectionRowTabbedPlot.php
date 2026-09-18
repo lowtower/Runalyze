@@ -20,23 +20,20 @@ abstract class TrainingViewSectionRowTabbedPlot extends TrainingViewSectionRow
 {
     /**
      * Right content
-     * @var array
      */
-    protected $RightContent = [];
+    protected array $RightContent = [];
 
     /**
      * Right content title
-     * @var array
      */
-    protected $RightContentTitle = [];
+    protected array $RightContentTitle = [];
 
-    protected $TopContent = '';
+    protected string $TopContent = '';
 
     /**
      * CSS id
-     * @var string
      */
-    protected $cssID = '';
+    protected string $cssID = '';
 
     public function __construct(?Context $Context = null)
     {
@@ -46,10 +43,7 @@ abstract class TrainingViewSectionRowTabbedPlot extends TrainingViewSectionRow
         $this->setRightContent();
     }
 
-    /**
-     * @param string $cssID
-     */
-    final public function setCSSid($cssID)
+    final public function setCSSid(string $cssID)
     {
         $this->cssID = $cssID;
     }
@@ -60,21 +54,13 @@ abstract class TrainingViewSectionRowTabbedPlot extends TrainingViewSectionRow
 
     abstract protected function setRightContent();
 
-    /**
-     * @param string $key
-     * @param string $title
-     * @param string $content
-     */
-    final protected function addRightContent($key, $title, $content)
+    final protected function addRightContent(string $key, string $title, string|ActivityPlot $content)
     {
         $this->RightContent[$key] = $content;
         $this->RightContentTitle[$key] = $title;
     }
 
-    /**
-     * @return array
-     */
-    final public function getLinks()
+    final public function getLinks(): array
     {
         return $this->RightContentTitle;
     }

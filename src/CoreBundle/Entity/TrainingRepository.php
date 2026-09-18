@@ -95,10 +95,7 @@ class TrainingRepository extends EntityRepository
             ->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR);
     }
 
-    /**
-     * @return array
-     */
-    public function getActiveYearsFor(Account $account, ?int $sportid = null, $minimumActivities = null)
+    public function getActiveYearsFor(Account $account, ?int $sportid = null, $minimumActivities = null): array
     {
         $queryBuilder = $this->_em->createQueryBuilder()
             ->select('YEAR(FROM_UNIXTIME(t.time)) AS year')
@@ -277,10 +274,7 @@ class TrainingRepository extends EntityRepository
             ->getQuery();
     }
 
-    /**
-     * @return Query
-     */
-    public function getStatsForPoster(Account $account, Sport $sport, int $year)
+    public function getStatsForPoster(Account $account, Sport $sport, int $year): Query
     {
         return $this->_em->createQueryBuilder()
             ->select(
@@ -316,7 +310,7 @@ class TrainingRepository extends EntityRepository
     /**
      * @return Training[]
      */
-    public function getLatestActivities(Account $account, int $limit = 20, bool $onlyPublic = false)
+    public function getLatestActivities(Account $account, int $limit = 20, bool $onlyPublic = false): array
     {
         $queryBuilder = $this->createQueryBuilder('t')
             ->select('t')
@@ -336,7 +330,7 @@ class TrainingRepository extends EntityRepository
     /**
      * @return Training[]
      */
-    public function getLatestPublicActivities(Account $account, int $limit = 20)
+    public function getLatestPublicActivities(Account $account, int $limit = 20): array
     {
         return $this->getLatestActivities($account, $limit, true);
     }
@@ -345,7 +339,7 @@ class TrainingRepository extends EntityRepository
      * @param int[] $ids
      * @return Training[]
      */
-    public function getPartialEntitiesForPreview(array $ids, ?Account $account = null, int $limit = 20)
+    public function getPartialEntitiesForPreview(array $ids, ?Account $account = null, int $limit = 20): array
     {
         $queryBuilder = $this->createQueryBuilder('t')
             ->select('partial t.{id, time, s, distance, pulseAvg, splits, route, title}');
@@ -413,7 +407,9 @@ class TrainingRepository extends EntityRepository
     {
         $startTimeForLongJogs = $timestamp - $configuration->getDaysToConsiderForLongJogs() * 86400;
         $startTimeForWeeklyMileage = $timestamp - $configuration->getDaysToConsiderForWeeklyMileage() * 86400;
-        $numberOfDaysSinceFirstActivity = $timestampOfFirstActivity === null ? null : \Runalyze\Util\Time::diffInDays($timestampOfFirstActivity, $timestamp);
+        $numberOfDaysSinceFirstActivity = $timestampOfFirstActivity === null
+            ? $configuration->getDaysToConsiderForLongJogs()
+            : \Runalyze\Util\Time::diffInDays($timestampOfFirstActivity, $timestamp);
         $marathonShape = new MarathonShape($effectiveVO2max, $configuration);
 
         $result = $this->createQueryBuilder('t')
@@ -451,7 +447,7 @@ class TrainingRepository extends EntityRepository
             return 0;
         }
 
-        return $marathonShape->getShapeFor($result['km'], $result['points'], $numberOfDaysSinceFirstActivity);
+        return $marathonShape->getShapeFor($result['km'], $result['points'], (int) $numberOfDaysSinceFirstActivity);
     }
 
     /**

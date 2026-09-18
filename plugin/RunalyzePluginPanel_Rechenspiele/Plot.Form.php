@@ -63,12 +63,12 @@ if ($Year >= START_YEAR && $Year <= date('Y') && time() != START_TIME) {
     $StartYear = date('Y', $StartTime);
     $EndYear = date('Y', $EndTime);
 
-    $EmptyArray = array_fill(0, $NumberOfDays + $AddDays + 2, 0);
+    $EmptyArray = array_fill(0, (int) $NumberOfDays + $AddDays + 2, 0);
     $Trimps_raw = $EmptyArray;
     $VO2MAXs_raw = $EmptyArray;
     $Durations_raw = $EmptyArray;
     $Distances_raw = $EmptyArray;
-    $Longjogs_raw = array_fill(0, $NumberOfDays + $AddDays + 2, []);
+    $Longjogs_raw = array_fill(0, (int) $NumberOfDays + $AddDays + 2, []);
 
     // Here VO2MAX will be implemented again
     // Normal functions are too slow, calling them for each day would trigger each time a query
@@ -169,7 +169,7 @@ if ($Year >= START_YEAR && $Year <= date('Y') && time() != START_TIME) {
             $VO2MAXs[$index] = $vo2maxFactor * ($VO2MAX_sum / $Durations_sum);
 
             $BasicEnduranceObj->setEffectiveVO2max($VO2MAXs[$index]);
-            $currentKmSum = array_sum(array_slice($Distances_raw, $d - $BEkmDays, $BEkmDays));
+            $currentKmSum = array_sum(array_slice($Distances_raw, (int) ($d - $BEkmDays), (int) $BEkmDays));
             $longJogPoints = 0;
 
             for ($i = 0; $i <= $BElongjogsDays; ++$i) {
@@ -260,7 +260,7 @@ if ($showInPercent) {
 }
 
 $Plot->addYAxis(2, 'right');
-$Plot->setYTicks(2, 1, 1);
+$Plot->setYTicks(2, 1, true);
 
 $Plot->addYAxis(3, 'right');
 $Plot->setYLimits(3, 0, $maxTrimp * 2);
@@ -282,7 +282,7 @@ if ($perfmodel == 'banister') {
 $Plot->smoothing(false);
 
 if (($lastHalf || $lastYear || ($Year == date('Y'))) && ! $DataFailed) {
-    $Plot->addMarkingArea('x', time() . '000', $index, 'rgba(255,255,255,0.3)');
+    $Plot->addMarkingArea('x', time() * 1000, $index, 'rgba(255,255,255,0.3)');
 }
 
 $Plot->setGridAboveData();

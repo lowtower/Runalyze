@@ -158,7 +158,7 @@ class General extends \Runalyze\Configuration\Category
      */
     protected function createMainSport()
     {
-        $this->createHandle('MAINSPORT', new SelectRow(1, [
+        $this->createHandle('MAINSPORT', new SelectRow('1', [
             'table' => 'sport',
             'column' => 'name',
         ]));
@@ -177,7 +177,7 @@ class General extends \Runalyze\Configuration\Category
      */
     protected function createRunningSport()
     {
-        $this->createHandle('RUNNINGSPORT', new SelectRow(1, [
+        $this->createHandle('RUNNINGSPORT', new SelectRow('1', [
             'table' => 'sport',
             'column' => 'name',
         ]));
@@ -194,21 +194,21 @@ class General extends \Runalyze\Configuration\Category
     protected function registerOnchangeEvents()
     {
         $this->handle('DISTANCE_UNIT_SYSTEM')
-            ->registerOnchangeFlag(Ajax::$RELOAD_ALL);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_ALL);
         $this->handle('ENERGY_UNIT')
-            ->registerOnchangeFlag(Ajax::$RELOAD_ALL);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_ALL);
         $this->handle('DISTANCE_UNIT_SYSTEM')
             ->registerOnchangeEvent(\Runalyze\Configuration\Messages::class . '::adjustPacesInSportsConfiguration');
         $this->handle('WEIGHT_UNIT')
-            ->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_PLUGINS);
         $this->handle('TEMPERATURE_UNIT')
-            ->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_DATABROWSER);
         $this->handle('HEART_RATE_UNIT')
-            ->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_DATABROWSER);
         $this->handle('WEEK_START')
-            ->registerOnchangeFlag(Ajax::$RELOAD_PAGE);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_PAGE);
         $this->handle('MAINSPORT')
-            ->registerOnchangeFlag(Ajax::$RELOAD_PAGE);
+            ->registerOnchangeFlag((string) Ajax::$RELOAD_PAGE);
     }
 
     public function Fieldset(): \Runalyze\Configuration\Fieldset

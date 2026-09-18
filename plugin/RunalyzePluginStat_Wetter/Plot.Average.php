@@ -15,7 +15,7 @@ $Months = [];
 $Temperatures = [];
 
 for ($m = 1; $m <= 12; $m++) {
-    $Months[] = [$m - 1, Time::month($m, true)];
+    $Months[] = [$m - 1, Time::month("{$m}", true)];
 
     for ($y = START_YEAR, $n = date('Y'); $y <= $n; $y++) {
         $Temperatures[$y] = [null, null, null, null, null, null, null, null, null, null, null, null];
@@ -54,7 +54,7 @@ $Plot->setMarginForGrid(5);
 $Plot->setXLabels($Months);
 $Plot->addYAxis(1, 'left');
 $Plot->addYUnit(1, $Temperature->unit(), 1);
-$Plot->setYTicks(1, 5, 0);
+$Plot->setYTicks(1, 5, false);
 
 $Plot->addThreshold('y', 0);
 $Plot->addMarkingArea('y', -99, 0);

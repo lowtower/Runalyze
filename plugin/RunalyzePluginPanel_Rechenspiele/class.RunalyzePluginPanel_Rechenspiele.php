@@ -157,7 +157,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel
                 'show' => $this->Configuration()
                     ->value('show_vo2max'),
                 'bars' => [
-                    new ProgressBarSingle(2 * round($EffectiveVO2max - 30), ProgressBarSingle::$COLOR_BLUE),
+                    new ProgressBarSingle((int) (2 * round($EffectiveVO2max - 30)), ProgressBarSingle::$COLOR_BLUE),
                 ],
                 'value' => number_format($EffectiveVO2max, 2) . ($EffectiveVO2max == 0 ? '&nbsp;<i class="fa fa-fw fa-exclamation-circle"></i>' : ''),
                 'title' => __('Effective VO<sub>2</sub>max'),
@@ -177,7 +177,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel
                 'show' => $this->Configuration()
                     ->value('show_trimpvalues'),
                 'bars' => [
-                    new ProgressBarSingle($TrimpValues['ATL'], ProgressBarSingle::$COLOR_BLUE),
+                    new ProgressBarSingle((int) $TrimpValues['ATL'], ProgressBarSingle::$COLOR_BLUE),
                 ],
                 'bar-tooltip' => sprintf(__('Current value: %s<br>Maximal value: %s<br>as percentage: %s &#37;'), $ATLabsolute, $ATLmax, $TrimpValues['ATL']),
                 'value' => $TrimpValues['ATLstring'],
@@ -189,7 +189,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel
                 'show' => $this->Configuration()
                     ->value('show_trimpvalues'),
                 'bars' => [
-                    new ProgressBarSingle($TrimpValues['CTL'], ProgressBarSingle::$COLOR_BLUE),
+                    new ProgressBarSingle((int) $TrimpValues['CTL'], ProgressBarSingle::$COLOR_BLUE),
                 ],
                 'bar-tooltip' => sprintf(__('Current value: %s<br>Maximal value: %s<br>as percentage: %s &#37;'), $CTLabsolute, $CTLmax, $TrimpValues['CTL']),
                 'value' => $TrimpValues['CTLstring'],
@@ -201,7 +201,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel
                 'show' => $this->Configuration()
                     ->value('show_trimpvalues'),
                 'bars' => [
-                    new ProgressBarSingle(abs($TrimpValues['TSB']) / 2, ($TSBisPositive ? ProgressBarSingle::$COLOR_GREEN : ProgressBarSingle::$COLOR_RED), ($TSBisPositive ? 'right' : 'left')),
+                    new ProgressBarSingle((int) (abs($TrimpValues['TSB']) / 2), ($TSBisPositive ? ProgressBarSingle::$COLOR_GREEN : ProgressBarSingle::$COLOR_RED), ($TSBisPositive ? 'right' : 'left')),
                 ],
                 'bar-tooltip' => 'TSB = CTL - ATL<br>' . sprintf(__('absolute: %s<br>as percentage: %s &#37;'), $CTLabsolute . ' - ' . $ATLabsolute . ' = ' . sprintf('%+d', $TSBabsolute), $TrimpValues['TSB']),
                 'value' => $TrimpValues['TSBstring'],
@@ -213,7 +213,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel
                 'show' => $this->Configuration()
                     ->value('show_trimpvalues') && ! $TSBisPositive,
                 'bars' => [
-                    new ProgressBarSingle(100 * $restDays / 7, ProgressBarSingle::$COLOR_BLUE),
+                    new ProgressBarSingle((int) (100 * $restDays / 7), ProgressBarSingle::$COLOR_BLUE),
                 ],
                 'value' => $restDays,
                 'title' => __('Rest days'),
@@ -223,7 +223,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel
                 'show' => $this->Configuration()
                     ->value('show_trimpvalues') && $TSBisPositive,
                 'bars' => [
-                    new ProgressBarSingle(100 * $maxTrimpToBalanced / 1000, ProgressBarSingle::$COLOR_BLUE),
+                    new ProgressBarSingle((int) (100 * $maxTrimpToBalanced / 1000), ProgressBarSingle::$COLOR_BLUE),
                 ],
                 'value' => $maxTrimpToBalanced,
                 'title' => __('Easy TRIMP'),
@@ -234,7 +234,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel
                     ->value('show_trimpvalues_extra'),
                 'bars' => [
                     new ProgressBarSingle(
-                        $Monotony->valueAsPercentage(),
+                        (int) $Monotony->valueAsPercentage(),
                         (
                             $Monotony->value() > Monotony::CRITICAL ? ProgressBarSingle::$COLOR_RED
                                 : (
@@ -255,7 +255,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel
                     ->value('show_trimpvalues_extra'),
                 'bars' => [
                     new ProgressBarSingle(
-                        $Monotony->trainingStrainAsPercentage(),
+                        (int) $Monotony->trainingStrainAsPercentage(),
                         (
                             $Monotony->trainingStrainAsPercentage() >= 75 ? ProgressBarSingle::$COLOR_RED
                             : (

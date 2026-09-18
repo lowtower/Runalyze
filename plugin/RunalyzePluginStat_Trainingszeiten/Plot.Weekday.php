@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Draw total time of training for each day of a week for the user
  * Include:   inc/draw/Plot.Weekday.php
@@ -19,7 +21,7 @@ $yAxis = [];
 $xAxis = [];
 
 for ($w = 1; $w <= 7; $w++) {
-    $xAxis[] = [$w - 1, Time::weekday($w, true)];
+    $xAxis[] = [$w - 1, Time::weekday("{$w}", true)];
 }
 
 // TODO: refactor (see Plot.Bestzeit.php)
@@ -78,7 +80,7 @@ $Plot->setMarginForGrid(5);
 $Plot->setXLabels($xAxis);
 $Plot->addYAxis(1, 'left');
 $Plot->addYUnit(1, 'h');
-$Plot->setYTicks(1, 1, 0);
+$Plot->setYTicks(1, 1, false);
 $Plot->setYLimits(1, 0, $max);
 
 $Plot->showBars(true);

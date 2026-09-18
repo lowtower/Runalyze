@@ -13,15 +13,13 @@ class FormularInputNumber extends FormularInput
 {
     /**
      * Minimum
-     * @var int
      */
-    protected $min;
+    protected ?int $min = null;
 
     /**
      * Maximum
-     * @var int
      */
-    protected $max;
+    protected ?int $max = null;
 
     /**
      * Prepare for beeing displayed
@@ -42,26 +40,20 @@ class FormularInputNumber extends FormularInput
     protected function addMinMax()
     {
         if ($this->min !== null) {
-            $this->addAttribute('min', (int) $this->min);
+            $this->addAttribute('min', (string) $this->min);
         }
 
         if ($this->max !== null) {
-            $this->addAttribute('max', (int) $this->max);
+            $this->addAttribute('max', (string) $this->max);
         }
     }
 
-    /**
-     * @param int $min
-     */
-    public function setMin($min): void
+    public function setMin(int $min): void
     {
         $this->min = $min;
     }
 
-    /**
-     * @param int $max
-     */
-    public function setMax($max): void
+    public function setMax(int $max): void
     {
         $this->max = $max;
     }

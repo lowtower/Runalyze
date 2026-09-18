@@ -63,7 +63,7 @@ class Loopable_MockTester extends Entity implements Loopable
      *
      * @throws \InvalidArgumentException
      */
-    public function at(int $index, $key)
+    public function at($index, $key)
     {
         if (! $this->has($key) || ! array_key_exists($index, $this->Data[$key])) {
             throw new \InvalidArgumentException(sprintf('Unknown data index "%s" at position %d.', $key, $index));

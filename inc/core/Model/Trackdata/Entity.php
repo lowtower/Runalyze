@@ -399,10 +399,9 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
      * Value at
      *
      * Remark: This method may throw index offsets.
-     * @param int $key enum
      * @return mixed
      */
-    public function at(int $index, $key)
+    public function at(int $index, string $key)
     {
         if (! isset($this->Data[$key][$index])) {
             throw new \OutOfBoundsException("Undefined offset: {$index}");

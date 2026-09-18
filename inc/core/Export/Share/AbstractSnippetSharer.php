@@ -45,7 +45,7 @@ abstract class AbstractSnippetSharer extends AbstractSharer
     {
         return str_replace(
             ['{id}', '{enum}'],
-            [$this->Context->activity()->id(), $this->enum()],
+            [(string) $this->Context->activity()->id(), (string) $this->enum()],
             self::URL
         );
     }

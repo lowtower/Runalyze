@@ -98,7 +98,7 @@ class Gpx extends AbstractFileExporter
             $Trackpoint = $this->Track->addChild('trkpt');
             $Trackpoint->addChild('time', $this->timeToString($Starttime + $Trackdata->time()));
 
-            if (abs($coordinate->getLatitude()) > 1e-5 || abs($coordinate->getLongitude()) > 1e-5) {
+            if (abs((float) $coordinate->getLatitude()) > 1e-5 || abs((float) $coordinate->getLongitude()) > 1e-5) {
                 $Trackpoint->addAttribute('lat', $coordinate->getLatitude());
                 $Trackpoint->addAttribute('lon', $coordinate->getLongitude());
             }

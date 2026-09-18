@@ -47,7 +47,7 @@ abstract class AbstractTimeUnit extends AbstractUnit
      *
      * @return mixed
      */
-    public function rawValue(int $secondsPerKm)
+    public function rawValue(float $secondsPerKm)
     {
         return $secondsPerKm * $this->factorForUnit();
     }
@@ -55,9 +55,9 @@ abstract class AbstractTimeUnit extends AbstractUnit
     /**
      * Format pace
      */
-    public function format(int $secondsPerKm): string
+    public function format(float $secondsPerKm): string
     {
-        if ($secondsPerKm === 0) {
+        if ($secondsPerKm === 0.0) {
             return '-:--';
         }
 
@@ -69,11 +69,9 @@ abstract class AbstractTimeUnit extends AbstractUnit
      *
      * This value is positive if $firstPaceInSecondsPerKm is larger than $secondPaceInSecondsPerKm
      *
-     * @param int $firstPaceInSecondsPerKm
-     * @param int $secondPaceInSecondsPerKm
      * @return float [s/km]
      */
-    public function compare($firstPaceInSecondsPerKm, $secondPaceInSecondsPerKm)
+    public function compare(float $firstPaceInSecondsPerKm, float $secondPaceInSecondsPerKm): float
     {
         return $secondPaceInSecondsPerKm - $firstPaceInSecondsPerKm;
     }

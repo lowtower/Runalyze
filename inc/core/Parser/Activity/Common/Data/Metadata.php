@@ -95,7 +95,7 @@ class Metadata
 
             $this->setTimestamp(
                 $dateTime->getTimestamp() + $dateTime->getOffset(),
-                round($dateTime->getOffset() / 60)
+                (int) round($dateTime->getOffset() / 60)
             );
         } catch (\Exception) {
             // Invalid date
@@ -112,7 +112,7 @@ class Metadata
 
             $this->setTimestamp(
                 $localTimestamp,
-                round((new \DateTime())->setTimestamp($localTimestamp)->getOffset() / 60)
+                (int) round((new \DateTime())->setTimestamp($localTimestamp)->getOffset() / 60)
             );
         } else {
             $this->setTimestampAndTimezoneOffsetFrom($string);

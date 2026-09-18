@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::HTML
  * @package Runalyze\HTML
@@ -25,10 +27,8 @@ class HTML
 
     /**
      * Return an empty td-Tag
-     * @param int $colspan
-     * @param string $string
      */
-    public static function emptyTD($colspan = 0, $string = '&nbsp;', string $class = ''): string
+    public static function emptyTD(int $colspan = 0, string $string = '&nbsp;', string $class = ''): string
     {
         $colspan = ($colspan > 0) ? ' colspan="' . $colspan . '"' : '';
         $class = ($class !== '') ? ' class="' . $class . '"' : '';
@@ -40,7 +40,7 @@ class HTML
      * Return an empty tr-Tag
      * @param int $colspan colspan for empty TDs
      */
-    public static function emptyTR($colspan = 0): string
+    public static function emptyTR(int $colspan = 0): string
     {
         return '<tr>' . self::emptyTD($colspan) . '</tr>';
     }
@@ -51,7 +51,7 @@ class HTML
      * @param string $class optional css class
      * @param string $style optional css inline style
      */
-    public static function td($string, string $class = '', string $style = ''): string
+    public static function td(string $string, string $class = '', string $style = ''): string
     {
         if ($class !== '') {
             $class = ' class="' . $class . '"';
@@ -69,7 +69,7 @@ class HTML
      * @param int $fixedWidth Fixed width for every month-td in percent [set '0' for no fixed width]
      * @param int $emptyTDs Number of empty td before the month-td
      */
-    public static function monthTR($fixedWidth = 0, $emptyTDs = 1, $tag = 'td', $withTotal = false): string
+    public static function monthTR(int $fixedWidth = 0, int $emptyTDs = 1, string $tag = 'td', bool $withTotal = false): string
     {
         $width = ($fixedWidth > 0) ? ' width="' . $fixedWidth . '%"' : '';
         $html = '<tr class="b">';
@@ -79,7 +79,7 @@ class HTML
         }
 
         for ($m = 1; $m <= 12; $m++) {
-            $html .= '<' . $tag . $width . '>' . Time::month($m, true) . '</' . $tag . '>';
+            $html .= '<' . $tag . $width . '>' . Time::month("{$m}", true) . '</' . $tag . '>';
         }
 
         if ($withTotal) {
@@ -95,7 +95,7 @@ class HTML
      * @param int $emptyTDs Number of empty td before the year-td
      * @param bool $withTotal add last column for 'total'
      */
-    public static function yearTR($fixedWidth = 0, $emptyTDs = 1, $tag = 'td', $withTotal = false): string
+    public static function yearTR(int $fixedWidth = 0, int $emptyTDs = 1, string $tag = 'td', bool $withTotal = false): string
     {
         $year = date('Y');
         $width = ($fixedWidth > 0) ? ' width="' . $fixedWidth . '%"' : '';
@@ -118,9 +118,8 @@ class HTML
 
     /**
      * Get a tr-tag for a space-line
-     * @param int $colspan
      */
-    public static function spaceTR($colspan): string
+    public static function spaceTR(int $colspan): string
     {
         return '<tr class="space"><td colspan="' . $colspan . '"></td></tr>';
     }
@@ -159,72 +158,64 @@ class HTML
 
     /**
      * Wrap a string into emphasize-tag
-     * @param string $string
      */
-    public static function em($string): string
+    public static function em(string $string): string
     {
         return '<em>' . $string . '</em>';
     }
 
     /**
      * Wrap a string into paragraph-tag
-     * @param string $string
      */
-    public static function p($string): string
+    public static function p(string $string): string
     {
         return '<p class="text">' . $string . '</p>';
     }
 
     /**
      * Wrap a string into p-tag with class="info"
-     * @param string $string
      */
-    public static function info($string): string
+    public static function info(string $string): string
     {
         return '<p class="info">' . $string . '</p>';
     }
 
     /**
      * Wrap a string into p-tag with class="error"
-     * @param string $string
      */
-    public static function error($string): string
+    public static function error(string $string): string
     {
         return '<p class="error">' . $string . '</p>';
     }
 
     /**
      * Wrap a string into p-tag with class="warning"
-     * @param string $string
      */
-    public static function warning($string): string
+    public static function warning(string $string): string
     {
         return '<p class="warning">' . $string . '</p>';
     }
 
     /**
      * Wrap a string into p-tag with class="okay"
-     * @param string $string
      */
-    public static function okay($string): string
+    public static function okay(string $string): string
     {
         return '<p class="okay">' . $string . '</p>';
     }
 
     /**
      * Wrap a string into p-tag with class="file"
-     * @param string $string
      */
-    public static function fileBlock($string): string
+    public static function fileBlock(string $string): string
     {
         return '<p class="file">' . $string . '</p>';
     }
 
     /**
      * Replace ampersands for a textarea
-     * @param string $text
      */
-    public static function textareaTransform($text): string
+    public static function textareaTransform(string $text): string
     {
         return stripslashes(str_replace('&', '&amp;', $text));
     }
@@ -234,9 +225,9 @@ class HTML
      * @param string $name name for this field
      * @param string $value value, if empty uses post-data
      */
-    public static function hiddenInput($name, $value = ''): string
+    public static function hiddenInput(string $name, string $value = ''): string
     {
-        if ($value == '' && isset($_POST[$name])) {
+        if ($value === '' && isset($_POST[$name])) {
             $value = $_POST[$name];
         }
 
@@ -247,9 +238,8 @@ class HTML
      * Get a select box with given options
      * @param string $name Name for this select-box
      * @param mixed $checked [optional] bool for beeing checked or not, otherwise checks for post-data
-     * @param bool $noHiddenSent
      */
-    public static function checkBox($name, $checked = -1, $noHiddenSent = false): string
+    public static function checkBox(string $name, $checked = -1, bool $noHiddenSent = false): string
     {
         if ($checked === -1) {
             $checked = isset($_POST[$name]) && $_POST[$name] != 0;
@@ -262,7 +252,7 @@ class HTML
 
     /**
      * Get ' checked' if boolean value is true
-     * @param bool|null $value
+     * @param mixed $value
      * @param mixed $value_to_be_checked [optional]
      */
     public static function Checked($value, $value_to_be_checked = null): string
@@ -285,7 +275,7 @@ class HTML
      * @param mixed $selected Value to be selected
      * @param string $id [optional]
      */
-    public static function selectBox($name, $options, $selected = false, $id = '', string $class = ''): string
+    public static function selectBox(string $name, array $options, $selected = false, string $id = '', string $class = ''): string
     {
         if ($selected === false && isset($_POST[$name])) {
             $selected = $_POST[$name];
@@ -315,8 +305,8 @@ class HTML
 
     /**
      * Get ' selected' if boolean value is true
-     * @param bool $value
-     * @param mixed $value_to_be_checked [optional]
+     * @param mixed $value
+     * @param mixed $value_to_be_checked
      */
     public static function Selected($value, $value_to_be_checked = null): string
     {

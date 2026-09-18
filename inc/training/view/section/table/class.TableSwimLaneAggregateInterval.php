@@ -144,8 +144,8 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract
                         $this->Code .= '<td>' . $this->difference($prevStrokes, $strokes, $beginLap) . '</td>';
                     }
 
-                    $t = array_keys($stroketypePrimary, max($stroketypePrimary));
-                    $Stroketype->set($t);
+                    $primaryStroketypeId = array_search(max($stroketypePrimary), $stroketypePrimary, true);
+                    $Stroketype->set($primaryStroketypeId);
                     $this->Code .= '<td style="padding-right: 20px;">' . $Stroketype->shortString() . '</td>';
 
                     $this->Code .= '</tr>';
@@ -205,7 +205,7 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract
     }
 
     // calculates the difference between two values and return the diff with a pretty colored span
-    protected function difference(float $previous, float $new, float $beginLap): string
+    protected function difference(float $previous, float $new, bool $beginLap): string
     {
         $diff = $previous - $new;
         if ($diff > 0) {
