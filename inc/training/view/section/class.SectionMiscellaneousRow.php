@@ -115,7 +115,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
     {
         $Date = new BoxedValue($this->Context->dataview()->date(), '', __('Date'));
 
-        if ($this->Context->dataview()->daytime() != '') {
+        if ($this->Context->dataview()->daytime() !== '') {
             $Daytime = new BoxedValue($this->Context->dataview()->daytime(), '', __('Time of day'));
             $Daytime->defineAsFloatingBlock('w50');
             $Date->defineAsFloatingBlock('w50');
@@ -377,7 +377,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
                 ->fitLactateThresholdHR() != null ? $this->Context->activity()
                 ->fitLactateThresholdHR() : '-';
             if ($this->Context->activity()->fitLactateThresholdPace() != null) {
-                $ltp = new Pace($this->Context->activity()->fitLactateThresholdPace(), 1.0, $this->Context->sport() ? $this->Context->sport()->getLegacyPaceUnitEnum() : Pace::STANDARD);
+                $ltp = new Pace($this->Context->activity()->fitLactateThresholdPace(), 1.0, $this->Context->sport()->getLegacyPaceUnitEnum());
                 // the previous Pace instancing will not work: for 3.22 m/s the result is a pace of 5:22/km; because of the first parameter time is a int!
                 // so use this: example for 3.22m/s: 3,22*3,6=11,592km/h -> 1/11,592km/h=0,0862h/km -> 0,0862×60=5,17min/km -> function needs second/float -> 5,17min/km*60=316,56sec/km
                 $ltp->fromMinPerKm((string) (1 / ($this->Context->activity()->fitLactateThresholdPace() * 3.6) * 60 * 60));
@@ -433,7 +433,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
         return '<a class="window left" href="glossary/' . $glossary . '"><i class="fa far fa-question-circle"></i></a>&nbsp;' . $text;
     }
 
-    protected function getFormattedSeconds($seconds): string
+    protected function getFormattedSeconds(?int $seconds): string
     {
         if (isset($seconds)) {
             return Duration::format($seconds) . 's';
@@ -450,7 +450,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
             $ageGrade = null;
             $ageGradeIcon = '';
 
-            if ($this->Context->sport()->getInternalProfileEnum() == \Runalyze\Profile\Sport\SportProfile::RUNNING && $athlete->knowsGender() && $athlete->knowsAge()) {
+            if ($this->Context->sport()->getInternalProfileEnum() === \Runalyze\Profile\Sport\SportProfile::RUNNING && $athlete->knowsGender() && $athlete->knowsAge()) {
                 $table = $athlete->gender() === Gender::FEMALE ? new FemaleTable() : new MaleTable();
                 $lookup = new Lookup($table, $athlete->age());
 

@@ -7,31 +7,18 @@ use Runalyze\Util\LocalTime;
 
 class ActivityDecorator
 {
-    /**
-     * @var ActivityContext
-     */
-    protected $Context;
-
-    public function __construct(ActivityContext $context)
-    {
-        $this->Context = $context;
+    public function __construct(
+        protected \Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext $Context
+    ) {
     }
 
-    /**
-     * @param bool $typeWithSport
-     * @return string
-     */
-    public function getTitle($typeWithSport = false)
+    public function getTitle(bool $typeWithSport = false): string
     {
-        if ($this->Context->getActivity()->getSport() === null) {
-            return '';
-        }
-
         if ($this->Context->getActivity()->getTitle() != '') {
             return sprintf('%s: %s', $this->Context->getSport()->getName(), $this->Context->getActivity()->getTitle());
         }
 
-        if ($this->Context->getActivity()->getType() !== null) {
+        if ($this->Context->getActivity()->getType() instanceof \Runalyze\Bundle\CoreBundle\Entity\Type) {
             if ($typeWithSport) {
                 return sprintf('%s: %s', $this->Context->getSport()->getName(), $this->Context->getActivity()->getType()->getName());
             }
@@ -53,7 +40,7 @@ class ActivityDecorator
     /**
      * @return int|null [m]
      */
-    public function getElevationUp()
+    public function getElevationUp(): ?int
     {
         return $this->getElevation();
     }
@@ -61,16 +48,15 @@ class ActivityDecorator
     /**
      * @return int|null [m]
      */
-    public function getElevationDown()
+    public function getElevationDown(): ?int
     {
         return $this->getElevation(false);
     }
 
     /**
      * @param bool $up
-     * @return int|null
      */
-    protected function getElevation($up = true)
+    protected function getElevation($up = true): ?int
     {
         if ($this->Context->hasRoute() && ($this->Context->getRoute()->getElevationUp() > 0 || $this->Context->getRoute()->getElevationDown() > 0)) {
             return $up ? $this->Context->getRoute()
@@ -87,10 +73,7 @@ class ActivityDecorator
         return $configurationList->getVO2maxCorrectionFactor() * $this->getUncorrectedVO2max($configurationList);
     }
 
-    /**
-     * @return float
-     */
-    public function getUncorrectedVO2max(RunalyzeConfigurationList $configurationList)
+    public function getUncorrectedVO2max(RunalyzeConfigurationList $configurationList): ?float
     {
         if ($configurationList->useVO2maxCorrectionForElevation() && $this->Context->getActivity()->getVO2maxWithElevation() > 0.0) {
             return $this->Context->getActivity()
@@ -104,7 +87,7 @@ class ActivityDecorator
     /**
      * @return float|null [ms] can be negative for walking
      */
-    public function getFlightTime()
+    public function getFlightTime(): ?float
     {
         $cadence = $this->Context->getActivity()
             ->getCadence();
@@ -121,7 +104,7 @@ class ActivityDecorator
     /**
      * @return float|null [%] can be negative for walking
      */
-    public function getFlightRatio()
+    public function getFlightRatio(): ?float
     {
         $cadence = $this->Context->getActivity()
             ->getCadence();

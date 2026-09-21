@@ -11,15 +11,10 @@ class SportStatistics
      */
     protected $Sports = [];
 
-    /**
-     * @var \DateTime
-     */
-    protected $StartDate;
-
-    public function __construct(\DateTime $startDate, array $queryResult)
-    {
-        $this->StartDate = $startDate;
-
+    public function __construct(
+        protected \DateTime $StartDate,
+        array $queryResult
+    ) {
         foreach ($queryResult as $row) {
             /** @var Sport $sport */
             $sport = $row[0];
@@ -33,10 +28,7 @@ class SportStatistics
         }
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getStartDate()
+    public function getStartDate(): \DateTime
     {
         return $this->StartDate;
     }

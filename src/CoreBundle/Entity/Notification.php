@@ -63,23 +63,19 @@ class Notification implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param int $messageType
-     *
      * @see \Runalyze\Profile\Notifications\MessageTypeProfile
      */
-    public function setMessageType($messageType): self
+    public function setMessageType(int $messageType): self
     {
-        $this->messageType = (int) $messageType;
+        $this->messageType = $messageType;
 
         return $this;
     }
 
     /**
-     * @return int
-     *
      * @see \Runalyze\Profile\Notifications\MessageTypeProfile
      */
-    public function getMessageType()
+    public function getMessageType(): int
     {
         return $this->messageType;
     }
@@ -87,9 +83,9 @@ class Notification implements AccountRelatedEntityInterface
     /**
      * @param int $createdAt [timestamp]
      */
-    public function setCreatedAt($createdAt): self
+    public function setCreatedAt(int $createdAt): self
     {
-        $this->createdAt = (int) $createdAt;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -97,7 +93,7 @@ class Notification implements AccountRelatedEntityInterface
     /**
      * @return int [timestamp]
      */
-    public function getCreatedAt()
+    public function getCreatedAt(): int
     {
         return $this->createdAt;
     }
@@ -105,13 +101,13 @@ class Notification implements AccountRelatedEntityInterface
     /**
      * @param null|int $lifetime [days]
      */
-    public function setLifetime($lifetime = null): self
+    public function setLifetime(?int $lifetime = null): self
     {
         if ($lifetime === null) {
             $this->expirationAt = null;
         } else {
             $this->expirationAt = (new \DateTime())->setTimestamp($this->createdAt)
-                ->modify('+' . (int) $lifetime . ' days')->getTimestamp();
+                ->modify('+' . $lifetime . ' days')->getTimestamp();
         }
 
         return $this;
@@ -120,7 +116,7 @@ class Notification implements AccountRelatedEntityInterface
     /**
      * @param null|int $expirationAt [timestamp]
      */
-    public function setExpirationAt($expirationAt = null): self
+    public function setExpirationAt(?int $expirationAt = null): self
     {
         $this->expirationAt = $expirationAt ? (int) $expirationAt : null;
 
@@ -130,43 +126,31 @@ class Notification implements AccountRelatedEntityInterface
     /**
      * @return null|int [timestamp]
      */
-    public function getExpirationAt()
+    public function getExpirationAt(): ?int
     {
         return $this->expirationAt;
     }
 
-    /**
-     * @param string $data
-     */
-    public function setData($data): self
+    public function setData(string $data): self
     {
         $this->data = $data;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getData()
+    public function getData(): string
     {
         return $this->data;
     }
 
-    /**
-     * @param bool $flag
-     */
-    public function setRead($flag = true): self
+    public function setRead(bool $flag = true): self
     {
-        $this->wasRead = (bool) $flag;
+        $this->wasRead = $flag;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function wasRead()
+    public function wasRead(): bool
     {
         return $this->wasRead;
     }
@@ -178,18 +162,12 @@ class Notification implements AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @return Account
-     */
-    public function getAccount()
+    public function getAccount(): Account
     {
         return $this->account;
     }
 
-    /**
-     * @return MessageInterface
-     */
-    public function getMessage()
+    public function getMessage(): MessageInterface
     {
         return (new MessageFactory())->getMessage($this);
     }

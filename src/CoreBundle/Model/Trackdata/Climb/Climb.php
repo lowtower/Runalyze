@@ -83,7 +83,7 @@ class Climb
     /**
      * @return float
      */
-    public function getGradient()
+    public function getGradient(): int|float
     {
         return $this->Elevation / $this->Distance / 1000;
     }

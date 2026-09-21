@@ -11,10 +11,7 @@ use Runalyze\Profile\Notifications\MessageTypeProfile;
 
 class MessageFactory
 {
-    /**
-     * @return MessageInterface
-     */
-    public function getMessage(Notification $notification)
+    public function getMessage(Notification $notification): MessageInterface
     {
         return match ($notification->getMessageType()) {
             MessageTypeProfile::TEMPLATE_BASED_MESSAGE => new TemplateBasedMessage($notification->getData()),

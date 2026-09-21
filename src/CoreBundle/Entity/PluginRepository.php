@@ -9,11 +9,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class PluginRepository extends EntityRepository
 {
-    /**
-     * @param int $position
-     * @return null|Plugin
-     */
-    public function findPanelByPosition(Account $account, $position)
+    public function findPanelByPosition(Account $account, int $position): ?Plugin
     {
         return $this->findOneBy([
             'account' => $account,
@@ -26,7 +22,7 @@ class PluginRepository extends EntityRepository
     {
         $otherPanel = $this->findPanelByPosition($panel->getAccount(), $panel->getOrder() - 1);
 
-        if ($otherPanel !== null) {
+        if ($otherPanel instanceof Plugin) {
             $otherPanel->moveDown();
 
             $panel->moveUp();
@@ -39,7 +35,7 @@ class PluginRepository extends EntityRepository
     {
         $otherPanel = $this->findPanelByPosition($panel->getAccount(), $panel->getOrder() + 1);
 
-        if ($otherPanel !== null) {
+        if ($otherPanel instanceof Plugin) {
             $otherPanel->moveUp();
 
             $panel->moveDown();

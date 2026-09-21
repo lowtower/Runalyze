@@ -34,7 +34,7 @@ class FootstrikeType extends ActivitySeries
         $this->TickDecimals = 0;
     }
 
-    public function addTo(\Plot $Plot, $yAxis, bool $addAnnotations = true): void
+    public function addTo(\Plot $Plot, ?int $yAxis, bool $addAnnotations = true): void
     {
         parent::addTo($Plot, $yAxis, $addAnnotations);
 

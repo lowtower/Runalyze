@@ -100,10 +100,7 @@ abstract class AbstractBackup
         $this->finishTableRows();
     }
 
-    /**
-     * @return bool|array
-     */
-    private function addConditionToQuery(string &$query, string $tableName)
+    private function addConditionToQuery(string &$query, string $tableName): array|false
     {
         $ids = false;
 

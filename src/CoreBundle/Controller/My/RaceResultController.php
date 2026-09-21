@@ -59,7 +59,7 @@ class RaceResultController extends \Symfony\Bundle\FrameworkBundle\Controller\Ab
             ->findForAccount($activityId, $account->getId());
         $isNew = false;
 
-        if ($raceResult === null) {
+        if (! $raceResult instanceof \Runalyze\Bundle\CoreBundle\Entity\Raceresult) {
             $isNew = true;
             $raceResult = new Raceresult();
             $raceResult->setAccount($account);
@@ -98,7 +98,7 @@ class RaceResultController extends \Symfony\Bundle\FrameworkBundle\Controller\Ab
         $raceResult = $this->getRaceresultRepository()
             ->findForAccount($activityId, $account->getId());
 
-        if ($raceResult) {
+        if ($raceResult instanceof \Runalyze\Bundle\CoreBundle\Entity\Raceresult) {
             $this->getRaceresultRepository()
                 ->delete($raceResult);
             $this->get('app.legacy_cache')

@@ -3,10 +3,6 @@
 namespace Runalyze\Bundle\CoreBundle\Services\Recalculation;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Entity\RaceresultRepository;
-use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
-use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
-use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\Task\MarathonShapeCalculation;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\Task\StartTimeCalculation;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\Task\VO2maxCorrectionFactorCalculation;
@@ -14,10 +10,7 @@ use Runalyze\Bundle\CoreBundle\Services\Recalculation\Task\VO2maxShapeCalculatio
 
 class RecalculationManager
 {
-    /**
-     * @var RecalculationTaskCollection
-     */
-    protected $Tasks;
+    protected \Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationTaskCollection $Tasks;
 
     /**
      * @var array
@@ -29,36 +22,12 @@ class RecalculationManager
      */
     protected $CurrentStartTimes = [];
 
-    /**
-     * @var ConfigurationManager
-     */
-    protected $ConfigurationManager;
-
-    /**
-     * @var ConfigurationUpdater
-     */
-    protected $ConfigurationUpdater;
-
-    /**
-     * @var TrainingRepository
-     */
-    protected $TrainingRepository;
-
-    /**
-     * @var RaceresultRepository
-     */
-    protected $RaceResultRepository;
-
     public function __construct(
-        ConfigurationManager $manager,
-        ConfigurationUpdater $updater,
-        TrainingRepository $trainingRepository,
-        RaceresultRepository $raceresultRepository
+        protected \Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager $ConfigurationManager,
+        protected \Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater $ConfigurationUpdater,
+        protected \Runalyze\Bundle\CoreBundle\Entity\TrainingRepository $TrainingRepository,
+        protected \Runalyze\Bundle\CoreBundle\Entity\RaceresultRepository $RaceResultRepository
     ) {
-        $this->ConfigurationManager = $manager;
-        $this->ConfigurationUpdater = $updater;
-        $this->TrainingRepository = $trainingRepository;
-        $this->RaceResultRepository = $raceresultRepository;
         $this->Tasks = new RecalculationTaskCollection();
     }
 

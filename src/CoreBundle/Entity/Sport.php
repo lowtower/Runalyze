@@ -26,25 +26,16 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'name', type: 'string', length: 50, nullable: false)]
-    private $name;
+    private string $name;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'img', type: 'string', length: 100, nullable: false, options: [
         'default' => 'icons8-Sports-Mode',
     ])]
-    private $img = 'icons8-Sports-Mode';
+    private string $img = 'icons8-Sports-Mode';
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'short', type: 'boolean')]
-    private $short = false;
+    private bool $short = false;
 
     /**
      * @var int [kcal/h]
@@ -52,7 +43,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     #[ORM\Column(name: 'kcal', type: 'smallint', precision: 4, nullable: false, options: [
         'unsigned' => true,
     ])]
-    private $kcal = 0;
+    private int $kcal = 0;
 
     /**
      * @var int [bpm]
@@ -60,13 +51,10 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     #[ORM\Column(name: 'HFavg', type: 'tinyint', options: [
         'unsigned' => true,
     ])]
-    private $hfavg = 120;
+    private int $hfavg = 120;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'distances', type: 'boolean')]
-    private $distances = true;
+    private bool $distances = true;
 
     /**
      * @var int see \Runalyze\Metrics\Velocity\Unit\PaceEnum
@@ -74,94 +62,73 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     #[ORM\Column(name: 'speed', type: 'tinyint', options: [
         'unsigned' => true,
     ])]
-    private $speed = 6;
+    private int $speed = 6;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'power', type: 'boolean')]
-    private $power = false;
+    private bool $power = false;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'outside', type: 'boolean')]
-    private $outside = false;
+    private bool $outside = false;
 
     /**
      * @var bool true: defaults to private
      */
     #[ORM\Column(name: 'default_privacy', type: 'boolean')]
-    private $defaultPrivacy = true;
+    private bool $defaultPrivacy = true;
 
     /**
      * @var array|null [string]
      */
     #[ORM\Column(name: 'hr_zone_bounds', type: 'pipe_array_str', nullable: true)]
-    private $hrZoneBounds;
+    private ?array $hrZoneBounds = null;
 
-    /**
-     * @var EquipmentType|null
-     */
     #[ORM\JoinColumn(name: 'main_equipmenttypeid', referencedColumnName: 'id')]
-    #[ORM\ManyToOne(targetEntity: \Runalyze\Bundle\CoreBundle\Entity\EquipmentType::class)]
-    private $mainEquipmenttype;
+    #[ORM\ManyToOne(targetEntity: EquipmentType::class)]
+    private ?EquipmentType $mainEquipmenttype = null;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    #[ORM\ManyToMany(targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Equipment::class, mappedBy: 'sport')]
+    #[ORM\ManyToMany(targetEntity: Equipment::class, mappedBy: 'sport')]
     private $equipment;
 
-    /**
-     * @var Type|null
-     */
     #[ORM\JoinColumn(name: 'default_typeid', referencedColumnName: 'id')]
-    #[ORM\ManyToOne(targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Type::class)]
-    private $defaultType;
+    #[ORM\ManyToOne(targetEntity: Type::class)]
+    private ?Type $defaultType = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'is_main', type: 'boolean')]
-    private $isMain = false;
+    private bool $isMain = false;
 
     /**
-     * @var int|null see \Runalyze\Profile\Sport\SportProfile
+     * @var ?int see \Runalyze\Profile\Sport\SportProfile
      */
     #[ORM\Column(name: 'internal_sport_id', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $internalSportId;
+    private ?int $internalSportId = null;
 
-    /**
-     * @var AbstractSport|null
-     */
-    private $internalSport;
+    private ?AbstractSport $internalSport = null;
 
-    /**
-     * @var Account
-     */
     #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
-    #[ORM\ManyToOne(targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Account::class, inversedBy: 'sports')]
-    private $account;
+    #[ORM\ManyToOne(targetEntity: Account::class, inversedBy: 'sports')]
+    private Account $account;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    #[ORM\ManyToMany(targetEntity: \Runalyze\Bundle\CoreBundle\Entity\EquipmentType::class, mappedBy: 'sport')]
+    #[ORM\ManyToMany(targetEntity: EquipmentType::class, mappedBy: 'sport')]
     private $equipmentType;
 
     /**
      * @var \Doctrine\Common\Collections\Collection|Type[]
      */
-    #[ORM\OneToMany(mappedBy: 'sport', targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Type::class, fetch: 'EXTRA_LAZY')]
+    #[ORM\OneToMany(mappedBy: 'sport', targetEntity: Type::class, fetch: 'EXTRA_LAZY')]
     protected $types;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    #[ORM\OneToMany(mappedBy: 'sport', targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Training::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    #[ORM\OneToMany(mappedBy: 'sport', targetEntity: Training::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected $trainings;
 
     public function __construct()
@@ -187,64 +154,43 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $img
-     */
-    public function setImg($img): self
+    public function setImg(string $img): self
     {
         $this->img = $img;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getImg()
+    public function getImg(): string
     {
         return $this->img;
     }
 
-    /**
-     * @param bool $flag
-     */
-    public function setShort($flag): self
+    public function setShort(bool $flag): self
     {
         $this->short = $flag;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getShort()
+    public function getShort(): bool
     {
         return $this->short;
     }
@@ -252,7 +198,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     /**
      * @param int $kcal [kcal/h]
      */
-    public function setKcal($kcal): self
+    public function setKcal(int $kcal): self
     {
         $this->kcal = $kcal;
 
@@ -262,7 +208,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     /**
      * @return int [kcal/h]
      */
-    public function getKcal()
+    public function getKcal(): int
     {
         return $this->kcal;
     }
@@ -270,7 +216,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     /**
      * @param int $bpm [bpm]
      */
-    public function setHfavg($bpm): self
+    public function setHfavg(int $bpm): self
     {
         $this->hfavg = $bpm;
 
@@ -280,25 +226,19 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     /**
      * @return int [bpm]
      */
-    public function getHfavg()
+    public function getHfavg(): int
     {
         return $this->hfavg;
     }
 
-    /**
-     * @param bool $flag
-     */
-    public function setDistances($flag): self
+    public function setDistances(bool $flag): self
     {
         $this->distances = $flag;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getDistances()
+    public function getDistances(): bool
     {
         return $this->distances;
     }
@@ -306,7 +246,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     /**
      * @param int $enum see \Runalyze\Metrics\Velocity\Unit\PaceEnum
      */
-    public function setSpeed($enum): self
+    public function setSpeed(int $enum): self
     {
         $this->speed = $enum;
 
@@ -316,7 +256,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     /**
      * @return int see \Runalyze\Metrics\Velocity\Unit\PaceEnum
      */
-    public function getSpeed()
+    public function getSpeed(): int
     {
         return $this->speed;
     }
@@ -329,38 +269,26 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
         return PaceEnum::get($this->speed);
     }
 
-    /**
-     * @param bool $flag
-     */
-    public function setPower($flag): self
+    public function setPower(bool $flag): self
     {
         $this->power = $flag;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getPower()
+    public function getPower(): bool
     {
         return $this->power;
     }
 
-    /**
-     * @param bool $flag
-     */
-    public function setOutside($flag): self
+    public function setOutside(bool $flag): self
     {
         $this->outside = $flag;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getOutside()
+    public function getOutside(): bool
     {
         return $this->outside;
     }
@@ -368,7 +296,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     /**
      * @param bool $privacy true: defaults to private
      */
-    public function setDefaultPrivacy($privacy): self
+    public function setDefaultPrivacy(bool $privacy): self
     {
         $this->defaultPrivacy = $privacy;
 
@@ -378,7 +306,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     /**
      * @return bool true: defaults to private
      */
-    public function getDefaultPrivacy()
+    public function getDefaultPrivacy(): bool
     {
         return $this->defaultPrivacy;
     }
@@ -400,7 +328,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     /**
      * @return null|array [bpm]
      */
-    public function getHrZoneBounds()
+    public function getHrZoneBounds(): ?array
     {
         return $this->hrZoneBounds;
     }
@@ -412,10 +340,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
         return $this;
     }
 
-    /**
-     * @return EquipmentType|null
-     */
-    public function getMainEquipmenttype()
+    public function getMainEquipmenttype(): ?EquipmentType
     {
         return $this->mainEquipmenttype;
     }
@@ -435,28 +360,19 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
         return $this;
     }
 
-    /**
-     * @return Type|null
-     */
-    public function getDefaultType()
+    public function getDefaultType(): ?Type
     {
         return $this->defaultType;
     }
 
-    /**
-     * @param bool $flag
-     */
-    public function setIsMain($flag = true): self
+    public function setIsMain(bool $flag = true): self
     {
         $this->isMain = $flag;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isMain()
+    public function isMain(): bool
     {
         return $this->isMain;
     }
@@ -464,7 +380,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     /**
      * @param int|null $internalSportId see \Runalyze\Profile\Sport\SportProfile
      */
-    public function setInternalSportId($internalSportId): self
+    public function setInternalSportId(?int $internalSportId): self
     {
         $this->internalSportId = $internalSportId;
         $this->internalSport = null;
@@ -474,23 +390,20 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
 
     public function hasInternalSportId(): bool
     {
-        return $this->internalSportId !== null && $this->internalSportId != SportProfile::GENERIC;
+        return $this->internalSportId !== null && $this->internalSportId !== SportProfile::GENERIC;
     }
 
     /**
      * @return int|null see \Runalyze\Profile\Sport\SportProfile
      */
-    public function getInternalSportId()
+    public function getInternalSportId(): ?int
     {
         return $this->internalSportId;
     }
 
-    /**
-     * @return AbstractSport
-     */
-    public function getInternalSport()
+    public function getInternalSport(): ?\Runalyze\Profile\Sport\AbstractSport
     {
-        if ($this->internalSport === null) {
+        if (! $this->internalSport instanceof \Runalyze\Profile\Sport\AbstractSport) {
             $id = $this->internalSportId ?? SportProfile::GENERIC;
 
             try {
@@ -511,10 +424,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
         return $this;
     }
 
-    /**
-     * @return Account
-     */
-    public function getAccount()
+    public function getAccount(): Account
     {
         return $this->account;
     }

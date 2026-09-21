@@ -23,11 +23,8 @@ class Geonames extends AbstractStrategyFromExternalAPI
 {
     use GuessUnknownValuesTrait;
 
-    /**
-     * @param string $GeonamesUsername
-     */
     public function __construct(
-        protected $GeonamesUsername,
+        protected string $GeonamesUsername,
         Client $client,
         ?LoggerInterface $logger = null
     ) {
@@ -36,10 +33,10 @@ class Geonames extends AbstractStrategyFromExternalAPI
 
     public function isPossible(): bool
     {
-        return (string) $this->GeonamesUsername !== '';
+        return $this->GeonamesUsername !== '';
     }
 
-    public function loadAltitudeData(array $latitudes, array $longitudes)
+    public function loadAltitudeData(array $latitudes, array $longitudes): ?array
     {
         $altitudes = parent::loadAltitudeData($latitudes, $longitudes);
 

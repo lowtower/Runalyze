@@ -17,10 +17,7 @@ namespace Runalyze\Export\Share;
  */
 abstract class AbstractSocialSharer extends AbstractSharer
 {
-    /**
-     * @return bool
-     */
-    public function isExternalLink()
+    public function isExternalLink(): bool
     {
         return true;
     }

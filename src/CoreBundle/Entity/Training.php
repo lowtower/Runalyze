@@ -3,6 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Adapter\ActivityAdapter;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
@@ -28,36 +29,31 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     private ?int $id = null;
 
     /**
-     * @var \Runalyze\Bundle\CoreBundle\Entity\Sport
-     *
      * @Assert\NotBlank(message="You need to choose a sport.")
      */
     #[ORM\JoinColumn(name: 'sportid', referencedColumnName: 'id', nullable: false)]
     #[ORM\ManyToOne(targetEntity: Sport::class, inversedBy: 'trainings')]
-    private $sport;
+    private Sport $sport;
 
-    /**
-     * @var \Runalyze\Bundle\CoreBundle\Entity\Type
-     */
     #[ORM\JoinColumn(name: 'typeid', referencedColumnName: 'id')]
     #[ORM\ManyToOne(targetEntity: Type::class, inversedBy: 'trainings')]
-    private $type;
+    private ?Type $type = null;
 
     /**
      * @var int [timestamp]
      * @Assert\NotBlank(message="Every activity needs a time")
      */
     #[ORM\Column(name: 'time', type: 'integer', nullable: false)]
-    private $time;
+    private int $time;
 
     /**
-     * @var int|null [min]
+     * @var ?int [min]
      */
     #[ORM\Column(name: 'timezone_offset', type: 'smallint', nullable: true)]
     private ?int $timezoneOffset = null;
 
     /**
-     * @var int|null [timestamp]
+     * @var ?int [timestamp]
      */
     #[ORM\Column(name: 'created', type: 'integer', nullable: true, options: [
         'unsigned' => true,
@@ -65,33 +61,24 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     private ?int $created = null;
 
     /**
-     * @var int|null [timestamp]
+     * @var ?int [timestamp]
      */
     #[ORM\Column(name: 'edited', type: 'integer', nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $edited = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'is_public', type: 'boolean')]
-    private $isPublic = false;
+    private bool $isPublic = false;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'is_track', type: 'boolean')]
-    private $isTrack = false;
+    private bool $isTrack = false;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'with_goal', type: 'boolean')]
-    private $withGoal = false;
+    private bool $withGoal = false;
 
     /**
-     * @var float|null [km]
+     * @var ?float [km]
      */
     #[ORM\Column(name: 'distance', type: 'casted_decimal_2', precision: 6, scale: 2, nullable: true, options: [
         'unsigned' => true,
@@ -109,7 +96,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     private ?float $s = 0.0;
 
     /**
-     * @var int|null [s]
+     * @var ?int [s]
      */
     #[ORM\Column(name: 'elapsed_time', type: 'integer', nullable: true, options: [
         'unsigned' => true,
@@ -117,7 +104,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     private ?int $elapsedTime = null;
 
     /**
-     * @var int|null [m]
+     * @var ?int [m]
      */
     #[ORM\Column(name: 'elevation', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
@@ -125,7 +112,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     private ?int $elevation = null;
 
     /**
-     * @var float|null [0.0 .. 10.0]
+     * @var ?float [0.0 .. 10.0]
      */
     #[ORM\Column(name: 'climb_score', type: 'casted_decimal_1', precision: 3, scale: 1, nullable: true, options: [
         'unsigned' => true,
@@ -133,7 +120,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     private ?float $climbScore = null;
 
     /**
-     * @var float|null [0.00 .. 1.00]
+     * @var ?float [0.00 .. 1.00]
      */
     #[ORM\Column(name: 'percentage_hilly', type: 'casted_decimal_2', precision: 3, scale: 2, nullable: true, options: [
         'unsigned' => true,
@@ -141,7 +128,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     private ?float $percentageHilly = null;
 
     /**
-     * @var int|null [kcal]
+     * @var ?int [kcal]
      */
     #[ORM\Column(name: 'kcal', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
@@ -149,7 +136,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     private ?int $kcal = null;
 
     /**
-     * @var int|null [kcal]
+     * @var ?int [kcal]
      */
     #[ORM\Column(name: 'kcal_rest', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
@@ -157,7 +144,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     private ?int $kcalInRest = null;
 
     /**
-     * @var int|null [bpm]
+     * @var ?int [bpm]
      *
      * @Assert\Range(
      *     min=30,
@@ -172,7 +159,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     private ?int $pulseAvg = null;
 
     /**
-     * @var int|null [bpm]
+     * @var ?int [bpm]
      * @Assert\Range(
      *     min=30,
      *     max=255,
@@ -183,10 +170,10 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     #[ORM\Column(name: 'pulse_max', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $pulseMax;
+    private ?int $pulseMax = null;
 
     /**
-     * @var int|null [bpm]
+     * @var ?int [bpm]
      *
      * @Assert\Range(
      *     min=30,
@@ -198,10 +185,10 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     #[ORM\Column(name: 'pulse_avg_active', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $pulseAvgActive;
+    private ?int $pulseAvgActive = null;
 
     /**
-     * @var int|null [bpm]
+     * @var ?int [bpm]
      *
      * @Assert\Range(
      *     min=30,
@@ -213,16 +200,16 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     #[ORM\Column(name: 'max_hr_user', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $maxHrUser;
+    private ?int $maxHrUser = null;
 
     /**
-     * @var array|null [bpm]
+     * @var ?array [bpm]
      */
     #[ORM\Column(name: 'hr_zone_bounds', type: 'pipe_array', nullable: true)]
-    private $hrZoneBounds;
+    private ?array $hrZoneBounds = null;
 
     /**
-     * @var float|null [ml/kg/min]
+     * @var ?float [ml/kg/min]
      */
     #[ORM\Column(name: 'vo2max', type: 'casted_decimal_2', precision: 5, scale: 2, nullable: true, options: [
         'unsigned' => true,
@@ -230,7 +217,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     private ?float $vo2max = null;
 
     /**
-     * @var float|null [ml/kg/min]
+     * @var ?float [ml/kg/min]
      */
     #[ORM\Column(name: 'vo2max_by_time', type: 'casted_decimal_2', precision: 5, scale: 2, nullable: true, options: [
         'unsigned' => true,
@@ -238,21 +225,18 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     private ?float $vo2maxByTime = null;
 
     /**
-     * @var float|null [ml/kg/min]
+     * @var ?float [ml/kg/min]
      */
     #[ORM\Column(name: 'vo2max_with_elevation', type: 'casted_decimal_2', precision: 5, scale: 2, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?float $vo2maxWithElevation = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'use_vo2max', type: 'boolean')]
-    private $useVO2max = true;
+    private bool $useVO2max = true;
 
     /**
-     * @var float|null [ml/kg/min]
+     * @var ?float [ml/kg/min]
      */
     #[ORM\Column(name: 'fit_vo2max_estimate', type: 'casted_decimal_2', precision: 4, scale: 2, nullable: true, options: [
         'unsigned' => true,
@@ -260,31 +244,28 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     private ?float $fitVO2maxEstimate = null;
 
     /**
-     * @var int|null [min]
+     * @var ?int [min]
      */
     #[ORM\Column(name: 'fit_recovery_time', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $fitRecoveryTime;
+    private ?int $fitRecoveryTime = null;
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(name: 'fit_hrv_analysis', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $fitHrvAnalysis;
+    private ?int $fitHrvAnalysis = null;
 
     /**
-     * @var int|null [1 .. 7]
+     * @var ?int [1 .. 7]
      */
     #[ORM\Column(name: 'fit_training_effect_benefit', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $fitTrainingEffectBenefit;
+    private ?int $fitTrainingEffectBenefit = null;
 
     /**
-     * @var float|null [0.0 .. 5.0]
+     * @var ?float [0.0 .. 5.0]
      */
     #[ORM\Column(name: 'fit_training_effect', type: 'casted_decimal_1', precision: 2, scale: 1, nullable: true, options: [
         'unsigned' => true,
@@ -292,7 +273,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     private ?float $fitTrainingEffect = null;
 
     /**
-     * @var float|null [0.0 .. 5.0]
+     * @var ?float [0.0 .. 5.0]
      *
      * #TSC: new DB column to training table
      */
@@ -301,32 +282,23 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     ])]
     private ?float $fitAnaerobicTrainingEffect = null;
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(name: 'fit_performance_condition', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $fitPerformanceCondition;
+    private ?int $fitPerformanceCondition = null;
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(name: 'fit_performance_condition_end', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $fitPerformanceConditionEnd;
+    private ?int $fitPerformanceConditionEnd = null;
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(name: 'fit_lactate_threshold_hr', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $fitLactateThresholdHR;
+    private ?int $fitLactateThresholdHR = null;
 
     /**
-     * @var float|null [m/s]
+     * @var ?float [m/s]
      */
     #[ORM\Column(name: 'fit_lactate_threshold_pace_ms', type: 'casted_decimal_2', precision: 4, scale: 2, nullable: true, options: [
         'unsigned' => true,
@@ -334,279 +306,264 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     private ?float $fitLactateThresholdPace = null;
 
     /**
-     * @var int|null [m]
+     * @var ?int [m]
      */
     #[ORM\Column(name: 'fit_total_ascent', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $fitTotalAscent;
+    private ?int $fitTotalAscent = null;
 
     /**
-     * @var int|null [m]
+     * @var ?int [m]
      */
     #[ORM\Column(name: 'fit_total_descent', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $fitTotalDescent;
+    private ?int $fitTotalDescent = null;
 
     /**
-     * @var int|null []
+     * @var ?int [-]
      */
     #[ORM\Column(name: 'fit_self_evaluation_feeling', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $fitSelfEvaluationFeeling;
+    private ?int $fitSelfEvaluationFeeling = null;
 
     /**
-     * @var int|null []
+     * @var ?int [-]
      */
     #[ORM\Column(name: 'fit_self_evaluation_perceived_effort', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $fitSelfEvaluationPerceivedEffort;
+    private ?int $fitSelfEvaluationPerceivedEffort = null;
 
     /**
-     * @var int|null []
+     * @var ?int [-]
      */
     #[ORM\Column(name: 'fit_load_peak', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $fitLoadPeak;
+    private ?int $fitLoadPeak = null;
 
     /**
-     * @var int|null [s]
+     * @var ?int [s]
      */
     #[ORM\Column(name: 'fit_run_time', type: 'integer', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $fitRunTime;
+    private ?int $fitRunTime = null;
 
     /**
-     * @var int|null [s]
+     * @var ?int [s]
      */
     #[ORM\Column(name: 'fit_walk_time', type: 'integer', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $fitWalkTime;
+    private ?int $fitWalkTime = null;
 
     /**
-     * @var int|null [s]
+     * @var ?int [s]
      */
     #[ORM\Column(name: 'fit_stand_time', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $fitStandTime;
+    private ?int $fitStandTime = null;
 
     /**
-     * @var array|null [s]
+     * @var ?array [s]
      */
     #[ORM\Column(name: 'fit_seconds_hr_zones', type: 'pipe_array', nullable: true)]
-    private $fitSecondsInHrZones;
+    private ?array $fitSecondsInHrZones = null;
 
     /**
-     * @var int|null [ml]
+     * @var ?int [ml]
      */
     #[ORM\Column(name: 'fit_sweat_loss', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $fitSweatLoss;
+    private ?int $fitSweatLoss = null;
 
     /**
-     * @var int|null []
+     * @var ?int [-]
      */
     #[ORM\Column(name: 'avg_respiration_rate', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $avgRespirationRate;
+    private ?int $avgRespirationRate = null;
 
     /**
-     * @var int|null []
+     * @var ?int [-]
      */
     #[ORM\Column(name: 'max_respiration_rate', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $maxRespirationRate;
+    private ?int $maxRespirationRate = null;
 
     /**
-     * @var int|null [6 .. 20]
+     * @var ?int [6 .. 20]
      */
     #[ORM\Column(name: 'rpe', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $rpe;
+    private ?int $rpe = null;
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(name: 'trimp', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $trimp;
+    private ?int $trimp = null;
 
     /**
-     * @var int|null [rpm]
+     * @var ?int [rpm]
      */
     #[ORM\Column(name: 'cadence', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $cadence;
+    private ?int $cadence = null;
 
     /**
-     * @var int|null [W]
+     * @var ?int [W]
      */
     #[ORM\Column(name: 'power', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $power;
+    private ?int $power = null;
 
-    /**
-     * @var bool|null
-     */
     #[ORM\Column(name: 'is_power_calculated', type: 'boolean', nullable: true, options: [
         'default' => null,
     ])]
-    private $isPowerCalculated;
+    private ?bool $isPowerCalculated = null;
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(name: 'total_strokes', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $totalStrokes;
+    private ?int $totalStrokes = null;
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(name: 'swolf', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $swolf;
+    private ?int $swolf = null;
 
     /**
-     * @var int|null [cm]
+     * @var ?int [cm]
      */
     #[ORM\Column(name: 'stride_length', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $strideLength;
+    private ?int $strideLength = null;
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(name: 'total_cycles', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $totalCycles;
+    private ?int $totalCycles = null;
 
     /**
-     * @var int|null [ms]
+     * @var ?int [ms]
      */
     #[ORM\Column(name: 'groundcontact', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $groundcontact;
+    private ?int $groundcontact = null;
 
     /**
-     * @var int|null [%ooL]
+     * @var ?int [%ooL]
      */
     #[ORM\Column(name: 'groundcontact_balance', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $groundcontactBalance;
+    private ?int $groundcontactBalance = null;
 
     /**
-     * @var int|null [mm]
+     * @var ?int [mm]
      */
     #[ORM\Column(name: 'vertical_oscillation', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $verticalOscillation;
+    private ?int $verticalOscillation = null;
 
     /**
-     * @var int|null [%]
+     * @var ?int [%]
      */
     #[ORM\Column(name: 'vertical_ratio', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $verticalRatio;
+    private ?int $verticalRatio = null;
 
     /**
-     * @var float|null [G]
+     * @var ?float [G]
      */
     #[ORM\Column(name: 'avg_impact_gs_left', type: 'float', nullable: true, options: [
         'unsigned' => true,
     ], columnDefinition: 'FLOAT')]
-    private $avgImpactGsLeft;
+    private ?float $avgImpactGsLeft = null;
 
     /**
-     * @var float|null [G]
+     * @var ?float [G]
      */
     #[ORM\Column(name: 'avg_impact_gs_right', type: 'float', nullable: true, options: [
         'unsigned' => true,
     ], columnDefinition: 'FLOAT')]
-    private $avgImpactGsRight;
+    private ?float $avgImpactGsRight = null;
 
     /**
-     * @var float|null [G]
+     * @var ?float [G]
      */
     #[ORM\Column(name: 'avg_braking_gs_left', type: 'float', nullable: true, options: [
         'unsigned' => true,
     ], columnDefinition: 'FLOAT')]
-    private $avgBrakingGsLeft;
+    private ?float $avgBrakingGsLeft = null;
 
     /**
-     * @var float|null [G]
+     * @var ?float [G]
      */
     #[ORM\Column(name: 'avg_braking_gs_right', type: 'float', nullable: true, options: [
         'unsigned' => true,
     ], columnDefinition: 'FLOAT')]
-    private $avgBrakingGsRight;
+    private ?float $avgBrakingGsRight = null;
 
     /**
-     * @var int|null [°]
+     * @var ?int [°]
      */
     #[ORM\Column(name: 'avg_footstrike_type_left', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $avgFootstrikeTypeLeft;
+    private ?int $avgFootstrikeTypeLeft = null;
 
     /**
-     * @var int|null [°]
+     * @var ?int [°]
      */
     #[ORM\Column(name: 'avg_footstrike_type_right', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $avgFootstrikeTypeRight;
+    private ?int $avgFootstrikeTypeRight = null;
 
     /**
-     * @var float|null [°]
+     * @var ?float [°]
      */
     #[ORM\Column(name: 'avg_pronation_excursion_left', type: 'float', nullable: true, columnDefinition: 'FLOAT')]
-    private $avgPronationExcursionLeft;
+    private ?float $avgPronationExcursionLeft = null;
 
     /**
-     * @var float|null [°]
+     * @var ?float [°]
      */
     #[ORM\Column(name: 'avg_pronation_excursion_right', type: 'float', nullable: true, columnDefinition: 'FLOAT')]
-    private $avgPronationExcursionRight;
+    private ?float $avgPronationExcursionRight = null;
 
     /**
-     * @var int|null [°C]
+     * @var ?int [°C]
      */
     #[ORM\Column(name: 'temperature', type: 'tinyint', nullable: true)]
-    private $temperature;
+    private ?int $temperature = null;
 
     /**
-     * @var int|null [km/h]
+     * @var ?int [km/h]
      */
     #[ORM\Column(name: 'wind_speed', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $windSpeed;
+    private ?int $windSpeed = null;
 
     /**
-     * @var int|null [°]
+     * @var ?int [°]
      * @Assert\Range(
      *     min=0,
      *     max=359,
@@ -617,10 +574,10 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     #[ORM\Column(name: 'wind_deg', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $windDeg;
+    private ?int $windDeg = null;
 
     /**
-     * @var int|null [%]
+     * @var ?int [%]
      * @Assert\Range(
      *     min=0,
      *     max=100,
@@ -631,21 +588,18 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     #[ORM\Column(name: 'humidity', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $humidity;
+    private ?int $humidity = null;
 
     /**
-     * @var int|null [hPa]
+     * @var ?int [hPa]
      */
     #[ORM\Column(name: 'pressure', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $pressure;
+    private ?int $pressure = null;
 
-    /**
-     * @var bool|null
-     */
     #[ORM\Column(name: 'is_night', type: 'boolean', nullable: true)]
-    private $isNight;
+    private ?bool $isNight = null;
 
     /**
      * @var int enum, see \Runalyze\Profile\Weather\WeatherConditionProfile
@@ -654,146 +608,83 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         'unsigned' => true,
         'default' => 1,
     ])]
-    private $weatherid = 1;
+    private int $weatherid = 1;
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(name: 'weather_source', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $weatherSource;
+    private ?int $weatherSource = null;
 
-    /**
-     * @var string|null
-     */
     #[ORM\Column(name: 'route', type: 'text', length: 65535, nullable: true)]
-    private $routeName;
+    private ?string $routeName = null;
 
-    /**
-     * @var Route|null
-     */
     #[ORM\JoinColumn(name: 'routeid', referencedColumnName: 'id', nullable: true)]
     #[ORM\ManyToOne(targetEntity: Route::class)]
-    private $route;
+    private ?Route $route = null;
 
-    /**
-     * @var \Runalyze\Parser\Activity\Common\Data\Round\RoundCollection
-     */
     #[ORM\Column(name: 'splits', type: 'runalyze_round_array', length: 16777215, nullable: true)]
-    private $splits;
+    private ?\Runalyze\Parser\Activity\Common\Data\Round\RoundCollection $splits;
 
-    /**
-     * @var array|null
-     */
     #[ORM\Column(name: 'splits_additional', type: 'json', length: 2147483647, nullable: true)]
-    private $splitsAdditional;
+    private ?array $splitsAdditional = null;
 
-    /**
-     * @var string|null
-     */
     #[ORM\Column(name: 'title', type: 'text', length: 65535, nullable: true)]
-    private $title;
+    private ?string $title = null;
 
-    /**
-     * @var string|null
-     */
     #[ORM\Column(name: 'partner', type: 'text', length: 65535, nullable: true)]
-    private $partner;
+    private ?string $partner = null;
 
-    /**
-     * @var array|null
-     */
     #[ORM\Column(name: 'pace_goal', type: 'json', length: 2147483647, nullable: true)]
-    private $paceGoal;
+    private ?array $paceGoal = null;
 
-    /**
-     * @var string|null
-     */
     #[ORM\Column(name: 'notes', type: 'text', length: 65535, nullable: true)]
-    private $notes;
+    private ?string $notes = null;
 
-    /**
-     * @var \Runalyze\Bundle\CoreBundle\Entity\Account
-     */
     #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
     #[ORM\ManyToOne(targetEntity: Account::class)]
-    private $account;
+    private Account $account;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'creator', type: 'string', length: 100, nullable: false, options: [
         'default' => '',
     ])]
-    private $creator = '';
+    private string $creator = '';
 
-    /**
-     * @var string|null
-     */
     #[ORM\Column(name: 'creator_details', type: 'text', length: 255, nullable: true)]
-    private $creatorDetails;
+    private ?string $creatorDetails = null;
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(name: 'activity_id', type: 'integer', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $activityId;
+    private ?int $activityId = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: '`lock`', type: 'boolean')]
-    private $lock = false;
+    private bool $lock = false;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
     #[ORM\JoinTable(name: 'activity_equipment')]
     #[ORM\JoinColumn(name: 'activityid', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'equipmentid', referencedColumnName: 'id')]
     #[ORM\ManyToMany(targetEntity: Equipment::class, inversedBy: 'activity')]
-    private $equipment;
+    private Collection $equipment;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
     #[ORM\JoinTable(name: 'activity_tag')]
     #[ORM\JoinColumn(name: 'activityid', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'tagid', referencedColumnName: 'id')]
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'activity')]
-    private $tag;
+    private Collection $tag;
 
-    /**
-     * @var Trackdata|null
-     */
     #[ORM\OneToOne(mappedBy: 'activity', targetEntity: Trackdata::class)]
-    private $trackdata;
+    private ?Trackdata $trackdata = null;
 
-    /**
-     * @var Swimdata|null
-     */
     #[ORM\OneToOne(mappedBy: 'activity', targetEntity: Swimdata::class)]
-    private $swimdata;
+    private ?Swimdata $swimdata = null;
 
-    /**
-     * @var Hrv|null
-     */
     #[ORM\OneToOne(mappedBy: 'activity', targetEntity: Hrv::class)]
-    private $hrv;
+    private ?Hrv $hrv = null;
 
-    /**
-     * @var Raceresult|null
-     */
     #[ORM\OneToOne(mappedBy: 'activity', targetEntity: Raceresult::class)]
-    private $raceresult;
+    private ?Raceresult $raceresult = null;
 
-    /**
-     * @var null|ActivityAdapter
-     */
-    private $Adapter;
+    private ?ActivityAdapter $Adapter = null;
 
     public function __construct()
     {
@@ -802,12 +693,14 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         $this->splits = new RoundCollection();
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function hasSport(): bool
+    {
+        return isset($this->sport);
     }
 
     public function setSport(Sport $sport): self
@@ -817,10 +710,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this;
     }
 
-    /**
-     * @return Sport
-     */
-    public function getSport()
+    public function getSport(): Sport
     {
         return $this->sport;
     }
@@ -832,10 +722,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this;
     }
 
-    /**
-     * @return null|Type
-     */
-    public function getType()
+    public function getType(): ?Type
     {
         return $this->type;
     }
@@ -843,7 +730,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @param int $time [timestamp]
      */
-    public function setTime($time): self
+    public function setTime(int $time): self
     {
         $this->time = $time;
 
@@ -853,20 +740,20 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return int [timestamp]
      */
-    public function getTime()
+    public function getTime(): int
     {
         return $this->time;
     }
 
-    public function getDateTime(): \Runalyze\Util\LocalTime
+    public function getDateTime(): LocalTime
     {
         return new LocalTime($this->time);
     }
 
     /**
-     * @param null|int $timezoneOffset [min]
+     * @param ?int $timezoneOffset [min]
      */
-    public function setTimezoneOffset($timezoneOffset): self
+    public function setTimezoneOffset(?int $timezoneOffset): self
     {
         $this->timezoneOffset = $timezoneOffset;
 
@@ -874,17 +761,17 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [min]
+     * @return ?int [min]
      */
-    public function getTimezoneOffset()
+    public function getTimezoneOffset(): ?int
     {
         return $this->timezoneOffset;
     }
 
     /**
-     * @param null|int $created [timestamp]
+     * @param ?int $created [timestamp]
      */
-    public function setCreated($created): self
+    public function setCreated(?int $created): self
     {
         $this->created = $created;
 
@@ -892,9 +779,9 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [timestamp]
+     * @return ?int [timestamp]
      */
-    public function getCreated()
+    public function getCreated(): ?int
     {
         return $this->created;
     }
@@ -906,9 +793,9 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @param null|int $edited [timestamp]
+     * @param ?int $edited [timestamp]
      */
-    public function setEdited($edited): self
+    public function setEdited(?int $edited): self
     {
         $this->edited = $edited;
 
@@ -916,9 +803,9 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [timestamp]
+     * @return ?int [timestamp]
      */
-    public function getEdited()
+    public function getEdited(): ?int
     {
         return $this->edited;
     }
@@ -954,10 +841,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isPublic()
+    public function isPublic(): bool
     {
         return $this->isPublic;
     }
@@ -974,10 +858,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this->setTrack($isTrack);
     }
 
-    /**
-     * @return bool
-     */
-    public function isTrack()
+    public function isTrack(): bool
     {
         return $this->isTrack;
     }
@@ -1040,7 +921,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [s]
+     * @return ?int [s]
      */
     public function getElapsedTime(): ?int
     {
@@ -1048,7 +929,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @param null|int $elevation [m]
+     * @param ?int $elevation [m]
      */
     public function setElevation(?int $elevation): self
     {
@@ -1058,7 +939,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [m]
+     * @return ?int [m]
      */
     public function getElevation(): ?int
     {
@@ -1110,7 +991,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @param null|int $kcal [kcal]
+     * @param ?int $kcal [kcal]
      */
     public function setKcal(?int $kcal): self
     {
@@ -1120,7 +1001,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [kcal]
+     * @return ?int [kcal]
      */
     public function getKcal(): ?int
     {
@@ -1128,7 +1009,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [kcal]
+     * @return ?int [kcal]
      */
     public function getKcalInRest(): ?int
     {
@@ -1136,7 +1017,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @param null|int $kcalInRest [kcal]
+     * @param ?int $kcalInRest [kcal]
      */
     public function setKcalInRest(?int $kcalInRest): self
     {
@@ -1146,9 +1027,9 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @param null|int $pulseAvg [bpm]
+     * @param ?int $pulseAvg [bpm]
      */
-    public function setPulseAvg($pulseAvg): self
+    public function setPulseAvg(?int $pulseAvg): self
     {
         $this->pulseAvg = $pulseAvg;
 
@@ -1156,17 +1037,17 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [bpm]
+     * @return ?int [bpm]
      */
-    public function getPulseAvg()
+    public function getPulseAvg(): ?int
     {
         return $this->pulseAvg;
     }
 
     /**
-     * @param null|int $pulseMax [bpm]
+     * @param ?int $pulseMax [bpm]
      */
-    public function setPulseMax($pulseMax): self
+    public function setPulseMax(?int $pulseMax): self
     {
         $this->pulseMax = $pulseMax;
 
@@ -1174,17 +1055,17 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [bpm]
+     * @return ?int [bpm]
      */
-    public function getPulseMax()
+    public function getPulseMax(): ?int
     {
         return $this->pulseMax;
     }
 
     /**
-     * @param null|int $pulseAvgActive [bpm]
+     * @param ?int $pulseAvgActive [bpm]
      */
-    public function setPulseAvgActive($pulseAvgActive): self
+    public function setPulseAvgActive(?int $pulseAvgActive): self
     {
         $this->pulseAvgActive = $pulseAvgActive;
 
@@ -1192,17 +1073,17 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [bpm]
+     * @return ?int [bpm]
      */
-    public function getPulseAvgActive()
+    public function getPulseAvgActive(): ?int
     {
         return $this->pulseAvgActive;
     }
 
     /**
-     * @param null|int $maxHrUser [bpm]
+     * @param ?int $maxHrUser [bpm]
      */
-    public function setMaxHrUser($maxHrUser): self
+    public function setMaxHrUser(?int $maxHrUser): self
     {
         $this->maxHrUser = $maxHrUser;
 
@@ -1210,9 +1091,9 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [bpm]
+     * @return ?int [bpm]
      */
-    public function getMaxHrUser()
+    public function getMaxHrUser(): ?int
     {
         return $this->maxHrUser;
     }
@@ -1220,7 +1101,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @param null|array $hrZoneBounds [bpm]
      */
-    public function setHrZoneBounds($hrZoneBounds): self
+    public function setHrZoneBounds(?array $hrZoneBounds): self
     {
         $this->hrZoneBounds = $hrZoneBounds;
 
@@ -1230,7 +1111,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return null|array [bpm]
      */
-    public function getHrZoneBounds()
+    public function getHrZoneBounds(): ?array
     {
         return $this->hrZoneBounds;
     }
@@ -1238,7 +1119,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @param null|float $vo2max [ml/kg/min]
      */
-    public function setVO2max($vo2max): self
+    public function setVO2max(?float $vo2max): self
     {
         $this->vo2max = $vo2max;
 
@@ -1248,7 +1129,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return null|float [ml/kg/min]
      */
-    public function getVO2max()
+    public function getVO2max(): ?float
     {
         return $this->vo2max;
     }
@@ -1256,7 +1137,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @param null|float $vo2maxByTime [ml/kg/min]
      */
-    public function setVO2maxByTime($vo2maxByTime): self
+    public function setVO2maxByTime(?float $vo2maxByTime): self
     {
         $this->vo2maxByTime = $vo2maxByTime;
 
@@ -1266,7 +1147,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return null|float [ml/kg/min]
      */
-    public function getVO2maxByTime()
+    public function getVO2maxByTime(): ?float
     {
         return $this->vo2maxByTime;
     }
@@ -1274,7 +1155,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @param null|float $vo2maxWithElevation [ml/kg/min]
      */
-    public function setVO2maxWithElevation($vo2maxWithElevation): self
+    public function setVO2maxWithElevation(?float $vo2maxWithElevation): self
     {
         $this->vo2maxWithElevation = $vo2maxWithElevation;
 
@@ -1284,25 +1165,19 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return null|float [ml/kg/min]
      */
-    public function getVO2maxWithElevation()
+    public function getVO2maxWithElevation(): ?float
     {
         return $this->vo2maxWithElevation;
     }
 
-    /**
-     * @param bool $useVO2max
-     */
-    public function setUseVO2max($useVO2max): self
+    public function setUseVO2max(bool $useVO2max): self
     {
         $this->useVO2max = $useVO2max;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getUseVO2max()
+    public function getUseVO2max(): bool
     {
         return $this->useVO2max;
     }
@@ -1310,7 +1185,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @param null|float $fitVO2maxEstimate [ml/kg/min]
      */
-    public function setFitVO2maxEstimate($fitVO2maxEstimate): self
+    public function setFitVO2maxEstimate(?float $fitVO2maxEstimate): self
     {
         $this->fitVO2maxEstimate = $fitVO2maxEstimate;
 
@@ -1320,15 +1195,15 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return null|float [ml/kg/min]
      */
-    public function getFitVO2maxEstimate()
+    public function getFitVO2maxEstimate(): ?float
     {
         return $this->fitVO2maxEstimate;
     }
 
     /**
-     * @param null|int $fitRecoveryTime [min]
+     * @param ?int $fitRecoveryTime [min]
      */
-    public function setFitRecoveryTime($fitRecoveryTime): self
+    public function setFitRecoveryTime(?int $fitRecoveryTime): self
     {
         $this->fitRecoveryTime = $fitRecoveryTime;
 
@@ -1336,125 +1211,86 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [min]
+     * @return ?int [min]
      */
-    public function getFitRecoveryTime()
+    public function getFitRecoveryTime(): ?int
     {
         return $this->fitRecoveryTime;
     }
 
-    /**
-     * @param null|int $fitHrvAnalysis
-     */
-    public function setFitHrvAnalysis($fitHrvAnalysis): self
+    public function setFitHrvAnalysis(?int $fitHrvAnalysis): self
     {
         $this->fitHrvAnalysis = $fitHrvAnalysis;
 
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getFitHrvAnalysis()
+    public function getFitHrvAnalysis(): ?int
     {
         return $this->fitHrvAnalysis;
     }
 
-    /**
-     * @param null|int $fitTrainingEffectBenefit
-     */
-    public function setFitTrainingEffectBenefit($fitTrainingEffectBenefit): self
+    public function setFitTrainingEffectBenefit(?int $fitTrainingEffectBenefit): self
     {
         $this->fitTrainingEffectBenefit = $fitTrainingEffectBenefit;
 
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getFitTrainingEffectBenefit()
+    public function getFitTrainingEffectBenefit(): ?int
     {
         return $this->fitTrainingEffectBenefit;
     }
 
-    /**
-     * @param null|float $fitTrainingEffect
-     */
-    public function setFitTrainingEffect($fitTrainingEffect): self
+    public function setFitTrainingEffect(?float $fitTrainingEffect): self
     {
         $this->fitTrainingEffect = $fitTrainingEffect;
 
         return $this;
     }
 
-    /**
-     * @return null|float
-     */
-    public function getFitTrainingEffect()
+    public function getFitTrainingEffect(): ?float
     {
         return $this->fitTrainingEffect;
     }
 
-    /**
-     * @param null|float $fitAnaerobicTrainingEffect
-     */
-    public function setFitAnaerobicTrainingEffect($fitAnaerobicTrainingEffect): self
+    public function setFitAnaerobicTrainingEffect(?float $fitAnaerobicTrainingEffect): self
     {
         $this->fitAnaerobicTrainingEffect = $fitAnaerobicTrainingEffect;
 
         return $this;
     }
 
-    /**
-     * @return null|float
-     */
-    public function getFitAnaerobicTrainingEffect()
+    public function getFitAnaerobicTrainingEffect(): ?float
     {
         return $this->fitAnaerobicTrainingEffect;
     }
 
-    /**
-     * @param null|int $fitPerformanceCondition
-     */
-    public function setFitPerformanceCondition($fitPerformanceCondition): self
+    public function setFitPerformanceCondition(?int $fitPerformanceCondition): self
     {
         $this->fitPerformanceCondition = $fitPerformanceCondition;
 
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getFitPerformanceCondition()
+    public function getFitPerformanceCondition(): ?int
     {
         return $this->fitPerformanceCondition;
     }
 
-    /**
-     * @param null|int $fitPerformanceConditionEnd
-     */
-    public function setFitPerformanceConditionEnd($fitPerformanceConditionEnd): self
+    public function setFitPerformanceConditionEnd(?int $fitPerformanceConditionEnd): self
     {
         $this->fitPerformanceConditionEnd = $fitPerformanceConditionEnd;
 
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getFitPerformanceConditionEnd()
+    public function getFitPerformanceConditionEnd(): ?int
     {
         return $this->fitPerformanceConditionEnd;
     }
 
-    /**
-     * @param null|int $fitLactateThresholdHR
-     */
-    public function setFitLactateThresholdHR($fitLactateThresholdHR): self
+    public function setFitLactateThresholdHR(?int $fitLactateThresholdHR): self
     {
         $this->fitLactateThresholdHR = $fitLactateThresholdHR;
 
@@ -1462,9 +1298,9 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [bpm]
+     * @return ?int [bpm]
      */
-    public function getFitLactateThresholdHR()
+    public function getFitLactateThresholdHR(): ?int
     {
         return $this->fitLactateThresholdHR;
     }
@@ -1472,105 +1308,72 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return null|float [m/s]
      */
-    public function getFitLactateThresholdPace()
+    public function getFitLactateThresholdPace(): ?float
     {
         return $this->fitLactateThresholdPace;
     }
 
-    /**
-     * @param null|float $fitLactateThresholdPace
-     */
-    public function setFitLactateThresholdPace($fitLactateThresholdPace): self
+    public function setFitLactateThresholdPace(?float $fitLactateThresholdPace): self
     {
         $this->fitLactateThresholdPace = $fitLactateThresholdPace;
 
         return $this;
     }
 
-    /**
-     * @param null|int $fitTotalAscent
-     */
-    public function setFitTotalAscent($fitTotalAscent): self
+    public function setFitTotalAscent(?int $fitTotalAscent): self
     {
         $this->fitTotalAscent = $fitTotalAscent;
 
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getFitTotalAscent()
+    public function getFitTotalAscent(): ?int
     {
         return $this->fitTotalAscent;
     }
 
-    /**
-     * @param null|int $fitTotalDescent
-     */
-    public function setFitTotalDescent($fitTotalDescent): self
+    public function setFitTotalDescent(?int $fitTotalDescent): self
     {
         $this->fitTotalDescent = $fitTotalDescent;
 
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getFitTotalDescent()
+    public function getFitTotalDescent(): ?int
     {
         return $this->fitTotalDescent;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getFitSelfEvaluationFeeling()
+    public function getFitSelfEvaluationFeeling(): ?int
     {
         return $this->fitSelfEvaluationFeeling;
     }
 
-    /**
-     * @param null|int $fitSelfEvaluationFeeling
-     */
-    public function setFitSelfEvaluationFeeling($fitSelfEvaluationFeeling): self
+    public function setFitSelfEvaluationFeeling(?int $fitSelfEvaluationFeeling): self
     {
         $this->fitSelfEvaluationFeeling = $fitSelfEvaluationFeeling;
 
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getFitSelfEvaluationPerceivedEffort()
+    public function getFitSelfEvaluationPerceivedEffort(): ?int
     {
         return $this->fitSelfEvaluationPerceivedEffort;
     }
 
-    /**
-     * @param null|int $fitSelfEvaluationPerceivedEffort
-     */
-    public function setFitSelfEvaluationPerceivedEffort($fitSelfEvaluationPerceivedEffort): self
+    public function setFitSelfEvaluationPerceivedEffort(?int $fitSelfEvaluationPerceivedEffort): self
     {
         $this->fitSelfEvaluationPerceivedEffort = $fitSelfEvaluationPerceivedEffort;
 
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getFitLoadPeak()
+    public function getFitLoadPeak(): ?int
     {
         return $this->fitLoadPeak;
     }
 
-    /**
-     * @param null|int $fitLoadPeak
-     */
-    public function setFitLoadPeak($fitLoadPeak): self
+    public function setFitLoadPeak(?int $fitLoadPeak): self
     {
         $this->fitLoadPeak = $fitLoadPeak;
 
@@ -1578,17 +1381,17 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [s]
+     * @return ?int [s]
      */
-    public function getFitRunTime()
+    public function getFitRunTime(): ?int
     {
         return $this->fitRunTime;
     }
 
     /**
-     * @param null|int $fitRunTime [s]
+     * @param ?int $fitRunTime [s]
      */
-    public function setFitRunTime($fitRunTime): self
+    public function setFitRunTime(?int $fitRunTime): self
     {
         $this->fitRunTime = $fitRunTime;
 
@@ -1596,17 +1399,17 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [s]
+     * @return ?int [s]
      */
-    public function getFitWalkTime()
+    public function getFitWalkTime(): ?int
     {
         return $this->fitWalkTime;
     }
 
     /**
-     * @param null|int $fitWalkTime [s]
+     * @param ?int $fitWalkTime [s]
      */
-    public function setFitWalkTime($fitWalkTime): self
+    public function setFitWalkTime(?int $fitWalkTime): self
     {
         $this->fitWalkTime = $fitWalkTime;
 
@@ -1614,17 +1417,17 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [s]
+     * @return ?int [s]
      */
-    public function getFitStandTime()
+    public function getFitStandTime(): ?int
     {
         return $this->fitStandTime;
     }
 
     /**
-     * @param null|int $fitStandTime [s]
+     * @param ?int $fitStandTime [s]
      */
-    public function setFitStandTime($fitStandTime): self
+    public function setFitStandTime(?int $fitStandTime): self
     {
         $this->fitStandTime = $fitStandTime;
 
@@ -1634,7 +1437,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @param null|array $fitSecondsInHrZones [bpm]
      */
-    public function setFitSecondsInHrZones($fitSecondsInHrZones): self
+    public function setFitSecondsInHrZones(?array $fitSecondsInHrZones): self
     {
         $this->fitSecondsInHrZones = $fitSecondsInHrZones;
 
@@ -1644,105 +1447,81 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return null|array [bpm]
      */
-    public function getFitSecondsInHrZones()
+    public function getFitSecondsInHrZones(): ?array
     {
         return $this->fitSecondsInHrZones;
     }
 
     /**
-     * @return null|int [ml]
+     * @return ?int [ml]
      */
-    public function getFitSweatLoss()
+    public function getFitSweatLoss(): ?int
     {
         return $this->fitSweatLoss;
     }
 
     /**
-     * @param null|int $fitSweatLoss [ml]
+     * @param ?int $fitSweatLoss [ml]
      */
-    public function setFitSweatLoss($fitSweatLoss): self
+    public function setFitSweatLoss(?int $fitSweatLoss): self
     {
         $this->fitSweatLoss = $fitSweatLoss;
 
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getAvgRespirationRate()
+    public function getAvgRespirationRate(): ?int
     {
         return $this->avgRespirationRate;
     }
 
-    /**
-     * @param null|int $avgRespirationRate
-     */
-    public function setAvgRespirationRate($avgRespirationRate): self
+    public function setAvgRespirationRate(?int $avgRespirationRate): self
     {
         $this->avgRespirationRate = $avgRespirationRate;
 
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getMaxRespirationRate()
+    public function getMaxRespirationRate(): ?int
     {
         return $this->maxRespirationRate;
     }
 
-    /**
-     * @param null|int $maxRespirationRate
-     */
-    public function setMaxRespirationRate($maxRespirationRate): self
+    public function setMaxRespirationRate(?int $maxRespirationRate): self
     {
         $this->maxRespirationRate = $maxRespirationRate;
 
         return $this;
     }
 
-    /**
-     * @param null|int $rpe
-     */
-    public function setRpe($rpe): self
+    public function setRpe(?int $rpe): self
     {
         $this->rpe = $rpe;
 
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getRpe()
+    public function getRpe(): ?int
     {
         return $this->rpe;
     }
 
-    /**
-     * @param null|int $trimp
-     */
-    public function setTrimp($trimp): self
+    public function setTrimp(?int $trimp): self
     {
         $this->trimp = $trimp;
 
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getTrimp()
+    public function getTrimp(): ?int
     {
         return $this->trimp;
     }
 
     /**
-     * @param null|int $cadence [rpm]
+     * @param ?int $cadence [rpm]
      */
-    public function setCadence($cadence): self
+    public function setCadence(?int $cadence): self
     {
         $this->cadence = $cadence;
 
@@ -1750,17 +1529,17 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [rpm]
+     * @return ?int [rpm]
      */
-    public function getCadence()
+    public function getCadence(): ?int
     {
         return $this->cadence;
     }
 
     /**
-     * @param null|int $power [W]
+     * @param ?int $power [W]
      */
-    public function setPower($power): self
+    public function setPower(?int $power): self
     {
         $this->power = $power;
 
@@ -1768,9 +1547,9 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [W]
+     * @return ?int [W]
      */
-    public function getPower()
+    public function getPower(): ?int
     {
         return $this->power;
     }
@@ -1785,52 +1564,37 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this;
     }
 
-    /**
-     * @return bool|null
-     */
-    public function isPowerCalculated()
+    public function isPowerCalculated(): ?bool
     {
         return $this->isPowerCalculated;
     }
 
-    /**
-     * @param null|int $totalStrokes
-     */
-    public function setTotalStrokes($totalStrokes): self
+    public function setTotalStrokes(?int $totalStrokes): self
     {
         $this->totalStrokes = $totalStrokes;
 
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getTotalStrokes()
+    public function getTotalStrokes(): ?int
     {
         return $this->totalStrokes;
     }
 
-    /**
-     * @param null|int $swolf
-     */
-    public function setSwolf($swolf): self
+    public function setSwolf(?int $swolf): self
     {
         $this->swolf = $swolf;
 
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getSwolf()
+    public function getSwolf(): ?int
     {
         return $this->swolf;
     }
 
     /**
-     * @param null|int $strideLength [cm]
+     * @param ?int $strideLength [cm]
      */
     public function setStrideLength(?int $strideLength): self
     {
@@ -1840,7 +1604,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [cm]
+     * @return ?int [cm]
      */
     public function getStrideLength(): ?int
     {
@@ -1848,9 +1612,9 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @param null|int $totalCycles [stck]
+     * @param ?int $totalCycles [stck]
      */
-    public function setTotalCycles($totalCycles): self
+    public function setTotalCycles(?int $totalCycles): self
     {
         $this->totalCycles = $totalCycles;
 
@@ -1858,17 +1622,17 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [stck]
+     * @return ?int [stck]
      */
-    public function getTotalCycles()
+    public function getTotalCycles(): ?int
     {
         return $this->totalCycles;
     }
 
     /**
-     * @param null|int $groundcontact [ms]
+     * @param ?int $groundcontact [ms]
      */
-    public function setGroundcontact($groundcontact): self
+    public function setGroundcontact(?int $groundcontact): self
     {
         $this->groundcontact = $groundcontact;
 
@@ -1876,17 +1640,17 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [ms]
+     * @return ?int [ms]
      */
-    public function getGroundcontact()
+    public function getGroundcontact(): ?int
     {
         return $this->groundcontact;
     }
 
     /**
-     * @param null|int $groundcontactBalance [%ooL]
+     * @param ?int $groundcontactBalance [%ooL]
      */
-    public function setGroundcontactBalance($groundcontactBalance): self
+    public function setGroundcontactBalance(?int $groundcontactBalance): self
     {
         $this->groundcontactBalance = $groundcontactBalance;
 
@@ -1894,17 +1658,17 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [%ooL]
+     * @return ?int [%ooL]
      */
-    public function getGroundcontactBalance()
+    public function getGroundcontactBalance(): ?int
     {
         return $this->groundcontactBalance;
     }
 
     /**
-     * @param null|int $verticalOscillation [mm]
+     * @param ?int $verticalOscillation [mm]
      */
-    public function setVerticalOscillation($verticalOscillation): self
+    public function setVerticalOscillation(?int $verticalOscillation): self
     {
         $this->verticalOscillation = $verticalOscillation;
 
@@ -1912,17 +1676,17 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [mm]
+     * @return ?int [mm]
      */
-    public function getVerticalOscillation()
+    public function getVerticalOscillation(): ?int
     {
         return $this->verticalOscillation;
     }
 
     /**
-     * @param null|int $verticalRatio [%]
+     * @param ?int $verticalRatio [%]
      */
-    public function setVerticalRatio($verticalRatio): self
+    public function setVerticalRatio(?int $verticalRatio): self
     {
         $this->verticalRatio = $verticalRatio;
 
@@ -1930,9 +1694,9 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [%]
+     * @return ?int [%]
      */
-    public function getVerticalRatio()
+    public function getVerticalRatio(): ?int
     {
         return $this->verticalRatio;
     }
@@ -1940,7 +1704,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @param null|float $avgImpactGsLeft [G]
      */
-    public function setAvgImpactGsLeft($avgImpactGsLeft): self
+    public function setAvgImpactGsLeft(?float $avgImpactGsLeft): self
     {
         $this->avgImpactGsLeft = $avgImpactGsLeft;
 
@@ -1950,7 +1714,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return null|float [G]
      */
-    public function getAvgImpactGsLeft()
+    public function getAvgImpactGsLeft(): ?float
     {
         return $this->avgImpactGsLeft;
     }
@@ -1958,7 +1722,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @param null|float $avgImpactGsRight [G]
      */
-    public function setAvgImpactGsRight($avgImpactGsRight): self
+    public function setAvgImpactGsRight(?float $avgImpactGsRight): self
     {
         $this->avgImpactGsRight = $avgImpactGsRight;
 
@@ -1968,7 +1732,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return null|float [G]
      */
-    public function getAvgImpactGsRight()
+    public function getAvgImpactGsRight(): ?float
     {
         return $this->avgImpactGsRight;
     }
@@ -1976,7 +1740,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @param null|float $avgBrakingGsLeft [G]
      */
-    public function setAvgBrakingGsLeft($avgBrakingGsLeft): self
+    public function setAvgBrakingGsLeft(?float $avgBrakingGsLeft): self
     {
         $this->avgBrakingGsLeft = $avgBrakingGsLeft;
 
@@ -1986,7 +1750,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return null|float [G]
      */
-    public function getAvgBrakingGsLeft()
+    public function getAvgBrakingGsLeft(): ?float
     {
         return $this->avgBrakingGsLeft;
     }
@@ -1994,7 +1758,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @param null|float $avgBrakingGsRight [G]
      */
-    public function setAvgBrakingGsRight($avgBrakingGsRight): self
+    public function setAvgBrakingGsRight(?float $avgBrakingGsRight): self
     {
         $this->avgBrakingGsRight = $avgBrakingGsRight;
 
@@ -2004,15 +1768,15 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return null|float [G]
      */
-    public function getAvgBrakingGsRight()
+    public function getAvgBrakingGsRight(): ?float
     {
         return $this->avgBrakingGsRight;
     }
 
     /**
-     * @param null|int $avgFootstrikeTypeLeft [°]
+     * @param ?int $avgFootstrikeTypeLeft [°]
      */
-    public function setAvgFootstrikeTypeLeft($avgFootstrikeTypeLeft): self
+    public function setAvgFootstrikeTypeLeft(?int $avgFootstrikeTypeLeft): self
     {
         $this->avgFootstrikeTypeLeft = $avgFootstrikeTypeLeft;
 
@@ -2020,17 +1784,17 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [°]
+     * @return ?int [°]
      */
-    public function getAvgFootstrikeTypeLeft()
+    public function getAvgFootstrikeTypeLeft(): ?int
     {
         return $this->avgFootstrikeTypeLeft;
     }
 
     /**
-     * @param null|int $avgFootstrikeTypeRight [°]
+     * @param ?int $avgFootstrikeTypeRight [°]
      */
-    public function setAvgFootstrikeTypeRight($avgFootstrikeTypeRight): self
+    public function setAvgFootstrikeTypeRight(?int $avgFootstrikeTypeRight): self
     {
         $this->avgFootstrikeTypeRight = $avgFootstrikeTypeRight;
 
@@ -2038,9 +1802,9 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [°]
+     * @return ?int [°]
      */
-    public function getAvgFootstrikeTypeRight()
+    public function getAvgFootstrikeTypeRight(): ?int
     {
         return $this->avgFootstrikeTypeRight;
     }
@@ -2048,7 +1812,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @param null|float $avgPronationExcursionLeft [°]
      */
-    public function setAvgPronationExcursionLeft($avgPronationExcursionLeft): self
+    public function setAvgPronationExcursionLeft(?float $avgPronationExcursionLeft): self
     {
         $this->avgPronationExcursionLeft = $avgPronationExcursionLeft;
 
@@ -2058,7 +1822,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return null|float [°]
      */
-    public function getAvgPronationExcursionLeft()
+    public function getAvgPronationExcursionLeft(): ?float
     {
         return $this->avgPronationExcursionLeft;
     }
@@ -2066,7 +1830,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @param null|float $avgPronationExcursionRight [°]
      */
-    public function setAvgPronationExcursionRight($avgPronationExcursionRight): self
+    public function setAvgPronationExcursionRight(?float $avgPronationExcursionRight): self
     {
         $this->avgPronationExcursionRight = $avgPronationExcursionRight;
 
@@ -2076,13 +1840,13 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return null|float [°]
      */
-    public function getAvgPronationExcursionRight()
+    public function getAvgPronationExcursionRight(): ?float
     {
         return $this->avgPronationExcursionRight;
     }
 
     /**
-     * @param null|int $temperature [°C]
+     * @param ?int $temperature [°C]
      */
     public function setTemperature($temperature): self
     {
@@ -2092,17 +1856,17 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [°C]
+     * @return ?int [°C]
      */
-    public function getTemperature()
+    public function getTemperature(): ?int
     {
         return $this->temperature;
     }
 
     /**
-     * @param null|int $windSpeed [km/h]
+     * @param ?int $windSpeed [km/h]
      */
-    public function setWindSpeed($windSpeed): self
+    public function setWindSpeed(?int $windSpeed): self
     {
         $this->windSpeed = $windSpeed;
 
@@ -2110,17 +1874,17 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [km/h]
+     * @return ?int [km/h]
      */
-    public function getWindSpeed()
+    public function getWindSpeed(): ?int
     {
         return $this->windSpeed;
     }
 
     /**
-     * @param null|int $windDeg [°]
+     * @param ?int $windDeg [°]
      */
-    public function setWindDeg($windDeg): self
+    public function setWindDeg(?int $windDeg): self
     {
         $this->windDeg = $windDeg;
 
@@ -2128,17 +1892,17 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [°]
+     * @return ?int [°]
      */
-    public function getWindDeg()
+    public function getWindDeg(): ?int
     {
         return $this->windDeg;
     }
 
     /**
-     * @param null|int $humidity [%]
+     * @param ?int $humidity [%]
      */
-    public function setHumidity($humidity): self
+    public function setHumidity(?int $humidity): self
     {
         $this->humidity = $humidity;
 
@@ -2146,17 +1910,17 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [%]
+     * @return ?int [%]
      */
-    public function getHumidity()
+    public function getHumidity(): ?int
     {
         return $this->humidity;
     }
 
     /**
-     * @param null|int $pressure [hPa]
+     * @param ?int $pressure [hPa]
      */
-    public function setPressure($pressure): self
+    public function setPressure(?int $pressure): self
     {
         $this->pressure = $pressure;
 
@@ -2164,27 +1928,21 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int [hPa]
+     * @return ?int [hPa]
      */
-    public function getPressure()
+    public function getPressure(): ?int
     {
         return $this->pressure;
     }
 
-    /**
-     * @param null|bool $isNight
-     */
-    public function setNight($isNight): self
+    public function setNight(?bool $isNight): self
     {
         $this->isNight = $isNight;
 
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function isNight()
+    public function isNight(): ?bool
     {
         return $this->isNight;
     }
@@ -2192,7 +1950,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @param int $weatherid enum, see \Runalyze\Profile\Weather\WeatherConditionProfile
      */
-    public function setWeatherid($weatherid): self
+    public function setWeatherid(int $weatherid): self
     {
         $this->weatherid = $weatherid;
 
@@ -2202,13 +1960,13 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return int enum, see \Runalyze\Profile\Weather\WeatherConditionProfile
      */
-    public function getWeatherid()
+    public function getWeatherid(): int
     {
         return $this->weatherid;
     }
 
     /**
-     * @param null|int $weatherSource
+     * @param ?int $weatherSource
      */
     public function setWeatherSource($weatherSource): self
     {
@@ -2217,18 +1975,12 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getWeatherSource()
+    public function getWeatherSource(): ?int
     {
         return $this->weatherSource;
     }
 
-    /**
-     * @param null|string $routeName
-     */
-    public function setRouteName($routeName): self
+    public function setRouteName(?string $routeName): self
     {
         $this->routeName = $routeName;
 
@@ -2240,10 +1992,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getRouteName()
+    public function getRouteName(): ?string
     {
         return $this->routeName;
     }
@@ -2252,24 +2001,21 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     {
         $this->route = $route;
 
-        if ($route instanceof \Runalyze\Bundle\CoreBundle\Entity\Route && $this->account !== null) {
+        if ($route instanceof Route && isset($this->account)) {
             $route->setAccount($this->account);
         }
 
         return $this;
     }
 
-    /**
-     * @return null|Route
-     */
-    public function getRoute()
+    public function getRoute(): ?Route
     {
         return $this->route;
     }
 
     public function hasRoute(): bool
     {
-        return $this->route !== null;
+        return $this->route instanceof Route;
     }
 
     public function setSplits(RoundCollection $splits): self
@@ -2284,102 +2030,74 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         $this->splits = clone $this->splits;
     }
 
-    /**
-     * @return RoundCollection
-     */
-    public function getSplits()
+    public function getSplits(): ?RoundCollection
     {
         return $this->splits;
     }
 
-    /**
-     * @param null|array $splitsAdditional
-     */
-    public function setSplitsAdditional($splitsAdditional): self
+    public function setSplitsAdditional(?array $splitsAdditional): self
     {
         $this->splitsAdditional = $splitsAdditional;
 
         return $this;
     }
 
-    /**
-     * @return null|array
-     */
-    public function getSplitsAdditional()
+    public function getSplitsAdditional(): ?array
     {
         return $this->splitsAdditional;
     }
 
-    /**
-     * @param null|string $title
-     */
-    public function setTitle($title): self
+    public function setTitle(?string $title): self
     {
         $this->title = $title;
 
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    /**
-     * @param null|string $partner
-     */
-    public function setPartner($partner): self
+    public function setPartner(?string $partner): self
     {
         $this->partner = $partner;
 
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getPartner()
+    public function getPartner(): ?string
     {
         return $this->partner;
     }
 
-    /**
-     * @param null|array $paceGoal
-     */
-    public function setPaceGoal($paceGoal): self
+    public function setPaceGoal(?array $paceGoal): self
     {
         $this->paceGoal = $paceGoal;
 
         return $this;
     }
 
-    /**
-     * @return null|array
-     */
-    public function getPaceGoal()
+    public function getPaceGoal(): ?array
     {
         return $this->paceGoal;
     }
 
-    /**
-     * @param null|string $notes
-     */
-    public function setNotes($notes): self
+    public function setNotes(?string $notes): self
     {
         $this->notes = $notes;
 
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getNotes()
+    public function getNotes(): ?string
     {
         return $this->notes;
+    }
+
+    public function hasAccount(): bool
+    {
+        return isset($this->account);
     }
 
     public function setAccount(Account $account): self
@@ -2389,64 +2107,43 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this;
     }
 
-    /**
-     * @return Account
-     */
-    public function getAccount()
+    public function getAccount(): Account
     {
         return $this->account;
     }
 
-    /**
-     * @param string $creator
-     */
-    public function setCreator($creator): self
+    public function setCreator(string $creator): self
     {
         $this->creator = $creator;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getCreator()
+    public function getCreator(): string
     {
         return $this->creator;
     }
 
-    /**
-     * @param null|string $creatorDetails
-     */
-    public function setCreatorDetails($creatorDetails): self
+    public function setCreatorDetails(?string $creatorDetails): self
     {
         $this->creatorDetails = $creatorDetails;
 
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getCreatorDetails()
+    public function getCreatorDetails(): ?string
     {
         return $this->creatorDetails;
     }
 
-    /**
-     * @param null|int $activityId
-     */
-    public function setActivityId($activityId): self
+    public function setActivityId(?int $activityId): self
     {
-        $this->activityId = $activityId === null ? null : (int) $activityId;
+        $this->activityId = $activityId ?? null;
 
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getActivityId()
+    public function getActivityId(): ?int
     {
         return $this->activityId;
     }
@@ -2458,10 +2155,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getLock()
+    public function getLock(): bool
     {
         return $this->lock;
     }
@@ -2478,10 +2172,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         $this->equipment->removeElement($equipment);
     }
 
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getEquipment()
+    public function getEquipment(): Collection
     {
         return $this->equipment;
     }
@@ -2498,10 +2189,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         $this->tag->removeElement($tag);
     }
 
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getTag()
+    public function getTag(): Collection
     {
         return $this->tag;
     }
@@ -2510,110 +2198,95 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     {
         $this->trackdata = $trackData;
 
-        if ($trackData instanceof \Runalyze\Bundle\CoreBundle\Entity\Trackdata) {
+        if ($trackData instanceof Trackdata) {
             $trackData->setActivity($this);
 
-            if ($this->account !== null) {
+            if (isset($this->account)) {
                 $trackData->setAccount($this->account);
             }
         }
     }
 
-    /**
-     * @return Trackdata|null
-     */
-    public function getTrackdata()
+    public function getTrackdata(): ?Trackdata
     {
         return $this->trackdata;
     }
 
     public function hasTrackdata(): bool
     {
-        return $this->trackdata !== null;
+        return $this->trackdata instanceof Trackdata;
     }
 
     public function setSwimdata(?Swimdata $swimData = null): void
     {
         $this->swimdata = $swimData;
 
-        if ($swimData instanceof \Runalyze\Bundle\CoreBundle\Entity\Swimdata) {
+        if ($swimData instanceof Swimdata) {
             $swimData->setActivity($this);
 
-            if ($this->account !== null) {
+            if (isset($this->account)) {
                 $swimData->setAccount($this->account);
             }
         }
     }
 
-    /**
-     * @return Swimdata|null
-     */
-    public function getSwimdata()
+    public function getSwimdata(): ?Swimdata
     {
         return $this->swimdata;
     }
 
     public function hasSwimdata(): bool
     {
-        return $this->swimdata !== null;
+        return $this->swimdata instanceof Swimdata;
     }
 
     public function setHrv(?Hrv $hrv = null): void
     {
         $this->hrv = $hrv;
 
-        if ($hrv instanceof \Runalyze\Bundle\CoreBundle\Entity\Hrv) {
+        if ($hrv instanceof Hrv) {
             $hrv->setActivity($this);
 
-            if ($this->account !== null) {
+            if (isset($this->account)) {
                 $hrv->setAccount($this->account);
             }
         }
     }
 
-    /**
-     * @return Hrv|null
-     */
-    public function getHrv()
+    public function getHrv(): ?Hrv
     {
         return $this->hrv;
     }
 
     public function hasHrv(): bool
     {
-        return $this->hrv !== null;
+        return $this->hrv instanceof Hrv;
     }
 
     public function setRaceresult(?Raceresult $raceResult = null): void
     {
         $this->raceresult = $raceResult;
 
-        if ($raceResult instanceof \Runalyze\Bundle\CoreBundle\Entity\Raceresult) {
+        if ($raceResult instanceof Raceresult) {
             $raceResult->setActivity($this);
 
-            if ($this->account !== null) {
+            if (isset($this->account)) {
                 $raceResult->setAccount($this->account);
             }
         }
     }
 
-    /**
-     * @return Raceresult|null
-     */
-    public function getRaceresult()
+    public function getRaceresult(): ?Raceresult
     {
         return $this->raceresult;
     }
 
     public function hasRaceresult(): bool
     {
-        return $this->raceresult !== null;
+        return $this->raceresult instanceof Raceresult;
     }
 
-    /**
-     * @return ActivityAdapter
-     */
-    public function getAdapter()
+    public function getAdapter(): ActivityAdapter
     {
         $this->Adapter ??= new ActivityAdapter($this);
 

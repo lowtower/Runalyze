@@ -4,15 +4,8 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Model\Sport;
 
-use Runalyze\Bundle\CoreBundle\Entity\Sport;
-
 class SportStatistic
 {
-    /**
-     * @var Sport
-     */
-    protected $Sport;
-
     /**
      * @var null|int
      */
@@ -33,15 +26,12 @@ class SportStatistic
      */
     protected $TotalDuration;
 
-    public function __construct(Sport $sport)
-    {
-        $this->Sport = $sport;
+    public function __construct(
+        protected \Runalyze\Bundle\CoreBundle\Entity\Sport $Sport
+    ) {
     }
 
-    /**
-     * @return Sport
-     */
-    public function getSport()
+    public function getSport(): \Runalyze\Bundle\CoreBundle\Entity\Sport
     {
         return $this->Sport;
     }

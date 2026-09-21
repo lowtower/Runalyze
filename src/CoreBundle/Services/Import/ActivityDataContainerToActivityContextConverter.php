@@ -4,16 +4,12 @@ namespace Runalyze\Bundle\CoreBundle\Services\Import;
 
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Entity\EquipmentRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Hrv;
 use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
 use Runalyze\Bundle\CoreBundle\Entity\Route;
-use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Swimdata;
 use Runalyze\Bundle\CoreBundle\Entity\Trackdata;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
-use Runalyze\Bundle\CoreBundle\Entity\TypeRepository;
-use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Parser\Activity\Common\Data\ActivityData;
 use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 use Runalyze\Parser\Activity\Common\Data\FitDetails;
@@ -35,43 +31,13 @@ class ActivityDataContainerToActivityContextConverter
      */
     public const DISTANCE_PRECISION_FOR_TRACK_DATA = 5;
 
-    /**
-     * @var SportRepository
-     */
-    protected $SportRepository;
-
-    /**
-     * @var TypeRepository
-     */
-    protected $TypeRepository;
-
-    /**
-     * @var EquipmentRepository
-     */
-    protected $EquipmentRepository;
-
-    /**
-     * @var ConfigurationManager
-     */
-    protected $ConfigurationManager;
-
-    /**
-     * @var Account
-     */
-    protected $Account;
-
     public function __construct(
-        SportRepository $sportRepository,
-        TypeRepository $typeRepository,
-        EquipmentRepository $equipmentRepository,
-        ConfigurationManager $configurationManager,
-        ?Account $account = null
+        protected \Runalyze\Bundle\CoreBundle\Entity\SportRepository $SportRepository,
+        protected \Runalyze\Bundle\CoreBundle\Entity\TypeRepository $TypeRepository,
+        protected \Runalyze\Bundle\CoreBundle\Entity\EquipmentRepository $EquipmentRepository,
+        protected \Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager $ConfigurationManager,
+        protected ?\Runalyze\Bundle\CoreBundle\Entity\Account $Account = null
     ) {
-        $this->SportRepository = $sportRepository;
-        $this->TypeRepository = $typeRepository;
-        $this->EquipmentRepository = $equipmentRepository;
-        $this->ConfigurationManager = $configurationManager;
-        $this->Account = $account;
     }
 
     public function setAccount(Account $account): void
@@ -126,7 +92,7 @@ class ActivityDataContainerToActivityContextConverter
 
     protected function setActivityMetadataFor(Training $activity, Metadata $metadata)
     {
-        $activity->setTime($metadata->getTimestamp());
+        $activity->setTime($metadata->getTimestamp() ?? time());
         $activity->setTimezoneOffset($metadata->getTimezoneOffset());
         $activity->setActivityId($metadata->getActivityId());
 
@@ -163,14 +129,10 @@ class ActivityDataContainerToActivityContextConverter
                 ->getMainSport(),
             $this->Account
         );
-
-        if ($sport !== null) {
-            $activity->setSport($sport);
-            $activity->setPublic(! $sport->getDefaultPrivacy());
-
-            if ($sport->getDefaultType() !== null) {
-                $activity->setType($sport->getDefaultType());
-            }
+        $activity->setSport($sport);
+        $activity->setPublic(! $sport->getDefaultPrivacy());
+        if ($sport->getDefaultType() instanceof \Runalyze\Bundle\CoreBundle\Entity\Type) {
+            $activity->setType($sport->getDefaultType());
         }
     }
 
@@ -204,11 +166,11 @@ class ActivityDataContainerToActivityContextConverter
         }
 
         // #TSC: if not set, try from workoutName
-        if ($type === null && ! empty($metadata->getWorkoutName())) {
+        if (! $type instanceof \Runalyze\Bundle\CoreBundle\Entity\Type && ! empty($metadata->getWorkoutName())) {
             $type = $this->TypeRepository->findByNameFor($metadata->getWorkoutName(), $this->Account, $activity->getSport());
         }
 
-        if ($type !== null) {
+        if ($type instanceof \Runalyze\Bundle\CoreBundle\Entity\Type) {
             $activity->setType($type);
         }
     }
@@ -266,9 +228,8 @@ class ActivityDataContainerToActivityContextConverter
     /**
      * @param mixed $value
      * @param int $precision
-     * @return float|int|null
      */
-    protected function getRoundedValue($value, $precision = 0)
+    protected function getRoundedValue($value, $precision = 0): null|int|float
     {
         if ($value === null) {
             return null;
@@ -319,7 +280,7 @@ class ActivityDataContainerToActivityContextConverter
     {
         $trackData = $this->getTrackdataFor($container);
 
-        if ($trackData !== null) {
+        if ($trackData instanceof \Runalyze\Bundle\CoreBundle\Entity\Trackdata) {
             $activity->setTrackdata($trackData);
 
             if ($trackData->hasPower()) {
@@ -328,10 +289,7 @@ class ActivityDataContainerToActivityContextConverter
         }
     }
 
-    /**
-     * @return Trackdata|null
-     */
-    protected function getTrackdataFor(ActivityDataContainer $container)
+    protected function getTrackdataFor(ActivityDataContainer $container): ?\Runalyze\Bundle\CoreBundle\Entity\Trackdata
     {
         $trackData = new Trackdata();
         $trackData->setPauses($container->Pauses);
@@ -368,30 +326,26 @@ class ActivityDataContainerToActivityContextConverter
 
     /**
      * @param array $distance [km]
-     * @return array|null
      */
-    protected function getRoundedContinuousDistanceData(array $distance)
+    protected function getRoundedContinuousDistanceData(array $distance): ?array
     {
         if ($distance === []) {
             return null;
         }
 
-        return array_map(fn ($v) => round($v, self::DISTANCE_PRECISION_FOR_TRACK_DATA), $distance);
+        return array_map(fn ($v): float => round($v, self::DISTANCE_PRECISION_FOR_TRACK_DATA), $distance);
     }
 
     protected function setSwimdataFor(Training $activity, ActivityDataContainer $container)
     {
         $swimData = $this->getSwimdataFor($container);
 
-        if ($swimData !== null) {
+        if ($swimData instanceof \Runalyze\Bundle\CoreBundle\Entity\Swimdata) {
             $activity->setSwimdata($swimData);
         }
     }
 
-    /**
-     * @return Swimdata|null
-     */
-    protected function getSwimdataFor(ActivityDataContainer $container)
+    protected function getSwimdataFor(ActivityDataContainer $container): ?\Runalyze\Bundle\CoreBundle\Entity\Swimdata
     {
         $swimData = new Swimdata();
         $swimData->setPoolLength($container->ActivityData->PoolLength ?: 0);
@@ -409,15 +363,12 @@ class ActivityDataContainerToActivityContextConverter
     {
         $route = $this->getRouteFor($container);
 
-        if ($route !== null) {
+        if ($route instanceof \Runalyze\Bundle\CoreBundle\Entity\Route) {
             $activity->setRoute($route);
         }
     }
 
-    /**
-     * @return Route|null
-     */
-    protected function getRouteFor(ActivityDataContainer $container)
+    protected function getRouteFor(ActivityDataContainer $container): ?\Runalyze\Bundle\CoreBundle\Entity\Route
     {
         $route = new Route();
         $route->setDistance($container->ActivityData->Distance ?: 0.0);
@@ -448,15 +399,12 @@ class ActivityDataContainerToActivityContextConverter
     {
         $hrv = $this->getHrvFor($container);
 
-        if ($hrv !== null) {
+        if ($hrv instanceof \Runalyze\Bundle\CoreBundle\Entity\Hrv) {
             $activity->setHrv($hrv);
         }
     }
 
-    /**
-     * @return Hrv|null
-     */
-    protected function getHrvFor(ActivityDataContainer $container)
+    protected function getHrvFor(ActivityDataContainer $container): ?\Runalyze\Bundle\CoreBundle\Entity\Hrv
     {
         if ($container->RRIntervals === []) {
             return null;

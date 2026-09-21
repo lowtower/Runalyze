@@ -321,7 +321,7 @@ class CreateController extends AbstractController
             $activity->getRoute()
                 ->setName($activity->getRouteName());
 
-            if ((int) $activity->getElevation() !== 0 && $activity->getRoute()->getElevation() == 0) {
+            if ((int) $activity->getElevation() !== 0 && $activity->getRoute()->getElevation() === 0) {
                 $activity->getRoute()
                     ->setElevation($activity->getElevation());
             }
@@ -343,10 +343,7 @@ class CreateController extends AbstractController
         $activity->setTime($time ?: LocalTime::now());
         $activity->setSport($this->getMainSport($account));
         $activity->setPublic(! $activity->getSport()->getDefaultPrivacy());
-
-        if ($activity->getSport() !== null) {
-            $activity->setType($activity->getSport()->getDefaultType());
-        }
+        $activity->setType($activity->getSport()->getDefaultType());
 
         return $activity;
     }

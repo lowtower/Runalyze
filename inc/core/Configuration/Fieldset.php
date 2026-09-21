@@ -14,17 +14,12 @@ namespace Runalyze\Configuration;
  */
 class Fieldset extends \FormularFieldset
 {
-    /**
-     * Field factory
-     * @var \Runalyze\Configuration\FieldFactory
-     */
-    protected $Factory;
+    protected FieldFactory $Factory;
 
     /**
      * Construct new form
-     * @param string $title
      */
-    public function __construct($title)
+    public function __construct(string $title)
     {
         parent::__construct($title);
 

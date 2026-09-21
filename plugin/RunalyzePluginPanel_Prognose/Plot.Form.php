@@ -17,6 +17,7 @@ if (is_dir(FRONTEND_PATH . '../plugin/RunalyzePluginStat_Wettkampf')) {
     $Factory = new PluginFactory();
 
     if (! $Factory->isInstalled('RunalyzePluginStat_Wettkampf')) {
+        /** @var RunalyzePluginStat_Wettkampf $WKplugin */
         $WKplugin = $Factory->newInstance('RunalyzePluginStat_Wettkampf');
     }
 }
@@ -144,7 +145,7 @@ if (time() != START_TIME) {
                 ORDER BY
                     `time` ASC')->fetchAll();
 
-            Cache::set('prognosePlotDistanceData' . $distance, $ResultsData, '600');
+            Cache::set('prognosePlotDistanceData' . $distance, $ResultsData, 600);
         }
 
         foreach ($ResultsData as $dat) {

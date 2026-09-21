@@ -126,11 +126,11 @@ if ($Year >= START_YEAR && $Year <= date('Y') && time() != START_TIME) {
         $maxATL = $performanceModel->maxFatigue();
         $maxCTL = $performanceModel->maxFitness();
 
-        if ($perfmodel == 'tsb' && $maxATL != Configuration::Data()->maxATL()) {
+        if ($perfmodel == 'tsb' && $maxATL !== Configuration::Data()->maxATL()) {
             Configuration::Data()->updateMaxATL($maxATL);
         }
 
-        if ($perfmodel == 'tsb' && $maxCTL != Configuration::Data()->maxCTL()) {
+        if ($perfmodel == 'tsb' && $maxCTL !== Configuration::Data()->maxCTL()) {
             Configuration::Data()->updateMaxCTL($maxCTL);
         }
     } else {

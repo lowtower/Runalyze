@@ -9,7 +9,7 @@ namespace Runalyze\Sports\ClimbQuantification;
  */
 class SaliteIndex extends AbstractAdditiveClimbQuantification
 {
-    public function getScoreFor($distance, $elevation, $altitudeAtTop = 0)
+    public function getScoreFor($distance, $elevation, $altitudeAtTop = 0): float
     {
         return $elevation * $elevation / $distance / 100;
     }

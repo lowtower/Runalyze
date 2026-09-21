@@ -19,17 +19,11 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'name', type: 'string', length: 50, nullable: false)]
-    private $name;
+    private string $name;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'notes', type: 'text', length: 255, nullable: false)]
-    private $notes = '';
+    private string $notes = '';
 
     /**
      * @var float [km]
@@ -37,7 +31,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     #[ORM\Column(name: 'distance', type: 'casted_decimal_2', precision: 8, scale: 2, options: [
         'unsigned' => true,
     ])]
-    private $distance = 0.00;
+    private float $distance = 0.00;
 
     /**
      * @var int [s]
@@ -45,7 +39,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     #[ORM\Column(name: 'time', type: 'integer', nullable: false, options: [
         'unsigned' => true,
     ])]
-    private $time = 0;
+    private int $time = 0;
 
     /**
      * @var int [km]
@@ -53,48 +47,30 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     #[ORM\Column(name: 'additional_km', type: 'smallint', nullable: false, options: [
         'unsigned' => true,
     ])]
-    private $additionalKm = 0;
+    private int $additionalKm = 0;
 
-    /**
-     * @var null|\DateTime
-     */
     #[ORM\Column(name: 'date_start', type: 'date', nullable: true)]
-    private $dateStart;
+    private ?\DateTime $dateStart = null;
 
-    /**
-     * @var null|\DateTime
-     */
     #[ORM\Column(name: 'date_end', type: 'date', nullable: true)]
-    private $dateEnd;
+    private ?\DateTime $dateEnd = null;
 
-    /**
-     * @var EquipmentType
-     */
     #[ORM\JoinColumn(name: 'typeid', referencedColumnName: 'id', nullable: false)]
     #[ORM\ManyToOne(targetEntity: EquipmentType::class, inversedBy: 'equipment')]
-    private $type;
+    private EquipmentType $type;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
     #[ORM\JoinTable(name: 'equipment_to_sport')]
     #[ORM\JoinColumn(name: 'equipment_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'sportid', referencedColumnName: 'id')]
     #[ORM\ManyToMany(targetEntity: Sport::class, inversedBy: 'equipment')]
-    private $sport;
+    private \Doctrine\Common\Collections\Collection $sport;
 
-    /**
-     * @var Account
-     */
     #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
     #[ORM\ManyToOne(targetEntity: Account::class, inversedBy: 'equipment')]
-    private $account;
+    private Account $account;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
     #[ORM\ManyToMany(targetEntity: Training::class, mappedBy: 'equipment')]
-    private $activity;
+    private \Doctrine\Common\Collections\Collection $activity;
 
     public function __construct()
     {
@@ -102,46 +78,31 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
         $this->activity = new ArrayCollection();
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $notes
-     */
-    public function setNotes($notes): self
+    public function setNotes(string $notes): self
     {
         $this->notes = $notes;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getNotes()
+    public function getNotes(): string
     {
         return $this->notes;
     }
@@ -149,7 +110,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     /**
      * @param float $distance [km]
      */
-    public function setDistance($distance): self
+    public function setDistance(float $distance): self
     {
         $this->distance = $distance;
 
@@ -159,9 +120,11 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     /**
      * @param float $distance [km]
      */
-    public function addDistance($distance): self
+    public function addDistance(?float $distance = null): self
     {
-        $this->distance += $distance;
+        if ($distance !== null) {
+            $this->distance += $distance;
+        }
 
         return $this;
     }
@@ -169,7 +132,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     /**
      * @return float [km]
      */
-    public function getDistance()
+    public function getDistance(): float
     {
         return $this->distance;
     }
@@ -177,7 +140,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     /**
      * @param int $time [s]
      */
-    public function setTime($time): self
+    public function setTime(int $time): self
     {
         $this->time = $time;
 
@@ -187,9 +150,11 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     /**
      * @param int $time [s]
      */
-    public function addTime($time): self
+    public function addTime(?int $time = null): self
     {
-        $this->time += $time;
+        if ($time !== null) {
+            $this->time += $time;
+        }
 
         return $this;
     }
@@ -197,15 +162,15 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     /**
      * @return int [s]
      */
-    public function getTime()
+    public function getTime(): int
     {
         return $this->time;
     }
 
     /**
-     * @return float|null [s/km]
+     * @return ?float [s/km]
      */
-    public function getPace()
+    public function getPace(): ?float
     {
         return $this->distance > 0 ? $this->time / $this->distance : null;
     }
@@ -213,7 +178,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     /**
      * @param int $additionalKm [km]
      */
-    public function setAdditionalKm($additionalKm): self
+    public function setAdditionalKm(int $additionalKm): self
     {
         $this->additionalKm = $additionalKm;
 
@@ -223,7 +188,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     /**
      * @return int [km]
      */
-    public function getAdditionalKm()
+    public function getAdditionalKm(): int
     {
         return $this->additionalKm;
     }
@@ -231,7 +196,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     /**
      * @return float [km]
      */
-    public function getTotalDistance()
+    public function getTotalDistance(): float
     {
         return $this->distance + $this->additionalKm;
     }
@@ -243,17 +208,14 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getDateStart()
+    public function getDateStart(): ?\DateTime
     {
         return $this->dateStart;
     }
 
     public function hasStartDate(): bool
     {
-        return $this->dateStart !== null;
+        return $this->dateStart instanceof \DateTime;
     }
 
     public function setDateEnd(?\DateTime $dateEnd = null): self
@@ -263,17 +225,14 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getDateEnd()
+    public function getDateEnd(): ?\DateTime
     {
         return $this->dateEnd;
     }
 
     public function isActive(): bool
     {
-        return $this->dateEnd === null;
+        return ! $this->dateEnd instanceof \DateTime;
     }
 
     public function setType(EquipmentType $type): self
@@ -283,10 +242,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
         return $this;
     }
 
-    /**
-     * @return \Runalyze\Bundle\CoreBundle\Entity\EquipmentType
-     */
-    public function getType()
+    public function getType(): EquipmentType
     {
         return $this->type;
     }
@@ -303,10 +259,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
         $this->sport->removeElement($sport);
     }
 
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getSport()
+    public function getSport(): \Doctrine\Common\Collections\Collection
     {
         return $this->sport;
     }
@@ -318,10 +271,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
         return $this;
     }
 
-    /**
-     * @return Account
-     */
-    public function getAccount()
+    public function getAccount(): Account
     {
         return $this->account;
     }
@@ -338,10 +288,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
         $this->activity->removeElement($activity);
     }
 
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getActivity()
+    public function getActivity(): \Doctrine\Common\Collections\Collection
     {
         return $this->activity;
     }

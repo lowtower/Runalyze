@@ -23,15 +23,9 @@ class HRV extends ActivityPointSeries
      */
     public const COLOR = 'rgb(0,0,0)';
 
-    /**
-     * @var int
-     */
-    protected $PointSize = 1;
+    protected int $PointSize = 1;
 
-    /**
-     * @var array
-     */
-    protected $XAxisData = [];
+    protected array $XAxisData = [];
 
     /**
      * Create series
@@ -66,8 +60,8 @@ class HRV extends ActivityPointSeries
             $totalTime = 1000 * $context->trackdata()
                 ->totalTime();
 
-            if ($context->hrv()->num() == $context->trackdata()->num()) {
-                $this->XAxisData = array_map(fn ($value) => 1000 * $value, $context->trackdata()
+            if ($context->hrv()->num() === $context->trackdata()->num()) {
+                $this->XAxisData = array_map(fn ($value): float => 1000 * $value, $context->trackdata()
                     ->time());
             } else {
                 $correctTime = abs(array_sum($context->hrv()->data()) - $totalTime) > 0.005 * $totalTime;
@@ -103,10 +97,8 @@ class HRV extends ActivityPointSeries
 
     /**
      * Average
-     * @param int $decimals [optional]
-     * @return int
      */
-    protected function avg(int $decimals = 2)
+    protected function avg(int $decimals = 2): float
     {
         return parent::avg($decimals);
     }

@@ -2,38 +2,17 @@
 
 namespace Runalyze\Bundle\CoreBundle\Services\Recalculation\Task;
 
-use Runalyze\Bundle\CoreBundle\Entity\RaceresultRepository;
-use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
-use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationTaskInterface;
 
 class VO2maxCorrectionFactorCalculation implements RecalculationTaskInterface
 {
     use AccountAwareTaskTrait;
 
-    /**
-     * @var RaceresultRepository
-     */
-    protected $RaceResultRepository;
-
-    /**
-     * @var ConfigurationManager
-     */
-    protected $ConfigurationManager;
-
-    /**
-     * @var ConfigurationUpdater
-     */
-    protected $ConfigurationUpdater;
-
     public function __construct(
-        RaceresultRepository $repository,
-        ConfigurationManager $manager,
-        ConfigurationUpdater $updater
+        protected \Runalyze\Bundle\CoreBundle\Entity\RaceresultRepository $RaceResultRepository,
+        protected \Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager $ConfigurationManager,
+        protected \Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater $ConfigurationUpdater
     ) {
-        $this->RaceResultRepository = $repository;
-        $this->ConfigurationManager = $manager;
-        $this->ConfigurationUpdater = $updater;
     }
 
     public function run(): void

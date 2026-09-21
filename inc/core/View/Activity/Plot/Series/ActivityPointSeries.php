@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::ActivityPointSeries
  * @package Runalyze\View\Activity\Plot\Series
@@ -27,17 +29,12 @@ abstract class ActivityPointSeries extends ActivitySeries
 
     public const COLOR_BAD = '#E74C3C';
 
-    /**
-     * @var int
-     */
-    protected $PointSize = 2;
+    protected int $PointSize = 2;
 
     /**
      * Add to plot
-     * @param int $yAxis
-     * @param bool $addAnnotations [optional]
      */
-    public function addTo(Plot $Plot, $yAxis, $addAnnotations = true): void
+    public function addTo(Plot $Plot, ?int $yAxis, bool $addAnnotations = true): void
     {
         parent::addTo($Plot, $yAxis, $addAnnotations);
 
@@ -52,7 +49,7 @@ abstract class ActivityPointSeries extends ActivitySeries
      * @param float $good points above this limit will be colored as 'good'
      * @param float $okay points above this limit will be colored as 'okay'
      */
-    protected function setColorThresholdsAbove(Plot $Plot, $perfect, $great, $good, $okay)
+    protected function setColorThresholdsAbove(Plot $Plot, float $perfect, float $great, float $good, float $okay)
     {
         $Plot->Options['hooks']['draw'] = ['RunalyzePlot.flotHookColorPoints('
             . '[' . $perfect . ', ' . $great . ', ' . $good . ', ' . $okay . '], '
@@ -68,7 +65,7 @@ abstract class ActivityPointSeries extends ActivitySeries
      * @param float $good points below this limit will be colored as 'good'
      * @param float $okay points below this limit will be colored as 'okay'
      */
-    protected function setColorThresholdsBelow(Plot $Plot, $perfect, $great, $good, $okay)
+    protected function setColorThresholdsBelow(Plot $Plot, float $perfect, float $great, float $good, float $okay)
     {
         $Plot->Options['hooks']['draw'] = ['RunalyzePlot.flotHookColorPoints('
             . '[' . $okay . ', ' . $good . ', ' . $great . ', ' . $perfect . '], '

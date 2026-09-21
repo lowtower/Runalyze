@@ -21,13 +21,13 @@ class MultiImporterType extends AbstractType
             'label' => 'Show multi editor afterwards',
         ]);
 
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
             $activityHashes = $event->getData();
 
             $this->addChoicesToForm($event->getForm(), is_array($activityHashes) ? $activityHashes : []);
         });
 
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
             $data = $event->getData();
 
             if (is_array($data['activity'])) {

@@ -51,25 +51,27 @@ abstract class AbstractDistribution
     public const VARIANCE = 'var';
 
     /**
-     * @var array
+     * @var array<string, int|float>
      */
-    private $Statistic = [
+    private array $Statistic = [
         'num' => 0,
         'min' => 0,
         'max' => 0,
         'mean' => 0,
         'median' => 0,
-        'quantiles' => [],
         'mode' => 0,
         'var' => 0,
     ];
 
     /**
-     * Histogram data
-     *
-     * @return array
+     * @var array<string, float>
      */
-    abstract public function histogram();
+    private array $Quantiles = [];
+
+    /**
+     * Histogram data
+     */
+    abstract public function histogram(): array;
 
     /**
      * @param float[] $quantiles
@@ -86,7 +88,7 @@ abstract class AbstractDistribution
     {
         $sortedData = $this->histogram();
 
-        if (empty($sortedData)) {
+        if ($sortedData === []) {
             return;
         }
 
@@ -154,7 +156,7 @@ abstract class AbstractDistribution
             }
 
             while ($currentQuantile !== null && $currentQuantilesIndex >= $desiredQuantileIndex) {
-                $this->Statistic[self::QUANTILES]['p' . $currentQuantile] = $value;
+                $this->Quantiles['p' . $currentQuantile] = $value;
 
                 $currentQuantile = array_shift($quantiles);
                 $desiredQuantileIndex = $currentQuantile !== null ? $currentQuantile * $num : $num + 1;
@@ -165,81 +167,54 @@ abstract class AbstractDistribution
         $this->setStatistic(self::VARIANCE, $var / $this->Statistic[self::NUM]);
     }
 
-    /**
-     * @param float $value
-     */
-    final protected function setStatistic(string $key, $value)
+    final protected function setStatistic(string $key, float $value)
     {
         $this->Statistic[$key] = $value;
     }
 
-    /**
-     * @return float
-     */
-    final public function min()
+    final public function min(): float
     {
         return $this->Statistic[self::MIN];
     }
 
-    /**
-     * @return float
-     */
-    final public function max()
+    final public function max(): float
     {
         return $this->Statistic[self::MAX];
     }
 
-    /**
-     * @return float
-     */
-    final public function mean()
+    final public function mean(): float
     {
         return $this->Statistic[self::MEAN];
     }
 
-    /**
-     * @return float
-     */
-    final public function median()
+    final public function median(): float
     {
         return $this->Statistic[self::MEDIAN];
     }
 
     /**
-     * @param float $alpha
-     * @return float
-     *
      * @throws \InvalidArgumentException
      */
-    final public function quantile($alpha)
+    final public function quantile(float $alpha): float
     {
-        if (! isset($this->Statistic[self::QUANTILES]['p' . $alpha])) {
+        if (! isset($this->Quantiles['p' . $alpha])) {
             throw new \InvalidArgumentException('No quantile calculated for alpha = ' . $alpha);
         }
 
-        return $this->Statistic[self::QUANTILES]['p' . $alpha];
+        return $this->Quantiles['p' . $alpha];
     }
 
-    /**
-     * @return float
-     */
-    final public function mode()
+    final public function mode(): float
     {
         return $this->Statistic[self::MODE];
     }
 
-    /**
-     * @return float
-     */
-    final public function variance()
+    final public function variance(): float
     {
         return $this->Statistic[self::VARIANCE];
     }
 
-    /**
-     * @return float
-     */
-    final public function stdDev()
+    final public function stdDev(): float
     {
         return sqrt($this->Statistic[self::VARIANCE]);
     }
@@ -247,7 +222,7 @@ abstract class AbstractDistribution
     /**
      * @return bool|float boolean false is returned if mean is zero
      */
-    final public function coefficientOfVariation()
+    final public function coefficientOfVariation(): bool|float
     {
         if ($this->Statistic[self::MEAN] == 0) {
             return false;

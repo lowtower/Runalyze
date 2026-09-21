@@ -3,13 +3,14 @@
 namespace Runalyze\Bundle\CoreBundle\Tests\Doctrine\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use PHPUnit\Framework\MockObject\MockObject;
 use Runalyze\Bundle\CoreBundle\Doctrine\Types\TinyIntType;
 
 class TinyIntTypeTest extends \PHPUnit\Framework\TestCase
 {
     protected TinyIntType $Type;
 
-    protected AbstractPlatform $PlatformMock;
+    protected MockObject $PlatformMock;
 
     protected function setUp(): void
     {

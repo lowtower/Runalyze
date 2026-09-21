@@ -2,20 +2,14 @@
 
 namespace Runalyze\Bundle\CoreBundle\Services\Activity;
 
-use Doctrine\ORM\EntityManager;
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 
 class ActivityContextFactory
 {
-    /**
-     * @var EntityManager
-     */
-    protected $EntityManager;
-
-    public function __construct(EntityManager $em)
-    {
-        $this->EntityManager = $em;
+    public function __construct(
+        protected \Doctrine\ORM\EntityManager $EntityManager
+    ) {
     }
 
     public function getContext(Training $activity): \Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext

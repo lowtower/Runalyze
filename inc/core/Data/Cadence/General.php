@@ -46,7 +46,7 @@ class General extends AbstractCadence
      * @return string enum
      * @codeCoverageIgnore
      */
-    public function formularUnit()
+    public function formularUnit(): string
     {
         return \FormularUnit::$RPM;
     }

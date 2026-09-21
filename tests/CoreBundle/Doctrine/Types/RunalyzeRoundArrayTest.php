@@ -3,6 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\Tests\Doctrine\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use PHPUnit\Framework\MockObject\MockObject;
 use Runalyze\Bundle\CoreBundle\Doctrine\Types\RunalyzeRoundArray;
 use Runalyze\Parser\Activity\Common\Data\Round\Round;
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
@@ -11,7 +12,7 @@ class RunalyzeRoundArrayTest extends \PHPUnit\Framework\TestCase
 {
     protected RunalyzeRoundArray $Type;
 
-    protected AbstractPlatform $PlatformMock;
+    protected MockObject $PlatformMock;
 
     protected function setUp(): void
     {

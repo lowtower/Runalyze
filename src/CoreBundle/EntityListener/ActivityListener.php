@@ -2,12 +2,16 @@
 
 namespace Runalyze\Bundle\CoreBundle\EntityListener;
 
+use Doctrine\ORM\Event\PostPersistEventArgs;
+use Doctrine\ORM\Event\PostRemoveEventArgs;
+use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
+use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookup;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager;
@@ -15,43 +19,13 @@ use Runalyze\Util\LocalTime;
 
 class ActivityListener
 {
-    /**
-     * @var RecalculationManager
-     */
-    protected $RecalculationManager;
-
-    /**
-     * @var ConfigurationManager
-     */
-    protected $ConfigurationManager;
-
-    /**
-     * @var SportRepository
-     */
-    protected $SportRepository;
-
-    /**
-     * @var EquipmentRepository
-     */
-    protected $EquipmentRepository;
-
-    /**
-     * @var TimezoneLookup
-     */
-    protected $TimezoneLookup;
-
     public function __construct(
-        RecalculationManager $recalculationManager,
-        ConfigurationManager $configurationManager,
-        SportRepository $sportRepository,
-        EquipmentRepository $equipmentRepository,
-        TimezoneLookup $timezoneLookup
+        protected RecalculationManager $RecalculationManager,
+        protected ConfigurationManager $ConfigurationManager,
+        protected SportRepository $SportRepository,
+        protected EquipmentRepository $EquipmentRepository,
+        protected TimezoneLookup $TimezoneLookup
     ) {
-        $this->RecalculationManager = $recalculationManager;
-        $this->ConfigurationManager = $configurationManager;
-        $this->SportRepository = $sportRepository;
-        $this->EquipmentRepository = $equipmentRepository;
-        $this->TimezoneLookup = $timezoneLookup;
         $this->TimezoneLookup->silentExceptions();
     }
 
@@ -69,7 +43,7 @@ class ActivityListener
             ->getDaysToConsider();
     }
 
-    public function prePersist(Training $activity, \Doctrine\ORM\Event\PrePersistEventArgs $args): void
+    public function prePersist(Training $activity, PrePersistEventArgs $args): void
     {
         $this->setActivityIdIfEmpty($activity);
         $this->checkRelatedEntitiesForConsistency($activity);
@@ -84,7 +58,7 @@ class ActivityListener
         $this->guessTimezoneBasedOnCoordinates($activity);
     }
 
-    public function postPersist(Training $activity, \Doctrine\ORM\Event\PostPersistEventArgs $args): void
+    public function postPersist(Training $activity, PostPersistEventArgs $args): void
     {
         $this->addStatisticsToEquipment($activity);
         $this->scheduleRunningRelatedRecalculationsIfRequired($activity);
@@ -124,7 +98,7 @@ class ActivityListener
         }
     }
 
-    public function postRemove(Training $activity, \Doctrine\ORM\Event\PostRemoveEventArgs $args): void
+    public function postRemove(Training $activity, PostRemoveEventArgs $args): void
     {
         $this->removeStatisticsFromEquipment($activity);
 
@@ -152,7 +126,7 @@ class ActivityListener
 
     protected function setSportIfEmpty(Training $activity)
     {
-        if ($activity->getSport() === null) {
+        if (! $activity->hasSport()) {
             /** @var Sport $mainSport */
             $mainSport = $this->SportRepository->findThisOrAny(
                 $this->ConfigurationManager->getList($activity->getAccount())
@@ -166,7 +140,7 @@ class ActivityListener
 
     protected function removeTypeIfInvalidForSport(Training $activity)
     {
-        if ($activity->getType() !== null && $activity->getType()->getSport()->getId() != $activity->getSport()->getId()) {
+        if ($activity->getType() instanceof Type && $activity->getType()->getSport()->getId() != $activity->getSport()->getId()) {
             $activity->setType();
         }
     }
@@ -392,7 +366,7 @@ class ActivityListener
         $this->EquipmentRepository->updateEquipment(
             $activity->getEquipment()
                 ->toArray(),
-            $activity->getS(),
+            (int) $activity->getS(),
             $activity->getDistance()
         );
     }
@@ -402,17 +376,21 @@ class ActivityListener
         $this->EquipmentRepository->updateEquipment(
             $activity->getEquipment()
                 ->toArray(),
-            -$activity->getS(),
-            -$activity->getDistance()
+            -1 * (int) $activity->getS(),
+            -1 * $activity->getDistance()
         );
     }
 
     protected function recomputeOwnChangeSet(Training $activity, PreUpdateEventArgs $args)
     {
-        $metaData = $args->getObjectManager()
-            ->getClassMetadata(Training::class);
-        $unitOfWork = $args->getObjectManager()
-            ->getUnitOfWork();
+        $objectManager = $args->getObjectManager();
+
+        if (! $objectManager instanceof \Doctrine\ORM\EntityManagerInterface) {
+            throw new \LogicException('Expected Doctrine ORM EntityManagerInterface.');
+        }
+
+        $metaData = $objectManager->getClassMetadata(Training::class);
+        $unitOfWork = $objectManager->getUnitOfWork();
         $unitOfWork->recomputeSingleEntityChangeSet($metaData, $activity);
     }
 }

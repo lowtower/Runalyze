@@ -2,7 +2,6 @@
 
 namespace Runalyze\Bundle\CoreBundle\Component\Account;
 
-use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Conf;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
@@ -18,27 +17,15 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class Registration
 {
     /**
-     * @var Account
-     */
-    protected $Account;
-
-    /**
-     * @var \Doctrine\Persistence\ObjectManager
-     */
-    protected $em;
-
-    /**
      * @var object[]
      */
     protected $specialVars;
 
     public function __construct(
-        \Doctrine\Persistence\ObjectManager $em,
-        Account $account,
+        protected \Doctrine\Persistence\ObjectManager $em,
+        protected \Runalyze\Bundle\CoreBundle\Entity\Account $Account,
         protected UserPasswordEncoderInterface $passwordEncoder
     ) {
-        $this->em = $em;
-        $this->Account = $account;
     }
 
     /**
@@ -265,10 +252,7 @@ class Registration
         $this->em->clear();
     }
 
-    /**
-     * @return Account
-     */
-    public function registerAccount()
+    public function registerAccount(): \Runalyze\Bundle\CoreBundle\Entity\Account
     {
         $this->em->persist($this->Account);
         $this->em->flush();

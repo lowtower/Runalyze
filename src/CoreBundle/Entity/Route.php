@@ -143,7 +143,7 @@ class Route implements AccountRelatedEntityInterface
 
     private RouteAdapter $Adapter;
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -357,7 +357,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @return array|null [m]
      */
-    public function getElevationsOriginal()
+    public function getElevationsOriginal(): ?array
     {
         return $this->elevationsOriginal;
     }
@@ -375,7 +375,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @return array|null [m]
      */
-    public function getElevationsCorrected()
+    public function getElevationsCorrected(): ?array
     {
         return $this->elevationsCorrected;
     }
@@ -383,7 +383,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @return array|null [m]
      */
-    public function getElevations()
+    public function getElevations(): ?array
     {
         if ($this->elevationsCorrected !== null) {
             return $this->elevationsCorrected;
@@ -407,10 +407,7 @@ class Route implements AccountRelatedEntityInterface
         return $this->elevationsCorrected !== null;
     }
 
-    /**
-     * @param string|null $elevationsSource
-     */
-    public function setElevationsSource($elevationsSource): self
+    public function setElevationsSource(?string $elevationsSource): self
     {
         $this->elevationsSource = $elevationsSource;
 
@@ -425,7 +422,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @param string|null $startpoint [geohash]
      */
-    public function setStartpoint($startpoint): self
+    public function setStartpoint(?string $startpoint): self
     {
         $this->startpoint = $startpoint;
 
@@ -435,7 +432,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @return string|null [geohash]
      */
-    public function getStartpoint()
+    public function getStartpoint(): ?string
     {
         return $this->startpoint;
     }
@@ -443,7 +440,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @param string|null $endpoint [geohash]
      */
-    public function setEndpoint($endpoint): self
+    public function setEndpoint(?string $endpoint): self
     {
         $this->endpoint = $endpoint;
 
@@ -453,7 +450,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @return string|null [geohash]
      */
-    public function getEndpoint()
+    public function getEndpoint(): ?string
     {
         return $this->endpoint;
     }
@@ -461,7 +458,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @param string|null $min [geohash]
      */
-    public function setMin($min): self
+    public function setMin(?string $min): self
     {
         $this->min = $min;
 
@@ -471,7 +468,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @return string|null [geohash]
      */
-    public function getMin()
+    public function getMin(): ?string
     {
         return $this->min;
     }
@@ -479,7 +476,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @param string|null $max [geohash]
      */
-    public function setMax($max): self
+    public function setMax(?string $max): self
     {
         $this->max = $max;
 
@@ -489,7 +486,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @return string|null [geohash]
      */
-    public function getMax()
+    public function getMax(): ?string
     {
         return $this->max;
     }
@@ -504,10 +501,7 @@ class Route implements AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getInRoutenet()
+    public function getInRoutenet(): bool
     {
         return $this->inRoutenet;
     }
@@ -519,10 +513,7 @@ class Route implements AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @return Account
-     */
-    public function getAccount()
+    public function getAccount(): Account
     {
         return $this->account;
     }
@@ -539,10 +530,7 @@ class Route implements AccountRelatedEntityInterface
         return $this->lock;
     }
 
-    /**
-     * @return bool
-     */
-    public function isLocked()
+    public function isLocked(): bool
     {
         return $this->lock;
     }
@@ -558,18 +546,12 @@ class Route implements AccountRelatedEntityInterface
         ;
     }
 
-    /**
-     * @return bool
-     */
-    public function areMinMaxGeohashSynchronized()
+    public function areMinMaxGeohashSynchronized(): bool
     {
         return $this->areMinMaxSynchronized;
     }
 
-    /**
-     * @return RouteAdapter
-     */
-    public function getAdapter()
+    public function getAdapter(): Adapter\RouteAdapter
     {
         $this->Adapter = new RouteAdapter($this);
 

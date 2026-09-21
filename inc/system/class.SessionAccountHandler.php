@@ -18,9 +18,8 @@ class SessionAccountHandler
 {
     /**
      * Array containing userrow from database
-     * @var array
      */
-    private static $Account = [];
+    private static array $Account = [];
 
     /**
      * Is anyone logged in?
@@ -32,9 +31,8 @@ class SessionAccountHandler
 
     /**
      * Set internal account-data
-     * @param array $Account
      */
-    public static function setAccount($Account = []): void
+    public static function setAccount(array $Account = []): void
     {
         self::$Account = $Account;
     }
@@ -44,16 +42,15 @@ class SessionAccountHandler
      */
     public static function setAccountFromRequest(): void
     {
-        if (empty(self::$Account)) {
-            self::$Account = DB::getInstance()->query('SELECT * FROM `' . PREFIX . 'account` WHERE `id`="' . (int) SharedLinker::getUserId() . '" LIMIT 1')->fetch();
+        if (self::$Account === []) {
+            self::$Account = DB::getInstance()->query('SELECT * FROM `' . PREFIX . 'account` WHERE `id`="' . SharedLinker::getUserId() . '" LIMIT 1')->fetch();
         }
     }
 
     /**
      * Get ID of current user
-     * @return int
      */
-    public static function getId()
+    public static function getId(): int
     {
         if (SharedLinker::isOnSharedPage()) {
             return SharedLinker::getUserId();
@@ -64,9 +61,8 @@ class SessionAccountHandler
 
     /**
      * Get name of current user
-     * @return string
      */
-    public static function getName()
+    public static function getName(): string
     {
         if (! isset(self::$Account['name'])) {
             return '';
@@ -90,9 +86,8 @@ class SessionAccountHandler
 
     /**
      * Get users year of birth
-     * @return null|int
      */
-    public static function getBirthYear()
+    public static function getBirthYear(): ?int
     {
         if (! isset(self::$Account['birthyear'])) {
             return null;
@@ -103,9 +98,8 @@ class SessionAccountHandler
 
     /**
      * Get language of current user
-     * @return string
      */
-    public static function getLanguage()
+    public static function getLanguage(): string
     {
         if (! isset(self::$Account['language'])) {
             return '';
@@ -116,22 +110,20 @@ class SessionAccountHandler
 
     /**
      * Get timezone of current user
-     * @return string
      */
-    public static function getTimezone()
+    public static function getTimezone(): string
     {
         if (! isset(self::$Account['timezone'])) {
             return '';
         }
 
-        return self::$Account['timezone'];
+        return (string) self::$Account['timezone'];
     }
 
     /**
      * Get username of current user
-     * @return string
      */
-    public static function getUsername()
+    public static function getUsername(): string
     {
         if (! isset(self::$Account['username'])) {
             return '';

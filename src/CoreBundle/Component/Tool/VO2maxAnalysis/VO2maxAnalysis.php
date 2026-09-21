@@ -24,7 +24,7 @@ class VO2maxAnalysis
      *
      * @TODO use Doctrine
      */
-    public function getAnalysisForAllRaces($vo2maxFactor, $sportId, $accountId): array
+    public function getAnalysisForAllRaces(float $vo2maxFactor, int $sportId, int $accountId): array
     {
         $this->VO2maxFactor = $vo2maxFactor;
         $this->RunningSportId = $sportId;

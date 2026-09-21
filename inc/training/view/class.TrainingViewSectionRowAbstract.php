@@ -7,8 +7,6 @@ declare(strict_types=1);
  * @package Runalyze\DataObjects\Training\View\Section
  */
 
-use Runalyze\View\Activity\Context;
-
 /**
  * Row of the training view
  *
@@ -17,15 +15,9 @@ use Runalyze\View\Activity\Context;
  */
 abstract class TrainingViewSectionRowAbstract
 {
-    /**
-     * @var \Runalyze\View\Activity\Context
-     */
-    protected $Context;
-
-    public function __construct(?Context $Context = null)
-    {
-        $this->Context = $Context;
-
+    public function __construct(
+        protected ?\Runalyze\View\Activity\Context $Context = null
+    ) {
         $this->setContent();
     }
 

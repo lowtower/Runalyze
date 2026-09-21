@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::ConfigTab
  * @package Runalyze\System\Config
@@ -18,21 +20,18 @@ abstract class ConfigTab
 
     /**
      * Title
-     * @var string
      */
-    protected $title = '';
+    protected string $title = '';
 
     /**
      * Key used as form-id
-     * @var string
      */
-    protected $key = '';
+    protected string $key = '';
 
     /**
      * Model factory
-     * @var \Runalyze\Model\Factory
      */
-    protected $Model;
+    protected \Runalyze\Model\Factory $Model;
 
     /**
      * Set key and title for form
@@ -59,18 +58,12 @@ abstract class ConfigTab
         $this->setKeyAndTitle();
     }
 
-    /**
-     * @return string
-     */
-    final public function getKey()
+    final public function getKey(): string
     {
         return $this->key;
     }
 
-    /**
-     * @return string
-     */
-    final public function getTitle()
+    final public function getTitle(): string
     {
         return $this->title;
     }
@@ -104,9 +97,8 @@ abstract class ConfigTab
 
     /**
      * Get URL to this tab
-     * @return string
      */
-    final public function getUrl()
+    final public function getUrl(): string
     {
         return 'settings?key=' . $this->key;
     }

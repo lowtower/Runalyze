@@ -14,10 +14,7 @@ use Runalyze\Parameter\Textline;
 
 class VO2max extends \Runalyze\Configuration\Category
 {
-    /**
-     * @var bool Flag: recalculation triggered?
-     */
-    private static $TRIGGERED = false;
+    private static bool $TRIGGERED = false;
 
     protected function key(): string
     {

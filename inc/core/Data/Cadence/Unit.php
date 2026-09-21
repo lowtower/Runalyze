@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::Unit
  * @package Runalyze\Data\Cadence
@@ -39,10 +41,8 @@ class Unit
     /**
      * Create cadence
      * @param int $identifier a class constant
-     * @param int $value optional
-     * @return \Runalyze\Data\Cadence\AbstractCadence
      */
-    public function get($identifier, $value = 0)
+    public function get(int $identifier, int $value = 0): AbstractCadence
     {
         return match ($identifier) {
             self::RUNNING => new Running($value),

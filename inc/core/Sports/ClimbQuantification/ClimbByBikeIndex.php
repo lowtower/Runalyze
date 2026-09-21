@@ -9,7 +9,7 @@ namespace Runalyze\Sports\ClimbQuantification;
  */
 class ClimbByBikeIndex implements ClimbQuantificationInterface
 {
-    public function getScoreFor($distance, $elevation, $altitudeAtTop = 0)
+    public function getScoreFor($distance, $elevation, $altitudeAtTop = 0): float
     {
         return 2 * $elevation / $distance / 10
             + $elevation * $elevation / $distance / 1000

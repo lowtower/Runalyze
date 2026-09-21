@@ -8,7 +8,6 @@
 use Runalyze\Configuration;
 use Runalyze\Export;
 use Runalyze\Model;
-use Runalyze\View\Activity\Context;
 use Runalyze\View\Activity\Linker;
 
 /**
@@ -23,23 +22,16 @@ class TrainingView
      * Sections
      * @var TrainingViewSection[]
      */
-    protected $Sections = [];
+    protected array $Sections = [];
 
     /**
      * Toolbar links
-     * @var array
      */
-    protected $ToolbarLinks = [];
+    protected array $ToolbarLinks = [];
 
-    /**
-     * @var \Runalyze\View\Activity\Context
-     */
-    protected $Context;
-
-    public function __construct(Context $context)
-    {
-        $this->Context = $context;
-
+    public function __construct(
+        protected \Runalyze\View\Activity\Context $Context
+    ) {
         $this->initToolbarLinks();
         $this->initSections();
     }
@@ -225,7 +217,7 @@ class TrainingView
                 $this->Context->trackdata()
                     ->has(\Runalyze\Model\Trackdata\Entity::CADENCE) &&
                 $this->Context->sport()
-                    ->getInternalProfileEnum() == \Runalyze\Profile\Sport\SportProfile::RUNNING
+                    ->getInternalProfileEnum() === \Runalyze\Profile\Sport\SportProfile::RUNNING
             ) ||
             $this->Context->trackdata()
                 ->has(\Runalyze\Model\Trackdata\Entity::GROUNDCONTACT) ||
@@ -288,7 +280,7 @@ class TrainingView
 
     protected function displaySharedMenu()
     {
-        $User = DB::getInstance()->query('SELECT * FROM `' . PREFIX . 'account` WHERE `id`="' . (int) SharedLinker::getUserId() . '" LIMIT 1')->fetch();
+        $User = DB::getInstance()->query('SELECT * FROM `' . PREFIX . 'account` WHERE `id`="' . SharedLinker::getUserId() . '" LIMIT 1')->fetch();
 
         $this->ToolbarLinks = [];
         $this->ToolbarLinks[] = SharedLinker::getStandardLinkTo($this->Context->activity()->id(), Icon::$ATTACH);

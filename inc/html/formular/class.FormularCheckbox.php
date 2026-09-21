@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::FormularCheckbox
  * @package Runalyze\HTML\Formular
@@ -13,23 +15,19 @@ class FormularCheckbox extends FormularField
 {
     /**
      * Boolean flag: label is on the right side
-     * @var bool
      */
-    private $labelOnRight = false;
+    private bool $labelOnRight = false;
 
     /**
      * Boolean flag: add hidden field with '..._sent'
-     * @var bool
      */
-    private $addHiddenSent = false;
+    private bool $addHiddenSent = false;
 
     /**
      * Construct a new field
-     * @param string $name
-     * @param string $label
      * @param string $value optional, default: loading from $_POST
      */
-    public function __construct($name, $label, $value = '')
+    public function __construct(string $name, string $label, string $value = '')
     {
         parent::__construct($name, $label, $value);
 

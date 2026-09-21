@@ -21,7 +21,7 @@ class FietsIndex extends AbstractAdditiveClimbQuantification implements Categori
         return min($scoreWithoutAltitudeAtTop + $scoreForAltitudeAtTop, 1.5 * $scoreWithoutAltitudeAtTop);
     }
 
-    public function getScoreForProfile(array $distancesAndGradients, $altitudeAtTop = 0)
+    public function getScoreForProfile(array $distancesAndGradients, $altitudeAtTop = 0): float
     {
         $score = parent::getScoreForProfile($distancesAndGradients, 0);
         $scoreForAltitudeAtTop = max(0, ($altitudeAtTop - 1000) / 1000);

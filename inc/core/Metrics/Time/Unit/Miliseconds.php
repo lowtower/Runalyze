@@ -19,9 +19,9 @@ class Miliseconds extends AbstractTimeUnit implements FormattableUnitInterface
         return 'ms';
     }
 
-    public function getFactorFromBaseUnit(): int
+    public function getFactorFromBaseUnit(): float
     {
-        return 1000;
+        return 1000.0;
     }
 
     public function getDecimals(): int

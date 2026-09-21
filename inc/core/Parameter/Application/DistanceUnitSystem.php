@@ -108,10 +108,7 @@ class DistanceUnitSystem extends \Runalyze\Parameter\Select
         return $this->value() == self::IMPERIAL;
     }
 
-    /**
-     * @return float
-     */
-    public function distanceToKmFactor()
+    public function distanceToKmFactor(): float
     {
         if ($this->isImperial()) {
             return 1 / self::MILE_MULTIPLIER;
@@ -120,10 +117,7 @@ class DistanceUnitSystem extends \Runalyze\Parameter\Select
         return 1;
     }
 
-    /**
-     * @return float
-     */
-    public function distanceToPreferredUnitFactor()
+    public function distanceToPreferredUnitFactor(): float
     {
         if ($this->isImperial()) {
             return self::MILE_MULTIPLIER;

@@ -26,7 +26,7 @@ class FileHandler
         $finder = new Finder();
         $finder->files()
             ->name($account->getId() . '-*')
-            ->sort(fn (\SplFileInfo $a, \SplFileInfo $b) => $b->getMTime() - $a->getMTime())
+            ->sort(fn (\SplFileInfo $a, \SplFileInfo $b): int => $b->getMTime() - $a->getMTime())
             ->in($this->pathToImages());
 
         $list = [];

@@ -25,9 +25,8 @@ class Pace extends ActivitySeries
 {
     /**
      * How many outliers should be cutted away?
-     * @var int
      */
-    private static $CUT_OUTLIER_PERCENTAGE = 10;
+    private static int $CUT_OUTLIER_PERCENTAGE = 10;
 
     /**
      * @var string
@@ -52,7 +51,7 @@ class Pace extends ActivitySeries
         $this->paceUnitEnum = $context->sport()
             ->getLegacyPaceUnitEnum();
 
-        $this->isRunning = ($context->sport()->getInternalProfileEnum() == SportProfile::RUNNING);
+        $this->isRunning = ($context->sport()->getInternalProfileEnum() === SportProfile::RUNNING);
 
         $this->initOptions();
         $this->initData($context->trackdata(), Trackdata::PACE);
@@ -82,20 +81,18 @@ class Pace extends ActivitySeries
         if ($this->paceUnit->isTimeFormat()) {
             $factor = $this->paceUnit->factorForUnit();
 
-            $this->Data = array_map(fn ($v) => ($v == 0) ? 3600 * 1000 : 1000 * round($v * $factor), $this->Data);
+            $this->Data = array_map(fn ($v): float|int => ($v == 0) ? 3600 * 1000 : 1000 * round($v * $factor), $this->Data);
         } else {
             $dividend = $this->paceUnit->dividendForUnit();
 
-            $this->Data = array_map(fn ($v) => ($v == 0) ? 0 : round($dividend / $v, 1), $this->Data);
+            $this->Data = array_map(fn ($v): float|int => ($v == 0) ? 0 : round($dividend / $v, 1), $this->Data);
         }
     }
 
     /**
      * Add to plot
-     * @param int $yAxis
-     * @param bool $addAnnotations [optional]
      */
-    public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true): void
+    public function addTo(\Plot $Plot, ?int $yAxis, bool $addAnnotations = true): void
     {
         if ($this->Data === []) {
             return;
@@ -108,10 +105,7 @@ class Pace extends ActivitySeries
         }
     }
 
-    /**
-     * @param int $yAxis
-     */
-    protected function adjustAxis(\Plot $Plot, $yAxis)
+    protected function adjustAxis(\Plot $Plot, int $yAxis)
     {
         $Plot->setYAxisTimeFormat('%M:%S', $yAxis);
 
@@ -177,12 +171,7 @@ class Pace extends ActivitySeries
         }
     }
 
-    /**
-     * @param int $yAxis
-     * @param int $dataMin
-     * @param int $dataMax
-     */
-    private function setYAxisForReversePace(Plot $plot, $yAxis, $dataMin, $dataMax, bool $forceMin, bool $forceMax): void
+    private function setYAxisForReversePace(Plot $plot, int $yAxis, int $dataMin, int $dataMax, bool $forceMin, bool $forceMax): void
     {
         if ($this->paceUnitEnum === PaceUnit::MIN_PER_MILE) {
             $ticks = [240, 300, 360, 450, 600, 900, 3600];

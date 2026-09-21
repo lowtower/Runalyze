@@ -3,21 +3,15 @@
 namespace Runalyze\Bundle\CoreBundle\Entity\Adapter;
 
 use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\ElevationCalculator;
-use Runalyze\Bundle\CoreBundle\Entity\Route;
 use Runalyze\Bundle\CoreBundle\Services\Import\ElevationCorrection;
 use Runalyze\Parameter\Application\ElevationMethod;
 use Runalyze\Service\ElevationCorrection\Strategy\StrategyInterface;
 
 class RouteAdapter
 {
-    /**
-     * @var Route
-     */
-    protected $Route;
-
-    public function __construct(Route $route)
-    {
-        $this->Route = $route;
+    public function __construct(
+        protected \Runalyze\Bundle\CoreBundle\Entity\Route $Route
+    ) {
     }
 
     /**
@@ -57,10 +51,8 @@ class RouteAdapter
 
     /**
      * @param object|null $object
-     *
-     * @return string|null
      */
-    protected function getStrategyName($object)
+    protected function getStrategyName($object): ?string
     {
         if ($object === null) {
             return null;

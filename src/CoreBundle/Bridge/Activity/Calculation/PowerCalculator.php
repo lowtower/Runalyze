@@ -13,23 +13,20 @@ class PowerCalculator
     /**
      * @var float [kg]
      */
-    protected $AthleteWeight = 75.0;
+    protected float $AthleteWeight = 75.0;
 
     /**
      * @var float [kg]
      */
-    protected $BikeWeight = 0.0;
+    protected float $BikeWeight = 0.0;
 
-    /**
-     * @var Training
-     */
-    protected $Activity;
+    protected Training $Activity;
 
     /**
      * @param float $athleteWeight [kg]
      * @param float $bikeWeight [kg]
      */
-    public function calculateFor(Training $activity, $athleteWeight = 75.0, $bikeWeight = 0.0): void
+    public function calculateFor(Training $activity, float $athleteWeight = 75.0, float $bikeWeight = 0.0): void
     {
         $this->Activity = $activity;
         $this->AthleteWeight = $athleteWeight;
@@ -56,16 +53,13 @@ class PowerCalculator
     protected function canCalculatePower(): bool
     {
         return
-            $this->Activity->getSport() !== null &&
+            $this->Activity->hasSport() &&
             $this->canCalculatePowerForSport($this->Activity->getSport()->getInternalSport()) &&
             $this->canCalculatePowerForActivity($this->Activity)
         ;
     }
 
-    /**
-     * @return bool
-     */
-    protected function canCalculatePowerForSport(AbstractSport $sport)
+    protected function canCalculatePowerForSport(AbstractSport $sport): bool
     {
         return $sport->isCycling();
     }
@@ -94,7 +88,7 @@ class PowerCalculator
      * @param array $power [W]
      * @param int $avgPower [W]
      */
-    protected function setPowerValues(Training $activity, array $power, $avgPower)
+    protected function setPowerValues(Training $activity, array $power, ?int $avgPower)
     {
         $activity->getTrackdata()
             ->setPower($power);

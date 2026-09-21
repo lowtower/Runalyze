@@ -61,10 +61,7 @@ class SectionCompositeRow extends TrainingViewSectionRowTabbedPlot
         }
     }
 
-    /**
-     * @return \Runalyze\View\Activity\Plot\ActivityPlot
-     */
-    protected function getPlot()
+    protected function getPlot(): Activity\Plot\ActivityPlot
     {
         if (Configuration::ActivityView()->plotMode()->showCollection()) {
             return new Activity\Plot\PaceAndHeartrateAndElevation($this->Context);
@@ -239,7 +236,7 @@ class SectionCompositeRow extends TrainingViewSectionRowTabbedPlot
      */
     protected function addCourse()
     {
-        if ($this->Context->hasRoute() && (string) $this->Context->route()->name() !== '') {
+        if ($this->Context->hasRoute() && $this->Context->route()->name() !== '') {
             $PathBox = new BoxedValue($this->Context->route()->name(), '', __('Course'));
             $PathBox->defineAsFloatingBlock('w100 flexible-height');
 

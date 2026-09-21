@@ -53,10 +53,7 @@ class PluginConfigurationValue
         $this->Label = $Label;
     }
 
-    /**
-     * @param string $Tooltip
-     */
-    final public function setTooltip($Tooltip): void
+    final public function setTooltip(string $Tooltip): void
     {
         $this->Tooltip = $Tooltip;
     }

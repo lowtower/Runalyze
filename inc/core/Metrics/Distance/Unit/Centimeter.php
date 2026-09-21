@@ -18,8 +18,8 @@ class Centimeter extends AbstractDistanceUnit
         return 'cm';
     }
 
-    public function getFactorFromBaseUnit(): int
+    public function getFactorFromBaseUnit(): float
     {
-        return 100000;
+        return 100000.0;
     }
 }

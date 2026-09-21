@@ -26,7 +26,7 @@ class EquipmentUpdateSubscriber implements EventSubscriber
     {
         $entityManager = $args->getObjectManager();
         $unitOfWork = $entityManager->getUnitOfWork();
-        $this->EquipmentRepository = $entityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Equipment::class);
+        $this->EquipmentRepository = $entityManager->getRepository(Equipment::class);
 
         foreach ($unitOfWork->getScheduledEntityUpdates() as $entity) {
             if ($entity instanceof Training) {
@@ -44,9 +44,9 @@ class EquipmentUpdateSubscriber implements EventSubscriber
     {
         $newEquipment = [];
         $removedEquipment = [];
-        $updates = $args->getObjectManager()
-            ->getUnitOfWork()
-            ->getScheduledCollectionUpdates();
+        $objectManager = $args->getObjectManager();
+        $unitOfWork = $objectManager->getUnitOfWork();
+        $updates = $unitOfWork->getScheduledCollectionUpdates();
 
         foreach ($updates as $collection) {
             /** @var PersistentCollection $collection */
@@ -61,14 +61,14 @@ class EquipmentUpdateSubscriber implements EventSubscriber
             }
         }
 
-        $handledIds = array_map(fn (Equipment $equipment) => $equipment->getId(), array_merge($newEquipment, $removedEquipment));
+        $handledIds = array_map(fn (Equipment $equipment): ?int => $equipment->getId(), array_merge($newEquipment, $removedEquipment));
 
         if (! empty($removedEquipment)) {
-            $this->EquipmentRepository->updateEquipment($removedEquipment, -$activity->getS(), -$activity->getDistance(), false);
+            $this->EquipmentRepository->updateEquipment($removedEquipment, -1 * (int) $activity->getS(), -1 * $activity->getDistance(), false);
         }
 
         if (! empty($newEquipment)) {
-            $this->EquipmentRepository->updateEquipment($newEquipment, $activity->getS(), $activity->getDistance(), false);
+            $this->EquipmentRepository->updateEquipment($newEquipment, (int) $activity->getS(), $activity->getDistance(), false);
         }
 
         $durationChange = $args->hasChangedField('s') ? $args->getNewValue('s') - $args->getOldValue('s') : 0;
@@ -89,10 +89,9 @@ class EquipmentUpdateSubscriber implements EventSubscriber
             $this->EquipmentRepository->updateEquipment($unchangedEquipment, $durationChange, $distanceChange, false);
         }
 
-        $metaData = $args->getObjectManager()
-            ->getClassMetadata(Equipment::class);
-        $unitOfWork = $args->getObjectManager()
-            ->getUnitOfWork();
+        $objectManager = $args->getObjectManager();
+        $metaData = $objectManager->getClassMetadata(Equipment::class);
+        $unitOfWork = $objectManager->getUnitOfWork();
 
         foreach (array_merge($removedEquipment, $newEquipment, $unchangedEquipment) as $equipment) {
             $unitOfWork->computeChangeSet($metaData, $equipment);

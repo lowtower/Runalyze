@@ -9,17 +9,11 @@ use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 #[ORM\Entity(repositoryClass: SwimdataRepository::class)]
 class Swimdata implements AccountRelatedEntityInterface
 {
-    /**
-     * @var array|null
-     */
     #[ORM\Column(name: 'stroke', type: 'pipe_array', nullable: true)]
-    private $stroke;
+    private ?array $stroke = null;
 
-    /**
-     * @var array|null
-     */
     #[ORM\Column(name: 'stroketype', type: 'pipe_array', nullable: true)]
-    private $stroketype;
+    private ?array $stroketype = null;
 
     /**
      * @var int [cm]
@@ -27,7 +21,7 @@ class Swimdata implements AccountRelatedEntityInterface
     #[ORM\Column(name: 'pool_length', type: 'smallint', precision: 5, nullable: false, options: [
         'unsigned' => true,
     ])]
-    private $poolLength = 0;
+    private int $poolLength = 0;
 
     #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id')]
     #[ORM\Id]
@@ -48,10 +42,7 @@ class Swimdata implements AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @return array|null
-     */
-    public function getStroke()
+    public function getStroke(): ?array
     {
         return $this->stroke;
     }
@@ -68,10 +59,7 @@ class Swimdata implements AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @return array|null
-     */
-    public function getStroketype()
+    public function getStroketype(): ?array
     {
         return $this->stroketype;
     }
@@ -84,7 +72,7 @@ class Swimdata implements AccountRelatedEntityInterface
     /**
      * @param int $poolLength [cm]
      */
-    public function setPoolLength($poolLength): self
+    public function setPoolLength(int $poolLength): self
     {
         $this->poolLength = $poolLength;
 
@@ -94,7 +82,7 @@ class Swimdata implements AccountRelatedEntityInterface
     /**
      * @return int [cm]
      */
-    public function getPoolLength()
+    public function getPoolLength(): int
     {
         return $this->poolLength;
     }
@@ -106,10 +94,7 @@ class Swimdata implements AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @return Account
-     */
-    public function getAccount()
+    public function getAccount(): ?Account
     {
         return $this->account;
     }
@@ -121,10 +106,7 @@ class Swimdata implements AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @return Training
-     */
-    public function getActivity()
+    public function getActivity(): ?Training
     {
         return $this->activity;
     }

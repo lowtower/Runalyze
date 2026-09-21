@@ -4,25 +4,20 @@ namespace Runalyze\Metrics\Common;
 
 trait UnitConversionByFactorTrait
 {
-    /**
-     * @return int|float
-     */
-    abstract public function getFactorFromBaseUnit();
+    abstract public function getFactorFromBaseUnit(): float;
 
     /**
      * @param mixed $valueInThisUnit
-     * @return mixed
      */
-    final public function toBaseUnit($valueInThisUnit)
+    final public function toBaseUnit($valueInThisUnit): float
     {
         return $valueInThisUnit / $this->getFactorFromBaseUnit();
     }
 
     /**
      * @param mixed $valueInBaseUnit
-     * @return mixed
      */
-    final public function fromBaseUnit($valueInBaseUnit)
+    final public function fromBaseUnit($valueInBaseUnit): float
     {
         return $valueInBaseUnit * $this->getFactorFromBaseUnit();
     }

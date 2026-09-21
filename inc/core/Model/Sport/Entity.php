@@ -7,6 +7,7 @@
 
 namespace Runalyze\Model\Sport;
 
+use Runalyze\Activity\PaceUnit\AbstractUnit;
 use Runalyze\Metrics\LegacyUnitConverter;
 use Runalyze\Model;
 use Runalyze\Profile\Sport\ProfileInterface;
@@ -207,9 +208,8 @@ class Entity extends Model\EntityWithID implements ProfileInterface
 
     /**
      * Pace unit
-     * @return \Runalyze\Activity\PaceUnit\AbstractUnit
      */
-    public function legacyPaceUnit()
+    public function legacyPaceUnit(): AbstractUnit
     {
         return (new LegacyUnitConverter())->getLegacyPaceUnit($this->Data[self::PACE_UNIT]);
     }
@@ -256,7 +256,7 @@ class Entity extends Model\EntityWithID implements ProfileInterface
      * Average lower bounds of the hr zones
      * @return null|array [bpm]
      */
-    public function hrZoneBounds()
+    public function hrZoneBounds(): ?array
     {
         return $this->Data[self::HR_ZONE_BOUNDS];
     }

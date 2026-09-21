@@ -11,10 +11,9 @@ use Runalyze\Bundle\CoreBundle\Model\Equipment\EquipmentStatistics;
 class EquipmentRepository extends EntityRepository
 {
     /**
-     * @param int $equipmentTypeId
      * @return Equipment[]
      */
-    public function findByTypeId($equipmentTypeId, Account $account)
+    public function findByTypeId(int $equipmentTypeId, Account $account): array
     {
         return $this->findBy([
             'type' => $equipmentTypeId,
@@ -26,7 +25,7 @@ class EquipmentRepository extends EntityRepository
      * @param string|string[] $equipmentName
      * @return Equipment[]
      */
-    public function findByName($equipmentName, Account $account)
+    public function findByName($equipmentName, Account $account): array
     {
         return $this->findBy([
             'account' => $account->getId(),
@@ -34,10 +33,7 @@ class EquipmentRepository extends EntityRepository
         ]);
     }
 
-    /**
-     * @param int $typeId
-     */
-    public function getStatisticsForType($typeId, Account $account): \Runalyze\Bundle\CoreBundle\Model\Equipment\EquipmentStatistics
+    public function getStatisticsForType(int $typeId, Account $account): \Runalyze\Bundle\CoreBundle\Model\Equipment\EquipmentStatistics
     {
         return new EquipmentStatistics(
             $this->createQueryBuilder('eq')
@@ -59,11 +55,10 @@ class EquipmentRepository extends EntityRepository
 
     /**
      * @param Equipment[] $equipment
-     * @param int|float $additionalDuration [s]
-     * @param float $additionalDistance [km]
-     * @param bool $flush
+     * @param ?int $additionalDuration [s]
+     * @param ?float $additionalDistance [km]
      */
-    public function updateEquipment(array $equipment, $additionalDuration, $additionalDistance = 0.0, $flush = true): void
+    public function updateEquipment(array $equipment, ?int $additionalDuration = null, ?float $additionalDistance = null, bool $flush = true): void
     {
         foreach ($equipment as $object) {
             $object->addTime($additionalDuration);

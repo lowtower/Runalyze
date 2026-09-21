@@ -122,9 +122,8 @@ class Tcx extends AbstractFileExporter
 
     /**
      * Get string for timestamp in xml
-     * @param int $time
      */
-    final protected function timeToString($time): string
+    final protected function timeToString(?int $time): string
     {
         return LocalTime::date('c', $time);
     }
@@ -248,13 +247,9 @@ class Tcx extends AbstractFileExporter
         }
     }
 
-    /**
-     * @param int $pace
-     * @return float
-     */
-    protected function convertPaceToSpeed($pace)
+    protected function convertPaceToSpeed(int $pace): float
     {
-        if ($pace == 0) {
+        if ($pace === 0) {
             return 0.0;
         }
 

@@ -229,7 +229,7 @@ class Helper
 /**
  * Trimmer function for array_walk
  */
-function trimValuesForArray(string &$value)
+function trimValuesForArray(string &$value): void
 {
     $value = trim($value);
 }

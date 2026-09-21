@@ -26,10 +26,7 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
 
     private string $PreviousPhpTimezone;
 
-    /**
-     * @var string|bool
-     */
-    private $PreviousEnvironmentTimezone;
+    private string|bool|null $PreviousEnvironmentTimezone = null;
 
     private function rememberTimezone()
     {

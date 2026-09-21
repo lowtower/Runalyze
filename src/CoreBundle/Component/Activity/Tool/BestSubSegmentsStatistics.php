@@ -7,10 +7,7 @@ use Runalyze\Model\Trackdata;
 
 class BestSubSegmentsStatistics
 {
-    /**
-     * @var Trackdata\Entity
-     */
-    protected $Trackdata;
+    protected \Runalyze\Model\Trackdata\Entity $Trackdata;
 
     /**
      * @var SubSegmentMaximization|null

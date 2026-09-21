@@ -16,80 +16,53 @@ class PluginConf
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'config', type: 'string', length: 100, nullable: false)]
-    private $config;
+    private string $config;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'value', type: 'string', length: 255, nullable: false)]
-    private $value;
+    private string $value;
 
-    /**
-     * @var Plugin
-     */
     #[ORM\JoinColumn(name: 'pluginid', referencedColumnName: 'id', nullable: false)]
     #[ORM\ManyToOne(targetEntity: \Plugin::class)]
-    private $plugin;
+    private Plugin $plugin;
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param string $config
-     */
-    public function setConfig($config): self
+    public function setConfig(string $config): self
     {
         $this->config = $config;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getConfig()
+    public function getConfig(): string
     {
         return $this->config;
     }
 
-    /**
-     * @param string $value
-     */
-    public function setValue($value): self
+    public function setValue(string $value): self
     {
         $this->value = $value;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getValue()
+    public function getValue(): string
     {
         return $this->value;
     }
 
-    public function setPlugin(\Runalyze\Bundle\CoreBundle\Entity\Plugin $plugin): self
+    public function setPlugin(Plugin $plugin): self
     {
         $this->plugin = $plugin;
 
         return $this;
     }
 
-    /**
-     * @return Plugin
-     */
-    public function getPlugin()
+    public function getPlugin(): Plugin
     {
         return $this->plugin;
     }

@@ -14,15 +14,13 @@ class SearchLink
 {
     /**
      * Window url
-     * @var string
      */
-    public static $WINDOW_URL = 'my/search';
+    public static string $WINDOW_URL = 'my/search';
 
     /**
      * Parameter
-     * @var array
      */
-    protected $Params = [];
+    protected array $Params;
 
     public function __construct()
     {
@@ -32,10 +30,8 @@ class SearchLink
 
     /**
      * Link to search-window
-     * @param string $name [optional]
-     * @return string
      */
-    final public function link($name)
+    final public function link(string $name): string
     {
         return Ajax::window('<a href="' . $this->url() . '">' . $name . '</a>', 'big');
     }
@@ -43,7 +39,7 @@ class SearchLink
     /**
      * @return string url to search window
      */
-    final public function url()
+    final public function url(): string
     {
         $var = '';
         foreach ($this->Params as $key => $value) {
@@ -65,10 +61,8 @@ class SearchLink
 
     /**
      * Set dates
-     * @param int $fromTimestamp
-     * @param int $toTimestamp
      */
-    public function fromTo($fromTimestamp, $toTimestamp): void
+    public function fromTo(int $fromTimestamp, int $toTimestamp): void
     {
         $this->Params['date-from'] = date('d.m.Y', $fromTimestamp);
         $this->Params['date-to'] = date('d.m.Y', $toTimestamp);
@@ -77,22 +71,22 @@ class SearchLink
     /**
      * @param string $key key in database
      * @param mixed $value may be an array for select types
-     * @param string $sign [optional] possible signs: is (default), gt, ge, le, lt, ne, like
+     * @param string $sign possible signs: is (default), gt, ge, le, lt, ne, like
      */
-    public function addParam($key, $value, $sign = ''): void
+    public function addParam(string $key, $value, string $sign = ''): void
     {
         $this->Params[$key] = $value;
 
-        if ((string) $sign !== '') {
+        if ($sign !== '') {
             $this->Signs[$key] = $sign;
         }
     }
 
     /*+
      * @param string $sort key in database
-     * @param boolean $asc [optional] sort ascending, default false
+     * @param bool $asc ,sort ascending, default false
      */
-    public function sortBy($sort, $asc = false): void
+    public function sortBy(string $sort, bool $asc = false): void
     {
         $this->addParam('search-sort-by', $sort);
         $this->addParam('search-sort-order', $asc ? 'ASC' : 'DESC');
@@ -108,19 +102,16 @@ class SearchLink
 
     /**
      * Parameter signs
-     * @var array
      */
-    protected $Signs = [];
+    protected array $Signs;
 
     /**
      * URL to search
      * @param string $key key in database
      * @param mixed $value can be an array
-     * @param string $text
      * @param string $sign optional equality sign
-     * @return string
      */
-    public static function to($key, $value, $text, $sign = '')
+    public static function to(string $key, $value, string $text, string $sign = ''): string
     {
         $Link = new self();
         $Link->addParam($key, $value, $sign);
@@ -132,9 +123,8 @@ class SearchLink
      * URL to search
      * @param string $key key in database
      * @param mixed $value can be an array
-     * @return string
      */
-    public static function urlFor($key, $value)
+    public static function urlFor(string $key, $value): string
     {
         $Link = new self();
         $Link->addParam($key, $value);

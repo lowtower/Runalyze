@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::Timezone
  * @package Runalyze\Parameter\Application
@@ -2076,9 +2078,9 @@ class Timezone extends \Runalyze\Common\Enum\AbstractEnum
     public const ZURICH = 417;
 
     /**
-     * @var array
+     * @var string[]
      */
-    private static $Mapping = [
+    private static array $Mapping = [
         'abidjan' => 'Africa/Abidjan',
         'accra' => 'Africa/Accra',
         'addis_ababa' => 'Africa/Addis_Ababa',
@@ -2492,10 +2494,7 @@ class Timezone extends \Runalyze\Common\Enum\AbstractEnum
         'utc' => 'UTC',
     ];
 
-    /**
-     * @return array
-     */
-    public static function getMapping()
+    public static function getMapping(): array
     {
         return self::$Mapping;
     }

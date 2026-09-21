@@ -20,20 +20,11 @@ use System;
  */
 abstract class AbstractSharer extends AbstractExporter
 {
-    /**
-     * @return bool
-     */
-    abstract public function isExternalLink();
+    abstract public function isExternalLink(): bool;
 
-    /**
-     * @return string
-     */
-    abstract public function url();
+    abstract public function url(): string;
 
-    /**
-     * @return string
-     */
-    abstract public function name();
+    abstract public function name(): string;
 
     /**
      * Get text for sharing
@@ -59,28 +50,21 @@ abstract class AbstractSharer extends AbstractExporter
                 ->titleByTypeOrSport();
         }
 
-        if ($this->Context->activity()->title() != '') {
+        if ($this->Context->activity()->title() !== '') {
             $Text .= ' - ' . $this->Context->activity()->title();
         }
 
         return strip_tags(str_replace('&nbsp;', '', $Text));
     }
 
-    /**
-     * @return string
-     */
-    final protected function publicURL()
+    final protected function publicURL(): string
     {
         $Linker = new Linker($this->Context->activity());
 
         return $Linker->publicUrl();
     }
 
-    /**
-     * @param string $text
-     * @return string
-     */
-    final protected function externalLink($text = '')
+    final protected function externalLink(string $text = ''): string
     {
         if (empty($text)) {
             $text = $this->name();
@@ -91,9 +75,8 @@ abstract class AbstractSharer extends AbstractExporter
 
     /**
      * Get error for localhost
-     * @return string
      */
-    final protected function errorForLocalhost()
+    final protected function errorForLocalhost(): string
     {
         if (System::isAtLocalhost()) {
             return HTML::error(

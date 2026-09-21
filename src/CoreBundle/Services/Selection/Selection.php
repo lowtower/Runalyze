@@ -1,29 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Services\Selection;
 
 class Selection
 {
     /**
-     * @var string[]
-     */
-    protected $List;
-
-    /**
-     * @param string[] $list
+     * @param string[] $List
      * @param mixed $CurrentKey
      */
     public function __construct(
-        array $list,
+        protected array $List,
         protected $CurrentKey = null
     ) {
-        $this->List = $list;
     }
 
     /**
      * @return string[]
      */
-    public function getList()
+    public function getList(): array
     {
         return $this->List;
     }

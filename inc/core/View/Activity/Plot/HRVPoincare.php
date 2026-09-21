@@ -20,14 +20,10 @@ class HRVPoincare extends ActivityPlot
 {
     /**
      * Use standard x-axis?
-     * @var bool
      */
-    protected $useStandardXaxis = false;
+    protected bool $useStandardXaxis = false;
 
-    /**
-     * @var int
-     */
-    protected $PointSize = 1;
+    protected int $PointSize = 1;
 
     protected function setKey()
     {

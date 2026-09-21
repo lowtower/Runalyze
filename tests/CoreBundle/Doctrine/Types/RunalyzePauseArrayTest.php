@@ -3,6 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\Tests\Doctrine\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use PHPUnit\Framework\MockObject\MockObject;
 use Runalyze\Bundle\CoreBundle\Doctrine\Types\RunalyzePauseArray;
 use Runalyze\Parser\Activity\Common\Data\Pause\Pause;
 use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
@@ -11,7 +12,7 @@ class RunalyzePauseArrayTest extends \PHPUnit\Framework\TestCase
 {
     protected RunalyzePauseArray $Type;
 
-    protected AbstractPlatform $PlatformMock;
+    protected MockObject $PlatformMock;
 
     protected function setUp(): void
     {

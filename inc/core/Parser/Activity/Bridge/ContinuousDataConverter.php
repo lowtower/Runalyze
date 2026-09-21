@@ -9,14 +9,9 @@ use Runalyze\Parser\Activity\Common\Data\ContinuousData;
 
 class ContinuousDataConverter
 {
-    /**
-     * @var ContinuousData
-     */
-    protected $Data;
-
-    public function __construct(ContinuousData $data)
-    {
-        $this->Data = $data;
+    public function __construct(
+        protected ContinuousData $Data
+    ) {
     }
 
     public function convertToLegacyTrackdataModel(): \Runalyze\Model\Trackdata\Entity

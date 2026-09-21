@@ -29,10 +29,7 @@ class Stroketype
         }
     }
 
-    /**
-     * @return array
-     */
-    public static function completeList()
+    public static function completeList(): array
     {
         return StrokeTypeProfile::getEnum();
     }

@@ -20,86 +20,77 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'time', type: 'integer', precision: 11, nullable: false, options: [
         'unsigned' => true,
     ])]
-    private $time;
+    private int $time;
 
     /**
-     * @var float|null [kg]
+     * @var ?float [kg]
      */
     #[ORM\Column(name: 'weight', type: 'casted_decimal_2', precision: 5, scale: 2, nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $weight;
+    private ?float $weight = null;
 
     /**
-     * @var int|null [bpm]
+     * @var ?int [bpm]
      */
     #[ORM\Column(name: 'pulse_rest', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $pulseRest;
+    private ?int $pulseRest = null;
 
     /**
-     * @var int|null [bpm]
+     * @var ?int [bpm]
      */
     #[ORM\Column(name: 'pulse_max', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $pulseMax;
+    private ?int $pulseMax = null;
 
     /**
-     * @var float|null [%]
+     * @var ?float [%]
      * @Assert\Range(
      *     min=0,
      *     max=100)
      */
     #[ORM\Column(name: 'fat', type: 'casted_decimal_1', precision: 3, scale: 1, nullable: true)]
-    private $fat;
+    private ?float $fat = null;
 
     /**
-     * @var float|null [%]
+     * @var ?float [%]
      * @Assert\Range(
      *     min=0,
      *     max=100)
      */
     #[ORM\Column(name: 'water', type: 'casted_decimal_1', precision: 3, scale: 1, nullable: true)]
-    private $water;
+    private ?float $water = null;
 
     /**
-     * @var float|null [%]
+     * @var ?float [%]
      *
      * @Assert\Range(
      *     min=0,
      *     max=100)
      */
     #[ORM\Column(name: 'muscles', type: 'casted_decimal_1', precision: 3, scale: 1, nullable: true)]
-    private $muscles;
+    private ?float $muscles = null;
 
     /**
-     * @var int|null [min]
+     * @var ?int [min]
      */
     #[ORM\Column(name: 'sleep_duration', type: 'smallint', precision: 3, nullable: true, options: [
         'unsigned' => true,
     ])]
     private $sleepDuration;
 
-    /**
-     * @var string|null
-     */
     #[ORM\Column(name: 'notes', type: 'text', length: 65535, nullable: true)]
-    private $notes;
+    private ?string $notes = null;
 
-    /**
-     * @var \Runalyze\Bundle\CoreBundle\Entity\Account
-     */
     #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
     #[ORM\ManyToOne(targetEntity: Account::class)]
-    private $account;
+    private Account $account;
 
     public function __clone()
     {
@@ -107,18 +98,12 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
         $this->notes = '';
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $time
-     */
-    public function setTime($time): self
+    public function setTime(int $time): self
     {
         $this->time = $time;
 
@@ -132,18 +117,15 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getTime()
+    public function getTime(): int
     {
         return $this->time;
     }
 
     /**
-     * @param float|null $weight [kg]
+     * @param ?float $weight [kg]
      */
-    public function setWeight($weight): self
+    public function setWeight(?float $weight): self
     {
         $this->weight = $weight;
 
@@ -151,17 +133,17 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
     }
 
     /**
-     * @return float|null [kg]
+     * @return ?float [kg]
      */
-    public function getWeight()
+    public function getWeight(): ?float
     {
         return $this->weight;
     }
 
     /**
-     * @param int|null $pulseRest [bpm]
+     * @param ?int $pulseRest [bpm]
      */
-    public function setPulseRest($pulseRest): self
+    public function setPulseRest(?int $pulseRest): self
     {
         $this->pulseRest = $pulseRest;
 
@@ -169,17 +151,17 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
     }
 
     /**
-     * @return int|null [bpm]
+     * @return ?int [bpm]
      */
-    public function getPulseRest()
+    public function getPulseRest(): ?int
     {
         return $this->pulseRest;
     }
 
     /**
-     * @param int|null $pulseMax [bpm]
+     * @param ?int $pulseMax [bpm]
      */
-    public function setPulseMax($pulseMax): self
+    public function setPulseMax(?int $pulseMax): self
     {
         $this->pulseMax = $pulseMax;
 
@@ -187,17 +169,17 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
     }
 
     /**
-     * @return int|null [bpm]
+     * @return ?int [bpm]
      */
-    public function getPulseMax()
+    public function getPulseMax(): ?int
     {
         return $this->pulseMax;
     }
 
     /**
-     * @param float|null $fat [%]
+     * @param ?float $fat [%]
      */
-    public function setFat($fat): self
+    public function setFat(?float $fat): self
     {
         $this->fat = $fat;
 
@@ -205,17 +187,17 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
     }
 
     /**
-     * @return float|null [%]
+     * @return ?float [%]
      */
-    public function getFat()
+    public function getFat(): ?float
     {
         return $this->fat;
     }
 
     /**
-     * @param float|null $water [%]
+     * @param ?float $water [%]
      */
-    public function setWater($water): self
+    public function setWater(?float $water): self
     {
         $this->water = $water;
 
@@ -223,17 +205,17 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
     }
 
     /**
-     * @return float|null [%]
+     * @return ?float [%]
      */
-    public function getWater()
+    public function getWater(): ?float
     {
         return $this->water;
     }
 
     /**
-     * @param float|null $muscles [%]
+     * @param ?float $muscles [%]
      */
-    public function setMuscles($muscles): self
+    public function setMuscles(?float $muscles): self
     {
         $this->muscles = $muscles;
 
@@ -241,15 +223,15 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
     }
 
     /**
-     * @return float|null [%]
+     * @return ?float [%]
      */
-    public function getMuscles()
+    public function getMuscles(): ?float
     {
         return $this->muscles;
     }
 
     /**
-     * @param int|null $sleepDuration [min]
+     * @param ?int $sleepDuration [min]
      */
     public function setSleepDuration($sleepDuration): self
     {
@@ -259,27 +241,21 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
     }
 
     /**
-     * @return int|null [min]
+     * @return ?int [min]
      */
-    public function getSleepDuration()
+    public function getSleepDuration(): ?int
     {
         return $this->sleepDuration;
     }
 
-    /**
-     * @param string|null $notes
-     */
-    public function setNotes($notes): self
+    public function setNotes(?string $notes): self
     {
         $this->notes = $notes;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getNotes()
+    public function getNotes(): ?string
     {
         return $this->notes;
     }
@@ -291,10 +267,7 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @return Account
-     */
-    public function getAccount()
+    public function getAccount(): Account
     {
         return $this->account;
     }

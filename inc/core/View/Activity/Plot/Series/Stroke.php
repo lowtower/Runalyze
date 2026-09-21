@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::Stroke
  * @package Runalyze\View\Activity\Plot\Series
@@ -73,10 +75,8 @@ class Stroke extends ActivityPointSeries
 
     /**
      * Add to plot
-     * @param int $yAxis
-     * @param bool $addAnnotations [optional]
      */
-    public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true): void
+    public function addTo(\Plot $Plot, ?int $yAxis, bool $addAnnotations = true): void
     {
         if ($this->Data === []) {
             return;

@@ -18,8 +18,8 @@ class Millimeter extends AbstractDistanceUnit
         return 'mm';
     }
 
-    public function getFactorFromBaseUnit(): int
+    public function getFactorFromBaseUnit(): float
     {
-        return 1000000;
+        return 1000000.0;
     }
 }

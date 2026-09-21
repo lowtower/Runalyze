@@ -347,15 +347,12 @@ final class Keys extends AbstractEnum
      */
     public const WITH_GOAL = 67;
 
-    /**
-     * @var array|null
-     */
-    private static $ClassNames;
+    private static ?array $ClassNames = null;
 
     /**
      * @var array instances of key objects
      */
-    private static $Instances = [];
+    private static array $Instances = [];
 
     /**
      * @var bool

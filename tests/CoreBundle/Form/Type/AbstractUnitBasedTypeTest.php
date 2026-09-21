@@ -10,7 +10,7 @@ class AbstractUnitBasedTypeTest extends \PHPUnit\Framework\TestCase
     /**
      * @var AbstractUnitBasedType
      */
-    protected $Type;
+    protected \PHPUnit\Framework\MockObject\MockObject $Type;
 
     protected function setUp(): void
     {

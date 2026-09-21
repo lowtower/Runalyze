@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::Smo2
  * @package Runalyze\View\Activity\Plot\Series
@@ -26,12 +28,11 @@ class Smo2 extends ActivitySeries
 
     /**
      * Create series
-     * @param int $sensorIndex
      */
-    public function __construct(Activity\Context $context, $sensorIndex = 0)
+    public function __construct(Activity\Context $context, int $sensorIndex = 0)
     {
         $this->initOptions();
-        if ($sensorIndex == 1) {
+        if ($sensorIndex === 1) {
             $trackdataKey = Trackdata::SMO2_1;
             $this->Label = __('SmO2') . ' (2)';
         } else {

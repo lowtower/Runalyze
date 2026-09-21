@@ -64,9 +64,8 @@ class Type extends AbstractKey
 
     /**
      * Get string to display this dataset value
-     * @return string
      */
-    public function stringFor(Context $context)
+    public function stringFor(Context $context): string
     {
         if ($context->hasType()) {
             if ($context->type()->isQualitySession()) {

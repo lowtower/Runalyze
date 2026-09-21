@@ -69,15 +69,12 @@ class PaceUnit extends AbstractEnum
      */
     public const MIN_PER_500Y = 8;
 
-    /**
-     * @var \Runalyze\Activity\PaceUnit\AbstractUnit
-     */
-    protected $UnitObject;
+    protected PaceUnitObject\AbstractUnit $UnitObject;
 
     /**
      * @param int $id id from internal enum
      */
-    public static function stringFor($id): string
+    public static function stringFor(int $id): string
     {
         return match ($id) {
             self::KM_PER_H => 'km/h',
@@ -110,19 +107,14 @@ class PaceUnit extends AbstractEnum
 
     /**
      * Set value
-     * @param mixed $id new value
      * @throws \InvalidArgumentException
      */
-    public function set($id): void
+    public function set(int $id): void
     {
         $this->UnitObject = $this->getNewPaceUnitObject($id);
     }
 
-    /**
-     * @param int $id
-     * @return \Runalyze\Activity\PaceUnit\AbstractUnit
-     */
-    protected function getNewPaceUnitObject($id)
+    protected function getNewPaceUnitObject(int $id): PaceUnitObject\AbstractUnit
     {
         return match ($id) {
             self::MILES_PER_H => new PaceUnitObject\MilesPerHour(),
@@ -139,9 +131,8 @@ class PaceUnit extends AbstractEnum
 
     /**
      * Unit object
-     * @return \Runalyze\Activity\PaceUnit\AbstractUnit
      */
-    public function object()
+    public function object(): PaceUnitObject\AbstractUnit
     {
         return $this->UnitObject;
     }

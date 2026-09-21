@@ -15,30 +15,21 @@ namespace Runalyze\Sports\ClimbScore;
  */
 class ClimbScore
 {
-    /**
-     * @var float|null
-     */
-    protected $Score;
+    protected ?float $Score;
 
-    public function __construct($score = null)
+    public function __construct(?float $score = null)
     {
         $this->setScore($score);
     }
 
-    /**
-     * @param float|null $score
-     */
-    public function setScore($score): self
+    public function setScore(?float $score): self
     {
         $this->Score = $score;
 
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
-    public function getScore()
+    public function getScore(): ?float
     {
         return $this->Score;
     }
@@ -53,7 +44,7 @@ class ClimbScore
      * @param float $totalDistance [km]
      * @param float $percentageFlat [0.00 .. 1.00]
      */
-    public function setScoreFromClassifiedClimbs(array $fietsIndices, $totalDistance, $percentageFlat): self
+    public function setScoreFromClassifiedClimbs(array $fietsIndices, float $totalDistance, float $percentageFlat): self
     {
         $this->Score = $this->getScoreForSumOfSingleScores(
             $this->getSumOfScoresForClassifiedClimbs($fietsIndices, $totalDistance),
@@ -66,18 +57,16 @@ class ClimbScore
     /**
      * @param float[] $fietsIndices fiets indices for climbs (assuming gradient >= 2.0)
      * @param float $totalDistance [km]
-     * @return float
      */
-    public function getSumOfScoresForClassifiedClimbs(array $fietsIndices, $totalDistance)
+    public function getSumOfScoresForClassifiedClimbs(array $fietsIndices, float $totalDistance): float
     {
         return array_sum($fietsIndices) / max(1.0, sqrt($totalDistance / 20));
     }
 
     /**
-     * @param float $sumOfSingleScores
      * @param float $percentageFlat [0.00 .. 1.00]
      */
-    public function getScoreForSumOfSingleScores($sumOfSingleScores, $percentageFlat = 0.0): float
+    public function getScoreForSumOfSingleScores(float $sumOfSingleScores, float $percentageFlat = 0.0): float
     {
         // TODO: Think about stretching the part between 0.0 and 1.0
 
@@ -87,7 +76,7 @@ class ClimbScore
     /**
      * @param float $percentageFlat [0.00 .. 1.00]
      */
-    public function getCompensationForFlatParts($percentageFlat): float
+    public function getCompensationForFlatParts(float $percentageFlat): float
     {
         return min(1.0, max(0.0, 1.0 - $percentageFlat * $percentageFlat));
     }

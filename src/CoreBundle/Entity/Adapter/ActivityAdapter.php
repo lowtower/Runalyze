@@ -9,7 +9,11 @@ use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\NightDetector;
 use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\PowerCalculator;
 use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\TrimpCalculator;
 use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\VO2maxCalculator;
+use Runalyze\Bundle\CoreBundle\Entity\Route;
+use Runalyze\Bundle\CoreBundle\Entity\Swimdata;
+use Runalyze\Bundle\CoreBundle\Entity\Trackdata;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
+use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookup;
 use Runalyze\Profile\FitSdk\StrokeTypeProfile;
 use Runalyze\Profile\Weather\WeatherConditionProfile;
@@ -18,14 +22,9 @@ use Runalyze\Util\LocalTime;
 
 class ActivityAdapter
 {
-    /**
-     * @var Training
-     */
-    protected $Activity;
-
-    public function __construct(Training $activity)
-    {
-        $this->Activity = $activity;
+    public function __construct(
+        protected Training $Activity
+    ) {
     }
 
     public function setAccountToRelatedEntities(): void
@@ -59,7 +58,7 @@ class ActivityAdapter
     /**
      * @return int
      */
-    public function getAgeOfActivity()
+    public function getAgeOfActivity(): int|float
     {
         return LocalTime::now() - $this->Activity->getTime();
     }
@@ -75,41 +74,48 @@ class ActivityAdapter
 
     public function isRunning(): bool
     {
-        return $this->Activity->getSport() !== null && $this->Activity->getSport()
-            ->getInternalSport()
-            ->isRunning();
+        return $this->Activity->hasSport()
+            && $this->Activity->getSport()
+                ->getInternalSport()
+                ->isRunning();
     }
 
     public function isCycling(): bool
     {
-        return $this->Activity->getSport() !== null && $this->Activity->getSport()
-            ->getInternalSport()
-            ->isCycling();
+        return $this->Activity->hasSport()
+            && $this->Activity->getSport()
+                ->getInternalSport()
+                ->isCycling();
     }
 
     public function isSwimming(): bool
     {
-        return $this->Activity->getSport() !== null && $this->Activity->getSport()
-            ->getInternalSport()
-            ->isSwimming();
+        return $this->Activity->hasSport()
+            && $this->Activity->getSport()
+                ->getInternalSport()
+                ->isSwimming();
     }
 
     /**
      * @return int [bpm]
      */
-    public function getAverageHeartRateWithFallbackToTypeOrSport()
+    public function getAverageHeartRateWithFallbackToTypeOrSport(): int
     {
         if ($this->Activity->getPulseAvg() > 0) {
             return $this->Activity->getPulseAvg();
         }
 
-        if ($this->Activity->getType() !== null) {
+        if ($this->Activity->getType() instanceof Type) {
             return $this->Activity->getType()
                 ->getHrAvg();
         }
 
-        return $this->Activity->getSport() !== null ? $this->Activity->getSport()
-            ->getHfavg() : 100;
+        if ($this->Activity->hasSport()) {
+            return $this->Activity->getSport()
+                ->getHfavg();
+        }
+
+        return 0;
     }
 
     public function setActivityIdIfEmpty(): void
@@ -151,10 +157,7 @@ class ActivityAdapter
         $this->Activity->setVerticalRatio($verticalRatio);
     }
 
-    /**
-     * @param int $numberOfDaysToConsiderForShape
-     */
-    public function isRelevantForCurrentMarathonShape($numberOfDaysToConsiderForShape): bool
+    public function isRelevantForCurrentMarathonShape(int $numberOfDaysToConsiderForShape): bool
     {
         return
             $this->isRunning() &&
@@ -162,10 +165,7 @@ class ActivityAdapter
         ;
     }
 
-    /**
-     * @param int $numberOfDaysToConsiderForShape
-     */
-    public function isRelevantForCurrentEffectiveVO2maxShape($numberOfDaysToConsiderForShape): bool
+    public function isRelevantForCurrentEffectiveVO2maxShape(int $numberOfDaysToConsiderForShape): bool
     {
         return
             $this->isRunning() &&
@@ -177,7 +177,7 @@ class ActivityAdapter
 
     public function calculateEnergyConsumptionIfEmpty(): void
     {
-        if ($this->Activity->getKcal() === null || $this->Activity->getKcal() == 0) {
+        if (($this->Activity->getKcal() === null || $this->Activity->getKcal() === 0) && $this->Activity->hasSport()) {
             $energyConsumption = $this->Activity->getSport()
                 ->getKcal() * $this->Activity->getS() / 3600.0;
 
@@ -190,7 +190,7 @@ class ActivityAdapter
      * @param int $heartRateMaximum [bpm]
      * @param int $heartRateResting [bpm]
      */
-    public function calculateTrimp($gender, $heartRateMaximum, $heartRateResting): void
+    public function calculateTrimp(int $gender, int $heartRateMaximum, int $heartRateResting): void
     {
         $calculator = new TrimpCalculator();
         $calculator->calculateFor($this->Activity, $gender, $heartRateMaximum, $heartRateResting);
@@ -215,10 +215,10 @@ class ActivityAdapter
     }
 
     /**
-     * @param float|int|null $athleteWeight [kg]
-     * @param float|int|null $bikeWeight [kg]
+     * @param ?float $athleteWeight [kg]
+     * @param ?float $bikeWeight [kg]
      */
-    public function calculatePower($athleteWeight = null, $bikeWeight = null): void
+    public function calculatePower(?float $athleteWeight = null, ?float $bikeWeight = null): void
     {
         $calculator = new PowerCalculator();
         $calculator->calculateFor($this->Activity);
@@ -249,7 +249,7 @@ class ActivityAdapter
 
     public function calculateIfActivityWasAtNight(): void
     {
-        if ($this->Activity->getRoute() !== null && $this->Activity->getRoute()->hasGeohashes()) {
+        if ($this->Activity->getRoute() instanceof Route && $this->Activity->getRoute()->hasGeohashes()) {
             $this->Activity->setNight((new NightDetector())->isActivityAtNight($this->Activity));
         } else {
             $this->Activity->setNight(null);
@@ -264,7 +264,7 @@ class ActivityAdapter
 
     public function calculateTotalNumberOfStrokes(): void
     {
-        if ($this->Activity->getSwimdata() !== null && $this->Activity->getSwimdata()->hasStrokes()) {
+        if ($this->Activity->getSwimdata() instanceof Swimdata && $this->Activity->getSwimdata()->hasStrokes()) {
             $this->Activity->setTotalStrokes(array_sum($this->Activity->getSwimdata()->getStroke()));
         } else {
             $this->Activity->setTotalStrokes(null);
@@ -282,14 +282,13 @@ class ActivityAdapter
              * Preferred calculation:
              * Use the actual swimming time and ignore break/rest lanes.
              */
-            if ($this->Activity->getS() !== null &&
-                $this->Activity->getSwimdata() !== null &&
+            if ($this->Activity->getSwimdata() instanceof Swimdata &&
                 $this->Activity->getSwimdata()
                     ->hasStrokeTypes()
             ) {
                 $totalTime = $this->Activity->getS();
                 $numberOfPoints = count(array_filter($this->Activity->getSwimdata()->getStroketype(), fn ($strokeType): bool => $strokeType != StrokeTypeProfile::BREAK));
-            } elseif ($this->Activity->getTrackdata() !== null && $this->Activity->getTrackdata()->hasTime()) {
+            } elseif ($this->Activity->getTrackdata() instanceof Trackdata && $this->Activity->getTrackdata()->hasTime()) {
                 /*
                  * Fallback for swimming data without stroke types:
                  * Use the overall time and number of track-data points.
@@ -337,16 +336,16 @@ class ActivityAdapter
     protected function canCalculateClimbScore(): bool
     {
         return
-            $this->Activity->getRoute() !== null &&
+            $this->Activity->getRoute() instanceof Route &&
             $this->Activity->getRoute()
                 ->hasElevations() &&
-            $this->Activity->getTrackdata() !== null &&
+            $this->Activity->getTrackdata() instanceof Trackdata &&
             $this->Activity->getTrackdata()
                 ->hasDistance()
         ;
     }
 
-    protected function temporarilyFixStepwiseElevationsInRoute()
+    protected function temporarilyFixStepwiseElevationsInRoute(): ?array
     {
         $backupElevations = $this->Activity->getRoute()
             ->getElevationsCorrected();

@@ -11,16 +11,9 @@
  */
 class PluginConfigurationWindow
 {
-    /**
-     * Plugin
-     * @var \Plugin
-     */
-    protected $Plugin;
-
-    public function __construct(Plugin $Plugin)
-    {
-        $this->Plugin = $Plugin;
-
+    public function __construct(
+        protected \Plugin $Plugin
+    ) {
         $this->handlePostData();
     }
 

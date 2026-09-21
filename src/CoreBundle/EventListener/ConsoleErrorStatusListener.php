@@ -2,19 +2,13 @@
 
 namespace Runalyze\Bundle\CoreBundle\EventListener;
 
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 
 class ConsoleErrorStatusListener
 {
-    /**
-     * @var LoggerInterface
-     */
-    protected $Logger;
-
-    public function __construct(LoggerInterface $logger)
-    {
-        $this->Logger = $logger;
+    public function __construct(
+        protected \Psr\Log\LoggerInterface $Logger
+    ) {
     }
 
     public function onConsoleTerminate(ConsoleTerminateEvent $event): void

@@ -298,11 +298,12 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
 
         $routeId = $result->getRoute()
             ->getId();
+        $activityId = $activity->getId();
         $this->TrainingRepository->remove($activity);
 
-        $this->assertNull($this->getEntityManager()->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Route::class)->find($routeId));
-        $this->assertNull($this->getEntityManager()->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Trackdata::class)->findByActivity($activity->getId(), $this->getDefaultAccount()));
-        $this->assertNull($this->getEntityManager()->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Hrv::class)->findByActivity($activity->getId()));
+        $this->assertNull($this->getEntityManager()->getRepository(Route::class)->find($routeId));
+        $this->assertNull($this->getEntityManager()->getRepository(Trackdata::class)->findByActivity($activityId, $this->getDefaultAccount()));
+        $this->assertNull($this->getEntityManager()->getRepository(Hrv::class)->findByActivity($activityId));
     }
 
     public function testThatPowerIsNotRemovedAtUpdate(): void
@@ -358,9 +359,10 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertTrue($result->hasRaceresult());
         $this->assertEquals(3.0, $result->getRaceresult()->getOfficialDistance());
 
+        $activityId = $activity->getId();
         $this->TrainingRepository->remove($activity);
 
-        $this->assertNull($this->getEntityManager()->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Raceresult::class)->findByActivity($activity->getId()));
+        $this->assertNull($this->getEntityManager()->getRepository(Raceresult::class)->findByActivity($activityId));
     }
 
     public function testActivityWithSwimData(): void
@@ -384,9 +386,10 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals(125, $result->getTotalStrokes());
         $this->assertEquals(5000, $result->getSwimdata()->getPoolLength());
 
+        $activityId = $activity->getId();
         $this->TrainingRepository->remove($activity);
 
-        $this->assertNull($this->getEntityManager()->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Swimdata::class)->findByActivity($activity->getId()));
+        $this->assertNull($this->getEntityManager()->getRepository(Swimdata::class)->findByActivity($activityId));
     }
 
     /**
@@ -658,7 +661,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
     public function testEquipmentStatistics(): void
     {
         $someEquipment = $this->getEntityManager()
-            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Equipment::class)
+            ->getRepository(Equipment::class)
             ->findBy(
                 [
                     'account' => $this->getDefaultAccount(),

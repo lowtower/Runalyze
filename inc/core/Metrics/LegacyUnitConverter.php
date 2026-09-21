@@ -4,7 +4,6 @@ namespace Runalyze\Metrics;
 
 use Runalyze\Metrics\Energy\Unit\AbstractEnergyUnit;
 use Runalyze\Metrics\Energy\Unit\EnergyEnum;
-use Runalyze\Metrics\HeartRate\Unit\AbstractHeartRateUnit;
 use Runalyze\Metrics\HeartRate\Unit\HeartRateEnum;
 use Runalyze\Metrics\Temperature\Unit\AbstractTemperatureUnit;
 use Runalyze\Metrics\Temperature\Unit\TemperatureEnum;
@@ -36,11 +35,8 @@ class LegacyUnitConverter
 
     /**
      * @param mixed $legacyHeartRateEnum
-     * @param int $maximalHeartRate
-     * @param int $restingHeartRate
-     * @return AbstractHeartRateUnit
      */
-    public function getHeartRateUnit($legacyHeartRateEnum, $maximalHeartRate, $restingHeartRate)
+    public function getHeartRateUnit($legacyHeartRateEnum, int $maximalHeartRate, int $restingHeartRate): \Runalyze\Metrics\HeartRate\Unit\AbstractHeartRateUnit
     {
         $heartRateUnitMap = [
             Application\HeartRateUnit::BPM => HeartRateEnum::BEATS_PER_MINUTE,
@@ -83,9 +79,8 @@ class LegacyUnitConverter
     /**
      * @param mixed $paceEnum see \Runalyze\Metrics\Velocity\Unit\PaceEnum
      * @param bool $returnLegacyEnum
-     * @return \Runalyze\Activity\PaceUnit\AbstractUnit|int
      */
-    public function getLegacyPaceUnit($paceEnum, $returnLegacyEnum = false)
+    public function getLegacyPaceUnit($paceEnum, $returnLegacyEnum = false): int|\Runalyze\Activity\PaceUnit\AbstractUnit
     {
         $parameter = new Application\PaceUnit();
 

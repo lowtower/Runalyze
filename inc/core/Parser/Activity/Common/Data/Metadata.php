@@ -181,10 +181,7 @@ class Metadata
         return $this->ActivityId;
     }
 
-    /**
-     * @param string $description
-     */
-    public function setDescription($description): void
+    public function setDescription(string $description): void
     {
         $this->Description = $description;
     }

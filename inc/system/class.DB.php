@@ -19,9 +19,8 @@ class DB
 {
     /**
      * Private PDO instance
-     * @var PDOforRunalyze
      */
-    private static $PDO;
+    private static ?\PDOforRunalyze $PDO = null;
 
     private function __construct()
     {
@@ -49,7 +48,7 @@ class DB
      */
     public static function getInstance(): PDOforRunalyze
     {
-        if (! self::$PDO) {
+        if (! self::$PDO instanceof \PDOforRunalyze) {
             throw new RuntimeException('No active database connection.');
         }
 

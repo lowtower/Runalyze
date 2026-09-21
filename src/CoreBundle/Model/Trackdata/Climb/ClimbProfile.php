@@ -12,12 +12,12 @@ class ClimbProfile implements \Countable
     /**
      * @var float[] [km]
      */
-    protected $Distances;
+    protected array $Distances;
 
     /**
      * @var int[] [m]
      */
-    protected $Elevations;
+    protected array $Elevations;
 
     /**
      * @param float[] $distances [km]
@@ -59,7 +59,7 @@ class ClimbProfile implements \Countable
     /**
      * @return float[] [km]
      */
-    public function getDistances()
+    public function getDistances(): array
     {
         return $this->Distances;
     }
@@ -67,7 +67,7 @@ class ClimbProfile implements \Countable
     /**
      * @return int[] [m]
      */
-    public function getElevations()
+    public function getElevations(): array
     {
         return $this->Elevations;
     }

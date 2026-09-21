@@ -31,20 +31,11 @@ class FileImporter implements LoggerAwareInterface
      */
     protected $Converter = [];
 
-    /**
-     * @var ZipConverter
-     */
-    protected $ZipConverter;
+    protected \Runalyze\Parser\Activity\Converter\ZipConverter $ZipConverter;
 
-    /**
-     * @var FileExtensionToParserMapping
-     */
-    protected $ParserMapping;
+    protected \Runalyze\Parser\Activity\FileExtensionToParserMapping $ParserMapping;
 
-    /**
-     * @var Filesystem
-     */
-    protected $Filesystem;
+    protected \Symfony\Component\Filesystem\Filesystem $Filesystem;
 
     /**
      * @var ParserException[]
@@ -96,10 +87,7 @@ class FileImporter implements LoggerAwareInterface
         );
     }
 
-    /**
-     * @return FileImportResultCollection
-     */
-    public function importFiles(array $fileNames)
+    public function importFiles(array $fileNames): \Runalyze\Bundle\CoreBundle\Services\Import\FileImportResultCollection
     {
         $this->ConverterExceptions = [];
         $results = new FileImportResultCollection();
@@ -113,9 +101,8 @@ class FileImporter implements LoggerAwareInterface
 
     /**
      * @param string $fileName
-     * @return FileImportResultCollection
      */
-    public function importSingleFile($fileName)
+    public function importSingleFile($fileName): \Runalyze\Bundle\CoreBundle\Services\Import\FileImportResultCollection
     {
         $this->ConverterExceptions = [];
         $results = new FileImportResultCollection();
@@ -128,10 +115,7 @@ class FileImporter implements LoggerAwareInterface
         return $this->handleResults($results);
     }
 
-    /**
-     * @return FileImportResultCollection
-     */
-    protected function handleResults(FileImportResultCollection $results)
+    protected function handleResults(FileImportResultCollection $results): FileImportResultCollection
     {
         $this->findAndMergeRelatedHrmAndGpx($results);
 

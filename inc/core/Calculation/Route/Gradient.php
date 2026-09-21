@@ -68,7 +68,7 @@ class Gradient
 
         $this->applyMovingAverage($elevation);
 
-        $this->Gradient = array_map(fn ($value) => $value / 10, (new Derivative())->calculate(
+        $this->Gradient = array_map(fn ($value): float => $value / 10, (new Derivative())->calculate(
             $elevation,
             $this->Distance
         ));
@@ -85,10 +85,7 @@ class Gradient
         }
     }
 
-    /**
-     * @return array
-     */
-    public function getSeries()
+    public function getSeries(): array
     {
         return $this->Gradient;
     }

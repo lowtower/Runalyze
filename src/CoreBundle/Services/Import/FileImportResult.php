@@ -13,11 +13,6 @@ class FileImportResult
     protected $Container;
 
     /**
-     * @var null|\Exception
-     */
-    protected $Exception;
-
-    /**
      * @param ActivityDataContainer[] $container
      * @param string $FileName
      * @param string $OriginalFileName
@@ -26,10 +21,9 @@ class FileImportResult
         array $container,
         protected $FileName,
         protected $OriginalFileName,
-        ?\Exception $exception = null
+        protected ?\Exception $Exception = null
     ) {
         $this->Container = $container;
-        $this->Exception = $exception;
     }
 
     /**
@@ -72,13 +66,10 @@ class FileImportResult
 
     public function isFailed(): bool
     {
-        return $this->Exception !== null;
+        return $this->Exception instanceof \Exception;
     }
 
-    /**
-     * @return \Exception|null
-     */
-    public function getException()
+    public function getException(): ?\Exception
     {
         return $this->Exception;
     }

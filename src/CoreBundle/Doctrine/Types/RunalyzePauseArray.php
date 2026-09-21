@@ -71,7 +71,7 @@ class RunalyzePauseArray extends Type
             'hr-rec' => $pause->getHeartRateAtRecovery(),
             'time-rec' => $pause->getTimeUntilRecovery(),
             'pc' => $pause->getPerformanceCondition(),
-        ], fn ($value): bool => $value !== null);
+        ], fn (float|int|null $value): bool => $value !== null);
     }
 
     /**

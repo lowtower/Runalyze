@@ -6,68 +6,35 @@ namespace Runalyze\Mathematics\Numerics;
 
 class Bisection
 {
-    /**
-     * @var int
-     */
-    protected $MaxIterations = 100;
+    protected int $MaxIterations = 100;
 
-    /**
-     * @var float
-     */
-    protected $Epsilon = 0.01;
+    protected float $Epsilon = 0.01;
 
-    /**
-     * @var float
-     */
-    protected $Current;
+    protected float $Current;
 
-    /**
-     * @var \Closure
-     */
-    protected $Function;
+    protected int $decreasingFactor;
 
-    /**
-     * @var int
-     */
-    protected $decreasingFactor;
-
-    /**
-     * @param float $Target
-     * @param float $Lower
-     * @param float $Upper
-     */
     public function __construct(
-        protected $Target,
-        protected $Lower,
-        protected $Upper,
-        \Closure $function
+        protected float $Target,
+        protected float $Lower,
+        protected float $Upper,
+        protected \Closure $Function
     ) {
-        $this->Function = $function;
-
         $this->Current = ($this->Lower + $this->Upper) / 2;
         $this->decreasingFactor = ($this->Function->__invoke($this->Lower) > $this->Function->__invoke($this->Upper)) ? -1 : 1;
     }
 
-    /**
-     * @param int $iterations
-     */
-    public function setIterations($iterations): void
+    public function setIterations(int $iterations): void
     {
         $this->MaxIterations = $iterations;
     }
 
-    /**
-     * @param float $epsilon
-     */
-    public function setEpsilon($epsilon): void
+    public function setEpsilon(float $epsilon): void
     {
         $this->Epsilon = $epsilon;
     }
 
-    /**
-     * @return float
-     */
-    public function findValue()
+    public function findValue(): float
     {
         for ($i = 0; $i < $this->MaxIterations; ++$i) {
             $value = $this->Function->__invoke($this->Current);

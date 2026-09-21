@@ -3,6 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\Tests\Doctrine\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use PHPUnit\Framework\MockObject\MockObject;
 use Runalyze\Bundle\CoreBundle\Doctrine\Types\PipeDelimitedArray;
 use Runalyze\Bundle\CoreBundle\Doctrine\Types\PipeDelimitedArrayString;
 
@@ -12,7 +13,7 @@ class PipeDelimitedArrayTest extends \PHPUnit\Framework\TestCase
 
     protected PipeDelimitedArrayString $TypeString;
 
-    protected AbstractPlatform $PlatformMock;
+    protected MockObject $PlatformMock;
 
     protected function setUp(): void
     {

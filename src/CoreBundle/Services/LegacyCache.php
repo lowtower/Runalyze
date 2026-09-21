@@ -43,23 +43,23 @@ class LegacyCache
         $accountId = $activity->getAccount()
             ->getId();
 
-        if ($activity->getRoute() !== null) {
+        if ($activity->getRoute() instanceof \Runalyze\Bundle\CoreBundle\Entity\Route) {
             $this->delete('route' . $activity->getRoute()->getId(), $accountId);
         }
 
-        if ($activity->getTrackdata() !== null) {
+        if ($activity->getTrackdata() instanceof \Runalyze\Bundle\CoreBundle\Entity\Trackdata) {
             $this->delete('trackdata' . $activity->getId(), $accountId);
         }
 
-        if ($activity->getSwimdata() !== null) {
+        if ($activity->getSwimdata() instanceof \Runalyze\Bundle\CoreBundle\Entity\Swimdata) {
             $this->delete('swimdata' . $activity->getId(), $accountId);
         }
 
-        if ($activity->getHrv() !== null) {
+        if ($activity->getHrv() instanceof \Runalyze\Bundle\CoreBundle\Entity\Hrv) {
             $this->delete('hrv' . $activity->getId(), $accountId);
         }
 
-        if ($activity->getRaceresult() !== null) {
+        if ($activity->getRaceresult() instanceof \Runalyze\Bundle\CoreBundle\Entity\Raceresult) {
             $this->delete('raceresult' . $activity->getId(), $accountId);
         }
 

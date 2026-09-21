@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Parser\Activity;
 
 class FileExtensionToParserMapping
@@ -25,12 +27,7 @@ class FileExtensionToParserMapping
         'xml' => FileType\Xml::class,
     ];
 
-    /**
-     * @param string $extension
-     *
-     * @return string|null
-     */
-    public function getParserClassFor($extension)
+    public function getParserClassFor(string $extension): ?string
     {
         $extension = mb_strtolower($extension);
 

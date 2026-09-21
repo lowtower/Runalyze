@@ -35,7 +35,7 @@ class ClimbScore extends AbstractKey
         );
     }
 
-    public function stringFor(Context $context)
+    public function stringFor(Context $context): string
     {
         if (! $context->activity()->isPublic() && \Request::isOnSharedPage() || $context->activity()->id() <= 0) {
             return $context->dataview()

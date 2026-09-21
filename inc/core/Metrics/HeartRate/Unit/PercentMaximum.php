@@ -24,26 +24,21 @@ class PercentMaximum extends AbstractHeartRateUnitInPercent
 
     /**
      * @param mixed $valueInThisUnit
-     * @return mixed
      */
-    public function toBaseUnit($valueInThisUnit)
+    public function toBaseUnit($valueInThisUnit): float
     {
         return $valueInThisUnit * $this->MaximalHeartRate;
     }
 
     /**
      * @param mixed $valueInBaseUnit
-     * @return mixed
      */
-    public function fromBaseUnit($valueInBaseUnit)
+    public function fromBaseUnit($valueInBaseUnit): float
     {
         return $valueInBaseUnit / $this->MaximalHeartRate;
     }
 
-    /**
-     * @return int
-     */
-    public function getMaximalHeartRate()
+    public function getMaximalHeartRate(): int
     {
         return $this->MaximalHeartRate;
     }

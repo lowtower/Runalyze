@@ -3,6 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\Tests\Services;
 
 use GuzzleHttp\Client;
+use PHPUnit\Framework\MockObject\MockObject;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Profile\Sport\SportProfile;
 use Runalyze\Service\RouteNameEvaluation\OsmCsvData;
@@ -16,7 +17,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase
 {
     private RouteNameEvalOsm $underTest;
 
-    private $coll;
+    private MockObject $coll;
 
     protected function setUp(): void
     {

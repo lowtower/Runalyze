@@ -24,7 +24,7 @@ class TotalCadence extends AbstractBox
         $TotalCadence = $Context->dataview()
             ->cadence();
         $value = round($TotalCadence->value() * ($Context->activity()->duration() / 60));
-        if ($Context->sport()->getInternalProfileEnum() == SportProfile::RUNNING) {
+        if ($Context->sport()->getInternalProfileEnum() === SportProfile::RUNNING) {
             $label = __('Number of steps');
         } else {
             $label = __('Total cadence');

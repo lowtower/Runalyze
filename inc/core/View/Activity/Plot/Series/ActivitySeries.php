@@ -50,9 +50,8 @@ abstract class ActivitySeries extends \Runalyze\View\Plot\Series
 
     /**
      * Init data
-     * @param string $key
      */
-    protected function fillGaps(Trackdata $trackdata, $key)
+    protected function fillGaps(Trackdata $trackdata, string $key)
     {
         $data = $trackdata->get($key);
         $last = $data[0];
@@ -70,10 +69,8 @@ abstract class ActivitySeries extends \Runalyze\View\Plot\Series
 
     /**
      * Add to plot
-     * @param int $yAxis
-     * @param bool $addAnnotations [optional]
      */
-    public function addTo(Plot $Plot, $yAxis, bool $addAnnotations = true): void
+    public function addTo(Plot $Plot, ?int $yAxis, bool $addAnnotations = true): void
     {
         if ($this->Data === []) {
             return;

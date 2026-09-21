@@ -17,34 +17,21 @@ use Runalyze\Activity\Temperature;
  */
 class MinMaxTableForEquipment
 {
-    /**
-     * @var string
-     */
-    protected $DependencyQuery = '';
+    protected string $DependencyQuery = '';
 
-    /**
-     * @param int $AccountID
-     * @param int $EquipmentTypeID
-     */
     public function __construct(
         protected \PDO $PDO,
-        protected $AccountID,
-        protected $EquipmentTypeID
+        protected int $AccountID,
+        protected int $EquipmentTypeID
     ) {
     }
 
-    /**
-     * @param string $query
-     */
-    public function setDependency($query): void
+    public function setDependency(string $query): void
     {
         $this->DependencyQuery = $query;
     }
 
-    /**
-     * @return \PDOStatement
-     */
-    protected function createStatement()
+    protected function createStatement(): \PDOStatement|false
     {
         return $this->PDO->query(
             'SELECT
@@ -57,8 +44,8 @@ class MinMaxTableForEquipment
 			LEFT JOIN `' . PREFIX . 'activity_equipment` AS `eq` ON `id` = `eq`.`activityid`
             LEFT JOIN `' . PREFIX . 'equipment` AS `eqp` ON `eq`.`equipmentid` = `eqp`.`id`
 			WHERE
-				`eqp`.`typeid` = ' . (int) $this->EquipmentTypeID . ' AND
-				`' . PREFIX . 'training`.`accountid` = ' . (int) $this->AccountID . ' AND
+				`eqp`.`typeid` = ' . $this->EquipmentTypeID . ' AND
+				`' . PREFIX . 'training`.`accountid` = ' . $this->AccountID . ' AND
 				`eq`.`activityid` IS NOT NULL AND
 				`temperature` IS NOT NULL
 				' . $this->DependencyQuery . '

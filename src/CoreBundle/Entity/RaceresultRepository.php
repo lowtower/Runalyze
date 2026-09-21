@@ -14,23 +14,14 @@ class RaceresultRepository extends EntityRepository
      */
     public const NUMBER_OF_RACES_TO_CONSIDER_FOR_CORRECTION_FACTOR = 3;
 
-    /**
-     * @param int $activityId
-     * @return null|Raceresult
-     */
-    public function findByActivity($activityId)
+    public function findByActivity(int $activityId): ?Raceresult
     {
         return $this->findOneBy([
             'activity' => $activityId,
         ]);
     }
 
-    /**
-     * @param int $activityId
-     * @param int $accountId
-     * @return null|Raceresult
-     */
-    public function findForAccount($activityId, $accountId)
+    public function findForAccount(int $activityId, int $accountId): ?Raceresult
     {
         return $this->findOneBy([
             'activity' => $activityId,
@@ -38,18 +29,14 @@ class RaceresultRepository extends EntityRepository
         ]);
     }
 
-    /**
-     * @param int $year
-     * @return array
-     */
-    public function findBySportAndYear(Account $account, Sport $sport, $year)
+    public function findBySportAndYear(Account $account, Sport $sport, int $year): array
     {
         return $this->_em->createQueryBuilder()
             ->select(
                 'r',
                 't.time'
             )
-            ->from(\Runalyze\Bundle\CoreBundle\Entity\Raceresult::class, 'r')
+            ->from(Raceresult::class, 'r')
             ->join('r.activity', 't')
             ->where('r.account = :account')
             ->andWhere('t.sport = :sport')
@@ -67,7 +54,7 @@ class RaceresultRepository extends EntityRepository
     /**
      * @return array|Raceresult[]
      */
-    public function findAllWithActivityStats(Account $account)
+    public function findAllWithActivityStats(Account $account): array
     {
         return $this->createQueryBuilder('r')
             ->select('r')
@@ -81,11 +68,7 @@ class RaceresultRepository extends EntityRepository
             ->getResult();
     }
 
-    /**
-     * @param int $sportId
-     * @return float
-     */
-    public function getEffectiveVO2maxCorrectionFactor(Account $account, $sportId)
+    public function getEffectiveVO2maxCorrectionFactor(Account $account, int $sportId): float
     {
         $result = $this->createQueryBuilder('r')
             ->join('r.activity', 't')

@@ -22,13 +22,10 @@ class AgeGradeLookup
     {
         $account = $account ?: $this->getUser();
 
-        return $account !== null && $account->knowsGender() && $account->knowsBirthYear();
+        return $account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account && $account->knowsGender() && $account->knowsBirthYear();
     }
 
-    /**
-     * @return null|Lookup
-     */
-    public function getLookup(?Account $account = null)
+    public function getLookup(?Account $account = null): ?\Runalyze\AgeGrade\Lookup
     {
         if (! $this->isLookupPossible($account)) {
             return null;

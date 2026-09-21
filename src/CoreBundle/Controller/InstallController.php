@@ -30,7 +30,7 @@ class InstallController extends AbstractController
     /**
      * @Route("/install", name="install", condition="'%app.update_disabled%' == 'no'")
      */
-    public function installAction(Request $request)
+    public function installAction(Request $request): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
     {
         $session = $request->getSession();
 
@@ -57,7 +57,7 @@ class InstallController extends AbstractController
     /**
      * @Route("/install/start", name="install_start", condition="'%app.update_disabled%' == 'no'")
      */
-    public function startAction(Request $request)
+    public function startAction(Request $request): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
     {
         $session = $request->getSession();
 
@@ -94,7 +94,7 @@ class InstallController extends AbstractController
     /**
      * @Route("/install/finish", name="install_finish", condition="'%app.update_disabled%' == 'no'")
      */
-    public function finishAction(Request $request)
+    public function finishAction(Request $request): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
     {
         $session = $request->getSession();
 

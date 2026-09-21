@@ -25,9 +25,8 @@ class ConfigurationManager
 
     /**
      * @param Account|null $account defaults to current user or default config, if there is no user logged in
-     * @return RunalyzeConfigurationList
      */
-    public function getList(?Account $account = null)
+    public function getList(?Account $account = null): ?\Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList
     {
         if (! $account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account || ($this->knowsUser() && $account->getId() == $this->getUser()->getId())) {
             if (! $this->CurrentConfigurationList instanceof \Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList) {

@@ -2,9 +2,6 @@
 
 namespace Runalyze\Bundle\CoreBundle\Services\Recalculation\Task;
 
-use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
-use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
-use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationTaskInterface;
 use Runalyze\Util\LocalTime;
 
@@ -12,29 +9,11 @@ class MarathonShapeCalculation implements RecalculationTaskInterface
 {
     use AccountAwareTaskTrait;
 
-    /**
-     * @var TrainingRepository
-     */
-    protected $TrainingRepository;
-
-    /**
-     * @var ConfigurationManager
-     */
-    protected $ConfigurationManager;
-
-    /**
-     * @var ConfigurationUpdater
-     */
-    protected $ConfigurationUpdater;
-
     public function __construct(
-        TrainingRepository $repository,
-        ConfigurationManager $manager,
-        ConfigurationUpdater $updater
+        protected \Runalyze\Bundle\CoreBundle\Entity\TrainingRepository $TrainingRepository,
+        protected \Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager $ConfigurationManager,
+        protected \Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater $ConfigurationUpdater
     ) {
-        $this->TrainingRepository = $repository;
-        $this->ConfigurationManager = $manager;
-        $this->ConfigurationUpdater = $updater;
     }
 
     public function run(): void

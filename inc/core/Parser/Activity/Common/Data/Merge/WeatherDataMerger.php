@@ -6,20 +6,10 @@ use Runalyze\Parser\Activity\Common\Data\WeatherData;
 
 class WeatherDataMerger implements MergerInterface
 {
-    /**
-     * @var WeatherData
-     */
-    protected $ResultingData;
-
-    /**
-     * @var WeatherData
-     */
-    protected $DataToMerge;
-
-    public function __construct(WeatherData $firstData, WeatherData $secondData)
-    {
-        $this->ResultingData = $firstData;
-        $this->DataToMerge = $secondData;
+    public function __construct(
+        protected WeatherData $ResultingData,
+        protected WeatherData $DataToMerge
+    ) {
     }
 
     public function merge(): void

@@ -137,7 +137,7 @@ class JobLoop extends Job
     /**
      * @return \PDOStatement
      */
-    protected function prepareUpdate()
+    protected function prepareUpdate(): \PDOStatement|false
     {
         $Set = $this->updateSet();
 
@@ -177,7 +177,7 @@ class JobLoop extends Job
     /**
      * @return \PDOStatement
      */
-    protected function getQuery()
+    protected function getQuery(): \PDOStatement|false
     {
         return $this->PDO->query(
             'SELECT

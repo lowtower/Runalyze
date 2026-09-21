@@ -29,9 +29,8 @@ class RunalyzePluginStat_Strecken extends PluginStat
 
     /**
      * Array with all cities
-     * @var array
      */
-    protected $Cities = [];
+    protected array $Cities = [];
 
     final public function name(): string
     {
@@ -286,14 +285,9 @@ class RunalyzePluginStat_Strecken extends PluginStat
         return $Code;
     }
 
-    /**
-     * @param int $positioninterval
-     * @param int $sportid
-     * @param int $year
-     */
-    private static function submenuForSport($positioninterval, $sportid, $year): string
+    private static function submenuForSport(int $positioninterval, int $sportid, int $year): string
     {
-        $Code = '<li' . ($sportid == -1 ? ' class="active"' : '') . '>' . self::linkToRoutenet(__('All'), $positioninterval, -1, $year) . '</li>';
+        $Code = '<li' . ($sportid === -1 ? ' class="active"' : '') . '>' . self::linkToRoutenet(__('All'), $positioninterval, -1, $year) . '</li>';
 
         $Sports = SportFactory::NamesAsArray();
         foreach ($Sports as $id => $name) {
@@ -305,13 +299,10 @@ class RunalyzePluginStat_Strecken extends PluginStat
 
     /**
      * Submenu for sport
-     * @param int $positioninterval
-     * @param int $sportid
-     * @param int $year
      */
-    private static function submenuForYear($positioninterval, $sportid, $year): string
+    private static function submenuForYear(int $positioninterval, int $sportid, int $year): string
     {
-        $Code = '<li' . ($year == -1 ? ' class="active"' : '') . '>' . self::linkToRoutenet(__('All years'), $positioninterval, $sportid, -1) . '</li>';
+        $Code = '<li' . ($year === -1 ? ' class="active"' : '') . '>' . self::linkToRoutenet(__('All years'), $positioninterval, $sportid, -1) . '</li>';
 
         for ($y = date('Y'); $y >= START_YEAR; $y--) {
             $Code .= '<li' . ($y == $year ? ' class="active"' : '') . '>' . self::linkToRoutenet($y, $positioninterval, $sportid, $y) . '</li>';
@@ -322,13 +313,8 @@ class RunalyzePluginStat_Strecken extends PluginStat
 
     /**
      * Internal link to routenet
-     * @param string $text
-     * @param int $positioninterval
-     * @param int $sportid
-     * @param int $year
-     * @return string
      */
-    private static function linkToRoutenet($text, $positioninterval, $sportid, $year)
+    private static function linkToRoutenet(string $text, int $positioninterval, int $sportid, int $year): string
     {
         return Ajax::window('<a class="" href="plugin/RunalyzePluginStat_Strecken/window.routenet.php?posint=' . $positioninterval . '&sport=' . $sportid . '&y=' . $year . '">' . $text . '</a>', 'big');
     }

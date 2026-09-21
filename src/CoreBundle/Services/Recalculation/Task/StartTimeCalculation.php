@@ -2,23 +2,11 @@
 
 namespace Runalyze\Bundle\CoreBundle\Services\Recalculation\Task;
 
-use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
-use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationTaskInterface;
 
 class StartTimeCalculation implements RecalculationTaskInterface
 {
     use AccountAwareTaskTrait;
-
-    /**
-     * @var TrainingRepository
-     */
-    protected $TrainingRepository;
-
-    /**
-     * @var ConfigurationUpdater
-     */
-    protected $ConfigurationUpdater;
 
     /**
      * @var bool
@@ -30,10 +18,10 @@ class StartTimeCalculation implements RecalculationTaskInterface
      */
     protected $NewStartTime;
 
-    public function __construct(TrainingRepository $repository, ConfigurationUpdater $updater)
-    {
-        $this->TrainingRepository = $repository;
-        $this->ConfigurationUpdater = $updater;
+    public function __construct(
+        protected \Runalyze\Bundle\CoreBundle\Entity\TrainingRepository $TrainingRepository,
+        protected \Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater $ConfigurationUpdater
+    ) {
     }
 
     public function forceRecalculation(): void

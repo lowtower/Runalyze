@@ -23,16 +23,15 @@ class WeatherDataToActivityConverter
 
         if ($weatherData->InternalConditionId !== null) {
             $activity->setWeatherid($weatherData->InternalConditionId);
-        } elseif ($weatherData->Condition != '') {
+        } elseif ($weatherData->Condition !== '') {
             $activity->setWeatherid((new EnglishTextMapping())->toInternal($weatherData->Condition));
         }
     }
 
     /**
      * @param mixed $value
-     * @return int|null
      */
-    protected function getRoundedValue($value)
+    protected function getRoundedValue($value): ?int
     {
         return $value !== null ? (int) round($value) : null;
     }

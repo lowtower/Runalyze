@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::GradeAdjustedPace
  * @package Runalyze\View\Activity\Box
@@ -33,7 +35,7 @@ class GradeAdjustedPace extends AbstractBox
     public static function hasPace(\Runalyze\View\Activity\Context $context): bool
     {
         return $context->sport()
-            ->getInternalProfileEnum() == SportProfile::RUNNING
+            ->getInternalProfileEnum() === SportProfile::RUNNING
             && $context->hasRoute() && $context->route()
                 ->hasElevations()
             && $context->hasTrackdata() && $context->trackdata()

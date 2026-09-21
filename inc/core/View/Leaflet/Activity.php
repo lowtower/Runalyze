@@ -73,15 +73,13 @@ class Activity extends LeafletRoute
 
     /**
      * Construct new route
-     * @param \Runalyze\Model\Trackdata\Entity $Trackdata [optional]
-     * @param bool $addIconsAndInfo [optional]
      * @throws \InvalidArgumentException
      */
     public function __construct(
         string $id,
         Route\Entity $route,
         protected ?\Runalyze\Model\Trackdata\Entity $Trackdata = null,
-        protected $addIconsAndInfo = true
+        protected bool $addIconsAndInfo = true
     ) {
         parent::__construct($id);
 
@@ -145,10 +143,7 @@ class Activity extends LeafletRoute
         return $this->TrackdataLoop instanceof \Runalyze\Model\Trackdata\Loop;
     }
 
-    /**
-     * @return bool
-     */
-    protected function nextStep()
+    protected function nextStep(): bool
     {
         if ($this->hasTrackdataLoop()) {
             $this->TrackdataLoop->nextStep();
@@ -157,10 +152,7 @@ class Activity extends LeafletRoute
         return $this->RouteLoop->nextStep();
     }
 
-    /**
-     * @param int $index
-     */
-    protected function goToIndex($index)
+    protected function goToIndex(int $index)
     {
         if ($this->hasTrackdataLoop()) {
             $this->TrackdataLoop->goToIndex($index);

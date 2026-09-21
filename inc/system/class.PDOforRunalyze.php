@@ -124,13 +124,19 @@ class PDOforRunalyze extends PDO
     {
         $table = str_replace(PREFIX, '', $table);
 
-        if (is_array($column) && count($column) === count($value)) {
+        if (is_array($column) && is_array($value) && count($column) === count($value)) {
             $set = '';
             foreach ($column as $i => $col) {
                 $set .= '`' . $col . '`=' . self::escape($value[$i], true, ($col == 'clothes')) . ', ';
             }
-        } else {
+        } elseif (is_scalar($column) && is_scalar($value)) {
             $set = '`' . $column . '`=' . self::escape($value, true, ($column == 'clothes')) . ', ';
+        } else {
+            throw new \RuntimeException(
+                "catched PDOException: error with SQL:\n\n'PDOforRunalyze->updateWhere()' needs to have equivalent parameters {$column} and {$value} -" .
+                ' either both scalars or both arrays with same number of items!',
+                0
+            );
         }
 
         $this->query('UPDATE `' . PREFIX . $table . '` SET ' . substr($set, 0, -2) . ' WHERE ' . $where);
@@ -141,11 +147,10 @@ class PDOforRunalyze extends PDO
      *
      * This methods always adds the accountid (unless something is inserted to the account table)
      * @param string $table without PREFIX
-     * @param array $columns
      * @param array $values
-     * @return int|bool       ID of inserted row
+     * @return int|bool ID of inserted row
      */
-    public function insert(string $table, $columns, $values): bool|int
+    public function insert(string $table, array $columns, $values): bool|int
     {
         $table = str_replace(PREFIX, '', $table);
 
@@ -179,8 +184,8 @@ class PDOforRunalyze extends PDO
      *    - Sets true/false to 1/0
      *    - Sets strings to "$value"
      * @param mixed $values might be an array
-     * @param bool $quotes  true for adding quotes for strings
-     * @return mixed        safe value(s)
+     * @param bool $quotes true for adding quotes for strings
+     * @return mixed safe value(s)
      */
     public function escape($values, bool $quotes = true, bool $forceAsString = false)
     {

@@ -13,21 +13,18 @@ abstract class FormularField extends HtmlTag
 {
     /**
      * CSS-class if validation failed
-     * @var string
      */
-    public static $CSS_VALIDATION_FAILED = 'validation-failed';
+    public static string $CSS_VALIDATION_FAILED = 'validation-failed';
 
     /**
      * Array with all failed keys
-     * @var array
      */
-    private static $FAILED_KEYS = [];
+    private static array $FAILED_KEYS = [];
 
     /**
      * Array with all validation failures
-     * @var array
      */
-    private static $VALIDATION_FAILURES = [];
+    private static array $VALIDATION_FAILURES = [];
 
     /**
      * Value
@@ -37,15 +34,14 @@ abstract class FormularField extends HtmlTag
 
     /**
      * Layout
-     * @var string
      */
-    protected $layout = '';
+    protected string $layout = '';
 
     /**
      * CSS classes for layout
-     * @var array
+     * @var string[]
      */
-    protected $layoutClasses = [];
+    protected array $layoutClasses = [];
 
     /**
      * Enum from FormularValueParser
@@ -55,65 +51,47 @@ abstract class FormularField extends HtmlTag
 
     /**
      * Array with options for parser
-     * @var array
      */
-    protected $parserOptions = [];
+    protected array $parserOptions = [];
 
     /**
      * Field is prepared for being displayed
-     * @var bool
      */
-    private $prepared = false;
+    private bool $prepared = false;
 
-    /**
-     * @param string $key
-     */
-    public static function setKeyAsFailed($key)
+    public static function setKeyAsFailed(string $key)
     {
         self::$FAILED_KEYS[] = $key;
     }
 
     /**
      * Set key as failed
-     * @param string $key
-     * @return bool
      */
-    public static function hasKeyFailed($key)
+    public static function hasKeyFailed(string $key): bool
     {
         return in_array($key, self::$FAILED_KEYS);
     }
 
-    /**
-     * @param string $failure
-     */
-    public static function addValidationFailure($failure)
+    public static function addValidationFailure(string $failure)
     {
         self::$VALIDATION_FAILURES[] = $failure;
     }
 
     /**
      * Get all validation failures
-     * @return array
      */
-    public static function getValidationFailures()
+    public static function getValidationFailures(): array
     {
         return self::$VALIDATION_FAILURES;
     }
 
     /**
      * Construct a new field
-     * @param string $name
-     * @param string $label
-     * @param string|array $value optional, default: loading from $_POST
+     * @param string|array $value, default: loading from $_POST
      */
     public function __construct(
-        /**
-         * Name
-         */
-        protected $name, /**
-     * Label
-     */
-        protected $label,
+        protected string $name,
+        protected string $label,
         $value = ''
     ) {
         if (is_array($value)) {
@@ -135,9 +113,8 @@ abstract class FormularField extends HtmlTag
 
     /**
      * Set default value if empty
-     * @param string $value
      */
-    public function defaultValue($value)
+    public function defaultValue(string $value)
     {
         if (empty($this->value)) {
             $this->value = $value;
@@ -146,18 +123,16 @@ abstract class FormularField extends HtmlTag
 
     /**
      * Set layout, used as css-class for a surrounding div
-     * @param string $layout
      */
-    public function setLayout($layout)
+    public function setLayout(string $layout)
     {
         $this->layout = $layout;
     }
 
     /**
      * Set layout if no layout is set
-     * @param string $layout
      */
-    public function setLayoutIfEmpty($layout)
+    public function setLayoutIfEmpty(string $layout)
     {
         if (empty($this->layout)) {
             $this->setLayout($layout);
@@ -166,27 +141,21 @@ abstract class FormularField extends HtmlTag
 
     /**
      * Add layout, used as additional css-class for a surrounding div
-     * @param string $layout
      */
-    public function addLayout($layout)
+    public function addLayout(string $layout)
     {
         $this->layout .= ' ' . $layout;
     }
 
     /**
      * Add CSS class for layout
-     * @param string $layout
      */
-    public function addLayoutClass($layout)
+    public function addLayoutClass(string $layout)
     {
         $this->layoutClasses[] = $layout;
     }
 
-    /**
-     * @param string $parser
-     * @param array $options
-     */
-    public function setParser($parser, $options = [])
+    public function setParser(string $parser, array $options = [])
     {
         $this->parser = $parser;
         $this->parserOptions = $options;
@@ -213,13 +182,12 @@ abstract class FormularField extends HtmlTag
 
     /**
      * Validate value
-     * @return bool
      */
-    public function validate()
+    public function validate(): bool
     {
         $validation = FormularValueParser::validatePost($this->name, $this->parser, $this->parserOptions);
 
-        if ($validation !== true) {
+        if (! $validation) {
             self::setKeyAsFailed($this->name);
             self::addValidationFailure(is_string($validation) ? $validation : __('Your input is not allowed.') . ' (' . $this->name . ')');
         }
@@ -237,9 +205,8 @@ abstract class FormularField extends HtmlTag
 
     /**
      * Get code for displaying this field with layout
-     * @return string
      */
-    final public function getCode()
+    final public function getCode(): string
     {
         $this->prepare();
 
@@ -248,10 +215,8 @@ abstract class FormularField extends HtmlTag
 
     /**
      * Surround given code by div container for layout
-     * @param string $Content
-     * @return string
      */
-    final protected function getSurroundedByLayoutDiv($Content)
+    final protected function getSurroundedByLayoutDiv(string $Content): string
     {
         if (! empty($this->layout)) {
             return '<div class="' . $this->layout . ' ' . implode(' ', $this->layoutClasses) . '">' . $Content . '</div>';
@@ -275,7 +240,6 @@ abstract class FormularField extends HtmlTag
 
     /**
      * Get code for displaying the field
-     * @return string
      */
-    abstract protected function getFieldCode();
+    abstract protected function getFieldCode(): string;
 }

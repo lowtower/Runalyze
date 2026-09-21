@@ -8,10 +8,7 @@ use Runalyze\Util\File\GZipReader;
 
 class JsonImporter
 {
-    /**
-     * @var \Runalyze\Util\File\GZipReader
-     */
-    protected $Reader;
+    protected \Runalyze\Util\File\GZipReader $Reader;
 
     /**
      * @var array<string, array<int, int>> Maps [table][oldID] = newID

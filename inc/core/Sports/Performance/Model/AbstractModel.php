@@ -121,9 +121,8 @@ abstract class AbstractModel
 
     /**
      * @param int $index 0 for today
-     * @return int
      */
-    final public function fitnessAt($index)
+    final public function fitnessAt(int $index): int
     {
         return $this->at($index, self::FITNESS);
     }
@@ -131,7 +130,7 @@ abstract class AbstractModel
     /**
      * @param int $index 0 for today
      */
-    final public function fatigueAt($index): int
+    final public function fatigueAt(int $index): int
     {
         return $this->at($index, self::FATIGUE);
     }
@@ -139,7 +138,7 @@ abstract class AbstractModel
     /**
      * @param int $index 0 for today
      */
-    final public function performanceAt($index): int
+    final public function performanceAt(int $index): int
     {
         return $this->at($index, self::PERFORMANCE);
     }

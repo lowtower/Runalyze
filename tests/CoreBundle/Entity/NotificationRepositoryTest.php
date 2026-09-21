@@ -26,11 +26,10 @@ class NotificationRepositoryTest extends AbstractRepositoryTestCase
     }
 
     /**
-     * @param int|null $createdAt [timestamp]
-     * @param int|null $expirationAt [timestamp]
-     * @return int
+     * @param ?int $createdAt [timestamp]
+     * @param ?int $expirationAt [timestamp]
      */
-    protected function insertMessageFor(Account $account, $createdAt = null, $expirationAt = null)
+    protected function insertMessageFor(Account $account, $createdAt = null, ?int $expirationAt = null): int
     {
         $notification = Notification::createFromMessage(
             new TemplateBasedMessage('../../../tests/CoreBundle/DataFixtures/messages/test-message.yml'),

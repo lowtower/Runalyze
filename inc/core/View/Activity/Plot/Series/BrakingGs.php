@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\View\Activity\Plot\Series;
 
 use Runalyze\Model\Trackdata\Entity as Trackdata;

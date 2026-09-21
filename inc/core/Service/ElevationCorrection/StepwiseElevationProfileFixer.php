@@ -14,10 +14,7 @@ class StepwiseElevationProfileFixer
      */
     public const METHOD_VARIABLE_GROUP_SIZE = 1;
 
-    /**
-     * @var int
-     */
-    protected $MidpointIndexOfConstantGroup;
+    protected int $MidpointIndexOfConstantGroup;
 
     public function __construct(
         protected $NumberOfGroupedPoints = 5,
@@ -28,10 +25,8 @@ class StepwiseElevationProfileFixer
 
     /**
      * Smooth elevation profile if it's composed of constant groups
-     *
-     * @return array
      */
-    public function fixStepwiseElevations(?array $elevations = null, array $distances = [])
+    public function fixStepwiseElevations(?array $elevations = null, array $distances = []): ?array
     {
         if ($this->isProfileStepwise($elevations)) {
             $numElevations = count($elevations);
@@ -52,10 +47,7 @@ class StepwiseElevationProfileFixer
         return $elevations;
     }
 
-    /**
-     * @param int $arraySize
-     */
-    protected function getMidpointsForFixedGroupSize($arraySize): array
+    protected function getMidpointsForFixedGroupSize(int $arraySize): array
     {
         if ($this->NumberOfGroupedPoints >= $arraySize) {
             return [$this->MidpointIndexOfConstantGroup];
@@ -93,9 +85,8 @@ class StepwiseElevationProfileFixer
 
     /**
      * @param array<int, mixed> $midpoints
-     * @return array
      */
-    protected function fixStepwiseElevationsForMidpoints(array $elevations, array $distances, array $midpoints)
+    protected function fixStepwiseElevationsForMidpoints(array $elevations, array $distances, array $midpoints): array
     {
         $numMidpoints = count($midpoints);
 
@@ -113,9 +104,8 @@ class StepwiseElevationProfileFixer
 
     /**
      * @param array<int, mixed> $elevations
-     * @return bool
      */
-    public function isProfileStepwise(array $elevations)
+    public function isProfileStepwise(array $elevations): bool
     {
         $num = count($elevations);
 

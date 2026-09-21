@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::VerticalOscillation
  * @package Runalyze\View\Activity\Plot\Series
@@ -68,10 +70,9 @@ class VerticalRatio extends ActivityPointSeries
 
     /**
      * Add to plot
-     * @param int $yAxis
      * @param bool $addAnnotations [optional]
      */
-    public function addTo(Plot $Plot, $yAxis, $addAnnotations = true): void
+    public function addTo(Plot $Plot, ?int $yAxis, bool $addAnnotations = true): void
     {
         parent::addTo($Plot, $yAxis, $addAnnotations);
 

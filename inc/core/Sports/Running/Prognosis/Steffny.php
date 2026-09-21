@@ -20,10 +20,10 @@ class Steffny implements PrognosisInterface
     protected $ReferencePaceFor10k = 0.0;
 
     /**
-     * @param float|int $referenceTime [s]
+     * @param float $referenceTime [s]
      * @param float $referenceDistance [km]
      */
-    public function __construct($referenceTime = 0.0, float $referenceDistance = 10.0)
+    public function __construct(float $referenceTime = 0.0, float $referenceDistance = 10.0)
     {
         $this->setReferenceResult($referenceDistance, $referenceTime);
     }
@@ -34,20 +34,20 @@ class Steffny implements PrognosisInterface
     }
 
     /**
-     * @param int|float $timeInSeconds [s]
+     * @param float $timeInSeconds [s]
      */
-    public function setReferenceFrom10kTime($timeInSeconds): self
+    public function setReferenceFrom10kTime(float $timeInSeconds): self
     {
-        $this->ReferencePaceFor10k = (float) $timeInSeconds / 10.0;
+        $this->ReferencePaceFor10k = $timeInSeconds / 10.0;
 
         return $this;
     }
 
     /**
      * @param float $distance [km]
-     * @param int|float $timeInSeconds [s]
+     * @param float $timeInSeconds [s]
      */
-    public function setReferenceResult(float $distance, $timeInSeconds): self
+    public function setReferenceResult(float $distance, float $timeInSeconds): self
     {
         $this->transformToNear10k($distance, $timeInSeconds);
 
@@ -60,7 +60,7 @@ class Steffny implements PrognosisInterface
      * @param float $distance [km]
      * @param float $timeInSeconds [s]
      */
-    protected function transformToNear10k(float &$distance, &$timeInSeconds)
+    protected function transformToNear10k(float &$distance, float &$timeInSeconds)
     {
         if ($distance < 10.0) {
             $this->transformFromBelowToNear10k($distance, $timeInSeconds);
@@ -73,7 +73,7 @@ class Steffny implements PrognosisInterface
      * @param float $distance [km]
      * @param float $timeInSeconds [s]
      */
-    protected function transformFromBelowToNear10k(float &$distance, &$timeInSeconds)
+    protected function transformFromBelowToNear10k(float &$distance, float &$timeInSeconds)
     {
         if ($distance <= 2.25) {
             $timeInSeconds = $this->from1500mTo3000m(1.5 * $timeInSeconds / $distance);
@@ -95,7 +95,7 @@ class Steffny implements PrognosisInterface
      * @param float $distance [km]
      * @param float $timeInSeconds [s]
      */
-    protected function transformFromAboveToNear10k(float &$distance, &$timeInSeconds)
+    protected function transformFromAboveToNear10k(float &$distance, float &$timeInSeconds)
     {
         if ($distance >= 31.6) {
             $timeInSeconds = $this->fromHalfMarathonToMarathon(42.195 * $timeInSeconds / $distance, true);
@@ -154,7 +154,7 @@ class Steffny implements PrognosisInterface
      * @param float $timeInSeconds [s]
      * @return float [s]
      */
-    protected function from1500mTo3000m($timeInSeconds, bool $calculateBackwards = false): float
+    protected function from1500mTo3000m(float $timeInSeconds, bool $calculateBackwards = false): float
     {
         if ($calculateBackwards) {
             return ($timeInSeconds - 20.0) / 2.0;
@@ -165,10 +165,9 @@ class Steffny implements PrognosisInterface
 
     /**
      * @param float $timeInSeconds [s]
-     * @param bool $calculateBackwards
      * @return float [s]
      */
-    protected function from3000mTo5k($timeInSeconds, $calculateBackwards = false): float
+    protected function from3000mTo5k(float $timeInSeconds, bool $calculateBackwards = false): float
     {
         if ($calculateBackwards) {
             return ($timeInSeconds / 1.666) - 20.0;
@@ -179,10 +178,9 @@ class Steffny implements PrognosisInterface
 
     /**
      * @param float $timeInSeconds [s]
-     * @param bool $calculateBackwards
      * @return float [s]
      */
-    protected function from5kTo10k($timeInSeconds, $calculateBackwards = false)
+    protected function from5kTo10k(float $timeInSeconds, bool $calculateBackwards = false): float
     {
         if ($calculateBackwards) {
             return ($timeInSeconds - 60) / 2;
@@ -193,10 +191,9 @@ class Steffny implements PrognosisInterface
 
     /**
      * @param float $timeInSeconds [s]
-     * @param bool $calculateBackwards
      * @return float [s]
      */
-    protected function from10kToHalfMaraton($timeInSeconds, $calculateBackwards = false): float
+    protected function from10kToHalfMaraton(float $timeInSeconds, bool $calculateBackwards = false): float
     {
         if ($calculateBackwards) {
             return $timeInSeconds / 2.21;
@@ -207,9 +204,8 @@ class Steffny implements PrognosisInterface
 
     /**
      * @param float $timeInSeconds [s]
-     * @param bool $calculateBackwards
      */
-    protected function fromHalfMarathonToMarathon($timeInSeconds, $calculateBackwards = false): float
+    protected function fromHalfMarathonToMarathon(float $timeInSeconds, bool $calculateBackwards = false): float
     {
         if ($calculateBackwards) {
             return $timeInSeconds / 2.11;
@@ -222,7 +218,7 @@ class Steffny implements PrognosisInterface
      * @param float $timeInSeconds [s]
      * @return float [s]
      */
-    protected function fromMarathonTo100k($timeInSeconds): float
+    protected function fromMarathonTo100k(float $timeInSeconds): float
     {
         return $timeInSeconds * 3.0 - max(0.0, 3.0 * 3600.0 - $timeInSeconds);
     }

@@ -14,7 +14,7 @@ class TagRepository extends EntityRepository
     /**
      * @return Tag[]
      */
-    public function findAllFor(Account $account)
+    public function findAllFor(Account $account): array
     {
         return $this->findBy(
             [

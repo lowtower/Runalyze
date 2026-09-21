@@ -18,11 +18,7 @@ use System;
  */
 class Facebook extends AbstractSocialSharer
 {
-    /**
-     * APP-ID
-     * @var string
-     */
-    public static $APP_ID = '473795412675725';
+    public static string $APP_ID = '473795412675725';
 
     public function iconClass(): string
     {
@@ -65,9 +61,8 @@ class Facebook extends AbstractSocialSharer
 
     /**
      * Get meta title
-     * @return string
      */
-    public function metaTitle()
+    public function metaTitle(): string
     {
         return $this->text();
     }

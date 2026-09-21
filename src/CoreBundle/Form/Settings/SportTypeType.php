@@ -13,18 +13,12 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class SportTypeType extends AbstractType
 {
-    /**
-     * @var TokenStorageInterface
-     */
-    protected $TokenStorageInterface;
-
-    public function __construct(TokenStorageInterface $tokenStorage)
-    {
-        $this->TokenStorageInterface = $tokenStorage;
+    public function __construct(
+        protected \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $TokenStorageInterface
+    ) {
     }
 
     /**
