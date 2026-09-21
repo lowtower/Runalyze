@@ -31,7 +31,7 @@ class ElevationCorrection
      *
      * @return int[]|null altitude [m]
      */
-    public function loadAltitudeData(array $latitudes, array $longitudes, ?StrategyInterface $strategy = null)
+    public function loadAltitudeData(array $latitudes, array $longitudes, ?StrategyInterface $strategy = null): ?array
     {
         if ($strategy instanceof \Runalyze\Service\ElevationCorrection\Strategy\StrategyInterface) {
             $this->LastSuccessfulStrategy = $strategy;

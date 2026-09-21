@@ -10,6 +10,7 @@ doctrine:
                 user:     '%env(DB_TEST_USER)%'
                 password: '%env(DB_TEST_PASSWORD)%'
                 charset:  UTF8
+                options: {1002: "SET time_zone = '+00:00'"}
 
 parameters:
     database_prefix: 'runalyze_'

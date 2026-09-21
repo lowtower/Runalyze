@@ -1,4 +1,20 @@
 doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                driver:   pdo_mysql
+                host:     '%env(DATABASE_HOST)%'
+                port:     '%env(int:DATABASE_PORT)%'
+                dbname:   '%env(DATABASE_NAME)%'
+                user:     '%env(DATABASE_USER)%'
+                password: '%env(DATABASE_PASSWORD)%'
+                server_version: '%env(DATABASE_SERVER_VERSION)%'
+                charset:  UTF8
+                options: {1002: "SET time_zone = '+00:00'"}
+                mapping_types:
+                    enum: string
+                use_savepoints: true
     orm:
         auto_generate_proxy_classes: false
         query_cache_driver:
