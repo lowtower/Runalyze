@@ -133,11 +133,12 @@ services:
       tags:
         - { name: kernel.event_listener, event: console.exception }
     Runalyze\Bundle\CoreBundle\EventListener\ConsoleExceptionListener: '@app.listener.console_exception'
-    app.listener.console_error_status:
-      class: Runalyze\Bundle\CoreBundle\EventListener\ConsoleErrorStatusListener
-      tags:
-        - { name: kernel.event_listener, event: console.terminate }
-    Runalyze\Bundle\CoreBundle\EventListener\ConsoleErrorStatusListener: '@app.listener.console_error_status'
+#    app.listener.console_error_status:
+#      class: Runalyze\Bundle\CoreBundle\EventListener\ConsoleErrorStatusListener
+#      tags:
+#        - { name: kernel.event_listener, event: console.terminate }
+#    Runalyze\Bundle\CoreBundle\EventListener\ConsoleErrorStatusListener: '@app.listener.console_error_status'
+
     app.locale_listener:
       class: Runalyze\Bundle\CoreBundle\EventListener\LocaleListener
       arguments: ['%kernel.default_locale%']

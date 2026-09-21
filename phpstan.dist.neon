@@ -5,7 +5,7 @@ includes:
 
 parameters:
     level: 5
-    phpVersion: 80030
+    phpVersion: 80134
     reportUnmatchedIgnoredErrors: true
     symfony:
         containerXmlPath: var/cache/dev/srcApp_KernelDevDebugContainer.xml

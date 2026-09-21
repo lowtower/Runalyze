@@ -1,4 +1,4 @@
-ARG PHP_VERSION=8.0.30
+ARG PHP_VERSION=8.1.34
 ARG DEBIAN_FRONTEND=noninteractive
 
 ARG APP_ENV=dev
@@ -25,7 +25,7 @@ ENV APP_ENV=${APP_ENV} \
 
 # Install Packages
 RUN set -eux; \
-    apt-get update -o Acquire::AllowInsecureRepositories=true; \
+    apt-get update; \
     apt-get install -y --no-install-recommends \
       acl \
       wget \
@@ -87,6 +87,7 @@ RUN install-php-extensions \
     gd
 # Dev only
 RUN if [ "$APP_ENV" = "dev" ]; then \
+      install-php-extensions xdebug; \
       docker-php-ext-enable xdebug; \
       echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
       echo "xdebug.mode=develop,coverage"  >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
@@ -110,7 +111,7 @@ RUN composer install --no-progress || true \
     composer --version
 
 # Python dependencies for gpxtrackposter
-RUN pip3 install --no-cache-dir -r vendor/runalyze/gpxtrackposter/requirements.txt
+#RUN pip3 install --no-cache-dir -r vendor/runalyze/gpxtrackposter/requirements.txt
 
 # Apache
 COPY docker/php/runalyze.ini /usr/local/etc/php/conf.d/99-runalyze.ini
