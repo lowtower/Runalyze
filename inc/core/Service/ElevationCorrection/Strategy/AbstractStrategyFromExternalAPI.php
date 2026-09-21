@@ -4,6 +4,7 @@ namespace Runalyze\Service\ElevationCorrection\Strategy;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use Psr\Http\Message\UriInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
@@ -32,7 +33,7 @@ abstract class AbstractStrategyFromExternalAPI extends AbstractStrategy implemen
         return $this->LastException;
     }
 
-    public function loadAltitudeData(array $latitudes, array $longitudes)
+    public function loadAltitudeData(array $latitudes, array $longitudes): ?array
     {
         $this->LastException = null;
 
@@ -53,10 +54,14 @@ abstract class AbstractStrategyFromExternalAPI extends AbstractStrategy implemen
      *
      * @return int[] [m]
      */
-    protected function collectGroupWiseAltitudes(array $latitudes, array $longitudes)
+    protected function collectGroupWiseAltitudes(array $latitudes, array $longitudes): array
     {
         $numberOfPoints = count($latitudes);
-        $pointsToGroup = $this->PointsToGroup * ceil($numberOfPoints / 1000);
+        $pointsToGroup = (int) ($this->PointsToGroup * ceil($numberOfPoints / 1000));
+        if ($pointsToGroup <= 0) {
+            throw new StrategyException('Invalid grouping configuration: PointsToGroup must be greater than zero.');
+        }
+
         $latitudesForRequest = [];
         $longitudesForRequest = [];
         $altitudes = [];
@@ -89,7 +94,7 @@ abstract class AbstractStrategyFromExternalAPI extends AbstractStrategy implemen
         return $altitudes;
     }
 
-    protected function tryToLoadJsonFromUrl($url)
+    protected function tryToLoadJsonFromUrl(string|UriInterface $url)
     {
         try {
             $response = $this->HttpClient->get($url);
@@ -115,10 +120,7 @@ abstract class AbstractStrategyFromExternalAPI extends AbstractStrategy implemen
      *
      * @return int[] [m]
      */
-    abstract protected function fetchElevationFor(array $latitudes, array $longitudes);
+    abstract protected function fetchElevationFor(array $latitudes, array $longitudes): array;
 
-    /**
-     * @return bool
-     */
-    abstract protected function checkApiResult(array $json);
+    abstract protected function checkApiResult(array $json): bool;
 }

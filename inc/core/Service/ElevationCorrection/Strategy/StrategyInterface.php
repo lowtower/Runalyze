@@ -14,5 +14,5 @@ interface StrategyInterface
      *
      * @return int[]|null altitude [m]
      */
-    public function loadAltitudeData(array $latitudes, array $longitudes);
+    public function loadAltitudeData(array $latitudes, array $longitudes): ?array;
 }

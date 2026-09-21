@@ -8,10 +8,13 @@ namespace Runalyze\Service\RouteNameEvaluation;
  */
 class OsmCsvDataCollection
 {
-    protected $data = [];
+    /**
+     * @var \Runalyze\Service\RouteNameEvaluation\OsmCsvData[]
+     */
+    protected array $data = [];
 
     // array with key=<name> and value=<category>
-    protected $names = [];
+    protected array $names = [];
 
     /**
      * @param string $csvLines Overpass lines seperated with |
@@ -46,7 +49,7 @@ class OsmCsvDataCollection
 
     public function hasNames(): bool
     {
-        return ! empty($this->data);
+        return $this->data !== [];
     }
 
     /**

@@ -89,16 +89,16 @@ class Route implements AccountRelatedEntityInterface
     #[ORM\Column(name: 'elevations_corrected', type: 'pipe_array', nullable: true)]
     private ?array $elevationsCorrected = null;
 
-    #[ORM\Column(name: 'elevations_source', type: 'string', length: 255, nullable: false, options: [
+    #[ORM\Column(name: 'elevations_source', type: 'string', length: 255, nullable: true, options: [
         'default' => '',
     ])]
-    private string $elevationsSource = '';
+    private ?string $elevationsSource = null;
 
     #[ORM\Column(name: 'altitude_barometric', type: 'boolean')]
     private bool $altitudeBarometric = false;
 
     /**
-     * @var string|null [geohash]
+     * @var ?string [geohash]
      */
     #[ORM\Column(name: 'startpoint', type: 'string', length: 10, nullable: true, options: [
         'fixed' => true,
@@ -106,7 +106,7 @@ class Route implements AccountRelatedEntityInterface
     private ?string $startpoint = null;
 
     /**
-     * @var string|null [geohash]
+     * @var ?string [geohash]
      */
     #[ORM\Column(name: 'endpoint', type: 'string', length: 10, nullable: true, options: [
         'fixed' => true,
@@ -114,7 +114,7 @@ class Route implements AccountRelatedEntityInterface
     private ?string $endpoint = null;
 
     /**
-     * @var string|null [geohash]
+     * @var ?string [geohash]
      */
     #[ORM\Column(name: 'min', type: 'string', length: 10, nullable: true, options: [
         'fixed' => true,
@@ -122,7 +122,7 @@ class Route implements AccountRelatedEntityInterface
     private ?string $min = null;
 
     /**
-     * @var string|null [geohash]
+     * @var ?string [geohash]
      */
     #[ORM\Column(name: 'max', type: 'string', length: 10, nullable: true, options: [
         'fixed' => true,
@@ -328,18 +328,12 @@ class Route implements AccountRelatedEntityInterface
         return $coordinates;
     }
 
-    /**
-     * @return array
-     */
-    public function getLatitudes()
+    public function getLatitudes(): array
     {
         return $this->getLatitudesAndLongitudes()[0];
     }
 
-    /**
-     * @return array
-     */
-    public function getLongitudes()
+    public function getLongitudes(): array
     {
         return $this->getLatitudesAndLongitudes()[1];
     }
@@ -414,13 +408,13 @@ class Route implements AccountRelatedEntityInterface
         return $this;
     }
 
-    public function getElevationsSource(): string
+    public function getElevationsSource(): ?string
     {
         return $this->elevationsSource;
     }
 
     /**
-     * @param string|null $startpoint [geohash]
+     * @param ?string $startpoint [geohash]
      */
     public function setStartpoint(?string $startpoint): self
     {
@@ -430,7 +424,7 @@ class Route implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return string|null [geohash]
+     * @return ?string [geohash]
      */
     public function getStartpoint(): ?string
     {
@@ -438,7 +432,7 @@ class Route implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param string|null $endpoint [geohash]
+     * @param ?string $endpoint [geohash]
      */
     public function setEndpoint(?string $endpoint): self
     {
@@ -448,7 +442,7 @@ class Route implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return string|null [geohash]
+     * @return ?string [geohash]
      */
     public function getEndpoint(): ?string
     {
@@ -456,7 +450,7 @@ class Route implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param string|null $min [geohash]
+     * @param ?string $min [geohash]
      */
     public function setMin(?string $min): self
     {
@@ -466,7 +460,7 @@ class Route implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return string|null [geohash]
+     * @return ?string [geohash]
      */
     public function getMin(): ?string
     {
@@ -474,7 +468,7 @@ class Route implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param string|null $max [geohash]
+     * @param ?string $max [geohash]
      */
     public function setMax(?string $max): self
     {
@@ -484,7 +478,7 @@ class Route implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return string|null [geohash]
+     * @return ?string [geohash]
      */
     public function getMax(): ?string
     {

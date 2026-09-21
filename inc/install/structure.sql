@@ -237,7 +237,7 @@ CREATE TABLE IF NOT EXISTS `runalyze_route` (
   `geohashes` longtext,
   `elevations_original` longtext,
   `elevations_corrected` longtext,
-  `elevations_source` varchar(255) NOT NULL DEFAULT '',
+  `elevations_source` varchar(255) NULL DEFAULT NULL,
   `altitude_barometric` tinyint(1) unsigned DEFAULT 0,
   `startpoint` char(10) DEFAULT NULL,
   `endpoint` char(10) DEFAULT NULL,

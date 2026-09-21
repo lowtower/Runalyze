@@ -13,17 +13,17 @@ class OsmCsvData
     public const SEPERATOR = '|';
 
     // internal categories
-    public static $CAT_PEAK = 'peak';
+    public static string $CAT_PEAK = 'peak';
 
-    public static $CAT_PLACE = 'place';
+    public static string $CAT_PLACE = 'place';
 
-    public static $CAT_HUT = 'hut';
+    public static string $CAT_HUT = 'hut';
 
-    public static $CAT_WAY = 'way';
+    public static string $CAT_WAY = 'way';
 
-    public static $CAT_INFO = 'info';
+    public static string $CAT_INFO = 'info';
 
-    protected static $fieldCount = 12;
+    protected static int $fieldCount = 12;
 
     /**
      * Used for internal order of the "place"; 1 is higher than 8 or 9; 9 if not "known" by this logic
@@ -133,7 +133,7 @@ class OsmCsvData
     public function __construct(string $csvLine)
     {
         $arr = explode(self::SEPERATOR, $csvLine);
-        if (count($arr) != self::$fieldCount) {
+        if (count($arr) !== self::$fieldCount) {
             throw new \InvalidArgumentException('Invalid attributes in Overpass result line ' . $csvLine);
         }
 
@@ -216,7 +216,7 @@ class OsmCsvData
         $o = '';
 
         // peak/saddle
-        if ($this->category == self::$CAT_PEAK) {
+        if ($this->category === self::$CAT_PEAK) {
             // high must be substract, so if it higher it is upper in the sort
             $ele = ! empty($this->elevation) ? 9999 - (float) $this->elevation : 9999;
             $o .= sprintf('pk1.hi%04d.', $ele);
@@ -229,7 +229,7 @@ class OsmCsvData
         $o .= ! empty($this->trafficSign) ? 'si1.' : 'si9.';
 
         // (alpine) huts
-        $o .= $this->category == self::$CAT_HUT ? 'ht1.' : 'ht9.';
+        $o .= $this->category === self::$CAT_HUT ? 'ht1.' : 'ht9.';
 
         // sea,lake,water
         $o .= $this->natural === 'water' ? 'w1.' : 'w9.';
@@ -238,7 +238,7 @@ class OsmCsvData
         $o .= ! empty($this->landuse) || $this->natural === 'wood' ? 'fo1.' : 'fo9.';
 
         // any (other) information
-        $o .= $this->category == self::$CAT_INFO ? 'in1' : 'in9';
+        $o .= $this->category === self::$CAT_INFO ? 'in1' : 'in9';
 
         $this->order = $o;
     }

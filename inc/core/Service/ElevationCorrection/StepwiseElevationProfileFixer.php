@@ -17,8 +17,8 @@ class StepwiseElevationProfileFixer
     protected int $MidpointIndexOfConstantGroup;
 
     public function __construct(
-        protected $NumberOfGroupedPoints = 5,
-        protected $Method = self::METHOD_FIXED_GROUP_SIZE
+        protected int $NumberOfGroupedPoints = 5,
+        protected int $Method = self::METHOD_FIXED_GROUP_SIZE
     ) {
         $this->MidpointIndexOfConstantGroup = (int) floor(($this->NumberOfGroupedPoints - 1) / 2);
     }
@@ -35,7 +35,7 @@ class StepwiseElevationProfileFixer
                 $distances = range(0.0, $numElevations - 1.0);
             }
 
-            if ($this->Method == self::METHOD_FIXED_GROUP_SIZE) {
+            if ($this->Method === self::METHOD_FIXED_GROUP_SIZE) {
                 $midpoints = $this->getMidpointsForFixedGroupSize($numElevations);
             } else {
                 $midpoints = $this->findMidpointsForConstantParts($elevations);

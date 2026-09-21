@@ -13,8 +13,16 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Form\ActivityType;
 use Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter;
+use Runalyze\Bundle\CoreBundle\Services\Import\ElevationCorrection;
+use Runalyze\Service\ElevationCorrection\Exception\InvalidResponseException;
+use Runalyze\Service\ElevationCorrection\Exception\NoResponseException;
+use Runalyze\Service\ElevationCorrection\Exception\OverQueryLimitException;
+use Runalyze\Service\ElevationCorrection\Strategy\Geonames;
+use Runalyze\Service\ElevationCorrection\Strategy\GeoTiff;
+use Runalyze\Service\ElevationCorrection\Strategy\GoogleMaps;
 use Runalyze\Service\ElevationCorrection\Strategy\StrategyInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -46,7 +54,7 @@ class EditController extends AbstractController
     /**
      * @Route("/activity/{id}/edit", name="activity-edit", requirements={"id"="\d+"})
      */
-    public function activityEditAction(Request $request, int $id, Account $account, TranslatorInterface $translator): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+    public function activityEditAction(Request $request, int $id, Account $account, TranslatorInterface $translator): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -208,7 +216,7 @@ class EditController extends AbstractController
                 if ($routeAdapter->correctElevation($elevationCorrectionService, $strategy)) {
                     $this->addFlash('success', $translator->trans('Elevation data has been corrected.'));
                     $success = true;
-                } elseif (! $strategy instanceof \Runalyze\Service\ElevationCorrection\Strategy\StrategyInterface) {
+                } elseif (! $strategy instanceof StrategyInterface) {
                     $this->addFlash('error_html', $this->buildElevationCorrectionErrorMessage($elevationCorrectionService, $translator));
                     $specificErrorMessageAlreadyShown = true;
                 }
@@ -228,7 +236,7 @@ class EditController extends AbstractController
     }
 
     private function buildElevationCorrectionErrorMessage(
-        \Runalyze\Bundle\CoreBundle\Services\Import\ElevationCorrection $elevationCorrectionService,
+        ElevationCorrection $elevationCorrectionService,
         TranslatorInterface $translator
     ): string {
         $reasons = $elevationCorrectionService->getLastAttemptReasons();
@@ -241,15 +249,15 @@ class EditController extends AbstractController
         }
 
         $strategyLabels = [
-            \Runalyze\Service\ElevationCorrection\Strategy\GeoTiff::class => $translator->trans('Local elevation data') . ' (SRTM)',
-            \Runalyze\Service\ElevationCorrection\Strategy\Geonames::class => 'Geonames',
-            \Runalyze\Service\ElevationCorrection\Strategy\GoogleMaps::class => 'Google Maps',
+            GeoTiff::class => $translator->trans('Local elevation data') . ' (SRTM)',
+            Geonames::class => 'Geonames',
+            GoogleMaps::class => 'Google Maps',
         ];
 
         $exceptionReasonLabels = [
-            \Runalyze\Service\ElevationCorrection\Exception\OverQueryLimitException::class => $translator->trans('query limit exceeded'),
-            \Runalyze\Service\ElevationCorrection\Exception\NoResponseException::class => $translator->trans('no response received (network error)'),
-            \Runalyze\Service\ElevationCorrection\Exception\InvalidResponseException::class => $translator->trans('request was rejected (check API configuration/credentials)'),
+            OverQueryLimitException::class => $translator->trans('query limit exceeded'),
+            NoResponseException::class => $translator->trans('no response received (network error)'),
+            InvalidResponseException::class => $translator->trans('request was rejected (check API configuration/credentials)'),
         ];
 
         $reasonLabels = [

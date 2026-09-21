@@ -1,0 +1,37 @@
+services:
+
+  phpmyadmin:
+    image: docker.io/phpmyadmin/phpmyadmin:5.2
+    container_name: runalyze43-phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: runalyze
+      PMA_PASSWORD: runalyze
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${PMA_UI_PORT:-8081}:80"
+
+  frontend:
+    image: docker.io/library/node:18
+    container_name: runalyze43-frontend
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+      - node-modules:/var/www/html/node_modules
+    command: ["bash", "-lc", "set -e && npm install --ignore-scripts && npm run bower:install && npm run build"]
+
+###> symfony/mailer ###
+  mailhog:
+    image: docker.io/mailhog/mailhog:v1.0.1
+    container_name: runalyze43-mailhog
+    ports:
+      - "${MAILHOG_SMTP_PORT:-1025}:1025"
+      - "${MAILHOG_UI_PORT:-8025}:8025"
+    restart: unless-stopped
+###< symfony/mailer ###
+
+volumes:
+  node-modules:
