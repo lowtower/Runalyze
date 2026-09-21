@@ -18,8 +18,8 @@ class StepsPerMinute extends AbstractCadenceUnit
         return 'spm';
     }
 
-    public function getFactorFromBaseUnit(): int
+    public function getFactorFromBaseUnit(): float
     {
-        return 2;
+        return 2.0;
     }
 }

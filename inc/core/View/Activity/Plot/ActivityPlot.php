@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::ActivityPlot
  * @package Runalyze\View\Activity\Plot
@@ -18,27 +20,19 @@ use Runalyze\View\Activity;
  */
 abstract class ActivityPlot
 {
-    /**
-     * @var int
-     */
-    protected $WIDTH = 600;
+    protected int $WIDTH = 600;
 
-    /**
-     * @var int
-     */
-    protected $HEIGHT = 190;
+    protected int $HEIGHT = 190;
 
     /**
      * Plot
-     * @var \Plot
      */
-    protected $Plot;
+    protected \Plot $Plot;
 
     /**
      * Use standard x-axis?
-     * @var bool
      */
-    protected $useStandardXaxis = true;
+    protected bool $useStandardXaxis = true;
 
     /**
      * Key
@@ -97,24 +91,18 @@ abstract class ActivityPlot
     /**
      * @param int $index natural index starting by 1 (for y-axis) and using the 0-indexed version for series
      */
-    public function hideYAxisAndSeries($index)
+    public function hideYAxisAndSeries(int $index)
     {
         $this->hideYAxis($index);
         $this->hideSeries($index - 1);
     }
 
-    /**
-     * @param int $yAxis
-     */
-    protected function hideYAxis($yAxis)
+    protected function hideYAxis(int $yAxis)
     {
         $this->Plot->hideYAxis($yAxis);
     }
 
-    /**
-     * @param int $series
-     */
-    protected function hideSeries($series)
+    protected function hideSeries(int $series)
     {
         $this->Plot->setLineWidth($series, 0);
         $this->Plot->setShadowSize($series, 0);
@@ -131,31 +119,22 @@ abstract class ActivityPlot
         return count($this->Data) >= 2 || $this->Plot->Data !== [];
     }
 
-    private function initPlot()
+    private function initPlot(): void
     {
         $this->Plot = new Plot($this->getCSSid(), $this->WIDTH, $this->HEIGHT);
     }
 
-    /**
-     * @param int $id
-     */
-    private function setID($id)
+    private function setID(?int $id)
     {
         $this->id = $this->key . '_' . $id;
     }
 
-    /**
-     * @return string
-     */
-    final public function getKey()
+    final public function getKey(): string
     {
         return $this->key;
     }
 
-    /**
-     * @return string
-     */
-    final protected function getCSSid()
+    final protected function getCSSid(): string
     {
         return $this->id;
     }
@@ -163,7 +142,7 @@ abstract class ActivityPlot
     /**
      * Output JS
      */
-    final public function display()
+    final public function display(): void
     {
         echo Plot::getInnerDivFor($this->getCSSid(), $this->WIDTH, $this->HEIGHT);
         $this->Plot->outputJavaScript();

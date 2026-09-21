@@ -34,7 +34,7 @@ class PipeDelimitedArray extends Type
 
         $value = (is_resource($value)) ? stream_get_contents($value) : $value;
 
-        return array_map(function ($v) {
+        return array_map(function ($v): int|float|null {
             if (is_numeric($v)) {
                 return $v + 0;
             }

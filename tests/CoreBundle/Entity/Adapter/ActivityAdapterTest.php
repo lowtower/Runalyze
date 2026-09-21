@@ -163,6 +163,19 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(371, $this->Activity->getKcal());
     }
 
+    public function testCalculationOfEnergyConsumptionWithoutSportDoesNotCrash(): void
+    {
+        $this->Activity->setS(1800);
+
+        $this->Adapter->calculateEnergyConsumptionIfEmpty();
+
+        $this->assertNull(
+            $this->Activity->getKcal(),
+            'Without a sport, energy consumption cannot be calculated - '
+            . 'getKcal() should remain null (its default), not crash.'
+        );
+    }
+
     public function testCalculationOfClimbScore(): void
     {
         $this->Activity->setTrackdata(new Trackdata());

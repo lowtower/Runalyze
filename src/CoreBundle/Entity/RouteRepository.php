@@ -4,6 +4,7 @@ namespace Runalyze\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
+use League\Geotools\Coordinate\CoordinateInterface;
 use League\Geotools\Geohash\Geohash;
 
 /**
@@ -22,11 +23,7 @@ class RouteRepository extends EntityRepository
             ->getOneOrNullResult(AbstractQuery::HYDRATE_SCALAR) !== null;
     }
 
-    /**
-     * @param int $routeId
-     * @return \League\Geotools\Coordinate\CoordinateInterface|null
-     */
-    public function getStartCoordinatesFor($routeId)
+    public function getStartCoordinatesFor(int $routeId): ?CoordinateInterface
     {
         $result = $this->createQueryBuilder('r')
             ->select('r.startpoint')

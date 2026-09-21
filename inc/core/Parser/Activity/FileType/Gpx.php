@@ -3,6 +3,7 @@
 namespace Runalyze\Parser\Activity\FileType;
 
 use Runalyze\Parser\Activity\Common\AbstractMultipleParser;
+use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 use Runalyze\Parser\Common\FileContentAwareParserInterface;
 use Runalyze\Parser\Common\XmlParserTrait;
 use SimpleXMLElement;
@@ -20,10 +21,7 @@ class Gpx extends AbstractMultipleParser implements FileContentAwareParserInterf
         }
     }
 
-    /**
-     * @return \Runalyze\Parser\Activity\Common\Data\ActivityDataContainer
-     */
-    protected function parseSingleTrack(SimpleXMLElement $track)
+    protected function parseSingleTrack(SimpleXMLElement $track): ActivityDataContainer
     {
         $parser = new GpxTrack($track);
         $parser->setLogger($this->logger);

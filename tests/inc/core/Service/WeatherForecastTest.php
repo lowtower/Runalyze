@@ -82,7 +82,7 @@ class WeatherForecastTest extends \PHPUnit\Framework\TestCase
         $databaseCache->expects($this->once())
             ->method('cacheWeatherData')
             ->with(
-                $this->callback(fn ($data) => ! $data->hasNoUsableData()),
+                $this->callback(fn ($data): bool => ! $data->hasNoUsableData()),
                 $this->isInstanceOf(Location::class)
             );
 

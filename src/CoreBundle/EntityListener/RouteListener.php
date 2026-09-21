@@ -5,27 +5,13 @@ namespace Runalyze\Bundle\CoreBundle\EntityListener;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Route;
-use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
-use Runalyze\Bundle\CoreBundle\Services\Import\ElevationCorrection;
 
 class RouteListener
 {
-    /**
-     * @var ConfigurationManager
-     */
-    protected $ConfigurationManager;
-
-    /**
-     * @var ElevationCorrection
-     */
-    protected $ElevationCorrection;
-
     public function __construct(
-        ConfigurationManager $configurationManager,
-        ElevationCorrection $elevationCorrection
+        protected \Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager $ConfigurationManager,
+        protected \Runalyze\Bundle\CoreBundle\Services\Import\ElevationCorrection $ElevationCorrection
     ) {
-        $this->ConfigurationManager = $configurationManager;
-        $this->ElevationCorrection = $elevationCorrection;
     }
 
     public function prePersist(Route $route, \Doctrine\ORM\Event\PrePersistEventArgs $args): void

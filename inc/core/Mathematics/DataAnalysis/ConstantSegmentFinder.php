@@ -6,40 +6,21 @@ namespace Runalyze\Mathematics\DataAnalysis;
 
 class ConstantSegmentFinder
 {
-    /**
-     * @var array
-     */
-    protected $Data;
+    protected int $DataSize;
 
-    /**
-     * @var int
-     */
-    protected $DataSize;
+    protected array $IndexData;
 
-    /**
-     * @var array
-     */
-    protected $IndexData;
+    protected float $ConstantDelta = 0.0;
 
-    /**
-     * @var int|float
-     */
-    protected $ConstantDelta = 0;
+    protected float $MinimumIndexDiff = 1.0;
 
-    /**
-     * @var int|float
-     */
-    protected $MinimumIndexDiff = 1;
+    protected ?float $MaximumIndexDiff = null;
 
-    /**
-     * @var int|float|null
-     */
-    protected $MaximumIndexDiff;
-
-    public function __construct(array $data, array $indexData = [])
-    {
-        $this->Data = $data;
-        $this->DataSize = count($data);
+    public function __construct(
+        protected array $Data,
+        array $indexData = []
+    ) {
+        $this->DataSize = count($this->Data);
         $this->IndexData = $indexData === [] && $this->DataSize > 0 ? range(0, $this->DataSize - 1) : $indexData;
 
         if (count($this->IndexData) !== $this->DataSize) {
@@ -47,26 +28,17 @@ class ConstantSegmentFinder
         }
     }
 
-    /**
-     * @param int|float $delta
-     */
-    public function setConstantDelta($delta): void
+    public function setConstantDelta(float $delta): void
     {
         $this->ConstantDelta = $delta;
     }
 
-    /**
-     * @param int|float $length
-     */
-    public function setMinimumIndexDiff($length): void
+    public function setMinimumIndexDiff(float $length): void
     {
         $this->MinimumIndexDiff = $length;
     }
 
-    /**
-     * @param int|float|null $length
-     */
-    public function setMaximumIndexDiff($length): void
+    public function setMaximumIndexDiff(?float $length): void
     {
         $this->MaximumIndexDiff = $length;
     }
@@ -76,7 +48,7 @@ class ConstantSegmentFinder
      */
     public function findConstantSegments(): array
     {
-        if ($this->DataSize == 0) {
+        if ($this->DataSize === 0) {
             return [];
         }
 

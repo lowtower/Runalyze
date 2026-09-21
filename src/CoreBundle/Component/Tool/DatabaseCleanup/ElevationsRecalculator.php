@@ -17,21 +17,15 @@ class ElevationsRecalculator
     protected $Results = [];
 
     /**
-     * @var \PDO
-     */
-    protected $PDO;
-
-    /**
      * Construct
      * @param int $AccountID
      * @param string $DatabasePrefix
      */
     public function __construct(
-        \PDO $database,
+        protected \PDO $PDO,
         protected $AccountID,
         protected $DatabasePrefix
     ) {
-        $this->PDO = $database;
     }
 
     /**
@@ -65,7 +59,7 @@ class ElevationsRecalculator
      * Prepare statement
      * @return \PDOStatement
      */
-    protected function prepareUpdate()
+    protected function prepareUpdate(): \PDOStatement|false
     {
         $Set = [
             '`elevation` = :elevation',
@@ -82,7 +76,7 @@ class ElevationsRecalculator
      * Get query statement
      * @return \PDOStatement statement to fetch routes with respective elevations
      */
-    protected function getQuery()
+    protected function getQuery(): \PDOStatement|false
     {
         return $this->PDO->query(
             'SELECT

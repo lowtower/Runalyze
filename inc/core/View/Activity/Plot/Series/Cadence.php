@@ -26,10 +26,7 @@ class Cadence extends ActivityPointSeries
      */
     public const COLOR = 'rgb(41,128,185)';
 
-    /**
-     * @var bool
-     */
-    protected $isRunning = false;
+    protected bool $isRunning;
 
     /**
      * Create series
@@ -73,10 +70,8 @@ class Cadence extends ActivityPointSeries
 
     /**
      * Add to plot
-     * @param int $yAxis
-     * @param bool $addAnnotations [optional]
      */
-    public function addTo(Plot $Plot, $yAxis, $addAnnotations = true): void
+    public function addTo(Plot $Plot, ?int $yAxis, bool $addAnnotations = true): void
     {
         parent::addTo($Plot, $yAxis, $addAnnotations);
 

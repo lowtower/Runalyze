@@ -22,9 +22,8 @@ class Trimp extends \Runalyze\Configuration\Category
 {
     /**
      * Flag: recalculation triggered?
-     * @var bool
      */
-    private static $TRIGGERED = false;
+    private static bool $TRIGGERED = false;
 
     /**
      * Internal key

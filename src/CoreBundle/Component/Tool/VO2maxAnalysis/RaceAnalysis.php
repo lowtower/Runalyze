@@ -5,27 +5,20 @@ namespace Runalyze\Bundle\CoreBundle\Component\Tool\VO2maxAnalysis;
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
 use Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector;
-use Runalyze\Model;
 use Runalyze\Sports\Running\Prognosis\VO2max;
 use Runalyze\Util\LocalTime;
 
 class RaceAnalysis
 {
     /**
-     * @var Model\Activity\Entity
-     */
-    protected $Activity;
-
-    /**
      * @param float $VO2maxFactor
      * @param float $VO2maxShape
      */
     public function __construct(
-        Model\Activity\Entity $activity,
+        protected \Runalyze\Model\Activity\Entity $Activity,
         protected $VO2maxFactor,
         protected $VO2maxShape
     ) {
-        $this->Activity = $activity;
     }
 
     /**
@@ -60,7 +53,7 @@ class RaceAnalysis
     /**
      * @return float [ml/kg/min]
      */
-    public function getVO2maxByTime()
+    public function getVO2maxByTime(): ?float
     {
         return $this->Activity->vo2maxByTime();
     }
@@ -68,7 +61,7 @@ class RaceAnalysis
     /**
      * @return int [bpm]
      */
-    public function getHeartRateInBpm()
+    public function getHeartRateInBpm(): ?int
     {
         return $this->Activity->hrAvg();
     }
@@ -76,7 +69,7 @@ class RaceAnalysis
     /**
      * @return float [ml/kg/min]
      */
-    public function getVO2maxByHeartRate()
+    public function getVO2maxByHeartRate(): ?float
     {
         return $this->Activity->vo2maxByHeartRate();
     }
@@ -89,7 +82,7 @@ class RaceAnalysis
     /**
      * @return float [ml/kg/min]
      */
-    public function getVO2maxByHeartRateAfterCorrection()
+    public function getVO2maxByHeartRateAfterCorrection(): int|float
     {
         return $this->VO2maxFactor * $this->Activity->vo2maxByHeartRate();
     }

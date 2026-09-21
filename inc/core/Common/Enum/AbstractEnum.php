@@ -34,10 +34,7 @@ namespace Runalyze\Common\Enum;
  */
 abstract class AbstractEnum
 {
-    /**
-     * @var array
-     */
-    private static $ConstantsCache = [];
+    private static array $ConstantsCache = [];
 
     /**
      * Get all constants of called class.

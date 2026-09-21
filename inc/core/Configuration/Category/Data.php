@@ -176,28 +176,19 @@ class Data extends \Runalyze\Configuration\Category
         $this->updateValue($this->handle('BASIC_ENDURANCE'));
     }
 
-    /**
-     * @return int
-     */
-    public function maxATL()
+    public function maxATL(): int
     {
         return max(1, $this->get('MAX_ATL'));
     }
 
-    /**
-     * @param int $atl
-     */
-    public function updateMaxATL($atl): void
+    public function updateMaxATL(int $atl): void
     {
         $this->object('MAX_ATL')
             ->set($atl);
         $this->updateValue($this->handle('MAX_ATL'));
     }
 
-    /**
-     * @return int
-     */
-    public function maxCTL()
+    public function maxCTL(): int
     {
         return max(1, $this->get('MAX_CTL'));
     }
@@ -212,10 +203,7 @@ class Data extends \Runalyze\Configuration\Category
         $this->updateValue($this->handle('MAX_CTL'));
     }
 
-    /**
-     * @return int
-     */
-    public function maxTrimp()
+    public function maxTrimp(): int
     {
         return max(1, $this->get('MAX_TRIMP'));
     }
@@ -262,7 +250,7 @@ class Data extends \Runalyze\Configuration\Category
     /**
      * @return float new shape [ml/kg/min]
      */
-    public function recalculateVO2maxShape()
+    public function recalculateVO2maxShape(): float
     {
         $Shape = new JD\Shape(
             DB::getInstance(),

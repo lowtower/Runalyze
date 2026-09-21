@@ -14,15 +14,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
  */
 class ActivityDataContainerToActivityContextConverterTest extends AbstractFixturesAwareWebTestCase
 {
-    /**
-     * @var ActivityDataContainerToActivityContextConverter
-     */
-    protected $Converter;
+    protected ActivityDataContainerToActivityContextConverter $Converter;
 
-    /**
-     * @var ActivityDataContainer
-     */
-    protected $Container;
+    protected ActivityDataContainer $Container;
 
     protected function setUp(): void
     {
@@ -169,5 +163,27 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
         $activityContext = $this->Converter->getContextFor($this->Container);
 
         $this->assertEquals([0.12346, 0.98765], $activityContext->getTrackdata()->getDistance());
+    }
+
+    public function testThatMissingTimestampFallsBackToNow(): void
+    {
+        $this->Container->Metadata->setSportName('Running');
+
+        $beforeCall = time();
+        $activityContext = $this->Converter->getContextFor($this->Container);
+        $afterCall = time();
+
+        $this->assertGreaterThanOrEqual(
+            $beforeCall,
+            $activityContext->getActivity()
+                ->getTime(),
+            'A missing timestamp should fall back to the current time, not 0 or any other placeholder.'
+        );
+        $this->assertLessThanOrEqual(
+            $afterCall,
+            $activityContext->getActivity()
+                ->getTime(),
+            'The fallback timestamp should not be in the future relative to when this test ran.'
+        );
     }
 }

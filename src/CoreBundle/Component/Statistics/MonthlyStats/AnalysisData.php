@@ -4,7 +4,6 @@ namespace Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
-use Runalyze\Bundle\CoreBundle\Services\Selection\Selection;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Twig\DisplayableTime;
 use Runalyze\Bundle\CoreBundle\Twig\DisplayableValue;
@@ -23,16 +22,6 @@ class AnalysisData
     protected $Data = [];
 
     /**
-     * @var Selection
-     */
-    protected $SportSelection;
-
-    /**
-     * @var AnalysisSelection
-     */
-    protected $AnalysisSelection;
-
-    /**
      * @var DisplayableValue
      */
     protected $DefaultValue;
@@ -43,14 +32,11 @@ class AnalysisData
     protected $ValueExtension;
 
     public function __construct(
-        Selection $sportSelection,
-        AnalysisSelection $analysisSelection,
+        protected \Runalyze\Bundle\CoreBundle\Services\Selection\Selection $SportSelection,
+        protected \Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisSelection $AnalysisSelection,
         TrainingRepository $trainingRepository,
         Account $account
     ) {
-        $this->SportSelection = $sportSelection;
-        $this->AnalysisSelection = $analysisSelection;
-
         $this->fetchDataFrom($trainingRepository, $account);
     }
 
@@ -73,10 +59,7 @@ class AnalysisData
         }
     }
 
-    /**
-     * @return string|null
-     */
-    protected function getColumn()
+    protected function getColumn(): ?string
     {
         return match ($this->AnalysisSelection->getCurrentKey()) {
             AnalysisSelection::DISTANCE => 'distance',
@@ -105,18 +88,12 @@ class AnalysisData
         $this->ValueExtension = $valueExtension;
     }
 
-    /**
-     * @return Selection
-     */
-    public function getSportSelection()
+    public function getSportSelection(): \Runalyze\Bundle\CoreBundle\Services\Selection\Selection
     {
         return $this->SportSelection;
     }
 
-    /**
-     * @return AnalysisSelection
-     */
-    public function getAnalysisSelection()
+    public function getAnalysisSelection(): \Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisSelection
     {
         return $this->AnalysisSelection;
     }

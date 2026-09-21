@@ -27,11 +27,6 @@ class Query
      */
     public const MONTH_TIMERANGE = 2678400; // 31 * 86400
 
-    /**
-     * @var Configuration
-     */
-    protected $Configuration;
-
     protected bool $ShowOnlyPublicActivites = false;
 
     protected array $AdditionalColumns = [];
@@ -42,11 +37,10 @@ class Query
     protected array $JoinTables = [];
 
     public function __construct(
-        Configuration $configuration,
+        protected Configuration $Configuration,
         protected \PDO $PDO,
         protected int $AccountID
     ) {
-        $this->Configuration = $configuration;
     }
 
     public function showOnlyPublicActivities(bool $flag = true): void

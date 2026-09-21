@@ -129,7 +129,7 @@ class TableZonesHeartrate extends TableZonesAbstract
         $data = $distribution->data();
         $histogram = $distribution->histogram();
 
-        if (empty($histogram)) {
+        if ($histogram === []) {
             $this->footerHint =
                 'Heart-rate zones cannot be calculated because no '
                 . 'heart-rate data is available.';

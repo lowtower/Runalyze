@@ -3,31 +3,19 @@
 namespace Runalyze\Bundle\CoreBundle\Services\Configuration;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Entity\ConfRepository;
 
 class ConfigurationUpdater
 {
-    /**
-     * @var ConfRepository
-     */
-    protected $Repository;
-
-    /**
-     * @var ConfigurationManager
-     */
-    protected $Manager;
-
-    public function __construct(ConfRepository $repository, ?ConfigurationManager $manager = null)
-    {
-        $this->Repository = $repository;
-        $this->Manager = $manager;
+    public function __construct(
+        protected \Runalyze\Bundle\CoreBundle\Entity\ConfRepository $Repository,
+        protected ?\Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager $Manager = null
+    ) {
     }
 
     /**
      * @param string $configName
-     * @param string $value
      */
-    protected function updateInDataConfiguration(Account $account, $configName, $value)
+    protected function updateInDataConfiguration(Account $account, $configName, string $value)
     {
         $this->Repository->updateOrInsert($account, 'data', $configName, $value);
         $this->Manager->getList($account)

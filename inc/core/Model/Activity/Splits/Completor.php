@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::Completor
  * @package Runalyze\Model\Activity\Splits
@@ -28,39 +30,18 @@ abstract class Completor
     public const MODE_DISTANCE = 'distance';
 
     /**
-     * Time
-     * @var array
-     */
-    protected $Time;
-
-    /**
-     * Distance
-     * @var array
-     */
-    protected $Distance;
-
-    /**
-     * Splits
-     * @var \Runalyze\Model\Activity\Splits\Entity
-     */
-    protected $Splits;
-
-    /**
      * Construct
      */
-    public function __construct(Entity $splits, array $time, array $distance)
-    {
-        $this->Splits = $splits;
-        $this->Time = $time;
-        $this->Distance = $distance;
+    public function __construct(
+        protected Entity $Splits,
+        protected array $Time,
+        protected array $Distance
+    ) {
     }
 
-    /**
-     * @return string
-     */
-    abstract public function mode();
+    abstract public function mode(): string;
 
-    public function completeSplits()
+    public function completeSplits(): void
     {
         $totalDistance = 0;
         $totalTime = 0;
@@ -68,7 +49,7 @@ abstract class Completor
         $i = 0;
 
         foreach ($this->Splits->asArray() as $split) {
-            if ($this->mode() == self::MODE_DISTANCE) {
+            if ($this->mode() === self::MODE_DISTANCE) {
                 $s = $split->time();
 
                 while ($i < $size - 1 && $s > $this->Time[$i] - $totalTime) {

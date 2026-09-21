@@ -18,7 +18,7 @@ class GoogleMaps extends AbstractStrategyFromExternalAPI
         return true;
     }
 
-    public function loadAltitudeData(array $latitudes, array $longitudes)
+    public function loadAltitudeData(array $latitudes, array $longitudes): ?array
     {
         $altitudes = parent::loadAltitudeData($latitudes, $longitudes);
 

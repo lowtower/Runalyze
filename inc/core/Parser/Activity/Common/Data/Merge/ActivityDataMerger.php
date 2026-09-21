@@ -8,20 +8,10 @@ use Runalyze\Parser\Activity\Common\Data\ActivityData;
 
 class ActivityDataMerger implements MergerInterface
 {
-    /**
-     * @var ActivityData
-     */
-    protected $ResultingData;
-
-    /**
-     * @var ActivityData
-     */
-    protected $DataToMerge;
-
-    public function __construct(ActivityData $firstData, ActivityData $secondData)
-    {
-        $this->ResultingData = $firstData;
-        $this->DataToMerge = $secondData;
+    public function __construct(
+        protected ActivityData $ResultingData,
+        protected ActivityData $DataToMerge
+    ) {
     }
 
     public function merge(): void

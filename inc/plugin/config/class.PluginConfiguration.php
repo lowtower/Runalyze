@@ -28,9 +28,6 @@ class PluginConfiguration
     private bool $CatchedValues = false;
 
     public function __construct(
-        /**
-         * Plugin id
-         */
         protected int $PluginID
     ) {
     }
@@ -61,7 +58,7 @@ class PluginConfiguration
                 'WHERE `pluginid` IN (' . implode(',', PluginFactory::allIDs()) . ')'
             )->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_ASSOC);
 
-            Cache::set(self::CACHE_KEY, $ResultFromDB, '60');
+            Cache::set(self::CACHE_KEY, $ResultFromDB, 60);
         }
 
         $this->checkValuesFromDatabase($ResultFromDB);
@@ -156,7 +153,7 @@ class PluginConfiguration
      * All objects
      * @return PluginConfigurationValue[]
      */
-    final public function objects()
+    final public function objects(): array
     {
         return $this->Values;
     }

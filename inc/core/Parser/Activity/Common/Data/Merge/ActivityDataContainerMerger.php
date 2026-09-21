@@ -6,10 +6,7 @@ use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 
 class ActivityDataContainerMerger
 {
-    /**
-     * @var ActivityDataContainer
-     */
-    protected $ResultingContainer;
+    protected ActivityDataContainer $ResultingContainer;
 
     public function __construct(ActivityDataContainer $firstContainer, ActivityDataContainer $secondContainer)
     {
@@ -48,10 +45,7 @@ class ActivityDataContainerMerger
         }
     }
 
-    /**
-     * @return ActivityDataContainer
-     */
-    public function getResultingContainer()
+    public function getResultingContainer(): ActivityDataContainer
     {
         return $this->ResultingContainer;
     }

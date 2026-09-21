@@ -84,7 +84,6 @@ class Formular extends HtmlTag
 
     /**
      * Add a fieldset to formular
-     * @param bool $opened [optional]
      */
     public function addFieldset(FormularFieldset $Fieldset, bool $opened = true): void
     {
@@ -130,7 +129,7 @@ class Formular extends HtmlTag
     /**
      * Set a specific layout for all fields in every fieldset
      */
-    public function setLayoutForFields($layout): void
+    public function setLayoutForFields(string $layout): void
     {
         foreach ($this->fieldsets as &$Fieldset) {
             $Fieldset->setLayoutForFields($layout);

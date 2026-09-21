@@ -203,7 +203,7 @@ class Dataview
 
     public function cadence(): \Runalyze\Data\Cadence\AbstractCadence
     {
-        return $this->object($this->Cadence, function (Activity\Entity $Activity) {
+        return $this->object($this->Cadence, function (Activity\Entity $Activity): \Runalyze\Data\Cadence\Running|\Runalyze\Data\Cadence\General {
             if ($Activity->sportid() == Configuration::General()->runningSport()) {
                 return new Cadence\Running($Activity->cadence());
             }
@@ -224,10 +224,7 @@ class Dataview
         return $Stress->string();
     }
 
-    /**
-     * @return int|null|string
-     */
-    public function rpe(bool $valueOnly = false)
+    public function rpe(bool $valueOnly = false): int|null|string
     {
         if ($valueOnly) {
             return $this->Activity->rpe();

@@ -85,10 +85,7 @@ class EquipmentType implements AccountRelatedEntityInterface
         $this->equipment = new ArrayCollection();
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }

@@ -8,19 +8,14 @@ use Symfony\Component\Cache\Adapter\AdapterInterface;
 
 class ActivityCache
 {
-    /**
-     * @var AdapterInterface
-     */
-    protected $Cache;
-
-    public function __construct(AdapterInterface $cache)
-    {
-        $this->Cache = $cache;
+    public function __construct(
+        protected AdapterInterface $Cache
+    ) {
     }
 
     public function save(Training $activity): string
     {
-        $hash = $this->getRandomHash($activity->getAccount());
+        $hash = $this->getRandomHash($activity->hasAccount() ? $activity->getAccount() : null);
         $item = $this->Cache->getItem($hash);
         $item->set($activity);
 
@@ -32,9 +27,8 @@ class ActivityCache
     /**
      * @param string|null $hash
      * @param bool $removerAfterwards
-     * @return Training|null
      */
-    public function get($hash, ?Training $activityToMerge = null, $removerAfterwards = false)
+    public function get($hash, ?Training $activityToMerge = null, $removerAfterwards = false): ?Training
     {
         if ($hash === null || $hash == '') {
             return $activityToMerge;
@@ -51,7 +45,7 @@ class ActivityCache
             return $activityToMerge;
         }
 
-        if ($activityToMerge instanceof \Runalyze\Bundle\CoreBundle\Entity\Training) {
+        if ($activityToMerge instanceof Training) {
             return $this->merge($activity, $activityToMerge);
         }
 
@@ -66,10 +60,7 @@ class ActivityCache
         $this->Cache->deleteItem($hash);
     }
 
-    /**
-     * @return Training
-     */
-    public function merge(Training $activityFromCache, Training $activityToMerge)
+    public function merge(Training $activityFromCache, Training $activityToMerge): Training
     {
         $this->mergeActivityDataFromParserThatIsNotInForm($activityFromCache, $activityToMerge);
 
@@ -142,6 +133,6 @@ class ActivityCache
 
     protected function getRandomHash(?Account $account = null): string
     {
-        return hash('sha256', ($account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account ? $account->getName() : '') . uniqid());
+        return hash('sha256', ($account instanceof Account ? $account->getName() : '') . uniqid());
     }
 }

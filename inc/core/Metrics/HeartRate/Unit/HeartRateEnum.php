@@ -23,23 +23,20 @@ class HeartRateEnum extends AbstractEnum
 
     /**
      * @param int $enum from internal enum
-     * @param int $maximalHeartRate
-     * @param int $restingHeartRate
-     * @return AbstractHeartRateUnit
      *
      * @throws \InvalidArgumentException
      */
-    public static function get($enum, $maximalHeartRate, $restingHeartRate)
+    public static function get(int $enum, int $maximalHeartRate, int $restingHeartRate): AbstractHeartRateUnit
     {
-        if ($enum == self::BEATS_PER_MINUTE) {
+        if ($enum === self::BEATS_PER_MINUTE) {
             return new BeatsPerMinute();
         }
 
-        if ($enum == self::PERCENT_MAXIMUM) {
+        if ($enum === self::PERCENT_MAXIMUM) {
             return new PercentMaximum($maximalHeartRate);
         }
 
-        if ($enum == self::PERCENT_RESERVE) {
+        if ($enum === self::PERCENT_RESERVE) {
             return new PercentReserve($maximalHeartRate, $restingHeartRate);
         }
 

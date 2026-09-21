@@ -191,9 +191,8 @@ class BSplineInterpolation
 
     /**
      * @param float $t [0.00 .. 1.00]
-     * @return float
      */
-    protected function remapPartialValue($t)
+    protected function remapPartialValue(float $t): float
     {
         $low = $this->Knots[$this->Domain[0]];
         $high = $this->Knots[$this->Domain[1]];
@@ -203,9 +202,8 @@ class BSplineInterpolation
 
     /**
      * @param float $t [0.00 .. 1.00]
-     * @return int
      */
-    protected function findSplineSegment($t)
+    protected function findSplineSegment(float $t): int
     {
         for ($s = $this->Domain[0]; $s < $this->Domain[1]; ++$s) {
             if ($t >= $this->Knots[$s] && $t <= $this->Knots[$s + 1]) {

@@ -33,10 +33,7 @@ class Factorial extends Simple implements FormattableUnitInterface
         $this->Decimals = $decimals ?: max(0, ceil(log10(1 / $this->Factor)));
     }
 
-    /**
-     * @return int|float
-     */
-    public function getFactorFromBaseUnit()
+    public function getFactorFromBaseUnit(): float
     {
         return $this->Factor;
     }

@@ -30,64 +30,43 @@ class Conf implements AccountRelatedEntityInterface
     #[ORM\ManyToOne(targetEntity: Account::class)]
     private Account $account;
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param string $category
-     */
-    public function setCategory($category): self
+    public function setCategory(string $category): self
     {
         $this->category = $category;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getCategory()
+    public function getCategory(): string
     {
         return $this->category;
     }
 
-    /**
-     * @param string $key
-     */
-    public function setKey($key): self
+    public function setKey(string $key): self
     {
         $this->key = $key;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getKey()
+    public function getKey(): string
     {
         return $this->key;
     }
 
-    /**
-     * @param string $value
-     */
-    public function setValue($value): self
+    public function setValue(string $value): self
     {
         $this->value = $value;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getValue()
+    public function getValue(): string
     {
         return $this->value;
     }
@@ -99,10 +78,7 @@ class Conf implements AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @return Account
-     */
-    public function getAccount()
+    public function getAccount(): Account
     {
         return $this->account;
     }

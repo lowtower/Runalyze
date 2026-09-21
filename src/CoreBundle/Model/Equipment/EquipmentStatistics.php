@@ -7,7 +7,7 @@ class EquipmentStatistics
     /**
      * @var EquipmentStatistic[]
      */
-    protected $Equipments = [];
+    protected array $Equipments;
 
     public function __construct(array $queryResult)
     {
@@ -34,7 +34,7 @@ class EquipmentStatistics
     /**
      * @return EquipmentStatistic[]
      */
-    public function getStatistics()
+    public function getStatistics(): array
     {
         return $this->Equipments;
     }

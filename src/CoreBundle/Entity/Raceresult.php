@@ -14,59 +14,41 @@ class Raceresult implements AccountRelatedEntityInterface
      * @var ?float [km]
      */
     #[ORM\Column(name: 'official_distance', type: 'casted_decimal_2', precision: 6, scale: 2, nullable: true)]
-    private $officialDistance;
+    private ?float $officialDistance = null;
 
     /**
      * @var float [s]
      */
     #[ORM\Column(name: 'official_time', type: 'casted_decimal_2', precision: 8, scale: 2, nullable: false)]
-    private $officialTime;
+    private float $officialTime;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'officially_measured', type: 'boolean')]
-    private $officiallyMeasured = false;
+    private bool $officiallyMeasured = false;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'name', type: 'string', length: 50, nullable: false, options: [
         'default' => '',
     ])]
-    private $name = '';
+    private string $name = '';
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(name: 'place_total', type: 'integer', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $placeTotal;
+    private ?int $placeTotal = null;
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(name: 'place_gender', type: 'integer', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $placeGender;
+    private ?int $placeGender = null;
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(name: 'place_ageclass', type: 'integer', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $placeAgeclass;
+    private ?int $placeAgeclass = null;
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(name: 'participants_total', type: 'integer', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $participantsTotal;
+    private ?int $participantsTotal = null;
 
     /**
      * @var int|null
@@ -76,13 +58,10 @@ class Raceresult implements AccountRelatedEntityInterface
     ])]
     private $participantsGender;
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(name: 'participants_ageclass', type: 'integer', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $participantsAgeclass;
+    private ?int $participantsAgeclass = null;
 
     #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id')]
     #[ORM\Id]
@@ -99,7 +78,7 @@ class Raceresult implements AccountRelatedEntityInterface
     /**
      * @param float $officialDistance [km]
      */
-    public function setOfficialDistance($officialDistance): self
+    public function setOfficialDistance(float $officialDistance): self
     {
         $this->officialDistance = $officialDistance;
 
@@ -109,7 +88,7 @@ class Raceresult implements AccountRelatedEntityInterface
     /**
      * @return float [km]
      */
-    public function getOfficialDistance()
+    public function getOfficialDistance(): float
     {
         return $this->officialDistance;
     }
@@ -117,7 +96,7 @@ class Raceresult implements AccountRelatedEntityInterface
     /**
      * @param float $officialTime [s]
      */
-    public function setOfficialTime($officialTime): self
+    public function setOfficialTime(float $officialTime): self
     {
         $this->officialTime = $officialTime;
 
@@ -127,151 +106,103 @@ class Raceresult implements AccountRelatedEntityInterface
     /**
      * @return float [s]
      */
-    public function getOfficialTime()
+    public function getOfficialTime(): float
     {
         return $this->officialTime;
     }
 
-    /**
-     * @param bool $flag
-     */
-    public function setOfficiallyMeasured($flag): self
+    public function setOfficiallyMeasured(bool $flag): self
     {
         $this->officiallyMeasured = $flag;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getOfficiallyMeasured()
+    public function getOfficiallyMeasured(): bool
     {
         return $this->officiallyMeasured;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param int|null $placeTotal
-     */
-    public function setPlaceTotal($placeTotal): self
+    public function setPlaceTotal(?int $placeTotal): self
     {
         $this->placeTotal = $placeTotal;
 
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getPlaceTotal()
+    public function getPlaceTotal(): ?int
     {
         return $this->placeTotal;
     }
 
-    /**
-     * @param int|null $placeGender
-     */
-    public function setPlaceGender($placeGender): self
+    public function setPlaceGender(?int $placeGender): self
     {
         $this->placeGender = $placeGender;
 
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getPlaceGender()
+    public function getPlaceGender(): ?int
     {
         return $this->placeGender;
     }
 
-    /**
-     * @param int|null $placeAgeclass
-     */
-    public function setPlaceAgeclass($placeAgeclass): self
+    public function setPlaceAgeclass(?int $placeAgeclass): self
     {
         $this->placeAgeclass = $placeAgeclass;
 
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getPlaceAgeclass()
+    public function getPlaceAgeclass(): ?int
     {
         return $this->placeAgeclass;
     }
 
-    /**
-     * @param int|null $participantsTotal
-     */
-    public function setParticipantsTotal($participantsTotal): self
+    public function setParticipantsTotal(?int $participantsTotal): self
     {
         $this->participantsTotal = $participantsTotal;
 
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getParticipantsTotal()
+    public function getParticipantsTotal(): ?int
     {
         return $this->participantsTotal;
     }
 
-    /**
-     * @param int|null $participantsGender
-     */
-    public function setParticipantsGender($participantsGender): self
+    public function setParticipantsGender(?int $participantsGender): self
     {
         $this->participantsGender = $participantsGender;
 
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getParticipantsGender()
+    public function getParticipantsGender(): ?int
     {
         return $this->participantsGender;
     }
 
-    /**
-     * @param int|null $participantsAgeclass
-     */
-    public function setParticipantsAgeclass($participantsAgeclass): self
+    public function setParticipantsAgeclass(?int $participantsAgeclass): self
     {
         $this->participantsAgeclass = $participantsAgeclass;
 
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getParticipantsAgeclass()
+    public function getParticipantsAgeclass(): ?int
     {
         return $this->participantsAgeclass;
     }
@@ -283,10 +214,7 @@ class Raceresult implements AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @return Account
-     */
-    public function getAccount()
+    public function getAccount(): ?Account
     {
         return $this->account;
     }
@@ -298,10 +226,7 @@ class Raceresult implements AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @return Training
-     */
-    public function getActivity()
+    public function getActivity(): ?Training
     {
         return $this->activity;
     }

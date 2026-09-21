@@ -2,20 +2,13 @@
 
 namespace Runalyze\Bundle\CoreBundle\Twig;
 
-use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 
 class ConfigurationExtension extends \Twig\Extension\AbstractExtension
 {
-    /**
-     * @var ConfigurationManager
-     */
-    protected $ConfigurationManager;
-
-    public function __construct(ConfigurationManager $configurationManager)
-    {
-        $this->ConfigurationManager = $configurationManager;
+    public function __construct(
+        protected \Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager $ConfigurationManager
+    ) {
     }
 
     /**
@@ -54,10 +47,7 @@ class ConfigurationExtension extends \Twig\Extension\AbstractExtension
             ->get($key);
     }
 
-    /**
-     * @return RunalyzeConfigurationList
-     */
-    public function config(?Account $account = null)
+    public function config(?Account $account = null): ?\Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList
     {
         return $this->ConfigurationManager->getList($account);
     }

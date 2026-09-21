@@ -2,162 +2,87 @@
 
 namespace Runalyze\Bundle\CoreBundle\Component\Activity;
 
-use Runalyze\Bundle\CoreBundle\Entity\Hrv;
-use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
-use Runalyze\Bundle\CoreBundle\Entity\Route;
-use Runalyze\Bundle\CoreBundle\Entity\Sport;
-use Runalyze\Bundle\CoreBundle\Entity\Swimdata;
-use Runalyze\Bundle\CoreBundle\Entity\Trackdata;
-use Runalyze\Bundle\CoreBundle\Entity\Training;
-
 class ActivityContext
 {
-    /**
-     * @var Training
-     */
-    protected $Activity;
-
-    /**
-     * @var Trackdata|null
-     */
-    protected $Trackdata;
-
-    /**
-     * @var Swimdata|null
-     */
-    protected $Swimdata;
-
-    /**
-     * @var Route|null
-     */
-    protected $Route;
-
-    /**
-     * @var Hrv|null
-     */
-    protected $HRV;
-
-    /**
-     * @var Raceresult|null
-     */
-    protected $RaceResult;
-
-    /**
-     * @var ActivityDecorator
-     */
-    protected $Decorator;
+    protected \Runalyze\Bundle\CoreBundle\Component\Activity\ActivityDecorator $Decorator;
 
     public function __construct(
-        Training $activity,
-        ?Trackdata $trackdata = null,
-        ?Swimdata $swimdata = null,
-        ?Route $route = null,
-        ?Hrv $hrv = null,
-        ?Raceresult $raceResult = null
+        protected \Runalyze\Bundle\CoreBundle\Entity\Training $Activity,
+        protected ?\Runalyze\Bundle\CoreBundle\Entity\Trackdata $Trackdata = null,
+        protected ?\Runalyze\Bundle\CoreBundle\Entity\Swimdata $Swimdata = null,
+        protected ?\Runalyze\Bundle\CoreBundle\Entity\Route $Route = null,
+        protected ?\Runalyze\Bundle\CoreBundle\Entity\Hrv $HRV = null,
+        protected ?\Runalyze\Bundle\CoreBundle\Entity\Raceresult $RaceResult = null
     ) {
-        $this->Activity = $activity;
-        $this->Trackdata = $trackdata;
-        $this->Swimdata = $swimdata;
-        $this->Route = $route;
-        $this->HRV = $hrv;
-        $this->RaceResult = $raceResult;
-
         $this->Decorator = new ActivityDecorator($this);
     }
 
-    /**
-     * @return \Runalyze\Bundle\CoreBundle\Entity\Account
-     */
-    public function getAccount()
+    public function getAccount(): \Runalyze\Bundle\CoreBundle\Entity\Account
     {
         return $this->Activity->getAccount();
     }
 
-    /**
-     * @return Training
-     */
-    public function getActivity()
+    public function getActivity(): \Runalyze\Bundle\CoreBundle\Entity\Training
     {
         return $this->Activity;
     }
 
-    /**
-     * @return Trackdata|null
-     */
-    public function getTrackdata()
+    public function getTrackdata(): ?\Runalyze\Bundle\CoreBundle\Entity\Trackdata
     {
         return $this->Trackdata;
     }
 
-    /**
-     * @return Swimdata|null
-     */
-    public function getSwimdata()
+    public function getSwimdata(): ?\Runalyze\Bundle\CoreBundle\Entity\Swimdata
     {
         return $this->Swimdata;
     }
 
-    /**
-     * @return Hrv|null
-     */
-    public function getHrv()
+    public function getHrv(): ?\Runalyze\Bundle\CoreBundle\Entity\Hrv
     {
         return $this->HRV;
     }
 
-    /**
-     * @return Sport
-     */
-    public function getSport()
+    public function getSport(): \Runalyze\Bundle\CoreBundle\Entity\Sport
     {
         return $this->Activity->getSport();
     }
 
-    /**
-     * @return Route|null
-     */
-    public function getRoute()
+    public function getRoute(): ?\Runalyze\Bundle\CoreBundle\Entity\Route
     {
         return $this->Route;
     }
 
-    /**
-     * @return Raceresult|null
-     */
-    public function getRaceResult()
+    public function getRaceResult(): ?\Runalyze\Bundle\CoreBundle\Entity\Raceresult
     {
         return $this->RaceResult;
     }
 
     public function hasTrackdata(): bool
     {
-        return $this->Trackdata !== null;
+        return $this->Trackdata instanceof \Runalyze\Bundle\CoreBundle\Entity\Trackdata;
     }
 
     public function hasRoute(): bool
     {
-        return $this->Route !== null;
+        return $this->Route instanceof \Runalyze\Bundle\CoreBundle\Entity\Route;
     }
 
     public function hasSwimdata(): bool
     {
-        return $this->Swimdata !== null;
+        return $this->Swimdata instanceof \Runalyze\Bundle\CoreBundle\Entity\Swimdata;
     }
 
     public function hasHRV(): bool
     {
-        return $this->HRV !== null;
+        return $this->HRV instanceof \Runalyze\Bundle\CoreBundle\Entity\Hrv;
     }
 
     public function hasRaceResult(): bool
     {
-        return $this->RaceResult !== null;
+        return $this->RaceResult instanceof \Runalyze\Bundle\CoreBundle\Entity\Raceresult;
     }
 
-    /**
-     * @return ActivityDecorator
-     */
-    public function getDecorator()
+    public function getDecorator(): \Runalyze\Bundle\CoreBundle\Component\Activity\ActivityDecorator
     {
         return $this->Decorator;
     }

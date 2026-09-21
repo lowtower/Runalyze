@@ -3,18 +3,12 @@
 namespace Runalyze\Bundle\CoreBundle\EntityListener;
 
 use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
-use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager;
 
 class RaceResultListener
 {
-    /**
-     * @var RecalculationManager
-     */
-    protected $RecalculationManager;
-
-    public function __construct(RecalculationManager $manager)
-    {
-        $this->RecalculationManager = $manager;
+    public function __construct(
+        protected \Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager $RecalculationManager
+    ) {
     }
 
     public function postPersist(Raceresult $race, \Doctrine\ORM\Event\PostPersistEventArgs $args): void

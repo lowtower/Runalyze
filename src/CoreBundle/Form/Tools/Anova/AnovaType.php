@@ -5,59 +5,23 @@ namespace Runalyze\Bundle\CoreBundle\Form\Tools\Anova;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryGroup\QueryGroups;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryValue\QueryValues;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Entity\EquipmentTypeRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
-use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Type;
-use Runalyze\Bundle\CoreBundle\Entity\TypeRepository;
-use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class AnovaType extends AbstractType
 {
-    /**
-     * @var SportRepository
-     */
-    protected $SportRepository;
-
-    /**
-     * @var TypeRepository
-     */
-    protected $TypeRepository;
-
-    /**
-     * @var EquipmentTypeRepository
-     */
-    protected $EquipmentTypeRepository;
-
-    /**
-     * @var TokenStorageInterface
-     */
-    protected $TokenStorageInterface;
-
-    /**
-     * @var ConfigurationManager
-     */
-    protected $ConfigurationManager;
-
     public function __construct(
-        SportRepository $sportRepository,
-        TypeRepository $typeRepository,
-        EquipmentTypeRepository $equipmentTypeRepository,
-        TokenStorageInterface $tokenStorage,
-        ConfigurationManager $configurationManager
+        protected \Runalyze\Bundle\CoreBundle\Entity\SportRepository $SportRepository,
+        protected \Runalyze\Bundle\CoreBundle\Entity\TypeRepository $TypeRepository,
+        protected \Runalyze\Bundle\CoreBundle\Entity\EquipmentTypeRepository $EquipmentTypeRepository,
+        protected \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $TokenStorageInterface,
+        protected \Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager $ConfigurationManager
     ) {
-        $this->SportRepository = $sportRepository;
-        $this->TypeRepository = $typeRepository;
-        $this->EquipmentTypeRepository = $equipmentTypeRepository;
-        $this->TokenStorageInterface = $tokenStorage;
-        $this->ConfigurationManager = $configurationManager;
-
     }
 
     /**

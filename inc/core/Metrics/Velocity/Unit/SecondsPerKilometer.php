@@ -14,8 +14,8 @@ class SecondsPerKilometer extends AbstractPaceInTimeFormatUnit
         return '/km';
     }
 
-    public function getFactorFromBaseUnit(): int
+    public function getFactorFromBaseUnit(): float
     {
-        return 1;
+        return 1.0;
     }
 }

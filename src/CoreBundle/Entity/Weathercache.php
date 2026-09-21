@@ -33,97 +33,79 @@ class Weathercache
     private ?int $time = null;
 
     /**
-     * @var int|null [°C]
+     * @var ?int [°C]
      */
     #[ORM\Column(name: 'temperature', type: 'tinyint', nullable: true)]
-    private $temperature;
+    private ?int $temperature = null;
 
     /**
-     * @var int|null [km/h]
+     * @var ?int [km/h]
      */
     #[ORM\Column(name: 'wind_speed', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $windSpeed;
+    private ?int $windSpeed = null;
 
     /**
-     * @var int|null [°]
+     * @var ?int [°]
      */
     #[ORM\Column(name: 'wind_deg', type: 'smallint', precision: 3, nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $windDeg;
+    private ?int $windDeg = null;
 
     /**
-     * @var int|null [%]
+     * @var ?int [%]
      */
     #[ORM\Column(name: 'humidity', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $humidity;
+    private ?int $humidity = null;
 
     /**
-     * @var int [hPa]
+     * @var ?int [hPa]
      */
     #[ORM\Column(name: 'pressure', type: 'smallint', precision: 4, nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $pressure;
+    private ?int $pressure = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'weatherid', type: 'smallint', nullable: false)]
-    private $weatherid = 1;
+    private int $weatherid = 1;
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(name: 'weather_source', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $weatherSource;
+    private ?int $weatherSource = null;
 
-    /**
-     * @param string $geohash
-     */
-    public function setGeohash($geohash): self
+    public function setGeohash(string $geohash): self
     {
         $this->geohash = substr($geohash, 0, self::GEOHASH_PRECISION_DATABASE);
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getGeohash()
+    public function getGeohash(): string
     {
         return $this->geohash;
     }
 
-    /**
-     * @param int $time
-     */
-    public function setTime($time): self
+    public function setTime(?int $time): self
     {
         $this->time = $time;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getTime()
+    public function getTime(): ?int
     {
         return $this->time;
     }
 
     /**
-     * @param int|null $temperature [°C]
+     * @param ?int $temperature [°C]
      */
-    public function setTemperature($temperature): self
+    public function setTemperature(?int $temperature): self
     {
         $this->temperature = $temperature;
 
@@ -131,17 +113,17 @@ class Weathercache
     }
 
     /**
-     * @return int|null [°C]
+     * @return ?int [°C]
      */
-    public function getTemperature()
+    public function getTemperature(): ?int
     {
         return $this->temperature;
     }
 
     /**
-     * @param int|null $windSpeed [km/h]
+     * @param ?int $windSpeed [km/h]
      */
-    public function setWindSpeed($windSpeed): self
+    public function setWindSpeed(?int $windSpeed): self
     {
         $this->windSpeed = $windSpeed;
 
@@ -149,17 +131,17 @@ class Weathercache
     }
 
     /**
-     * @return int|null [km/h]
+     * @return ?int [km/h]
      */
-    public function getWindSpeed()
+    public function getWindSpeed(): ?int
     {
         return $this->windSpeed;
     }
 
     /**
-     * @param int|null $windDeg [°]
+     * @param ?int $windDeg [°]
      */
-    public function setWindDeg($windDeg): self
+    public function setWindDeg(?int $windDeg): self
     {
         $this->windDeg = $windDeg;
 
@@ -167,17 +149,17 @@ class Weathercache
     }
 
     /**
-     * @return int|null [°]
+     * @return ?int [°]
      */
-    public function getWindDeg()
+    public function getWindDeg(): ?int
     {
         return $this->windDeg;
     }
 
     /**
-     * @param int|null $humidity [%]
+     * @param ?int $humidity [%]
      */
-    public function setHumidity($humidity): self
+    public function setHumidity(?int $humidity): self
     {
         $this->humidity = $humidity;
 
@@ -185,17 +167,17 @@ class Weathercache
     }
 
     /**
-     * @return int|null [%]
+     * @return ?int [%]
      */
-    public function getHumidity()
+    public function getHumidity(): ?int
     {
         return $this->humidity;
     }
 
     /**
-     * @param int|null $pressure [hPa]
+     * @param ?int $pressure [hPa]
      */
-    public function setPressure($pressure): self
+    public function setPressure(?int $pressure): self
     {
         $this->pressure = $pressure;
 
@@ -203,45 +185,33 @@ class Weathercache
     }
 
     /**
-     * @return int|null [hPa]
+     * @return ?int [hPa]
      */
-    public function getPressure()
+    public function getPressure(): ?int
     {
         return $this->pressure;
     }
 
-    /**
-     * @param int $weatherid
-     */
-    public function setWeatherid($weatherid): self
+    public function setWeatherid(int $weatherid): self
     {
         $this->weatherid = $weatherid;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getWeatherid()
+    public function getWeatherid(): int
     {
         return $this->weatherid;
     }
 
-    /**
-     * @param int|null $weatherSource
-     */
-    public function setWeatherSource($weatherSource): self
+    public function setWeatherSource(?int $weatherSource): self
     {
         $this->weatherSource = $weatherSource;
 
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getWeatherSource()
+    public function getWeatherSource(): ?int
     {
         return $this->weatherSource;
     }

@@ -42,7 +42,7 @@ class ClimbScoreCalculator
         $fietsIndex = new FietsIndex();
         $climbs = (new ClimbFinder())->findClimbsFor($activity);
 
-        return array_map(function (Climb $climb) use ($fietsIndex) {
+        return array_map(function (Climb $climb) use ($fietsIndex): float {
             if ($climb->getGradient() < self::CLIMB_GRADIENT_THRESHOLD || $climb->getDistance() <= self::CLIMB_DISTANCE_THRESHOLD) {
                 return 0.0;
             }

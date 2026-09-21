@@ -1,27 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Component\Activity;
 
-use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList;
 use Runalyze\Calculation\Elevation\DistanceModifier;
 use Runalyze\Calculation\JD\LegacyEffectiveVO2max;
 
 class VO2maxCalculationDetailsDecorator
 {
-    /**
-     * @var ActivityContext
-     */
-    protected $Context;
-
-    /**
-     * @var RunalyzeConfigurationList
-     */
-    protected $ConfigurationList;
-
-    public function __construct(ActivityContext $context, RunalyzeConfigurationList $configurationList)
-    {
-        $this->Context = $context;
-        $this->ConfigurationList = $configurationList;
+    public function __construct(
+        protected \Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext $Context,
+        protected \Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList $ConfigurationList
+    ) {
     }
 
     /**
@@ -38,7 +29,7 @@ class VO2maxCalculationDetailsDecorator
     /**
      * @return float
      */
-    public function getCorrectedVO2max()
+    public function getCorrectedVO2max(): int|float
     {
         return $this->Context->getActivity()
             ->getVO2max() * $this->ConfigurationList->getVO2maxCorrectionFactor();
@@ -47,7 +38,7 @@ class VO2maxCalculationDetailsDecorator
     /**
      * @return float
      */
-    public function getCorrectedVO2maxWithElevationAdjustment()
+    public function getCorrectedVO2maxWithElevationAdjustment(): int|float
     {
         return $this->Context->getActivity()
             ->getVO2maxWithElevation() * $this->ConfigurationList->getVO2maxCorrectionFactor();

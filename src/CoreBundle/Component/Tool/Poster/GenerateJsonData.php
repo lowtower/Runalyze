@@ -4,24 +4,12 @@ namespace Runalyze\Bundle\CoreBundle\Component\Tool\Poster;
 
 use Doctrine\ORM\Query;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Entity\RaceresultRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
-use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Model;
 use Symfony\Component\Filesystem\Filesystem;
 
 class GenerateJsonData
 {
-    /**
-     * @var TrainingRepository
-     */
-    protected $TrainingRepository;
-
-    /**
-     * @var RaceresultRepository
-     */
-    protected $RaceresultRepository;
-
     /**
      * @var string
      */
@@ -31,12 +19,10 @@ class GenerateJsonData
      * @param string $KernelRootDir
      */
     public function __construct(
-        TrainingRepository $trainingRepository,
-        RaceresultRepository $raceresultRepository,
+        protected \Runalyze\Bundle\CoreBundle\Entity\TrainingRepository $TrainingRepository,
+        protected \Runalyze\Bundle\CoreBundle\Entity\RaceresultRepository $RaceresultRepository,
         protected $KernelRootDir
     ) {
-        $this->TrainingRepository = $trainingRepository;
-        $this->RaceresultRepository = $raceresultRepository;
     }
 
     public function getPathToJsonFiles(): string
@@ -109,14 +95,11 @@ class GenerateJsonData
         return $segments;
     }
 
-    /**
-     * @param int $year
-     */
-    protected function listSpecialFiles(Account $account, Sport $sport, $year)
+    protected function listSpecialFiles(Account $account, Sport $sport, int $year)
     {
         $races = $this->RaceresultRepository->findBySportAndYear($account, $sport, $year);
 
-        if (! empty($races)) {
+        if ($races !== []) {
             $argument = '';
 
             foreach ($races as $race) {

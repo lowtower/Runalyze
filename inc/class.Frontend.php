@@ -44,9 +44,7 @@ class Frontend
      * @param bool $hideHeaderAndFooter By default a html-header is directly shown
      */
     public function __construct(
-        bool $hideHeaderAndFooter = false, /**
-     * Symfony token storage for user
-     */
+        bool $hideHeaderAndFooter = false,
         protected ?TokenStorageInterface $symfonyToken = null,
         protected ?ParameterBagInterface $parameterBag = null
     ) {

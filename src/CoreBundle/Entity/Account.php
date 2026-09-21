@@ -205,7 +205,7 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
         $this->setNewSalt();
     }
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -447,10 +447,7 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getChangepwHash()
+    public function getChangepwHash(): ?string
     {
         return $this->changepwHash;
     }

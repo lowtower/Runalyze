@@ -91,7 +91,10 @@ class FitSdkExercise
     }
 
     // =TEXTKETTE(D2209;" => ";"""";C2209;"""";",")
-    private $categorys = [
+    /**
+     * @var string[]
+     */
+    private array $categorys = [
         0 => 'bench_press',
         1 => 'calf_raise',
         2 => 'cardio',
@@ -128,7 +131,10 @@ class FitSdkExercise
     ];
 
     // =VERKETTEN("""";A2244;"#";D2244;"""";" => ";"""";C2244;"""";",")
-    private $subCategorys = [
+    /**
+     * @var string[]
+     */
+    private array $subCategorys = [
         'bench_press#0' => 'alternating_dumbbell_chest_press_on_swiss_ball',
         'bench_press#1' => 'barbell_bench_press',
         'bench_press#2' => 'barbell_board_bench_press',

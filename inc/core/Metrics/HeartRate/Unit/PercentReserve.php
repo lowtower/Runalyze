@@ -26,34 +26,26 @@ class PercentReserve extends AbstractHeartRateUnitInPercent
 
     /**
      * @param mixed $valueInThisUnit
-     * @return mixed
      */
-    public function toBaseUnit($valueInThisUnit)
+    public function toBaseUnit($valueInThisUnit): float
     {
         return $this->RestingHeartRate + $valueInThisUnit * ($this->MaximalHeartRate - $this->RestingHeartRate);
     }
 
     /**
      * @param mixed $valueInBaseUnit
-     * @return mixed
      */
-    public function fromBaseUnit($valueInBaseUnit)
+    public function fromBaseUnit($valueInBaseUnit): float
     {
         return ($valueInBaseUnit - $this->RestingHeartRate) / ($this->MaximalHeartRate - $this->RestingHeartRate);
     }
 
-    /**
-     * @return int
-     */
-    public function getMaximalHeartRate()
+    public function getMaximalHeartRate(): int
     {
         return $this->MaximalHeartRate;
     }
 
-    /**
-     * @return int
-     */
-    public function getRestingHeartRate()
+    public function getRestingHeartRate(): int
     {
         return $this->RestingHeartRate;
     }

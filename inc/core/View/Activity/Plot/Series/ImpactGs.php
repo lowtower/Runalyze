@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\View\Activity\Plot\Series;
 
 use Runalyze\Model\Trackdata\Entity as Trackdata;
@@ -7,10 +9,7 @@ use Runalyze\View\Activity;
 
 class ImpactGs extends ActivitySeries
 {
-    /**
-     * @param bool $isLeft
-     */
-    public function __construct(Activity\Context $context, $isLeft = true)
+    public function __construct(Activity\Context $context, bool $isLeft = true)
     {
         $this->initOptions($isLeft);
         $this->initData($context->trackdata(), $isLeft ? Trackdata::IMPACT_GS_LEFT : Trackdata::IMPACT_GS_RIGHT);
@@ -22,7 +21,7 @@ class ImpactGs extends ActivitySeries
         $this->Data = array_filter($this->Data);
     }
 
-    protected function initOptions($isLeft)
+    protected function initOptions(bool $isLeft)
     {
         $this->Label = __('Impact Gs') . ' (' . ($isLeft ? __('left') : __('right')) . ')';
         $this->Color = $isLeft ? 'rgb(98,182,0)' : 'rgb(47,131,0)';

@@ -14,63 +14,54 @@ class ProgressBar
 {
     /**
      * HTML class: surrounding div
-     * @var string
      */
-    private static $DIV_CONTAINER = 'progress-bar-container';
+    private static string $DIV_CONTAINER = 'progress-bar-container';
 
     /**
      * HTML class: container floating outer div
-     * @var string
      */
-    private static $CLASS_INLINE = 'progress-bar-container-inline';
+    private static string $CLASS_INLINE = 'progress-bar-container-inline';
 
     /**
      * HTML class: animated
-     * @var string
      */
-    private static $CLASS_ANIMATED = 'animated';
+    private static string $CLASS_ANIMATED = 'animated';
 
     /**
      * HTML class: container div
-     * @var string
      */
-    private static $DIV_INNER = 'progress-bar-inner';
+    private static string $DIV_INNER = 'progress-bar-inner';
 
     /**
      * HTML class: container div with icon
-     * @var string
      */
-    private static $DIV_BAR = 'progress-bar';
+    private static string $DIV_BAR = 'progress-bar';
 
     /**
      * HTML class: div for goal line
-     * @var string
      */
-    private static $DIV_GOAL = 'progress-bar-goal';
+    private static string $DIV_GOAL = 'progress-bar-goal';
 
     /**
      * Single progress bars
-     * @var array
+     * @var \ProgressBarSingle[]
      */
-    protected $Bars = [];
+    protected array $Bars = [];
 
     /**
      * Tooltip
-     * @var string
      */
-    protected $Tooltip = '';
+    protected string $Tooltip = '';
 
     /**
      * Additional classes
-     * @var string
      */
-    protected $AdditionalClasses = '';
+    protected string $AdditionalClasses = '';
 
     /**
      * Goal line
-     * @var int
      */
-    protected $Goal = 0;
+    protected int $Goal = 0;
 
     /**
      * Arguments can be passed to construct a single progress bar.
@@ -79,7 +70,7 @@ class ProgressBar
      * @param int $Width [optional] in percent between 0 and 100
      * @param string $Color [optional]
      */
-    public function __construct($Width = 0, $Color = '')
+    public function __construct(int $Width = 0, string $Color = '')
     {
         if ($Width > 0) {
             $this->addNewBar($Width, $Color);
@@ -96,17 +87,13 @@ class ProgressBar
 
     /**
      * @param int $Width in percent between 0 and 100
-     * @param string $Color
      */
-    public function addNewBar($Width, $Color = ''): void
+    public function addNewBar(int $Width, string $Color = ''): void
     {
         $this->Bars[] = new ProgressBarSingle($Width, $Color);
     }
 
-    /**
-     * @param string $Tooltip
-     */
-    public function setTooltip($Tooltip): void
+    public function setTooltip(string $Tooltip): void
     {
         $this->Tooltip = $Tooltip;
     }
@@ -127,20 +114,14 @@ class ProgressBar
         $this->addClass(self::$CLASS_ANIMATED);
     }
 
-    /**
-     * @param string $Class
-     */
-    public function addClass($Class): void
+    public function addClass(string $Class): void
     {
         $this->AdditionalClasses .= ' ' . $Class;
     }
 
-    /**
-     * @param int $Goal
-     */
-    public function setGoalLine($Goal): void
+    public function setGoalLine(int $Goal): void
     {
-        $this->Goal = max(0, min(100, (int) $Goal));
+        $this->Goal = max(0, min(100, $Goal));
     }
 
     public function display(): void

@@ -4,40 +4,19 @@ namespace Runalyze\Bundle\CoreBundle\Form\Tools;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
-use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
-use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class PosterType extends AbstractType
 {
-    /**
-     * @var TrainingRepository
-     */
-    protected $TrainingRepository;
-
-    /**
-     * @var SportRepository
-     */
-    protected $SportRepository;
-
-    /**
-     * @var TokenStorageInterface
-     */
-    protected $TokenStorageInterface;
-
     public function __construct(
-        SportRepository $sportRepository,
-        TrainingRepository $trainingRepository,
-        TokenStorageInterface $tokenStorage
+        protected \Runalyze\Bundle\CoreBundle\Entity\SportRepository $SportRepository,
+        protected \Runalyze\Bundle\CoreBundle\Entity\TrainingRepository $TrainingRepository,
+        protected \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $TokenStorageInterface
     ) {
-        $this->SportRepository = $sportRepository;
-        $this->TrainingRepository = $trainingRepository;
-        $this->TokenStorageInterface = $tokenStorage;
     }
 
     /**

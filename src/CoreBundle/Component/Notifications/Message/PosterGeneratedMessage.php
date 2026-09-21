@@ -27,7 +27,7 @@ class PosterGeneratedMessage implements MessageInterface
     /**
      * @var int see self::STATE_...
      */
-    protected $State = 0;
+    protected int $State;
 
     public function __construct($state = self::STATE_SUCCESS)
     {
@@ -60,7 +60,7 @@ class PosterGeneratedMessage implements MessageInterface
 
     public function hasLink(): bool
     {
-        return $this->State != self::STATE_FAILED;
+        return $this->State !== self::STATE_FAILED;
     }
 
     public function getLink(RouterInterface $router)

@@ -61,9 +61,8 @@ abstract class PlotSumData extends Plot
 
     /**
      * Raw data from database
-     * @var array
      */
-    protected $RawData = [];
+    protected array $RawData = [];
 
     /**
      * First week/month/etc.
@@ -126,9 +125,8 @@ abstract class PlotSumData extends Plot
 
     /**
      * Get requested year/key
-     * @return int|string
      */
-    protected function getRequestedYear()
+    protected function getRequestedYear(): int|string
     {
         if ($this->ParamYear == self::LAST_12_MONTHS || $this->ParamYear == self::LAST_6_MONTHS) {
             return $this->ParamYear;
@@ -201,8 +199,8 @@ abstract class PlotSumData extends Plot
         }
 
         $Links = [];
-        $Links[] = $this->link(__('Total'), $this->Year, $this->ParamSportId, '', $this->ParamGroup == '');
-        $Links[] = $this->link(__('By type'), $this->Year, $this->ParamSportId, 'types', $this->ParamGroup == 'types');
+        $Links[] = $this->link(__('Total'), $this->Year, (int) $this->ParamSportId, '', $this->ParamGroup == '');
+        $Links[] = $this->link(__('By type'), $this->Year, (int) $this->ParamSportId, 'types', $this->ParamGroup == 'types');
 
         return [
             'title' => $Current,
@@ -222,8 +220,8 @@ abstract class PlotSumData extends Plot
         }
 
         $Links = [
-            $this->link(__('Distance/Duration'), $this->Year, $this->ParamSportId, $this->ParamGroup, $this->Analysis === self::ANALYSIS_DEFAULT, self::ANALYSIS_DEFAULT),
-            $this->link(__('TRIMP'), $this->Year, $this->ParamSportId, $this->ParamGroup, $this->Analysis === self::ANALYSIS_TRIMP, self::ANALYSIS_TRIMP),
+            $this->link(__('Distance/Duration'), $this->Year, (int) $this->ParamSportId, $this->ParamGroup, $this->Analysis === self::ANALYSIS_DEFAULT, self::ANALYSIS_DEFAULT),
+            $this->link(__('TRIMP'), $this->Year, (int) $this->ParamSportId, $this->ParamGroup, $this->Analysis === self::ANALYSIS_TRIMP, self::ANALYSIS_TRIMP),
         ];
 
         return [
@@ -275,12 +273,12 @@ abstract class PlotSumData extends Plot
         }
 
         $Links = [
-            $this->link(__('Last 6 months'), self::LAST_6_MONTHS, $this->ParamSportId, $this->ParamGroup, $this->Year === self::LAST_6_MONTHS),
-            $this->link(__('Last 12 months'), self::LAST_12_MONTHS, $this->ParamSportId, $this->ParamGroup, $this->Year === self::LAST_12_MONTHS),
+            $this->link(__('Last 6 months'), self::LAST_6_MONTHS, (int) $this->ParamSportId, $this->ParamGroup, $this->Year === self::LAST_6_MONTHS),
+            $this->link(__('Last 12 months'), self::LAST_12_MONTHS, (int) $this->ParamSportId, $this->ParamGroup, $this->Year === self::LAST_12_MONTHS),
         ];
 
         for ($Y = date('Y'); $Y >= START_YEAR; $Y--) {
-            $Links[] = $this->link($Y, $Y, $this->ParamSportId, $this->ParamGroup, $Y == $this->Year);
+            $Links[] = $this->link($Y, $Y, (int) $this->ParamSportId, $this->ParamGroup, $Y == $this->Year);
         }
 
         return [
@@ -291,13 +289,8 @@ abstract class PlotSumData extends Plot
 
     /**
      * Link to plot
-     * @param string $text
-     * @param string $year
-     * @param int $sportid
-     * @param string $group
-     * @return string
      */
-    private function link($text, $year, $sportid, $group, bool $current = false, $analysis = false)
+    private function link(string $text, string $year, int $sportid, string $group, bool $current = false, $analysis = false): string
     {
         if (! $analysis) {
             $analysis = $this->Analysis;
@@ -327,10 +320,7 @@ abstract class PlotSumData extends Plot
         return $this->Year;
     }
 
-    /**
-     * @return array
-     */
-    abstract protected function getXLabels();
+    abstract protected function getXLabels(): array;
 
     private function init()
     {
@@ -347,7 +337,7 @@ abstract class PlotSumData extends Plot
 
             if ($factor != 1) {
                 foreach ($this->Data as $index => $plotData) {
-                    $this->Data[$index]['data'] = array_map(fn ($v) => $v * $factor, $this->Data[$index]['data']);
+                    $this->Data[$index]['data'] = array_map(fn ($v): float => $v * $factor, $this->Data[$index]['data']);
                 }
             }
         }
@@ -459,15 +449,9 @@ abstract class PlotSumData extends Plot
         return '`time` >= ' . $this->beginningOfLast12Months();
     }
 
-    /**
-     * @return int
-     */
-    abstract protected function beginningOfLast6Months();
+    abstract protected function beginningOfLast6Months(): int;
 
-    /**
-     * @return int
-     */
-    abstract protected function beginningOfLast12Months();
+    abstract protected function beginningOfLast12Months(): int;
 
     /**
      * Sum data for query
@@ -487,9 +471,8 @@ abstract class PlotSumData extends Plot
 
     /**
      * Timer table for query
-     * @return string
      */
-    abstract protected function timer();
+    abstract protected function timer(): string;
 
     /**
      * Group by table for query
@@ -662,10 +645,7 @@ abstract class PlotSumData extends Plot
         }
     }
 
-    /**
-     * @return bool
-     */
-    protected function showsTarget()
+    protected function showsTarget(): bool
     {
         return $this->Sport->isRunning() && $this->Analysis === self::ANALYSIS_DEFAULT && $this->usesDistance;
     }

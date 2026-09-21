@@ -6,6 +6,7 @@ use PicoFeed\Syndication\Rss20FeedBuilder;
 use PicoFeed\Syndication\Rss20ItemBuilder;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
+use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Bundle\CoreBundle\Services\Activity\ActivityContextFactory;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Twig\ValueExtension;
@@ -85,7 +86,7 @@ class Feed
     {
         $content = '<b>' . $this->Translator->trans('Sport') . '</b>: ' . $activity->getSport()->getName();
 
-        if ($activity->getType() !== null) {
+        if ($activity->getType() instanceof Type) {
             $content .= '<br><b>' . $this->Translator->trans('Activity type') . '</b>: ' . $activity->getType()->getName();
         }
 
@@ -135,7 +136,7 @@ class Feed
         $title = $activity->getSport()
             ->getName();
 
-        if ($activity->getType() !== null) {
+        if ($activity->getType() instanceof Type) {
             $title .= ' (' . $activity->getType()->getName() . ')';
         }
 

@@ -11,7 +11,7 @@ class PipeDelimitedArrayString extends PipeDelimitedArray
      */
     public const PIPE_ARRAY = 'pipe_array_str';
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         if (! is_array($value) || $value === []) {
             return null;
@@ -27,7 +27,7 @@ class PipeDelimitedArrayString extends PipeDelimitedArray
         return implode('|', $value);
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?array
     {
         if ($value === null || trim($value) === '') {
             return null;
@@ -35,7 +35,7 @@ class PipeDelimitedArrayString extends PipeDelimitedArray
 
         $value = (is_resource($value)) ? stream_get_contents($value) : $value;
 
-        return array_map(function ($v) {
+        return array_map(function ($v): ?string {
             if ($v !== '') {
                 return $v; // #TSC to support strings don't return null
             } else {

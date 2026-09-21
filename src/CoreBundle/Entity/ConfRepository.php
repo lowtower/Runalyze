@@ -12,18 +12,14 @@ class ConfRepository extends EntityRepository
     /**
      * @return Conf[]
      */
-    public function findByAccount(Account $account)
+    public function findByAccount(Account $account): array
     {
         return $this->findBy([
             'account' => $account->getId(),
         ]);
     }
 
-    /**
-     * @param string $key
-     * @return Conf|null
-     */
-    public function findByAccountAndKey(Account $account, $key)
+    public function findByAccountAndKey(Account $account, string $key): ?Conf
     {
         $results = $this->findBy([
             'account' => $account->getId(),
@@ -34,14 +30,12 @@ class ConfRepository extends EntityRepository
     }
 
     /**
-     * @param string $category
      * @param string $key
-     * @param string $value
      * @return Conf
      */
-    public function updateOrInsert(Account $account, $category, $key, $value)
+    public function updateOrInsert(Account $account, string $category, $key, string $value)
     {
-        if (null === $conf = $this->findByAccountAndKey($account, $key)) {
+        if (! ($conf = $this->findByAccountAndKey($account, $key)) instanceof Conf) {
             $conf = new Conf();
             $conf->setCategory($category);
             $conf->setKey($key);

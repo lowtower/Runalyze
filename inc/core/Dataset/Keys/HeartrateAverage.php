@@ -99,7 +99,7 @@ class HeartrateAverage extends AbstractKey
      * #TSC
      * @return array with key "class" and "style"
      */
-    public function valueDependendCssStyle(Context $context)
+    public function valueDependendCssStyle(Context $context): ?array
     {
         return self::hrBarCssStyle($context->dataview()->hrAvg());
     }

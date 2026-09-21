@@ -111,18 +111,16 @@ class DataBrowserShared extends DataBrowser
 
     /**
      * Get ajax-link for showing month-kilometer
-     * @return string
      */
-    protected function getMonthKmLink()
+    protected function getMonthKmLink(): string
     {
         return Ajax::window('<a href="' . self::getUrlForMonthKm() . '">' . Ajax::tooltip(Icon::$BARS_BIG, __('Activity per month')) . '</a>');
     }
 
     /**
      * Get ajax-link for showing week-kilometer
-     * @return string
      */
-    protected function getWeekKmLink()
+    protected function getWeekKmLink(): string
     {
         return Ajax::window('<a href="' . self::getUrlForWeekKm() . '">' . Ajax::tooltip(Icon::$BARS_SMALL, __('Activity per week')) . '</a>');
     }

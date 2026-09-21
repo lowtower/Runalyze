@@ -27,17 +27,11 @@ use System;
 class Linker
 {
     /**
-     * Activity
-     * @var \Runalyze\Model\Activity\Entity
-     */
-    protected $Activity;
-
-    /**
      * Construct linker
      */
-    public function __construct(Activity\Entity $activity)
-    {
-        $this->Activity = $activity;
+    public function __construct(
+        protected Activity\Entity $Activity
+    ) {
     }
 
     /**
@@ -65,7 +59,7 @@ class Linker
      * @param string $name displayed link name
      * @return string HTML-link to this training
      */
-    public function link($name): string
+    public function link(string $name): string
     {
         return Ajax::trainingLink($this->Activity->id(), $name);
     }
@@ -75,7 +69,7 @@ class Linker
      * @param string $tooltipCssClass optional, e.g. 'atRight'
      * @return string HTML-link to this training
      */
-    public function linkWithSportIcon($tooltipCssClass = ''): string
+    public function linkWithSportIcon(string $tooltipCssClass = ''): string
     {
         return $this->link($this->codeWithSportIcon($tooltipCssClass));
     }
@@ -84,7 +78,7 @@ class Linker
      * @param string $tooltipCssClass optional, e.g. 'atRight'
      * @return string HTML-code that can be linked to this training
      */
-    public function codeWithSportIcon($tooltipCssClass = ''): string
+    public function codeWithSportIcon(string $tooltipCssClass = ''): string
     {
         $Time = new Duration($this->Activity->duration());
         $Factory = new \Runalyze\Model\Factory(\SessionAccountHandler::getId());
@@ -99,12 +93,9 @@ class Linker
         return $code;
     }
 
-    /**
-     * @param string $name [optional]
-     */
-    public function weekLink($name = ''): string
+    public function weekLink(string $name = ''): string
     {
-        if ($name == '') {
+        if ($name === '') {
             $name = (new LocalTime($this->Activity->timestamp()))->format('d.m.Y');
         }
 
@@ -116,12 +107,9 @@ class Linker
         return 'activity/' . $this->Activity->id() . '/elevation-correction';
     }
 
-    /**
-     * @param string $data
-     */
-    public function urlToElevationInfo($data = ''): string
+    public function urlToElevationInfo(string $data = ''): string
     {
-        return 'activity/' . $this->Activity->id() . '/elevation-info' . ($data != '' ? '?' . $data : '');
+        return 'activity/' . $this->Activity->id() . '/elevation-info' . ($data !== '' ? '?' . $data : '');
     }
 
     public function urlToClimbScore(): string
@@ -129,61 +117,48 @@ class Linker
         return 'activity/' . $this->Activity->id() . '/climb-score';
     }
 
-    /**
-     * @param string $data
-     */
-    public function urlToVO2maxinfo($data = ''): string
+    public function urlToVO2maxinfo(string $data = ''): string
     {
-        return 'activity/' . $this->Activity->id() . '/vo2max-info' . ($data != '' ? '?' . $data : '');
+        return 'activity/' . $this->Activity->id() . '/vo2max-info' . ($data !== '' ? '?' . $data : '');
     }
 
-    /**
-     * @param string $data
-     */
-    public function urlToRoundsInfo($data = ''): string
+    public function urlToRoundsInfo(string $data = ''): string
     {
-        return 'activity/' . $this->Activity->id() . '/splits-info' . ($data != '' ? '?' . $data : '');
+        return 'activity/' . $this->Activity->id() . '/splits-info' . ($data !== '' ? '?' . $data : '');
     }
 
     /**
      * Link to editor
      * @param int $id id of training
-     * @param string $text [optional] by default: Icon::$EDIT
-     * @param string $linkId [optional]
-     * @param string $linkClass [optional]
+     * @param string $text by default: Icon::$EDIT
      * @return string link to editor window
      */
-    public static function editLink($id, $text = '', $linkId = '', $linkClass = '')
+    public static function editLink(int $id, string $text = '', string $linkId = '', string $linkClass = ''): string
     {
-        if ($text == '') {
+        if ($text === '') {
             $text = Icon::$EDIT;
         }
 
-        if ($linkId != '') {
+        if ($linkId !== '') {
             $linkId = ' id="' . $linkId . '"';
         }
 
-        if ($linkClass != '') {
+        if ($linkClass !== '') {
             $linkId .= ' class="' . $linkClass . '"';
         }
 
         return Ajax::window('<a' . $linkId . ' href="activity/' . $id . '/edit">' . $text . '</a>', 'small');
     }
 
-    /**
-     * @return string
-     */
-    public function smallEditLink()
+    public function smallEditLink(): string
     {
         return self::editLink($this->Activity->id());
     }
 
     /**
      * @param int $id activity id
-     * @param int $timestampInNoTimezone
-     * @return bool|int
      */
-    public static function prevId($id, $timestampInNoTimezone)
+    public static function prevId(int $id, int $timestampInNoTimezone): bool|int
     {
         $PrevTraining = DB::getInstance()->query('SELECT `id` FROM `' . PREFIX . 'training` WHERE ((`time`<"' . $timestampInNoTimezone . '" AND `id`!=' . $id . ') OR (`time`="' . $timestampInNoTimezone . '" AND `id`<' . $id . ')) AND `accountid` = ' . SessionAccountHandler::getId() . ' ORDER BY `time` DESC, `id` DESC LIMIT 1')->fetch();
 
@@ -192,10 +167,8 @@ class Linker
 
     /**
      * @param int $id activity id
-     * @param int $timestampInNoTimezone
-     * @return bool|int
      */
-    public static function nextId($id, $timestampInNoTimezone)
+    public static function nextId(int $id, int $timestampInNoTimezone): bool|int
     {
         $NextTraining = DB::getInstance()->query('SELECT `id` FROM `' . PREFIX . 'training` WHERE ((`time`>"' . $timestampInNoTimezone . '" AND `id`!=' . $id . ') OR (`time`="' . $timestampInNoTimezone . '" AND `id`>' . $id . ')) AND `accountid` = ' . SessionAccountHandler::getId() . ' ORDER BY `time` ASC, `id` ASC LIMIT 1')->fetch();
 

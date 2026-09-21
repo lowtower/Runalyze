@@ -5,7 +5,7 @@
 </div>
 
 <script>
-    {% if multiEditorId %}$("#multi-edit-{{ multiEditorId }}").remove();{% endif %}
+    {% if multiEditorId is defined and multiEditorId %}$("#multi-edit-{{ multiEditorId }}").remove();{% endif %}
     Runalyze.Statistics.resetUrl();
     Runalyze.reloadContent();
 </script>

@@ -29,15 +29,9 @@ class Heartrate extends ActivitySeries
      */
     protected $Factor;
 
-    /**
-     * @var int
-     */
-    protected $HRmax;
+    protected int $HRmax;
 
-    /**
-     * @var int
-     */
-    protected $HRrest;
+    protected int $HRrest;
 
     /**
      * Create series
@@ -67,9 +61,6 @@ class Heartrate extends ActivitySeries
         $this->ShowMinimum = false;
     }
 
-    /**
-     * Set manipulation facotr
-     */
     protected function setManipulationFactor()
     {
         $this->Factor = 1;
@@ -92,10 +83,8 @@ class Heartrate extends ActivitySeries
 
     /**
      * Change value by internal factor
-     * @param int $value
-     * @return float
      */
-    protected function correctUnit($value)
+    protected function correctUnit(int $value): float
     {
         if ($this->Factor === false) {
             return 100 * ($value - $this->HRrest) / ($this->HRmax - $this->HRrest);
@@ -106,10 +95,8 @@ class Heartrate extends ActivitySeries
 
     /**
      * Add to plot
-     * @param int $yAxis
-     * @param bool $addAnnotations [optional]
      */
-    public function addTo(\Plot $Plot, $yAxis, bool $addAnnotations = true): void
+    public function addTo(\Plot $Plot, ?int $yAxis, bool $addAnnotations = true): void
     {
         parent::addTo($Plot, $yAxis, $addAnnotations);
 
@@ -118,7 +105,7 @@ class Heartrate extends ActivitySeries
         if ($this->Data !== []) {
             $Plot->setYLimits($yAxis, 10 * floor(min($this->Data) / 10), $max);
 
-            $Plot->addMarkingArea('y' . $yAxis, $max * 1, $max * 0.9, 'rgba(255,100,100,0.3)');
+            $Plot->addMarkingArea('y' . $yAxis, $max, $max * 0.9, 'rgba(255,100,100,0.3)');
             $Plot->addMarkingArea('y' . $yAxis, $max * 0.9, $max * 0.8, 'rgba(255,100,100,0.2)');
             $Plot->addMarkingArea('y' . $yAxis, $max * 0.8, $max * 0.7, 'rgba(255,100,100,0.1)');
             $Plot->addMarkingArea('y' . $yAxis, $max * 0.7, $max * 0.6, 'rgba(255,100,100,0.05)');

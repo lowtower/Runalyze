@@ -9,10 +9,7 @@ class BulkInserter
      */
     protected $Statement;
 
-    /**
-     * @var \PDOforRunalyze
-     */
-    protected $DB;
+    protected \PDOforRunalyze $DB;
 
     /**
      * Start new bulk insert

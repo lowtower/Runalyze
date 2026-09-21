@@ -9,13 +9,9 @@ use Runalyze\Calculation\Trimp\DataCollector;
 
 class TrimpCalculator
 {
-    /**
-     * @param int $MaximalTrimp
-     * @param int $MaximalTrimpPerHour
-     */
     public function __construct(
-        protected $MaximalTrimp = 10000,
-        protected $MaximalTrimpPerHour = 400
+        protected int $MaximalTrimp = 10000,
+        protected int $MaximalTrimpPerHour = 400
     ) {
     }
 
@@ -24,7 +20,7 @@ class TrimpCalculator
      * @param int $heartRateMaximum [bpm]
      * @param int $heartRateResting [bpm]
      */
-    public function calculateFor(Training $activity, $gender, $heartRateMaximum, $heartRateResting): void
+    public function calculateFor(Training $activity, int $gender, int $heartRateMaximum, int $heartRateResting): void
     {
         $calculator = new Calculator(
             new Athlete($gender, $heartRateMaximum, $heartRateResting),
@@ -38,10 +34,7 @@ class TrimpCalculator
         $activity->setTrimp($value);
     }
 
-    /**
-     * @return array
-     */
-    protected function getHeartRateHistogram(Training $activity)
+    protected function getHeartRateHistogram(Training $activity): array
     {
         if ($activity->hasTrackdata() && $activity->getTrackdata()->hasHeartrate() && $activity->getTrackdata()->hasTime()) {
             return (new DataCollector($activity->getTrackdata()->getHeartrate(), $activity->getTrackdata()->getTime()))->result();
@@ -53,10 +46,7 @@ class TrimpCalculator
         ];
     }
 
-    /**
-     * @param int|null $value
-     */
-    protected function checkIfValueIsOutOfRange(&$value, Training $activity)
+    protected function checkIfValueIsOutOfRange(?int &$value, Training $activity)
     {
         if ($value !== null) {
             if ($value > $this->MaximalTrimp) {

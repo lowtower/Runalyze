@@ -23,14 +23,13 @@ abstract class Category
      * Handles
      * @var \Runalyze\Configuration\Handle[]
      */
-    private $Handles;
+    private ?array $Handles = null;
 
     /**
      * User id
      * @todo use instead a user object
-     * @var int
      */
-    private $UserID;
+    private ?int $UserID = null;
 
     /**
      * To load values from database, make sure to call
@@ -230,10 +229,7 @@ abstract class Category
         }
     }
 
-    /**
-     * @return array
-     */
-    private function fetchValues()
+    private function fetchValues(): array
     {
         return DB::getInstance()->query('SELECT `key`,`value` FROM ' . PREFIX . 'conf WHERE `accountid`="' . $this->userID() . '" AND `category`="' . $this->key() . '"')->fetchAll();
     }

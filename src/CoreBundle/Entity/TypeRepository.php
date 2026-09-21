@@ -12,7 +12,7 @@ class TypeRepository extends EntityRepository
     /**
      * @return Type[]
      */
-    public function findAllFor(Account $account, ?Sport $sport = null)
+    public function findAllFor(Account $account, ?Sport $sport = null): array
     {
         if ($sport instanceof \Runalyze\Bundle\CoreBundle\Entity\Sport) {
             return $this->findBy([
@@ -26,31 +26,24 @@ class TypeRepository extends EntityRepository
         ]);
     }
 
-    /**
-     * @param string $typeName
-     * @return null|Type
-     */
-    public function findByNameFor($typeName, Account $account, ?Sport $sport = null)
+    public function findByNameFor(string $typeName, Account $account, ?Sport $sport = null): ?Type
     {
         // #TSC add $sport as parameter - only with sport the type can be find unique
         return $this->findOneBy([
             'account' => $account->getId(),
-            'name' => (string) $typeName,
+            'name' => $typeName,
             'sport' => $sport->getId(),
         ]);
     }
 
     /**
      * #TSC add search for shurt-cut.
-     *
-     * @param string $shortCut
-     * @return null|Type
      */
-    public function findByShortCutFor($shortCut, Account $account, ?Sport $sport = null)
+    public function findByShortCutFor(string $shortCut, Account $account, ?Sport $sport = null): ?Type
     {
         return $this->findOneBy([
             'account' => $account->getId(),
-            'abbr' => (string) $shortCut,
+            'abbr' => $shortCut,
             'sport' => $sport->getId(),
         ]);
     }

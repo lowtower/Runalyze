@@ -5,19 +5,15 @@ namespace Runalyze\Bundle\CoreBundle\Entity\Adapter;
 use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\GradientCalculator;
 use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\PaceCalculator;
 use Runalyze\Bundle\CoreBundle\Entity\Trackdata;
+use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Calculation\Math\MovingAverage\Kernel\Uniform;
 use Runalyze\Sports\Running\GradeAdjustedPace\Algorithm\Minetti;
 
 class TrackDataAdapter
 {
-    /**
-     * @var Trackdata
-     */
-    protected $TrackData;
-
-    public function __construct(Trackdata $trackData)
-    {
-        $this->TrackData = $trackData;
+    public function __construct(
+        protected Trackdata $TrackData
+    ) {
     }
 
     public function calculatePace(): void
@@ -28,7 +24,7 @@ class TrackDataAdapter
 
     public function calculateGradient(): void
     {
-        if ($this->TrackData->getActivity() !== null && $this->TrackData->getActivity()->hasRoute()) {
+        if ($this->TrackData->getActivity() instanceof Training && $this->TrackData->getActivity()->hasRoute()) {
             $calculator = new GradientCalculator();
             $calculator->calculateFor(
                 $this->TrackData,

@@ -203,7 +203,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
             if (empty($Data['foreach'])) {
                 echo '<tr class="c">' . HTML::emptyTD($this->Colspan, '<em>' . __('No data available.') . '</em>') . '</tr>';
             } else {
-                foreach ($Data['foreach'] as $i => $Each) {
+                foreach ($Data['foreach'] as $Each) {
                     echo '<tr><td class="c b">' . $Each['name'] . '</td>';
 
                     for ($t = $this->TimerStart; $t <= $this->TimerEnd; $t++) {
@@ -272,11 +272,8 @@ class RunalyzePluginStat_Analyse extends PluginStat
 
     /**
      * Display td
-     * @param int $num
-     * @param int $time
-     * @param float $percent
      */
-    private function displayTDfor($num, $time, float $dist, $percent): void
+    private function displayTDfor(int $num, int $time, float $dist, float $percent): void
     {
         $tooltip = $num . 'x';
         $number = number_format($percent, 1) . ' &#37;';
@@ -296,9 +293,8 @@ class RunalyzePluginStat_Analyse extends PluginStat
 
     /**
      * Get bar
-     * @param float $percentage
      */
-    private function getBarFor($percentage): string
+    private function getBarFor(float $percentage): string
     {
         $width = min(95, round($percentage));
         $opacity = round($percentage / 100, 2);

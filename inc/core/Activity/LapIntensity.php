@@ -57,15 +57,9 @@ class LapIntensity extends AbstractEnum
      */
     private const OTHER = 'O';
 
-    /**
-     * @var LapIntensity
-     */
-    private static $INST_ACTIVE;
+    private static ?LapIntensity $INST_ACTIVE = null;
 
-    /**
-     * @var LapIntensity
-     */
-    private static $INST_REST;
+    private static ?LapIntensity $INST_REST = null;
 
     public function __construct(
         private string $Value
@@ -170,9 +164,7 @@ class LapIntensity extends AbstractEnum
      */
     public static function getInstanceActive(): self
     {
-        if (self::$INST_ACTIVE === null) {
-            self::$INST_ACTIVE = new self(self::ACTIVE);
-        }
+        self::$INST_ACTIVE ??= new self(self::ACTIVE);
 
         return self::$INST_ACTIVE;
     }
@@ -182,9 +174,7 @@ class LapIntensity extends AbstractEnum
      */
     public static function getInstanceRest(): self
     {
-        if (self::$INST_REST === null) {
-            self::$INST_REST = new self(self::REST);
-        }
+        self::$INST_REST ??= new self(self::REST);
 
         return self::$INST_REST;
     }

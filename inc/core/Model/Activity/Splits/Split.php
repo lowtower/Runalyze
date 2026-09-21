@@ -35,34 +35,27 @@ class Split extends StringObject
 
     /**
      * Distance [km]
-     * @var float
      */
-    protected $Distance = 0;
+    protected float $Distance = 0;
 
     /**
      * Time [s]
-     * @var int
      */
-    protected $Time = 0;
+    protected int $Time = 0;
 
-    /**
-     * @var LapIntensity
-     */
-    protected $Intensity;
+    protected LapIntensity $Intensity;
 
     /**
      * Construct
      * @param string|float $dataOrDistance
-     * @param int $time [optional]
-     * @param bool $active [optional]
      */
-    public function __construct($dataOrDistance = '', $time = null, $active = true)
+    public function __construct($dataOrDistance = '', ?int $time = null, bool $active = true)
     {
         if ($time === null) {
             parent::__construct($dataOrDistance);
         } else {
             $this->Distance = (float) $dataOrDistance;
-            $this->Time = (int) $time;
+            $this->Time = $time;
             if ($active) {
                 $this->Intensity = LapIntensity::getInstanceActive();
             } else {
@@ -71,10 +64,7 @@ class Split extends StringObject
         }
     }
 
-    /**
-     * @param string $string
-     */
-    public function fromString($string): void
+    public function fromString(string $string): void
     {
         $intensity = LapIntensity::fromValue(substr($string, 0, 1));
         if ($intensity instanceof \Runalyze\Activity\LapIntensity) {
@@ -112,58 +102,41 @@ class Split extends StringObject
 
     /**
      * Set kilometer
-     * @param float $kilometer
      */
-    public function setDistance($kilometer): void
+    public function setDistance(float $kilometer): void
     {
         $this->Distance = $kilometer;
     }
 
-    /**
-     * @param int $seconds
-     */
-    public function setTime($seconds): void
+    public function setTime(int $seconds): void
     {
         $this->Time = $seconds;
     }
 
     /**
      * Set resting flag
-     * @param bool $flag
      */
-    public function setResting($flag = true): void
+    public function setResting(bool $flag = true): void
     {
         $this->Intensity = $flag ? LapIntensity::getInstanceRest() : LapIntensity::getInstanceActive();
     }
 
-    /**
-     * @return float
-     */
-    public function distance()
+    public function distance(): float
     {
         return $this->Distance;
     }
 
-    /**
-     * @return int
-     */
-    public function time()
+    public function time(): int
     {
         return $this->Time;
     }
 
-    /**
-     * @param int $legacyPaceUnitEnum [optional]
-     */
-    public function pace($legacyPaceUnitEnum = PaceUnit::MIN_PER_KM): \Runalyze\Activity\Pace
+    public function pace(int $legacyPaceUnitEnum = PaceUnit::MIN_PER_KM): Pace
     {
         return new Pace($this->Time, $this->Distance, $legacyPaceUnitEnum);
     }
 
-    /**
-     * @return LapIntensity
-     */
-    public function getIntensity()
+    public function getIntensity(): LapIntensity
     {
         return $this->Intensity;
     }

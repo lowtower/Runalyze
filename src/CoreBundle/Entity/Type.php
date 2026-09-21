@@ -19,36 +19,25 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'name', type: 'string', length: 50, nullable: false)]
-    private $name;
+    private string $name;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'abbr', type: 'string', length: 5, nullable: false, options: [
         'default' => '',
     ])]
-    private $abbr = '';
+    private string $abbr = '';
 
-    /**
-     * @var Sport
-     */
     #[ORM\JoinColumn(name: 'sportid', referencedColumnName: 'id', nullable: false)]
     #[ORM\ManyToOne(targetEntity: \Sport::class, inversedBy: 'types')]
-    private $sport;
+    private Sport $sport;
 
     /**
-     * @var int
-     *
      * @see \Runalyze\Profile\View\DataBrowserRowProfile
      */
     #[ORM\Column(name: 'short', type: 'tinyint', options: [
         'unsigned' => true,
     ])]
-    private $displayMode = 2;
+    private int $displayMode = 2;
 
     /**
      * @var int [bpm]
@@ -56,67 +45,43 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
     #[ORM\Column(name: 'hr_avg', type: 'tinyint', options: [
         'unsigned' => true,
     ])]
-    private $hrAvg = 100;
+    private int $hrAvg = 100;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'quality_session', type: 'boolean')]
-    private $qualitySession = false;
+    private bool $qualitySession = false;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
     #[ORM\OneToMany(mappedBy: 'type', targetEntity: Training::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
-    protected $trainings;
+    protected \Doctrine\Common\Collections\Collection $trainings;
 
-    /**
-     * @var \Runalyze\Bundle\CoreBundle\Entity\Account
-     */
     #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
     #[ORM\ManyToOne(targetEntity: Account::class, inversedBy: 'activityTypes')]
-    private $account;
+    private Account $account;
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $abbr
-     */
-    public function setAbbr($abbr): self
+    public function setAbbr(string $abbr): self
     {
         $this->abbr = $abbr;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getAbbr()
+    public function getAbbr(): string
     {
         return $this->abbr;
     }
@@ -128,10 +93,7 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
         return $this;
     }
 
-    /**
-     * @return Sport
-     */
-    public function getSport()
+    public function getSport(): Sport
     {
         return $this->sport;
     }
@@ -139,7 +101,7 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
     /**
      * @param int $mode see \Runalyze\Profile\View\DataBrowserRowProfile
      */
-    public function setDisplayMode($mode): self
+    public function setDisplayMode(int $mode): self
     {
         $this->displayMode = $mode;
 
@@ -149,7 +111,7 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
     /**
      * @return int see \Runalyze\Profile\View\DataBrowserRowProfile
      */
-    public function getDisplayMode()
+    public function getDisplayMode(): int
     {
         return $this->displayMode;
     }
@@ -160,30 +122,27 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
             return ! $this->sport->getShort();
         }
 
-        return $this->displayMode == DataBrowserRowProfile::COMPLETE_ROW;
+        return $this->displayMode === DataBrowserRowProfile::COMPLETE_ROW;
     }
 
-    /**
-     * @return bool
-     */
-    public function showsOnlyIcon()
+    public function showsOnlyIcon(): bool
     {
         if ($this->inheritsDisplayMode()) {
             return $this->sport->getShort();
         }
 
-        return $this->displayMode == DataBrowserRowProfile::ONLY_ICON;
+        return $this->displayMode === DataBrowserRowProfile::ONLY_ICON;
     }
 
     public function inheritsDisplayMode(): bool
     {
-        return $this->displayMode == DataBrowserRowProfile::INHERIT_FROM_PARENT;
+        return $this->displayMode === DataBrowserRowProfile::INHERIT_FROM_PARENT;
     }
 
     /**
      * @param int $hrAvg [bpm]
      */
-    public function setHrAvg($hrAvg): self
+    public function setHrAvg(int $hrAvg): self
     {
         $this->hrAvg = $hrAvg;
 
@@ -193,25 +152,19 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
     /**
      * @return int [bpm]
      */
-    public function getHrAvg()
+    public function getHrAvg(): int
     {
         return $this->hrAvg;
     }
 
-    /**
-     * @param bool $qualitySession
-     */
-    public function setQualitySession($qualitySession): self
+    public function setQualitySession(bool $qualitySession): self
     {
         $this->qualitySession = $qualitySession;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getQualitySession()
+    public function getQualitySession(): bool
     {
         return $this->qualitySession;
     }
@@ -223,18 +176,12 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
         return $this;
     }
 
-    /**
-     * @return Account
-     */
-    public function getAccount()
+    public function getAccount(): Account
     {
         return $this->account;
     }
 
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getTrainings()
+    public function getTrainings(): \Doctrine\Common\Collections\Collection
     {
         return $this->trainings;
     }

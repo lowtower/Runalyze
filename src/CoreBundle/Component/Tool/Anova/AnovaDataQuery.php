@@ -6,7 +6,6 @@ use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem;
-use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryGroup\QueryGroupInterface;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryGroup\QueryGroups;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryValue\QueryValueInterface;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryValue\QueryValues;
@@ -14,20 +13,11 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Type;
-use Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaData;
 use Runalyze\Metrics\Common\UnitInterface;
 
 class AnovaDataQuery
 {
-    /**
-     * @var AnovaData
-     */
-    protected $AnovaData;
-
-    /**
-     * @var QueryGroupInterface
-     */
-    protected $QueryGroup;
+    protected \Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryGroup\QueryGroupInterface $QueryGroup;
 
     /**
      * @var QueryValueInterface
@@ -39,11 +29,11 @@ class AnovaDataQuery
      */
     protected $Groups = [];
 
-    public function __construct(AnovaData $anovaData)
-    {
-        $this->AnovaData = $anovaData;
-        $this->QueryGroup = QueryGroups::getGroup($anovaData->getValueToGroupBy());
-        $this->QueryValue = QueryValues::get($anovaData->getValueToLookAt());
+    public function __construct(
+        protected \Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaData $AnovaData
+    ) {
+        $this->QueryGroup = QueryGroups::getGroup($this->AnovaData->getValueToGroupBy());
+        $this->QueryValue = QueryValues::get($this->AnovaData->getValueToLookAt());
     }
 
     public function loadAllGroups(EntityManager $entityManager, Account $account): void
@@ -113,7 +103,7 @@ class AnovaDataQuery
     protected function addSportConditionToQuery(QueryBuilder $queryBuilder)
     {
         $queryBuilder->andWhere($queryBuilder->expr()->in('t.sport', ':sports'));
-        $queryBuilder->setParameter(':sports', array_map(fn (Sport $sport) => $sport->getId(), $this->AnovaData->getSport()));
+        $queryBuilder->setParameter(':sports', array_map(fn (Sport $sport): ?int => $sport->getId(), $this->AnovaData->getSport()));
     }
 
     protected function addTypeConditionToQuery(QueryBuilder $queryBuilder)
@@ -122,7 +112,7 @@ class AnovaDataQuery
 
         if (! empty($types)) {
             $queryBuilder->andWhere($queryBuilder->expr()->in('t.type', ':types'));
-            $queryBuilder->setParameter(':types', array_map(fn (Type $type) => $type->getId(), $types));
+            $queryBuilder->setParameter(':types', array_map(fn (Type $type): ?int => $type->getId(), $types));
         }
     }
 

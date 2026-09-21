@@ -11,7 +11,6 @@ use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\Pace;
 use Runalyze\Configuration;
-use Runalyze\Model;
 use Runalyze\View\Tooltip;
 use SportFactory;
 
@@ -23,22 +22,16 @@ use SportFactory;
  */
 class Dataview
 {
-    /**
-     * @var \Runalyze\Model\RaceResult\Entity
-     */
-    protected $RaceResult;
-
-    public function __construct(Model\RaceResult\Entity $RaceResult)
-    {
-        $this->RaceResult = $RaceResult;
+    public function __construct(
+        protected \Runalyze\Model\RaceResult\Entity $RaceResult
+    ) {
     }
 
     /**
      * Get official distance
      * @param null|int $decimals can be null to load default decimals from config
-     * @param bool $isTrack
      */
-    public function officialDistance($decimals = null, $isTrack = false): string
+    public function officialDistance(?int $decimals = null, bool $isTrack = false): string
     {
         $decimals ??= Configuration::ActivityView()->decimals();
 
@@ -71,9 +64,8 @@ class Dataview
 
     /**
      * Total place with tooltip "of x"
-     * @return string
      */
-    public function placementTotalWithTooltip()
+    public function placementTotalWithTooltip(): string
     {
         return $this->placementWithTooltip(
             (int) $this->RaceResult->placeTotal(),

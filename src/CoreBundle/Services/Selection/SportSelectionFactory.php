@@ -2,8 +2,6 @@
 
 namespace Runalyze\Bundle\CoreBundle\Services\Selection;
 
-use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
-use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\TokenStorageAwareServiceTrait;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -16,23 +14,11 @@ class SportSelectionFactory
      */
     public const ALL = 'all';
 
-    /**
-     * @var SportRepository
-     */
-    protected $SportRepository;
-
-    /**
-     * @var ConfigurationManager
-     */
-    protected $ConfigurationManager;
-
     public function __construct(
-        SportRepository $sportRepository,
-        ConfigurationManager $configurationManager,
+        protected \Runalyze\Bundle\CoreBundle\Entity\SportRepository $SportRepository,
+        protected \Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager $ConfigurationManager,
         TokenStorageInterface $tokenStorage
     ) {
-        $this->SportRepository = $sportRepository;
-        $this->ConfigurationManager = $configurationManager;
         $this->TokenStorageInterface = $tokenStorage;
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::HeartrateAverage
  * @package Runalyze
@@ -85,7 +87,7 @@ class HeartrateAverageActive extends AbstractKey
      * #TSC
      * @return array with key "class" and "style"
      */
-    public function valueDependendCssStyle(Context $context)
+    public function valueDependendCssStyle(Context $context): ?array
     {
         return HeartrateAverage::hrBarCssStyle($context->dataview()->hrAvgActive());
     }

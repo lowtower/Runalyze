@@ -66,10 +66,8 @@ class VO2maxIcon extends AbstractKey
 
     /**
      * Get string to display this dataset value
-     *
-     * @return string
      */
-    public function stringFor(Context $context)
+    public function stringFor(Context $context): string
     {
         if ($context->isRunning() && $context->dataview()->usedVO2maxValue() > 0) {
             if (! \Request::isOnSharedPage() && $context->activity()->id() > 0) {

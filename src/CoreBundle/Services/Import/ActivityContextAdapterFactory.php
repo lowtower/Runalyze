@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Services\Import;
 
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext;
@@ -8,25 +10,13 @@ use Runalyze\Service\RouteNameEvaluation\RouteNameEvalFactory;
 
 class ActivityContextAdapterFactory
 {
-    /**
-     * @var WeatherForecast
-     */
-    protected $WeatherForecast;
-
-    /**
-     * @var DuplicateFinder
-     */
-    protected $DuplicateFinder;
-
-    protected $RouteNameEval;
+    protected \Runalyze\Service\RouteNameEvaluation\RouteNameEval $RouteNameEval;
 
     public function __construct(
-        WeatherForecast $weatherForecast,
-        DuplicateFinder $duplicateFinder,
+        protected \Runalyze\Bundle\CoreBundle\Services\Import\WeatherForecast $WeatherForecast,
+        protected \Runalyze\Bundle\CoreBundle\Services\Import\DuplicateFinder $DuplicateFinder,
         RouteNameEvalFactory $routeNameEvalFactory
     ) {
-        $this->WeatherForecast = $weatherForecast;
-        $this->DuplicateFinder = $duplicateFinder;
         $this->RouteNameEval = $routeNameEvalFactory->getInstance();
     }
 

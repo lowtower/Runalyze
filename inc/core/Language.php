@@ -27,29 +27,13 @@ class Language implements InterfaceChoosable
      */
     public const COOKIE_KEY = 'lang';
 
-    /**
-     * Locale dir
-     * @var string
-     */
-    private static $LOCALE_DIR = './vendor/runalyze/translations/gettext';
+    private static string $LOCALE_DIR = './vendor/runalyze/translations/gettext';
 
-    /**
-     * Current language
-     * @var string
-     */
-    private static $CURRENT_LANG = 'en';
+    private static string $CURRENT_LANG = 'en';
 
-    /**
-     * Available languages
-     * @var array|null
-     */
-    private static $AVAILABLE_LANGUAGES;
+    private static ?array $AVAILABLE_LANGUAGES = null;
 
-    /**
-     * @param string $language [optional]
-     * @param string $domain [optional]
-     */
-    public function __construct($language = '', $domain = 'runalyze')
+    public function __construct(string $language = '', string $domain = 'runalyze')
     {
         $this->setLocaleDir();
 
@@ -82,10 +66,8 @@ class Language implements InterfaceChoosable
 
     /**
      * Set Language for user
-     * @param string $language
-     * @param bool $overwriteGetParameter [optional]
      */
-    public static function setLanguage($language, $overwriteGetParameter = true): bool
+    public static function setLanguage(string $language, bool $overwriteGetParameter = true): bool
     {
         $supportedLanguages = self::availableLanguages();
 
@@ -112,10 +94,7 @@ class Language implements InterfaceChoosable
         return true;
     }
 
-    /**
-     * @param string $domain
-     */
-    protected function setDomain($domain)
+    protected function setDomain(string $domain)
     {
         bind_textdomain_codeset($domain, 'UTF-8');
 
@@ -137,10 +116,7 @@ class Language implements InterfaceChoosable
         self::$AVAILABLE_LANGUAGES = $languages;
     }
 
-    /**
-     * @return array
-     */
-    public static function availableLanguages()
+    public static function availableLanguages(): array
     {
         if (self::$AVAILABLE_LANGUAGES === null) {
             self::readAvailableLanguages();
@@ -151,9 +127,8 @@ class Language implements InterfaceChoosable
 
     /**
      * Return currently selected language
-     * @return string
      */
-    public static function getCurrentLanguage()
+    public static function getCurrentLanguage(): string
     {
         return self::$CURRENT_LANG;
     }
@@ -161,9 +136,8 @@ class Language implements InterfaceChoosable
     /**
      * Guess language
      * Based on get parameter or language accepted by the browser
-     * @return string
      */
-    protected function guessLanguage()
+    protected function guessLanguage(): string
     {
         if (isset($_GET[self::GET_KEY])) {
             if (isset(self::$AVAILABLE_LANGUAGES[$_GET[self::GET_KEY]])) {
@@ -174,11 +148,7 @@ class Language implements InterfaceChoosable
         return $_COOKIE[self::COOKIE_KEY] ?? $this->getBrowserLanguage(self::$AVAILABLE_LANGUAGES);
     }
 
-    /**
-     * @param string $default
-     * @return string
-     */
-    protected function getBrowserLanguage(array $supported, $default = 'en')
+    protected function getBrowserLanguage(array $supported, string $default = 'en'): string
     {
         $supp = [];
 
@@ -215,7 +185,7 @@ class Language implements InterfaceChoosable
      *
      * @return string|null a matched option, or null if no match
      */
-    protected function matchAccept($header, array $supported)
+    protected function matchAccept(string $header, array $supported): ?string
     {
         $matches = $this->sortAccept($header);
 
@@ -240,7 +210,7 @@ class Language implements InterfaceChoosable
      *
      * @return array Sorted list of "accept" options
      */
-    protected function sortAccept($header): array
+    protected function sortAccept(string $header): array
     {
         $matches = [];
 

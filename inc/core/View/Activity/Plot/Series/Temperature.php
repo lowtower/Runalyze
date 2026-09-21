@@ -62,9 +62,8 @@ class Temperature extends ActivitySeries
     /**
      * Average
      * @param int $decimals [optional]
-     * @return int
      */
-    protected function avg(int $decimals = 1)
+    protected function avg(int $decimals = 1): float
     {
         return parent::avg($decimals);
     }

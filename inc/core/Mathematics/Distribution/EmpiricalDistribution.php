@@ -11,16 +11,13 @@ namespace Runalyze\Mathematics\Distribution;
  */
 class EmpiricalDistribution extends AbstractDistribution
 {
-    /**
-     * @var array
-     */
-    protected $Histogram = [];
+    protected array $Histogram = [];
 
     /**
      * @param array $data array of data points
      * @param bool $dataIsAlreadyTheHistogram if enabled $data is used as histogram ['value' => 'num', ...]
      */
-    public function __construct(array $data, $dataIsAlreadyTheHistogram = false)
+    public function __construct(array $data, bool $dataIsAlreadyTheHistogram = false)
     {
         if ($dataIsAlreadyTheHistogram) {
             $this->Histogram = $data;
@@ -29,10 +26,7 @@ class EmpiricalDistribution extends AbstractDistribution
         }
     }
 
-    /**
-     * @return array
-     */
-    public function histogram()
+    public function histogram(): array
     {
         return $this->Histogram;
     }

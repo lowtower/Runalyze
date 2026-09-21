@@ -47,7 +47,7 @@ class TrainingRepository extends EntityRepository
 
     public function isPossibleDuplicate(Training $activity): bool
     {
-        if ($activity->getAccount() === null || ! is_numeric($activity->getAccount()->getId()) || $activity->getActivityId() == null) {
+        if (! $activity->hasAccount() || ! is_numeric($activity->getAccount()->getId()) || $activity->getActivityId() === null) {
             return false;
         }
 
@@ -345,7 +345,7 @@ class TrainingRepository extends EntityRepository
             ->select('partial t.{id, time, s, distance, pulseAvg, splits, route, title}');
 
         if ($ids === []) {
-            if (! $account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account) {
+            if (! $account instanceof Account) {
                 return [];
             }
 
@@ -459,23 +459,23 @@ class TrainingRepository extends EntityRepository
             $this->ensureThatSportAndTypeAreManaged($training);
         }
 
-        if ($training->getRoute() !== null) {
+        if ($training->getRoute() instanceof Route) {
             $this->_em->persist($training->getRoute());
         }
 
-        if ($training->getTrackdata() !== null) {
+        if ($training->getTrackdata() instanceof Trackdata) {
             $this->_em->persist($training->getTrackdata());
         }
 
-        if ($training->getSwimdata() !== null) {
+        if ($training->getSwimdata() instanceof Swimdata) {
             $this->_em->persist($training->getSwimdata());
         }
 
-        if ($training->getHrv() !== null) {
+        if ($training->getHrv() instanceof Hrv) {
             $this->_em->persist($training->getHrv());
         }
 
-        if ($training->getRaceresult() !== null) {
+        if ($training->getRaceresult() instanceof Raceresult) {
             $this->_em->persist($training->getRaceresult());
         }
 
@@ -490,13 +490,13 @@ class TrainingRepository extends EntityRepository
         $sport = $activity->getSport();
         $type = $activity->getType();
 
-        if ($sport !== null && $sport->getId() && ! $this->_em->getUnitOfWork()->isInIdentityMap($sport)) {
+        if ($sport->getId() && ! $this->_em->getUnitOfWork()->isInIdentityMap($sport)) {
             $activity->setSport(
                 $this->_em->find(Sport::class, $sport->getId())
             );
         }
 
-        if ($type !== null && $type->getId() && ! $this->_em->getUnitOfWork()->isInIdentityMap($type)) {
+        if ($type instanceof Type && $type->getId() && ! $this->_em->getUnitOfWork()->isInIdentityMap($type)) {
             $activity->setType(
                 $this->_em->find(Type::class, $type->getId())
             );
@@ -505,8 +505,24 @@ class TrainingRepository extends EntityRepository
 
     public function remove(Training $activity): void
     {
-        if ($activity->getRoute() !== null) {
+        if ($activity->getRoute() instanceof Route) {
             $this->_em->remove($activity->getRoute());
+        }
+
+        if ($activity->getTrackdata() instanceof Trackdata) {
+            $this->_em->remove($activity->getTrackdata());
+        }
+
+        if ($activity->getSwimdata() instanceof Swimdata) {
+            $this->_em->remove($activity->getSwimdata());
+        }
+
+        if ($activity->getHrv() instanceof Hrv) {
+            $this->_em->remove($activity->getHrv());
+        }
+
+        if ($activity->getRaceresult() instanceof Raceresult) {
+            $this->_em->remove($activity->getRaceresult());
         }
 
         // #TSC: hacky request the lazy equipments here, so that while removing via EventListener the collection is filled

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::PerformanceCondition
  * @package Runalyze\View\Activity\Plot\Series
@@ -50,10 +52,9 @@ class PerformanceCondition extends ActivitySeries
 
     /**
      * Add to plot
-     * @param int $yAxis
      * @param bool $addAnnotations [optional]
      */
-    public function addTo(\Plot $Plot, $yAxis, bool $addAnnotations = true): void
+    public function addTo(\Plot $Plot, ?int $yAxis, bool $addAnnotations = true): void
     {
         parent::addTo($Plot, $yAxis, $addAnnotations);
 

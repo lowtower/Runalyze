@@ -62,9 +62,8 @@ class Elevation extends AbstractKey
 
     /**
      * Get string to display this dataset value
-     * @return string
      */
-    public function stringFor(Context $context)
+    public function stringFor(Context $context): string
     {
         if ($context->activity()->elevation() > 0) {
             if ($context->activity()->id() > 0 && ! \Request::isOnSharedPage()) {

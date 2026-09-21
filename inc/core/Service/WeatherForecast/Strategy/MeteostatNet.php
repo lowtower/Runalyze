@@ -166,7 +166,7 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface, LastExcep
     /**
      * @param array<int, array<string, mixed>> $data
      */
-    protected function getDataElementOfTime(\DateTime $time, array $data)
+    protected function getDataElementOfTime(\DateTime $time, array $data): array
     {
         // get activity-time in string-format
         $ymdhms = $time->format('Y-m-d H:i:s');

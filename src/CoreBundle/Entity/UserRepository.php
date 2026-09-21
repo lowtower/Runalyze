@@ -13,7 +13,7 @@ class UserRepository extends EntityRepository
     /**
      * @return User[]
      */
-    public function findAllFor(Account $account)
+    public function findAllFor(Account $account): array
     {
         return $this->findBy([
             'account' => $account->getId(),
@@ -23,9 +23,9 @@ class UserRepository extends EntityRepository
     }
 
     /**
-     * @return int|null [bpm]
+     * @return ?int [bpm]
      */
-    public function getCurrentRestingHeartRate(Account $account)
+    public function getCurrentRestingHeartRate(Account $account): ?int
     {
         $result = $this->createQueryBuilder('u')
             ->select('u.pulseRest')
@@ -41,9 +41,9 @@ class UserRepository extends EntityRepository
     }
 
     /**
-     * @return int|null [bpm]
+     * @return ?int [bpm]
      */
-    public function getCurrentMaximalHeartRate(Account $account)
+    public function getCurrentMaximalHeartRate(Account $account): ?int
     {
         $result = $this->createQueryBuilder('u')
             ->select('u.pulseMax')
@@ -64,10 +64,7 @@ class UserRepository extends EntityRepository
         $this->_em->flush();
     }
 
-    /**
-     * @return null|User
-     */
-    public function getLatestEntryFor(Account $account)
+    public function getLatestEntryFor(Account $account): ?User
     {
         return $this->createQueryBuilder('u')
             ->where('u.account = :account')

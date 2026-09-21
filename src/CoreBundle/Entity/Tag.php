@@ -17,52 +17,34 @@ class Tag implements AccountRelatedEntityInterface
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'tag', type: 'string', length: 50, nullable: false)]
-    private $tag;
+    private string $tag;
 
-    /**
-     * @var Account
-     */
     #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
     #[ORM\ManyToOne(targetEntity: Account::class, inversedBy: 'tags')]
-    private $account;
+    private Account $account;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
     #[ORM\ManyToMany(targetEntity: Training::class, mappedBy: 'tag')]
-    private $activity;
+    private \Doctrine\Common\Collections\Collection $activity;
 
     public function __construct()
     {
         $this->activity = new ArrayCollection();
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param string $tag
-     */
-    public function setTag($tag): self
+    public function setTag(string $tag): self
     {
         $this->tag = $tag;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getTag()
+    public function getTag(): string
     {
         return $this->tag;
     }
@@ -74,10 +56,7 @@ class Tag implements AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @return Account
-     */
-    public function getAccount()
+    public function getAccount(): Account
     {
         return $this->account;
     }

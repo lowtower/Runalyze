@@ -11,10 +11,7 @@ use Symfony\Component\Form\FormView;
 
 class TemperatureType extends AbstractUnitBasedType
 {
-    /**
-     * @var int
-     */
-    protected $ViewPrecision = 0;
+    protected int $ViewPrecision = 0;
 
     public function __construct(AbstractTemperatureUnit $temperatureUnit, $modelPrecision = 0)
     {

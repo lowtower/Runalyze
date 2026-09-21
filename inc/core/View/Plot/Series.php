@@ -76,10 +76,8 @@ class Series
 
     /**
      * Set properties
-     * @param int $yAxis
-     * @param bool $addAnnotations [optional]
      */
-    public function addTo(Plot $Plot, $yAxis, bool $addAnnotations = true): void
+    public function addTo(Plot $Plot, ?int $yAxis, bool $addAnnotations = true): void
     {
         if ($this->Data === []) {
             return;
@@ -144,10 +142,8 @@ class Series
 
     /**
      * Average
-     * @param int $decimals [optional]
-     * @return int|float
      */
-    protected function avg(int $decimals = 0)
+    protected function avg(int $decimals = 0): float
     {
         if ($this->ManualAverage !== false) {
             return $this->ManualAverage;

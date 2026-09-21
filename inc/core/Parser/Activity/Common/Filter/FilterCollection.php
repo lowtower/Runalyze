@@ -13,19 +13,14 @@ class FilterCollection
      */
     protected $Filter = [];
 
-    /**
-     * @var LoggerInterface|null
-     */
-    protected $Logger;
-
-    public function __construct(?LoggerInterface $logger = null)
-    {
-        $this->Logger = $logger;
+    public function __construct(
+        protected ?LoggerInterface $Logger = null
+    ) {
     }
 
     public function add(FilterInterface $filter): void
     {
-        if ($this->Logger !== null && $filter instanceof LoggerAwareInterface) {
+        if ($this->Logger instanceof LoggerInterface && $filter instanceof LoggerAwareInterface) {
             $filter->setLogger($this->Logger);
         }
 

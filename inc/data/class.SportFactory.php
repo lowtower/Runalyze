@@ -16,16 +16,13 @@ class SportFactory
 {
     /**
      * All sports as array
-     * @var array
      */
-    private static $AllSports;
+    private static ?array $AllSports = null;
 
     /**
      * Data for ID
-     * @param int $id sportid
-     * @return array
      */
-    public static function DataFor($id)
+    public static function DataFor(int $id): array
     {
         $Sports = self::AllSports();
 
@@ -90,8 +87,8 @@ class SportFactory
         $sports = Cache::get('sport');
 
         if ($sports === null) {
-            $sports = DB::getInstance()->query('SELECT * FROM `' . PREFIX . 'sport` WHERE `accountid` = "' . (int) SessionAccountHandler::getId() . '"')->fetchAll();
-            Cache::set('sport', $sports, '3600');
+            $sports = DB::getInstance()->query('SELECT * FROM `' . PREFIX . 'sport` WHERE `accountid` = "' . SessionAccountHandler::getId() . '"')->fetchAll();
+            Cache::set('sport', $sports, 3600);
         }
 
         return $sports;

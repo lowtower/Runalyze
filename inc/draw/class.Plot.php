@@ -37,9 +37,8 @@ class Plot
 
     /**
      * Error string
-     * @var string
      */
-    private $ErrorString = '';
+    private string $ErrorString = '';
 
     /**
      * @param mixed $width
@@ -69,10 +68,8 @@ class Plot
     /**
      * Get standard div for a special plot
      * @param string $id
-     * @param int $width
-     * @param int $height
      */
-    public static function getDivFor($id, $width, $height): string
+    public static function getDivFor($id, int $width, int $height): string
     {
         return '<div style="position:relative;width:' . $width . 'px;height:' . $height . 'px;margin:0 auto;">' . self::getInnerDivFor($id, $width, $height) . '</div>';
     }
@@ -80,12 +77,8 @@ class Plot
     /**
      * Get standard div for a special plot
      * @param string $id
-     * @param int $width
-     * @param int $height
-     * @param bool $hidden
-     * @param string $class
      */
-    public static function getInnerDivFor($id, $width, $height, $hidden = false, $class = ''): string
+    public static function getInnerDivFor($id, int $width, int $height, bool $hidden = false, string $class = ''): string
     {
         return '<div class="flot ' . Ajax::$IMG_WAIT . ' ' . $class . ($hidden ? ' flot-hide' : '') . '" id="' . $id . '" style="width:' . $width . 'px;height:' . $height . 'px;position:absolute;"></div>';
     }
@@ -103,10 +96,7 @@ class Plot
         echo $this->getDiv();
     }
 
-    /**
-     * @param bool $removeOldPlot
-     */
-    public function outputJavaScript($removeOldPlot = false): void
+    public function outputJavaScript(bool $removeOldPlot = false): void
     {
         if ($removeOldPlot) {
             echo Ajax::wrapJS('RunalyzePlot.remove("' . $this->cssID . '");');
@@ -114,7 +104,7 @@ class Plot
 
         $this->convertData();
 
-        $bindedCode = ((string) $this->ErrorString !== '') ? $this->getJSForError() : $this->getMainJS();
+        $bindedCode = ($this->ErrorString !== '') ? $this->getJSForError() : $this->getMainJS();
 
         echo Ajax::wrapJS('RunalyzePlot.preparePlot("' . $this->cssID . '","' . $this->width . '","' . $this->height . '",function(){' . $bindedCode . '});');
     }
@@ -170,20 +160,17 @@ class Plot
             $this->Options['series']['curvedLines']['apply'] = true;
         }
 
-        if ($this->Data === [] && (string) $this->ErrorString === '') {
+        if ($this->Data === [] && $this->ErrorString === '') {
             $this->raiseError('Es sind keine Daten vorhanden.');
         }
     }
 
     /**
      * Add an annotation to plot
-     * @param float $x
-     * @param float $y
-     * @param string $text
      * @param float $toX relative repositioning in px
      * @param float $toY relative repositioning in px
      */
-    public function addAnnotation($x, $y, $text, $toX = 0, $toY = 0): void
+    public function addAnnotation(float $x, float $y, string $text, float $toX = 0.0, float $toY = 0.0): void
     {
         $this->Annotations[] = [
             'x' => $x,
@@ -221,51 +208,44 @@ class Plot
 
     /**
      * Use chart for points
-     * @param int $size
      */
-    public function showPoints($size = -1): void
+    public function showPoints(int $size = -1): void
     {
         $this->Options['series']['points']['show'] = true;
 
-        if ($size != -1) {
+        if ($size !== -1) {
             $this->Options['series']['points']['lineWidth'] = $size;
         }
     }
 
     /**
      * Show series as points
-     * @param int $series
      */
-    public function showAsPoints($series): void
+    public function showAsPoints(int $series): void
     {
         $this->Data[$series]['points']['show'] = true;
     }
 
     /**
      * Set line width for series
-     * @param int $series
-     * @param int $width
      */
-    public function setLineWidth($series, $width): void
+    public function setLineWidth(int $series, int $width): void
     {
         $this->Data[$series]['lines']['lineWidth'] = $width;
     }
 
     /**
      * Set shadow width for series
-     * @param int $series
-     * @param int $size
      */
-    public function setShadowSize($series, $size): void
+    public function setShadowSize(int $series, int $size): void
     {
         $this->Data[$series]['shadowSize'] = $size;
     }
 
     /**
      * Show specific series as bars
-     * @param int $series
      */
-    public function showAsBars($series, $barWidth = 0, $lineWidth = 0): void
+    public function showAsBars(int $series, $barWidth = 0, $lineWidth = 0): void
     {
         $this->Data[$series]['bars']['show'] = true;
 
@@ -282,7 +262,7 @@ class Plot
      * Use chart for bar-plot
      * @param bool $withPadding Only useful if ticks are set
      */
-    public function showBars($withPadding = false): void
+    public function showBars(bool $withPadding = false): void
     {
         $this->Options['series']['bars']['show'] = true;
 
@@ -308,13 +288,7 @@ class Plot
         $this->Options['series']['lines']['fill'] = true;
     }
 
-    /**
-     * @param string $axis
-     * @param float $from
-     * @param string $color
-     * @param int $lineWidth
-     */
-    public function addThreshold($axis, $from, $color = '#000', $lineWidth = 1): void
+    public function addThreshold(string $axis, float $from, string $color = '#000', int $lineWidth = 1): void
     {
         $this->Options['grid']['markings'][] = [
             'color' => $color,
@@ -722,9 +696,8 @@ function PLOT__correctValuesMapperForTime($v): float
 /**
  * Mapper for Plot::correctValuesFromPaceToKmh
  * @param mixed $v
- * @return mixed
  */
-function PLOT__correctValuesMapperFromPaceToKmh($v)
+function PLOT__correctValuesMapperFromPaceToKmh($v): int|float
 {
     if ($v == 0) {
         return 0;

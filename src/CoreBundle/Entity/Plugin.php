@@ -41,19 +41,13 @@ class Plugin implements AccountRelatedEntityInterface
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: '`key`', type: 'string', length: 100, nullable: false)]
-    private $key;
+    private string $key;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'type', type: 'string', length: 5, nullable: false, options: [
         'default' => 'stat',
     ])]
-    private $type = 'stat';
+    private string $type = 'stat';
 
     /**
      * @var int 0: inactive, 1: active, 2: hidden/misc
@@ -61,81 +55,60 @@ class Plugin implements AccountRelatedEntityInterface
     #[ORM\Column(name: 'active', type: 'tinyint', options: [
         'unsigned' => true,
     ])]
-    private $active = 1;
+    private int $active = 1;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: '`order`', type: 'tinyint', options: [
         'unsigned' => true,
     ])]
-    private $order = 0;
+    private int $order = 0;
 
-    /**
-     * @var \Runalyze\Bundle\CoreBundle\Entity\Account
-     */
     #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
     #[ORM\ManyToOne(targetEntity: Account::class)]
-    private $account;
+    private Account $account;
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param string $key
-     */
-    public function setKey($key): self
+    public function setKey(string $key): self
     {
         $this->key = $key;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getKey()
+    public function getKey(): string
     {
         return $this->key;
     }
 
-    /**
-     * @param string $type
-     */
-    public function setType($type): self
+    public function setType(string $type): self
     {
         $this->type = $type;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
 
     public function isStatistic(): bool
     {
-        return $this->type == self::TYPE_STAT;
+        return $this->type === self::TYPE_STAT;
     }
 
     public function isPanel(): bool
     {
-        return $this->type == self::TYPE_PANEL;
+        return $this->type === self::TYPE_PANEL;
     }
 
     /**
      * @param int $active 0: inactive, 1: active, 2: hidden/misc
      */
-    public function setActive($active): self
+    public function setActive(int $active): self
     {
         $this->active = $active;
 
@@ -156,40 +129,34 @@ class Plugin implements AccountRelatedEntityInterface
     /**
      * @return int 0: inactive, 1: active, 2: hidden/misc
      */
-    public function getActive()
+    public function getActive(): int
     {
         return $this->active;
     }
 
     public function isInactive(): bool
     {
-        return $this->active == self::STATE_INACTIVE;
+        return $this->active === self::STATE_INACTIVE;
     }
 
     public function isActive(): bool
     {
-        return $this->active == self::STATE_ACTIVE;
+        return $this->active === self::STATE_ACTIVE;
     }
 
     public function isHidden(): bool
     {
-        return $this->active == self::STATE_HIDDEN;
+        return $this->active === self::STATE_HIDDEN;
     }
 
-    /**
-     * @param int $order
-     */
-    public function setOrder($order): self
+    public function setOrder(int $order): self
     {
         $this->order = $order;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getOrder()
+    public function getOrder(): int
     {
         return $this->order;
     }
@@ -215,10 +182,7 @@ class Plugin implements AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @return Account
-     */
-    public function getAccount()
+    public function getAccount(): Account
     {
         return $this->account;
     }

@@ -14,7 +14,7 @@ class DatasetRepository extends EntityRepository
     /**
      * @return Dataset[]
      */
-    public function findAllFor(Account $account)
+    public function findAllFor(Account $account): array
     {
         return $this->findBy(
             [

@@ -61,7 +61,7 @@ class HampelFilter
 
         for ($i = $this->WindowWidth; $i < $num - $this->WindowWidth; ++$i) {
             $median = $this->median($slicedData);
-            $sigma = self::STD_ESTIMATE_FACTOR * $this->median(array_map(fn ($v) => abs($v - $median), $slicedData));
+            $sigma = self::STD_ESTIMATE_FACTOR * $this->median(array_map(fn ($v): float => abs($v - $median), $slicedData));
 
             if (abs($inputData[$i] - $median) > $this->SigmaFactor * $sigma) {
                 $correctedData[$i] = $median;
@@ -83,9 +83,8 @@ class HampelFilter
 
     /**
      * @param float[]|int[] $data must be of size 2 * $this->WindowWidth + 1
-     * @return mixed
      */
-    protected function median(array $data)
+    protected function median(array $data): float
     {
         sort($data, SORT_NUMERIC);
 

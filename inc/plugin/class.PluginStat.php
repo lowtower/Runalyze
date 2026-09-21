@@ -49,7 +49,7 @@ abstract class PluginStat extends Plugin
     /**
      * Header
      */
-    private $Header = '';
+    private string $Header = '';
 
     final public function type(): int
     {
@@ -67,8 +67,6 @@ abstract class PluginStat extends Plugin
 
     /**
      * Set flag for years-navigation
-     * @param bool $compareFlag [optional]
-     * @param bool $timeRangeFlag [optional]
      */
     protected function setYearsNavigation(bool $flag = true, bool $compareFlag = true, bool $timeRangeFlag = false)
     {
@@ -79,9 +77,8 @@ abstract class PluginStat extends Plugin
 
     /**
      * Set array of links for toolbar-navigation
-     * @param array $Links
      */
-    protected function setToolbarNavigationLinks($Links)
+    protected function setToolbarNavigationLinks(array $Links)
     {
         $this->LinkList = $Links;
     }

@@ -32,15 +32,14 @@ class Handle
 
     /**
      * Array with all values
-     * @var array
      */
-    private static $TableHandles = [];
+    private static array $TableHandles = [];
 
     /**
      * All table handles
      * @return array array('key' => 'table')
      */
-    public static function tableHandles()
+    public static function tableHandles(): array
     {
         return self::$TableHandles;
     }

@@ -11,16 +11,10 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Type;
-use Runalyze\Bundle\CoreBundle\Form\Tools\TrendAnalysis\TrendAnalysisData;
 use Runalyze\Metrics\Common\UnitInterface;
 
 class TrendAnalysisDataQuery
 {
-    /**
-     * @var TrendAnalysisData
-     */
-    protected $TrendAnalysisData;
-
     /**
      * @var QueryValueInterface
      */
@@ -31,10 +25,10 @@ class TrendAnalysisDataQuery
      */
     protected $Values = [];
 
-    public function __construct(TrendAnalysisData $trendAnalysisData)
-    {
-        $this->TrendAnalysisData = $trendAnalysisData;
-        $this->QueryValue = QueryValues::get($trendAnalysisData->getValueToLookAt());
+    public function __construct(
+        protected \Runalyze\Bundle\CoreBundle\Form\Tools\TrendAnalysis\TrendAnalysisData $TrendAnalysisData
+    ) {
+        $this->QueryValue = QueryValues::get($this->TrendAnalysisData->getValueToLookAt());
     }
 
     /**
@@ -91,7 +85,7 @@ class TrendAnalysisDataQuery
     protected function addSportConditionToQuery(QueryBuilder $queryBuilder)
     {
         $queryBuilder->andWhere($queryBuilder->expr()->in('t.sport', ':sports'));
-        $queryBuilder->setParameter(':sports', array_map(fn (Sport $sport) => $sport->getId(), $this->TrendAnalysisData->getSport()));
+        $queryBuilder->setParameter(':sports', array_map(fn (Sport $sport): ?int => $sport->getId(), $this->TrendAnalysisData->getSport()));
     }
 
     protected function addTypeConditionToQuery(QueryBuilder $queryBuilder)
@@ -100,7 +94,7 @@ class TrendAnalysisDataQuery
 
         if (! empty($types)) {
             $queryBuilder->andWhere($queryBuilder->expr()->in('t.type', ':types'));
-            $queryBuilder->setParameter(':types', array_map(fn (Type $type) => $type->getId(), $types));
+            $queryBuilder->setParameter(':types', array_map(fn (Type $type): ?int => $type->getId(), $types));
         }
     }
 }

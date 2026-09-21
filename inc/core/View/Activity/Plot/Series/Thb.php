@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::Thb
  * @package Runalyze\View\Activity\Plot\Series
@@ -50,9 +52,8 @@ class Thb extends ActivitySeries
 
     /**
      * Change value by internal factor
-     * @param int $value
      */
-    protected function correctUnit($value): float
+    protected function correctUnit(int $value): float
     {
         return 0.01 * $value;
     }

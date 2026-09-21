@@ -12,29 +12,15 @@ use Symfony\Component\Form\FormView;
 
 abstract class AbstractUnitBasedType extends AbstractType implements DataTransformerInterface
 {
-    /**
-     * @var UnitInterface
-     */
-    protected $Unit;
+    protected int $ViewPrecision = 1;
 
-    /**
-     * @var int
-     */
-    protected $ViewPrecision = 1;
+    protected ?int $MaxViewPrecision = null;
 
-    /**
-     * @var int|null
-     */
-    protected $MaxViewPrecision;
+    protected ?int $ModelPrecision = null;
 
-    /**
-     * @var int|null
-     */
-    protected $ModelPrecision;
-
-    public function __construct(UnitInterface $unit)
-    {
-        $this->Unit = $unit;
+    public function __construct(
+        protected UnitInterface $Unit
+    ) {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -48,10 +34,9 @@ abstract class AbstractUnitBasedType extends AbstractType implements DataTransfo
     }
 
     /**
-     * @param  mixed $value
-     * @return string
+     * @param mixed $value
      */
-    public function transform($value)
+    public function transform($value): ?string
     {
         if ($value === null) {
             return '';
@@ -64,9 +49,8 @@ abstract class AbstractUnitBasedType extends AbstractType implements DataTransfo
 
     /**
      * @param mixed $value
-     * @return int
      */
-    protected function getPrecisionFor($value)
+    protected function getPrecisionFor($value): int
     {
         return max(
             $this->ViewPrecision,
@@ -102,6 +86,9 @@ abstract class AbstractUnitBasedType extends AbstractType implements DataTransfo
         return $this->ViewPrecision;
     }
 
+    /**
+     * @param mixed $value
+     */
     public function getViewPrecisionFor($value)
     {
         return $this->MaxViewPrecision === null ? $this->ViewPrecision : $this->getPrecisionFor($value);

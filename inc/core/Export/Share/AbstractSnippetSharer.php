@@ -22,26 +22,17 @@ abstract class AbstractSnippetSharer extends AbstractSharer
      */
     public const URL = 'activity/{id}/export/social/{enum}';
 
-    /**
-     * @return string
-     */
-    public function iconClass()
+    public function iconClass(): string
     {
         return 'fa-code';
     }
 
-    /**
-     * @return bool
-     */
-    public function isExternalLink()
+    public function isExternalLink(): bool
     {
         return false;
     }
 
-    /**
-     * @return string
-     */
-    public function url()
+    public function url(): string
     {
         return str_replace(
             ['{id}', '{enum}'],
@@ -50,15 +41,9 @@ abstract class AbstractSnippetSharer extends AbstractSharer
         );
     }
 
-    /**
-     * @return int
-     */
-    abstract public function enum();
+    abstract public function enum(): int;
 
-    abstract public function display();
+    abstract public function display(): void;
 
-    /**
-     * @return string
-     */
-    abstract protected function codeSnippet();
+    abstract protected function codeSnippet(): string;
 }

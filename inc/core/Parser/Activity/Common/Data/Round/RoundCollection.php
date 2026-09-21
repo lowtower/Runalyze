@@ -42,7 +42,7 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
     /**
      * @return Round[]
      */
-    public function getElements()
+    public function getElements(): array
     {
         return $this->Elements;
     }

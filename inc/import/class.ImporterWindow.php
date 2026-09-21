@@ -20,7 +20,7 @@ class ImporterWindow
     /**
      * Get link for create window
      */
-    public static function link()
+    public static function link(): string
     {
         return Ajax::window('<a href="' . self::$URL . '">' . Icon::$ADD . ' ' . __('Add workout') . '</a>', 'small');
     }
@@ -28,9 +28,8 @@ class ImporterWindow
     /**
      * Get link for create window for a given date
      * @param int $timestampInServerTime
-     * @return string
      */
-    public static function linkForDate($timestampInServerTime)
+    public static function linkForDate($timestampInServerTime): string
     {
         if ($timestampInServerTime > time()) {
             return '<span style="opacity:.25;">' . Icon::$ADD_SMALL . '</span>';

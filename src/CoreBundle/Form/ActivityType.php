@@ -5,7 +5,6 @@ namespace Runalyze\Bundle\CoreBundle\Form;
 use League\Geotools\Geohash\Geohash;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Tag;
-use Runalyze\Bundle\CoreBundle\Entity\TagRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Form\Type\ActivityEquipmentType;
 use Runalyze\Bundle\CoreBundle\Form\Type\ActivityRoundType;
@@ -41,26 +40,13 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class ActivityType extends AbstractType
 {
-    /**
-     * @var TagRepository
-     */
-    protected $TagRepository;
-
-    /**
-     * @var TokenStorageInterface
-     */
-    protected $TokenStorageInterface;
-
     public function __construct(
-        TokenStorageInterface $tokenStorage,
-        TagRepository $tagRepository
+        protected \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $TokenStorageInterface,
+        protected \Runalyze\Bundle\CoreBundle\Entity\TagRepository $TagRepository
     ) {
-        $this->TokenStorageInterface = $tokenStorage;
-        $this->TagRepository = $tagRepository;
     }
 
     /**
@@ -216,7 +202,7 @@ class ActivityType extends AbstractType
                 'required' => false,
             ])
         ;
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
             /** @var Training $activity */
             $activity = $event->getData();
 
@@ -250,7 +236,7 @@ class ActivityType extends AbstractType
             }
         });
 
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
             $data = $event->getData();
             /** @var Training $activity */
             $activity = $event->getForm()

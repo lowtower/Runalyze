@@ -1,28 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\EntityListener;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\User;
-use Runalyze\Bundle\CoreBundle\Entity\UserRepository;
-use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
 
 class UserListener
 {
-    /**
-     * @var ConfigurationUpdater
-     */
-    protected $ConfigurationUpdater;
-
-    /**
-     * @var UserRepository
-     */
-    protected $UserRepository;
-
-    public function __construct(ConfigurationUpdater $updater, UserRepository $repository)
-    {
-        $this->ConfigurationUpdater = $updater;
-        $this->UserRepository = $repository;
+    public function __construct(
+        protected \Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater $ConfigurationUpdater,
+        protected \Runalyze\Bundle\CoreBundle\Entity\UserRepository $UserRepository
+    ) {
     }
 
     public function postPersist(User $user, \Doctrine\ORM\Event\PostPersistEventArgs $args): void

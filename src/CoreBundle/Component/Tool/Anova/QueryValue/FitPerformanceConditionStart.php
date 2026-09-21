@@ -17,8 +17,8 @@ class FitPerformanceConditionStart extends AbstractOneColumnValue
     public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\Common\Unit\Linear
     {
         return new Linear(
-            fn ($value) => $value - 100,
-            fn ($value) => $value + 100
+            fn ($value): int|float => $value - 100,
+            fn ($value): int|float => $value + 100
         );
     }
 }

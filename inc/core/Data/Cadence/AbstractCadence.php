@@ -19,20 +19,16 @@ abstract class AbstractCadence
      * Value
      * @param int $value
      */
-    protected $Value = 0;
+    protected int $Value = 0;
 
     /**
      * Factor for manipulating value
-     * @var float
      */
-    protected $Factor = 1;
+    protected float $Factor = 1.0;
 
-    /**
-     * @param int $value
-     */
-    public function __construct($value = 0)
+    public function __construct(int $value = 0)
     {
-        $this->Value = round($this->Factor * $value);
+        $this->Value = (int) round($this->Factor * $value);
     }
 
     /**
@@ -45,30 +41,27 @@ abstract class AbstractCadence
 
     /**
      * As string
-     * @return string
      * @codeCoverageIgnore
      */
-    final public function asString()
+    final public function asString(): string
     {
         return $this->Value . '&nbsp;' . $this->unitAsString();
     }
 
     /**
      * As string with tooltip
-     * @return string
      * @codeCoverageIgnore
      */
-    final public function asStringWithTooltip()
+    final public function asStringWithTooltip(): string
     {
         return \Ajax::tooltip($this->asString(), $this->Value . ' ' . $this->unitExplanation());
     }
 
     /**
      * As string with tooltip
-     * @return string
      * @codeCoverageIgnore
      */
-    final public function unitAsStringWithTooltip()
+    final public function unitAsStringWithTooltip(): string
     {
         return \Ajax::tooltip($this->unitAsString(), $this->unitExplanation());
     }
@@ -80,36 +73,30 @@ abstract class AbstractCadence
 
     /**
      * Change value by internal factor
-     * @param int $value
-     * @return float
      */
-    final public function useFactor($value)
+    final public function useFactor(int $value): float
     {
         return $this->Factor * $value;
     }
 
     /**
-     * @return string
      * @codeCoverageIgnore
      */
-    abstract public function label();
+    abstract public function label(): string;
 
     /**
-     * @return string
      * @codeCoverageIgnore
      */
-    abstract public function unitAsString();
+    abstract public function unitAsString(): string;
 
     /**
      * Explanation for unit
-     * @return string
      * @codeCoverageIgnore
      */
-    abstract protected function unitExplanation();
+    abstract protected function unitExplanation(): string;
 
     /**
-     * @return string
      * @codeCoverageIgnore
      */
-    abstract public function formularUnit();
+    abstract public function formularUnit(): string;
 }

@@ -20,20 +20,19 @@ class Cache
 
     /**
      * Last cache clean date
-     * @var int
      */
-    private static $LASTCLEAN;
+    private static int $LASTCLEAN = 0;
 
     /**
      * ignore some keywords
+     * @var string[]
      */
-    private static $ignoreKeywords = ['sport'];
+    private static array $ignoreKeywords = ['sport'];
 
     /**
      * Boolean flag: Cache enabled?
-     * @var bool
      */
-    public $footer_sent = true;
+    public bool $footer_sent = true;
 
     public static ExtendedCacheItemPoolInterface $cache;
 
@@ -49,7 +48,7 @@ class Cache
     /**
      * Get Cache
      */
-    public static function set(string $keyword, $data, $time, int $nousercache = 0): void
+    public static function set(string $keyword, $data, int|\DateInterval|null $time, int $nousercache = 0): void
     {
         $key = ($nousercache === 0)
             ? $keyword . SessionAccountHandler::getId()
@@ -75,7 +74,7 @@ class Cache
                 return null;
             }
 
-            if (self::$LASTCLEAN === null) {
+            if (self::$LASTCLEAN === 0) {
                 $lastItem = self::$cache->getItem('LASTCLEAN' . SessionAccountHandler::getId());
                 self::$LASTCLEAN = $lastItem->isHit() ? $lastItem->get() : 0;
             }
@@ -110,7 +109,7 @@ class Cache
     {
         self::$LASTCLEAN = time();
 
-        if (SessionAccountHandler::getId() === null) {
+        if (SessionAccountHandler::getId() === 0) {
             self::$cache->clear();
         } else {
             $item = self::$cache->getItem('LASTCLEAN' . SessionAccountHandler::getId());

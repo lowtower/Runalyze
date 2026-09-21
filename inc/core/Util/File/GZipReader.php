@@ -48,7 +48,7 @@ class GZipReader
     /**
      * Read one line
      */
-    public function readLine()
+    public function readLine(): string|false
     {
         return gzgets($this->Resource);
     }

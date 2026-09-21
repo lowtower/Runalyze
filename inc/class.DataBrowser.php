@@ -451,18 +451,16 @@ class DataBrowser
 
     /**
      * Get ajax-link for showing month-kilometer
-     * @return string
      */
-    protected function getMonthKmLink()
+    protected function getMonthKmLink(): string
     {
         return Ajax::window('<a href="' . PlotSumData::$URL . '?type=month" ' . Ajax::tooltip('', __('Activity per month'), false, true) . '>' . Icon::$BARS_BIG . '</a>');
     }
 
     /**
      * Get ajax-link for showing week-kilometer
-     * @return string
      */
-    protected function getWeekKmLink()
+    protected function getWeekKmLink(): string
     {
         return Ajax::window('<a href="' . PlotSumData::$URL . '?type=week" ' . Ajax::tooltip('', __('Activity per week'), false, true) . '>' . Icon::$BARS_SMALL . '</a>');
     }
@@ -477,18 +475,16 @@ class DataBrowser
 
     /**
      * Get ajax-link for searching
-     * @return string
      */
-    protected function getNaviSearchLink()
+    protected function getNaviSearchLink(): string
     {
         return Ajax::window('<a href="' . SearchLink::$WINDOW_URL . '" ' . Ajax::tooltip('', __('Search for an activity'), false, true) . '>' . Icon::$SEARCH . '</a>', 'big');
     }
 
     /**
      * Get ajax-link for adding a training
-     * @return string
      */
-    protected function getAddLink()
+    protected function getAddLink(): string
     {
         return ImporterWindow::link();
     }

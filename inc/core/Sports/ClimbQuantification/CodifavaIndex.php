@@ -10,14 +10,14 @@ namespace Runalyze\Sports\ClimbQuantification;
  */
 class CodifavaIndex implements AdditiveClimbQuantificationInterface
 {
-    public function getScoreFor($distance, $elevation, $altitudeAtTop = 0)
+    public function getScoreFor($distance, $elevation, $altitudeAtTop = 0): float
     {
         $gradientInPercent = $elevation / $distance / 10;
 
         return $gradientInPercent * $gradientInPercent * $distance / 10 + 4 * $gradientInPercent;
     }
 
-    public function getScoreForProfile(array $distancesAndGradients, $altitudeAtTop = 0)
+    public function getScoreForProfile(array $distancesAndGradients, $altitudeAtTop = 0): float
     {
         $totalElevation = 0;
         $sum = 0;

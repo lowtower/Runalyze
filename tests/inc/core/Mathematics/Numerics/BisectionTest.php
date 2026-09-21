@@ -37,7 +37,7 @@ class BisectionTest extends \PHPUnit\Framework\TestCase
 
     public function testCubicFunction(): void
     {
-        $Bisection = new Bisection(7, -50, 20, fn ($x) => $x * $x * $x + 6);
+        $Bisection = new Bisection(7, -50, 20, fn ($x): float => $x * $x * $x + 6);
 
         $Bisection->setIterations(100);
         $Bisection->setEpsilon(0.01);

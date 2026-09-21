@@ -30,26 +30,13 @@ class WindIcon extends \Runalyze\View\Icon
      */
     public const DIRECTION_CLASS = 'windicon-direction';
 
-    /**
-     * @var \Runalyze\Data\Weather\WindSpeed
-     */
-    protected $WindSpeed;
+    protected BeaufortScale $BeaufortScale;
 
-    /**
-     * @var \Runalyze\Data\Weather\WindDegree
-     */
-    protected $WindDegree;
-
-    /**
-     * @var \Runalyze\Data\Weather\BeaufortScale
-     */
-    protected $BeaufortScale;
-
-    public function __construct(WindSpeed $windSpeed, WindDegree $windDegree)
-    {
-        $this->WindSpeed = $windSpeed;
-        $this->WindDegree = $windDegree;
-        $this->BeaufortScale = new BeaufortScale($windSpeed);
+    public function __construct(
+        protected WindSpeed $WindSpeed,
+        protected WindDegree $WindDegree
+    ) {
+        $this->BeaufortScale = new BeaufortScale($this->WindSpeed);
 
         $this->setDefaultTooltip();
     }
@@ -67,7 +54,7 @@ class WindIcon extends \Runalyze\View\Icon
             $strings[] = $this->WindDegree->string();
         }
 
-        if (! empty($strings)) {
+        if ($strings !== []) {
             $this->setTooltip(__('Wind') . ': ' . implode(', ', $strings));
         }
     }

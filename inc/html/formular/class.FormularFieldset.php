@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::FormularFieldset
  * @package Runalyze\HTML\Formular
@@ -14,82 +16,73 @@ use Runalyze\Configuration;
  */
 class FormularFieldset extends HtmlTag
 {
-    public static $LAYOUT_FIELD_W100 = 'w100 block';
+    public static string $LAYOUT_FIELD_W100 = 'w100 block';
 
-    public static $LAYOUT_FIELD_W100_CHECKBOX = 'w100 checkbox-first';
+    public static string $LAYOUT_FIELD_W100_CHECKBOX = 'w100 checkbox-first';
 
-    public static $LAYOUT_FIELD_W100_IN_W50 = 'w100 with50erLabel';
+    public static string $LAYOUT_FIELD_W100_IN_W50 = 'w100 with50erLabel';
 
-    public static $LAYOUT_FIELD_W100_IN_W33 = 'w100 with33erLabel';
+    public static string $LAYOUT_FIELD_W100_IN_W33 = 'w100 with33erLabel';
 
-    public static $LAYOUT_FIELD_W50_IN_W33 = 'w50 with33erLabel';
+    public static string $LAYOUT_FIELD_W50_IN_W33 = 'w50 with33erLabel';
 
-    public static $LAYOUT_FIELD_W50 = 'w50';
+    public static string $LAYOUT_FIELD_W50 = 'w50';
 
-    public static $LAYOUT_FIELD_W50_AS_W100 = 'w50 marginr50';
+    public static string $LAYOUT_FIELD_W50_AS_W100 = 'w50 marginr50';
 
-    public static $LAYOUT_FIELD_W33 = 'w33';
+    public static string $LAYOUT_FIELD_W33 = 'w33';
 
-    public static $LAYOUT_FIELD_W25 = 'w25';
+    public static string $LAYOUT_FIELD_W25 = 'w25';
 
-    public static $LAYOUT_FIELD_INLINE = 'inline';
+    public static string $LAYOUT_FIELD_INLINE = 'inline';
 
-    public static $LAYOUT_FIELD_SMALL = 'small';
+    public static string $LAYOUT_FIELD_SMALL = 'small';
 
-    public static $LAYOUT_FIELD_SMALL_INLINE = 'inline small';
+    public static string $LAYOUT_FIELD_SMALL_INLINE = 'inline small';
 
     /**
      * Title for this fieldset, if empty, no header is shown
-     * @var string
      */
-    protected $title = '';
+    protected string $title = '';
 
     /**
      * Array with all fields
-     * @var array
+     * @var \FormularField[]
      */
-    protected $fields = [];
+    protected array $fields = [];
 
     /**
      * Boolean flag: collapsed
-     * @var bool
      */
-    protected $collapsed = false;
+    protected bool $collapsed = false;
 
     /**
      * Array with extra messages to display below the fields
-     * @var array
+     * @var array<mixed, array<string, string>>
      */
-    private $messages = [];
+    private array $messages = [];
 
     /**
      * Individual HTML code
-     * @var string
      */
-    private $HtmlCode = '';
+    private string $HtmlCode = '';
 
-    /**
-     * @var string
-     */
-    private $HtmlCodeBeforeFields = '';
+    private string $HtmlCodeBeforeFields = '';
 
     /**
      * Boolean flag: only one opened fieldset allowed
-     * @var bool
      */
-    private $allowOnlyOneOpenedFieldset = false;
+    private bool $allowOnlyOneOpenedFieldset = false;
 
     /**
      * Name of configuration value to save current status (collapsed or not)
-     * @var string
      */
-    private $confValueToSaveStatus = '';
+    private string $confValueToSaveStatus = '';
 
     /**
      * Constructor for a new fieldset
-     * @param string $title [optional]
      */
-    public function __construct($title = '')
+    public function __construct(string $title = '')
     {
         if (! empty($title)) {
             $this->setTitle($title);
@@ -98,9 +91,8 @@ class FormularFieldset extends HtmlTag
 
     /**
      * Set title for this fieldset
-     * @param string $title
      */
-    final public function setTitle($title): void
+    final public function setTitle(string $title): void
     {
         $this->title = $title;
     }
@@ -115,9 +107,8 @@ class FormularFieldset extends HtmlTag
 
     /**
      * Set conf value to save current status
-     * @param string $confValue
      */
-    final public function setConfValueToSaveStatus($confValue): void
+    final public function setConfValueToSaveStatus(string $confValue): void
     {
         $this->confValueToSaveStatus = $confValue;
 
@@ -129,7 +120,7 @@ class FormularFieldset extends HtmlTag
     /**
      * Set a specific layout for all fields
      */
-    final public function setLayoutForFields($layout): void
+    final public function setLayoutForFields(string $layout): void
     {
         foreach ($this->fields as &$Field) {
             if (is_object($Field)) {
@@ -148,11 +139,10 @@ class FormularFieldset extends HtmlTag
 
     /**
      * Add a given field to this fieldset
-     * @param null|FormularField $Field
      */
-    final public function addField($Field): void
+    final public function addField(?FormularField $Field): void
     {
-        if ($Field !== null) {
+        if ($Field instanceof \FormularField) {
             $this->fields[] = $Field;
         }
     }
@@ -235,9 +225,8 @@ class FormularFieldset extends HtmlTag
 
     /**
      * Set individual HTML code
-     * @param string $Code
      */
-    public function setHtmlCode($Code): void
+    public function setHtmlCode(string $Code): void
     {
         $this->HtmlCode = $Code;
     }
@@ -252,10 +241,7 @@ class FormularFieldset extends HtmlTag
         }
     }
 
-    /**
-     * @param string $code
-     */
-    public function setHtmlCodeBeforeFields($code): void
+    public function setHtmlCodeBeforeFields(string $code): void
     {
         $this->HtmlCodeBeforeFields = $code;
     }
@@ -285,10 +271,7 @@ class FormularFieldset extends HtmlTag
         echo '</div>';
     }
 
-    /**
-     * @param string $message
-     */
-    private function addMessage($message, string $type): void
+    private function addMessage(string $message, string $type): void
     {
         $this->messages[] = [
             'type' => $type,
@@ -298,72 +281,64 @@ class FormularFieldset extends HtmlTag
 
     /**
      * Add okay to fieldset
-     * @param string $message
      */
-    final public function addOkay($message): void
+    final public function addOkay(string $message): void
     {
         $this->addMessage($message, 'okay');
     }
 
     /**
      * Add warning to fieldset
-     * @param string $message
      */
-    final public function addWarning($message): void
+    final public function addWarning(string $message): void
     {
         $this->addMessage($message, 'warning');
     }
 
     /**
      * Add error to fieldset
-     * @param string $message
      */
-    final public function addError($message): void
+    final public function addError(string $message): void
     {
         $this->addMessage($message, 'error');
     }
 
     /**
      * Add info to fieldset
-     * @param string $message
      */
-    final public function addInfo($message): void
+    final public function addInfo(string $message): void
     {
         $this->addMessage($message, 'info');
     }
 
     /**
      * Add small info to fieldset
-     * @param string $message
      */
-    final public function addSmallInfo($message): void
+    final public function addSmallInfo(string $message): void
     {
         $this->addMessage($message, 'info small');
     }
 
     /**
      * Add block to fieldset
-     * @param string $message
      */
-    final public function addBlock($message): void
+    final public function addBlock(string $message): void
     {
         $this->addMessage($message, 'block');
     }
 
     /**
      * Add text to fieldset
-     * @param string $message
      */
-    final public function addText($message): void
+    final public function addText(string $message): void
     {
         $this->addMessage($message, 'text');
     }
 
     /**
      * Add block to fieldset
-     * @param string $message
      */
-    final public function addFileBlock($message): void
+    final public function addFileBlock(string $message): void
     {
         $this->addMessage($message, 'file');
     }

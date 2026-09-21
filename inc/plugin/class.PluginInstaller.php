@@ -21,15 +21,9 @@ class PluginInstaller
      */
     public const INSTALL_URL = 'call/call.Plugin.install.php';
 
-    /**
-     * Key
-     * @var string
-     */
-    protected $Key;
-
-    public function __construct(string $Key)
-    {
-        $this->Key = $Key;
+    public function __construct(
+        protected string $Key
+    ) {
     }
 
     /**
@@ -60,7 +54,7 @@ class PluginInstaller
 
     /**
      * Get install link
-     * @param string $name [optional] default: add-icon
+     * @param string $name, default: add-icon
      */
     public static function link(string $key, string $name = ''): string
     {

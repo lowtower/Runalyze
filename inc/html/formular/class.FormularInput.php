@@ -13,33 +13,28 @@ class FormularInput extends FormularField
 {
     /**
      * Size: full inline
-     * @var string
      */
-    public static $SIZE_FULL_INLINE = 'full-size';
+    public static string $SIZE_FULL_INLINE = 'full-size';
 
     /**
      * Size: full
-     * @var string
      */
-    public static $SIZE_FULL = 'fullwidth';
+    public static string $SIZE_FULL = 'fullwidth';
 
     /**
      * Size: middle
-     * @var string
      */
-    public static $SIZE_MIDDLE = 'middle-size';
+    public static string $SIZE_MIDDLE = 'middle-size';
 
     /**
      * Size: small
-     * @var string
      */
-    public static $SIZE_SMALL = 'small-size';
+    public static string $SIZE_SMALL = 'small-size';
 
     /**
      * Standard size for fields
-     * @var string
      */
-    private static $standardSize = 'small-size';
+    private static string $standardSize = 'small-size';
 
     /**
      * Size

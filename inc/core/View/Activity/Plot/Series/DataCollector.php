@@ -73,10 +73,7 @@ class DataCollector
         $this->collect();
     }
 
-    /**
-     * @return array
-     */
-    public function data()
+    public function data(): array
     {
         return $this->Data;
     }

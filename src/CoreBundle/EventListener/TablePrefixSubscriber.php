@@ -10,10 +10,7 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
  */
 class TablePrefixSubscriber implements \Doctrine\Common\EventSubscriber
 {
-    /**
-     * @var string
-     */
-    protected $prefix = '';
+    protected string $prefix;
 
     public function __construct($prefix = '')
     {

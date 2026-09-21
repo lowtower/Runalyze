@@ -190,7 +190,7 @@ class ViewController extends AbstractController
         $trackdata = $this->getTrackdataRepository()
             ->findByActivity($id, $account);
 
-        if ($trackdata === null) {
+        if (! $trackdata instanceof \Runalyze\Bundle\CoreBundle\Entity\Trackdata) {
             return $this->render('activity/tool/not_possible.html.twig');
         }
 
@@ -221,7 +221,7 @@ class ViewController extends AbstractController
         $trackdata = $this->getTrackdataRepository()
             ->findByActivity($id, $account);
 
-        if ($trackdata === null) {
+        if (! $trackdata instanceof \Runalyze\Bundle\CoreBundle\Entity\Trackdata) {
             return $this->render('activity/tool/not_possible.html.twig');
         }
 

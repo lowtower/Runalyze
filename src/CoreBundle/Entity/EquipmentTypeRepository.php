@@ -14,7 +14,7 @@ class EquipmentTypeRepository extends EntityRepository
     /**
      * @return EquipmentType[]
      */
-    public function findAllFor(Account $account)
+    public function findAllFor(Account $account): array
     {
         return $this->findBy([
             'account' => $account->getId(),
@@ -24,7 +24,7 @@ class EquipmentTypeRepository extends EntityRepository
     /**
      * @return EquipmentType[]
      */
-    public function findSingleChoiceTypesFor(Account $account)
+    public function findSingleChoiceTypesFor(Account $account): array
     {
         return $this->findBy([
             'input' => EquipmentType::CHOICE_SINGLE,

@@ -17,36 +17,32 @@ class Linear implements UnitInterface, FormattableUnitInterface
      */
     protected $TransformationToBaseUnit;
 
-    /**
-     * @param string $Appendix
-     * @param int $Decimals
-     */
     public function __construct(
         callable $transformationFromBaseUnit,
         callable $transformationToBaseUnit,
-        protected $Appendix = '',
-        protected $Decimals = 0
+        protected string $Appendix = '',
+        protected int $Decimals = 0
     ) {
         $this->TransformationFromBaseUnit = $transformationFromBaseUnit;
         $this->TransformationToBaseUnit = $transformationToBaseUnit;
     }
 
-    public function getAppendix()
+    public function getAppendix(): string
     {
         return $this->Appendix;
     }
 
-    public function toBaseUnit($valueInThisUnit)
+    public function toBaseUnit($valueInThisUnit): mixed
     {
         return call_user_func($this->TransformationToBaseUnit, $valueInThisUnit);
     }
 
-    public function fromBaseUnit($valueInBaseUnit)
+    public function fromBaseUnit($valueInBaseUnit): mixed
     {
         return call_user_func($this->TransformationFromBaseUnit, $valueInBaseUnit);
     }
 
-    public function getDecimals()
+    public function getDecimals(): int
     {
         return $this->Decimals;
     }

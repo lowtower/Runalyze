@@ -19,23 +19,12 @@ use Runalyze\View\Activity\Context;
  */
 abstract class AbstractExporter
 {
-    /**
-     * @var \Runalyze\View\Activity\Context
-     */
-    protected $Context;
-
-    public function __construct(Context $context)
-    {
-        $this->Context = $context;
+    public function __construct(
+        protected ?Context $Context
+    ) {
     }
 
-    /**
-     * @return string
-     */
-    abstract public function iconClass();
+    abstract public function iconClass(): string;
 
-    /**
-     * @return bool
-     */
-    abstract public function isPossible();
+    abstract public function isPossible(): bool;
 }

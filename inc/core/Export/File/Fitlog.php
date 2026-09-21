@@ -80,7 +80,7 @@ class Fitlog extends AbstractFileExporter
 
     protected function setGeneralInfo()
     {
-        if ((string) SessionAccountHandler::getName() !== '') {
+        if (SessionAccountHandler::getName() !== '') {
             $this->XML->AthleteLog->Athlete->addAttribute('Name', SessionAccountHandler::getName());
         }
 

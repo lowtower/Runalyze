@@ -16,34 +16,26 @@ class SportRepository extends EntityRepository
     /**
      * @return Sport[]
      */
-    public function findAllFor(Account $account)
+    public function findAllFor(Account $account): array
     {
         return $this->findBy([
             'account' => $account->getId(),
         ]);
     }
 
-    /**
-     * @param int $internalTypeId
-     * @return null|Sport
-     */
-    public function findInternalIdFor($internalTypeId, Account $account)
+    public function findInternalIdFor(int $internalTypeId, Account $account): ?Sport
     {
         return $this->findOneBy([
             'account' => $account->getId(),
-            'internalSportId' => (int) $internalTypeId,
+            'internalSportId' => $internalTypeId,
         ]);
     }
 
-    /**
-     * @param bool $returnNull
-     * @return null|Sport
-     */
-    public function findRunningFor(Account $account, $returnNull = false)
+    public function findRunningFor(Account $account, bool $returnNull = false): ?Sport
     {
         $sport = $this->findInternalIdFor(SportProfile::RUNNING, $account);
 
-        if ($sport === null && ! $returnNull) {
+        if (! $sport instanceof Sport && ! $returnNull) {
             $sport = new Sport();
             $sport->setDataFrom(new Running());
         }
@@ -54,7 +46,7 @@ class SportRepository extends EntityRepository
     /**
      * @return Sport[]
      */
-    public function findWithDistancesFor(Account $account)
+    public function findWithDistancesFor(Account $account): array
     {
         return $this->findBy([
             'account' => $account->getId(),
@@ -62,11 +54,7 @@ class SportRepository extends EntityRepository
         ]);
     }
 
-    /**
-     * @param int $sportId
-     * @return null|Sport|object
-     */
-    public function findThisOrAny($sportId, Account $account)
+    public function findThisOrAny(int $sportId, Account $account): ?Sport
     {
         /** @var null|Sport $requestedSport */
         $requestedSport = $this->find($sportId);
@@ -109,7 +97,7 @@ class SportRepository extends EntityRepository
     /**
      * @return array internal sport ids
      */
-    public function getUsedInternalSportIdsFor(Account $account)
+    public function getUsedInternalSportIdsFor(Account $account): array
     {
         $queryBuilder = $this->createQueryBuilder('s');
         $queryBuilder
@@ -122,12 +110,9 @@ class SportRepository extends EntityRepository
             ->getResult('COLUMN_HYDRATOR');
     }
 
-    /**
-     * @param int $internalTypeId
-     */
-    public function isInternalTypeFree($internalTypeId, Account $account): bool
+    public function isInternalTypeFree(int $internalTypeId, Account $account): bool
     {
-        return $this->findInternalIdFor((int) $internalTypeId, $account) === null;
+        return ! $this->findInternalIdFor($internalTypeId, $account) instanceof Sport;
     }
 
     public function getFreeInternalTypes(Account $account): array
@@ -148,11 +133,9 @@ class SportRepository extends EntityRepository
     }
 
     /**
-     * @param int|null $timestamp
      * @param bool $raw if enabled, raw array data is returned
-     * @return SportStatistics|array
      */
-    public function getSportStatisticsSince($timestamp, Account $account, $raw = false)
+    public function getSportStatisticsSince(?int $timestamp, Account $account, bool $raw = false): SportStatistics|array
     {
         $queryBuilder = $this->_em->createQueryBuilder()
             ->select('s')
@@ -160,7 +143,7 @@ class SportRepository extends EntityRepository
             ->addSelect('SUM(t.distance) as distance')
             ->addSelect('SUM(t.s) as time_in_s')
             ->addSelect('SUM(CASE WHEN t.distance > 0 THEN 1 ELSE 0 END) as count_distance')
-            ->from(\Runalyze\Bundle\CoreBundle\Entity\Sport::class, 's')
+            ->from(Sport::class, 's')
             ->innerJoin('s.trainings', 't', 'WITH', 't.account = :account')
             ->where('s.account = :account')
             ->setParameter(':account', $account->getId())

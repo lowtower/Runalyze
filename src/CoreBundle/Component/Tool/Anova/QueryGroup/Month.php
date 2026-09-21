@@ -19,10 +19,7 @@ class Month implements QueryGroupInterface
         $queryBuilder->addSelect(sprintf('MONTH(FROM_UNIXTIME(%s.time)) as %s', $alias, $as));
     }
 
-    /**
-     * @return array
-     */
-    public function loadAllGroups(EntityManager $entityManager, Account $account, AnovaData $anovaData)
+    public function loadAllGroups(EntityManager $entityManager, Account $account, AnovaData $anovaData): array
     {
         return $this->filterMonths([
             1 => __('January'),
@@ -42,9 +39,8 @@ class Month implements QueryGroupInterface
 
     /**
      * @param string[] $months
-     * @return array
      */
-    protected function filterMonths(array $months, \DateTime $dateFrom, \DateTime $dateTo)
+    protected function filterMonths(array $months, \DateTime $dateFrom, \DateTime $dateTo): array
     {
         $startYear = (int) $dateFrom->format('Y');
         $endYear = (int) $dateTo->format('Y');

@@ -16,11 +16,9 @@ class TrainingSelectWeather extends FormularSelectBox
 {
     /**
      * Construct new input field for: weather
-     * @param string $name
-     * @param string $label
      * @param string $value optional, default: loading from $_POST
      */
-    public function __construct($name, $label, $value = '')
+    public function __construct(string $name, string $label, $value = '')
     {
         parent::__construct($name, $label, $value);
 

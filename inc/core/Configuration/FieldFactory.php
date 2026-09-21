@@ -43,9 +43,8 @@ class FieldFactory
 
     /**
      * Create a field
-     * @return \FormularField
      */
-    private function createFieldFor(Handle $Handle, string $label)
+    private function createFieldFor(Handle $Handle, string $label): \FormularField
     {
         $Parameter = $Handle->object();
         $Class = 'FormularInput';

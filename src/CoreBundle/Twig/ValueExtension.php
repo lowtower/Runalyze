@@ -126,9 +126,8 @@ class ValueExtension extends \Twig\Extension\AbstractExtension
     /**
      * @param float|int $bpm [bpm]
      * @param null|AbstractHeartRateUnit $unit
-     * @return DisplayableValue
      */
-    public function heartRate($bpm, $unit = null)
+    public function heartRate($bpm, $unit = null): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValueInPercent|\Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
         $unit = $unit ?: $this->UnitSystem->getHeartRateUnit();
 
@@ -143,7 +142,7 @@ class ValueExtension extends \Twig\Extension\AbstractExtension
      * @param int $bpm [bpm]
      * @param null|int $bpmMax [bpm]
      */
-    public function heartRatePercentMaximum($bpm, $bpmMax = null): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValueInPercent
+    public function heartRatePercentMaximum($bpm, ?int $bpmMax = null): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValueInPercent
     {
         return new DisplayableValueInPercent($bpm, $this->UnitSystem->getHeartRateUnitPercentMaximum($bpmMax));
     }
@@ -152,9 +151,8 @@ class ValueExtension extends \Twig\Extension\AbstractExtension
      * @param float|int $baseValue [bpm]
      * @param float|int $comparisonValue [bpm]
      * @param null|AbstractHeartRateUnit $unit
-     * @return DisplayableValue
      */
-    public function heartRateComparison($baseValue, $comparisonValue, $unit = null)
+    public function heartRateComparison($baseValue, $comparisonValue, $unit = null): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
         $unit = $unit ?: $this->UnitSystem->getHeartRateUnit();
 
@@ -165,9 +163,8 @@ class ValueExtension extends \Twig\Extension\AbstractExtension
      * @param float|int $secondsPerKilometer [s/km]
      * @param null|AbstractPaceUnit $unit
      * @param int $decimals only for pace units in decimal format
-     * @return DisplayableValue
      */
-    public function pace($secondsPerKilometer, $unit = null, $decimals = 1)
+    public function pace($secondsPerKilometer, $unit = null, $decimals = 1): \Runalyze\Bundle\CoreBundle\Twig\DisplayablePace|\Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
         $unit = $unit ?: $this->UnitSystem->getPaceUnit();
 
@@ -182,9 +179,8 @@ class ValueExtension extends \Twig\Extension\AbstractExtension
      * @param float|int $baseValue [s/km]
      * @param float|int $comparisonValue [s/km]
      * @param null|AbstractPaceUnit $unit
-     * @return DisplayableValue
      */
-    public function paceComparison($baseValue, $comparisonValue, $unit = null)
+    public function paceComparison($baseValue, $comparisonValue, $unit = null): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
         $unit = $unit ?: $this->UnitSystem->getPaceUnit();
 

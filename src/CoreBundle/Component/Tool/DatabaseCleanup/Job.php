@@ -10,34 +10,16 @@ abstract class Job
     private $Messages = [];
 
     /**
-     * @var \PDO
-     */
-    protected $PDO;
-
-    /**
-     * @var int
-     */
-    protected $AccountId;
-
-    /**
-     * @var string
-     */
-    protected $DatabasePrefix;
-
-    /**
      * @var int
      */
     protected $RunningSportId;
 
     public function __construct(
         private array $RequestData,
-        \PDO $pdo,
-        int $accountId,
-        string $databasePrefix
+        protected \PDO $PDO,
+        protected int $AccountId,
+        protected string $DatabasePrefix
     ) {
-        $this->PDO = $pdo;
-        $this->AccountId = $accountId;
-        $this->DatabasePrefix = $databasePrefix;
         $this->RunningSportId = \Runalyze\Configuration::General()->runningSport();
     }
 

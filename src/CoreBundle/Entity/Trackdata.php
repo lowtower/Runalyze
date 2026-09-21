@@ -13,148 +13,145 @@ use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 class Trackdata implements AccountRelatedEntityInterface
 {
     /**
-     * @var array|null [s]
+     * @var ?array [s]
      */
     #[ORM\Column(name: 'time', type: 'pipe_array', nullable: true)]
-    private $time;
+    private ?array $time = null;
 
     /**
-     * @var array|null [km]
+     * @var ?array [km]
      */
     #[ORM\Column(name: 'distance', type: 'pipe_array', nullable: true)]
-    private $distance;
+    private ?array $distance = null;
 
     /**
-     * @var array|null [bpm]
+     * @var ?array [bpm]
      */
     #[ORM\Column(name: 'heartrate', type: 'pipe_array', nullable: true)]
-    private $heartrate;
+    private ?array $heartrate = null;
 
     /**
-     * @var array|null [rpm]
+     * @var ?array [rpm]
      */
     #[ORM\Column(name: 'cadence', type: 'pipe_array', nullable: true)]
-    private $cadence;
+    private ?array $cadence = null;
 
     /**
-     * @var array|null [W]
+     * @var ?array [W]
      */
     #[ORM\Column(name: 'power', type: 'pipe_array', nullable: true)]
-    private $power;
+    private ?array $power = null;
 
     /**
-     * @var array|null [°C]
+     * @var ?array [°C]
      */
     #[ORM\Column(name: 'temperature', type: 'pipe_array', nullable: true)]
-    private $temperature;
+    private ?array $temperature = null;
 
     /**
-     * @var array|null [ms]
+     * @var ?array [ms]
      */
     #[ORM\Column(name: 'groundcontact', type: 'pipe_array', nullable: true)]
-    private $groundcontact;
+    private ?array $groundcontact = null;
 
     /**
-     * @var array|null [mm]
+     * @var ?array [mm]
      */
     #[ORM\Column(name: 'vertical_oscillation', type: 'pipe_array', nullable: true)]
-    private $verticalOscillation;
+    private ?array $verticalOscillation = null;
 
     /**
-     * @var array|null [%*100]
+     * @var ?array [%*100]
      */
     #[ORM\Column(name: 'groundcontact_balance', type: 'pipe_array', nullable: true)]
-    private $groundcontactBalance;
+    private ?array $groundcontactBalance = null;
 
     /**
-     * @var array|null [%]
+     * @var ?array [%]
      */
     #[ORM\Column(name: 'smo2_0', type: 'pipe_array', nullable: true)]
-    private $smo20;
+    private ?array $smo20 = null;
 
     /**
-     * @var array|null [%]
+     * @var ?array [%]
      */
     #[ORM\Column(name: 'smo2_1', type: 'pipe_array', nullable: true)]
-    private $smo21;
+    private ?array $smo21 = null;
 
     /**
-     * @var array|null [%]
+     * @var ?array [%]
      */
     #[ORM\Column(name: 'thb_0', type: 'pipe_array', nullable: true)]
-    private $thb0;
+    private ?array $thb0 = null;
 
     /**
-     * @var array|null [%]
+     * @var ?array [%]
      */
     #[ORM\Column(name: 'thb_1', type: 'pipe_array', nullable: true)]
-    private $thb1;
+    private ?array $thb1 = null;
 
     /**
-     * @var array|null [G]
+     * @var ?array [G]
      */
     #[ORM\Column(name: 'impact_gs_left', type: 'pipe_array', nullable: true)]
-    private $impactGsLeft;
+    private ?array $impactGsLeft = null;
 
     /**
-     * @var array|null [G]
+     * @var ?array [G]
      */
     #[ORM\Column(name: 'impact_gs_right', type: 'pipe_array', nullable: true)]
-    private $impactGsRight;
+    private ?array $impactGsRight = null;
 
     /**
-     * @var array|null [G]
+     * @var ?array [G]
      */
     #[ORM\Column(name: 'braking_gs_left', type: 'pipe_array', nullable: true)]
-    private $brakingGsLeft;
+    private ?array $brakingGsLeft = null;
 
     /**
-     * @var array|null [G]
+     * @var ?array [G]
      */
     #[ORM\Column(name: 'braking_gs_right', type: 'pipe_array', nullable: true)]
-    private $brakingGsRight;
+    private ?array $brakingGsRight = null;
 
     /**
-     * @var array|null [°]
+     * @var ?array [°]
      */
     #[ORM\Column(name: 'footstrike_type_left', type: 'pipe_array', nullable: true)]
-    private $footstrikeTypeLeft;
+    private ?array $footstrikeTypeLeft = null;
 
     /**
-     * @var array|null [°]
+     * @var ?array [°]
      */
     #[ORM\Column(name: 'footstrike_type_right', type: 'pipe_array', nullable: true)]
-    private $footstrikeTypeRight;
+    private ?array $footstrikeTypeRight = null;
 
     /**
-     * @var array|null [°]
+     * @var ?array [°]
      */
     #[ORM\Column(name: 'pronation_excursion_left', type: 'pipe_array', nullable: true)]
-    private $pronationExcursionLeft;
+    private ?array $pronationExcursionLeft = null;
 
     /**
-     * @var array|null [°]
+     * @var ?array [°]
      */
     #[ORM\Column(name: 'pronation_excursion_right', type: 'pipe_array', nullable: true)]
-    private $pronationExcursionRight;
+    private ?array $pronationExcursionRight = null;
 
     /**
-     * @var array|null [n]
+     * @var ?array [n]
      */
     #[ORM\Column(name: 'performance_condition', type: 'pipe_array', nullable: true)]
-    private $performanceCondition;
+    private ?array $performanceCondition = null;
 
     /**
-     * @var array|null [pm]
+     * @var ?array [pm]
      */
     #[ORM\Column(name: 'respiration_rate', type: 'pipe_array', nullable: true)]
-    private $respirationRate;
+    private ?array $respirationRate = null;
 
-    /**
-     * @var \Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection
-     */
     #[ORM\Column(name: 'pauses', type: 'runalyze_pause_array', length: 65535, nullable: true)]
-    private $pauses;
+    private PauseCollection $pauses;
 
     #[ORM\JoinColumn(name: 'activityid', referencedColumnName: 'id', unique: true)]
     #[ORM\Id]
@@ -168,41 +165,35 @@ class Trackdata implements AccountRelatedEntityInterface
     #[ORM\ManyToOne(targetEntity: Account::class)]
     private ?Account $account = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: '`lock`', type: 'boolean')]
-    private $lock = false;
+    private bool $lock = false;
+
+    private ?TrackDataAdapter $Adapter = null;
 
     /**
-     * @var TrackDataAdapter
+     * @var ?array [s/km]
      */
-    private $Adapter;
+    private ?array $pace = null;
 
     /**
-     * @var false|null|array [s/km]
+     * @var ?array [s/km]
      */
-    private $pace = false;
+    private ?array $gradeAdjustedPace = null;
 
     /**
-     * @var false|null|array [s/km]
+     * @var ?array (-100 .. 100)
      */
-    private $gradeAdjustedPace = false;
+    private ?array $gradient = null;
 
     /**
-     * @var false|null|array (-100 .. 100)
+     * @var ?array [cm]
      */
-    private $gradient = false;
+    private ?array $strideLength = null;
 
     /**
-     * @var false|null|array [cm]
+     * @var ?array [%]
      */
-    private $strideLength = false;
-
-    /**
-     * @var false|null|array [%]
-     */
-    private $verticalRatio = false;
+    private ?array $verticalRatio = null;
 
     public function __construct()
     {
@@ -210,21 +201,21 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $time [s]
+     * @param ?array $time [s]
      */
     public function setTime(?array $time = null): self
     {
         $this->time = $time;
 
-        $this->pace = false;
+        $this->pace = null;
 
         return $this;
     }
 
     /**
-     * @return array|null [s]
+     * @return ?array [s]
      */
-    public function getTime()
+    public function getTime(): ?array
     {
         return $this->time;
     }
@@ -247,22 +238,22 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $distance [km]
+     * @param ?array $distance [km]
      */
     public function setDistance(?array $distance = null): self
     {
         $this->distance = $distance;
 
-        $this->pace = false;
-        $this->gradient = false;
+        $this->pace = null;
+        $this->gradient = null;
 
         return $this;
     }
 
     /**
-     * @return array|null [km]
+     * @return ?array [km]
      */
-    public function getDistance()
+    public function getDistance(): ?array
     {
         return $this->distance;
     }
@@ -275,7 +266,7 @@ class Trackdata implements AccountRelatedEntityInterface
     /**
      * @return float [km]
      */
-    public function getTotalDistance()
+    public function getTotalDistance(): float
     {
         if (! $this->hasDistance()) {
             return 0.0;
@@ -285,7 +276,7 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $heartRate [bpm]
+     * @param ?array $heartRate [bpm]
      */
     public function setHeartrate(?array $heartRate = null): self
     {
@@ -295,9 +286,9 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return array|null [bpm]
+     * @return ?array [bpm]
      */
-    public function getHeartrate()
+    public function getHeartrate(): ?array
     {
         return $this->heartrate;
     }
@@ -308,21 +299,21 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $cadence [rpm]
+     * @param ?array $cadence [rpm]
      */
     public function setCadence(?array $cadence = null): self
     {
         $this->cadence = $cadence;
 
-        $this->strideLength = false;
+        $this->strideLength = null;
 
         return $this;
     }
 
     /**
-     * @return array|null [rpm]
+     * @return ?array [rpm]
      */
-    public function getCadence()
+    public function getCadence(): ?array
     {
         return $this->cadence;
     }
@@ -333,7 +324,7 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $power [W]
+     * @param ?array $power [W]
      */
     public function setPower(?array $power = null): self
     {
@@ -343,9 +334,9 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return array|null [W]
+     * @return ?array [W]
      */
-    public function getPower()
+    public function getPower(): ?array
     {
         return $this->power;
     }
@@ -356,7 +347,7 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $temperature [°C]
+     * @param ?array $temperature [°C]
      */
     public function setTemperature(?array $temperature = null): self
     {
@@ -366,9 +357,9 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return array|null [°C]
+     * @return ?array [°C]
      */
-    public function getTemperature()
+    public function getTemperature(): ?array
     {
         return $this->temperature;
     }
@@ -379,7 +370,7 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $groundcontact [ms]
+     * @param ?array $groundcontact [ms]
      */
     public function setGroundcontact(?array $groundcontact = null): self
     {
@@ -389,9 +380,9 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return array|null [ms]
+     * @return ?array [ms]
      */
-    public function getGroundcontact()
+    public function getGroundcontact(): ?array
     {
         return $this->groundcontact;
     }
@@ -402,21 +393,21 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $verticalOscillation [mm]
+     * @param ?array $verticalOscillation [mm]
      */
     public function setVerticalOscillation(?array $verticalOscillation = null): self
     {
         $this->verticalOscillation = $verticalOscillation;
 
-        $this->verticalRatio = false;
+        $this->verticalRatio = null;
 
         return $this;
     }
 
     /**
-     * @return array|null [mm]
+     * @return ?array [mm]
      */
-    public function getVerticalOscillation()
+    public function getVerticalOscillation(): ?array
     {
         return $this->verticalOscillation;
     }
@@ -427,7 +418,7 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $groundcontactBalance [%*100]
+     * @param ?array $groundcontactBalance [%*100]
      */
     public function setGroundcontactBalance(?array $groundcontactBalance = null): self
     {
@@ -437,9 +428,9 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return array|null [%*100]
+     * @return ?array [%*100]
      */
-    public function getGroundcontactBalance()
+    public function getGroundcontactBalance(): ?array
     {
         return $this->groundcontactBalance;
     }
@@ -450,7 +441,7 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $smo20 [%]
+     * @param ?array $smo20 [%]
      */
     public function setSmo20(?array $smo20 = null): self
     {
@@ -460,9 +451,9 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return array|null [%]
+     * @return ?array [%]
      */
-    public function getSmo20()
+    public function getSmo20(): ?array
     {
         return $this->smo20;
     }
@@ -473,7 +464,7 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $smo21 [%]
+     * @param ?array $smo21 [%]
      */
     public function setSmo21(?array $smo21 = null): self
     {
@@ -483,9 +474,9 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return array|null [%]
+     * @return ?array [%]
      */
-    public function getSmo21()
+    public function getSmo21(): ?array
     {
         return $this->smo21;
     }
@@ -496,7 +487,7 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $thb0 [%]
+     * @param ?array $thb0 [%]
      */
     public function setThb0(?array $thb0 = null): self
     {
@@ -506,9 +497,9 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return array|null [%]
+     * @return ?array [%]
      */
-    public function getThb0()
+    public function getThb0(): ?array
     {
         return $this->thb0;
     }
@@ -519,7 +510,7 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $thb1 [%]
+     * @param ?array $thb1 [%]
      */
     public function setThb1(?array $thb1 = null): self
     {
@@ -529,9 +520,9 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return array|null [%]
+     * @return ?array [%]
      */
-    public function getThb1()
+    public function getThb1(): ?array
     {
         return $this->thb1;
     }
@@ -542,7 +533,7 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $impactGsLeft [G]
+     * @param ?array $impactGsLeft [G]
      */
     public function setImpactGsLeft(?array $impactGsLeft = null): self
     {
@@ -552,9 +543,9 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return array|null [G]
+     * @return ?array [G]
      */
-    public function getImpactGsLeft()
+    public function getImpactGsLeft(): ?array
     {
         return $this->impactGsLeft;
     }
@@ -565,7 +556,7 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $impactGsRight [G]
+     * @param ?array $impactGsRight [G]
      */
     public function setImpactGsRight(?array $impactGsRight = null): self
     {
@@ -575,9 +566,9 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return array|null [G]
+     * @return ?array [G]
      */
-    public function getImpactGsRight()
+    public function getImpactGsRight(): ?array
     {
         return $this->impactGsRight;
     }
@@ -588,7 +579,7 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $brakingGsLeft [G]
+     * @param ?array $brakingGsLeft [G]
      */
     public function setBrakingGsLeft(?array $brakingGsLeft = null): self
     {
@@ -598,9 +589,9 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return array|null [G]
+     * @return ?array [G]
      */
-    public function getBrakingGsLeft()
+    public function getBrakingGsLeft(): ?array
     {
         return $this->brakingGsLeft;
     }
@@ -611,7 +602,7 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $brakingGsRight [G]
+     * @param ?array $brakingGsRight [G]
      */
     public function setBrakingGsRight(?array $brakingGsRight = null): self
     {
@@ -621,9 +612,9 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return array|null [G]
+     * @return ?array [G]
      */
-    public function getBrakingGsRight()
+    public function getBrakingGsRight(): ?array
     {
         return $this->brakingGsRight;
     }
@@ -634,7 +625,7 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $footstrikeTypeLeft [°]
+     * @param ?array $footstrikeTypeLeft [°]
      */
     public function setFootstrikeTypeLeft(?array $footstrikeTypeLeft = null): self
     {
@@ -644,9 +635,9 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return array|null [°]
+     * @return ?array [°]
      */
-    public function getFootstrikeTypeLeft()
+    public function getFootstrikeTypeLeft(): ?array
     {
         return $this->footstrikeTypeLeft;
     }
@@ -657,7 +648,7 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $footstrikeTypeRight [°]
+     * @param ?array $footstrikeTypeRight [°]
      */
     public function setFootstrikeTypeRight(?array $footstrikeTypeRight = null): self
     {
@@ -667,9 +658,9 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return array|null [°]
+     * @return ?array [°]
      */
-    public function getFootstrikeTypeRight()
+    public function getFootstrikeTypeRight(): ?array
     {
         return $this->footstrikeTypeRight;
     }
@@ -680,7 +671,7 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $pronationExcursionLeft [°]
+     * @param ?array $pronationExcursionLeft [°]
      */
     public function setPronationExcursionLeft(?array $pronationExcursionLeft = null): self
     {
@@ -690,9 +681,9 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return array|null [°]
+     * @return ?array [°]
      */
-    public function getPronationExcursionLeft()
+    public function getPronationExcursionLeft(): ?array
     {
         return $this->pronationExcursionLeft;
     }
@@ -703,7 +694,7 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $pronationExcursionRight [°]
+     * @param ?array $pronationExcursionRight [°]
      */
     public function setPronationExcursionRight(?array $pronationExcursionRight = null): self
     {
@@ -713,9 +704,9 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return array|null [°]
+     * @return ?array [°]
      */
-    public function getPronationExcursionRight()
+    public function getPronationExcursionRight(): ?array
     {
         return $this->pronationExcursionRight;
     }
@@ -726,7 +717,7 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $performanceCondition [n]
+     * @param ?array $performanceCondition [n]
      */
     public function setPerformanceCondition(?array $performanceCondition = null): self
     {
@@ -736,9 +727,9 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return array|null [n]
+     * @return ?array [n]
      */
-    public function getPerformanceCondition()
+    public function getPerformanceCondition(): ?array
     {
         return $this->performanceCondition;
     }
@@ -749,7 +740,7 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $respirationRate [pm]
+     * @param ?array $respirationRate [pm]
      */
     public function setRespirationRate(?array $respirationRate = null): self
     {
@@ -759,9 +750,9 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return array|null [n]
+     * @return ?array [n]
      */
-    public function getRespirationRate()
+    public function getRespirationRate(): ?array
     {
         return $this->respirationRate;
     }
@@ -778,10 +769,7 @@ class Trackdata implements AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @return \Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection
-     */
-    public function getPauses()
+    public function getPauses(): PauseCollection
     {
         return $this->pauses;
     }
@@ -793,10 +781,7 @@ class Trackdata implements AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @return Training
-     */
-    public function getActivity()
+    public function getActivity(): ?Training
     {
         return $this->activity;
     }
@@ -808,10 +793,7 @@ class Trackdata implements AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @return Account
-     */
-    public function getAccount()
+    public function getAccount(): ?Account
     {
         return $this->account;
     }
@@ -823,18 +805,12 @@ class Trackdata implements AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getLock()
+    public function getLock(): bool
     {
         return $this->lock;
     }
 
-    /**
-     * @return bool
-     */
-    public function isLocked()
+    public function isLocked(): bool
     {
         return $this->lock;
     }
@@ -902,24 +878,19 @@ class Trackdata implements AccountRelatedEntityInterface
         ]);
     }
 
-    /**
-     * @return TrackDataAdapter
-     */
-    public function getAdapter()
+    public function getAdapter(): TrackDataAdapter
     {
-        if ($this->Adapter === null) {
-            $this->Adapter = new TrackDataAdapter($this);
-        }
+        $this->Adapter ??= new TrackDataAdapter($this);
 
         return $this->Adapter;
     }
 
     /**
-     * @return array|null [s/km]
+     * @return ?array [s/km]
      */
-    public function getPace()
+    public function getPace(): ?array
     {
-        if ($this->pace === false) {
+        if ($this->pace === null) {
             $this->getAdapter()
                 ->calculatePace();
         }
@@ -928,7 +899,7 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $pace [s/km]
+     * @param ?array $pace [s/km]
      */
     public function setPace(?array $pace = null): void
     {
@@ -941,11 +912,11 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return array|null [s/km]
+     * @return ?array [s/km]
      */
-    public function getGradeAdjustedPace()
+    public function getGradeAdjustedPace(): ?array
     {
-        if (in_array(false, [$this->gradeAdjustedPace, $this->pace, $this->gradient], true)) {
+        if ($this->gradeAdjustedPace === null || $this->pace === null || $this->gradient === null) {
             $this->getAdapter()
                 ->calculateGradeAdjustedPace();
         }
@@ -954,7 +925,7 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $gradeAdjustedPace [s/km]
+     * @param ?array $gradeAdjustedPace [s/km]
      */
     public function setGradeAdjustedPace(?array $gradeAdjustedPace = null): void
     {
@@ -962,11 +933,11 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return array|null (-100 .. 100)
+     * @return ?array (-100 .. 100)
      */
-    public function getGradient()
+    public function getGradient(): ?array
     {
-        if ($this->gradient === false) {
+        if ($this->gradient === null) {
             $this->getAdapter()
                 ->calculateGradient();
         }
@@ -975,7 +946,7 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $gradient (-100 .. 100)
+     * @param ?array $gradient (-100 .. 100)
      */
     public function setGradient(?array $gradient = null): void
     {
@@ -983,11 +954,11 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return array|null [cm]
+     * @return ?array [cm]
      */
-    public function getStrideLength()
+    public function getStrideLength(): ?array
     {
-        if ($this->strideLength === false || $this->pace === false) {
+        if ($this->strideLength === null || $this->pace === null) {
             $this->getAdapter()
                 ->calculateStrideLength();
         }
@@ -996,7 +967,7 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $strideLength [cm]
+     * @param ?array $strideLength [cm]
      */
     public function setStrideLength(?array $strideLength = null): void
     {
@@ -1009,11 +980,11 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return array|null [%]
+     * @return ?array [%]
      */
-    public function getVerticalRatio()
+    public function getVerticalRatio(): ?array
     {
-        if ($this->verticalRatio === false || $this->strideLength === false) {
+        if ($this->verticalRatio === null || $this->strideLength === null) {
             $this->getAdapter()
                 ->calculateVerticalRatio();
         }
@@ -1022,7 +993,7 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $verticalRatio [%]
+     * @param ?array $verticalRatio [%]
      */
     public function setVerticalRatio(?array $verticalRatio = null): void
     {

@@ -23,9 +23,8 @@ class BasicEndurance extends \Runalyze\Configuration\Category
 {
     /**
      * Flag: recalculation triggered?
-     * @var bool
      */
-    private static $TRIGGERED = false;
+    private static bool $TRIGGERED = false;
 
     /**
      * Internal key
@@ -87,10 +86,7 @@ class BasicEndurance extends \Runalyze\Configuration\Category
         return $this->get('BE_PERCENTAGE_WEEK_KM');
     }
 
-    /**
-     * @return float
-     */
-    public function percentageLongjogs()
+    public function percentageLongjogs(): float
     {
         return 1 - $this->percentageWeekKm();
     }

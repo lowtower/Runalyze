@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class SessionRequestProcessor
 {
-    private $sessionId;
+    private ?string $sessionId = null;
 
     public function __construct(
         private SessionInterface $session
@@ -16,7 +16,7 @@ class SessionRequestProcessor
     /**
      * @param array<string, mixed> $record
      */
-    public function processRecord(array $record)
+    public function processRecord(array $record): array
     {
         if (! $this->session->isStarted()) {
             return $record;

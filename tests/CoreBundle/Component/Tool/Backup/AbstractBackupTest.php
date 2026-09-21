@@ -20,7 +20,7 @@ class AbstractBackupTest extends \PHPUnit\Framework\TestCase
     /**
      * @var AbstractBackup
      */
-    protected $Backup;
+    protected \PHPUnit\Framework\MockObject\MockObject $Backup;
 
     protected function setUp(): void
     {

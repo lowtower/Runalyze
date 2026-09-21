@@ -3,7 +3,6 @@
 namespace Runalyze\Bundle\CoreBundle\Form\Type;
 
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
-use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
 use Runalyze\Bundle\CoreBundle\Form\AbstractTokenStorageAwareType;
 use Runalyze\Bundle\CoreBundle\Form\ConfigurationManagerAwareTrait;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -14,16 +13,11 @@ class SportChoiceType extends AbstractTokenStorageAwareType
 {
     use ConfigurationManagerAwareTrait;
 
-    /**
-     * @var SportRepository
-     */
-    protected $SportRepository;
-
-    public function __construct(TokenStorageInterface $tokenStorage, SportRepository $sportRepository)
-    {
+    public function __construct(
+        TokenStorageInterface $tokenStorage,
+        protected \Runalyze\Bundle\CoreBundle\Entity\SportRepository $SportRepository
+    ) {
         parent::__construct($tokenStorage);
-
-        $this->SportRepository = $sportRepository;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -50,7 +44,7 @@ class SportChoiceType extends AbstractTokenStorageAwareType
                 /** @var Sport $sport */
                 return $sport->getName();
             },
-            'choice_value' => fn (?Sport $sport = null) => $sport instanceof \Runalyze\Bundle\CoreBundle\Entity\Sport ? $sport->getId() : '',
+            'choice_value' => fn (?Sport $sport = null): int|null|string => $sport instanceof \Runalyze\Bundle\CoreBundle\Entity\Sport ? $sport->getId() : '',
             'choice_attr' => function ($sport, $key, $index) use ($sportToEquipmentCategoryRelations): array {
                 /** @var Sport $sport */
                 $sportId = $sport->getId();

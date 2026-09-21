@@ -10,12 +10,9 @@ class Configuration
     /**
      * @var \Runalyze\Configuration\Category[]
      */
-    private static $Categories = [];
+    private static array $Categories = [];
 
-    /**
-     * @var array|null
-     */
-    private static $ValuesFromDB;
+    private static ?array $ValuesFromDB = null;
 
     /**
      * @var int|null

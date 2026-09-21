@@ -9,7 +9,6 @@ use Runalyze\Activity\Elevation;
 use Runalyze\Calculation;
 use Runalyze\Configuration;
 use Runalyze\Parameter\Application\ElevationMethod;
-use Runalyze\View\Activity\Context;
 
 /**
  * Display elevation info for a training
@@ -20,38 +19,28 @@ use Runalyze\View\Activity\Context;
 class ElevationInfo
 {
     /**
-     * Training object
-     * @var \Runalyze\View\Activity\Context
-     */
-    protected $Context;
-
-    /**
      * Lowest point
-     * @var int
      */
-    protected $lowestPoint = 0;
+    protected int $lowestPoint = 0;
 
     /**
      * Highest point
-     * @var int
      */
-    protected $highestPoint = 0;
+    protected int $highestPoint = 0;
 
     /**
      * Manual elevation
-     * @var int
      */
-    protected $manualElevation = 0;
+    protected int $manualElevation = 0;
 
     /**
      * Calculated elevation
-     * @var int
      */
-    protected $calculatedElevation = 0;
+    protected int $calculatedElevation = 0;
 
-    public function __construct(Context $context)
-    {
-        $this->Context = $context;
+    public function __construct(
+        protected \Runalyze\View\Activity\Context $Context
+    ) {
     }
 
     public function display(): void
@@ -96,7 +85,7 @@ class ElevationInfo
 
     protected function displayStandardValues()
     {
-        if ($this->manualElevation != $this->calculatedElevation) {
+        if ($this->manualElevation !== $this->calculatedElevation) {
             $Linker = new Runalyze\View\Activity\Linker($this->Context->activity());
             $useCalculatedValueLink = Ajax::window('<a class="small as-input" href="' . $Linker->urlToElevationInfo('use-calculated-value=true') . '">&raquo; ' . __('apply data') . '</a>', 'normal');
         } else {
@@ -105,41 +94,41 @@ class ElevationInfo
 
         $Fieldset = new FormularFieldset(__('General data'));
         $html = '
-			<div class="w50">
-				<label>' . Ajax::tooltip(__('manual value'), __('If you did not insert a value by hand, this value has been calculated.')) . '</label>
-				<span class="as-input">' . Elevation::format($this->manualElevation) . '</span>
-			</div>
-			<div class="w50">
-				<label>' . __('Lowest point') . '</label>
-				<span class="as-input">' . Elevation::format($this->lowestPoint) . '</span>
-			</div>
-			<div class="w50">
-				<label>' . Ajax::tooltip(__('calculated value'), __('This value is calculated with your current configuration. The saved value may be outdated.')) . '</label>
-				<span class="as-input">' . Elevation::format($this->calculatedElevation) . '</span> ' . $useCalculatedValueLink . '
-			</div>
-			<div class="w50">
-				<label>' . __('Highest point') . '</label>
-				<span class="as-input">' . Elevation::format($this->highestPoint) . '</span>
-			</div>
-			<div class="w50">
-				<label>' . __('avg.') . ' ' . __('Gradient') . '</label>
-				<span class="as-input">' . $this->Context->dataview()->gradientInPercent() . '</span>
-			</div>
-			<div class="w50">
-				<label>' . __('Up/Down') . '</label>
-				<span class="as-input">+' . Elevation::format($this->Context->route()->elevationUp()) . ' / -' . Elevation::format($this->Context->route()->elevationDown()) . '</span>
-			</div>
-		';
+            <div class="w50">
+                <label>' . Ajax::tooltip(__('manual value'), __('If you did not insert a value by hand, this value has been calculated.')) . '</label>
+                <span class="as-input">' . Elevation::format($this->manualElevation) . '</span>
+            </div>
+            <div class="w50">
+                <label>' . __('Lowest point') . '</label>
+                <span class="as-input">' . Elevation::format($this->lowestPoint) . '</span>
+            </div>
+            <div class="w50">
+                <label>' . Ajax::tooltip(__('calculated value'), __('This value is calculated with your current configuration. The saved value may be outdated.')) . '</label>
+                <span class="as-input">' . Elevation::format($this->calculatedElevation) . '</span> ' . $useCalculatedValueLink . '
+            </div>
+            <div class="w50">
+                <label>' . __('Highest point') . '</label>
+                <span class="as-input">' . Elevation::format($this->highestPoint) . '</span>
+            </div>
+            <div class="w50">
+                <label>' . __('avg.') . ' ' . __('Gradient') . '</label>
+                <span class="as-input">' . $this->Context->dataview()->gradientInPercent() . '</span>
+            </div>
+            <div class="w50">
+                <label>' . __('Up/Down') . '</label>
+                <span class="as-input">+' . Elevation::format($this->Context->route()->elevationUp()) . ' / -' . Elevation::format($this->Context->route()->elevationDown()) . '</span>
+            </div>
+        ';
         // #TSC if the original FIT values available, add it
         if ($this->Context->activity()->fitTotalAscent() > 0 || $this->Context->activity()->fitTotalDescent() != 0) {
             $html .= '
-			<div class="w50">
-			</div>
-			<div class="w50">
-				<label>' . __('Up/Down') . ' (FIT original)</label>
-				<span class="as-input">+' . Elevation::format($this->Context->activity()->fitTotalAscent()) .
+            <div class="w50">
+            </div>
+            <div class="w50">
+                <label>' . __('Up/Down') . ' (FIT original)</label>
+                <span class="as-input">+' . Elevation::format($this->Context->activity()->fitTotalAscent()) .
                                     ' / -' . Elevation::format($this->Context->activity()->fitTotalDescent()) . '</span>
-			</div>';
+            </div>';
         }
 
         $Fieldset->setHtmlCode($html);
@@ -231,7 +220,7 @@ class ElevationInfo
         $Links = [];
 
         if ($this->Context->route()->elevationsCorrected()) {
-            $textInfo = __('Elevation data has been corrected.') . ($this->Context->route()->elevationsSource() != '' ? ' (' . $this->Context->route()->elevationsSource() . ')' : '');
+            $textInfo = __('Elevation data has been corrected.') . ($this->Context->route()->elevationsSource() !== '' ? ' (' . $this->Context->route()->elevationsSource() . ')' : '');
             $rawLinks = $this->getLinksForCorrectionStrategies();
         } else {
             $textInfo = __('Elevation data has not been corrected.');
@@ -251,7 +240,7 @@ class ElevationInfo
 
         $Fieldset->setHtmlCode(
             '<p class="info block" id="gps-results">' . $textInfo . '</p>
-			<p class="info block">' . implode('<br>', $Links) . '</p>'
+            <p class="info block">' . implode('<br>', $Links) . '</p>'
         );
 
         $Fieldset->display();

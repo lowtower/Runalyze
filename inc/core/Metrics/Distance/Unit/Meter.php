@@ -18,8 +18,8 @@ class Meter extends AbstractDistanceUnit
         return 'm';
     }
 
-    public function getFactorFromBaseUnit(): int
+    public function getFactorFromBaseUnit(): float
     {
-        return 1000;
+        return 1000.0;
     }
 }

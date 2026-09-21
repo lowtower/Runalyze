@@ -10,15 +10,9 @@ use Symfony\Component\Form\FormView;
 
 class WindSpeedType extends AbstractUnitBasedType
 {
-    /**
-     * @var int
-     */
-    protected $ViewPrecision = 0;
+    protected int $ViewPrecision = 0;
 
-    /**
-     * @var AbstractPaceInDecimalFormatUnit
-     */
-    protected $ModelUnit;
+    protected KilometerPerHour $ModelUnit;
 
     public function __construct(AbstractPaceInDecimalFormatUnit $velocityUnit)
     {
@@ -31,7 +25,7 @@ class WindSpeedType extends AbstractUnitBasedType
     {
         parent::buildView($view, $form, $options);
 
-        /** @var AbstractPaceInDecimalFormatUnit $modelUnit */
+        /** @var AbstractPaceInDecimalFormatUnit&KilometerPerHour $modelUnit */
         $modelUnit = $this->ModelUnit;
         /** @var AbstractPaceInDecimalFormatUnit $unit */
         $unit = $this->Unit;
@@ -53,7 +47,7 @@ class WindSpeedType extends AbstractUnitBasedType
         return $value === null ? null : (string) round($this->Unit->fromBaseUnit($value));
     }
 
-    public function reverseTransform($value)
+    public function reverseTransform($value): ?int
     {
         if ($value !== null) {
             if ((int) $value === 0) {

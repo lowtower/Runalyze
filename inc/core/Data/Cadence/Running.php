@@ -19,9 +19,8 @@ class Running extends AbstractCadence
 {
     /**
      * Factor for manipulating value
-     * @var float
      */
-    protected $Factor = 2;
+    protected float $Factor = 2.0;
 
     /**
      * @codeCoverageIgnore
@@ -49,10 +48,9 @@ class Running extends AbstractCadence
     }
 
     /**
-     * @return string
      * @codeCoverageIgnore
      */
-    public function formularUnit()
+    public function formularUnit(): string
     {
         return \FormularUnit::$SPM;
     }

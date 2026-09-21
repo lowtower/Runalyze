@@ -8,10 +8,7 @@ use Runalyze\Metrics\Weight\Unit\AbstractWeightUnit;
 
 class WeightType extends AbstractUnitBasedType
 {
-    /**
-     * @var int
-     */
-    protected $ViewPrecision = 1;
+    protected int $ViewPrecision = 1;
 
     public function __construct(AbstractWeightUnit $weightUnit)
     {

@@ -31,8 +31,7 @@ class Pace
     /**
      * Create pace
      * @param float $Time [s]
-     * @param float $Distance [optional] [km]
-     * @param int $legacyPaceUnitEnum [optional]
+     * @param float $Distance [km]
      */
     public function __construct(
         protected float $Time,
@@ -161,7 +160,7 @@ class Pace
     public function asUnitEnum(string $UnitEnum): string
     {
         $Option = new PaceUnitOption();
-        $Option->set($UnitEnum);
+        $Option->set((int) $UnitEnum);
 
         return $this->asUnit($Option->object());
     }
@@ -190,7 +189,6 @@ class Pace
     /**
      * Compare
      * Both pace objects must have the same unit and the unit must be comparable.
-     * @param bool $raw [optional]
      * @throws \InvalidArgumentException
      */
     public function compareTo(self $other, bool $raw = false): string
@@ -215,7 +213,6 @@ class Pace
 
     /**
      * @param string $string e.g. '0:27' or '1,4'
-     * @param bool $raw [optional]
      */
     protected function formatComparison(string $string, bool $isPositive, bool $raw = false): string
     {

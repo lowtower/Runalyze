@@ -15,18 +15,12 @@ class MigrationVersions
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private string $version = '';
 
-    /**
-     * @param string $version
-     */
-    public function setVersion($version): void
+    public function setVersion(string $version): void
     {
         $this->version = $version;
     }
 
-    /**
-     * @return string
-     */
-    public function getVersion()
+    public function getVersion(): string
     {
         return $this->version;
     }

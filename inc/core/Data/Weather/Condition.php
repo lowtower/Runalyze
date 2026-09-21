@@ -13,10 +13,7 @@ class Condition
      */
     protected int $identifier;
 
-    /**
-     * @return array
-     */
-    public static function completeList()
+    public static function completeList(): array
     {
         return WeatherConditionProfile::getEnum();
     }

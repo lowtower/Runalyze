@@ -5,7 +5,6 @@ namespace Runalyze\Bundle\CoreBundle\Form;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentType as EntityEquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
-use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
 use Runalyze\Bundle\CoreBundle\Form\Type\DistanceType;
 use Runalyze\Bundle\CoreBundle\Form\Type\DurationNullableType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -20,16 +19,10 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class EquipmentCategoryType extends AbstractType
 {
-    /**
-     * @var SportRepository
-     */
-    protected $SportRepository;
-
     public function __construct(
-        SportRepository $SportRepository,
+        protected \Runalyze\Bundle\CoreBundle\Entity\SportRepository $SportRepository,
         protected TokenStorageInterface $TokenStorage
     ) {
-        $this->SportRepository = $SportRepository;
     }
 
     /**
@@ -57,7 +50,7 @@ class EquipmentCategoryType extends AbstractType
                     'autofocus' => true,
                 ],
             ])
-            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
                 $equipmentType = $event->getData();
                 $form = $event->getForm();
 

@@ -95,19 +95,19 @@ class Html extends AbstractSnippetSharer
             ->string() : '';
         $Spans = '';
 
-        if ($Time != '') {
+        if ($Time !== '') {
             $Spans .= '<span class="runalyze-emb-time">' . $Time . '</span>';
         }
 
-        if ($Pace != '') {
+        if ($Pace !== '') {
             $Spans .= '<span class="runalyze-emb-pace">' . $Pace . '</span>';
         }
 
-        if ($Heart != '') {
+        if ($Heart !== '') {
             $Spans .= '<span class="runalyze-emb-heart">' . $Heart . '</span>';
         }
 
-        if ($Elev != '') {
+        if ($Elev !== '') {
             $Spans .= '<span class="runalyze-emb-elev">' . $Elev . '</span>';
         }
 

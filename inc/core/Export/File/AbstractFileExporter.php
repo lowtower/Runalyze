@@ -9,6 +9,7 @@ namespace Runalyze\Export\File;
 
 use Runalyze\Export\AbstractExporter;
 use Runalyze\Util\LocalTime;
+use Runalyze\View\Activity\Context;
 
 /**
  * Create exporter for given type
@@ -25,38 +26,27 @@ abstract class AbstractFileExporter extends AbstractExporter
 
     /**
      * File content to write
-     * @var string
      */
-    protected $FileContent = '';
+    protected string $FileContent = '';
 
     /**
      * Get extension
-     * @return string
      */
-    abstract public function extension();
+    abstract public function extension(): string;
 
     /**
      * Export
      */
     abstract protected function createFile();
 
-    /**
-     * @return int
-     */
-    abstract public function enum();
+    abstract public function enum(): int;
 
-    /**
-     * @return string
-     */
-    public function iconClass()
+    public function iconClass(): string
     {
         return 'far fa-file-alt';
     }
 
-    /**
-     * @return string
-     */
-    public function url()
+    public function url(): string
     {
         return str_replace(
             ['{id}', '{enum}'],
@@ -80,9 +70,8 @@ abstract class AbstractFileExporter extends AbstractExporter
 
     /**
      * Get file content
-     * @return string
      */
-    final public function fileContent()
+    final public function fileContent(): string
     {
         return $this->FileContent;
     }
@@ -109,19 +98,16 @@ abstract class AbstractFileExporter extends AbstractExporter
     }
 
     /**
-     * @return string
-     *
      * @see https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
      */
-    abstract protected function mimeType();
+    abstract protected function mimeType(): string;
 
     /**
      * Get filename
-     * @return string
      */
-    final public function filename()
+    final public function filename(): string
     {
-        if ($this->Context === null) {
+        if (! $this->Context instanceof Context) {
             return 'undefined.' . $this->extension();
         }
 
@@ -130,9 +116,8 @@ abstract class AbstractFileExporter extends AbstractExporter
 
     /**
      * Get file name start
-     * @return string
      */
-    public static function fileNameStart()
+    public static function fileNameStart(): string
     {
         return \SessionAccountHandler::getId() . '-Activity_';
     }

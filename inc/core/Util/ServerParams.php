@@ -7,7 +7,7 @@ class ServerParams
     /**
      * @return int|null [bytes]
      */
-    public function getPostMaxSizeInBytes()
+    public function getPostMaxSizeInBytes(): ?int
     {
         return $this->transformStringToBytes($this->getNormalizedIniPostMaxSize());
     }
@@ -15,7 +15,7 @@ class ServerParams
     /**
      * @return int|null [bytes]
      */
-    public function getUploadMaxFilesize()
+    public function getUploadMaxFilesize(): ?int
     {
         return $this->transformStringToBytes($this->getNormalizedIniUploadMaxFilesize());
     }
@@ -31,10 +31,9 @@ class ServerParams
     }
 
     /**
-     * @param string $iniSetting
      * @return null|int [bytes]
      */
-    public function transformStringToBytes($iniSetting)
+    public function transformStringToBytes(string $iniSetting): ?int
     {
         $iniMax = strtolower($iniSetting);
 

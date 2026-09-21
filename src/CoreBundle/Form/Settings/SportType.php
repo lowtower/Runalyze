@@ -4,11 +4,8 @@ namespace Runalyze\Bundle\CoreBundle\Form\Settings;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
-use Runalyze\Bundle\CoreBundle\Entity\EquipmentTypeRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
-use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Type;
-use Runalyze\Bundle\CoreBundle\Entity\TypeRepository;
 use Runalyze\Bundle\CoreBundle\Form\Type\EnergyKcalType;
 use Runalyze\Bundle\CoreBundle\Form\Type\HeartRateType;
 use Runalyze\Bundle\CoreBundle\Form\Type\HrZoneBoundType;
@@ -25,40 +22,15 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class SportType extends AbstractType
 {
-    /**
-     * @var TypeRepository
-     */
-    protected $TypeRepository;
-
-    /**
-     * @var SportRepository
-     */
-    protected $SportRepository;
-
-    /**
-     * @var EquipmentTypeRepository
-     */
-    protected $EquipmentTypeRepository;
-
-    /**
-     * @var TokenStorageInterface
-     */
-    protected $TokenStorageInterface;
-
     public function __construct(
-        TypeRepository $typeRepository,
-        SportRepository $sportRepository,
-        EquipmentTypeRepository $equipmentTypeRepository,
-        TokenStorageInterface $tokenStorage
+        protected \Runalyze\Bundle\CoreBundle\Entity\TypeRepository $TypeRepository,
+        protected \Runalyze\Bundle\CoreBundle\Entity\SportRepository $SportRepository,
+        protected \Runalyze\Bundle\CoreBundle\Entity\EquipmentTypeRepository $EquipmentTypeRepository,
+        protected \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $TokenStorageInterface
     ) {
-        $this->TypeRepository = $typeRepository;
-        $this->SportRepository = $sportRepository;
-        $this->EquipmentTypeRepository = $equipmentTypeRepository;
-        $this->TokenStorageInterface = $tokenStorage;
     }
 
     /**
@@ -186,7 +158,7 @@ class SportType extends AbstractType
             ]);
         }
 
-        if (! empty($activityTypes)) {
+        if ($activityTypes !== []) {
             $builder->add('defaultType', EntityType::class, [
                 'class' => Type::class,
                 'required' => false,

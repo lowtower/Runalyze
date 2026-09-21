@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Sports\Performance\Model;
 
 /**
@@ -9,25 +11,17 @@ namespace Runalyze\Sports\Performance\Model;
  */
 class TsbModel extends AbstractModel
 {
-    /**
-     * @var float
-     */
-    protected $LambdaCTL;
+    protected float $LambdaCTL;
 
-    /**
-     * @var float
-     */
-    protected $LambdaATL;
+    protected float $LambdaATL;
 
     /**
      * @param array $trimpData array('days back' => 'trimp value')
-     * @param int $DaysForCtl
-     * @param int $DaysForAtl
      */
     public function __construct(
         array $trimpData,
-        protected $DaysForCtl = 42,
-        protected $DaysForAtl = 7
+        protected int $DaysForCtl = 42,
+        protected int $DaysForAtl = 7
     ) {
         $this->LambdaCTL = 2 / ($this->DaysForCtl + 1);
         $this->LambdaATL = 2 / ($this->DaysForAtl + 1);
@@ -47,14 +41,12 @@ class TsbModel extends AbstractModel
     }
 
     /**
-     * @param int|float $ctl
-     * @param int|float $atl
-     * @return int|float number of days required to reach TSB[n+x] <= 0
+     * @return float number of days required to reach TSB[n+x] <= 0
      */
-    public function restDays($ctl, $atl)
+    public function restDays(float $ctl, float $atl): float
     {
-        if ($atl == 0 || $this->LambdaATL == $this->LambdaCTL || $this->LambdaCTL == 1) {
-            return 0;
+        if ($atl == 0 || $this->LambdaATL === $this->LambdaCTL || $this->LambdaCTL == 1) {
+            return 0.0;
         }
 
         $ctl = max(1.0, $ctl);
@@ -65,21 +57,19 @@ class TsbModel extends AbstractModel
 
     /**
      * @param int $index 0 for today
-     * @return float|int number of days required to reach TSB[n+x] <= 0
+     * @return float number of days required to reach TSB[n+x] <= 0
      */
-    public function restDaysAt($index)
+    public function restDaysAt(int $index): float
     {
         return $this->restDays($this->fitnessAt($index), $this->fatigueAt($index));
     }
 
     /**
-     * @param int|float $ctl
-     * @param int|float $atl
-     * @return float|int maximal trimp value to keep TSB[n+1] >= 0
+     * @return float maximal trimp value to keep TSB[n+1] >= 0
      */
-    public function maxTrimpToBalanced($ctl, $atl)
+    public function maxTrimpToBalanced(float $ctl, float $atl): int|float
     {
-        if ($this->LambdaCTL == $this->LambdaATL) {
+        if ($this->LambdaCTL === $this->LambdaATL) {
             return 0;
         }
 
@@ -88,9 +78,9 @@ class TsbModel extends AbstractModel
 
     /**
      * @param int $index 0 for today
-     * @return float|int maximal trimp value to keep TSB[n+1] >= 0
+     * @return float maximal trimp value to keep TSB[n+1] >= 0
      */
-    public function maxTrimpToBalancedAt($index)
+    public function maxTrimpToBalancedAt(int $index): float
     {
         return $this->maxTrimpToBalanced($this->fitnessAt($index), $this->fatigueAt($index));
     }

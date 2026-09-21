@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Sports\Performance;
 
 use Runalyze\Mathematics\Scale;
@@ -34,30 +36,17 @@ class Monotony
      */
     public const DAYS = 7;
 
-    /**
-     * @var array
-     */
-    protected $Trimp = [];
+    protected float $Avg = 0.0;
+
+    protected ?float $Value = null;
 
     /**
-     * @var int
-     */
-    protected $Avg = 0;
-
-    /**
-     * @var float|null
-     */
-    protected $Value;
-
-    /**
-     * @param float|null $MaximumPerDay
      * @throws \InvalidArgumentException
      */
     public function __construct(
-        array $trimpData,
-        protected $MaximumPerDay = null
+        protected array $Trimp,
+        protected ?float $MaximumPerDay = null
     ) {
-        $this->Trimp = $trimpData;
     }
 
     public function calculate(): void

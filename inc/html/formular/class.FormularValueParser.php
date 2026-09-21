@@ -14,30 +14,24 @@ class FormularValueParser
 {
     /**
      * Parser: timestamp <=> date-string
-     * @var string
      */
-    public static $PARSER_DATE = 'date';
+    public static string $PARSER_DATE = 'date';
 
     /**
      * Parser: time in seconds <=> time-string
-     * @var string
      */
-    public static $PARSER_TIME = 'time';
+    public static string $PARSER_TIME = 'time';
 
     /**
      * Parser: check for boolean
-     * @var string
      */
-    public static $PARSER_BOOL = 'bool';
+    public static string $PARSER_BOOL = 'bool';
 
     /**
      * Validate post-value for a given key with a given parser
-     * @param string $key
-     * @param string $parser
      * @param array<string, mixed> $parserOptions
-     * @return bool
      */
-    public static function validatePost($key, $parser, array $parserOptions = [])
+    public static function validatePost(string $key, ?string $parser, array $parserOptions = []): string|bool
     {
         if ($parser === null) {
             return true;
@@ -61,9 +55,8 @@ class FormularValueParser
     /**
      * Transform value with a given parser
      * @param mixed $value
-     * @param string $parser
      */
-    public static function parse(&$value, $parser, array $parserOptions = []): void
+    public static function parse(&$value, ?string $parser, array $parserOptions = []): void
     {
         if ($parser === null) {
             return;
@@ -81,9 +74,8 @@ class FormularValueParser
 
     /**
      * Validator: boolean
-     * @param string $key
      */
-    private static function validateBool($key): bool
+    private static function validateBool(string $key): bool
     {
         $_POST[$key] = isset($_POST[$key]) ? '1' : '0';
 
@@ -92,10 +84,8 @@ class FormularValueParser
 
     /**
      * Validator: date-string => timestamp
-     * @param string $key
-     * @return bool|string
      */
-    private static function validateDate($key)
+    private static function validateDate(string $key): string|bool
     {
         $dateParts = self::removeEmptyValues(explode('.', $_POST[$key]));
         $numParts = count($dateParts);
@@ -127,11 +117,9 @@ class FormularValueParser
 
     /**
      * Validator: time-string => time in seconds
-     * @param string $key
      * @param array<string, mixed> $options
-     * @return bool|string
      */
-    private static function validateTime($key, array $options)
+    private static function validateTime(string $key, array $options): string|bool
     {
         $Time = new Duration($_POST[$key]);
 
@@ -164,9 +152,8 @@ class FormularValueParser
 
     /**
      * Remove all empty values from array
-     * @return array
      */
-    private static function removeEmptyValues(array $array)
+    private static function removeEmptyValues(array $array): array
     {
         foreach ($array as $key => $value) {
             if (empty($value)) {

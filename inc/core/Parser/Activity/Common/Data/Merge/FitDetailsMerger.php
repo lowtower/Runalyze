@@ -8,20 +8,10 @@ use Runalyze\Parser\Activity\Common\Data\FitDetails;
 
 class FitDetailsMerger implements MergerInterface
 {
-    /**
-     * @var FitDetails
-     */
-    protected $ResultingDetails;
-
-    /**
-     * @var FitDetails
-     */
-    protected $DetailsToMerge;
-
-    public function __construct(FitDetails $firstDetails, FitDetails $secondDetails)
-    {
-        $this->ResultingDetails = $firstDetails;
-        $this->DetailsToMerge = $secondDetails;
+    public function __construct(
+        protected FitDetails $ResultingDetails,
+        protected FitDetails $DetailsToMerge
+    ) {
     }
 
     public function merge(): void

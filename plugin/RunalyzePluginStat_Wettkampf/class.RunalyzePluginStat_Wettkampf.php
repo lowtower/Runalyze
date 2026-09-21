@@ -34,9 +34,9 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
 {
     private array $PBdistances = [];
 
-    protected \Runalyze\Plugin\Statistic\Races\RaceContainer $RaceContainer;
+    protected RaceContainer $RaceContainer;
 
-    protected ?\Runalyze\AgeGrade\Lookup $AgeGradeLookup = null;
+    protected ?Lookup $AgeGradeLookup = null;
 
     final public function name(): string
     {
@@ -428,7 +428,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
 
         if ($this->knowsAgeGrade() && $this->AgeGradeLookup->getMinimalDistance() <= $RaceResult->officialDistance()) {
             $ageGrade = $this->AgeGradeLookup->getAgeGrade(
-                (float) $RaceResult->officialDistance(),
+                $RaceResult->officialDistance(),
                 (int) $RaceResult->officialTime(),
                 date('Y') - date('Y', $Activity->timestamp())
             );

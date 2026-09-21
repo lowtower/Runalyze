@@ -150,7 +150,7 @@ class Ajax
      * Get onclick-string for loading training
      * @param int $id ID of the training
      */
-    public static function trainingLinkAsOnclick($id): string
+    public static function trainingLinkAsOnclick(?int $id): string
     {
         if (FrontendShared::$IS_SHOWN) {
             return 'onclick="Pace.restart();Runalyze.Training.load(' . $id . ", '" . SharedLinker::getUrlFor($id) . '\', event)"';
@@ -223,9 +223,8 @@ class Ajax
      * Gives a HTML-link for using jToggle()
      * @param string $link        The normal HTML-link
      * @param string $toggle_id   The ID of the css-container to toggle
-     * @return string
      */
-    public static function toggle($link, $toggle_id)
+    public static function toggle($link, $toggle_id): string
     {
         $link = self::insertClass($link, 'toggle');
 
@@ -236,9 +235,8 @@ class Ajax
      * Gives a HTML-link for using jWindow()
      * @param string $link     The normal HTML-link
      * @param string $size     Enum: big|normal|small
-     * @return string
      */
-    public static function window($link, $size = 'normal')
+    public static function window($link, $size = 'normal'): string
     {
         $link = self::insertClass($link, 'window');
         if ($size == 'big' || $size == 'small') {
@@ -296,9 +294,8 @@ class Ajax
      * Adds a new class-value or creates a class-attribute
      * @param string $link    The full HTML-link
      * @param string $class   The new css-class
-     * @return string
      */
-    public static function insertClass($link, $class)
+    public static function insertClass($link, $class): string
     {
         $text = preg_replace('#<a ([^>]*?)class="(.+?)"#i', '<a \\1class="' . $class . ' \\2"', $link);
         if ($text == $link) {
@@ -312,9 +309,8 @@ class Ajax
      * Overwrites an existing rel-attribute or creates a new one
      * @param string $link   The full HTML-link
      * @param string $rel    The new rel-value
-     * @return string
      */
-    public static function insertRel($link, $rel)
+    public static function insertRel($link, $rel): string
     {
         $text = preg_replace('#rel="(.+?)"#i', 'rel="' . $rel . '"', $link);
         if ($text == $link) {
@@ -328,9 +324,8 @@ class Ajax
      * Overwrites an existing data-size-attribute or creates a new one
      * @param string $link   The full HTML-link
      * @param string $rel    The new data-size-value
-     * @return string
      */
-    public static function insertDataSize($link, $rel)
+    public static function insertDataSize($link, $rel): string
     {
         $text = preg_replace('#data-size="(.+?)"#i', 'data-size="' . $rel . '"', $link);
         if ($text == $link) {
@@ -371,7 +366,7 @@ class Ajax
      * @param array<string, mixed> $funcs
      * @return string|array
      */
-    public static function json_encode_jsfunc(array $input, array $funcs = [], int $level = 0)
+    public static function json_encode_jsfunc(array $input, array $funcs = [], int $level = 0): array|string|false
     {
         foreach ($input as $key => $value) {
             if (is_array($value)) {
@@ -443,21 +438,21 @@ class Ajax
     {
         return '
 <div id="pager" class="pager c">
-	<form>
-		<span class="link first">|&laquo; ' . __('Start') . '</span>
-		<span class="link prev">&laquo; ' . __('previous') . '</span>
-		<input type="text" class="pagedisplay">
-		<span class="link next">' . __('next') . ' &raquo;</span>
-		<span class="link last">' . __('End') . ' &raquo;|</span>
+    <form>
+        <span class="link first">|&laquo; ' . __('Start') . '</span>
+        <span class="link prev">&laquo; ' . __('previous') . '</span>
+        <input type="text" class="pagedisplay">
+        <span class="link next">' . __('next') . ' &raquo;</span>
+        <span class="link last">' . __('End') . ' &raquo;|</span>
 
-		<select class="pagesize">
-			<option value="10">10 ' . __('per page') . '&nbsp;</option>
-			<option value="20" selected>20 ' . __('per page') . '&nbsp;</option>
-			<option value="30">30 ' . __('per page') . '&nbsp;</option>
-			<option value="40">40 ' . __('per page') . '&nbsp;</option>
-			<option value="50">50 ' . __('per page') . '&nbsp;</option>
-		</select>
-	</form>
+        <select class="pagesize">
+            <option value="10">10 ' . __('per page') . '&nbsp;</option>
+            <option value="20" selected>20 ' . __('per page') . '&nbsp;</option>
+            <option value="30">30 ' . __('per page') . '&nbsp;</option>
+            <option value="40">40 ' . __('per page') . '&nbsp;</option>
+            <option value="50">50 ' . __('per page') . '&nbsp;</option>
+        </select>
+    </form>
 </div>';
     }
 }
