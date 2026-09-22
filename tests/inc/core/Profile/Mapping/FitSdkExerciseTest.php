@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Profile\Mapping;
 
 use Runalyze\Profile\Mapping\FitSdkExercise;
 
-class FitSdkExcerciseTest extends \PHPUnit\Framework\TestCase
+class FitSdkExerciseTest extends \PHPUnit\Framework\TestCase
 {
     protected $underTest;
 

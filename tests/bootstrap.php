@@ -12,6 +12,10 @@ use Symfony\Component\Dotenv\Dotenv;
 
 error_reporting(E_ALL);
 
+if ($_SERVER['APP_DEBUG']) {
+    umask(0000);
+}
+
 if (! defined('RUNALYZE_TEST')) {
     define('RUNALYZE_TEST', true);
 }

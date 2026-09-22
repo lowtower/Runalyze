@@ -6,26 +6,21 @@
          executionOrder="depends,defects"
          resolveDependencies="true"
          backupGlobals="false"
-         backupStaticAttributes="false"
          colors="true"
+         failOnNotice="true"
+         failOnWarning="true"
          bootstrap="tests/bootstrap.php"
-         failOnWarning="false"
          processIsolation="false"
          stopOnError="false"
          stopOnFailure="false"
-         verbose="true"
-         convertNoticesToExceptions="false"
-         convertWarningsToExceptions="false"
-         convertDeprecationsToExceptions="false"
-         convertErrorsToExceptions="false"
          beStrictAboutTestsThatDoNotTestAnything="false"
 >
     <php>
-        <ini name="display_errors" value="1"/>
-        <ini name="error_reporting" value="-1"/>
+        <ini name="display_errors" value="1" />
+        <ini name="error_reporting" value="-1" />
 
-        <server name="APP_ENV" value="test" force="true"/>
-        <server name="APP_DEBUG" value="1" force="true"/>
+        <server name="APP_ENV" value="test" force="true" />
+        <server name="APP_DEBUG" value="1" force="true" />
         <server name="SHELL_VERBOSITY" value="-1" />
 
         <env name="KERNEL_CLASS" value="App\Kernel" />
@@ -34,7 +29,7 @@
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="verbose"/>
         <!-- Symfony recommendation -->
         <server name="SYMFONY_PHPUNIT_REMOVE" value=""/>
-        <server name="SYMFONY_PHPUNIT_VERSION" value="9.5"/>
+        <server name="SYMFONY_PHPUNIT_VERSION" value="10.5"/>
     </php>
 
     <testsuites>
@@ -43,19 +38,20 @@
         </testsuite>
     </testsuites>
 
-    <coverage processUncoveredFiles="true">
+    <source ignoreSuppressionOfDeprecations="true" restrictNotices="true" restrictWarnings="true">
         <include>
-            <directory suffix=".php">inc/core</directory>
+            <directory suffix=".php">inc</directory>
+            <directory suffix=".php">plugin</directory>
             <directory suffix=".php">src</directory>
         </include>
         <exclude>
             <directory>src/*/Tests</directory>
         </exclude>
-    </coverage>
+    </source>
 
-	<logging>
-		<junit outputFile="./var/log/phpunit-junit.xml" />
-	</logging>
+    <logging>
+        <junit outputFile="./var/log/phpunit-junit.xml" />
+    </logging>
 
     <extensions>
     </extensions>
