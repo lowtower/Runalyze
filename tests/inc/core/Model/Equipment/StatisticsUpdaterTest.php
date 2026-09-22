@@ -6,10 +6,8 @@ use DB;
 use PDO;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @group dependsOn
- * @group dependsOnOldDatabase
- */
+#[\PHPUnit\Framework\Attributes\Group('dependsOn')]
+#[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
 class StatisticsUpdaterTest extends TestCase
 {
     protected \PDO $PDO;

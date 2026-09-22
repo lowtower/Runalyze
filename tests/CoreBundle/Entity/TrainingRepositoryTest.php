@@ -19,9 +19,7 @@ use Runalyze\Bundle\CoreBundle\Services\Recalculation\Task\MarathonShapeCalculat
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\Task\VO2maxShapeCalculation;
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 
-/**
- * @group requiresDoctrine
- */
+#[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 class TrainingRepositoryTest extends AbstractRepositoryTestCase
 {
     protected TrainingRepository $TrainingRepository;
@@ -392,9 +390,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertNull($this->getEntityManager()->getRepository(Swimdata::class)->findByActivity($activityId));
     }
 
-    /**
-     * @group idontcare
-     */
+    #[\PHPUnit\Framework\Attributes\Group('idontcare')]
     public function testThatVO2maxUpdateInListenerRecalculatesMarathonShape(): void
     {
         $recalculationManager = $this->getContainer()

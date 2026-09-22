@@ -7,10 +7,8 @@ use Runalyze\DEM\Provider\GeoTIFF\SRTM4Provider;
 use Runalyze\DEM\Reader;
 use Runalyze\Service\ElevationCorrection\Strategy\GeoTiff;
 
-/**
- * @group dependsOn
- * @group dependsOnSRTM
- */
+#[\PHPUnit\Framework\Attributes\Group('dependsOn')]
+#[\PHPUnit\Framework\Attributes\Group('dependsOnSRTM')]
 class GeoTiffTest extends \PHPUnit\Framework\TestCase
 {
     protected GeoTiff $GeoTiff;

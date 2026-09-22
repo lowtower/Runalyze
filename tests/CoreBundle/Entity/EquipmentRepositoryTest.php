@@ -8,9 +8,7 @@ use Runalyze\Bundle\CoreBundle\Entity\EquipmentRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 
-/**
- * @group requiresDoctrine
- */
+#[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 class EquipmentRepositoryTest extends AbstractRepositoryTestCase
 {
     protected EquipmentRepository $EquipmentRepository;

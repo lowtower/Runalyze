@@ -2,10 +2,8 @@
 
 namespace Runalyze\View\Activity;
 
-/**
- * @group dependsOn
- * @group dependsOnOldDatabase
- */
+#[\PHPUnit\Framework\Attributes\Group('dependsOn')]
+#[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
 class LinkerTest extends \PHPUnit\Framework\TestCase
 {
     /**

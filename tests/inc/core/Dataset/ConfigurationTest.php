@@ -4,9 +4,7 @@ namespace Runalyze\Dataset;
 
 use PDO;
 
-/**
- * @group requiresSqlite
- */
+#[\PHPUnit\Framework\Attributes\Group('requiresSqlite')]
 class ConfigurationTest extends \PHPUnit\Framework\TestCase
 {
     /**

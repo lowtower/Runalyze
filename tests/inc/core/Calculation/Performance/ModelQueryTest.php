@@ -2,10 +2,8 @@
 
 namespace Runalyze\Calculation\Performance;
 
-/**
- * @group dependsOn
- * @group dependsOnOldDatabase
- */
+#[\PHPUnit\Framework\Attributes\Group('dependsOn')]
+#[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
 class ModelQueryTest extends \PHPUnit\Framework\TestCase
 {
     /**

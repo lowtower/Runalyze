@@ -4,10 +4,8 @@ namespace Runalyze\Export\File;
 
 use Runalyze\View\Activity\Context;
 
-/**
- * @group dependsOn
- * @group dependsOnOldFactory
- */
+#[\PHPUnit\Framework\Attributes\Group('dependsOn')]
+#[\PHPUnit\Framework\Attributes\Group('dependsOnOldFactory')]
 class TypesTest extends \PHPUnit\Framework\TestCase
 {
     public function testAllConstructors(): void

@@ -6,9 +6,7 @@ namespace Runalyze\Activity;
 
 class SelfEvaluationFeelingTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @dataProvider fitValuesProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('fitValuesProvider')]
     public function testConversionFromFit(int $fitValue, int $expected): void
     {
         $this->assertEquals(
@@ -27,7 +25,7 @@ class SelfEvaluationFeelingTest extends \PHPUnit\Framework\TestCase
     /**
      * @return array<int, int[]>
      */
-    public function fitValuesProvider(): array
+    public static function fitValuesProvider(): array
     {
         return [
             [0,   SelfEvaluationFeeling::VERY_WEAK],

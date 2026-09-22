@@ -5,10 +5,8 @@ namespace Runalyze\Dataset;
 use DB;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @group dependsOn
- * @group dependsOnOldDatabase
- */
+#[\PHPUnit\Framework\Attributes\Group('dependsOn')]
+#[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
 class QueryTest extends TestCase
 {
     protected \PDO $PDO;

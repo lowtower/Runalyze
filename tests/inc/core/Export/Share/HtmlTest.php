@@ -5,10 +5,8 @@ namespace Runalyze\Export\Share;
 use Runalyze\Model\Activity;
 use Runalyze\View\Activity\FakeContext;
 
-/**
- * @group dependsOn
- * @group dependsOnOldFactory
- */
+#[\PHPUnit\Framework\Attributes\Group('dependsOn')]
+#[\PHPUnit\Framework\Attributes\Group('dependsOnOldFactory')]
 class HtmlTest extends \PHPUnit\Framework\TestCase
 {
     public function testThatItsAlwaysPossible(): void

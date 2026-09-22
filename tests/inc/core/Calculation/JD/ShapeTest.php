@@ -26,9 +26,7 @@ class CategoryFake extends Category\VO2max
     }
 }
 
-/**
- * @group requiresSqlite
- */
+#[\PHPUnit\Framework\Attributes\Group('requiresSqlite')]
 class ShapeTest extends \PHPUnit\Framework\TestCase
 {
     /**

@@ -5,9 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Entity;
 use Runalyze\Bundle\CoreBundle\Entity\Conf;
 use Runalyze\Bundle\CoreBundle\Entity\ConfRepository;
 
-/**
- * @group requiresDoctrine
- */
+#[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 class ConfRepositoryTest extends AbstractRepositoryTestCase
 {
     protected ConfRepository $ConfRepository;

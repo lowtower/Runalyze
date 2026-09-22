@@ -10,10 +10,8 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
 use Symfony\Bundle\FrameworkBundle\Client;
 
-/**
- * @group requiresKernel
- * @group requiresClient
- */
+#[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
+#[\PHPUnit\Framework\Attributes\Group('requiresClient')]
 class RegistrationTest extends WebTestCase
 {
     protected Client $Client;

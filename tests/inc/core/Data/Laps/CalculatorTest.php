@@ -153,9 +153,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(280, $this->Laps->at(5)->duration()->seconds());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function shouldReturnAbsoluteDistances(): void
     {
         // given
@@ -168,9 +166,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($distanceArr, [1, 2.5, 3]);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function shouldTreatDistancesAsIntervalsWithPlus(): void
     {
         // given
@@ -183,9 +179,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($distanceArr, [1, 3.5, 6.5]);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function shouldReturnEmptyWhenNotSorted(): void
     {
         // given

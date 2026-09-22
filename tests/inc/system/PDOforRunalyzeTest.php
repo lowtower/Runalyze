@@ -1,9 +1,7 @@
 <?php
 
-/**
- * @group dependsOn
- * @group dependsOnOldDatabase
- */
+#[\PHPUnit\Framework\Attributes\Group('dependsOn')]
+#[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
 class PDOforRunalyzeTest extends \PHPUnit\Framework\TestCase
 {
     protected PDOforRunalyze $object;

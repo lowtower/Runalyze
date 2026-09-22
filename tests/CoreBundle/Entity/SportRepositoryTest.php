@@ -9,9 +9,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Profile\Sport\SportProfile;
 
-/**
- * @group requiresDoctrine
- */
+#[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 class SportRepositoryTest extends AbstractRepositoryTestCase
 {
     protected SportRepository $SportRepository;

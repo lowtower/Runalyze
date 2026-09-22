@@ -8,9 +8,7 @@ use Runalyze\Profile\Weather\Source\WeatherSourceProfile;
 use Runalyze\Profile\Weather\WeatherConditionProfile;
 use Runalyze\Service\WeatherForecast\Location;
 
-/**
- * @group requiresDoctrine
- */
+#[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 class WeathercacheRepositoryTest extends AbstractRepositoryTestCase
 {
     protected WeathercacheRepository $Repository;

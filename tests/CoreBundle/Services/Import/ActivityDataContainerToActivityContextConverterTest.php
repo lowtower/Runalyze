@@ -9,9 +9,7 @@ use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
-/**
- * @group requiresDoctrine
- */
+#[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 class ActivityDataContainerToActivityContextConverterTest extends AbstractFixturesAwareWebTestCase
 {
     protected ActivityDataContainerToActivityContextConverter $Converter;

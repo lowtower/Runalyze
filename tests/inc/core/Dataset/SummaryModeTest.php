@@ -4,9 +4,7 @@ namespace Runalyze\Dataset;
 
 use PDO;
 
-/**
- * @group requiresSqlite
- */
+#[\PHPUnit\Framework\Attributes\Group('requiresSqlite')]
 class SummaryModeTest extends \PHPUnit\Framework\TestCase
 {
     /**
@@ -26,7 +24,7 @@ class SummaryModeTest extends \PHPUnit\Framework\TestCase
         $this->PDO->exec('DROP TABLE `testtable`');
     }
 
-    protected function fetchResult($mode)
+    protected function fetchResult(int $mode)
     {
         return $this->PDO->query('SELECT ' . SummaryMode::query($mode, 'value') . ' FROM `testtable`')->fetchColumn();
     }

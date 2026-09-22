@@ -5,9 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Entity;
 use Runalyze\Bundle\CoreBundle\Entity\Route;
 use Runalyze\Bundle\CoreBundle\Entity\RouteRepository;
 
-/**
- * @group requiresDoctrine
- */
+#[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 class RouteRepositoryTest extends AbstractRepositoryTestCase
 {
     protected RouteRepository $RouteRepository;

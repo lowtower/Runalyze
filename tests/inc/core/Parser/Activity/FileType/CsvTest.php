@@ -6,9 +6,7 @@ use Runalyze\Parser\Activity\Common\Data\Round\Round;
 use Runalyze\Parser\Activity\FileType\Csv;
 use Runalyze\Util\LocalTime;
 
-/**
- * @group import
- */
+#[\PHPUnit\Framework\Attributes\Group('import')]
 class CsvTest extends AbstractActivityParserTestCase
 {
     protected Csv $Parser;
@@ -18,9 +16,7 @@ class CsvTest extends AbstractActivityParserTestCase
         $this->Parser = new Csv();
     }
 
-    /**
-     * @group importerEpson
-     */
+    #[\PHPUnit\Framework\Attributes\Group('importerEpson')]
     public function testStandardEpsonFile(): void
     {
         $this->parseFile($this->Parser, 'csv/Epson.csv');
@@ -60,9 +56,9 @@ class CsvTest extends AbstractActivityParserTestCase
     /**
      * Original file was cutted after 500 data points
      *
-     * @group importerWahoo
      * @see https://github.com/Runalyze/Runalyze/issues/1965
      */
+    #[\PHPUnit\Framework\Attributes\Group('importerWahoo')]
     public function testStandardWahooFile(): void
     {
         $this->parseFile($this->Parser, 'csv/Wahoo.csv');

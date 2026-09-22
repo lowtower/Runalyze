@@ -14,10 +14,8 @@ class RunalyzeConfigurationListTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(RunalyzeConfigurationList::class, $config);
     }
 
-    /**
-     * @group review-later
-     * TODO: This test needs a deeper look later. It passes, but check if $config->getVO2maxCorrectionFactor() should return float instead of an object.
-     */
+    #[\PHPUnit\Framework\Attributes\Group('review-later
+TODO: This test needs a deeper look later. It passes, but check if $config->getVO2maxCorrectionFactor() should return float instead of an object.')]
     public function testThatAllCategoriesAreAccessible(): void
     {
         $config = new RunalyzeConfigurationList();

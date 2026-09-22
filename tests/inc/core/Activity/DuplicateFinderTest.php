@@ -2,10 +2,8 @@
 
 namespace Runalyze\Activity;
 
-/**
- * @group dependsOn
- * @group dependsOnOldDatabase
- */
+#[\PHPUnit\Framework\Attributes\Group('dependsOn')]
+#[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
 class DuplicateFinderTest extends \PHPUnit\Framework\TestCase
 {
     /**

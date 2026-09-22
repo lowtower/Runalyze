@@ -4,10 +4,8 @@ namespace Runalyze\Activity;
 
 use DB;
 
-/**
- * @group dependsOn
- * @group dependsOnOldDatabase
- */
+#[\PHPUnit\Framework\Attributes\Group('dependsOn')]
+#[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
 class PersonalBestTest extends \PHPUnit\Framework\TestCase
 {
     protected \PDO $PDO;

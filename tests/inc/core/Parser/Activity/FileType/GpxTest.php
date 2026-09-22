@@ -6,9 +6,7 @@ use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 use Runalyze\Parser\Activity\FileType\Gpx;
 use Runalyze\Util\LocalTime;
 
-/**
- * @group import
- */
+#[\PHPUnit\Framework\Attributes\Group('import')]
 class GpxTest extends AbstractActivityParserTestCase
 {
     /**

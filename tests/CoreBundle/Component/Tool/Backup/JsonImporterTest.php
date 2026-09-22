@@ -8,10 +8,8 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\JsonImporter;
 use Runalyze\Configuration;
 use Runalyze\Tests\DatabaseTestCase;
 
-/**
- * @group dependsOn
- * @group dependsOnOldDatabase
- */
+#[\PHPUnit\Framework\Attributes\Group('dependsOn')]
+#[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
 class JsonImporterTest extends DatabaseTestCase
 {
     protected string $Base;

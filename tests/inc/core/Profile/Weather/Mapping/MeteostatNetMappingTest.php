@@ -7,9 +7,7 @@ use Runalyze\Profile\Weather\WeatherConditionProfile;
 
 class MeteostatNetMappingTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @dataProvider conditionProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('conditionProvider')]
     public function testMapping(int $meteostatCode, int $expected): void
     {
         $mapping = new MeteostatNetMapping();
@@ -20,7 +18,7 @@ class MeteostatNetMappingTest extends \PHPUnit\Framework\TestCase
     /**
      * @return array<int, int[]>
      */
-    public function conditionProvider(): array
+    public static function conditionProvider(): array
     {
         return [
             [1, WeatherConditionProfile::SUNNY],

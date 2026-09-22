@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class LoadAccountData extends AbstractFixture implements OrderedFixtureInterface
 {
     public function __construct(
-        private ?UserPasswordEncoderInterface $passwordEncoder = null
+        private readonly ?UserPasswordEncoderInterface $passwordEncoder = null
     ) {
     }
 
@@ -67,7 +67,7 @@ class LoadAccountData extends AbstractFixture implements OrderedFixtureInterface
         return $registration;
     }
 
-    public function getOrder()
+    public function getOrder(): int
     {
         return 1;
     }

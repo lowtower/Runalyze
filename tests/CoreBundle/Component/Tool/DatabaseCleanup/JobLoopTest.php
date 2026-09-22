@@ -6,10 +6,8 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\DatabaseCleanup\JobLoop;
 use Runalyze\Configuration;
 use Runalyze\Tests\DatabaseTestCase;
 
-/**
- * @group dependsOn
- * @group dependsOnOldDatabase
- */
+#[\PHPUnit\Framework\Attributes\Group('dependsOn')]
+#[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
 class JobLoopTest extends DatabaseTestCase
 {
     protected \PDO $PDO;

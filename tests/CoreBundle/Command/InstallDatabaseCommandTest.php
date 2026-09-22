@@ -6,10 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
-/**
- * @group requiresKernel
- * @group requiresDoctrine
- */
+#[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
+#[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 class InstallDatabaseCommandTest extends KernelTestCase
 {
     protected \Doctrine\DBAL\Connection $Connection;
@@ -25,10 +23,6 @@ class InstallDatabaseCommandTest extends KernelTestCase
         $this->Connection = static::$kernel->getContainer()->get('doctrine')->getConnection();
         $this->DatabasePrefix = static::$kernel->getContainer()->getParameter('database_prefix');
 
-        if ($this->Connection === null) {
-            $this->markTestSkipped('No doctrine connection available, maybe cache needs to be cleared.');
-        }
-
         $this->dropAllTables();
     }
 
@@ -41,15 +35,11 @@ class InstallDatabaseCommandTest extends KernelTestCase
 
     protected function dropAllTables()
     {
-        if ($this->Connection === null) {
-            return;
-        }
-
         $query = 'SHOW TABLES LIKE "' . $this->DatabasePrefix . '%"';
         $tables = $this->Connection->executeQuery($query)
             ->fetchFirstColumn();
 
-        if (empty($tables)) {
+        if ($tables === []) {
             return;
         }
 

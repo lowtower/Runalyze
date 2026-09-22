@@ -6,9 +6,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\User;
 use Runalyze\Bundle\CoreBundle\Entity\UserRepository;
 
-/**
- * @group requiresDoctrine
- */
+#[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 class UserRepositoryTest extends AbstractRepositoryTestCase
 {
     protected UserRepository $UserRepository;

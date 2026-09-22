@@ -154,7 +154,7 @@ class DataSeriesRemover
      */
     public function handleRequest($formData, Training $activity): void
     {
-        if (! is_array($formData)) {
+        if (! is_array($formData) || array_filter($formData, fn ($v): bool => ! is_string($v) && ! is_int($v))) {
             return;
         }
 

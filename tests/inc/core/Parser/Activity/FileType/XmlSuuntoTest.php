@@ -6,9 +6,7 @@ use Runalyze\Import\Exception\UnsupportedFileException;
 use Runalyze\Parser\Activity\FileType\XmlSuunto;
 use Runalyze\Util\LocalTime;
 
-/**
- * @group import
- */
+#[\PHPUnit\Framework\Attributes\Group('import')]
 class XmlSuuntoTest extends AbstractActivityParserTestCase
 {
     protected XmlSuunto $Parser;

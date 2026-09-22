@@ -7,9 +7,7 @@ use Runalyze\Parser\Activity\Converter\KmzConverter;
 use Runalyze\Parser\Activity\FileType\Kml;
 use Runalyze\Util\LocalTime;
 
-/**
- * @group import
- */
+#[\PHPUnit\Framework\Attributes\Group('import')]
 class KmlTest extends AbstractActivityParserTestCase
 {
     /**

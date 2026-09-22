@@ -29,9 +29,7 @@ class NotificationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($created->format('H:i:s'), $expiration->format('H:i:s'));
     }
 
-    /**
-     * @dataProvider dstTransitionProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dstTransitionProvider')]
     public function testSetLifetimeAcrossDstTransition(string $createdAtString): void
     {
         $timezone = new \DateTimeZone('Europe/Berlin');
@@ -48,6 +46,9 @@ class NotificationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($created->format('H:i:s'), $expiration->format('H:i:s'));
     }
 
+    /**
+     * @return array<string, string[]>
+     */
     public static function dstTransitionProvider(): array
     {
         return [

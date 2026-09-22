@@ -12,9 +12,9 @@ class ActivityTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1805
-     * @group review-later
-     * TODO: This test needs a deeper look later. It currently fails because the $activity might be null.
      */
+    #[\PHPUnit\Framework\Attributes\Group('review-later
+TODO: This test needs a deeper look later. It currently fails because the $activity might be null.')]
     public function testThatMapWorksWithPausesButWithoutTimeArray(): void
     {
         $Context = FakeContext::outdoorContext();

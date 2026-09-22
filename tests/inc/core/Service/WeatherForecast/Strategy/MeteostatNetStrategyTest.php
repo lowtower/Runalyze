@@ -25,13 +25,10 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
         $this->Strategy = new MeteostatNet('test-api-key', null, new \GuzzleHttp\Client(), $logger);
 
         $this->GetUrlForMethod = new \ReflectionMethod($this->Strategy, 'getUrlFor');
-        $this->GetUrlForMethod->setAccessible(true);
 
         $this->GetDataElementOfTimeMethod = new \ReflectionMethod($this->Strategy, 'getDataElementOfTime');
-        $this->GetDataElementOfTimeMethod->setAccessible(true);
 
         $this->GetWeatherDataFromResultMethod = new \ReflectionMethod($this->Strategy, 'getWeatherDataFromResult');
-        $this->GetWeatherDataFromResultMethod->setAccessible(true);
     }
 
     public function testUrlCreation(): void

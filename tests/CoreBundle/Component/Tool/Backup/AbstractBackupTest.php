@@ -6,10 +6,8 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\Backup;
 
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\AbstractBackup;
 
-/**
- * @group dependsOn
- * @group dependsOnOldDatabase
- */
+#[\PHPUnit\Framework\Attributes\Group('dependsOn')]
+#[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
 class AbstractBackupTest extends \PHPUnit\Framework\TestCase
 {
     /**

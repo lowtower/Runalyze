@@ -39,22 +39,21 @@ class UtilityExtensionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('1.00 YB', $this->Utility->filesizeAsString(1.00 * 1024 ** 8));
     }
 
-    /**
-     * @dataProvider provideValuesAroundIntMax
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideValuesAroundIntMax')]
     public function testFilesizeAsStringAroundIntMaxBoundary(float $bytes, string $expected): void
     {
         $this->assertEquals($expected, $this->Utility->filesizeAsString($bytes));
     }
 
-    /**
-     * @dataProvider provideZeroOrNearZeroValues
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideZeroOrNearZeroValues')]
     public function testFilesizeAsStringForZeroValues(float $bytes): void
     {
         $this->assertEquals('0 B', $this->Utility->filesizeAsString($bytes));
     }
 
+    /**
+     * @return array<string, float[]>
+     */
     public static function provideZeroOrNearZeroValues(): array
     {
         return [
@@ -64,6 +63,9 @@ class UtilityExtensionTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @return array<string, float[]|string[]>
+     */
     public static function provideValuesAroundIntMax(): array
     {
         return [

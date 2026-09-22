@@ -6,10 +6,8 @@ namespace Runalyze\Calculation\Activity;
 
 use Runalyze\Model;
 
-/**
- * @group dependsOn
- * @group dependsOnOldFactory
- */
+#[\PHPUnit\Framework\Attributes\Group('dependsOn')]
+#[\PHPUnit\Framework\Attributes\Group('dependsOnOldFactory')]
 class CalculatorTest extends \PHPUnit\Framework\TestCase
 {
     public function testGeneralFunctionality(): void

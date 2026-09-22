@@ -6,10 +6,8 @@ namespace Runalyze\Model;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @group dependsOn
- * @group dependsOnOldDatabase
- */
+#[\PHPUnit\Framework\Attributes\Group('dependsOn')]
+#[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
 class FactoryTest extends TestCase
 {
     protected Factory $object;

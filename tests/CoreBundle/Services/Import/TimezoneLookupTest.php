@@ -5,11 +5,9 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Services\Import;
 use Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookup;
 use Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookupException;
 
-/**
- * @group dependsOn
- * @group dependsOnTimezoneDatabase
- * @group requiresSqlite
- */
+#[\PHPUnit\Framework\Attributes\Group('dependsOn')]
+#[\PHPUnit\Framework\Attributes\Group('dependsOnTimezoneDatabase')]
+#[\PHPUnit\Framework\Attributes\Group('requiresSqlite')]
 class TimezoneLookupTest extends \PHPUnit\Framework\TestCase
 {
     /**

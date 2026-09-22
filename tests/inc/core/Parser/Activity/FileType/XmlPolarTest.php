@@ -5,9 +5,7 @@ namespace Runalyze\Tests\Parser\Activity\FileType;
 use Runalyze\Parser\Activity\FileType\XmlPolar;
 use Runalyze\Util\LocalTime;
 
-/**
- * @group import
- */
+#[\PHPUnit\Framework\Attributes\Group('import')]
 class XmlPolarTest extends AbstractActivityParserTestCase
 {
     /**

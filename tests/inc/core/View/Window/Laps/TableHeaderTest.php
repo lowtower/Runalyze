@@ -48,7 +48,6 @@ class TableHeaderTest extends TestCase
     private function renderHeader(Table $table): string
     {
         $method = new \ReflectionMethod(Table::class, 'tableHeader');
-        $method->setAccessible(true);
 
         return $method->invoke($table);
     }

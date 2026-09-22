@@ -7,10 +7,8 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Entity;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
 
-/**
- * @group requiresKernel
- * @group requiresClient
- */
+#[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
+#[\PHPUnit\Framework\Attributes\Group('requiresClient')]
 class EquipmentControllerTest extends AbstractFixturesAwareWebTestCase
 {
     protected Account $Account;

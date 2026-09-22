@@ -4,9 +4,7 @@ namespace Runalyze\Tests\Parser\Activity\FileType;
 
 use Runalyze\Parser\Activity\FileType\CsvEpson;
 
-/**
- * @group import
- */
+#[\PHPUnit\Framework\Attributes\Group('import')]
 class CsvEpsonTest extends AbstractActivityParserTestCase
 {
     /**
@@ -20,9 +18,9 @@ class CsvEpsonTest extends AbstractActivityParserTestCase
     }
 
     /**
-     * @group importerEpson
      * @see https://github.com/Runalyze/Runalyze/issues/1575
      */
+    #[\PHPUnit\Framework\Attributes\Group('importerEpson')]
     public function testEpsonFileWithDifferentArraySizes(): void
     {
         $this->parseFile($this->Parser, 'csv/Epson-different-array-sizes.csv');

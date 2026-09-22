@@ -5,9 +5,7 @@ namespace Runalyze\Tests\Parser\Activity\FileType;
 use Runalyze\Parser\Activity\FileType\Logbook;
 use Runalyze\Util\LocalTime;
 
-/**
- * @group import
- */
+#[\PHPUnit\Framework\Attributes\Group('import')]
 class LogbookTest extends AbstractActivityParserTestCase
 {
     /**

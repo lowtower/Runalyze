@@ -8,9 +8,7 @@ use Runalyze\Parser\Activity\Converter\FitConverter;
 use Runalyze\Parser\Activity\FileType\Fit;
 use Runalyze\Util\LocalTime;
 
-/**
- * @group import
- */
+#[\PHPUnit\Framework\Attributes\Group('import')]
 class FitTest extends AbstractActivityParserTestCase
 {
     protected Fit $Parser;

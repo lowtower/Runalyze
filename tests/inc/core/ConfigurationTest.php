@@ -6,10 +6,8 @@ namespace Runalyze;
 
 use DB;
 
-/**
- * @group dependsOn
- * @group dependsOnOldDatabase
- */
+#[\PHPUnit\Framework\Attributes\Group('dependsOn')]
+#[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
 class ConfigurationTest extends \PHPUnit\Framework\TestCase
 {
     /**
