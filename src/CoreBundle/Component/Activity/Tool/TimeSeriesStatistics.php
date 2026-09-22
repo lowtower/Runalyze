@@ -2,25 +2,17 @@
 
 namespace Runalyze\Bundle\CoreBundle\Component\Activity\Tool;
 
+use Runalyze\Mathematics\Distribution\EmpiricalDistribution;
 use Runalyze\Mathematics\Distribution\MultipleTimeSeries;
 use Runalyze\Model\Trackdata;
 
 class TimeSeriesStatistics
 {
-    /**
-     * @var Trackdata\Entity
-     */
-    protected $Trackdata;
+    protected Trackdata\Entity $Trackdata;
 
-    /**
-     * @var array
-     */
-    protected $AvailableKeys = [];
+    protected array $AvailableKeys = [];
 
-    /**
-     * @var MultipleTimeSeries|null
-     */
-    protected $MultipleTimeSeries;
+    protected ?MultipleTimeSeries $MultipleTimeSeries = null;
 
     /**
      * @throws \InvalidArgumentException
@@ -123,9 +115,9 @@ class TimeSeriesStatistics
     }
 
     /**
-     * @return \Runalyze\Mathematics\Distribution\EmpiricalDistribution
+     * @param mixed $key enum from trackdata model class
      */
-    public function getStatisticsFor($key)
+    public function getStatisticsFor($key): EmpiricalDistribution
     {
         return $this->MultipleTimeSeries->getDistribution($key);
     }
@@ -135,10 +127,7 @@ class TimeSeriesStatistics
         return $this->hasStatisticsFor(Trackdata\Entity::PACE);
     }
 
-    /**
-     * @return \Runalyze\Mathematics\Distribution\EmpiricalDistribution
-     */
-    public function getStatisticsForPace()
+    public function getStatisticsForPace(): EmpiricalDistribution
     {
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::PACE);
     }
@@ -148,10 +137,7 @@ class TimeSeriesStatistics
         return $this->hasStatisticsFor(Trackdata\Entity::HEARTRATE);
     }
 
-    /**
-     * @return \Runalyze\Mathematics\Distribution\EmpiricalDistribution
-     */
-    public function getStatisticsForHeartRate()
+    public function getStatisticsForHeartRate(): EmpiricalDistribution
     {
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::HEARTRATE);
     }
@@ -161,10 +147,7 @@ class TimeSeriesStatistics
         return $this->hasStatisticsFor(Trackdata\Entity::CADENCE);
     }
 
-    /**
-     * @return \Runalyze\Mathematics\Distribution\EmpiricalDistribution
-     */
-    public function getStatisticsForCadence()
+    public function getStatisticsForCadence(): EmpiricalDistribution
     {
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::CADENCE);
     }
@@ -174,10 +157,7 @@ class TimeSeriesStatistics
         return $this->hasStatisticsFor(Trackdata\Entity::STRIDE_LENGTH);
     }
 
-    /**
-     * @return \Runalyze\Mathematics\Distribution\EmpiricalDistribution
-     */
-    public function getStatisticsForStrideLength()
+    public function getStatisticsForStrideLength(): EmpiricalDistribution
     {
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::STRIDE_LENGTH);
     }
@@ -187,10 +167,7 @@ class TimeSeriesStatistics
         return $this->hasStatisticsFor(Trackdata\Entity::POWER);
     }
 
-    /**
-     * @return \Runalyze\Mathematics\Distribution\EmpiricalDistribution
-     */
-    public function getStatisticsForPower()
+    public function getStatisticsForPower(): EmpiricalDistribution
     {
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::POWER);
     }
@@ -200,10 +177,7 @@ class TimeSeriesStatistics
         return $this->hasStatisticsFor(Trackdata\Entity::GROUNDCONTACT);
     }
 
-    /**
-     * @return \Runalyze\Mathematics\Distribution\EmpiricalDistribution
-     */
-    public function getStatisticsForGroundcontact()
+    public function getStatisticsForGroundcontact(): EmpiricalDistribution
     {
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::GROUNDCONTACT);
     }
@@ -213,10 +187,7 @@ class TimeSeriesStatistics
         return $this->hasStatisticsFor(Trackdata\Entity::GROUNDCONTACT_BALANCE);
     }
 
-    /**
-     * @return \Runalyze\Mathematics\Distribution\EmpiricalDistribution
-     */
-    public function getStatisticsForGroundcontactBalance()
+    public function getStatisticsForGroundcontactBalance(): EmpiricalDistribution
     {
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::GROUNDCONTACT_BALANCE);
     }
@@ -226,10 +197,7 @@ class TimeSeriesStatistics
         return $this->hasStatisticsFor(Trackdata\Entity::VERTICAL_OSCILLATION);
     }
 
-    /**
-     * @return \Runalyze\Mathematics\Distribution\EmpiricalDistribution
-     */
-    public function getStatisticsForVerticalOscillation()
+    public function getStatisticsForVerticalOscillation(): EmpiricalDistribution
     {
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::VERTICAL_OSCILLATION);
     }
@@ -239,10 +207,7 @@ class TimeSeriesStatistics
         return $this->hasStatisticsFor(Trackdata\Entity::VERTICAL_RATIO);
     }
 
-    /**
-     * @return \Runalyze\Mathematics\Distribution\EmpiricalDistribution
-     */
-    public function getStatisticsForVerticalRatio()
+    public function getStatisticsForVerticalRatio(): EmpiricalDistribution
     {
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::VERTICAL_RATIO);
     }
@@ -252,10 +217,7 @@ class TimeSeriesStatistics
         return $this->hasStatisticsFor(Trackdata\Entity::SMO2_0);
     }
 
-    /**
-     * @return \Runalyze\Mathematics\Distribution\EmpiricalDistribution
-     */
-    public function getStatisticsForSaturatedHemoglobin()
+    public function getStatisticsForSaturatedHemoglobin(): EmpiricalDistribution
     {
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::SMO2_0);
     }
@@ -265,10 +227,7 @@ class TimeSeriesStatistics
         return $this->hasStatisticsFor(Trackdata\Entity::SMO2_1);
     }
 
-    /**
-     * @return \Runalyze\Mathematics\Distribution\EmpiricalDistribution
-     */
-    public function getStatisticsForSaturatedHemoglobin2()
+    public function getStatisticsForSaturatedHemoglobin2(): EmpiricalDistribution
     {
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::SMO2_1);
     }
@@ -278,10 +237,7 @@ class TimeSeriesStatistics
         return $this->hasStatisticsFor(Trackdata\Entity::THB_0);
     }
 
-    /**
-     * @return \Runalyze\Mathematics\Distribution\EmpiricalDistribution
-     */
-    public function getStatisticsForTotalHemoglobin()
+    public function getStatisticsForTotalHemoglobin(): EmpiricalDistribution
     {
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::THB_0);
     }
@@ -291,10 +247,7 @@ class TimeSeriesStatistics
         return $this->hasStatisticsFor(Trackdata\Entity::THB_1);
     }
 
-    /**
-     * @return \Runalyze\Mathematics\Distribution\EmpiricalDistribution
-     */
-    public function getStatisticsForTotalHemoglobin2()
+    public function getStatisticsForTotalHemoglobin2(): EmpiricalDistribution
     {
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::THB_1);
     }
@@ -304,10 +257,7 @@ class TimeSeriesStatistics
         return $this->hasStatisticsFor(Trackdata\Entity::IMPACT_GS_LEFT);
     }
 
-    /**
-     * @return \Runalyze\Mathematics\Distribution\EmpiricalDistribution
-     */
-    public function getStatisticsForImpactGsLeft()
+    public function getStatisticsForImpactGsLeft(): EmpiricalDistribution
     {
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::IMPACT_GS_LEFT);
     }
@@ -317,10 +267,7 @@ class TimeSeriesStatistics
         return $this->hasStatisticsFor(Trackdata\Entity::IMPACT_GS_RIGHT);
     }
 
-    /**
-     * @return \Runalyze\Mathematics\Distribution\EmpiricalDistribution
-     */
-    public function getStatisticsForImpactGsRight()
+    public function getStatisticsForImpactGsRight(): EmpiricalDistribution
     {
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::IMPACT_GS_RIGHT);
     }
@@ -330,10 +277,7 @@ class TimeSeriesStatistics
         return $this->hasStatisticsFor(Trackdata\Entity::BRAKING_GS_LEFT);
     }
 
-    /**
-     * @return \Runalyze\Mathematics\Distribution\EmpiricalDistribution
-     */
-    public function getStatisticsForBrakingGsLeft()
+    public function getStatisticsForBrakingGsLeft(): EmpiricalDistribution
     {
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::BRAKING_GS_LEFT);
     }
@@ -343,10 +287,7 @@ class TimeSeriesStatistics
         return $this->hasStatisticsFor(Trackdata\Entity::BRAKING_GS_RIGHT);
     }
 
-    /**
-     * @return \Runalyze\Mathematics\Distribution\EmpiricalDistribution
-     */
-    public function getStatisticsForBrakingGsRight()
+    public function getStatisticsForBrakingGsRight(): EmpiricalDistribution
     {
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::BRAKING_GS_RIGHT);
     }
@@ -356,12 +297,9 @@ class TimeSeriesStatistics
         return $this->hasStatisticsFor(Trackdata\Entity::FOOTSTRIKE_TYPE_LEFT);
     }
 
-    /**
-     * @return \Runalyze\Mathematics\Distribution\EmpiricalDistribution
-     */
-    public function getStatisticsForFootstrikeTypeLeft()
+    public function getStatisticsForFootstrikeTypeLeft(): EmpiricalDistribution
     {
-        return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::FOOTSTRIKE_TYPE_RIGHT);
+        return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::FOOTSTRIKE_TYPE_LEFT);
     }
 
     public function hasStatisticsForFootstrikeTypeRight(): bool
@@ -369,12 +307,9 @@ class TimeSeriesStatistics
         return $this->hasStatisticsFor(Trackdata\Entity::FOOTSTRIKE_TYPE_RIGHT);
     }
 
-    /**
-     * @return \Runalyze\Mathematics\Distribution\EmpiricalDistribution
-     */
-    public function getStatisticsForFootstrikeTypeRight()
+    public function getStatisticsForFootstrikeTypeRight(): EmpiricalDistribution
     {
-        return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::FOOTSTRIKE_TYPE_LEFT);
+        return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::FOOTSTRIKE_TYPE_RIGHT);
     }
 
     public function hasStatisticsForPronationExcursionLeft(): bool
@@ -382,10 +317,7 @@ class TimeSeriesStatistics
         return $this->hasStatisticsFor(Trackdata\Entity::PRONATION_EXCURSION_LEFT);
     }
 
-    /**
-     * @return \Runalyze\Mathematics\Distribution\EmpiricalDistribution
-     */
-    public function getStatisticsForPronationExcursionLeft()
+    public function getStatisticsForPronationExcursionLeft(): EmpiricalDistribution
     {
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::PRONATION_EXCURSION_LEFT);
     }
@@ -395,10 +327,7 @@ class TimeSeriesStatistics
         return $this->hasStatisticsFor(Trackdata\Entity::PRONATION_EXCURSION_RIGHT);
     }
 
-    /**
-     * @return \Runalyze\Mathematics\Distribution\EmpiricalDistribution
-     */
-    public function getStatisticsForPronationExcursionRight()
+    public function getStatisticsForPronationExcursionRight(): EmpiricalDistribution
     {
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::PRONATION_EXCURSION_RIGHT);
     }

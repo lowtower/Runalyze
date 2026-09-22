@@ -1,20 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Model\Trackdata\Climb;
 
 class ClimbCollection implements \Countable, \ArrayAccess
 {
     /**
-     * @var Climb[]
+     * @param Climb[] $Elements
      */
-    protected $Elements = [];
-
-    /**
-     * @param Climb[] $elements
-     */
-    public function __construct(array $elements = [])
-    {
-        $this->Elements = $elements;
+    public function __construct(
+        protected array $Elements = []
+    ) {
     }
 
     public function add(Climb $climb): void

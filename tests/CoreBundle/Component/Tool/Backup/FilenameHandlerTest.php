@@ -59,4 +59,31 @@ class FilenameHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse(FilenameHandler::validateImportFileExtension('foobar.' . FilenameHandler::SQL_FORMAT));
         $this->assertFalse(FilenameHandler::validateImportFileExtension('foobar.txt'));
     }
+
+    public function testGeneratePublicFilenameAndTransformBackAreNotTrueInverses(): void
+    {
+        $handler = new FilenameHandler(42);
+        $internalFilename = $handler->generateInternalFilename(FilenameHandler::SQL_FORMAT);
+
+        $publicFilename = $handler->generatePublicFilename($internalFilename);
+        $reconstructed = $handler->transformPublicToInternalFilename($publicFilename);
+
+        $this->assertSame(
+            $internalFilename,
+            $reconstructed,
+            'generatePublicFilename() followed by transformPublicToInternalFilename() ' .
+            'must reconstruct the EXACT original internal filename, since ' .
+            'BackupToolController relies on this for an exact Filesystem::exists() ' .
+            'check.'
+        );
+    }
+
+    public function testGeneratePublicFilenameDoesNotRetainALeadingDash(): void
+    {
+        $handler = new FilenameHandler(42);
+        $internalFilename = $handler->generateInternalFilename(FilenameHandler::SQL_FORMAT);
+        $publicFilename = $handler->generatePublicFilename($internalFilename);
+
+        $this->assertStringStartsNotWith('-', $publicFilename);
+    }
 }

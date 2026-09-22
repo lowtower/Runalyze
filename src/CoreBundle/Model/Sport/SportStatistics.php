@@ -36,7 +36,7 @@ class SportStatistics
     /**
      * @return SportStatistic[]
      */
-    public function getStatistics()
+    public function getStatistics(): array
     {
         return $this->Sports;
     }
@@ -46,10 +46,7 @@ class SportStatistics
         return isset($this->Sports[(string) $sport->getId()]);
     }
 
-    /**
-     * @return SportStatistic
-     */
-    public function getStatisticFor(Sport $sport)
+    public function getStatisticFor(Sport $sport): SportStatistic
     {
         if ($this->hasStatisticFor($sport)) {
             return $this->Sports[(string) $sport->getId()];

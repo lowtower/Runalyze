@@ -86,7 +86,7 @@ class FilenameHandler
 
     public function generatePublicFilename(string $internalFilename): string
     {
-        return substr($internalFilename, strlen($this->AccountId . '-' . self::FILENAME_PREFIX));
+        return substr($internalFilename, strlen($this->AccountId . '-' . self::FILENAME_PREFIX) + 1);
     }
 
     public function validatePublicFilename(string $publicFilename): bool

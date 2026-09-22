@@ -9,25 +9,13 @@ class BestSubSegmentsStatistics
 {
     protected \Runalyze\Model\Trackdata\Entity $Trackdata;
 
-    /**
-     * @var SubSegmentMaximization|null
-     */
-    protected $DistanceSegments;
+    protected ?SubSegmentMaximization $DistanceSegments = null;
 
-    /**
-     * @var SubSegmentMaximization|null
-     */
-    protected $TimeSegments;
+    protected ?SubSegmentMaximization $TimeSegments = null;
 
-    /**
-     * @var array
-     */
-    protected $Distances = [];
+    protected array $Distances = [];
 
-    /**
-     * @var array
-     */
-    protected $Times = [];
+    protected array $Times = [];
 
     /**
      * @throws \InvalidArgumentException
@@ -71,34 +59,22 @@ class BestSubSegmentsStatistics
         $this->TimeSegments->maximize();
     }
 
-    /**
-     * @return null|SubSegmentMaximization
-     */
-    public function getDistanceSegments()
+    public function getDistanceSegments(): ?SubSegmentMaximization
     {
         return $this->DistanceSegments;
     }
 
-    /**
-     * @return null|SubSegmentMaximization
-     */
-    public function getTimeSegments()
+    public function getTimeSegments(): ?SubSegmentMaximization
     {
         return $this->TimeSegments;
     }
 
-    /**
-     * @return array
-     */
-    public function getDistances()
+    public function getDistances(): array
     {
         return $this->Distances;
     }
 
-    /**
-     * @return array
-     */
-    public function getTimes()
+    public function getTimes(): array
     {
         return $this->Times;
     }

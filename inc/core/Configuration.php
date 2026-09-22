@@ -14,10 +14,7 @@ class Configuration
 
     private static ?array $ValuesFromDB = null;
 
-    /**
-     * @var int|null
-     */
-    private static $AccountID;
+    private static ?int $AccountID = null;
 
     /**
      * @param mixed $accountid

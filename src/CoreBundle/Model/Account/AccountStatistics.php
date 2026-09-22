@@ -6,65 +6,56 @@ namespace Runalyze\Bundle\CoreBundle\Model\Account;
 
 class AccountStatistics
 {
-    /**
-     * @var null|int
-     */
-    protected $NumberOfActivities;
+    protected ?int $NumberOfActivities = null;
 
     /**
-     * @var null|float [s]
+     * @var ?float [s]
      */
-    protected $TotalDuration;
+    protected ?float $TotalDuration = null;
 
     /**
-     * @var null|float [km]
+     * @var ?float [km]
      */
-    protected $TotalDistance;
+    protected ?float $TotalDistance = null;
 
-    /**
-     * @param null|int $numberOfActivities
-     */
-    public function setNumberOfActivities($numberOfActivities): void
+    public function setNumberOfActivities(?int $numberOfActivities): void
     {
         $this->NumberOfActivities = $numberOfActivities;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getNumberOfActivities()
+    public function getNumberOfActivities(): ?int
     {
         return $this->NumberOfActivities;
     }
 
     /**
-     * @param float|null $totalDuration [s]
+     * @param ?float $totalDuration [s]
      */
-    public function setTotalDuration($totalDuration): void
+    public function setTotalDuration(?float $totalDuration): void
     {
         $this->TotalDuration = $totalDuration;
     }
 
     /**
-     * @return float|null [s]
+     * @return ?float [s]
      */
-    public function getTotalDuration()
+    public function getTotalDuration(): ?float
     {
         return $this->TotalDuration;
     }
 
     /**
-     * @param float|null $totalDistance [km]
+     * @param ?float $totalDistance [km]
      */
-    public function setTotalDistance($totalDistance): void
+    public function setTotalDistance(?float $totalDistance): void
     {
         $this->TotalDistance = $totalDistance;
     }
 
     /**
-     * @return float|null [km]
+     * @return ?float [km]
      */
-    public function getTotalDistance()
+    public function getTotalDistance(): ?float
     {
         return $this->TotalDistance;
     }

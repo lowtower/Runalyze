@@ -6,20 +6,17 @@ namespace Runalyze\Bundle\CoreBundle\Model\Equipment;
 
 class EquipmentStatistic
 {
-    /**
-     * @var null|int
-     */
-    protected $NumberOfActivities;
+    protected ?int $NumberOfActivities = null;
 
     /**
-     * @var null|float [s/km]
+     * @var ?float [s/km]
      */
-    protected $MaximalPace;
+    protected ?float $MaximalPace = null;
 
     /**
-     * @var null|float [km]
+     * @var ?float [km]
      */
-    protected $MaximalDistance;
+    protected ?float $MaximalDistance = null;
 
     public function __construct(
         protected \Runalyze\Bundle\CoreBundle\Entity\Equipment $Equipment
@@ -31,50 +28,44 @@ class EquipmentStatistic
         return $this->Equipment;
     }
 
-    /**
-     * @param null|int $numberOfActivities
-     */
-    public function setNumberOfActivities($numberOfActivities): void
+    public function setNumberOfActivities(?int $numberOfActivities): void
     {
         $this->NumberOfActivities = $numberOfActivities;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getNumberOfActivities()
+    public function getNumberOfActivities(): ?int
     {
         return $this->NumberOfActivities;
     }
 
     /**
-     * @param float|null $secondsPerKilometer [s/km]
+     * @param ?float $secondsPerKilometer [s/km]
      */
-    public function setMaximalPace($secondsPerKilometer): void
+    public function setMaximalPace(?float $secondsPerKilometer): void
     {
         $this->MaximalPace = $secondsPerKilometer;
     }
 
     /**
-     * @return float|null [s/km]
+     * @return ?float [s/km]
      */
-    public function getMaximalPace()
+    public function getMaximalPace(): ?float
     {
         return $this->MaximalPace;
     }
 
     /**
-     * @param float|null $totalDistance [km]
+     * @param ?float $totalDistance [km]
      */
-    public function setMaximalDistance($totalDistance): void
+    public function setMaximalDistance(?float $totalDistance): void
     {
         $this->MaximalDistance = $totalDistance;
     }
 
     /**
-     * @return float|null [km]
+     * @return ?float [km]
      */
-    public function getMaximalDistance()
+    public function getMaximalDistance(): ?float
     {
         return $this->MaximalDistance;
     }

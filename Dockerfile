@@ -88,7 +88,6 @@ RUN install-php-extensions \
 # Dev only
 RUN if [ "$APP_ENV" = "dev" ]; then \
       install-php-extensions xdebug; \
-      docker-php-ext-enable xdebug; \
       echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
       echo "xdebug.mode=develop,coverage"  >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
       echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
