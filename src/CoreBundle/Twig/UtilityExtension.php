@@ -5,11 +5,9 @@ namespace Runalyze\Bundle\CoreBundle\Twig;
 class UtilityExtension extends \Twig\Extension\AbstractExtension
 {
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
-    public function getName()
+    public function getName(): string
     {
         return 'runalyze.utility_extension';
     }
@@ -19,22 +17,16 @@ class UtilityExtension extends \Twig\Extension\AbstractExtension
      *
      * @codeCoverageIgnore
      */
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
-            new \Twig\TwigFilter('duration', [$this, 'duration']),
-            new \Twig\TwigFilter('filesize', [$this, 'filesizeAsString']),
-            new \Twig\TwigFilter('md5', [$this, 'md5']),
+            new \Twig\TwigFilter('duration', $this->duration(...)),
+            new \Twig\TwigFilter('filesize', $this->filesizeAsString(...)),
+            new \Twig\TwigFilter('md5', $this->md5(...)),
         ];
     }
 
-    /**
-     * @param float $seconds
-     * @param int $decimals
-     * @param string $decimalPoint
-     * @return string
-     */
-    public function duration($seconds, $decimals = 0, $decimalPoint = ',')
+    public function duration(float $seconds, int $decimals = 0, string $decimalPoint = ','): string
     {
         $fraction = (round($seconds) !== round($seconds, $decimals) && $decimals > 0) ? $decimalPoint . 'u' : '';
 
@@ -53,12 +45,7 @@ class UtilityExtension extends \Twig\Extension\AbstractExtension
         return ltrim($this->formatDuration($seconds, 'i:s' . $fraction, $decimals), '0');
     }
 
-    /**
-     * @param float $seconds
-     * @param int $decimals
-     * @return string
-     */
-    private function formatDuration($seconds, string $format, $decimals = 0)
+    private function formatDuration(float $seconds, string $format, int $decimals = 0): string
     {
         if (str_ends_with($format, 'u')) {
             $time = \DateTime::createFromFormat('!U', (string) (int) floor($seconds), new \DateTimeZone('UTC'));
@@ -72,18 +59,18 @@ class UtilityExtension extends \Twig\Extension\AbstractExtension
         return $time->format($format);
     }
 
-    /**
-     * @param int $bytes
-     */
-    public function filesizeAsString($bytes): string
+    public function filesizeAsString(float $bytes): string
     {
-        if ($bytes == 0) {
+        if ($bytes < 1.0) {
             return '0 B';
         }
 
         $FS = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
-        return number_format($bytes / 1024 ** (($I = floor(log($bytes, 1024)))), ($I >= 1) ? 2 : 0, '.', '') . ' ' . $FS[(string) $I];
+        $exponent = (int) floor(log($bytes, 1024));
+        $exponent = min($exponent, count($FS) - 1);
+
+        return number_format($bytes / 1024 ** $exponent, $exponent >= 1 ? 2 : 0, '.', '') . ' ' . $FS[$exponent];
     }
 
     public function md5(string $value): string

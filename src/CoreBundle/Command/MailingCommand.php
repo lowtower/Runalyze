@@ -22,9 +22,9 @@ class MailingCommand extends Command
     protected string $customMailDirectory = '/mail/custom/';
 
     public function __construct(
-        private ParameterBagInterface $parameterBag,
-        private AccountMailer $mailer,
-        private ManagerRegistry $doctrine
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly AccountMailer $mailer,
+        private readonly ManagerRegistry $doctrine
     ) {
         parent::__construct();
     }

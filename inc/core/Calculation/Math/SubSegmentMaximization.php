@@ -26,42 +26,21 @@ class SubSegmentMaximization
 
     protected int $NumSegmentLengths;
 
-    /**
-     * @var array
-     */
-    protected $StartIndex;
+    protected array $StartIndex;
 
-    /**
-     * @var array
-     */
-    protected $CurrentSum;
+    protected array $CurrentSum;
 
-    /**
-     * @var array
-     */
-    protected $CurrentLength;
+    protected array $CurrentLength;
 
-    /**
-     * @var array
-     */
-    protected $DataMax;
+    protected array $DataMax;
 
-    /**
-     * @var array
-     */
-    protected $DataMaxFromIndex;
+    protected array $DataMaxFromIndex;
 
-    /**
-     * @var array
-     */
-    protected $DataMaxToIndex;
+    protected array $DataMaxToIndex;
 
-    /**
-     * @var bool
-     */
-    protected $InterpolateOverlength = true;
+    protected bool $InterpolateOverlength = true;
 
-    protected $MinimizationFactor = 1;
+    protected int $MinimizationFactor = 1;
 
     /**
      * Construct sub-segment maximization
@@ -96,10 +75,8 @@ class SubSegmentMaximization
      * if a segment of length 15 and value 600 is found only.
      *
      * This is enabled by default.
-     *
-     * @param bool $flag
      */
-    public function disableInterpolationForOverlength($flag = false): void
+    public function disableInterpolationForOverlength(bool $flag = false): void
     {
         $this->InterpolateOverlength = $flag;
     }
@@ -125,7 +102,7 @@ class SubSegmentMaximization
 
         for ($t = 0; $t < $this->NumSegmentLengths; ++$t) {
             $this->StartIndex[$t] = 0;
-            $this->DataMax[$t] = (-$this->MinimizationFactor) * PHP_INT_MAX;
+            $this->DataMax[$t] = (-1 * $this->MinimizationFactor) * PHP_INT_MAX;
             $this->CurrentSum[$t] = 0;
             $this->CurrentLength[$t] = 0;
             $this->DataMaxFromIndex[$t] = false;
@@ -173,28 +150,20 @@ class SubSegmentMaximization
         $this->MinimizationFactor = 1;
     }
 
-    /**
-     * @param int $t
-     */
-    public function hasMaximumForLengthIndex($t): bool
+    public function hasMaximumForLengthIndex(int $t): bool
     {
         return abs($this->DataMax[$t]) !== PHP_INT_MAX;
     }
 
-    /**
-     * @param int $t
-     * @return float
-     */
-    public function getMaximumForLengthIndex($t)
+    public function getMaximumForLengthIndex(int $t): float
     {
         return $this->DataMax[$t];
     }
 
     /**
-     * @param int $t
      * @return float[] [from, to]
      */
-    public function getIndizesOfMaximumForLengthIndex($t): array
+    public function getIndizesOfMaximumForLengthIndex(int $t): array
     {
         return [$this->DataMaxFromIndex[$t], $this->DataMaxToIndex[$t]];
     }

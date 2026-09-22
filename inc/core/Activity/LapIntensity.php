@@ -62,7 +62,7 @@ class LapIntensity extends AbstractEnum
     private static ?LapIntensity $INST_REST = null;
 
     public function __construct(
-        private string $Value
+        private readonly string $Value
     ) {
     }
 

@@ -16,7 +16,7 @@ class PluginConfigurationValueArray extends PluginConfigurationValue
      */
     public function setValueFromString(string $Value): void
     {
-        $this->Value = array_map('trim', explode(',', $Value));
+        $this->Value = array_map(trim(...), explode(',', $Value));
     }
 
     /**

@@ -10,10 +10,7 @@ use DB;
  */
 class PersonalBestTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \PDO
-     */
-    protected $PDO;
+    protected \PDO $PDO;
 
     /**
      * @var int
@@ -32,7 +29,7 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase
         $this->PDO->exec('DELETE FROM `' . PREFIX . 'training`');
     }
 
-    protected function insert($dist, $s, $time = 0)
+    protected function insert(float $dist, int $s, int $time = 0)
     {
         $this->PDO->exec(
             'INSERT INTO `' . PREFIX . 'training` (`distance`, `s`, `time`, `sportid`, `accountid`) ' .
@@ -103,11 +100,9 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(3, PersonalBest::lookupDistances([1, 3.1, 5], self::SPORTID, $this->PDO));
 
-        $PDO = new \PDO('sqlite::memory:');
-
-        $PB1k = new PersonalBest(1, self::SPORTID, $PDO, true);
-        $PB3k = new PersonalBest('3.1', self::SPORTID, $PDO, true);
-        $PB5k = new PersonalBest(5, self::SPORTID, $PDO, true);
+        $PB1k = new PersonalBest(1, self::SPORTID, $this->PDO, true);
+        $PB3k = new PersonalBest('3.1', self::SPORTID, $this->PDO, true);
+        $PB5k = new PersonalBest(5, self::SPORTID, $this->PDO, true);
 
         $this->assertEquals(180, $PB1k->seconds());
         $this->assertEquals(600, $PB3k->seconds());
@@ -128,11 +123,9 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(3, PersonalBest::lookupDistances([1, 3.1, 5], self::SPORTID, $this->PDO, true));
 
-        $PDO = new \PDO('sqlite::memory:');
-
-        $PB1k = new PersonalBest(1, self::SPORTID, $PDO, true, true);
-        $PB3k = new PersonalBest('3.1', self::SPORTID, $PDO, true, true);
-        $PB5k = new PersonalBest(5, self::SPORTID, $PDO, true);
+        $PB1k = new PersonalBest(1, self::SPORTID, $this->PDO, true, true);
+        $PB3k = new PersonalBest('3.1', self::SPORTID, $this->PDO, true, true);
+        $PB5k = new PersonalBest(5, self::SPORTID, $this->PDO, true);
         $PB5k->lookupWithDetails();
 
         $this->assertEquals(180, $PB1k->seconds());
@@ -154,9 +147,7 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(1, PersonalBest::lookupDistances([1.0], self::SPORTID, $this->PDO, true));
 
-        $PDO = new \PDO('sqlite::memory:');
-
-        $PB = new PersonalBest(1, self::SPORTID, $PDO, true, true);
+        $PB = new PersonalBest(1, self::SPORTID, $this->PDO, true, true);
 
         $this->assertEquals(180, $PB->seconds());
         $this->assertEquals($date1, $PB->timestamp());

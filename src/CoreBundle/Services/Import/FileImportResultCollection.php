@@ -11,12 +11,9 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
     /**
      * @var FileImportResult[]
      */
-    protected $Elements = [];
+    protected array $Elements = [];
 
-    /**
-     * @var int
-     */
-    protected $CurrentOffset = 0;
+    protected int $CurrentOffset = 0;
 
     /**
      * @param FileImportResult[] $elements
@@ -41,7 +38,7 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
     /**
      * @return FileImportResult[]
      */
-    public function getElements()
+    public function getElements(): array
     {
         return $this->Elements;
     }
@@ -51,12 +48,12 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
         return $this->Elements === [];
     }
 
-    public function count()
+    public function count(): int
     {
         return count($this->Elements);
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->Elements[$offset]);
     }
@@ -65,7 +62,7 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
      * @param int $offset
      * @return FileImportResult
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->Elements[$offset];
     }
@@ -94,12 +91,12 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
         unset($this->Elements[$offset]);
     }
 
-    public function current()
+    public function current(): mixed
     {
         return $this->Elements[$this->CurrentOffset];
     }
 
-    public function key()
+    public function key(): mixed
     {
         return $this->CurrentOffset;
     }
@@ -114,7 +111,7 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
         $this->CurrentOffset = 0;
     }
 
-    public function valid()
+    public function valid(): bool
     {
         return isset($this->Elements[$this->CurrentOffset]);
     }
@@ -124,14 +121,11 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
         $this->Elements = array_values($this->Elements);
     }
 
-    /**
-     * @return int
-     */
-    public function getTotalNumberOfActivities(): float|int
+    public function getTotalNumberOfActivities(): int
     {
         return array_reduce(
             $this->Elements,
-            fn ($num, FileImportResult $result): float|int => $num + $result->getNumberOfActivities(),
+            fn ($num, FileImportResult $result): int => $num + $result->getNumberOfActivities(),
             0
         );
     }
@@ -141,7 +135,7 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
      */
     public function getAllFileNames(): array
     {
-        return array_map(function (\Runalyze\Bundle\CoreBundle\Services\Import\FileImportResult $element) {
+        return array_map(function (FileImportResult $element) {
             /** @var FileImportResult $element */
             return $element->getFileName();
         }, $this->Elements);
@@ -154,7 +148,7 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
     {
         return array_values(
             array_unique(
-                array_map(function (\Runalyze\Bundle\CoreBundle\Services\Import\FileImportResult $element) {
+                array_map(function (FileImportResult $element) {
                     /** @var FileImportResult $element */
                     return $element->getOriginalFileName();
                 }, $this->Elements)

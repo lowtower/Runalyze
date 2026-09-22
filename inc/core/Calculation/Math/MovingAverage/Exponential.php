@@ -19,18 +19,12 @@ namespace Runalyze\Calculation\Math\MovingAverage;
  */
 class Exponential extends AbstractMovingAverage
 {
-    /**
-     * @var float
-     */
-    protected $Alpha = 0.5;
+    protected float $Alpha = 0.5;
 
-    /**
-     * @param float $alpha
-     */
-    public function setAlpha($alpha): void
+    public function setAlpha(float $alpha): void
     {
-        if (! is_numeric($alpha) || $alpha <= 0.0 || $alpha >= 1.0) {
-            throw new \InvalidArgumentException('Alpha value must be a double between 0.0 and 1.0.');
+        if ($alpha <= 0.0 || $alpha >= 1.0) {
+            throw new \InvalidArgumentException('Alpha value must be a float value between 0.0 and 1.0.');
         }
 
         $this->Alpha = $alpha;

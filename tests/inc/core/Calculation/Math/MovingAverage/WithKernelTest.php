@@ -8,7 +8,7 @@ class WithKernelTest extends \PHPUnit\Framework\TestCase
 {
     public function testWithoutKernel(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(\Error::class);
         $Object = new WithKernel([1, 2, 3]);
         $Object->calculate();
     }

@@ -10,11 +10,9 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 class AutomaticReloadFlagExtension extends \Twig\Extension\AbstractExtension
 {
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
-    public function getName()
+    public function getName(): string
     {
         return 'runalyze.automatic_reload_flag_extension';
     }
@@ -24,10 +22,10 @@ class AutomaticReloadFlagExtension extends \Twig\Extension\AbstractExtension
      *
      * @codeCoverageIgnore
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
-            new \Twig\TwigFunction('automaticJavaScriptReload', [$this, 'automaticJavaScriptReload']),
+            new \Twig\TwigFunction('automaticJavaScriptReload', $this->automaticJavaScriptReload(...)),
         ];
     }
 

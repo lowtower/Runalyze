@@ -16,7 +16,7 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 class UserLocaleListener
 {
     public function __construct(
-        private Session $session
+        private readonly Session $session
     ) {
     }
 

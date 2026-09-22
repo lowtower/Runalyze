@@ -5,7 +5,7 @@
 {% block content %}
     <div class="panel-heading">
 
-        {% if form.vars.data.id is null%}
+        {% if form.vars.data.id is null %}
             <h1>{{ 'Add activity tag'|trans }}</h1>
         {% else %}
             <h1>{{ 'Edit activity tag'|trans }}</h1>
@@ -23,7 +23,7 @@
             {{ form_rest(form) }}
 
             <div class="c margin-top">
-                {% if form.vars.data.id is null%}
+                {% if form.vars.data.id is null %}
                     <input type="submit" value="{% trans %}Add{% endtrans %}" name="submit">
                 {% else %}
                     <input type="submit" value="{% trans %}Update{% endtrans %}" name="submit">

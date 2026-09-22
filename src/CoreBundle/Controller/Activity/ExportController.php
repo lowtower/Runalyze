@@ -16,8 +16,8 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class ExportController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(
-        private TokenStorageInterface $tokenStorage,
-        private ParameterBagInterface $parameterBag
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly ParameterBagInterface $parameterBag
     ) {
     }
 

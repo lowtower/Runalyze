@@ -3,7 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\Doctrine\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Platforms\MySqlPlatform;
+use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Types\SmallIntType;
 
 class TinyIntType extends SmallIntType
@@ -17,7 +17,7 @@ class TinyIntType extends SmallIntType
     {
         $declaration = parent::getSQLDeclaration($fieldDeclaration, $platform);
 
-        if ($platform instanceof MySqlPlatform) {
+        if ($platform instanceof MySQLPlatform) {
             return str_replace('SMALLINT', 'TINYINT', $declaration);
         }
 

@@ -28,18 +28,18 @@ use Symfony\Component\Security\Http\Event\SwitchUserEvent;
  */
 class SwitchUserListener
 {
-    private string $providerKey;
+    private readonly string $providerKey;
 
     public function __construct(
-        private TokenStorageInterface $tokenStorage,
-        private UserProviderInterface $provider,
-        private UserCheckerInterface $userChecker,
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly UserProviderInterface $provider,
+        private readonly UserCheckerInterface $userChecker,
         string $providerKey,
-        private AccessDecisionManagerInterface $accessDecisionManager,
-        private ?LoggerInterface $logger = null,
-        private string $usernameParameter = '_switch_user',
-        private string $role = 'ROLE_ADMIN',
-        private ?EventDispatcherInterface $dispatcher = null
+        private readonly AccessDecisionManagerInterface $accessDecisionManager,
+        private readonly ?LoggerInterface $logger = null,
+        private readonly string $usernameParameter = '_switch_user',
+        private readonly string $role = 'ROLE_ADMIN',
+        private readonly ?EventDispatcherInterface $dispatcher = null
     ) {
         if (empty($providerKey)) {
             throw new \InvalidArgumentException('$providerKey must not be empty.');
@@ -75,8 +75,6 @@ class SwitchUserListener
 
     /**
      * Handles the switch to another user.
-     *
-     * @param GetResponseEvent $event A GetResponseEvent instance
      *
      * @throws \LogicException if switching to a user failed
      */
@@ -160,7 +158,6 @@ class SwitchUserListener
     /**
      * Attempts to exit from an already switched user.
      *
-     * @return TokenInterface The original TokenInterface instance
      * @throws AuthenticationCredentialsNotFoundException
      */
     private function attemptExitUser(): TokenInterface
@@ -181,13 +178,11 @@ class SwitchUserListener
     /**
      * Gets the original Token from a switched one.
      *
-     * @param TokenInterface $token A switched TokenInterface instance
-     *
      * @return TokenInterface|false The original TokenInterface instance, false if the current TokenInterface is not switched
      */
     private function getOriginalToken(?TokenInterface $token)
     {
-        if (! $token instanceof \Symfony\Component\Security\Core\Authentication\Token\TokenInterface) {
+        if (! $token instanceof TokenInterface) {
             return false;
         }
 

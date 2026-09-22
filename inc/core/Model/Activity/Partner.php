@@ -23,12 +23,9 @@ class Partner extends StringArrayObject
      */
     public const SEPARATOR = ',';
 
-    /**
-     * @param string $string
-     */
-    public function fromString($string): void
+    public function fromString(string $string): void
     {
-        $this->Elements = array_map('trim', explode(self::SEPARATOR, $string));
+        $this->Elements = array_map(trim(...), explode(self::SEPARATOR, $string));
     }
 
     /**

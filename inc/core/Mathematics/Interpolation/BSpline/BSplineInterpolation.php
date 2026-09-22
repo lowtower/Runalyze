@@ -17,52 +17,25 @@ namespace Runalyze\Mathematics\Interpolation\BSpline;
  */
 class BSplineInterpolation
 {
-    /**
-     * @var int
-     */
-    protected $Degree;
+    protected int $Degree;
 
-    /**
-     * @var int
-     */
-    protected $NumPoints = 0;
+    protected int $NumPoints = 0;
 
-    /**
-     * @var int
-     */
-    protected $Dimension = 0;
+    protected int $Dimension = 0;
 
-    /**
-     * @var array
-     */
-    protected $Points = [];
+    protected array $Points = [];
 
-    /**
-     * @var array
-     */
-    protected $Coordinates = [];
+    protected array $Coordinates = [];
 
-    /**
-     * @var array
-     */
-    protected $Weights = [];
+    protected array $Weights = [];
 
-    /**
-     * @var array
-     */
-    protected $Knots = [];
+    protected array $Knots = [];
 
-    /**
-     * @var array
-     */
-    protected $Domain = [];
+    protected array $Domain = [];
 
-    /**
-     * @param int $degree
-     */
-    public function __construct($degree)
+    public function __construct(int $degree)
     {
-        if ((int) $degree < 1) {
+        if ($degree < 1) {
             throw new \InvalidArgumentException('Degree must be at least 1 (linear).');
         }
 
@@ -89,7 +62,7 @@ class BSplineInterpolation
             $weights = array_fill(0, $this->NumPoints, 1.0);
         }
 
-        if (count($knots) != $this->NumPoints + $this->Degree + 1) {
+        if (count($knots) !== $this->NumPoints + $this->Degree + 1) {
             $knots = range(0, $this->NumPoints + $this->Degree);
         }
 
@@ -116,9 +89,8 @@ class BSplineInterpolation
 
     /**
      * @param bool $keepCurrentKnots by default, knots are overwritten
-     * @return array
      */
-    public function evaluateAtAllPoints($keepCurrentKnots = false)
+    public function evaluateAtAllPoints(bool $keepCurrentKnots = false): array
     {
         if (! $keepCurrentKnots) {
             $this->setClampedKnotVector();
@@ -144,7 +116,7 @@ class BSplineInterpolation
         }
 
         if (is_array($t)) {
-            return array_map(fn ($v) => $this->evaluateAt($v), $t);
+            return array_map($this->evaluateAt(...), $t);
         }
 
         $t = $this->remapPartialValue($t);

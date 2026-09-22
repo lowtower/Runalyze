@@ -124,7 +124,7 @@ class RaceResultController extends \Symfony\Bundle\FrameworkBundle\Controller\Ab
         $distances = [0.06, 0.1, 0.2, 0.4, 0.8, 1.0, 1.5, 3.0, 5.0, 10.0, 21.1, 42.2, 50.0];
         $distanceTicks = [0.06, 0.1, 0.2, 0.4, 0.8, 1.5, 3.0, 5.0, 10.0, 21.1, 42.2];
         $ageStandardTimes = array_map(fn (float $kilometer) => $ageGradeLookup->getAgeStandard($kilometer), $distances);
-        $ageStandardVO2max = array_map(fn ($kilometer, $seconds): float => $danielsGilbertFormula->estimateFromRaceResult($kilometer, $seconds), $distances, $ageStandardTimes);
+        $ageStandardVO2max = array_map($danielsGilbertFormula->estimateFromRaceResult(...), $distances, $ageStandardTimes);
 
         return $this->render('my/raceresult/performance_chart.html.twig', [
             'runningSportId' => $this->getSportRepository()

@@ -143,7 +143,7 @@ class Window
             $this->ManualDistances = Calculator::getDistancesFromString(Request::param('manual-distances'));
 
             if (Configuration::General()->distanceUnitSystem()->isImperial()) {
-                $this->ManualDistances = array_map([$this, 'distanceToKm'], $this->ManualDistances);
+                $this->ManualDistances = array_map($this->distanceToKm(...), $this->ManualDistances);
             }
         }
 

@@ -46,7 +46,7 @@ class Thb extends ActivitySeries
 
     protected function manipulateData()
     {
-        $this->Data = array_map([$this, 'correctUnit'], $this->Data);
+        $this->Data = array_map($this->correctUnit(...), $this->Data);
         $this->Data = array_filter($this->Data);
     }
 

@@ -7,29 +7,24 @@ class Climb
     /**
      * @var float [km]
      */
-    protected $Distance;
+    protected float $Distance;
 
     /**
-     * @var int|null [m]
+     * @var ?int [m]
      */
-    protected $AltitudeAtTop;
+    protected ?int $AltitudeAtTop = null;
 
-    /**
-     * @var ClimbProfile|null
-     */
-    protected $ClimbProfile;
+    protected ?ClimbProfile $ClimbProfile = null;
 
     /**
      * @param float $distance [km]
      * @param int $Elevation [m]
-     * @param int|null $TrackdataStartIndex
-     * @param int|null $TrackdataEndIndex
      */
     public function __construct(
-        $distance,
-        protected $Elevation,
-        protected $TrackdataStartIndex = null,
-        protected $TrackdataEndIndex = null
+        float $distance,
+        protected int $Elevation,
+        protected ?int $TrackdataStartIndex = null,
+        protected ?int $TrackdataEndIndex = null
     ) {
         if ($distance <= 0.0) {
             throw new \InvalidArgumentException(sprintf('Climb distance must be positive, %f given.', $distance));
@@ -38,10 +33,7 @@ class Climb
         $this->Distance = $distance;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getTrackdataStartIndex()
+    public function getTrackdataStartIndex(): ?int
     {
         return $this->TrackdataStartIndex;
     }
@@ -51,10 +43,7 @@ class Climb
         return $this->TrackdataStartIndex !== null;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getTrackdataEndIndex()
+    public function getTrackdataEndIndex(): ?int
     {
         return $this->TrackdataEndIndex;
     }
@@ -67,7 +56,7 @@ class Climb
     /**
      * @return float [km]
      */
-    public function getDistance()
+    public function getDistance(): float
     {
         return $this->Distance;
     }
@@ -75,15 +64,12 @@ class Climb
     /**
      * @return int [m]
      */
-    public function getElevation()
+    public function getElevation(): int
     {
         return $this->Elevation;
     }
 
-    /**
-     * @return float
-     */
-    public function getGradient(): int|float
+    public function getGradient(): float
     {
         return $this->Elevation / $this->Distance / 1000;
     }
@@ -91,7 +77,7 @@ class Climb
     /**
      * @param int $altitude [m]
      */
-    public function setAltitudeAtTop($altitude): self
+    public function setAltitudeAtTop(int $altitude): self
     {
         $this->AltitudeAtTop = $altitude;
 
@@ -99,9 +85,9 @@ class Climb
     }
 
     /**
-     * @return int|null [m]
+     * @return ?int [m]
      */
-    public function getAltitudeAtTop()
+    public function getAltitudeAtTop(): ?int
     {
         return $this->AltitudeAtTop;
     }
@@ -118,16 +104,13 @@ class Climb
         return $this;
     }
 
-    /**
-     * @return null|ClimbProfile
-     */
-    public function getClimbProfile()
+    public function getClimbProfile(): ?ClimbProfile
     {
         return $this->ClimbProfile;
     }
 
     public function knowsClimbProfile(): bool
     {
-        return $this->ClimbProfile !== null;
+        return $this->ClimbProfile instanceof \Runalyze\Bundle\CoreBundle\Model\Trackdata\Climb\ClimbProfile;
     }
 }

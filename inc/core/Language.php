@@ -215,7 +215,7 @@ class Language implements InterfaceChoosable
         $matches = [];
 
         foreach (explode(',', $header) as $option) {
-            $option = array_map('trim', explode(';', $option));
+            $option = array_map(trim(...), explode(';', $option));
             $l = strtolower($option[0]);
 
             if (isset($option[1])) {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::Triangular
  * @package Runalyze\Calculation\Math\MovingAverage\Kernel
@@ -17,15 +19,9 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
  */
 class Triangular extends AbstractKernel
 {
-    /**
-     * @var float
-     */
-    protected $NormalizationFactor = 2.0;
+    protected float $NormalizationFactor = 2.0;
 
-    /**
-     * @param float $u
-     */
-    protected function atTransformed($u): float
+    protected function atTransformed(float $u): float
     {
         if ($u >= -1.0 && $u <= 1.0) {
             return 1.0 - abs($u);

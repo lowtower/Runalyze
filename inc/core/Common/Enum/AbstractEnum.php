@@ -43,7 +43,7 @@ abstract class AbstractEnum
      *
      * @return array a hash with your constants and their value
      */
-    public static function getEnum()
+    public static function getEnum(): array
     {
         $enumClass = static::class;
 
@@ -57,13 +57,8 @@ abstract class AbstractEnum
 
     /**
      * Checks whether a constant is valid.
-     *
-     * @param string $name   name of the constant
-     * @param bool   $strict whether to make a case sensitive check
-     *
-     * @return bool the result of the test
      */
-    public static function isValidName($name, $strict = false)
+    public static function isValidName(string $name, bool $strict = false): bool
     {
         $constants = self::getEnum();
 
@@ -71,7 +66,7 @@ abstract class AbstractEnum
             return array_key_exists($name, $constants);
         }
 
-        $keys = array_map('strtolower', array_keys($constants));
+        $keys = array_map(strtolower(...), array_keys($constants));
 
         return in_array(strtolower($name), $keys, true);
     }
@@ -79,12 +74,9 @@ abstract class AbstractEnum
     /**
      * Checks whether a value is defined.
      *
-     * @param int|string $value  the value to test
-     * @param bool       $strict check the types of the value in the values
-     *
-     * @return bool the result of the test
+     * @param int|string $value
      */
-    public static function isValidValue($value, $strict = true)
+    public static function isValidValue($value, bool $strict = true): bool
     {
         $values = array_values(self::getEnum());
 

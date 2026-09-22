@@ -14,7 +14,7 @@ class HtmlOutputFormatter extends OutputFormatter
     /**
      * @var string[]
      */
-    protected $ReplaceStyle = [
+    protected array $ReplaceStyle = [
         '30' => 'color:rgba(0,0,0,1)',
         '31' => 'color:rgba(230,50,50,1)',
         '32' => 'color:rgba(50,230,50,1)',
@@ -41,7 +41,7 @@ class HtmlOutputFormatter extends OutputFormatter
         $formatted = parent::format($message);
         $escaped = htmlspecialchars($formatted, ENT_QUOTES, 'UTF-8');
 
-        return preg_replace_callback(self::CLI_COLORS_PATTERN, fn (array $matches): string => $this->replaceFormat($matches), $escaped);
+        return preg_replace_callback(self::CLI_COLORS_PATTERN, $this->replaceFormat(...), $escaped);
     }
 
     /**

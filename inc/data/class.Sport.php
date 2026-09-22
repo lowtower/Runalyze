@@ -13,10 +13,7 @@ class Sport
     private array $data;
 
     public function __construct(
-        /**
-         * ID for this sport in database
-         */
-        private int|bool $id = false
+        private readonly int|bool $id = false
     ) {
         $this->data = SportFactory::DataFor($this->id);
     }

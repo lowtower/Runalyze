@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 class MaintenanceListener
 {
     public function __construct(
-        private ContainerInterface $container
+        private readonly ContainerInterface $container
     ) {
     }
 

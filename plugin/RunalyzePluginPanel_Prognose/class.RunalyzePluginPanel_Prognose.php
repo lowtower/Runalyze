@@ -11,6 +11,7 @@ use Runalyze\Activity\Pace;
 use Runalyze\Activity\PersonalBest;
 use Runalyze\Calculation\Prognosis;
 use Runalyze\Configuration;
+use Runalyze\Sports\Running\Prognosis\PrognosisInterface;
 
 $PLUGINKEY = 'RunalyzePluginPanel_Prognose';
 /**
@@ -20,17 +21,12 @@ $PLUGINKEY = 'RunalyzePluginPanel_Prognose';
  */
 class RunalyzePluginPanel_Prognose extends PluginPanel
 {
-    /**
-     * Prognosis
-     * @var \Runalyze\Sports\Running\Prognosis\PrognosisInterface
-     */
-    protected $Prognosis;
+    protected PrognosisInterface $Prognosis;
 
     /**
      * Number of successfully fetched PBs
-     * @var int
      */
-    protected $NumberOfPBs = 0;
+    protected int $NumberOfPBs = 0;
 
     final public function name(): string
     {
@@ -132,11 +128,7 @@ class RunalyzePluginPanel_Prognose extends PluginPanel
         $this->NumberOfPBs = PersonalBest::lookupDistances($this->getDistances(), Configuration::General()->runningSport());
     }
 
-    /**
-     * @param int $num
-     * @return array
-     */
-    protected function getTopResult($num = 1)
+    protected function getTopResult(int $num = 1): array
     {
         return (new Prognosis\TopResults())->getTopResults($num);
     }
@@ -192,9 +184,8 @@ class RunalyzePluginPanel_Prognose extends PluginPanel
 
     /**
      * Show prognosis for a given distance
-     * @param float $distance
      */
-    protected function showPrognosis($distance)
+    protected function showPrognosis(float $distance)
     {
         $PB = new PersonalBest($distance, Configuration::General()->runningSport());
         $PB->lookupWithDetails();
@@ -213,12 +204,12 @@ class RunalyzePluginPanel_Prognose extends PluginPanel
         }
 
         echo '<p>
-				<span class="right">
-					' . sprintf(__('<small>from</small> %s <small>to</small> <strong>%s</strong>'), $PBString, $prognosisString) . '
-					<small>(' . $pace->valueWithAppendix() . ')</small>
-				</span>
-				<strong>' . $Distance->stringAuto(true, 1) . '</strong>
-			</p>';
+                <span class="right">
+                    ' . sprintf(__('<small>from</small> %s <small>to</small> <strong>%s</strong>'), $PBString, $prognosisString) . '
+                    <small>(' . $pace->valueWithAppendix() . ')</small>
+                </span>
+                <strong>' . $Distance->stringAuto(true, 1) . '</strong>
+            </p>';
     }
 
     /**
@@ -226,11 +217,11 @@ class RunalyzePluginPanel_Prognose extends PluginPanel
      */
     protected function thereAreNotEnoughCompetitions(): bool
     {
-        return $this->NumberOfPBs == 0;
+        return $this->NumberOfPBs === 0;
     }
 
     public function getDistances(): array
     {
-        return array_filter($this->Configuration()->value('distances'), 'is_numeric');
+        return array_filter($this->Configuration()->value('distances'), is_numeric(...));
     }
 }

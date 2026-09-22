@@ -21,7 +21,7 @@ class ReumannWitkam extends AbstractStrategy
     /**
      * Smooth data
      */
-    public function runSmoothing()
+    public function runSmoothing(): never
     {
         throw new \RuntimeException('Not implemented.');
     }

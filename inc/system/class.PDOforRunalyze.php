@@ -20,11 +20,7 @@ class PDOforRunalyze extends PDO
      */
     protected bool $addsAccountID = true;
 
-    /**
-     * Accountid
-     * @var mixed
-     */
-    protected $accountID = false;
+    protected mixed $accountID = false;
 
     public function startAddingAccountID(): void
     {
@@ -234,7 +230,7 @@ class PDOforRunalyze extends PDO
      * Emulated prepared statements does not communicate with the database server
      * so <b>PDO::prepare</b> does not check the statement.
      */
-    public function prepare($statement, $driver_options = [])
+    public function prepare(string $statement, array $driver_options = []): PDOStatement|false
     {
         if ($this->addsAccountID) {
             $this->addAccountIDtoStatement($statement);
@@ -251,7 +247,7 @@ class PDOforRunalyze extends PDO
      * or deleted by the SQL statement you issued. If no rows were affected,
      * <b>PDO::exec</b> returns 0.
      */
-    public function exec($statement)
+    public function exec(string $statement): int|false
     {
         $driver = $this->getAttribute(\PDO::ATTR_DRIVER_NAME);
         if ($this->addsAccountID) {
@@ -276,7 +272,7 @@ class PDOforRunalyze extends PDO
      * @return PDOStatement <b>PDO::query</b> returns a PDOStatement object, or <b>FALSE</b>
      * on failure.
      */
-    public function query(string $statement, ?int $fetchMode = null, mixed ...$fetchModeArgs)
+    public function query(string $statement, ?int $fetchMode = null, mixed ...$fetchModeArgs): \PDOStatement|false
     {
         if ($this->addsAccountID) {
             $this->addAccountIDtoStatement($statement);

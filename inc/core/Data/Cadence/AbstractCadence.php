@@ -16,7 +16,6 @@ namespace Runalyze\Data\Cadence;
 abstract class AbstractCadence
 {
     /**
-     * Value
      * @param int $value
      */
     protected int $Value = 0;
@@ -31,10 +30,7 @@ abstract class AbstractCadence
         $this->Value = (int) round($this->Factor * $value);
     }
 
-    /**
-     * @return int
-     */
-    final public function value()
+    final public function value(): int
     {
         return $this->Value;
     }
@@ -68,7 +64,7 @@ abstract class AbstractCadence
 
     final public function manipulateArray(array &$array)
     {
-        $array = array_map([$this, 'useFactor'], $array);
+        $array = array_map($this->useFactor(...), $array);
     }
 
     /**

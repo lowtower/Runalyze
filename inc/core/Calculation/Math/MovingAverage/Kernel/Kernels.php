@@ -65,11 +65,9 @@ final class Kernels extends AbstractEnum
     /**
      * Get exporter
      * @param int $kernelid int from internal enum
-     * @param float $width
-     * @return \Runalyze\Calculation\Math\MovingAverage\Kernel\AbstractKernel
      * @throws \InvalidArgumentException
      */
-    public static function get($kernelid, $width)
+    public static function get(int $kernelid, float $width): AbstractKernel
     {
         $classNames = self::classNamesArray();
 

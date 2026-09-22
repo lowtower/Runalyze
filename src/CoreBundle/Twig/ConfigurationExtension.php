@@ -12,11 +12,9 @@ class ConfigurationExtension extends \Twig\Extension\AbstractExtension
     }
 
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
-    public function getName()
+    public function getName(): string
     {
         return 'runalyze.configuration_extension';
     }
@@ -26,22 +24,21 @@ class ConfigurationExtension extends \Twig\Extension\AbstractExtension
      *
      * @codeCoverageIgnore
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
-            new \Twig\TwigFunction('configVar', [$this, 'configVar']),
-            new \Twig\TwigFunction('config', [$this, 'config']),
-            new \Twig\TwigFunction('unitSystem', [$this, 'unitSystem']),
+            new \Twig\TwigFunction('configVar', $this->configVar(...)),
+            new \Twig\TwigFunction('config', $this->config(...)),
+            new \Twig\TwigFunction('unitSystem', $this->unitSystem(...)),
         ];
     }
 
     /**
      * Get config variable from current user
      *
-     * @param string $key
      * @return mixed
      */
-    public function configVar($key)
+    public function configVar(string $key)
     {
         return $this->ConfigurationManager->getList()
             ->get($key);

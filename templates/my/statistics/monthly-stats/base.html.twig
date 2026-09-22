@@ -37,7 +37,7 @@
 <table class="analysis-table fullwidth zebra-style r">
     <thead>{{ tableHeadMonths(8, 1) }}</thead>
     <tbody>
-    {% if analysisData.empty is defined%}
+    {% if analysisData.empty is defined %}
         <tr><td colspan="13" class="c"><em>{{ 'No activities found.'|trans }}</em></td></tr>
     {% else %}
         {% set maximum = analysisData.maximum %}

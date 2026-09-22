@@ -138,7 +138,7 @@ class CreateController extends AbstractController
 
         $numActivities = $results->getTotalNumberOfActivities();
 
-        if ($numActivities == 1) {
+        if ($numActivities === 1) {
             return $this->getResponseForNewSingleActivity(
                 $this->containerToActivity($results[0]->getContainer()[0], $account),
                 $request

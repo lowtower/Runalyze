@@ -161,7 +161,7 @@ class ActivityDataContainer
 
     protected function clearRoundsIfOnlyOneRoundIsThere()
     {
-        if (! $this->Rounds->isEmpty() && $this->Rounds->count() == 1) {
+        if (! $this->Rounds->isEmpty() && $this->Rounds->count() === 1) {
             $this->Rounds->clear();
         }
     }

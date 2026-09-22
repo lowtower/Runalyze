@@ -38,12 +38,9 @@ class InstallCheckCommand extends Command
     /**
      * @var int current return code
      */
-    protected $ReturnCode = 0x00;
+    protected int $ReturnCode = 0x00;
 
-    /**
-     * @var array
-     */
-    protected $Checks = [
+    protected array $Checks = [
         [
             'method' => 'checkPhpVersion',
             'message' => 'Check PHP version',
@@ -65,10 +62,7 @@ class InstallCheckCommand extends Command
         ],
     ];
 
-    /**
-     * @var array
-     */
-    protected $DirectoriesThatMustBeWritable = [
+    protected array $DirectoriesThatMustBeWritable = [
         'data/backup-tool/backup/',
         'data/backup-tool/import/',
         'data/cache/',
@@ -83,8 +77,8 @@ class InstallCheckCommand extends Command
     ];
 
     public function __construct(
-        private ParameterBagInterface $parameterBag,
-        private ManagerRegistry $doctrine
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly ManagerRegistry $doctrine
     ) {
         parent::__construct();
     }
@@ -141,11 +135,7 @@ class InstallCheckCommand extends Command
         return '<info>All requirements are fulfilled.</info>';
     }
 
-    /**
-     * @param int $returnCode
-     * @param null|string $message
-     */
-    protected function styleReturnCode($returnCode, $message = null): string
+    protected function styleReturnCode(int $returnCode, ?string $message = null): string
     {
         switch ($returnCode) {
             case self::WARNING:

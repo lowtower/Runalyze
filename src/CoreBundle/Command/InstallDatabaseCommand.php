@@ -18,8 +18,8 @@ class InstallDatabaseCommand extends Command
     public const DATABASE_STRUCTURE_FILE = 'inc/install/structure.sql';
 
     public function __construct(
-        private ParameterBagInterface $parameterBag,
-        private ManagerRegistry $doctrine
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly ManagerRegistry $doctrine
     ) {
         parent::__construct();
     }
@@ -83,12 +83,9 @@ class InstallDatabaseCommand extends Command
 
     /**
      * Import a sql-file
-     * @param string $filename
-     * @param string $databasePrefix
-     * @param bool $removeDelimiter
      * @return string[]
      */
-    public function getSqlFileAsArray($filename, $databasePrefix, $removeDelimiter = true): array
+    public function getSqlFileAsArray(string $filename, string $databasePrefix, bool $removeDelimiter = true): array
     {
         $MRK = ['DELIMITER', 'USE', 'SET', 'LOCK', 'SHOW', 'DROP', 'GRANT', 'ALTER', 'UNLOCK', 'CREATE', 'INSERT', 'UPDATE', 'DELETE', 'REVOKE', 'REPLACE', 'RENAME', 'TRUNCATE'];
         $SQL = @file($filename);

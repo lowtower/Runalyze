@@ -6,10 +6,7 @@
  */
 class PDOforRunalyzeTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var PDOforRunalyze
-     */
-    protected $object;
+    protected PDOforRunalyze $object;
 
     protected function setUp(): void
     {

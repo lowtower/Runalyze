@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CleanupRegistrationsCommand extends Command
 {
     public function __construct(
-        private ManagerRegistry $doctrine
+        private readonly ManagerRegistry $doctrine
     ) {
         parent::__construct();
     }

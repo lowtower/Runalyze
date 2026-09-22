@@ -10,7 +10,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 
 class LegacyCache
 {
-    private ExtendedCacheItemPoolInterface $cache;
+    private readonly ExtendedCacheItemPoolInterface $cache;
 
     public function __construct(string $path)
     {

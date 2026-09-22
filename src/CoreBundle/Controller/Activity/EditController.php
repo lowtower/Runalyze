@@ -137,7 +137,7 @@ class EditController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $ids = array_map(
-            'intval',
+            intval(...),
             array_filter(explode(',', $request->get('ids', '')))
         );
 

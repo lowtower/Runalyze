@@ -16,14 +16,11 @@ class NightDetector
     public const ZENITH = 90.833333333333;
 
     /**
-     * @var null|int null: unknown, 0: at sunlight, 1: at night
+     * @var ?int null: unknown, 0: at sunlight, 1: at night
      */
     protected ?int $Value = null;
 
-    /**
-     * @param bool|int $timestamp
-     */
-    public function __construct($timestamp = false, ?CoordinateInterface $coordinate = null)
+    public function __construct(bool|int $timestamp = false, ?CoordinateInterface $coordinate = null)
     {
         if ($timestamp !== false && $coordinate instanceof \League\Geotools\Coordinate\CoordinateInterface) {
             $this->setFrom($timestamp, $coordinate);
@@ -31,18 +28,18 @@ class NightDetector
     }
 
     /**
-     * @param int $timestamp
      * @return \Runalyze\Calculation\NightDetector $this-reference
      * @throws \InvalidArgumentException
      */
-    public function setFrom($timestamp, CoordinateInterface $coordinate): self
+    public function setFrom(?int $timestamp, CoordinateInterface $coordinate): self
     {
         if (! is_numeric($timestamp)) {
             throw new \InvalidArgumentException('Provided timestamp must be numerical.');
         }
 
-        $isAfterSunset = $timestamp > date_sunset($timestamp, SUNFUNCS_RET_TIMESTAMP, (float) $coordinate->getLatitude(), (float) $coordinate->getLongitude(), self::ZENITH);
-        $isBeforeSunrise = $timestamp < date_sunrise($timestamp, SUNFUNCS_RET_TIMESTAMP, (float) $coordinate->getLatitude(), (float) $coordinate->getLongitude(), self::ZENITH);
+        $sunInfo = date_sun_info($timestamp, (float) $coordinate->getLatitude(), (float) $coordinate->getLongitude());
+        $isAfterSunset = $timestamp > $sunInfo['sunset'];
+        $isBeforeSunrise = $timestamp < $sunInfo['sunrise'];
 
         $this->Value = (int) ($isAfterSunset || $isBeforeSunrise);
 
@@ -78,7 +75,7 @@ class NightDetector
     }
 
     /**
-     * @return int|null null: unknown, 0: at sunlight, 1: at night
+     * @return ?int null: unknown, 0: at sunlight, 1: at night
      */
     public function value(): ?int
     {

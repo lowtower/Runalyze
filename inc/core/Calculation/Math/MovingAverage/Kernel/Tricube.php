@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::Tricube
  * @package Runalyze\Calculation\Math\MovingAverage\Kernel
@@ -17,20 +19,14 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
  */
 class Tricube extends AbstractKernel
 {
-    /**
-     * @param float $width
-     */
-    public function __construct($width)
+    public function __construct(float $width)
     {
         $this->NormalizationFactor = 140 / 81;
 
         parent::__construct($width);
     }
 
-    /**
-     * @param float $u
-     */
-    protected function atTransformed($u): float
+    protected function atTransformed(float $u): float
     {
         if ($u >= -1.0 && $u <= 1.0) {
             return (1 - abs($u * $u * $u)) ** 3;

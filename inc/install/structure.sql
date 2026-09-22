@@ -537,6 +537,17 @@ CREATE TABLE IF NOT EXISTS `runalyze_notification` (
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `runalyze_migration_versions`
+--
+
+CREATE TABLE IF NOT EXISTS `runalyze_migration_versions` (
+  `version` varchar(191) NOT NULL,
+  `executed_at` datetime DEFAULT NULL,
+  `execution_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`version`)
+) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
+
+--
 -- Indizes der exportierten Tabellen
 --
 

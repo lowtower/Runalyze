@@ -25,7 +25,7 @@ class ClimbCollection implements \Countable, \ArrayAccess
     /**
      * @return Climb[]
      */
-    public function getElements()
+    public function getElements(): array
     {
         return $this->Elements;
     }
@@ -35,12 +35,12 @@ class ClimbCollection implements \Countable, \ArrayAccess
         return $this->Elements === [];
     }
 
-    public function count()
+    public function count(): int
     {
         return count($this->Elements);
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->Elements[$offset]);
     }
@@ -49,7 +49,7 @@ class ClimbCollection implements \Countable, \ArrayAccess
      * @param int $offset
      * @return Climb
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->Elements[$offset];
     }

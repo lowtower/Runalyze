@@ -12,14 +12,11 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 class AccountValueResolver implements ArgumentValueResolverInterface
 {
     public function __construct(
-        private TokenStorageInterface $tokenStorage
+        private readonly TokenStorageInterface $tokenStorage
     ) {
     }
 
-    /**
-     * @return bool
-     */
-    public function supports(Request $request, ArgumentMetadata $argument)
+    public function supports(Request $request, ArgumentMetadata $argument): bool
     {
         if ($argument->getType() !== Account::class) {
             return false;

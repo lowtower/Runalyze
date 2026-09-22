@@ -15,7 +15,6 @@
     </div>
 {% endblock form_row %}
 
-
 {%- block form_errors -%}
     {%- if errors|length > 0 -%}
         <p class="error">
@@ -52,7 +51,6 @@
     {%- endif -%}
 {%- endblock form_label -%}
 
-
 {%- block form_widget_simple -%}
     {%- if errors|length > 0 -%}
         {%- set error_class = 'validation-failed' -%}
@@ -66,4 +64,3 @@
     <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
     {% if input_unit %}<label for="{{ id }}" class="input-unit">{{ input_unit|raw }}</label></span>{% endif %}
 {%- endblock form_widget_simple -%}
-

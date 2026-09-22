@@ -17,48 +17,37 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
  */
 abstract class AbstractKernel
 {
-    private float $TransformationFactor;
+    private readonly float $TransformationFactor;
 
     protected float $Width;
 
-    /**
-     * @var float
-     */
-    protected $DefaultWidth = 2.0;
+    protected float $DefaultWidth = 2.0;
+
+    protected float $NormalizationFactor = 1.0;
 
     /**
-     * @var float
-     */
-    protected $NormalizationFactor = 1.0;
-
-    /**
-     * @param float $width
      * @throws \InvalidArgumentException
      */
-    public function __construct($width)
+    public function __construct(float $width)
     {
-        if (! is_numeric($width) || $width <= 0.0) {
+        if ($width <= 0.0) {
             throw new \InvalidArgumentException('Kernel width must be a positive float.');
         }
 
-        $this->Width = (float) $width;
+        $this->Width = $width;
         $this->TransformationFactor = $this->DefaultWidth / $this->Width;
     }
 
-    /**
-     * @return float
-     */
-    final public function width()
+    final public function width(): float
     {
         return $this->Width;
     }
 
     /**
-     * @param int|float $difference difference to X_0
+     * @param float $difference difference to X_0
      * @param bool $normalized flag if values should be normalized
-     * @return float
      */
-    final public function at($difference, $normalized = false)
+    final public function at(float $difference, bool $normalized = false): float
     {
         if ($normalized) {
             return $this->NormalizationFactor * $this->atTransformed($this->TransformationFactor * $difference);
@@ -67,20 +56,16 @@ abstract class AbstractKernel
         return $this->atTransformed($this->TransformationFactor * $difference);
     }
 
-    /**
-     * @param float $u
-     * @return float
-     */
-    abstract protected function atTransformed($u);
+    abstract protected function atTransformed(float $u): float;
 
     /**
      * @param bool $normalized flag if values should be normalized
      * @return float[]
      */
-    final public function valuesAt(array $differences, $normalized = false)
+    final public function valuesAt(array $differences, bool $normalized = false): array
     {
         $values = array_map(
-            [$this, 'atTransformed'],
+            $this->atTransformed(...),
             array_map(fn ($v): float => $this->TransformationFactor * $v, $differences)
         );
 

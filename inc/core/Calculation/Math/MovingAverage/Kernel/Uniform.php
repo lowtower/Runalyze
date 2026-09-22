@@ -19,10 +19,7 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
  */
 class Uniform extends AbstractKernel
 {
-    /**
-     * @param float $u
-     */
-    protected function atTransformed($u): float
+    protected function atTransformed(float $u): float
     {
         if ($u >= -1.0 && $u <= 1.0) {
             return 1.0;

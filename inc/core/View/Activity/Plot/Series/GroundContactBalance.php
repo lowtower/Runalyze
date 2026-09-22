@@ -39,15 +39,14 @@ class GroundContactBalance extends ActivityPointSeries
 
     protected function manipulateData()
     {
-        $this->Data = array_map([$this, 'correctUnit'], $this->Data);
+        $this->Data = array_map($this->correctUnit(...), $this->Data);
         $this->Data = array_filter($this->Data);
     }
 
     /**
      * Change value by internal factor
-     * @param int $value
      */
-    protected function correctUnit($value): float
+    protected function correctUnit(int $value): float
     {
         return 0.01 * $value;
     }
@@ -70,7 +69,6 @@ class GroundContactBalance extends ActivityPointSeries
 
     /**
      * Add to plot
-     * @param bool $addAnnotations [optional]
      */
     public function addTo(Plot $Plot, ?int $yAxis, bool $addAnnotations = true): void
     {

@@ -4,9 +4,9 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
 class AbstractKernelTest_MockTester extends AbstractKernel
 {
-    protected $DefaultWidth = 1.0;
+    protected float $DefaultWidth = 1.0;
 
-    protected function atTransformed($difference)
+    protected function atTransformed(float $difference): float
     {
         return $difference;
     }
@@ -28,7 +28,7 @@ class AbstractKernelTest extends \PHPUnit\Framework\TestCase
 
     public function testNonNumericKernelWidth(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\TypeError::class);
         new AbstractKernelTest_MockTester('abc');
     }
 

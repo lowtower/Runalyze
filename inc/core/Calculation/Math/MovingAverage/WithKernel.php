@@ -7,6 +7,8 @@
 
 namespace Runalyze\Calculation\Math\MovingAverage;
 
+use Runalyze\Calculation\Math\MovingAverage\Kernel\AbstractKernel;
+
 /**
  * Moving average with kernel smoothing
  *
@@ -17,12 +19,9 @@ namespace Runalyze\Calculation\Math\MovingAverage;
  */
 class WithKernel extends AbstractMovingAverage
 {
-    /**
-     * @var \Runalyze\Calculation\Math\MovingAverage\Kernel\AbstractKernel
-     */
-    protected $Kernel;
+    protected ?AbstractKernel $Kernel = null;
 
-    public function setKernel(Kernel\AbstractKernel $kernel): void
+    public function setKernel(?AbstractKernel $kernel): void
     {
         $this->Kernel = $kernel;
     }
@@ -33,9 +32,6 @@ class WithKernel extends AbstractMovingAverage
      */
     protected function checkThatKernelExists()
     {
-        if ($this->Kernel === null) {
-            throw new \RuntimeException('Kernel must be set.');
-        }
     }
 
     /**
@@ -72,11 +68,9 @@ class WithKernel extends AbstractMovingAverage
     }
 
     /**
-     * @param int $currentIndex
-     * @param float $maxDiff
      * @return array deltaIndex => delta
      */
-    protected function deltasToRespect($currentIndex, $maxDiff): array
+    protected function deltasToRespect(int $currentIndex, float $maxDiff): array
     {
         $x = $this->IndexData[$currentIndex];
         $deltas = [0];
@@ -127,10 +121,7 @@ class WithKernel extends AbstractMovingAverage
         }
     }
 
-    /**
-     * @return array
-     */
-    protected function enlargedData(array $linearIndices)
+    protected function enlargedData(array $linearIndices): array
     {
         $prepend = [];
         $append = [];
@@ -146,10 +137,7 @@ class WithKernel extends AbstractMovingAverage
         return $prepend + $this->Data + $append;
     }
 
-    /**
-     * @param float $width
-     */
-    protected function linearIndicesFor($width): array
+    protected function linearIndicesFor(float $width): array
     {
         $width = floor($width);
 

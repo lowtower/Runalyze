@@ -21,8 +21,8 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class JsonImportToolController extends AbstractController
 {
     public function __construct(
-        private TokenStorageInterface $tokenStorage,
-        private ParameterBagInterface $parameterBag
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly ParameterBagInterface $parameterBag
     ) {
     }
 

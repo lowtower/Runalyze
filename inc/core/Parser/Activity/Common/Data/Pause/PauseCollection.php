@@ -54,7 +54,7 @@ class PauseCollection implements \Countable, \ArrayAccess, \IteratorAggregate
         $this->Elements = [];
     }
 
-    public function count()
+    public function count(): int
     {
         return count($this->Elements);
     }
@@ -68,7 +68,7 @@ class PauseCollection implements \Countable, \ArrayAccess, \IteratorAggregate
      * @param int $offset
      * @return Pause
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->Elements[$offset];
     }

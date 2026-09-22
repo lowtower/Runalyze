@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\UsageTrackingTo
 class UserTimezoneListener
 {
     public function __construct(
-        private UsageTrackingTokenStorage $token
+        private readonly UsageTrackingTokenStorage $token
     ) {
     }
 

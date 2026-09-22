@@ -19,16 +19,9 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
  */
 class Epanechnikov extends AbstractKernel
 {
-    /**
-     * @var float
-     */
-    protected $NormalizationFactor = 1.5;
+    protected float $NormalizationFactor = 1.5;
 
-    /**
-     * @param float $u
-     * @return float
-     */
-    protected function atTransformed($u): int|float
+    protected function atTransformed(float $u): float
     {
         if ($u >= -1.0 && $u <= 1.0) {
             return 1 - $u * $u;

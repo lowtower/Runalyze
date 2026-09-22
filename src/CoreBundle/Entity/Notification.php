@@ -35,7 +35,7 @@ class Notification implements AccountRelatedEntityInterface
     private int $createdAt;
 
     /**
-     * @var null|int [timestamp]
+     * @var ?int [timestamp]
      */
     #[ORM\Column(name: 'expirationAt', type: 'integer', nullable: true, options: [
         'unsigned' => true,
@@ -99,7 +99,7 @@ class Notification implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param null|int $lifetime [days]
+     * @param ?int $lifetime [days]
      */
     public function setLifetime(?int $lifetime = null): self
     {
@@ -114,7 +114,7 @@ class Notification implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param null|int $expirationAt [timestamp]
+     * @param ?int $expirationAt [timestamp]
      */
     public function setExpirationAt(?int $expirationAt = null): self
     {
@@ -124,7 +124,7 @@ class Notification implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return null|int [timestamp]
+     * @return ?int [timestamp]
      */
     public function getExpirationAt(): ?int
     {

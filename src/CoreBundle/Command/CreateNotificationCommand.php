@@ -19,8 +19,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class CreateNotificationCommand extends Command
 {
     public function __construct(
-        private ParameterBagInterface $parameterBag,
-        private ManagerRegistry $doctrine
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly ManagerRegistry $doctrine
     ) {
         parent::__construct();
     }
@@ -92,10 +92,7 @@ class CreateNotificationCommand extends Command
         ;
     }
 
-    /**
-     * @param bool $success
-     */
-    protected function checkValidation($success, OutputInterface $output, string $messageOnError): bool
+    protected function checkValidation(bool $success, OutputInterface $output, string $messageOnError): bool
     {
         if (! $success) {
             $output->writeln(sprintf('<error>Invalid input: %s</error>', $messageOnError));
@@ -107,10 +104,7 @@ class CreateNotificationCommand extends Command
         return true;
     }
 
-    /**
-     * @param string $templateName
-     */
-    protected function validateTemplate($templateName): bool
+    protected function validateTemplate(string $templateName): bool
     {
         try {
             new TemplateBasedMessage($templateName);

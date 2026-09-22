@@ -48,7 +48,7 @@ class Table
      */
     protected array $splitsAdditional = [];
 
-    private bool $showIntensity;
+    private readonly bool $showIntensity;
 
     public function __construct(
         protected Laps $Laps,

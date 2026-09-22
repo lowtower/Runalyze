@@ -9,7 +9,7 @@ class SessionRequestProcessor
     private ?string $sessionId = null;
 
     public function __construct(
-        private SessionInterface $session
+        private readonly SessionInterface $session
     ) {
     }
 

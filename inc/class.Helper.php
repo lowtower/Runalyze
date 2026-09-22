@@ -29,7 +29,7 @@ class Helper
      */
     public static function arrayTrim(array $array): array
     {
-        array_walk($array, 'trimValuesForArray');
+        array_walk($array, trimValuesForArray(...));
 
         return $array;
     }
@@ -78,7 +78,6 @@ class Helper
 
     /**
      * Cut a string if it is longer than $cut (default CUT_LENGTH)
-     * @param int $cut [optional]
      */
     public static function Cut(string $text, int $cut = 0): string
     {
@@ -135,7 +134,6 @@ class Helper
 
     /**
      * Get timestamp of first training
-     * @return int   Timestamp
      */
     private static function calculateStartTime(): int
     {
@@ -175,7 +173,6 @@ class Helper
 
     /**
      * Get the HFmax from user-table
-     * @return int   HFmax
      */
     private static function calculateHFmax(): int
     {
@@ -207,7 +204,6 @@ class Helper
 
     /**
      * Get the HFrest from user-table
-     * @return int   HFrest
      */
     private static function calculateHFrest(): int
     {

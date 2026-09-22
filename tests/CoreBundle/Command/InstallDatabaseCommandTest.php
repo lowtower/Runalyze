@@ -12,15 +12,9 @@ use Symfony\Component\Console\Tester\CommandTester;
  */
 class InstallDatabaseCommandTest extends KernelTestCase
 {
-    /**
-     * @var \Doctrine\DBAL\Connection
-     */
-    protected $Connection;
+    protected \Doctrine\DBAL\Connection $Connection;
 
-    /**
-     * @var string
-     */
-    protected $DatabasePrefix;
+    protected string $DatabasePrefix;
 
     protected function setUp(): void
     {

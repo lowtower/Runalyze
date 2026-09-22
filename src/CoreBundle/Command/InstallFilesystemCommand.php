@@ -14,8 +14,8 @@ use Symfony\Component\HttpKernel\KernelInterface;
 class InstallFilesystemCommand extends Command
 {
     public function __construct(
-        private Filesystem $filesystem,
-        private KernelInterface $kernel
+        private readonly Filesystem $filesystem,
+        private readonly KernelInterface $kernel
     ) {
         parent::__construct();
     }

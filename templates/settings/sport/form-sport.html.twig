@@ -10,7 +10,7 @@
 
 {% block content %}
     <div class="panel-heading">
-        {% if form.vars.data.id is null%}
+        {% if form.vars.data.id is null %}
             <h1>{{ 'Add new sport'|trans }}</h1>
         {% else %}
             <h1>{{ 'Edit sport'|trans }}</h1>
@@ -135,7 +135,7 @@
         <script>$("#sport_distances").off('change').on('change', function(){$("#sport_speed").parent().toggleClass('hide', !$(this).is(':checked'))});</script>
     </div>
 
-    {% if form.vars.data.id is not null%}
+    {% if form.vars.data.id is not null %}
         <div class="panel-heading panel-sub-heading">
             <h1>{% trans %}Assigned activity types{% endtrans %}</h1>
         </div>

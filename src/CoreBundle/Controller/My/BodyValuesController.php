@@ -21,9 +21,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class BodyValuesController extends AbstractController
 {
     public function __construct(
-        private ConfigurationManager $configurationManager,
+        private readonly ConfigurationManager $configurationManager,
         public AutomaticReloadFlagSetter $reloadFlagSetter,
-        private UserRepository $userRepository
+        private readonly UserRepository $userRepository
     ) {
     }
 

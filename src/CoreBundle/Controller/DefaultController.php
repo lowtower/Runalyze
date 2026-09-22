@@ -29,11 +29,11 @@ use Twig\Environment;
 class DefaultController extends AbstractPluginsAwareController
 {
     public function __construct(
-        private AuthorizationCheckerInterface $authorizationChecker,
-        private AuthenticationUtils $authenticationUtils,
+        private readonly AuthorizationCheckerInterface $authorizationChecker,
+        private readonly AuthenticationUtils $authenticationUtils,
         TokenStorageInterface $tokenStorage,
         ParameterBagInterface $parameterBag,
-        private AccountMailer $accountMailer
+        private readonly AccountMailer $accountMailer
     ) {
         $this->tokenStorage = $tokenStorage;
         $this->parameterBag = $parameterBag;

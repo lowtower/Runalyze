@@ -10,7 +10,7 @@ abstract class AbstractSport implements ProfileInterface
      * @param int $Enum from SportProfile
      */
     public function __construct(
-        private int $Enum
+        private readonly int $Enum
     ) {
     }
 

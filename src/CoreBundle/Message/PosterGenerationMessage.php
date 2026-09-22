@@ -7,16 +7,16 @@ namespace Runalyze\Bundle\CoreBundle\Message;
 final class PosterGenerationMessage
 {
     public function __construct(
-        private int $accountId,
-        private int $year,
-        private array $types,
-        private int $sportId,
-        private string $title,
-        private string $size,
-        private string $backgroundColor,
-        private string $trackColor,
-        private string $textColor,
-        private string $raceColor
+        private readonly int $accountId,
+        private readonly int $year,
+        private readonly array $types,
+        private readonly int $sportId,
+        private readonly string $title,
+        private readonly string $size,
+        private readonly string $backgroundColor,
+        private readonly string $trackColor,
+        private readonly string $textColor,
+        private readonly string $raceColor
     ) {
     }
 

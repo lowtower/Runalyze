@@ -1,15 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Twig;
 
 class HtmlExtension extends \Twig\Extension\AbstractExtension
 {
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
-    public function getName()
+    public function getName(): string
     {
         return 'runalyze.html_extension';
     }
@@ -19,82 +19,68 @@ class HtmlExtension extends \Twig\Extension\AbstractExtension
      *
      * @codeCoverageIgnore
      */
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
-            new \Twig\TwigFilter('info', [$this, 'info'], [
+            new \Twig\TwigFilter('info', $this->info(...), [
                 'is_safe' => ['html'],
             ]),
-            new \Twig\TwigFilter('error', [$this, 'error'], [
+            new \Twig\TwigFilter('error', $this->error(...), [
                 'is_safe' => ['html'],
             ]),
-            new \Twig\TwigFilter('warning', [$this, 'warning'], [
+            new \Twig\TwigFilter('warning', $this->warning(...), [
                 'is_safe' => ['html'],
             ]),
-            new \Twig\TwigFilter('okay', [$this, 'okay'], [
+            new \Twig\TwigFilter('okay', $this->okay(...), [
                 'is_safe' => ['html'],
             ]),
-            new \Twig\TwigFilter('nbsp', [$this, 'nbsp'], [
+            new \Twig\TwigFilter('nbsp', $this->nbsp(...), [
                 'is_safe' => ['html'],
             ]),
-            new \Twig\TwigFilter('nonbsp', [$this, 'nonbsp'], [
+            new \Twig\TwigFilter('nonbsp', $this->nonbsp(...), [
                 'is_safe' => ['html'],
             ]),
         ];
     }
 
     /**
-     * @param string $string
-     *
      * @codeCoverageIgnore
      */
-    public function info($string): string
+    public function info(string $string): string
     {
         return '<p class="info">' . $string . '</p>';
     }
 
     /**
-     * @param string $string
-     *
      * @codeCoverageIgnore
      */
-    public function error($string): string
+    public function error(string $string): string
     {
         return '<p class="error">' . $string . '</p>';
     }
 
     /**
-     * @param string $string
-     *
      * @codeCoverageIgnore
      */
-    public function warning($string): string
+    public function warning(string $string): string
     {
         return '<p class="warning">' . $string . '</p>';
     }
 
     /**
-     * @param string $string
-     *
      * @codeCoverageIgnore
      */
-    public function okay($string): string
+    public function okay(string $string): string
     {
         return '<p class="okay">' . $string . '</p>';
     }
 
-    /**
-     * @param string $string
-     */
-    public function nbsp($string): string
+    public function nbsp(string $string): string
     {
         return str_replace(' ', '&nbsp;', $string);
     }
 
-    /**
-     * @param string $string
-     */
-    public function nonbsp($string): string
+    public function nonbsp(string $string): string
     {
         return str_replace('&nbsp;', ' ', $string);
     }

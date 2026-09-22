@@ -216,7 +216,7 @@ class FitActivity extends AbstractSingleParser
         $this->fitWorkoutStep = new FitWorkoutStep();
     }
 
-    public function parse()
+    public function parse(): never
     {
         throw new \RuntimeException('FitActivity does not support parse().');
     }
@@ -1034,7 +1034,7 @@ class FitActivity extends AbstractSingleParser
             throw new \RuntimeException('compressed_speed_distance is not set.');
         }
 
-        $values = array_map('intval', explode(',', $this->Values['compressed_speed_distance'][1]));
+        $values = array_map(intval(...), explode(',', $this->Values['compressed_speed_distance'][1]));
 
         if (count($values) === 3) {
             $speed100 = $values[0] | (($values[1] & 0x0F) << 8);

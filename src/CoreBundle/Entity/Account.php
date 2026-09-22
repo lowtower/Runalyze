@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\UniqueConstraint(name: 'username', columns: ['username'])]
 #[ORM\UniqueConstraint(name: 'mail', columns: ['mail'])]
 #[ORM\Entity(repositoryClass: AccountRepository::class)]
-class Account implements UserInterface, \Serializable, IdentifiableEntityInterface
+class Account implements UserInterface, IdentifiableEntityInterface
 {
     /**
      * @Assert\Length(
@@ -583,33 +583,31 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
     }
 
     /**
-     * @see \Serializable::serialize()
+     * @return array<string, mixed>
      */
-    public function serialize(): string
+    public function __serialize(): array
     {
-        return serialize([
-            $this->id,
-            $this->username,
-            $this->password,
-            $this->salt,
-            $this->activationHash,
-            $this->language,
-        ]);
+        return [
+            'id' => $this->id,
+            'username' => $this->username,
+            'password' => $this->password,
+            'salt' => $this->salt,
+            'activationHash' => $this->activationHash,
+            'language' => $this->language,
+        ];
     }
 
     /**
-     * @see \Serializable::unserialize()
+     * @param array<string, mixed> $data
      */
-    public function unserialize($serialized): void
+    public function __unserialize(array $data): void
     {
-        [
-            $this->id,
-            $this->username,
-            $this->password,
-            $this->salt,
-            $this->activationHash,
-            $this->language
-        ] = unserialize($serialized);
+        $this->id = $data['id'];
+        $this->username = $data['username'];
+        $this->password = $data['password'];
+        $this->salt = $data['salt'];
+        $this->activationHash = $data['activationHash'];
+        $this->language = $data['language'];
     }
 
     public function isEnabled(): bool

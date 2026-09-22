@@ -16,15 +16,13 @@ class FitSdkExercise
     /**
      * Retrieve all mappings (can be 3).
      * The values are seperated in the string with ",".
-     *
-     * @return string or null
      */
     public function getFullMapping(string $categorys, ?string $subtypes = null): ?string
     {
         $result = [];
 
-        $cat = array_map('intval', explode(',', $categorys));
-        $sub = array_map('intval', explode(',', $subtypes));
+        $cat = array_map(intval(...), explode(',', $categorys));
+        $sub = array_map(intval(...), explode(',', $subtypes));
 
         // if the sub array has not the same size as the main-category, ignore it
         if (count($cat) !== count($sub)) {
@@ -54,8 +52,6 @@ class FitSdkExercise
 
     /**
      * Retrieve on mapping.
-     *
-     * @return string or null
      */
     public function getMapping(int $category, ?int $subtype = null): ?string
     {

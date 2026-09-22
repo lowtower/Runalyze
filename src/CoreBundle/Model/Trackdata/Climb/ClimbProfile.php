@@ -51,7 +51,7 @@ class ClimbProfile implements \Countable
         $this->Elevations[] = $elevation;
     }
 
-    public function count()
+    public function count(): int
     {
         return count($this->Distances);
     }

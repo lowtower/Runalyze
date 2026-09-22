@@ -23,7 +23,7 @@ class NightDetectorTest extends \PHPUnit\Framework\TestCase
 
     public function testInvalidTimestamp(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\TypeError::class);
         $Detector = new NightDetector();
         $Detector->setFrom('foobar', new Coordinate([0.0, 0.0]));
     }

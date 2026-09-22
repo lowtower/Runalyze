@@ -37,7 +37,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
  */
 class MaxZoneHR
 {
-    private bool $import;
+    private readonly bool $import;
 
     // is import allowed by configuration
     public int $MaxHR = 0;
@@ -46,8 +46,8 @@ class MaxZoneHR
     public ?int $Time = null; // timestamp of the first highest HR
 
     public function __construct(
-        \Runalyze\Bundle\CoreBundle\Entity\Account $account,
-        private ManagerRegistry $doctrine
+        Account $account,
+        private readonly ManagerRegistry $doctrine
     ) {
         /** @var ConfRepository $repository */
         $repository = $this->doctrine->getRepository(Conf::class);
@@ -93,15 +93,15 @@ class ActivityBulkImportCommand extends Command
     private array $sportEquipment = [];
 
     public function __construct(
-        private ParameterBagInterface $parameterBag,
-        private ManagerRegistry $doctrine,
-        private TokenStorageInterface $tokenStorage,
-        private Filesystem $filesystem,
-        private FileImporter $fileImporter,
-        private ActivityDataContainerFilter $activityDataContainerFilter,
-        private ActivityDataContainerToActivityContextConverter $activityDataContainerConverter,
-        private ActivityContextAdapterFactory $activityContextAdapterFactory,
-        private ConfigurationManager $configurationManager
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly ManagerRegistry $doctrine,
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly Filesystem $filesystem,
+        private readonly FileImporter $fileImporter,
+        private readonly ActivityDataContainerFilter $activityDataContainerFilter,
+        private readonly ActivityDataContainerToActivityContextConverter $activityDataContainerConverter,
+        private readonly ActivityContextAdapterFactory $activityContextAdapterFactory,
+        private readonly ConfigurationManager $configurationManager
     ) {
         parent::__construct();
     }

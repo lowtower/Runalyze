@@ -15,15 +15,7 @@ namespace Runalyze\Calculation\Math\MovingAverage;
  */
 abstract class AbstractMovingAverage implements MovingAverageInterface
 {
-    /**
-     * @var array
-     */
-    protected $IndexData = [];
-
-    /**
-     * @var array
-     */
-    protected $MovingAverage = [];
+    protected array $MovingAverage = [];
 
     protected int $Length = 0;
 
@@ -33,10 +25,9 @@ abstract class AbstractMovingAverage implements MovingAverageInterface
      */
     public function __construct(
         protected array $Data,
-        array $indexData = [],
-        $indexDataIsAscending = true
+        protected array $IndexData = [],
+        bool $indexDataIsAscending = true
     ) {
-        $this->IndexData = $indexData;
         $this->Length = count($this->Data);
 
         $this->checkIndexData($indexDataIsAscending);
@@ -45,7 +36,7 @@ abstract class AbstractMovingAverage implements MovingAverageInterface
     /**
      * @param bool $indexDataIsAscending set to false if index is not ascending
      */
-    protected function checkIndexData($indexDataIsAscending)
+    protected function checkIndexData(bool $indexDataIsAscending)
     {
         if ($this->IndexData !== []) {
             if (count($this->IndexData) !== $this->Length) {
@@ -89,28 +80,21 @@ abstract class AbstractMovingAverage implements MovingAverageInterface
      */
     abstract public function calculateWithoutIndexData();
 
-    /**
-     * @return bool
-     */
-    protected function hasIndexData()
+    protected function hasIndexData(): bool
     {
         return $this->IndexData !== [];
     }
 
-    /**
-     * @return array
-     */
-    public function movingAverage()
+    public function movingAverage(): array
     {
         return $this->MovingAverage;
     }
 
     /**
      * @param int $index
-     * @return float|int
      * @throws \InvalidArgumentException
      */
-    public function at($index)
+    public function at($index): float
     {
         if (isset($this->MovingAverage[$index])) {
             return $this->MovingAverage[$index];

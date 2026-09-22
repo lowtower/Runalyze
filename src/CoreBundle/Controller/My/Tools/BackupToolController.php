@@ -26,7 +26,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class BackupToolController extends AbstractController
 {
     public function __construct(
-        private MessageBusInterface $messageBus
+        private readonly MessageBusInterface $messageBus
     ) {
     }
 

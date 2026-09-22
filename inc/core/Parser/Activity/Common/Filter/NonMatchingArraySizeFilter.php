@@ -35,7 +35,7 @@ class NonMatchingArraySizeFilter extends AbstractFilter
     /**
      * @param int[] $arraySizes
      */
-    protected function throwErrorForNonMatchingArraySizes(array $arraySizes)
+    protected function throwErrorForNonMatchingArraySizes(array $arraySizes): never
     {
         throw new InvalidDataException($this->getErrorOrLogMessage($arraySizes, false));
     }
@@ -50,9 +50,8 @@ class NonMatchingArraySizeFilter extends AbstractFilter
 
     /**
      * @param int[] $arraySizes
-     * @param bool $sizesHaveBeenFixed
      */
-    protected function getErrorOrLogMessage(array $arraySizes, $sizesHaveBeenFixed = false): string
+    protected function getErrorOrLogMessage(array $arraySizes, bool $sizesHaveBeenFixed = false): string
     {
         return sprintf(
             '%s array sizes %s (%s).',

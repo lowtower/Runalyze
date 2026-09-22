@@ -26,21 +26,21 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class PosterGenerationMessageHandler implements MessageHandlerInterface
 {
-    private string $dataDir;
+    private readonly string $dataDir;
 
     public function __construct(
-        private LoggerInterface $logger,
-        private AccountRepository $accountRepository,
-        private SportRepository $sportRepository,
-        private NotificationRepository $notificationRepository,
-        private GenerateJsonData $generateJsonData,
-        private GeneratePoster $generatePoster,
-        private FileHandler $fileHandler,
-        private AccountMailer $accountMailer,
-        private PosterGenerationStateResolver $stateResolver,
+        private readonly LoggerInterface $logger,
+        private readonly AccountRepository $accountRepository,
+        private readonly SportRepository $sportRepository,
+        private readonly NotificationRepository $notificationRepository,
+        private readonly GenerateJsonData $generateJsonData,
+        private readonly GeneratePoster $generatePoster,
+        private readonly FileHandler $fileHandler,
+        private readonly AccountMailer $accountMailer,
+        private readonly PosterGenerationStateResolver $stateResolver,
         string $dataDirectory,
-        private string $rsvgPath,
-        private string $inkscapePath
+        private readonly string $rsvgPath,
+        private readonly string $inkscapePath
     ) {
         $this->dataDir = realpath($dataDirectory);
     }

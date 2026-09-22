@@ -7,3 +7,5 @@ doctrine_migrations:
         table_storage:
             table_name: '%app.database_prefix%migration_versions'
             version_column_name: 'version'
+    enable_profiler: false
+

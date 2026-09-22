@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::SummaryMode
  * @package Runalyze
@@ -70,7 +72,7 @@ final class SummaryMode extends AbstractEnum
      * @param string $key key of database column
      * @return string query part to select column
      */
-    public static function query($mode, $key): string
+    public static function query(int $mode, string $key): string
     {
         return match ($mode) {
             self::AVG => self::queryForAvg($key),
@@ -84,66 +86,45 @@ final class SummaryMode extends AbstractEnum
         };
     }
 
-    /**
-     * @param string $key
-     */
-    public static function queryForAvg($key): string
+    public static function queryForAvg(string|array $key): string
     {
         if (is_array($key)) {
-            return implode(', ', array_map([self::class, 'queryForAvg'], $key));
+            return implode(', ', array_map(self::queryForAvg(...), $key));
         }
 
         return 'SUM(`s`*`' . $key . '`*(`' . $key . '` != 0))/SUM(`s`*(`' . $key . '` != 0)) as `' . $key . '`';
     }
 
-    /**
-     * @param string $key
-     */
-    private static function queryForSum($key): string
+    private static function queryForSum(string $key): string
     {
         return 'SUM(`' . $key . '`) as `' . $key . '`';
     }
 
-    /**
-     * @param string $key
-     */
-    private static function queryForMax($key): string
+    private static function queryForMax(string $key): string
     {
         return 'MAX(`' . $key . '`) as `' . $key . '`';
     }
 
-    /**
-     * @param string $key
-     */
-    private static function queryForMin($key): string
+    private static function queryForMin(string $key): string
     {
         return 'MIN(`' . $key . '`) as `' . $key . '`';
     }
 
-    /**
-     * @param string $key
-     */
-    private static function queryForAvgWithoutNull($key): string
+    private static function queryForAvgWithoutNull(string $key): string
     {
         return 'AVG(NULLIF(`' . $key . '`,0)) as `' . $key . '`';
     }
 
-    /**
-     * @param string $key
-     */
-    public static function queryForAvgWithZero($key): string
+    public static function queryForAvgWithZero(string|array $key): string
     {
         if (is_array($key)) {
-            return implode(', ', array_map([self::class, 'queryForAvgWithZero'], $key));
+            return implode(', ', array_map(self::queryForAvgWithZero(...), $key));
         }
 
         return 'SUM(`s`*`' . $key . '`)/SUM(`s`) as `' . $key . '`';
     }
 
-    /**
-     * @param string $key
-     */
-    private static function queryForVO2max($key): string
+    private static function queryForVO2max(string $key): string
     {
         $Sum = \Runalyze\Configuration::VO2max()->useElevationCorrection() ? 'IF(`vo2max_with_elevation`>0,`vo2max_with_elevation`,`vo2max`)*`s`' : '`vo2max`*`s`';
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::Cosine
  * @package Runalyze\Calculation\Math\MovingAverage\Kernel
@@ -17,20 +19,14 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
  */
 class Cosine extends AbstractKernel
 {
-    /**
-     * @param float $width
-     */
-    public function __construct($width)
+    public function __construct(float $width)
     {
         $this->NormalizationFactor = M_PI / 2.0;
 
         parent::__construct($width);
     }
 
-    /**
-     * @param float $u
-     */
-    protected function atTransformed($u): float
+    protected function atTransformed(float $u): float
     {
         if ($u >= -1.0 && $u <= 1.0) {
             return cos($u * M_PI / 2.0);

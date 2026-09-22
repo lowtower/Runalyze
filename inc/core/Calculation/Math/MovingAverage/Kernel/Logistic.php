@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::Logistic
  * @package Runalyze\Calculation\Math\MovingAverage\Kernel
@@ -17,20 +19,11 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
  */
 class Logistic extends AbstractKernel
 {
-    /**
-     * @var float
-     */
-    protected $DefaultWidth = 10.0;
+    protected float $DefaultWidth = 10.0;
 
-    /**
-     * @var float
-     */
-    protected $NormalizationFactor = 10.0;
+    protected float $NormalizationFactor = 10.0;
 
-    /**
-     * @param float $u
-     */
-    protected function atTransformed($u): float
+    protected function atTransformed(float $u): float
     {
         return 1.0 / (exp($u) + 2.0 + exp(-$u));
     }

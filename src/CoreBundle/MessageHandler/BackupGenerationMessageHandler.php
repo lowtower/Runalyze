@@ -18,16 +18,16 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class BackupGenerationMessageHandler implements MessageHandlerInterface
 {
-    private string $dataDirectory;
+    private readonly string $dataDirectory;
 
     public function __construct(
-        private AccountRepository $accountRepository,
-        private NotificationRepository $notificationRepository,
-        private ParameterBagInterface $parameterBag,
-        private AccountMailer $accountMailer,
+        private readonly AccountRepository $accountRepository,
+        private readonly NotificationRepository $notificationRepository,
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly AccountMailer $accountMailer,
         string $dataDirectory,
-        private string $databasePrefix,
-        private string $runalyzeVersion
+        private readonly string $databasePrefix,
+        private readonly string $runalyzeVersion
     ) {
         $this->dataDirectory = realpath($dataDirectory);
     }

@@ -17,9 +17,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class NotificationsController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(
-        private TranslatorInterface $translator,
-        private RouterInterface $router,
-        private NotificationRepository $notificationRepository
+        private readonly TranslatorInterface $translator,
+        private readonly RouterInterface $router,
+        private readonly NotificationRepository $notificationRepository
     ) {
     }
 

@@ -52,12 +52,12 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
         return $this->getElements() === [];
     }
 
-    public function count()
+    public function count(): int
     {
         return count($this->getElements());
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->getElements()[$offset]);
     }
@@ -94,12 +94,12 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
         unset($this->Elements[$offset]);
     }
 
-    public function current()
+    public function current(): mixed
     {
         return $this->getElements()[$this->CurrentOffset];
     }
 
-    public function key()
+    public function key(): mixed
     {
         return $this->CurrentOffset;
     }
@@ -114,7 +114,7 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
         $this->CurrentOffset = 0;
     }
 
-    public function valid()
+    public function valid(): bool
     {
         return isset($this->getElements()[$this->CurrentOffset]);
     }
@@ -146,7 +146,7 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
 
     public function isEqualTo(self $other): bool
     {
-        if ($this->count() != $other->count()) {
+        if ($this->count() !== $other->count()) {
             return false;
         }
 

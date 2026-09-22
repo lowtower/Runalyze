@@ -17,14 +17,10 @@ namespace Runalyze\Calculation\Math\MovingAverage;
  */
 interface MovingAverageInterface
 {
-    /**
-     * @return array
-     */
-    public function movingAverage();
+    public function movingAverage(): array;
 
     /**
      * @param int $index
-     * @return float|int
      */
-    public function at($index);
+    public function at($index): float;
 }

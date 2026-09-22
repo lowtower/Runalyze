@@ -7,8 +7,8 @@ namespace Runalyze\Bundle\CoreBundle\Message;
 final class BackupGenerationMessage
 {
     public function __construct(
-        private int $accountId,
-        private string $exportType
+        private readonly int $accountId,
+        private readonly string $exportType
     ) {
     }
 

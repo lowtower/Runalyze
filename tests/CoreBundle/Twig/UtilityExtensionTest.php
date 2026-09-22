@@ -6,10 +6,7 @@ use Runalyze\Bundle\CoreBundle\Twig\UtilityExtension;
 
 class UtilityExtensionTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var UtilityExtension
-     */
-    protected $Utility;
+    protected UtilityExtension $Utility;
 
     protected function setUp(): void
     {
@@ -40,5 +37,64 @@ class UtilityExtensionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('7.41 EB', $this->Utility->filesizeAsString(7.41 * 1024 ** 6));
         $this->assertEquals('5.90 ZB', $this->Utility->filesizeAsString(5.90 * 1024 ** 7));
         $this->assertEquals('1.00 YB', $this->Utility->filesizeAsString(1.00 * 1024 ** 8));
+    }
+
+    /**
+     * @dataProvider provideValuesAroundIntMax
+     */
+    public function testFilesizeAsStringAroundIntMaxBoundary(float $bytes, string $expected): void
+    {
+        $this->assertEquals($expected, $this->Utility->filesizeAsString($bytes));
+    }
+
+    /**
+     * @dataProvider provideZeroOrNearZeroValues
+     */
+    public function testFilesizeAsStringForZeroValues(float $bytes): void
+    {
+        $this->assertEquals('0 B', $this->Utility->filesizeAsString($bytes));
+    }
+
+    public static function provideZeroOrNearZeroValues(): array
+    {
+        return [
+            'exactly 0' => [0.0],
+            'negative close to 0' => [-0.5],
+            'positive, below 1 Byte' => [0.99],
+        ];
+    }
+
+    public static function provideValuesAroundIntMax(): array
+    {
+        return [
+            'close below PHP_INT_MAX (~8 EB)' => [
+                (float) PHP_INT_MAX - 1024 ** 6,
+                '7.00 EB',
+            ],
+            'exactly PHP_INT_MAX (~8 EB)' => [
+                (float) PHP_INT_MAX,
+                '8.00 EB',
+            ],
+            'close above PHP_INT_MAX (~8 EB)' => [
+                (float) PHP_INT_MAX + 1024 ** 5,
+                '8.00 EB',
+            ],
+            '5.90 ZB (faar above PHP_INT_MAX)' => [
+                5.90 * 1024 ** 7,
+                '5.90 ZB',
+            ],
+            '1.00 YB' => [
+                1.00 * 1024 ** 8,
+                '1.00 YB',
+            ],
+            '9.99 YB (extremely large value)' => [
+                9.99 * 1024 ** 8,
+                '9.99 YB',
+            ],
+            'Value above YB (array limit)' => [
+                1024.0 * 1024 ** 8,
+                '1024.00 YB',
+            ],
+        ];
     }
 }

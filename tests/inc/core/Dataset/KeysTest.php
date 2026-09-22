@@ -23,11 +23,12 @@ class KeysTest extends \PHPUnit\Framework\TestCase
     {
         foreach (Keys::getEnum() as $key) {
             $KeyObject = Keys::get($key);
+            $column = is_array($KeyObject->column()) ? $KeyObject->column()[0] : $KeyObject->column();
 
             if ($KeyObject->isInDatabase() && $KeyObject->isShownInSummary()) {
                 $result = SummaryMode::query(
                     $KeyObject->summaryMode(),
-                    $KeyObject->column()
+                    $column
                 );
                 $this->assertNotSame('', $result, sprintf('SummaryMode::query() returned an empty string for key "%s" (mode "%s") — the summary mode is likely not handled in SummaryMode::query().', $key, $KeyObject->summaryMode()));
             }
