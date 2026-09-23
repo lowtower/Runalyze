@@ -1886,7 +1886,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      */
     public function setWindDeg(?int $windDeg): self
     {
-        $this->windDeg = $windDeg;
+        $this->windDeg = $windDeg !== null ? (($windDeg % 360) + 360) % 360 : null;
 
         return $this;
     }
