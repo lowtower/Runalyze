@@ -9,12 +9,7 @@ use Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaData;
 
 class Month implements QueryGroupInterface
 {
-    /**
-     * @param string $alias
-     * @param string $as
-     * @param string $sportAlias
-     */
-    public function addSelectionToQuery(QueryBuilder $queryBuilder, $alias, $as, $sportAlias): void
+    public function addSelectionToQuery(QueryBuilder $queryBuilder, string $alias, string $as, string $sportAlias): void
     {
         $queryBuilder->addSelect(sprintf('MONTH(FROM_UNIXTIME(%s.time)) as %s', $alias, $as));
     }

@@ -14,7 +14,7 @@ class PronationExcursionLeft extends AbstractOneColumnValue
         return 'avgPronationExcursionLeft';
     }
 
-    public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\Common\Unit\Simple
+    public function getValueUnit(UnitSystem $unitSystem): Simple
     {
         return new Simple('°');
     }

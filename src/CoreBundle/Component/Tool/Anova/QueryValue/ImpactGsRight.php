@@ -14,7 +14,7 @@ class ImpactGsRight extends AbstractOneColumnValue
         return 'avgImpactGsRight';
     }
 
-    public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\Common\Unit\Simple
+    public function getValueUnit(UnitSystem $unitSystem): Simple
     {
         return new Simple('G');
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryValue;
 
 use Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem;
+use Runalyze\Metrics\Velocity\Unit\AbstractPaceInDecimalFormatUnit;
 
 class WeatherWindSpeed extends AbstractOneColumnValue
 {
@@ -13,7 +14,7 @@ class WeatherWindSpeed extends AbstractOneColumnValue
         return 'windSpeed';
     }
 
-    public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\Velocity\Unit\AbstractPaceInDecimalFormatUnit
+    public function getValueUnit(UnitSystem $unitSystem): AbstractPaceInDecimalFormatUnit
     {
         return $unitSystem->getWindSpeedUnit();
     }

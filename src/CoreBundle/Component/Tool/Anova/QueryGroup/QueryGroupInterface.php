@@ -11,20 +11,9 @@ use Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaData;
 
 interface QueryGroupInterface
 {
-    /**
-     * @param string $alias
-     * @param string $as
-     * @param string $sportAlias
-     */
-    public function addSelectionToQuery(QueryBuilder $queryBuilder, $alias, $as, $sportAlias);
+    public function addSelectionToQuery(QueryBuilder $queryBuilder, string $alias, string $as, string $sportAlias);
 
-    /**
-     * @return array
-     */
-    public function loadAllGroups(EntityManager $entityManager, Account $account, AnovaData $anovaData);
+    public function loadAllGroups(EntityManager $entityManager, Account $account, AnovaData $anovaData): array;
 
-    /**
-     * @return bool
-     */
-    public function showEmptyGroups();
+    public function showEmptyGroups(): bool;
 }

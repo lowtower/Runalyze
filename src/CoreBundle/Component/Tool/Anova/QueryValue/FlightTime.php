@@ -8,7 +8,7 @@ use Runalyze\Metrics\Common\Unit\Simple;
 
 class FlightTime implements QueryValueInterface
 {
-    public function addSelectionToQuery(QueryBuilder $queryBuilder, $alias, $as): void
+    public function addSelectionToQuery(QueryBuilder $queryBuilder, string $alias, string $as): void
     {
         $queryBuilder
             ->addSelect(sprintf('(30000/%s.cadence - %s.groundcontact) as %s', $alias, $alias, $as))
@@ -16,7 +16,7 @@ class FlightTime implements QueryValueInterface
             ->andWhere(sprintf('%s.groundcontact IS NOT NULL', $alias));
     }
 
-    public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\Common\Unit\Simple
+    public function getValueUnit(UnitSystem $unitSystem): Simple
     {
         return new Simple('ms');
     }

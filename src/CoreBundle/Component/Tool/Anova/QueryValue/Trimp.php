@@ -12,7 +12,7 @@ class Trimp extends AbstractOneColumnValue
         return 'trimp';
     }
 
-    public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\Common\Unit\None
+    public function getValueUnit(UnitSystem $unitSystem): None
     {
         return new None();
     }

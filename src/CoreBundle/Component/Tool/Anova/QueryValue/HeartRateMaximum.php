@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryValue;
 
 use Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem;
+use Runalyze\Metrics\HeartRate\Unit\AbstractHeartRateUnit;
 
 class HeartRateMaximum extends AbstractOneColumnValue
 {
@@ -13,7 +14,7 @@ class HeartRateMaximum extends AbstractOneColumnValue
         return 'pulseMax';
     }
 
-    public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\HeartRate\Unit\AbstractHeartRateUnit
+    public function getValueUnit(UnitSystem $unitSystem): AbstractHeartRateUnit
     {
         return $unitSystem->getHeartRateUnit();
     }

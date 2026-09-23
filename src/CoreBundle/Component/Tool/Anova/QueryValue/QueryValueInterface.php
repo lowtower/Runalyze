@@ -10,14 +10,7 @@ use Runalyze\Metrics\Common\UnitInterface;
 
 interface QueryValueInterface
 {
-    /**
-     * @param string $alias
-     * @param string $as
-     */
-    public function addSelectionToQuery(QueryBuilder $queryBuilder, $alias, $as);
+    public function addSelectionToQuery(QueryBuilder $queryBuilder, string $alias, string $as);
 
-    /**
-     * @return UnitInterface
-     */
-    public function getValueUnit(UnitSystem $unitSystem);
+    public function getValueUnit(UnitSystem $unitSystem): UnitInterface;
 }

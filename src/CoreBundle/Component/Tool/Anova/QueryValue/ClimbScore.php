@@ -12,7 +12,7 @@ class ClimbScore extends AbstractOneColumnValue
         return 'climbScore';
     }
 
-    public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\Common\Unit\None
+    public function getValueUnit(UnitSystem $unitSystem): None
     {
         return new None();
     }

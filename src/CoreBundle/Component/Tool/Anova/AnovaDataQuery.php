@@ -13,24 +13,19 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Type;
+use Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaData;
 use Runalyze\Metrics\Common\UnitInterface;
 
 class AnovaDataQuery
 {
     protected \Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryGroup\QueryGroupInterface $QueryGroup;
 
-    /**
-     * @var QueryValueInterface
-     */
-    protected $QueryValue;
+    protected QueryValueInterface $QueryValue;
 
-    /**
-     * @var array
-     */
-    protected $Groups = [];
+    protected array $Groups = [];
 
     public function __construct(
-        protected \Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaData $AnovaData
+        protected AnovaData $AnovaData
     ) {
         $this->QueryGroup = QueryGroups::getGroup($this->AnovaData->getValueToGroupBy());
         $this->QueryValue = QueryValues::get($this->AnovaData->getValueToLookAt());
@@ -49,10 +44,7 @@ class AnovaDataQuery
         }
     }
 
-    /**
-     * @return UnitInterface
-     */
-    public function getValueUnit(UnitSystem $unitSystem)
+    public function getValueUnit(UnitSystem $unitSystem): UnitInterface
     {
         $sports = $this->AnovaData->getSport();
 
@@ -78,10 +70,7 @@ class AnovaDataQuery
         return array_values($this->Groups);
     }
 
-    /**
-     * @return \Doctrine\ORM\Query
-     */
-    protected function buildQuery(TrainingRepository $trainingRepository, Account $account)
+    protected function buildQuery(TrainingRepository $trainingRepository, Account $account): \Doctrine\ORM\Query
     {
         $queryBuilder = $trainingRepository->createQueryBuilder('t')
             ->select('1')

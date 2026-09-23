@@ -12,7 +12,7 @@ class FootstrikeTypeLeft extends AbstractOneColumnValue
         return 'avgFootstrikeTypeLeft';
     }
 
-    public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\Common\Unit\None
+    public function getValueUnit(UnitSystem $unitSystem): None
     {
         return new None();
     }

@@ -5,23 +5,17 @@ namespace Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryGroup;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Equipment;
 use Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaData;
 
 class EquipmentType implements QueryGroupInterface
 {
-    protected int $EquipmentTypeId;
-
-    public function __construct($id)
-    {
-        $this->EquipmentTypeId = (int) $id;
+    public function __construct(
+        protected int $EquipmentTypeId
+    ) {
     }
 
-    /**
-     * @param string $alias
-     * @param string $as
-     * @param string $sportAlias
-     */
-    public function addSelectionToQuery(QueryBuilder $queryBuilder, $alias, $as, $sportAlias): void
+    public function addSelectionToQuery(QueryBuilder $queryBuilder, string $alias, string $as, string $sportAlias): void
     {
         $queryBuilder
             ->addSelect(sprintf('%s.id as %s', 'eq', $as))
@@ -36,7 +30,7 @@ class EquipmentType implements QueryGroupInterface
     {
         $groups = [];
 
-        foreach ($entityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Equipment::class)->findByTypeId($this->EquipmentTypeId, $account) as $equipment) {
+        foreach ($entityManager->getRepository(Equipment::class)->findByTypeId($this->EquipmentTypeId, $account) as $equipment) {
             $groups[$equipment->getId()] = $equipment->getName();
         }
 
