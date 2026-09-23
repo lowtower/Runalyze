@@ -816,20 +816,14 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         $this->setEdited(time());
     }
 
-    /**
-     * @param bool $isPublic
-     */
-    public function setPublic($isPublic): self
+    public function setPublic(bool $isPublic): self
     {
-        $this->isPublic = (bool) $isPublic;
+        $this->isPublic = $isPublic;
 
         return $this;
     }
 
-    /**
-     * @param bool $isPublic
-     */
-    public function setIsPublic($isPublic): self
+    public function setIsPublic(bool $isPublic): self
     {
         return $this->setPublic($isPublic);
     }

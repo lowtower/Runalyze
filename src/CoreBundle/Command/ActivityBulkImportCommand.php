@@ -64,7 +64,7 @@ class MaxZoneHR
     {
         // used this HR if
         // 1. import is allowed by configuration (=IMPORT_MAX_HR_USER)
-        // 2. its the main sport (in normal cases 'running')
+        // 2. it's the main sport (in normal cases 'running')
         // 3. a MaxZoneHR is in the import/FIT and its the highest of all the imported
         if ($this->import
             && method_exists($activity, 'getSport') && $activity->getSport()
@@ -252,7 +252,6 @@ class ActivityBulkImportCommand extends Command
             $path_parts = pathinfo($importedFilename);
             $source = $path . '/' . $path_parts['basename'];
             $moveTo = $path . '/' . $this->moveFolder . '/' . $path_parts['basename'];
-            echo 'moveTo:' . $moveTo;
 
             if (! rename($source, $moveTo)) {
                 $output->writeln('<fg=red>Cant move to ' . $moveTo . '</>');

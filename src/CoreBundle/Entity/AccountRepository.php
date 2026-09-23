@@ -16,7 +16,7 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
      *
      * @param string $username username
      */
-    public function findByUsername($username): ?Account
+    public function findByUsername(string $username): ?Account
     {
         return $this->createQueryBuilder('u')
             ->where('u.username = :username')
@@ -30,7 +30,7 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
      * @param bool $excluded if set, all but given languages will be selected
      * @return array account ids
      */
-    public function findAllByLanguage($language, $excluded = false)
+    public function findAllByLanguage($language, bool $excluded = false): array
     {
         return $this->findAllByLanguageQueryBuilder($language, $excluded)
             ->getQuery()
@@ -40,9 +40,8 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
     /**
      * @param string|string[] $language language key(s)
      * @param bool $excluded if set, all but given languages will be selected
-     * @return \Doctrine\ORM\QueryBuilder
      */
-    public function findAllByLanguageQueryBuilder($language, $excluded = false)
+    public function findAllByLanguageQueryBuilder($language, bool $excluded = false): \Doctrine\ORM\QueryBuilder
     {
         if (! is_array($language)) {
             $language = [$language];

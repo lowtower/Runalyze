@@ -2,19 +2,20 @@
 
 namespace Runalyze\Bundle\CoreBundle\Command;
 
+use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\FinderFactoryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\Finder;
 
 class CleanupBackupCommand extends Command
 {
     public function __construct(
         private readonly ParameterBagInterface $parameterBag,
-        private readonly Filesystem $filesystem
+        private readonly Filesystem $filesystem,
+        private readonly FinderFactoryInterface $finderFactory
     ) {
         parent::__construct();
     }
@@ -36,7 +37,7 @@ class CleanupBackupCommand extends Command
         $dataDirectory = $this->parameterBag->get('app.data_directory');
         $backupPath = $dataDirectory . '/backup-tool/backup';
 
-        $finder = new Finder();
+        $finder = $this->finderFactory->create();
         $finder
             ->files()
             ->name('*.gz')

@@ -12,7 +12,7 @@ class NotificationRepository extends EntityRepository
     /**
      * @return Notification[]
      */
-    public function findAll(?Account $account = null)
+    public function findAll(?Account $account = null): array
     {
         if (! $account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account) {
             throw new \LogicException('Finding all notifications is only possible for a specific account.');
@@ -22,10 +22,9 @@ class NotificationRepository extends EntityRepository
     }
 
     /**
-     * @param null|int $timestamp
      * @return Notification[]
      */
-    public function findAllSince($timestamp, Account $account)
+    public function findAllSince(?int $timestamp, Account $account): array
     {
         $queryBuilder = $this->createQueryBuilder('n')
             ->where('n.account = :account')
@@ -65,7 +64,7 @@ class NotificationRepository extends EntityRepository
     /**
      * @return int number of removed notifications
      */
-    public function removeExpiredNotifications()
+    public function removeExpiredNotifications(): int
     {
         $numDeleted = $this->createQueryBuilder('n')
             ->delete()

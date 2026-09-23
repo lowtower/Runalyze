@@ -70,21 +70,36 @@ class ActivityBulkRouteNameEvaluationCommand extends Command
 
         $output->writeln('Start route-name evaluation with id=' . $activityId . ' and nexted=' . $nexted . ', override=' . $this->override);
 
+        $exitCode = 0;
+
         do {
             $activity = $this->processActivity($output, $activityId, $user);
+
+            if (! $activity instanceof \Runalyze\Bundle\CoreBundle\Entity\Training) {
+                $exitCode = 1;
+                break;
+            }
+
             $activityId = $this->getTrainingRepository()
                 ->getIdOfNextActivity($activity);
         } while ($nexted === 1 && $activityId != null);
 
         $output->writeln('');
         $output->writeln('Done.');
-        return 0;
+
+        return $exitCode;
     }
 
-    protected function processActivity(OutputInterface $output, int $activityId, Account $user): Training
+    protected function processActivity(OutputInterface $output, int $activityId, Account $user): ?Training
     {
         $activity = $this->getTrainingRepository()
             ->findForAccount($activityId, $user->getId());
+
+        if (! $activity instanceof \Runalyze\Bundle\CoreBundle\Entity\Training) {
+            $output->writeln('<fg=red>Activity not found: id=' . $activityId . '</>');
+
+            return null;
+        }
 
         if ($activity->hasRoute()) {
             if (empty($activity->getRouteName()) || $this->override) {

@@ -1,0 +1,291 @@
+<?php
+
+namespace Tests\Runalyze\Bundle\CoreBundle\Command;
+
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Result;
+use Doctrine\Persistence\ManagerRegistry;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
+use Runalyze\Bundle\CoreBundle\Command\InstallCheckCommand;
+use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+
+final class InstallCheckCommandTest extends TestCase
+{
+    private ParameterBagInterface&MockObject $parameterBag;
+
+    private ManagerRegistry&MockObject $doctrine;
+
+    private Connection&MockObject $connection;
+
+    private string $tempRootDirectory;
+
+    private const REQUIRED_WRITABLE_DIRECTORIES = [
+        'data/backup-tool/backup/',
+        'data/backup-tool/import/',
+        'data/cache/',
+        'data/import/',
+        'data/poster/',
+        'data/sessions/',
+        'var/cache/',
+        'var/log/',
+        'var/poster/',
+        'var/queue/',
+        'var/tmp/',
+    ];
+
+    protected function setUp(): void
+    {
+        $this->parameterBag = $this->createMock(ParameterBagInterface::class);
+        $this->doctrine = $this->createMock(ManagerRegistry::class);
+        $this->connection = $this->createMock(Connection::class);
+
+        $this->doctrine
+            ->method('getConnection')
+            ->willReturn($this->connection);
+
+        $this->tempRootDirectory = sys_get_temp_dir() . '/install-check-command-test-' . bin2hex(random_bytes(8));
+        mkdir($this->tempRootDirectory, 0777, true);
+        mkdir($this->tempRootDirectory . '/app', 0777, true);
+    }
+
+    protected function tearDown(): void
+    {
+        if (is_dir($this->tempRootDirectory)) {
+            $this->removeDirectoryRecursively($this->tempRootDirectory);
+        }
+    }
+
+    private function removeDirectoryRecursively(string $directory): void
+    {
+        $items = scandir($directory);
+        foreach ($items as $item) {
+            if ($item === '.' || $item === '..') {
+                continue;
+            }
+
+            $path = $directory . '/' . $item;
+            if (is_dir($path)) {
+                $this->removeDirectoryRecursively($path);
+            } else {
+                unlink($path);
+            }
+        }
+
+        rmdir($directory);
+    }
+
+    /**
+     * @param string[] $directoriesToCreate
+     */
+    private function createRequiredDirectories(array $directoriesToCreate): void
+    {
+        foreach ($directoriesToCreate as $relativePath) {
+            mkdir($this->tempRootDirectory . '/app/../' . $relativePath, 0777, true);
+        }
+    }
+
+    private function configureKernelRootDir(): void
+    {
+        $this->parameterBag
+            ->method('get')
+            ->willReturnMap([
+                ['kernel.root_dir', $this->tempRootDirectory . '/app'],
+            ]);
+    }
+
+    private function mockPrefixQuery(int $matchingTableCount): void
+    {
+        $result = $this->createMock(Result::class);
+        $result->method('rowCount')
+            ->willReturn($matchingTableCount);
+
+        $this->connection
+            ->method('executeQuery')
+            ->willReturn($result);
+    }
+
+    private function createCommand(): InstallCheckCommand
+    {
+        return new InstallCheckCommand($this->parameterBag, $this->doctrine);
+    }
+
+    public function testCommandConfiguration(): void
+    {
+        $command = $this->createCommand();
+
+        self::assertSame('runalyze:install:check', $command->getName());
+        self::assertSame('Check requirements for installing RUNALYZE.', $command->getDescription());
+    }
+
+    public function testExecuteAllChecksPassProducesSuccessMessageAndZeroExitCode(): void
+    {
+        $this->configureKernelRootDir();
+        $this->mockPrefixQuery(0);
+        $this->createRequiredDirectories(self::REQUIRED_WRITABLE_DIRECTORIES);
+
+        $tester = new CommandTester($this->createCommand());
+        $exitCode = $tester->execute([]);
+
+        self::assertSame(0, $exitCode);
+        $display = $tester->getDisplay();
+        self::assertStringContainsString('Check PHP version', $display);
+        self::assertStringContainsString('Check that database prefix is not used', $display);
+        self::assertStringContainsString('Check that directories for cache, log and import are writable', $display);
+        self::assertStringContainsString('All requirements are fulfilled.', $display);
+    }
+
+    public function testExecuteReturnsFailureExitCodeWhenPrefixIsAlreadyUsed(): void
+    {
+        $this->configureKernelRootDir();
+        $this->mockPrefixQuery(2);
+        $this->createRequiredDirectories(self::REQUIRED_WRITABLE_DIRECTORIES);
+
+        $tester = new CommandTester($this->createCommand());
+        $exitCode = $tester->execute([]);
+
+        self::assertSame(InstallCheckCommand::CHECK_FAILED, $exitCode);
+        $display = $tester->getDisplay();
+        self::assertStringContainsString('Maybe RUNALYZE is already installed.', $display);
+        self::assertStringContainsString('Not all requirements are fulfilled, installation not possible.', $display);
+    }
+
+    public function testExecuteReportsWarningButStillSucceedsWhenADirectoryIsMissing(): void
+    {
+        $this->configureKernelRootDir();
+        $this->mockPrefixQuery(0);
+
+        $directoriesMinusOne = self::REQUIRED_WRITABLE_DIRECTORIES;
+        array_pop($directoriesMinusOne);
+        $this->createRequiredDirectories($directoriesMinusOne);
+
+        $tester = new CommandTester($this->createCommand());
+        $exitCode = $tester->execute([]);
+
+        self::assertSame(0, $exitCode);
+        $display = $tester->getDisplay();
+        self::assertStringContainsString('Respective directories in data/ and var/ must be writable.', $display);
+        self::assertStringContainsString('There were some warnings, installation may still be possible.', $display);
+    }
+
+    public function testExecutePrioritisesErrorMessageOverWarningWhenBothOccur(): void
+    {
+        $this->configureKernelRootDir();
+        $this->mockPrefixQuery(1);
+
+        $directoriesMinusOne = self::REQUIRED_WRITABLE_DIRECTORIES;
+        array_pop($directoriesMinusOne);
+        $this->createRequiredDirectories($directoriesMinusOne);
+
+        $tester = new CommandTester($this->createCommand());
+        $exitCode = $tester->execute([]);
+
+        self::assertSame(InstallCheckCommand::CHECK_FAILED, $exitCode);
+        $display = $tester->getDisplay();
+        self::assertStringContainsString('Not all requirements are fulfilled, installation not possible.', $display);
+        self::assertStringNotContainsString('There were some warnings, installation may still be possible.', $display);
+    }
+
+    public function testExecuteQueriesForTablesMatchingConfiguredDatabasePrefix(): void
+    {
+        $this->parameterBag
+            ->method('get')
+            ->willReturnMap([
+                ['kernel.root_dir', $this->tempRootDirectory . '/app'],
+                ['app.database_prefix', 'custom_prefix_'],
+            ]);
+        $this->createRequiredDirectories(self::REQUIRED_WRITABLE_DIRECTORIES);
+
+        $result = $this->createMock(Result::class);
+        $result->method('rowCount')
+            ->willReturn(0);
+
+        $this->connection
+            ->expects(self::once())
+            ->method('executeQuery')
+            ->with(self::stringContains('custom_prefix_%'))
+            ->willReturn($result);
+
+        $tester = new CommandTester($this->createCommand());
+        $tester->execute([]);
+    }
+
+    public function testEvaluatePhpVersionReturnsOkayWhenRunningVersionMeetsRequirement(): void
+    {
+        $command = new TestableInstallCheckCommand($this->parameterBag, $this->doctrine);
+
+        self::assertSame(
+            InstallCheckCommand::OKAY,
+            $command->evaluatePhpVersionPublic(InstallCheckCommand::REQUIRED_PHP_VERSION)
+        );
+        self::assertSame(
+            InstallCheckCommand::OKAY,
+            $command->evaluatePhpVersionPublic('8.3.0')
+        );
+    }
+
+    public function testEvaluatePhpVersionReturnsErrorWhenRunningVersionIsTooOld(): void
+    {
+        $command = new TestableInstallCheckCommand($this->parameterBag, $this->doctrine);
+
+        [$requiredMajor] = explode('.', InstallCheckCommand::REQUIRED_PHP_VERSION);
+        $belowRequiredMajor = max(0, ((int) $requiredMajor) - 1);
+        $versionOneMajorBelowRequired = $belowRequiredMajor . '.0.0';
+
+        self::assertSame(
+            InstallCheckCommand::ERROR,
+            $command->evaluatePhpVersionPublic($versionOneMajorBelowRequired)
+        );
+        self::assertSame(
+            InstallCheckCommand::ERROR,
+            $command->evaluatePhpVersionPublic('0.1.0')
+        );
+    }
+
+    public function testCheckPhpVersionUsesTheActualRunningPhpVersion(): void
+    {
+        $command = new TestableInstallCheckCommand($this->parameterBag, $this->doctrine);
+
+        self::assertSame(InstallCheckCommand::OKAY, $command->checkPhpVersionPublic());
+    }
+
+    public function testExecuteFailsOverallWhenPhpVersionCheckReturnsError(): void
+    {
+        $this->configureKernelRootDir();
+        $this->mockPrefixQuery(0);
+        $this->createRequiredDirectories(self::REQUIRED_WRITABLE_DIRECTORIES);
+
+        $command = new TestableInstallCheckCommandForcingPhpVersionError($this->parameterBag, $this->doctrine);
+
+        $tester = new CommandTester($command);
+        $exitCode = $tester->execute([]);
+
+        self::assertSame(InstallCheckCommand::CHECK_FAILED, $exitCode);
+        self::assertStringContainsString(
+            'Not all requirements are fulfilled, installation not possible.',
+            $tester->getDisplay()
+        );
+    }
+}
+
+final class TestableInstallCheckCommand extends InstallCheckCommand
+{
+    public function evaluatePhpVersionPublic(string $runningVersion): int
+    {
+        return $this->evaluatePhpVersion($runningVersion);
+    }
+
+    public function checkPhpVersionPublic(): int
+    {
+        return $this->checkPhpVersion();
+    }
+}
+
+final class TestableInstallCheckCommandForcingPhpVersionError extends InstallCheckCommand
+{
+    protected function checkPhpVersion(): int
+    {
+        return self::ERROR;
+    }
+}

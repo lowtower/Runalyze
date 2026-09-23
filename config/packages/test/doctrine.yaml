@@ -23,6 +23,12 @@ doctrine:
                 password: '%env(DB_TEST_PASSWORD)%'
                 charset:  UTF8
                 options: {1002: "SET time_zone = '+00:00'"}
+    orm:
+        dql:
+            datetime_functions:
+                from_unixtime: Runalyze\Bundle\CoreBundle\Tests\Doctrine\DQL\Sqlite\SqliteFromUnixtime
+                year: Runalyze\Bundle\CoreBundle\Tests\Doctrine\DQL\Sqlite\SqliteYear
+                month: Runalyze\Bundle\CoreBundle\Tests\Doctrine\DQL\Sqlite\SqliteMonth
 
 parameters:
     database_prefix: 'runalyze_test_'

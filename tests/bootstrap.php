@@ -8,6 +8,8 @@
 // ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.dirname(__FILE__).'/../../../php/PEAR');
 
 use App\Kernel;
+use Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookup;
+use Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookupException;
 use Symfony\Component\Dotenv\Dotenv;
 
 error_reporting(E_ALL);
@@ -113,11 +115,11 @@ SessionAccountHandler::setAccount([
 
 // Define RUNALYZE_TEST_TZ_LOOKUP
 try {
-    $lookup = new \Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookup(TESTS_ROOT . '/../data/timezone.sqlite', SQLITE_MOD_SPATIALITE);
+    $lookup = new TimezoneLookup(TESTS_ROOT . '/../data/timezone.sqlite', SQLITE_MOD_SPATIALITE);
     $detectedTimezone = $lookup->getTimezoneForCoordinate(13.41, 52.52);
 
     define('RUNALYZE_TEST_TZ_LOOKUP', $detectedTimezone === 'Europe/Berlin');
-} catch (\Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookupException $timezoneLookupException) {
+} catch (TimezoneLookupException $timezoneLookupException) {
     define('RUNALYZE_TEST_TZ_LOOKUP', false);
 }
 

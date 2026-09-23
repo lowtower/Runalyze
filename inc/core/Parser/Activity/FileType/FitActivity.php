@@ -98,10 +98,10 @@ class FitActivity extends AbstractSingleParser
     ];
 
     /**
-     * @var array<int, array<string|array<int|string, float|string|int|array<string, int|0.1>>>>
+     * @var array<int, array<string|array<int|string, float|string|int|array<string, int|float>>>>
      */
     protected array $NativeFieldMappingForRecord = [
-        // TODO: native fields aller verwendeten Arrays
+        // TODO: native fields of all used arrays
         3 => ['heart_rate'],
         4 => [
             'cadence', [
@@ -300,7 +300,7 @@ class FitActivity extends AbstractSingleParser
     }
 
     /**
-     * @param array<int, mixed[]> $nativeFieldMapping
+     * @param array<array-key, mixed[]> $nativeFieldMapping
      * @param array<string, array<mixed>> $fieldMapping
      */
     protected function readFieldDescriptionFor(array &$nativeFieldMapping, array &$fieldMapping)

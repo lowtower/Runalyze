@@ -1,0 +1,120 @@
+<?php
+
+namespace Tests\Runalyze\Bundle\CoreBundle\Command;
+
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
+use Runalyze\Bundle\CoreBundle\Command\InstallFilesystemCommand;
+use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpKernel\KernelInterface;
+
+final class InstallFilesystemCommandTest extends TestCase
+{
+    private Filesystem $filesystem;
+
+    private KernelInterface&MockObject $kernel;
+
+    private string $tempProjectDirectory;
+
+    protected function setUp(): void
+    {
+        $this->filesystem = new Filesystem();
+
+        $this->tempProjectDirectory = sys_get_temp_dir() . '/install-filesystem-command-test-' . bin2hex(random_bytes(8));
+        mkdir($this->tempProjectDirectory, 0777, true);
+
+        $this->kernel = $this->createMock(\Symfony\Component\HttpKernel\Kernel::class);
+        $this->kernel
+            ->method('getProjectDir')
+            ->willReturn($this->tempProjectDirectory);
+    }
+
+    protected function tearDown(): void
+    {
+        if (is_dir($this->tempProjectDirectory)) {
+            $this->filesystem->remove($this->tempProjectDirectory);
+        }
+    }
+
+    private function createCommand(): InstallFilesystemCommand
+    {
+        return new InstallFilesystemCommand($this->filesystem, $this->kernel);
+    }
+
+    public function testCommandConfiguration(): void
+    {
+        $command = $this->createCommand();
+
+        self::assertSame('runalyze:install:filesystem', $command->getName());
+        self::assertSame('Setup RUNALYZE file system.', $command->getDescription());
+    }
+
+    public function testExecuteCopiesHtaccessDistToHtaccessSuccessfully(): void
+    {
+        $distPath = $this->tempProjectDirectory . '/.htaccess.dist';
+        $targetPath = $this->tempProjectDirectory . '/.htaccess';
+
+        file_put_contents($distPath, "Options -Indexes\nRewriteEngine On\n");
+
+        self::assertFileDoesNotExist($targetPath);
+
+        $tester = new CommandTester($this->createCommand());
+        $exitCode = $tester->execute([]);
+
+        self::assertSame(0, $exitCode);
+
+        self::assertFileExists($targetPath, '.htaccess must be created from .htaccess.dist.');
+        self::assertSame(
+            file_get_contents($distPath),
+            file_get_contents($targetPath),
+            'The copied .htaccess must have identical content to .htaccess.dist.'
+        );
+
+        self::assertFileExists($distPath);
+
+        $display = $tester->getDisplay();
+        self::assertStringContainsString('Setup RUNALYZE file system...', $display);
+        self::assertStringContainsString('Copying .htaccess.dist to .htaccess', $display);
+        self::assertStringContainsString('... done.', $display);
+    }
+
+    public function testExecuteCatchesIOExceptionAndStillReturnsSuccessWhenSourceFileIsMissing(): void
+    {
+        $targetPath = $this->tempProjectDirectory . '/.htaccess';
+
+        $tester = new CommandTester($this->createCommand());
+        $exitCode = $tester->execute([]);
+
+        self::assertSame(0, $exitCode);
+
+        self::assertFileDoesNotExist($targetPath);
+
+        $display = $tester->getDisplay();
+        self::assertStringContainsString('Setup RUNALYZE file system...', $display);
+        self::assertStringContainsString('Copying .htaccess.dist to .htaccess', $display);
+        self::assertStringContainsString('... done.', $display);
+    }
+
+    public function testExecuteDoesNotOverwriteAnAlreadyNewerExistingHtaccess(): void
+    {
+        $distPath = $this->tempProjectDirectory . '/.htaccess.dist';
+        $targetPath = $this->tempProjectDirectory . '/.htaccess';
+
+        file_put_contents($distPath, 'dist content');
+        touch($distPath, time() - 100);
+
+        file_put_contents($targetPath, 'pre-existing content');
+        touch($targetPath, time());
+
+        $tester = new CommandTester($this->createCommand());
+        $exitCode = $tester->execute([]);
+
+        self::assertSame(0, $exitCode);
+        self::assertSame(
+            'pre-existing content',
+            file_get_contents($targetPath),
+            'An existing .htaccess that is newer than .htaccess.dist must not be overwritten.'
+        );
+    }
+}

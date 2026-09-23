@@ -36,7 +36,7 @@ class MailingCommand extends Command
             ->setDescription('Send out a mails to users with custom templates in data/views/mail/custom')
             ->addArgument('template', InputArgument::REQUIRED, 'Template file')
             ->addOption('subject', null, InputOption::VALUE_REQUIRED, 'Mail subject')
-            ->addOption('lang', null, InputOption::VALUE_REQUIRED, 'Languages to select accounts')
+            ->addOption('lang', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Languages to select accounts')
             ->addOption('exclude-lang', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Excluded languages to select accounts')
             ->addOption('account', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Account ids')
             ->addOption('force', null, InputOption::VALUE_NONE, 'Force creation of notifications without prompt')
@@ -89,7 +89,6 @@ class MailingCommand extends Command
         $repository = $this->doctrine->getRepository(Account::class);
         /** @var QueryBuilder $query */
         $query = $repository->createQueryBuilder('a');
-        $exclude = false;
 
         $query->andWhere('a.allowMails = 1');
 
@@ -110,18 +109,22 @@ class MailingCommand extends Command
         }
 
         $lang = $input->getOption('lang');
+        $excludedLanguages = $input->getOption('exclude-lang');
 
-        if (! empty($input->getOption('exclude-lang'))) {
-            $exclude = true;
-            $lang = $input->getOption('exclude-lang');
-        }
-
-        if (! empty($input->getOption('lang')) || ! empty($input->getOption('exclude-lang'))) {
-            $query->andWhere('a.language ' . ($exclude ? 'NOT' : '') . " IN ('" . implode('", "', $lang) . "')");
+        if (! empty($excludedLanguages)) {
+            $query->andWhere('a.language NOT IN (:languages)')
+                ->setParameter('languages', $excludedLanguages);
+        } elseif (! empty($lang)) {
+            $query->andWhere('a.language IN (:languages)')
+                ->setParameter('languages', $lang);
         }
 
         if (! empty($input->getOption('account'))) {
-            $query->andWhere('a.id IN (' . implode(', ', $input->getOption('account')) . ')');
+            $query->andWhere('a.id IN (:accountIds)')
+                ->setParameter(
+                    'accountIds',
+                    array_map(intval(...), $input->getOption('account'))
+                );
         }
 
         return $query->getQuery()
@@ -169,7 +172,7 @@ class MailingCommand extends Command
     {
         return array_reduce(
             $accountIds,
-            fn (bool $state, $value): bool => $state && ctype_digit($value),
+            fn (bool $state, $value): bool => $state && ctype_digit((string) $value),
             true
         );
     }

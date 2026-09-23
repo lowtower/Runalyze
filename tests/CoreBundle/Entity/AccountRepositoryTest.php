@@ -32,6 +32,15 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
             ->setPassword('');
     }
 
+    protected function persistAccounts(Account ...$accounts): void
+    {
+        foreach ($accounts as $account) {
+            $this->EntityManager->persist($account);
+        }
+
+        $this->EntityManager->flush();
+    }
+
     public function testLoadingUnknownUser(): void
     {
         $this->assertNull($this->AccountRepository->loadUserByUsername('foobar'));
@@ -39,8 +48,7 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
 
     public function testLoadingSimpleUser(): void
     {
-        $this->EntityManager->persist($this->getNewAccount('foobar', 'foo@bar.com'));
-        $this->EntityManager->flush();
+        $this->persistAccounts($this->getNewAccount('foobar', 'foo@bar.com'));
 
         $accountInRepository = $this->AccountRepository->loadUserByUsername('foobar');
 
@@ -49,17 +57,44 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals($accountInRepository, $this->AccountRepository->loadUserByUsername('foo@bar.com'));
     }
 
+    public function testFindingByUsernameDoesNotMatchByMail(): void
+    {
+        $account = $this->getNewAccount('uniqueuser', 'unique-mail@test.com');
+        $this->persistAccounts($account);
+
+        $found = $this->AccountRepository->findByUsername('uniqueuser');
+        $this->assertInstanceOf(Account::class, $found);
+        $this->assertEquals($account->getId(), $found->getId());
+
+        $this->assertNull($this->AccountRepository->findByUsername('unknownuser'));
+
+        $this->assertNull($this->AccountRepository->findByUsername('unique-mail@test.com'));
+    }
+
+    public function testExistsOneWith(): void
+    {
+        $this->persistAccounts($this->getNewAccount('existsuser'));
+
+        $this->assertTrue($this->AccountRepository->existsOneWith([
+            'username' => 'existsuser',
+        ]));
+        $this->assertFalse($this->AccountRepository->existsOneWith([
+            'username' => 'doesnotexist',
+        ]));
+    }
+
     public function testNumberOfActivatedUsers(): void
     {
         $activeAccounts = $this->AccountRepository->getAmountOfActivatedUsers(false);
         $activatedAccountNames = ['foo', 'bar', 'baz'];
 
-        foreach ($activatedAccountNames as $name) {
-            $this->EntityManager->persist($this->getNewAccount($name));
-        }
+        $accountsToPersist = array_map(
+            fn (string $name): Account => $this->getNewAccount($name),
+            $activatedAccountNames
+        );
+        $accountsToPersist[] = $this->getNewAccount('foobar')->setActivationHash(bin2hex(random_bytes(16)));
 
-        $this->EntityManager->persist($this->getNewAccount('foobar')->setActivationHash(bin2hex(random_bytes(16))));
-        $this->EntityManager->flush();
+        $this->persistAccounts(...$accountsToPersist);
 
         $this->assertEquals($activeAccounts + 3, $this->AccountRepository->getAmountOfActivatedUsers(false));
     }
@@ -67,17 +102,19 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
     public function testDeletingNonActivatedUsers(): void
     {
         $notActivatedAccountNames = ['foo', 'bar', 'baz'];
-        foreach ($notActivatedAccountNames as $name) {
-            $this->EntityManager->persist(
-                $this->getNewAccount($name)
-                    ->setActivationHash(bin2hex(random_bytes(16)))
-                    ->setRegisterdate(strtotime('today -30 days'))
-            );
-        }
+        $accountsToPersist = array_map(
+            fn (string $name): Account => $this->getNewAccount($name)
+                ->setActivationHash(bin2hex(random_bytes(16)))
+                ->setRegisterdate(strtotime('today -30 days')),
+            $notActivatedAccountNames
+        );
 
-        $this->EntityManager->persist($this->getNewAccount('foobar', 'foobar@test.com'));
-        $this->EntityManager->persist($this->getNewAccount('todays_user')->setActivationHash(bin2hex(random_bytes(16)))->setRegisterdate(time()));
-        $this->EntityManager->flush();
+        $accountsToPersist[] = $this->getNewAccount('foobar', 'foobar@test.com');
+        $accountsToPersist[] = $this->getNewAccount('todays_user')
+            ->setActivationHash(bin2hex(random_bytes(16)))
+            ->setRegisterdate(time());
+
+        $this->persistAccounts(...$accountsToPersist);
 
         $this->assertEquals(3, count($this->AccountRepository->deleteNotActivatedAccounts(7)));
         $this->assertNotNull($this->AccountRepository->loadUserByUsername('foobar'));
@@ -87,9 +124,11 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
     public function testDeletingByHash(): void
     {
         $deletionHash = bin2hex(random_bytes(16));
-        $this->EntityManager->persist($this->getNewAccount('foo')->setDeletionHash($deletionHash));
-        $this->EntityManager->persist($this->getNewAccount('bar'));
-        $this->EntityManager->flush();
+        $this->persistAccounts(
+            $this->getNewAccount('foo')
+                ->setDeletionHash($deletionHash),
+            $this->getNewAccount('bar')
+        );
 
         $this->assertFalse($this->AccountRepository->deleteByHash('unknownHash'));
         $this->assertTrue($this->AccountRepository->deleteByHash($deletionHash));
@@ -108,6 +147,12 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
         $this->assertFalse($this->AccountRepository->activateByHash('unknownHash'));
         $this->assertTrue($this->AccountRepository->activateByHash($activationHash));
         $this->assertNull($fooAccount->getActivationHash());
+
+        $this->getEntityManager()
+            ->clear();
+        $reloaded = $this->AccountRepository->find($fooAccount->getId());
+        $this->assertNotNull($reloaded);
+        $this->assertNull($reloaded->getActivationHash());
     }
 
     public function testFindingByLanguage(): void
@@ -121,27 +166,38 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
         $swedish = $this->getNewAccount('sv')
             ->setLanguage('sv');
 
-        $this->EntityManager->persist($english1);
-        $this->EntityManager->persist($english2);
-        $this->EntityManager->persist($german);
-        $this->EntityManager->persist($swedish);
-        $this->EntityManager->flush();
+        $this->persistAccounts($english1, $english2, $german, $swedish);
 
-        $this->assertEquals(
+        $this->assertEqualsCanonicalizing(
             [$english1->getId(), $english2->getId()],
             $this->AccountRepository->findAllByLanguage('en')
         );
-        $this->assertEquals(
+        $this->assertEqualsCanonicalizing(
             [$english1->getId(), $english2->getId(), $german->getId()],
             $this->AccountRepository->findAllByLanguage(['en', 'de'])
         );
-        $this->assertEquals(
+        $this->assertEqualsCanonicalizing(
             [$swedish->getId()],
             $this->AccountRepository->findAllByLanguage(['en', 'de'], true)
         );
-        $this->assertEquals(
+        $this->assertEqualsCanonicalizing(
             [$german->getId(), $swedish->getId()],
             $this->AccountRepository->findAllByLanguage('en', true)
+        );
+    }
+
+    public function testFindingByLanguageWithEmptyArrayReturnsAllAccounts(): void
+    {
+        $english = $this->getNewAccount('en-all')
+            ->setLanguage('en');
+        $german = $this->getNewAccount('de-all')
+            ->setLanguage('de');
+
+        $this->persistAccounts($english, $german);
+
+        $this->assertEqualsCanonicalizing(
+            [$english->getId(), $german->getId()],
+            $this->AccountRepository->findAllByLanguage([])
         );
     }
 }

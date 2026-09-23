@@ -115,7 +115,8 @@ services:
             $kernel: '@kernel'
         tags: ['console.command']
 
-
+    Runalyze\Bundle\CoreBundle\Component\Tool\Backup\FinderFactory: ~
+    Runalyze\Bundle\CoreBundle\Component\Tool\Backup\FinderFactoryInterface: '@Runalyze\Bundle\CoreBundle\Component\Tool\Backup\FinderFactory'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

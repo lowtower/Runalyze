@@ -13,7 +13,7 @@ class InstallCheckCommand extends Command
     /**
      * @var string
      */
-    public const REQUIRED_PHP_VERSION = '7.4.0';
+    public const REQUIRED_PHP_VERSION = '8.1.0';
 
     /**
      * @var int exit code
@@ -156,6 +156,15 @@ class InstallCheckCommand extends Command
 
     protected function checkPhpVersion(): int
     {
+        return $this->evaluatePhpVersion(PHP_VERSION);
+    }
+
+    protected function evaluatePhpVersion(string $runningVersion): int
+    {
+        if (version_compare($runningVersion, self::REQUIRED_PHP_VERSION, '<')) {
+            return self::ERROR;
+        }
+
         return self::OKAY;
     }
 

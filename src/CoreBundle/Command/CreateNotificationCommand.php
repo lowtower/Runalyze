@@ -9,6 +9,7 @@ use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Notification;
 use Runalyze\Bundle\CoreBundle\Entity\NotificationRepository;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -50,7 +51,7 @@ class CreateNotificationCommand extends Command
         }
 
         if (! ($input->getOption('force'))) {
-            /** @var \Symfony\Component\Console\Helper\QuestionHelper $helper */
+            /** @var QuestionHelper $helper */
             $helper = $this->getHelper('question');
             $question = new ConfirmationQuestion('Continue with this action? (y/n)', false);
 
@@ -138,7 +139,7 @@ class CreateNotificationCommand extends Command
         return $lifetime === null || ctype_digit($lifetime);
     }
 
-    protected function createNotification(string $template, ?int $lifetime): \Runalyze\Bundle\CoreBundle\Entity\Notification
+    protected function createNotification(string $template, ?int $lifetime): Notification
     {
         return Notification::createFromMessage(
             new TemplateBasedMessage($template, $lifetime),
@@ -149,10 +150,10 @@ class CreateNotificationCommand extends Command
     protected function insertSingleNotifications(Notification $notification, array $accountIds): int
     {
         /** @var NotificationRepository $notificationRepository */
-        $notificationRepository = $this->doctrine->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Notification::class);
+        $notificationRepository = $this->doctrine->getRepository(Notification::class);
 
         /** @var AccountRepository $accountRepository */
-        $accountRepository = $this->doctrine->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Account::class);
+        $accountRepository = $this->doctrine->getRepository(Account::class);
         $num = 0;
 
         foreach ($accountIds as $id) {
@@ -189,20 +190,17 @@ class CreateNotificationCommand extends Command
         $prefix = $this->parameterBag->get('app.database_prefix');
         $accountWhere = $this->getWhereToFindRelevantAccounts($lang, $excludeLang, $lastActionBefore, $lastActionAfter, $registrationBefore, $registrationAfter);
 
-        $statement = $this->doctrine->getConnection()
-            ->prepare(
+        return $this->doctrine->getConnection()
+            ->executeStatement(
                 'INSERT INTO `' . $prefix . 'notification` (`messageType`, `createdAt`, `expirationAt`, `data`, `account_id`) ' .
-                                    'SELECT ?, ?, ?, ?, `a`.`id` FROM `' . $prefix . 'account` AS `a` WHERE ' . $accountWhere
+                            'SELECT ?, ?, ?, ?, `a`.`id` FROM `' . $prefix . 'account` AS `a` WHERE ' . $accountWhere,
+                [
+                    $notification->getMessageType(),
+                    $notification->getCreatedAt(),
+                    $notification->getExpirationAt(),
+                    $notification->getData(),
+                ]
             );
-
-        $statement->execute([
-            $notification->getMessageType(),
-            $notification->getCreatedAt(),
-            $notification->getExpirationAt(),
-            $notification->getData(),
-        ]);
-
-        return $statement->rowCount();
     }
 
     /**

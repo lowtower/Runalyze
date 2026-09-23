@@ -734,4 +734,332 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
                 ->refresh($entity);
         }
     }
+
+    public function testAmountOfLoggedKilometers(): void
+    {
+        $this->assertNull($this->TrainingRepository->getAmountOfLoggedKilometers(false));
+
+        $this->insertActivityForDefaultAccount(null, 3600, 10.0);
+        $this->insertActivityForDefaultAccount(null, 3600, 15.5);
+
+        $this->assertEquals(25.5, (float) $this->TrainingRepository->getAmountOfLoggedKilometers(false));
+    }
+
+    public function testActiveYearsFor(): void
+    {
+        $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 6, 1, 2015));
+        $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 6, 1, 2016));
+        $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 6, 30, 2016));
+        $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 7, 1, 2016), 3600, null, $this->getDefaultAccountsCyclingSport());
+
+        $allYears = array_map(strval(...), $this->TrainingRepository->getActiveYearsFor($this->Account));
+        sort($allYears);
+        $this->assertEquals(['2015', '2016'], $allYears);
+
+        $runningYears = array_map(
+            strval(...),
+            $this->TrainingRepository->getActiveYearsFor($this->Account, $this->getDefaultAccountsRunningSport()->getId())
+        );
+        sort($runningYears);
+        $this->assertEquals(['2015', '2016'], $runningYears);
+
+        $cyclingYears = array_map(
+            strval(...),
+            $this->TrainingRepository->getActiveYearsFor($this->Account, $this->getDefaultAccountsCyclingSport()->getId())
+        );
+        $this->assertEquals(['2016'], $cyclingYears);
+
+        $yearsWithAtLeastTwoActivities = array_map(
+            strval(...),
+            $this->TrainingRepository->getActiveYearsFor($this->Account, null, 2)
+        );
+        $this->assertEquals(['2016'], $yearsWithAtLeastTwoActivities);
+    }
+
+    public function testTypesWithTraining(): void
+    {
+        $this->assertEquals([], $this->TrainingRepository->getTypesWithTraining($this->Account));
+
+        $type = new Type();
+        $type->setName('Interval');
+        $type->setAccount($this->getDefaultAccount());
+        $type->setSport($this->getDefaultAccountsRunningSport());
+
+        $this->getEntityManager()
+            ->persist($type);
+        $this->getEntityManager()
+            ->flush();
+
+        $activity = $this->getActivityForDefaultAccount(null, 3600, 10.0, $this->getDefaultAccountsRunningSport());
+        $activity->setType($type);
+
+        $this->TrainingRepository->save($activity);
+
+        $this->assertEquals([$type->getId()], $this->TrainingRepository->getTypesWithTraining($this->Account));
+    }
+
+    public function testNumberOfActivitiesWithActivityType(): void
+    {
+        $type = new Type();
+        $type->setName('Interval');
+        $type->setAccount($this->getDefaultAccount());
+        $type->setSport($this->getDefaultAccountsRunningSport());
+
+        $this->getEntityManager()
+            ->persist($type);
+        $this->getEntityManager()
+            ->flush();
+
+        $this->assertEquals(0, (int) $this->TrainingRepository->getNumberOfActivitiesWithActivityType($type));
+
+        $activity = $this->getActivityForDefaultAccount(null, 3600, 10.0, $this->getDefaultAccountsRunningSport());
+        $activity->setType($type);
+
+        $this->TrainingRepository->save($activity);
+
+        $this->assertEquals(1, (int) $this->TrainingRepository->getNumberOfActivitiesWithActivityType($type));
+    }
+
+    public function testSportsWithTraining(): void
+    {
+        $this->assertEquals([], $this->TrainingRepository->getSportsWithTraining($this->Account));
+
+        $this->insertActivityForDefaultAccount(null, 3600, 10.0, $this->getDefaultAccountsRunningSport());
+
+        $this->assertEquals(
+            [$this->getDefaultAccountsRunningSport()->getId()],
+            $this->TrainingRepository->getSportsWithTraining($this->Account)
+        );
+
+        $this->insertActivityForDefaultAccount(null, 3600, 20.0, $this->getDefaultAccountsCyclingSport());
+
+        $sportIds = $this->TrainingRepository->getSportsWithTraining($this->Account);
+        sort($sportIds);
+
+        $expectedIds = [
+            $this->getDefaultAccountsRunningSport()
+                ->getId(),
+            $this->getDefaultAccountsCyclingSport()
+                ->getId(),
+        ];
+        sort($expectedIds);
+
+        $this->assertEquals($expectedIds, $sportIds);
+    }
+
+    public function testMonthlyStatsFor(): void
+    {
+        $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 3, 1, 2016), 3600, 10.0);
+        $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 3, 15, 2016), 3600, 5.0);
+        $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 4, 1, 2016), 3600, 8.0);
+        $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 4, 2, 2016), 3600, 12.0, $this->getDefaultAccountsCyclingSport());
+
+        $activityCountsByMonth = $this->indexMonthlyStatsByYearAndMonth(
+            $this->TrainingRepository->getMonthlyStatsFor($this->Account)
+        );
+
+        $this->assertEquals(2, $activityCountsByMonth[2016][3]['value']);
+        $this->assertEquals(2, $activityCountsByMonth[2016][4]['value']);
+
+        $distanceByMonth = $this->indexMonthlyStatsByYearAndMonth(
+            $this->TrainingRepository->getMonthlyStatsFor($this->Account, 'distance')
+        );
+
+        $this->assertEquals(15.0, (float) $distanceByMonth[2016][3]['value']);
+        $this->assertEquals(20.0, (float) $distanceByMonth[2016][4]['value']);
+
+        $cyclingDistanceByMonth = $this->indexMonthlyStatsByYearAndMonth(
+            $this->TrainingRepository->getMonthlyStatsFor(
+                $this->Account,
+                'distance',
+                $this->getDefaultAccountsCyclingSport()
+                    ->getId()
+            )
+        );
+
+        $this->assertArrayNotHasKey(3, $cyclingDistanceByMonth[2016] ?? []);
+        $this->assertEquals(12.0, (float) $cyclingDistanceByMonth[2016][4]['value']);
+    }
+
+    /**
+     * @param array<int, array{year: mixed, month: mixed, value: mixed}> $rows
+     * @return array<int, array<int, array{year: mixed, month: mixed, value: mixed}>>
+     */
+    private function indexMonthlyStatsByYearAndMonth(array $rows): array
+    {
+        $indexed = [];
+
+        foreach ($rows as $row) {
+            $indexed[(int) $row['year']][(int) $row['month']] = $row;
+        }
+
+        return $indexed;
+    }
+
+    public function testPartialEntitiesForPreviewByAccount(): void
+    {
+        $this->assertEquals([], $this->TrainingRepository->getPartialEntitiesForPreview([]));
+
+        $activity1 = $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 6, 1, 2016));
+        $activity2 = $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 6, 2, 2016));
+
+        $results = $this->TrainingRepository->getPartialEntitiesForPreview([], $this->Account);
+
+        $this->assertCount(2, $results);
+
+        $ids = array_map(static fn (Training $training): int => $training->getId(), $results);
+        sort($ids);
+
+        $expectedIds = [$activity1->getId(), $activity2->getId()];
+        sort($expectedIds);
+
+        $this->assertEquals($expectedIds, $ids);
+    }
+
+    public function testPartialEntitiesForPreviewByIds(): void
+    {
+        $activity1 = $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 6, 1, 2016));
+        $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 6, 2, 2016));
+
+        $results = $this->TrainingRepository->getPartialEntitiesForPreview([$activity1->getId()]);
+
+        $this->assertCount(1, $results);
+        $this->assertEquals($activity1->getId(), $results[0]->getId());
+    }
+
+    public function testLatestActivitiesOrderAndLimit(): void
+    {
+        $this->assertEquals([], $this->TrainingRepository->getLatestActivities($this->Account));
+
+        $activity1 = $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 6, 1, 2016));
+        $activity2 = $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 6, 2, 2016));
+        $activity3 = $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 6, 3, 2016));
+
+        $latest = $this->TrainingRepository->getLatestActivities($this->Account);
+
+        $this->assertCount(3, $latest);
+        $this->assertEquals($activity3->getId(), $latest[0]->getId());
+        $this->assertEquals($activity2->getId(), $latest[1]->getId());
+        $this->assertEquals($activity1->getId(), $latest[2]->getId());
+
+        $limited = $this->TrainingRepository->getLatestActivities($this->Account, 2);
+
+        $this->assertCount(2, $limited);
+        $this->assertEquals($activity3->getId(), $limited[0]->getId());
+        $this->assertEquals($activity2->getId(), $limited[1]->getId());
+    }
+
+    public function testLatestActivitiesOnlyPublicFilter(): void
+    {
+        $privateActivity = $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 6, 1, 2016));
+
+        $publicActivity = $this->getActivityForDefaultAccount(mktime(12, 0, 0, 6, 2, 2016));
+        $publicActivity->setPublic(true);
+
+        $this->TrainingRepository->save($publicActivity);
+
+        $allActivities = $this->TrainingRepository->getLatestActivities($this->Account);
+        $this->assertCount(2, $allActivities);
+
+        $onlyPublic = $this->TrainingRepository->getLatestActivities($this->Account, 20, true);
+
+        $this->assertCount(1, $onlyPublic);
+        $this->assertEquals($publicActivity->getId(), $onlyPublic[0]->getId());
+
+        $privateIds = array_map(
+            static fn (Training $training): int => $training->getId(),
+            $onlyPublic
+        );
+        $this->assertNotContains($privateActivity->getId(), $privateIds);
+    }
+
+    public function testLatestPublicActivitiesDelegatesToLatestActivities(): void
+    {
+        $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 6, 1, 2016));
+
+        $publicActivity = $this->getActivityForDefaultAccount(mktime(12, 0, 0, 6, 2, 2016));
+        $publicActivity->setPublic(true);
+
+        $this->TrainingRepository->save($publicActivity);
+
+        $result = $this->TrainingRepository->getLatestPublicActivities($this->Account);
+
+        $this->assertCount(1, $result);
+        $this->assertEquals($publicActivity->getId(), $result[0]->getId());
+    }
+
+    public function testLatestPublicActivitiesRespectsLimit(): void
+    {
+        for ($day = 1; $day <= 3; $day++) {
+            $activity = $this->getActivityForDefaultAccount(mktime(12, 0, 0, 6, $day, 2016));
+            $activity->setPublic(true);
+            $this->TrainingRepository->save($activity);
+        }
+
+        $result = $this->TrainingRepository->getLatestPublicActivities($this->Account, 2);
+
+        $this->assertCount(2, $result);
+    }
+
+    public function testQueryForJsonPosterDataOnlyReturnsMatchingActivitiesWithARoute(): void
+    {
+        $year = 2016;
+        $sport = $this->getDefaultAccountsRunningSport();
+
+        $matchingActivity = $this->getActivityForDefaultAccount(
+            mktime(12, 0, 0, 6, 1, $year),
+            3600,
+            10.0,
+            $sport
+        );
+        $route = new Route();
+        $route->setElevationsCorrected([100, 105, 110]);
+
+        $matchingActivity->setRoute($route);
+        $this->TrainingRepository->save($matchingActivity);
+
+        $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 6, 2, $year), 3600, 12.0, $sport);
+
+        $zeroDistanceActivity = $this->getActivityForDefaultAccount(
+            mktime(12, 0, 0, 6, 3, $year),
+            3600,
+            null,
+            $sport
+        );
+        $zeroDistanceRoute = new Route();
+        $zeroDistanceRoute->setElevationsCorrected([100]);
+
+        $zeroDistanceActivity->setRoute($zeroDistanceRoute);
+        $this->TrainingRepository->save($zeroDistanceActivity);
+
+        $cyclingActivity = $this->getActivityForDefaultAccount(
+            mktime(12, 0, 0, 6, 4, $year),
+            3600,
+            20.0,
+            $this->getDefaultAccountsCyclingSport()
+        );
+        $cyclingRoute = new Route();
+        $cyclingRoute->setElevationsCorrected([100]);
+
+        $cyclingActivity->setRoute($cyclingRoute);
+        $this->TrainingRepository->save($cyclingActivity);
+
+        $wrongYearActivity = $this->getActivityForDefaultAccount(
+            mktime(12, 0, 0, 6, 1, $year - 1),
+            3600,
+            15.0,
+            $sport
+        );
+        $wrongYearRoute = new Route();
+        $wrongYearRoute->setElevationsCorrected([100]);
+
+        $wrongYearActivity->setRoute($wrongYearRoute);
+        $this->TrainingRepository->save($wrongYearActivity);
+
+        $results = $this->TrainingRepository->getQueryForJsonPosterData($this->Account, $sport, $year)
+            ->getArrayResult();
+
+        $this->assertCount(1, $results);
+        $this->assertEquals(10.0, (float) $results[0]['distance']);
+    }
 }
