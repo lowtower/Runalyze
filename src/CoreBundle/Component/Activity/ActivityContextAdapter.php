@@ -2,18 +2,23 @@
 
 namespace Runalyze\Bundle\CoreBundle\Component\Activity;
 
+use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Services\Import\DuplicateFinder;
 use Runalyze\Bundle\CoreBundle\Services\Import\WeatherDataToActivityConverter;
+use Runalyze\Bundle\CoreBundle\Services\Import\WeatherForecast;
 use Runalyze\Parameter\Application\Timezone;
+use Runalyze\Parser\Activity\Common\Data\WeatherData;
+use Runalyze\Service\RouteNameEvaluation\RouteNameEval;
 use Runalyze\Service\WeatherForecast\Location;
 use Runalyze\Util\LocalTime;
 
 class ActivityContextAdapter
 {
     public function __construct(
-        protected \Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext $Context,
-        protected \Runalyze\Bundle\CoreBundle\Services\Import\WeatherForecast $WeatherForecast,
-        protected \Runalyze\Bundle\CoreBundle\Services\Import\DuplicateFinder $DuplicateFinder,
-        protected \Runalyze\Service\RouteNameEvaluation\RouteNameEval $RouteNameEval
+        protected ActivityContext $Context,
+        protected WeatherForecast $WeatherForecast,
+        protected DuplicateFinder $DuplicateFinder,
+        protected RouteNameEval $RouteNameEval
     ) {
     }
 
@@ -27,7 +32,7 @@ class ActivityContextAdapter
         return substr($fullClassName, strrpos($fullClassName, '\\') + 1);
     }
 
-    public function guessWeatherConditions(string $defaultLocationName, $account): void
+    public function guessWeatherConditions(string $defaultLocationName, Account $account): void
     {
         // #TSC if not outside, no weather needed
         if (! $this->Context->getSport()->getOutside()) {
@@ -52,7 +57,7 @@ class ActivityContextAdapter
         }
 
         // #TSC set also the timezone for fetch historical time based data
-        $timezone = (int) $account->getTimezone();
+        $timezone = $account->getTimezone();
         $timezoneName = Timezone::getFullNameByEnum($timezone);
         $location->setTimezone($timezoneName);
 
@@ -63,7 +68,7 @@ class ActivityContextAdapter
 
         $weather = $this->WeatherForecast->loadForecast($location);
 
-        if ($weather instanceof \Runalyze\Parser\Activity\Common\Data\WeatherData) {
+        if ($weather instanceof WeatherData) {
             $converter = new WeatherDataToActivityConverter();
             $converter->setActivityWeatherDataFor($this->Context->getActivity(), $weather);
         }

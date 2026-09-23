@@ -38,7 +38,7 @@ class ActivityDecorator
     }
 
     /**
-     * @return int|null [m]
+     * @return ?int [m]
      */
     public function getElevationUp(): ?int
     {
@@ -46,17 +46,14 @@ class ActivityDecorator
     }
 
     /**
-     * @return int|null [m]
+     * @return ?int [m]
      */
     public function getElevationDown(): ?int
     {
         return $this->getElevation(false);
     }
 
-    /**
-     * @param bool $up
-     */
-    protected function getElevation($up = true): ?int
+    protected function getElevation(bool $up = true): ?int
     {
         if ($this->Context->hasRoute() && ($this->Context->getRoute()->getElevationUp() > 0 || $this->Context->getRoute()->getElevationDown() > 0)) {
             return $up ? $this->Context->getRoute()
@@ -85,7 +82,7 @@ class ActivityDecorator
     }
 
     /**
-     * @return float|null [ms] can be negative for walking
+     * @return ?float [ms] can be negative for walking
      */
     public function getFlightTime(): ?float
     {
@@ -102,7 +99,7 @@ class ActivityDecorator
     }
 
     /**
-     * @return float|null [%] can be negative for walking
+     * @return ?float [%] can be negative for walking
      */
     public function getFlightRatio(): ?float
     {

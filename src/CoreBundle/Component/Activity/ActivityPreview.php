@@ -7,65 +7,42 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 
 class ActivityPreview
 {
-    /**
-     * @var int
-     */
-    protected $ActivityId;
+    protected ?int $ActivityId = null;
+
+    protected string $Title;
+
+    protected \DateTime $DateTime;
 
     /**
-     * @var string
+     * @var float [s]
      */
-    protected $Title;
+    protected float $Duration;
 
     /**
-     * @var \DateTime
+     * @var ?float [km]
      */
-    protected $DateTime;
+    protected ?float $Distance = null;
 
-    /**
-     * @var int|float [s]
-     */
-    protected $Duration;
+    protected string $SportName = '';
 
-    /**
-     * @var float|null [km]
-     */
-    protected $Distance;
+    protected string $SportIcon = '';
 
-    /**
-     * @var string
-     */
-    protected $SportName = '';
+    protected bool $HasHeartRate;
 
-    /**
-     * @var string
-     */
-    protected $SportIcon = '';
+    protected bool $HasRoute;
 
-    /**
-     * @var bool
-     */
-    protected $HasHeartRate;
-
-    /**
-     * @var bool
-     */
-    protected $HasRoute;
-
-    /**
-     * @var bool
-     */
-    protected $HasRounds;
+    protected bool $HasRounds;
 
     public function __construct(
         Training $activity,
-        protected $IsPossibleDuplicate = false
+        protected bool $IsPossibleDuplicate = false,
+        ?ActivityDecorator $decorator = null
     ) {
         $this->setSimplePropertiesFromActivity($activity);
         $this->setPropertiesFromSport($activity->getSport());
-        $this->setPropertiesFromDecorator(new ActivityDecorator(
-            new ActivityContext($activity)
-        ));
+        $this->setPropertiesFromDecorator(
+            $decorator ?? new ActivityDecorator(new ActivityContext($activity))
+        );
     }
 
     protected function setSimplePropertiesFromActivity(Training $activity)
@@ -95,50 +72,38 @@ class ActivityPreview
         $this->DateTime = $decorator->getDateTime();
     }
 
-    /**
-     * @param bool $flag
-     */
-    public function setPossibleDuplicate($flag): void
+    public function setPossibleDuplicate(bool $flag): void
     {
         $this->IsPossibleDuplicate = $flag;
     }
 
-    /**
-     * @return int
-     */
-    public function getActivityId()
+    public function getActivityId(): ?int
     {
         return $this->ActivityId;
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->Title;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getDateTime()
+    public function getDateTime(): \DateTime
     {
         return $this->DateTime;
     }
 
     /**
-     * @return int|float [s]
+     * @return float [s]
      */
-    public function getDuration()
+    public function getDuration(): float
     {
         return $this->Duration;
     }
 
     /**
-     * @return float|null [km]
+     * @return ?float [km]
      */
-    public function getDistance()
+    public function getDistance(): ?float
     {
         return $this->Distance;
     }
@@ -148,50 +113,32 @@ class ActivityPreview
         return $this->Distance !== null;
     }
 
-    /**
-     * @return string
-     */
-    public function getSportName()
+    public function getSportName(): string
     {
         return $this->SportName;
     }
 
-    /**
-     * @return string
-     */
-    public function getSportIcon()
+    public function getSportIcon(): string
     {
         return $this->SportIcon;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasHeartRate()
+    public function hasHeartRate(): bool
     {
         return $this->HasHeartRate;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasRoute()
+    public function hasRoute(): bool
     {
         return $this->HasRoute;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasRounds()
+    public function hasRounds(): bool
     {
         return $this->HasRounds;
     }
 
-    /**
-     * @return bool
-     */
-    public function isPossibleDuplicate()
+    public function isPossibleDuplicate(): bool
     {
         return $this->IsPossibleDuplicate;
     }
