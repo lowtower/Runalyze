@@ -2,106 +2,143 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\Calculation\Math;
+namespace Runalyze\Tests\Calculation\Math;
 
-class SubSegmentMaximizationTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+use Runalyze\Calculation\Math\SubSegmentMaximization;
+
+class SubSegmentMaximizationTest extends TestCase
 {
-    public function testEmptyInput(): void
+    public function testConstructorThrowsWhenDataIsEmpty(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        new SubSegmentMaximization([], [], []);
+        $this->expectExceptionMessage('Input data must not be empty.');
+
+        new SubSegmentMaximization([], [], [3]);
     }
 
-    public function testNoSegmentLengths(): void
+    public function testConstructorThrowsWhenSegmentLengthsIsEmpty(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        new SubSegmentMaximization([1, 1, 1], [1, 1, 1], []);
+        $this->expectExceptionMessage('Input data must not be empty.');
+
+        new SubSegmentMaximization([1, 2, 3], [1, 1, 1], []);
     }
 
-    public function testUnbalancedInputSizes(): void
+    public function testConstructorThrowsWhenDataAndIndexDataSizesDiffer(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        new SubSegmentMaximization([1, 1], [1, 1, 1], [1]);
+        $this->expectExceptionMessage('Input data and index data must be of same size.');
+
+        new SubSegmentMaximization([1, 2, 3], [1, 1], [3]);
     }
 
-    public function testEnabledInterpolation(): void
+    public function testConstructorDoesNotThrowWhenSegmentLengthsCountDiffersFromDataCount(): void
     {
-        $Maximization = new SubSegmentMaximization([42], [5], [1, 2, 3, 4, 5]);
-        $Maximization->maximize();
+        $instance = new SubSegmentMaximization([1, 2, 3], [1, 1, 1], [1, 2, 3, 4, 5]);
 
-        $this->assertEquals(8.4, $Maximization->getMaximumForLengthIndex(0));
-        $this->assertEquals(16.8, $Maximization->getMaximumForLengthIndex(1));
-        $this->assertEquals(25.2, $Maximization->getMaximumForLengthIndex(2));
-        $this->assertEquals(33.6, $Maximization->getMaximumForLengthIndex(3));
-        $this->assertEquals(42, $Maximization->getMaximumForLengthIndex(4));
+        $this->assertInstanceOf(SubSegmentMaximization::class, $instance);
     }
 
-    public function testDisabledInterpolation(): void
+    public function testMaximizeFindsExpectedWindowForEquidistantData(): void
     {
-        $Maximization = new SubSegmentMaximization([42], [5], [1, 2, 3, 4, 5]);
-        $Maximization->disableInterpolationForOverlength();
-        $Maximization->maximize();
+        $data = [1, 5, 2, 8, 1, 1, 9, 2];
+        $index = array_fill(0, 8, 1);
 
-        $this->assertEquals(42, $Maximization->getMaximumForLengthIndex(0));
-        $this->assertEquals(42, $Maximization->getMaximumForLengthIndex(1));
-        $this->assertEquals(42, $Maximization->getMaximumForLengthIndex(2));
-        $this->assertEquals(42, $Maximization->getMaximumForLengthIndex(3));
-        $this->assertEquals(42, $Maximization->getMaximumForLengthIndex(4));
+        $instance = new SubSegmentMaximization($data, $index, [3]);
+        $instance->maximize();
+
+        $this->assertTrue($instance->hasMaximumForLengthIndex(0));
+        $this->assertSame(15.0, $instance->getMaximumForLengthIndex(0));
+        $this->assertSame([1, 3], $instance->getIndizesOfMaximumForLengthIndex(0));
     }
 
-    public function testSimpleExample(): void
+    public function testMaximizeReportsNoMaximumWhenTargetLengthIsNeverReached(): void
     {
-        $Maximization = new SubSegmentMaximization(
-            [1, 2, 5, 1, 3, 9, 2, 4, 4, 1, 2, 5, 4, 6, 4, 2, 5, 4, 7, 3, 2],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [2, 5, 10]
-        );
-        $Maximization->maximize();
+        $instance = new SubSegmentMaximization([1, 1], [1, 1], [10]);
+        $instance->maximize();
 
-        $this->assertEquals(12, $Maximization->getMaximumForLengthIndex(0));
-        $this->assertEquals([4, 5], $Maximization->getIndizesOfMaximumForLengthIndex(0));
-        $this->assertEquals(22, $Maximization->getMaximumForLengthIndex(1));
-        $this->assertEquals([4, 8], $Maximization->getIndizesOfMaximumForLengthIndex(1));
-        $this->assertEquals(42, $Maximization->getMaximumForLengthIndex(2));
-        $this->assertEquals([10, 19], $Maximization->getIndizesOfMaximumForLengthIndex(2));
+        $this->assertFalse($instance->hasMaximumForLengthIndex(0));
+        $this->assertSame([false, false], $instance->getIndizesOfMaximumForLengthIndex(0));
+        $this->assertSame([], $instance->getAvailableSegmentLengths());
     }
 
-    public function testSimpleExampleForMinimization(): void
+    public function testMaximizeReturnsExactSumWhenWindowLengthMatchesTargetExactly(): void
     {
-        $Maximization = new SubSegmentMaximization(
-            [1, 2, 5, 1, 3, 9, 2, 4, 4, 1, 2, 5, 4, 6, 4, 2, 5, 4, 7, 3, 2],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [2, 5, 10]
-        );
-        $Maximization->minimize();
+        $instance = new SubSegmentMaximization([10, 10, 10], [1, 1, 1], [3]);
+        $instance->maximize();
 
-        $this->assertEquals(3, $Maximization->getMaximumForLengthIndex(0));
-        $this->assertEquals([0, 1], $Maximization->getIndizesOfMaximumForLengthIndex(0));
-        $this->assertEquals(12, $Maximization->getMaximumForLengthIndex(1));
-        $this->assertEquals([0, 4], $Maximization->getIndizesOfMaximumForLengthIndex(1));
-        $this->assertEquals(32, $Maximization->getMaximumForLengthIndex(2));
-        $this->assertEquals([0, 9], $Maximization->getIndizesOfMaximumForLengthIndex(2));
-
-        $this->assertEquals([2, 5, 10], $Maximization->getAvailableSegmentLengths());
+        $this->assertSame(30.0, $instance->getMaximumForLengthIndex(0));
     }
 
-    public function testTooShortInputData(): void
+    public function testMaximizeInterpolatesValueDownForOverlengthWindowsByDefault(): void
     {
-        $Maximization = new SubSegmentMaximization(
-            [1, 2, 5, 1, 3],
-            [1, 1, 1, 1, 1],
-            [5, 10, 30, 60]
-        );
-        $Maximization->maximize();
+        $instance = new SubSegmentMaximization([100], [20], [10]);
+        $instance->maximize();
 
-        $this->assertTrue($Maximization->hasMaximumForLengthIndex(0));
-        $this->assertEquals(12, $Maximization->getMaximumForLengthIndex(0));
-        $this->assertEquals([0, 4], $Maximization->getIndizesOfMaximumForLengthIndex(0));
+        $this->assertSame(50.0, $instance->getMaximumForLengthIndex(0));
+    }
 
-        $this->assertFalse($Maximization->hasMaximumForLengthIndex(1));
-        $this->assertFalse($Maximization->hasMaximumForLengthIndex(2));
-        $this->assertFalse($Maximization->hasMaximumForLengthIndex(3));
+    public function testMaximizeReturnsRawSumForOverlengthWindowWhenInterpolationIsDisabled(): void
+    {
+        $instance = new SubSegmentMaximization([100], [20], [10]);
+        $instance->disableInterpolationForOverlength();
+        $instance->maximize();
 
-        $this->assertEquals([5], $Maximization->getAvailableSegmentLengths());
+        $this->assertSame(100.0, $instance->getMaximumForLengthIndex(0));
+    }
+
+    public function testDisableInterpolationForOverlengthCalledWithTrueActuallyReEnablesInterpolation(): void
+    {
+        $instance = new SubSegmentMaximization([100], [20], [10]);
+        $instance->disableInterpolationForOverlength(true);
+        $instance->maximize();
+
+        $this->assertSame(50.0, $instance->getMaximumForLengthIndex(0));
+    }
+
+    public function testMinimizeFindsExpectedMinimalWindow(): void
+    {
+        $data = [5, 1, 8, 2, 1, 9];
+        $index = array_fill(0, 6, 1);
+
+        $instance = new SubSegmentMaximization($data, $index, [3]);
+        $instance->minimize();
+
+        $this->assertTrue($instance->hasMaximumForLengthIndex(0));
+        $this->assertSame(11.0, $instance->getMaximumForLengthIndex(0));
+        $this->assertSame([1, 3], $instance->getIndizesOfMaximumForLengthIndex(0));
+    }
+
+    public function testMinimizeReportsNoMaximumWhenTargetLengthIsNeverReached(): void
+    {
+        $instance = new SubSegmentMaximization([1, 1], [1, 1], [10]);
+        $instance->minimize();
+
+        $this->assertFalse($instance->hasMaximumForLengthIndex(0));
+    }
+
+    public function testMaximizeTracksMultipleSegmentLengthsIndependently(): void
+    {
+        $data = [1, 5, 2, 8, 1, 1, 9, 2, 3, 4];
+        $index = array_fill(0, 10, 1);
+
+        $instance = new SubSegmentMaximization($data, $index, [3, 5]);
+        $instance->maximize();
+
+        $this->assertSame(15.0, $instance->getMaximumForLengthIndex(0));
+        $this->assertSame(21.0, $instance->getMaximumForLengthIndex(1));
+        $this->assertSame([3, 5], $instance->getAvailableSegmentLengths());
+    }
+
+    public function testGetAvailableSegmentLengthsExcludesOnlyUnreachedLengths(): void
+    {
+        $data = array_fill(0, 5, 1.0);
+        $index = array_fill(0, 5, 1);
+
+        $instance = new SubSegmentMaximization($data, $index, [2, 1000]);
+        $instance->maximize();
+
+        $this->assertSame([2], $instance->getAvailableSegmentLengths());
     }
 }

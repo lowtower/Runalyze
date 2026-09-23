@@ -222,13 +222,13 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function hasTime(): bool
     {
-        return $this->time !== null;
+        return ! empty($this->time);
     }
 
     /**
      * @return int [s]
      */
-    public function getTotalDuration()
+    public function getTotalDuration(): int
     {
         if (! $this->hasTime()) {
             return 0;
@@ -260,7 +260,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function hasDistance(): bool
     {
-        return $this->distance !== null;
+        return ! empty($this->distance);
     }
 
     /**
@@ -295,7 +295,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function hasHeartrate(): bool
     {
-        return $this->heartrate !== null;
+        return ! empty($this->heartrate);
     }
 
     /**
@@ -320,7 +320,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function hasCadence(): bool
     {
-        return $this->cadence !== null;
+        return ! empty($this->cadence);
     }
 
     /**
@@ -343,7 +343,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function hasPower(): bool
     {
-        return $this->power !== null;
+        return ! empty($this->power);
     }
 
     /**
@@ -366,7 +366,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function hasTemperature(): bool
     {
-        return $this->temperature !== null;
+        return ! empty($this->temperature);
     }
 
     /**
@@ -389,7 +389,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function hasGroundcontact(): bool
     {
-        return $this->groundcontact !== null;
+        return ! empty($this->groundcontact);
     }
 
     /**
@@ -414,7 +414,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function hasVerticalOscillation(): bool
     {
-        return $this->verticalOscillation !== null;
+        return ! empty($this->verticalOscillation);
     }
 
     /**
@@ -437,7 +437,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function hasGroundcontactBalance(): bool
     {
-        return $this->groundcontactBalance !== null;
+        return ! empty($this->groundcontactBalance);
     }
 
     /**
@@ -460,7 +460,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function hasSmo20(): bool
     {
-        return $this->smo20 !== null;
+        return ! empty($this->smo20);
     }
 
     /**
@@ -483,7 +483,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function hasSmo21(): bool
     {
-        return $this->smo21 !== null;
+        return ! empty($this->smo21);
     }
 
     /**
@@ -506,7 +506,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function hasThb0(): bool
     {
-        return $this->thb0 !== null;
+        return ! empty($this->thb0);
     }
 
     /**
@@ -529,7 +529,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function hasThb1(): bool
     {
-        return $this->thb1 !== null;
+        return ! empty($this->thb1);
     }
 
     /**
@@ -552,7 +552,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function hasImpactGsLeft(): bool
     {
-        return $this->impactGsLeft !== null;
+        return ! empty($this->impactGsLeft);
     }
 
     /**
@@ -575,7 +575,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function hasImpactGsRight(): bool
     {
-        return $this->impactGsRight !== null;
+        return ! empty($this->impactGsRight);
     }
 
     /**
@@ -598,7 +598,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function hasBrakingGsLeft(): bool
     {
-        return $this->brakingGsLeft !== null;
+        return ! empty($this->brakingGsLeft);
     }
 
     /**
@@ -621,7 +621,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function hasBrakingGsRight(): bool
     {
-        return $this->brakingGsRight !== null;
+        return ! empty($this->brakingGsRight);
     }
 
     /**
@@ -644,7 +644,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function hasFootstrikeTypeLeft(): bool
     {
-        return $this->footstrikeTypeLeft !== null;
+        return ! empty($this->footstrikeTypeLeft);
     }
 
     /**
@@ -667,7 +667,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function hasFootstrikeTypeRight(): bool
     {
-        return $this->footstrikeTypeRight !== null;
+        return ! empty($this->footstrikeTypeRight);
     }
 
     /**
@@ -690,7 +690,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function hasPronationExcursionLeft(): bool
     {
-        return $this->pronationExcursionLeft !== null;
+        return ! empty($this->pronationExcursionLeft);
     }
 
     /**
@@ -713,7 +713,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function hasPronationExcursionRight(): bool
     {
-        return $this->pronationExcursionRight !== null;
+        return ! empty($this->pronationExcursionRight);
     }
 
     /**
@@ -736,7 +736,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function hasPerformanceCondition(): bool
     {
-        return $this->performanceCondition !== null;
+        return ! empty($this->performanceCondition);
     }
 
     /**
@@ -759,7 +759,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function hasRespirationRate(): bool
     {
-        return $this->respirationRate !== null;
+        return ! empty($this->respirationRate);
     }
 
     public function setPauses(PauseCollection $pauses): self
@@ -818,29 +818,29 @@ class Trackdata implements AccountRelatedEntityInterface
     public function isEmpty(): bool
     {
         return
-            ($this->time === null && empty($this->time)) &&
-            ($this->distance === null && empty($this->distance)) &&
-            ($this->heartrate === null && empty($this->heartrate)) &&
-            ($this->cadence === null && empty($this->cadence)) &&
-            ($this->power === null && empty($this->power)) &&
-            ($this->temperature === null && empty($this->temperature)) &&
-            ($this->groundcontact === null && empty($this->groundcontact)) &&
-            ($this->groundcontactBalance === null && empty($this->groundcontactBalance)) &&
-            ($this->verticalOscillation === null && empty($this->verticalOscillation)) &&
-            ($this->smo20 === null && empty($this->smo20)) &&
-            ($this->smo21 === null && empty($this->smo21)) &&
-            ($this->thb0 === null && empty($this->thb0)) &&
-            ($this->thb1 === null && empty($this->thb1)) &&
-            ($this->impactGsLeft === null && empty($this->impactGsLeft)) &&
-            ($this->impactGsRight === null && empty($this->impactGsRight)) &&
-            ($this->brakingGsLeft === null && empty($this->brakingGsLeft)) &&
-            ($this->brakingGsRight === null && empty($this->brakingGsRight)) &&
-            ($this->footstrikeTypeLeft === null && empty($this->footstrikeTypeLeft)) &&
-            ($this->footstrikeTypeRight === null && empty($this->footstrikeTypeRight)) &&
-            ($this->pronationExcursionLeft === null && empty($this->pronationExcursionLeft)) &&
-            ($this->pronationExcursionRight === null && empty($this->pronationExcursionRight)) &&
-            ($this->performanceCondition === null && empty($this->performanceCondition)) &&
-            ($this->respirationRate === null && empty($this->respirationRate)) &&
+            ! $this->hasTime() &&
+            ! $this->hasDistance() &&
+            ! $this->hasHeartrate() &&
+            ! $this->hasCadence() &&
+            ! $this->hasPower() &&
+            ! $this->hasTemperature() &&
+            ! $this->hasGroundcontact() &&
+            ! $this->hasGroundcontactBalance() &&
+            ! $this->hasVerticalOscillation() &&
+            ! $this->hasSmo20() &&
+            ! $this->hasSmo21() &&
+            ! $this->hasThb0() &&
+            ! $this->hasThb1() &&
+            ! $this->hasImpactGsLeft() &&
+            ! $this->hasImpactGsRight() &&
+            ! $this->hasBrakingGsLeft() &&
+            ! $this->hasBrakingGsRight() &&
+            ! $this->hasFootstrikeTypeLeft() &&
+            ! $this->hasFootstrikeTypeRight() &&
+            ! $this->hasPronationExcursionLeft() &&
+            ! $this->hasPronationExcursionRight() &&
+            ! $this->hasPerformanceCondition() &&
+            ! $this->hasRespirationRate() &&
             $this->pauses->isEmpty()
         ;
     }
@@ -908,7 +908,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function hasPace(): bool
     {
-        return $this->time !== null && $this->distance !== null;
+        return $this->hasTime() && $this->hasDistance();
     }
 
     /**
@@ -976,7 +976,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function hasStrideLength(): bool
     {
-        return $this->cadence !== null && $this->hasPace();
+        return $this->hasCadence() && $this->hasPace();
     }
 
     /**
@@ -1002,6 +1002,6 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function hasVerticalRatio(): bool
     {
-        return $this->verticalOscillation !== null && $this->hasStrideLength();
+        return $this->hasVerticalOscillation() && $this->hasStrideLength();
     }
 }

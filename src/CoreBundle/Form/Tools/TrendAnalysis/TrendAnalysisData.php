@@ -8,30 +8,21 @@ use Runalyze\Bundle\CoreBundle\Entity\Type;
 
 class TrendAnalysisData
 {
-    /**
-     * @var DateTime
-     */
-    protected $DateFrom;
+    protected DateTime $DateFrom;
 
-    /**
-     * @var DateTime
-     */
-    protected $DateTo;
+    protected DateTime $DateTo;
 
     /**
      * @var Sport[]
      */
-    protected $Sport = [];
+    protected array $Sport = [];
 
     /**
      * @var Type[]
      */
-    protected $Type = [];
+    protected array $Type = [];
 
-    /**
-     * @var string|null
-     */
-    protected $ValueToLookAt;
+    protected ?string $ValueToLookAt = null;
 
     /**
      * @param Sport[] $sports
@@ -52,10 +43,7 @@ class TrendAnalysisData
         $this->DateFrom = $dateFrom;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getDateFrom()
+    public function getDateFrom(): DateTime
     {
         return $this->DateFrom;
     }
@@ -72,10 +60,7 @@ class TrendAnalysisData
         $this->DateTo = $dateTo;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getDateTo()
+    public function getDateTo(): DateTime
     {
         return $this->DateTo;
     }
@@ -99,7 +84,7 @@ class TrendAnalysisData
     /**
      * @return Sport[]
      */
-    public function getSport()
+    public function getSport(): array
     {
         return $this->Sport;
     }
@@ -115,23 +100,17 @@ class TrendAnalysisData
     /**
      * @return Type[]
      */
-    public function getType()
+    public function getType(): array
     {
         return $this->Type;
     }
 
-    /**
-     * @param string|null $valueToLookAt
-     */
-    public function setValueToLookAt($valueToLookAt): void
+    public function setValueToLookAt(?string $valueToLookAt): void
     {
         $this->ValueToLookAt = $valueToLookAt;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getValueToLookAt()
+    public function getValueToLookAt(): ?string
     {
         return $this->ValueToLookAt;
     }

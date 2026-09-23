@@ -11,30 +11,22 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Type;
+use Runalyze\Bundle\CoreBundle\Form\Tools\TrendAnalysis\TrendAnalysisData;
 use Runalyze\Metrics\Common\UnitInterface;
 
 class TrendAnalysisDataQuery
 {
-    /**
-     * @var QueryValueInterface
-     */
-    protected $QueryValue;
+    protected QueryValueInterface $QueryValue;
 
-    /**
-     * @var array
-     */
-    protected $Values = [];
+    protected array $Values = [];
 
     public function __construct(
-        protected \Runalyze\Bundle\CoreBundle\Form\Tools\TrendAnalysis\TrendAnalysisData $TrendAnalysisData
+        protected TrendAnalysisData $TrendAnalysisData
     ) {
         $this->QueryValue = QueryValues::get($this->TrendAnalysisData->getValueToLookAt());
     }
 
-    /**
-     * @return UnitInterface
-     */
-    public function getValueUnit(UnitSystem $unitSystem)
+    public function getValueUnit(UnitSystem $unitSystem): UnitInterface
     {
         $sports = $this->TrendAnalysisData->getSport();
 
@@ -45,10 +37,7 @@ class TrendAnalysisDataQuery
         return $this->QueryValue->getValueUnit($unitSystem);
     }
 
-    /**
-     * @return array
-     */
-    public function getResults(TrainingRepository $trainingRepository, Account $account, UnitSystem $unitSystem)
+    public function getResults(TrainingRepository $trainingRepository, Account $account, UnitSystem $unitSystem): array
     {
         $unit = $this->getValueUnit($unitSystem);
         $iterator = $this->buildQuery($trainingRepository, $account)
@@ -61,10 +50,7 @@ class TrendAnalysisDataQuery
         return $this->Values;
     }
 
-    /**
-     * @return \Doctrine\ORM\Query
-     */
-    protected function buildQuery(TrainingRepository $trainingRepository, Account $account)
+    protected function buildQuery(TrainingRepository $trainingRepository, Account $account): \Doctrine\ORM\Query
     {
         $queryBuilder = $trainingRepository->createQueryBuilder('t')
             ->select('t.time')
@@ -92,7 +78,7 @@ class TrendAnalysisDataQuery
     {
         $types = $this->TrendAnalysisData->getType();
 
-        if (! empty($types)) {
+        if ($types !== []) {
             $queryBuilder->andWhere($queryBuilder->expr()->in('t.type', ':types'));
             $queryBuilder->setParameter(':types', array_map(fn (Type $type): ?int => $type->getId(), $types));
         }

@@ -10,11 +10,11 @@ interface EstimationInterface
      * Calculate VO2max based on race result
      *
      * @param float $distance [km]
-     * @param int $seconds [s]
+     * @param float $seconds [s]
      *
      * @return float [ml/kg/min]
      */
-    public function estimateFromRaceResult($distance, $seconds);
+    public function estimateFromRaceResult(float $distance, float $seconds): float;
 
     /**
      * Formerly known as 'oxygen cost'
@@ -23,5 +23,5 @@ interface EstimationInterface
      *
      * @return float [ml/kg/min]
      */
-    public function estimateFromVelocity($meterPerMinute);
+    public function estimateFromVelocity(float $meterPerMinute): float;
 }

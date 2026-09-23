@@ -38,9 +38,8 @@ class Duration
 
     /**
      * Decimal point
-     * @var string
      */
-    public static $DECIMAL_POINT = ',';
+    public static string $DECIMAL_POINT = ',';
 
     /**
      * Time [s]

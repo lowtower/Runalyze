@@ -5,19 +5,16 @@ namespace Runalyze\Bundle\CoreBundle\Component\Tool\VO2maxAnalysis;
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
 use Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector;
+use Runalyze\Model\Activity\Entity;
 use Runalyze\Sports\Running\Prognosis\VO2max;
 use Runalyze\Util\LocalTime;
 
 class RaceAnalysis
 {
-    /**
-     * @param float $VO2maxFactor
-     * @param float $VO2maxShape
-     */
     public function __construct(
-        protected \Runalyze\Model\Activity\Entity $Activity,
-        protected $VO2maxFactor,
-        protected $VO2maxShape
+        protected Entity $Activity,
+        protected float $VO2maxFactor,
+        protected float $VO2maxShape
     ) {
     }
 
@@ -51,7 +48,7 @@ class RaceAnalysis
     }
 
     /**
-     * @return float [ml/kg/min]
+     * @return ?float [ml/kg/min]
      */
     public function getVO2maxByTime(): ?float
     {
@@ -59,7 +56,7 @@ class RaceAnalysis
     }
 
     /**
-     * @return int [bpm]
+     * @return ?int [bpm]
      */
     public function getHeartRateInBpm(): ?int
     {
@@ -67,7 +64,7 @@ class RaceAnalysis
     }
 
     /**
-     * @return float [ml/kg/min]
+     * @return ?float [ml/kg/min]
      */
     public function getVO2maxByHeartRate(): ?float
     {
@@ -80,9 +77,9 @@ class RaceAnalysis
     }
 
     /**
-     * @return float [ml/kg/min]
+     * @return ?float [ml/kg/min]
      */
-    public function getVO2maxByHeartRateAfterCorrection(): int|float
+    public function getVO2maxByHeartRateAfterCorrection(): ?float
     {
         return $this->VO2maxFactor * $this->Activity->vo2maxByHeartRate();
     }
@@ -95,7 +92,7 @@ class RaceAnalysis
     /**
      * @return float [ml/kg/min]
      */
-    public function getVO2maxByShape()
+    public function getVO2maxByShape(): float
     {
         return $this->VO2maxShape;
     }
@@ -108,9 +105,12 @@ class RaceAnalysis
     public function getShapeDeviation(): string
     {
         $prognosis = $this->prognosisInSecondsFor($this->VO2maxShape, $this->Activity->distance());
+        if ($prognosis === null) {
+            return '-';
+        }
+
         $duration = $this->Activity->duration();
         $difference = 100 * ($prognosis - $duration) / $duration;
-
         return sprintf('%01.2f', $difference);
     }
 
@@ -122,10 +122,14 @@ class RaceAnalysis
     /**
      * @param float $vo2max [ml/kg/min]
      * @param float $distance [km]
-     * @return float [s]
+     * @return ?float [s]
      */
-    protected function prognosisInSecondsFor(float $vo2max, float $distance): float
+    protected function prognosisInSecondsFor(float $vo2max, ?float $distance): ?float
     {
+        if ($distance === null) {
+            return null;
+        }
+
         return (new VO2max($vo2max))->getSeconds($distance);
     }
 
@@ -133,9 +137,18 @@ class RaceAnalysis
      * @param float $vo2max [ml/kg/min]
      * @param float $distance [km]
      */
-    protected function prognosisFor(float $vo2max, float $distance): string
+    protected function prognosisFor(float $vo2max, ?float $distance): string
     {
-        return $this->formatTime((int) $this->prognosisInSecondsFor($vo2max, $distance));
+        if ($distance === null) {
+            return '-';
+        }
+
+        $seconds = $this->prognosisInSecondsFor($vo2max, $distance);
+        if ($seconds === null) {
+            return '-';
+        }
+
+        return $this->formatTime((int) $seconds);
     }
 
     /**

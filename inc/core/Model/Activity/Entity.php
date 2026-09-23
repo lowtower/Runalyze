@@ -870,7 +870,7 @@ class Entity extends Model\EntityWithID
     }
 
     /**
-     * @return null|float [km]
+     * @return ?float [km]
      */
     public function distance(): ?float
     {
@@ -891,7 +891,7 @@ class Entity extends Model\EntityWithID
     }
 
     /**
-     * @return null|int [s]
+     * @return ?int [s]
      */
     public function elapsedTime(): ?int
     {
@@ -903,7 +903,7 @@ class Entity extends Model\EntityWithID
     }
 
     /**
-     * @return null|int [m]
+     * @return ?int [m]
      */
     public function elevation(): ?int
     {
@@ -915,7 +915,7 @@ class Entity extends Model\EntityWithID
     }
 
     /**
-     * @return null|float [0.0 .. 1.0]
+     * @return ?float [0.0 .. 1.0]
      */
     public function climbScore(): ?float
     {
@@ -927,7 +927,7 @@ class Entity extends Model\EntityWithID
     }
 
     /**
-     * @return null|float [0.00 .. 1.00]
+     * @return ?float [0.00 .. 1.00]
      */
     public function percentageHilly(): ?float
     {
@@ -939,7 +939,7 @@ class Entity extends Model\EntityWithID
     }
 
     /**
-     * @return null|int [kcal]
+     * @return ?int [kcal]
      */
     public function energy(): ?int
     {
@@ -948,7 +948,7 @@ class Entity extends Model\EntityWithID
 
     /**
      * #TSC
-     * @return null|int [kcal]
+     * @return ?int [kcal]
      */
     public function energyInRest(): ?int
     {
@@ -957,7 +957,7 @@ class Entity extends Model\EntityWithID
 
     /**
      * Average heart rate
-     * @return null|int [bpm]
+     * @return ?int [bpm]
      */
     public function hrAvg(): ?int
     {
@@ -966,7 +966,7 @@ class Entity extends Model\EntityWithID
 
     /**
      * Maximal heart rate
-     * @return null|int [bpm]
+     * @return ?int [bpm]
      */
     public function hrMax(): ?int
     {
@@ -975,7 +975,7 @@ class Entity extends Model\EntityWithID
 
     /**
      * Average heart rate active rounds
-     * @return null|int [bpm]
+     * @return ?int [bpm]
      */
     public function hrAvgActive(): ?int
     {
@@ -984,7 +984,7 @@ class Entity extends Model\EntityWithID
 
     /**
      * Average max heart rate of the user (general, not while this activity)
-     * @return null|int [bpm]
+     * @return ?int [bpm]
      */
     public function maxHrUser(): ?int
     {
@@ -1001,7 +1001,7 @@ class Entity extends Model\EntityWithID
     }
 
     /**
-     * @return null|float [ml/kg/min]
+     * @return ?float [ml/kg/min]
      */
     public function vo2maxByHeartRate(): ?float
     {
@@ -1009,7 +1009,7 @@ class Entity extends Model\EntityWithID
     }
 
     /**
-     * @return null|float [ml/kg/min]
+     * @return ?float [ml/kg/min]
      */
     public function vo2maxByTime(): ?float
     {
@@ -1017,7 +1017,7 @@ class Entity extends Model\EntityWithID
     }
 
     /**
-     * @return null|float [ml/kg/min]
+     * @return ?float [ml/kg/min]
      */
     public function vo2maxWithElevation(): ?float
     {
@@ -1031,7 +1031,7 @@ class Entity extends Model\EntityWithID
 
     /**
      * VO2max estimate from fit file
-     * @return null|float [ml/kg/min]
+     * @return ?float [ml/kg/min]
      */
     public function fitVO2maxEstimate(): ?float
     {
@@ -1040,7 +1040,7 @@ class Entity extends Model\EntityWithID
 
     /**
      * Recovery time advisor from fit file
-     * @return null|int [min]
+     * @return ?int [min]
      */
     public function fitRecoveryTime(): ?int
     {
@@ -1148,7 +1148,7 @@ class Entity extends Model\EntityWithID
 
     /**
      * fit RWD run time #TSC
-     * @return null|int [s]
+     * @return ?int [s]
      */
     public function fitRunTime(): ?int
     {
@@ -1157,7 +1157,7 @@ class Entity extends Model\EntityWithID
 
     /**
      * fit RWD walk time #TSC
-     * @return null|int [s]
+     * @return ?int [s]
      */
     public function fitWalkTime(): ?int
     {
@@ -1166,7 +1166,7 @@ class Entity extends Model\EntityWithID
 
     /**
      * fit RWD run time #TSC
-     * @return null|int [s]
+     * @return ?int [s]
      */
     public function fitStandTime(): ?int
     {
@@ -1211,7 +1211,7 @@ class Entity extends Model\EntityWithID
     }
 
     /**
-     * @return null|int [rpm]
+     * @return ?int [rpm]
      */
     public function cadence(): ?int
     {
@@ -1219,7 +1219,7 @@ class Entity extends Model\EntityWithID
     }
 
     /**
-     * @return null|int [W]
+     * @return ?int [W]
      */
     public function power(): ?int
     {
@@ -1232,7 +1232,7 @@ class Entity extends Model\EntityWithID
     }
 
     /**
-     * @return null|int [cm]
+     * @return ?int [cm]
      */
     public function strideLength(): ?int
     {
@@ -1255,7 +1255,7 @@ class Entity extends Model\EntityWithID
     }
 
     /**
-     * @return null|int [ms]
+     * @return ?int [ms]
      */
     public function groundcontact(): ?int
     {
@@ -1263,7 +1263,7 @@ class Entity extends Model\EntityWithID
     }
 
     /**
-     * @return null|int [mm]
+     * @return ?int [mm]
      */
     public function verticalOscillation(): ?int
     {
@@ -1272,7 +1272,7 @@ class Entity extends Model\EntityWithID
 
     /**
      * Ground contact time balance
-     * @return null|int [%oo]
+     * @return ?int [%oo]
      */
     public function groundContactBalance(): ?int
     {
@@ -1281,7 +1281,7 @@ class Entity extends Model\EntityWithID
 
     /**
      * Ground contact time balance
-     * @return null|int [%]
+     * @return ?int [%]
      */
     public function groundContactBalanceLeft(): ?int
     {
@@ -1290,7 +1290,7 @@ class Entity extends Model\EntityWithID
 
     /**
      * Ground contact time balance
-     * @return null|int [%]
+     * @return ?int [%]
      */
     public function groundContactBalanceRight(): ?int
     {
@@ -1302,7 +1302,7 @@ class Entity extends Model\EntityWithID
     }
 
     /**
-     * @return null|int [%o]
+     * @return ?int [%o]
      */
     public function verticalRatio(): ?int
     {
@@ -1334,7 +1334,7 @@ class Entity extends Model\EntityWithID
     }
 
     /**
-     * @return null|float [G]
+     * @return ?float [G]
      */
     public function impactGsLeft(): ?float
     {
@@ -1342,7 +1342,7 @@ class Entity extends Model\EntityWithID
     }
 
     /**
-     * @return null|float [G]
+     * @return ?float [G]
      */
     public function impactGsRight(): ?float
     {
@@ -1350,7 +1350,7 @@ class Entity extends Model\EntityWithID
     }
 
     /**
-     * @return null|float [G]
+     * @return ?float [G]
      */
     public function brakingGsLeft(): ?float
     {
@@ -1358,7 +1358,7 @@ class Entity extends Model\EntityWithID
     }
 
     /**
-     * @return null|float [G]
+     * @return ?float [G]
      */
     public function brakingGsRight(): ?float
     {
@@ -1366,7 +1366,7 @@ class Entity extends Model\EntityWithID
     }
 
     /**
-     * @return null|int [°]
+     * @return ?int [°]
      */
     public function footstrikeTypeLeft(): ?int
     {
@@ -1374,7 +1374,7 @@ class Entity extends Model\EntityWithID
     }
 
     /**
-     * @return null|int [°]
+     * @return ?int [°]
      */
     public function footstrikeTypeRight(): ?int
     {
@@ -1382,7 +1382,7 @@ class Entity extends Model\EntityWithID
     }
 
     /**
-     * @return null|float [°]
+     * @return ?float [°]
      */
     public function pronationExcursionLeft(): ?float
     {
@@ -1390,7 +1390,7 @@ class Entity extends Model\EntityWithID
     }
 
     /**
-     * @return null|float [°]
+     * @return ?float [°]
      */
     public function pronationExcursionRight(): ?float
     {

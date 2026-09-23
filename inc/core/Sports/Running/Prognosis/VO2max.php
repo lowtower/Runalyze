@@ -29,10 +29,7 @@ class VO2max implements PrognosisInterface
      */
     protected $EffectiveVO2max = 0.0;
 
-    /**
-     * @var bool
-     */
-    protected $AdjustForMarathonShape = false;
+    protected bool $AdjustForMarathonShape = false;
 
     /**
      * Marathon shape
@@ -41,17 +38,13 @@ class VO2max implements PrognosisInterface
      * a percentage of achieved (optimal) marathon training.
      * A value of '100' represents a perfect preparation. Values can be greater
      * than 100 for representing a good training for an ultramarathon.
-     *
-     * @var float|int
      */
-    protected $MarathonShapeInPercent = 0.0;
+    protected float $MarathonShapeInPercent = 0.0;
 
     /**
      * @param float $effectiveVO2max [ml/kg/min]
-     * @param bool $adjustForMarathonShape
-     * @param float $marathonShapeInPercent
      */
-    public function __construct($effectiveVO2max = 0.0, $adjustForMarathonShape = false, $marathonShapeInPercent = 0.0)
+    public function __construct(float $effectiveVO2max = 0.0, bool $adjustForMarathonShape = false, float $marathonShapeInPercent = 0.0)
     {
         $this->setEffectiveVO2max($effectiveVO2max);
         $this->adjustForMarathonShape($adjustForMarathonShape);
@@ -61,17 +54,14 @@ class VO2max implements PrognosisInterface
     /**
      * @param float $effectiveVO2max [ml/kg/min]
      */
-    public function setEffectiveVO2max($effectiveVO2max): self
+    public function setEffectiveVO2max(float $effectiveVO2max): self
     {
         $this->EffectiveVO2max = $effectiveVO2max;
 
         return $this;
     }
 
-    /**
-     * @param bool $flag
-     */
-    public function adjustForMarathonShape($flag = true): self
+    public function adjustForMarathonShape(bool $flag = true): self
     {
         $this->AdjustForMarathonShape = $flag;
 
@@ -81,7 +71,7 @@ class VO2max implements PrognosisInterface
     /**
      * @param float $marathonShapeInPercent [%, i.e. 100 = 100%]
      */
-    public function setMarathonShape($marathonShapeInPercent): self
+    public function setMarathonShape(float $marathonShapeInPercent): self
     {
         $this->MarathonShapeInPercent = $marathonShapeInPercent;
 
@@ -93,7 +83,7 @@ class VO2max implements PrognosisInterface
         return $this->EffectiveVO2max >= self::REASONABLE_VO2MAX_MINIMUM && $this->EffectiveVO2max <= self::REASONABLE_VO2MAX_MAXIMUM;
     }
 
-    public function getSeconds(float $distance): float
+    public function getSeconds(float $distance): ?float
     {
         return self::getPrognosisInSecondsFor($this->getAdjustedVO2maxForDistanceIfWanted($distance), $distance);
     }
@@ -111,7 +101,7 @@ class VO2max implements PrognosisInterface
     /**
      * @param float $effectiveVO2maxToReach [ml/kg/min]
      * @param float $distance [km]
-     * @return float|null [s]
+     * @return ?float [s]
      */
     public static function getPrognosisInSecondsFor(float $effectiveVO2maxToReach, float $distance = 5.0): ?float
     {
@@ -125,7 +115,7 @@ class VO2max implements PrognosisInterface
             $effectiveVO2maxToReach,
             round(2 * 60 * $distance),
             round(10 * 60 * $distance),
-            fn ($seconds): float => $function->estimateFromRaceResult($distance, $seconds)
+            fn (float $seconds): float => $function->estimateFromRaceResult($distance, $seconds)
         ))->findValue();
     }
 

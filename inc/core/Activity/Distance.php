@@ -22,28 +22,24 @@ class Distance implements ValueInterface
 {
     /**
      * Seperator for decimals
-     * @var string
      */
-    public static $DecimalSeparator = ',';
+    public static string $DecimalSeparator = ',';
 
     /**
      * Seperator for thousands
-     * @var string
      */
-    public static $ThousandsSeparator = '.';
+    public static string $ThousandsSeparator = '.';
 
     /**
      * Default number of decimals
      * **If you change this, also change the test src/CoreBundle/Form/Type/DistanceType.php**
-     * @var int
      */
-    public static $DefaultDecimals = 3;
+    public static int $DefaultDecimals = 3;
 
     /**
      * For the split overview table use precision 2 for better "overview".
-     * @var int
      */
-    public static $DefaultDecimalsSplitTable = 2;
+    public static int $DefaultDecimalsSplitTable = 2;
 
     /**
      * @var \Runalyze\Parameter\Application\DistanceUnitSystem
