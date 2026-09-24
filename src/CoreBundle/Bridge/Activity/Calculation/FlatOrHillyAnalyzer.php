@@ -12,10 +12,7 @@ class FlatOrHillyAnalyzer
      */
     public const DEFAULT_GRADIENT_THRESHOLD = 0.02;
 
-    /**
-     * @param float $threshold
-     */
-    public function calculatePercentageHillyFor(Training $activity, $threshold = self::DEFAULT_GRADIENT_THRESHOLD): ?float
+    public function calculatePercentageHillyFor(Training $activity, float $threshold = self::DEFAULT_GRADIENT_THRESHOLD): ?float
     {
         $percentageFlat = null;
 
@@ -37,9 +34,8 @@ class FlatOrHillyAnalyzer
     /**
      * @param float[] $distances
      * @param int[] $elevations
-     * @param float $threshold
      */
-    public function calculatePercentageFlatForArrays(array $distances, array $elevations, $threshold = self::DEFAULT_GRADIENT_THRESHOLD): ?float
+    public function calculatePercentageFlatForArrays(array $distances, array $elevations, float $threshold = self::DEFAULT_GRADIENT_THRESHOLD): ?float
     {
         if ($distances === []) {
             return null;

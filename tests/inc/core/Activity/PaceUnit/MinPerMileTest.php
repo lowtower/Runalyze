@@ -2,8 +2,25 @@
 
 namespace Runalyze\Activity\PaceUnit;
 
+#[\PHPUnit\Framework\Attributes\Group('default')]
 class MinPerMileTest extends \PHPUnit\Framework\TestCase
 {
+    private string $OriginalDecimalSeparator;
+
+    private int $OriginalDecimals;
+
+    protected function setUp(): void
+    {
+        $this->OriginalDecimalSeparator = AbstractDecimalUnit::$DecimalSeparator;
+        $this->OriginalDecimals = AbstractDecimalUnit::$Decimals;
+    }
+
+    protected function tearDown(): void
+    {
+        AbstractDecimalUnit::$DecimalSeparator = $this->OriginalDecimalSeparator;
+        AbstractDecimalUnit::$Decimals = $this->OriginalDecimals;
+    }
+
     public function testSomePaces(): void
     {
         $Pace = new MinPerMile();

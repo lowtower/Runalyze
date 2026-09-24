@@ -8,25 +8,22 @@ use Runalyze\Sports\Running\VO2max\Estimation\DanielsGilbertFormula;
 
 class VO2maxCalculator
 {
-    /**
-     * @var Training
-     */
-    protected $Activity;
+    protected Training $Activity;
 
     /**
      * @var int [bpm]
      */
-    protected $HeartRateMaximum;
+    protected int $HeartRateMaximum;
 
     /**
      * @var int [m]
      */
-    protected $CorrectionForPositiveElevation;
+    protected int $CorrectionForPositiveElevation;
 
     /**
      * @var int [m]
      */
-    protected $CorrectionForNegativeElevation;
+    protected int $CorrectionForNegativeElevation;
 
     /**
      * @var DanielsGilbertFormula
@@ -64,7 +61,7 @@ class VO2maxCalculator
     }
 
     /**
-     * @param float|null $distance [km]
+     * @param ?float $distance [km]
      * @return float [ml/kg/min]
      */
     protected function estimateVO2maxByHeartRate(?float $distance = null): float
@@ -109,11 +106,11 @@ class VO2maxCalculator
     }
 
     /**
-     * @param int $up [m]
-     * @param int $down [m]
+     * @param ?int $up [m]
+     * @param ?int $down [m]
      * @return float [ml/kg/min]
      */
-    protected function estimateVO2maxByHeartRateWithElevationFor($up, $down): float
+    protected function estimateVO2maxByHeartRateWithElevationFor(?int $up, ?int $down): float
     {
         $modifier = new DistanceModifier($this->Activity->getDistance(), $up, $down);
         $modifier->setCorrectionValues($this->CorrectionForPositiveElevation, $this->CorrectionForNegativeElevation);
@@ -130,7 +127,7 @@ class VO2maxCalculator
      *
      * @return float in [0.0, 1.0]
      */
-    protected function getExpectedPercentageOfVO2maxAt($heartRateInPercent): float
+    protected function getExpectedPercentageOfVO2maxAt(float $heartRateInPercent): float
     {
         return exp(($heartRateInPercent - 1.00466) / 0.68725);
     }

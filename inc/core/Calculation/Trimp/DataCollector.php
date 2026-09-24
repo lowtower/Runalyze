@@ -30,10 +30,7 @@ use Runalyze\Mathematics\Distribution\TimeSeries;
  */
 class DataCollector
 {
-    /**
-     * @var array
-     */
-    protected $Histogram;
+    protected array $Histogram;
 
     /**
      * Construct data collector
@@ -60,7 +57,7 @@ class DataCollector
         $this->calculate();
     }
 
-    protected function calculate()
+    protected function calculate(): void
     {
         $distribution = $this->Duration === []
             ? new EmpiricalDistribution($this->HeartRate)
@@ -72,7 +69,7 @@ class DataCollector
     /**
      * @return array histogram
      */
-    public function result()
+    public function result(): array
     {
         return $this->Histogram;
     }

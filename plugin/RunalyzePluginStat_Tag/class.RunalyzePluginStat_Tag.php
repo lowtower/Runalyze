@@ -14,10 +14,7 @@ $PLUGINKEY = 'RunalyzePluginStat_Tag';
  */
 class RunalyzePluginStat_Tag extends PluginStat
 {
-    /**
-     * @var int
-     */
-    protected $TagId;
+    protected int $TagId;
 
     /**
      * @var array array(id => 'tag')
@@ -27,7 +24,7 @@ class RunalyzePluginStat_Tag extends PluginStat
     /**
      * @var array array(year => array(month => num))
      */
-    protected $TagData = [];
+    protected array $TagData = [];
 
     final public function name(): string
     {
@@ -91,7 +88,7 @@ class RunalyzePluginStat_Tag extends PluginStat
      */
     private function getToolbarNavigationLinks(): array
     {
-        if ($this->AllTags === []) {
+        if ($this->AllTags === [] || ! isset($this->AllTags[$this->TagId])) {
             return [];
         }
 
@@ -159,17 +156,17 @@ class RunalyzePluginStat_Tag extends PluginStat
         if ($this->TagId > 0) {
             $Statement = DB::getInstance()->query(
                 'SELECT
-					SUM(1) as `num`,
-					YEAR(FROM_UNIXTIME(`' . PREFIX . 'training`.`time`)) as `year`,
-					MONTH(FROM_UNIXTIME(`' . PREFIX . 'training`.`time`)) as `month`
-				FROM `' . PREFIX . 'activity_tag` as `at`
-				LEFT JOIN `' . PREFIX . 'training` ON `' . PREFIX . 'training`.`id` = `at`.`activityid`
-				WHERE
-					`tagid` = ' . $this->TagId . ' AND
-					`' . PREFIX . 'training`.`accountid`=' . SessionAccountHandler::getId() . '
-					' . $this->getSportAndYearDependenceForQuery(true) . '
-				GROUP BY `year` DESC, `month` ASC
-				'
+                    SUM(1) as `num`,
+                    YEAR(FROM_UNIXTIME(`' . PREFIX . 'training`.`time`)) as `year`,
+                    MONTH(FROM_UNIXTIME(`' . PREFIX . 'training`.`time`)) as `month`
+                FROM `' . PREFIX . 'activity_tag` as `at`
+                LEFT JOIN `' . PREFIX . 'training` ON `' . PREFIX . 'training`.`id` = `at`.`activityid`
+                WHERE
+                    `tagid` = ' . $this->TagId . ' AND
+                    `' . PREFIX . 'training`.`accountid`=' . SessionAccountHandler::getId() . '
+                    ' . $this->getSportAndYearDependenceForQuery(true) . '
+                GROUP BY `year` DESC, `month` ASC
+                '
             );
 
             while ($data = $Statement->fetch()) {

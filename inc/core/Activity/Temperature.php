@@ -17,28 +17,19 @@ use Runalyze\Parameter\Application\TemperatureUnit;
  */
 class Temperature implements ValueInterface
 {
-    /**
-     * Default number of decimals
-     * @var int
-     */
-    public static $DefaultDecimals = 0;
+    public static int $DefaultDecimals = 0;
 
     /**
      * Temperature [°C]
      */
     protected ?float $Temperature = null;
 
-    /**
-     * Preferred unit
-     */
     protected TemperatureUnit $PreferredUnit;
 
     /**
      * @param float|null $temperature [°C]
-     * @param bool $withUnit [optional] with or without unit
-     * @param int|bool $decimals [optional] number of decimals
      */
-    public static function format(?float $temperature, bool $withUnit = true, $decimals = false): string
+    public static function format(?float $temperature, bool $withUnit = true, int|bool $decimals = false): string
     {
         return (new self($temperature))->string($withUnit, $decimals);
     }
@@ -48,11 +39,14 @@ class Temperature implements ValueInterface
      */
     public function __construct(?float $temperature = null, ?TemperatureUnit $preferredUnit = null)
     {
-        $this->PreferredUnit = ($preferredUnit instanceof TemperatureUnit) ? $preferredUnit : Configuration::General()->temperatureUnit();
+        $this->PreferredUnit = $preferredUnit ?? Configuration::General()->temperatureUnit();
 
         $this->set($temperature);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function label(): string
     {
         return __('Temperature');
@@ -64,11 +58,9 @@ class Temperature implements ValueInterface
     }
 
     /**
-     * Set temperature
      * @param float|string|null $temperature [°C]
-     * @return \Runalyze\Activity\Temperature $this-reference
      */
-    public function set($temperature): self
+    public function set(mixed $temperature): self
     {
         if ($temperature === null || $temperature === '') {
             $this->Temperature = null;
@@ -80,11 +72,9 @@ class Temperature implements ValueInterface
     }
 
     /**
-     * Set temperature in Fahrenheit
      * @param float|string|null $temperature [°F]
-     * @return \Runalyze\Activity\Temperature $this-reference
      */
-    public function setFahrenheit($temperature): self
+    public function setFahrenheit(float|string|null $temperature): self
     {
         if ($temperature === null || $temperature === '') {
             $this->Temperature = null;
@@ -97,9 +87,8 @@ class Temperature implements ValueInterface
 
     /**
      * @param float|string|null $temperature [mixed unit]
-     * @return \Runalyze\Activity\Temperature $this-reference
      */
-    public function setInPreferredUnit($temperature): self
+    public function setInPreferredUnit(float|string|null $temperature): self
     {
         if ($this->PreferredUnit->isFahrenheit()) {
             $this->setFahrenheit($temperature);
@@ -110,12 +99,7 @@ class Temperature implements ValueInterface
         return $this;
     }
 
-    /**
-     * Format temperature as string
-     * @param bool $withUnit [optional] show unit?
-     * @param bool|int $decimals [optional] number of decimals
-     */
-    public function string(bool $withUnit = true, $decimals = false): string
+    public function string(bool $withUnit = true, int|bool $decimals = false): string
     {
         if ($this->PreferredUnit->isFahrenheit()) {
             return $this->stringFahrenheit($withUnit, $decimals);
@@ -141,7 +125,6 @@ class Temperature implements ValueInterface
     }
 
     /**
-     * Temperature in fahrenheit
      * @return float|null [°F]
      */
     public function fahrenheit(): ?float
@@ -153,9 +136,6 @@ class Temperature implements ValueInterface
         return $this->Temperature * 1.8 + 32;
     }
 
-    /**
-     * Is temperature empty?
-     */
     public function isEmpty(): bool
     {
         return $this->Temperature === null;
@@ -173,13 +153,7 @@ class Temperature implements ValueInterface
         return $this->celsius();
     }
 
-    /**
-     * String: as °C
-     * @param bool $withUnit [optional] show unit?
-     * @param bool|int $decimals [optional] number of decimals
-     * @return string with unit
-     */
-    public function stringCelsius(bool $withUnit = true, $decimals = false): string
+    public function stringCelsius(bool $withUnit = true, int|bool $decimals = false): string
     {
         if ($this->isEmpty()) {
             return '';
@@ -190,13 +164,7 @@ class Temperature implements ValueInterface
         return number_format($this->Temperature, $decimals, '.', '') . ($withUnit ? '&nbsp;' . TemperatureUnit::CELSIUS : '');
     }
 
-    /**
-     * String: as fahrenheit
-     * @param bool $withUnit [optional] show unit?
-     * @param bool|int $decimals [optional] number of decimals
-     * @return string with unit
-     */
-    public function stringFahrenheit(bool $withUnit = true, $decimals = false): string
+    public function stringFahrenheit(bool $withUnit = true, int|bool $decimals = false): string
     {
         if ($this->isEmpty()) {
             return '';

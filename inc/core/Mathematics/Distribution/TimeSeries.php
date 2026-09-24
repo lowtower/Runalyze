@@ -29,10 +29,16 @@ class TimeSeries extends EmpiricalDistribution
         $lastTime = 0;
 
         foreach ($data as $i => $val) {
+            if ($time[$i] < $lastTime) {
+                throw new \InvalidArgumentException(
+                    'Time values must be ordered ascending.'
+                );
+            }
+
             if (! isset($histogram[$val])) {
-                $histogram[$val] = $time[$i] - $lastTime;
+                $histogram[$val] = (int) ($time[$i] - $lastTime);
             } else {
-                $histogram[$val] += $time[$i] - $lastTime;
+                $histogram[$val] += (int) ($time[$i] - $lastTime);
             }
 
             $lastTime = $time[$i];

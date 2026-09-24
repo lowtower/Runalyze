@@ -22,14 +22,14 @@ class FitSdkExercise
         $result = [];
 
         $cat = array_map(intval(...), explode(',', $categorys));
-        $sub = array_map(intval(...), explode(',', $subtypes));
+        $sub = $subtypes !== null ? array_map(intval(...), explode(',', $subtypes)) : null;
 
         // if the sub array has not the same size as the main-category, ignore it
-        if (count($cat) !== count($sub)) {
+        if ($sub !== null && count($cat) !== count($sub)) {
             $sub = null;
         }
 
-        foreach ($cat as $i => &$c) {
+        foreach ($cat as $i => $c) {
             if ($sub != null) {
                 $r = $this->getMapping($c, $sub[$i]);
             } else {
@@ -50,9 +50,6 @@ class FitSdkExercise
         return implode(', ', $result);
     }
 
-    /**
-     * Retrieve on mapping.
-     */
     public function getMapping(int $category, ?int $subtype = null): ?string
     {
         $cat = $this->getCategoryName($category);

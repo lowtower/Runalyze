@@ -140,4 +140,116 @@ class AbstractPointReductionAlgorithmTest extends \PHPUnit\Framework\TestCase
             $line2y
         ), 0.005);
     }
+
+    public function testShortestDistanceForCollapsedLine(): void
+    {
+        $distance = AbstractPointReductionAlgorithm::shortestDistance(
+            3.0,
+            4.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+        );
+
+        $this->assertEqualsWithDelta(5.0, $distance, 0.0001);
+    }
+
+    public function testShortestDistanceUsesFirstPointWhenProjectionIsBeforeSegment(): void
+    {
+        $distance = AbstractPointReductionAlgorithm::shortestDistance(
+            -5.0,
+            0.0,
+            0.0,
+            0.0,
+            10.0,
+            0.0
+        );
+
+        $this->assertEqualsWithDelta(5.0, $distance, 0.0001);
+    }
+
+    public function testShortestDistanceUsesLastPointWhenProjectionIsBehindSegment(): void
+    {
+        $distance = AbstractPointReductionAlgorithm::shortestDistance(
+            15.0,
+            0.0,
+            0.0,
+            0.0,
+            10.0,
+            0.0
+        );
+
+        $this->assertEqualsWithDelta(5.0, $distance, 0.0001);
+    }
+
+    public function testShortestDistanceUsesProjectionWithinSegment(): void
+    {
+        $distance = AbstractPointReductionAlgorithm::shortestDistance(
+            5.0,
+            5.0,
+            0.0,
+            0.0,
+            10.0,
+            0.0
+        );
+
+        $this->assertEqualsWithDelta(5.0, $distance, 0.0001);
+    }
+
+    public function testShortestDistanceForProjectionOnFirstPoint(): void
+    {
+        $distance = AbstractPointReductionAlgorithm::shortestDistance(
+            0.0,
+            5.0,
+            0.0,
+            0.0,
+            10.0,
+            0.0
+        );
+
+        $this->assertEqualsWithDelta(5.0, $distance, 0.0001);
+    }
+
+    public function testShortestDistanceForProjectionOnLastPoint(): void
+    {
+        $distance = AbstractPointReductionAlgorithm::shortestDistance(
+            10.0,
+            5.0,
+            0.0,
+            0.0,
+            10.0,
+            0.0
+        );
+
+        $this->assertEqualsWithDelta(5.0, $distance, 0.0001);
+    }
+
+    public function testPerpendicularDistanceForVerticalLine(): void
+    {
+        $distance = AbstractPointReductionAlgorithm::perpendicularDistance(
+            3.0,   // point x
+            5.0,   // point y
+            1.0,   // line start x
+            0.0,   // line start y
+            1.0,   // line end x
+            10.0   // line end y
+        );
+
+        $this->assertSame(2.0, $distance);
+    }
+
+    public function testPerpendicularDistanceForHorizontalLine(): void
+    {
+        $distance = AbstractPointReductionAlgorithm::perpendicularDistance(
+            5.0,
+            5.0,
+            0.0,
+            0.0,
+            10.0,
+            0.0
+        );
+
+        $this->assertEqualsWithDelta(5.0, $distance, 0.0001);
+    }
 }

@@ -44,10 +44,8 @@ abstract class AbstractTimeUnit extends AbstractUnit
      *
      * This returns for example a float for decimal units and an integer as 's/km'
      * for time units.
-     *
-     * @return mixed
      */
-    public function rawValue(float $secondsPerKm)
+    public function rawValue(float $secondsPerKm): float
     {
         return $secondsPerKm * $this->factorForUnit();
     }

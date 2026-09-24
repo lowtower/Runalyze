@@ -6,6 +6,7 @@ namespace Runalyze\Parameter\Application;
 
 use PHPUnit\Framework\TestCase;
 
+#[\PHPUnit\Framework\Attributes\Group('default')]
 class ApplicationTimezoneEnumTest extends TestCase
 {
     public function testGetMappingReturnsNonEmptyArray(): void

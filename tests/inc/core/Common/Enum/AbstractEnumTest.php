@@ -20,6 +20,7 @@ class AnotherSampleEnumFixture extends AbstractEnum
     public const GREEN = 20;
 }
 
+#[\PHPUnit\Framework\Attributes\Group('default')]
 class AbstractEnumTest extends TestCase
 {
     public function testGetEnumReturnsAllConstantsAsNameValueMap(): void

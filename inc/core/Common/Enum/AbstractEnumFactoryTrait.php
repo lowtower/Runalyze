@@ -18,13 +18,11 @@ trait AbstractEnumFactoryTrait
     private static string $Namespace = '';
 
     /**
-     * Get object.
-     * @param  int|string $enum from internal enum
-     * @return object
+     * @param int|string $enum from internal enum
      *
      * @throws \InvalidArgumentException
      */
-    public static function get($enum)
+    public static function get(int|string $enum): object
     {
         if (self::$ClassNames === null) {
             self::generateNamespace();
@@ -46,7 +44,7 @@ trait AbstractEnumFactoryTrait
     }
 
     /**
-     * @throws \Exception
+     * @throws \BadMethodCallException
      */
     private static function generateClassNamesArray(): void
     {

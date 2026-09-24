@@ -11,5 +11,5 @@ interface AdditiveClimbQuantificationInterface extends ClimbQuantificationInterf
      * @param int $altitudeAtTop [m]
      * @return mixed
      */
-    public function getScoreForProfile(array $distancesAndGradients, $altitudeAtTop = 0);
+    public function getScoreForProfile(array $distancesAndGradients, int $altitudeAtTop = 0);
 }

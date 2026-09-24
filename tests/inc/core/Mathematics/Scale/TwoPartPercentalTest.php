@@ -8,10 +8,7 @@ use Runalyze\Mathematics\Scale\TwoPartPercental;
 
 class TwoPartPercentalTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var TwoPartPercental
-     */
-    protected $Scale;
+    protected TwoPartPercental $Scale;
 
     protected function setUp(): void
     {
@@ -43,5 +40,23 @@ class TwoPartPercentalTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(50, $this->Scale->transform(2.0), 0.0001);
         $this->assertEqualsWithDelta(56, $this->Scale->transform(3.0), 0.5);
         $this->assertEqualsWithDelta(75, $this->Scale->transform(6.0), 0.0001);
+    }
+
+    public function testValueBelowMinimumIsClampedToZero(): void
+    {
+        $this->Scale->setMinimum(10);
+        $this->Scale->setInflectionPoint(20);
+        $this->Scale->setMaximum(100);
+
+        $this->assertSame(0.0, $this->Scale->transform(5));
+    }
+
+    public function testValueAboveMaximumIsClampedToHundred(): void
+    {
+        $this->Scale->setMinimum(10);
+        $this->Scale->setInflectionPoint(20);
+        $this->Scale->setMaximum(100);
+
+        $this->assertSame(100.0, $this->Scale->transform(150));
     }
 }

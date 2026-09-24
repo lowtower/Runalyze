@@ -39,6 +39,7 @@ class Gamma
 {
 }
 
+#[\PHPUnit\Framework\Attributes\Group('default')]
 class AbstractEnumFactoryTraitTest extends TestCase
 {
     public function testGetReturnsInstanceOfClassMatchingSingleWordConstant(): void

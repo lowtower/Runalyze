@@ -20,11 +20,7 @@ class ClimbFinder
      */
     public const EPSILON_FOR_CLIMB_PROFILE = 0.1;
 
-    /**
-     * @param float $epsilon
-     * @return ClimbCollection
-     */
-    public function findClimbsFor(Training $activity, $epsilon = self::EPSILON_DEFAULT)
+    public function findClimbsFor(Training $activity, float $epsilon = self::EPSILON_DEFAULT): ClimbCollection
     {
         if ($activity->hasRoute() && $activity->getRoute()->hasElevations() && $activity->hasTrackdata() && $activity->getTrackdata()->getDistance() !== null) {
             $distances = $activity->getTrackdata()
@@ -42,7 +38,7 @@ class ClimbFinder
     /**
      * @param array<int, mixed> $indices
      */
-    protected function createClimbsForIndices(array $indices, array $distances, array $elevations): \Runalyze\Bundle\CoreBundle\Model\Trackdata\Climb\ClimbCollection
+    protected function createClimbsForIndices(array $indices, array $distances, array $elevations): ClimbCollection
     {
         $numIndices = count($indices);
         $climbs = new ClimbCollection();
@@ -71,7 +67,7 @@ class ClimbFinder
         return $climbs;
     }
 
-    protected function getClimbProfileFor(array $distances, array $elevations): \Runalyze\Bundle\CoreBundle\Model\Trackdata\Climb\ClimbProfile
+    protected function getClimbProfileFor(array $distances, array $elevations): ClimbProfile
     {
         return ClimbProfile::getClimbProfileFor($distances, $elevations, self::EPSILON_FOR_CLIMB_PROFILE);
     }

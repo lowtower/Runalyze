@@ -6,15 +6,9 @@ namespace Runalyze\Activity;
 #[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
 class DuplicateFinderTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \PDO
-     */
-    protected $PDO;
+    protected \PDO $PDO;
 
-    /**
-     * @var \Runalyze\Activity\DuplicateFinder
-     */
-    protected $Finder;
+    protected DuplicateFinder $Finder;
 
     protected function setUp(): void
     {

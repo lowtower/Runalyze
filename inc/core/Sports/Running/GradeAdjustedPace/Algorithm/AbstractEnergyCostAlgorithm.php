@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Sports\Running\GradeAdjustedPace\Algorithm;
 
 use Runalyze\Sports\Running\GradeAdjustedPace\AlgorithmInterface;
@@ -11,9 +13,9 @@ abstract class AbstractEnergyCostAlgorithm implements AlgorithmInterface
      */
     public const TIME_ADJUSTMENT_EXPONENT = 0.83;
 
-    abstract public function getEnergyCost($gradientInPercent);
+    abstract public function getEnergyCost(float $gradientInPercent);
 
-    public function getTimeFactor($gradientInPercent)
+    public function getTimeFactor(float $gradientInPercent): float
     {
         $energyCost = $this->getEnergyCost($gradientInPercent);
 
@@ -24,7 +26,7 @@ abstract class AbstractEnergyCostAlgorithm implements AlgorithmInterface
         return (1.0 / $energyCost) ** self::TIME_ADJUSTMENT_EXPONENT;
     }
 
-    public function adjustPace($paceInSecondsPerKilometer, $gradientInPercent)
+    public function adjustPace(float $paceInSecondsPerKilometer, float $gradientInPercent): float
     {
         return $paceInSecondsPerKilometer * $this->getTimeFactor($gradientInPercent);
     }

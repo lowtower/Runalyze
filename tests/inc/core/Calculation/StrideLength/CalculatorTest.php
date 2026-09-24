@@ -63,4 +63,83 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
             Activity\Entity::TIME_IN_SECONDS => 7200,
         ])));
     }
+
+    public function testCalculateReturnsEmptyArrayForIncompleteTrackdata(): void
+    {
+        $calculator = new Calculator(
+            new Trackdata\Entity([
+                Trackdata\Entity::TIME => [60],
+                Trackdata\Entity::DISTANCE => [0.18],
+            ])
+        );
+
+        $this->assertSame([], $calculator->calculate());
+    }
+
+    public function testStrideIsZeroForIdenticalTimestamps(): void
+    {
+        $calculator = new Calculator(
+            new Trackdata\Entity([
+                Trackdata\Entity::TIME => [60, 60],
+                Trackdata\Entity::DISTANCE => [0.18, 0.30],
+                Trackdata\Entity::CADENCE => [90, 90],
+            ])
+        );
+
+        $calculator->calculate();
+
+        $this->assertEquals(
+            [100, 0],
+            $calculator->stridesData()
+        );
+    }
+
+    public function testAverageReturnsNullBeforeCalculation(): void
+    {
+        $calculator = new Calculator(
+            new Trackdata\Entity([])
+        );
+
+        $this->assertNull($calculator->average());
+    }
+
+    public function testForActivityReturnsNullWithoutCadence(): void
+    {
+        $this->assertNull(
+            Calculator::forActivity(
+                new Activity\Entity([
+                    Activity\Entity::DISTANCE => 10,
+                    Activity\Entity::TIME_IN_SECONDS => 3600,
+                    Activity\Entity::CADENCE => 0,
+                ])
+            )
+        );
+    }
+
+    public function testForActivityReturnsNullWithoutDuration(): void
+    {
+        $this->assertNull(
+            Calculator::forActivity(
+                new Activity\Entity([
+                    Activity\Entity::DISTANCE => 10,
+                    Activity\Entity::TIME_IN_SECONDS => 0,
+                    Activity\Entity::CADENCE => 80,
+                ])
+            )
+        );
+    }
+
+    public function testForActivityAcceptsValueAtUpperLimit(): void
+    {
+        $activity = new Activity\Entity([
+            Activity\Entity::DISTANCE => 27.54,
+            Activity\Entity::TIME_IN_SECONDS => 3600,
+            Activity\Entity::CADENCE => 90,
+        ]);
+
+        $this->assertSame(
+            255,
+            Calculator::forActivity($activity)
+        );
+    }
 }

@@ -15,36 +15,24 @@ class LegacyEffectiveVO2maxCorrector
      */
     public const DB_LOOKUP_LIMIT = 3;
 
-    /**
-     * @var float
-     */
-    private static $GlobalFactor = 1.0;
+    private static float $GlobalFactor = 1.0;
 
-    /**
-     * @var float
-     */
-    protected $Factor;
+    protected float $Factor;
 
-    /**
-     * @param float $factor
-     */
-    public static function setGlobalFactor($factor): void
+    public static function setGlobalFactor(float $factor): void
     {
         self::$GlobalFactor = $factor;
     }
 
     /**
-     * @param float $factor [optional] static factor is used by default
+     * @param float $factor static factor is used by default
      */
-    public function __construct($factor = null)
+    public function __construct(?float $factor = null)
     {
         $this->Factor = $factor ?: self::$GlobalFactor;
     }
 
-    /**
-     * @return float
-     */
-    public function factor()
+    public function factor(): float
     {
         return $this->Factor;
     }
@@ -54,12 +42,8 @@ class LegacyEffectiveVO2maxCorrector
      *
      * Simply looks for the best ratio of vo2max by time and by heart rate.
      * This method does not regard any other correction (e.g. elevation, ...).
-     *
-     * @param int $accountid
-     * @param int $sportid
-     * @return float
      */
-    public function fromDatabase(PDO $database, $accountid, $sportid)
+    public function fromDatabase(PDO $database, int $accountid, int $sportid): float
     {
         $factor = $database->query(
             'SELECT MAX(`factor`) AS `factor`
@@ -68,10 +52,10 @@ class LegacyEffectiveVO2maxCorrector
 				FROM `' . PREFIX . 'raceresult` r
 				LEFT JOIN `' . PREFIX . 'training` tr ON r.activity_id = tr.id
 				    WHERE
-					tr.`sportid` = ' . (int) $sportid . ' AND
+					tr.`sportid` = ' . $sportid . ' AND
 					tr.`vo2max` > 0 AND
 					tr.`use_vo2max` = 1 AND
-					r.`accountid` = ' . (int) $accountid . '
+					r.`accountid` = ' . $accountid . '
 				ORDER BY  tr.`vo2max_by_time` DESC 
 				LIMIT ' . self::DB_LOOKUP_LIMIT . '
 			) AS T

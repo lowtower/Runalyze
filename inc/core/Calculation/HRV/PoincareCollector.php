@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Runalyze\Calculation\HRV;
 
+use Runalyze\Model\HRV\Entity;
+
 /**
  * Create data for a poincare plot
  *
@@ -18,42 +20,59 @@ namespace Runalyze\Calculation\HRV;
 class PoincareCollector
 {
     /**
-     * Plot data
-     * @var array
+     * @deprecated since we now collect all pairs instead of deduplicating by preceding value
      */
-    protected $PlotData = [];
+    protected array $PlotData = [];
+
+    /**
+     * @var array<int, array{0: int|float, 1: int|float}>
+     */
+    protected array $Pairs = [];
 
     /**
      * Calculator for hrv statistics
-     * @param int $Filter [optional] maximal difference to include in plot
+     * @param int $Filter maximal difference to include in plot
      */
     public function __construct(
-        protected \Runalyze\Model\HRV\Entity $Object, /**
-     * Filter: maximal difference to include in plot
-     */
-        protected $Filter = 200
+        protected Entity $Object,
+        protected int $Filter = 200
     ) {
         $this->collectPlotData();
     }
 
-    protected function collectPlotData()
+    protected function collectPlotData(): void
     {
         $data = $this->Object->data();
         $num = $this->Object->num();
 
         for ($i = 1; $i < $num; ++$i) {
             if (abs($data[$i - 1] - $data[$i]) < $this->Filter) {
+                // Legacy format, kept for backwards compatibility.
+                // Note: identical preceding values overwrite each other here.
                 $this->PlotData[(string) $data[$i - 1]] = $data[$i];
+
+                $this->Pairs[] = [$data[$i - 1], $data[$i]];
             }
         }
     }
 
     /**
      * Plot data
-     * @return array
+     *
+     * @deprecated use pairs() instead, this collapses duplicate preceding values
      */
-    public function data()
+    public function data(): array
     {
         return $this->PlotData;
+    }
+
+    /**
+     * All (x, y) pairs for the poincare plot, without deduplication
+     *
+     * @return array<int, array{0: int|float, 1: int|float}>
+     */
+    public function pairs(): array
+    {
+        return $this->Pairs;
     }
 }

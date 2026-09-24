@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::AbstractDecimalUnit
  * @package Runalyze\Activity\PaceUnit
@@ -14,15 +16,9 @@ namespace Runalyze\Activity\PaceUnit;
  */
 abstract class AbstractDecimalUnit extends AbstractUnit
 {
-    /**
-     * @var string
-     */
-    public static $DecimalSeparator = ',';
+    public static string $DecimalSeparator = ',';
 
-    /**
-     * @var int
-     */
-    public static $Decimals = 1;
+    public static int $Decimals = 1;
 
     /**
      * Pace is displayed as time per distance
@@ -47,13 +43,8 @@ abstract class AbstractDecimalUnit extends AbstractUnit
 
     /**
      * Get raw value
-     *
-     * This returns for example a float for decimal units and an integer as 's/km'
-     * for time units.
-     *
-     * @return mixed
      */
-    public function rawValue(float $secondsPerKm)
+    public function rawValue(float $secondsPerKm): float
     {
         if ($secondsPerKm === 0.0) {
             return 0.0;

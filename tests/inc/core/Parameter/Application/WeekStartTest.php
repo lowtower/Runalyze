@@ -2,22 +2,17 @@
 
 namespace Runalyze\Parameter\Application;
 
+#[\PHPUnit\Framework\Attributes\Group('requiresSqlite')]
 class WeekStartTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \Runalyze\Parameter\Application\WeekStart
-     */
-    protected $Object;
+    protected WeekStart $Object;
 
-    /**
-     * @var \PDO
-     */
-    protected $PDO;
+    protected \PDO $PDO;
 
     /**
      * @var array ['date string' => [#week for Monday as start, #week for Sunday as start]]
      */
-    protected $TestDates = [
+    protected array $TestDates = [
         '3 January 2015' => [1, 1],
         '4 January 2015' => [1, 2],
         '26 October 2015' => [44, 44],

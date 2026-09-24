@@ -32,13 +32,16 @@ class GroundcontactBalance implements ValueInterface
     }
 
     /**
-     * Label for stride length
+     * @codeCoverageIgnore
      */
     public function label(): string
     {
         return __('Groundcontact balance');
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function unit(): string
     {
         return '%';

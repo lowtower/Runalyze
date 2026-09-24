@@ -39,8 +39,6 @@ class KmPerHour extends AbstractDecimalUnit
      *
      * This should only be used for decimal formats.
      * dividendForUnit() / 's/km' = [decimal pace value]
-     *
-     * @throws \RuntimeException
      */
     public function dividendForUnit(): float
     {

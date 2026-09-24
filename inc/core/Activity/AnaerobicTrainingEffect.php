@@ -32,15 +32,12 @@ class AnaerobicTrainingEffect implements ValueInterface
 
     protected ?float $Value = null;
 
-    public static function format(?float $value): string
+    public static function format(mixed $value): string
     {
         return (new self($value))->string();
     }
 
-    /**
-     * @param float|null $value
-     */
-    public function __construct($value = null)
+    public function __construct(mixed $value = null)
     {
         $this->set($value);
     }
@@ -64,14 +61,14 @@ class AnaerobicTrainingEffect implements ValueInterface
 
     /**
      * Set training effect
-     * @param float|null|string $value
-     * @return \Runalyze\Activity\AnaerobicTrainingEffect $this-reference
+     *
      * @throws \InvalidArgumentException
      */
-    public function set($value): self
+    public function set(mixed $value): self
     {
         if ($value === null) {
             $this->Value = null;
+
             return $this;
         }
 
@@ -84,7 +81,8 @@ class AnaerobicTrainingEffect implements ValueInterface
         }
 
         $value = (float) $value;
-        if ($value < self::LOWER_LIMIT || $value > self::UPPER_LIMIT) {
+
+        if (is_nan($value) || $value < self::LOWER_LIMIT || $value > self::UPPER_LIMIT) {
             throw new \InvalidArgumentException(sprintf('Anaerobic Training Effect must be between %s and %s.', self::LOWER_LIMIT, self::UPPER_LIMIT));
         }
 
@@ -95,7 +93,6 @@ class AnaerobicTrainingEffect implements ValueInterface
 
     /**
      * Format training effect as string
-     * @param bool $withUnit [optional] show unit?
      */
     public function string(bool $withUnit = true): string
     {
@@ -130,9 +127,6 @@ class AnaerobicTrainingEffect implements ValueInterface
         return TrainingEffectLevel::levelFor($this->Value);
     }
 
-    /**
-     * @codeCoverageIgnore
-     */
     public function shortDescription(): string
     {
         if (! $this->isKnown()) {
@@ -142,9 +136,6 @@ class AnaerobicTrainingEffect implements ValueInterface
         return TrainingEffectLevel::label($this->level());
     }
 
-    /**
-     * @codeCoverageIgnore
-     */
     public function description(): string
     {
         if (! $this->isKnown()) {

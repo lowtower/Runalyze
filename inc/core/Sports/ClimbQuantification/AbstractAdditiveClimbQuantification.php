@@ -4,12 +4,9 @@ namespace Runalyze\Sports\ClimbQuantification;
 
 abstract class AbstractAdditiveClimbQuantification implements AdditiveClimbQuantificationInterface
 {
-    /**
-     * @var float
-     */
-    protected $MaximalGradient = 0.25;
+    protected float $MaximalGradient = 0.25;
 
-    public function getScoreForProfile(array $distancesAndGradients, $altitudeAtTop = 0)
+    public function getScoreForProfile(array $distancesAndGradients, int $altitudeAtTop = 0)
     {
         $numSegments = count($distancesAndGradients);
         $score = 0.0;
@@ -25,18 +22,12 @@ abstract class AbstractAdditiveClimbQuantification implements AdditiveClimbQuant
         return $score;
     }
 
-    /**
-     * @param float $gradient
-     */
-    public function setMaximalGradient($gradient)
+    public function setMaximalGradient(float $gradient)
     {
         $this->MaximalGradient = $gradient;
     }
 
-    /**
-     * @return float
-     */
-    public function getMaximalGradient()
+    public function getMaximalGradient(): float
     {
         return $this->MaximalGradient;
     }

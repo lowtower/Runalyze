@@ -10,10 +10,7 @@ use Runalyze\Sports\Running\VO2max\VO2maxVelocity;
  */
 class LegacyEffectiveVO2max
 {
-    /**
-     * @var int
-     */
-    private static $Precision = 2;
+    private static int $Precision = 2;
 
     /**
      * @var ?float [ml/kg/min]
@@ -25,15 +22,11 @@ class LegacyEffectiveVO2max
     /**
      * @param int $decimals number of decimals to display
      */
-    public static function setPrecision($decimals): void
+    public static function setPrecision(int $decimals): void
     {
         self::$Precision = $decimals;
     }
 
-    /**
-     * @param ?float $value [optional]
-     * @param \Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector $corrector [optional]
-     */
     public function __construct(?float $value = 0.0, ?LegacyEffectiveVO2maxCorrector $corrector = null)
     {
         $this->setValue($value);
@@ -45,9 +38,6 @@ class LegacyEffectiveVO2max
         $this->Value = $value;
     }
 
-    /**
-     * @param \Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector $corrector [optional]
-     */
     public function setCorrector(?LegacyEffectiveVO2maxCorrector $corrector = null): void
     {
         if ($corrector instanceof \Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector) {

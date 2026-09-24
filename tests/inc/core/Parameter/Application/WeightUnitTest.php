@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Parameter\Application;
 
+#[\PHPUnit\Framework\Attributes\Group('default')]
 class WeightUnitTest extends \PHPUnit\Framework\TestCase
 {
     /**

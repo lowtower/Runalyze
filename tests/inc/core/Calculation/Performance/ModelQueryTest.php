@@ -1,15 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Calculation\Performance;
 
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]
 #[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
 class ModelQueryTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \PDOforRunalyze
-     */
-    protected $DB;
+    protected \PDOforRunalyze $DB;
 
     protected function setUp(): void
     {

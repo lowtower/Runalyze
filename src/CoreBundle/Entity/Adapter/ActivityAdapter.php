@@ -3,6 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\Entity\Adapter;
 
 use League\Geotools\Geohash\Geohash;
+use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\ClimbFinder;
 use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\ClimbScoreCalculator;
 use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\FlatOrHillyAnalyzer;
 use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\NightDetector;
@@ -18,6 +19,7 @@ use Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookup;
 use Runalyze\Profile\FitSdk\StrokeTypeProfile;
 use Runalyze\Profile\Weather\WeatherConditionProfile;
 use Runalyze\Service\ElevationCorrection\StepwiseElevationProfileFixer;
+use Runalyze\Sports\ClimbQuantification\FietsIndex;
 use Runalyze\Util\LocalTime;
 
 class ActivityAdapter
@@ -324,7 +326,7 @@ class ActivityAdapter
             $elevationsBackup = $this->temporarilyFixStepwiseElevationsInRoute();
 
             (new FlatOrHillyAnalyzer())->calculatePercentageHillyFor($this->Activity);
-            (new ClimbScoreCalculator())->calculateFor($this->Activity);
+            (new ClimbScoreCalculator(new FietsIndex(), new ClimbFinder()))->calculateFor($this->Activity);
 
             $this->revertTemporaryFixForStepwiseElevationsInRoute($elevationsBackup);
         } else {

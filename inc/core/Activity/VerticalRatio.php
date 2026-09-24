@@ -8,16 +8,11 @@
 namespace Runalyze\Activity;
 
 /**
- * Vertical ratio
- *
  * @author Hannes Christiansen
  * @package Runalyze\Activity
  */
 class VerticalRatio implements ValueInterface
 {
-    /**
-     * Format vertical ratio
-     */
     public static function format(int $permille, bool $withUnit = true): string
     {
         return (new self($permille))->string($withUnit);
@@ -32,44 +27,39 @@ class VerticalRatio implements ValueInterface
     }
 
     /**
-     * Label for stride length
+     * @codeCoverageIgnore
      */
     public function label(): string
     {
         return __('Vertical ratio');
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function unit(): string
     {
         return '%';
     }
 
-    /**
-     * Set vertical ratio
-     * @param int $permille [%o]
-     * @return \Runalyze\Activity\VerticalRatio $this-reference
-     */
-    public function set($permille): self
+    public function set(mixed $permille): self
     {
-        $this->Permille = $permille;
+        $this->Permille = (int) $permille;
 
         return $this;
     }
 
     /**
-     * Set vertical ratio in percent
      * @param float $percent [%]
-     * @return \Runalyze\Activity\VerticalRatio $this-reference
      */
     public function setPercent(float $percent): self
     {
-        $this->Permille = (int) (10 * $percent);
+        $this->Permille = (int) round(10 * $percent);
 
         return $this;
     }
 
     /**
-     * Get vertical ratio
      * @return int [%o]
      */
     public function value(): int
@@ -78,7 +68,6 @@ class VerticalRatio implements ValueInterface
     }
 
     /**
-     * Get vertical ratio
      * @return float [%]
      */
     public function inPercent(): float
@@ -86,9 +75,6 @@ class VerticalRatio implements ValueInterface
         return $this->Permille / 10;
     }
 
-    /**
-     * Format value as string
-     */
     public function string(bool $withUnit = true): string
     {
         if ($this->Permille > 0) {

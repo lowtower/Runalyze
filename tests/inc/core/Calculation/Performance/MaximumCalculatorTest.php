@@ -33,7 +33,7 @@ class MaximumCalculatorTest extends \PHPUnit\Framework\TestCase
 
     public function testTSBclosure(): void
     {
-        $Calc = new MaximumCalculator(fn (array $array): \Runalyze\Sports\Performance\Model\TsbModel => new TsbModel($array), []);
+        $Calc = new MaximumCalculator(fn (array $array): TsbModel => new TsbModel($array), []);
 
         $this->assertEquals(0, $Calc->maxFitness());
         $this->assertEquals(0, $Calc->maxFatigue());

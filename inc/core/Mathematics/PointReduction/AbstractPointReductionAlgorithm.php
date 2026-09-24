@@ -1,60 +1,35 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Mathematics\PointReduction;
 
 abstract class AbstractPointReductionAlgorithm
 {
-    /**
-     * @var array
-     */
-    protected $ReducedX = [];
+    protected array $ReducedX = [];
 
-    /**
-     * @var array
-     */
-    protected $ReducedY = [];
+    protected array $ReducedY = [];
 
-    /**
-     * @var array
-     */
-    protected $ReducedIndices = [];
+    protected array $ReducedIndices = [];
 
-    /**
-     * @return array
-     */
-    public function getReducedX()
+    public function getReducedX(): array
     {
         return $this->ReducedX;
     }
 
-    /**
-     * @return array
-     */
-    public function getReducedY()
+    public function getReducedY(): array
     {
         return $this->ReducedY;
     }
 
-    /**
-     * @return array
-     */
-    public function getReducedIndices()
+    public function getReducedIndices(): array
     {
         return $this->ReducedIndices;
     }
 
-    /**
-     * @param float $pointX
-     * @param float $pointY
-     * @param float $line1x
-     * @param float $line1y
-     * @param float $line2x
-     * @param float $line2y
-     * @return float
-     */
-    public static function perpendicularDistance($pointX, $pointY, $line1x, $line1y, $line2x, $line2y)
+    public static function perpendicularDistance(float $pointX, float $pointY, float $line1x, float $line1y, float $line2x, float $line2y): float
     {
-        if ($line2x == $line1x) {
+        if ($line2x === $line1x) {
             return abs($pointX - $line2x);
         }
 
@@ -64,20 +39,11 @@ abstract class AbstractPointReductionAlgorithm
         return abs(($slope * $pointX) - $pointY + $passThroughY) / (sqrt($slope * $slope + 1));
     }
 
-    /**
-     * @param float $pointX
-     * @param float $pointY
-     * @param float $line1x
-     * @param float $line1y
-     * @param float $line2x
-     * @param float $line2y
-     * @return float
-     */
-    public static function shortestDistance($pointX, $pointY, $line1x, $line1y, $line2x, $line2y)
+    public static function shortestDistance(float $pointX, float $pointY, float $line1x, float $line1y, float $line2x, float $line2y): float
     {
         $lineLength = self::pointDistance($line1x, $line1y, $line2x, $line2y);
 
-        if ($lineLength == 0) {
+        if ($lineLength === 0.0) {
             return self::pointDistance($pointX, $pointY, $line1x, $line1y);
         }
 
@@ -94,14 +60,7 @@ abstract class AbstractPointReductionAlgorithm
         return self::pointDistance($pointX, $pointY, $line1x + $t * ($line2x - $line1x), $line1y + $t * ($line2y - $line1y));
     }
 
-    /**
-     * @param float $point1x
-     * @param float $point1y
-     * @param float $point2x
-     * @param float $point2y
-     * @return float
-     */
-    public static function pointDistance($point1x, $point1y, $point2x, $point2y)
+    public static function pointDistance(float $point1x, float $point1y, float $point2x, float $point2y): float
     {
         return sqrt(($point2x - $point1x) * ($point2x - $point1x) + ($point2y - $point1y) * ($point2y - $point1y));
     }

@@ -97,8 +97,26 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $Calculator->calculate(75, 1.0);
 
         $this->assertEquals(
-            [256, 330, 550, 0, 183, 183],
+            [256, 330, 551, 0, 183, 183],
             $Calculator->powerData()
         );
+    }
+
+    public function testPowerDataContainsOnlyFloats(): void
+    {
+        $Calculator = new Calculator(
+            new Trackdata\Entity([
+                Trackdata\Entity::DISTANCE => [0.1, 0.2, 0.3, 0.4, 0.5, 0.6],
+                Trackdata\Entity::TIME => [10, 20, 30, 40, 50, 60],
+            ]),
+            new Route\Entity([
+                Route\Entity::ELEVATIONS_ORIGINAL => [0, 1, 3, 8, 3, 3],
+            ])
+        );
+        $Calculator->calculate(75, 1.0);
+
+        foreach ($Calculator->powerData() as $index => $value) {
+            $this->assertIsFloat($value, sprintf('Power value at index %d must be a float.', $index));
+        }
     }
 }

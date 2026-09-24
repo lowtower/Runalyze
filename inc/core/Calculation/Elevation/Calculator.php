@@ -7,6 +7,7 @@
 
 namespace Runalyze\Calculation\Elevation;
 
+use Runalyze\Calculation\Elevation\Strategy\AbstractStrategy;
 use Runalyze\Configuration;
 use Runalyze\Parameter\Application\ElevationMethod;
 
@@ -20,62 +21,47 @@ class Calculator
 {
     /**
      * Elevation method
-     * @var \Runalyze\Parameter\Application\ElevationMethod
      */
-    protected \Runalyze\Parameter $Method;
+    protected ElevationMethod $Method;
 
     /**
      * Threshold
-     * @var int
      */
-    protected $Threshold;
+    protected int $Threshold;
 
     /**
      * Smoothing strategy
-     * @var \Runalyze\Calculation\Elevation\Strategy\AbstractStrategy
      */
-    protected $Strategy;
+    protected ?AbstractStrategy $Strategy = null;
 
     /**
      * Up/down points
-     * @var array
      */
-    protected $UpDownPoints = [];
+    protected array $UpDownPoints = [];
 
     /**
      * Elevation up
-     * @var int
      */
-    protected $Up = 0;
+    protected int $Up = 0;
 
     /**
      * Elevation down
-     * @var int
      */
-    protected $Down = 0;
+    protected int $Down = 0;
 
     /**
      * If no options are set, the current configuration settings are used.
-     *
-     * @param \Runalyze\Parameter\Application\ElevationMethod|null $Method [optional]
-     * @param int|null $Threshold [optional]
      */
     public function __construct(
-        /**
-         * Elevation points
-         */
         protected array $ElevationPoints,
         ?ElevationMethod $Method = null,
-        $Threshold = null
+        ?int $Threshold = null
     ) {
-        $this->Method = $Method instanceof \Runalyze\Parameter\Application\ElevationMethod ? $Method : Configuration::ActivityView()->elevationMethod();
+        $this->Method = $Method instanceof ElevationMethod ? $Method : Configuration::ActivityView()->elevationMethod();
         $this->Threshold = $Threshold ?? Configuration::ActivityView()->elevationMinDiff();
     }
 
-    /**
-     * @param int $threshold
-     */
-    public function setThreshold($threshold): void
+    public function setThreshold(int $threshold): void
     {
         $this->Threshold = $threshold;
     }
@@ -85,28 +71,17 @@ class Calculator
         $this->Method = $Method;
     }
 
-    /**
-     * Get elevation
-     */
     public function totalElevation(): int
     {
         return max($this->Up, $this->Down);
     }
 
-    /**
-     * Get elevation up
-     * @return int
-     */
-    public function elevationUp()
+    public function elevationUp(): int
     {
         return $this->Up;
     }
 
-    /**
-     * Get elevation up
-     * @return int
-     */
-    public function elevationDown()
+    public function elevationDown(): int
     {
         return $this->Down;
     }
@@ -155,9 +130,8 @@ class Calculator
 
     /**
      * Smoothing strategy
-     * @return \Runalyze\Calculation\Elevation\Strategy\AbstractStrategy
      */
-    public function strategy()
+    public function strategy(): AbstractStrategy
     {
         return $this->Strategy;
     }

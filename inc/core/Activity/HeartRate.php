@@ -22,32 +22,21 @@ class HeartRate
      */
     protected ?float $value = null;
 
-    /**
-     * Preferred heart rate unit
-     */
     protected HeartRateUnit $PreferredUnit;
 
     public function __construct(
-        ?float $value, /**
-     * Athlete
-     */
+        ?float $value,
         protected ?Athlete $Athlete = null
     ) {
         $this->setBPM($value);
         $this->PreferredUnit = Configuration::General()->heartRateUnit();
     }
 
-    /**
-     * Set value
-     */
     public function setBPM(?float $value): void
     {
         $this->value = $value;
     }
 
-    /**
-     * Heart rate as string
-     */
     public function string(): string
     {
         if ($this->PreferredUnit->isHRreserve() && $this->canShowInHRrest()) {
@@ -61,9 +50,6 @@ class HeartRate
         return $this->asBPM();
     }
 
-    /**
-     * As bpm
-     */
     public function asBPM(): string
     {
         return $this->inBPM() . '&nbsp;bpm';
@@ -71,50 +57,50 @@ class HeartRate
 
     /**
      * As [%HRmax]
-     * Check first 'canShowInHRMax'!
+     * Check first 'canShowInHRmax'!
      */
     public function asHRmax(): string
     {
-        return $this->inHRmax() . '&nbsp;&#37;';
+        return $this->inHRmax() . '&nbsp;%';
     }
 
     /**
      * As [%HRrest]
-     * Check first 'canShowInHRMax'!
+     * Check first 'canShowInHRrest'!
      */
     public function asHRrest(): string
     {
-        return $this->inHRrest() . '&nbsp;&#37;';
+        return $this->inHRrest() . '&nbsp;%';
     }
 
     /**
      * Value in [bpm]
      */
-    public function inBPM(): int
+    public function inBPM(): ?int
     {
-        return (int) round($this->value);
+        return $this->value !== null ? (int) round($this->value) : null;
     }
 
     /**
      * Value in [%HRmax]
      */
-    public function inHRmax(): float
+    public function inHRmax(): ?float
     {
-        return round(100 * $this->value / $this->Athlete->maximalHR());
+        return $this->value !== null && $this->knowsAthlete() ? round(100 * $this->value / $this->Athlete->maximalHR()) : null;
     }
 
     /**
      * Value in [%HRrest]
      */
-    public function inHRrest(): float
+    public function inHRrest(): ?float
     {
-        return round(100 * ($this->value - $this->Athlete->restingHR()) / ($this->Athlete->maximalHR() - $this->Athlete->restingHR()));
+        return $this->value !== null && $this->knowsAthlete() ? round(100 * ($this->value - $this->Athlete->restingHR()) / ($this->Athlete->maximalHR() - $this->Athlete->restingHR())) : null;
     }
 
     /**
      * Value in [%] depending on preferred unit
      */
-    public function inPercent(): float
+    public function inPercent(): ?float
     {
         if ($this->PreferredUnit->isHRreserve() && $this->canShowInHRrest()) {
             return $this->inHRrest();
@@ -123,43 +109,26 @@ class HeartRate
         return $this->inHRmax();
     }
 
-    /**
-     * Can show in HRmax?
-     */
     public function canShowInHRmax(): bool
     {
         return $this->knowsAthlete() && $this->Athlete->knowsMaximalHeartRate();
     }
 
-    /**
-     * Can show in HRrest?
-     */
     public function canShowInHRrest(): bool
     {
         return $this->knowsAthlete() && $this->Athlete->knowsRestingHeartRate();
     }
 
-    /**
-     * HRmax from the Athlete
-     * #TSC
-     */
     public function getHRmax(): ?int
     {
         return $this->knowsAthlete() ? $this->Athlete->maximalHR() : null;
     }
 
-    /**
-     * HRrest from the Athlete
-     * #TSC
-     */
     public function getHRrest(): ?int
     {
         return $this->knowsAthlete() ? $this->Athlete->restingHR() : null;
     }
 
-    /**
-     * Is the athlete known?
-     */
     protected function knowsAthlete(): bool
     {
         return $this->Athlete instanceof Athlete;

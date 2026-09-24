@@ -29,7 +29,6 @@ class Pace
     protected AbstractUnit $UnitObject;
 
     /**
-     * Create pace
      * @param float $Time [s]
      * @param float $Distance [km]
      */
@@ -42,7 +41,6 @@ class Pace
     }
 
     /**
-     * Read pace from min/km
      * @param string $string see Duration::fromString()
      */
     public function fromMinPerKm(string $string): void
@@ -55,7 +53,6 @@ class Pace
 
     /**
      * @param float $time [s]
-     * @return \Runalyze\Activity\Pace $this-reference
      */
     public function setTime(float $time): self
     {
@@ -66,7 +63,6 @@ class Pace
 
     /**
      * @param float $distance [km]
-     * @return \Runalyze\Activity\Pace $this-reference
      */
     public function setDistance(float $distance): self
     {
@@ -75,9 +71,6 @@ class Pace
         return $this;
     }
 
-    /**
-     * Unit object
-     */
     public function unit(): AbstractUnit
     {
         return $this->UnitObject;
@@ -98,9 +91,6 @@ class Pace
         $this->UnitObject = $Unit;
     }
 
-    /**
-     * Set unit
-     */
     public function setLegacyUnitEnum(int $legacyPaceUnitEnum): void
     {
         $Option = new PaceUnitOption();
@@ -109,17 +99,11 @@ class Pace
         $this->UnitObject = $Option->object();
     }
 
-    /**
-     * Set unit
-     */
     public function setNewUnitEnum(int $unitEnum): void
     {
         $this->UnitObject = (new LegacyUnitConverter())->getLegacyPaceUnit($unitEnum);
     }
 
-    /**
-     * Set unit
-     */
     public function setUnitEnum(int $unitEnum): void
     {
         // TODO: remove
@@ -132,11 +116,10 @@ class Pace
 
     public function secondsPerKm(): int
     {
-        return ($this->Distance > 0.0) ? (int) ($this->Time / $this->Distance) : 0;
+        return ($this->Distance > 0.0) ? (int) round($this->Time / $this->Distance) : 0;
     }
 
     /**
-     * As string, without unit
      * @return string e.g. '12,5', '4:51'
      */
     public function value(): string
@@ -149,9 +132,6 @@ class Pace
         return $this->value() . $this->appendix();
     }
 
-    /**
-     * Get appendix
-     */
     public function appendix(): string
     {
         return $this->UnitObject->appendix();
@@ -170,17 +150,11 @@ class Pace
         return $Unit->format($this->secondsPerKm());
     }
 
-    /**
-     * As: km/h
-     */
     public function asKmPerHour(): string
     {
         return $this->asUnit(new PaceUnit\KmPerHour());
     }
 
-    /**
-     * As: min/km
-     */
     public function asMinPerKm(): string
     {
         return $this->asUnit(new PaceUnit\MinPerKilometer());

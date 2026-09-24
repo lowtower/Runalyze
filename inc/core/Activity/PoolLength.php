@@ -11,8 +11,6 @@ use Runalyze\Configuration;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 
 /**
- * Pool length
- *
  * @author Hannes Christiansen
  * @package Runalyze\Activity
  */
@@ -35,9 +33,12 @@ class PoolLength implements ValueInterface
     public function __construct(float $value = 0.0, ?DistanceUnitSystem $unitSystem = null)
     {
         $this->set($value);
-        $this->UnitSystem = ($unitSystem instanceof DistanceUnitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();
+        $this->UnitSystem = $unitSystem ?? Configuration::General()->distanceUnitSystem();
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function label(): string
     {
         return __('Pool length');
@@ -52,22 +53,14 @@ class PoolLength implements ValueInterface
         return DistanceUnitSystem::METER;
     }
 
-    /**
-     * Set pool length
-     * @param float $value
-     * @return \Runalyze\Activity\PoolLength $this-reference
-     */
-    public function set($value): self
+    public function set(mixed $value): self
     {
-        $this->value = $value;
-        $this->Centimeter = (int) $value;
+        $this->value = (float) $value;
+        $this->Centimeter = (int) round((float) $value);
 
         return $this;
     }
 
-    /**
-     * @return \Runalyze\Activity\PoolLength $this-reference
-     */
     public function setMeter(float $meter): self
     {
         $this->set($meter * 100);
@@ -75,9 +68,6 @@ class PoolLength implements ValueInterface
         return $this;
     }
 
-    /**
-     * @return \Runalyze\Activity\PoolLength $this-reference
-     */
     public function setYards(float $yards): self
     {
         $this->set($yards / DistanceUnitSystem::YARD_MULTIPLIER * 1000 * 100);
@@ -85,9 +75,6 @@ class PoolLength implements ValueInterface
         return $this;
     }
 
-    /**
-     * @return \Runalyze\Activity\PoolLength $this-reference
-     */
     public function setInPreferredUnit(float $poolLength): self
     {
         if ($this->UnitSystem->isImperial()) {
@@ -100,7 +87,6 @@ class PoolLength implements ValueInterface
     }
 
     /**
-     * Get pool length
      * @return float [cm]
      */
     public function value(): float
@@ -137,9 +123,6 @@ class PoolLength implements ValueInterface
         return $this->meter();
     }
 
-    /**
-     * Format value as string
-     */
     public function string(bool $withUnit = true): string
     {
         if ($this->UnitSystem->isImperial()) {

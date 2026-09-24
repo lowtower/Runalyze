@@ -2,6 +2,7 @@
 
 namespace Runalyze\Parameter\Application;
 
+#[\PHPUnit\Framework\Attributes\Group('default')]
 class TimezoneTest extends \PHPUnit\Framework\TestCase
 {
     public function testInvalidEnum(): void

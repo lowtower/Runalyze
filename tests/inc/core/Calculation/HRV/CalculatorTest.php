@@ -97,7 +97,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $Calculator->calculate();
 
         $mean = $Calculator->mean();
-        $this->assertIsFloat((float) $mean, 'mean() should return a float value');
+        $this->assertIsFloat($mean, 'mean() should return a float value');
         $this->assertGreaterThanOrEqual(0, $mean);
     }
 
@@ -113,5 +113,205 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(342, $Calculator->mean());
         $this->assertEquals(0.1, $Calculator->percentageAnomalies());
+    }
+
+    public function testCalculateDoesNothingForEmptyData(): void
+    {
+        $calculator = new Calculator(
+            new Entity([
+                Entity::DATA => [],
+            ]),
+            null
+        );
+
+        $calculator->calculate();
+
+        $this->assertSame(0.0, $calculator->mean());
+        $this->assertSame(0.0, $calculator->SDNN());
+        $this->assertSame(0.0, $calculator->SDANN());
+        $this->assertSame(0.0, $calculator->RMSSD());
+        $this->assertSame(0.0, $calculator->SDSD());
+        $this->assertSame(0.0, $calculator->pNN20());
+        $this->assertSame(0.0, $calculator->pNN50());
+    }
+
+    public function testCalculateDoesNothingForSingleValue(): void
+    {
+        $calculator = new Calculator(
+            new Entity([
+                Entity::DATA => [500],
+            ]),
+            null
+        );
+
+        $calculator->calculate();
+
+        $this->assertSame(0.0, $calculator->mean());
+        $this->assertSame(0.0, $calculator->SDNN());
+        $this->assertSame(0.0, $calculator->RMSSD());
+    }
+
+    public function testFilteringDoesNotModifyOriginalObject(): void
+    {
+        $original = new Entity([
+            Entity::DATA => [300, 350, 400, 5000],
+        ]);
+
+        $calculator = new Calculator($original);
+
+        $this->assertSame(
+            [300, 350, 400, 5000],
+            $original->data()
+        );
+
+        $this->assertSame(
+            [300, 350, 400],
+            $calculator->filteredObject()
+                ->data()
+        );
+    }
+
+    public function testDifferenceExactlyFiftyCountsOnlyForNN20(): void
+    {
+        $calculator = new Calculator(
+            new Entity([
+                Entity::DATA => [500, 550],
+            ]),
+            null
+        );
+
+        $calculator->calculate();
+
+        $this->assertSame(0.5, $calculator->pNN20());
+        $this->assertSame(0.0, $calculator->pNN50());
+    }
+
+    public function testDifferenceExactlyTwentyCountsForNeitherStatistic(): void
+    {
+        $calculator = new Calculator(
+            new Entity([
+                Entity::DATA => [500, 520],
+            ]),
+            null
+        );
+
+        $calculator->calculate();
+
+        $this->assertSame(0.0, $calculator->pNN20());
+        $this->assertSame(0.0, $calculator->pNN50());
+    }
+
+    public function testSDANNIsZeroForSingleCompletedSubInterval(): void
+    {
+        $calculator = new Calculator(
+            new Entity([
+                Entity::DATA => array_fill(0, 301, 1000),
+            ]),
+            null
+        );
+
+        $calculator->calculate();
+
+        $this->assertSame(0.0, $calculator->SDANN());
+    }
+
+    public function testExactlyFiveMinutesDoNotCompleteSubInterval(): void
+    {
+        $calculator = new Calculator(
+            new Entity([
+                Entity::DATA => array_fill(0, 300, 1000),
+            ]),
+            null
+        );
+
+        $calculator->calculate();
+
+        $this->assertSame(0.0, $calculator->SDANN());
+    }
+
+    public function testValueExactlyAtAbsoluteThresholdIsFiltered(): void
+    {
+        $calculator = new Calculator(
+            new Entity([
+                Entity::DATA => [1000, 2000, 1000],
+            ]),
+            1.0,
+            2000
+        );
+
+        $this->assertSame(
+            [1000, 1000],
+            $calculator->filteredObject()
+                ->data()
+        );
+
+        $this->assertEqualsWithDelta(
+            1 / 3,
+            $calculator->percentageAnomalies(),
+            0.0001
+        );
+    }
+
+    public function testValueBelowAbsoluteThresholdIsKept(): void
+    {
+        $calculator = new Calculator(
+            new Entity([
+                Entity::DATA => [1000, 1999, 1000],
+            ]),
+            1.0,
+            2000
+        );
+
+        $this->assertSame(
+            [1000, 1999, 1000],
+            $calculator->filteredObject()
+                ->data()
+        );
+
+        $this->assertSame(
+            0.0,
+            $calculator->percentageAnomalies()
+        );
+    }
+
+    public function testRepeatedCalculationProducesSameResults(): void
+    {
+        $calculator = new Calculator(
+            new Entity([
+                Entity::DATA => [500, 510, 550, 650, 610],
+            ]),
+            null
+        );
+
+        $calculator->calculate();
+
+        $firstPNN20 = $calculator->pNN20();
+        $firstPNN50 = $calculator->pNN50();
+
+        $calculator->calculate();
+
+        $this->assertSame($firstPNN20, $calculator->pNN20());
+        $this->assertSame($firstPNN50, $calculator->pNN50());
+    }
+
+    public function testFilterByThresholdHandlesOnlyZeroValues(): void
+    {
+        $calculator = new Calculator(
+            new Entity([
+                Entity::DATA => [0, 0, 0],
+            ]),
+            0.75
+        );
+
+        $this->assertSame(
+            [],
+            $calculator->filteredObject()
+                ->data()
+        );
+
+        $this->assertSame(
+            1.0,
+            $calculator->percentageAnomalies()
+        );
     }
 }

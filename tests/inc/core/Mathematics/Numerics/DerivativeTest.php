@@ -78,4 +78,48 @@ class DerivativeTest extends \PHPUnit\Framework\TestCase
             )
         );
     }
+
+    public function testDerivativeIsLimitedToPositiveFilter(): void
+    {
+        $this->assertEquals(
+            [1000.0, 1000.0],
+            (new Derivative())->calculate(
+                [0.0, 5000.0],
+                [0.0, 1.0]
+            )
+        );
+    }
+
+    public function testDerivativeIsLimitedToNegativeFilter(): void
+    {
+        $this->assertEquals(
+            [-1000.0, -1000.0],
+            (new Derivative())->calculate(
+                [5000.0, 0.0],
+                [0.0, 1.0]
+            )
+        );
+    }
+
+    public function testDerivativeAtPositiveFilterBoundary(): void
+    {
+        $this->assertEquals(
+            [1000.0, 1000.0],
+            (new Derivative())->calculate(
+                [0.0, 1000.0],
+                [0.0, 1.0]
+            )
+        );
+    }
+
+    public function testDerivativeAtNegativeFilterBoundary(): void
+    {
+        $this->assertEquals(
+            [-1000.0, -1000.0],
+            (new Derivative())->calculate(
+                [1000.0, 0.0],
+                [0.0, 1.0]
+            )
+        );
+    }
 }

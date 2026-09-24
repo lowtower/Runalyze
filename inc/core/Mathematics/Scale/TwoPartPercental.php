@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Mathematics\Scale;
 
 /**
@@ -9,40 +11,21 @@ namespace Runalyze\Mathematics\Scale;
  */
 class TwoPartPercental extends Percental
 {
-    /**
-     * @var float
-     */
-    protected $InflectionPoint = 50.0;
+    protected float $InflectionPoint = 50.0;
 
-    /**
-     * @param float $min
-     * @param float $inflectionPoint
-     * @param float $max
-     *
-     * @throws \InvalidArgumentException
-     */
-    public function __construct($min = 0.0, $inflectionPoint = 50.0, $max = 100.0)
+    public function __construct(float $min = 0.0, float $inflectionPoint = 50.0, float $max = 100.0)
     {
         parent::__construct($min, $max);
 
         $this->setInflectionPoint($inflectionPoint);
     }
 
-    /**
-     * @param float $inflectionPoint
-     *
-     * @throws \InvalidArgumentException
-     */
-    public function setInflectionPoint($inflectionPoint): void
+    public function setInflectionPoint(float $inflectionPoint): void
     {
-        if (! is_numeric($inflectionPoint)) {
-            throw new \InvalidArgumentException('Given maximum must be numeric.');
-        }
-
-        $this->InflectionPoint = (float) $inflectionPoint;
+        $this->InflectionPoint = $inflectionPoint;
     }
 
-    public function transform($input): float
+    public function transform(float $input): float
     {
         if ($input < $this->InflectionPoint) {
             $value = ($input - $this->Min) * 50.0 / ($this->InflectionPoint - $this->Min);

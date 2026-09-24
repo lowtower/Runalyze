@@ -18,4 +18,24 @@ class EmpiricalDistributionTest extends \PHPUnit\Framework\TestCase
             20 => 1,
         ], $dist->histogram());
     }
+
+    public function testDataIsAlreadyTheHistogramFlagUsesDataDirectly(): void
+    {
+        $dist = new EmpiricalDistribution([
+            10 => 5,
+            20 => 3,
+        ], true);
+
+        $this->assertSame([
+            10 => 5,
+            20 => 3,
+        ], $dist->histogram());
+    }
+
+    public function testEmptyArrayResultsInEmptyHistogram(): void
+    {
+        $dist = new EmpiricalDistribution([]);
+
+        $this->assertSame([], $dist->histogram());
+    }
 }

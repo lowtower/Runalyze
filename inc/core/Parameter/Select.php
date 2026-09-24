@@ -15,13 +15,8 @@ class Select extends \Runalyze\Parameter
 {
     protected bool $UseFallback = true;
 
-    /**
-     * Construct
-     * @param string $Default
-     * @param array $options [optional]
-     */
     public function __construct(
-        protected $Default,
+        protected string $Default,
         array $options = []
     ) {
         $options = array_merge([
@@ -36,7 +31,7 @@ class Select extends \Runalyze\Parameter
      * @param mixed $value new value
      * @throws \InvalidArgumentException
      */
-    public function set($value): void
+    public function set(mixed $value): void
     {
         if ($this->valueIsAllowed($value)) {
             parent::set($value);
@@ -63,9 +58,6 @@ class Select extends \Runalyze\Parameter
         return $this->Options['options'][$this->value()];
     }
 
-    /**
-     * Options
-     */
     public function options(): array
     {
         return $this->Options['options'];

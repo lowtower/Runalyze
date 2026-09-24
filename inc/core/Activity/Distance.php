@@ -20,14 +20,8 @@ use Runalyze\Parameter\Application\DistanceUnitSystem;
  */
 class Distance implements ValueInterface
 {
-    /**
-     * Seperator for decimals
-     */
     public static string $DecimalSeparator = ',';
 
-    /**
-     * Seperator for thousands
-     */
     public static string $ThousandsSeparator = '.';
 
     /**
@@ -41,33 +35,26 @@ class Distance implements ValueInterface
      */
     public static int $DefaultDecimalsSplitTable = 2;
 
-    /**
-     * @var \Runalyze\Parameter\Application\DistanceUnitSystem
-     */
-    protected $UnitSystem;
+    protected DistanceUnitSystem $UnitSystem;
+
+    public function __construct(
+        protected float $Kilometer = 0.0,
+        ?DistanceUnitSystem $unitSystem = null
+    ) {
+        $this->UnitSystem = ($unitSystem instanceof DistanceUnitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();
+    }
 
     /**
      * @param float $km [km]
-     * @param bool $withUnit [optional] with or without unit
-     * @param int|bool $decimals [optional] number of decimals
+     * @param int|bool $decimals number of decimals
      */
     public static function format(float $km, bool $withUnit = true, $decimals = false): string
     {
         return (new self($km))->string($withUnit, $decimals);
     }
 
-    public function __construct(
-        /**
-         * Distance [km]
-         */
-        protected float $Kilometer = 0.0,
-        ?DistanceUnitSystem $unitSystem = null
-    ) {
-        $this->UnitSystem = ($unitSystem instanceof \Runalyze\Parameter\Application\DistanceUnitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();
-    }
-
     /**
-     * Label for distance
+     * @codeCoverageIgnore
      */
     public function label(): string
     {
@@ -79,7 +66,7 @@ class Distance implements ValueInterface
      * @param mixed $km [km]
      * @return \Runalyze\Activity\Distance $this-reference
      */
-    public function set($km): self
+    public function set(mixed $km): self
     {
         $this->Kilometer = (float) str_replace(',', '.', (string) $km);
 
@@ -93,8 +80,7 @@ class Distance implements ValueInterface
      */
     public function setMiles(float $miles): self
     {
-        $this->Kilometer = (float) str_replace(',', '.', (string) $miles) / DistanceUnitSystem::MILE_MULTIPLIER;
-
+        $this->Kilometer = $miles / DistanceUnitSystem::MILE_MULTIPLIER;
         return $this;
     }
 
@@ -185,8 +171,7 @@ class Distance implements ValueInterface
 
     /**
      * Format distance as string
-     * @param bool $withUnit [optional]
-     * @param int|bool $decimals [optional] number of decimals
+     * @param int|bool $decimals number of decimals
      */
     public function string(bool $withUnit = true, $decimals = false): string
     {
@@ -199,13 +184,12 @@ class Distance implements ValueInterface
 
     /**
      * Format distance with auto detection for track distances shown in meter
-     * @param bool $withUnit [optional]
-     * @param int|bool $decimals [optional] number of decimals
+     * @param int|bool $decimals number of decimals
      */
     public function stringAuto(bool $withUnit = true, $decimals = false): string
     {
         if ($this->Kilometer <= 1.0 || $this->Kilometer === 1.5 || $this->Kilometer === 3.0) {
-            return $this->stringMeter($withUnit, $decimals);
+            return $this->stringMeter($withUnit);
         }
 
         if ($this->Kilometer === 5.0 || $this->Kilometer === 10.0) {
@@ -217,8 +201,7 @@ class Distance implements ValueInterface
 
     /**
      * String: as kilometer
-     * @param bool $withUnit [optional]
-     * @param int|bool $decimals [optional]
+     * @param int|bool $decimals
      * @return string with unit
      */
     public function stringKilometer(bool $withUnit = true, $decimals = false): string
@@ -232,41 +215,34 @@ class Distance implements ValueInterface
 
     /**
      * String: as meter
-     * @param bool $withUnit [optional]
-     * @param int|bool $decimals [optional]
      * @return string with unit
      */
-    public function stringMeter(bool $withUnit = true, $decimals = false): string
+    public function stringMeter(bool $withUnit = true): string
     {
         return number_format($this->Kilometer * 1000, 0, '', '.') . ($withUnit ? DistanceUnitSystem::METER : '');
     }
 
     /**
      * String: as feet
-     * @param bool $withUnit [optional]
-     * @param int|bool $decimals [optional]
      * @return string with unit
      */
-    public function stringFeet(bool $withUnit = true, $decimals = false): string
+    public function stringFeet(bool $withUnit = true): string
     {
         return number_format($this->Kilometer * DistanceUnitSystem::FEET_MULTIPLIER, 0, '', '.') . ($withUnit ? '&nbsp;' . DistanceUnitSystem::FEET : '');
     }
 
     /**
      * String: as yards
-     * @param bool $withUnit [optional]
-     * @param int|bool $decimals [optional]
      * @return string with unit
      */
-    public function stringYards(bool $withUnit = true, $decimals = false): string
+    public function stringYards(bool $withUnit = true): string
     {
         return number_format($this->Kilometer * DistanceUnitSystem::YARD_MULTIPLIER, 0, '', '.') . ($withUnit ? '&nbsp;' . DistanceUnitSystem::YARDS : '');
     }
 
     /**
      * String: as miles
-     * @param bool $withUnit [optional]
-     * @param int|bool $decimals [optional]
+     * @param int|bool $decimals
      * @return string with unit
      */
     public function stringMiles(bool $withUnit = true, $decimals = false): string

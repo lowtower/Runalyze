@@ -22,13 +22,12 @@ class NightDetector
 
     public function __construct(bool|int $timestamp = false, ?CoordinateInterface $coordinate = null)
     {
-        if ($timestamp !== false && $coordinate instanceof \League\Geotools\Coordinate\CoordinateInterface) {
+        if ($timestamp !== false && $coordinate instanceof CoordinateInterface) {
             $this->setFrom($timestamp, $coordinate);
         }
     }
 
     /**
-     * @return \Runalyze\Calculation\NightDetector $this-reference
      * @throws \InvalidArgumentException
      */
     public function setFrom(?int $timestamp, CoordinateInterface $coordinate): self
@@ -46,14 +45,11 @@ class NightDetector
         return $this;
     }
 
-    /**
-     * @return \Runalyze\Calculation\NightDetector $this-reference
-     */
     public function setFromEntities(Activity\Entity $activity, Route\Entity $route): self
     {
         if ($route->hasGeohashes() && $route->get(Route\Entity::STARTPOINT) != '') {
             // TODO use activity's offset if known
-            $timestamp = (new LocalTime($activity->timestamp()))->toServerTimestamp() + (int) (0.5 * $activity->duration());
+            $timestamp = (new LocalTime($activity->timestamp()))->toServerTimestamp() + (int) round(0.5 * $activity->duration());
             $coordinate = $this->coordinate($route->get(Route\Entity::STARTPOINT));
 
             $this->setFrom($timestamp, $coordinate);

@@ -55,9 +55,6 @@ abstract class AbstractEnum
         return self::$ConstantsCache[$enumClass];
     }
 
-    /**
-     * Checks whether a constant is valid.
-     */
     public static function isValidName(string $name, bool $strict = false): bool
     {
         $constants = self::getEnum();
@@ -71,12 +68,7 @@ abstract class AbstractEnum
         return in_array(strtolower($name), $keys, true);
     }
 
-    /**
-     * Checks whether a value is defined.
-     *
-     * @param int|string $value
-     */
-    public static function isValidValue($value, bool $strict = true): bool
+    public static function isValidValue(int|string $value, bool $strict = true): bool
     {
         $values = array_values(self::getEnum());
 

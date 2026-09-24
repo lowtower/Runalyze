@@ -35,34 +35,22 @@ class Privacy extends \Runalyze\Configuration\Category
         $this->createHandle('TRAINING_MAP_PUBLIC_MODE', new ActivityRoutePrivacy());
     }
 
-    /**
-     * @return bool
-     */
-    public function listIsPublic()
+    public function listIsPublic(): bool
     {
         return $this->get('TRAINING_LIST_PUBLIC');
     }
 
-    /**
-     * @return bool
-     */
-    public function showPrivateActivitiesInList()
+    public function showPrivateActivitiesInList(): bool
     {
         return $this->get('TRAINING_LIST_ALL');
     }
 
-    /**
-     * @return bool
-     */
-    public function showStatisticsInList()
+    public function showStatisticsInList(): bool
     {
         return $this->get('TRAINING_LIST_STATISTICS');
     }
 
-    /**
-     * @return ActivityRoutePrivacy
-     */
-    public function RoutePrivacy()
+    public function RoutePrivacy(): ActivityRoutePrivacy
     {
         /** @var ActivityRoutePrivacy $parameter */
         $parameter = $this->object('TRAINING_MAP_PUBLIC_MODE');

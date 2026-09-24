@@ -78,7 +78,7 @@ class PowerCalculator
         ;
     }
 
-    protected function setPowerValuesToNull(Training $activity)
+    protected function setPowerValuesToNull(Training $activity): void
     {
         $activity->setPower(null);
         $activity->setPowerCalculated(null);
@@ -86,9 +86,9 @@ class PowerCalculator
 
     /**
      * @param array $power [W]
-     * @param int $avgPower [W]
+     * @param ?int $avgPower [W]
      */
-    protected function setPowerValues(Training $activity, array $power, ?int $avgPower)
+    protected function setPowerValues(Training $activity, array $power, ?int $avgPower): void
     {
         $activity->getTrackdata()
             ->setPower($power);

@@ -4,9 +4,10 @@ namespace Runalyze\Tests\Profile\Mapping;
 
 use Runalyze\Profile\Mapping\FitSdkExercise;
 
+#[\PHPUnit\Framework\Attributes\Group('default')]
 class FitSdkExerciseTest extends \PHPUnit\Framework\TestCase
 {
-    protected $underTest;
+    protected FitSdkExercise $underTest;
 
     protected function setUp(): void
     {
@@ -15,7 +16,7 @@ class FitSdkExerciseTest extends \PHPUnit\Framework\TestCase
 
     public function testFullMap1(): void
     {
-        $this->assertEquals('curl, bench_press', $this->underTest->getFullMapping('7,65534,0', null));
+        $this->assertEquals('curl, bench_press', $this->underTest->getFullMapping('7,65534,0'));
     }
 
     public function testFullMap2(): void
@@ -40,13 +41,13 @@ class FitSdkExerciseTest extends \PHPUnit\Framework\TestCase
 
     public function testCategory(): void
     {
-        $this->assertEquals('flye', $this->underTest->getMapping(9, null));
+        $this->assertEquals('flye', $this->underTest->getMapping(9));
         $this->assertEquals('flye', $this->underTest->getMapping(9));
     }
 
     public function testFailedCategory(): void
     {
-        $this->assertEquals(null, $this->underTest->getMapping(666, null));
+        $this->assertEquals(null, $this->underTest->getMapping(666));
     }
 
     public function testUnknownCategory(): void
@@ -74,5 +75,25 @@ class FitSdkExerciseTest extends \PHPUnit\Framework\TestCase
     {
         // use only exercise
         $this->assertEquals('sit_up', $this->underTest->getMapping(27, 65535));
+    }
+
+    public function testGetFullMappingAcceptsNullSubtypesWithoutDeprecation(): void
+    {
+        $deprecations = [];
+        set_error_handler(
+            static function (int $errno, string $errstr) use (&$deprecations): bool {
+                $deprecations[] = $errstr;
+
+                return true;
+            },
+            E_DEPRECATED
+        );
+
+        $result = $this->underTest->getFullMapping('7,65534,0');
+
+        restore_error_handler();
+
+        $this->assertSame([], $deprecations);
+        $this->assertEquals('curl, bench_press', $result);
     }
 }

@@ -11,8 +11,6 @@ use Runalyze\Configuration;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 
 /**
- * Stride length
- *
  * @author Hannes Christiansen
  * @package Runalyze\Activity
  */
@@ -27,9 +25,6 @@ class StrideLength implements ValueInterface
 
     protected DistanceUnitSystem $UnitSystem;
 
-    /**
-     * Format stride length
-     */
     public static function format(int $centimeter, bool $withUnit = true): string
     {
         return (new self($centimeter))->string($withUnit);
@@ -38,11 +33,11 @@ class StrideLength implements ValueInterface
     public function __construct(float $value = 0.0, ?DistanceUnitSystem $unitSystem = null)
     {
         $this->set($value);
-        $this->UnitSystem = ($unitSystem instanceof \Runalyze\Parameter\Application\DistanceUnitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();
+        $this->UnitSystem = $unitSystem ?? Configuration::General()->distanceUnitSystem();
     }
 
     /**
-     * Label for stride length
+     * @codeCoverageIgnore
      */
     public function label(): string
     {
@@ -58,22 +53,14 @@ class StrideLength implements ValueInterface
         return DistanceUnitSystem::METER;
     }
 
-    /**
-     * Set stride length
-     * @param float $value
-     * @return \Runalyze\Activity\StrideLength $this-reference
-     */
-    public function set($value): self
+    public function set(mixed $value): self
     {
-        $this->value = $value;
-        $this->Centimeter = (int) $value;
+        $this->value = (float) $value;
+        $this->Centimeter = (int) round((float) $value);
 
         return $this;
     }
 
-    /**
-     * @return \Runalyze\Activity\StrideLength $this-reference
-     */
     public function setMeter(float $meter): self
     {
         $this->set($meter * 100);
@@ -81,9 +68,6 @@ class StrideLength implements ValueInterface
         return $this;
     }
 
-    /**
-     * @return \Runalyze\Activity\StrideLength $this-reference
-     */
     public function setFeet(float $feet): self
     {
         $this->set($feet / DistanceUnitSystem::FEET_MULTIPLIER * 1000 * 100);
@@ -93,7 +77,6 @@ class StrideLength implements ValueInterface
 
     /**
      * @param float $strideLength [mixed unit]
-     * @return \Runalyze\Activity\StrideLength $this-reference
      */
     public function setInPreferredUnit(float $strideLength): self
     {
@@ -107,7 +90,6 @@ class StrideLength implements ValueInterface
     }
 
     /**
-     * Get stride length
      * @return float [cm]
      */
     public function value(): float
@@ -144,9 +126,6 @@ class StrideLength implements ValueInterface
         return $this->meter();
     }
 
-    /**
-     * Format value as string
-     */
     public function string(bool $withUnit = true): string
     {
         if ($this->UnitSystem->isImperial()) {

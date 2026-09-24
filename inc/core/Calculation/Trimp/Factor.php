@@ -30,9 +30,6 @@ class Factor
      * Construct
      */
     public function __construct(
-        /**
-         * Gender
-         */
         protected int $Gender
     ) {
     }

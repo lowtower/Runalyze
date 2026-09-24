@@ -17,7 +17,7 @@ use InvalidArgumentException;
 class Derivative
 {
     // 1000% means 85° grade
-    protected $Filter = 1000.0;
+    protected float $Filter = 1000.0;
 
     /**
      * @param array<int, mixed> $y evaluation

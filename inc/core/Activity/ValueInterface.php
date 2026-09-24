@@ -17,27 +17,13 @@ namespace Runalyze\Activity;
  */
 interface ValueInterface
 {
-    /**
-     * Label for value
-     */
     public function label(): string;
 
     public function unit(): string;
 
-    /**
-     * Set value
-     * @return \Runalyze\Activity\ValueInterface $this-reference
-     */
-    public function set($value): self;
+    public function set(mixed $value): self;
 
-    /**
-     * Get value
-     * @return mixed
-     */
-    public function value();
+    public function value(): mixed;
 
-    /**
-     * Format value as string
-     */
     public function string(bool $withUnit = true): string;
 }

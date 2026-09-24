@@ -100,7 +100,7 @@ class LapIntensity extends AbstractEnum
      */
     public static function fromFitToEnum(float $fitValue): ?self
     {
-        if ((int) $fitValue < 0 || (int) $fitValue > 6) {
+        if ($fitValue < 0.0 || $fitValue > 6.0) {
             throw new \InvalidArgumentException(sprintf('Provided workout_step intensity %s is invalid.', $fitValue));
         }
 
@@ -112,6 +112,9 @@ class LapIntensity extends AbstractEnum
             4 => new self(self::RECOVERY),
             5 => new self(self::INTERVAL),
             6 => new self(self::OTHER),
+            // @codeCoverageIgnoreStart
+            default => throw new \InvalidArgumentException(sprintf('Provided workout_step intensity %s is invalid.', $fitValue)),
+            // @codeCoverageIgnoreEnd
         };
     }
 
@@ -130,8 +133,6 @@ class LapIntensity extends AbstractEnum
 
     /**
      * Converts the one chare value to an enum.
-     *
-     * @throws \InvalidArgumentException
      */
     public static function fromValue(string $value): ?self
     {

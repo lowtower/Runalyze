@@ -13,7 +13,7 @@ namespace Runalyze\Sports\Running\GradeAdjustedPace\Algorithm;
  */
 class Minetti extends AbstractEnergyCostAlgorithm
 {
-    public function getEnergyCost($g): float
+    public function getEnergyCost(float $g): float
     {
         return 1.0 + ($g * (19.5 + $g * (46.3 + $g * (-43.3 + $g * (-30.4 + $g * 155.4))))) / 3.6;
     }

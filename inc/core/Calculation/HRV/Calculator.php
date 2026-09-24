@@ -17,93 +17,83 @@ use Runalyze\Model\HRV\Entity;
  */
 class Calculator
 {
-    protected \Runalyze\Model\HRV\Entity $Object;
+    protected Entity $Object;
 
     /**
      * 5 min sub intervals
-     * @var array
+     * @var int[]|float[]
      */
-    protected $SubIntervals = [];
+    protected array $SubIntervals = [];
 
-    /**
-     * @var int
-     */
-    protected $CurrentSubIntervalNum = 0;
+    protected int $CurrentSubIntervalNum = 0;
 
-    /**
-     * @var int
-     */
-    protected $CurrentSubIntervalSum = 0;
+    protected int $CurrentSubIntervalSum = 0;
 
     /**
      * Average r-r interval
-     * @var int [ms]
+     * @var float [ms]
      */
-    protected $Mean = 0;
+    protected float $Mean = 0.0;
 
     /**
      * Standard deviation of r-r intervals
      * @var float [ms]
      */
-    protected $SDNN = 0;
+    protected float $SDNN = 0.0;
 
     /**
      * Standard deviation of 5 min averages of r-r intervals
      * @var float [ms]
      */
-    protected $SDANN = 0;
+    protected float $SDANN = 0.0;
 
     /**
      * Root mean square of successive differences
      * @var float [ms]
      */
-    protected $RMSSD = 0;
+    protected float $RMSSD = 0.0;
 
     /**
      * Standard deviation of successive differences
      * @var float [ms]
      */
-    protected $SDSD = 0;
+    protected float $SDSD = 0.0;
 
     /**
      * Proportion of successive differences larger than 50ms
-     * @var float
      */
-    protected $pNN50 = 0;
+    protected float $pNN50 = 0.0;
 
     /**
      * Number of successive differences larger than 50ms
-     * @var int
      */
-    protected $NN50 = 0;
+    protected int $NN50 = 0;
 
     /**
      * Proportion of successive differences larger than 20ms
-     * @var float
      */
-    protected $pNN20 = 0;
+    protected float $pNN20 = 0.0;
 
     /**
      * Number of successive differences larger than 20ms
-     * @var int
      */
-    protected $NN20 = 0;
+    protected int $NN20 = 0;
 
     /**
      * Percentage of filtered r-r intervals
      * @var float in [0.0, 1.0]
      */
-    protected $PercentageAnomalies = 0.0;
+    protected float $PercentageAnomalies = 0.0;
 
     /**
      * Calculator for hrv statistics
      *
      * http://www.zhb.uni-luebeck.de/epubs/ediss1118.pdf, 2.4.2.1 suggests a filter threshold of 75 %
      *
-     * @param float|null $filterThreshold RR intervals are considered only if they differ from the preceding or following interval by less than XXX %
+     * @param ?float $filterThreshold RR intervals are considered only if they differ from the preceding or following interval by less than XXX %
      * @param int $absoluteThreshold RR intervals above this threshold will be ignored (unless $filterThreshold is null)
      */
-    public function __construct(Entity $hrvObject, $filterThreshold = 0.75, $absoluteThreshold = 2000)
+    public function __construct(Entity $hrvObject, ?float $filterThreshold = 0.75, int $absoluteThreshold = 2000)
     {
         $this->Object = clone $hrvObject;
 
@@ -112,19 +102,30 @@ class Calculator
         }
     }
 
-    public function filteredObject(): \Runalyze\Model\HRV\Entity
+    public function filteredObject(): Entity
     {
         return $this->Object;
     }
 
     /**
      * Remove all rr intervals that are not within [1 - $filterThreshold, 1 + $filterThreshold]-times their preceding/following interval
-     * @param float $filterThreshold
-     * @param int $absoluteThreshold
      */
-    protected function filterByThreshold($filterThreshold, $absoluteThreshold)
+    protected function filterByThreshold(float $filterThreshold, int $absoluteThreshold): void
     {
-        $oldData = array_values(array_filter($this->Object->data()));
+        $originalCount = $this->Object->num();
+
+        $oldData = array_values(array_filter(
+            $this->Object->data(),
+            static fn ($value): bool => $value !== null && $value != 0
+        ));
+
+        if ($oldData === []) {
+            $this->PercentageAnomalies = $originalCount > 0 ? 1.0 : 0.0;
+            $this->Object->set(Entity::DATA, []);
+
+            return;
+        }
+
         $newData = [$oldData[0]];
         $num = count($oldData);
 
@@ -149,9 +150,9 @@ class Calculator
 
     /**
      * Average r-r interval
-     * @return int [ms]
+     * @return float [ms]
      */
-    public function mean()
+    public function mean(): float
     {
         return $this->Mean;
     }
@@ -160,7 +161,7 @@ class Calculator
      * Standard deviation of r-r intervals
      * @return float [ms]
      */
-    public function SDNN()
+    public function SDNN(): float
     {
         return $this->SDNN;
     }
@@ -169,7 +170,7 @@ class Calculator
      * Standard deviation of 5 min averages of r-r intervals
      * @return float [ms]
      */
-    public function SDANN()
+    public function SDANN(): float
     {
         return $this->SDANN;
     }
@@ -178,7 +179,7 @@ class Calculator
      * Root mean square of successive differences
      * @return float [ms]
      */
-    public function RMSSD()
+    public function RMSSD(): float
     {
         return $this->RMSSD;
     }
@@ -187,25 +188,23 @@ class Calculator
      * Standard deviation of successive differences
      * @return float [ms]
      */
-    public function SDSD()
+    public function SDSD(): float
     {
         return $this->SDSD;
     }
 
     /**
      * Proportion of successive differences larger than 50ms
-     * @return float
      */
-    public function pNN50()
+    public function pNN50(): float
     {
         return $this->pNN50;
     }
 
     /**
      * Proportion of successive differences larger than 20ms
-     * @return float
      */
-    public function pNN20()
+    public function pNN20(): float
     {
         return $this->pNN20;
     }
@@ -213,7 +212,7 @@ class Calculator
     /**
      * @return float in [0.0, 1.0]
      */
-    public function percentageAnomalies()
+    public function percentageAnomalies(): float
     {
         return $this->PercentageAnomalies;
     }
@@ -226,6 +225,12 @@ class Calculator
         if ($this->Object->num() < 2) {
             return;
         }
+
+        $this->SubIntervals = [];
+        $this->CurrentSubIntervalNum = 0;
+        $this->CurrentSubIntervalSum = 0;
+        $this->NN50 = 0;
+        $this->NN20 = 0;
 
         $sum = 0;
         $sumSquaredDifferences = 0;
@@ -244,11 +249,8 @@ class Calculator
 
     /**
      * Loop through data and calculate sums
-     * @param int $sum
-     * @param int $sumDifferences
-     * @param int $sumSquaredDifferences
      */
-    protected function loopThroughDataAndCalculate(&$sum, &$sumDifferences, &$sumSquaredDifferences)
+    protected function loopThroughDataAndCalculate(int &$sum, int &$sumDifferences, int &$sumSquaredDifferences): void
     {
         $last = 0;
 
@@ -273,7 +275,7 @@ class Calculator
         }
     }
 
-    protected function calculateSDNNbasedOnMean()
+    protected function calculateSDNNbasedOnMean(): void
     {
         $sum = 0;
 
@@ -286,9 +288,8 @@ class Calculator
 
     /**
      * Handle current sub interval
-     * @param int $ms
      */
-    protected function handleSubIntervalForSDANN($ms)
+    protected function handleSubIntervalForSDANN(int $ms): void
     {
         $this->CurrentSubIntervalNum++;
         $this->CurrentSubIntervalSum += $ms;
@@ -304,7 +305,7 @@ class Calculator
     /**
      * Finish sub intervals to calculate SDANN
      */
-    protected function finishSubIntervalsForSDANN()
+    protected function finishSubIntervalsForSDANN(): void
     {
         if ($this->SubIntervals === []) {
             return;
@@ -323,9 +324,8 @@ class Calculator
 
     /**
      * Calculate sdsd from mean of differences
-     * @param float $mean
      */
-    protected function calculateSDSDfromMean($mean)
+    protected function calculateSDSDfromMean(float $mean): void
     {
         $last = 0;
         $sum = 0;
@@ -345,7 +345,7 @@ class Calculator
     /**
      * Finish proportional statistics
      */
-    protected function finishProportionStatistics()
+    protected function finishProportionStatistics(): void
     {
         $this->pNN50 = $this->NN50 / $this->Object->num();
         $this->pNN20 = $this->NN20 / $this->Object->num();

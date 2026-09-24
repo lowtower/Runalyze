@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Mathematics\Scale;
 
 /**
@@ -9,59 +11,29 @@ namespace Runalyze\Mathematics\Scale;
  */
 class Percental implements ScaleInterface
 {
-    /**
-     * @var float
-     */
-    protected $Min = 0.0;
+    protected float $Min = 0.0;
 
-    /**
-     * @var float
-     */
-    protected $Max = 100.0;
+    protected float $Max = 100.0;
 
-    /**
-     * @param float $min
-     * @param float $max
-     *
-     * @throws \InvalidArgumentException
-     */
-    public function __construct($min = 0.0, $max = 100.0)
+    public function __construct(float $min = 0.0, float $max = 100.0)
     {
         $this->setMinimum($min);
         $this->setMaximum($max);
     }
 
-    /**
-     * @param float $min
-     *
-     * @throws \InvalidArgumentException
-     */
-    public function setMinimum($min): void
+    public function setMinimum(float $min): void
     {
-        if (! is_numeric($min)) {
-            throw new \InvalidArgumentException('Given minimum must be numeric.');
-        }
-
-        $this->Min = (float) $min;
+        $this->Min = $min;
     }
 
-    /**
-     * @param float $max
-     *
-     * @throws \InvalidArgumentException
-     */
-    public function setMaximum($max): void
+    public function setMaximum(float $max): void
     {
-        if (! is_numeric($max)) {
-            throw new \InvalidArgumentException('Given maximum must be numeric.');
-        }
-
-        $this->Max = (float) $max;
+        $this->Max = $max;
     }
 
-    public function transform($input): float
+    public function transform(float $input): float
     {
-        if ($this->Max == $this->Min) {
+        if ($this->Max === $this->Min) {
             return 0.0;
         }
 

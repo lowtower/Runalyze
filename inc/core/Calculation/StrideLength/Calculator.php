@@ -20,23 +20,22 @@ use Runalyze\Model\Trackdata;
 class Calculator
 {
     /**
-     * @var array
+     * @var float[]|int[]
      */
-    protected $Strides = [];
+    protected array $Strides = [];
 
     /**
      * Calculator for stride length
      */
     public function __construct(
-        protected \Runalyze\Model\Trackdata\Entity $Trackdata
+        protected Trackdata\Entity $Trackdata
     ) {
     }
 
     /**
      * Calculate strides array
-     * @return array
      */
-    public function calculate()
+    public function calculate(): array
     {
         if (
             ! $this->Trackdata->has(Trackdata\Entity::TIME) ||
@@ -65,16 +64,16 @@ class Calculator
     }
 
     /**
-     * @return array
+     * @return float[]|int[]
      */
-    public function stridesData()
+    public function stridesData(): array
     {
         return $this->Strides;
     }
 
     /**
      * Calculate average stride length
-     * @return null|int [cm]
+     * @return ?int [cm]
      */
     public function average(): ?int
     {
@@ -94,7 +93,7 @@ class Calculator
      *
      * @see https://github.com/Runalyze/Runalyze/issues/1951
      *
-     * @return null|int [cm]
+     * @return ?int [cm]
      */
     public static function forActivity(Activity\Entity $activity): ?int
     {

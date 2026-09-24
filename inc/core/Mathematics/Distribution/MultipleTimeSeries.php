@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Mathematics\Distribution;
 
 /**
@@ -14,12 +16,12 @@ class MultipleTimeSeries
     /**
      * @var EmpiricalDistribution[]
      */
-    protected $Distributions = [];
+    protected array $Distributions = [];
 
     /**
      * @var float[]
      */
-    protected $Quantiles = [];
+    protected array $Quantiles = [];
 
     /**
      * @param float[] $quantiles
@@ -50,27 +52,38 @@ class MultipleTimeSeries
 
     /**
      * @param array[] $dataOfMultipleSeries array of multiple data series, array keys are used to get single distributions
-     * @param array $time continuous time points
+     * @param array $time Continuous ascending time points beginning at zero or later.
      */
     protected function generateHistogramsFor(array $dataOfMultipleSeries, array $time): array
     {
-        $lastTime = 0;
+        $lastTime = 0.0;
         $dataKeys = array_keys($dataOfMultipleSeries);
         $histograms = $this->getEmptyArraysForKeys($dataKeys);
 
         foreach ($time as $i => $currentTime) {
+            if ($currentTime < $lastTime) {
+                throw new \InvalidArgumentException(
+                    'Time values must be ordered ascending.'
+                );
+            }
+
             $deltaTime = $currentTime - $lastTime;
 
             foreach ($dataKeys as $key) {
+                if (! array_key_exists($i, $dataOfMultipleSeries[$key])) {
+                    continue;
+                }
+
                 $value = $dataOfMultipleSeries[$key][$i];
 
-                // #TSC more robust to avoid errors
-                if (isset($value)) {
-                    if (! isset($histograms[$key][$value])) {
-                        $histograms[$key][$value] = $deltaTime;
-                    } else {
-                        $histograms[$key][$value] += $deltaTime;
-                    }
+                if ($value === null) {
+                    continue;
+                }
+
+                if (! isset($histograms[$key][$value])) {
+                    $histograms[$key][$value] = $deltaTime;
+                } else {
+                    $histograms[$key][$value] += $deltaTime;
                 }
             }
 
@@ -84,7 +97,7 @@ class MultipleTimeSeries
      * @param array[] $histograms
      * @param string[] $keys
      */
-    protected function removeZerosFrom(array &$histograms, array $keys)
+    protected function removeZerosFrom(array &$histograms, array $keys): void
     {
         foreach ($keys as $key) {
             if (isset($histograms[$key][0])) {
@@ -96,7 +109,7 @@ class MultipleTimeSeries
     /**
      * @param mixed[][] $histograms ['key a' => histogram, ...]
      */
-    protected function generateDistributions(array $histograms)
+    protected function generateDistributions(array $histograms): void
     {
         foreach ($histograms as $key => $histogram) {
             $this->Distributions[$key] = new EmpiricalDistribution($histogram, true);
@@ -121,11 +134,10 @@ class MultipleTimeSeries
 
     /**
      * @param mixed $key key must have been a key in array of data series
-     * @return EmpiricalDistribution
      *
      * @throws \InvalidArgumentException
      */
-    public function getDistribution($key)
+    public function getDistribution($key): EmpiricalDistribution
     {
         if (! isset($this->Distributions[$key])) {
             throw new \InvalidArgumentException('Unknown distribution key "' . $key . '"');

@@ -62,7 +62,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $adaptedData = [];
         $dataToAdapt = $this->hrData();
         foreach ($dataToAdapt as $hr => $t) {
-            $adaptedData[$hr * 180 / Calculator::DEFAULT_HR_MAX] = $t;
+            $adaptedData[(int) round($hr * 180 / Calculator::DEFAULT_HR_MAX)] = $t;
         }
 
         $WithHRmaxDefault = new Calculator(new Athlete(null, Calculator::DEFAULT_HR_MAX), $this->hrData());

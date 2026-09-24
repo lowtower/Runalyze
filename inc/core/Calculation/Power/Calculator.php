@@ -3,6 +3,7 @@
 namespace Runalyze\Calculation\Power;
 
 use Runalyze\Mathematics\Distribution\TimeSeries;
+use Runalyze\Model\Route\Entity;
 use Runalyze\Model\Trackdata;
 
 /**
@@ -17,7 +18,7 @@ class Calculator
      * Acceleration due to gravity
      * @var float [m/s^2]
      */
-    public const GRAVITY = 9.8;
+    public const GRAVITY = 9.81;
 
     /**
      * Coefficient of rolling resistance
@@ -41,23 +42,23 @@ class Calculator
     protected int $Size;
 
     /**
-     * @var array
+     * @var float[]
      */
-    protected $Power = [];
+    protected array $Power = [];
 
     /**
      * Calculator for activity properties
      */
     public function __construct(
-        protected \Runalyze\Model\Trackdata\Entity $Trackdata,
-        protected ?\Runalyze\Model\Route\Entity $Route = null
+        protected Trackdata\Entity $Trackdata,
+        protected ?Entity $Route = null
     ) {
         $this->Size = $this->Trackdata->num();
     }
 
     protected function knowsRoute(): bool
     {
-        return $this->Route instanceof \Runalyze\Model\Route\Entity;
+        return $this->Route instanceof Entity;
     }
 
     /**
@@ -82,9 +83,9 @@ class Calculator
      * @see http://www.blog.ultracycle.net/2010/05/cycling-power-calculations
      * @param float $weight [kg] Weight of rider and bike
      * @param float $powerFactor constant factor
-     * @return array
+     * @return float[]
      */
-    public function calculate(float $weight = 75.0, float $powerFactor = 1.0)
+    public function calculate(float $weight = 75.0, float $powerFactor = 1.0): array
     {
         if (! $this->Trackdata->has(Trackdata\Entity::TIME) || ! $this->Trackdata->has(Trackdata\Entity::DISTANCE)) {
             return [];
@@ -122,7 +123,7 @@ class Calculator
                 $Fsl = $Fslp * $grade;
                 $this->Power[] = round(max($powerFactor * ($Frl + $Fw + $Fsl) * $Vmps, 0));
             } else {
-                $this->Power[] = 0;
+                $this->Power[] = 0.0;
             }
         }
 
@@ -132,9 +133,9 @@ class Calculator
     }
 
     /**
-     * @return array
+     * @return float[]
      */
-    public function powerData()
+    public function powerData(): array
     {
         return $this->Power;
     }

@@ -36,9 +36,6 @@ class Duration
      */
     public const FORMAT_WITH_HOURS = 'G:i:s';
 
-    /**
-     * Decimal point
-     */
     public static string $DECIMAL_POINT = ',';
 
     /**
@@ -49,7 +46,7 @@ class Duration
     /**
      * @param float|string|int $input seconds as float or "[[[z\d ]H:]i:]s[(.|,)u]"
      */
-    public static function format($input): string
+    public static function format(int|float|string $input): string
     {
         $Object = new self($input);
 
@@ -58,9 +55,9 @@ class Duration
 
     /**
      * Create duration
-     * @param float|string|int $input [optional] seconds as float or "[[[z\d ]H:]i:]s[(.|,)u]"
+     * @param float|string|int $input seconds as float or "[[[z\d ]H:]i:]s[(.|,)u]"
      */
-    public function __construct($input = 0)
+    public function __construct(int|float|string $input = 0)
     {
         if (is_numeric($input)) {
             $this->fromSeconds($input);
@@ -88,7 +85,7 @@ class Duration
     {
         $this->Time = 0;
 
-        // #TSC - fix: only set duration if soming exists in the string
+        // #TSC - fix: only set duration if something exists in the string
         if ($string !== '') {
             $split = explode('.', str_replace(',', '.', $string));
 
@@ -114,18 +111,14 @@ class Duration
         return $this;
     }
 
-    /**
-     * Seconds
-     */
     public function seconds(): float
     {
         return $this->Time;
     }
 
     /**
-     * Format duration as string
-     * @param string $format [optional] format accepted by date()
-     * @param int $decimals [optional] number of decimals, only if 'u' is present in $format
+     * @param string $format format accepted by date()
+     * @param int $decimals number of decimals, only if 'u' is present in $format
      */
     public function string(string $format = self::FORMAT_AUTO, int $decimals = 2): string
     {
@@ -140,9 +133,6 @@ class Duration
         return $this->formatString($format, $decimals);
     }
 
-    /**
-     * Auto format as string
-     */
     protected function autoString(int $decimals = 2): string
     {
         $fraction = (round($this->Time) !== round($this->Time, $decimals) && $decimals > 0) ? self::$DECIMAL_POINT . 'u' : '';
@@ -162,9 +152,6 @@ class Duration
         return ltrim($this->formatString('i:s' . $fraction, $decimals), '0');
     }
 
-    /**
-     * Format for competition results
-     */
     protected function autoCompetitionString(int $decimals = 2): string
     {
         if ($this->Time >= 60 || $this->Time == 0) {
@@ -203,7 +190,6 @@ class Duration
     }
 
     /**
-     * Multiply time
      * @return \Runalyze\Activity\Duration $this-reference
      */
     public function multiply(float $factor): self
@@ -214,7 +200,6 @@ class Duration
     }
 
     /**
-     * Add another duration
      * @return \Runalyze\Activity\Duration $this-reference
      */
     public function add(self $object): self
@@ -225,7 +210,6 @@ class Duration
     }
 
     /**
-     * Subtract another duration
      * @return \Runalyze\Activity\Duration $this-reference
      */
     public function subtract(self $object): self
@@ -235,25 +219,18 @@ class Duration
         return $this;
     }
 
-    /**
-     * Is duration negative?
-     */
     public function isNegative(): bool
     {
         return $this->Time < 0;
     }
 
-    /**
-     * Is duration zero?
-     */
     public function isZero(): bool
     {
         return $this->Time == 0;
     }
 
     /**
-     * Compare
-     * @param bool $invert [optional] by default, larger is 'better'; set to true to invert that
+     * @param bool $invert by default, larger is 'better'; set to true to invert that
      * @throws \InvalidArgumentException
      */
     public function compareTo(self $other, bool $invert = false, bool $raw = false): string

@@ -7,12 +7,32 @@ namespace Runalyze\Activity;
 use Runalyze\Configuration;
 use Runalyze\Parameter\Application\TemperatureUnit;
 
+#[\PHPUnit\Framework\Attributes\Group('default')]
 class TemperatureTest extends \PHPUnit\Framework\TestCase
 {
+    private int $OriginalDefaultDecimals;
+
+    protected function setUp(): void
+    {
+        $this->OriginalDefaultDecimals = Temperature::$DefaultDecimals;
+    }
+
+    protected function tearDown(): void
+    {
+        Temperature::$DefaultDecimals = $this->OriginalDefaultDecimals;
+    }
+
     public function testConstructor(): void
     {
         $this->assertEquals('15.0', (new Temperature(15, new TemperatureUnit(TemperatureUnit::CELSIUS)))->string(false, 1));
         $this->assertEquals('59.0', (new Temperature(15, new TemperatureUnit(TemperatureUnit::FAHRENHEIT)))->string(false, 1));
+    }
+
+    public function testConstructorAlwaysInterpretsInputAsCelsiusRegardlessOfPreferredUnit(): void
+    {
+        $Temperature = new Temperature(15, new TemperatureUnit(TemperatureUnit::FAHRENHEIT));
+
+        $this->assertSame(15.0, $Temperature->celsius());
     }
 
     public function testSettingInPreferredUnit(): void
@@ -67,5 +87,125 @@ class TemperatureTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($Temperature->value());
         $this->assertNull($Temperature->celsius());
         $this->assertNull($Temperature->fahrenheit());
+    }
+
+    public function testSetWithEmptyStringResultsInEmptyTemperature(): void
+    {
+        $Temperature = new Temperature(13);
+        $Temperature->set('');
+
+        $this->assertTrue($Temperature->isEmpty());
+    }
+
+    public function testSetFahrenheitWithEmptyStringResultsInEmptyTemperature(): void
+    {
+        $Temperature = new Temperature(13);
+        $Temperature->setFahrenheit('');
+
+        $this->assertTrue($Temperature->isEmpty());
+    }
+
+    public function testSetParsesCommaAsDecimalSeparator(): void
+    {
+        $Temperature = new Temperature();
+        $Temperature->set('15,5');
+
+        $this->assertSame(15.5, $Temperature->celsius());
+    }
+
+    public function testSetFahrenheitParsesCommaAsDecimalSeparator(): void
+    {
+        $Temperature = new Temperature();
+        $Temperature->setFahrenheit('59,5');
+
+        $this->assertSame(15.28, $Temperature->celsius());
+    }
+
+    public function testValueIsAliasForCelsius(): void
+    {
+        $Temperature = new Temperature(20);
+
+        $this->assertSame($Temperature->celsius(), $Temperature->value());
+    }
+
+    public function testUnitReturnsCelsiusSymbolForCelsiusSystem(): void
+    {
+        $Temperature = new Temperature(20, new TemperatureUnit(TemperatureUnit::CELSIUS));
+
+        $this->assertSame(TemperatureUnit::CELSIUS, $Temperature->unit());
+    }
+
+    public function testUnitReturnsFahrenheitSymbolForFahrenheitSystem(): void
+    {
+        $Temperature = new Temperature(20, new TemperatureUnit(TemperatureUnit::FAHRENHEIT));
+
+        $this->assertSame(TemperatureUnit::FAHRENHEIT, $Temperature->unit());
+    }
+
+    public function testValueInPreferredUnitReturnsCelsiusForCelsiusSystem(): void
+    {
+        $Temperature = new Temperature(15, new TemperatureUnit(TemperatureUnit::CELSIUS));
+
+        $this->assertSame(15.0, $Temperature->valueInPreferredUnit());
+    }
+
+    public function testValueInPreferredUnitReturnsFahrenheitForFahrenheitSystem(): void
+    {
+        $Temperature = new Temperature(15, new TemperatureUnit(TemperatureUnit::FAHRENHEIT));
+
+        $this->assertSame(59.0, $Temperature->valueInPreferredUnit());
+    }
+
+    public function testStringCelsiusReturnsEmptyStringWhenEmpty(): void
+    {
+        $Temperature = new Temperature();
+
+        $this->assertSame('', $Temperature->stringCelsius());
+    }
+
+    public function testStringFahrenheitReturnsEmptyStringWhenEmpty(): void
+    {
+        $Temperature = new Temperature();
+
+        $this->assertSame('', $Temperature->stringFahrenheit());
+    }
+
+    public function testStringReturnsEmptyStringWhenEmpty(): void
+    {
+        $Temperature = new Temperature(null, new TemperatureUnit(TemperatureUnit::FAHRENHEIT));
+
+        $this->assertSame('', $Temperature->string());
+    }
+
+    public function testStringCelsiusUsesDefaultDecimalsWhenNotGiven(): void
+    {
+        Temperature::$DefaultDecimals = 0;
+
+        $Temperature = new Temperature(15.678);
+
+        $this->assertSame('16&nbsp;' . TemperatureUnit::CELSIUS, $Temperature->stringCelsius());
+    }
+
+    public function testStringFahrenheitUsesDefaultDecimalsWhenNotGiven(): void
+    {
+        Temperature::$DefaultDecimals = 0;
+
+        $Temperature = new Temperature(15);
+
+        $this->assertSame('59&nbsp;' . TemperatureUnit::FAHRENHEIT, $Temperature->stringFahrenheit());
+    }
+
+    public function testStringDelegatesToStringCelsiusForCelsiusSystem(): void
+    {
+        $Temperature = new Temperature(15, new TemperatureUnit(TemperatureUnit::CELSIUS));
+
+        $this->assertSame($Temperature->stringCelsius(), $Temperature->string());
+    }
+
+    public function testStringDelegatesToStringFahrenheitForFahrenheitSystem(): void
+    {
+        $Temperature = new Temperature(15, new TemperatureUnit(TemperatureUnit::FAHRENHEIT));
+
+        $this->assertSame($Temperature->stringFahrenheit(), $Temperature->string());
     }
 }

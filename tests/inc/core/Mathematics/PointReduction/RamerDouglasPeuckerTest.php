@@ -58,4 +58,24 @@ class RamerDouglasPeuckerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([0, 6, 27, 13, 95, 91, 127, 15, 125, 67, 65, 0], $algorithm->getReducedY());
         $this->assertEquals([0, 3, 5, 8, 10, 12, 15, 16, 17, 18, 19, 20], $algorithm->getReducedIndices());
     }
+
+    public function testArraysMustNotBeEmpty(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Arrays must not be empty.');
+
+        new RamerDouglasPeucker([], [], 1.0);
+    }
+
+    public function testArraysMustHaveSameSize(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Arrays must be of same size.');
+
+        new RamerDouglasPeucker(
+            [0, 1, 2],
+            [0, 1],
+            1.0
+        );
+    }
 }

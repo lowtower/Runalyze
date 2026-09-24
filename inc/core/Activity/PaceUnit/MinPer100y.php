@@ -39,8 +39,6 @@ class MinPer100y extends AbstractTimeUnit
      *
      * This should only be used for time formats.
      * 's/km' * factorForUnit() = [time in seconds per distance]
-     *
-     * @throws \RuntimeException
      */
     public function factorForUnit(): float
     {

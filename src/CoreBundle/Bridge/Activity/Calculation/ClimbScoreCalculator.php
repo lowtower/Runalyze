@@ -19,7 +19,13 @@ class ClimbScoreCalculator
      */
     public const CLIMB_DISTANCE_THRESHOLD = 0.1;
 
-    public function calculateFor(Training $activity): \Runalyze\Sports\ClimbScore\ClimbScore
+    public function __construct(
+        private readonly FietsIndex $fietsIndex,
+        private readonly ClimbFinder $climbFinder
+    ) {
+    }
+
+    public function calculateFor(Training $activity): ClimbScore
     {
         $score = new ClimbScore();
 
@@ -39,19 +45,18 @@ class ClimbScoreCalculator
 
     protected function getFietsIndicesFor(Training $activity): array
     {
-        $fietsIndex = new FietsIndex();
-        $climbs = (new ClimbFinder())->findClimbsFor($activity);
+        $climbs = $this->climbFinder->findClimbsFor($activity);
 
-        return array_map(function (Climb $climb) use ($fietsIndex): float {
+        return array_map(function (Climb $climb): float {
             if ($climb->getGradient() < self::CLIMB_GRADIENT_THRESHOLD || $climb->getDistance() <= self::CLIMB_DISTANCE_THRESHOLD) {
                 return 0.0;
             }
 
             if ($climb->knowsClimbProfile()) {
-                return $fietsIndex->getScoreForProfile($climb->getClimbProfile()->getDistancesWithGradients(), $climb->getAltitudeAtTop());
+                return $this->fietsIndex->getScoreForProfile($climb->getClimbProfile()->getDistancesWithGradients(), $climb->getAltitudeAtTop());
             }
 
-            return $fietsIndex->getScoreFor($climb->getDistance(), $climb->getElevation(), (int) $climb->getAltitudeAtTop());
+            return $this->fietsIndex->getScoreFor($climb->getDistance(), $climb->getElevation(), (int) $climb->getAltitudeAtTop());
         }, $climbs->getElements());
     }
 }

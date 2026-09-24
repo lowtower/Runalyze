@@ -96,7 +96,6 @@ class FitTrainingEffectBenefit extends AbstractEnum
      * Gets the label text for the number.
      *
      * @param int $num internal enum
-     * @codeCoverageIgnore
      */
     public static function labelOfEnum(int $num): string
     {
@@ -117,7 +116,6 @@ class FitTrainingEffectBenefit extends AbstractEnum
      *
      * @param int $num internal enum
      * @return string description with number and texts
-     * @codeCoverageIgnore
      */
     public static function descriptionFromNum(int $num): string
     {

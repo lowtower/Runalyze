@@ -52,12 +52,9 @@ class General extends \Runalyze\Configuration\Category
         $this->createHandle('WEEK_START', new WeekStart());
     }
 
-    /**
-     * @return \Runalyze\Parameter\Application\WeekStart
-     */
-    public function weekStart(): \Runalyze\Parameter
+    public function weekStart(): \Runalyze\Parameter&WeekStart
     {
-        /** @var \Runalyze\Parameter\Application\WeekStart $parameter */
+        /** @var WeekStart $parameter */
         $parameter = $this->object('WEEK_START');
         return $parameter;
     }
@@ -72,11 +69,10 @@ class General extends \Runalyze\Configuration\Category
 
     /**
      * Unit system for distances
-     * @return \Runalyze\Parameter\Application\DistanceUnitSystem
      */
-    public function distanceUnitSystem(): \Runalyze\Parameter
+    public function distanceUnitSystem(): \Runalyze\Parameter&DistanceUnitSystem
     {
-        /** @var \Runalyze\Parameter\Application\DistanceUnitSystem $parameter */
+        /** @var DistanceUnitSystem $parameter */
         $parameter = $this->object('DISTANCE_UNIT_SYSTEM');
         return $parameter;
     }
@@ -89,12 +85,9 @@ class General extends \Runalyze\Configuration\Category
         $this->createHandle('WEIGHT_UNIT', new WeightUnit());
     }
 
-    /**
-     * @return \Runalyze\Parameter\Application\WeightUnit
-     */
-    public function weightUnit(): \Runalyze\Parameter
+    public function weightUnit(): \Runalyze\Parameter&WeightUnit
     {
-        /** @var \Runalyze\Parameter\Application\WeightUnit $parameter */
+        /** @var WeightUnit $parameter */
         $parameter = $this->object('WEIGHT_UNIT');
         return $parameter;
     }
@@ -107,12 +100,9 @@ class General extends \Runalyze\Configuration\Category
         $this->createHandle('ENERGY_UNIT', new EnergyUnit());
     }
 
-    /**
-     * @return \Runalyze\Parameter\Application\EnergyUnit
-     */
-    public function energyUnit(): \Runalyze\Parameter
+    public function energyUnit(): \Runalyze\Parameter&EnergyUnit
     {
-        /** @var \Runalyze\Parameter\Application\EnergyUnit $parameter */
+        /** @var EnergyUnit $parameter */
         $parameter = $this->object('ENERGY_UNIT');
         return $parameter;
     }
@@ -125,12 +115,9 @@ class General extends \Runalyze\Configuration\Category
         $this->createHandle('TEMPERATURE_UNIT', new TemperatureUnit());
     }
 
-    /**
-     * @return \Runalyze\Parameter\Application\TemperatureUnit
-     */
-    public function temperatureUnit(): \Runalyze\Parameter
+    public function temperatureUnit(): \Runalyze\Parameter&TemperatureUnit
     {
-        /** @var \Runalyze\Parameter\Application\TemperatureUnit $parameter */
+        /** @var TemperatureUnit $parameter */
         $parameter = $this->object('TEMPERATURE_UNIT');
         return $parameter;
     }
@@ -143,12 +130,9 @@ class General extends \Runalyze\Configuration\Category
         $this->createHandle('HEART_RATE_UNIT', new HeartRateUnit());
     }
 
-    /**
-     * @return \Runalyze\Parameter\Application\HeartRateUnit
-     */
-    public function heartRateUnit(): \Runalyze\Parameter
+    public function heartRateUnit(): \Runalyze\Parameter&HeartRateUnit
     {
-        /** @var \Runalyze\Parameter\Application\HeartRateUnit $parameter */
+        /** @var HeartRateUnit $parameter */
         $parameter = $this->object('HEART_RATE_UNIT');
         return $parameter;
     }
@@ -164,12 +148,9 @@ class General extends \Runalyze\Configuration\Category
         ]));
     }
 
-    /**
-     * @return int
-     */
-    public function mainSport()
+    public function mainSport(): int
     {
-        return $this->get('MAINSPORT');
+        return (int) $this->get('MAINSPORT');
     }
 
     /**
@@ -183,12 +164,9 @@ class General extends \Runalyze\Configuration\Category
         ]));
     }
 
-    /**
-     * @return int
-     */
-    public function runningSport()
+    public function runningSport(): int
     {
-        return $this->get('RUNNINGSPORT');
+        return (int) $this->get('RUNNINGSPORT');
     }
 
     protected function registerOnchangeEvents()

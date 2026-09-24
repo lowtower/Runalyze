@@ -165,4 +165,14 @@ class BSplineInterpolationTest extends \PHPUnit\Framework\TestCase
         $result = $Spline->evaluateAt(0.5);
         $this->assertNotNull($result);
     }
+
+    public function testNoPointsGiven(): void
+    {
+        $spline = new BSplineInterpolation(2);
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('No points given.');
+
+        $spline->setPoints([]);
+    }
 }

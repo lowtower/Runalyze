@@ -18,27 +18,26 @@ class TopResults
      * Get top results (according to vo2max_by_time)
      * @param int $numberOfResults number of results to return
      * @param float $minimalDistanceRequired in km
-     * @return array
      */
-    public function getTopResults($numberOfResults = 1, $minimalDistanceRequired = 3.0)
+    public function getTopResults(int $numberOfResults = 1, float $minimalDistanceRequired = 3.0): array
     {
         $Query = '
-			SELECT
-				`time`, `distance`, `s`, `vo2max_by_time`
-			FROM (
-				SELECT
-					`time`, `distance`, `s`, `vo2max_by_time`
-				FROM `' . PREFIX . 'training`
-				WHERE
-					`accountid`=' . \SessionAccountHandler::getId() . ' AND
-					`sportid`=' . Configuration::General()->runningSport() . '
-					AND `distance` >= "' . $minimalDistanceRequired . '"
-				ORDER BY `vo2max_by_time` DESC
-				LIMIT 20
-			) as `tmp`
-			GROUP BY `distance`
-			ORDER BY `vo2max_by_time` DESC
-		';
+            SELECT
+                `time`, `distance`, `s`, `vo2max_by_time`
+            FROM (
+                SELECT
+                    `time`, `distance`, `s`, `vo2max_by_time`
+                FROM `' . PREFIX . 'training`
+                WHERE
+                    `accountid`=' . \SessionAccountHandler::getId() . ' AND
+                    `sportid`=' . Configuration::General()->runningSport() . '
+                    AND `distance` >= "' . $minimalDistanceRequired . '"
+                ORDER BY `vo2max_by_time` DESC
+                LIMIT 20
+            ) as `tmp`
+            GROUP BY `distance`
+            ORDER BY `vo2max_by_time` DESC
+        ';
 
         if ($numberOfResults <= 1) {
             return DB::getInstance()->query($Query)->fetch();

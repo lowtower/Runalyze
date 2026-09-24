@@ -736,7 +736,17 @@ services:
       arguments:
         - "[%%datetime%%] [%%extra.token%%] %%channel%%.%%level_name%%: %%message%% %%context%% %%extra%%\n"
 
+    Runalyze\Sports\ClimbQuantification\FietsIndex: ~
+
+    Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\ClimbFinder: ~
+
+    Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\ClimbScoreCalculator:
+        arguments:
+            $fietsIndex: '@Runalyze\Sports\ClimbQuantification\FietsIndex'
+            $climbFinder: '@Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\ClimbFinder'
+
     Frontend:
         class: Frontend
         arguments:
             $parameterBag: '@parameter_bag'
+

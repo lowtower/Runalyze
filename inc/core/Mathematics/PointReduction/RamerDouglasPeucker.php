@@ -8,14 +8,17 @@ namespace Runalyze\Mathematics\PointReduction;
  */
 class RamerDouglasPeucker extends AbstractPointReductionAlgorithm
 {
-    /**
-     * @param float $Epsilon
-     */
     public function __construct(
         array $x,
         array $y,
-        protected $Epsilon
+        protected float $Epsilon
     ) {
+        if ($x === []) {
+            throw new \InvalidArgumentException(
+                'Arrays must not be empty.'
+            );
+        }
+
         if (count($x) !== count($y)) {
             throw new \InvalidArgumentException('Arrays must be of same size.');
         }
@@ -29,10 +32,9 @@ class RamerDouglasPeucker extends AbstractPointReductionAlgorithm
     /**
      * @param array<int, mixed> $x
      * @param array<int, mixed> $y
-     * @param int $offset
      * @return array [reduced_x[], reduced_y[]]
      */
-    protected function reducePointSet(array $x, array $y, $offset = 0): array
+    protected function reducePointSet(array $x, array $y, int $offset = 0): array
     {
         $num = count($x);
 
@@ -74,11 +76,9 @@ class RamerDouglasPeucker extends AbstractPointReductionAlgorithm
     }
 
     /**
-     * @param int $index
-     * @param int $offset
      * @return array<int, mixed[]> [x_reduced[], y_reduced[]]
      */
-    protected function splitAndReducePointSet(array $x, array $y, $index, $offset): array
+    protected function splitAndReducePointSet(array $x, array $y, int $index, int $offset): array
     {
         [$firstX, $firstY] = $this->reducePointSet(
             array_slice($x, 0, $index + 1),

@@ -33,30 +33,23 @@ class Calculator
 {
     /**
      * Default HR max
-     * @int
+     * @var int
      */
     public const DEFAULT_HR_MAX = 200;
 
     /**
      * Default HR rest
-     * @int
+     * @var int
      */
     public const DEFAULT_HR_REST = 60;
 
-    /**
-     * Value
-     */
     protected float $value;
 
     /**
-     * Construct
      * @param array $Data array('hr' => 'time in seconds')
      * @throws \InvalidArgumentException
      */
     public function __construct(
-        /**
-         * Athlete
-         */
         protected \Runalyze\Athlete $Athlete,
         protected array $Data
     ) {
@@ -72,7 +65,7 @@ class Calculator
      * TODO: check factor 0.64
      * TRIMP=tmin​⋅ΔHR⋅0.64⋅e(b⋅ΔHR)
      */
-    protected function calculate()
+    protected function calculate(): void
     {
         $Factor = new Factor($this->Athlete->gender());
         $max = $this->Athlete->knowsMaximalHeartRate() ? $this->Athlete->maximalHR() : self::DEFAULT_HR_MAX;

@@ -8,10 +8,7 @@ use Runalyze\Mathematics\Scale\Percental;
 
 class PercentalTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var Percental
-     */
-    protected $Scale;
+    protected Percental $Scale;
 
     protected function setUp(): void
     {
@@ -58,5 +55,15 @@ class PercentalTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(50, $this->Scale->transform(5.5), 0.0001);
         $this->assertEqualsWithDelta(69, $this->Scale->transform(7.2), 0.5);
         $this->assertEqualsWithDelta(89, $this->Scale->transform(9.0), 0.5);
+    }
+
+    public function testReturnsZeroForInvalidScaleWithEqualMinAndMax(): void
+    {
+        $this->Scale->setMinimum(10);
+        $this->Scale->setMaximum(10);
+
+        $this->assertSame(0.0, $this->Scale->transform(10));
+        $this->assertSame(0.0, $this->Scale->transform(20));
+        $this->assertSame(0.0, $this->Scale->transform(-20));
     }
 }
