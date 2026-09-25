@@ -32,13 +32,13 @@ $YearDependence = $this->getYearDependenceForQuery();
 
 $Query = DB::getInstance()->prepare(
     'SELECT time, s
-	FROM `' . PREFIX . 'training`
-	WHERE
-		`accountid`=' . SessionAccountHandler::getId() . ' AND
-		`sportid`=:id AND
-		(HOUR(FROM_UNIXTIME(`time`))!=0 OR MINUTE(FROM_UNIXTIME(`time`))!=0)
-		' . $YearDependence . '
-	'
+    FROM `' . PREFIX . 'training`
+    WHERE
+        `accountid`=' . SessionAccountHandler::getId() . ' AND
+        `sportid`=:id AND
+        (HOUR(FROM_UNIXTIME(`time`))!=0 OR MINUTE(FROM_UNIXTIME(`time`))!=0)
+        ' . $YearDependence . '
+    '
 );
 
 foreach ($Sports as $sport) {

@@ -49,7 +49,7 @@ abstract class PluginPanel extends Plugin
     /**
      * Includes the plugin-file for displaying the statistics
      */
-    public function display()
+    public function display(): void
     {
         $this->prepareForDisplay();
 

@@ -26,11 +26,17 @@ use Runalyze\View\Tooltip;
  */
 class RunalyzePluginPanel_Rechenspiele extends PluginPanel
 {
+    /**
+     * @codeCoverageIgnore
+     */
     final public function name(): string
     {
         return __('Calculations');
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function description(): string
     {
         return __('Calculate experimental values as shape and fatigue based on TRIMP, marathon shape and your VO<sub>2</sub>max shape.');
@@ -81,7 +87,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel
     /**
      * @see PluginPanel::displayContent()
      */
-    protected function displayContent()
+    protected function displayContent(): void
     {
         $this->showValues();
 
@@ -390,7 +396,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel
         return $Fieldset;
     }
 
-    public function getFieldsetEffecticeVO2max(): \FormularFieldset
+    public function getFieldsetEffectiveVO2max(): \FormularFieldset
     {
         $Tooltip = new Tooltip('');
         $EffectiveVO2max = new LegacyEffectiveVO2max(0, new LegacyEffectiveVO2maxCorrector(Configuration::Data()->vo2maxCorrectionFactor()));

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::SelectRow
  * @package Runalyze\Parameter
@@ -16,12 +18,7 @@ class SelectRow extends Select
 {
     protected bool $UseFallback = false;
 
-    /**
-     * Construct
-     * @param string $default
-     * @param array $options [optional]
-     */
-    public function __construct($default, array $options = [])
+    public function __construct(string $default, array $options = [])
     {
         $options = array_merge(
             [
@@ -34,10 +31,7 @@ class SelectRow extends Select
         parent::__construct($default, $options);
     }
 
-    /**
-     * @return string
-     */
-    public function table()
+    public function table(): string
     {
         return $this->Options['table'];
     }
@@ -50,9 +44,6 @@ class SelectRow extends Select
         return $this->Options['column'];
     }
 
-    /**
-     * Value allowed?
-     */
     protected function valueIsAllowed(string $value): bool
     {
         return true;

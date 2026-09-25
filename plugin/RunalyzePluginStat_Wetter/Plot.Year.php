@@ -14,17 +14,17 @@ $Year = (int) $_GET['y'];
 $Temperatures = [];
 
 $Query = '
-	SELECT
-		time*1000 as time,
-		DAYOFYEAR(FROM_UNIXTIME(`time`)) as `d`,
-		AVG(`temperature`) as `temp`
-	FROM `' . PREFIX . 'training`
-	WHERE
-		`accountid`=' . SessionAccountHandler::getId() . ' AND
-		!ISNULL(`temperature`) AND
-		`time` BETWEEN UNIX_TIMESTAMP(\'' . $Year . "-01-01') AND UNIX_TIMESTAMP('" . ($Year + 1) . '-01-01\')-1
-	GROUP BY `d`
-	ORDER BY `d` ASC';
+    SELECT
+        time*1000 as time,
+        DAYOFYEAR(FROM_UNIXTIME(`time`)) as `d`,
+        AVG(`temperature`) as `temp`
+    FROM `' . PREFIX . 'training`
+    WHERE
+        `accountid`=' . SessionAccountHandler::getId() . ' AND
+        !ISNULL(`temperature`) AND
+        `time` BETWEEN UNIX_TIMESTAMP(\'' . $Year . "-01-01') AND UNIX_TIMESTAMP('" . ($Year + 1) . '-01-01\')-1
+    GROUP BY `d`
+    ORDER BY `d` ASC';
 
 $Data = DB::getInstance()->query($Query)->fetchAll();
 

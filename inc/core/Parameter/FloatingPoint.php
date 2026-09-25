@@ -44,7 +44,7 @@ class FloatingPoint extends \Runalyze\Parameter
      * Set value
      * @param mixed $value new value
      */
-    public function set($value): void
+    public function set(mixed $value): void
     {
         if ($value === null && $this->Options['null']) {
             $value = null;

@@ -9,8 +9,6 @@ $PLUGINKEY = 'RunalyzePluginPanel_TagsSummary';
 use Runalyze\Model;
 
 /**
- * Class: RunalyzePluginPanel_TagsSummary
- *
  * @author Felix Gertz
  * @package Runalyze\Plugins\Panels
  */
@@ -30,11 +28,17 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel
         '24' => '24',
     ];
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function name(): string
     {
         return __('Tags summary');
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function description(): string
     {
         return __('Summarises your tags for the selected sport.');
@@ -44,7 +48,7 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel
 
     protected $timescale;
 
-    protected function initConfiguration()
+    protected function initConfiguration(): void
     {
         $Configuration = new PluginConfiguration($this->id());
 
@@ -79,7 +83,7 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel
         $this->setConfiguration($Configuration);
     }
 
-    protected function initPlugin()
+    protected function initPlugin(): void
     {
         $this->sportid = (int) $this->Configuration()
             ->value('sport');
@@ -137,7 +141,7 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel
     /**
      * @see PluginPanel::displayContent()
      */
-    protected function displayContent()
+    protected function displayContent(): void
     {
         $Factory = \Runalyze\Context::Factory();
         $Sport = $Factory->sport($this->sportid);
@@ -150,7 +154,7 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel
         echo HTML::clearBreak();
     }
 
-    protected function showListFor(Model\Sport\Entity $Sport, $timescale)
+    protected function showListFor(Model\Sport\Entity $Sport, $timescale): void
     {
         $max = 0;
         $countTagsForSport = DB::getInstance()
@@ -167,10 +171,12 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel
                 $max = (int) $data['count'];
             }
 
+            $usagePercentage = $max > 0 ? (int) $data['count'] / $max : 0.0;
+
             echo '<p style="position:relative;">
 				<span class="right">' . $data['count'] . 'x</span>
 				<strong>' . SearchLink::to('tagid', $data['tagid'], $data['tag']) . '</strong>
-				' . $this->getUsageImage((int) $data['count'] / $max) . '
+				' . $this->getUsageImage($usagePercentage) . '
 			</p>';
         }
 
@@ -185,11 +191,12 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel
     }
 
     /**
-     * Get shoe usage image
      * @param float $percentage [0.0 .. 1.0]
      */
-    protected function getUsageImage($percentage): string
+    protected function getUsageImage(float $percentage): string
     {
-        return '<span class="tags-usage" style="width:' . round($percentage * 330) . 'px;"></span>';
+        $clampedPercentage = max(0.0, min(1.0, $percentage));
+
+        return '<span class="tags-usage" style="width:' . round($clampedPercentage * 330) . 'px;"></span>';
     }
 }

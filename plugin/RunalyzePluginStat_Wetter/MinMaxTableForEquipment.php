@@ -35,21 +35,21 @@ class MinMaxTableForEquipment
     {
         return $this->PDO->query(
             'SELECT
-				AVG(`temperature`) as `avg`,
-				MAX(`temperature`) as `max`,
-				MIN(`temperature`) as `min`,
-				`eq`.`equipmentid`,
-				`eqp`.`name`
-			FROM `' . PREFIX . 'training`
-			LEFT JOIN `' . PREFIX . 'activity_equipment` AS `eq` ON `id` = `eq`.`activityid`
+                AVG(`temperature`) as `avg`,
+                MAX(`temperature`) as `max`,
+                MIN(`temperature`) as `min`,
+                `eq`.`equipmentid`,
+                `eqp`.`name`
+            FROM `' . PREFIX . 'training`
+            LEFT JOIN `' . PREFIX . 'activity_equipment` AS `eq` ON `id` = `eq`.`activityid`
             LEFT JOIN `' . PREFIX . 'equipment` AS `eqp` ON `eq`.`equipmentid` = `eqp`.`id`
-			WHERE
-				`eqp`.`typeid` = ' . $this->EquipmentTypeID . ' AND
-				`' . PREFIX . 'training`.`accountid` = ' . $this->AccountID . ' AND
-				`eq`.`activityid` IS NOT NULL AND
-				`temperature` IS NOT NULL
-				' . $this->DependencyQuery . '
-			GROUP BY `eq`.`equipmentid`'
+            WHERE
+                `eqp`.`typeid` = ' . $this->EquipmentTypeID . ' AND
+                `' . PREFIX . 'training`.`accountid` = ' . $this->AccountID . ' AND
+                `eq`.`activityid` IS NOT NULL AND
+                `temperature` IS NOT NULL
+                ' . $this->DependencyQuery . '
+            GROUP BY `eq`.`equipmentid`'
         );
     }
 

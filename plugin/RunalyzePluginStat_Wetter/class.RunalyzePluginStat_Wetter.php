@@ -12,33 +12,38 @@ use Runalyze\Data\Weather\WindSpeed;
 use Runalyze\Util\LocalTime;
 
 /**
- * Class: RunalyzePluginStat_Wetter
  * @author Hannes Christiansen
  * @package Runalyze\Plugins\Stats
  */
 class RunalyzePluginStat_Wetter extends PluginStat
 {
-    /**
-     * @var int
-     */
-    protected $EquipmentTypeId;
+    protected int $EquipmentTypeId;
 
     /**
      * @var array array(id => name)
      */
-    protected $AllTypes = [];
+    protected array $AllTypes = [];
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function name(): string
     {
         return __('Weather');
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function description(): string
     {
         return __('Statistics about weather conditions and temperatures.');
     }
 
-    protected function displayLongDescription()
+    /**
+     * @codeCoverageIgnore
+     */
+    final protected function displayLongDescription(): void
     {
         echo HTML::p(__('There is no bad weather, there is only bad clothing.'));
         echo HTML::p(__('Are you a wimp or a tough runner? ' .
@@ -75,7 +80,6 @@ class RunalyzePluginStat_Wetter extends PluginStat
     }
 
     /**
-     * Get own links for toolbar navigation
      * @return string[]
      */
     protected function getToolbarNavigationLinks(): array
@@ -83,13 +87,24 @@ class RunalyzePluginStat_Wetter extends PluginStat
         $LinkList = [];
         $LinkList[] = '<li>' . Ajax::window('<a href="plugin/' . $this->key() . '/window.php">' . Ajax::tooltip(Icon::$LINE_CHART, __('Show temperature plots')) . '</a>') . '</li>';
 
-        if (count($this->AllTypes) > 1) {
-            $LinkList[] = '<li class="with-submenu"><span class="link">' . $this->AllTypes[$this->EquipmentTypeId] . '</span><ul class="submenu">';
+        return array_merge($LinkList, $this->getEquipmentTypeSubmenuLinks());
+    }
 
-            foreach ($this->AllTypes as $id => $name) {
-                $active = ($id == $this->EquipmentTypeId);
-                $LinkList[] = '<li' . ($active ? ' class="active"' : '') . '>' . $this->getInnerLink("{$name}", 0, 0, $id) . '</li>';
-            }
+    /**
+     * @return string[]
+     */
+    private function getEquipmentTypeSubmenuLinks(): array
+    {
+        if (count($this->AllTypes) <= 1) {
+            return [];
+        }
+
+        $LinkList = [];
+        $LinkList[] = '<li class="with-submenu"><span class="link">' . $this->AllTypes[$this->EquipmentTypeId] . '</span><ul class="submenu">';
+
+        foreach ($this->AllTypes as $id => $name) {
+            $active = ($id == $this->EquipmentTypeId);
+            $LinkList[] = '<li' . ($active ? ' class="active"' : '') . '>' . $this->getInnerLink("{$name}", 0, 0, $id) . '</li>';
         }
 
         $LinkList[] = '</ul></li>';
@@ -98,7 +113,6 @@ class RunalyzePluginStat_Wetter extends PluginStat
     }
 
     /**
-     * Timer for year or ordered months
      * @param bool $addTableName must be used if query contains joins
      */
     protected function getTimerForOrderingInQuery(bool $addTableName = false): string
@@ -113,9 +127,6 @@ class RunalyzePluginStat_Wetter extends PluginStat
         return parent::getTimerForOrderingInQuery($addTableName);
     }
 
-    /**
-     * Init data
-     */
     protected function prepareForDisplay()
     {
         $this->setSportsNavigation(true, true);
@@ -128,7 +139,7 @@ class RunalyzePluginStat_Wetter extends PluginStat
     /**
      * @see PluginStat::displayContent()
      */
-    protected function displayContent()
+    protected function displayContent(): void
     {
         $this->displayExtremeTrainings();
         $this->displayMonthwiseTable();
@@ -161,16 +172,29 @@ class RunalyzePluginStat_Wetter extends PluginStat
             $maxhumidity[$i] = (new Humidity($h['humidity']))->string() . ' ' . __('on') . ' ' . Ajax::trainingLink($h['id'], (new LocalTime($h['time']))->format('d.m.Y'));
         }
 
-        echo '<p>';
-        echo '<strong>' . __('Hottest activities') . ':</strong> ';
-        echo ($hot === [] ? __('none') : implode(', ', $hot)) . '<br>';
-        echo ($hot === [] ? __('none') : '<strong>' . __('Coldest activities')) . ':</strong> ';
-        echo implode(', ', $cold) . '<br>';
-        echo '<strong>' . __('Most windy activities') . ':</strong> ';
-        echo ($windiest === [] ? __('none') : implode(', ', $windiest)) . '<br>';
-        echo '<strong>' . __('Highest humidity activities') . ':</strong> ';
-        echo ($maxhumidity === [] ? __('none') : implode(', ', $maxhumidity)) . '<br>';
-        echo '</p>';
+        echo $this->buildExtremeTrainingsHtml($hot, $cold, $windiest, $maxhumidity);
+    }
+
+    /**
+     * @param string[] $hot
+     * @param string[] $cold
+     * @param string[] $windiest
+     * @param string[] $maxhumidity
+     */
+    private function buildExtremeTrainingsHtml(array $hot, array $cold, array $windiest, array $maxhumidity): string
+    {
+        $html = '<p>';
+        $html .= '<strong>' . __('Hottest activities') . ':</strong> ';
+        $html .= ($hot === [] ? __('none') : implode(', ', $hot)) . '<br>';
+        $html .= '<strong>' . __('Coldest activities') . ':</strong> ';
+        $html .= ($cold === [] ? __('none') : implode(', ', $cold)) . '<br>';
+        $html .= '<strong>' . __('Most windy activities') . ':</strong> ';
+        $html .= ($windiest === [] ? __('none') : implode(', ', $windiest)) . '<br>';
+        $html .= '<strong>' . __('Highest humidity activities') . ':</strong> ';
+        $html .= ($maxhumidity === [] ? __('none') : implode(', ', $maxhumidity)) . '<br>';
+        $html .= '</p>';
+
+        return $html;
     }
 
     protected function knowsEquipmentType(): bool
@@ -178,9 +202,6 @@ class RunalyzePluginStat_Wetter extends PluginStat
         return ($this->EquipmentTypeId > 0) && isset($this->AllTypes[$this->EquipmentTypeId]);
     }
 
-    /**
-     * Display table for clothes
-     */
     protected function displayMonthwiseTable()
     {
         require_once __DIR__ . '/MonthwiseTable.php';
@@ -200,9 +221,6 @@ class RunalyzePluginStat_Wetter extends PluginStat
         $Table->display();
     }
 
-    /**
-     * Display table for clothes
-     */
     protected function displayEquipmentTable()
     {
         require_once __DIR__ . '/MinMaxTableForEquipment.php';

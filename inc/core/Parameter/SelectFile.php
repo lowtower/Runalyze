@@ -21,12 +21,7 @@ class SelectFile extends Select
      */
     protected bool $AllowUppercaseVariants = true;
 
-    /**
-     * Construct
-     * @param string $default
-     * @param array $options [optional]
-     */
-    public function __construct($default, array $options = [])
+    public function __construct(string $default, array $options = [])
     {
         $options = array_merge(
             [
@@ -54,11 +49,9 @@ class SelectFile extends Select
     }
 
     /**
-     * Set value
-     * @param mixed $value new value
      * @throws \InvalidArgumentException
      */
-    public function set($value): void
+    public function set(mixed $value): void
     {
         if ($this->Options['filename_only']) {
             $value = basename($value);
@@ -86,9 +79,6 @@ class SelectFile extends Select
         return in_array($extension, $this->Options['extensions']);
     }
 
-    /**
-     * Options
-     */
     public function options(): array
     {
         $Options = [];

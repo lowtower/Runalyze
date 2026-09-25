@@ -184,16 +184,16 @@ class MonthwiseTable
     {
         return $this->PDO->query(
             'SELECT
-				AVG(`temperature`) as `temp`,
-				' . $this->GroupByQuery . ' as `m`
-			FROM `' . PREFIX . 'training`
-			WHERE
-				`accountid`=' . \SessionAccountHandler::getId() . ' AND
-				`temperature` IS NOT NULL
-				' . $this->DependencyQuery . '
-			GROUP BY ' . $this->GroupByQuery . '
-			ORDER BY ' . $this->OrderByQuery . ' ASC
-			LIMIT 12'
+                AVG(`temperature`) as `temp`,
+                ' . $this->GroupByQuery . ' as `m`
+            FROM `' . PREFIX . 'training`
+            WHERE
+                `accountid`=' . \SessionAccountHandler::getId() . ' AND
+                `temperature` IS NOT NULL
+                ' . $this->DependencyQuery . '
+            GROUP BY ' . $this->GroupByQuery . '
+            ORDER BY ' . $this->OrderByQuery . ' ASC
+            LIMIT 12'
         );
     }
 
@@ -229,16 +229,16 @@ class MonthwiseTable
     {
         return $this->PDO->prepare(
             'SELECT
-				SUM(1) as `num`,
-				' . $this->GroupByQuery . ' as `m`
-			FROM `' . PREFIX . 'training`
-			WHERE
-				`accountid`=' . \SessionAccountHandler::getId() . ' AND
-				`weatherid` = ?
-				' . $this->DependencyQuery . '
-			GROUP BY ' . $this->GroupByQuery . '
-			ORDER BY ' . $this->OrderByQuery . ' ASC
-			LIMIT 12'
+                SUM(1) as `num`,
+                ' . $this->GroupByQuery . ' as `m`
+            FROM `' . PREFIX . 'training`
+            WHERE
+                `accountid`=' . \SessionAccountHandler::getId() . ' AND
+                `weatherid` = ?
+                ' . $this->DependencyQuery . '
+            GROUP BY ' . $this->GroupByQuery . '
+            ORDER BY ' . $this->OrderByQuery . ' ASC
+            LIMIT 12'
         );
     }
 
@@ -273,18 +273,18 @@ class MonthwiseTable
     {
         return $this->PDO->query(
             'SELECT
-				SUM(IF(`eq`.`activityid` = `' . PREFIX . 'training`.`id`, 1,0)) as `num`,
-				`eq`.`equipmentid`,
-				' . $this->GroupByQuery . ' as `m`
-			FROM `' . PREFIX . 'activity_equipment` AS `eq`
-			LEFT JOIN `' . PREFIX . 'training` ON `' . PREFIX . 'training`.`id` = `eq`.`activityid`
+                SUM(IF(`eq`.`activityid` = `' . PREFIX . 'training`.`id`, 1,0)) as `num`,
+                `eq`.`equipmentid`,
+                ' . $this->GroupByQuery . ' as `m`
+            FROM `' . PREFIX . 'activity_equipment` AS `eq`
+            LEFT JOIN `' . PREFIX . 'training` ON `' . PREFIX . 'training`.`id` = `eq`.`activityid`
             LEFT JOIN `' . PREFIX . 'equipment` AS `eqp` ON `eq`.`equipmentid` = `eqp`.`id`
-			WHERE
-				`' . PREFIX . 'training`.`accountid` = ' . $this->AccountID . ' AND
-				`eqp`.`typeid` = ' . $this->EquipmentTypeID . '
-				' . $this->DependencyQuery . '
-			GROUP BY `eq`.`equipmentid`, ' . $this->GroupByQuery . ' HAVING `num` != 0
-			ORDER BY `eq`.`equipmentid` ASC, ' . $this->OrderByQuery . ' ASC'
+            WHERE
+                `' . PREFIX . 'training`.`accountid` = ' . $this->AccountID . ' AND
+                `eqp`.`typeid` = ' . $this->EquipmentTypeID . '
+                ' . $this->DependencyQuery . '
+            GROUP BY `eq`.`equipmentid`, ' . $this->GroupByQuery . ' HAVING `num` != 0
+            ORDER BY `eq`.`equipmentid` ASC, ' . $this->OrderByQuery . ' ASC'
         );
     }
 }

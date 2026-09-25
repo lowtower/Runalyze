@@ -15,71 +15,51 @@ use Runalyze\Configuration;
 abstract class Plugin
 {
     /**
-     * Enum: inactive
      * @var int
      */
     public const ACTIVE_NOT = 0;
 
     /**
-     * Enum: active
      * @var int
      */
     public const ACTIVE = 1;
 
     /**
-     * Enum: various/hidden
      * @var int
      */
     public const ACTIVE_VARIOUS = 2;
 
     /**
-     * Url for displaying the install-window
      * @var string
      */
     public static $INSTALL_URL = 'call/call.Plugin.install.php';
 
     /**
-     * Url for displaying the config-window
      * @var string
      */
     public static $CONFIG_URL = 'call/call.Plugin.config.php';
 
     /**
-     * Url for displaying the plugin
      * @var string
      */
     public static $DISPLAY_URL = 'my/plugin';
 
     /**
-     * CSS-Flag for plugins: Don't reload if config has changed
      * @var string
      */
     public static $DONT_RELOAD_FOR_CONFIG_FLAG = 'dont-reload-for-config';
 
     /**
-     * CSS-Flag for plugins: Don't reload if a training has changed
      * @var string
      */
     public static $DONT_RELOAD_FOR_TRAINING_FLAG = 'dont-reload-for-training';
 
-    /**
-     * Pluginkey
-     */
     private string $key;
 
-    /**
-     * Integer flag: Is this statistic acitve?
-     */
     private int $active;
 
-    /**
-     * Integer position of plugins
-     */
     private int $order;
 
-    /**
-     * Internal sport-ID from database
-     */
     protected int $sportid;
 
     /**
@@ -87,23 +67,11 @@ abstract class Plugin
      */
     protected int $year;
 
-    /**
-     * Internal data from database
-     */
     protected string $dat;
 
-    /**
-     * Configuration
-     */
     private PluginConfiguration $Configuration;
 
-    /**
-     * Constructor (needs ID)
-     */
     public function __construct(
-        /**
-         * Internal ID from database
-         */
         private int $id
     ) {
         $this->key = static::class;
@@ -139,8 +107,6 @@ abstract class Plugin
     }
 
     /**
-     * Configuration
-     *
      * This method call will force the configuration object to catch its values
      * from the database if not already done.
      */
@@ -151,9 +117,6 @@ abstract class Plugin
         return $this->Configuration;
     }
 
-    /**
-     * Plugin key
-     */
     final public function key(): string
     {
         return $this->key;
@@ -164,48 +127,27 @@ abstract class Plugin
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
-    abstract public function name();
+    abstract public function name(): string;
 
-    /**
-     * @return string
-     */
-    abstract public function description();
+    abstract public function description(): string;
 
-    /**
-     * @return int
-     */
-    abstract public function type();
+    abstract public function type(): int;
 
-    /**
-     * Type as string
-     */
     final public function typeString(): string
     {
         return PluginType::string($this->type());
     }
 
-    /**
-     * Is active?
-     */
     final public function isActive(): bool
     {
         return $this->active === self::ACTIVE;
     }
 
-    /**
-     * Is inactive?
-     */
     final public function isInActive(): bool
     {
         return $this->active === self::ACTIVE_NOT;
     }
 
-    /**
-     * Is hidden/various?
-     */
     final public function isHidden(): bool
     {
         return $this->active === self::ACTIVE_VARIOUS;
@@ -223,10 +165,7 @@ abstract class Plugin
     {
     }
 
-    /**
-     * Includes the plugin-file for displaying the plugin (implemented in subclass)
-     */
-    abstract public function display();
+    abstract public function display(): void;
 
     /**
      * Inits all data (implemented in each plugin)
@@ -235,16 +174,12 @@ abstract class Plugin
     {
     }
 
-    /**
-     * Method for displaying the content (implemented in each plugin)
-     */
-    abstract protected function displayContent();
+    abstract protected function displayContent(): void;
 
     /**
      * Returns the html-link to this plugin for tab-navigation
-     * @return string
      */
-    abstract public function getLink();
+    abstract public function getLink(): string;
 
     /**
      * Returns the html-link for inner-html-navigation
@@ -252,9 +187,8 @@ abstract class Plugin
      * @param int $sport id of sport, default $this->sportid
      * @param int $year year, default $this->year
      * @param string $dat optional dat-parameter
-     * @return string
      */
-    abstract protected function getInnerLink(string $name, int $sport = 0, int $year = 0, string $dat = '');
+    abstract protected function getInnerLink(string $name, int $sport = 0, int $year = 0, string $dat = ''): string;
 
     /**
      * Display description, can be overwritten for displaying a longer description
@@ -264,9 +198,6 @@ abstract class Plugin
         echo HTML::p($this->description());
     }
 
-    /**
-     * Install this plugin
-     */
     final public function install(): bool
     {
         if ($this->id() !== PluginInstaller::ID) {
@@ -288,9 +219,6 @@ abstract class Plugin
         return true;
     }
 
-    /**
-     * Initialize all variables
-     */
     final protected function initVars()
     {
         if ($this->id() === PluginInstaller::ID) {
@@ -305,16 +233,12 @@ abstract class Plugin
         $this->year = $this->defaultYear();
         $this->dat = '';
 
-        if (isset($_GET['sport'])) {
-            if (is_numeric($_GET['sport'])) {
-                $this->sportid = $_GET['sport'];
-            }
+        if (isset($_GET['sport']) && is_numeric($_GET['sport'])) {
+            $this->sportid = (int) $_GET['sport'];
         }
 
-        if (isset($_GET['jahr'])) {
-            if (is_numeric($_GET['jahr'])) {
-                $this->year = $_GET['jahr'];
-            }
+        if (isset($_GET['jahr']) && is_numeric($_GET['jahr'])) {
+            $this->year = (int) $_GET['jahr'];
         }
 
         if (isset($_GET['dat'])) {
@@ -392,9 +316,6 @@ abstract class Plugin
         return Ajax::window('<a href="' . self::$CONFIG_URL . '?id=' . $this->id() . $add_param . '">' . $name . '</a>', 'small');
     }
 
-    /**
-     * Get reload-link
-     */
     final public function getReloadLink(): string
     {
         return '<span class="link" onclick="Runalyze.reloadPlugin(\'' . $this->id() . '\');">' . Icon::$REFRESH_SMALL . '</span>';
@@ -424,9 +345,6 @@ abstract class Plugin
         $Window->display();
     }
 
-    /**
-     * Function to (in)activate the plugin
-     */
     final public function setActive(int $active = 1)
     {
         DB::getInstance()->update('plugin', $this->id(), 'active', $active);

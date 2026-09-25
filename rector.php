@@ -8,6 +8,7 @@ use Rector\Set\ValueObject\LevelSetList;
 
 return RectorConfig::configure()
     ->withPaths([
+        # __DIR__ . '/dashboard.php',
         __DIR__ . '/bin',
         __DIR__ . '/config',
         __DIR__ . '/inc',

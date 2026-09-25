@@ -7,39 +7,44 @@
 use Runalyze\Activity\Weight;
 
 $PLUGINKEY = 'RunalyzePluginPanel_Sportler';
+
 /**
- * Class: RunalyzePluginPanel_Sportler
  * @author Hannes Christiansen
  * @package Runalyze\Plugins\Panels
  */
 class RunalyzePluginPanel_Sportler extends PluginPanel
 {
+    /**
+     * @codeCoverageIgnore
+     */
     final public function name(): string
     {
         return __('Body values');
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function description(): string
     {
         return __('Show body values: weight, resting heart rate and values like fat-, water- and muscles-percentage.');
     }
 
     /**
-     * Initialize this plugin
      * @see PluginPanel::initPlugin()
      */
-    protected function initPlugin()
+    protected function initPlugin(): void
     {
         $this->dontReloadForTraining = true;
         $this->removePanelContentPadding = true;
     }
 
-    protected function displayLongDescription()
+    protected function displayLongDescription(): void
     {
         echo HTML::p(__('Show body values: weight, resting heart rate and values like fat-, water- and muscles-percentage.'));
     }
 
-    protected function initConfiguration()
+    protected function initConfiguration(): void
     {
         $Configuration = new PluginConfiguration($this->id());
         $Configuration->addValue(new PluginConfigurationValueInt('wunschgewicht', __('Desired body weight'), '', 0));
@@ -50,7 +55,6 @@ class RunalyzePluginPanel_Sportler extends PluginPanel
     }
 
     /**
-     * Method for getting the right symbol(s)
      * @see PluginPanel::getRightSymbol()
      */
     protected function getRightSymbol(): string
@@ -65,29 +69,49 @@ class RunalyzePluginPanel_Sportler extends PluginPanel
     /**
      * @see PluginPanel::displayContent()
      */
-    protected function displayContent()
+    protected function displayContent(): void
     {
         $this->displayContentInNewDesign();
     }
 
-    /**
-     * Display the content (new design)
-     */
-    protected function displayContentInNewDesign()
+    protected function displayContentInNewDesign(): void
     {
-        $Code = '';
         $userData = DB::getInstance()->query('SELECT `weight`, `pulse_rest`, `pulse_max`, `fat`, `water`, `muscles` FROM `' . PREFIX . 'user` WHERE `accountid`="' . SessionAccountHandler::getId() . '" ORDER BY `time` DESC LIMIT 1')->fetch();
 
         if (! is_array($userData)) {
-            $userData = [
-                'weight' => 0.0,
-                'pulse_rest' => 0,
-                'pulse_max' => 0,
-                'fat' => 0.0,
-                'water' => 0.0,
-                'muscles' => 0.0,
-            ];
+            $userData = $this->defaultUserData();
         }
+
+        $Code = $this->buildBodyValuesCode($userData);
+
+        if (! empty($Code)) {
+            BoxedValue::wrapValues($Code);
+        }
+
+        $this->displayPlots();
+    }
+
+    /**
+     * @return array{weight: float, pulse_rest: int, pulse_max: int, fat: float, water: float, muscles: float}
+     */
+    protected function defaultUserData(): array
+    {
+        return [
+            'weight' => 0.0,
+            'pulse_rest' => 0,
+            'pulse_max' => 0,
+            'fat' => 0.0,
+            'water' => 0.0,
+            'muscles' => 0.0,
+        ];
+    }
+
+    /**
+     * @param array{weight: float, pulse_rest: int|float, pulse_max: int|float, fat: float, water: float, muscles: float} $userData
+     */
+    protected function buildBodyValuesCode(array $userData): string
+    {
+        $Code = '';
 
         if ($userData['pulse_max'] == 0) {
             $topBox = new BoxedValue(__('Enter maximal HR'), '', __('Otherwise calculations will be wrong'));
@@ -132,14 +156,10 @@ class RunalyzePluginPanel_Sportler extends PluginPanel
             $Code .= $Value->getCode();
         }
 
-        if (! empty($Code)) {
-            BoxedValue::wrapValues($Code);
-        }
-
-        $this->displayPlots();
+        return $Code;
     }
 
-    protected function displayPlots()
+    protected function displayPlots(): void
     {
         echo '<div class="panel-content">';
         echo '<div class="flot-menu flot-menu-inline">';

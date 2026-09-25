@@ -40,41 +40,28 @@ class WeekStart extends \Runalyze\Parameter\Select
      */
     public const SUNDAY = 0;
 
-    /**
-     * Construct
-     * @param int|string $default
-     */
-    public function __construct($default = self::MONDAY)
+    public function __construct(int|string $default = self::MONDAY)
     {
-        parent::__construct($default, [
+        parent::__construct((string) $default, [
             'options' => [
                 self::MONDAY => __('Monday'),
                 // Saturday is not supported by MySQL as first day of the week
-                // self::SATURDAY		=>	__('Saturday'),
+                // self::SATURDAY => __('Saturday'),
                 self::SUNDAY => __('Sunday'),
             ],
         ]);
     }
 
-    /**
-     * Is monday?
-     */
     public function isMonday(): bool
     {
         return $this->value() == self::MONDAY;
     }
 
-    /**
-     * Is saturday?
-     */
     public function isSaturday(): bool
     {
         return $this->value() == self::SATURDAY;
     }
 
-    /**
-     * Is sunday?
-     */
     public function isSunday(): bool
     {
         return $this->value() == self::SUNDAY;
@@ -97,7 +84,7 @@ class WeekStart extends \Runalyze\Parameter\Select
      * Get current week start
      * @return string
      */
-    public function unit()
+    public function unit(): mixed
     {
         return $this->value();
     }

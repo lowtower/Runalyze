@@ -23,16 +23,16 @@ for ($m = 1; $m <= 12; $m++) {
 }
 
 $Query = '
-	SELECT
-		YEAR(FROM_UNIXTIME(`time`)) as `y`,
-		MONTH(FROM_UNIXTIME(`time`)) as `m`,
-		AVG(`temperature`) as `temp`
-	FROM `' . PREFIX . 'training`
-	WHERE
-		`accountid`=' . SessionAccountHandler::getId() . ' AND
-		!ISNULL(`temperature`)
-	GROUP BY `y`, `m`
-	ORDER BY `y` ASC, `m` ASC';
+    SELECT
+        YEAR(FROM_UNIXTIME(`time`)) as `y`,
+        MONTH(FROM_UNIXTIME(`time`)) as `m`,
+        AVG(`temperature`) as `temp`
+    FROM `' . PREFIX . 'training`
+    WHERE
+        `accountid`=' . SessionAccountHandler::getId() . ' AND
+        !ISNULL(`temperature`)
+    GROUP BY `y`, `m`
+    ORDER BY `y` ASC, `m` ASC';
 
 $Data = DB::getInstance()->query($Query)->fetchAll();
 foreach ($Data as $dat) {

@@ -9,15 +9,11 @@ $PLUGINKEY = 'RunalyzePluginStat_Strecken';
 use Runalyze\Activity\Distance;
 
 /**
- * Class: RunalyzePluginStat_Strecken
  * @author Hannes Christiansen
  * @package Runalyze\Plugins\Stats
  */
 class RunalyzePluginStat_Strecken extends PluginStat
 {
-    /**
-     * City sperator
-     */
     public const CITY_SEPERATOR = ' - ';
 
     /**
@@ -27,22 +23,28 @@ class RunalyzePluginStat_Strecken extends PluginStat
      */
     public const MAX_ROUTES_ON_NET = 250;
 
-    /**
-     * Array with all cities
-     */
     protected array $Cities = [];
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function name(): string
     {
         return __('Routes');
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function description(): string
     {
         return __('Some statistics for your most frequent routes.');
     }
 
-    protected function displayLongDescription()
+    /**
+     * @codeCoverageIgnore
+     */
+    final protected function displayLongDescription(): void
     {
         echo HTML::p(
             __("The input field 'route' expects different places separted by a '-', e.g. 'City A - City B'" .
@@ -58,9 +60,6 @@ class RunalyzePluginStat_Strecken extends PluginStat
         $this->setConfiguration($Configuration);
     }
 
-    /**
-     * Init data
-     */
     protected function prepareForDisplay()
     {
         $text = __('Open route network');
@@ -77,11 +76,17 @@ class RunalyzePluginStat_Strecken extends PluginStat
         }
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function defaultSport(): int
     {
         return -1;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function titleForAllYears(): string
     {
         return __('All years');
@@ -90,7 +95,7 @@ class RunalyzePluginStat_Strecken extends PluginStat
     /**
      * @see PluginStat::displayContent()
      */
-    protected function displayContent()
+    protected function displayContent(): void
     {
         $this->displayRoutes();
 
@@ -144,9 +149,6 @@ class RunalyzePluginStat_Strecken extends PluginStat
         echo '</table>';
     }
 
-    /**
-     * Display most visited cities
-     */
     private function displayCities(): void
     {
         echo '<table style="width:25%;" class="right zebra-style">';
@@ -175,37 +177,13 @@ class RunalyzePluginStat_Strecken extends PluginStat
         echo '</table>';
     }
 
-    /**
-     * Display less visited cities
-     */
     private function displayLonelyCities(): void
     {
         echo '<table class="margin-5 fullwidth zebra-style">';
         echo '<thead><tr><th colspan="2">' . __('Rare places') . '</th></tr></thead>';
         echo '<tbody>';
 
-        $num_x = 0;
-        $LonelyCities = array_reverse($this->Cities);
-
-        foreach ($LonelyCities as $city => $num) {
-            if ($num_x <= 4) {
-                if ($num_x != $num) {
-                    if ($num != 1) {
-                        echo '</td></tr>';
-                    }
-
-                    $num_x = $num;
-                    echo '<tr><td class="b">' . $num . 'x</td><td>';
-                } else {
-                    echo ', ';
-                }
-
-                echo SearchLink::to('route', $city, $city, 'like');
-            } else {
-                echo '</td></tr>';
-                break;
-            }
-        }
+        echo $this->renderLonelyCitiesRows($this->Cities);
 
         echo '
 			<tr class="no-zebra">
@@ -220,8 +198,46 @@ class RunalyzePluginStat_Strecken extends PluginStat
     }
 
     /**
-     * Initialize internal array for all cities
+     * Renders the grouped "Nx: City1, City2, ..." table rows for cities
+     * visited 4 times or fewer, grouping consecutive cities with the same
+     * visit count onto a single row.
+     * @param array<string, int> $cities [city name => visit count], expected
+     *                                    to already be sorted ascending by
+     *                                    visit count (i.e. array_reverse()'d
+     *                                    from the descending $this->Cities)
      */
+    private function renderLonelyCitiesRows(array $cities): string
+    {
+        $html = '';
+        $currentGroupCount = null;
+        $sortedAscending = array_reverse($cities);
+
+        foreach ($sortedAscending as $city => $num) {
+            if ($num > 4) {
+                break;
+            }
+
+            if ($currentGroupCount !== $num) {
+                if ($currentGroupCount !== null) {
+                    $html .= '</td></tr>';
+                }
+
+                $currentGroupCount = $num;
+                $html .= '<tr><td class="b">' . $num . 'x</td><td>';
+            } else {
+                $html .= ', ';
+            }
+
+            $html .= SearchLink::to('route', $city, $city, 'like');
+        }
+
+        if ($currentGroupCount !== null) {
+            $html .= '</td></tr>';
+        }
+
+        return $html;
+    }
+
     private function initCities(): void
     {
         $this->Cities = [];
@@ -243,9 +259,6 @@ class RunalyzePluginStat_Strecken extends PluginStat
         array_multisort($this->Cities, SORT_DESC);
     }
 
-    /**
-     * Query to fetch cities
-     */
     private function fetchCitiesQuery(): string
     {
         if ($this->sportid <= 0 && $this->year <= 0) {
@@ -271,9 +284,6 @@ class RunalyzePluginStat_Strecken extends PluginStat
         return $Code . '</ul></div>';
     }
 
-    /**
-     * Submenu for position interval #TSC.
-     */
     private static function submenuForPositionInterval(int $positioninterval, int $sportid, int $year): string
     {
         $i = 1;
@@ -297,9 +307,6 @@ class RunalyzePluginStat_Strecken extends PluginStat
         return $Code;
     }
 
-    /**
-     * Submenu for sport
-     */
     private static function submenuForYear(int $positioninterval, int $sportid, int $year): string
     {
         $Code = '<li' . ($year === -1 ? ' class="active"' : '') . '>' . self::linkToRoutenet(__('All years'), $positioninterval, $sportid, -1) . '</li>';
@@ -311,9 +318,6 @@ class RunalyzePluginStat_Strecken extends PluginStat
         return $Code;
     }
 
-    /**
-     * Internal link to routenet
-     */
     private static function linkToRoutenet(string $text, int $positioninterval, int $sportid, int $year): string
     {
         return Ajax::window('<a class="" href="plugin/RunalyzePluginStat_Strecken/window.routenet.php?posint=' . $positioninterval . '&sport=' . $sportid . '&y=' . $year . '">' . $text . '</a>', 'big');

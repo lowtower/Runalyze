@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::EnergyUnit
  * @package Runalyze\Parameter\Application
@@ -31,9 +33,8 @@ class EnergyUnit extends \Runalyze\Parameter\Select
 
     /**
      * Construct
-     * @param string $default
      */
-    public function __construct($default = self::KCAL)
+    public function __construct(string $default = self::KCAL)
     {
         parent::__construct($default, [
             'options' => [
@@ -63,7 +64,7 @@ class EnergyUnit extends \Runalyze\Parameter\Select
      * Get current user energy unit
      * @return string
      */
-    public function unit()
+    public function unit(): mixed
     {
         return $this->value();
     }

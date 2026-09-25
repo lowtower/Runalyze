@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::DistanceUnitSystem
  * @package Runalyze\Parameter\Application
@@ -88,7 +90,7 @@ class DistanceUnitSystem extends \Runalyze\Parameter\Select
      * Construct
      * @param string $default from class enum
      */
-    public function __construct($default = self::METRIC)
+    public function __construct(string $default = self::METRIC)
     {
         parent::__construct($default, [
             'options' => [

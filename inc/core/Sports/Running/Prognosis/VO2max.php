@@ -27,7 +27,7 @@ class VO2max implements PrognosisInterface
     /**
      * @var float [ml/kg/min]
      */
-    protected $EffectiveVO2max = 0.0;
+    protected float $EffectiveVO2max = 0.0;
 
     protected bool $AdjustForMarathonShape = false;
 
@@ -123,7 +123,7 @@ class VO2max implements PrognosisInterface
      * @param float $distance [km]
      * @return float (adjusted) VO2max [ml/kg/min]
      */
-    public function getAdjustedVO2maxForDistanceIfWanted(float $distance)
+    public function getAdjustedVO2maxForDistanceIfWanted(float $distance): float
     {
         if ($this->AdjustForMarathonShape) {
             return $this->getAdjustedVO2maxForDistance($distance);

@@ -28,17 +28,26 @@ class RunalyzePluginPanel_Prognose extends PluginPanel
      */
     protected int $NumberOfPBs = 0;
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function name(): string
     {
         return __('Prognosis');
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function description(): string
     {
         return __('Predict your race performance on various distances.');
     }
 
-    protected function displayLongDescription()
+    /**
+     * @codeCoverageIgnore
+     */
+    final protected function displayLongDescription(): void
     {
         echo HTML::p(__('There are different models that can be used to predict your race performances:'));
         echo HTML::fileBlock('<strong>VO2max</strong><br>' .
@@ -100,7 +109,7 @@ class RunalyzePluginPanel_Prognose extends PluginPanel
     /**
      * @see PluginPanel::displayContent()
      */
-    protected function displayContent()
+    protected function displayContent(): void
     {
         $this->lookupPersonalBests();
         $this->prepareForPrognosis();

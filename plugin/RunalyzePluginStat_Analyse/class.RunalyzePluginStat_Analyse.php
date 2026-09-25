@@ -12,8 +12,8 @@ use Runalyze\Configuration;
 use Runalyze\Util\LocalTime;
 
 $PLUGINKEY = 'RunalyzePluginStat_Analyse';
+
 /**
- * "Analyse" plugin
  * @author Hannes Christiansen
  * @package Runalyze\Plugins\Stats
  */
@@ -32,13 +32,11 @@ class RunalyzePluginStat_Analyse extends PluginStat
     protected int $Colspan = 0;
 
     /**
-     * Data
      * @var mixed[][]
      */
     protected array $AnalysisData = [];
 
     /**
-     * Empty data array
      * @var array<string, int|mixed[]>
      */
     protected array $EmptyData = [
@@ -52,17 +50,23 @@ class RunalyzePluginStat_Analyse extends PluginStat
 
     protected Sport $Sport;
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function name(): string
     {
         return __('Analysis');
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function description(): string
     {
         return __('Analyze your training (only running) by means of pace, heart rate and different types.');
     }
 
-    protected function initConfiguration()
+    protected function initConfiguration(): void
     {
         $Configuration = new PluginConfiguration($this->id());
         $Configuration->addValue(new PluginConfigurationValueBool('use_type', __('Analyze types'), '', true));
@@ -77,10 +81,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
         $this->setConfiguration($Configuration);
     }
 
-    /**
-     * Init data
-     */
-    protected function prepareForDisplay()
+    protected function prepareForDisplay(): void
     {
         $this->Sport = new Sport($this->sportid);
 
@@ -118,13 +119,14 @@ class RunalyzePluginStat_Analyse extends PluginStat
             'km' => __('by distance'),
             's' => __('by time'),
         ];
-        return $types[$this->dat];
+
+        return $types[$this->dat] ?? $types[''];
     }
 
     /**
      * @see PluginStat::displayContent()
      */
-    protected function displayContent()
+    protected function displayContent(): void
     {
         $this->displayStyle();
         $this->displayAnalysis();
@@ -132,9 +134,6 @@ class RunalyzePluginStat_Analyse extends PluginStat
         echo HTML::info('* ' . __('The values consider only the average data fields of your activities.'));
     }
 
-    /**
-     * Initialize the internal timer
-     */
     private function initTimer(): void
     {
         if ($this->showsSpecificYear()) {
@@ -161,9 +160,6 @@ class RunalyzePluginStat_Analyse extends PluginStat
         $this->Colspan = $this->TimerEnd - $this->TimerStart + 3;
     }
 
-    /**
-     * Initialize analysis data
-     */
     private function initData(): void
     {
         if ($this->Configuration()->value('use_type')) {
@@ -270,13 +266,10 @@ class RunalyzePluginStat_Analyse extends PluginStat
         }
     }
 
-    /**
-     * Display td
-     */
     private function displayTDfor(int $num, int $time, float $dist, float $percent): void
     {
         $tooltip = $num . 'x';
-        $number = number_format($percent, 1) . ' &#37;';
+        $number = number_format($percent, 1) . ' %';
 
         if ($this->dat === 'km') {
             $number = Distance::format($dist, true, 0);
@@ -284,25 +277,22 @@ class RunalyzePluginStat_Analyse extends PluginStat
         } elseif ($this->dat === 's') {
             $number = Duration::format($time);
         } else {
-            $number = number_format($percent, 1) . ' &#37;';
+            $number = number_format($percent, 1) . ' %';
             $tooltip .= ', ' . Duration::format($time);
         }
 
         echo '<td>' . Ajax::tooltip($number, $tooltip) . $this->getBarFor($percent) . '</td>';
     }
 
-    /**
-     * Get bar
-     */
     private function getBarFor(float $percentage): string
     {
         $width = min(95, round($percentage));
         $opacity = round($percentage / 100, 2);
+
         return '<div class="analysis-bar" style="width:' . $width . '%;opacity:' . $opacity . ';"></div>';
     }
 
     /**
-     * Get array for "Trainingstyp"
      * @return array<string, string|mixed[]>
      */
     private function getTypeArray(): array
@@ -367,7 +357,17 @@ class RunalyzePluginStat_Analyse extends PluginStat
     }
 
     /**
-     * Get array for "Tempobereiche"
+     * @return array{0: int, 1: int} [speed_step, ceil_corr]
+     */
+    private function getPaceStepAndCeilCorrection(int $speed_min): array
+    {
+        $speed_step = max((int) $this->Configuration()->value('pacegroup_step'), 1);
+        $ceil_corr = $speed_min % $speed_step;
+
+        return [$speed_step, $ceil_corr];
+    }
+
+    /**
      * @return array<string, string|mixed[]>
      */
     private function getPaceArray(): array
@@ -376,9 +376,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
             ->value('lowest_pacegroup');
         $speed_max = $this->Configuration()
             ->value('highest_pacegroup');
-        $speed_step = $this->Configuration()
-            ->value('pacegroup_step');
-        $ceil_corr = $speed_min % $speed_step;
+        [$speed_step, $ceil_corr] = $this->getPaceStepAndCeilCorrection($speed_min);
 
         if ($this->sportid != Configuration::General()->runningSport()) {
             $MinMax = DB::getInstance()->query('
@@ -452,7 +450,6 @@ class RunalyzePluginStat_Analyse extends PluginStat
     }
 
     /**
-     * Get array for "Pulsbereiche"
      * @return array<string, string|mixed[]>
      */
     private function getPulseArray(): array
@@ -502,7 +499,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
                     $from = ceil($hrMax * $from / 100);
                     $to = floor($hrMax * $to / 100) . ' bpm';
                 } else {
-                    $to .= ' &#37;';
+                    $to .= ' %';
                 }
 
                 $pulse_foreach[] = [
@@ -564,11 +561,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
         $data['id_sum_s'][$result['group']] += $result['s'];
     }
 
-    /**
-     * Print beginning of the table
-     * @param string $name
-     */
-    private function printTableStart($name): void
+    private function printTableStart(string $name): void
     {
         echo '<table class="fullwidth zebra-style analysis-table small r"><thead><tr class="c b"><th>' . $name . '</th>';
 
@@ -577,9 +570,6 @@ class RunalyzePluginStat_Analyse extends PluginStat
         echo '</tr></thead><tbody>';
     }
 
-    /**
-     * Print header columns for a table
-     */
     private function printTableHeader(): void
     {
         $this->displayTableHeadForTimeRange(false, '7%');
@@ -589,9 +579,6 @@ class RunalyzePluginStat_Analyse extends PluginStat
         }
     }
 
-    /**
-     * Print the ending of a table for one analysis
-     */
     private function printTableEnd(): void
     {
         echo '</tbody></table>' . HTML::clearBreak();

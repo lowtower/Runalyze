@@ -185,10 +185,12 @@
         "test": "php vendor/bin/phpunit -c phpunit.xml.dist",
         "test:dev": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --exclude-group dependsOnSRTM,dependsOnTimezoneDatabase",
         "test:import": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group import",
+        "test:plugin": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group plugin",
+        "test:sqlite": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group requiresSqlite",
         "test:doctrine": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group requiresDoctrine",
         "test:kernel": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group requiresKernel",
         "test:client": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group requiresClient",
-        "test:default": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group default,dependsOn,requiresSqlite --exclude-group import,requiresKernel,requiresDoctrine,requiresClient",
+        "test:default": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group default,dependsOn,requiresSqlite --exclude-group import, plugin,requiresKernel,requiresDoctrine,requiresClient",
         "test:ci": [
             "@cache:test:clear",
             "@cache:test_empty:clear",
@@ -196,7 +198,7 @@
             "@test"
         ],
         "test:coverage-html": "XDEBUG_MODE=coverage php vendor/bin/phpunit -c phpunit.xml.dist --coverage-html var/coverage",
-        "test:coverage-clover": "XDEBUG_MODE=coverage php vendor/bin/phpunit -c phpunit.xml.dist --coverage-clover var/log/clover.xml",
+        "test:coverage-clover": "XDEBUG_MODE=coverage php vendor/bin/phpunit -c phpunit.xml.dist --coverage-clover var/coverage/clover.xml",
         "test:coverage-text": "XDEBUG_MODE=coverage php vendor/bin/phpunit -c phpunit.xml.dist --coverage-text",
         "test:coverage": [
             "@cache:test:clear",

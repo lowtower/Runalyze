@@ -2,54 +2,133 @@
 
 declare(strict_types=1);
 
-class HelperTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\TestCase;
+
+#[Group('default')]
+class HelperTest extends TestCase
 {
-    public function testArrayTrim(): void
+    #[DataProvider('provideValuesConsideredUnknown')]
+    public function testUnknownReturnsFallbackStringForValuesConsideredUnknown(mixed $value): void
     {
-        $this->assertEquals(['a', 'b', 'c', 'd', 1], Helper::arrayTrim([' a', 'b ', ' c ', 'd', 1]));
+        $this->assertSame('?', Helper::Unknown($value));
     }
 
-    public function testFloorFor(): void
+    /**
+     * @return array<string, null[]|string[]|int[]|0.0[]>
+     */
+    public static function provideValuesConsideredUnknown(): array
     {
-        $this->assertEquals(0, Helper::floorFor(4, 5));
-        $this->assertEquals(0, Helper::floorFor(9, 20));
-        $this->assertEquals(0, Helper::floorFor(11, 20));
-        $this->assertEquals(20, Helper::floorFor(20, 20));
-        $this->assertEquals(20, Helper::floorFor(21, 20));
-        $this->assertEquals(20, Helper::floorFor(29, 20));
+        return [
+            'null' => [null],
+            'empty string' => [''],
+            'integer zero' => [0],
+            'float zero' => [0.0],
+            'string zero' => ['0'],
+            'string zero point zero' => ['0.0'],
+        ];
     }
 
-    public function testCeilFor(): void
+    #[DataProvider('provideValuesConsideredKnown')]
+    public function testUnknownReturnsValueCoercedToStringForValuesConsideredKnown(mixed $value, string $expected): void
     {
-        $this->assertEquals(5, Helper::ceilFor(4, 5));
-        $this->assertEquals(20, Helper::ceilFor(9, 20));
-        $this->assertEquals(20, Helper::ceilFor(11, 20));
-        $this->assertEquals(20, Helper::ceilFor(20, 20));
-        $this->assertEquals(40, Helper::ceilFor(21, 20));
-        $this->assertEquals(40, Helper::ceilFor(29, 20));
+        $this->assertSame($expected, Helper::Unknown($value));
     }
 
-    public function testTwoNumbers(): void
+    /**
+     * @return array<string, string[]|int[]>
+     */
+    public static function provideValuesConsideredKnown(): array
     {
-        $this->assertEquals('00', Helper::TwoNumbers(0));
-        $this->assertEquals('05', Helper::TwoNumbers(5));
-        $this->assertEquals('09', Helper::TwoNumbers(9));
-        $this->assertEquals('10', Helper::TwoNumbers(10));
-        $this->assertEquals('17', Helper::TwoNumbers(17));
+        return [
+            'non-empty non-numeric string' => ['abc', 'abc'],
+            'numeric string' => ['5', '5'],
+            'positive integer is coerced to its string representation' => [5, '5'],
+            'negative integer is coerced to its string representation' => [-5, '-5'],
+            'whitespace-only string is treated as non-numeric and non-empty' => ['  ', '  '],
+            'string containing spaces' => ['test string', 'test string'],
+        ];
     }
 
-    public function testUnknown(): void
+    public function testUnknownReturnsCustomFallbackStringWhenProvided(): void
     {
-        $this->assertEquals('?', Helper::Unknown(null));
-        $this->assertEquals('-', Helper::Unknown(0, '-'));
-        $this->assertEquals(1, Helper::Unknown(1, '-'));
-        $this->assertEquals('test', Helper::Unknown('test', '-'));
+        $this->assertSame('n/a', Helper::Unknown(0, 'n/a'));
+        $this->assertSame('n/a', Helper::Unknown(null, 'n/a'));
     }
 
-    public function testCommaToPoint(): void
+    public function testUnknownDefaultFallbackIsQuestionMark(): void
     {
-        $this->assertEquals('17.5', Helper::CommaToPoint('17.5'));
-        $this->assertEquals('17.5', Helper::CommaToPoint('17,5'));
-        $this->assertEquals('175', Helper::CommaToPoint('175'));
+        $this->assertSame('?', Helper::Unknown(null));
+    }
+
+    public function testTwoNumbersAddsLeadingZeroBelowTen(): void
+    {
+        $this->assertSame('05', Helper::TwoNumbers(5));
+        $this->assertSame('00', Helper::TwoNumbers(0));
+        $this->assertSame('09', Helper::TwoNumbers(9));
+    }
+
+    public function testTwoNumbersDoesNotAddLeadingZeroFromTenUpwards(): void
+    {
+        $this->assertSame('10', Helper::TwoNumbers(10));
+        $this->assertSame('42', Helper::TwoNumbers(42));
+    }
+
+    public function testCommaToPointReplacesCommaWithDot(): void
+    {
+        $this->assertSame('12.5', Helper::CommaToPoint('12,5'));
+    }
+
+    public function testCommaToPointLeavesStringWithoutCommaUnchanged(): void
+    {
+        $this->assertSame('12.5', Helper::CommaToPoint('12.5'));
+    }
+
+    public function testCommaToPointReplacesAllCommas(): void
+    {
+        $this->assertSame('1.234.567', Helper::CommaToPoint('1,234,567'));
+    }
+
+    public function testFloorForRoundsDownToNearestFactor(): void
+    {
+        $this->assertSame(40, Helper::floorFor(47.0, 10));
+        $this->assertSame(0, Helper::floorFor(9.9, 10));
+    }
+
+    public function testFloorForReturnsExactMultipleUnchanged(): void
+    {
+        $this->assertSame(50, Helper::floorFor(50.0, 10));
+    }
+
+    public function testCeilForRoundsUpToNearestFactor(): void
+    {
+        $this->assertSame(50, Helper::ceilFor(47.0, 10));
+        $this->assertSame(10, Helper::ceilFor(0.1, 10));
+    }
+
+    public function testCeilForReturnsExactMultipleUnchanged(): void
+    {
+        $this->assertSame(50, Helper::ceilFor(50.0, 10));
+    }
+
+    public function testArrayTrimTrimsAllStringValues(): void
+    {
+        $result = Helper::arrayTrim([' foo ', 'bar  ', '  baz']);
+
+        $this->assertSame(['foo', 'bar', 'baz'], $result);
+    }
+
+    public function testArrayTrimPreservesKeys(): void
+    {
+        $result = Helper::arrayTrim([
+            'a' => ' foo ',
+            'b' => ' bar ',
+        ]);
+
+        $this->assertSame([
+            'a' => 'foo',
+            'b' => 'bar',
+        ], $result);
     }
 }

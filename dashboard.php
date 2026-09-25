@@ -14,22 +14,22 @@ if (! isset($request) || ! $request->isXmlHttpRequest()) {
 ?>
 
 <div id="container">
-	<div id="main">
-		<div id="data-browser" class="panel">
-			<div id="data-browser-inner">
-				<?php
+    <div id="main">
+        <div id="data-browser" class="panel">
+            <div id="data-browser-inner">
+                <?php
                 $DataBrowser = new DataBrowser();
 $DataBrowser->display();
 ?>
-			</div>
-		</div>
+            </div>
+        </div>
 
-		<div id="statistics" class="panel">
-			<!-- #TSC: needed to scroll to statistics
-				 same as runalyze.lib.training.js#load() of "scrollTop" -->
-			<div id="statistics-scrolltag" style="position: relative; top: -43px;"></div>
-			<ul id="statistics-nav">
-				<?php
+        <div id="statistics" class="panel">
+            <!-- #TSC: needed to scroll to statistics
+                 same as runalyze.lib.training.js#load() of "scrollTop" -->
+            <div id="statistics-scrolltag" style="position: relative; top: -43px;"></div>
+            <ul id="statistics-nav">
+                <?php
 $Factory = new PluginFactory();
 $Stats = $Factory->activePlugins(PluginType::STAT);
 foreach ($Stats as $i => $key) {
@@ -58,9 +58,9 @@ if (PluginStat::hasVariousStats()) {
     echo '</li>';
 }
 ?>
-			</ul>
-			<div id="statistics-inner">
-				<?php
+            </ul>
+            <div id="statistics-inner">
+                <?php
 if (isset($_GET['id'])) {
     $Context = new Context(Request::sendId(), SessionAccountHandler::getId());
     $View = new TrainingView($Context);
@@ -86,14 +86,14 @@ if (isset($_GET['id'])) {
     }
 }
 ?>
-			</div>
-		</div>
+            </div>
+        </div>
 
-	</div>
+    </div>
 
-	<div id="panels">
-		<?php echo $panelsContent; ?>
-	</div>
+    <div id="panels">
+        <?php echo $panelsContent; ?>
+    </div>
 </div>
 <?php
 if (! isset($request) || ! $request->isXmlHttpRequest()) {

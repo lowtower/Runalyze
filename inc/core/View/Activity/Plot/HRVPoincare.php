@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::HRVPoincare
  * @package Runalyze\View\Activity\Plot

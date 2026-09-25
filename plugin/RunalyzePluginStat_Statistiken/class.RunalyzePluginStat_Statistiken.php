@@ -9,9 +9,8 @@ use Runalyze\Configuration;
 use Runalyze\Util\Time;
 
 $PLUGINKEY = 'RunalyzePluginStat_Statistiken';
+
 /**
- * Plugin "Statistiken"
- *
  * General statistics
  *
  * @author Hannes Christiansen
@@ -19,29 +18,26 @@ $PLUGINKEY = 'RunalyzePluginStat_Statistiken';
  */
 class RunalyzePluginStat_Statistiken extends PluginStat
 {
-    /**
-     * Sport
-     */
     protected array $Sport = [];
 
-    /**
-     * Dataset for converting and showing data
-     */
     protected \Runalyze\Dataset\Configuration $DatasetConfig;
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function name(): string
     {
         return __('Statistics');
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function description(): string
     {
         return __('Monthly and weekly summaries for all sports');
     }
 
-    /**
-     * Set navigation
-     */
     protected function setOwnNavigation()
     {
         $LinkList = '<li class="with-submenu"><span class="link">' . $this->getAnalysisType() . '</span><ul class="submenu">';
@@ -59,12 +55,10 @@ class RunalyzePluginStat_Statistiken extends PluginStat
             '' => __('General overview'),
             'allWeeks' => __('All training weeks'),
         ];
-        return $types[$this->dat];
+
+        return $types[$this->dat] ?? $types[''];
     }
 
-    /**
-     * Init some class variables
-     */
     private function initVariables(): void
     {
         $this->Sport = SportFactory::DataFor($this->sportid);
@@ -82,9 +76,6 @@ class RunalyzePluginStat_Statistiken extends PluginStat
         return 6;
     }
 
-    /**
-     * Init data
-     */
     protected function prepareForDisplay()
     {
         if (! $this->showsSpecificYear() && $this->dat === 'allWeeks') {
@@ -100,7 +91,10 @@ class RunalyzePluginStat_Statistiken extends PluginStat
         $this->setHeaderWithSportAndYear();
     }
 
-    protected function displayLongDescription()
+    /**
+     * @codeCoverageIgnore
+     */
+    final protected function displayLongDescription(): void
     {
         echo HTML::p(
             __('This plugin shows summaries for all weeks, months or years to compare your overall training.')
@@ -120,7 +114,7 @@ class RunalyzePluginStat_Statistiken extends PluginStat
     /**
      * @see PluginStat::displayContent()
      */
-    protected function displayContent()
+    protected function displayContent(): void
     {
         if ($this->wantToShowAllWeeks()) {
             $this->displayWeekTable(true);
@@ -135,17 +129,11 @@ class RunalyzePluginStat_Statistiken extends PluginStat
         }
     }
 
-    /**
-     * Boolean flag: Show all weeks?
-     */
     private function wantToShowAllWeeks(): bool
     {
         return $this->dat === 'allWeeks';
     }
 
-    /**
-     * Display table with data for each month
-     */
     private function displayYearTable(): void
     {
         if ($this->year === -1) {
@@ -166,12 +154,9 @@ class RunalyzePluginStat_Statistiken extends PluginStat
         $SummaryTable->display();
     }
 
-    /**
-     * Display table with last week-statistics
-     */
     private function displayWeekTable(bool $showAllWeeks = false): void
     {
-        if (($this->showsAllYears() || ($this->showsSpecificYear() && $this->year != date('Y'))) && ! $showAllWeeks) {
+        if ($this->skipWeekTable($showAllWeeks)) {
             return;
         }
 
@@ -185,9 +170,11 @@ class RunalyzePluginStat_Statistiken extends PluginStat
         $SummaryTable->display();
     }
 
-    /**
-     * Display days of streakrunning
-     */
+    private function skipWeekTable(bool $showAllWeeks): bool
+    {
+        return ($this->showsAllYears() || ($this->showsSpecificYear() && $this->year != date('Y'))) && ! $showAllWeeks;
+    }
+
     private function displayStreak(): void
     {
         $Query = '

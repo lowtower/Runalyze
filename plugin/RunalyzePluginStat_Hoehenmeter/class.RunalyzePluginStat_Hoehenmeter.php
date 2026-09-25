@@ -11,8 +11,8 @@ use Runalyze\Model\Activity;
 use Runalyze\View\Activity\Linker;
 
 $PLUGINKEY = 'RunalyzePluginStat_Hoehenmeter';
+
 /**
- * Class: RunalyzePluginStat_Hoehenmeter
  * @author Hannes Christiansen
  * @package Runalyze\Plugins\Stats
  */
@@ -22,11 +22,17 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat
 
     private bool $IsFirstChangeTable = true;
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function name(): string
     {
         return __('Elevation');
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function description(): string
     {
         return __('Your steepest activities and an overview of your cumulated elevation.');
@@ -42,17 +48,23 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat
         $this->initElevationData();
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function defaultYear(): int
     {
         return -1;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function titleForAllYears(): string
     {
         return __('All years');
     }
 
-    protected function displayContent()
+    protected function displayContent(): void
     {
         if ($this->year === -1) {
             $this->displayElevationData();
@@ -113,31 +125,53 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat
             __('Most elevation'),
             'elevation',
             $this->getData('elevation'),
-            function (array $activityData): string {
-                $grade = $activityData['distance'] > 0 ? $activityData['elevation'] / $activityData['distance'] : 0;
-
-                return Elevation::format($activityData['elevation']) . '<br>
-					<small>' . round($grade / 10, 2) . '&nbsp;&#37;,&nbsp;' . Distance::format($activityData['distance']) . '</small>';
-            }
+            fn (array $activityData): string => $this->formatMostElevationCell($activityData)
         );
 
         $this->displayData(
             __('Steepest routes'),
             'grade',
             $this->getData('gradient'),
-            fn (array $activityData): string => round($activityData['gradient'] / 10, 2) . '&nbsp;&#37;<br>
-					<small>' . Elevation::format($activityData['elevation']) . ',&nbsp;' . Distance::format($activityData['distance']) . '</small>'
+            fn (array $activityData): string => $this->formatSteepestRouteCell($activityData)
         );
 
         $this->displayData(
             __('Highest Climb Score'),
             'cs',
             $this->getData('climb_score'),
-            fn (array $activityData): string => '<small>' . round($activityData['gradient'] / 10, 2) . '&nbsp;&#37;<br>
-					' . Elevation::format($activityData['elevation']) . ',&nbsp;' . Distance::format($activityData['distance']) . '</small>'
+            fn (array $activityData): string => $this->formatClimbScoreCell($activityData)
         );
 
         echo '</div>';
+    }
+
+    /**
+     * @param array<string, mixed> $activityData
+     */
+    private function formatMostElevationCell(array $activityData): string
+    {
+        $grade = $activityData['distance'] > 0 ? $activityData['elevation'] / $activityData['distance'] : 0;
+
+        return Elevation::format($activityData['elevation']) . '<br>
+					<small>' . round($grade / 10, 2) . '&nbsp;%,&nbsp;' . Distance::format($activityData['distance']) . '</small>';
+    }
+
+    /**
+     * @param array<string, mixed> $activityData
+     */
+    private function formatSteepestRouteCell(array $activityData): string
+    {
+        return round($activityData['gradient'] / 10, 2) . '&nbsp;%<br>
+					<small>' . Elevation::format($activityData['elevation']) . ',&nbsp;' . Distance::format($activityData['distance']) . '</small>';
+    }
+
+    /**
+     * @param array<string, mixed> $activityData
+     */
+    private function formatClimbScoreCell(array $activityData): string
+    {
+        return '<small>' . round($activityData['gradient'] / 10, 2) . '&nbsp;%<br>
+					' . Elevation::format($activityData['elevation']) . ',&nbsp;' . Distance::format($activityData['distance']) . '</small>';
     }
 
     private function displayData(string $title, string $changeId, array $data, \Closure $functionToDisplayElevation): void
@@ -170,23 +204,17 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat
         $this->IsFirstChangeTable = false;
     }
 
-    /**
-     * Get label
-     * @param string $route
-     * @param string $title
-     * @return string
-     */
-    private function labelFor($route, $title)
+    private function labelFor(string $route, string $title): string
     {
-        if ($route != '') {
-            if ($title != '') {
+        if ($route !== '') {
+            if ($title !== '') {
                 return $route . ' (<em>' . $title . '</em>)';
             }
 
             return $route;
         }
 
-        if ($title != '') {
+        if ($title !== '') {
             return '<em>' . $title . '</em>';
         }
 
@@ -215,7 +243,7 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat
         }
     }
 
-    private function getData(string $order, $limit = 10): array
+    private function getData(string $order, int $limit = 10): array
     {
         return DB::getInstance()->query(
             '
@@ -236,7 +264,7 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat
 			WHERE `' . PREFIX . 'training`.`accountid`="' . SessionAccountHandler::getId() . '" AND
 				`' . PREFIX . 'training`.`elevation` > 0 ' . $this->getSportAndYearDependenceForQuery() . '
 			ORDER BY `' . $order . '` DESC
-			LIMIT ' . (int) $limit
+			LIMIT ' . $limit
         )->fetchAll();
     }
 }

@@ -15,29 +15,14 @@ use Runalyze\Util\Time;
  */
 abstract class PluginStat extends Plugin
 {
-    /**
-     * Boolean flag: show sports-navigation
-     */
     protected bool $ShowSportsNavigation = false;
 
-    /**
-     * Boolean flag: show link for all sports
-     */
     protected bool $ShowAllSportsLink = false;
 
-    /**
-     * Boolean flag: show years-navigation
-     */
     protected bool $ShowYearsNavigation = false;
 
-    /**
-     * Boolean flag: show compare-link in years-navigation
-     */
     protected bool $ShowCompareYearsLink = true;
 
-    /**
-     * Boolean flag: show last 6/12 months in years-navigation
-     */
     protected bool $ShowTimeRangeLinks = false;
 
     /**
@@ -46,9 +31,6 @@ abstract class PluginStat extends Plugin
      */
     private array $LinkList = [];
 
-    /**
-     * Header
-     */
     private string $Header = '';
 
     final public function type(): int
@@ -56,19 +38,13 @@ abstract class PluginStat extends Plugin
         return PluginType::STAT;
     }
 
-    /**
-     * Set flag for sports-navigation
-     */
-    protected function setSportsNavigation(bool $flag = true, bool $allFlag = false)
+    protected function setSportsNavigation(bool $flag = true, bool $allFlag = false): void
     {
         $this->ShowSportsNavigation = $flag;
         $this->ShowAllSportsLink = $allFlag;
     }
 
-    /**
-     * Set flag for years-navigation
-     */
-    protected function setYearsNavigation(bool $flag = true, bool $compareFlag = true, bool $timeRangeFlag = false)
+    protected function setYearsNavigation(bool $flag = true, bool $compareFlag = true, bool $timeRangeFlag = false): void
     {
         $this->ShowYearsNavigation = $flag;
         $this->ShowCompareYearsLink = $compareFlag;
@@ -76,17 +52,14 @@ abstract class PluginStat extends Plugin
     }
 
     /**
-     * Set array of links for toolbar-navigation
+     * @param string[] $Links
      */
-    protected function setToolbarNavigationLinks(array $Links)
+    protected function setToolbarNavigationLinks(array $Links): void
     {
         $this->LinkList = $Links;
     }
 
-    /**
-     * Includes the plugin-file for displaying the statistics
-     */
-    public function display()
+    public function display(): void
     {
         $this->prepareForDisplay();
 
@@ -98,7 +71,7 @@ abstract class PluginStat extends Plugin
         echo '</div>';
     }
 
-    protected function setHeader(string $Header)
+    protected function setHeader(string $Header): void
     {
         $this->Header = $Header;
     }
@@ -106,7 +79,7 @@ abstract class PluginStat extends Plugin
     /**
      * Add sport and year (if set) to header
      */
-    protected function setHeaderWithSportAndYear()
+    protected function setHeaderWithSportAndYear(): void
     {
         $HeaderParts = [];
 
@@ -125,7 +98,6 @@ abstract class PluginStat extends Plugin
     }
 
     /**
-     * Get query for sport and year
      * @param bool $addTableName must be used if query contains joins
      */
     protected function getSportAndYearDependenceForQuery(bool $addTableName = false): string
@@ -141,7 +113,6 @@ abstract class PluginStat extends Plugin
     }
 
     /**
-     * Get query for year
      * @param bool $addTableName must be used if query contains joins
      */
     protected function getYearDependenceForQuery(bool $addTableName = false): string
@@ -161,7 +132,6 @@ abstract class PluginStat extends Plugin
     }
 
     /**
-     * Timer for year or ordered months
      * @param bool $addTableName must be used if query contains joins
      */
     protected function getTimerForOrderingInQuery(bool $addTableName = false): string
@@ -180,7 +150,6 @@ abstract class PluginStat extends Plugin
     }
 
     /**
-     * Index for timer
      * @param bool $addTableName must be used if query contains joins
      */
     protected function getTimerIndexForQuery(bool $addTableName = false): string
@@ -198,7 +167,7 @@ abstract class PluginStat extends Plugin
         return $this->getTimerForOrderingInQuery($addTableName);
     }
 
-    private function displayHeader(string $name = '', string $rightMenu = '', string $leftMenu = '')
+    private function displayHeader(string $name = '', string $rightMenu = '', string $leftMenu = ''): void
     {
         if ($name === '') {
             $name = $this->name();
@@ -233,9 +202,6 @@ abstract class PluginStat extends Plugin
         return '';
     }
 
-    /**
-     * Get links for all sports
-     */
     private function getSportLinksAsList(): string
     {
         $Links = '';
@@ -253,7 +219,6 @@ abstract class PluginStat extends Plugin
     }
 
     /**
-     * Get links for all years
      * @param bool $CompareYears If set, adds a link with year=-1
      * @param bool $TimeRanges If set, adds links with year=6/12
      */
@@ -277,9 +242,6 @@ abstract class PluginStat extends Plugin
         return $Links;
     }
 
-    /**
-     * Get the year as string
-     */
     protected function getYearString(): string
     {
         if ($this->showsAllYears()) {
@@ -297,9 +259,6 @@ abstract class PluginStat extends Plugin
         return (string) $this->year;
     }
 
-    /**
-     * Get sport as string
-     */
     protected function getSportString(): string
     {
         return $this->sportid === -1 ? __('All') : SportFactory::name($this->sportid);
@@ -308,7 +267,7 @@ abstract class PluginStat extends Plugin
     /**
      * Display an empty th and ths for chosen years/months
      */
-    protected function displayTableHeadForTimeRange(bool $prependEmptyTag = true, string $width = '8%')
+    protected function displayTableHeadForTimeRange(bool $prependEmptyTag = true, string $width = '8%'): void
     {
         if ($prependEmptyTag) {
             echo '<th></th>';
@@ -336,16 +295,12 @@ abstract class PluginStat extends Plugin
         }
     }
 
-    /**
-     * Returns the html-link to this statistic for tab-navigation
-     */
     public function getLink(): string
     {
         return '<a rel="statistics" href="' . self::$DISPLAY_URL . '/' . $this->id() . '">' . $this->name() . '</a>';
     }
 
     /**
-     * Returns the html-link for inner-html-navigation
      * @param string $name displayed link-name
      * @param int $sport id of sport, default $this->sportid
      * @param int $year year, default $this->year
@@ -364,9 +319,6 @@ abstract class PluginStat extends Plugin
         return Ajax::link($name, 'statistics-inner', self::$DISPLAY_URL . '/' . $this->id() . '?sport=' . $sport . '&jahr=' . $year . '&dat=' . $dat);
     }
 
-    /**
-     * Are various statistics installed?
-     */
     public static function hasVariousStats(): bool
     {
         $Factory = new PluginFactory();

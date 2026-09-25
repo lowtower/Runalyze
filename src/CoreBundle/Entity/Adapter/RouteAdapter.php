@@ -43,7 +43,7 @@ class RouteAdapter
     /**
      * @param int $threshold [m]
      */
-    public function calculateElevation(ElevationMethod $method, $threshold): void
+    public function calculateElevation(ElevationMethod $method, int $threshold): void
     {
         $calculator = new ElevationCalculator();
         $calculator->calculateFor($this->Route, $method, $threshold);

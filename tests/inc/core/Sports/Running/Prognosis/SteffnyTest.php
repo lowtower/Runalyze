@@ -2,16 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\Tests\Sports\Running\Prognosis;
+namespace Runalyze\Sports\Running\Prognosis;
 
-use Runalyze\Sports\Running\Prognosis\Steffny;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\TestCase;
 
-class SteffnyTest extends \PHPUnit\Framework\TestCase
+#[Group('default')]
+class SteffnyTest extends TestCase
 {
-    /**
-     * @var Steffny
-     */
-    protected $Steffny;
+    protected Steffny $Steffny;
 
     protected function setUp(): void
     {
@@ -149,5 +148,47 @@ class SteffnyTest extends \PHPUnit\Framework\TestCase
                 'Prediction failed for 10k in ' . ($Requirement[0][0]) . ':' . $Requirement[0][1]
             );
         }
+    }
+
+    public function testAreValuesValidIsTrueForRealisticReferenceResult(): void
+    {
+        $Steffny = new Steffny(2550.0, 10.0);
+
+        $this->assertTrue($Steffny->areValuesValid());
+    }
+
+    public function testGetSecondsReturnsReferenceResultUnchangedForReferenceDistance(): void
+    {
+        $Steffny = new Steffny(2550.0, 10.0);
+
+        $this->assertEqualsWithDelta(2550.0, $Steffny->getSeconds(10.0), 0.01);
+    }
+
+    public function testGetSecondsInterpolatesForShorterDistance(): void
+    {
+        $Steffny = new Steffny(2550.0, 10.0);
+
+        $this->assertEqualsWithDelta(1245.0, $Steffny->getSeconds(5.0), 0.5);
+    }
+
+    public function testGetSecondsExtrapolatesForHalfMarathonDistance(): void
+    {
+        $Steffny = new Steffny(2550.0, 10.0);
+
+        $this->assertEqualsWithDelta(5635.5, $Steffny->getSeconds(21.0975), 0.5);
+    }
+
+    public function testConstructorTransformsReferenceDistanceBelow10kUpwards(): void
+    {
+        // 5k in 20:00 (1200s) is transformed towards a 10k-equivalent pace
+        // before being stored, per transformFromBelowToNear10k(). Predicting
+        // the original reference distance back should return approximately
+        // the original time, since the below-10k transform and the
+        // corresponding backwards calculation in getSeconds() are inverses
+        // of each other.
+        $Steffny = new Steffny(1200.0, 5.0);
+
+        $this->assertTrue($Steffny->areValuesValid());
+        $this->assertEqualsWithDelta(1200.0, $Steffny->getSeconds(5.0), 0.5);
     }
 }

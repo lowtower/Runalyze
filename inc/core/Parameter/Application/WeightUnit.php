@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::WeightUnit
  * @package Runalyze\Parameter\Application
@@ -34,9 +36,8 @@ class WeightUnit extends \Runalyze\Parameter\Select
 
     /**
      * Construct
-     * @param string $default
      */
-    public function __construct($default = self::KG)
+    public function __construct(string $default = self::KG)
     {
         parent::__construct($default, [
             'options' => [
@@ -75,7 +76,7 @@ class WeightUnit extends \Runalyze\Parameter\Select
      * Get current user weight unit
      * @return string
      */
-    public function unit()
+    public function unit(): mixed
     {
         return $this->value();
     }

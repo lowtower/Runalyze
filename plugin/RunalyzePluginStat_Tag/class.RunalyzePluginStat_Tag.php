@@ -26,11 +26,17 @@ class RunalyzePluginStat_Tag extends PluginStat
      */
     protected array $TagData = [];
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function name(): string
     {
         return __('Tag analysis');
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function description(): string
     {
         return __('How often have you tagged your activities with tag x?');
@@ -108,7 +114,7 @@ class RunalyzePluginStat_Tag extends PluginStat
     /**
      * @see PluginStat::displayContent()
      */
-    protected function displayContent()
+    protected function displayContent(): void
     {
         if (! isset($this->AllTags[$this->TagId])) {
             echo '<p class="warning"><em>' . __('Please choose a tag.') . '</em></p>';

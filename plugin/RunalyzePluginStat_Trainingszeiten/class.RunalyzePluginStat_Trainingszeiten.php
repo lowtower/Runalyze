@@ -18,13 +18,19 @@ use Runalyze\View\Activity\Linker;
  */
 class RunalyzePluginStat_Trainingszeiten extends PluginStat
 {
-    protected $dataIsMissing = false;
+    protected bool $dataIsMissing = false;
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function name(): string
     {
         return __('Training times');
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function description(): string
     {
         return __('Plot all your activity times by daytime/weekday and list your nightly activities.');
@@ -38,9 +44,6 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat
         $this->setConfiguration($Configuration);
     }
 
-    /**
-     * Prepare
-     */
     protected function prepareForDisplay()
     {
         $this->setYearsNavigation(true, true, true);
@@ -49,11 +52,17 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat
         $this->setHeaderWithSportAndYear();
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function defaultSport(): int
     {
         return -1;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function titleForAllYears(): string
     {
         return __('Total');
@@ -62,7 +71,7 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat
     /**
      * @see PluginStat::displayContent()
      */
-    protected function displayContent()
+    protected function displayContent(): void
     {
         if (! $this->dataIsMissing) {
             $this->displayImages();
@@ -75,9 +84,6 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat
         }
     }
 
-    /**
-     * Display the images
-     */
     private function displayTable(): void
     {
         if ($this->sportid > 0) {
@@ -90,29 +96,31 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat
             }
         }
 
+        $sportsIdList = $sports_not_short === '' ? '0' : substr($sports_not_short, 0, -1);
+
         $nights = DB::getInstance()->query('SELECT * FROM (
-			SELECT
-				id,
-				time,
-				s,
-				sportid,
-				distance,
-				is_track,
-				HOUR(FROM_UNIXTIME(`time`)) as `H`,
-				MINUTE(FROM_UNIXTIME(`time`)) as `MIN`
-			FROM `' . PREFIX . 'training`
-			WHERE
-				`sportid` IN(' . substr($sports_not_short, 0, -1) . ') AND
+            SELECT
+                id,
+                time,
+                s,
+                sportid,
+                distance,
+                is_track,
+                HOUR(FROM_UNIXTIME(`time`)) as `H`,
+                MINUTE(FROM_UNIXTIME(`time`)) as `MIN`
+            FROM `' . PREFIX . 'training`
+            WHERE
+                `sportid` IN(' . $sportsIdList . ') AND
                                 `accountid` = ' . SessionAccountHandler::getId() . ' AND
-				(HOUR(FROM_UNIXTIME(`time`))!=0 OR MINUTE(FROM_UNIXTIME(`time`))!=0) 
-				' . $this->getYearDependenceForQuery() . '
-			ORDER BY
-				ABS(12-(`H`+10)%24-`MIN`/60) ASC,
-				`MIN` DESC LIMIT 20
-			) t
-		ORDER BY
-			(`H`+12)%24 ASC,
-			`MIN` ASC')->fetchAll();
+                (HOUR(FROM_UNIXTIME(`time`))!=0 OR MINUTE(FROM_UNIXTIME(`time`))!=0) 
+                ' . $this->getYearDependenceForQuery() . '
+            ORDER BY
+                ABS(12-(`H`+10)%24-`MIN`/60) ASC,
+                `MIN` DESC LIMIT 20
+        ) t
+        ORDER BY
+            (`H`+12)%24 ASC,
+            `MIN` ASC')->fetchAll();
 
         if (empty($nights)) {
             $this->dataIsMissing = true;
@@ -123,21 +131,23 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat
         echo '<thead><tr class="b c"><th colspan="8">' . __('Nightly activities') . '</th></tr></thead>';
         echo '<tbody>';
 
+        $totalCount = count($nights);
+
         foreach ($nights as $i => $data) {
             $Activity = new Activity\Entity($data);
             $Linker = new Linker($Activity);
             $View = new Dataview($Activity);
 
-            if ($i % 2 === 0) {
-                echo '<tr">';
+            if ($this->shouldOpenRow($i)) {
+                echo '<tr>';
             }
 
             echo '<td class="b">' . $View->daytime() . '</td>
-				<td>' . $Linker->linkWithSportIcon() . '</td>
-				<td>' . $View->distanceOrDuration() . ' ' . SportFactory::name($Activity->sportid()) . '</td>
-				<td>' . $Linker->weekLink() . '</td>';
+                <td>' . $Linker->linkWithSportIcon() . '</td>
+                <td>' . $View->distanceOrDuration() . ' ' . SportFactory::name($Activity->sportid()) . '</td>
+                <td>' . $Linker->weekLink() . '</td>';
 
-            if ($i % 2 === 1) {
+            if ($this->shouldCloseRow($i, $totalCount)) {
                 echo '</tr>';
             }
         }
@@ -149,6 +159,16 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat
         echo __('2 a.m. is considered as <em>most extreme</em> time for a training. ');
         echo __('The 20 trainings being nearest to that time are listed.');
         echo '</p>';
+    }
+
+    private function shouldOpenRow(int $index): bool
+    {
+        return $index % 2 === 0;
+    }
+
+    private function shouldCloseRow(int $index, int $totalCount): bool
+    {
+        return $index % 2 === 1 || $index === $totalCount - 1;
     }
 
     private function displayImages(): void

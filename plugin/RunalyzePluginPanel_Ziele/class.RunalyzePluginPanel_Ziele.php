@@ -13,7 +13,6 @@ use Runalyze\Util\Time;
 $PLUGINKEY = 'RunalyzePluginPanel_Ziele';
 
 /**
- * Class: RunalyzePluginPanel_Ziele
  * @author Ulrich Kiermayr <ulrich@kiermayr.at>
  * License: GPL
  * @package Runalyze\Plugins\Panels
@@ -21,22 +20,27 @@ $PLUGINKEY = 'RunalyzePluginPanel_Ziele';
 class RunalyzePluginPanel_Ziele extends PluginPanel
 {
     /**
-     * All lines
      * @var array<mixed, array<string, mixed>>
      */
     private array $Lines = [];
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function name(): string
     {
         return __('Goals');
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function description(): string
     {
         return __('Set your own goals for different time ranges and compare your current performance with them.');
     }
 
-    protected function displayLongDescription()
+    protected function displayLongDescription(): void
     {
         echo HTML::p(__('This plugin tracks your distances for chosen time ranges.'));
         echo HTML::p(__('You can set a goal (value &gt; 0) for every time range. If it is set, you will see how much you have to run to reach it.'));
@@ -44,7 +48,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
         echo HTML::p(__('Note: &quot;Saison&quot; refers to the current season in the german &quot;kmspiel&quot;.'));
     }
 
-    protected function initConfiguration()
+    protected function initConfiguration(): void
     {
         $Configuration = new PluginConfiguration($this->id());
 
@@ -70,7 +74,6 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
     }
 
     /**
-     * Method for getting the right symbol(s)
      * @see PluginPanel::getRightSymbol()
      */
     protected function getRightSymbol(): string
@@ -89,8 +92,6 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
             }
         }
 
-        //		$(this).closest("li.with-submenu").find("span").text($(this).text())
-
         $Code .= '</ul>';
         $Code .= '</li>';
 
@@ -100,7 +101,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
     /**
      * @see PluginPanel::displayContent()
      */
-    protected function displayContent()
+    protected function displayContent(): void
     {
         echo '<div id="bunny">';
 
@@ -123,9 +124,8 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 
     /**
      * @param array<string, mixed> $Timeset
-     * @param int $goal
      */
-    private function showTimeset(array &$Timeset, $goal): void
+    private function showTimeset(array &$Timeset, int|float $goal): void
     {
         $this->clearLines();
 
@@ -207,11 +207,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
         $this->Lines = [];
     }
 
-    /**
-     * @param float $distance
-     * @param int $num
-     */
-    private function addHeadline(string $name, $distance = 0, $num = 0, bool $noTopBorder = false): void
+    private function addHeadline(string $name, int|float $distance = 0, int|float $num = 0, bool $noTopBorder = false): void
     {
         $this->Lines[] = [
             'name' => $name,
@@ -222,10 +218,6 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
         ];
     }
 
-    /**
-     * @param float $distance
-     * @param int $num
-     */
     private function addLine(string $name, int|float $distance = 0, int|float $num = 0): void
     {
         $this->Lines[] = [
@@ -236,11 +228,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
         ];
     }
 
-    /**
-     * @param float $val
-     * @param float $max
-     */
-    private function addBar(string $name, $val, $max, string $color, $add = null, $addcolor = null): void
+    private function addBar(string $name, int|float $val, int|float $max, string $color, int|float|null $add = null, ?string $addcolor = null): void
     {
         $this->Lines[] = [
             'name' => $name,
@@ -290,11 +278,20 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
      */
     private function showLine(array &$Line): void
     {
-        $span_format = isset($Line['lvl']) ? $this->getLevelStyle($Line['lvl']) : 0;
+        // Fixed: default to an empty string instead of the integer 0.
+        // Previously, a $Line without a 'lvl' key produced $span_format = 0,
+        // which concatenated into '<span0>' below - malformed HTML. This
+        // path was not reachable through addHeadline()/addLine() (both
+        // always set 'lvl'), but the guard was missing regardless.
+        $span_format = isset($Line['lvl']) ? $this->getLevelStyle($Line['lvl']) : '';
         $p_format = isset($Line['sep']) && $Line['sep'] ? ' style="border-top:1px solid #ccc;"' : '';
 
         $NumberOfActivities = isset($Line['anz']) && $Line['anz'] > 0 ? '<small><small>(' . round($Line['anz'], 1) . 'x)</small></small>' : '';
-        $Distance = isset($Line['km']) && $Line['km'] > 0 ? '<span ' . ($Line['lvl'] == 1 ? $span_format : '') . '>' . Distance::format($Line['km'], true, 1) . '</span>' : '';
+        // Fixed: removed the extra literal space before $span_format ('<span '
+        // became '<span'), since $span_format itself already starts with a
+        // leading space whenever it is non-empty (see getLevelStyle()).
+        // This previously produced a double space, e.g. '<span  style="...">'.
+        $Distance = isset($Line['km']) && $Line['km'] > 0 ? '<span' . ($Line['lvl'] == 1 ? $span_format : '') . '>' . Distance::format($Line['km'], true, 1) . '</span>' : '';
 
         echo '<p' . $p_format . '>' .
             '<span class="right">' .
@@ -304,28 +301,20 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
             '</p>';
     }
 
-    /**
-     * Get style for level
-     * @param int $level
-     */
-    private function getLevelStyle($level): string
+    private function getLevelStyle(int $level): string
     {
-        if ($level == 1) {
+        if ($level === 1) {
             return ' style="font-weight:bold;"';
         }
 
-        if ($level == 2) {
+        if ($level === 2) {
             return ' style="padding-left: 10px;"';
         }
 
         return '';
     }
 
-    /**
-     * Fetch data
-     * @param int $timestamp
-     */
-    private function fetchDataSince($timestamp): array
+    private function fetchDataSince(int $timestamp): array
     {
         $Data = DB::getInstance()->query('
 			SELECT
@@ -352,9 +341,6 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
         return $Data;
     }
 
-    /**
-     * Get the timeset as array for this panel
-     */
     private function getTimeset(): array
     {
         $timeset = [];
@@ -377,7 +363,6 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
             $kmend->setISODate((int) date('Y'), $weeks == 53 ? 53 : 52, 7);
         }
 
-        // Zeitraeume fuer die Prognosen.
         $timeset['woche'] = [
             'name' => __('Week'),
             'start' => (new DateTime())->setTimestamp(Time::weekstart(time())),

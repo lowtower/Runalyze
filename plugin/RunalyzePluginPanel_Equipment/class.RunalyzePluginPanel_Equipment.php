@@ -18,16 +18,25 @@ use Runalyze\Model;
  */
 class RunalyzePluginPanel_Equipment extends PluginPanel
 {
-    /**
-     * @var array
-     */
-    protected $AllTypes = [];
+    protected array $AllTypes = [];
 
+    /**
+     * Width of the usage bar in pixels, must match the CSS in getStyle().
+     * @var int
+     */
+    private const USAGE_BAR_MAX_WIDTH_PX = 330;
+
+    /**
+     * @codeCoverageIgnore
+     */
     final public function name(): string
     {
         return __('Equipment');
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function description(): string
     {
         return __('Display statistics for your equipment.');
@@ -58,9 +67,6 @@ class RunalyzePluginPanel_Equipment extends PluginPanel
         $this->setConfiguration($Configuration);
     }
 
-    /**
-     * Method for getting the right symbol(s)
-     */
     protected function getRightSymbol(): string
     {
         $CurrentType = '';
@@ -87,7 +93,7 @@ class RunalyzePluginPanel_Equipment extends PluginPanel
     /**
      * @see PluginPanel::displayContent()
      */
-    protected function displayContent()
+    protected function displayContent(): void
     {
         $Factory = new Model\Factory(SessionAccountHandler::getId());
         $EquipmentType = $Factory->equipmentType((int) $this->Configuration()->value('type'));
@@ -112,10 +118,7 @@ class RunalyzePluginPanel_Equipment extends PluginPanel
         echo HTML::clearBreak();
     }
 
-    /**
-     * @param bool $inuse
-     */
-    protected function showListFor(Model\EquipmentType\Entity $EquipmentType, &$inuse)
+    protected function showListFor(Model\EquipmentType\Entity $EquipmentType, bool &$inuse)
     {
         $max = 0;
         $showDistance = $EquipmentType->hasMaxDistance();
@@ -162,11 +165,12 @@ class RunalyzePluginPanel_Equipment extends PluginPanel
     }
 
     /**
-     * Get shoe usage image
      * @param float $percentage [0.0 .. 1.0]
      */
-    protected function getUsageImage($percentage): string
+    protected function getUsageImage(float $percentage, int $maxWidthPx = self::USAGE_BAR_MAX_WIDTH_PX): string
     {
-        return '<span class="equipment-usage" style="width:' . round($percentage * 330) . 'px;"></span>';
+        $clampedPercentage = max(0.0, min(1.0, $percentage));
+
+        return '<span class="equipment-usage" style="width:' . round($clampedPercentage * $maxWidthPx) . 'px;"></span>';
     }
 }

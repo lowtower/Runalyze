@@ -38,15 +38,15 @@ $YearDependence = $this->getYearDependenceForQuery();
 
 $Query = DB::getInstance()->prepare(
     'SELECT
-		SUM(`s`) as `value`,
-		(DAYOFWEEK(FROM_UNIXTIME(`time`))-1) as `day`
-	FROM `' . PREFIX . 'training`
-	WHERE
-		`accountid`=' . SessionAccountHandler::getId() . ' AND
-		`sportid`=:id
-		' . $YearDependence . '
-	GROUP BY `day`
-	ORDER BY ((`day`+6)%7) ASC'
+        SUM(`s`) as `value`,
+        (DAYOFWEEK(FROM_UNIXTIME(`time`))-1) as `day`
+    FROM `' . PREFIX . 'training`
+    WHERE
+        `accountid`=' . SessionAccountHandler::getId() . ' AND
+        `sportid`=:id
+        ' . $YearDependence . '
+    GROUP BY `day`
+    ORDER BY ((`day`+6)%7) ASC'
 );
 
 // TODO: Should be possible with one query?

@@ -13,9 +13,6 @@ declare(strict_types=1);
  */
 class PluginConfigurationValueSelect extends PluginConfigurationValue
 {
-    /**
-     * Options
-     */
     protected array $Options = [];
 
     public function setOptions(array $Options): void

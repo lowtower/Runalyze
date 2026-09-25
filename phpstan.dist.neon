@@ -17,6 +17,7 @@ parameters:
         - phpstan-bootstrap-constants.php
 
     paths:
+#        - dashboard.php
         - bin/
         - config/
         - inc/

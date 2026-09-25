@@ -5,44 +5,35 @@
  * @package Runalyze\Plugins\Stats
  */
 $PLUGINKEY = 'RunalyzePluginStat_Trainingspartner';
+
 /**
- * Class: RunalyzePluginStat_Trainingspartner
  * @author Hannes Christiansen
  * @package Runalyze\Plugins\Stats
  */
 class RunalyzePluginStat_Trainingspartner extends PluginStat
 {
-    /**
-     * Array for all trainingspartner
-     * @var array
-     */
-    protected $Partner = [];
+    protected array $Partner = [];
+
+    protected int $TrainingsWithPartner = 0;
+
+    protected int $TrainingsTotal = 0;
 
     /**
-     * Number of trainings without partner
-     * @var int
+     * @codeCoverageIgnore
      */
-    protected $TrainingsWithPartner = 0;
-
-    /**
-     * Number of trainings total
-     * @var int
-     */
-    protected $TrainingsTotal = 0;
-
     final public function name(): string
     {
         return __('Training partner');
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function description(): string
     {
         return __('How often did you train with whom?');
     }
 
-    /**
-     * Init data
-     */
     protected function prepareForDisplay()
     {
         $this->setSportsNavigation(true, true);
@@ -53,11 +44,17 @@ class RunalyzePluginStat_Trainingspartner extends PluginStat
         $this->initTrainingspartner();
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function defaultSport(): int
     {
         return -1;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function titleForAllYears(): string
     {
         return __('All years');
@@ -66,7 +63,7 @@ class RunalyzePluginStat_Trainingspartner extends PluginStat
     /**
      * @see PluginStat::displayContent()
      */
-    protected function displayContent()
+    protected function displayContent(): void
     {
         echo '<table class="fullwidth zebra-style">';
         echo '<thead><tr><th colspan="2">' . __('All training partners') . '</th></tr></thead>';
@@ -79,40 +76,51 @@ class RunalyzePluginStat_Trainingspartner extends PluginStat
 					<td><em>' . __('You have only trained on your own.') . '</em></td>
 				</tr>';
         } else {
-            $row_num = INFINITY;
-            $i = 0;
-
-            foreach ($this->Partner as $name => $name_num) {
-                if ($row_num == $name_num) {
-                    echo ', ';
-                } else {
-                    if ($name_num != 1 && $row_num != INFINITY) {
-                        echo '</td></tr>';
-                    }
-
-                    $row_num = $name_num;
-                    $i++;
-                    echo '<tr><td class="b">' . $row_num . 'x</td><td>';
-                }
-
-                echo SearchLink::to('partner', $name, $name, 'like');
-            }
-
-            echo '</td></tr>';
+            echo $this->renderPartnerRows($this->Partner);
         }
 
-        echo '</tobdy>';
+        echo '</tbody>';
         echo '</table>';
 
         echo '<p class="text">';
         echo sprintf(__('You have trained <strong>%sx</strong> in total and out of that <strong>%sx</strong> with a training partner, '), $this->TrainingsTotal, $this->TrainingsWithPartner);
-        echo sprintf(__('that are <strong>%s</strong> &#37;.'), $this->TrainingsTotal == 0 ? 0 : round(100 * $this->TrainingsWithPartner / $this->TrainingsTotal));
+        echo sprintf(__('that are <strong>%s</strong> &#37;.'), $this->TrainingsTotal === 0 ? 0 : round(100 * $this->TrainingsWithPartner / $this->TrainingsTotal));
         echo '</p>';
     }
 
     /**
-     * Init all trainingspartner
+     * @param array<string, int> $partners [partner name => count], already
+     *                                      sorted descending by count
      */
+    private function renderPartnerRows(array $partners): string
+    {
+        $html = '';
+        $rowCount = null;
+        $rowIsOpen = false;
+
+        foreach ($partners as $name => $nameCount) {
+            if ($rowCount === $nameCount) {
+                $html .= ', ';
+            } else {
+                if ($rowIsOpen) {
+                    $html .= '</td></tr>';
+                }
+
+                $rowCount = $nameCount;
+                $rowIsOpen = true;
+                $html .= '<tr><td class="b">' . $rowCount . 'x</td><td>';
+            }
+
+            $html .= SearchLink::to('partner', $name, $name, 'like');
+        }
+
+        if ($rowIsOpen) {
+            $html .= '</td></tr>';
+        }
+
+        return $html;
+    }
+
     protected function initTrainingspartner()
     {
         $Query = 'SELECT `partner` FROM `' . PREFIX . 'training` WHERE `accountid`=' . SessionAccountHandler::getId() . ' AND `partner`!=""';

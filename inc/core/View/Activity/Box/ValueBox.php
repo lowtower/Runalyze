@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::ValueBox
  * @package Runalyze\View\Activity\Box
@@ -17,7 +19,7 @@ use Runalyze\Activity;
  */
 class ValueBox extends AbstractBox
 {
-    public function __construct(Activity\ValueInterface $Value, $icon = '', $glossary = '')
+    public function __construct(Activity\ValueInterface $Value, string $icon = '', string $glossary = '')
     {
         parent::__construct(
             \Helper::Unknown($Value->string(false), '-'),

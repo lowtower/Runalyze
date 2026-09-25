@@ -4,35 +4,27 @@
  * This file contains class::PluginConfigurationValue
  * @package Runalyze\Plugin
  */
+
 /**
- * Plugin configuration value
  * @author Hannes Christiansen
  * @package Runalyze\Plugin
  */
 class PluginConfigurationValue
 {
     /**
-     * Max length
      * @var int
      */
     public const MAXLENGTH = 255;
 
-    /**
-     * Value
-     * @var mixed
-     */
-    protected $Value;
+    protected mixed $Value;
 
-    /**
-     * Construct
-     * @param mixed $DefaultValue
-     */
     public function __construct(
         protected string $Key,
         protected string $Label = '',
         protected string $Tooltip = '',
-        protected $DefaultValue = ''
+        protected mixed $DefaultValue = ''
     ) {
+        $this->Value = $DefaultValue;
     }
 
     final public function key(): string
@@ -58,9 +50,6 @@ class PluginConfigurationValue
         $this->Tooltip = $Tooltip;
     }
 
-    /**
-     * Label for form field
-     */
     final protected function formLabel(): string
     {
         if (! empty($this->Tooltip)) {
@@ -70,18 +59,12 @@ class PluginConfigurationValue
         return $this->Label;
     }
 
-    /**
-     * @param mixed $Value
-     */
-    final public function setValue($Value): void
+    final public function setValue(mixed $Value): void
     {
         $this->Value = $Value;
     }
 
-    /**
-     * @param mixed $Value
-     */
-    final public function setDefaultValue($Value): void
+    final public function setDefaultValue(mixed $Value): void
     {
         $this->DefaultValue = $Value;
     }
@@ -99,9 +82,6 @@ class PluginConfigurationValue
         $this->Value = $Value;
     }
 
-    /**
-     * Get value as string
-     */
     public function valueAsString(): string
     {
         return $this->value();
@@ -114,9 +94,6 @@ class PluginConfigurationValue
         }
     }
 
-    /**
-     * Display row for config form
-     */
     public function getFormField(): ?\FormularField
     {
         $Field = new FormularInput($this->Key, $this->formLabel(), $this->valueAsString());

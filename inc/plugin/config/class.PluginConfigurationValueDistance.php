@@ -22,11 +22,7 @@ class PluginConfigurationValueDistance extends PluginConfigurationValueFloat
 
     protected ?DistanceUnitSystem $UnitSystem = null;
 
-    /**
-     * Construct
-     * @param string|array $DefaultValue
-     */
-    public function __construct(string $Key, string $Label = '', string $Tooltip = '', $DefaultValue = '')
+    public function __construct(string $Key, string $Label = '', string $Tooltip = '', mixed $DefaultValue = '')
     {
         parent::__construct($Key, $Label, $Tooltip, $DefaultValue);
 
@@ -34,9 +30,6 @@ class PluginConfigurationValueDistance extends PluginConfigurationValueFloat
             ->distanceToPreferredUnitFactor();
     }
 
-    /**
-     * Get value as string
-     */
     public function valueAsString(bool $transformValue = false): string
     {
         if ($transformValue) {

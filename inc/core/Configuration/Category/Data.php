@@ -233,7 +233,7 @@ class Data extends \Runalyze\Configuration\Category
     /**
      * @return float new factor [ml/kg/min]
      */
-    public function recalculateVO2maxCorrector()
+    public function recalculateVO2maxCorrector(): float
     {
         $Corrector = new JD\LegacyEffectiveVO2maxCorrector();
         $Corrector->fromDatabase(

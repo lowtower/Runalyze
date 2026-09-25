@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::TemperatureUnit
  * @package Runalyze\Parameter\Application
@@ -29,9 +31,8 @@ class TemperatureUnit extends \Runalyze\Parameter\Select
 
     /**
      * Construct
-     * @param string $default
      */
-    public function __construct($default = self::CELSIUS)
+    public function __construct(string $default = self::CELSIUS)
     {
         parent::__construct($default, [
             'options' => [
@@ -61,7 +62,7 @@ class TemperatureUnit extends \Runalyze\Parameter\Select
      * Get current user temperature unit
      * @return string
      */
-    public function unit()
+    public function unit(): mixed
     {
         return $this->value();
     }

@@ -13,8 +13,8 @@ use Runalyze\Model\Sport;
 use Runalyze\Util\Time;
 
 $PLUGINKEY = 'RunalyzePluginStat_Rekorde';
+
 /**
- * Class: RunalyzePluginStat_Rekorde
  * @author Hannes Christiansen
  * @package Runalyze\Plugins\Stats
  */
@@ -31,19 +31,22 @@ class RunalyzePluginStat_Rekorde extends PluginStat
 
     private array $years = [];
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function name(): string
     {
         return __('Records');
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     final public function description(): string
     {
         return __('Faster, longer, better: Your records from your activities.');
     }
 
-    /**
-     * Init data
-     */
     protected function prepareForDisplay()
     {
         $this->setYearsNavigation(true, true, true);
@@ -53,11 +56,17 @@ class RunalyzePluginStat_Rekorde extends PluginStat
         $this->initData();
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function titleForAllYears(): string
     {
         return __('All years');
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function defaultSport(): int
     {
         return -1;
@@ -66,7 +75,7 @@ class RunalyzePluginStat_Rekorde extends PluginStat
     /**
      * @see PluginStat::displayContent()
      */
-    protected function displayContent()
+    protected function displayContent(): void
     {
         $this->displayRekorde();
         $this->displayMostKilometer();
@@ -153,7 +162,6 @@ class RunalyzePluginStat_Rekorde extends PluginStat
             foreach ($this->years as $i => $year) {
                 $link = DataBrowserLinker::yearLink(Distance::format($year['km']), $year['time']);
                 echo '<td class="small"><span title="' . $year['year'] . '">' . $link . '</span></td>';
-                $i++;
             }
 
             for (; $i < 9; $i++) {
@@ -168,7 +176,6 @@ class RunalyzePluginStat_Rekorde extends PluginStat
         foreach ($this->months as $i => $month) {
             $link = DataBrowserLinker::monthLink(Distance::format($month['km']), $month['time']);
             echo '<td class="small"><span title="' . Time::month($month['month']) . ' ' . $month['year'] . '">' . $link . '</span></td>';
-            $i++;
         }
 
         for (; $i < 9; $i++) {
@@ -182,7 +189,6 @@ class RunalyzePluginStat_Rekorde extends PluginStat
         foreach ($this->weeks as $i => $week) {
             $link = DataBrowserLinker::weekLink(Distance::format($week['km']), $week['time'], false);
             echo '<td class="small"><span title="' . __('Week') . ' ' . $week['week'] . ' ' . $week['year'] . '">' . $link . '</span></td>';
-            $i++;
         }
 
         for (; $i < 9; $i++) {
@@ -196,7 +202,7 @@ class RunalyzePluginStat_Rekorde extends PluginStat
     }
 
     /**
-     * Initialize $this->ABCData
+     * Initialize $this->rekorde/$this->years/$this->months/$this->weeks
      */
     private function initData(): void
     {
