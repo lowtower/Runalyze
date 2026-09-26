@@ -39,9 +39,6 @@ abstract class Entity
      */
     protected bool $checkArraySizes = false;
 
-    /**
-     * Construct
-     */
     public function __construct(array $data = [])
     {
         $this->readData($data);
@@ -53,10 +50,7 @@ abstract class Entity
         }
     }
 
-    /**
-     * Create deep copies of internal objects
-     */
-    protected function cloneInternalObjects()
+    protected function cloneInternalObjects(): void
     {
         foreach (get_object_vars($this) as $property => $value) {
             if (is_object($value)) {
@@ -65,7 +59,7 @@ abstract class Entity
         }
     }
 
-    final protected function readData(array $data)
+    final protected function readData(array $data): void
     {
         foreach ($this->properties() as $key) {
             if (isset($data[$key]) && $data[$key] !== '') {
@@ -76,10 +70,7 @@ abstract class Entity
         }
     }
 
-    /**
-     * Count number of points
-     */
-    protected function count()
+    protected function count(): void
     {
         $this->numberOfPoints = 0;
 
@@ -105,7 +96,7 @@ abstract class Entity
     /**
      * @throws \RuntimeException
      */
-    protected function checkArraySizes()
+    protected function checkArraySizes(): void
     {
         $this->numberOfPoints = 0;
 
@@ -123,7 +114,7 @@ abstract class Entity
     /**
      * @throws \RuntimeException
      */
-    protected function checkArraySize(int $num)
+    protected function checkArraySize(int $num): void
     {
         if ($num === 0) {
             return;
@@ -136,24 +127,20 @@ abstract class Entity
         $this->numberOfPoints = $num;
     }
 
-    /**
-     * Properties
-     */
     abstract public function properties(): array;
 
     /**
      * Synchronize internal models
      */
-    public function synchronize()
+    public function synchronize(): void
     {
     }
 
     /**
      * Ensure numeric values
      * @param array|string $keyOrKeys key or array of keys to be checked
-     * @param int|float $defaultValue optional, default: 0
      */
-    protected function ensureNumericValue($keyOrKeys, $defaultValue = 0)
+    protected function ensureNumericValue(array|string $keyOrKeys, int|float $defaultValue = 0): void
     {
         if (! is_array($keyOrKeys)) {
             $keyOrKeys = [$keyOrKeys];
@@ -178,7 +165,7 @@ abstract class Entity
      * Transforms empty strings to null
      * @param array|string $keyOrKeys key or array of keys to be checked
      */
-    protected function ensureNullIfEmpty($keyOrKeys, bool $ensureNumericIfNotEmpty = false, bool $treatZeroAsNull = false)
+    protected function ensureNullIfEmpty(array|string $keyOrKeys, bool $ensureNumericIfNotEmpty = false, bool $treatZeroAsNull = false): void
     {
         if (! is_array($keyOrKeys)) {
             $keyOrKeys = [$keyOrKeys];
@@ -195,37 +182,26 @@ abstract class Entity
         }
     }
 
-    /**
-     * Can set key?
-     */
     protected function canSet(string $key): bool
     {
         return true;
     }
 
-    /**
-     * Is the property an array?
-     */
     public function isArray(string $key): bool
     {
         return false;
     }
 
-    /**
-     * Can be null?
-     */
     protected function canBeNull(string $key): bool
     {
         return false;
     }
 
     /**
-     * Set array
-     * @param mixed $value
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */
-    public function set(string $key, $value)
+    public function set(string $key, mixed $value): void
     {
         if (! array_key_exists($key, $this->Data)) {
             throw new \InvalidArgumentException('Unkown data index "' . $key . '".');
@@ -246,7 +222,7 @@ abstract class Entity
         }
     }
 
-    protected function handleNewArraySize(int $num)
+    protected function handleNewArraySize(int $num): void
     {
         if ($num !== $this->numberOfPoints) {
             if ($this->checkArraySizes) {
@@ -258,11 +234,9 @@ abstract class Entity
     }
 
     /**
-     * Get value for this key
-     * @return mixed
      * @throws \InvalidArgumentException
      */
-    public function get(string $key)
+    public function get(string $key): mixed
     {
         if (! array_key_exists($key, $this->Data)) {
             throw new \InvalidArgumentException('Unknown data index "' . $key . '".');
@@ -284,7 +258,7 @@ abstract class Entity
         return ! empty($this->Data[$key]);
     }
 
-    public function clear()
+    public function clear(): void
     {
         foreach ($this->properties() as $key) {
             if ($this->isArray($key)) {

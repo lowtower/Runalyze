@@ -40,9 +40,6 @@ class ElevationMethod extends \Runalyze\Parameter\Select
      */
     public const REUMANN_WITKAM = 'reumann-witkamm';
 
-    /**
-     * Construct
-     */
     public function __construct()
     {
         parent::__construct(self::THRESHOLD, [

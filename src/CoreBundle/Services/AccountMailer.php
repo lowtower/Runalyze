@@ -12,10 +12,7 @@ use Twig\Environment;
 
 class AccountMailer
 {
-    /**
-     * @var string|Address|null
-     */
-    protected $sender;
+    protected string|Address|null $sender = null;
 
     public function __construct(
         protected MailerInterface $mailer,
@@ -56,7 +53,7 @@ class AccountMailer
             ->subject($subject)
             ->from($this->sender)
             ->to($mailTo)
-            ->replyTo($account->getMail(), $account->getUsername())
+            ->replyTo(new Address($account->getMail(), $account->getUsername()))
             ->text($content);
 
         $this->mailer->send($email);
@@ -65,12 +62,13 @@ class AccountMailer
     protected function customLanguageTemplates(string $template, string $language): string
     {
         $template = str_replace('html.twig', '', $template);
-        try {
-            $this->twig->render($template . $language . '.html.twig');
-            return $template . $language . '.html.twig';
-        } catch (\Exception) {
-            return $template . 'html.twig';
+        $languageTemplate = $template . $language . '.html.twig';
+
+        if ($this->twig->getLoader()->exists($languageTemplate)) {
+            return $languageTemplate;
         }
+
+        return $template . 'html.twig';
     }
 
     public function sendActivationLinkTo(Account $account): void

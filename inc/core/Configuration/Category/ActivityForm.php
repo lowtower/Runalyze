@@ -22,15 +22,12 @@ use Runalyze\Parameter\Textline;
  */
 class ActivityForm extends \Runalyze\Configuration\Category
 {
-    /**
-     * Internal key
-     */
     protected function key(): string
     {
         return 'activity-form';
     }
 
-    protected function createHandles()
+    protected function createHandles(): void
     {
         $this->createHandlesForLegends();
         $this->createHandlesForSettings();
@@ -70,9 +67,6 @@ class ActivityForm extends \Runalyze\Configuration\Category
         $this->updateValue($this->handle('FORMULAR_SHOW_' . $Key));
     }
 
-    /**
-     * Create handles for other settings
-     */
     private function createHandlesForSettings(): void
     {
         $this->createHandle('TRAINING_CREATE_MODE', new ActivityCreationMode());
@@ -90,7 +84,7 @@ class ActivityForm extends \Runalyze\Configuration\Category
 
     public function creationMode(): ActivityCreationMode
     {
-        /** @var \Runalyze\Parameter\Application\ActivityCreationMode $parameter */
+        /** @var ActivityCreationMode $parameter */
         $parameter = $this->object('TRAINING_CREATE_MODE');
         return $parameter;
     }
@@ -129,7 +123,7 @@ class ActivityForm extends \Runalyze\Configuration\Category
      */
     public function orderSports(): DatabaseOrder
     {
-        /** @var \Runalyze\Parameter\Application\DatabaseOrder $parameter */
+        /** @var DatabaseOrder $parameter */
         $parameter = $this->object('TRAINING_SORT_SPORTS');
         return $parameter;
     }
@@ -139,7 +133,7 @@ class ActivityForm extends \Runalyze\Configuration\Category
      */
     public function orderTypes(): DatabaseOrder
     {
-        /** @var \Runalyze\Parameter\Application\DatabaseOrder $parameter */
+        /** @var DatabaseOrder $parameter */
         $parameter = $this->object('TRAINING_SORT_TYPES');
         return $parameter;
     }
@@ -149,7 +143,7 @@ class ActivityForm extends \Runalyze\Configuration\Category
      */
     public function orderEquipment(): DatabaseOrder
     {
-        /** @var \Runalyze\Parameter\Application\DatabaseOrder $parameter */
+        /** @var DatabaseOrder $parameter */
         $parameter = $this->object('TRAINING_SORT_SHOES');
         return $parameter;
     }
@@ -164,14 +158,12 @@ class ActivityForm extends \Runalyze\Configuration\Category
 
     /**
      * Add new ID to ignored ones
-     * @param string $ID
      */
-    public function ignoreActivityID($ID): void
+    public function ignoreActivityID(string $ID): void
     {
-        if (method_exists($this->object('GARMIN_IGNORE_IDS'), 'append')) {
-            $this->object('GARMIN_IGNORE_IDS')
-                ->append($ID);
-        }
+        /** @var Set $parameter */
+        $parameter = $this->object('GARMIN_IGNORE_IDS');
+        $parameter->append($ID);
 
         $this->updateValue($this->handle('GARMIN_IGNORE_IDS'));
     }

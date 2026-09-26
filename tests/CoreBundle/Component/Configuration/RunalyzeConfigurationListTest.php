@@ -6,6 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Component\Configuration;
 
 use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList;
 
+#[\PHPUnit\Framework\Attributes\Group('default')]
 class RunalyzeConfigurationListTest extends \PHPUnit\Framework\TestCase
 {
     public function testConstructor(): void
@@ -14,8 +15,6 @@ class RunalyzeConfigurationListTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(RunalyzeConfigurationList::class, $config);
     }
 
-    #[\PHPUnit\Framework\Attributes\Group('review-later
-TODO: This test needs a deeper look later. It passes, but check if $config->getVO2maxCorrectionFactor() should return float instead of an object.')]
     public function testThatAllCategoriesAreAccessible(): void
     {
         $config = new RunalyzeConfigurationList();
@@ -38,5 +37,30 @@ TODO: This test needs a deeper look later. It passes, but check if $config->getV
         $config = new RunalyzeConfigurationList();
 
         $this->assertEquals($config->getUnitSystem(), $config->getUnitSystem());
+    }
+
+    public function testSetPropagatesUpdateIntoAlreadyCachedCategoryObject(): void
+    {
+        $config = new RunalyzeConfigurationList();
+
+        $privacy = $config->getPrivacy();
+        self::assertFalse($privacy->isListPublic(), 'default value must be false before the update');
+
+        $config->set('privacy.TRAINING_LIST_PUBLIC', 'true');
+
+        self::assertTrue($privacy->isListPublic(), 'the previously-cached Privacy instance must reflect the update in place');
+        self::assertSame($privacy, $config->getPrivacy(), 'getPrivacy() must still return the very same cached instance');
+    }
+
+    public function testSetDoesNotAffectDifferentCachedCategory(): void
+    {
+        $config = new RunalyzeConfigurationList();
+
+        $privacy = $config->getPrivacy();
+        self::assertFalse($privacy->isListPublic());
+
+        $config->set('not-a-real-category.SOME_KEY', 'irrelevant');
+
+        self::assertFalse($privacy->isListPublic(), 'an update to an unrelated/uncached category prefix must not leak into Privacy');
     }
 }

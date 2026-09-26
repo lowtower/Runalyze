@@ -36,18 +36,12 @@ class VO2max extends \Runalyze\Configuration\Category
         $this->createHandle('VO2MAX_CORRECTION_NEGATIVE_ELEVATION', new Integer(-1));
     }
 
-    /**
-     * @return int
-     */
-    public function days()
+    public function days(): int
     {
         return $this->get('VO2MAX_DAYS');
     }
 
-    /**
-     * @return float|null
-     */
-    public function manualFactor()
+    public function manualFactor(): ?float
     {
         return $this->get('VO2MAX_MANUAL_CORRECTOR');
     }
@@ -67,26 +61,17 @@ class VO2max extends \Runalyze\Configuration\Category
         return $this->manualValue() > 0.0;
     }
 
-    /**
-     * @return bool
-     */
-    public function useElevationCorrection()
+    public function useElevationCorrection(): bool
     {
         return $this->get('VO2MAX_USE_CORRECTION_FOR_ELEVATION');
     }
 
-    /**
-     * @return int
-     */
-    public function correctionForPositiveElevation()
+    public function correctionForPositiveElevation(): int
     {
         return $this->get('VO2MAX_CORRECTION_POSITIVE_ELEVATION');
     }
 
-    /**
-     * @return int
-     */
-    public function correctionForNegativeElevation()
+    public function correctionForNegativeElevation(): int
     {
         return $this->get('VO2MAX_CORRECTION_NEGATIVE_ELEVATION');
     }

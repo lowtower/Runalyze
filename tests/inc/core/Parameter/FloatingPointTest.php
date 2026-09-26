@@ -59,4 +59,26 @@ class FloatingPointTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($object->isEmpty());
         $this->assertEquals('', $object->valueAsString());
     }
+
+    /**
+     * Inconsistency between setFromString('') and set(null): an empty string
+     * with 'null' disabled falls back to 0.0 (see testEmptyStringForNotNull),
+     * but calling set(null) directly with 'null' disabled and a 'min' bound
+     * configured silently clamps to the minimum instead. This happens because
+     * PHP's comparison rules treat null as false when compared with < or >,
+     * so `null < $min` evaluates to true for any positive $min - the min-clamp
+     * branch fires even though $value is null, not a number below the limit.
+     */
+    public function testSetWithNullWhenNullIsDisabledClampsToMinimumInsteadOfRejecting(): void
+    {
+        $object = new FloatingPoint(3.0, [
+            'min' => 1.0,
+            'null' => false,
+        ]);
+
+        $object->set(null);
+
+        self::assertSame(1.0, $object->value());
+        self::assertFalse($object->isEmpty());
+    }
 }

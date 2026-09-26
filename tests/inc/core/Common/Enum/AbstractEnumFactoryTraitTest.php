@@ -66,12 +66,26 @@ class AbstractEnumFactoryTraitTest extends TestCase
 
     public function testStaticCachingDoesNotLeakBetweenDifferentClassesUsingTheTrait(): void
     {
-        // Populate FactoryTraitEnumFixture's cache first.
-        $alpha = FactoryTraitEnumFixture::get('alpha');
-        $this->assertInstanceOf(Alpha::class, $alpha);
+        FactoryTraitEnumFixture::get('alpha');
+        SecondFactoryTraitEnumFixture::get('gamma');
 
-        $gamma = SecondFactoryTraitEnumFixture::get('gamma');
-        $this->assertInstanceOf(Gamma::class, $gamma);
+        $firstCache = $this->readClassNamesCacheOf(FactoryTraitEnumFixture::class);
+        $secondCache = $this->readClassNamesCacheOf(SecondFactoryTraitEnumFixture::class);
+
+        self::assertSame([
+            'alpha' => 'Alpha',
+            'beta_gamma' => 'BetaGamma',
+        ], $firstCache);
+        self::assertSame([
+            'gamma' => 'Gamma',
+        ], $secondCache);
+    }
+
+    private function readClassNamesCacheOf(string $class): ?array
+    {
+        $property = new \ReflectionProperty($class, 'ClassNames');
+
+        return $property->getValue();
     }
 
     public function testGetThrowsBadMethodCallExceptionWhenGetEnumMethodIsMissing(): void

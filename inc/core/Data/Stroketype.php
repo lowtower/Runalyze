@@ -1,32 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Data;
 
 use Runalyze\Profile\FitSdk\StrokeTypeProfile;
 
 class Stroketype
 {
-    /**
-     * @var int
-     */
-    protected $Identifier;
+    protected int $Identifier;
 
-    /**
-     * @param int $identifier a class constant
-     */
-    public function __construct($identifier)
+    public function __construct(int $identifier)
     {
         $this->set($identifier);
     }
 
     /**
-     * @param int $identifier a class constant
+     * @throws \InvalidArgumentException
      */
-    public function set($identifier): void
+    public function set(int $identifier): void
     {
-        if (in_array($identifier, self::completeList())) {
-            $this->Identifier = $identifier;
+        if (! in_array($identifier, self::completeList(), true)) {
+            throw new \InvalidArgumentException('Invalid stroke type identifier: ' . $identifier);
         }
+
+        $this->Identifier = $identifier;
     }
 
     public static function completeList(): array
@@ -34,10 +32,7 @@ class Stroketype
         return StrokeTypeProfile::getEnum();
     }
 
-    /**
-     * @return int
-     */
-    public function id()
+    public function id(): int
     {
         return $this->Identifier;
     }
@@ -72,6 +67,6 @@ class Stroketype
 
     public function isBreak(): bool
     {
-        return $this->Identifier == StrokeTypeProfile::BREAK;
+        return $this->Identifier === StrokeTypeProfile::BREAK;
     }
 }

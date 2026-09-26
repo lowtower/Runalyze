@@ -195,7 +195,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
     /**
      * @throws \RuntimeException
      */
-    protected function checkArraySizes()
+    protected function checkArraySizes(): void
     {
         foreach ($this->properties() as $key) {
             if ($this->isArray($key)) {
@@ -328,11 +328,10 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 
     /**
      * Set array
-     * @param mixed $value
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */
-    public function set(string $key, $value): void
+    public function set(string $key, mixed $value): void
     {
         parent::set($key, $value);
 

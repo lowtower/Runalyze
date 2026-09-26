@@ -7,6 +7,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Services;
 use Runalyze\Service\RouteNameEvaluation\OsmCsvData;
 use Runalyze\Service\RouteNameEvaluation\OsmCsvDataCollection;
 
+#[\PHPUnit\Framework\Attributes\Group('default')]
 class OsmCsvDataCollectionTest extends \PHPUnit\Framework\TestCase
 {
     public function testCsvCollectionEmpty(): void
@@ -40,7 +41,6 @@ class OsmCsvDataCollectionTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals([], $eval->getNames(OsmCsvData::$CAT_PEAK));
 
-        // first places, water, forest/wood
         $expectedNames = ['AachenDe', 'Freidenried', 'Rattenhof', 'Heimathatten', 'Schuh', 'See', 'Pfingstenholz', 'Schuher Holz', 'Wäldchen'];
         $this->assertEquals($expectedNames, $eval->getNames(OsmCsvData::$CAT_PLACE));
 

@@ -24,12 +24,12 @@ class ConfigurationManager
     }
 
     /**
-     * @param Account|null $account defaults to current user or default config, if there is no user logged in
+     * @param ?Account $account defaults to current user or default config, if there is no user logged in
      */
-    public function getList(?Account $account = null): ?\Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList
+    public function getList(?Account $account = null): ?RunalyzeConfigurationList
     {
-        if (! $account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account || ($this->knowsUser() && $account->getId() == $this->getUser()->getId())) {
-            if (! $this->CurrentConfigurationList instanceof \Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList) {
+        if (! $account instanceof Account || ($this->knowsUser() && $account->getId() == $this->getUser()->getId())) {
+            if (! $this->CurrentConfigurationList instanceof RunalyzeConfigurationList) {
                 $this->setListForCurrentUser();
             }
 
@@ -39,7 +39,7 @@ class ConfigurationManager
         return $this->getListFor($account);
     }
 
-    protected function getListFor(Account $account): \Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList
+    protected function getListFor(Account $account): RunalyzeConfigurationList
     {
         $listData = [];
 

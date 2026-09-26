@@ -2,14 +2,10 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\TestCase;
-
-#[Group('default')]
-class HelperTest extends TestCase
+#[\PHPUnit\Framework\Attributes\Group('default')]
+class HelperTest extends \PHPUnit\Framework\TestCase
 {
-    #[DataProvider('provideValuesConsideredUnknown')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideValuesConsideredUnknown')]
     public function testUnknownReturnsFallbackStringForValuesConsideredUnknown(mixed $value): void
     {
         $this->assertSame('?', Helper::Unknown($value));
@@ -30,7 +26,7 @@ class HelperTest extends TestCase
         ];
     }
 
-    #[DataProvider('provideValuesConsideredKnown')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideValuesConsideredKnown')]
     public function testUnknownReturnsValueCoercedToStringForValuesConsideredKnown(mixed $value, string $expected): void
     {
         $this->assertSame($expected, Helper::Unknown($value));

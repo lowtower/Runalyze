@@ -53,15 +53,15 @@ class Dataview
 
     protected ?Pace $Pace = null;
 
-    protected ?\Runalyze\Calculation\JD\LegacyEffectiveVO2max $VO2max = null;
+    protected ?LegacyEffectiveVO2max $VO2max = null;
 
-    protected ?\Runalyze\Data\Cadence\AbstractCadence $Cadence = null;
+    protected ?Cadence\AbstractCadence $Cadence = null;
 
     protected ?StrideLength $StrideLength = null;
 
     protected ?Elevation $Elevation = null;
 
-    protected ?\Runalyze\Data\Weather\WindChillFactor $WindChillFactor = null;
+    protected ?WindChillFactor $WindChillFactor = null;
 
     protected ?HeatIndex $HeatIndex = null;
 
@@ -519,7 +519,7 @@ class Dataview
     /**
      * Value of used VO2max (uncorrected)
      */
-    public function usedVO2maxValue(): float
+    public function usedVO2maxValue(): ?float
     {
         if (Configuration::VO2max()->useElevationCorrection()) {
             if ($this->Activity->vo2maxWithElevation() > 0) {

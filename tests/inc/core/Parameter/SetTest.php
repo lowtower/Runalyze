@@ -1,54 +1,88 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Parameter;
 
-class ParameterSetTest extends \PHPUnit\Framework\TestCase
+#[\PHPUnit\Framework\Attributes\Group('default')]
+class SetTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \Runalyze\Parameter\Set
-     */
-    protected $object;
+    protected Set $object;
 
     protected function setUp(): void
     {
         $this->object = new Set([]);
     }
 
-    public function testArrayToString(): void
+    public function testDefaultValueIsEmptyArray(): void
     {
-        $this->assertEquals([], $this->object->value());
-        $this->assertEquals('', $this->object->valueAsString());
-
-        $this->object->set(['a', 'b', 'c']);
-        $this->assertEquals(['a', 'b', 'c'], $this->object->value());
-        $this->assertEquals('a,b,c', $this->object->valueAsString());
-
-        $this->object->setFromString('1,2,3');
-        $this->assertEquals(['1', '2', '3'], $this->object->value());
+        self::assertSame([], $this->object->value());
+        self::assertSame('', $this->object->valueAsString());
     }
 
-    public function testAppend(): void
+    public function testSetChangesValueAndItsStringRepresentation(): void
     {
-        $this->assertEquals([], $this->object->value());
-        $this->assertEquals('', $this->object->valueAsString());
+        $this->object->set(['a', 'b', 'c']);
 
+        self::assertSame(['a', 'b', 'c'], $this->object->value());
+        self::assertSame('a,b,c', $this->object->valueAsString());
+    }
+
+    public function testSetFromStringSplitsCommaSeparatedStringIntoArray(): void
+    {
+        $this->object->setFromString('1,2,3');
+
+        self::assertSame(['1', '2', '3'], $this->object->value());
+    }
+
+    public function testSetFromStringTrimsWhitespaceAroundValues(): void
+    {
+        $this->object->setFromString('a, b , c');
+
+        self::assertSame(['a', 'b', 'c'], $this->object->value());
+    }
+
+    public function testSetFromStringWithEmptyStringResultsInEmptyArray(): void
+    {
+        $this->object->set(['leftover']);
+        $this->object->setFromString('');
+
+        self::assertSame([], $this->object->value());
+    }
+
+    public function testAppendAddsValueToTheEnd(): void
+    {
         $this->object->append('one');
-        $this->assertEquals(['one'], $this->object->value());
+
+        self::assertSame(['one'], $this->object->value());
 
         $this->object->append('two');
-        $this->assertEquals(['one', 'two'], $this->object->value());
+
+        self::assertSame(['one', 'two'], $this->object->value());
     }
 
-    public function testMaxLength(): void
+    public function testAppendDropsOldestEntryOnceMaxLengthIsExceeded(): void
     {
         $maxString = str_repeat('a', \Runalyze\Parameter::MAX_LENGTH);
 
         $this->object->append($maxString);
         $this->object->setFromString($this->object->valueAsString());
-        $this->assertEquals([$maxString], $this->object->value());
+
+        self::assertSame([$maxString], $this->object->value());
 
         $this->object->append('foo');
         $this->object->setFromString($this->object->valueAsString());
-        $this->assertEquals(['foo'], $this->object->value());
+
+        self::assertSame(['foo'], $this->object->value());
+    }
+
+    public function testArrayToStringReturnsEmptyStringForEmptyArray(): void
+    {
+        self::assertSame('', Set::arrayToString([]));
+    }
+
+    public function testArrayToStringJoinsValuesWithSeparator(): void
+    {
+        self::assertSame('a,b,c', Set::arrayToString(['a', 'b', 'c']));
     }
 }

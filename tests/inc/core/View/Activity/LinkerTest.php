@@ -2,14 +2,13 @@
 
 namespace Runalyze\View\Activity;
 
+use Runalyze\Model\Activity;
+
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]
 #[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
 class LinkerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \PDOforRunalyze
-     */
-    protected $PDO;
+    protected \PDOforRunalyze $PDO;
 
     protected int $ThisAccountID;
 
@@ -71,5 +70,86 @@ class LinkerTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertEquals($this->ThisIDs[1], Linker::prevId($this->ThisIDs[2], 3));
         $this->assertEquals($this->ThisIDs[2], Linker::nextId($this->ThisIDs[1], 3));
+    }
+
+    public function testEditUrlBuildsPathFromActivityId(): void
+    {
+        $Linker = new Linker(new Activity\Entity([
+            'id' => 42,
+        ]));
+
+        $this->assertSame('activity/42/edit', $Linker->editUrl());
+    }
+
+    public function testUrlToElevationCorrectionBuildsPathFromActivityId(): void
+    {
+        $Linker = new Linker(new Activity\Entity([
+            'id' => 42,
+        ]));
+
+        $this->assertSame('activity/42/elevation-correction', $Linker->urlToElevationCorrection());
+    }
+
+    public function testUrlToClimbScoreBuildsPathFromActivityId(): void
+    {
+        $Linker = new Linker(new Activity\Entity([
+            'id' => 42,
+        ]));
+
+        $this->assertSame('activity/42/climb-score', $Linker->urlToClimbScore());
+    }
+
+    public function testUrlToElevationInfoBuildsPathWithoutQueryStringByDefault(): void
+    {
+        $Linker = new Linker(new Activity\Entity([
+            'id' => 42,
+        ]));
+
+        $this->assertSame('activity/42/elevation-info', $Linker->urlToElevationInfo());
+    }
+
+    public function testUrlToElevationInfoAppendsQueryStringWhenDataIsGiven(): void
+    {
+        $Linker = new Linker(new Activity\Entity([
+            'id' => 42,
+        ]));
+
+        $this->assertSame('activity/42/elevation-info?foo=bar', $Linker->urlToElevationInfo('foo=bar'));
+    }
+
+    public function testUrlToVO2maxinfoBuildsPathWithoutQueryStringByDefault(): void
+    {
+        $Linker = new Linker(new Activity\Entity([
+            'id' => 42,
+        ]));
+
+        $this->assertSame('activity/42/vo2max-info', $Linker->urlToVO2maxinfo());
+    }
+
+    public function testUrlToVO2maxinfoAppendsQueryStringWhenDataIsGiven(): void
+    {
+        $Linker = new Linker(new Activity\Entity([
+            'id' => 42,
+        ]));
+
+        $this->assertSame('activity/42/vo2max-info?foo=bar', $Linker->urlToVO2maxinfo('foo=bar'));
+    }
+
+    public function testUrlToRoundsInfoBuildsPathWithoutQueryStringByDefault(): void
+    {
+        $Linker = new Linker(new Activity\Entity([
+            'id' => 42,
+        ]));
+
+        $this->assertSame('activity/42/splits-info', $Linker->urlToRoundsInfo());
+    }
+
+    public function testUrlToRoundsInfoAppendsQueryStringWhenDataIsGiven(): void
+    {
+        $Linker = new Linker(new Activity\Entity([
+            'id' => 42,
+        ]));
+
+        $this->assertSame('activity/42/splits-info?foo=bar', $Linker->urlToRoundsInfo('foo=bar'));
     }
 }

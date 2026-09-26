@@ -26,17 +26,11 @@ use System;
  */
 class Linker
 {
-    /**
-     * Construct linker
-     */
     public function __construct(
         protected Activity\Entity $Activity
     ) {
     }
 
-    /**
-     * Get public url
-     */
     public function publicUrl(): string
     {
         if ($this->Activity->isPublic()) {
@@ -46,16 +40,12 @@ class Linker
         return '';
     }
 
-    /**
-     * Get edit url
-     */
     public function editUrl(): string
     {
         return 'activity/' . $this->Activity->id() . '/edit';
     }
 
     /**
-     * Get link
      * @param string $name displayed link name
      * @return string HTML-link to this training
      */
@@ -65,7 +55,6 @@ class Linker
     }
 
     /**
-     * Get link with icon as text
      * @param string $tooltipCssClass optional, e.g. 'atRight'
      * @return string HTML-link to this training
      */
@@ -128,10 +117,8 @@ class Linker
     }
 
     /**
-     * Link to editor
      * @param int $id id of training
      * @param string $text by default: Icon::$EDIT
-     * @return string link to editor window
      */
     public static function editLink(int $id, string $text = '', string $linkId = '', string $linkClass = ''): string
     {

@@ -36,10 +36,9 @@ class Loopable_MockTester extends Entity implements Loopable
     }
 
     /**
-     * @return mixed
      * @throws \InvalidArgumentException
      */
-    public function get(string $key)
+    public function get(string $key): mixed
     {
         if (! $this->has($key)) {
             throw new \InvalidArgumentException(sprintf('Unknown data index "%s".', $key));
@@ -59,11 +58,9 @@ class Loopable_MockTester extends Entity implements Loopable
     }
 
     /**
-     * @return mixed
-     *
      * @throws \InvalidArgumentException
      */
-    public function at($index, $key)
+    public function at($index, $key): mixed
     {
         if (! $this->has($key) || ! array_key_exists($index, $this->Data[$key])) {
             throw new \InvalidArgumentException(sprintf('Unknown data index "%s" at position %d.', $key, $index));

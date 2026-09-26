@@ -27,46 +27,6 @@ parameters:
             path: lib/jquery.form.include.php
 
         # ---------------------------------------------------------------
-        # Intentional template-method hook: Entity::synchronize() is currently an
-        # empty no-op in the base class, but subclasses call parent::synchronize()
-        # by convention so that future shared logic added to the base class
-        # automatically applies to all entities without needing to touch every
-        # subclass. Removing this call would silently break that extensibility
-        # contract, even though it currently has no runtime effect.
-        # (identical entries for Equipment, EquipmentType, RaceResult, Route, Swimdata)
-        # ---------------------------------------------------------------
-        -
-            message: '#^Call to Runalyze\\Model\\Entity\:\:synchronize\(\) on a separate line has no effect\.$#'
-            identifier: staticMethod.resultUnused
-            count: 1
-            path: inc/core/Model/Activity/Entity.php
-        -
-            message: '#^Call to Runalyze\\Model\\Entity\:\:synchronize\(\) on a separate line has no effect\.$#'
-            identifier: staticMethod.resultUnused
-            count: 1
-            path: inc/core/Model/Equipment/Entity.php
-        -
-            message: '#^Call to Runalyze\\Model\\Entity\:\:synchronize\(\) on a separate line has no effect\.$#'
-            identifier: staticMethod.resultUnused
-            count: 1
-            path: inc/core/Model/EquipmentType/Entity.php
-        -
-            message: '#^Call to Runalyze\\Model\\Entity\:\:synchronize\(\) on a separate line has no effect\.$#'
-            identifier: staticMethod.resultUnused
-            count: 1
-            path: inc/core/Model/RaceResult/Entity.php
-        -
-            message: '#^Call to Runalyze\\Model\\Entity\:\:synchronize\(\) on a separate line has no effect\.$#'
-            identifier: staticMethod.resultUnused
-            count: 1
-            path: inc/core/Model/Route/Entity.php
-        -
-            message: '#^Call to Runalyze\\Model\\Entity\:\:synchronize\(\) on a separate line has no effect\.$#'
-            identifier: staticMethod.resultUnused
-            count: 1
-            path: inc/core/Model/Swimdata/Entity.php
-
-        # ---------------------------------------------------------------
         # Intentional trait-contract guard: method_exists() here protects against
         # a FUTURE class using this trait without implementing the required
         # getEnum() method. PHPStan can only verify this against the currently

@@ -4,8 +4,8 @@
  * This file contains class::PluginFactory
  * @package Runalyze\Plugin
  */
+
 /**
- * Plugin factory
  * @author Hannes Christiansen
  * @package Runalyze\Plugin
  */
@@ -16,14 +16,8 @@ class PluginFactory
      */
     public const CACHE_KEY = 'plugins';
 
-    /**
-     * Array with all keys
-     */
     private static ?array $Plugins = null;
 
-    /**
-     * Array with complete plugin data
-     */
     private static function Plugins(): array
     {
         self::$Plugins ??= self::fetchAllPlugins();
@@ -31,9 +25,6 @@ class PluginFactory
         return self::$Plugins;
     }
 
-    /**
-     * Cache all from Table plugin for a user
-     */
     private static function fetchAllPlugins()
     {
         $data = Cache::get(self::CACHE_KEY);
@@ -52,9 +43,6 @@ class PluginFactory
         Cache::delete(self::CACHE_KEY);
     }
 
-    /**
-     * Fetch complete list from database
-     */
     private static function fetchAllPluginsFrom(PDO $PDO, int $accountID): array
     {
         return $PDO->query(
@@ -86,19 +74,15 @@ class PluginFactory
         return $IDs;
     }
 
-    /**
-     * Complete plugin data
-     * @param string|bool $type [optional]
-     */
-    public function completeData($type = false): array
+    public function completeData(?int $type = null): array
     {
-        if ($type === false) {
+        if ($type === null) {
             return self::Plugins();
         }
 
         $plugins = self::Plugins();
         foreach ($plugins as $k => $plugin) {
-            if ($plugin['type'] != PluginType::string((int) $type)) {
+            if ($plugin['type'] != PluginType::string($type)) {
                 unset($plugins[$k]);
             }
         }
@@ -107,7 +91,6 @@ class PluginFactory
     }
 
     /**
-     * New instance for key
      * @throws \InvalidArgumentException
      */
     public function newInstance(string $pluginkey): Plugin
@@ -121,33 +104,23 @@ class PluginFactory
         throw new InvalidArgumentException('Plugin with key "' . $pluginkey . '" is not installed.');
     }
 
-    /**
-     * New instance for id
-     */
     public function newInstanceFor(int $id): Plugin
     {
         return $this->newInstance(self::keyFor($id));
     }
 
-    /**
-     * New instance for key
-     */
     public function newInstallerInstance(string $Pluginkey): Plugin
     {
         return new $Pluginkey(PluginInstaller::ID);
     }
 
-    /**
-     * Is the plugin already installed?
-     */
     public function isInstalled(string $key): bool
     {
         return in_array($key, $this->allPlugins());
     }
 
     /**
-     * Get all plugins
-     * @param mixed $type [optional] false or enum
+     * @param mixed $type false or enum
      * @return array array with plugin keys
      */
     public function allPlugins($type = false): array
@@ -156,8 +129,7 @@ class PluginFactory
     }
 
     /**
-     * Get all active plugins
-     * @param mixed $type [optional] false or enum
+     * @param mixed $type false or enum
      * @return array array with plugin keys
      */
     public function activePlugins($type = false): array
@@ -166,8 +138,7 @@ class PluginFactory
     }
 
     /**
-     * Get all inactive plugins
-     * @param mixed $type [optional] false or enum
+     * @param mixed $type false or enum
      * @return array array with plugin keys
      */
     public function inactivePlugins($type = false): array
@@ -176,7 +147,6 @@ class PluginFactory
     }
 
     /**
-     * Get all various plugins
      * @return array array with plugin keys
      */
     public function variousPlugins(): array
@@ -185,7 +155,6 @@ class PluginFactory
     }
 
     /**
-     * Get all enabled panels
      * @return array array with plugin keys
      */
     public function enabledPanels(): array
@@ -202,8 +171,8 @@ class PluginFactory
     }
 
     /**
-     * @param mixed $type [optional] false or enum
-     * @param mixed $active [optional] false or enum
+     * @param mixed $type false or enum
+     * @param mixed $active false or enum
      * @return array array with plugin keys
      */
     protected function getPlugins($type = false, $active = false): array
@@ -219,9 +188,6 @@ class PluginFactory
         return $keys;
     }
 
-    /**
-     * Get uninstalled plugins
-     */
     public function notInstalledPlugins(): array
     {
         $plugins = [];
@@ -240,19 +206,14 @@ class PluginFactory
         return $plugins;
     }
 
-    /**
-     * Install a new plugin
-     */
     public function installPlugin(string $Pluginkey)
     {
         $Plugin = new $Pluginkey(PluginInstaller::ID);
-        $Plugin->key = $Pluginkey;
 
         return $Plugin->install();
     }
 
     /**
-     * Get the PLUGINKEY for a given ID from database
      * @throws \InvalidArgumentException
      */
     public static function keyFor(int $id): string

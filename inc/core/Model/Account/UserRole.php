@@ -20,15 +20,14 @@ final class UserRole extends AbstractEnum
 
     /**
      * @param int $roleId int from internal enum
-     * @return string role name
      * @throws \InvalidArgumentException
      */
-    public static function getRoleName($roleId): string
+    public static function getRoleName(int $roleId): string
     {
         $roleNames = self::roleNamesArray();
 
         if (! isset($roleNames[$roleId])) {
-            throw new \InvalidArgumentException('Invalid type id "' . $roleId . '".');
+            throw new \InvalidArgumentException('Invalid role id "' . $roleId . '".');
         }
 
         return $roleNames[$roleId];

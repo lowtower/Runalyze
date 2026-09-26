@@ -20,7 +20,7 @@ class Data extends \Runalyze\Configuration\Category
         return 'data';
     }
 
-    protected function createHandles()
+    protected function createHandles(): void
     {
         $this->createHandle('START_TIME', new Integer(0));
 
@@ -37,18 +37,15 @@ class Data extends \Runalyze\Configuration\Category
         $this->createHandle('MAX_TRIMP', new Integer(0));
     }
 
-    /**
-     * @return int
-     */
-    public function startTime()
+    public function startTime(): int
     {
         return $this->get('START_TIME');
     }
 
     /**
-     * @param int $starttime timestamp
+     * @param int $starttime [timestamp]
      */
-    public function updateStartTime($starttime): void
+    public function updateStartTime(int $starttime): void
     {
         $this->object('START_TIME')
             ->set($starttime);
@@ -58,14 +55,14 @@ class Data extends \Runalyze\Configuration\Category
     public function recalculateStartTime(): void
     {
         $this->updateStartTime(
-            DB::getInstance()->query('SELECT MIN(`time`) FROM `' . PREFIX . 'training` WHERE accountid = ' . SessionAccountHandler::getId())->fetchColumn()
+            (int) DB::getInstance()->query('SELECT MIN(`time`) FROM `' . PREFIX . 'training` WHERE accountid = ' . SessionAccountHandler::getId())->fetchColumn()
         );
     }
 
     /**
      * @return int [bpm]
      */
-    public function HRmax()
+    public function HRmax(): int
     {
         return $this->get('HF_MAX');
     }
@@ -73,7 +70,7 @@ class Data extends \Runalyze\Configuration\Category
     /**
      * @param int $heartrate in [bpm]
      */
-    public function updateHRmax($heartrate): void
+    public function updateHRmax(int $heartrate): void
     {
         $this->object('HF_MAX')
             ->set($heartrate);
@@ -83,7 +80,7 @@ class Data extends \Runalyze\Configuration\Category
     /**
      * @return int [bpm]
      */
-    public function HRrest()
+    public function HRrest(): int
     {
         return $this->get('HF_REST');
     }
@@ -91,7 +88,7 @@ class Data extends \Runalyze\Configuration\Category
     /**
      * @param int $heartrate in [bpm]
      */
-    public function updateHRrest($heartrate): void
+    public function updateHRrest(int $heartrate): void
     {
         $this->object('HF_REST')
             ->set($heartrate);
@@ -101,7 +98,7 @@ class Data extends \Runalyze\Configuration\Category
     /**
      * @return float [ml/kg/min]
      */
-    public function vo2maxShape()
+    public function vo2maxShape(): float
     {
         return $this->get('VO2MAX_FORM');
     }
@@ -109,7 +106,7 @@ class Data extends \Runalyze\Configuration\Category
     /**
      * @return float [ml/kg/min]
      */
-    public function vo2max()
+    public function vo2max(): float
     {
         if (Configuration::VO2max()->useManualValue()) {
             return Configuration::VO2max()->manualValue();
@@ -121,25 +118,19 @@ class Data extends \Runalyze\Configuration\Category
     /**
      * @param float $shape [ml/kg/min]
      */
-    public function updateVO2maxShape($shape): void
+    public function updateVO2maxShape(float $shape): void
     {
         $this->object('VO2MAX_FORM')
             ->set($shape);
         $this->updateValue($this->handle('VO2MAX_FORM'));
     }
 
-    /**
-     * @return float
-     */
-    public function vo2maxCorrector()
+    public function vo2maxCorrector(): float
     {
         return $this->get('VO2MAX_CORRECTOR');
     }
 
-    /**
-     * @return float
-     */
-    public function vo2maxCorrectionFactor()
+    public function vo2maxCorrectionFactor(): float
     {
         if (Configuration::VO2max()->useManualFactor()) {
             return Configuration::VO2max()->manualFactor();
@@ -148,28 +139,19 @@ class Data extends \Runalyze\Configuration\Category
         return $this->vo2maxCorrector();
     }
 
-    /**
-     * @param float $factor
-     */
-    public function updateVO2maxCorrector($factor): void
+    public function updateVO2maxCorrector(float $factor): void
     {
         $this->object('VO2MAX_CORRECTOR')
             ->set($factor);
         $this->updateValue($this->handle('VO2MAX_CORRECTOR'));
     }
 
-    /**
-     * @return int
-     */
-    public function basicEndurance()
+    public function basicEndurance(): int
     {
         return $this->get('BASIC_ENDURANCE');
     }
 
-    /**
-     * @param int $basicEndurance
-     */
-    public function updateBasicEndurance($basicEndurance): void
+    public function updateBasicEndurance(int $basicEndurance): void
     {
         $this->object('BASIC_ENDURANCE')
             ->set($basicEndurance);
@@ -193,10 +175,7 @@ class Data extends \Runalyze\Configuration\Category
         return max(1, $this->get('MAX_CTL'));
     }
 
-    /**
-     * @param int $ctl
-     */
-    public function updateMaxCTL($ctl): void
+    public function updateMaxCTL(int $ctl): void
     {
         $this->object('MAX_CTL')
             ->set($ctl);
@@ -208,10 +187,7 @@ class Data extends \Runalyze\Configuration\Category
         return max(1, $this->get('MAX_TRIMP'));
     }
 
-    /**
-     * @param int $trimp
-     */
-    public function updateMaxTrimp($trimp): void
+    public function updateMaxTrimp(int $trimp): void
     {
         $this->object('MAX_TRIMP')
             ->set($trimp);
@@ -221,9 +197,9 @@ class Data extends \Runalyze\Configuration\Category
     public function recalculateMaxValues(): void
     {
         $Query = new Performance\ModelQuery();
-        $Query->execute(\DB::getInstance());
+        $Query->execute(DB::getInstance());
 
-        $Calc = new Performance\MaximumCalculator(fn (array $array): \Runalyze\Sports\Performance\Model\TsbModel => new TsbModel($array, Configuration::Trimp()->daysForCTL(), Configuration::Trimp()->daysForATL()), $Query->data());
+        $Calc = new Performance\MaximumCalculator(fn (array $array): TsbModel => new TsbModel($array, Configuration::Trimp()->daysForCTL(), Configuration::Trimp()->daysForATL()), $Query->data());
 
         $this->updateMaxCTL($Calc->maxFitness());
         $this->updateMaxATL($Calc->maxFatigue());

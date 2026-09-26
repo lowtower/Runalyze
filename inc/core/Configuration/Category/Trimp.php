@@ -20,20 +20,14 @@ use Runalyze\Parameter\Integer;
  */
 class Trimp extends \Runalyze\Configuration\Category
 {
-    /**
-     * Flag: recalculation triggered?
-     */
     private static bool $TRIGGERED = false;
 
-    /**
-     * Internal key
-     */
     protected function key(): string
     {
         return 'trimp';
     }
 
-    protected function createHandles()
+    protected function createHandles(): void
     {
         $this->createHandle('ATL_DAYS', new Integer(7));
         $this->createHandle('CTL_DAYS', new Integer(42));
@@ -41,43 +35,27 @@ class Trimp extends \Runalyze\Configuration\Category
         $this->createHandle('TSB_IN_PERCENT', new Boolean(false));
     }
 
-    /**
-     * Days for ATL
-     * @return int
-     */
-    public function daysForATL()
+    public function daysForATL(): int
     {
         return $this->get('ATL_DAYS');
     }
 
-    /**
-     * Days for CTL
-     * @return int
-     */
-    public function daysForCTL()
+    public function daysForCTL(): int
     {
         return $this->get('CTL_DAYS');
     }
 
-    /**
-     * Show ATL/CTL in percent?
-     * @return bool
-     */
-    public function showInPercent()
+    public function showInPercent(): bool
     {
         return $this->get('TRIMP_MODEL_IN_PERCENT');
     }
 
-    /**
-     * Show TSB in percent?
-     * @return bool
-     */
-    public function showTSBinPercent()
+    public function showTSBinPercent(): bool
     {
         return $this->get('TSB_IN_PERCENT');
     }
 
-    protected function registerOnchangeEvents()
+    protected function registerOnchangeEvents(): void
     {
         $this->handle('ATL_DAYS')
             ->registerOnchangeEvent(self::class . '::triggerRecalculation');
@@ -95,7 +73,7 @@ class Trimp extends \Runalyze\Configuration\Category
             ->registerOnchangeFlag((string) Ajax::$RELOAD_PLUGINS);
     }
 
-    public function Fieldset(): \Runalyze\Configuration\Fieldset
+    public function Fieldset(): Fieldset
     {
         $Fieldset = new Fieldset(__('TRIMP'));
 

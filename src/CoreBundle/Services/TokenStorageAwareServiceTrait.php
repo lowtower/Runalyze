@@ -15,7 +15,7 @@ trait TokenStorageAwareServiceTrait
             ->getUser() instanceof Account;
     }
 
-    protected function getUser(): ?\Runalyze\Bundle\CoreBundle\Entity\Account
+    protected function getUser(): ?Account
     {
         if (! $this->knowsUser()) {
             return null;

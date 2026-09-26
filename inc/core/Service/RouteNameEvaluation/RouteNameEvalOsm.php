@@ -8,6 +8,7 @@ use League\Geotools\Geohash\Geohash;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Runalyze\Bundle\CoreBundle\Entity\Route;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Profile\Sport\SportProfile;
@@ -56,7 +57,7 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
         protected Client $HttpClient,
         ?LoggerInterface $logger = null
     ) {
-        $this->logger = $logger;
+        $this->logger = $logger ?? new NullLogger();
     }
 
     /**
@@ -105,11 +106,6 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
 
         try {
             $response = $this->HttpClient->request('POST', $this->Url, $param);
-            $statusCode = $response->getStatusCode();
-            if ($statusCode !== 200) {
-                $this->logger->warning(sprintf('RouteNameEvalOsm: RouteId=%d status-code >> %d', $routeId, $statusCode));
-                throw new \Exception('Route evaluation result in HTTP code=' . $statusCode);
-            }
 
             $repCont = $response->getBody()
                 ->getContents();
@@ -182,10 +178,9 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
             $this->addLongitude((float) $geoMax->getLongitude(), (float) $geoMax->getLatitude(), self::BOX_CORR)
         );
 
-        // build the "around" lat/lon
-        // we add always the first and last coordinate; then every n (=calculated) coord will be used (to reduce) the amount
+        $stepAsInt = max(1, (int) round($step));
         $aroundpos = $coordinates[0][0] . ',' . $coordinates[1][0]; // add the first
-        for ($i = 0; $i < $size; $i += $step) {
+        for ($i = 0; $i < $size; $i += $stepAsInt) {
             if ($coordinates[0][$i] != 0 && $coordinates[1][$i] != 0) {
                 $aroundpos .= ',' . $coordinates[0][$i] . ',' . $coordinates[1][$i];
             }

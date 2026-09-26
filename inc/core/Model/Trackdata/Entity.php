@@ -231,7 +231,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
     /**
      * @throws \RuntimeException
      */
-    protected function checkArraySizes()
+    protected function checkArraySizes(): void
     {
         foreach ($this->properties() as $key) {
             if ($this->isArray($key)) {

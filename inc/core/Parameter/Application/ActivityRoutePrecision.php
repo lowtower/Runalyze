@@ -16,9 +16,6 @@ namespace Runalyze\Parameter\Application;
  */
 class ActivityRoutePrecision extends \Runalyze\Parameter\Select
 {
-    /**
-     * Construct
-     */
     public function __construct()
     {
         parent::__construct('5', [

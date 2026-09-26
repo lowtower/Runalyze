@@ -46,18 +46,17 @@ abstract class Category
     }
 
     /**
-     * @param int $id
      * @param array $data values from database
      */
-    final public function setUserID($id, $data = null)
+    final public function setUserID(?int $id, ?array $data = null)
     {
         if ($id !== $this->UserID && $id >= 0) {
-            $this->UserID = (int) $id;
+            $this->UserID = $id;
             $this->loadValues($data);
         }
     }
 
-    public function setValues(array $data)
+    public function setValues(array $data): void
     {
         foreach ($data as $key => $value) {
             if (isset($this->Handles[$key])) {
@@ -74,25 +73,23 @@ abstract class Category
         return is_numeric($this->UserID);
     }
 
-    private function userID(): int
+    private function userID(): ?int
     {
-        return (int) $this->UserID;
+        return $this->UserID;
     }
 
     /**
      * Keys
-     * @return array
      */
-    final public function keys()
+    final public function keys(): array
     {
         return array_keys($this->Handles);
     }
 
     /**
      * Internal key
-     * @return string
      */
-    abstract protected function key();
+    abstract protected function key(): string;
 
     /**
      * Create values
@@ -103,24 +100,20 @@ abstract class Category
     {
     }
 
-    /**
-     * @return ?\Runalyze\Configuration\Fieldset
-     */
-    public function Fieldset()
+    public function Fieldset(): ?\Runalyze\Configuration\Fieldset
     {
         return null;
     }
 
-    final protected function addHandle(Handle $Handle)
+    final protected function addHandle(Handle $Handle): void
     {
         $this->Handles[$Handle->key()] = $Handle;
     }
 
     /**
      * Add handle
-     * @param string $key
      */
-    final protected function createHandle($key, Parameter $Parameter)
+    final protected function createHandle(string $key, Parameter $Parameter)
     {
         $this->Handles[$key] = new Handle($key, $Parameter);
     }
@@ -151,11 +144,9 @@ abstract class Category
 
     /**
      * Get handle object
-     * @param string $key
-     * @return \Runalyze\Configuration\Handle
      * @throws \InvalidArgumentException
      */
-    final protected function handle($key)
+    final protected function handle(string $key): \Runalyze\Configuration\Handle
     {
         if (isset($this->Handles[$key])) {
             return $this->Handles[$key];
@@ -167,14 +158,14 @@ abstract class Category
     /**
      * Update all values from post
      */
-    final public function updateFromPost()
+    final public function updateFromPost(): void
     {
         foreach ($this->Handles as $Handle) {
             $this->updateValueFromPost($Handle);
         }
     }
 
-    final protected function updateValue(Handle $Handle)
+    final protected function updateValue(Handle $Handle): void
     {
         if ($this->hasUserID() && ! SharedLinker::isOnSharedPage()) {
             $where = '`accountid`=' . $this->userID();
@@ -184,7 +175,7 @@ abstract class Category
         }
     }
 
-    private function updateValueFromPost(Handle $Handle)
+    private function updateValueFromPost(Handle $Handle): void
     {
         $key = $Handle->key();
 
@@ -196,7 +187,7 @@ abstract class Category
                     ->set(isset($_POST[$key]));
             } else {
                 $Handle->object()
-                    ->setFromString($_POST[$key]);
+                    ->setFromString($_POST[$key] ?? '');
             }
 
             if ($value != $Handle->value()) {
@@ -209,7 +200,7 @@ abstract class Category
     /**
      * @param array $data values from database
      */
-    private function loadValues($data = null)
+    private function loadValues(?array $data = null)
     {
         $KeysInDatabase = [];
         $Values = $data ?? $this->fetchValues();
@@ -237,7 +228,7 @@ abstract class Category
     /**
      * Correct database
      */
-    private function correctDatabaseFor(array $KeysInDatabase)
+    private function correctDatabaseFor(array $KeysInDatabase): void
     {
         $WantedKeys = array_keys($this->Handles);
         $UnusedKeys = array_diff($KeysInDatabase, $WantedKeys);
@@ -252,18 +243,12 @@ abstract class Category
         }
     }
 
-    /**
-     * @param string $Key
-     */
-    private function deleteKeyFromDatabase($Key)
+    private function deleteKeyFromDatabase(string $Key): void
     {
         DB::getInstance()->exec('DELETE FROM ' . PREFIX . 'conf WHERE `accountid`="' . $this->userID() . '" AND `category`="' . $this->key() . '" AND `key`="' . $Key . '"');
     }
 
-    /**
-     * @param string $Key
-     */
-    private function insertKeyToDatabase($Key)
+    private function insertKeyToDatabase(string $Key): void
     {
         DB::getInstance()->insert(
             'conf',

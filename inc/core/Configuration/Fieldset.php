@@ -16,9 +16,6 @@ class Fieldset extends \FormularFieldset
 {
     protected FieldFactory $Factory;
 
-    /**
-     * Construct new form
-     */
     public function __construct(string $title)
     {
         parent::__construct($title);

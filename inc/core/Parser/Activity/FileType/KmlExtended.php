@@ -73,7 +73,7 @@ class KmlExtended extends AbstractSingleParser implements FileContentAwareParser
             $time = strtotime((string) $step);
 
             if ($this->hasMorePauses()) {
-                $currentTime = strftime('%T', $time + $DstCorrector * 3600);
+                $currentTime = date('H:i:s', $time + $DstCorrector * 3600);
 
                 if ($currentTime == $this->ResumeTimes[$this->PauseIndex]) {
                     $this->Container->Pauses->add(new Pause(
@@ -197,7 +197,7 @@ class KmlExtended extends AbstractSingleParser implements FileContentAwareParser
                     } elseif ($mark->styleUrl == '#resume') {
                         $end = strtotime($mark->description . 'Z');
 
-                        $this->ResumeTimes[] = strftime('%T', $end);
+                        $this->ResumeTimes[] = date('H:i:s', $end);
                         $this->PauseTimes[] = ($end - $start) % DAY_IN_S;
                     }
                 }

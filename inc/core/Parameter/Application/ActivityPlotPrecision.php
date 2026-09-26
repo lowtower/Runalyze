@@ -14,9 +14,6 @@ namespace Runalyze\Parameter\Application;
  */
 class ActivityPlotPrecision extends \Runalyze\Parameter\Select
 {
-    /**
-     * Construct
-     */
     public function __construct()
     {
         parent::__construct('200points', [

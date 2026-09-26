@@ -12,14 +12,12 @@ use Runalyze\Parameter\Select;
 use Runalyze\Parameter\SelectRow;
 
 /**
- * Factory for configuration fields
  * @author Hannes Christiansen
  * @package Runalyze\Configuration
  */
 class FieldFactory
 {
     /**
-     * Add field
      * @param array<string, mixed> $options
      */
     public function FieldFor(Handle $Handle, array $options = []): \FormularField
@@ -41,13 +39,9 @@ class FieldFactory
         return $Field;
     }
 
-    /**
-     * Create a field
-     */
     private function createFieldFor(Handle $Handle, string $label): \FormularField
     {
         $Parameter = $Handle->object();
-        $Class = 'FormularInput';
 
         if ($Parameter instanceof SelectRow) {
             $Field = new \FormularSelectDb($Handle->key(), $label, $Handle->value());
@@ -70,7 +64,7 @@ class FieldFactory
             return $Field;
         }
 
-        return new $Class($Handle->key(), $label, $Handle->object()->valueAsString());
+        return new \FormularInput($Handle->key(), $label, $Handle->object()->valueAsString());
     }
 
     /**

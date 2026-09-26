@@ -19,7 +19,6 @@ use Helper;
 class FloatingPoint extends \Runalyze\Parameter
 {
     /**
-     * Options
      * @var array<string, false>
      */
     protected array $Options = [
@@ -28,9 +27,6 @@ class FloatingPoint extends \Runalyze\Parameter
         'null' => false,
     ];
 
-    /**
-     * @param string $valueAsString new value
-     */
     public function setFromString(string $valueAsString): void
     {
         if ($valueAsString === '' && $this->Options['null']) {
@@ -40,10 +36,6 @@ class FloatingPoint extends \Runalyze\Parameter
         }
     }
 
-    /**
-     * Set value
-     * @param mixed $value new value
-     */
     public function set(mixed $value): void
     {
         if ($value === null && $this->Options['null']) {

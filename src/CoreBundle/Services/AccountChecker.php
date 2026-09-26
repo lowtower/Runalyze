@@ -20,6 +20,6 @@ class AccountChecker implements UserCheckerInterface
 
     public function checkPostAuth(UserInterface $user): void
     {
-        // keine Post-Auth-Prüfung nötig
+        // post-auth-check not necessary
     }
 }

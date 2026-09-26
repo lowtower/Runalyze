@@ -52,10 +52,10 @@ class ConfigTabPlugins extends ConfigTab
         $this->Formular->allowOnlyOneOpenedFieldset();
     }
 
-    private function getCodeFor(int $PluginType): string
+    private function getCodeFor(?int $PluginType): string
     {
         $Factory = new PluginFactory();
-        $Plugins = $Factory->completeData((string) $PluginType);
+        $Plugins = $Factory->completeData($PluginType);
         usort($Plugins, $this->pluginOrderFunction());
 
         if ($Plugins === []) {

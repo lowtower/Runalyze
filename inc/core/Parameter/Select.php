@@ -27,8 +27,6 @@ class Select extends \Runalyze\Parameter
     }
 
     /**
-     * Set value
-     * @param mixed $value new value
      * @throws \InvalidArgumentException
      */
     public function set(mixed $value): void

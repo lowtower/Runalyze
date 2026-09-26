@@ -15,63 +15,53 @@ class Ajax
 {
     /**
      * CSS-class for waiter-image
-     * @var string
      */
-    public static $IMG_WAIT = 'wait-img';
+    public static string $IMG_WAIT = 'wait-img';
 
     /**
      * ID for plugin to reload, can be empty to reload all plugins
-     * @var ?int
      */
-    public static $RELOAD_PLUGIN_ID;
+    public static ?int $RELOAD_PLUGIN_ID = null;
 
     /**
      * Enum: Reload flag - no reload
-     * @var int
      */
-    public static $RELOAD_NONE = 0;
+    public static int $RELOAD_NONE = 0;
 
     /**
      * Enum: Reload flag - reload databrowser
-     * @var int
      */
-    public static $RELOAD_DATABROWSER = 1;
+    public static int $RELOAD_DATABROWSER = 1;
 
     /**
      * Enum: Reload flag - reload training
-     * @var int
      */
-    public static $RELOAD_TRAINING = 2;
+    public static int $RELOAD_TRAINING = 2;
 
     /**
      * Enum: Reload flag - reload databrowser and training
-     * @var int
      */
-    public static $RELOAD_DATABROWSER_AND_TRAINING = 3;
+    public static int $RELOAD_DATABROWSER_AND_TRAINING = 3;
 
     /**
      * Enum: Reload flag - reload all plugins
-     * @var int
      */
-    public static $RELOAD_PLUGINS = 4;
+    public static int $RELOAD_PLUGINS = 4;
 
     /**
      * Enum: Reload flag - reload all elements with jQuery
-     * @var int
      */
-    public static $RELOAD_ALL = 5;
+    public static int $RELOAD_ALL = 5;
 
     /**
      * Enum: Reload flag - reload complete page
-     * @var int
      */
-    public static $RELOAD_PAGE = 6;
+    public static int $RELOAD_PAGE = 6;
 
     /**
      * Current reload flag
-     * @var int
      */
-    private static $currentReloadFlag = 0;
+    private static int $currentReloadFlag = 0;
 
     /**
      * Init own JS-library on frontend (direct output)
@@ -97,27 +87,45 @@ class Ajax
 
     }
 
-    /**
-     * @param int $Flag
-     */
-    public static function setReloadFlag($Flag): void
+    public static function setReloadFlag(int $Flag): void
     {
-        $BothFlags = [$Flag, self::$currentReloadFlag];
+        self::$currentReloadFlag = self::combineReloadFlags(self::$currentReloadFlag, $Flag);
+    }
 
-        if (min($BothFlags) == self::$RELOAD_DATABROWSER && max($BothFlags) == self::$RELOAD_PLUGINS) {
-            self::$currentReloadFlag = self::$RELOAD_ALL;
-        } elseif (min($BothFlags) == self::$RELOAD_DATABROWSER && max($BothFlags) == self::$RELOAD_TRAINING) {
-            self::$currentReloadFlag = self::$RELOAD_DATABROWSER_AND_TRAINING;
-        } else {
-            self::$currentReloadFlag = max($BothFlags);
+    public static function combineReloadFlags(int $current, int $new): int
+    {
+        if ($current === self::$RELOAD_PAGE || $new === self::$RELOAD_PAGE) {
+            return self::$RELOAD_PAGE;
         }
+
+        if ($current === self::$RELOAD_ALL || $new === self::$RELOAD_ALL) {
+            return self::$RELOAD_ALL;
+        }
+
+        $contentFlags = [self::$RELOAD_DATABROWSER, self::$RELOAD_TRAINING, self::$RELOAD_DATABROWSER_AND_TRAINING];
+
+        if (
+            ($current === self::$RELOAD_PLUGINS && in_array($new, $contentFlags, true))
+            || ($new === self::$RELOAD_PLUGINS && in_array($current, $contentFlags, true))
+        ) {
+            return self::$RELOAD_ALL;
+        }
+
+        if (
+            in_array($current, [self::$RELOAD_DATABROWSER, self::$RELOAD_TRAINING], true)
+            && in_array($new, [self::$RELOAD_DATABROWSER, self::$RELOAD_TRAINING], true)
+            && $current !== $new
+        ) {
+            return self::$RELOAD_DATABROWSER_AND_TRAINING;
+        }
+
+        return max($current, $new);
     }
 
     /**
      * Set ID of plugin to reload
-     * @param int $ID
      */
-    public static function setPluginIDtoReload($ID): void
+    public static function setPluginIDtoReload(int $ID): void
     {
         self::$RELOAD_PLUGIN_ID = $ID;
     }
@@ -139,16 +147,16 @@ class Ajax
      * Gives a HTML-link for using jTraining
      * @param int $id ID of the training
      * @param string $name Name of the link to be displayed
-     * @param bool $closeOverlay [optional] Boolean flag: Should the overlay be closed after clicking? (default: false)
+     * @param bool $closeOverlay Boolean flag: Should the overlay be closed after clicking? (default: false)
      */
-    public static function trainingLink($id, $name, $closeOverlay = false, $classes = '', $htmlID = ''): string
+    public static function trainingLink(int $id, string $name, bool $closeOverlay = false, $classes = '', $htmlID = ''): string
     {
         return '<a ' . (! empty($htmlID) ? 'id="' . $htmlID . '" ' : '') . 'class="training ' . $classes . '" href="activity/' . $id . '" rel="' . $id . '"' . ($closeOverlay ? ' onclick="Runalyze.Overlay.close()"' : '') . '>' . $name . '</a>';
     }
 
     /**
      * Get onclick-string for loading training
-     * @param int $id ID of the training
+     * @param ?int $id ID of the training
      */
     public static function trainingLinkAsOnclick(?int $id): string
     {
@@ -161,15 +169,11 @@ class Ajax
 
     /**
      * Get html-code for jquery-tooltip
-     * @param string $html
-     * @param string $tooltip
-     * @param bool|string $atLeft [optional] can be 'atRight'
-     * @param bool $onlyAttributes [optional]
-     * @return string
+     * @param bool|string $atLeft can be 'atRight'
      */
-    public static function tooltip($html, $tooltip, $atLeft = false, $onlyAttributes = false)
+    public static function tooltip(string $html, string $tooltip, bool|string $atLeft = false, bool $onlyAttributes = false): string
     {
-        if ($tooltip == '') {
+        if ($tooltip === '') {
             return $html;
         }
 
@@ -184,12 +188,10 @@ class Ajax
 
     /**
      * Get code for toolbar navigation for links as array (tag => ..., subs => array(..., ...))
-     * @param array $Links
-     * @param string $AdditionalClasses
      */
-    public static function toolbarNavigation($Links, $AdditionalClasses = ''): string
+    public static function toolbarNavigation(array $Links, string $AdditionalClasses = ''): string
     {
-        if (empty($Links)) {
+        if ($Links === []) {
             return '';
         }
 
@@ -224,7 +226,7 @@ class Ajax
      * @param string $link        The normal HTML-link
      * @param string $toggle_id   The ID of the css-container to toggle
      */
-    public static function toggle($link, $toggle_id): string
+    public static function toggle(string $link, string $toggle_id): string
     {
         $link = self::insertClass($link, 'toggle');
 
@@ -236,10 +238,10 @@ class Ajax
      * @param string $link     The normal HTML-link
      * @param string $size     Enum: big|normal|small
      */
-    public static function window($link, $size = 'normal'): string
+    public static function window(string $link, string $size = 'normal'): string
     {
         $link = self::insertClass($link, 'window');
-        if ($size == 'big' || $size == 'small') {
+        if ($size === 'big' || $size === 'small') {
             return self::insertDataSize($link, $size);
         }
 
@@ -252,13 +254,13 @@ class Ajax
      * @param string $target ID of surrounding div-container
      * @param string $href   ID of div-container to be displayed
      */
-    public static function change($name, $target, $href, $additional_class = ''): string
+    public static function change(string $name, string $target, string $href, string $additional_class = ''): string
     {
         if (! str_starts_with($href, '#')) {
             $href = '#' . $href;
         }
 
-        if ($additional_class != '') {
+        if ($additional_class !== '') {
             $additional_class .= ' ';
         }
 
@@ -273,19 +275,15 @@ class Ajax
      * @param string $data    data to be passed
      * @param string $title   title
      */
-    public static function link($name, $target, $href, $data = '', $title = '', $onclick = false): string
+    public static function link(string $name, string $target, string $href, string $data = '', string $title = '', ?string $onclick = null): string
     {
         return '<a class="ajax" href="' . $href . '" target="' . $target . '" rel="' . $data . '"' . (! empty($title) ? ' title="' . $title . '"' : '') . ' ' . (($onclick) ? ' onclick="' . $onclick . '"' : '') . '>' . $name . '</a>';
     }
 
     /**
      * Transform text to link for changing flot
-     * @param string $text
-     * @param string $divID
-     * @param string $flotID
-     * @param bool $active
      */
-    public static function flotChange($text, $divID, $flotID, $active = true): string
+    public static function flotChange(string $text, string $divID, string $flotID, bool $active = true): string
     {
         return '<span class="link' . ($active ? '' : ' unimportant') . ' flotChanger-' . $divID . ' flotChanger-id-' . $flotID . '" onclick="Runalyze.flotChange(\'' . $divID . "','" . $flotID . '\')">' . $text . '</span>';
     }
@@ -295,7 +293,7 @@ class Ajax
      * @param string $link    The full HTML-link
      * @param string $class   The new css-class
      */
-    public static function insertClass($link, $class): string
+    public static function insertClass(string $link, string $class): string
     {
         $text = preg_replace('#<a ([^>]*?)class="(.+?)"#i', '<a \\1class="' . $class . ' \\2"', $link);
         if ($text == $link) {
@@ -310,7 +308,7 @@ class Ajax
      * @param string $link   The full HTML-link
      * @param string $rel    The new rel-value
      */
-    public static function insertRel($link, $rel): string
+    public static function insertRel(string $link, string $rel): string
     {
         $text = preg_replace('#rel="(.+?)"#i', 'rel="' . $rel . '"', $link);
         if ($text == $link) {
@@ -325,7 +323,7 @@ class Ajax
      * @param string $link   The full HTML-link
      * @param string $rel    The new data-size-value
      */
-    public static function insertDataSize($link, $rel): string
+    public static function insertDataSize(string $link, string $rel): string
     {
         $text = preg_replace('#data-size="(.+?)"#i', 'data-size="' . $rel . '"', $link);
         if ($text == $link) {
@@ -337,18 +335,16 @@ class Ajax
 
     /**
      * Wrap JavaScript into code block
-     * @param string $code
      */
-    public static function wrapJS($code): string
+    public static function wrapJS(string $code): string
     {
         return '<script>' . $code . '</script>';
     }
 
     /**
      * Wrap JavaScript into code block for beeing executed on document ready
-     * @param string $code
      */
-    public static function wrapJSforDocumentReady($code): string
+    public static function wrapJSforDocumentReady(string $code): string
     {
         return self::wrapJS('(function($){$(document).ready(function(){ ' . $code . ' });})(jQuery);');
     }
@@ -402,7 +398,6 @@ class Ajax
 
     /**
      * Create code for binding tablesorter
-     * @param bool $reinit [optional]
      */
     public static function createTablesorterFor(string $selector, bool $reinit = false): void
     {
@@ -411,20 +406,16 @@ class Ajax
 
     /**
      * Create code for binding tablesorter with pager
-     * @param string $selector
-     * @param bool $reinit [optional]
      */
-    public static function createTablesorterWithPagerFor($selector, $reinit = false): void
+    public static function createTablesorterWithPagerFor(string $selector, bool $reinit = false): void
     {
         echo self::getTablesorterWithPagerFor($selector, $reinit);
     }
 
     /**
      * Create code for binding tablesorter with pager
-     * @param string $selector
-     * @param bool $reinit [optional]
      */
-    public static function getTablesorterWithPagerFor($selector, $reinit = false): string
+    public static function getTablesorterWithPagerFor(string $selector, bool $reinit = false): string
     {
         $Code = self::getPagerDiv();
 

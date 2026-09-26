@@ -897,9 +897,9 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return float [s]
+     * @return ?float [s]
      */
-    public function getS(): float
+    public function getS(): ?float
     {
         return $this->s;
     }
@@ -909,7 +909,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      */
     public function setElapsedTime(?float $elapsedTime): self
     {
-        $this->elapsedTime = (int) $elapsedTime;
+        $this->elapsedTime = $elapsedTime !== null ? (int) $elapsedTime : null;
 
         return $this;
     }

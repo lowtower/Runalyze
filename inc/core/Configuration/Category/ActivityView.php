@@ -61,20 +61,14 @@ class ActivityView extends \Runalyze\Configuration\Category
         $this->createHandle('TRAINING_MAP_ZOOM_ON_SCROLL', new Boolean(false));
     }
 
-    /**
-     * @return ActivityRoutePrecision
-     */
-    public function routePrecision(): \Runalyze\Parameter
+    public function routePrecision(): \Runalyze\Parameter&ActivityRoutePrecision
     {
         /** @var \Runalyze\Parameter\Application\ActivityRoutePrecision $parameter */
         $parameter = $this->object('GMAP_PATH_PRECISION');
         return $parameter;
     }
 
-    /**
-     * @return ActivityRouteBreak
-     */
-    public function routeBreak(): \Runalyze\Parameter
+    public function routeBreak(): \Runalyze\Parameter&ActivityRouteBreak
     {
         /** @var \Runalyze\Parameter\Application\ActivityRouteBreak $parameter */
         $parameter = $this->object('GMAP_PATH_BREAK');
@@ -83,25 +77,18 @@ class ActivityView extends \Runalyze\Configuration\Category
 
     /**
      * Show map first
-     * @return string
      */
-    public function mapFirst()
+    public function mapFirst(): bool
     {
         return $this->get('TRAINING_MAP_SHOW_FIRST');
     }
 
-    /**
-     * @return string
-     */
-    public function mapLayer()
+    public function mapLayer(): string
     {
         return $this->get('TRAINING_LEAFLET_LAYER');
     }
 
-    /**
-     * @param string $layer
-     */
-    public function updateLayer($layer): void
+    public function updateLayer(string $layer): void
     {
         $this->object('TRAINING_LEAFLET_LAYER')
             ->set($layer);
@@ -110,9 +97,8 @@ class ActivityView extends \Runalyze\Configuration\Category
 
     /**
      * Map: zoom on scroll
-     * @return bool
      */
-    public function mapZoomOnScroll()
+    public function mapZoomOnScroll(): bool
     {
         return $this->get('TRAINING_MAP_ZOOM_ON_SCROLL');
     }
@@ -136,46 +122,35 @@ class ActivityView extends \Runalyze\Configuration\Category
 
     /**
      * Plot: smooth curves
-     * @return bool
      */
-    public function smoothCurves()
+    public function smoothCurves(): bool
     {
         return $this->get('TRAINING_PLOT_SMOOTH');
     }
 
     /**
      * Plot: use time as x-axis
-     * @return bool
      */
-    public function usesTimeAsXAxis()
+    public function usesTimeAsXAxis(): bool
     {
         return $this->get('TRAINING_PLOT_XAXIS_TIME');
     }
 
-    /**
-     * @return ActivityPlotMode
-     */
-    public function plotMode(): \Runalyze\Parameter
+    public function plotMode(): \Runalyze\Parameter&ActivityPlotMode
     {
         /** @var \Runalyze\Parameter\Application\ActivityPlotMode $parameter */
         $parameter = $this->object('TRAINING_PLOT_MODE');
         return $parameter;
     }
 
-    /**
-     * @return ActivityPlotPrecision
-     */
-    public function plotPrecision(): \Runalyze\Parameter
+    public function plotPrecision(): \Runalyze\Parameter&ActivityPlotPrecision
     {
         /** @var \Runalyze\Parameter\Application\ActivityPlotPrecision $parameter */
         $parameter = $this->object('TRAINING_PLOT_PRECISION');
         return $parameter;
     }
 
-    /**
-     * @return bool
-     */
-    public function startSplitsAtZero()
+    public function startSplitsAtZero(): bool
     {
         return $this->get('TRAINING_PLOT_SPLITS_ZERO');
     }
@@ -187,7 +162,7 @@ class ActivityView extends \Runalyze\Configuration\Category
      * - PACE_Y_AXIS_TYPE
      * - PACE_HIDE_OUTLIERS
      */
-    protected function createPacePlotOptions()
+    protected function createPacePlotOptions(): void
     {
         $this->createHandle('PACE_Y_LIMIT_MIN', new PaceAxisMinimum());
         $this->createHandle('PACE_Y_LIMIT_MAX', new PaceAxisMaximum());
@@ -199,9 +174,8 @@ class ActivityView extends \Runalyze\Configuration\Category
 
     /**
      * Pace: Y axis minimum
-     * @return PaceAxisMinimum
      */
-    public function paceYaxisMinimum(): \Runalyze\Parameter
+    public function paceYaxisMinimum(): \Runalyze\Parameter&PaceAxisMinimum
     {
         /** @var \Runalyze\Parameter\Application\PaceAxisMinimum $parameter */
         $parameter = $this->object('PACE_Y_LIMIT_MIN');
@@ -210,9 +184,8 @@ class ActivityView extends \Runalyze\Configuration\Category
 
     /**
      * Pace: Y axis maximum
-     * @return PaceAxisMaximum
      */
-    public function paceYaxisMaximum(): \Runalyze\Parameter
+    public function paceYaxisMaximum(): \Runalyze\Parameter&PaceAxisMaximum
     {
         /** @var \Runalyze\Parameter\Application\PaceAxisMaximum $parameter */
         $parameter = $this->object('PACE_Y_LIMIT_MAX');
@@ -220,20 +193,16 @@ class ActivityView extends \Runalyze\Configuration\Category
     }
 
     /**
-     * Reverse pace axis
-     * @return PaceAxisType
+     * Pace axis
      */
-    public function paceAxisType(): \Runalyze\Parameter
+    public function paceAxisType(): \Runalyze\Parameter&PaceAxisType
     {
         /** @var \Runalyze\Parameter\Application\PaceAxisType $parameter */
         $parameter = $this->object('PACE_Y_AXIS_TYPE');
         return $parameter;
     }
 
-    /**
-     * @return bool
-     */
-    public function ignorePaceOutliers()
+    public function ignorePaceOutliers(): bool
     {
         return $this->get('PACE_HIDE_OUTLIERS');
     }
@@ -245,7 +214,7 @@ class ActivityView extends \Runalyze\Configuration\Category
      * - ELEVATION_METHOD
      * - ELEVATION_TRESHOLD
      */
-    protected function createOtherOptions()
+    protected function createOtherOptions(): void
     {
         $this->createHandle('TRAINING_DECIMALS', new Select('1', [
             'options' => ['0', '1', '2', '3'],
@@ -268,32 +237,25 @@ class ActivityView extends \Runalyze\Configuration\Category
 
     /**
      * Show sections always in fullheight
-     * @return bool
      */
-    public function showSectionsFullheight()
+    public function showSectionsFullheight(): bool
     {
         return $this->get('SHOW_SECTIONS_FULLHEIGHT');
     }
 
-    /**
-     * @return ElevationMethod
-     */
-    public function elevationMethod(): \Runalyze\Parameter
+    public function elevationMethod(): \Runalyze\Parameter&ElevationMethod
     {
         /** @var \Runalyze\Parameter\Application\ElevationMethod $parameter */
         $parameter = $this->object('ELEVATION_METHOD');
         return $parameter;
     }
 
-    /**
-     * @return int
-     */
-    public function elevationMinDiff()
+    public function elevationMinDiff(): int
     {
         return $this->get('ELEVATION_TRESHOLD');
     }
 
-    protected function registerOnchangeEvents()
+    protected function registerOnchangeEvents(): void
     {
         $this->handle('TRAINING_PLOT_MODE')
             ->registerOnchangeFlag((string) Ajax::$RELOAD_DATABROWSER_AND_TRAINING);

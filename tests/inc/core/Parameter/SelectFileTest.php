@@ -6,10 +6,7 @@ namespace Runalyze\Parameter;
 
 class ParameterSelectFileTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \Runalyze\Parameter\SelectFile
-     */
-    protected $object;
+    protected \Runalyze\Parameter\SelectFile $object;
 
     protected function setUp(): void
     {

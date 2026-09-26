@@ -22,9 +22,6 @@ class ActivityRouteBreak extends \Runalyze\Parameter\Select
      */
     public const NO_BREAK = 'no';
 
-    /**
-     * Construct
-     */
     public function __construct()
     {
         parent::__construct('15', [

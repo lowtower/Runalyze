@@ -24,7 +24,7 @@ class OsmCsvDataCollection
     {
         $lines = explode(PHP_EOL, $csvLines);
 
-        foreach ($lines as &$l) {
+        foreach ($lines as $l) {
             if (substr($l, 0, 6) !== '@type' . OsmCsvData::SEPERATOR && $l !== '') { // ignore header-line
                 $this->data[] = new OsmCsvData($l);
             }
@@ -34,7 +34,7 @@ class OsmCsvDataCollection
         $this->fillOrderedNames();
     }
 
-    protected function sort()
+    protected function sort(): void
     {
         usort($this->data, function ($a, $b): int {
             $r = $a->order <=> $b->order;
@@ -55,9 +55,9 @@ class OsmCsvDataCollection
     /**
      * fills the internal array which map the names to a category.
      */
-    protected function fillOrderedNames()
+    protected function fillOrderedNames(): void
     {
-        foreach ($this->data as &$e) {
+        foreach ($this->data as $e) {
             $n = empty($e->nameDe) ? $e->name : $e->nameDe;
 
             // if this name is not already in the list, add it

@@ -13,7 +13,7 @@ use Runalyze\View\Activity\Linker;
 use System;
 
 /**
- * Create exporter for given type
+ * Create sharing links for given type
  *
  * @author Hannes Christiansen
  * @package Runalyze\Export\Share
@@ -26,9 +26,6 @@ abstract class AbstractSharer extends AbstractExporter
 
     abstract public function name(): string;
 
-    /**
-     * Get text for sharing
-     */
     final protected function text()
     {
         $Text = __('I did sport: ');
@@ -73,9 +70,6 @@ abstract class AbstractSharer extends AbstractExporter
         return '<a href="' . $this->url() . '" target="_blank" style="display:block!important"><i class="fa ' . $this->iconClass() . '"></i> <strong>' . $text . '</strong></a>';
     }
 
-    /**
-     * Get error for localhost
-     */
     final protected function errorForLocalhost(): string
     {
         if (System::isAtLocalhost()) {

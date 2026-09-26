@@ -28,7 +28,7 @@ class OsmCsvData
     /**
      * Used for internal order of the "place"; 1 is higher than 8 or 9; 9 if not "known" by this logic
      */
-    protected static $placeOrder = [
+    protected static array $placeOrder = [
         'city' => 1,
         'borough' => 2,
         'suburb' => 3,
@@ -41,7 +41,6 @@ class OsmCsvData
     ];
 
     /**
-     * @var string
      * node|way|relation
      * But is not needed for the evaluation (more for information or debugging)
      */
@@ -52,21 +51,18 @@ class OsmCsvData
     public ?string $nameDe = null;
 
     /**
-     * @var ?string
      * examples: city|suburb|town|village|hamlet|isolated_dwelling
      * https://wiki.openstreetmap.org/wiki/DE:Key:place
      */
     public ?string $place = null;
 
     /**
-     * @var ?string
      * only: city_limit can be on type=node or type=way
      * https://wiki.openstreetmap.org/wiki/DE:Key:traffic_sign
      */
     public ?string $trafficSign = null;
 
     /**
-     * @var ?string
      * on nodes: information (nicht sehr nützlich, weil auch Weggabelung ... z. B. "Rundwanderweg Derchinger Forst")
      * on nodes, ways: alpine_hut|wilderness_hut
      * possible values (we are filter): https://wiki.openstreetmap.org/wiki/Key:tourism
@@ -74,40 +70,34 @@ class OsmCsvData
     public ?string $tourism = null;
 
     /**
-     * @var ?string
      * only: forest
      */
     public ?string $landuse = null;
 
     /**
-     * @var ?string
      * primary on node: peak|saddle|wood|water
      */
     public ?string $natural = null;
 
     /**
-     * @var string
      * on nodes: elevation on peaks or saddles (partly on huts); used for sorting
      */
     public ?string $elevation;
 
     /**
-     * @var ?string
      * on ways: yes
      */
     public ?string $hiking = null;
 
     /**
-     * @var string
      * on way:
      * examples: (names are: Gamsbocksteig, alle betreffen Bergsteigen T1-T6)
      * difficult_alpine_hiking,demanding_alpine_hiking,alpine_hiking,demanding_mountain_hiking,mountain_hiking,hiking
      * (https://wiki.openstreetmap.org/wiki/Key:sac_scale)
      */
-    public string $sacScale;
+    public ?string $sacScale = null;
 
     /**
-     * @var ?string
      * on node & way:
      * some alphine huts are amenity=restaurant
      * (https://wiki.openstreetmap.org/wiki/Key:amenity)
@@ -115,13 +105,11 @@ class OsmCsvData
     public ?string $amenity = null;
 
     /**
-     * @var string
      * Not set by OSM, internal sort-order
      */
     public string $order;
 
     /**
-     * @var string
      * Not set by OSM, internal category like peak or place (CAT_*)
      */
     public string $category;
@@ -145,7 +133,7 @@ class OsmCsvData
     /**
      * @param array<int, mixed> $arr
      */
-    protected function setFields(array $arr)
+    protected function setFields(array $arr): void
     {
         $this->type = $arr[0];
         $this->name = $this->cleanNameChar($arr[1]);
@@ -195,7 +183,10 @@ class OsmCsvData
         return str_replace('-', ' ', $text);
     }
 
-    protected function setCategory()
+    /**
+     * @throws \InvalidArgumentException when no recognized tag matches any known category
+     */
+    protected function setCategory(): void
     {
         if (! empty($this->natural) && ($this->natural === 'peak' || $this->natural === 'saddle')) {
             $this->category = self::$CAT_PEAK;
@@ -204,14 +195,16 @@ class OsmCsvData
             $this->category = self::$CAT_PLACE;
         } elseif ($this->tourism === 'alpine_hut' || $this->tourism === 'wilderness_hut' || $this->amenity === 'restaurant') {
             $this->category = self::$CAT_HUT;
-        } elseif ($this->tourism === 'way' || ! empty($this->hiking) || ! empty($this->sacScale)) {
+        } elseif ($this->type === 'way' || ! empty($this->hiking) || ! empty($this->sacScale)) {
             $this->category = self::$CAT_WAY;
         } elseif ($this->tourism === 'information') {
             $this->category = self::$CAT_INFO;
+        } else {
+            throw new \InvalidArgumentException('No recognized category tag found for Overpass result line (name=' . $this->name . ').');
         }
     }
 
-    protected function setOrder()
+    protected function setOrder(): void
     {
         $o = '';
 

@@ -22,9 +22,6 @@ abstract class PaceAxisLimit extends \Runalyze\Parameter\Select
      */
     public const AUTO = '0';
 
-    /**
-     * Construct
-     */
     public function __construct()
     {
         parent::__construct(self::AUTO, [
@@ -49,11 +46,7 @@ abstract class PaceAxisLimit extends \Runalyze\Parameter\Select
         ]);
     }
 
-    /**
-     * Is on automatic mode?
-     * @return bool
-     */
-    final public function automatic()
+    final public function automatic(): bool
     {
         return $this->value() == self::AUTO;
     }

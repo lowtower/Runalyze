@@ -5,8 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Services;
 use Phpfastcache\CacheManager;
 use Phpfastcache\Config\ConfigurationOption;
 use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
-use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
-use Runalyze\Bundle\CoreBundle\Entity\Training;
+use Runalyze\Bundle\CoreBundle\Entity;
 
 class LegacyCache
 {
@@ -23,10 +22,7 @@ class LegacyCache
         $this->cache = CacheManager::getInstance('files');
     }
 
-    /**
-     * @param int|bool $accountId
-     */
-    public function delete(string $keyword, $accountId = false): bool
+    public function delete(string $keyword, int|bool $accountId = false): bool
     {
         $accountId = $accountId === false ? '' : (string) $accountId;
         $key = $keyword . $accountId;
@@ -38,35 +34,35 @@ class LegacyCache
         return $this->cache->deleteItem($key);
     }
 
-    public function clearActivityCache(Training $activity): void
+    public function clearActivityCache(Entity\Training $activity): void
     {
         $accountId = $activity->getAccount()
             ->getId();
 
-        if ($activity->getRoute() instanceof \Runalyze\Bundle\CoreBundle\Entity\Route) {
+        if ($activity->getRoute() instanceof Entity\Route) {
             $this->delete('route' . $activity->getRoute()->getId(), $accountId);
         }
 
-        if ($activity->getTrackdata() instanceof \Runalyze\Bundle\CoreBundle\Entity\Trackdata) {
+        if ($activity->getTrackdata() instanceof Entity\Trackdata) {
             $this->delete('trackdata' . $activity->getId(), $accountId);
         }
 
-        if ($activity->getSwimdata() instanceof \Runalyze\Bundle\CoreBundle\Entity\Swimdata) {
+        if ($activity->getSwimdata() instanceof Entity\Swimdata) {
             $this->delete('swimdata' . $activity->getId(), $accountId);
         }
 
-        if ($activity->getHrv() instanceof \Runalyze\Bundle\CoreBundle\Entity\Hrv) {
+        if ($activity->getHrv() instanceof Entity\Hrv) {
             $this->delete('hrv' . $activity->getId(), $accountId);
         }
 
-        if ($activity->getRaceresult() instanceof \Runalyze\Bundle\CoreBundle\Entity\Raceresult) {
+        if ($activity->getRaceresult() instanceof Entity\Raceresult) {
             $this->delete('raceresult' . $activity->getId(), $accountId);
         }
 
         $this->delete('training' . $activity->getId(), $accountId);
     }
 
-    public function clearRaceResultCache(Raceresult $raceResult): void
+    public function clearRaceResultCache(Entity\Raceresult $raceResult): void
     {
         $accountId = $raceResult->getAccount()
             ->getId();
