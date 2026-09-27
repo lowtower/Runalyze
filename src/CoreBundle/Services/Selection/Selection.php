@@ -45,15 +45,14 @@ class Selection
         return isset($this->List[$this->CurrentKey]);
     }
 
-    /**
-     * @return string
-     */
-    public function getCurrentLabel()
+    public function getCurrentLabel(): ?string
     {
         if ($this->hasCurrentKey()) {
             return $this->List[$this->CurrentKey];
         }
 
-        return reset($this->List);
+        $firstLabel = reset($this->List);
+
+        return $firstLabel === false ? null : $firstLabel;
     }
 }

@@ -14,6 +14,7 @@ use Runalyze\Bundle\CoreBundle\Form\RaceResultType;
 use Runalyze\Metrics\LegacyUnitConverter;
 use Runalyze\Sports\Running\VO2max\Estimation\DanielsGilbertFormula;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -44,14 +45,14 @@ class RaceResultController extends \Symfony\Bundle\FrameworkBundle\Controller\Ab
     /**
      * @Route("/{activityId}", name="raceresult-form", requirements={"activityId"="\d+"})
      */
-    public function raceresultFormAction(int $activityId, Account $account, Request $request): \Symfony\Component\HttpFoundation\Response
+    public function raceresultFormAction(int $activityId, Account $account, Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $activity = $this->getTrainingRepository()
             ->findForAccount($activityId, $account->getId());
 
-        if (! $activity instanceof \Runalyze\Bundle\CoreBundle\Entity\Training) {
+        if (! $activity instanceof Training) {
             throw $this->createAccessDeniedException();
         }
 
@@ -59,7 +60,7 @@ class RaceResultController extends \Symfony\Bundle\FrameworkBundle\Controller\Ab
             ->findForAccount($activityId, $account->getId());
         $isNew = false;
 
-        if (! $raceResult instanceof \Runalyze\Bundle\CoreBundle\Entity\Raceresult) {
+        if (! $raceResult instanceof Raceresult) {
             $isNew = true;
             $raceResult = new Raceresult();
             $raceResult->setAccount($account);
@@ -91,14 +92,14 @@ class RaceResultController extends \Symfony\Bundle\FrameworkBundle\Controller\Ab
     /**
      * @Route("/{activityId}/delete", name="raceresult-delete", requirements={"activityId"="\d+"})
      */
-    public function raceresultDeleteAction(int $activityId, Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
+    public function raceresultDeleteAction(int $activityId, Request $request, Account $account): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $raceResult = $this->getRaceresultRepository()
             ->findForAccount($activityId, $account->getId());
 
-        if ($raceResult instanceof \Runalyze\Bundle\CoreBundle\Entity\Raceresult) {
+        if ($raceResult instanceof Raceresult) {
             $this->getRaceresultRepository()
                 ->delete($raceResult);
             $this->get('app.legacy_cache')
@@ -113,7 +114,7 @@ class RaceResultController extends \Symfony\Bundle\FrameworkBundle\Controller\Ab
     /**
      * @Route("/performance-chart", name="race-results-performance-chart")
      */
-    public function performanceChartAction(Account $account): \Symfony\Component\HttpFoundation\Response
+    public function performanceChartAction(Account $account): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 

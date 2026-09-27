@@ -13,7 +13,7 @@ class ElevationType extends AbstractUnitBasedType
         parent::__construct($distanceUnit);
     }
 
-    public function transform($value): string
+    public function transform(mixed $value): string
     {
         return parent::transform($value / 1000.00);
     }

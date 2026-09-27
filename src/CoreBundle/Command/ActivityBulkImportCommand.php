@@ -25,6 +25,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -60,7 +61,7 @@ class MaxZoneHR
         $this->import = $bool->value();
     }
 
-    public function collect($activity, $container): void
+    public function collect(object|string $activity, $container): void
     {
         // used this HR if
         // 1. import is allowed by configuration (=IMPORT_MAX_HR_USER)
@@ -122,6 +123,22 @@ class ActivityBulkImportCommand extends Command
     protected function getTrainingRepository(): TrainingRepository
     {
         return $this->doctrine->getRepository(Training::class);
+    }
+
+    /**
+     * DIAGNOSTIC ONLY: reads the private BufferedOutput::$buffer via reflection, WITHOUT
+     * draining it (unlike ::fetch(), which would clear the buffer and thus falsify the
+     * result the controller reads afterwards). To be removed once the root cause is found.
+     */
+    private function debugPeekBufferedOutput(OutputInterface $output): string
+    {
+        if (! $output instanceof BufferedOutput) {
+            return 'n/a (not a BufferedOutput, class=' . $output::class . ')';
+        }
+
+        $reflectionProperty = new \ReflectionProperty(BufferedOutput::class, 'buffer');
+
+        return $reflectionProperty->getValue($output);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -239,6 +256,8 @@ class ActivityBulkImportCommand extends Command
 
         $output->writeln('');
         $output->writeln('Done.');
+
+        $this->debugPeekBufferedOutput($output);
 
         return 0;
     }

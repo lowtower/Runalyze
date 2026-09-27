@@ -21,7 +21,17 @@ class LinkerTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
+        \SessionAccountHandler::setAccount([
+            'id' => 0,
+            'username' => 'runalyze',
+            'language' => 'de',
+            'timezone' => '43',
+            'mail' => 'noreply@runalyze.com',
+        ]);
+
         $this->PDO = \DB::getInstance();
+        $this->PDO->setAccountID(0);
+        $this->PDO->stopAddingAccountID();
         $this->PDO->exec('DELETE FROM `runalyze_training`');
         $this->PDO->exec('DELETE FROM `runalyze_account` WHERE `username` = "LinkerOther"');
 

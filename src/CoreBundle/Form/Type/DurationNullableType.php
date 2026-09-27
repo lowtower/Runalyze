@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\Exception\TransformationFailedException;
@@ -15,8 +17,6 @@ class DurationNullableType extends DurationType
     }
 
     /**
-     * @param  string|null $duration
-     * @return ?float
      * @throws TransformationFailedException if $duration is null but required
      */
     public function reverseTransform($duration)

@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Form\Type;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
@@ -46,10 +47,7 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
                     'class' => Equipment::class,
                     'choices' => $equipment[$category->getId()],
                     'choice_label' => 'name',
-                    'choice_attr' => function (Equipment $eqp, $key, $index): array {
-                        /** @var Equipment $eqp */
-                        return $this->getChoiceAttributesForEquipment($eqp);
-                    },
+                    'choice_attr' => fn (Equipment $eqp, $key, $index): array => $this->getChoiceAttributesForEquipment($eqp),
                     'choice_translation_domain' => false,
                     'translation_domain' => false,
                     'label' => $category->getName(),
@@ -63,16 +61,12 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
         $builder->addViewTransformer($this);
     }
 
-    /**
-     * @param  mixed $value
-     */
-    public function transform($value): ?array
+    public function transform(mixed $value): ?array
     {
         if (! ($value instanceof Collection)) {
             return null;
         }
 
-        /** @var Collection $value */
         $categories = [];
 
         foreach ($value as $equipment) {
@@ -87,10 +81,7 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
         return $categories;
     }
 
-    /**
-     * @param  mixed $value
-     */
-    public function reverseTransform($value): ArrayCollection
+    public function reverseTransform(mixed $value): ArrayCollection
     {
         $equipment = new ArrayCollection();
 
@@ -115,9 +106,9 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
     protected function getChoiceAttributesForEquipment(Equipment $equipment): array
     {
         return [
-            'data-start' => $equipment->getDateStart() instanceof \DateTime ? $equipment->getDateStart()
+            'data-start' => $equipment->getDateStart() instanceof DateTime ? $equipment->getDateStart()
                 ->format('Y-m-d') : '',
-            'data-end' => $equipment->getDateEnd() instanceof \DateTime ? $equipment->getDateEnd()
+            'data-end' => $equipment->getDateEnd() instanceof DateTime ? $equipment->getDateEnd()
                 ->format('Y-m-d') : '',
         ];
     }

@@ -2,6 +2,8 @@
 
 namespace Runalyze\Bundle\CoreBundle\EventListener;
 
+use InvalidArgumentException;
+use LogicException;
 use Psr\Log\LoggerInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -42,13 +44,18 @@ class SwitchUserListener
         private readonly ?EventDispatcherInterface $dispatcher = null
     ) {
         if (empty($providerKey)) {
-            throw new \InvalidArgumentException('$providerKey must not be empty.');
+            throw new InvalidArgumentException('$providerKey must not be empty.');
         }
 
         $this->providerKey = $providerKey;
     }
 
-    public function __invoke(GetResponseEvent $event): void
+    /**
+     * Handles the switch to another user.
+     *
+     * @throws LogicException if switching to a user failed
+     */
+    public function handle(GetResponseEvent $event): void
     {
         $request = $event->getRequest();
 
@@ -62,38 +69,8 @@ class SwitchUserListener
             } else {
                 $this->tokenStorage->setToken($this->attemptSwitchUser($request));
             }
-
-            $request->query->remove($this->usernameParameter);
-            $request->server->set('QUERY_STRING', http_build_query($request->query->all()));
-
-            $response = new RedirectResponse($request->getUri(), 302);
-            $event->setResponse($response);
         } catch (AuthenticationException $authenticationException) {
-            throw new \LogicException(sprintf('Switch User failed: "%s"', $authenticationException->getMessage()), $authenticationException->getCode(), $authenticationException);
-        }
-    }
-
-    /**
-     * Handles the switch to another user.
-     *
-     * @throws \LogicException if switching to a user failed
-     */
-    public function handle(GetResponseEvent $event): void
-    {
-        $request = $event->getRequest();
-
-        if (! $request->get($this->usernameParameter)) {
-            return;
-        }
-
-        if ($request->get($this->usernameParameter) === '_exit') {
-            $this->tokenStorage->setToken($this->attemptExitUser());
-        } else {
-            try {
-                $this->tokenStorage->setToken($this->attemptSwitchUser($request));
-            } catch (AuthenticationException $e) {
-                throw new \LogicException(sprintf('Switch User failed: "%s"', $e->getMessage()), $e->getCode(), $e);
-            }
+            throw new LogicException(sprintf('Switch User failed: "%s"', $authenticationException->getMessage()), $authenticationException->getCode(), $authenticationException);
         }
 
         $request->query->remove($this->usernameParameter);
@@ -107,7 +84,7 @@ class SwitchUserListener
     /**
      * Attempts to switch to another user.
      *
-     * @throws \LogicException
+     * @throws LogicException
      * @throws AccessDeniedException
      */
     private function attemptSwitchUser(Request $request): ?TokenInterface
@@ -120,7 +97,7 @@ class SwitchUserListener
                 return $token;
             }
 
-            throw new \LogicException(sprintf('You are already switched to "%s" user.', $token->getUsername()));
+            throw new LogicException(sprintf('You are already switched to "%s" user.', $token->getUsername()));
         }
 
         if ($this->accessDecisionManager->decide($token, [$this->role]) === false) {
@@ -129,7 +106,7 @@ class SwitchUserListener
 
         $username = $request->get($this->usernameParameter);
 
-        if ($this->logger instanceof \Psr\Log\LoggerInterface) {
+        if ($this->logger instanceof LoggerInterface) {
             $this->logger->info('Attempting to switch to user.', [
                 'username' => $username,
             ]);
@@ -147,7 +124,7 @@ class SwitchUserListener
 
         $token = new UsernamePasswordToken($user, $user->getPassword(), $this->providerKey, $roles);
 
-        if ($this->dispatcher instanceof \Symfony\Component\EventDispatcher\EventDispatcherInterface) {
+        if ($this->dispatcher instanceof EventDispatcherInterface) {
             $switchEvent = new SwitchUserEvent($request, $token->getUser());
             $this->dispatcher->dispatch($switchEvent);
         }
@@ -166,7 +143,7 @@ class SwitchUserListener
             throw new AuthenticationCredentialsNotFoundException('Switch User failed: No original token found.');
         }
 
-        if ($this->logger instanceof \Psr\Log\LoggerInterface) {
+        if ($this->logger instanceof LoggerInterface) {
             $this->logger->info('Switch user exited for user.', [
                 'username' => $original->getUsername(),
             ]);

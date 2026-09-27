@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Component\Configuration\Category;
 
+use Runalyze\Configuration\Category\ActivityForm as LegacyActivityForm;
 use Runalyze\Parameter\Application\DatabaseOrder;
 
 class ActivityForm extends AbstractCategory
@@ -33,10 +34,7 @@ class ActivityForm extends AbstractCategory
         ];
     }
 
-    /**
-     * @param string $key
-     */
-    public function fieldSetIsCollapsed($key): bool
+    public function fieldSetIsCollapsed(string $key): bool
     {
         return isset($this->Variables['FORMULAR_SHOW_' . $key]) && $this->Variables['FORMULAR_SHOW_' . $key] !== 'true';
     }
@@ -51,10 +49,7 @@ class ActivityForm extends AbstractCategory
         return $this->Variables['TRAINING_LOAD_WEATHER'] === 'true';
     }
 
-    /**
-     * @return string
-     */
-    public function getDefaultLocationForWeatherForecast()
+    public function getDefaultLocationForWeatherForecast(): string
     {
         return $this->Variables['PLZ'];
     }
@@ -69,22 +64,22 @@ class ActivityForm extends AbstractCategory
         return $this->Variables['DETECT_PAUSES'] === 'true';
     }
 
-    public function getDatabaseOrderForSport(): \Runalyze\Parameter\Application\DatabaseOrder
+    public function getDatabaseOrderForSport(): DatabaseOrder
     {
         return $this->getDatabaseOrderFor('TRAINING_SORT_SPORTS');
     }
 
-    public function getDatabaseOrderForTypes(): \Runalyze\Parameter\Application\DatabaseOrder
+    public function getDatabaseOrderForTypes(): DatabaseOrder
     {
         return $this->getDatabaseOrderFor('TRAINING_SORT_TYPES');
     }
 
-    public function getDatabaseOrderForEquipment(): \Runalyze\Parameter\Application\DatabaseOrder
+    public function getDatabaseOrderForEquipment(): DatabaseOrder
     {
         return $this->getDatabaseOrderFor('TRAINING_SORT_SHOES');
     }
 
-    protected function getDatabaseOrderFor($key): \Runalyze\Parameter\Application\DatabaseOrder
+    protected function getDatabaseOrderFor(string $key): DatabaseOrder
     {
         $order = new DatabaseOrder();
         $order->set($this->Variables[$key]);
@@ -101,6 +96,6 @@ class ActivityForm extends AbstractCategory
 
     protected function getLegacyCategoryName(): string
     {
-        return \Runalyze\Configuration\Category\ActivityForm::class;
+        return LegacyActivityForm::class;
     }
 }

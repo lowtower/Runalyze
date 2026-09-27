@@ -52,7 +52,7 @@ class RaceresultRepository extends EntityRepository
     }
 
     /**
-     * @return array|Raceresult[]
+     * @return Raceresult[]
      */
     public function findAllWithActivityStats(Account $account): array
     {

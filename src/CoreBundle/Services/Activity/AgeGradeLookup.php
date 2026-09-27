@@ -22,10 +22,10 @@ class AgeGradeLookup
     {
         $account = $account ?: $this->getUser();
 
-        return $account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account && $account->knowsGender() && $account->knowsBirthYear();
+        return $account instanceof Account && $account->knowsGender() && $account->knowsBirthYear();
     }
 
-    public function getLookup(?Account $account = null): ?\Runalyze\AgeGrade\Lookup
+    public function getLookup(?Account $account = null): ?Lookup
     {
         if (! $this->isLookupPossible($account)) {
             return null;
@@ -39,7 +39,7 @@ class AgeGradeLookup
         );
     }
 
-    public function getDefaultLookup(): \Runalyze\AgeGrade\Lookup
+    public function getDefaultLookup(): Lookup
     {
         return new Lookup(new MaleTable(), 25);
     }

@@ -2,12 +2,13 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\Activity;
 
+use LogicException;
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext;
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityPreview;
 use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
-use Runalyze\Bundle\CoreBundle\Entity\Route as EntityRoute;
+use Runalyze\Bundle\CoreBundle\Entity\Route as RouteEntity;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
@@ -27,6 +28,7 @@ use Runalyze\Util\LocalTime;
 use Runalyze\Util\ServerParams;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -66,11 +68,11 @@ class CreateController extends AbstractController
             ->get('TRAINING_CREATE_MODE');
 
         if ($defaultUploadMode == 'garmin') {
-            return $this->forward('CoreBundle:Activity\Create:communicator');
+            return $this->forward(self::class . '::communicatorAction');
         }
 
         if ($defaultUploadMode == 'form') {
-            return $this->forward('CoreBundle:Activity\Create:new');
+            return $this->forward(self::class . '::newAction');
         }
 
         return $this->getUploadFormResponse();
@@ -119,7 +121,7 @@ class CreateController extends AbstractController
             );
         }
 
-        if ($importResult instanceof \Runalyze\Bundle\CoreBundle\Services\Import\FileImportResultCollection) {
+        if ($importResult instanceof FileImportResultCollection) {
             return $this->getResponseForImportResults($importResult, $account, $request);
         }
 
@@ -140,7 +142,7 @@ class CreateController extends AbstractController
 
         if ($numActivities === 1) {
             return $this->getResponseForNewSingleActivity(
-                $this->containerToActivity($results[0]->getContainer()[0], $account),
+                $this->containerToActivity($this->findFirstActivityDataContainer($results), $account),
                 $request
             );
         }
@@ -150,6 +152,20 @@ class CreateController extends AbstractController
         }
 
         return $this->getUploadFormResponse();
+    }
+
+    /**
+     * @throws LogicException
+     */
+    private function findFirstActivityDataContainer(FileImportResultCollection $results): ActivityDataContainer
+    {
+        foreach ($results as $result) {
+            foreach ($result->getContainer() as $container) {
+                return $container;
+            }
+        }
+
+        throw new LogicException('Expected at least one activity data container to be present when getTotalNumberOfActivities() reported at least one activity.');
     }
 
     protected function getUploadFormResponse(): Response
@@ -200,7 +216,7 @@ class CreateController extends AbstractController
     /**
      * @Route("/activity/multi-import", name="activity-multi-importer")
      */
-    public function multiImporterAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+    public function multiImporterAction(Request $request, Account $account): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -238,8 +254,9 @@ class CreateController extends AbstractController
                 $activityIds[] = $repository->save($activity, true);
             }
 
-            $this->get('app.automatic_reload_flag_setter')
-                ->set(AutomaticReloadFlagSetter::FLAG_ALL);
+            /** @var AutomaticReloadFlagSetter $automaticReloadFlagSetter */
+            $automaticReloadFlagSetter = $this->get('app.automatic_reload_flag_setter');
+            $automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_ALL);
 
             if ($form->get('show_multi_editor')->getData()) {
                 return $this->redirectToRoute('multi-editor', [
@@ -275,7 +292,7 @@ class CreateController extends AbstractController
         );
     }
 
-    protected function getResponseForNewSingleActivity(Training $activity, ?Request $request = null, $setCache = true): Response
+    protected function getResponseForNewSingleActivity(Training $activity, ?Request $request = null, bool $setCache = true): Response
     {
         $form = $this->createForm(ActivityType::class, $activity, [
             'action' => $this->generateUrl('activity-new'),
@@ -286,8 +303,9 @@ class CreateController extends AbstractController
             $this->handleSubmitOfNewActivityForm($activity, $form);
 
             $this->addFlash('success', $this->translator->trans('The activity has been successfully created.'));
-            $this->get('app.automatic_reload_flag_setter')
-                ->set(AutomaticReloadFlagSetter::FLAG_ALL);
+            /** @var AutomaticReloadFlagSetter $automaticReloadFlagSetter */
+            $automaticReloadFlagSetter = $this->get('app.automatic_reload_flag_setter');
+            $automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_ALL);
 
             return $this->render('util/close_overlay.html.twig');
         }
@@ -305,17 +323,17 @@ class CreateController extends AbstractController
             'prev_activity_id' => null,
             'next_activity_id' => null,
             'activity_id' => null,
-            'isMulti' => (bool) $request->get('multi', false),
+            'isMulti' => (bool) $request?->get('multi', false),
         ]);
     }
 
-    protected function handleSubmitOfNewActivityForm(Training $newActivity, FormInterface $form)
+    protected function handleSubmitOfNewActivityForm(Training $newActivity, FormInterface $form): void
     {
         $activity = $this->activityCache->get($form->get('temporaryHash')->getData(), $newActivity, true);
 
         if ($activity->getRouteName() != '') {
             if (! $activity->hasRoute()) {
-                $activity->setRoute((new EntityRoute())->setAccount($activity->getAccount()));
+                $activity->setRoute((new RouteEntity())->setAccount($activity->getAccount()));
             }
 
             $activity->getRoute()

@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller;
 
+use Frontend;
 use Runalyze\Activity\Distance;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -11,10 +12,12 @@ use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Form\FeedbackType;
 use Runalyze\Bundle\CoreBundle\Form\RegistrationType;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
+use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -48,7 +51,7 @@ class DefaultController extends AbstractPluginsAwareController
     protected function includeOldScript(string $file, bool $initFrontend = true): Response
     {
         if ($initFrontend) {
-            $Frontend = new \Frontend(false, $this->tokenStorage, $this->parameterBag);
+            $frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag);
         }
 
         include $file;
@@ -63,7 +66,7 @@ class DefaultController extends AbstractPluginsAwareController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
+        new Frontend(true, $this->tokenStorage, $this->parameterBag);
 
         $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
             ->getContent();
@@ -135,9 +138,8 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @Route("/{_locale}/login", name="login")
      */
-    public function loginAction(
-        Request $request
-    ): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response {
+    public function loginAction(Request $request): RedirectResponse|Response
+    {
         if ($this->authorizationChecker->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('dashboard');
         }
@@ -157,7 +159,7 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @Route("/{_locale}/login_check", name="login_check")
      */
-    public function loginCheckAction()
+    public function loginCheckAction(): void
     {
     }
 
@@ -190,19 +192,29 @@ class DefaultController extends AbstractPluginsAwareController
 
     /**
      * @Route("/plugin/{plugin}/{file}")
+     *
+     * @throws NotFoundHttpException if $plugin or $file contain a path traversal attempt
      */
     public function pluginAction(string $plugin, string $file): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        if (str_contains($plugin, '..') || str_contains($file, '..') || str_starts_with($plugin, '/') || str_starts_with($file, '/')) {
+            throw $this->createNotFoundException('Invalid plugin path.');
+        }
+
         return $this->includeOldScript('../plugin/' . $plugin . '/' . $file);
     }
 
     /**
      * @Route("/index.php")
      */
-    public function indexPhpAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response|\Symfony\Component\HttpFoundation\RedirectResponse
+    public function indexPhpAction(Request $request, Account $account): Response|RedirectResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         if ($request->isXmlHttpRequest()) {
-            $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
+            new Frontend(true, $this->tokenStorage, $this->parameterBag);
 
             $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
                 ->getContent();
@@ -226,14 +238,14 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @Route("/unsubscribe/{mail}/{hash}", name="unsubscribe-mail")
      */
-    public function unsubscribeMailAction(string $mail, string $hash): Response
+    public function unsubscribeMailAction(string $mail, string $hash, UnsubscribeHashGenerator $unsubscribeHashGenerator): Response
     {
         $repository = $this->getAccountRepository();
         $account = $repository->findOneBy([
             'mail' => $mail,
         ]);
 
-        if ($account !== null && $hash === md5($account->getUsername())) {
+        if ($account !== null && $unsubscribeHashGenerator->isValid($account->getUsername(), $hash)) {
             return $this->render('account/unsubscribe_info.html.twig', [
                 'mail' => $mail,
                 'hash' => $hash,
@@ -246,14 +258,14 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @Route("/unsubscribe/{mail}/{hash}/confirm", name="unsubscribe-mail-confirm")
      */
-    public function unsubscribeMailConfirmAction(string $mail, string $hash): Response
+    public function unsubscribeMailConfirmAction(string $mail, string $hash, UnsubscribeHashGenerator $unsubscribeHashGenerator): Response
     {
         $repository = $this->getAccountRepository();
         $account = $repository->findOneBy([
             'mail' => $mail,
         ]);
 
-        if ($account !== null && $hash === md5($account->getUsername())) {
+        if ($account !== null && $unsubscribeHashGenerator->isValid($account->getUsername(), $hash)) {
             $account->setAllowMails(false);
             $repository->save($account);
 
@@ -265,30 +277,29 @@ class DefaultController extends AbstractPluginsAwareController
 
     /**
      * @Route("/feedback", name="feedback")
+     *
+     * @throws NotFoundHttpException if no feedback recipient is configured
      */
     public function feedbackAction(Request $request, Account $account): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        if (! empty($this->parameterBag->get('app.feedback_mail'))) {
-            $form = $this->createForm(FeedbackType::class, null, [
-                'action' => $this->generateUrl('feedback'),
-            ]);
-
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                $this->accountMailer->sendCustomFeedbackToSystem($account, $this->parameterBag->get('app.feedback_mail'), $form->getData()['message']);
-                return $this->render('feedback.html.twig', [
-                    'form' => $form->createView(),
-                ]);
-            }
-
-            return $this->render('feedback.html.twig', [
-                'form' => $form->createView(),
-            ]);
+        if (empty($this->parameterBag->get('app.feedback_mail'))) {
+            throw $this->createNotFoundException();
         }
 
-        throw $this->createNotFoundException();
+        $form = $this->createForm(FeedbackType::class, null, [
+            'action' => $this->generateUrl('feedback'),
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->accountMailer->sendCustomFeedbackToSystem($account, $this->parameterBag->get('app.feedback_mail'), $form->getData()['message']);
+        }
+
+        return $this->render('feedback.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }

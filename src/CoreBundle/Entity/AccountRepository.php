@@ -4,6 +4,9 @@ namespace Runalyze\Bundle\CoreBundle\Entity;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 
 /**
@@ -11,11 +14,6 @@ use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
  */
 class AccountRepository extends EntityRepository implements UserLoaderInterface
 {
-    /**
-     * #TSC: because of the UserLoaderInterface and the configuration in security.yml/provider this method is call while authentication.
-     *
-     * @param string $username username
-     */
     public function findByUsername(string $username): ?Account
     {
         return $this->createQueryBuilder('u')
@@ -30,7 +28,7 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
      * @param bool $excluded if set, all but given languages will be selected
      * @return array account ids
      */
-    public function findAllByLanguage($language, bool $excluded = false): array
+    public function findAllByLanguage(string|array $language, bool $excluded = false): array
     {
         return $this->findAllByLanguageQueryBuilder($language, $excluded)
             ->getQuery()
@@ -41,7 +39,7 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
      * @param string|string[] $language language key(s)
      * @param bool $excluded if set, all but given languages will be selected
      */
-    public function findAllByLanguageQueryBuilder($language, bool $excluded = false): \Doctrine\ORM\QueryBuilder
+    public function findAllByLanguageQueryBuilder(string|array $language, bool $excluded = false): QueryBuilder
     {
         if (! is_array($language)) {
             $language = [$language];
@@ -60,6 +58,8 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
     }
 
     /**
+     * #TSC: because of the UserLoaderInterface and the configuration in security.yml/provider this method is call while authentication.
+     *
      * @param string $username username or mail
      */
     public function loadUserByUsername($username): ?Account
@@ -73,9 +73,10 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
     }
 
     /**
-     * @return mixed number of accounts
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
-    public function getAmountOfActivatedUsers(bool $cache = true)
+    public function getAmountOfActivatedUsers(bool $cache = true): bool|float|int|string|null
     {
         return $this->createQueryBuilder('u')
             ->select('COUNT(u.id)')
@@ -112,12 +113,10 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
     }
 
     /**
-     * @param string $deletionHash
      * @return bool true on success
      */
-    public function deleteByHash($deletionHash): bool
+    public function deleteByHash(string $deletionHash): bool
     {
-        /** @var null|Account $account */
         $account = $this->findOneBy([
             'deletionHash' => $deletionHash,
         ]);
@@ -133,12 +132,10 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
     }
 
     /**
-     * @param string $activationHash
      * @return bool true on success
      */
-    public function activateByHash($activationHash): bool
+    public function activateByHash(string $activationHash): bool
     {
-        /** @var null|Account $account */
         $account = $this->findOneBy([
             'activationHash' => $activationHash,
         ]);

@@ -10,10 +10,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 class FrontendShared extends Frontend
 {
-    /**
-     * @var bool
-     */
-    public static $IS_SHOWN = false;
+    public static bool $IS_SHOWN = false;
 
     public function __construct(
         bool $hideHeaderAndFooter = false,

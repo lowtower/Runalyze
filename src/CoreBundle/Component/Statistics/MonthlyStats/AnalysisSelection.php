@@ -38,10 +38,7 @@ class AnalysisSelection extends Selection
      */
     public const NUMBER = 'n';
 
-    /**
-     * @param mixed $currentKey
-     */
-    public function __construct($currentKey = null)
+    public function __construct(mixed $currentKey = null)
     {
         parent::__construct([
             self::DISTANCE => 'by distance',

@@ -8,7 +8,7 @@ use DB;
 #[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
 class PersonalBestTest extends \PHPUnit\Framework\TestCase
 {
-    protected \PDO $PDO;
+    protected \PDOforRunalyze $PDO;
 
     /**
      * @var int
@@ -17,9 +17,18 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
+        \SessionAccountHandler::setAccount([
+            'id' => 0,
+            'username' => 'runalyze',
+            'language' => 'de',
+            'timezone' => '43',
+            'mail' => 'noreply@runalyze.com',
+        ]);
+
         PersonalBest::deactivateStaticCache();
 
         $this->PDO = DB::getInstance();
+        $this->PDO->setAccountID(0);
     }
 
     protected function tearDown(): void

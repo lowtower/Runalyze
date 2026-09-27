@@ -4,10 +4,7 @@ namespace Runalyze\Bundle\CoreBundle\Component\Tool\Backup;
 
 class JsonImporterResults
 {
-    /**
-     * @var array
-     */
-    protected $Results = [];
+    protected array $Results = [];
 
     public function addUpdates(string $tableName, int $counter): void
     {
@@ -27,7 +24,7 @@ class JsonImporterResults
     /**
      * Increase internal counter
      */
-    protected function add(string $tableName, int $counter, string $key)
+    protected function add(string $tableName, int $counter, string $key): void
     {
         $this->Results[$tableName] ??= [
             'update' => 0,

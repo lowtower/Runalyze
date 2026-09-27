@@ -2,9 +2,12 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\Internal\Service;
 
+use DateTime;
 use GuzzleHttp\Exception\RequestException;
 use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
+use Runalyze\Bundle\CoreBundle\Services\Import\WeatherForecast;
 use Runalyze\Parameter\Application\Timezone;
 use Runalyze\Parser\Activity\Common\Data\WeatherData;
 use Runalyze\Profile\Weather\Source\SourceInterface;
@@ -12,13 +15,16 @@ use Runalyze\Profile\Weather\Source\WeatherSourceProfile;
 use Runalyze\Service\WeatherForecast\Exception\TooOldForCurrentConditionsException;
 use Runalyze\Service\WeatherForecast\Location;
 use Runalyze\Service\WeatherForecast\Strategy\DarkSky;
+use Runalyze\Service\WeatherForecast\Strategy\DatabaseCache;
 use Runalyze\Service\WeatherForecast\Strategy\MeteostatNet;
 use Runalyze\Service\WeatherForecast\Strategy\OpenWeatherMap;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Throwable;
 
 /**
  * @Route("/_internal/service/weather")
@@ -34,22 +40,43 @@ class WeatherController extends AbstractController
 
     /**
      * @Route("", name="internal-service-weather")
+     * @throws AccessDeniedException
      */
-    public function fetchWeatherDataAction(Request $request, Account $account): ?JsonResponse
+    public function fetchWeatherDataAction(Request $request, Account $account): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $location = $this->getLocationForRequest($request, $account);
 
-        // #TSC: if no location is given, cancel
+        // #TSC: if no location is given, cancel.
         if (! $location->hasPosition()) {
-            return null;
+            return new JsonResponse([
+                'empty' => true,
+                'location' => [
+                    'name' => $location->getLocationName(),
+                    'lat' => null,
+                    'lng' => null,
+                    'date' => $location->hasDateTime() ? $location->getDateTime()
+                        ->format('c') : '',
+                ],
+                'source' => [
+                    'id' => null,
+                    'name' => '',
+                ],
+                'weatherid' => null,
+                'temperature' => null,
+                'wind_speed' => null,
+                'wind_deg' => null,
+                'humidity' => null,
+                'pressure' => null,
+            ]);
         }
 
+        /** @var WeatherForecast $weatherForecastService */
         $weatherForecastService = $this->get('app.weather_forecast');
         $weather = $weatherForecastService->loadForecast($location) ?: new WeatherData();
 
-        /** @var SourceInterface|null $source */
+        /** @var ?SourceInterface $source */
         $source = $weather->Source ? WeatherSourceProfile::get($weather->Source) : null;
 
         $response = [
@@ -83,13 +110,13 @@ class WeatherController extends AbstractController
     /**
      * @return array<int, array{source: string, reason: string, detail: ?string}>
      */
-    private function buildSourceDiagnostics(\Runalyze\Bundle\CoreBundle\Services\Import\WeatherForecast $weatherForecastService): array
+    private function buildSourceDiagnostics(WeatherForecast $weatherForecastService): array
     {
         $reasons = $weatherForecastService->getLastAttemptReasons();
         $exceptions = $weatherForecastService->getLastAttemptExceptions();
 
         $sourceKeys = [
-            \Runalyze\Service\WeatherForecast\Strategy\DatabaseCache::class => 'cache',
+            DatabaseCache::class => 'cache',
             DarkSky::class => 'darksky',
             OpenWeatherMap::class => 'openweathermap',
             MeteostatNet::class => 'meteostatnet',
@@ -121,7 +148,7 @@ class WeatherController extends AbstractController
         return $diagnostics;
     }
 
-    private function classifyException(\Throwable $exception): string
+    private function classifyException(Throwable $exception): string
     {
         if ($exception instanceof TooOldForCurrentConditionsException) {
             return 'too_old';
@@ -162,13 +189,18 @@ class WeatherController extends AbstractController
         if ($request->query->has('city')) {
             $location->setLocationName($request->query->get('city'));
         } elseif (! $location->hasPosition()) {
-            $location->setLocationName($this->get('app.configuration_manager')->getList($account)->get('activity-form.PLZ'));
+            /** @var ConfigurationManager $configurationManager */
+            $configurationManager = $this->get('app.configuration_manager');
+
+            $location->setLocationName($configurationManager->getList($account)->get('activity-form.PLZ'));
         }
 
-        if ($request->query->has('time')) {
-            $location->setDateTime(new \DateTime('@' . $request->query->get('time')));
+        if ($request->query->has('time') && is_numeric($request->query->get('time'))) {
+            $location->setDateTime(new DateTime('@' . $request->query->get('time')));
         } elseif ($request->query->has('date')) {
-            $location->setDateTime(new \DateTime($request->query->get('date')));
+            if (strtotime($request->query->get('date')) !== false) {
+                $location->setDateTime(new DateTime($request->query->get('date')));
+            }
         }
 
         // #TSC set also the timezone for fetch historical time based data

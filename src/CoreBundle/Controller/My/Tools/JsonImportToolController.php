@@ -11,7 +11,9 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -72,7 +74,7 @@ class JsonImportToolController extends AbstractController
     /**
      * @Route("/import", name="tools-backup-json-import")
      */
-    public function backupImportAction(): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+    public function backupImportAction(): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -111,11 +113,9 @@ class JsonImportToolController extends AbstractController
     /**
      * @Route("/import/do", name="tools-backup-json-import-do")
      */
-    public function backupImportDoAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+    public function backupImportDoAction(Request $request, Account $account): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-
-        $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
 
         $sessionFlashBag = $this->get('session')
             ->getFlashBag();
@@ -123,6 +123,8 @@ class JsonImportToolController extends AbstractController
         if (! $sessionFlashBag->has('json-import.file')) {
             return $this->redirectToRoute('tools-backup-json');
         }
+
+        $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
 
         $filePath = $this->getImportFilePath();
         $filename = $sessionFlashBag->get('json-import.file')[0];
@@ -142,9 +144,9 @@ class JsonImportToolController extends AbstractController
             $importer->deleteOldBodyValues();
         }
 
-        $importer->enableOverwritingConfig($request->request->get('overwrite_config'));
-        $importer->enableOverwritingDataset($request->request->get('overwrite_dataset'));
-        $importer->enableOverwritingPlugins($request->request->get('overwrite_plugin'));
+        $importer->enableOverwritingConfig((bool) $request->request->get('overwrite_config'));
+        $importer->enableOverwritingDataset((bool) $request->request->get('overwrite_dataset'));
+        $importer->enableOverwritingPlugins((bool) $request->request->get('overwrite_plugin'));
         $importer->importData();
 
         return $this->render('tools/backup/import_finish.html.twig', [
@@ -155,7 +157,7 @@ class JsonImportToolController extends AbstractController
     /**
      * @Route("", name="tools-backup-json")
      */
-    public function uploadFormAction(): \Symfony\Component\HttpFoundation\Response
+    public function uploadFormAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 

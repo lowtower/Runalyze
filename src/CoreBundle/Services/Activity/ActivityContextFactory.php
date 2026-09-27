@@ -2,20 +2,20 @@
 
 namespace Runalyze\Bundle\CoreBundle\Services\Activity;
 
+use Doctrine\ORM\EntityManager;
+use InvalidArgumentException;
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 
 class ActivityContextFactory
 {
     public function __construct(
-        protected \Doctrine\ORM\EntityManager $EntityManager
+        protected EntityManager $EntityManager
     ) {
     }
 
-    public function getContext(Training $activity): \Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext
+    public function getContext(Training $activity): ActivityContext
     {
-        $activity->getId();
-
         return new ActivityContext(
             $activity,
             $activity->getTrackdata(),
@@ -27,18 +27,15 @@ class ActivityContextFactory
     }
 
     /**
-     * @param int $activityId
-     * @param int $accountId
-     *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    public function getContextById($activityId, $accountId): \Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext
+    public function getContextById(int $activityId, int $accountId): ActivityContext
     {
-        $activity = $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Training::class)
+        $activity = $this->EntityManager->getRepository(Training::class)
             ->findForAccount($activityId, $accountId);
 
         if ($activity === null) {
-            throw new \InvalidArgumentException('Unknown activity (id = ' . $activityId . ').');
+            throw new InvalidArgumentException('Unknown activity (id = ' . $activityId . ').');
         }
 
         return $this->getContext($activity);

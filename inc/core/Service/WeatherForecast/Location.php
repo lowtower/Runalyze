@@ -62,7 +62,7 @@ class Location
         return $this->Longitude;
     }
 
-    public function getCoordinate(): ?\League\Geotools\Coordinate\Coordinate
+    public function getCoordinate(): ?Coordinate
     {
         if ($this->hasPosition()) {
             return new Coordinate([(float) $this->getLatitude(), (float) $this->getLongitude()]);

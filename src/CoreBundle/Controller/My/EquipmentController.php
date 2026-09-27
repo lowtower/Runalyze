@@ -195,7 +195,7 @@ class EquipmentController extends AbstractController
     /**
      * @Route("/add/{id}", name="equipment-add", requirements={"id"="\d+"})
      */
-    public function equipmentAddAction(Request $request, int $id, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+    public function equipmentAddAction(Request $request, int $id, Account $account): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -285,9 +285,7 @@ class EquipmentController extends AbstractController
         if (! $this->isCsrfTokenValid('deleteEquipment', $request->get('t'))) {
             $this->addFlash('error', $translator->trans('Invalid token.'));
 
-            return $this->redirectToRoute('equipment-category-edit', [
-                'id' => $id,
-            ]);
+            return $this->redirectToRoute('equipment-overview');
         }
 
         $equipment = $this->getEquipmentRepository()

@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Form\Settings;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
+use Runalyze\Bundle\CoreBundle\Entity\EquipmentTypeRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
+use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Type;
+use Runalyze\Bundle\CoreBundle\Entity\TypeRepository;
 use Runalyze\Bundle\CoreBundle\Form\Type\EnergyKcalType;
 use Runalyze\Bundle\CoreBundle\Form\Type\HeartRateType;
 use Runalyze\Bundle\CoreBundle\Form\Type\HrZoneBoundType;
@@ -14,6 +19,7 @@ use Runalyze\Profile\Sport\Icon\SportIconProfile;
 use Runalyze\Profile\Sport\Settings\SportRelevanceProfile;
 use Runalyze\Profile\Sport\SportProfile;
 use Runalyze\Profile\View\DataBrowserRowProfile;
+use RuntimeException;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -22,27 +28,29 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class SportType extends AbstractType
 {
     public function __construct(
-        protected \Runalyze\Bundle\CoreBundle\Entity\TypeRepository $TypeRepository,
-        protected \Runalyze\Bundle\CoreBundle\Entity\SportRepository $SportRepository,
-        protected \Runalyze\Bundle\CoreBundle\Entity\EquipmentTypeRepository $EquipmentTypeRepository,
-        protected \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $TokenStorageInterface
+        protected TypeRepository $TypeRepository,
+        protected SportRepository $SportRepository,
+        protected EquipmentTypeRepository $EquipmentTypeRepository,
+        protected TokenStorageInterface $TokenStorageInterface
     ) {
     }
 
     /**
-     * @return Account
+     * @throws RuntimeException if no account is associated with the current security token
      */
-    protected function getAccount()
+    protected function getAccount(): Account
     {
         $account = $this->TokenStorageInterface->getToken() ? $this->TokenStorageInterface->getToken()
             ->getUser() : null;
 
         if (! ($account instanceof Account)) {
-            throw new \RuntimeException('Sport type must have a valid account token.');
+            throw new RuntimeException('Sport type must have a valid account token.');
         }
 
         return $account;
@@ -69,6 +77,11 @@ class SportType extends AbstractType
                 'required' => true,
                 'attr' => [
                     'autofocus' => true,
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a name.',
+                    ]),
                 ],
             ])
             ->add('img', ChoiceType::class, [
@@ -141,7 +154,6 @@ class SportType extends AbstractType
                 'choices' => $this->getFilteredChoicesForInternalSportId($usedInternalSportIds, $sport),
                 'choice_translation_domain' => false,
                 'placeholder' => 'None (custom sport)',
-                'preferred_choices' => fn ($val, $key): bool => $key == '',
                 'label' => 'Internal sport',
                 'disabled' => $isRunning,
             ]);
@@ -176,7 +188,7 @@ class SportType extends AbstractType
         $choicesWithIdsAsKeys = array_flip(SportProfile::getChoices());
 
         foreach ($usedInternalIds as $id) {
-            if (! $sport instanceof \Runalyze\Bundle\CoreBundle\Entity\Sport || $sport->getInternalSportId() != $id) {
+            if (! $sport instanceof Sport || $sport->getInternalSportId() != $id) {
                 unset($choicesWithIdsAsKeys[$id]);
             }
         }
@@ -191,7 +203,7 @@ class SportType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Sport::class,
+            'data_class' => Sport::class,
         ]);
     }
 }

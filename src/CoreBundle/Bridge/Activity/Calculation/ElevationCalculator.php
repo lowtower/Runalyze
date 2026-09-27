@@ -33,14 +33,14 @@ class ElevationCalculator
         }
     }
 
-    protected function setElevationValuesToNull(Route $route)
+    protected function setElevationValuesToNull(Route $route): void
     {
         $route->setElevation(0);
         $route->setElevationUp(0);
         $route->setElevationDown(0);
     }
 
-    protected function setElevationValues(Route $route, Calculator $calculator)
+    protected function setElevationValues(Route $route, Calculator $calculator): void
     {
         $route->setElevation($calculator->totalElevation());
         $route->setElevationUp($calculator->elevationUp());

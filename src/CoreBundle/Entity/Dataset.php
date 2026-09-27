@@ -12,51 +12,35 @@ use Runalyze\Profile\View\DatasetPrivacyProfile;
 #[ORM\Entity(repositoryClass: DatasetRepository::class)]
 class Dataset implements AccountRelatedEntityInterface
 {
-    /**
-     * @var \Runalyze\Bundle\CoreBundle\Entity\Account
-     */
     #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
     #[ORM\ManyToOne(targetEntity: Account::class)]
     #[Orm\Id]
-    private $account;
+    private Account $account;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'keyid', type: 'tinyint', options: [
         'unsigned' => true,
     ])]
     #[ORM\Id]
-    private $keyid;
+    private int $keyid;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'active', type: 'boolean')]
-    private $active = true;
+    private bool $active = true;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'style', type: 'string', length: 100, nullable: false, options: [
         'default' => '',
     ])]
-    private $style = '';
+    private string $style = '';
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'position', type: 'tinyint', options: [
         'unsigned' => true,
     ])]
-    private $position = 0;
+    private int $position = 0;
 
     /**
-     * @var bool
-     * @see \Runalyze\Profile\View\DatasetPrivacyProfile
+     * @see DatasetPrivacyProfile
      */
     #[ORM\Column(name: 'privacy', type: 'boolean')]
-    private $privacy = true;
+    private bool $privacy = true;
 
     public function setAccount(Account $account): self
     {
@@ -65,10 +49,7 @@ class Dataset implements AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @return Account
-     */
-    public function getAccount()
+    public function getAccount(): Account
     {
         return $this->account;
     }
@@ -80,10 +61,7 @@ class Dataset implements AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getKeyId()
+    public function getKeyId(): int
     {
         return $this->keyid;
     }
@@ -95,75 +73,54 @@ class Dataset implements AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getActive()
+    public function getActive(): bool
     {
         return $this->active;
     }
 
-    /**
-     * @param string $style
-     */
-    public function setStyle($style): self
+    public function setStyle(string $style): self
     {
         $this->style = $style;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getStyle()
+    public function getStyle(): string
     {
         return $this->style;
     }
 
-    /**
-     * @param int $position
-     */
-    public function setPosition($position): self
+    public function setPosition(int $position): self
     {
-        $this->position = (int) $position;
+        $this->position = $position;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getPosition()
+    public function getPosition(): int
     {
         return $this->position;
     }
 
-    /**
-     * @param bool $privacy
-     */
-    public function setPrivacy($privacy): self
+    public function setPrivacy(bool $privacy): self
     {
-        $this->privacy = (bool) $privacy;
+        $this->privacy = $privacy;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getPrivacy()
+    public function getPrivacy(): bool
     {
         return $this->privacy;
     }
 
     public function isPrivate(): bool
     {
-        return (bool) DatasetPrivacyProfile::PRIVATE_KEY == $this->privacy;
+        return (bool) DatasetPrivacyProfile::PRIVATE_KEY === $this->privacy;
     }
 
     public function isPublic(): bool
     {
-        return (bool) DatasetPrivacyProfile::PUBLIC_KEY == $this->privacy;
+        return (bool) DatasetPrivacyProfile::PUBLIC_KEY === $this->privacy;
     }
 }

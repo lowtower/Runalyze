@@ -22,23 +22,17 @@ class ActivityTypeChoiceType extends AbstractTokenStorageAwareType
                     $this->getAccount()
                         ->getActivityTypes()
                 ),
-            'choice_label' => function ($type, $key, $index) {
-                /** @var Type $type */
-                return $type->getName();
-            },
-            'choice_value' => fn (?Type $type = null): int|null|string => $type instanceof \Runalyze\Bundle\CoreBundle\Entity\Type ? $type->getId() : '',
-            'choice_attr' => function ($type, $key, $index): array {
-                /** @var Type $type */
-                return [
-                    'data-sport' => $type->getSport()
-                        ->getId(),
-                ];
-            },
+            'choice_label' => fn (Type $type, $key, $index): string => $type->getName(),
+            'choice_value' => fn (?Type $type = null): int|null|string => $type instanceof Type ? $type->getId() : '',
+            'choice_attr' => fn (Type $type, $key, $index): array => [
+                'data-sport' => $type->getSport()
+                    ->getId(),
+            ],
             'choice_translation_domain' => false,
         ]);
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return ChoiceType::class;
     }

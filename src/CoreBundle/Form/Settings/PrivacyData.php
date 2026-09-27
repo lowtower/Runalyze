@@ -8,25 +8,16 @@ use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\Privacy;
 
 class PrivacyData
 {
-    /**
-     * @var bool
-     */
-    public $AthletePageActive = false;
+    public bool $AthletePageActive = false;
 
-    /**
-     * @var bool
-     */
-    public $ShowPrivateInList = false;
+    public bool $ShowPrivateInList = false;
 
-    /**
-     * @var bool
-     */
-    public $ShowStatisticsInList = false;
+    public bool $ShowStatisticsInList = false;
 
     /**
      * @var string never|race|always
      */
-    public $MapPrivacy = 'always';
+    public string $MapPrivacy = 'always';
 
     public function setDataFrom(Privacy $privacy): void
     {

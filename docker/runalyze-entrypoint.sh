@@ -38,6 +38,7 @@ setup() {
       data/sessions \
       data/views \
       var/cache \
+      var/cache/legacy/cache \
       var/log \
       var/poster \
       var/queue \

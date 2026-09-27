@@ -7,7 +7,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class FileHandler
 {
@@ -39,7 +39,7 @@ class FileHandler
     }
 
     /**
-     * @throws ResourceNotFoundException
+     * @throws NotFoundHttpException
      */
     public function getPosterDownloadResponse(Account $account, string $filename): Response
     {
@@ -57,7 +57,7 @@ class FileHandler
             return $response;
         }
 
-        throw new ResourceNotFoundException();
+        throw new NotFoundHttpException();
     }
 
     /**

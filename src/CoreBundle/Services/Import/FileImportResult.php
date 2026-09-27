@@ -2,35 +2,27 @@
 
 namespace Runalyze\Bundle\CoreBundle\Services\Import;
 
+use Exception;
 use Runalyze\Import\Exception\ParserException;
 use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 
 class FileImportResult
 {
     /**
-     * @var ActivityDataContainer[]
-     */
-    protected $Container;
-
-    /**
-     * @param ActivityDataContainer[] $container
-     * @param string $FileName
-     * @param string $OriginalFileName
+     * @param ActivityDataContainer[] $Container
      */
     public function __construct(
-        array $container,
-        protected $FileName,
-        protected $OriginalFileName,
-        protected ?\Exception $Exception = null
+        protected array $Container,
+        protected string $FileName,
+        protected string $OriginalFileName,
+        protected ?Exception $Exception = null
     ) {
-        $this->Container = $container;
     }
 
     /**
-     * @param int|null $index
      * @return ActivityDataContainer|ActivityDataContainer[]
      */
-    public function getContainer($index = null)
+    public function getContainer(?int $index = null): ActivityDataContainer|array
     {
         if ($index !== null && isset($this->Container[$index])) {
             return $this->Container[$index];
@@ -48,28 +40,22 @@ class FileImportResult
         return count($this->Container);
     }
 
-    /**
-     * @return string
-     */
-    public function getFileName()
+    public function getFileName(): string
     {
         return $this->FileName;
     }
 
-    /**
-     * @return string
-     */
-    public function getOriginalFileName()
+    public function getOriginalFileName(): string
     {
         return $this->OriginalFileName;
     }
 
     public function isFailed(): bool
     {
-        return $this->Exception instanceof \Exception;
+        return $this->Exception instanceof Exception;
     }
 
-    public function getException(): ?\Exception
+    public function getException(): ?Exception
     {
         return $this->Exception;
     }
@@ -98,7 +84,7 @@ class FileImportResult
             $container->completeActivityData();
         }
 
-        if ($lastException instanceof \Runalyze\Import\Exception\ParserException) {
+        if ($lastException instanceof ParserException) {
             $this->Exception = $lastException;
 
             foreach ($indicesToRemove as $index) {

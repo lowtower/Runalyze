@@ -8,9 +8,9 @@ use Runalyze\Bundle\CoreBundle\Entity\Type;
 
 class TrendAnalysisData
 {
-    protected DateTime $DateFrom;
+    protected ?DateTime $DateFrom = null;
 
-    protected DateTime $DateTo;
+    protected ?DateTime $DateTo = null;
 
     /**
      * @var Sport[]
@@ -38,36 +38,50 @@ class TrendAnalysisData
         return $data;
     }
 
-    public function setDateFrom(DateTime $dateFrom): void
+    public function setDateFrom(?DateTime $dateFrom): void
     {
         $this->DateFrom = $dateFrom;
     }
 
-    public function getDateFrom(): DateTime
+    public function getDateFrom(): ?DateTime
     {
         return $this->DateFrom;
     }
 
+    /**
+     * @throws \LogicException if no date has been set yet
+     */
     public function getDateFromTimestamp(): int
     {
-        return $this->getDateFrom()
+        if (! $this->DateFrom instanceof \DateTime) {
+            throw new \LogicException('Cannot compute a timestamp for a date that has not been set.');
+        }
+
+        return $this->DateFrom
             ->setTimezone(new \DateTimeZone('UTC'))
             ->getTimestamp();
     }
 
-    public function setDateTo(DateTime $dateTo): void
+    public function setDateTo(?DateTime $dateTo): void
     {
         $this->DateTo = $dateTo;
     }
 
-    public function getDateTo(): DateTime
+    public function getDateTo(): ?DateTime
     {
         return $this->DateTo;
     }
 
+    /**
+     * @throws \LogicException if no date has been set yet
+     */
     public function getDateToTimestamp(): int
     {
-        return $this->getDateTo()
+        if (! $this->DateTo instanceof \DateTime) {
+            throw new \LogicException('Cannot compute a timestamp for a date that has not been set.');
+        }
+
+        return $this->DateTo
             ->setTimezone(new \DateTimeZone('UTC'))
             ->setTime(23, 59, 00)
             ->getTimestamp();

@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Component\Activity\Tool;
 
+use InvalidArgumentException;
 use Runalyze\Mathematics\Distribution\EmpiricalDistribution;
 use Runalyze\Mathematics\Distribution\MultipleTimeSeries;
 use Runalyze\Model\Trackdata;
@@ -15,12 +16,12 @@ class TimeSeriesStatistics
     protected ?MultipleTimeSeries $MultipleTimeSeries = null;
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct(Trackdata\Entity $trackdata)
     {
         if (! $trackdata->has(Trackdata\Entity::TIME)) {
-            throw new \InvalidArgumentException('Provided trackdata object must have time array.');
+            throw new InvalidArgumentException('Provided trackdata object must have time array.');
         }
 
         $this->Trackdata = $trackdata;
@@ -29,7 +30,7 @@ class TimeSeriesStatistics
         $this->manipulateNonIntegerSeries();
     }
 
-    protected function determineAvailableKeys()
+    protected function determineAvailableKeys(): void
     {
         $potentialKeys = [
             Trackdata\Entity::PACE,
@@ -62,7 +63,7 @@ class TimeSeriesStatistics
         }
     }
 
-    protected function manipulateNonIntegerSeries()
+    protected function manipulateNonIntegerSeries(): void
     {
         $nonIntegerKeys = [
             Trackdata\Entity::IMPACT_GS_LEFT => 10,
@@ -109,7 +110,7 @@ class TimeSeriesStatistics
     /**
      * @param mixed $key enum from trackdata model class
      */
-    public function hasStatisticsFor($key): bool
+    public function hasStatisticsFor(mixed $key): bool
     {
         return isset($this->AvailableKeys[$key]);
     }
@@ -117,7 +118,7 @@ class TimeSeriesStatistics
     /**
      * @param mixed $key enum from trackdata model class
      */
-    public function getStatisticsFor($key): EmpiricalDistribution
+    public function getStatisticsFor(mixed $key): EmpiricalDistribution
     {
         return $this->MultipleTimeSeries->getDistribution($key);
     }

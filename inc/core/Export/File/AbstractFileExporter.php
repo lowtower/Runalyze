@@ -1,15 +1,14 @@
 <?php
 
-/**
- * This file contains class::AbstractExporter
- * @package Runalyze\Export\File
- */
-
 namespace Runalyze\Export\File;
 
+use DOMDocument;
 use Runalyze\Export\AbstractExporter;
 use Runalyze\Util\LocalTime;
 use Runalyze\View\Activity\Context;
+use SessionAccountHandler;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 /**
  * Create exporter for given type
@@ -19,24 +18,12 @@ use Runalyze\View\Activity\Context;
  */
 abstract class AbstractFileExporter extends AbstractExporter
 {
-    /**
-     * @var string
-     */
     public const URL = 'activity/{id}/export/file/{enum}';
 
-    /**
-     * File content to write
-     */
     protected string $FileContent = '';
 
-    /**
-     * Get extension
-     */
     abstract public function extension(): string;
 
-    /**
-     * Export
-     */
     abstract protected function createFile();
 
     abstract public function enum(): int;
@@ -55,12 +42,9 @@ abstract class AbstractFileExporter extends AbstractExporter
         );
     }
 
-    /**
-     * Add indents to file content
-     */
-    final protected function formatFileContentAsXML()
+    final protected function formatFileContentAsXML(): void
     {
-        $XML = new \DOMDocument('1.0');
+        $XML = new DOMDocument('1.0');
         $XML->preserveWhiteSpace = false;
         $XML->loadXML($this->FileContent);
         $XML->formatOutput = true;
@@ -68,26 +52,20 @@ abstract class AbstractFileExporter extends AbstractExporter
         $this->FileContent = $XML->saveXML();
     }
 
-    /**
-     * Get file content
-     */
     final public function fileContent(): string
     {
         return $this->FileContent;
     }
 
-    /**
-     * Create file but don't start download
-     */
-    final public function createFileWithoutDirectDownload()
+    final public function createFileWithoutDirectDownload(): void
     {
         $this->createFile();
     }
 
     /**
-     * Download content
+     * @deprecated in favor of toResponse(), which returns a proper Symfony Response
      */
-    final public function downloadFile()
+    final public function downloadFile(): void
     {
         header('Content-Type: ' . $this->mimeType());
         header('Content-Disposition: attachment; filename=' . $this->filename() . '');
@@ -97,14 +75,25 @@ abstract class AbstractFileExporter extends AbstractExporter
         print $this->FileContent;
     }
 
+    final public function toResponse(): Response
+    {
+        $this->createFile();
+
+        $response = new Response($this->fileContent());
+        $response->headers->set('Content-Type', $this->mimeType());
+        $response->headers->set(
+            'Content-Disposition',
+            $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $this->filename())
+        );
+
+        return $response;
+    }
+
     /**
      * @see https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
      */
     abstract protected function mimeType(): string;
 
-    /**
-     * Get filename
-     */
     final public function filename(): string
     {
         if (! $this->Context instanceof Context) {
@@ -114,11 +103,8 @@ abstract class AbstractFileExporter extends AbstractExporter
         return self::fileNameStart() . LocalTime::date('Y-m-d_H-i', $this->Context->activity()->timestamp()) . '_' . $this->Context->activity()->id() . '.' . $this->extension();
     }
 
-    /**
-     * Get file name start
-     */
     public static function fileNameStart(): string
     {
-        return \SessionAccountHandler::getId() . '-Activity_';
+        return SessionAccountHandler::getId() . '-Activity_';
     }
 }

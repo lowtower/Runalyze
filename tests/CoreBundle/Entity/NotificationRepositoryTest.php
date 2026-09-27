@@ -44,15 +44,24 @@ class NotificationRepositoryTest extends AbstractRepositoryTestCase
         return $notification->getId();
     }
 
-    public function testFindAllNotifications(): void
+    public function testFindAllForNotifications(): void
     {
         $this->insertMessageFor($this->Account);
         $this->insertMessageFor($this->getEmptyAccount());
         $this->insertMessageFor($this->Account);
         $this->insertMessageFor($this->Account);
 
-        $this->assertEquals(3, count($this->NotificationRepository->findAll($this->Account)));
-        $this->assertEquals(1, count($this->NotificationRepository->findAll($this->getEmptyAccount())));
+        $this->assertEquals(3, count($this->NotificationRepository->findAllFor($this->Account)));
+        $this->assertEquals(1, count($this->NotificationRepository->findAllFor($this->getEmptyAccount())));
+    }
+
+    public function testFindAllReturnsNotificationsAcrossAllAccounts(): void
+    {
+        $this->insertMessageFor($this->Account);
+        $this->insertMessageFor($this->getEmptyAccount());
+        $this->insertMessageFor($this->Account);
+
+        $this->assertCount(3, $this->NotificationRepository->findAll());
     }
 
     public function testFindAllNotificationsSince(): void

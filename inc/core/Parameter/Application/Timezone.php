@@ -2530,6 +2530,6 @@ class Timezone extends \Runalyze\Common\Enum\AbstractEnum
             throw new \InvalidArgumentException('Requested name "' . $name . '"" does not exist.');
         }
 
-        return $enums[strtoupper($mapping[$name])];
+        return $enums[strtoupper((string) $mapping[$name])];
     }
 }

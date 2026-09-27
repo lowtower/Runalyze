@@ -2,25 +2,21 @@
 
 namespace Runalyze\Bundle\CoreBundle\Services\Recalculation\Task;
 
+use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationTaskInterface;
 
 class StartTimeCalculation implements RecalculationTaskInterface
 {
     use AccountAwareTaskTrait;
 
-    /**
-     * @var bool
-     */
-    protected $ForceRecalculation = false;
+    protected bool $ForceRecalculation = false;
 
-    /**
-     * @var int|null
-     */
-    protected $NewStartTime;
+    protected ?int $NewStartTime = null;
 
     public function __construct(
-        protected \Runalyze\Bundle\CoreBundle\Entity\TrainingRepository $TrainingRepository,
-        protected \Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater $ConfigurationUpdater
+        protected TrainingRepository $TrainingRepository,
+        protected ConfigurationUpdater $ConfigurationUpdater
     ) {
     }
 
@@ -29,10 +25,7 @@ class StartTimeCalculation implements RecalculationTaskInterface
         $this->ForceRecalculation = true;
     }
 
-    /**
-     * @param int $timestamp
-     */
-    public function setNewStartTime($timestamp): void
+    public function setNewStartTime(int $timestamp): void
     {
         if ($this->NewStartTime === null || $timestamp < $this->NewStartTime) {
             $this->NewStartTime = $timestamp;
@@ -47,6 +40,10 @@ class StartTimeCalculation implements RecalculationTaskInterface
 
         if ($this->ForceRecalculation || $this->NewStartTime === null) {
             $this->NewStartTime = $this->TrainingRepository->getStartTime($this->Account);
+        }
+
+        if ($this->NewStartTime === null) {
+            return;
         }
 
         $this->ConfigurationUpdater->updateStartTime($this->Account, $this->NewStartTime);

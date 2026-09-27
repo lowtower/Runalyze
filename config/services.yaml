@@ -175,6 +175,10 @@ services:
       public: true
     Runalyze\Bundle\CoreBundle\Services\Sha256SaltedEncoder: '@app.sha256salted_encoder'
 
+    Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator:
+        arguments:
+            $appSecret: '%app.secret%'
+
     app.event.doctrine.table_prefix_subscriber:
       class: Runalyze\Bundle\CoreBundle\EventListener\TablePrefixSubscriber
       arguments: ['%app.database_prefix%']

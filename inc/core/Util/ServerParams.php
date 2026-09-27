@@ -5,7 +5,7 @@ namespace Runalyze\Util;
 class ServerParams
 {
     /**
-     * @return int|null [bytes]
+     * @return ?int [bytes]
      */
     public function getPostMaxSizeInBytes(): ?int
     {
@@ -13,7 +13,7 @@ class ServerParams
     }
 
     /**
-     * @return int|null [bytes]
+     * @return ?int [bytes]
      */
     public function getUploadMaxFilesize(): ?int
     {
@@ -31,7 +31,7 @@ class ServerParams
     }
 
     /**
-     * @return null|int [bytes]
+     * @return ?int [bytes]
      */
     public function transformStringToBytes(string $iniSetting): ?int
     {

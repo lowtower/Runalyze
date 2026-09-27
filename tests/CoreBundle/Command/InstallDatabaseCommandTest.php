@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Command;
 
+use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -10,7 +11,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 class InstallDatabaseCommandTest extends KernelTestCase
 {
-    protected \Doctrine\DBAL\Connection $Connection;
+    protected Connection $Connection;
 
     protected string $DatabasePrefix;
 
@@ -33,7 +34,7 @@ class InstallDatabaseCommandTest extends KernelTestCase
         parent::tearDown();
     }
 
-    protected function dropAllTables()
+    protected function dropAllTables(): void
     {
         $query = 'SHOW TABLES LIKE "' . $this->DatabasePrefix . '%"';
         $tables = $this->Connection->executeQuery($query)

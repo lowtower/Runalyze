@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Services\Import;
 
 use Monolog\Handler\TestHandler;
@@ -10,10 +12,7 @@ use Runalyze\Parser\Activity\Converter\TtbinConverter;
 
 class FileImporterTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var FileImporter
-     */
-    protected $Importer;
+    protected FileImporter $Importer;
 
     protected function setUp(): void
     {

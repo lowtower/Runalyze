@@ -7,12 +7,9 @@ abstract class Job
     /**
      * @var string[]
      */
-    private $Messages = [];
+    private array $Messages = [];
 
-    /**
-     * @var int
-     */
-    protected $RunningSportId;
+    protected int $RunningSportId;
 
     public function __construct(
         private array $RequestData,
@@ -27,34 +24,24 @@ abstract class Job
      * Is task requested?
      *
      * @param string $enum
-     * @return bool
      */
-    protected function isRequested($enum)
+    protected function isRequested($enum): bool
     {
         return isset($this->RequestData[$enum]) && $this->RequestData[$enum] === true;
     }
 
-    /**
-     * Run job
-     */
     abstract public function run();
 
-    /**
-     * @param string $string
-     */
-    final protected function addMessage($string)
+    final protected function addMessage(string $string)
     {
         $this->Messages[] = $string;
     }
 
     /**
-     * Add message
-     *
-     * @param string $what
      * @param mixed $oldValue
      * @param mixed $newValue
      */
-    final protected function addSuccessMessage($what, $oldValue, $newValue)
+    final protected function addSuccessMessage(string $what, $oldValue, $newValue)
     {
         $this->Messages[] = sprintf(
             __('%s has been recalculated. New value: <strong>%s</strong> (old value: %s)'),
@@ -67,7 +54,7 @@ abstract class Job
     /**
      * @return string[]
      */
-    final public function messages()
+    final public function messages(): array
     {
         return $this->Messages;
     }

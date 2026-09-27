@@ -9,10 +9,7 @@ use Runalyze\Metrics;
 
 class ValueExtensionTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var ValueExtension
-     */
-    protected $Extension;
+    protected ValueExtension $Extension;
 
     protected function setUp(): void
     {

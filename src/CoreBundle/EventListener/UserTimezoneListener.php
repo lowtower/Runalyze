@@ -5,6 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\EventListener;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Parameter\Application\Timezone;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\UsageTrackingTokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class UserTimezoneListener
 {
@@ -15,7 +16,7 @@ class UserTimezoneListener
 
     public function onKernelRequest(): void
     {
-        if ($this->token->getToken() instanceof \Symfony\Component\Security\Core\Authentication\Token\TokenInterface) {
+        if ($this->token->getToken() instanceof TokenInterface) {
             $account = $this->token->getToken()
                 ->getUser();
             $this->token->getToken()

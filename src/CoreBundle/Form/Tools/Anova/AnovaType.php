@@ -5,29 +5,32 @@ namespace Runalyze\Bundle\CoreBundle\Form\Tools\Anova;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryGroup\QueryGroups;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryValue\QueryValues;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\EquipmentTypeRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
+use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Type;
+use Runalyze\Bundle\CoreBundle\Entity\TypeRepository;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class AnovaType extends AbstractType
 {
     public function __construct(
-        protected \Runalyze\Bundle\CoreBundle\Entity\SportRepository $SportRepository,
-        protected \Runalyze\Bundle\CoreBundle\Entity\TypeRepository $TypeRepository,
-        protected \Runalyze\Bundle\CoreBundle\Entity\EquipmentTypeRepository $EquipmentTypeRepository,
-        protected \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $TokenStorageInterface,
-        protected \Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager $ConfigurationManager
+        protected SportRepository $SportRepository,
+        protected TypeRepository $TypeRepository,
+        protected EquipmentTypeRepository $EquipmentTypeRepository,
+        protected TokenStorageInterface $TokenStorageInterface,
+        protected ConfigurationManager $ConfigurationManager
     ) {
     }
 
-    /**
-     * @return Account
-     */
-    protected function getAccount()
+    protected function getAccount(): Account
     {
         $account = $this->TokenStorageInterface->getToken() ? $this->TokenStorageInterface->getToken()
             ->getUser() : null;
@@ -51,6 +54,9 @@ class AnovaType extends AbstractType
                 ],
                 'model_timezone' => 'UTC',
                 'view_timezone' => 'UTC',
+                'constraints' => [
+                    new NotBlank(),
+                ],
             ])
             ->add('dateTo', DateType::class, [
                 'widget' => 'single_text',
@@ -61,6 +67,9 @@ class AnovaType extends AbstractType
                 ],
                 'model_timezone' => 'UTC',
                 'view_timezone' => 'UTC',
+                'constraints' => [
+                    new NotBlank(),
+                ],
             ])
             ->add('sport', ChoiceType::class, [
                 'multiple' => true,

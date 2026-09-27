@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Additional helper functions
  *
@@ -9,29 +11,24 @@
  */
 /**
  * Returns the translation for a textstring
- * @param string $text
  */
-function __($text): string
+function __(string $text): string
 {
     return gettext($text);
 }
 
 /**
  * Echo the translation for a textstring
- * @param string $text
  */
-function _e($text): void
+function _e(string $text): void
 {
     echo gettext($text);
 }
 
 /**
  * Return singular/plural translation for a textstring
- * @param string $msg1
- * @param string $msg2
- * @param int $n
  */
-function _n($msg1, $msg2, $n): string
+function _n(string $msg1, string $msg2, int $n): string
 {
     return ngettext($msg1, $msg2, $n);
 }

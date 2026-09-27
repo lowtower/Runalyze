@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Services\Import;
 
+use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Hrv;
 use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
@@ -12,7 +13,8 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityCache;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
-class ActivityCacheTest extends \PHPUnit\Framework\TestCase
+#[\PHPUnit\Framework\Attributes\Group('default')]
+class ActivityCacheTest extends TestCase
 {
     protected ActivityCache $Cache;
 
@@ -28,6 +30,32 @@ class ActivityCacheTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->Cache->get('foobar'));
     }
 
+    public function testGetWithNullHashReturnsTheGivenMergeTargetUnchanged(): void
+    {
+        $activityToMerge = (new Training())->setDistance(5.0);
+
+        $this->assertSame($activityToMerge, $this->Cache->get(null, $activityToMerge));
+    }
+
+    public function testGetWithEmptyStringHashReturnsTheGivenMergeTargetUnchanged(): void
+    {
+        $activityToMerge = (new Training())->setDistance(5.0);
+
+        $this->assertSame($activityToMerge, $this->Cache->get('', $activityToMerge));
+    }
+
+    public function testGetWithUnknownHashAndNoMergeTargetReturnsNull(): void
+    {
+        $this->assertNull($this->Cache->get('unknown-hash'));
+    }
+
+    public function testGetWithUnknownHashFallsBackToTheGivenMergeTarget(): void
+    {
+        $activityToMerge = (new Training())->setDistance(5.0);
+
+        $this->assertSame($activityToMerge, $this->Cache->get('unknown-hash', $activityToMerge));
+    }
+
     public function testCachingSimpleActivity(): void
     {
         $activity = new Training();
@@ -37,6 +65,34 @@ class ActivityCacheTest extends \PHPUnit\Framework\TestCase
         $hash = $this->Cache->save($activity);
 
         $this->assertEquals($activity, $this->Cache->get($hash));
+    }
+
+    public function testSaveProducesDifferentHashesForDifferentActivities(): void
+    {
+        $hashA = $this->Cache->save(new Training());
+        $hashB = $this->Cache->save(new Training());
+
+        $this->assertNotSame($hashA, $hashB);
+    }
+
+    public function testRemoveDeletesTheCachedActivity(): void
+    {
+        $hash = $this->Cache->save(new Training());
+        $this->assertNotNull($this->Cache->get($hash));
+
+        $this->Cache->remove($hash);
+
+        $this->assertNull($this->Cache->get($hash));
+    }
+
+    public function testGetWithRemoveAfterwardsDeletesTheCachedActivityOnFirstRetrieval(): void
+    {
+        $hash = $this->Cache->save(new Training());
+
+        $firstRetrieval = $this->Cache->get($hash, null, true);
+        $this->assertNotNull($firstRetrieval);
+
+        $this->assertNull($this->Cache->get($hash));
     }
 
     public function testSimpleMerge(): void
@@ -73,5 +129,30 @@ class ActivityCacheTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(5000, $result->getSwimdata()->getPoolLength());
         $this->assertEquals([820, 800, 850], $result->getHrv()->getData());
         $this->assertEquals('Foobar event', $result->getRaceresult()->getName());
+    }
+
+    public function testMergeTransfersPowerWhenCachedActivityHasPowerCalculatedFlagSet(): void
+    {
+        $activityToCache = (new Training())
+            ->setPower(250)
+            ->setPowerCalculated(true);
+
+        $activityToMerge = (new Training())->setPower(999);
+
+        $result = $this->Cache->get($this->Cache->save($activityToCache), $activityToMerge);
+
+        $this->assertSame(250, $result->getPower());
+    }
+
+    public function testMergeDoesNotOverwritePowerWhenCachedActivityHasNoPowerCalculatedFlag(): void
+    {
+        $activityToCache = (new Training())->setPower(250);
+        $this->assertNull($activityToCache->isPowerCalculated());
+
+        $activityToMerge = (new Training())->setPower(999);
+
+        $result = $this->Cache->get($this->Cache->save($activityToCache), $activityToMerge);
+
+        $this->assertSame(999, $result->getPower());
     }
 }

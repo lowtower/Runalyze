@@ -3,6 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Common\IdentifiableEntityInterface;
@@ -27,7 +28,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     private ?int $id = null;
 
     #[ORM\Column(name: 'name', type: 'string', length: 50, nullable: false)]
-    private string $name;
+    private ?string $name = null;
 
     #[ORM\Column(name: 'img', type: 'string', length: 100, nullable: false, options: [
         'default' => 'icons8-Sports-Mode',
@@ -86,11 +87,8 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     #[ORM\ManyToOne(targetEntity: EquipmentType::class)]
     private ?EquipmentType $mainEquipmenttype = null;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
     #[ORM\ManyToMany(targetEntity: Equipment::class, mappedBy: 'sport')]
-    private $equipment;
+    private Collection $equipment;
 
     #[ORM\JoinColumn(name: 'default_typeid', referencedColumnName: 'id')]
     #[ORM\ManyToOne(targetEntity: Type::class)]
@@ -113,23 +111,17 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     #[ORM\ManyToOne(targetEntity: Account::class, inversedBy: 'sports')]
     private Account $account;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
     #[ORM\ManyToMany(targetEntity: EquipmentType::class, mappedBy: 'sport')]
-    private $equipmentType;
+    private Collection $equipmentType;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection|Type[]
+     * @var Collection<int, Type>
      */
     #[ORM\OneToMany(mappedBy: 'sport', targetEntity: Type::class, fetch: 'EXTRA_LAZY')]
-    protected $types;
+    protected Collection $types;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
     #[ORM\OneToMany(mappedBy: 'sport', targetEntity: Training::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
-    protected $trainings;
+    protected Collection $trainings;
 
     public function __construct()
     {
@@ -159,7 +151,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
         return $this->id;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -168,7 +160,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
 
     public function getName(): string
     {
-        return $this->name;
+        return $this->name ?? '';
     }
 
     public function setImg(string $img): self
@@ -261,10 +253,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
         return $this->speed;
     }
 
-    /**
-     * @return AbstractPaceUnit
-     */
-    public function getSpeedUnit()
+    public function getSpeedUnit(): AbstractPaceUnit
     {
         return PaceEnum::get($this->speed);
     }
@@ -312,9 +301,9 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     }
 
     /**
-     * @param null|array $hrZoneBounds [bpm]
+     * @param array<int, string>|null $hrZoneBounds [bpm]
      */
-    public function setHrZoneBounds($hrZoneBounds): self
+    public function setHrZoneBounds(?array $hrZoneBounds): self
     {
         if ($hrZoneBounds !== null) {
             $hrZoneBounds = HrZonesCalculator::sortZones($hrZoneBounds);
@@ -345,10 +334,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
         return $this->mainEquipmenttype;
     }
 
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getEquipment()
+    public function getEquipment(): Collection
     {
         return $this->equipment;
     }
@@ -401,9 +387,9 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
         return $this->internalSportId;
     }
 
-    public function getInternalSport(): ?\Runalyze\Profile\Sport\AbstractSport
+    public function getInternalSport(): ?AbstractSport
     {
-        if (! $this->internalSport instanceof \Runalyze\Profile\Sport\AbstractSport) {
+        if (! $this->internalSport instanceof AbstractSport) {
             $id = $this->internalSportId ?? SportProfile::GENERIC;
 
             try {
@@ -441,10 +427,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
         $this->equipmentType->removeElement($equipmentType);
     }
 
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getEquipmentTypes()
+    public function getEquipmentTypes(): Collection
     {
         return $this->equipmentType;
     }
@@ -455,17 +438,14 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection<int, Type>
+     * @return Collection<int, Type>
      */
-    public function getTypes()
+    public function getTypes(): Collection
     {
         return $this->types;
     }
 
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getTrainings()
+    public function getTrainings(): Collection
     {
         return $this->trainings;
     }

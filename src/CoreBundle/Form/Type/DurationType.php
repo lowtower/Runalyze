@@ -11,10 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class DurationType extends AbstractType implements DataTransformerInterface
 {
-    /**
-     * @var bool
-     */
-    protected $IsRequired = false;
+    protected bool $IsRequired = false;
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -25,27 +22,21 @@ class DurationType extends AbstractType implements DataTransformerInterface
         }
     }
 
-    /**
-     * @param bool $flag
-     */
-    public function setRequired($flag = true): void
+    public function setRequired(bool $flag = true): void
     {
         $this->IsRequired = $flag;
     }
 
     /**
-     * @param  mixed $duration [s]
-     * @return string
+     * @param mixed $duration [s]
      */
-    public function transform($duration)
+    public function transform(mixed $duration): string
     {
         return $duration === null ? '0:00' : Duration::format($duration);
     }
 
     /**
-     * @param  string|null $duration
-     * @return ?float
-     * @throws TransformationFailedException if $duration is null
+     * @throws TransformationFailedException if $duration is null and required
      */
     public function reverseTransform($duration)
     {
@@ -60,7 +51,7 @@ class DurationType extends AbstractType implements DataTransformerInterface
         return (new Duration($duration))->seconds();
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return TextType::class;
     }

@@ -13,6 +13,9 @@ trait VariablesContainerTrait
         $this->Variables[$key] = $value;
     }
 
+    /**
+     * @throws \InvalidArgumentException
+     */
     public function get(string $key): mixed
     {
         if (! isset($this->Variables[$key])) {

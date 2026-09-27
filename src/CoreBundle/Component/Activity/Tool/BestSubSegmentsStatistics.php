@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Component\Activity\Tool;
 
+use InvalidArgumentException;
 use Runalyze\Calculation\Math\SubSegmentMaximization;
 use Runalyze\Model\Trackdata;
 
 class BestSubSegmentsStatistics
 {
-    protected \Runalyze\Model\Trackdata\Entity $Trackdata;
+    protected Trackdata\Entity $Trackdata;
 
     protected ?SubSegmentMaximization $DistanceSegments = null;
 
@@ -20,34 +21,40 @@ class BestSubSegmentsStatistics
     protected array $Times = [];
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct(Trackdata\Entity $trackdata)
     {
         if (! $trackdata->has(Trackdata\Entity::TIME) || ! $trackdata->has(Trackdata\Entity::DISTANCE)) {
-            throw new \InvalidArgumentException('Provided trackdata object must have time and distance array.');
+            throw new InvalidArgumentException('Provided trackdata object must have time and distance array.');
         }
 
         $this->Trackdata = $trackdata;
     }
 
+    /**
+     * @param float[] $distances
+     */
     public function setDistancesToAnalyze(array $distances): void
     {
         $this->Distances = $distances;
     }
 
+    /**
+     * @param int[] $times
+     */
     public function setTimesToAnalyze(array $times): void
     {
         $this->Times = $times;
     }
 
     /**
-     * @throws \InvalidArgumentException if no distances have been configured via setDistancesToAnalyze()
+     * @throws InvalidArgumentException if no distances have been configured via setDistancesToAnalyze()
      */
     public function findDistanceSegments(): void
     {
         if ($this->Distances === []) {
-            throw new \InvalidArgumentException('No activity distances configured; call setDistancesToAnalyze() first.');
+            throw new InvalidArgumentException('No activity distances configured; call setDistancesToAnalyze() first.');
         }
 
         [$timeAsDeltas, $distanceAsDeltas] = $this->computeDeltas();
@@ -57,12 +64,12 @@ class BestSubSegmentsStatistics
     }
 
     /**
-     * @throws \InvalidArgumentException if no times have been configured via setTimesToAnalyze()
+     * @throws InvalidArgumentException if no times have been configured via setTimesToAnalyze()
      */
     public function findTimeSegments(): void
     {
         if ($this->Times === []) {
-            throw new \InvalidArgumentException('No activity times configured; call setTimesToAnalyze() first.');
+            throw new InvalidArgumentException('No activity times configured; call setTimesToAnalyze() first.');
         }
 
         [$timeAsDeltas, $distanceAsDeltas] = $this->computeDeltas();

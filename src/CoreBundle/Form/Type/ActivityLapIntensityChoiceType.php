@@ -22,15 +22,12 @@ class ActivityLapIntensityChoiceType extends AbstractTokenStorageAwareType
     {
         $resolver->setDefaults([
             'choices' => LapIntensity::getAll(),
-            'choice_label' => function ($intensity, $key, $index) {
-                /** @var LapIntensity $intensity */
-                return $intensity->getLabel();
-            },
-            'choice_value' => fn (?LapIntensity $intensity = null): string => $intensity instanceof \Runalyze\Activity\LapIntensity ? $intensity->getValue() : '',
+            'choice_label' => fn (LapIntensity $intensity, $key, $index): string => $intensity->getLabel(),
+            'choice_value' => fn (?LapIntensity $intensity = null): string => $intensity instanceof LapIntensity ? $intensity->getValue() : '',
         ]);
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return ChoiceType::class;
     }

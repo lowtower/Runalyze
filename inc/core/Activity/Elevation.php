@@ -1,10 +1,5 @@
 <?php
 
-/**
- * This file contains class::Elevation
- * @package Runalyze\Activity
- */
-
 namespace Runalyze\Activity;
 
 use Runalyze\Configuration;
@@ -30,9 +25,9 @@ class Elevation implements ValueInterface
         return (new self($meter))->string($withUnit);
     }
 
-    public function __construct(float $value = 0.0, ?DistanceUnitSystem $unitSystem = null)
+    public function __construct(?float $value = 0.0, ?DistanceUnitSystem $unitSystem = null)
     {
-        $this->set($value);
+        $this->set($value ?? 0.0);
         $this->UnitSystem = $unitSystem ?? Configuration::General()->distanceUnitSystem();
     }
 

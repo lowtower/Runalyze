@@ -34,7 +34,7 @@ class WindSpeedType extends AbstractUnitBasedType
         $view->vars['attr']['data-base-unit-factor'] = $modelUnit->getDividendFromBaseUnit() / $unit->getDividendFromBaseUnit();
     }
 
-    public function transform($value): ?string
+    public function transform(mixed $value): ?string
     {
         if ($value !== null) {
             if ((int) $value === 0) {
@@ -47,7 +47,7 @@ class WindSpeedType extends AbstractUnitBasedType
         return $value === null ? null : (string) round($this->Unit->fromBaseUnit($value));
     }
 
-    public function reverseTransform($value): ?int
+    public function reverseTransform(mixed $value): ?int
     {
         if ($value !== null) {
             if ((int) $value === 0) {

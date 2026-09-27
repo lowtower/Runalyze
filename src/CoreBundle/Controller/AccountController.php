@@ -21,10 +21,7 @@ class AccountController extends AbstractController
 {
     use AppServiceSubscriberTrait;
 
-    /**
-     * @return AccountRepository
-     */
-    protected function getAccountRepository()
+    protected function getAccountRepository(): AccountRepository
     {
         return $this->getDoctrine()
             ->getRepository(Account::class);
@@ -33,24 +30,37 @@ class AccountController extends AbstractController
     /**
      * @Route("/delete/{hash}/confirmed", name="account_delete_confirmed", requirements={"hash"="[[:xdigit:]]{32}"})
      */
-    public function deleteAccountConfirmedAction($hash, Request $request): Response
+    public function deleteAccountConfirmedAction(string $hash, Request $request): Response
     {
-        if ($this->getAccountRepository()->deleteByHash($hash)) {
+        $accountToDelete = $this->getAccountRepository()
+            ->findOneBy([
+                'deletionHash' => $hash,
+            ]);
+
+        if ($accountToDelete === null) {
+            return $this->render('account/delete/problem.html.twig');
+        }
+
+        $currentUser = $this->getUser();
+        $isCurrentUser = $currentUser instanceof Account && $currentUser->getId() === $accountToDelete->getId();
+
+        $this->getAccountRepository()
+            ->deleteByHash($hash);
+
+        if ($isCurrentUser) {
             $this->get('security.token_storage')
                 ->setToken(null);
             $request->getSession()
                 ->invalidate();
-
-            return $this->render('account/delete/success.html.twig');
         }
 
-        return $this->render('account/delete/problem.html.twig');
+        return $this->render('account/delete/success.html.twig');
     }
 
     /**
      * @Route("/delete/{hash}", name="account_delete", requirements={"hash"="[[:xdigit:]]{32}"})
      */
-    public function deleteAccountAction($hash): Response
+    public function deleteAccountAction(string $hash): Response
     {
         $account = $this->getAccountRepository()
             ->findOneBy([
@@ -70,7 +80,7 @@ class AccountController extends AbstractController
     /**
      * @Route("/recover/{hash}", name="account_recover_hash", requirements={"hash"="[[:xdigit:]]{32}"})
      */
-    public function recoverForHashAction($hash, Request $request, Sha256SaltedEncoder $sha256SaltedEncoder): Response
+    public function recoverForHashAction(string $hash, Request $request, Sha256SaltedEncoder $sha256SaltedEncoder): Response
     {
         $account = $this->getAccountRepository()
             ->findOneBy([
@@ -122,7 +132,7 @@ class AccountController extends AbstractController
             $account = $this->getAccountRepository()
                 ->loadUserByUsername($request->request->get($form->getName())['username']);
 
-            if ($account === null) {
+            if (! $account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account) {
                 $form->get('username')
                     ->addError(new FormError($translator->trans('The username is not known.')));
             } else {
@@ -146,7 +156,7 @@ class AccountController extends AbstractController
      * @Route("/activate/{hash}", requirements={"hash"="[[:xdigit:]]{32}"})
      * @Route("/activate/{hash}/{username}", name="account_activate", requirements={"hash"="[[:xdigit:]]{32}"})
      */
-    public function activateAccountAction($hash, ?string $username = null): Response
+    public function activateAccountAction(string $hash, ?string $username = null): Response
     {
         if ($this->getAccountRepository()->activateByHash($hash)) {
             return $this->render('account/activate/success.html.twig');

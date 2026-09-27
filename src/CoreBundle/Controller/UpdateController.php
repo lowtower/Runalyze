@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -18,20 +19,25 @@ class UpdateController extends AbstractController
 {
     use AppServiceSubscriberTrait;
 
+    public function __construct(
+        private readonly KernelInterface $kernel
+    ) {
+    }
+
     /**
      * @Route("/update", name="update", condition="'%app.update_disabled%' == 'no'")
      */
     public function updateAction($entity_manager = 'default'): Response
     {
         $output = new BufferedOutput();
-        $application = new Application($this->get('kernel'));
+        $application = new Application($this->kernel);
         $application->setAutoExit(false);
         $application->run(new ArrayInput([
             'command' => 'doctrine:migrations:status',
             '--em' => $entity_manager,
         ]), $output);
 
-        if ($this->get('kernel')->getEnvironment() == 'prod') {
+        if ($this->kernel->getEnvironment() == 'prod') {
             $application->run(new ArrayInput([
                 'command' => 'cache:clear',
                 '--env' => 'prod',
@@ -63,7 +69,7 @@ class UpdateController extends AbstractController
     public function updateStartAction(): Response
     {
         $output = new BufferedOutput();
-        $application = new Application($this->get('kernel'));
+        $application = new Application($this->kernel);
         $application->setAutoExit(false);
         $application->run(new ArrayInput([
             'command' => 'doctrine:migrations:migrate',
@@ -72,9 +78,9 @@ class UpdateController extends AbstractController
 
         $content = $output->fetch();
 
-        if (strpos($content, 'Could not find any migrations to execute.') || strpos($content, 'No migrations to execute.')) {
+        if (str_contains($content, 'Could not find any migrations to execute.') || str_contains($content, 'No migrations to execute.')) {
             $migrationStatus = 'uptodate';
-        } elseif (strpos($content, 'migrations executed')) {
+        } elseif (str_contains($content, 'migrations executed')) {
             $migrationStatus = 'executed';
         } else {
             $migrationStatus = false;

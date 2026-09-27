@@ -5,6 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Form;
 use League\Geotools\Geohash\Geohash;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Tag;
+use Runalyze\Bundle\CoreBundle\Entity\TagRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Form\Type\ActivityEquipmentType;
 use Runalyze\Bundle\CoreBundle\Form\Type\ActivityRoundType;
@@ -26,6 +27,7 @@ use Runalyze\Bundle\CoreBundle\Form\Type\WeatherConditionType;
 use Runalyze\Bundle\CoreBundle\Form\Type\WindDirectionType;
 use Runalyze\Bundle\CoreBundle\Form\Type\WindSpeedType;
 use Runalyze\Bundle\CoreBundle\Services\Activity\DataSeriesRemover;
+use RuntimeException;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -40,28 +42,49 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class ActivityType extends AbstractType
 {
     public function __construct(
-        protected \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $TokenStorageInterface,
-        protected \Runalyze\Bundle\CoreBundle\Entity\TagRepository $TagRepository
+        protected TokenStorageInterface $TokenStorageInterface,
+        protected TagRepository $TagRepository
     ) {
     }
 
     /**
-     * @return Account
+     * @throws RuntimeException if no account is associated with the current security token
      */
-    protected function getAccount()
+    protected function getAccount(): Account
     {
         $account = $this->TokenStorageInterface->getToken() ? $this->TokenStorageInterface->getToken()
             ->getUser() : null;
 
         if (! ($account instanceof Account)) {
-            throw new \RuntimeException('Activity type must have a valid account token.');
+            throw new RuntimeException('Activity type must have a valid account token.');
         }
 
         return $account;
+    }
+
+    /**
+     * @return array<string, array<Tag|string>|bool|string>
+     */
+    protected function addTagChoiceOptions(): array
+    {
+        return [
+            'class' => Tag::class,
+            'choices' => $this->TagRepository->findAllFor($this->getAccount()),
+            'choice_label' => 'tag',
+            'label' => 'Assigned tags',
+            'attr' => [
+                'class' => 'chosen-select-create full-size',
+                'data-placeholder' => 'Choose tag(s)',
+            ],
+            'multiple' => true,
+            'expanded' => false,
+            'required' => false,
+        ];
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -215,19 +238,7 @@ class ActivityType extends AbstractType
                 ]);
 
             $event->getForm()
-                ->add('tag', EntityType::class, [
-                    'class' => Tag::class,
-                    'choices' => $this->TagRepository->findAllFor($this->getAccount()),
-                    'choice_label' => 'tag',
-                    'label' => 'Assigned tags',
-                    'attr' => [
-                        'class' => 'chosen-select-create full-size',
-                        'data-placeholder' => 'Choose tag(s)',
-                    ],
-                    'multiple' => true,
-                    'expanded' => false,
-                    'required' => false,
-                ]);
+                ->add('tag', EntityType::class, $this->addTagChoiceOptions());
 
             $this->setStartCoordinates($event->getForm(), $activity);
 
@@ -242,30 +253,45 @@ class ActivityType extends AbstractType
             $activity = $event->getForm()
                 ->getData();
 
-            if (empty($data['tag'])) {
-                return;
-            }
+            $submittedTagIds = $data['tag'] ?? [];
+            $tagsToKeep = [];
 
-            $tags = $data['tag'];
-            foreach ($tags as $key => $tag) {
-                if (! is_numeric($tag)) {
+            foreach ($submittedTagIds as $tag) {
+                if (is_numeric($tag)) {
+                    $tagElement = $this->TagRepository->find((int) $tag);
+                } else {
                     $tagElement = (new Tag())->setTag($tag)
                         ->setAccount($this->getAccount());
                     $this->TagRepository->save($tagElement);
-                    $activity->addTag($tagElement);
-                    $tags[$key] = $tagElement->getId();
+                }
+
+                if ($tagElement instanceof Tag) {
+                    $tagsToKeep[] = $tagElement;
+                }
+            }
+
+            foreach ($activity->getTag() as $currentTag) {
+                if (! in_array($currentTag, $tagsToKeep, true)) {
+                    $activity->removeTag($currentTag);
+                }
+            }
+
+            foreach ($tagsToKeep as $tagToKeep) {
+                if (! $activity->getTag()->contains($tagToKeep)) {
+                    $activity->addTag($tagToKeep);
                 }
             }
 
             $event->getForm()
                 ->remove('tag');
-
-            $data['tag'] = $tags;
-
-            $event->setData($data);
             $event->getForm()
-                ->setData($activity);
+                ->add('tag', EntityType::class, array_merge($this->addTagChoiceOptions(), [
+                    'mapped' => false,
+                    'data' => $tagsToKeep,
+                ]));
 
+            unset($data['tag']);
+            $event->setData($data);
         });
     }
 
@@ -276,7 +302,7 @@ class ActivityType extends AbstractType
         ]);
     }
 
-    protected function setStartCoordinates(FormInterface $form, Training $activity)
+    protected function setStartCoordinates(FormInterface $form, Training $activity): void
     {
         $data = '';
 
@@ -301,7 +327,7 @@ class ActivityType extends AbstractType
         ]);
     }
 
-    protected function addDataSeriesRemoverFields(FormInterface $form, Training $activity)
+    protected function addDataSeriesRemoverFields(FormInterface $form, Training $activity): void
     {
         $choices = DataSeriesRemover::getChoicesForActivity($activity);
 

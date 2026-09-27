@@ -2,11 +2,6 @@
 
 declare(strict_types=1);
 
-/**
- * This file contains class::UnsupportedFileException
- * @package Runalyze\Import\Exception
- */
-
 namespace Runalyze\Import\Exception;
 
 /**

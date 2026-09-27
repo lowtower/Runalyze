@@ -14,10 +14,7 @@ class ActivityDataContainerFilter implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    /**
-     * @var FilterCollection
-     */
-    protected $Filter;
+    protected FilterCollection $Filter;
 
     public function __construct(?LoggerInterface $logger = null)
     {
@@ -26,7 +23,7 @@ class ActivityDataContainerFilter implements LoggerAwareInterface
         $this->initFilterCollection();
     }
 
-    protected function initFilterCollection()
+    protected function initFilterCollection(): void
     {
         $this->Filter = new DefaultFilterCollection($this->logger);
     }

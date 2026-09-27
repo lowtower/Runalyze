@@ -2,6 +2,8 @@
 
 namespace Runalyze\Bundle\CoreBundle\Component\Activity;
 
+use DateTime;
+use Error;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 
@@ -11,7 +13,7 @@ class ActivityPreview
 
     protected string $Title;
 
-    protected \DateTime $DateTime;
+    protected DateTime $DateTime;
 
     /**
      * @var float [s]
@@ -39,13 +41,22 @@ class ActivityPreview
         ?ActivityDecorator $decorator = null
     ) {
         $this->setSimplePropertiesFromActivity($activity);
-        $this->setPropertiesFromSport($activity->getSport());
+        $this->setPropertiesFromSport($this->getSportOrNull($activity));
         $this->setPropertiesFromDecorator(
             $decorator ?? new ActivityDecorator(new ActivityContext($activity))
         );
     }
 
-    protected function setSimplePropertiesFromActivity(Training $activity)
+    private function getSportOrNull(Training $activity): ?Sport
+    {
+        try {
+            return $activity->getSport();
+        } catch (Error) {
+            return null;
+        }
+    }
+
+    protected function setSimplePropertiesFromActivity(Training $activity): void
     {
         $this->ActivityId = $activity->getId();
         $this->Duration = $activity->getS();
@@ -56,9 +67,9 @@ class ActivityPreview
             ->isEmpty();
     }
 
-    protected function setPropertiesFromSport(?Sport $sport = null)
+    protected function setPropertiesFromSport(?Sport $sport = null): void
     {
-        if (! $sport instanceof \Runalyze\Bundle\CoreBundle\Entity\Sport) {
+        if (! $sport instanceof Sport) {
             return;
         }
 
@@ -66,7 +77,7 @@ class ActivityPreview
         $this->SportIcon = $sport->getImg();
     }
 
-    protected function setPropertiesFromDecorator(ActivityDecorator $decorator)
+    protected function setPropertiesFromDecorator(ActivityDecorator $decorator): void
     {
         $this->Title = $decorator->getTitle(true);
         $this->DateTime = $decorator->getDateTime();
@@ -87,7 +98,7 @@ class ActivityPreview
         return $this->Title;
     }
 
-    public function getDateTime(): \DateTime
+    public function getDateTime(): DateTime
     {
         return $this->DateTime;
     }

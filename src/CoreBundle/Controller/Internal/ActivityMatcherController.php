@@ -3,25 +3,28 @@
 namespace Runalyze\Bundle\CoreBundle\Controller\Internal;
 
 use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Util\LocalTime;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ActivityMatcherController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+class ActivityMatcherController extends AbstractController
 {
     use AppServiceSubscriberTrait;
 
     /**
      * @Route("/_internal/activity/matcher", name="internal-activity-matcher")
      */
-    public function ajaxActivityMatcher(): \Symfony\Component\HttpFoundation\JsonResponse
+    public function ajaxActivityMatcher(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $ids = [];
         $matches = [];
-        $input = explode('&', urldecode(file_get_contents('php://input')));
+        $input = explode('&', urldecode($request->getContent()));
 
         foreach ($input as $line) {
             if (str_starts_with($line, 'externalIds=')) {
@@ -30,21 +33,26 @@ class ActivityMatcherController extends \Symfony\Bundle\FrameworkBundle\Controll
         }
 
         $duplicateFinder = $this->get('app.activity_duplicate_finder');
-        $ignoredActivityIds = array_map(function ($v): float|int {
+        $ignoredActivityIds = array_map(function (string $v): float {
             try {
                 return (int) floor($this->parserStrtotime($v) / 60.0) * 60.0;
             } catch (\Exception) {
-                return 0;
+                return 0.0;
             }
         }, $this->get('app.configuration_manager')
             ->getList()
             ->getActivityForm()
             ->getIgnoredActivityIds());
 
+        /** @var Account $account */
+        $account = $this->getUser();
+
         foreach ($ids as $id) {
             try {
                 $possibleDuplicate = $duplicateFinder->isPossibleDuplicate(
-                    (new Training())->setTime($this->parserStrtotime($id))
+                    (new Training())
+                        ->setAccount($account)
+                        ->setTime($this->parserStrtotime($id))
                 );
             } catch (\Exception) {
                 $possibleDuplicate = false;
@@ -64,9 +72,9 @@ class ActivityMatcherController extends \Symfony\Bundle\FrameworkBundle\Controll
      * Adjusted strtotime
      * Timestamps are given in UTC but local timezone offset has to be considered!
      *
-     * @param string $string
+     * @throws \Exception if $string cannot be parsed as a date/time
      */
-    private function parserStrtotime($string): int
+    private function parserStrtotime(string $string): int
     {
         if (str_ends_with($string, 'Z')) {
             return LocalTime::fromServerTime((int) strtotime(substr($string, 0, -1) . ' UTC'))->getTimestamp();

@@ -38,17 +38,11 @@ class ActivityRoundType extends AbstractType implements DataTransformerInterface
         $builder->addViewTransformer($this);
     }
 
-    /**
-     * @param  mixed $value
-     * @return ?array
-     */
-    public function transform($value)
+    public function transform(mixed $value): ?array
     {
         if (! ($value instanceof Round)) {
             return null;
         }
-
-        /** @var Round $value */
 
         return [
             'distance' => $value->getDistance(),
@@ -57,11 +51,7 @@ class ActivityRoundType extends AbstractType implements DataTransformerInterface
         ];
     }
 
-    /**
-     * @param  mixed $value
-     * @return null|Round
-     */
-    public function reverseTransform($value)
+    public function reverseTransform(mixed $value): ?Round
     {
         if (is_array($value) && isset($value['duration']) && array_key_exists('distance', $value)) {
             $r = new Round(
@@ -69,6 +59,7 @@ class ActivityRoundType extends AbstractType implements DataTransformerInterface
                 $value['duration']
             );
             $r->setIntensity($value['intensity']);
+
             return $r;
         }
 

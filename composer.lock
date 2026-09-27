@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "082443d0bd07a7247b3e414271dbcf0d",
+    "content-hash": "0a5f8daf1adc30e87fedb39f5b051a57",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -3518,7 +3518,7 @@
             "version": "v4.3.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/lowtower/Runalyze_translations.git",
+                "url": "https://github.com/lowtower/Runalyze-Translations.git",
                 "reference": "master"
             },
             "type": "library"

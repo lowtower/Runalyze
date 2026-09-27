@@ -78,7 +78,7 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
     private ?float $muscles = null;
 
     /**
-     * @var ?int [min]
+     * @var ?int [s]
      */
     #[ORM\Column(name: 'sleep_duration', type: 'smallint', precision: 3, nullable: true, options: [
         'unsigned' => true,

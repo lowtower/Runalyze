@@ -9,7 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -30,7 +32,7 @@ class InstallController extends AbstractController
     /**
      * @Route("/install", name="install", condition="'%app.update_disabled%' == 'no'")
      */
-    public function installAction(Request $request): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+    public function installAction(Request $request): RedirectResponse|Response
     {
         $session = $request->getSession();
 
@@ -38,18 +40,14 @@ class InstallController extends AbstractController
             return $this->redirectToRoute('install_finish');
         }
 
-        $app = new Application($this->kernel);
-        $app->setAutoExit(false);
-
-        $input = new StringInput('runalyze:install:check');
         $output = new BufferedOutput(BufferedOutput::VERBOSITY_NORMAL, true, new HtmlOutputFormatter(true));
-        $exitCode = $app->run($input, $output);
+        $exitCode = $this->runInstallerCommand('runalyze:install:check', $output);
 
-        $session->set('installer/possible', $exitCode == 0);
+        $session->set('installer/possible', $exitCode === 0);
 
         return $this->render('system/install.html.twig', [
             'output' => '$ php bin/console runalyze:install:check' . "\n\n" . $output->fetch(),
-            'installationPossible' => $exitCode == 0,
+            'installationPossible' => $exitCode === 0,
             'installationSuccessful' => false,
         ]);
     }
@@ -57,7 +55,7 @@ class InstallController extends AbstractController
     /**
      * @Route("/install/start", name="install_start", condition="'%app.update_disabled%' == 'no'")
      */
-    public function startAction(Request $request): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+    public function startAction(Request $request): RedirectResponse|Response
     {
         $session = $request->getSession();
 
@@ -69,12 +67,8 @@ class InstallController extends AbstractController
             return $this->redirectToRoute('install_finish');
         }
 
-        $app = new Application($this->kernel);
-        $app->setAutoExit(false);
-
-        $input = new StringInput('runalyze:install --skip=check');
         $output = new BufferedOutput(BufferedOutput::VERBOSITY_NORMAL, true, new HtmlOutputFormatter(true));
-        $exitCode = $app->run($input, $output);
+        $exitCode = $this->runInstallerCommand('runalyze:install --skip=check', $output);
         $outputString = '$ php bin/console runalyze:install --skip=check' . "\n\n" . $output->fetch();
 
         if ($exitCode > 0) {
@@ -94,7 +88,7 @@ class InstallController extends AbstractController
     /**
      * @Route("/install/finish", name="install_finish", condition="'%app.update_disabled%' == 'no'")
      */
-    public function finishAction(Request $request): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+    public function finishAction(Request $request): RedirectResponse|Response
     {
         $session = $request->getSession();
 
@@ -107,5 +101,22 @@ class InstallController extends AbstractController
             'installationPossible' => false,
             'installationSuccessful' => true,
         ]);
+    }
+
+    private function runInstallerCommand(string $commandLine, BufferedOutput $output): int
+    {
+        $app = new Application($this->kernel);
+        $app->setAutoExit(false);
+
+        $input = new StringInput($commandLine);
+
+        $previousShellVerbosity = getenv('SHELL_VERBOSITY');
+        putenv('SHELL_VERBOSITY=0');
+
+        try {
+            return $app->run($input, $output);
+        } finally {
+            putenv($previousShellVerbosity === false ? 'SHELL_VERBOSITY' : 'SHELL_VERBOSITY=' . $previousShellVerbosity);
+        }
     }
 }

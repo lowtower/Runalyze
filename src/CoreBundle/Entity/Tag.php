@@ -3,6 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 
@@ -18,14 +19,14 @@ class Tag implements AccountRelatedEntityInterface
     private ?int $id = null;
 
     #[ORM\Column(name: 'tag', type: 'string', length: 50, nullable: false)]
-    private string $tag;
+    private ?string $tag = null;
 
     #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
     #[ORM\ManyToOne(targetEntity: Account::class, inversedBy: 'tags')]
     private Account $account;
 
     #[ORM\ManyToMany(targetEntity: Training::class, mappedBy: 'tag')]
-    private \Doctrine\Common\Collections\Collection $activity;
+    private Collection $activity;
 
     public function __construct()
     {
@@ -37,7 +38,7 @@ class Tag implements AccountRelatedEntityInterface
         return $this->id;
     }
 
-    public function setTag(string $tag): self
+    public function setTag(?string $tag): self
     {
         $this->tag = $tag;
 
@@ -46,7 +47,7 @@ class Tag implements AccountRelatedEntityInterface
 
     public function getTag(): string
     {
-        return $this->tag;
+        return $this->tag ?? '';
     }
 
     public function setAccount(Account $account): self

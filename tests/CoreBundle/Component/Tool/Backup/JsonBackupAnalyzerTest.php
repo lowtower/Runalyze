@@ -11,10 +11,7 @@ class JsonBackupAnalyzerTest extends \PHPUnit\Framework\TestCase
      */
     public const CURRENT_VERSION = '4.3.0';
 
-    /**
-     * @var string
-     */
-    protected $Base;
+    protected string $Base;
 
     protected function setUp(): void
     {

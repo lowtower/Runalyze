@@ -40,7 +40,7 @@ class MultiImporterType extends AbstractType
         });
     }
 
-    protected function addChoicesToForm(FormInterface $form, array $activityHashes)
+    protected function addChoicesToForm(FormInterface $form, array $activityHashes): void
     {
         if ($form->has('activity')) {
             $form->remove('activity');

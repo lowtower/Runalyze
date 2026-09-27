@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Component\Notifications\Message\MessageInterface;
 use Runalyze\Bundle\CoreBundle\Component\Notifications\MessageFactory;
@@ -57,7 +58,7 @@ class Notification implements AccountRelatedEntityInterface
         $this->createdAt = time();
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -106,7 +107,7 @@ class Notification implements AccountRelatedEntityInterface
         if ($lifetime === null) {
             $this->expirationAt = null;
         } else {
-            $this->expirationAt = (new \DateTime())->setTimestamp($this->createdAt)
+            $this->expirationAt = (new DateTime())->setTimestamp($this->createdAt)
                 ->modify('+' . $lifetime . ' days')->getTimestamp();
         }
 
@@ -118,7 +119,7 @@ class Notification implements AccountRelatedEntityInterface
      */
     public function setExpirationAt(?int $expirationAt = null): self
     {
-        $this->expirationAt = $expirationAt ? (int) $expirationAt : null;
+        $this->expirationAt = $expirationAt;
 
         return $this;
     }

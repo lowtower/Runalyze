@@ -29,11 +29,7 @@ class ConfRepository extends EntityRepository
         return empty($results) ? null : $results[0];
     }
 
-    /**
-     * @param string $key
-     * @return Conf
-     */
-    public function updateOrInsert(Account $account, string $category, $key, string $value)
+    public function updateOrInsert(Account $account, string $category, string $key, string $value): Conf
     {
         if (! ($conf = $this->findByAccountAndKey($account, $key)) instanceof Conf) {
             $conf = new Conf();

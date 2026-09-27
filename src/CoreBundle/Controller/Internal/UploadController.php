@@ -1,23 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Controller\Internal;
 
+use Normalizer;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/_internal/upload")
  */
-class UploadController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+class UploadController extends AbstractController
 {
     /**
      * @Route("", name="internal-activity-upload")
+     * @throws AccessDeniedException
      */
-    public function uploadAction(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
+    public function uploadAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -27,7 +34,15 @@ class UploadController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
             $newFileName = str_replace(';', '_-_', $file->getClientOriginalName());
 
             if (class_exists('Normalizer')) {
-                $newFileName = \Normalizer::normalize($newFileName);
+                $normalizedFileName = Normalizer::normalize($newFileName);
+
+                if ($normalizedFileName === false) {
+                    return new JsonResponse([
+                        'error' => 'The given file name is not valid UTF-8 and could not be normalized.',
+                    ]);
+                }
+
+                $newFileName = $normalizedFileName;
             }
 
             try {
@@ -39,9 +54,9 @@ class UploadController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
                 return new JsonResponse([
                     'success' => true,
                 ]);
-            } catch (FileException $e) {
+            } catch (FileException $fileException) {
                 return new JsonResponse([
-                    'error' => $e->getMessage(),
+                    'error' => $fileException->getMessage(),
                 ]);
             }
         }
@@ -53,8 +68,9 @@ class UploadController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
 
     /**
      * @Route("/tcx", name="internal-activity-upload-tcx")
+     * @throws AccessDeniedException
      */
-    public function ajaxSaveTcxAction(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
+    public function ajaxSaveTcxAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -68,7 +84,15 @@ class UploadController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
         $fileName = $request->request->get('activityId') . '.tcx';
 
         if (class_exists('Normalizer')) {
-            $fileName = \Normalizer::normalize($fileName);
+            $normalizedFileName = Normalizer::normalize($fileName);
+
+            if ($normalizedFileName === false) {
+                return new JsonResponse([
+                    'error' => 'The given file name is not valid UTF-8 and could not be normalized.',
+                ]);
+            }
+
+            $fileName = $normalizedFileName;
         }
 
         try {
@@ -80,9 +104,9 @@ class UploadController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
             return new JsonResponse([
                 'success' => true,
             ]);
-        } catch (FileException $fileException) {
+        } catch (IOException $ioException) {
             return new JsonResponse([
-                'error' => $fileException->getMessage(),
+                'error' => $ioException->getMessage(),
             ]);
         }
     }

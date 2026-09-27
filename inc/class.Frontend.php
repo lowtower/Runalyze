@@ -10,7 +10,6 @@ use Runalyze\Configuration;
 use Runalyze\Timezone;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Frontend class for setting up everything
@@ -30,9 +29,6 @@ use Symfony\Component\Yaml\Yaml;
  */
 class Frontend
 {
-    /**
-     * Yaml Configuration
-     */
     protected array $yamlConfig = [];
 
     protected bool $HideFooter = false;
@@ -42,6 +38,7 @@ class Frontend
      * Runalyze is not usable without setting up the environment with this class.
      *
      * @param bool $hideHeaderAndFooter By default a html-header is directly shown
+     * @throws \RuntimeException if the legacy cache directory cannot be initialized
      */
     public function __construct(
         bool $hideHeaderAndFooter = false,
@@ -58,9 +55,6 @@ class Frontend
         }
     }
 
-    /**
-     * Destructor
-     */
     public function __destruct()
     {
         if (! $this->HideFooter) {
@@ -68,10 +62,20 @@ class Frontend
         }
     }
 
+    private function defineConstantIfMissing(string $name, mixed $value): void
+    {
+        if (! defined($name)) {
+            define($name, $value);
+        }
+    }
+
+    /**
+     * @throws \RuntimeException if the legacy cache directory cannot be initialized
+     */
     private function initSystem(): void
     {
-        define('RUNALYZE', true);
-        define('FRONTEND_PATH', __DIR__ . '/');
+        $this->defineConstantIfMissing('RUNALYZE', true);
+        $this->defineConstantIfMissing('FRONTEND_PATH', __DIR__ . '/');
 
         $this->setAutoloader();
         $this->initCache();
@@ -82,17 +86,11 @@ class Frontend
         $this->forwardAccountIDtoDatabaseWrapper();
     }
 
-    /**
-     * Set up Autloader
-     */
     private function setAutoloader(): void
     {
         require_once FRONTEND_PATH . '../vendor/autoload.php';
     }
 
-    /**
-     * Setup config
-     */
     private function initConfig(): void
     {
         // Get parameters from the parameter bag
@@ -124,24 +122,24 @@ class Frontend
         ];
 
         // Define constants
-        define('WEATHER_PROXY', $this->yamlConfig['weather_proxy']);
-        define('DARKSKY_API_KEY', $this->yamlConfig['darksky_api_key']);
-        define('OPENWEATHERMAP_API_KEY', $this->yamlConfig['openweathermap_api_key']);
-        define('METEOSTATNET_API_KEY', $this->yamlConfig['meteostatnet_api_key']);
-        define('NOKIA_HERE_APPID', $this->yamlConfig['nokia_here_appid']);
-        define('NOKIA_HERE_TOKEN', $this->yamlConfig['nokia_here_token']);
-        define('THUNDERFOREST_API_KEY', $this->yamlConfig['thunderforest_api_key']);
-        define('MAPBOX_API_KEY', $this->yamlConfig['mapbox_api_key']);
-        define('PERL_PATH', $this->yamlConfig['perl_path']);
-        define('TTBIN_PATH', $this->yamlConfig['ttbin_path']);
-        define('GEONAMES_USERNAME', $this->yamlConfig['geonames_username']);
-        define('USER_DISABLE_ACCOUNT_ACTIVATION', $this->yamlConfig['user_disable_account_activation']);
-        define('SQLITE_MOD_SPATIALITE', $this->yamlConfig['sqlite_mod_spatialite']);
-        define('RUNALYZE_VERSION', $this->yamlConfig['RUNALYZE_VERSION']);
-        define('RUNALYZE_DATE', $this->yamlConfig['RUNALYZE_DATE']);
-        define('DATA_DIRECTORY', str_replace('%kernel.root_dir%', FRONTEND_PATH . '/../src', $this->yamlConfig['data_directory']));
-        define('OSM_OVERPASS_URL', $this->yamlConfig['osm_overpass_url']);
-        define('OSM_OVERPASS_PROXY', $this->yamlConfig['osm_overpass_proxy']);
+        $this->defineConstantIfMissing('WEATHER_PROXY', $this->yamlConfig['weather_proxy']);
+        $this->defineConstantIfMissing('DARKSKY_API_KEY', $this->yamlConfig['darksky_api_key']);
+        $this->defineConstantIfMissing('OPENWEATHERMAP_API_KEY', $this->yamlConfig['openweathermap_api_key']);
+        $this->defineConstantIfMissing('METEOSTATNET_API_KEY', $this->yamlConfig['meteostatnet_api_key']);
+        $this->defineConstantIfMissing('NOKIA_HERE_APPID', $this->yamlConfig['nokia_here_appid']);
+        $this->defineConstantIfMissing('NOKIA_HERE_TOKEN', $this->yamlConfig['nokia_here_token']);
+        $this->defineConstantIfMissing('THUNDERFOREST_API_KEY', $this->yamlConfig['thunderforest_api_key']);
+        $this->defineConstantIfMissing('MAPBOX_API_KEY', $this->yamlConfig['mapbox_api_key']);
+        $this->defineConstantIfMissing('PERL_PATH', $this->yamlConfig['perl_path']);
+        $this->defineConstantIfMissing('TTBIN_PATH', $this->yamlConfig['ttbin_path']);
+        $this->defineConstantIfMissing('GEONAMES_USERNAME', $this->yamlConfig['geonames_username']);
+        $this->defineConstantIfMissing('USER_DISABLE_ACCOUNT_ACTIVATION', $this->yamlConfig['user_disable_account_activation']);
+        $this->defineConstantIfMissing('SQLITE_MOD_SPATIALITE', $this->yamlConfig['sqlite_mod_spatialite']);
+        $this->defineConstantIfMissing('RUNALYZE_VERSION', $this->yamlConfig['RUNALYZE_VERSION']);
+        $this->defineConstantIfMissing('RUNALYZE_DATE', $this->yamlConfig['RUNALYZE_DATE']);
+        $this->defineConstantIfMissing('DATA_DIRECTORY', str_replace('%kernel.root_dir%', FRONTEND_PATH . '/../src', $this->yamlConfig['data_directory']));
+        $this->defineConstantIfMissing('OSM_OVERPASS_URL', $this->yamlConfig['osm_overpass_url']);
+        $this->defineConstantIfMissing('OSM_OVERPASS_PROXY', $this->yamlConfig['osm_overpass_proxy']);
     }
 
     /**
@@ -154,7 +152,9 @@ class Frontend
     }
 
     /**
-     * Setup Language
+     * Setup legacy cache
+     *
+     * @throws \RuntimeException if the legacy cache directory cannot be initialized
      */
     private function initCache(): void
     {
@@ -162,8 +162,12 @@ class Frontend
 
         try {
             new Cache();
-        } catch (Exception) {
-            die('Cache directory "./' . Cache::PATH . '/cache/" must be writable.');
+        } catch (Exception $exception) {
+            throw new \RuntimeException(
+                sprintf('Cache directory "%s/cache/" must be writable.', Cache::PATH),
+                0,
+                $exception
+            );
         }
     }
 
@@ -186,7 +190,7 @@ class Frontend
      */
     private function initDatabase(): void
     {
-        define('PREFIX', $this->yamlConfig['database_prefix']);
+        $this->defineConstantIfMissing('PREFIX', $this->yamlConfig['database_prefix']);
 
         DB::connect($this->yamlConfig['database_host'], $this->yamlConfig['database_port'], $this->yamlConfig['database_user'], $this->yamlConfig['database_password'], $this->yamlConfig['database_name']);
     }
@@ -212,7 +216,7 @@ class Frontend
         }
     }
 
-    protected function forwardAccountIDtoDatabaseWrapper()
+    protected function forwardAccountIDtoDatabaseWrapper(): void
     {
         DB::getInstance()->setAccountID(SessionAccountHandler::getId());
     }

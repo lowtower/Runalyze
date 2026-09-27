@@ -11,10 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class HrZoneBoundType extends AbstractType implements DataTransformerInterface
 {
-    /**
-     * @var bool
-     */
-    protected $IsRequired = false;
+    protected bool $IsRequired = false;
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -25,27 +22,18 @@ class HrZoneBoundType extends AbstractType implements DataTransformerInterface
         }
     }
 
-    /**
-     * @param bool $flag
-     */
-    public function setRequired($flag = true): void
+    public function setRequired(bool $flag = true): void
     {
         $this->IsRequired = $flag;
     }
 
-    /**
-     * @param  string $zone
-     * @return string
-     */
-    public function transform($zone)
+    public function transform(mixed $zone): ?string
     {
         return $zone;
     }
 
     /**
-     * @param  string|null $zone
-     * @return ?string
-     * @throws TransformationFailedException if $zone is null
+     * @throws TransformationFailedException
      */
     public function reverseTransform($zone)
     {
@@ -64,7 +52,7 @@ class HrZoneBoundType extends AbstractType implements DataTransformerInterface
         return $zone;
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return TextType::class;
     }

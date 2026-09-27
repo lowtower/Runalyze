@@ -2,11 +2,16 @@
 
 namespace Runalyze\Bundle\CoreBundle\Services\Import;
 
+use ArrayAccess;
+use Countable;
+use InvalidArgumentException;
+use Iterator;
+
 /**
- * @implements \ArrayAccess<int, FileImportResult>
- * @implements \Iterator<int, FileImportResult>
+ * @implements ArrayAccess<int, FileImportResult>
+ * @implements Iterator<int, FileImportResult>
  */
-class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
+class FileImportResultCollection implements Countable, ArrayAccess, Iterator
 {
     /**
      * @var FileImportResult[]
@@ -53,16 +58,15 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
         return count($this->Elements);
     }
 
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->Elements[$offset]);
     }
 
     /**
      * @param int $offset
-     * @return FileImportResult
      */
-    public function offsetGet($offset): mixed
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->Elements[$offset];
     }
@@ -71,12 +75,12 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
      * @param ?int $offset
      * @param FileImportResult $value
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         if (! ($value instanceof FileImportResult)) {
-            throw new \InvalidArgumentException('FileImportResultCollection does only accept instances of FileImportResult as elements.');
+            throw new InvalidArgumentException('FileImportResultCollection does only accept instances of FileImportResult as elements.');
         }
 
         if ($offset === null) {
@@ -86,7 +90,7 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
         }
     }
 
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->Elements[$offset]);
     }
@@ -135,10 +139,7 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
      */
     public function getAllFileNames(): array
     {
-        return array_map(function (FileImportResult $element) {
-            /** @var FileImportResult $element */
-            return $element->getFileName();
-        }, $this->Elements);
+        return array_map(fn (FileImportResult $element) => $element->getFileName(), $this->Elements);
     }
 
     /**
@@ -148,10 +149,7 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
     {
         return array_values(
             array_unique(
-                array_map(function (FileImportResult $element) {
-                    /** @var FileImportResult $element */
-                    return $element->getOriginalFileName();
-                }, $this->Elements)
+                array_map(fn (FileImportResult $element) => $element->getOriginalFileName(), $this->Elements)
             )
         );
     }

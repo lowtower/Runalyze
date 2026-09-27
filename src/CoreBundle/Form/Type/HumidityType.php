@@ -34,7 +34,7 @@ class HumidityType extends AbstractType
         $resolver->setAllowedTypes('scale', 'int');
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return IntegerType::class;
     }

@@ -2,14 +2,19 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\ExternalRestApi;
 
+use Exception;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Exception\DuplicateUploadFileNameException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Console\Input\ArrayInput;
-// use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Uploads the files with this REST API and call the "runalyze:activity:bulk-import" to import the files.
@@ -24,11 +29,16 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * #TSC
  */
-class ImportActivityController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+class ImportActivityController extends AbstractController
 {
     public const IMPORT_CMD = 'runalyze:activity:bulk-import';
 
     public const SUCCESS_MSG = 'successfully imported';
+
+    public function __construct(
+        private readonly KernelInterface $kernel
+    ) {
+    }
 
     /**
      * import as REST api.
@@ -40,8 +50,9 @@ class ImportActivityController extends \Symfony\Bundle\FrameworkBundle\Controlle
      * - cleanup: remove uploaded files and tmp-folder
      *
      * @Route("/api/import/activity", methods={"POST"})
+     * @throws AccessDeniedException
      */
-    public function postImportActivity(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
+    public function postImportActivity(Request $request, Account $account): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -82,8 +93,8 @@ class ImportActivityController extends \Symfony\Bundle\FrameworkBundle\Controlle
                     $result = $result . 'WARNING: ' . $notSuccessful . ' of ' . $allfilesCount . ' files are NOT imported successfully - please check the above protocol.' . PHP_EOL;
                     $resultCode = Response::HTTP_ACCEPTED; // 202
                 }
-            } catch (\Exception $e) {
-                $result = $result . 'ERROR: Error while importing ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString() . PHP_EOL;
+            } catch (Exception $exception) {
+                $result = $result . 'ERROR: Error while importing ' . $exception->getMessage() . PHP_EOL . $exception->getTraceAsString() . PHP_EOL;
                 $resultCode = Response::HTTP_INTERNAL_SERVER_ERROR; // 500
             }
         } else {
@@ -96,9 +107,31 @@ class ImportActivityController extends \Symfony\Bundle\FrameworkBundle\Controlle
         ]);
     }
 
+    /**
+     * @param UploadedFile[] $allfiles
+     * @throws DuplicateUploadFileNameException
+     */
+    private function assertNoDuplicateFileNames(array $allfiles): void
+    {
+        $seenFileNames = [];
+
+        foreach ($allfiles as $file) {
+            $fileName = $file->getClientOriginalName();
+
+            if (isset($seenFileNames[$fileName])) {
+                throw new DuplicateUploadFileNameException(sprintf(
+                    'Multiple uploaded files share the file name "%s". Each uploaded file must have a unique name, otherwise one would silently overwrite the other before import.',
+                    $fileName
+                ));
+            }
+
+            $seenFileNames[$fileName] = true;
+        }
+    }
+
     private function createUploadDir(string $username): ?string
     {
-        $tmpDir = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $username . '_' . microtime(true);
+        $tmpDir = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . uniqid($username . '_', true);
         if (mkdir($tmpDir)) {
             return $tmpDir;
         }
@@ -106,9 +139,15 @@ class ImportActivityController extends \Symfony\Bundle\FrameworkBundle\Controlle
         return null;
     }
 
-    private function processFiles(string $username, string $uploadDir, $allfiles): string
+    /**
+     * @param UploadedFile[] $allfiles
+     * @throws DuplicateUploadFileNameException
+     */
+    private function processFiles(string $username, string $uploadDir, array $allfiles): string
     {
         $result = '';
+
+        $this->assertNoDuplicateFileNames($allfiles);
 
         // move from tmp-name (/tmp/phpOZLwMG) to the tmp-upload-folder (in error case an exception is thrown)
         foreach ($allfiles as $v) {
@@ -138,22 +177,29 @@ class ImportActivityController extends \Symfony\Bundle\FrameworkBundle\Controlle
         return $result . PHP_EOL;
     }
 
-    private function processImport(string $username, string $uploadDir)
+    private function processImport(string $username, string $uploadDir): string
     {
-        $kernel = $this->get('kernel');
-        $application = new Application($kernel);
+        $application = new Application($this->kernel);
         $application->setAutoExit(false);
 
         $input = new ArrayInput([
             'command' => self::IMPORT_CMD,
-            //            '--env' => 'prod',
+            // '--env' => 'prod',
             'username' => $username,
             'path' => $uploadDir,
         ]);
 
         // You can use NullOutput() if you don't need the output
         $output = new BufferedOutput();
-        $application->run($input, $output);
+
+        $previousShellVerbosity = getenv('SHELL_VERBOSITY');
+        putenv('SHELL_VERBOSITY=0');
+
+        try {
+            $application->run($input, $output);
+        } finally {
+            putenv($previousShellVerbosity === false ? 'SHELL_VERBOSITY' : 'SHELL_VERBOSITY=' . $previousShellVerbosity);
+        }
 
         // return the output, don't use if you used NullOutput()
         return $output->fetch();

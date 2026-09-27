@@ -4,43 +4,33 @@ namespace Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
+use Runalyze\Bundle\CoreBundle\Services\Selection\Selection;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Twig\DisplayableTime;
 use Runalyze\Bundle\CoreBundle\Twig\DisplayableValue;
 use Runalyze\Bundle\CoreBundle\Twig\ValueExtension;
+use RuntimeException;
 
 class AnalysisData
 {
-    /**
-     * @var int|float
-     */
-    protected $Maximum = 1;
+    protected float $Maximum = 1.0;
 
-    /**
-     * @var array
-     */
-    protected $Data = [];
+    protected array $Data = [];
 
-    /**
-     * @var DisplayableValue
-     */
-    protected $DefaultValue;
+    protected DisplayableValue $DefaultValue;
 
-    /**
-     * @var null|ValueExtension
-     */
-    protected $ValueExtension;
+    protected ?ValueExtension $ValueExtension = null;
 
     public function __construct(
-        protected \Runalyze\Bundle\CoreBundle\Services\Selection\Selection $SportSelection,
-        protected \Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisSelection $AnalysisSelection,
+        protected Selection $SportSelection,
+        protected AnalysisSelection $AnalysisSelection,
         TrainingRepository $trainingRepository,
         Account $account
     ) {
         $this->fetchDataFrom($trainingRepository, $account);
     }
 
-    protected function fetchDataFrom(TrainingRepository $trainingRepository, Account $account)
+    protected function fetchDataFrom(TrainingRepository $trainingRepository, Account $account): void
     {
         $stats = $trainingRepository->getMonthlyStatsFor($account, $this->getColumn(), $this->getSportId());
 
@@ -71,10 +61,7 @@ class AnalysisData
         };
     }
 
-    /**
-     * @return mixed|null
-     */
-    protected function getSportId()
+    protected function getSportId(): mixed
     {
         if (! $this->SportSelection->hasCurrentKey() || $this->SportSelection->getCurrentKey() == SportSelectionFactory::ALL) {
             return null;
@@ -88,12 +75,12 @@ class AnalysisData
         $this->ValueExtension = $valueExtension;
     }
 
-    public function getSportSelection(): \Runalyze\Bundle\CoreBundle\Services\Selection\Selection
+    public function getSportSelection(): Selection
     {
         return $this->SportSelection;
     }
 
-    public function getAnalysisSelection(): \Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisSelection
+    public function getAnalysisSelection(): AnalysisSelection
     {
         return $this->AnalysisSelection;
     }
@@ -103,27 +90,31 @@ class AnalysisData
         return $this->Data === [];
     }
 
+    /**
+     * @throws RuntimeException
+     */
     public function getYears(): array
     {
+        if ($this->isEmpty()) {
+            throw new RuntimeException('AnalysisData::getYears() called with no data available; check isEmpty() first.');
+        }
+
         $allYears = array_keys($this->Data);
 
         return range(max($allYears), min($allYears));
     }
 
     /**
-     * @param int $year
-     * @param int $month
-     * @return DisplayableValue
-     *
-     * @throws \RuntimeException
+     * @throws RuntimeException if setValueExtension() has not been called yet
      */
-    public function getValue($year, $month)
+    public function getValue(int $year, int $month): DisplayableValue|DisplayableTime
     {
-        if ($this->ValueExtension === null) {
-            throw new \RuntimeException('Value extension must be set');
+        if (! $this->ValueExtension instanceof \Runalyze\Bundle\CoreBundle\Twig\ValueExtension) {
+            throw new RuntimeException('Value extension must be set');
         }
 
         $rawValue = $this->getRawValue($year, $month);
+
         return match ($this->AnalysisSelection->getCurrentKey()) {
             AnalysisSelection::DISTANCE => $this->ValueExtension->distance($rawValue),
             AnalysisSelection::TIME => new DisplayableTime($rawValue),
@@ -133,12 +124,7 @@ class AnalysisData
         };
     }
 
-    /**
-     * @param int $year
-     * @param int $month
-     * @return float
-     */
-    public function getRawValue($year, $month)
+    public function getRawValue(int $year, int $month): float
     {
         if (isset($this->Data[$year]) && isset($this->Data[$year][$month])) {
             return $this->Data[$year][$month];
@@ -147,10 +133,7 @@ class AnalysisData
         return 0.0;
     }
 
-    /**
-     * @return float|int
-     */
-    public function getMaximum()
+    public function getMaximum(): float
     {
         return $this->Maximum;
     }

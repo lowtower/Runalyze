@@ -3,6 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\Entity\Adapter;
 
 use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\ElevationCalculator;
+use Runalyze\Bundle\CoreBundle\Entity\Route;
 use Runalyze\Bundle\CoreBundle\Services\Import\ElevationCorrection;
 use Runalyze\Parameter\Application\ElevationMethod;
 use Runalyze\Service\ElevationCorrection\Strategy\StrategyInterface;
@@ -10,13 +11,10 @@ use Runalyze\Service\ElevationCorrection\Strategy\StrategyInterface;
 class RouteAdapter
 {
     public function __construct(
-        protected \Runalyze\Bundle\CoreBundle\Entity\Route $Route
+        protected Route $Route
     ) {
     }
 
-    /**
-     * @return bool true on success
-     */
     public function correctElevation(ElevationCorrection $elevationCorrection, ?StrategyInterface $strategy = null): bool
     {
         if ($this->Route->hasGeohashes()) {
@@ -49,10 +47,7 @@ class RouteAdapter
         $calculator->calculateFor($this->Route, $method, $threshold);
     }
 
-    /**
-     * @param object|null $object
-     */
-    protected function getStrategyName($object): ?string
+    protected function getStrategyName(?object $object): ?string
     {
         if ($object === null) {
             return null;

@@ -2,10 +2,25 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller;
 
+use Ajax;
+use ConfigTabGeneral;
+use ConfigTabPlugins;
+use ConfigTabs;
+use DataBrowser;
+use Frontend;
+use PlotMonthSumData;
+use PlotSumData;
+use PlotWeekSumData;
+use Runalyze\Configuration;
+use SearchFormular;
+use SearchResults;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -27,8 +42,8 @@ class CallController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
-        $DataBrowser = new \DataBrowser();
+        $Frontend = new Frontend(true, $this->tokenStorage, $this->parameterBag);
+        $DataBrowser = new DataBrowser();
         $DataBrowser->display();
 
         return new Response();
@@ -49,33 +64,50 @@ class CallController extends AbstractController
 
     /**
      * @Route("/call/savePng.php", methods={"POST"})
+     *
+     * @throws BadRequestHttpException
      */
-    public function savePngAction(): Response
+    public function savePngAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        header('Content-type: image/png');
-        header('Content-Disposition: attachment; filename=' . strtolower(str_replace(' ', '_', $_POST['filename'])));
+        $filename = $request->request->get('filename');
+        $image = $request->request->get('image');
 
-        $encodeData = substr($_POST['image'], strpos($_POST['image'], ',') + 1);
+        if ($filename === null || $image === null) {
+            throw new BadRequestHttpException('Both "filename" and "image" must be provided.');
+        }
 
-        return new Response(base64_decode($encodeData));
+        $encodedData = substr($image, strpos($image, ',') + 1);
+
+        $response = new Response(base64_decode($encodedData));
+
+        $response->headers->set('Content-Type', 'image/png');
+        $response->headers->set(
+            'Content-Disposition',
+            $response->headers->makeDisposition(
+                ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+                strtolower(str_replace(' ', '_', $filename))
+            )
+        );
+
+        return $response;
     }
 
     /**
      * @Route("/settings", name="settings")
      */
-    public function windowConfigAction(Request $request): Response
+    public function windowConfigAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
-        $ConfigTabs = new \ConfigTabs();
-        $ConfigTabs->addDefaultTab(new \ConfigTabGeneral());
-        $ConfigTabs->addTab(new \ConfigTabPlugins());
+        $Frontend = new Frontend(true, $this->tokenStorage, $this->parameterBag);
+        $ConfigTabs = new ConfigTabs();
+        $ConfigTabs->addDefaultTab(new ConfigTabGeneral());
+        $ConfigTabs->addTab(new ConfigTabPlugins());
         $ConfigTabs->display();
 
-        echo \Ajax::wrapJSforDocumentReady('Runalyze.Overlay.removeClasses();');
+        echo Ajax::wrapJSforDocumentReady('Runalyze.Overlay.removeClasses();');
 
         return new Response();
     }
@@ -83,25 +115,27 @@ class CallController extends AbstractController
     /**
      * @Route("/call/ajax.change.Config.php", methods={"GET"})
      */
-    public function ajaxChanceConfigAction(): Response
+    public function ajaxChanceConfigAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
+        $Frontend = new Frontend(true, $this->tokenStorage, $this->parameterBag);
 
-        switch ($_GET['key']) {
+        $key = $request->query->get('key', '');
+        $value = $request->query->get('value');
+
+        switch ($key) {
             case 'garmin-ignore':
-                \Runalyze\Configuration::ActivityForm()->ignoreActivityID($_GET['value']);
+                Configuration::ActivityForm()->ignoreActivityID($value);
                 break;
 
             case 'leaflet-layer':
-                \Runalyze\Configuration::ActivityView()->updateLayer($_GET['value']);
+                Configuration::ActivityView()->updateLayer($value);
                 break;
 
             default:
-                if (str_starts_with($_GET['key'], 'show-')) {
-                    $key = substr($_GET['key'], 5);
-                    \Runalyze\Configuration::ActivityForm()->update($key, $_GET['value']);
+                if (str_starts_with($key, 'show-')) {
+                    Configuration::ActivityForm()->update(substr($key, 5), $value);
                 }
         }
 
@@ -111,18 +145,18 @@ class CallController extends AbstractController
     /**
      * @Route("/my/search", name="my-search")
      */
-    public function windowSearchAction(): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+    public function windowSearchAction(): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $Frontend = new \Frontend(false, $this->tokenStorage, $this->parameterBag);
+        $Frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag);
         $showResults = ! empty($_POST);
 
         if (isset($_GET['get']) && $_GET['get'] == 'true') {
             $_POST = array_merge($_POST, $_GET);
             $showResults = true;
 
-            \SearchFormular::transformOldParamsToNewParams();
+            SearchFormular::transformOldParamsToNewParams();
         }
 
         if (empty($_POST) || Request::createFromGlobals()->query->get('get') == 'true') {
@@ -130,11 +164,11 @@ class CallController extends AbstractController
             echo '<h1>' . __('Search for activities') . '</h1>';
             echo '</div>';
 
-            $Formular = new \SearchFormular($this->generateUrl('my-search'));
+            $Formular = new SearchFormular($this->generateUrl('my-search'));
             $Formular->display();
         }
 
-        $Results = new \SearchResults($showResults);
+        $Results = new SearchResults($showResults);
 
         if ($showResults && $Results->multiEditorRequested()) {
             return $this->redirectToRoute('multi-editor', [
@@ -147,15 +181,15 @@ class CallController extends AbstractController
         return new Response();
     }
 
-    protected function getPlotSumData(): \PlotSumData
+    protected function getPlotSumData(): PlotSumData
     {
         $Request = Request::createFromGlobals();
 
         if ($Request->query->get('y') === null) {
-            $_GET['y'] = \PlotSumData::LAST_12_MONTHS;
+            $_GET['y'] = PlotSumData::LAST_12_MONTHS;
         }
 
-        return $Request->query->get('type', 'month') == 'week' ? new \PlotWeekSumData() : new \PlotMonthSumData();
+        return $Request->query->get('type', 'month') == 'week' ? new PlotWeekSumData() : new PlotMonthSumData();
     }
 
     /**
@@ -163,7 +197,9 @@ class CallController extends AbstractController
      */
     public function windowsPlotSumDataAction(): Response
     {
-        $Frontend = new \Frontend(false, $this->tokenStorage, $this->parameterBag);
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $Frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag);
         $this->getPlotSumData()
             ->display();
 

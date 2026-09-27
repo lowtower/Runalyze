@@ -1,15 +1,11 @@
 <?php
 
-/**
- * This file contains class::Gpx
- * @package Runalyze\Export\File
- */
-
 namespace Runalyze\Export\File;
 
 use Runalyze\Model\Route;
 use Runalyze\Model\Trackdata;
 use Runalyze\Util\LocalTime;
+use SimpleXMLElement;
 
 /**
  * Create exporter for gpx files
@@ -19,15 +15,9 @@ use Runalyze\Util\LocalTime;
  */
 class Gpx extends AbstractFileExporter
 {
-    /**
-     * @var \SimpleXMLElement
-     */
-    protected $XML;
+    protected SimpleXMLElement $XML;
 
-    /**
-     * @var \SimpleXMLElement
-     */
-    protected $Track;
+    protected SimpleXMLElement $Track;
 
     public function isPossible(): bool
     {
@@ -35,9 +25,6 @@ class Gpx extends AbstractFileExporter
             ->hasPositionData();
     }
 
-    /**
-     * Get extension
-     */
     public function extension(): string
     {
         return 'gpx';
@@ -53,12 +40,9 @@ class Gpx extends AbstractFileExporter
         return Types::GPX;
     }
 
-    /**
-     * Export
-     */
-    protected function createFile()
+    protected function createFile(): void
     {
-        $this->XML = new \SimpleXMLElement($this->emptyXml());
+        $this->XML = new SimpleXMLElement($this->emptyXml());
         $this->Track = $this->XML->trk->trkseg;
 
         $this->setTrack();
@@ -68,18 +52,12 @@ class Gpx extends AbstractFileExporter
         $this->formatFileContentAsXML();
     }
 
-    /**
-     * Get string for timestamp in xml
-     */
     final protected function timeToString(?int $time): string
     {
         return LocalTime::date('c', $time);
     }
 
-    /**
-     * Add track to xml
-     */
-    protected function setTrack()
+    protected function setTrack(): void
     {
         $Starttime = $this->Context->activity()
             ->timestamp();
@@ -114,9 +92,6 @@ class Gpx extends AbstractFileExporter
         } while ($Trackdata->nextStep() && $Route->nextStep());
     }
 
-    /**
-     * Get empty xml
-     */
     protected function emptyXml(): string
     {
         return '<?xml version="1.0" encoding="UTF-8"?>

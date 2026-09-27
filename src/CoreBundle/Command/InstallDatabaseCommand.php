@@ -2,7 +2,9 @@
 
 namespace Runalyze\Bundle\CoreBundle\Command;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\Persistence\ManagerRegistry;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\StringInput;
@@ -12,9 +14,6 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class InstallDatabaseCommand extends Command
 {
-    /**
-     * @var string
-     */
     public const DATABASE_STRUCTURE_FILE = 'inc/install/structure.sql';
 
     public function __construct(
@@ -24,7 +23,7 @@ class InstallDatabaseCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('runalyze:install:database')
@@ -47,12 +46,12 @@ class InstallDatabaseCommand extends Command
         $this->addAllMigrationsToDatabase();
 
         $output->writeln('  <info>Migrations have been successfully applied to database.</info>');
-        return 0;
 
+        return 0;
     }
 
     /**
-     * @throws \Exception
+     * @throws RuntimeException if the structure file contains no executable statements
      */
     protected function importDatabaseStructure(): void
     {
@@ -60,10 +59,10 @@ class InstallDatabaseCommand extends Command
         $queries = $this->getSqlFileAsArray($fileName, $this->parameterBag->get('app.database_prefix'));
 
         if ($queries === []) {
-            throw new \RuntimeException(sprintf('Database structure file "%s" contains no executable statements.', $fileName));
+            throw new RuntimeException(sprintf('Database structure file "%s" contains no executable statements.', $fileName));
         }
 
-        /** @var \Doctrine\DBAL\Connection $connection */
+        /** @var Connection $connection */
         $connection = $this->doctrine->getConnection();
 
         foreach ($queries as $query) {
@@ -78,11 +77,19 @@ class InstallDatabaseCommand extends Command
 
         $input = new StringInput('doctrine:migrations:version --add --all -n -q');
         $output = new NullOutput();
-        $app->run($input, $output);
+
+        $previousShellVerbosity = getenv('SHELL_VERBOSITY');
+
+        try {
+            $app->run($input, $output);
+        } finally {
+            putenv($previousShellVerbosity === false ? 'SHELL_VERBOSITY' : 'SHELL_VERBOSITY=' . $previousShellVerbosity);
+        }
     }
 
     /**
      * Import a sql-file
+     *
      * @return string[]
      */
     public function getSqlFileAsArray(string $filename, string $databasePrefix, bool $removeDelimiter = true): array

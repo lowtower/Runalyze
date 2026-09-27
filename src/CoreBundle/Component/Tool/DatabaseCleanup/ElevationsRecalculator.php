@@ -6,31 +6,20 @@ use Runalyze\Calculation;
 
 class ElevationsRecalculator
 {
-    /**
-     * @var int
-     */
-    protected $NumberOfRoutes = 0;
+    protected int $NumberOfRoutes = 0;
 
     /**
      * @var array calculated elevations
      */
-    protected $Results = [];
+    protected array $Results = [];
 
-    /**
-     * Construct
-     * @param int $AccountID
-     * @param string $DatabasePrefix
-     */
     public function __construct(
         protected \PDO $PDO,
-        protected $AccountID,
-        protected $DatabasePrefix
+        protected int $AccountID,
+        protected string $DatabasePrefix
     ) {
     }
 
-    /**
-     * Run recalculations
-     */
     public function run(): void
     {
         $Query = $this->getQuery();
@@ -55,10 +44,6 @@ class ElevationsRecalculator
         }
     }
 
-    /**
-     * Prepare statement
-     * @return \PDOStatement
-     */
     protected function prepareUpdate(): \PDOStatement|false
     {
         $Set = [
@@ -67,38 +52,31 @@ class ElevationsRecalculator
             '`elevation_down` = :elevation_down',
         ];
 
-        $Query = 'UPDATE `' . $this->DatabasePrefix . 'route` SET ' . implode(',', $Set) . ' WHERE `id`=:id AND `accountid`="' . (int) $this->AccountID . '"';
+        $Query = 'UPDATE `' . $this->DatabasePrefix . 'route` SET ' . implode(',', $Set) . ' WHERE `id`=:id AND `accountid`="' . $this->AccountID . '"';
 
         return $this->PDO->prepare($Query);
     }
 
-    /**
-     * Get query statement
-     * @return \PDOStatement statement to fetch routes with respective elevations
-     */
     protected function getQuery(): \PDOStatement|false
     {
         return $this->PDO->query(
             'SELECT
-				`id`,
-				`elevation`,
-				`elevation_up`,
-				(CASE
-					WHEN  `elevations_corrected` !=  ""
-					THEN  `elevations_corrected`
-					ELSE  `elevations_original`
-				END) AS  `elevations`
-			FROM `' . $this->DatabasePrefix . 'route`
-			WHERE
-				`accountid`="' . (int) $this->AccountID . '" AND
-				(`elevations_original`!="" OR `elevations_corrected`!="")'
+                `id`,
+                `elevation`,
+                `elevation_up`,
+                (CASE
+                    WHEN  `elevations_corrected` !=  ""
+                    THEN  `elevations_corrected`
+                    ELSE  `elevations_original`
+                END) AS  `elevations`
+            FROM `' . $this->DatabasePrefix . 'route`
+            WHERE
+                `accountid`="' . $this->AccountID . '" AND
+                (`elevations_original`!="" OR `elevations_corrected`!="")'
         );
     }
 
-    /**
-     * @return int number of routes that have been touched
-     */
-    public function numberOfRoutes()
+    public function numberOfRoutes(): int
     {
         return $this->NumberOfRoutes;
     }
@@ -106,7 +84,7 @@ class ElevationsRecalculator
     /**
      * @return array 'activityid' => array('total', 'up', 'down')
      */
-    public function results()
+    public function results(): array
     {
         return $this->Results;
     }

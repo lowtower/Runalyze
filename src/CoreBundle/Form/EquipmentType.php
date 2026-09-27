@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Form;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
+use Runalyze\Bundle\CoreBundle\Entity\EquipmentTypeRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Form\Type\DistanceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -14,19 +17,21 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class EquipmentType extends AbstractType
 {
     public function __construct(
-        protected \Runalyze\Bundle\CoreBundle\Entity\EquipmentTypeRepository $EquipmentRepository,
-        protected \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $TokenStorageInterface
+        protected EquipmentTypeRepository $EquipmentRepository,
+        protected TokenStorageInterface $TokenStorageInterface
     ) {
     }
 
     /**
-     * @return Account
+     * @throws \RuntimeException
      */
-    protected function getAccount()
+    protected function getAccount(): Account
     {
         $account = $this->TokenStorageInterface->getToken() ? $this->TokenStorageInterface->getToken()
             ->getUser() : null;
@@ -54,6 +59,9 @@ class EquipmentType extends AbstractType
             ->add('additionalKm', DistanceType::class, [
                 'label' => 'prev. distance',
                 'required' => true,
+                'constraints' => [
+                    new NotBlank(),
+                ],
             ])
             ->add('dateStart', DateType::class, [
                 'label' => 'Start of use',
@@ -119,7 +127,7 @@ class EquipmentType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Equipment::class,
+            'data_class' => Equipment::class,
         ]);
     }
 }

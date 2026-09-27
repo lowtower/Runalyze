@@ -5,6 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Form;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentType as EntityEquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
+use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
 use Runalyze\Bundle\CoreBundle\Form\Type\DistanceType;
 use Runalyze\Bundle\CoreBundle\Form\Type\DurationNullableType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -20,15 +21,15 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class EquipmentCategoryType extends AbstractType
 {
     public function __construct(
-        protected \Runalyze\Bundle\CoreBundle\Entity\SportRepository $SportRepository,
+        protected SportRepository $SportRepository,
         protected TokenStorageInterface $TokenStorage
     ) {
     }
 
     /**
-     * @return Account
+     * @throws \RuntimeException
      */
-    protected function getAccount()
+    protected function getAccount(): Account
     {
         $account = $this->TokenStorage->getToken() ? $this->TokenStorage->getToken()
             ->getUser() : null;
@@ -94,7 +95,7 @@ class EquipmentCategoryType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\EquipmentType::class,
+            'data_class' => EntityEquipmentType::class,
         ]);
     }
 }

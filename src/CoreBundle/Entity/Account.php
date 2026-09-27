@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -119,7 +120,7 @@ class Account implements UserInterface, IdentifiableEntityInterface
     private string $salt = '';
 
     /**
-     * @var int|null [timestamp]
+     * @var ?int [timestamp]
      * @Assert\Type("int")
      */
     #[ORM\Column(name: 'registerdate', type: 'integer', nullable: true, options: [
@@ -128,7 +129,7 @@ class Account implements UserInterface, IdentifiableEntityInterface
     private ?int $registerdate = null;
 
     /**
-     * @var int|null [timestmap]
+     * @var ?int [timestmap]
      * @Assert\Type("int")
      */
     #[ORM\Column(name: 'lastaction', type: 'integer', nullable: true, options: [
@@ -142,7 +143,7 @@ class Account implements UserInterface, IdentifiableEntityInterface
     private ?string $changepwHash = null;
 
     /**
-     * @var int|null [timestamp]
+     * @var ?int [timestamp]
      */
     #[ORM\Column(name: 'changepw_timelimit', type: 'integer', nullable: true, options: [
         'unsigned' => true,
@@ -290,9 +291,9 @@ class Account implements UserInterface, IdentifiableEntityInterface
     }
 
     /**
-     * @return int enum, see \Runalyze\Profile\Athlete\Gender
+     * @return ?int enum, see \Runalyze\Profile\Athlete\Gender
      */
-    public function getGender(): int
+    public function getGender(): ?int
     {
         return $this->gender;
     }
@@ -330,7 +331,7 @@ class Account implements UserInterface, IdentifiableEntityInterface
     }
 
     /**
-     * @return int|null [years]
+     * @return ?int [years]
      */
     public function getAge(): ?int
     {
@@ -397,19 +398,19 @@ class Account implements UserInterface, IdentifiableEntityInterface
     }
 
     /**
-     * @return int [timestamp]
+     * @return ?int [timestamp]
      */
-    public function getRegisterdate(): int
+    public function getRegisterdate(): ?int
     {
         return $this->registerdate;
     }
 
     /**
-     * @param int|null $lastAction [timestamp]
+     * @param ?int $lastAction [timestamp]
      */
     public function setLastAction(?int $lastAction = null): self
     {
-        $lastAction ??= (new \DateTime())->getTimestamp();
+        $lastAction ??= (new DateTime())->getTimestamp();
 
         $this->lastaction = $lastAction;
 
@@ -417,7 +418,7 @@ class Account implements UserInterface, IdentifiableEntityInterface
     }
 
     /**
-     * @return int [timestamp]
+     * @return ?int [timestamp]
      */
     public function getLastAction(): ?int
     {

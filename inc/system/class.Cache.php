@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Class: Cache - Wrapper for PHPFastCache
  * @author Michael Pohl
@@ -13,7 +15,7 @@ use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
 class Cache
 {
     /**
-     * Path for cache, relative to runalyze root
+     * Absolute path for the cache directory
      * @var string
      */
     public const PATH = FRONTEND_PATH . '../var/cache/legacy';
@@ -24,7 +26,6 @@ class Cache
     private static int $LASTCLEAN = 0;
 
     /**
-     * ignore some keywords
      * @var string[]
      */
     private static array $ignoreKeywords = ['sport'];
@@ -38,21 +39,35 @@ class Cache
 
     public function __construct()
     {
+        if (isset(self::$cache)) {
+            return;
+        }
+
         CacheManager::setDefaultConfig(new ConfigurationOption([
-            'path' => FRONTEND_PATH . '../' . self::PATH,
+            'path' => self::PATH,
         ]));
 
         self::$cache = CacheManager::getInstance('files');
     }
 
-    /**
-     * Get Cache
-     */
-    public static function set(string $keyword, $data, int|\DateInterval|null $time, int $nousercache = 0): void
+    private static function isDefaultScope(string $keyword, int $nousercache): bool
     {
-        $key = ($nousercache === 0)
+        return $nousercache === 0 && ! in_array($keyword, self::$ignoreKeywords, true);
+    }
+
+    private static function resolveKey(string $keyword, int $nousercache): string
+    {
+        return self::isDefaultScope($keyword, $nousercache)
             ? $keyword . SessionAccountHandler::getId()
             : $keyword;
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    public static function set(string $keyword, mixed $data, int|DateInterval|null $time, int $nousercache = 0): void
+    {
+        $key = self::resolveKey($keyword, $nousercache);
 
         $item = self::$cache->getItem($key);
         $item->set($data)
@@ -61,49 +76,37 @@ class Cache
     }
 
     /**
-     * Set Cache
+     * @throws InvalidArgumentException
      */
-    public static function get(string $keyword, int $nousercache = 0)
+    public static function get(string $keyword, int $nousercache = 0): mixed
     {
-        if ($nousercache === 0 && ! in_array($keyword, self::$ignoreKeywords)) {
+        $key = self::resolveKey($keyword, $nousercache);
+        $item = self::$cache->getItem($key);
 
-            $key = $keyword . SessionAccountHandler::getId();
-            $item = self::$cache->getItem($key);
-
-            if (! $item->isHit()) {
-                return null;
-            }
-
-            if (self::$LASTCLEAN === 0) {
-                $lastItem = self::$cache->getItem('LASTCLEAN' . SessionAccountHandler::getId());
-                self::$LASTCLEAN = $lastItem->isHit() ? $lastItem->get() : 0;
-            }
-
-            return $item->get();
-        }
-
-        $item = self::$cache->getItem($keyword);
-        return $item->isHit() ? $item->get() : null;
-    }
-
-    /**
-     * Delete from cache
-     */
-    public static function delete(string $keyword, int $nousercache = 0)
-    {
-        if (in_array($keyword, self::$ignoreKeywords)) {
+        if (! $item->isHit()) {
             return null;
         }
 
-        $key = ($nousercache === 0)
-            ? $keyword . SessionAccountHandler::getId()
-            : $keyword;
+        if (self::isDefaultScope($keyword, $nousercache) && self::$LASTCLEAN === 0) {
+            $lastItem = self::$cache->getItem('LASTCLEAN' . SessionAccountHandler::getId());
+            self::$LASTCLEAN = $lastItem->isHit() ? $lastItem->get() : 0;
+        }
+
+        return $item->get();
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    public static function delete(string $keyword, int $nousercache = 0): bool
+    {
+        $key = self::resolveKey($keyword, $nousercache);
 
         return self::$cache->deleteItem($key);
     }
 
     /**
-     * Clean up all cache
+     * @throws InvalidArgumentException
      */
     public static function clean(): void
     {
@@ -119,13 +122,11 @@ class Cache
     }
 
     /**
-     * is existing?
+     * @throws InvalidArgumentException
      */
-    public static function is(string $keyword, int $nousercache = 0)
+    public static function is(string $keyword, int $nousercache = 0): bool
     {
-        $key = ($nousercache === 0)
-            ? $keyword . SessionAccountHandler::getId()
-            : $keyword;
+        $key = self::resolveKey($keyword, $nousercache);
 
         return self::$cache->hasItem($key);
     }

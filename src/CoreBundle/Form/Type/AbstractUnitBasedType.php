@@ -23,20 +23,17 @@ abstract class AbstractUnitBasedType extends AbstractType implements DataTransfo
     ) {
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addModelTransformer($this);
     }
 
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['input_unit'] = $this->Unit->getAppendix();
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function transform($value): ?string
+    public function transform(mixed $value): ?string
     {
         if ($value === null) {
             return '';
@@ -47,10 +44,7 @@ abstract class AbstractUnitBasedType extends AbstractType implements DataTransfo
         return number_format($this->Unit->fromBaseUnit((float) $value), $precision, '.', '');
     }
 
-    /**
-     * @param mixed $value
-     */
-    protected function getPrecisionFor($value): int
+    protected function getPrecisionFor(mixed $value): int
     {
         return max(
             $this->ViewPrecision,
@@ -61,10 +55,6 @@ abstract class AbstractUnitBasedType extends AbstractType implements DataTransfo
         );
     }
 
-    /**
-     * @param  null|string $value
-     * @return float|null
-     */
     public function reverseTransform($value)
     {
         if ($value === null) {
@@ -76,20 +66,17 @@ abstract class AbstractUnitBasedType extends AbstractType implements DataTransfo
         return $this->ModelPrecision === null ? $value : round($value, $this->ModelPrecision);
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return TextType::class;
     }
 
-    public function getViewPrecision()
+    public function getViewPrecision(): int
     {
         return $this->ViewPrecision;
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function getViewPrecisionFor($value)
+    public function getViewPrecisionFor(mixed $value): int
     {
         return $this->MaxViewPrecision === null ? $this->ViewPrecision : $this->getPrecisionFor($value);
     }

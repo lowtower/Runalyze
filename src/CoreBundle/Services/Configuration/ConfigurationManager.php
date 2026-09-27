@@ -26,7 +26,7 @@ class ConfigurationManager
     /**
      * @param ?Account $account defaults to current user or default config, if there is no user logged in
      */
-    public function getList(?Account $account = null): ?RunalyzeConfigurationList
+    public function getList(?Account $account = null): RunalyzeConfigurationList
     {
         if (! $account instanceof Account || ($this->knowsUser() && $account->getId() == $this->getUser()->getId())) {
             if (! $this->CurrentConfigurationList instanceof RunalyzeConfigurationList) {
@@ -53,7 +53,7 @@ class ConfigurationManager
         return $list;
     }
 
-    protected function setListForCurrentUser()
+    protected function setListForCurrentUser(): void
     {
         $user = $this->getUser();
 

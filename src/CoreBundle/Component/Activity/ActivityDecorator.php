@@ -3,12 +3,13 @@
 namespace Runalyze\Bundle\CoreBundle\Component\Activity;
 
 use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList;
+use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Util\LocalTime;
 
 class ActivityDecorator
 {
     public function __construct(
-        protected \Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext $Context
+        protected ActivityContext $Context
     ) {
     }
 
@@ -18,7 +19,7 @@ class ActivityDecorator
             return sprintf('%s: %s', $this->Context->getSport()->getName(), $this->Context->getActivity()->getTitle());
         }
 
-        if ($this->Context->getActivity()->getType() instanceof \Runalyze\Bundle\CoreBundle\Entity\Type) {
+        if ($this->Context->getActivity()->getType() instanceof Type) {
             if ($typeWithSport) {
                 return sprintf('%s: %s', $this->Context->getSport()->getName(), $this->Context->getActivity()->getType()->getName());
             }
@@ -32,7 +33,7 @@ class ActivityDecorator
             ->getName();
     }
 
-    public function getDateTime(): \Runalyze\Util\LocalTime
+    public function getDateTime(): LocalTime
     {
         return new LocalTime($this->Context->getActivity()->getTime());
     }

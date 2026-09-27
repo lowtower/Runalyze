@@ -1,24 +1,14 @@
 <?php
 
 /**
- * This file contains class::PluginInstaller
- * @package Runalyze\Plugin
- */
-/**
  * Plugin installer
  * @author Hannes Christiansen
  * @package Runalyze\Plugin
  */
 class PluginInstaller
 {
-    /**
-     * Installer id
-     */
     public const ID = -1;
 
-    /**
-     * Install URL
-     */
     public const INSTALL_URL = 'call/call.Plugin.install.php';
 
     public function __construct(

@@ -31,7 +31,7 @@ class InstallCommand extends Command
         ],
     ];
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('runalyze:install')
@@ -43,10 +43,9 @@ class InstallCommand extends Command
                 'Steps to skip',
                 ['']
             );
-
     }
 
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         $this->Application = $this->getApplication();
         $this->Application->setCatchExceptions(false);
@@ -55,7 +54,7 @@ class InstallCommand extends Command
         $this->removeCommandsThatShouldBeSkipped($input);
     }
 
-    protected function removeCommandsThatShouldBeSkipped(InputInterface $input)
+    protected function removeCommandsThatShouldBeSkipped(InputInterface $input): void
     {
         if ($input->hasOption('skip') && is_array($input->getOption('skip'))) {
             $skippedCommands = $input->getOption('skip');
@@ -67,6 +66,18 @@ class InstallCommand extends Command
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $previousShellVerbosity = getenv('SHELL_VERBOSITY');
+        putenv('SHELL_VERBOSITY=0');
+
+        try {
+            return $this->runInstallationSteps($output);
+        } finally {
+            putenv($previousShellVerbosity === false ? 'SHELL_VERBOSITY' : 'SHELL_VERBOSITY=' . $previousShellVerbosity);
+        }
+    }
+
+    private function runInstallationSteps(OutputInterface $output): int
     {
         $output->writeln('<info>Installing RUNALYZE...</info>');
         $output->writeln('');

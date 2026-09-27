@@ -18,7 +18,7 @@ class WindDirectionType extends AbstractType
         $view->vars['attr']['max'] = 360;
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return IntegerType::class;
     }

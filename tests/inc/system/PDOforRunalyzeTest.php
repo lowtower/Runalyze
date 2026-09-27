@@ -8,8 +8,19 @@ class PDOforRunalyzeTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
+        \SessionAccountHandler::setAccount([
+            'id' => 0,
+            'username' => 'runalyze',
+            'language' => 'de',
+            'timezone' => '43',
+            'mail' => 'noreply@runalyze.com',
+        ]);
+
         $this->object = DB::getInstance();
+        $this->object->setAccountID(0);
         $this->object->stopAddingAccountID();
+
+        $this->object->exec('DELETE FROM `runalyze_training`');
     }
 
     protected function tearDown(): void

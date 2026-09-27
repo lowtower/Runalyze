@@ -9,13 +9,14 @@ use Runalyze\Bundle\CoreBundle\Entity\PluginConfRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
 use Runalyze\Bundle\CoreBundle\Entity\RaceresultRepository;
 use Runalyze\Util\LocalTime;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/_internal/data/race-results")
  */
-class RaceResultsController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+class RaceResultsController extends AbstractController
 {
     use AppServiceSubscriberTrait;
 

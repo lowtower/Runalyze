@@ -78,6 +78,22 @@ class BackupToolControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStatusCode(200, $client);
     }
 
+    public function testSubmittingValidBackupFormRedirectsToSamePage(): void
+    {
+        $client = $this->makeAuthenticatedClient();
+
+        $crawler = $client->request('GET', '/my/tools/backup');
+        $form = $this->findAndFillFileFormatForm($crawler, 'json');
+        $client->submit($form);
+
+        $this->assertStatusCode(302, $client);
+        $this->assertSame(
+            '/my/tools/backup',
+            $client->getResponse()
+                ->headers->get('Location')
+        );
+    }
+
     public function testSubmittingBackupFormDispatchesBackupGenerationMessage(): void
     {
         $this->loginClient($this->Client, $this->Account, 'default');
@@ -88,7 +104,7 @@ class BackupToolControllerTest extends AbstractFixturesAwareWebTestCase
         $form = $this->findAndFillFileFormatForm($crawler, 'json');
         $this->Client->submit($form);
 
-        $this->assertStatusCode(200, $this->Client);
+        $this->assertStatusCode(302, $this->Client);
 
         /** @var InMemoryTransport $transport */
         $transport = self::getContainer()->get('messenger.transport.async');
@@ -109,15 +125,19 @@ class BackupToolControllerTest extends AbstractFixturesAwareWebTestCase
 
         $crawler = $client->request('GET', '/my/tools/backup');
         $form = $this->findAndFillFileFormatForm($crawler, 'json');
-        $submittedCrawler = $client->submit($form);
+        $client->submit($form);
+
+        $this->assertStatusCode(302, $client);
+
+        $redirectedCrawler = $client->followRedirect();
 
         $this->assertStatusCode(200, $client);
 
-        $successNodes = $submittedCrawler->filter('p.okay');
+        $successNodes = $redirectedCrawler->filter('p.okay');
         $this->assertGreaterThan(
             0,
             $successNodes->count(),
-            'Expected a "p.okay" success confirmation element in the response after a valid submission.'
+            'Expected a "p.okay" success confirmation element in the response after following the redirect.'
         );
         $this->assertStringContainsString('backup job has been created', $successNodes->text());
     }

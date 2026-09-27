@@ -24,13 +24,9 @@ class ActivityCache
         return $hash;
     }
 
-    /**
-     * @param string|null $hash
-     * @param bool $removerAfterwards
-     */
-    public function get($hash, ?Training $activityToMerge = null, $removerAfterwards = false): ?Training
+    public function get(?string $hash, ?Training $activityToMerge = null, bool $removerAfterwards = false): ?Training
     {
-        if ($hash === null || $hash == '') {
+        if ($hash === null || $hash === '') {
             return $activityToMerge;
         }
 
@@ -52,10 +48,7 @@ class ActivityCache
         return $activity;
     }
 
-    /**
-     * @param string $hash
-     */
-    public function remove($hash): void
+    public function remove(string $hash): void
     {
         $this->Cache->deleteItem($hash);
     }
@@ -68,7 +61,7 @@ class ActivityCache
         $activityToMerge->setTrackdata($activityFromCache->getTrackdata());
         $activityToMerge->setSwimdata($activityFromCache->getSwimdata());
         $activityToMerge->setHrv($activityFromCache->getHrv());
-        $activityToMerge->setRaceresult($activityFromCache->getRaceResult());
+        $activityToMerge->setRaceresult($activityFromCache->getRaceresult());
 
         $activityToMerge->getAdapter()
             ->setAccountToRelatedEntities();
@@ -76,7 +69,7 @@ class ActivityCache
         return $activityToMerge;
     }
 
-    protected function mergeActivityDataFromParserThatIsNotInForm(Training $activityFromCache, Training $activityToMerge)
+    protected function mergeActivityDataFromParserThatIsNotInForm(Training $activityFromCache, Training $activityToMerge): void
     {
         $activityToMerge->setTimezoneOffset($activityFromCache->getTimezoneOffset());
         $activityToMerge->setElapsedTime($activityFromCache->getElapsedTime());

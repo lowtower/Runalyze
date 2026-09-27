@@ -2,6 +2,8 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\Activity;
 
+use ElevationInfo;
+use Frontend;
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityDecorator;
 use Runalyze\Bundle\CoreBundle\Component\Activity\Tool\BestSubSegmentsStatistics;
 use Runalyze\Bundle\CoreBundle\Component\Activity\Tool\TimeSeriesStatistics;
@@ -14,7 +16,6 @@ use Runalyze\Bundle\CoreBundle\Entity\TrackdataRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Metrics\Velocity\Unit\PaceEnum;
-use Runalyze\Model\Activity;
 use Runalyze\Service\ElevationCorrection\StepwiseElevationProfileFixer;
 use Runalyze\View\Activity\Context;
 use Runalyze\View\Window\Laps\Window;
@@ -22,8 +23,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use TrainingView;
 
 class ViewController extends AbstractController
 {
@@ -53,7 +56,10 @@ class ViewController extends AbstractController
             ->getRepository(Trackdata::class);
     }
 
-    protected function checkThatEntityBelongsToActivity(AccountRelatedEntityInterface $entity, Account $account)
+    /**
+     * @throws NotFoundHttpException
+     */
+    protected function checkThatEntityBelongsToActivity(AccountRelatedEntityInterface $entity, Account $account): void
     {
         if ($entity->getAccount()->getId() != $account->getId()) {
             throw $this->createNotFoundException();
@@ -62,39 +68,49 @@ class ViewController extends AbstractController
 
     /**
      * @Route("/activity/{id}", name="ActivityShow", requirements={"id"="\d+"})
+     *
+     * @throws NotFoundHttpException
      */
-    public function displayAction(Request $request, int $id): Response
+    public function displayAction(Request $request, int $id, Account $account): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $activity = $this->getTraining($id);
-        if (! $activity instanceof \Runalyze\Bundle\CoreBundle\Entity\Training) {
+        if (! $activity instanceof Training) {
             throw $this->createNotFoundException('Activity not found.');
         }
 
-        $account = $activity->getAccount();
-
-        $this->checkThatEntityBelongsToActivity($activity, $account);
-
         switch ($request->query->get('action')) {
             case 'changePrivacy':
+                $this->checkThatEntityBelongsToActivity($activity, $account);
+
                 $this->getTrainingRepository()
                     ->save($activity->togglePrivacy());
                 $this->get('app.legacy_cache')
                     ->clearActivityCache($activity);
                 break;
             case 'delete':
+                $this->checkThatEntityBelongsToActivity($activity, $account);
+
                 $this->getTrainingRepository()
                     ->remove($activity);
 
                 return $this->render('activity/activity_has_been_removed.html.twig');
         }
 
-        if (! $request->query->get('silent')) {
-            $frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
-            $context = new Context($activity->getId(), $account->getId());
+        $isOwnActivity = $activity->getAccount()
+            ->getId() == $account->getId();
 
-            $view = new \TrainingView($context);
+        if (! $isOwnActivity && ! $activity->isPublic()) {
+            throw $this->createNotFoundException('Activity not found.');
+        }
+
+        if (! $request->query->get('silent')) {
+            $frontend = new Frontend(true, $this->tokenStorage, $this->parameterBag);
+
+            $context = new Context($activity->getId(), $activity->getAccount()->getId());
+
+            $view = new TrainingView($context);
             $view->display();
         }
 
@@ -103,13 +119,15 @@ class ViewController extends AbstractController
 
     /**
      * @Route("/activity/{id}/vo2max-info")
+     *
+     * @throws NotFoundHttpException
      */
     public function vo2maxInfoAction(int $id, Account $account): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $activity = $this->getTraining($id);
-        if (! $activity instanceof \Runalyze\Bundle\CoreBundle\Entity\Training) {
+        if (! $activity instanceof Training) {
             throw $this->createNotFoundException('Activity not found.');
         }
 
@@ -133,7 +151,7 @@ class ViewController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $Frontend = new \Frontend(false, $this->tokenStorage, $this->parameterBag);
+        $frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag);
 
         $context = new Context($id, $account->getId());
 
@@ -149,6 +167,8 @@ class ViewController extends AbstractController
 
     /**
      * @Route("/activity/{id}/elevation-info", requirements={"id"="\d+"})
+     *
+     * @throws NotFoundHttpException
      */
     public function elevationInfoAction(int $id, Request $request, Account $account): Response
     {
@@ -156,6 +176,10 @@ class ViewController extends AbstractController
 
         if ($request->get('use-calculated-value') == 'true') {
             $activity = $this->getTraining($id);
+
+            if (! $activity instanceof Training) {
+                throw $this->createNotFoundException('Activity not found.');
+            }
 
             $this->checkThatEntityBelongsToActivity($activity, $account);
 
@@ -166,7 +190,7 @@ class ViewController extends AbstractController
                 ->save($activity);
         }
 
-        $Frontend = new \Frontend(false, $this->tokenStorage, $this->parameterBag);
+        $frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag);
 
         $context = new Context($id, $account->getId());
 
@@ -174,7 +198,7 @@ class ViewController extends AbstractController
             return $this->render('activity/tool/not_possible.html.twig');
         }
 
-        $elevationInfo = new \ElevationInfo($context);
+        $elevationInfo = new ElevationInfo($context);
         $elevationInfo->display();
 
         return new Response();
@@ -190,7 +214,7 @@ class ViewController extends AbstractController
         $trackdata = $this->getTrackdataRepository()
             ->findByActivity($id, $account);
 
-        if (! $trackdata instanceof \Runalyze\Bundle\CoreBundle\Entity\Trackdata) {
+        if (! $trackdata instanceof Trackdata) {
             return $this->render('activity/tool/not_possible.html.twig');
         }
 
@@ -221,7 +245,7 @@ class ViewController extends AbstractController
         $trackdata = $this->getTrackdataRepository()
             ->findByActivity($id, $account);
 
-        if (! $trackdata instanceof \Runalyze\Bundle\CoreBundle\Entity\Trackdata) {
+        if (! $trackdata instanceof Trackdata) {
             return $this->render('activity/tool/not_possible.html.twig');
         }
 
@@ -247,20 +271,25 @@ class ViewController extends AbstractController
 
     /**
      * @Route("/activity/{id}/climb-score", requirements={"id"="\d+"}, name="activity-tool-climb-score")
+     *
+     * @throws NotFoundHttpException
      */
     public function climbScoreAction(int $id, ?Account $account = null): Response
     {
         $activity = $this->getTraining($id);
-        if (! $activity instanceof \Runalyze\Bundle\CoreBundle\Entity\Training) {
+        if (! $activity instanceof Training) {
+            throw $this->createNotFoundException('No activity found.');
+        }
+
+        $isOwnActivity = $account instanceof Account && $activity->getAccount()
+            ->getId() == $account->getId();
+
+        if (! $activity->isPublic() && ! $isOwnActivity) {
             throw $this->createNotFoundException('No activity found.');
         }
 
         $activityContext = $this->get('app.activity_context.factory')
             ->getContext($activity);
-
-        if (! $activity->isPublic() && ! $account instanceof Account) {
-            throw $this->createNotFoundException('No activity found.');
-        }
 
         if (! $activityContext->hasTrackdata() || ! $activityContext->hasRoute()) {
             return $this->render('activity/tool/not_possible.html.twig');

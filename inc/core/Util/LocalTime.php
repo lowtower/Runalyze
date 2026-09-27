@@ -7,6 +7,10 @@
 
 namespace Runalyze\Util;
 
+use DateInterval;
+use DateTime;
+use DateTimeZone;
+use InvalidArgumentException;
 use Runalyze\Configuration;
 
 /**
@@ -22,7 +26,7 @@ use Runalyze\Configuration;
  * @author Michael Pohl
  * @package Runalyze\Util
  */
-class LocalTime extends \DateTime
+class LocalTime extends DateTime
 {
     /**
      * Construct local time
@@ -35,25 +39,25 @@ class LocalTime extends \DateTime
     public function __construct(?int $timestampInNoTimezone = null)
     {
         if ($timestampInNoTimezone === null) {
-            parent::__construct('', new \DateTimeZone('UTC'));
+            parent::__construct('', new DateTimeZone('UTC'));
         } else {
             parent::__construct('@' . $timestampInNoTimezone);
 
-            $this->setTimezone(new \DateTimeZone('UTC'));
+            $this->setTimezone(new DateTimeZone('UTC'));
         }
     }
 
     /**
      * @param int $timestampInServerTimezone timestamp (created by time(), mktime(), ...) that will be corrected
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public static function fromServerTime($timestampInServerTimezone): self
     {
         if (! is_numeric($timestampInServerTimezone)) {
-            throw new \InvalidArgumentException('Given timestamp must be numeric.');
+            throw new InvalidArgumentException('Given timestamp must be numeric.');
         }
 
-        $correctedTimestamp = $timestampInServerTimezone + (new \DateTime())->setTimestamp($timestampInServerTimezone)
+        $correctedTimestamp = $timestampInServerTimezone + (new DateTime())->setTimestamp($timestampInServerTimezone)
             ->getOffset();
 
         return new self($correctedTimestamp);
@@ -65,14 +69,14 @@ class LocalTime extends \DateTime
      */
     public static function fromString(string $dateTimeString): self
     {
-        $DateTime = new \DateTime($dateTimeString);
+        $dateTime = new DateTime($dateTimeString);
 
-        return new self($DateTime->getTimestamp() + $DateTime->getOffset());
+        return new self($dateTime->getTimestamp() + $dateTime->getOffset());
     }
 
-    public function toServerTime(): \DateTime
+    public function toServerTime(): DateTime
     {
-        return new \DateTime($this->format('d.m.Y H:i:s'));
+        return new DateTime($this->format('d.m.Y H:i:s'));
     }
 
     public function toServerTimestamp(): int
@@ -84,12 +88,11 @@ class LocalTime extends \DateTime
     /**
      * Get the timestamp of the start of the week
      * @param bool $asObject set to true to get a new object as result
-     * @return int|\Runalyze\Util\LocalTime
      */
-    public function weekstart(bool $asObject = false)
+    public function weekstart(bool $asObject = false): int|static
     {
-        $Date = clone $this;
-        $w = $Date->format('w');
+        $date = clone $this;
+        $w = $date->format('w');
 
         if (Configuration::General()->weekStart()->isMonday()) {
             if ($w == 0) {
@@ -99,24 +102,23 @@ class LocalTime extends \DateTime
             }
         }
 
-        $Date->sub(new \DateInterval('P' . $w . 'D'));
-        $Date->setTime(0, 0, 0);
+        $date->sub(new DateInterval('P' . $w . 'D'));
+        $date->setTime(0, 0, 0);
 
-        return $asObject ? $Date : $Date->getTimestamp();
+        return $asObject ? $date : $date->getTimestamp();
     }
 
     /**
      * Get the timestamp of the end of the week
      * @param bool $asObject set to true to get a new object as result
-     * @return int|\Runalyze\Util\LocalTime
      */
-    public function weekend(bool $asObject = false)
+    public function weekend(bool $asObject = false): int|static
     {
-        $Date = $this->weekstart(true);
-        $Date->add(new \DateInterval('P6D'));
-        $Date->setTime(23, 59, 50);
+        $date = $this->weekstart(true);
+        $date->add(new DateInterval('P6D'));
+        $date->setTime(23, 59, 50);
 
-        return $asObject ? $Date : $Date->getTimestamp();
+        return $asObject ? $date : $date->getTimestamp();
     }
 
     public function week(): int
@@ -127,57 +129,53 @@ class LocalTime extends \DateTime
     /**
      * Get the timestamp of the start of the month
      * @param bool $asObject set to true to get a new object as result
-     * @return int|\Runalyze\Util\LocalTime
      */
-    public function monthStart(bool $asObject = false)
+    public function monthStart(bool $asObject = false): int|static
     {
-        $Date = clone $this;
-        $Date->setDate((int) $this->format('Y'), (int) $this->format('m'), 1)
+        $date = clone $this;
+        $date->setDate((int) $this->format('Y'), (int) $this->format('m'), 1)
             ->setTime(0, 0, 0);
 
-        return $asObject ? $Date : $Date->getTimestamp();
+        return $asObject ? $date : $date->getTimestamp();
     }
 
     /**
      * Get the timestamp of the end of the month
      * @param bool $asObject set to true to get a new object as result
-     * @return int|\Runalyze\Util\LocalTime
      */
-    public function monthEnd(bool $asObject = false)
+    public function monthEnd(bool $asObject = false): int|static
     {
-        $Date = clone $this;
-        $Date->setDate((int) $this->format('Y'), (int) $this->format('m') + 1, 0)
+        $date = clone $this;
+        $date->setDate((int) $this->format('Y'), (int) $this->format('m') + 1, 0)
             ->setTime(23, 59, 59);
 
-        return $asObject ? $Date : $Date->getTimestamp();
+        return $asObject ? $date : $date->getTimestamp();
     }
 
     /**
-     * Get the timestamp of the start of the month
+     * Get the timestamp of the start of the year
      * @param bool $asObject set to true to get a new object as result
-     * @return int|\Runalyze\Util\LocalTime
      */
-    public function yearStart(bool $asObject = false)
+    public function yearStart(bool $asObject = false): int|static
     {
-        $Date = clone $this;
-        $Date->setDate((int) $this->format('Y'), 1, 1)
+        $date = clone $this;
+        $date->setDate((int) $this->format('Y'), 1, 1)
             ->setTime(0, 0, 0);
 
-        return $asObject ? $Date : $Date->getTimestamp();
+        return $asObject ? $date : $date->getTimestamp();
     }
 
     /**
-     * Get the timestamp of the end of the month
+     * Get the timestamp of the end of the year
      * @param bool $asObject set to true to get a new object as result
-     * @return int|\Runalyze\Util\LocalTime
      */
-    public function yearEnd(bool $asObject = false)
+    public function yearEnd(bool $asObject = false): int|static
     {
-        $Date = clone $this;
-        $Date->setDate((int) $this->format('Y'), 12, 31)
+        $date = clone $this;
+        $date->setDate((int) $this->format('Y'), 12, 31)
             ->setTime(23, 59, 59);
 
-        return $asObject ? $Date : $Date->getTimestamp();
+        return $asObject ? $date : $date->getTimestamp();
     }
 
     /**

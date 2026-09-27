@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Controller\Activity;
 
+use Frontend;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Export\File;
 use Runalyze\Export\Share;
 use Runalyze\View\Activity\Context;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class ExportController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+class ExportController extends AbstractController
 {
     public function __construct(
         private readonly TokenStorageInterface $tokenStorage,
@@ -28,7 +30,7 @@ class ExportController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
+        $Frontend = new Frontend(true, $this->tokenStorage, $this->parameterBag);
 
         if (Share\Types::isValidValue($typeid)) {
             $context = new Context($id, $account->getId());
@@ -49,7 +51,7 @@ class ExportController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
+        $Frontend = new Frontend(true, $this->tokenStorage, $this->parameterBag);
 
         if (File\Types::isValidValue($typeid)) {
             $context = new Context($id, $account->getId());

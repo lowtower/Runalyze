@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Common\IdentifiableEntityInterface;
@@ -20,19 +21,19 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
     private ?int $id = null;
 
     #[ORM\Column(name: 'name', type: 'string', length: 50, nullable: false)]
-    private string $name;
+    private ?string $name = null;
 
     #[ORM\Column(name: 'abbr', type: 'string', length: 5, nullable: false, options: [
         'default' => '',
     ])]
-    private string $abbr = '';
+    private ?string $abbr = '';
 
     #[ORM\JoinColumn(name: 'sportid', referencedColumnName: 'id', nullable: false)]
-    #[ORM\ManyToOne(targetEntity: \Sport::class, inversedBy: 'types')]
+    #[ORM\ManyToOne(targetEntity: Sport::class, inversedBy: 'types')]
     private Sport $sport;
 
     /**
-     * @see \Runalyze\Profile\View\DataBrowserRowProfile
+     * @see DataBrowserRowProfile
      */
     #[ORM\Column(name: 'short', type: 'tinyint', options: [
         'unsigned' => true,
@@ -51,7 +52,7 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
     private bool $qualitySession = false;
 
     #[ORM\OneToMany(mappedBy: 'type', targetEntity: Training::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
-    protected \Doctrine\Common\Collections\Collection $trainings;
+    protected Collection $trainings;
 
     #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
     #[ORM\ManyToOne(targetEntity: Account::class, inversedBy: 'activityTypes')]
@@ -62,7 +63,7 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
         return $this->id;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -71,10 +72,10 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
 
     public function getName(): string
     {
-        return $this->name;
+        return $this->name ?? '';
     }
 
-    public function setAbbr(string $abbr): self
+    public function setAbbr(?string $abbr): self
     {
         $this->abbr = $abbr;
 
@@ -83,7 +84,7 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
 
     public function getAbbr(): string
     {
-        return $this->abbr;
+        return $this->abbr ?? '';
     }
 
     public function setSport(Sport $sport): self
@@ -99,7 +100,7 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
     }
 
     /**
-     * @param int $mode see \Runalyze\Profile\View\DataBrowserRowProfile
+     * @param int $mode see DataBrowserRowProfile
      */
     public function setDisplayMode(int $mode): self
     {
@@ -109,7 +110,7 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
     }
 
     /**
-     * @return int see \Runalyze\Profile\View\DataBrowserRowProfile
+     * @return int see DataBrowserRowProfile
      */
     public function getDisplayMode(): int
     {
@@ -181,7 +182,7 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
         return $this->account;
     }
 
-    public function getTrainings(): \Doctrine\Common\Collections\Collection
+    public function getTrainings(): Collection
     {
         return $this->trainings;
     }

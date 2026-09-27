@@ -12,7 +12,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array<string, null[]|string[]|int[]|0.0[]>
+     * @return array<string, null[]|string[]|int[]|0.0[]|array<int, array<int, string>>>
      */
     public static function provideValuesConsideredUnknown(): array
     {
@@ -23,6 +23,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
             'float zero' => [0.0],
             'string zero' => ['0'],
             'string zero point zero' => ['0.0'],
+            'empty array' => [[]],
         ];
     }
 
@@ -45,6 +46,17 @@ class HelperTest extends \PHPUnit\Framework\TestCase
             'whitespace-only string is treated as non-numeric and non-empty' => ['  ', '  '],
             'string containing spaces' => ['test string', 'test string'],
         ];
+    }
+
+    public function testUnknownReturnsNonEmptyArrayUnchangedInsteadOfCoercingItToAString(): void
+    {
+        $value = ['first', 'second'];
+
+        $this->assertSame(
+            $value,
+            Helper::Unknown($value),
+            'Unknown() must not attempt to coerce non-scalar values to string, since that would previously have caused a TypeError.'
+        );
     }
 
     public function testUnknownReturnsCustomFallbackStringWhenProvided(): void

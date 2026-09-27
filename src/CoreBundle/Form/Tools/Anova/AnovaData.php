@@ -8,35 +8,23 @@ use Runalyze\Bundle\CoreBundle\Entity\Type;
 
 class AnovaData
 {
-    /**
-     * @var DateTime
-     */
-    protected $DateFrom;
+    protected ?DateTime $DateFrom = null;
 
-    /**
-     * @var DateTime
-     */
-    protected $DateTo;
+    protected ?DateTime $DateTo = null;
 
     /**
      * @var Sport[]
      */
-    protected $Sport = [];
+    protected array $Sport = [];
 
     /**
      * @var Type[]
      */
-    protected $Type = [];
+    protected array $Type = [];
 
-    /**
-     * @var string
-     */
-    protected $ValueToGroupBy;
+    protected ?string $ValueToGroupBy = null;
 
-    /**
-     * @var string
-     */
-    protected $ValueToLookAt;
+    protected ?string $ValueToLookAt = null;
 
     /**
      * @param Sport[] $sport
@@ -53,42 +41,50 @@ class AnovaData
         return $data;
     }
 
-    public function setDateFrom(DateTime $dateFrom): void
+    public function setDateFrom(?DateTime $dateFrom): void
     {
         $this->DateFrom = $dateFrom;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getDateFrom()
+    public function getDateFrom(): ?DateTime
     {
         return $this->DateFrom;
     }
 
+    /**
+     * @throws \LogicException if no date has been set yet
+     */
     public function getDateFromTimestamp(): int
     {
-        return $this->getDateFrom()
+        if (! $this->DateFrom instanceof \DateTime) {
+            throw new \LogicException('Cannot compute a timestamp for a date that has not been set.');
+        }
+
+        return $this->DateFrom
             ->setTimezone(new \DateTimeZone('UTC'))
             ->getTimestamp();
     }
 
-    public function setDateTo(DateTime $dateTo): void
+    public function setDateTo(?DateTime $dateTo): void
     {
         $this->DateTo = $dateTo;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getDateTo()
+    public function getDateTo(): ?DateTime
     {
         return $this->DateTo;
     }
 
+    /**
+     * @throws \LogicException if no date has been set yet
+     */
     public function getDateToTimestamp(): int
     {
-        return $this->getDateTo()
+        if (! $this->DateTo instanceof \DateTime) {
+            throw new \LogicException('Cannot compute a timestamp for a date that has not been set.');
+        }
+
+        return $this->DateTo
             ->setTimezone(new \DateTimeZone('UTC'))
             ->setTime(23, 59, 00)
             ->getTimestamp();
@@ -105,7 +101,7 @@ class AnovaData
     /**
      * @return Sport[]
      */
-    public function getSport()
+    public function getSport(): array
     {
         return $this->Sport;
     }
@@ -121,33 +117,27 @@ class AnovaData
     /**
      * @return Type[]
      */
-    public function getType()
+    public function getType(): array
     {
         return $this->Type;
     }
 
-    public function setValueToGroupBy($valueToGroupBy): void
+    public function setValueToGroupBy(?string $valueToGroupBy): void
     {
         $this->ValueToGroupBy = $valueToGroupBy;
     }
 
-    /**
-     * @return string
-     */
-    public function getValueToGroupBy()
+    public function getValueToGroupBy(): ?string
     {
         return $this->ValueToGroupBy;
     }
 
-    public function setValueToLookAt($valueToLookAt): void
+    public function setValueToLookAt(?string $valueToLookAt): void
     {
         $this->ValueToLookAt = $valueToLookAt;
     }
 
-    /**
-     * @return string
-     */
-    public function getValueToLookAt()
+    public function getValueToLookAt(): ?string
     {
         return $this->ValueToLookAt;
     }

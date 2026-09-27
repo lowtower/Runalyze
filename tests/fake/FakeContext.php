@@ -1,10 +1,5 @@
 <?php
 
-/**
- * This file contains class::FakeContext
- * @package Runalyze\View\Activity
- */
-
 namespace Runalyze\View\Activity;
 
 use Runalyze\Model\Activity;
@@ -13,6 +8,7 @@ use Runalyze\Model\Route;
 use Runalyze\Model\Sport;
 use Runalyze\Model\Swimdata;
 use Runalyze\Model\Trackdata;
+use Runalyze\Parameter\Application\PaceUnit;
 
 /**
  * Fake activity context
@@ -20,7 +16,7 @@ use Runalyze\Model\Trackdata;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity
  */
-class FakeContext extends \Runalyze\View\Activity\Context
+class FakeContext extends Context
 {
     public function __construct(
         Activity\Entity $activity,
@@ -55,20 +51,16 @@ class FakeContext extends \Runalyze\View\Activity\Context
         );
     }
 
-    /**
-     * @param \Runalyze\Model\Trackdata\Entity $trackdata
-     * @param \Runalyze\Model\Route\Entity $route
-     */
     public static function withDefaultSport(
         Activity\Entity $activity,
         ?Trackdata\Entity $trackdata = null,
         ?Route\Entity $route = null
     ): self {
-        if (! $trackdata instanceof \Runalyze\Model\Trackdata\Entity) {
+        if (! $trackdata instanceof Trackdata\Entity) {
             $trackdata = new Trackdata\Entity([]);
         }
 
-        if (! $route instanceof \Runalyze\Model\Route\Entity) {
+        if (! $route instanceof Route\Entity) {
             $route = new Route\Entity([]);
         }
 
@@ -80,7 +72,7 @@ class FakeContext extends \Runalyze\View\Activity\Context
             new HRV\Entity([]),
             new Sport\Entity([
                 Sport\Entity::NAME => 'Sport',
-                Sport\Entity::PACE_UNIT => \Runalyze\Parameter\Application\PaceUnit::KM_PER_H,
+                Sport\Entity::PACE_UNIT => PaceUnit::KM_PER_H,
                 Sport\Entity::HAS_DISTANCES => true,
                 Sport\Entity::IS_OUTSIDE => true,
             ])
@@ -88,7 +80,7 @@ class FakeContext extends \Runalyze\View\Activity\Context
     }
 
     /**
-     * @return \Runalyze\View\Activity\FakeContext[]
+     * @return FakeContext[]
      */
     public static function examplaryContexts(): array
     {
@@ -133,7 +125,7 @@ class FakeContext extends \Runalyze\View\Activity\Context
             new HRV\Entity([]),
             new Sport\Entity([
                 Sport\Entity::NAME => 'Sport',
-                Sport\Entity::PACE_UNIT => \Runalyze\Parameter\Application\PaceUnit::KM_PER_H,
+                Sport\Entity::PACE_UNIT => PaceUnit::KM_PER_H,
                 Sport\Entity::HAS_DISTANCES => false,
                 Sport\Entity::IS_OUTSIDE => false,
             ])
@@ -174,7 +166,7 @@ class FakeContext extends \Runalyze\View\Activity\Context
             new HRV\Entity([]),
             new Sport\Entity([
                 Sport\Entity::NAME => 'Sport',
-                Sport\Entity::PACE_UNIT => \Runalyze\Parameter\Application\PaceUnit::KM_PER_H,
+                Sport\Entity::PACE_UNIT => PaceUnit::KM_PER_H,
                 Sport\Entity::HAS_DISTANCES => true,
                 Sport\Entity::IS_OUTSIDE => true,
             ])

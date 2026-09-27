@@ -25,6 +25,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -44,7 +45,10 @@ class EditController extends AbstractController
             ->find($id);
     }
 
-    protected function checkThatEntityBelongsToActivity(AccountRelatedEntityInterface $entity, Account $account)
+    /**
+     * @throws NotFoundHttpException if the entity does not belong to the given account
+     */
+    protected function checkThatEntityBelongsToActivity(AccountRelatedEntityInterface $entity, Account $account): void
     {
         if ($entity->getAccount()->getId() != $account->getId()) {
             throw $this->createNotFoundException();
@@ -53,13 +57,15 @@ class EditController extends AbstractController
 
     /**
      * @Route("/activity/{id}/edit", name="activity-edit", requirements={"id"="\d+"})
+     *
+     * @throws NotFoundHttpException if the activity does not exist or does not belong to the account
      */
     public function activityEditAction(Request $request, int $id, Account $account, TranslatorInterface $translator): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $activity = $this->getTraining($id);
-        if (! $activity instanceof \Runalyze\Bundle\CoreBundle\Entity\Training) {
+        if (! $activity instanceof Training) {
             throw $this->createNotFoundException('Activity not found.');
         }
 
@@ -73,6 +79,9 @@ class EditController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->getTrainingRepository()
+                ->ensureThatSportAndTypeAreManaged($activity);
+
             if ($form->has('data_series_remover')) {
                 $this->get('app.data_series_remover')
                     ->handleRequest($form->get('data_series_remover')->getData(), $activity);
@@ -159,13 +168,15 @@ class EditController extends AbstractController
 
     /**
      * @Route("/activity/{id}/delete", name="activity-delete", requirements={"id"="\d+"})
+     *
+     * @throws NotFoundHttpException if the activity does not exist or does not belong to the account
      */
     public function deleteAction(int $id, Account $account): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $activity = $this->getTraining($id);
-        if (! $activity instanceof \Runalyze\Bundle\CoreBundle\Entity\Training) {
+        if (! $activity instanceof Training) {
             throw $this->createNotFoundException('Activity not found.');
         }
 
@@ -185,13 +196,15 @@ class EditController extends AbstractController
 
     /**
      * @Route("/activity/{id}/elevation-correction", name="activity-elevation-correction", requirements={"id"="\d+"})
+     *
+     * @throws NotFoundHttpException if the activity does not exist or does not belong to the account
      */
     public function elevationCorrectionAction(Request $request, int $id, Account $account, TranslatorInterface $translator): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $activity = $this->getTraining($id);
-        if (! $activity instanceof \Runalyze\Bundle\CoreBundle\Entity\Training) {
+        if (! $activity instanceof Training) {
             throw $this->createNotFoundException('Activity not found.');
         }
 
@@ -301,7 +314,7 @@ class EditController extends AbstractController
         );
     }
 
-    protected function adjustAndSaveRouteAndActivityForElevationCorrection(Training $activity)
+    protected function adjustAndSaveRouteAndActivityForElevationCorrection(Training $activity): void
     {
         $configuration = $this->get('app.configuration_manager')
             ->getList($activity->getAccount())
@@ -319,7 +332,7 @@ class EditController extends AbstractController
         $activityAdapter->calculateClimbScore();
 
         $this->getTrainingRepository()
-            ->save($activity);
+            ->save($activity, true);
 
         $this->get('app.legacy_cache')
             ->clearActivityCache($activity);

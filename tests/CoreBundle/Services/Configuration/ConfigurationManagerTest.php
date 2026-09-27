@@ -6,6 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Services\Configuration;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use ReflectionProperty;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Conf;
 use Runalyze\Bundle\CoreBundle\Entity\ConfRepository;
@@ -13,11 +14,12 @@ use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
+#[\PHPUnit\Framework\Attributes\Group('default')]
 class ConfigurationManagerTest extends TestCase
 {
     private function setAccountId(Account $account, int $id): void
     {
-        $property = new \ReflectionProperty($account, 'id');
+        $property = new ReflectionProperty($account, 'id');
         $property->setValue($account, $id);
     }
 

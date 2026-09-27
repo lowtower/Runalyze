@@ -16,7 +16,7 @@
                 {{ form_row(form.official_distance, {'help': 'We use two decimals for convenient reasons.<br />Marathon: 42.20 km<br />Half marathon: 21.10 km'|trans, 'div_class': 'w50'}) }}
                 {{ form_row(form.official_time, {'div_class': 'w50'}) }}
             <p class="file">{% trans %}This race result is linked to the following activity{% endtrans %}: {{ activity.time|date("d.m.Y") }}, {{ activity.notes }}
-                ({{ distance(activity.distance)|raw }}, {{ activity.s|duration }}, {{ pace(activity.distance > 0 ? activity.s / activity.distance : 0, unitConverter.getPaceUnit(activity.sport.speed))|raw }})
+                ({{ distance(activity.distance ?: 0)|raw }}, {{ activity.s|duration }}, {{ pace(activity.distance > 0 ? activity.s / activity.distance : 0, unitConverter.getPaceUnit(activity.sport.speed))|raw }})
             </p>
         </fieldset>
 

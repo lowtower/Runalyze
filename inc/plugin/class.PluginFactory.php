@@ -1,19 +1,11 @@
 <?php
 
 /**
- * This file contains class::PluginFactory
- * @package Runalyze\Plugin
- */
-
-/**
  * @author Hannes Christiansen
  * @package Runalyze\Plugin
  */
 class PluginFactory
 {
-    /**
-     * @var string
-     */
     public const CACHE_KEY = 'plugins';
 
     private static ?array $Plugins = null;
@@ -25,7 +17,7 @@ class PluginFactory
         return self::$Plugins;
     }
 
-    private static function fetchAllPlugins()
+    private static function fetchAllPlugins(): array
     {
         $data = Cache::get(self::CACHE_KEY);
 
@@ -91,7 +83,7 @@ class PluginFactory
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function newInstance(string $pluginkey): Plugin
     {
@@ -109,6 +101,14 @@ class PluginFactory
         return $this->newInstance(self::keyFor($id));
     }
 
+    /**
+     * @internal SECURITY-SENSITIVE: performs no validation of $Pluginkey whatsoever - `new
+     *           $Pluginkey(...)` instantiates ANY autoloadable class matching that name, not
+     *           just actual plugin classes. Its only current caller,
+     *           PluginController::pluginInstallAction(), validates $Pluginkey against
+     *           notInstalledPlugins() before ever reaching this method; any future caller must do
+     *           the same.
+     */
     public function newInstallerInstance(string $Pluginkey): Plugin
     {
         return new $Pluginkey(PluginInstaller::ID);
@@ -188,6 +188,9 @@ class PluginFactory
         return $keys;
     }
 
+    /**
+     * @return array<int, array{key: string}>
+     */
     public function notInstalledPlugins(): array
     {
         $plugins = [];
@@ -206,6 +209,11 @@ class PluginFactory
         return $plugins;
     }
 
+    /**
+     * @internal SECURITY-SENSITIVE: identical unvalidated `new $Pluginkey(...)` pattern as
+     *           newInstallerInstance() above - no known caller as of this review, but any future
+     *           caller must validate $Pluginkey first (e.g. against notInstalledPlugins()).
+     */
     public function installPlugin(string $Pluginkey)
     {
         $Plugin = new $Pluginkey(PluginInstaller::ID);
@@ -214,7 +222,7 @@ class PluginFactory
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public static function keyFor(int $id): string
     {

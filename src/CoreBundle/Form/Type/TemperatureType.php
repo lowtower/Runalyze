@@ -13,7 +13,7 @@ class TemperatureType extends AbstractUnitBasedType
 {
     protected int $ViewPrecision = 0;
 
-    public function __construct(AbstractTemperatureUnit $temperatureUnit, $modelPrecision = 0)
+    public function __construct(AbstractTemperatureUnit $temperatureUnit, int $modelPrecision = 0)
     {
         $this->ModelPrecision = $modelPrecision;
 

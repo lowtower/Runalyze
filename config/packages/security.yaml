@@ -11,8 +11,8 @@ security:
     firewalls:
         default:
             anonymous: lazy
+            entry_point: security.authentication.form_entry_point.default
             http_basic: ~
-            # user_checker: App\Security\UserChecker
             provider: runalyzeuser
             switch_user: { role: ROLE_ADMIN, parameter: _switch_user }
             user_checker: Runalyze\Bundle\CoreBundle\Services\AccountChecker

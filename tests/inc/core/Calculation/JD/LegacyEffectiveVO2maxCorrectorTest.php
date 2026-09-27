@@ -15,7 +15,16 @@ class LegacyEffectiveVO2maxCorrectorTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
+        \SessionAccountHandler::setAccount([
+            'id' => 0,
+            'username' => 'runalyze',
+            'language' => 'de',
+            'timezone' => '43',
+            'mail' => 'noreply@runalyze.com',
+        ]);
+
         $this->DB = \DB::getInstance();
+        $this->DB->setAccountID(0);
 
         $this->DB->exec('DELETE FROM `runalyze_raceresult`');
         $this->DB->exec('DELETE FROM `runalyze_training`');

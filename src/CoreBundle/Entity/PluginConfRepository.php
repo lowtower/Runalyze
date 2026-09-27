@@ -3,6 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 
 /**
@@ -27,7 +28,7 @@ class PluginConfRepository extends EntityRepository
                 ->setParameter('config', 'fun_ids')
                 ->getQuery()
                 ->getSingleScalarResult();
-        } catch (NoResultException) {
+        } catch (NoResultException|NonUniqueResultException) {
             return [];
         }
 

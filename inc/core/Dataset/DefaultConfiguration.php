@@ -2,11 +2,6 @@
 
 declare(strict_types=1);
 
-/**
- * This file contains class::DefaultConfiguration
- * @package Runalyze
- */
-
 namespace Runalyze\Dataset;
 
 /**
@@ -89,7 +84,7 @@ class DefaultConfiguration extends Configuration
             Keys::FIT_LOAD_PEAK => false,
             Keys::OPEN_TAB => false,
             Keys::FIT_TRAINING_EFFECT_BENEFIT => false,
-            Keys::WITH_GOAL,
+            Keys::WITH_GOAL => false,
         ]);
     }
 
@@ -102,7 +97,7 @@ class DefaultConfiguration extends Configuration
      * Generate data array from base class
      * @param bool[]|int[] $keysArray array(keyid => active(true|false))
      */
-    protected function generateDataFor(array $keysArray)
+    protected function generateDataFor(array $keysArray): void
     {
         foreach ($keysArray as $keyid => $isActive) {
             $keyObject = Keys::get($keyid);

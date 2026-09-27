@@ -2,6 +2,12 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller;
 
+use DataBrowserShared;
+use FrontendShared;
+use FrontendSharedStatistics;
+use PlotMonthSumData;
+use PlotSumData;
+use PlotWeekSumData;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
@@ -17,6 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use TrainingView;
 
 class SharedController extends AbstractController
 {
@@ -40,12 +47,15 @@ class SharedController extends AbstractController
      * @Route("/shared/{activityHash}&{foo}", requirements={"activityHash"="[a-zA-Z0-9]+"})
      * @Route("/shared/{activityHash}", requirements={"activityHash"="[a-zA-Z0-9]+"}, name="shared-activity")
      */
-    public function sharedTrainingAction($activityHash, Request $request): Response
+    public function sharedTrainingAction(string $activityHash, Request $request): Response
     {
-        /** @var null|Training $activity */
-        $activity = $this->getDoctrine()
-            ->getRepository(Training::class)
-            ->find((int) base_convert((string) $activityHash, 35, 10));
+        $activityId = (int) base_convert($activityHash, 35, 10);
+
+        /** @var ?Training $activity */
+        $activity = $activityId > 0
+            ? $this->getDoctrine()
+                ->getRepository(Training::class)->find($activityId)
+            : null;
 
         if ($activity === null || ! $activity->isPublic()) {
             return $this->render('shared/invalid_activity.html.twig');
@@ -61,7 +71,7 @@ class SharedController extends AbstractController
             ->getPrivacy()
             ->isListPublic();
 
-        $Frontend = new \FrontendShared(true, $this->tokenStorage, $this->parameterBag);
+        new FrontendShared(true, $this->tokenStorage, $this->parameterBag);
         $activityContext = $this->get('app.activity_context.factory')
             ->getContext($activity);
         $activityContextLegacy = new Context($activity->getId(), $activity->getAccount()->getId());
@@ -91,7 +101,7 @@ class SharedController extends AbstractController
             'activityUrl' => (new Linker($activityContextLegacy->activity()))->publicUrl(),
             'activityHasRoute' => $hasRoute,
             'metaTitle' => (new Facebook($activityContextLegacy))->metaTitle(),
-            'view' => new \TrainingView($activityContextLegacy),
+            'view' => new TrainingView($activityContextLegacy),
         ]);
     }
 
@@ -124,19 +134,19 @@ class SharedController extends AbstractController
 
         $_GET['user'] = $username;
 
-        $Frontend = new \FrontendShared(true, $this->tokenStorage, $this->parameterBag);
+        new FrontendShared(true, $this->tokenStorage, $this->parameterBag);
 
-        if (isset($_GET['type'])) {
+        if ($request->query->has('type')) {
             return $this->render('shared/athlete/base_plot_sum_data.html.twig', [
                 'username' => $username,
-                'plot' => $this->getPlotSumData(),
+                'plot' => $this->getPlotSumData($request),
             ]);
         }
 
         if ($privacy->isListWithStatistics()) {
             $accountStatistics = $this->getTrainingRepository()
                 ->getAccountStatistics($account);
-            $legacyStatistics = new \FrontendSharedStatistics();
+            $legacyStatistics = new FrontendSharedStatistics();
             $publicList = $this->get('app.configuration_manager')
                 ->getList($account)
                 ->getPrivacy()
@@ -151,7 +161,7 @@ class SharedController extends AbstractController
             'account' => $account,
             'accountStatistics' => $accountStatistics,
             'legacyStatistics' => $legacyStatistics,
-            'dataBrowser' => new \DataBrowserShared(),
+            'dataBrowser' => new DataBrowserShared(),
             'username' => $username,
             'hasPublicList' => $publicList,
         ]);
@@ -180,17 +190,12 @@ class SharedController extends AbstractController
             ], UrlGeneratorInterface::ABSOLUTE_URL))
             ->setFeedAuthor($username);
 
-        if ($account === null || ! $privacy->isListPublic()) {
-            return new Response(
-                $feed->buildFeed(),
-                Response::HTTP_OK,
-                [
-                    'content-type' => 'text/xml',
-                ]
-            );
-        }
-
-        $feed->setActivities($this->getTrainingRepository()->getLatestActivities($account, 20, ! $privacy->isListShowingAllActivities()));
+        $feed->setActivities(
+            $account === null || ! $privacy->isListPublic()
+                ? []
+                : $this->getTrainingRepository()
+                    ->getLatestActivities($account, 20, ! $privacy->isListShowingAllActivities())
+        );
 
         return new Response(
             $feed->buildFeed(),
@@ -201,14 +206,12 @@ class SharedController extends AbstractController
         );
     }
 
-    protected function getPlotSumData(): \PlotSumData
+    protected function getPlotSumData(Request $request): PlotSumData
     {
-        $Request = Request::createFromGlobals();
-
-        if ($Request->query->get('y') === null) {
-            $_GET['y'] = \PlotSumData::LAST_12_MONTHS;
+        if ($request->query->get('y') === null) {
+            $_GET['y'] = PlotSumData::LAST_12_MONTHS;
         }
 
-        return $Request->query->get('type', 'month') == 'week' ? new \PlotWeekSumData() : new \PlotMonthSumData();
+        return $request->query->get('type', 'month') == 'week' ? new PlotWeekSumData() : new PlotMonthSumData();
     }
 }

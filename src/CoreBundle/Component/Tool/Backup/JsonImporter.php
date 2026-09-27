@@ -8,12 +8,12 @@ use Runalyze\Util\File\GZipReader;
 
 class JsonImporter
 {
-    protected \Runalyze\Util\File\GZipReader $Reader;
+    protected GZipReader $Reader;
 
     /**
      * @var array<string, array<int, int>> Maps [table][oldID] = newID
      */
-    protected $ReplaceIDs = [];
+    protected array $ReplaceIDs = [];
 
     protected array $ExistingData = [];
 
@@ -332,7 +332,7 @@ class JsonImporter
                 // Hint: Don't insert this relation, it does exist already!
             } elseif (
                 $tableName === 'runalyze_equipment_to_sport' &&
-                $this->equipmentSporRelationDoesExist($row['sportid'], $row['equipment_id'])
+                $this->equipmentToSportRelationDoesExist($row['sportid'], $row['equipment_id'])
             ) {
                 // Hint: Don't insert this relation, it does exist already!
             } else {
@@ -362,7 +362,7 @@ class JsonImporter
             );
     }
 
-    protected function equipmentSporRelationDoesExist(int $sportid, int $equipmentId): bool
+    protected function equipmentToSportRelationDoesExist(int $sportid, int $equipmentId): bool
     {
         return isset($this->ReplaceIDs['runalyze_sport'][$sportid]) &&
             isset($this->ReplaceIDs['runalyze_equipment'][$equipmentId]) &&
@@ -434,20 +434,14 @@ class JsonImporter
         }
     }
 
-    /**
-     * @return int
-     */
-    private function correctID(string $table, int $id)
+    private function correctID(string $table, int $id): int
     {
         return $this->ReplaceIDs[$table][$id] ?? 0;
     }
 
-    /**
-     * Correct references in configuration
-     */
     private function correctConfigReferences(): void
     {
-        if (isset($_POST['overwrite_config'])) {
+        if ($this->OverwriteConfig) {
             $configValues = Configuration\Handle::tableHandles();
 
             foreach ($configValues as $key => $table) {
@@ -457,7 +451,7 @@ class JsonImporter
                     $oldValue = $this->DB->query('SELECT `value` FROM `' . $this->DatabasePrefix . 'conf` WHERE `key`="' . $key . '" LIMIT 1')->fetchColumn();
                     $newValue = $this->correctID($table, $oldValue);
 
-                    if ($newValue != 0) {
+                    if ($newValue !== 0) {
                         $this->DB->updateWhere('conf', '`key`="' . $key . '"', 'value', $newValue);
                     }
                 }

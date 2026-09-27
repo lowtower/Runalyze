@@ -47,23 +47,23 @@ class VO2maxAnalysis
     protected function getQuery(): string
     {
         return 'SELECT
-				`tr`.`id`,
-				`tr`.`time`,
-				`tr`.`sportid`,
-				`tr`.`distance`,
-				`tr`.`s`,
-				`tr`.`is_track`,
-				`tr`.`title`,
-				`tr`.`pulse_avg`,
-				`tr`.`pulse_max`,
-				`tr`.`vo2max`,
-				`tr`.`vo2max_by_time`
-			FROM `' . PREFIX . 'raceresult` `r` LEFT JOIN `' . PREFIX . 'training` `tr` ON `tr`.`id` = `r`.`activity_id`
-			WHERE
-				`tr`.`pulse_avg` !=0 AND
-				`tr`.`sportid` = ' . $this->RunningSportId . ' AND
-				`r`.`accountid` = ' . $this->AccountId . '
-			ORDER BY `tr`.`time` DESC';
+                `tr`.`id`,
+                `tr`.`time`,
+                `tr`.`sportid`,
+                `tr`.`distance`,
+                `tr`.`s`,
+                `tr`.`is_track`,
+                `tr`.`title`,
+                `tr`.`pulse_avg`,
+                `tr`.`pulse_max`,
+                `tr`.`vo2max`,
+                `tr`.`vo2max_by_time`
+            FROM `' . PREFIX . 'raceresult` `r` LEFT JOIN `' . PREFIX . 'training` `tr` ON `tr`.`id` = `r`.`activity_id`
+            WHERE
+                `tr`.`pulse_avg` !=0 AND
+                `tr`.`sportid` = ' . $this->RunningSportId . ' AND
+                `r`.`accountid` = ' . $this->AccountId . '
+            ORDER BY `tr`.`time` DESC';
     }
 
     /**

@@ -2,6 +2,10 @@
 
 namespace Runalyze\Bundle\CoreBundle\Component\Account;
 
+use Doctrine\Persistence\ObjectManager;
+use InvalidArgumentException;
+use LogicException;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Conf;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
@@ -17,13 +21,13 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class Registration
 {
     /**
-     * @var object[]
+     * @var array<string, Sport|EquipmentType>
      */
-    protected $specialVars;
+    protected array $specialVars;
 
     public function __construct(
-        protected \Doctrine\Persistence\ObjectManager $em,
-        protected \Runalyze\Bundle\CoreBundle\Entity\Account $Account,
+        protected ObjectManager $em,
+        protected Account $Account,
         protected UserPasswordEncoderInterface $passwordEncoder
     ) {
     }
@@ -36,14 +40,11 @@ class Registration
         $this->Account->setActivationHash(self::getNewSalt());
     }
 
-    /**
-     * @param string $timezoneName
-     */
-    public function setTimezoneByName($timezoneName): void
+    public function setTimezoneByName(string $timezoneName): void
     {
         try {
             $this->Account->setTimezone(Timezone::getEnumByOriginalName($timezoneName));
-        } catch (\InvalidArgumentException) {
+        } catch (InvalidArgumentException) {
             $this->Account->setTimezone(Timezone::getEnumByOriginalName(date_default_timezone_get()));
         }
     }
@@ -214,7 +215,6 @@ class Registration
         $this->specialVars['EQUIPMENT_CLOTHES'] = $equipmentClothes;
         $this->specialVars['EQUIPMENT_SHOES'] = $equipmentShoes;
         $this->specialVars['EQUIPMENT_BIKES'] = $equipmentBikes;
-
     }
 
     private function setSpecialVars(): void
@@ -233,7 +233,7 @@ class Registration
             $Conf->setAccount($this->Account);
             $Conf->setCategory('general');
             $Conf->setKey($cKey);
-            $Conf->setValue($this->specialVars['RUNNINGSPORT']->getId());
+            $Conf->setValue((string) $this->specialVars['RUNNINGSPORT']->getId());
             $this->em->persist($Conf);
         }
 
@@ -252,7 +252,7 @@ class Registration
         $this->em->clear();
     }
 
-    public function registerAccount(): \Runalyze\Bundle\CoreBundle\Entity\Account
+    public function registerAccount(): Account
     {
         $this->em->persist($this->Account);
         $this->em->flush();
@@ -262,36 +262,36 @@ class Registration
     }
 
     /**
-     * @return Sport
+     * @throws LogicException if the account has not been registered yet
      */
-    public function getRegisteredSportForRunning()
+    public function getRegisteredSportForRunning(): Sport
     {
         if (! isset($this->specialVars['RUNNINGSPORT'])) {
-            throw new \LogicException('Account has to be registered first.');
+            throw new LogicException('Account has to be registered first.');
         }
 
         return $this->specialVars['RUNNINGSPORT'];
     }
 
     /**
-     * @return Sport
+     * @throws LogicException if the account has not been registered yet
      */
-    public function getRegisteredSportForCycling()
+    public function getRegisteredSportForCycling(): Sport
     {
         if (! isset($this->specialVars['BIKESPORT'])) {
-            throw new \LogicException('Account has to be registered first.');
+            throw new LogicException('Account has to be registered first.');
         }
 
         return $this->specialVars['BIKESPORT'];
     }
 
     /**
-     * @return EquipmentType
+     * @throws LogicException if the account has not been registered yet
      */
-    public function getRegisteredEquipmentTypeClothes()
+    public function getRegisteredEquipmentTypeClothes(): EquipmentType
     {
         if (! isset($this->specialVars['EQUIPMENT_CLOTHES'])) {
-            throw new \LogicException('Account has to be registered first.');
+            throw new LogicException('Account has to be registered first.');
         }
 
         return $this->specialVars['EQUIPMENT_CLOTHES'];

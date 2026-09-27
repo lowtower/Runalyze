@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Profile\View;
 
+use InvalidArgumentException;
 use Runalyze\Common\Enum\AbstractEnum;
 use Runalyze\Util\InterfaceChoosable;
 
@@ -25,15 +26,15 @@ class DataBrowserRowProfile extends AbstractEnum implements InterfaceChoosable
     public const INHERIT_FROM_PARENT = 2;
 
     /**
-     * @param int $id id from internal enum
+     * @throws InvalidArgumentException if $id does not match a known enum value
      */
-    public static function stringFor($id): string
+    public static function stringFor(int $id): string
     {
         return match ($id) {
             self::COMPLETE_ROW => __('complete row'),
             self::ONLY_ICON => __('only icon'),
             self::INHERIT_FROM_PARENT => __('Inherit from sport'),
-            default => throw new \InvalidArgumentException('Invalid databrowser row id "' . $id . '".'),
+            default => throw new InvalidArgumentException('Invalid databrowser row id "' . $id . '".'),
         };
     }
 

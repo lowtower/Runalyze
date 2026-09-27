@@ -3,26 +3,22 @@
 namespace Runalyze\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use InvalidArgumentException;
 use League\Geotools\Coordinate\Coordinate;
 use League\Geotools\Geohash\Geohash;
 use Runalyze\Bundle\CoreBundle\Entity\Adapter\RouteAdapter;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
+use Runalyze\Bundle\CoreBundle\EntityListener\RouteListener;
 use Runalyze\Calculation\Route\GeohashLine;
 
 #[ORM\Table(name: 'route')]
 #[ORM\Entity(repositoryClass: RouteRepository::class)]
-#[ORM\EntityListeners([\Runalyze\Bundle\CoreBundle\EntityListener\RouteListener::class])]
+#[ORM\EntityListeners([RouteListener::class])]
 #[ORM\HasLifecycleCallbacks]
 class Route implements AccountRelatedEntityInterface
 {
-    /**
-     * @var int
-     */
     public const PATH_GEOHASH_PRECISION = 12;
 
-    /**
-     * @var int
-     */
     public const BOUNDARIES_GEOHASH_PRECISION = 10;
 
     #[ORM\Column(name: 'id', type: 'integer', precision: 10, nullable: false, options: [
@@ -48,7 +44,7 @@ class Route implements AccountRelatedEntityInterface
     #[ORM\Column(name: 'distance', type: 'casted_decimal_2', precision: 6, scale: 2, options: [
         'unsigned' => true,
     ])]
-    private ?float $distance = 0.0;
+    private float $distance = 0.0;
 
     /**
      * @var int [m]
@@ -78,13 +74,13 @@ class Route implements AccountRelatedEntityInterface
     private ?array $geohashes = null;
 
     /**
-     * @var array|null [m]
+     * @var ?array [m]
      */
     #[ORM\Column(name: 'elevations_original', type: 'pipe_array', nullable: true)]
     private ?array $elevationsOriginal = null;
 
     /**
-     * @var array|null [m]
+     * @var ?array [m]
      */
     #[ORM\Column(name: 'elevations_corrected', type: 'pipe_array', nullable: true)]
     private ?array $elevationsCorrected = null;
@@ -279,13 +275,15 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @param array<int, mixed> $latitudes
      * @param array<int, mixed> $longitudes
+     *
+     * @throws InvalidArgumentException if the latitude and longitude arrays differ in length
      */
     public function setLatitudesAndLongitudes(array $latitudes, array $longitudes): self
     {
         $size = count($latitudes);
 
         if ($size !== count($longitudes)) {
-            throw new \InvalidArgumentException('Latitude and longitude array must be of same length.');
+            throw new InvalidArgumentException('Latitude and longitude array must be of same length.');
         }
 
         $latitudes = array_map(fn ($value): float => ($value == '') ? 0.0 : (float) $value, $latitudes);
@@ -339,7 +337,7 @@ class Route implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $elevationsOriginal [m]
+     * @param ?array $elevationsOriginal [m]
      */
     public function setElevationsOriginal(?array $elevationsOriginal = null): self
     {
@@ -349,7 +347,7 @@ class Route implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return array|null [m]
+     * @return ?array [m]
      */
     public function getElevationsOriginal(): ?array
     {
@@ -357,7 +355,7 @@ class Route implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $elevationsCorrected [m]
+     * @param ?array $elevationsCorrected [m]
      */
     public function setElevationsCorrected(?array $elevationsCorrected = null): self
     {
@@ -367,7 +365,7 @@ class Route implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return array|null [m]
+     * @return ?array [m]
      */
     public function getElevationsCorrected(): ?array
     {
@@ -375,7 +373,7 @@ class Route implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return array|null [m]
+     * @return ?array [m]
      */
     public function getElevations(): ?array
     {
@@ -485,12 +483,9 @@ class Route implements AccountRelatedEntityInterface
         return $this->max;
     }
 
-    /**
-     * @param bool $flag
-     */
-    public function setInRoutenet($flag): self
+    public function setInRoutenet(bool $flag): self
     {
-        $this->inRoutenet = (bool) $flag;
+        $this->inRoutenet = $flag;
 
         return $this;
     }
@@ -545,7 +540,7 @@ class Route implements AccountRelatedEntityInterface
         return $this->areMinMaxSynchronized;
     }
 
-    public function getAdapter(): Adapter\RouteAdapter
+    public function getAdapter(): RouteAdapter
     {
         $this->Adapter = new RouteAdapter($this);
 

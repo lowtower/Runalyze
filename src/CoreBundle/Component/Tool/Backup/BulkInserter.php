@@ -4,43 +4,25 @@ namespace Runalyze\Bundle\CoreBundle\Component\Tool\Backup;
 
 class BulkInserter
 {
-    /**
-     * @var \PDOStatement
-     */
-    protected $Statement;
+    protected \PDOStatement $Statement;
 
     protected \PDOforRunalyze $DB;
 
-    /**
-     * Start new bulk insert
-     * @param string $tableName
-     * @param int $accountID
-     * @param string $databasePrefix
-     */
-    public function __construct($tableName, array $columns, $accountID, $databasePrefix)
+    public function __construct(string $tableName, array $columns, int $accountID, string $databasePrefix)
     {
         $this->DB = \DB::getInstance();
 
         $this->prepareStatement($tableName, $columns, $accountID, $databasePrefix);
     }
 
-    /**
-     * @param string $tableName
-     * @param int $accountID
-     * @param string $databasePrefix
-     */
-    protected function prepareStatement($tableName, array $columns, $accountID, $databasePrefix)
+    protected function prepareStatement(string $tableName, array $columns, int $accountID, string $databasePrefix): void
     {
         $tableName = str_replace('runalyze_', $databasePrefix, $tableName);
         $PreparedColumns = '`' . implode('`,`', $columns) . '`';
         $PreparedValues = implode(',', array_fill(0, count($columns), '?'));
 
         if (
-            $accountID !== false &&
-            $tableName != $databasePrefix . 'equipment_sport' &&
-            $tableName != $databasePrefix . 'equipment_to_sport' &&
-            $tableName != $databasePrefix . 'activity_equipment' &&
-            $tableName != $databasePrefix . 'activity_tag'
+            ! in_array($tableName, [$databasePrefix . 'equipment_sport', $databasePrefix . 'equipment_to_sport', $databasePrefix . 'activity_equipment', $databasePrefix . 'activity_tag'], true)
         ) {
             $PreparedColumns .= ',`accountid`';
             $PreparedValues .= ',' . $accountID;

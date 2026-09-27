@@ -2,19 +2,24 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\Settings;
 
+use Frontend;
 use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Dataset;
 use Runalyze\Bundle\CoreBundle\Entity\DatasetRepository;
+use Runalyze\Bundle\CoreBundle\Entity\Equipment;
+use Runalyze\Bundle\CoreBundle\Entity\Tag;
 use Runalyze\Bundle\CoreBundle\Form\Settings\AccountType;
 use Runalyze\Bundle\CoreBundle\Form\Settings\ChangeMailType;
 use Runalyze\Bundle\CoreBundle\Form\Settings\ChangePasswordType;
 use Runalyze\Bundle\CoreBundle\Form\Settings\DatasetCollectionType;
+use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Sha256SaltedEncoder;
 use Runalyze\Configuration;
-use Runalyze\Dataset as RunalyzeDataset;
+use Runalyze\Dataset\Context;
 use Runalyze\Dataset\DefaultConfiguration;
 use Runalyze\Dataset\Keys;
 use Runalyze\Language;
@@ -25,6 +30,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SettingsController extends AbstractController
@@ -53,12 +59,13 @@ class SettingsController extends AbstractController
 
     /**
      * @Route("/settings/account", name="settings-account")
+     * @throws AccessDeniedException
      */
     public function settingsAccountAction(Request $request, Account $account): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
+        new Frontend(true, $this->tokenStorage, $this->parameterBag);
 
         $currentLanguage = $account->getLanguage();
         $form = $this->createForm(AccountType::class, $account, [
@@ -73,8 +80,9 @@ class SettingsController extends AbstractController
                 Configuration::resetConfiguration($account->getId());
                 $this->addFlash('success', $this->translator->trans('Default configuration has been restored!'));
 
-                $this->get('app.automatic_reload_flag_setter')
-                    ->set(AutomaticReloadFlagSetter::FLAG_ALL);
+                /** @var AutomaticReloadFlagSetter $automaticReloadFlagSetter */
+                $automaticReloadFlagSetter = $this->get('app.automatic_reload_flag_setter');
+                $automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_ALL);
             }
 
             if (isset($formdata['language'])) {
@@ -83,8 +91,9 @@ class SettingsController extends AbstractController
                 Language::setLanguage($formdata['language']);
 
                 if ($account->getLanguage() !== $currentLanguage) {
-                    $this->get('app.automatic_reload_flag_setter')
-                        ->set(AutomaticReloadFlagSetter::FLAG_PAGE);
+                    /** @var AutomaticReloadFlagSetter $automaticReloadFlagSetter */
+                    $automaticReloadFlagSetter = $this->get('app.automatic_reload_flag_setter');
+                    $automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_PAGE);
                 }
             }
 
@@ -102,6 +111,7 @@ class SettingsController extends AbstractController
 
     /**
      * @Route("/settings/password", name="settings-password")
+     * @throws AccessDeniedException
      */
     public function settingsPasswordAction(Request $request, Account $account): Response
     {
@@ -129,6 +139,7 @@ class SettingsController extends AbstractController
 
     /**
      * @Route("/settings/mail", name="settings-mail")
+     * @throws AccessDeniedException
      */
     public function settingsMailAction(Request $request, Account $account): Response
     {
@@ -150,7 +161,7 @@ class SettingsController extends AbstractController
         ]);
     }
 
-    protected function encodePassword(Account $account)
+    protected function encodePassword(Account $account): void
     {
         $account->setNewSalt();
         $account->setPassword($this->encoder->encodePassword($account->getPlainPassword(), $account->getSalt()));
@@ -158,6 +169,7 @@ class SettingsController extends AbstractController
 
     /**
      * @Route("/settings/account/delete", name="settings-account-delete")
+     * @throws AccessDeniedException
      */
     public function windowDeleteAction(Account $account): Response
     {
@@ -167,14 +179,16 @@ class SettingsController extends AbstractController
         $this->getAccountRepository()
             ->save($account);
 
-        $this->get('app.mailer.account')
-            ->sendDeleteLinkTo($account);
+        /** @var AccountMailer $accountMailer */
+        $accountMailer = $this->get('app.mailer.account');
+        $accountMailer->sendDeleteLinkTo($account);
 
         return $this->render('settings/account-delete.html.twig');
     }
 
     /**
      * @Route("/settings/dataset", name="settings-dataset-update", methods={"POST"})
+     * @throws AccessDeniedException
      */
     public function datasetPostAction(Account $account, Request $request): RedirectResponse
     {
@@ -191,7 +205,7 @@ class SettingsController extends AbstractController
         ]);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             foreach ($form->get('datasets')->getData() as $datasetObject) {
                 /** @var Dataset $datasetObject */
                 $datasetObject->setAccount($account);
@@ -199,8 +213,9 @@ class SettingsController extends AbstractController
             }
 
             $em->flush();
-            $this->get('app.automatic_reload_flag_setter')
-                ->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
+            /** @var AutomaticReloadFlagSetter $automaticReloadFlagSetter */
+            $automaticReloadFlagSetter = $this->get('app.automatic_reload_flag_setter');
+            $automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
         }
 
         return $this->redirectToRoute('settings-dataset');
@@ -208,16 +223,17 @@ class SettingsController extends AbstractController
 
     /**
      * @Route("/settings/dataset", name="settings-dataset", methods={"GET"})
+     * @throws AccessDeniedException
      */
     public function datasetAction(Account $account, Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
+        new Frontend(true, $this->tokenStorage, $this->parameterBag);
 
         $dataset = $this->getDatasetRepository()
             ->findAllFor($account);
-        $missingKeyObjects = array_flip(RunalyzeDataset\Keys::getEnum());
+        $missingKeyObjects = array_flip(Keys::getEnum());
         $numberOfExistingKeys = count($dataset);
 
         foreach ($dataset as $datasetObject) {
@@ -237,11 +253,11 @@ class SettingsController extends AbstractController
 
         return $this->render('settings/dataset.html.twig', [
             'form' => $form->createView(),
-            'datasetKeys' => new RunalyzeDataset\Keys(),
+            'datasetKeys' => new Keys(),
             'missingKeys' => $missingKeyObjects,
             'defaultConfiguration' => (new DefaultConfiguration())->data(),
             'numberOfExistingKeys' => $numberOfExistingKeys,
-            'context' => new RunalyzeDataset\Context($this->getExampleTraining($account), $account->getId()),
+            'context' => new Context($this->getExampleTraining($account), $account->getId()),
         ]);
     }
 
@@ -250,8 +266,9 @@ class SettingsController extends AbstractController
      */
     protected function getExampleTraining(Account $account): array
     {
-        $configuration = $this->get('app.configuration_manager')
-            ->getList();
+        /** @var ConfigurationManager $configurationManager */
+        $configurationManager = $this->get('app.configuration_manager');
+        $configuration = $configurationManager->getList();
 
         return [
             'id' => 0,
@@ -331,7 +348,7 @@ class SettingsController extends AbstractController
     protected function exampleTagID(Account $account): string
     {
         $tag = $this->getDoctrine()
-            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Tag::class)
+            ->getRepository(Tag::class)
             ->findBy([
                 'account' => $account->getId(),
             ], null, 1);
@@ -347,7 +364,7 @@ class SettingsController extends AbstractController
     {
         $ids = [];
         $equipment = $this->getDoctrine()
-            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Equipment::class)
+            ->getRepository(Equipment::class)
             ->findBy([
                 'account' => $account->getId(),
             ], null, 2);

@@ -12,12 +12,8 @@ class NotificationRepository extends EntityRepository
     /**
      * @return Notification[]
      */
-    public function findAll(?Account $account = null): array
+    public function findAllFor(Account $account): array
     {
-        if (! $account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account) {
-            throw new \LogicException('Finding all notifications is only possible for a specific account.');
-        }
-
         return $this->findAllSince(null, $account);
     }
 
@@ -61,9 +57,6 @@ class NotificationRepository extends EntityRepository
         $this->_em->clear();
     }
 
-    /**
-     * @return int number of removed notifications
-     */
     public function removeExpiredNotifications(): int
     {
         $numDeleted = $this->createQueryBuilder('n')

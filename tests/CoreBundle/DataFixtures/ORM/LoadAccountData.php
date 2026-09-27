@@ -26,7 +26,10 @@ class LoadAccountData extends AbstractFixture implements OrderedFixtureInterface
     {
         $emptyAccount = new Account();
         $emptyAccount->setUsername('empty');
-        $emptyAccount->setMail('empty@test.com');
+        // example.test is reserved for testing/documentation purposes (RFC 2606) and is not a
+        // real, registrable domain, unlike test.com - which ContainsDisposableMailAddress()
+        // rejects as a known disposable-email domain.
+        $emptyAccount->setMail('empty@example.test');
         $emptyAccount->setPassword('emptyPassword');
 
         $manager->persist($emptyAccount);
@@ -39,9 +42,9 @@ class LoadAccountData extends AbstractFixture implements OrderedFixtureInterface
     {
         $defaultAccount = new Account();
         $defaultAccount->setUsername('default');
-        $defaultAccount->setMail('default@test.com');
+        $defaultAccount->setMail('default@example.test');
 
-        // creates a account and some dependend basic/default data
+        // creates an account and some dependend basic/default data
         $registration = $this->registerAccount($manager, $defaultAccount, 'defaultPassword');
 
         $this->addReference('account-default', $defaultAccount);
@@ -50,12 +53,12 @@ class LoadAccountData extends AbstractFixture implements OrderedFixtureInterface
         $this->addReference('account-default.equipment-type-clothes', $registration->getRegisteredEquipmentTypeClothes());
     }
 
-    protected function registerAccount(ObjectManager $manager, Account $account, $password): \Runalyze\Bundle\CoreBundle\Component\Account\Registration
+    protected function registerAccount(ObjectManager $manager, Account $account, string $password): Registration
     {
         $registration = new Registration($manager, $account, $this->passwordEncoder);
 
-        if ($this->passwordEncoder instanceof \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface) {
-            #            $account->setPassword($encoder->encodePassword($password, $account->getSalt()));
+        if ($this->passwordEncoder instanceof UserPasswordEncoderInterface) {
+            # $account->setPassword($encoder->encodePassword($password, $account->getSalt()));
             $account->setPassword($this->passwordEncoder->encodePassword($account, $password));
         } else {
             // Fallback for testing environments where the encoder factory is not available

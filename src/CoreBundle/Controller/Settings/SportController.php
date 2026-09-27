@@ -11,7 +11,8 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Bundle\CoreBundle\Entity\TypeRepository;
-use Runalyze\Bundle\CoreBundle\Form;
+use Runalyze\Bundle\CoreBundle\Form\Settings\SportType;
+use Runalyze\Bundle\CoreBundle\Form\Settings\SportTypeType;
 use Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter;
 use Runalyze\Profile\Sport\SportProfile;
 use Runalyze\Profile\View\DataBrowserRowProfile;
@@ -20,6 +21,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -49,6 +51,7 @@ class SportController extends AbstractController
 
     /**
      * @Route("", name="settings-sports")
+     * @throws AccessDeniedException
      */
     public function overviewAction(Account $account): Response
     {
@@ -66,8 +69,9 @@ class SportController extends AbstractController
 
     /**
      * @Route("/{sportid}/type/add", name="sport-type-add", requirements={"sportid"="\d+"})
+     * @throws AccessDeniedException
      */
-    public function typeAddAction(Request $request, int $sportid, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+    public function typeAddAction(Request $request, int $sportid, Account $account): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -77,7 +81,7 @@ class SportController extends AbstractController
         $type = new Type();
         $type->setAccount($account);
 
-        $form = $this->createForm(Form\Settings\SportTypeType::class, $type, [
+        $form = $this->createForm(SportTypeType::class, $type, [
             'action' => $this->generateUrl('sport-type-add', [
                 'sportid' => $sportid,
             ]),
@@ -88,8 +92,10 @@ class SportController extends AbstractController
             $type->setSport($em->getReference(Sport::class, $sportid));
             $this->getTypeRepository()
                 ->save($type);
-            $this->get('app.automatic_reload_flag_setter')
-                ->set(AutomaticReloadFlagSetter::FLAG_PLUGINS);
+            /** @var AutomaticReloadFlagSetter $automaticReloadFlagSetter */
+            $automaticReloadFlagSetter = $this->get('app.automatic_reload_flag_setter');
+            $automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_PLUGINS);
+
             return $this->redirectToRoute('sport-edit', [
                 'id' => $sportid,
             ]);
@@ -103,8 +109,9 @@ class SportController extends AbstractController
 
     /**
      * @Route("/type/{id}/edit", name="sport-type-edit", requirements={"id"="\d+"})
+     * @throws AccessDeniedException
      */
-    public function typeEditAction(Request $request, int $id, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+    public function typeEditAction(Request $request, int $id, Account $account): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -114,7 +121,7 @@ class SportController extends AbstractController
             throw $this->createNotFoundException('Type not found or access denied.');
         }
 
-        $form = $this->createForm(Form\Settings\SportTypeType::class, $type, [
+        $form = $this->createForm(SportTypeType::class, $type, [
             'action' => $this->generateUrl('sport-type-edit', [
                 'id' => $type->getId(),
             ]),
@@ -124,8 +131,9 @@ class SportController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getTypeRepository()
                 ->save($type);
-            $this->get('app.automatic_reload_flag_setter')
-                ->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
+            /** @var AutomaticReloadFlagSetter $automaticReloadFlagSetter */
+            $automaticReloadFlagSetter = $this->get('app.automatic_reload_flag_setter');
+            $automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
 
             return $this->redirectToRoute('sport-type-edit', [
                 'id' => $type->getId(),
@@ -141,6 +149,7 @@ class SportController extends AbstractController
 
     /**
      * @Route("/type/{id}/delete", name="sport-type-delete", requirements={"id"="\d+"})
+     * @throws AccessDeniedException
      */
     public function deleteSportTypeAction(Request $request, int $id, Account $account, TranslatorInterface $translator): RedirectResponse
     {
@@ -148,6 +157,7 @@ class SportController extends AbstractController
 
         if (! $this->isCsrfTokenValid('deleteSportType', $request->get('t'))) {
             $this->addFlash('error', $translator->trans('Invalid token.'));
+
             return $this->redirectToRoute('settings-sports');
         }
 
@@ -163,8 +173,9 @@ class SportController extends AbstractController
                 ->getManager();
             $em->remove($type);
             $em->flush();
-            $this->get('app.automatic_reload_flag_setter')
-                ->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
+            /** @var AutomaticReloadFlagSetter $automaticReloadFlagSetter */
+            $automaticReloadFlagSetter = $this->get('app.automatic_reload_flag_setter');
+            $automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
             $this->addFlash('success', $translator->trans('The object has been deleted.'));
         } else {
             $this->addFlash('error', $translator->trans('Object cannot be deleted.') . ' ' . $translator->trans('You have activities associated with this type.'));
@@ -176,16 +187,17 @@ class SportController extends AbstractController
     /**
      * @Route("/add/{internalType}", name="sport-add", requirements={"internalType"="\d+"})
      * @Route("/add/custom", name="sport-add-custom")
+     * @throws AccessDeniedException
      */
-    public function sportAddAction(Request $request, Account $account, $internalType = null): Response
+    public function sportAddAction(Request $request, Account $account, ?string $internalType = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $sport = new Sport();
         $sport->setAccount($account);
 
-        if ($internalType !== null && $this->getSportRepository()->isInternalTypeFree($internalType, $account)) {
-            $sport->setDataFrom(SportProfile::get($internalType));
+        if ($internalType !== null && $this->getSportRepository()->isInternalTypeFree((int) $internalType, $account)) {
+            $sport->setDataFrom(SportProfile::get((int) $internalType));
             $this->getSportRepository()
                 ->save($sport);
 
@@ -194,7 +206,7 @@ class SportController extends AbstractController
             ]);
         }
 
-        $form = $this->createForm(Form\Settings\SportType::class, $sport, [
+        $form = $this->createForm(SportType::class, $sport, [
             'action' => $this->generateUrl('sport-add'),
         ]);
         $form->handleRequest($request);
@@ -202,8 +214,9 @@ class SportController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getSportRepository()
                 ->save($sport);
-            $this->get('app.automatic_reload_flag_setter')
-                ->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
+            /** @var AutomaticReloadFlagSetter $automaticReloadFlagSetter */
+            $automaticReloadFlagSetter = $this->get('app.automatic_reload_flag_setter');
+            $automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
 
             return $this->redirectToRoute('sport-edit', [
                 'id' => $sport->getId(),
@@ -217,8 +230,9 @@ class SportController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="sport-edit", requirements={"id"="\d+"})
+     * @throws AccessDeniedException
      */
-    public function sportEditAction(Request $request, int $id, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+    public function sportEditAction(Request $request, int $id, Account $account): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -228,7 +242,7 @@ class SportController extends AbstractController
             throw $this->createNotFoundException('Sport not found or access denied.');
         }
 
-        $form = $this->createForm(Form\Settings\SportType::class, $sport, [
+        $form = $this->createForm(SportType::class, $sport, [
             'action' => $this->generateUrl('sport-edit', [
                 'id' => $sport->getId(),
             ]),
@@ -238,8 +252,9 @@ class SportController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getSportRepository()
                 ->save($sport);
-            $this->get('app.automatic_reload_flag_setter')
-                ->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
+            /** @var AutomaticReloadFlagSetter $automaticReloadFlagSetter */
+            $automaticReloadFlagSetter = $this->get('app.automatic_reload_flag_setter');
+            $automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
 
             return $this->redirectToRoute('sport-edit', [
                 'id' => $sport->getId(),
@@ -257,6 +272,7 @@ class SportController extends AbstractController
 
     /**
      * @Route("/{id}/delete", name="sport-delete", requirements={"id"="\d+"})
+     * @throws AccessDeniedException
      */
     public function sportDeleteAction(Request $request, int $id, Account $account, TranslatorInterface $translator): RedirectResponse
     {
@@ -264,6 +280,7 @@ class SportController extends AbstractController
 
         if (! $this->isCsrfTokenValid('deleteSport', $request->get('t'))) {
             $this->addFlash('error', $translator->trans('Invalid token.'));
+
             return $this->redirectToRoute('settings-sports');
         }
 
@@ -279,8 +296,9 @@ class SportController extends AbstractController
                 ->getManager();
             $em->remove($sport);
             $em->flush();
-            $this->get('app.automatic_reload_flag_setter')
-                ->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
+            /** @var AutomaticReloadFlagSetter $automaticReloadFlagSetter */
+            $automaticReloadFlagSetter = $this->get('app.automatic_reload_flag_setter');
+            $automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
             $this->addFlash('success', $translator->trans('The object has been deleted.'));
         } else {
             $this->addFlash('error', $translator->trans('Object cannot be deleted.') . ' ' . $translator->trans('You have activities associated with this sport.'));

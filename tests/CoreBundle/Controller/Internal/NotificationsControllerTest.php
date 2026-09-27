@@ -37,6 +37,39 @@ class NotificationsControllerTest extends AbstractFixturesAwareWebTestCase
         return $notification->getId();
     }
 
+    protected function reloadNotification(int $id): ?Notification
+    {
+        $this->EntityManager->clear();
+
+        return $this->NotificationRepository->find($id);
+    }
+
+    public function testThatReadAllNotificationsActionMarksNotificationAsReadForCurrentAccount(): void
+    {
+        $id = $this->insertMessageFor($this->Account);
+
+        $client = $this->makeClient();
+        $this->loginClient($client, $this->getDefaultAccount(), 'default');
+        $client->request('GET', '/_internal/notifications/read/all');
+
+        $this->isSuccessful($client->getResponse());
+        $this->assertTrue($this->reloadNotification($id)->wasRead());
+    }
+
+    public function testThatReadAllNotificationsActionDoesNotAffectNotificationsOfOtherAccounts(): void
+    {
+        $ownNotificationId = $this->insertMessageFor($this->Account);
+        $otherAccountNotificationId = $this->insertMessageFor($this->getEmptyAccount());
+
+        $client = $this->makeClient();
+        $this->loginClient($client, $this->getDefaultAccount(), 'default');
+        $client->request('GET', '/_internal/notifications/read/all');
+
+        $this->isSuccessful($client->getResponse());
+        $this->assertTrue($this->reloadNotification($ownNotificationId)->wasRead());
+        $this->assertFalse($this->reloadNotification($otherAccountNotificationId)->wasRead());
+    }
+
     public function testThatReadNotificationThrowsAccessDeniedForUnknownId(): void
     {
         $client = $this->makeAuthenticatedClient();

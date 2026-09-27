@@ -2,6 +2,8 @@
 
 namespace Runalyze\Bundle\CoreBundle\Component\Configuration;
 
+use InvalidArgumentException;
+use LogicException;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\AbstractCategory;
 
 class RunalyzeConfigurationList extends ConfigurationList
@@ -48,7 +50,7 @@ class RunalyzeConfigurationList extends ConfigurationList
         }
     }
 
-    protected function setCategoryMap()
+    protected function setCategoryMap(): void
     {
         $this->CategoryMap = [
             'activity-form' => Category\ActivityForm::class,
@@ -64,7 +66,7 @@ class RunalyzeConfigurationList extends ConfigurationList
         ];
     }
 
-    protected function loadDefaultVariablesFromCategories()
+    protected function loadDefaultVariablesFromCategories(): void
     {
         foreach ($this->CategoryMap as $categoryKey => $className) {
             /** @var AbstractCategory $category */
@@ -77,18 +79,20 @@ class RunalyzeConfigurationList extends ConfigurationList
     }
 
     /**
-     * @param string $categoryName
      * @return Category\AbstractCategory This category is not persistent, it's created on each call.
+     *
+     * @throws InvalidArgumentException if the category name is not mapped in CategoryMap
+     * @throws LogicException if the mapped class does not exist or does not extend AbstractCategory
      */
-    protected function getCategory($categoryName)
+    protected function getCategory(string $categoryName): Category\AbstractCategory
     {
         if (! isset($this->CategoryPool[$categoryName])) {
             if (! isset($this->CategoryMap[$categoryName])) {
-                throw new \InvalidArgumentException('Unknown category key "' . $categoryName . '".');
+                throw new InvalidArgumentException('Unknown category key "' . $categoryName . '".');
             }
 
             if (! class_exists($this->CategoryMap[$categoryName]) || ! is_subclass_of($this->CategoryMap[$categoryName], AbstractCategory::class)) {
-                throw new \LogicException('Category must be mapped to an class extending AbstractCategory.');
+                throw new LogicException('Category must be mapped to an class extending AbstractCategory.');
             }
 
             $this->CategoryPool[$categoryName] = new $this->CategoryMap[$categoryName]($this->getDataForPrefix($categoryName));
@@ -97,10 +101,7 @@ class RunalyzeConfigurationList extends ConfigurationList
         return $this->CategoryPool[$categoryName];
     }
 
-    /**
-     * @param string $prefix
-     */
-    protected function getDataForPrefix($prefix): array
+    protected function getDataForPrefix(string $prefix): array
     {
         $prefix .= '.';
         $prefixLength = strlen($prefix);
@@ -122,6 +123,7 @@ class RunalyzeConfigurationList extends ConfigurationList
     {
         /** @var Category\ActivityForm $category */
         $category = $this->getCategory('activity-form');
+
         return $category;
     }
 
@@ -132,6 +134,7 @@ class RunalyzeConfigurationList extends ConfigurationList
     {
         /** @var Category\ActivityView $category */
         $category = $this->getCategory('activity-view');
+
         return $category;
     }
 
@@ -142,6 +145,7 @@ class RunalyzeConfigurationList extends ConfigurationList
     {
         /** @var Category\BasicEndurance $category */
         $category = $this->getCategory('basic-endurance');
+
         return $category;
     }
 
@@ -152,6 +156,7 @@ class RunalyzeConfigurationList extends ConfigurationList
     {
         /** @var Category\Data $category */
         $category = $this->getCategory('data');
+
         return $category;
     }
 
@@ -162,6 +167,7 @@ class RunalyzeConfigurationList extends ConfigurationList
     {
         /** @var Category\DataBrowser $category */
         $category = $this->getCategory('data-browser');
+
         return $category;
     }
 
@@ -172,6 +178,7 @@ class RunalyzeConfigurationList extends ConfigurationList
     {
         /** @var Category\Design $category */
         $category = $this->getCategory('design');
+
         return $category;
     }
 
@@ -182,6 +189,7 @@ class RunalyzeConfigurationList extends ConfigurationList
     {
         /** @var Category\General $category */
         $category = $this->getCategory('general');
+
         return $category;
     }
 
@@ -192,6 +200,7 @@ class RunalyzeConfigurationList extends ConfigurationList
     {
         /** @var Category\Privacy $category */
         $category = $this->getCategory('privacy');
+
         return $category;
     }
 
@@ -202,6 +211,7 @@ class RunalyzeConfigurationList extends ConfigurationList
     {
         /** @var Category\Trimp $category */
         $category = $this->getCategory('trimp');
+
         return $category;
     }
 
@@ -212,12 +222,13 @@ class RunalyzeConfigurationList extends ConfigurationList
     {
         /** @var Category\VO2max $category */
         $category = $this->getCategory('vo2max');
+
         return $category;
     }
 
     public function getUnitSystem(): UnitSystem
     {
-        if (! $this->UnitSystem instanceof \Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem) {
+        if (! $this->UnitSystem instanceof UnitSystem) {
             $this->UnitSystem = new UnitSystem($this);
         }
 

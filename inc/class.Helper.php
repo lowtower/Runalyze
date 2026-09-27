@@ -1,9 +1,6 @@
 <?php
 
-/**
- * This file contains class::Helper
- * @package Runalyze
- */
+declare(strict_types=1);
 
 use Runalyze\Configuration;
 
@@ -60,17 +57,16 @@ class Helper
 
     /**
      * Get a special $string if $var is not set
-     * @param mixed $var
      * @param string $string string to be displayed instead, default: ?
      */
-    public static function Unknown($var, string $string = '?'): string
+    public static function Unknown(mixed $var, string $string = '?'): mixed
     {
         if (! isset($var) || $var == null) {
             return $string;
         }
 
         if ((is_numeric($var) && $var != 0) || (! is_numeric($var) && $var != '')) {
-            return $var;
+            return is_scalar($var) ? (string) $var : $var;
         }
 
         return $string;
@@ -100,25 +96,19 @@ class Helper
         return str_replace(',', '.', $string);
     }
 
-    /**
-     * Get const for START_TIME
-     */
     public static function getStartTime(): int
     {
         if (defined('START_TIME')) {
             return START_TIME;
         }
 
-        if (Configuration::Data()->startTime() == 0 && SessionAccountHandler::isLoggedIn()) {
+        if (Configuration::Data()->startTime() === 0 && SessionAccountHandler::isLoggedIn()) {
             return self::recalculateStartTime();
         }
 
         return Configuration::Data()->startTime();
     }
 
-    /**
-     * Recalculate START_TIME
-     */
     public static function recalculateStartTime(): int
     {
         $START_TIME = self::calculateStartTime();
@@ -150,18 +140,12 @@ class Helper
         return (int) $data['time'];
     }
 
-    /**
-     * Recalculate HF_MAX and HF_REST
-     */
     public static function recalculateHFmaxAndHFrest(): void
     {
         self::recalculateHFmax();
         self::recalculateHFrest();
     }
 
-    /**
-     * Recalculate HF_MAX
-     */
     public static function recalculateHFmax(): int
     {
         $HF_MAX = self::calculateHFmax();
@@ -190,9 +174,6 @@ class Helper
         return (int) $userdata['pulse_max'];
     }
 
-    /**
-     * Recalculate HF_REST
-     */
     public static function recalculateHFrest(): int
     {
         $HF_REST = self::calculateHFrest();
@@ -209,7 +190,7 @@ class Helper
     {
         // TODO: Move to class::UserData - possible problem in loading order?
         if (SharedLinker::isOnSharedPage()) {
-            $userdata = DB::getInstance()->query('SELECT `pulse_rest` FROM `' . PREFIX . 'user` WHERE `accountid`="' . SharedLinker::getUserId() . '" AND `pulse_rest` > 0 AND accountid = ' . SessionAccountHandler::getId() . ' ORDER BY `time` DESC LIMIT 1')->fetch();
+            $userdata = DB::getInstance()->query('SELECT `pulse_rest` FROM `' . PREFIX . 'user` WHERE `accountid`="' . SharedLinker::getUserId() . '" AND `pulse_rest` > 0 ORDER BY `time` DESC LIMIT 1')->fetch();
         } else {
             $userdata = DB::getInstance()->query('SELECT `pulse_rest` FROM `' . PREFIX . 'user` WHERE `pulse_rest` > 0 AND accountid = ' . SessionAccountHandler::getId() . ' ORDER BY `time` DESC LIMIT 1')->fetch();
         }

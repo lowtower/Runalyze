@@ -16,7 +16,7 @@ class PowerType extends AbstractType
         $view->vars['input_unit'] = 'W';
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return IntegerType::class;
     }

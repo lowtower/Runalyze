@@ -1,19 +1,43 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Statistics\MonthlyStats;
 
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisData;
 use Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisSelection;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Selection\Selection;
+use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
+use Runalyze\Bundle\CoreBundle\Twig\DisplayableTime;
+use Runalyze\Bundle\CoreBundle\Twig\DisplayableValue;
+use Runalyze\Bundle\CoreBundle\Twig\ValueExtension;
+use RuntimeException;
 
-class AnalysisDataTest extends \PHPUnit\Framework\TestCase
+#[\PHPUnit\Framework\Attributes\Group('default')]
+class AnalysisDataTest extends TestCase
 {
     /**
-     * @param array<int, array<string, int>>|array<int, array<string, float>> $results
+     * @param array<int, array<string, int|float>> $results
+     * @return TrainingRepository&MockObject
      */
-    protected function getAnalysisDataMockWithEmptySelections(array $results = []): \Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisData
+    protected function getTrainingRepositoryMock(array $results = []): MockObject
+    {
+        /** @var TrainingRepository&MockObject $repository */
+        $repository = $this->createMock(TrainingRepository::class);
+        $repository->method('getMonthlyStatsFor')
+            ->willReturn($results);
+
+        return $repository;
+    }
+
+    /**
+     * @param array<int, array<string, int|float>> $results
+     */
+    protected function getAnalysisDataWithEmptySelections(array $results = []): AnalysisData
     {
         return new AnalysisData(
             new Selection([]),
@@ -23,23 +47,17 @@ class AnalysisDataTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @param array<int, array<string, int|float>> $results
-     * @return TrainingRepository&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function getTrainingRepositoryMock(array $results = []): \PHPUnit\Framework\MockObject\MockObject
+    private function createSportSelection(?string $currentKey = null): Selection
     {
-        $repository = $this->createMock(TrainingRepository::class);
-        $repository->method('getMonthlyStatsFor')
-            ->willReturn($results);
-
-        /** @var TrainingRepository&\PHPUnit\Framework\MockObject\MockObject $repository */
-        return $repository;
+        return new Selection([
+            SportSelectionFactory::ALL => 'all sports',
+            '1' => 'Running',
+        ], $currentKey);
     }
 
     public function testEmptyAnalysisData(): void
     {
-        $data = $this->getAnalysisDataMockWithEmptySelections();
+        $data = $this->getAnalysisDataWithEmptySelections();
 
         $this->assertTrue($data->isEmpty());
         $this->assertEquals(0.0, $data->getRawValue(1970, 1));
@@ -48,7 +66,7 @@ class AnalysisDataTest extends \PHPUnit\Framework\TestCase
 
     public function testYearRange(): void
     {
-        $data = $this->getAnalysisDataMockWithEmptySelections([
+        $data = $this->getAnalysisDataWithEmptySelections([
             [
                 'year' => 2006,
                 'month' => 7,
@@ -67,5 +85,161 @@ class AnalysisDataTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0.0, $data->getRawValue(2007, 7));
         $this->assertEquals(3.14, $data->getRawValue(2009, 1));
         $this->assertEquals(42.0, $data->getMaximum());
+    }
+
+    /**
+     * @throws RuntimeException
+     */
+    public function testGetYearsThrowsWhenNoDataIsAvailable(): void
+    {
+        $data = $this->getAnalysisDataWithEmptySelections();
+
+        $this->expectException(RuntimeException::class);
+        $data->getYears();
+    }
+
+    public function testGetMaximumDefaultsToOneWithoutHigherValues(): void
+    {
+        $data = $this->getAnalysisDataWithEmptySelections([
+            [
+                'year' => 2023,
+                'month' => 5,
+                'value' => 0.5,
+            ],
+        ]);
+
+        $this->assertEquals(1, $data->getMaximum());
+    }
+
+    /**
+     * @throws RuntimeException
+     */
+    public function testGetValueThrowsWithoutValueExtensionHavingBeenSet(): void
+    {
+        $data = $this->getAnalysisDataWithEmptySelections();
+
+        $this->expectException(RuntimeException::class);
+        $data->getValue(2023, 5);
+    }
+
+    public function testGetValueForTimeSelectionReturnsDisplayableTime(): void
+    {
+        $data = new AnalysisData(
+            new Selection([]),
+            new AnalysisSelection(AnalysisSelection::TIME),
+            $this->getTrainingRepositoryMock([
+                [
+                    'year' => 2023,
+                    'month' => 5,
+                    'value' => 3600,
+                ],
+            ]),
+            new Account()
+        );
+        $data->setValueExtension($this->createMock(ValueExtension::class));
+
+        $this->assertInstanceOf(DisplayableTime::class, $data->getValue(2023, 5));
+    }
+
+    public function testGetValueForNumberSelectionReturnsDisplayableValueWithEmptyUnit(): void
+    {
+        $data = new AnalysisData(
+            new Selection([]),
+            new AnalysisSelection(AnalysisSelection::NUMBER),
+            $this->getTrainingRepositoryMock(),
+            new Account()
+        );
+        $data->setValueExtension($this->createMock(ValueExtension::class));
+
+        $value = $data->getValue(2023, 5);
+
+        $this->assertInstanceOf(DisplayableValue::class, $value);
+        $this->assertSame('', $value->getUnit());
+    }
+
+    public function testGetValueForDistanceSelectionDelegatesToValueExtension(): void
+    {
+        $expected = new DisplayableValue(10.5, 'km');
+        $valueExtension = $this->createMock(ValueExtension::class);
+        $valueExtension->expects($this->once())
+            ->method('distance')
+            ->with(10.5)
+            ->willReturn($expected);
+
+        $data = new AnalysisData(
+            new Selection([]),
+            new AnalysisSelection(AnalysisSelection::DISTANCE),
+            $this->getTrainingRepositoryMock([
+                [
+                    'year' => 2023,
+                    'month' => 5,
+                    'value' => 10.5,
+                ],
+            ]),
+            new Account()
+        );
+        $data->setValueExtension($valueExtension);
+
+        $this->assertSame($expected, $data->getValue(2023, 5));
+    }
+
+    public function testGetSportSelectionReturnsTheProvidedSelection(): void
+    {
+        $sportSelection = $this->createSportSelection('1');
+
+        $data = new AnalysisData(
+            $sportSelection,
+            new AnalysisSelection(),
+            $this->getTrainingRepositoryMock(),
+            new Account()
+        );
+
+        $this->assertSame($sportSelection, $data->getSportSelection());
+    }
+
+    public function testGetAnalysisSelectionReturnsTheProvidedSelection(): void
+    {
+        $analysisSelection = new AnalysisSelection(AnalysisSelection::ENERGY);
+
+        $data = new AnalysisData(
+            new Selection([]),
+            $analysisSelection,
+            $this->getTrainingRepositoryMock(),
+            new Account()
+        );
+
+        $this->assertSame($analysisSelection, $data->getAnalysisSelection());
+    }
+
+    public function testConstructorPassesFilteredColumnAndSportIdToRepository(): void
+    {
+        $repository = $this->createMock(TrainingRepository::class);
+        $repository->expects($this->once())
+            ->method('getMonthlyStatsFor')
+            ->with($this->isInstanceOf(Account::class), 'kcal', '1')
+            ->willReturn([]);
+
+        new AnalysisData(
+            $this->createSportSelection('1'),
+            new AnalysisSelection(AnalysisSelection::ENERGY),
+            $repository,
+            new Account()
+        );
+    }
+
+    public function testConstructorPassesNullSportIdWhenAllSportsAreSelected(): void
+    {
+        $repository = $this->createMock(TrainingRepository::class);
+        $repository->expects($this->once())
+            ->method('getMonthlyStatsFor')
+            ->with($this->isInstanceOf(Account::class), $this->anything(), null)
+            ->willReturn([]);
+
+        new AnalysisData(
+            $this->createSportSelection(SportSelectionFactory::ALL),
+            new AnalysisSelection(AnalysisSelection::DISTANCE),
+            $repository,
+            new Account()
+        );
     }
 }

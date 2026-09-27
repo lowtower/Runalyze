@@ -22,19 +22,11 @@ class PercentageType extends AbstractType implements DataTransformerInterface
         $view->vars['input_unit'] = '%';
     }
 
-    /**
-     * @param  mixed $value
-     * @return string
-     */
-    public function transform($value)
+    public function transform(mixed $value): string
     {
         return $value === null ? '' : (string) $value;
     }
 
-    /**
-     * @param  null|string $value
-     * @return float|null
-     */
     public function reverseTransform($value)
     {
         return $value === null ? null : (float) str_replace(',', '.', $value);
@@ -56,7 +48,7 @@ class PercentageType extends AbstractType implements DataTransformerInterface
         $resolver->setAllowedTypes('scale', 'int');
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return TextType::class;
     }

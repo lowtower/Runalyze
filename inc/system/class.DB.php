@@ -17,35 +17,36 @@ declare(strict_types=1);
  */
 class DB
 {
-    /**
-     * Private PDO instance
-     */
     private static ?\PDOforRunalyze $PDO = null;
 
     private function __construct()
     {
     }
 
-    /**
-     * Private clone
-     */
     private function __clone()
     {
     }
 
     /**
      * Create connection
+     *
+     * A connection, once established, is kept for the remainder of the
+     * process. Repeated calls (e.g. tests/bootstrap.php followed by any
+     * Frontend instantiation within the same PHPUnit process) must not
+     * silently replace an already established connection, since PDO is
+     * held in a static property shared across the whole process.
      */
     public static function connect(string $host, string $port, string $user, string $password, string $database): void
     {
+        if (self::$PDO instanceof \PDOforRunalyze) {
+            return;
+        }
+
         self::$PDO = new PDOforRunalyze('mysql:dbname=' . $database . ';host=' . $host . ';port=' . $port . ';charset=utf8', $user, $password);
         self::$PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         self::$PDO->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Returns DB instance or create initial connection
-     */
     public static function getInstance(): PDOforRunalyze
     {
         if (! self::$PDO instanceof \PDOforRunalyze) {

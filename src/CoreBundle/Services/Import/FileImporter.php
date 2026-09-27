@@ -27,33 +27,27 @@ class FileImporter implements LoggerAwareInterface
     use LoggerAwareTrait;
 
     /**
-     * @var \Runalyze\Parser\Common\FileTypeConverterInterface[]
+     * @var FileTypeConverterInterface[]
      */
-    protected $Converter = [];
+    protected array $Converter = [];
 
-    protected \Runalyze\Parser\Activity\Converter\ZipConverter $ZipConverter;
+    protected ZipConverter $ZipConverter;
 
-    protected \Runalyze\Parser\Activity\FileExtensionToParserMapping $ParserMapping;
+    protected FileExtensionToParserMapping $ParserMapping;
 
-    protected \Symfony\Component\Filesystem\Filesystem $Filesystem;
+    protected Filesystem $Filesystem;
 
     /**
      * @var ParserException[]
      */
-    protected $ConverterExceptions = [];
+    protected array $ConverterExceptions = [];
 
-    /**
-     * @var bool
-     */
-    protected $RemoveFiles = true;
+    protected bool $RemoveFiles = true;
 
-    /**
-     * @param string|null $DirectoryForFailedImports
-     */
     public function __construct(
         FitConverter $fitConverter,
         TtbinConverter $ttbinConverter,
-        protected $DirectoryForFailedImports = null,
+        protected ?string $DirectoryForFailedImports = null,
         ?LoggerInterface $logger = null
     ) {
         $this->ParserMapping = new FileExtensionToParserMapping();
@@ -63,15 +57,12 @@ class FileImporter implements LoggerAwareInterface
         $this->logger = $logger ?: new NullLogger();
     }
 
-    public function disableFileDeletion($flag = true): void
+    public function disableFileDeletion(bool $flag = true): void
     {
         $this->RemoveFiles = ! $flag;
     }
 
-    /**
-     * @param string $fileName
-     */
-    protected function remove($fileName)
+    protected function remove(string $fileName): void
     {
         if ($this->RemoveFiles) {
             $this->Filesystem->remove($fileName);
@@ -87,24 +78,27 @@ class FileImporter implements LoggerAwareInterface
         );
     }
 
-    public function importFiles(array $fileNames): \Runalyze\Bundle\CoreBundle\Services\Import\FileImportResultCollection
+    public function importFiles(array $fileNames): FileImportResultCollection
     {
         $this->ConverterExceptions = [];
         $results = new FileImportResultCollection();
 
         foreach ($fileNames as $fileName) {
-            $results->merge($this->importSingleFile($fileName));
+            $results->merge($this->parseFileIntoResults($fileName));
         }
 
         return $this->handleResults($results);
     }
 
-    /**
-     * @param string $fileName
-     */
-    public function importSingleFile($fileName): \Runalyze\Bundle\CoreBundle\Services\Import\FileImportResultCollection
+    public function importSingleFile(string $fileName): FileImportResultCollection
     {
         $this->ConverterExceptions = [];
+
+        return $this->handleResults($this->parseFileIntoResults($fileName));
+    }
+
+    private function parseFileIntoResults(string $fileName): FileImportResultCollection
+    {
         $results = new FileImportResultCollection();
         $convertedFileNames = $this->tryToConvertFileNameIfRequired($fileName);
 
@@ -112,7 +106,7 @@ class FileImporter implements LoggerAwareInterface
             $results->add($this->getFileImportResultFor($convertedFileName, $fileName));
         }
 
-        return $this->handleResults($results);
+        return $results;
     }
 
     protected function handleResults(FileImportResultCollection $results): FileImportResultCollection
@@ -124,7 +118,7 @@ class FileImporter implements LoggerAwareInterface
         return $results;
     }
 
-    protected function findAndMergeRelatedHrmAndGpx(FileImportResultCollection $results)
+    protected function findAndMergeRelatedHrmAndGpx(FileImportResultCollection $results): void
     {
         $matchingIndices = [];
         $lookupTable = array_flip($results->getAllFileNames());
@@ -140,7 +134,7 @@ class FileImporter implements LoggerAwareInterface
         }
     }
 
-    protected function mergeResultsOfRelatedHrmAndGpx(FileImportResultCollection $results, $matchingIndices)
+    protected function mergeResultsOfRelatedHrmAndGpx(FileImportResultCollection $results, array $matchingIndices): void
     {
         foreach ($matchingIndices as $firstIndex => $secondIndex) {
             if ($results[$firstIndex]->getNumberOfActivities() == 0 || $results[$secondIndex]->getNumberOfActivities() == 0) {
@@ -170,11 +164,7 @@ class FileImporter implements LoggerAwareInterface
         $results->reindex();
     }
 
-    /**
-     * @param string $fileName
-     * @param string|null $originalFileName
-     */
-    protected function getFileImportResultFor($fileName, $originalFileName = null): \Runalyze\Bundle\CoreBundle\Services\Import\FileImportResult
+    protected function getFileImportResultFor(string $fileName, ?string $originalFileName = null): FileImportResult
     {
         $originalFileName ??= $fileName;
 
@@ -190,10 +180,9 @@ class FileImporter implements LoggerAwareInterface
     }
 
     /**
-     * @param string $fileName
      * @return string[] converted file names
      */
-    protected function tryToConvertFileNameIfRequired($fileName): array
+    protected function tryToConvertFileNameIfRequired(string $fileName): array
     {
         try {
             return $this->convertFileNameIfRequired($fileName);
@@ -205,10 +194,9 @@ class FileImporter implements LoggerAwareInterface
     }
 
     /**
-     * @param string $fileName
      * @return string[] converted file names
      */
-    protected function convertFileNameIfRequired($fileName): array
+    protected function convertFileNameIfRequired(string $fileName): array
     {
         $extension = mb_strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
@@ -240,13 +228,12 @@ class FileImporter implements LoggerAwareInterface
     }
 
     /**
-     * @param string $fileName
      * @return ActivityDataContainer[]
      *
      * @throws UnsupportedFileException
      * @throws ParserException
      */
-    protected function parseSingleFile($fileName): array
+    protected function parseSingleFile(string $fileName): array
     {
         if (isset($this->ConverterExceptions[$fileName])) {
             throw $this->ConverterExceptions[$fileName];
@@ -279,10 +266,9 @@ class FileImporter implements LoggerAwareInterface
     }
 
     /**
-     * @param string $fileName
      * @throws ParserException
      */
-    protected function letParserParseFile(ParserInterface $parser, $fileName)
+    protected function letParserParseFile(ParserInterface $parser, string $fileName): void
     {
         if ($parser instanceof LoggerAwareInterface) {
             $parser->setLogger($this->logger);
@@ -303,21 +289,21 @@ class FileImporter implements LoggerAwareInterface
         $parser->parse();
     }
 
-    protected function logFileImports(FileImportResultCollection $results)
+    protected function logFileImports(FileImportResultCollection $results): void
     {
         foreach ($results as $result) {
             $this->logSingleFileImport($result);
         }
     }
 
-    protected function logSingleFileImport(FileImportResult $result)
+    protected function logSingleFileImport(FileImportResult $result): void
     {
         if ($result->isFailed()) {
             $this->logger->error(sprintf('File upload of %s failed.', $this->getFileNameForLog($result)), [
                 'exception' => $result->getException(),
             ]);
 
-            if ($this->DirectoryForFailedImports !== null && $this->DirectoryForFailedImports != '') {
+            if ($this->DirectoryForFailedImports !== null && $this->DirectoryForFailedImports !== '') {
                 try {
                     $this->Filesystem->rename($result->getOriginalFileName(), $this->DirectoryForFailedImports . '/' . pathinfo($result->getOriginalFileName(), PATHINFO_BASENAME), true);
                 } catch (IOException $e) {

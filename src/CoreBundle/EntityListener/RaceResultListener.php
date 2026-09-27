@@ -3,11 +3,12 @@
 namespace Runalyze\Bundle\CoreBundle\EntityListener;
 
 use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
+use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager;
 
 class RaceResultListener
 {
     public function __construct(
-        protected \Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager $RecalculationManager
+        protected RecalculationManager $RecalculationManager
     ) {
     }
 

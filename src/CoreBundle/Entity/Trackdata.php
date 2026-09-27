@@ -750,7 +750,7 @@ class Trackdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return ?array [n]
+     * @return ?array [pm]
      */
     public function getRespirationRate(): ?array
     {
@@ -845,7 +845,7 @@ class Trackdata implements AccountRelatedEntityInterface
         ;
     }
 
-    public function getLegacyModel(): \Runalyze\Model\Trackdata\Entity
+    public function getLegacyModel(): Model\Trackdata\Entity
     {
         return new Model\Trackdata\Entity([
             Model\Trackdata\Entity::ACTIVITYID => $this->activity->getId(),

@@ -1,0 +1,28 @@
+parameters:
+    # Frontend::initConfig() reads these app.database_* parameters and reconnects the legacy
+    # DB singleton via Frontend::initDatabase(). Without this override, they resolve to the
+    # base DATABASE_* env vars (a MySQL database unrelated to both the sqlite "default"
+    # Doctrine connection used for fixtures and the "unittest" MySQL connection used by
+    # tests/bootstrap.php). This caused legacy read paths (e.g. PluginFactory) to see a
+    # different, unrelated database than the one Doctrine fixtures were written to.
+    #
+    # Aligning them with the "unittest" connection's underlying env vars (see
+    # config/packages/test/doctrine.yaml) makes the legacy DB singleton point at the same
+    # database as tests/bootstrap.php, regardless of how many times Frontend is constructed
+    # during a test.
+    app.database_host: '%env(string:DB_TEST_HOST)%'
+    app.database_port: '%env(int:DB_TEST_PORT)%'
+    app.database_name: '%env(string:DB_UNITTEST_NAME)%'
+    app.database_user: '%env(string:DB_TEST_USER)%'
+    app.database_password: '%env(string:DB_TEST_PASSWORD)%'
+
+    # .env.local is loaded even under APP_ENV=test and may contain real-looking (but invalid)
+    # API keys for local development (see OPENWEATHERMAP_API_KEY/METEOSTAT_API_KEY in .env.local).
+    # Without this override, WeatherController/StrategyCollection tests would trigger real,
+    # non-deterministic HTTP requests to external weather APIs with an invalid key. Forcing
+    # these to an empty string makes OpenWeatherMap::isPossible()/MeteostatNet::isPossible()
+    # deterministically return false in the test environment, matching the "not_possible"
+    # diagnostics branch instead of depending on network availability or API responses.
+    app.openweathermap_api_key: ''
+    app.meteostatnet_api_key: ''
+    app.darksky_api_key: ''

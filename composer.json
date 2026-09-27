@@ -135,7 +135,7 @@
                 "name": "runalyze/translations",
                 "version": "v4.3.0",
                 "source": {
-                    "url": "https://github.com/lowtower/Runalyze_translations.git",
+                    "url": "https://github.com/lowtower/Runalyze-Translations.git",
                     "type": "git",
                     "reference": "master"
                 }
@@ -186,11 +186,15 @@
         "test:dev": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --exclude-group dependsOnSRTM,dependsOnTimezoneDatabase",
         "test:import": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group import",
         "test:plugin": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group plugin",
-        "test:sqlite": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group requiresSqlite",
+        "test:sqlite": [
+            "@cache:test:clear",
+            "@test:setup",
+            "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group requiresSqlite"
+        ],
         "test:doctrine": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group requiresDoctrine",
         "test:kernel": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group requiresKernel",
         "test:client": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group requiresClient",
-        "test:default": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group default,dependsOn,requiresSqlite --exclude-group import, plugin,requiresKernel,requiresDoctrine,requiresClient",
+        "test:default": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group default,dependsOn,requiresSqlite --exclude-group import,plugin,requiresKernel,requiresDoctrine,requiresClient",
         "test:ci": [
             "@cache:test:clear",
             "@cache:test_empty:clear",

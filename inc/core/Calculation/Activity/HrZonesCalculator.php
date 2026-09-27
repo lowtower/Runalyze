@@ -32,7 +32,7 @@ class HrZonesCalculator
 
     public const PATTERN_GRP_COLOR = 3;
 
-    private string $sourceHint;
+    private string $sourceHint = '';
 
     public function __construct(
         protected ?array $activityZoneBounds,

@@ -11,7 +11,7 @@ class JsonBackupAnalyzer
     /**
      * @var array ['table' => #rows]
      */
-    protected $NumberOf = [];
+    protected array $NumberOf = [];
 
     /**
      * Construct
@@ -72,7 +72,10 @@ class JsonBackupAnalyzer
         $Expected = $this->expectedTables();
         $Found = array_keys($this->NumberOf);
 
-        return sort($Expected) === sort($Found);
+        sort($Expected);
+        sort($Found);
+
+        return $Expected === $Found;
     }
 
     /**
@@ -109,6 +112,7 @@ class JsonBackupAnalyzer
             'runalyze_plugin_conf',
             'runalyze_route',
             'runalyze_sport',
+            'runalyze_swimdata',
             'runalyze_training',
             'runalyze_trackdata',
             'runalyze_type',

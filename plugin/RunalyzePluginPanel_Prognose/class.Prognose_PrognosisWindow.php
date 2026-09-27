@@ -30,50 +30,25 @@ use Runalyze\Util\LocalTime;
  */
 class Prognose_PrognosisWindow
 {
-    /**
-     * @var int
-     */
     public const DISTANCE_PRECISION = 2;
 
-    /**
-     * Formular
-     */
     protected Formular $Formular;
 
-    /**
-     * Fieldset: Input
-     */
     protected FormularFieldset $FieldsetInput;
 
-    /**
-     * Fieldset: Result
-     */
     protected FormularFieldset $FieldsetResult;
 
-    /**
-     * Prognosis object
-     */
     protected PrognosisInterface $PrognosisObject;
 
-    /**
-     * Distances
-     */
     protected array $Distances = [];
 
     /**
-     * Prognoses as array
      * @var array<mixed, array<string, string>>
      */
     protected array $Prognoses = [];
 
-    /**
-     * Result table
-     */
     protected string $ResultTable = '';
 
-    /**
-     * Info lines
-     */
     protected array $InfoLines = [];
 
     protected DistanceUnitSystem $UnitSystem;
@@ -121,7 +96,7 @@ class Prognose_PrognosisWindow
         }
 
         $this->InfoLines['vo2max'] = __('Your current effective VO2max:') . ' ' . $CurrentShape . '. ';
-        $this->InfoLines['vo2max'] .= __('Your current marathon shape:') . ' ' . BasicEndurance::getConst() . ' &#37;.';
+        $this->InfoLines['vo2max'] .= __('Your current marathon shape:') . ' ' . BasicEndurance::getConst() . ' %.';
 
         if (count($TopResults) >= 2) {
             $ResultLine = sprintf(
@@ -242,7 +217,9 @@ class Prognose_PrognosisWindow
             $PacePrognosis = new Pace($Prognosis, $km, SportFactory::getSpeedUnitFor(Configuration::General()->runningSport()));
             $PacePB = new Pace($PB->seconds(), $km, SportFactory::getSpeedUnitFor(Configuration::General()->runningSport()));
 
-            $DateWithLink = Ajax::trainingLink($PB->activityId(), (new LocalTime($PB->timestamp()))->format('d.m.Y'), true);
+            $DateWithLink = $PB->seconds() > 0
+                ? Ajax::trainingLink($PB->activityId(), (new LocalTime($PB->timestamp()))->format('d.m.Y'), true)
+                : '-';
 
             $this->Prognoses[] = [
                 'distance' => (new Distance($km))->stringAuto(),
@@ -254,7 +231,7 @@ class Prognose_PrognosisWindow
                 'pb' => $PB->seconds() > 0 ? Duration::format($PB->seconds()) : '-',
                 'pb-pace' => $PB->seconds() > 0 ? $PacePB->valueWithAppendix() : '-',
                 'pb-vo2max' => $PB->seconds() > 0 ? $VO2maxpb->uncorrectedValue() : '-',
-                'pb-date' => $PB->seconds() > 0 ? $DateWithLink : '-',
+                'pb-date' => $DateWithLink,
             ];
         }
     }

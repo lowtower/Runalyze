@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Services\Import;
 
 use Runalyze\Bundle\CoreBundle\Entity\Training;
+use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 
 class DuplicateFinder
 {
     public function __construct(
-        protected \Runalyze\Bundle\CoreBundle\Entity\TrainingRepository $TrainingRepository
+        protected TrainingRepository $TrainingRepository
     ) {
     }
 

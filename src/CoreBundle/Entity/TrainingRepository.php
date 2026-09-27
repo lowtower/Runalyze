@@ -4,11 +4,14 @@ namespace Runalyze\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\BasicEndurance;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\VO2max;
 use Runalyze\Bundle\CoreBundle\Model\Account\AccountStatistics;
 use Runalyze\Sports\Running\MarathonShape;
+use Runalyze\Util\Time;
 
 /**
  * @extends EntityRepository<Training>
@@ -16,9 +19,10 @@ use Runalyze\Sports\Running\MarathonShape;
 class TrainingRepository extends EntityRepository
 {
     /**
-     * @return bool|float|int|string|null
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
-    public function getAmountOfLoggedKilometers(bool $cache = true)
+    public function getAmountOfLoggedKilometers(bool $cache = true): bool|float|int|string|null
     {
         $query = $this->createQueryBuilder('t')
             ->select('SUM(t.distance)')
@@ -32,10 +36,11 @@ class TrainingRepository extends EntityRepository
     }
 
     /**
-     * @return mixed
      * @see \Runalyze\Metrics\Velocity\Unit\PaceEnum
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
-    public function getSpeedUnitFor(int $activityid, int $accountid)
+    public function getSpeedUnitFor(int $activityid, int $accountid): mixed
     {
         return $this->_em->createQueryBuilder()
             ->select('s.speed')
@@ -98,7 +103,7 @@ class TrainingRepository extends EntityRepository
             ->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR);
     }
 
-    public function getActiveYearsFor(Account $account, ?int $sportid = null, $minimumActivities = null): array
+    public function getActiveYearsFor(Account $account, ?int $sportid = null, ?int $minimumActivities = null): array
     {
         $queryBuilder = $this->_em->createQueryBuilder()
             ->select('YEAR(FROM_UNIXTIME(t.time)) AS year')
@@ -123,6 +128,10 @@ class TrainingRepository extends EntityRepository
             ->getResult('COLUMN_HYDRATOR');
     }
 
+    /**
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
     public function getNumberOfActivitiesFor(Account $account, ?int $year = null, ?int $sportid = null): int
     {
         $queryBuilder = $this->_em->createQueryBuilder()
@@ -149,9 +158,10 @@ class TrainingRepository extends EntityRepository
     }
 
     /**
-     * @return bool|float|int|string|null
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
-    public function getNumberOfActivitiesWithActivityType(Type $type)
+    public function getNumberOfActivitiesWithActivityType(Type $type): bool|float|int|string|null
     {
         $queryBuilder = $this->_em->createQueryBuilder()
             ->select('COUNT(1) as num')
@@ -173,6 +183,7 @@ class TrainingRepository extends EntityRepository
             ->andWhere($qb->expr()->isNotNull('t.type'))
             ->addGroupBy('t.type')
             ->setParameter('account', $account->getId());
+
         return $queryBuilder->getQuery()
             ->getResult('COLUMN_HYDRATOR');
     }
@@ -187,6 +198,7 @@ class TrainingRepository extends EntityRepository
             ->andWhere($qb->expr()->isNotNull('t.sport'))
             ->addGroupBy('t.sport')
             ->setParameter('account', $account->getId());
+
         return $queryBuilder->getQuery()
             ->getResult('COLUMN_HYDRATOR');
     }
@@ -228,7 +240,7 @@ class TrainingRepository extends EntityRepository
         ]);
     }
 
-    public function getAccountStatistics(Account $account): \Runalyze\Bundle\CoreBundle\Model\Account\AccountStatistics
+    public function getAccountStatistics(Account $account): AccountStatistics
     {
         $statistics = new AccountStatistics();
 
@@ -345,7 +357,7 @@ class TrainingRepository extends EntityRepository
     public function getPartialEntitiesForPreview(array $ids, ?Account $account = null, int $limit = 20): array
     {
         $queryBuilder = $this->createQueryBuilder('t')
-            ->select('partial t.{id, time, s, distance, pulseAvg, splits, route, title}');
+            ->select('partial t.{id, time, s, distance, pulseAvg, splits, route, title, sport}');
 
         if ($ids === []) {
             if (! $account instanceof Account) {
@@ -412,7 +424,7 @@ class TrainingRepository extends EntityRepository
         $startTimeForWeeklyMileage = $timestamp - $configuration->getDaysToConsiderForWeeklyMileage() * 86400;
         $numberOfDaysSinceFirstActivity = $timestampOfFirstActivity === null
             ? $configuration->getDaysToConsiderForLongJogs()
-            : \Runalyze\Util\Time::diffInDays($timestampOfFirstActivity, $timestamp);
+            : Time::diffInDays($timestampOfFirstActivity, $timestamp);
         $marathonShape = new MarathonShape($effectiveVO2max, $configuration);
 
         $result = $this->createQueryBuilder('t')
@@ -450,7 +462,10 @@ class TrainingRepository extends EntityRepository
             return 0;
         }
 
-        return $marathonShape->getShapeFor($result['km'], $result['points'], (int) $numberOfDaysSinceFirstActivity);
+        $totalDistanceInTimePeriod = (float) ($result['km'] ?? 0.0);
+        $totalPoints = (float) ($result['points'] ?? 0.0);
+
+        return $marathonShape->getShapeFor($totalDistanceInTimePeriod, $totalPoints, (int) $numberOfDaysSinceFirstActivity);
     }
 
     /**
@@ -488,7 +503,7 @@ class TrainingRepository extends EntityRepository
         return $training->getId();
     }
 
-    protected function ensureThatSportAndTypeAreManaged(Training $activity)
+    public function ensureThatSportAndTypeAreManaged(Training $activity): void
     {
         $sport = $activity->getSport();
         $type = $activity->getType();

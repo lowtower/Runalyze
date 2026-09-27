@@ -4,10 +4,11 @@ namespace Runalyze\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
+use Runalyze\Bundle\CoreBundle\EntityListener\RaceResultListener;
 
 #[ORM\Table(name: 'raceresult')]
 #[ORM\Entity(repositoryClass: RaceresultRepository::class)]
-#[ORM\EntityListeners([\Runalyze\Bundle\CoreBundle\EntityListener\RaceResultListener::class])]
+#[ORM\EntityListeners([RaceResultListener::class])]
 class Raceresult implements AccountRelatedEntityInterface
 {
     /**
@@ -50,13 +51,10 @@ class Raceresult implements AccountRelatedEntityInterface
     ])]
     private ?int $participantsTotal = null;
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(name: 'participants_gender', type: 'integer', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $participantsGender;
+    private ?int $participantsGender = null;
 
     #[ORM\Column(name: 'participants_ageclass', type: 'integer', nullable: true, options: [
         'unsigned' => true,
@@ -76,9 +74,9 @@ class Raceresult implements AccountRelatedEntityInterface
     private ?Training $activity = null;
 
     /**
-     * @param float $officialDistance [km]
+     * @param ?float $officialDistance [km]
      */
-    public function setOfficialDistance(float $officialDistance): self
+    public function setOfficialDistance(?float $officialDistance): self
     {
         $this->officialDistance = $officialDistance;
 
@@ -86,9 +84,9 @@ class Raceresult implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return float [km]
+     * @return ?float [km]
      */
-    public function getOfficialDistance(): float
+    public function getOfficialDistance(): ?float
     {
         return $this->officialDistance;
     }
@@ -236,7 +234,7 @@ class Raceresult implements AccountRelatedEntityInterface
         $this->setActivity($activity);
         $this->setAccount($activity->getAccount());
         $this->setOfficialDistance($activity->getDistance() ?: 0.0);
-        $this->setOfficialTime($activity->getS());
+        $this->setOfficialTime($activity->getS() ?? 0.0);
         $this->setName($activity->getTitle() ?: '');
 
         return $this;

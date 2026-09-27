@@ -3,45 +3,34 @@
 namespace Runalyze\Bundle\CoreBundle\Services\Configuration;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\ConfRepository;
 
 class ConfigurationUpdater
 {
     public function __construct(
-        protected \Runalyze\Bundle\CoreBundle\Entity\ConfRepository $Repository,
-        protected ?\Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager $Manager = null
+        protected ConfRepository $Repository,
+        protected ?ConfigurationManager $Manager = null
     ) {
     }
 
-    /**
-     * @param string $configName
-     */
-    protected function updateInDataConfiguration(Account $account, $configName, string $value)
+    protected function updateInDataConfiguration(Account $account, string $configName, string $value): void
     {
         $this->Repository->updateOrInsert($account, 'data', $configName, $value);
         $this->Manager->getList($account)
             ->set('data.' . $configName, $value);
     }
 
-    /**
-     * @param int $startTime
-     */
-    public function updateStartTime(Account $account, $startTime): void
+    public function updateStartTime(Account $account, int $startTime): void
     {
         $this->updateInDataConfiguration($account, 'START_TIME', (string) $startTime);
     }
 
-    /**
-     * @param int $bpm
-     */
-    public function updateMaximalHeartRate(Account $account, $bpm): void
+    public function updateMaximalHeartRate(Account $account, int $bpm): void
     {
         $this->updateInDataConfiguration($account, 'HF_MAX', (string) $bpm);
     }
 
-    /**
-     * @param int $bpm
-     */
-    public function updateRestingHeartRate(Account $account, $bpm): void
+    public function updateRestingHeartRate(Account $account, int $bpm): void
     {
         $this->updateInDataConfiguration($account, 'HF_REST', (string) $bpm);
     }
@@ -49,7 +38,7 @@ class ConfigurationUpdater
     /**
      * @param float $shape [0.00, inf)
      */
-    public function updateVO2maxShape(Account $account, $shape): void
+    public function updateVO2maxShape(Account $account, float $shape): void
     {
         $this->updateInDataConfiguration($account, 'VO2MAX_FORM', (string) $shape);
     }
@@ -57,7 +46,7 @@ class ConfigurationUpdater
     /**
      * @param float $factor [0.00 .. 2.00]
      */
-    public function updateVO2maxCorrectionFactor(Account $account, $factor): void
+    public function updateVO2maxCorrectionFactor(Account $account, float $factor): void
     {
         $this->updateInDataConfiguration($account, 'VO2MAX_CORRECTOR', (string) $factor);
     }
@@ -65,7 +54,7 @@ class ConfigurationUpdater
     /**
      * @param int $shape [0, inf)
      */
-    public function updateMarathonShape(Account $account, $shape): void
+    public function updateMarathonShape(Account $account, int $shape): void
     {
         $this->updateInDataConfiguration($account, 'BASIC_ENDURANCE', (string) $shape);
     }
@@ -73,7 +62,7 @@ class ConfigurationUpdater
     /**
      * @param int $atl [0, inf)
      */
-    public function updateMaximalAtl(Account $account, $atl): void
+    public function updateMaximalAtl(Account $account, int $atl): void
     {
         $this->updateInDataConfiguration($account, 'MAX_ATL', (string) $atl);
     }
@@ -81,7 +70,7 @@ class ConfigurationUpdater
     /**
      * @param int $ctl [0, inf)
      */
-    public function updateMaximalCtl(Account $account, $ctl): void
+    public function updateMaximalCtl(Account $account, int $ctl): void
     {
         $this->updateInDataConfiguration($account, 'MAX_CTL', (string) $ctl);
     }
@@ -89,7 +78,7 @@ class ConfigurationUpdater
     /**
      * @param int $trimp [0, inf)
      */
-    public function updateMaximalTrimp(Account $account, $trimp): void
+    public function updateMaximalTrimp(Account $account, int $trimp): void
     {
         $this->updateInDataConfiguration($account, 'MAX_TRIMP', (string) $trimp);
     }

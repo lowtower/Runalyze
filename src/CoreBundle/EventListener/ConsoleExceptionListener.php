@@ -2,12 +2,13 @@
 
 namespace Runalyze\Bundle\CoreBundle\EventListener;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Event\ConsoleErrorEvent;
 
 class ConsoleExceptionListener
 {
     public function __construct(
-        protected \Psr\Log\LoggerInterface $Logger
+        protected LoggerInterface $Logger
     ) {
     }
 

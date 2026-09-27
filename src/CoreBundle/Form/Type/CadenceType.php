@@ -17,7 +17,7 @@ class CadenceType extends AbstractType
         $view->vars['attr']['min'] = 0;
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return IntegerType::class;
     }

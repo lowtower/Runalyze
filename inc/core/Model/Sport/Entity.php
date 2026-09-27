@@ -105,7 +105,6 @@ class Entity extends Model\EntityWithID implements ProfileInterface
     public const INTERNAL_SPORT_ID = 'internal_sport_id';
 
     /**
-     * All properties
      * @return array<int, string>
      */
     public static function allDatabaseProperties(): array
@@ -128,17 +127,11 @@ class Entity extends Model\EntityWithID implements ProfileInterface
         ];
     }
 
-    /**
-     * Properties
-     */
     public function properties(): array
     {
         return static::allDatabaseProperties();
     }
 
-    /**
-     * Is the property an array?
-     */
     public function isArray(string $key): bool
     {
         return $key === self::HR_ZONE_BOUNDS;
@@ -162,7 +155,7 @@ class Entity extends Model\EntityWithID implements ProfileInterface
     /**
      * @codeCoverageIgnore
      */
-    public function icon(): \Runalyze\View\Icon\SportIcon
+    public function icon(): SportIcon
     {
         return new SportIcon($this->Data[self::IMAGE]);
     }
@@ -172,17 +165,11 @@ class Entity extends Model\EntityWithID implements ProfileInterface
         return $this->Data[self::IMAGE];
     }
 
-    /**
-     * Uses short display?
-     */
     public function usesShortDisplay(): bool
     {
         return $this->Data[self::SHORT] == 1;
     }
 
-    /**
-     * Calories per hour
-     */
     public function caloriesPerHour(): int
     {
         return (int) $this->Data[self::CALORIES_PER_HOUR];
@@ -193,9 +180,6 @@ class Entity extends Model\EntityWithID implements ProfileInterface
         return (int) $this->Data[self::CALORIES_PER_HOUR];
     }
 
-    /**
-     * Average heartrate
-     */
     public function avgHR(): int
     {
         return (int) $this->Data[self::HR_AVG];
@@ -206,16 +190,12 @@ class Entity extends Model\EntityWithID implements ProfileInterface
         return (int) $this->Data[self::HR_AVG];
     }
 
-    /**
-     * Pace unit
-     */
     public function legacyPaceUnit(): AbstractUnit
     {
         return (new LegacyUnitConverter())->getLegacyPaceUnit($this->Data[self::PACE_UNIT]);
     }
 
     /**
-     * Pace unit
      * @return int see \Runalyze\Activity\Pace or \Runalyze\Parameter\Application\PaceUnit
      */
     public function getLegacyPaceUnitEnum(): int
@@ -225,28 +205,19 @@ class Entity extends Model\EntityWithID implements ProfileInterface
 
     public function getPaceUnitEnum(): int
     {
-        return $this->Data[self::PACE_UNIT];
+        return (int) $this->Data[self::PACE_UNIT];
     }
 
-    /**
-     * Has distances?
-     */
     public function hasDistances(): bool
     {
         return $this->Data[self::HAS_DISTANCES] == 1;
     }
 
-    /**
-     * Has power?
-     */
     public function hasPower(): bool
     {
         return $this->Data[self::HAS_POWER] == 1;
     }
 
-    /**
-     * Is this sport outside?
-     */
     public function isOutside(): bool
     {
         return $this->Data[self::IS_OUTSIDE] == 1;
@@ -254,27 +225,21 @@ class Entity extends Model\EntityWithID implements ProfileInterface
 
     /**
      * Average lower bounds of the hr zones
-     * @return null|array [bpm]
+     * @return ?array [bpm]
      */
     public function hrZoneBounds(): ?array
     {
         return $this->Data[self::HR_ZONE_BOUNDS];
     }
 
-    /**
-     * ID of main equipment type
-     */
     public function mainEquipmentTypeID(): int
     {
-        return $this->Data[self::MAIN_EQUIPMENTTYPEID];
+        return (int) $this->Data[self::MAIN_EQUIPMENTTYPEID];
     }
 
-    /**
-     * ID of default type
-     */
     public function defaultTypeID(): int
     {
-        return $this->Data[self::DEFAULT_TYPEID];
+        return (int) $this->Data[self::DEFAULT_TYPEID];
     }
 
     public function isMainSport(): bool

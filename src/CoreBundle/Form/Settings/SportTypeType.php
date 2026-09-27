@@ -5,32 +5,36 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Form\Settings;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Bundle\CoreBundle\Form\Type\HeartRateType;
 use Runalyze\Profile\View\DataBrowserRowProfile;
+use RuntimeException;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class SportTypeType extends AbstractType
 {
     public function __construct(
-        protected \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $TokenStorageInterface
+        protected TokenStorageInterface $TokenStorageInterface
     ) {
     }
 
     /**
-     * @return Account
+     * @throws RuntimeException if no account is associated with the current security token
      */
-    protected function getAccount()
+    protected function getAccount(): Account
     {
         $account = $this->TokenStorageInterface->getToken() ? $this->TokenStorageInterface->getToken()
             ->getUser() : null;
 
         if (! ($account instanceof Account)) {
-            throw new \RuntimeException('Activity type must have a valid account token.');
+            throw new RuntimeException('Activity type must have a valid account token.');
         }
 
         return $account;
@@ -44,10 +48,20 @@ class SportTypeType extends AbstractType
                 'attr' => [
                     'autofocus' => true,
                 ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a name.',
+                    ]),
+                ],
             ])
             ->add('abbr', TextType::class, [
                 'required' => true,
                 'label' => 'Abbreviation',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter an abbreviation.',
+                    ]),
+                ],
             ])
             ->add('hrAvg', HeartRateType::class, [
                 'attr' => [
@@ -71,7 +85,7 @@ class SportTypeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Type::class,
+            'data_class' => Type::class,
         ]);
     }
 }

@@ -44,6 +44,11 @@ echo "[test-setup] Clearing caches ..."
 
 rm -rf var/cache/test var/cache/test_empty || true
 
+echo "[test-setup] Ensuring legacy cache directory exists and is writable ..."
+
+mkdir -p var/cache/legacy/cache
+chmod -R 777 var/cache/legacy
+
 echo "[test-setup] Updating Doctrine schema (functional connection, MySQL) ..."
 
 # php bin/console --env=test doctrine:schema:update --force --complete --em=default --connection=functional 2>/dev/null || \

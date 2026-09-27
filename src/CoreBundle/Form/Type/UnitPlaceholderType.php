@@ -16,7 +16,7 @@ class UnitPlaceholderType extends AbstractType
         $view->vars['input_unit'] = '-';
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return TextType::class;
     }

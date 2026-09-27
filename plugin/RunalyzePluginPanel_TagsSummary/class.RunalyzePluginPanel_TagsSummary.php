@@ -87,7 +87,7 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel
     {
         $this->sportid = (int) $this->Configuration()
             ->value('sport');
-        if (empty($this->sportid)) {
+        if (empty($this->sportid) || ! isset($this->AllSports[$this->sportid])) {
             $this->sportid = $this->defaultSport();
         }
 
@@ -148,7 +148,13 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel
 
         echo $this->getStyle();
         echo '<div id="tags-summary">';
-        $this->showListFor($Sport, $this->timescale);
+
+        if ($Sport->id() === null) {
+            echo HTML::em(__("You don't have any tags for this sport or timescale."));
+        } else {
+            $this->showListFor($Sport, $this->timescale);
+        }
+
         echo '</div>';
 
         echo HTML::clearBreak();
@@ -160,9 +166,9 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel
         $countTagsForSport = DB::getInstance()
             ->query('SELECT activity_tag.tagid, tag.tag, COUNT(tagid) as `count`' .
                 ' FROM ' . PREFIX . 'activity_tag activity_tag' .
-                ' LEFT JOIN ' . PREFIX . 'training training ON training.sportid = ' . $Sport->id() .
+                ' LEFT JOIN ' . PREFIX . 'training training ON training.sportid = ' . (int) $Sport->id() .
                 ' LEFT JOIN ' . PREFIX . 'tag tag ON tag.id = activity_tag.tagid' .
-                ' WHERE training.id = activityid' .
+                ' WHERE training.id = activity_tag.activityid' .
                 ' AND FROM_UNIXTIME(training.time) >= NOW()-INTERVAL ' . (int) $timescale . ' MONTH' .
                 ' GROUP BY tagid ORDER BY count DESC');
 

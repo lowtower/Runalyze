@@ -4,7 +4,7 @@ namespace Runalyze\Bundle\CoreBundle\Controller\My\Tools;
 
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\FilenameHandler;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Entity\Route as RunalyzeRoute;
+use Runalyze\Bundle\CoreBundle\Entity\Route as RouteEntity;
 use Runalyze\Bundle\CoreBundle\Entity\RouteRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -69,20 +70,9 @@ class BackupToolController extends AbstractController
     /**
      * @Route("", name="tools-backup")
      */
-    public function backupAction(Account $account, Request $request): Response
+    public function backupAction(Account $account, Request $request): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-
-        /** @var RouteRepository $repository */
-        $repository = $this->getDoctrine()
-            ->getManager()
-            ->getRepository(RunalyzeRoute::class);
-        $lockedRoutes = $repository->accountHasLockedRoutes($account);
-        /** @var TrainingRepository $repository */
-        $repository = $this->getDoctrine()
-            ->getManager()
-            ->getRepository(Training::class);
-        $hasLockedTrainings = $repository->accountHasLockedTrainings($account);
 
         $form = $this->createForm(BackupExportType::class);
         $form->handleRequest($request);
@@ -93,10 +83,23 @@ class BackupToolController extends AbstractController
                 $account->getId(),
                 $formdata['fileFormat']
             ));
-            $this->get('session')
-                ->getFlashBag()
-                ->set('runalyze.backupjob.created', 'true');    # TODO: check if (string) true is meaningful
+
+            // The template only checks whether this flash message is present, never its value.
+            $this->addFlash('runalyze.backupjob.created', true);
+
+            return $this->redirectToRoute('tools-backup');
         }
+
+        /** @var RouteRepository $repository */
+        $repository = $this->getDoctrine()
+            ->getManager()
+            ->getRepository(RouteEntity::class);
+        $lockedRoutes = $repository->accountHasLockedRoutes($account);
+        /** @var TrainingRepository $repository */
+        $repository = $this->getDoctrine()
+            ->getManager()
+            ->getRepository(Training::class);
+        $hasLockedTrainings = $repository->accountHasLockedTrainings($account);
 
         $fileHandler = new FilenameHandler($account->getId());
         $finder = new Finder();

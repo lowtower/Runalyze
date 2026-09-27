@@ -6,11 +6,12 @@ namespace Runalyze\Bundle\CoreBundle\Services\Import;
 
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext;
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContextAdapter;
+use Runalyze\Service\RouteNameEvaluation\RouteNameEval;
 use Runalyze\Service\RouteNameEvaluation\RouteNameEvalFactory;
 
 class ActivityContextAdapterFactory
 {
-    protected \Runalyze\Service\RouteNameEvaluation\RouteNameEval $RouteNameEval;
+    protected RouteNameEval $RouteNameEval;
 
     public function __construct(
         protected WeatherForecast $WeatherForecast,

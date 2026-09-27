@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Controller;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Notification;
 use Runalyze\Bundle\CoreBundle\Entity\NotificationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -26,11 +28,12 @@ class NotificationsController extends AbstractController
     protected function getNotificationsRepository(): NotificationRepository
     {
         return $this->getDoctrine()
-            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Notification::class);
+            ->getRepository(Notification::class);
     }
 
     /**
      * @Route("", name="notifications-list")
+     * @throws AccessDeniedException
      */
     public function newNotificationsAction(Account $account): Response
     {
@@ -38,7 +41,7 @@ class NotificationsController extends AbstractController
 
         return $this->render('notifications.html.twig', [
             'notifications' => $this->getNotificationsRepository()
-                ->findAll($account),
+                ->findAllFor($account),
             'router' => $this->get('router'),
             'translator' => $this->translator,
         ]);

@@ -42,12 +42,12 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     private int $time = 0;
 
     /**
-     * @var int [km]
+     * @var ?int [km]
      */
     #[ORM\Column(name: 'additional_km', type: 'smallint', nullable: false, options: [
         'unsigned' => true,
     ])]
-    private int $additionalKm = 0;
+    private ?int $additionalKm = 0;
 
     #[ORM\Column(name: 'date_start', type: 'date', nullable: true)]
     private ?\DateTime $dateStart = null;
@@ -176,11 +176,11 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     }
 
     /**
-     * @param int $additionalKm [km]
+     * @param ?int $additionalKm [km]
      */
-    public function setAdditionalKm(int $additionalKm): self
+    public function setAdditionalKm(?int $additionalKm): self
     {
-        $this->additionalKm = $additionalKm;
+        $this->additionalKm = $additionalKm ?? 0;
 
         return $this;
     }
@@ -190,7 +190,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
      */
     public function getAdditionalKm(): int
     {
-        return $this->additionalKm;
+        return $this->additionalKm ?? 0;
     }
 
     /**
@@ -198,7 +198,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
      */
     public function getTotalDistance(): float
     {
-        return $this->distance + $this->additionalKm;
+        return $this->distance + $this->getAdditionalKm();
     }
 
     public function setDateStart(?\DateTime $dateStart = null): self

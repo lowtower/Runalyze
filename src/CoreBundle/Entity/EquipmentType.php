@@ -3,6 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 
@@ -27,57 +28,46 @@ class EquipmentType implements AccountRelatedEntityInterface
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'name', type: 'string', length: 50, nullable: false)]
-    private $name = '';
+    private string $name = '';
 
     /**
-     * @var int see self::CHOICE_SINGLE and self::CHOICE_MULTIPLE
+     * @see self::CHOICE_SINGLE
+     * @see self::CHOICE_MULTIPLE
      */
     #[ORM\Column(name: 'input', type: 'tinyint', options: [
         'unsigned' => true,
     ])]
-    private $input = 0;
+    private int $input = 0;
 
     /**
-     * @var null|int [km]
+     * @var ?int [km]
      */
     #[ORM\Column(name: 'max_km', type: 'integer', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $maxKm;
+    private ?int $maxKm = null;
 
     /**
-     * @var null|int [s]
+     * @var ?int [s]
      */
     #[ORM\Column(name: 'max_time', type: 'integer', nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $maxTime;
+    private ?int $maxTime = null;
 
-    /**
-     * @var Account
-     */
     #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
     #[ORM\ManyToOne(targetEntity: Account::class, inversedBy: 'equipmentTypes')]
-    private $account;
+    private Account $account;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
     #[ORM\JoinTable(name: 'equipment_sport')]
     #[ORM\JoinColumn(name: 'equipment_typeid', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'sportid', referencedColumnName: 'id')]
     #[ORM\ManyToMany(targetEntity: Sport::class, inversedBy: 'equipmentType')]
-    private $sport;
+    private Collection $sport;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
     #[ORM\OneToMany(mappedBy: 'type', targetEntity: Equipment::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
-    protected $equipment;
+    protected Collection $equipment;
 
     public function __construct()
     {
@@ -90,28 +80,23 @@ class EquipmentType implements AccountRelatedEntityInterface
         return $this->id;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * @param int $input see self::CHOICE_SINGLE and self::CHOICE_MULTIPLE
+     * @see self::CHOICE_SINGLE
+     * @see self::CHOICE_MULTIPLE
      */
-    public function setInput($input): self
+    public function setInput(int $input): self
     {
         $this->input = $input;
 
@@ -119,9 +104,10 @@ class EquipmentType implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return int see self::CHOICE_SINGLE and self::CHOICE_MULTIPLE
+     * @see self::CHOICE_SINGLE
+     * @see self::CHOICE_MULTIPLE
      */
-    public function getInput()
+    public function getInput(): int
     {
         return $this->input;
     }
@@ -132,9 +118,9 @@ class EquipmentType implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param null|int $maxKm [km]
+     * @param ?int $maxKm [km]
      */
-    public function setMaxKm($maxKm): self
+    public function setMaxKm(?int $maxKm): self
     {
         $this->maxKm = $maxKm;
 
@@ -142,9 +128,9 @@ class EquipmentType implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return null|int [km]
+     * @return ?int [km]
      */
-    public function getMaxKm()
+    public function getMaxKm(): ?int
     {
         return $this->maxKm;
     }
@@ -155,9 +141,9 @@ class EquipmentType implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param null|int $maxTime [s]
+     * @param ?int $maxTime [s]
      */
-    public function setMaxTime($maxTime): self
+    public function setMaxTime(?int $maxTime): self
     {
         $this->maxTime = $maxTime;
 
@@ -165,9 +151,9 @@ class EquipmentType implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return null|int
+     * @return ?int [s]
      */
-    public function getMaxTime()
+    public function getMaxTime(): ?int
     {
         return $this->maxTime;
     }
@@ -184,10 +170,7 @@ class EquipmentType implements AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @return Account
-     */
-    public function getAccount()
+    public function getAccount(): Account
     {
         return $this->account;
     }
@@ -204,18 +187,12 @@ class EquipmentType implements AccountRelatedEntityInterface
         $this->sport->removeElement($sport);
     }
 
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getSport()
+    public function getSport(): Collection
     {
         return $this->sport;
     }
 
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getEquipment()
+    public function getEquipment(): Collection
     {
         return $this->equipment;
     }
