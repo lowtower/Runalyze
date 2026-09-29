@@ -2,7 +2,6 @@
 
 namespace Runalyze\Bundle\CoreBundle\EntityListener;
 
-use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\PersistentCollection;
@@ -10,17 +9,13 @@ use Runalyze\Bundle\CoreBundle\Entity\Equipment;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 
-class EquipmentUpdateSubscriber implements EventSubscriber
+#[\Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener(event: 'onFlush')]
+class EquipmentUpdateSubscriber
 {
     /**
      * @var EquipmentRepository
      */
     protected $EquipmentRepository;
-
-    public function getSubscribedEvents()
-    {
-        return ['onFlush'];
-    }
 
     public function onFlush(OnFlushEventArgs $args): void
     {

@@ -2,9 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Services;
 
-use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
-
-class Sha256SaltedEncoder implements PasswordEncoderInterface
+class Sha256SaltedEncoder implements \Symfony\Component\PasswordHasher\PasswordHasherInterface
 {
     /**
      * @param string $raw

@@ -36,7 +36,7 @@ class HtmlOutputFormatter extends OutputFormatter
         '8' => 'visibility:hidden',
     ];
 
-    public function format($message)
+    public function format(?string $message)
     {
         $formatted = parent::format($message);
         $escaped = htmlspecialchars($formatted, ENT_QUOTES, 'UTF-8');

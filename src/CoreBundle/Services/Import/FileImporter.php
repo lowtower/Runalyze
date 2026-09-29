@@ -320,14 +320,14 @@ class FileImporter implements LoggerAwareInterface
             $this->remove($result->getOriginalFileName());
         }
 
-        if ($result->getOriginalFileName() != $result->getFileName()) {
+        if ($result->getOriginalFileName() !== $result->getFileName()) {
             $this->remove($result->getFileName());
         }
     }
 
     protected function getFileNameForLog(FileImportResult $result): string
     {
-        if ($result->getOriginalFileName() != $result->getFileName()) {
+        if ($result->getOriginalFileName() !== $result->getFileName()) {
             return sprintf('%s (original %s)', pathinfo($result->getFileName(), PATHINFO_BASENAME), pathinfo($result->getOriginalFileName(), PATHINFO_BASENAME));
         }
 

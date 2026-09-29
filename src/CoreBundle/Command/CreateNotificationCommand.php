@@ -47,7 +47,7 @@ class CreateNotificationCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (! $this->validateInput($input, $output)) {
-            return 1;
+            return \Symfony\Component\Console\Command\Command::FAILURE;
         }
 
         if (! ($input->getOption('force'))) {
@@ -56,7 +56,7 @@ class CreateNotificationCommand extends Command
             $question = new ConfirmationQuestion('Continue with this action? (y/n)', false);
 
             if (! $helper->ask($input, $output, $question)) {
-                return 0;
+                return \Symfony\Component\Console\Command\Command::SUCCESS;
             }
         }
 
@@ -79,7 +79,7 @@ class CreateNotificationCommand extends Command
         $output->writeln(sprintf('<info>%u notifications have been created.</info>', $num));
         $output->writeln('');
 
-        return 0;
+        return \Symfony\Component\Console\Command\Command::SUCCESS;
     }
 
     protected function validateInput(InputInterface $input, OutputInterface $output): bool

@@ -100,7 +100,7 @@ class TableZonesHeartrate extends TableZonesAbstract
                 $hrMax
             );
         } else {
-            $hrMax = (int) Runalyze\Configuration::Data()->HRmax();
+            $hrMax = Runalyze\Configuration::Data()->HRmax();
             $footerHintMaxHr = sprintf(
                 'with a maximum user heart rate of %d from the user body data.',
                 $hrMax

@@ -40,6 +40,6 @@ class CleanupRegistrationsCommand extends Command
         $output->writeln('<info>' . count($delete) . ' deleted accounts</info>');
         $output->writeln('');
 
-        return 0;
+        return \Symfony\Component\Console\Command\Command::SUCCESS;
     }
 }

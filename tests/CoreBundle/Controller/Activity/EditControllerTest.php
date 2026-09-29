@@ -13,7 +13,6 @@ use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCa
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\DomCrawler\Field\ChoiceFormField;
 use Symfony\Component\DomCrawler\Form;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * These tests exercise EditController through real HTTP requests against the actual routes.
@@ -42,7 +41,7 @@ class EditControllerTest extends AbstractFixturesAwareWebTestCase
             ->setUsername('edit_test_' . uniqid('', true))
             ->setMail('edit_test_' . uniqid('', true) . '@example.test');
 
-        /** @var UserPasswordEncoderInterface $passwordEncoder */
+        /** @var \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordEncoder */
         $passwordEncoder = self::getContainer()->get('security.user_password_encoder.generic');
 
         $registration = new Registration($this->getEntityManager(), $account, $passwordEncoder);

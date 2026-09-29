@@ -34,6 +34,6 @@ class DeleteExpiredNotificationsCommand extends Command
         $output->writeln(sprintf('<info>%u notifications have been removed.</info>', $numRemoved));
         $output->writeln('');
 
-        return 0;
+        return \Symfony\Component\Console\Command\Command::SUCCESS;
     }
 }

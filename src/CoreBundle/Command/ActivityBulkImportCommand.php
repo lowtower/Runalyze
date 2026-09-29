@@ -150,7 +150,7 @@ class ActivityBulkImportCommand extends Command
         if ($user === null) {
             $output->writeln('<fg=red>Unknown User</>');
 
-            return 1;
+            return \Symfony\Component\Console\Command\Command::FAILURE;
         }
 
         # TSC create equipment array for automatic mapping
@@ -259,7 +259,7 @@ class ActivityBulkImportCommand extends Command
 
         $this->debugPeekBufferedOutput($output);
 
-        return 0;
+        return \Symfony\Component\Console\Command\Command::SUCCESS;
     }
 
     /**

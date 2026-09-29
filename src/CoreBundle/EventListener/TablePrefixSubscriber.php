@@ -8,7 +8,8 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
 /**
  * @author https://github.com/avanzu/Symfony-Doctrine-Prefix-Bundle/blob/master/Subscriber/TablePrefixSubscriber.php
  */
-class TablePrefixSubscriber implements \Doctrine\Common\EventSubscriber
+#[\Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener(event: 'loadClassMetadata')]
+class TablePrefixSubscriber
 {
     protected string $prefix;
 
@@ -46,13 +47,5 @@ class TablePrefixSubscriber implements \Doctrine\Common\EventSubscriber
                 }
             }
         }
-    }
-
-    /**
-     * @return array
-     */
-    public function getSubscribedEvents()
-    {
-        return ['loadClassMetadata'];
     }
 }

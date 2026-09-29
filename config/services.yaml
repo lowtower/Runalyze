@@ -55,7 +55,7 @@ parameters:
     app.ttbin_path: '%env(string:TTBIN_PATH)%'
     app.sqlite_mod_spatialite: '%env(string:SQLITE_MOD_SPATIALITE)%'
 
-    app.data_directory: '%kernel.root_dir%/../data'
+    app.data_directory: '%kernel.project_dir%/data'
 
     redis.default.dsn: '%env(string:REDIS_URL)%'
     router.request_context.host: localhost
@@ -612,11 +612,11 @@ services:
     GuzzleHttp\Client: '@app.http_client'
     app.file_converter.fit:
       class: Runalyze\Parser\Activity\Converter\FitConverter
-      arguments: ["%app.perl_path%", "%kernel.root_dir%/../call/perl/fittorunalyze.pl"]
+      arguments: ["%app.perl_path%", "%kernel.project_dir%/call/perl/fittorunalyze.pl"]
     Runalyze\Parser\Activity\Converter\FitConverter: '@app.file_converter.fit'
     app.file_converter.ttbin:
       class: Runalyze\Parser\Activity\Converter\TtbinConverter
-      arguments: ["%kernel.root_dir%/%app.ttbin_path%"]
+      arguments: ["%kernel.project_dir%/%app.ttbin_path%"]
     Runalyze\Parser\Activity\Converter\TtbinConverter: '@app.file_converter.ttbin'
     app.file_importer:
       class: Runalyze\Bundle\CoreBundle\Services\Import\FileImporter

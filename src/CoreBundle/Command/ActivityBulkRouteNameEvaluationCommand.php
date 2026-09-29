@@ -60,12 +60,12 @@ class ActivityBulkRouteNameEvaluationCommand extends Command
         if ($user === null) {
             $output->writeln('<fg=red>Unknown User</>');
 
-            return 1;
+            return \Symfony\Component\Console\Command\Command::FAILURE;
         }
 
         if (empty($this->parameterBag->get('osm_overpass_url'))) {
             $output->writeln('<fg=red>Set parameter osm_overpass_url</>');
-            return 1;
+            return \Symfony\Component\Console\Command\Command::FAILURE;
         }
 
         $output->writeln('Start route-name evaluation with id=' . $activityId . ' and nexted=' . $nexted . ', override=' . $this->override);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\EntityListener;
 
 use Doctrine\ORM\Event\PreUpdateEventArgs;

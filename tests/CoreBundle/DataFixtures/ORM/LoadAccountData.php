@@ -7,12 +7,11 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class LoadAccountData extends AbstractFixture implements OrderedFixtureInterface
 {
     public function __construct(
-        private readonly ?UserPasswordEncoderInterface $passwordEncoder = null
+        private readonly ?\Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordEncoder = null
     ) {
     }
 
@@ -57,7 +56,7 @@ class LoadAccountData extends AbstractFixture implements OrderedFixtureInterface
     {
         $registration = new Registration($manager, $account, $this->passwordEncoder);
 
-        if ($this->passwordEncoder instanceof UserPasswordEncoderInterface) {
+        if ($this->passwordEncoder instanceof \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface) {
             # $account->setPassword($encoder->encodePassword($password, $account->getSalt()));
             $account->setPassword($this->passwordEncoder->encodePassword($account, $password));
         } else {

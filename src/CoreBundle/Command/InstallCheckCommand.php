@@ -119,7 +119,7 @@ class InstallCheckCommand extends Command
             return self::CHECK_FAILED;
         }
 
-        return 0;
+        return \Symfony\Component\Console\Command\Command::SUCCESS;
     }
 
     protected function getFinalMessage(): string
@@ -183,7 +183,7 @@ class InstallCheckCommand extends Command
 
     protected function directoriesAreWritable(): int
     {
-        $root = $this->parameterBag->get('kernel.root_dir') . '/../';
+        $root = $this->parameterBag->get('kernel.project_dir') . '/src/../';
 
         foreach ($this->DirectoriesThatMustBeWritable as $directory) {
             if (! is_writable($root . $directory)) {

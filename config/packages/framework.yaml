@@ -17,9 +17,8 @@ framework:
     translator:
         fallbacks: ['%locale%']
         paths:
-            - '%kernel.root_dir%/../vendor/runalyze/translations/xlf'
-            - '%kernel.root_dir%/../vendor/runalyze/translations/gettext'
-
+            - '%kernel.project_dir%/vendor/runalyze/translations/xlf'
+            - '%kernel.project_dir%/vendor/runalyze/translations/gettext'
     #esi: true
     #fragments: true
     php_errors:

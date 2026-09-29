@@ -24,7 +24,7 @@ class AccountLastActionListener
      */
     public function onCoreController(ControllerEvent $event): void
     {
-        if ($event->getRequestType() !== HttpKernel::MASTER_REQUEST) {
+        if ($event->getRequestType() !== HttpKernel::MAIN_REQUEST) {
             return;
         }
 

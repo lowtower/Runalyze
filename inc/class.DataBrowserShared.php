@@ -86,7 +86,7 @@ class DataBrowserShared extends DataBrowser
      * @param string $title title for the link
      * @param int|null $sportid sport-id to filter one sport
      */
-    public static function getLink($name, $start, $end, $title = '', ?int $sportid = null): string
+    public static function getLink(string $name, $start, $end, string $title = '', ?int $sportid = null): string
     {
         $href = self::getBaseUrl() . '?start=' . $start . '&end=' . $end;
         if ($sportid !== null) {

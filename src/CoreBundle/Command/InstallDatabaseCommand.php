@@ -47,7 +47,7 @@ class InstallDatabaseCommand extends Command
 
         $output->writeln('  <info>Migrations have been successfully applied to database.</info>');
 
-        return 0;
+        return \Symfony\Component\Console\Command\Command::SUCCESS;
     }
 
     /**
@@ -55,7 +55,7 @@ class InstallDatabaseCommand extends Command
      */
     protected function importDatabaseStructure(): void
     {
-        $fileName = $this->parameterBag->get('kernel.root_dir') . '/../' . self::DATABASE_STRUCTURE_FILE;
+        $fileName = $this->parameterBag->get('kernel.project_dir') . '/' . self::DATABASE_STRUCTURE_FILE;
         $queries = $this->getSqlFileAsArray($fileName, $this->parameterBag->get('app.database_prefix'));
 
         if ($queries === []) {

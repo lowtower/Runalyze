@@ -93,11 +93,11 @@ class SwitchUserListener
         $originalToken = $this->getOriginalToken($token);
 
         if ($originalToken !== false) {
-            if ($token->getUsername() === $request->get($this->usernameParameter)) {
+            if ($token->getUserIdentifier() === $request->get($this->usernameParameter)) {
                 return $token;
             }
 
-            throw new LogicException(sprintf('You are already switched to "%s" user.', $token->getUsername()));
+            throw new LogicException(sprintf('You are already switched to "%s" user.', $token->getUserIdentifier()));
         }
 
         if ($this->accessDecisionManager->decide($token, [$this->role]) === false) {
@@ -120,7 +120,7 @@ class SwitchUserListener
         $this->userChecker->checkPostAuth($user);
 
         $roles = $user->getRoles();
-        $roles[] = new SwitchUserRole('ROLE_PREVIOUS_ADMIN', $this->tokenStorage->getToken());
+        $roles[] = new SwitchUserRole('IS_IMPERSONATOR', $this->tokenStorage->getToken());
 
         $token = new UsernamePasswordToken($user, $user->getPassword(), $this->providerKey, $roles);
 
@@ -145,7 +145,7 @@ class SwitchUserListener
 
         if ($this->logger instanceof LoggerInterface) {
             $this->logger->info('Switch user exited for user.', [
-                'username' => $original->getUsername(),
+                'username' => $original->getUserIdentifier(),
             ]);
         }
 

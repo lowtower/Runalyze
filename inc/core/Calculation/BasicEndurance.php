@@ -309,7 +309,7 @@ class BasicEndurance
     public static function getConst(): int|bool
     {
         if (self::$CONST_VALUE === false) {
-            if (Configuration::Data()->basicEndurance() != 0) {
+            if (Configuration::Data()->basicEndurance() !== 0) {
                 self::$CONST_VALUE = Configuration::Data()->basicEndurance();
             } else {
                 self::recalculateValue();

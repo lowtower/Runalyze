@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Twig;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -35,10 +37,8 @@ class ConfigurationExtension extends \Twig\Extension\AbstractExtension
 
     /**
      * Get config variable from current user
-     *
-     * @return mixed
      */
-    public function configVar(string $key)
+    public function configVar(string $key): mixed
     {
         return $this->ConfigurationManager->getList()
             ->get($key);

@@ -37,11 +37,11 @@ class AnovaDataQueryBuildQueryTest extends TestCase
             );
         $anovaDataFull->method('getSport')
             ->willReturnCallback(
-                fn () => $anovaData->getSport()
+                fn (): array => $anovaData->getSport()
             );
         $anovaDataFull->method('getType')
             ->willReturnCallback(
-                fn () => $anovaData->getType()
+                fn (): array => $anovaData->getType()
             );
 
         return new AnovaDataQuery($anovaDataFull);

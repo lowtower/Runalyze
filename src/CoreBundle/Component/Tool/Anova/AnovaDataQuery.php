@@ -99,7 +99,7 @@ class AnovaDataQuery
     {
         $types = $this->AnovaData->getType();
 
-        if (! empty($types)) {
+        if ($types !== []) {
             $queryBuilder->andWhere($queryBuilder->expr()->in('t.type', ':types'));
             $queryBuilder->setParameter(':types', array_map(fn (Type $type): ?int => $type->getId(), $types));
         }

@@ -22,10 +22,9 @@ class DataBrowserLinker
      * @param int $endTimestampInNoTimezone Timestamp for last date in browser
      * @param int $sportid sport-id to filter one sport
      * @param string $title title for the link
-     * @param string $rel
      * @return string HTML-link
      */
-    public static function link($name, $startTimestampInNoTimezone, $endTimestampInNoTimezone, $title = '', $rel = '', ?int $sportid = null): string
+    public static function link(string $name, $startTimestampInNoTimezone, $endTimestampInNoTimezone, string $title = '', string $rel = '', ?int $sportid = null): string
     {
         if (FrontendShared::$IS_SHOWN) {
             return DataBrowserShared::getLink($name, $startTimestampInNoTimezone, $endTimestampInNoTimezone, $title, $sportid);
@@ -47,7 +46,7 @@ class DataBrowserLinker
      * @param int $sportid sport-id to filter one sport
      * @return string HTML-link
      */
-    public static function weekLink($name, $time, $transformToLocalTime = true, ?int $sportid = null): string
+    public static function weekLink(string $name, $time, $transformToLocalTime = true, ?int $sportid = null): string
     {
         $localTime = $transformToLocalTime ? LocalTime::fromServerTime($time) : new LocalTime($time);
 
@@ -61,7 +60,7 @@ class DataBrowserLinker
      * @param int $sportid sport-id to filter one sport
      * @return string HTML-link
      */
-    public static function monthLink($name, $timestampInNoTimezone, ?int $sportid = null): string
+    public static function monthLink(string $name, $timestampInNoTimezone, ?int $sportid = null): string
     {
         $localTime = new LocalTime($timestampInNoTimezone);
 
@@ -75,7 +74,7 @@ class DataBrowserLinker
      * @param int $sportid sport-id to filter one sport
      * @return string HTML-link
      */
-    public static function yearLink($name, $timestampInNoTimezone, ?int $sportid = null): string
+    public static function yearLink(string $name, $timestampInNoTimezone, ?int $sportid = null): string
     {
         $localTime = new LocalTime($timestampInNoTimezone);
 

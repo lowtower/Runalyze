@@ -16,7 +16,6 @@ use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Metrics\Velocity\Unit\PaceEnum;
 use Runalyze\Parameter\Application\Timezone;
 use Runalyze\Profile\Sport\SportProfile;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class Registration
 {
@@ -28,7 +27,7 @@ class Registration
     public function __construct(
         protected ObjectManager $em,
         protected Account $Account,
-        protected UserPasswordEncoderInterface $passwordEncoder
+        protected \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordEncoder
     ) {
     }
 

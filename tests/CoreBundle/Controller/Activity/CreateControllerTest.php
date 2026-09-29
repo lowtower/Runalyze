@@ -7,7 +7,6 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Conf;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
@@ -50,7 +49,7 @@ class CreateControllerTest extends AbstractFixturesAwareWebTestCase
             ->setUsername('create_test_' . uniqid('', true))
             ->setMail('create_test_' . uniqid('', true) . '@example.test');
 
-        /** @var UserPasswordEncoderInterface $passwordEncoder */
+        /** @var \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordEncoder */
         $passwordEncoder = self::getContainer()->get('security.user_password_encoder.generic');
 
         $registration = new Registration($this->getEntityManager(), $account, $passwordEncoder);

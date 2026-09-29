@@ -139,7 +139,7 @@ class FileImportResultCollection implements Countable, ArrayAccess, Iterator
      */
     public function getAllFileNames(): array
     {
-        return array_map(fn (FileImportResult $element) => $element->getFileName(), $this->Elements);
+        return array_map(fn (FileImportResult $element): string => $element->getFileName(), $this->Elements);
     }
 
     /**
@@ -149,7 +149,7 @@ class FileImportResultCollection implements Countable, ArrayAccess, Iterator
     {
         return array_values(
             array_unique(
-                array_map(fn (FileImportResult $element) => $element->getOriginalFileName(), $this->Elements)
+                array_map(fn (FileImportResult $element): string => $element->getOriginalFileName(), $this->Elements)
             )
         );
     }

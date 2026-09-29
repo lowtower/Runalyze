@@ -37,7 +37,7 @@ class InstallFilesystemCommand extends Command
 
         $output->writeln('<info>... done.</info>');
         $output->writeln('');
-        return 0;
+        return \Symfony\Component\Console\Command\Command::SUCCESS;
     }
 
     protected function tryToCopyHtaccess(OutputInterface $output)

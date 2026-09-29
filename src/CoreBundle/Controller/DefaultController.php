@@ -21,7 +21,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
@@ -91,7 +90,7 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @Route("/{_locale}/register", name="register")
      */
-    public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder, Environment $twig, TranslatorInterface $translator): Response
+    public function registerAction(Request $request, \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordEncoder, Environment $twig, TranslatorInterface $translator): Response
     {
         if (! $this->parameterBag->get('app.user_can_register')) {
             return $this->render('register/disabled.html.twig');
@@ -219,7 +218,7 @@ class DefaultController extends AbstractPluginsAwareController
             $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
                 ->getContent();
 
-            include $this->parameterBag->get('kernel.root_dir') . '/../dashboard.php';
+            include $this->parameterBag->get('kernel.project_dir') . '/dashboard.php';
 
             return new Response();
         }

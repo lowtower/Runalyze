@@ -10,7 +10,6 @@ use Runalyze\Bundle\CoreBundle\Entity\TrackdataRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
@@ -32,7 +31,7 @@ class ViewControllerTrackdataTest extends AbstractFixturesAwareWebTestCase
             ->setUsername('view_trackdata_test_' . uniqid('', true))
             ->setMail('view_trackdata_test_' . uniqid('', true) . '@example.test');
 
-        /** @var UserPasswordEncoderInterface $passwordEncoder */
+        /** @var \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordEncoder */
         $passwordEncoder = self::getContainer()->get('security.user_password_encoder.generic');
 
         $registration = new Registration($this->getEntityManager(), $account, $passwordEncoder);

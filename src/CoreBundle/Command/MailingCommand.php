@@ -49,7 +49,7 @@ class MailingCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (! $this->validateInput($input, $output)) {
-            return 1;
+            return \Symfony\Component\Console\Command\Command::FAILURE;
         }
 
         $accounts = $this->buildQuery($input);
@@ -61,7 +61,7 @@ class MailingCommand extends Command
             $question = new ConfirmationQuestion('Continue with this action? (y/n)', false);
 
             if (! $helper->ask($input, $output, $question)) {
-                return 0;
+                return \Symfony\Component\Console\Command\Command::SUCCESS;
             }
         }
 
@@ -80,7 +80,7 @@ class MailingCommand extends Command
         $output->writeln(sprintf('<info>%u mail(s) have been sent.</info>', count($accounts)));
         $output->writeln('');
 
-        return 0;
+        return \Symfony\Component\Console\Command\Command::SUCCESS;
     }
 
     private function buildQuery(InputInterface $input): array

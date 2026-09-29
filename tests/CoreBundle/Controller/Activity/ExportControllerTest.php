@@ -7,7 +7,6 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Controller\Activity;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
@@ -29,7 +28,7 @@ class ExportControllerTest extends AbstractFixturesAwareWebTestCase
             ->setUsername('export_test_' . uniqid('', true))
             ->setMail('export_test_' . uniqid('', true) . '@example.test');
 
-        /** @var UserPasswordEncoderInterface $passwordEncoder */
+        /** @var \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordEncoder */
         $passwordEncoder = self::getContainer()->get('security.user_password_encoder.generic');
 
         $registration = new Registration($this->getEntityManager(), $account, $passwordEncoder);

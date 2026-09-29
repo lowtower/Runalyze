@@ -53,6 +53,6 @@ class CleanupBackupCommand extends Command
         $output->writeln(sprintf('<info>%s deleted backups</info>', $deleted));
         $output->writeln('');
 
-        return 0;
+        return \Symfony\Component\Console\Command\Command::SUCCESS;
     }
 }
