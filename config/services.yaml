@@ -132,7 +132,7 @@ services:
     app.listener.console_exception:
       class: Runalyze\Bundle\CoreBundle\EventListener\ConsoleExceptionListener
       tags:
-        - { name: kernel.event_listener, event: console.exception }
+        - { name: kernel.event_listener, event: console.error, method: onConsoleError }
     Runalyze\Bundle\CoreBundle\EventListener\ConsoleExceptionListener: '@app.listener.console_exception'
 #    app.listener.console_error_status:
 #      class: Runalyze\Bundle\CoreBundle\EventListener\ConsoleErrorStatusListener
@@ -182,8 +182,6 @@ services:
     app.event.doctrine.table_prefix_subscriber:
       class: Runalyze\Bundle\CoreBundle\EventListener\TablePrefixSubscriber
       arguments: ['%app.database_prefix%']
-      tags:
-        - { name: doctrine.event_subscriber }
     Runalyze\Bundle\CoreBundle\EventListener\TablePrefixSubscriber: '@app.event.doctrine.table_prefix_subscriber'
     app.listener.maintenance:
       class: Runalyze\Bundle\CoreBundle\EventListener\MaintenanceListener
@@ -283,11 +281,6 @@ services:
       tags:
       - { name: doctrine.orm.entity_listener, lazy: true }
     Runalyze\Bundle\CoreBundle\EntityListener\ActivityListener: '@app.entity_listener.activity'
-    app.entity_subscriber.equipment_update:
-      class: Runalyze\Bundle\CoreBundle\EntityListener\EquipmentUpdateSubscriber
-      tags:
-      - { name: doctrine.event_subscriber, connection: default, lazy: true }
-    Runalyze\Bundle\CoreBundle\EntityListener\EquipmentUpdateSubscriber: '@app.entity_subscriber.equipment_update'
     app.entity_listener.user:
       class: Runalyze\Bundle\CoreBundle\EntityListener\UserListener
       arguments:
@@ -559,12 +552,12 @@ services:
     Runalyze\Bundle\CoreBundle\Twig\AutomaticReloadFlagExtension: '@app.twig_automatic_reload_flag_extension'
     app.poster.generate_json:
       class: Runalyze\Bundle\CoreBundle\Component\Tool\Poster\GenerateJsonData
-      arguments: ["@app.repository.training", "@app.repository.race_result", "%kernel.root_dir%"]
+      arguments: ["@app.repository.training", "@app.repository.race_result", "%kernel.project_dir%/.."]
     Runalyze\Bundle\CoreBundle\Component\Tool\Poster\GenerateJsonData: '@app.poster.generate_json'
 
     app.poster.generate_poster:
       class: Runalyze\Bundle\CoreBundle\Component\Tool\Poster\GeneratePoster
-      arguments: ["%kernel.root_dir%", "%app.python3_path%", "@app.repository.training"]
+      arguments: ["%kernel.project_dir%/..", "%app.python3_path%", "@app.repository.training"]
     Runalyze\Bundle\CoreBundle\Component\Tool\Poster\GeneratePoster: '@app.poster.generate_poster'
 
     app.poster.availability:

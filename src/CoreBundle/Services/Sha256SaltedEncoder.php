@@ -2,35 +2,37 @@
 
 namespace Runalyze\Bundle\CoreBundle\Services;
 
-class Sha256SaltedEncoder implements \Symfony\Component\PasswordHasher\PasswordHasherInterface
+use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Symfony\Component\PasswordHasher\Exception\InvalidPasswordException;
+use Symfony\Component\PasswordHasher\LegacyPasswordHasherInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+
+class Sha256SaltedEncoder implements LegacyPasswordHasherInterface
 {
     /**
-     * @param string $raw
-     * @param string $salt
+     * @throws InvalidPasswordException if $user is not an Account (i.e. does not have a salt
+     *                                    column this hasher can use)
      */
-    public function encodePassword($raw, $salt): string
+    public function getLegacyEncoderPassword(PasswordAuthenticatedUserInterface $user): string
     {
-        return hash('sha256', trim($raw) . $salt); // Custom function for password encrypt
+        if (! $user instanceof Account) {
+            throw new InvalidPasswordException('Sha256SaltedEncoder can only be used for Account users, which provide the salt this hasher requires.');
+        }
+
+        return $user->getSalt();
     }
 
-    /**
-     * @param string $encoded
-     * @param string $raw
-     * @param string $salt
-     */
-    public function isPasswordValid($encoded, $raw, $salt): bool
+    public function hash(string $plainPassword, ?string $salt = null): string
     {
-        return $encoded === $this->encodePassword($raw, $salt);
+        return hash('sha256', trim($plainPassword) . $salt);
     }
 
-    /**
-     * Checks if the given hash requires a rehash.
-     *
-     * @param string $encoded The encoded password
-     *
-     * @return bool true if the password needs to be rehashed, false otherwise
-     */
-    public function needsRehash(string $encoded): bool
+    public function verify(string $hashedPassword, string $plainPassword, ?string $salt = null): bool
+    {
+        return hash_equals($hashedPassword, $this->hash($plainPassword, $salt));
+    }
+
+    public function needsRehash(string $hashedPassword): bool
     {
         return true;
     }

@@ -137,7 +137,7 @@ class Frontend
         $this->defineConstantIfMissing('SQLITE_MOD_SPATIALITE', $this->yamlConfig['sqlite_mod_spatialite']);
         $this->defineConstantIfMissing('RUNALYZE_VERSION', $this->yamlConfig['RUNALYZE_VERSION']);
         $this->defineConstantIfMissing('RUNALYZE_DATE', $this->yamlConfig['RUNALYZE_DATE']);
-        $this->defineConstantIfMissing('DATA_DIRECTORY', str_replace('%kernel.root_dir%', FRONTEND_PATH . '/../src', $this->yamlConfig['data_directory']));
+        $this->defineConstantIfMissing('DATA_DIRECTORY', str_replace('%kernel.project_dir%', FRONTEND_PATH, $this->yamlConfig['data_directory']));
         $this->defineConstantIfMissing('OSM_OVERPASS_URL', $this->yamlConfig['osm_overpass_url']);
         $this->defineConstantIfMissing('OSM_OVERPASS_PROXY', $this->yamlConfig['osm_overpass_proxy']);
     }

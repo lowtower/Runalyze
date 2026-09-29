@@ -9,7 +9,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -55,7 +55,7 @@ class SwitchUserListener
      *
      * @throws LogicException if switching to a user failed
      */
-    public function handle(GetResponseEvent $event): void
+    public function __invoke(RequestEvent $event): void
     {
         $request = $event->getRequest();
 
@@ -69,8 +69,8 @@ class SwitchUserListener
             } else {
                 $this->tokenStorage->setToken($this->attemptSwitchUser($request));
             }
-        } catch (AuthenticationException $authenticationException) {
-            throw new LogicException(sprintf('Switch User failed: "%s"', $authenticationException->getMessage()), $authenticationException->getCode(), $authenticationException);
+        } catch (AuthenticationException $e) {
+            throw new LogicException(sprintf('Switch User failed: "%s"', $e->getMessage()), $e->getCode(), $e);
         }
 
         $request->query->remove($this->usernameParameter);
@@ -93,11 +93,11 @@ class SwitchUserListener
         $originalToken = $this->getOriginalToken($token);
 
         if ($originalToken !== false) {
-            if ($token->getUserIdentifier() === $request->get($this->usernameParameter)) {
+            if ($token->getUsername() === $request->get($this->usernameParameter)) {
                 return $token;
             }
 
-            throw new LogicException(sprintf('You are already switched to "%s" user.', $token->getUserIdentifier()));
+            throw new LogicException(sprintf('You are already switched to "%s" user.', $token->getUsername()));
         }
 
         if ($this->accessDecisionManager->decide($token, [$this->role]) === false) {
@@ -120,9 +120,9 @@ class SwitchUserListener
         $this->userChecker->checkPostAuth($user);
 
         $roles = $user->getRoles();
-        $roles[] = new SwitchUserRole('IS_IMPERSONATOR', $this->tokenStorage->getToken());
+        $roles[] = new SwitchUserRole('ROLE_PREVIOUS_ADMIN', $this->tokenStorage->getToken());
 
-        $token = new UsernamePasswordToken($user, $user->getPassword(), $this->providerKey, $roles);
+        $token = new UsernamePasswordToken($user, $this->providerKey, $roles);
 
         if ($this->dispatcher instanceof EventDispatcherInterface) {
             $switchEvent = new SwitchUserEvent($request, $token->getUser());
@@ -145,7 +145,7 @@ class SwitchUserListener
 
         if ($this->logger instanceof LoggerInterface) {
             $this->logger->info('Switch user exited for user.', [
-                'username' => $original->getUserIdentifier(),
+                'username' => $original->getUsername(),
             ]);
         }
 

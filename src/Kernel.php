@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 class Kernel extends BaseKernel
 {
@@ -50,15 +51,15 @@ class Kernel extends BaseKernel
         }
     }
 
-    protected function configureRoutes(\Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator $routes): void
+    protected function configureRoutes(RoutingConfigurator $routes): void
     {
         $confDir = $this->getProjectDir() . '/config';
 
-        $routes->import($confDir . '/{routes}/' . $this->environment . '/*.yaml', '/', 'glob');
-        $routes->import($confDir . '/{routes}/*.yaml', '/', 'glob');
+        $routes->import($confDir . '/{routes}/' . $this->environment . '/*.yaml');
+        $routes->import($confDir . '/{routes}/*.yaml');
 
-        if (file_exists($confDir . '/routes.yaml')) {
-            $routes->import($confDir . '/routes.yaml', '/');
+        if (is_file($confDir . '/routes.yaml')) {
+            $routes->import($confDir . '/routes.yaml');
         }
     }
 

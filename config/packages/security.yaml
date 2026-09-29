@@ -1,8 +1,8 @@
 security:
-    encoders:
+    enable_authenticator_manager: true
+    password_hashers:
         Runalyze\Bundle\CoreBundle\Entity\Account:
             id: app.sha256salted_encoder
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         users_in_memory: { memory: null }
         runalyzeuser:
@@ -10,8 +10,7 @@ security:
                 class: Runalyze\Bundle\CoreBundle\Entity\Account
     firewalls:
         default:
-            anonymous: lazy
-            entry_point: security.authentication.form_entry_point.default
+            entry_point: form_login
             http_basic: ~
             provider: runalyzeuser
             switch_user: { role: ROLE_ADMIN, parameter: _switch_user }
@@ -23,15 +22,14 @@ security:
             form_login:
                 login_path: login
                 check_path: login_check
-                csrf_token_generator: security.csrf.token_manager
+                enable_csrf: true
                 use_referer: true
             remember_me:
                 secret: '%app.secret%'
-                lifetime: 604800 # 1 week in seconds
+                lifetime: 604800
                 path: /
         externalapi:
             pattern:  ^/api
-            anonymous: false
             http_basic: true
             provider:  runalyzeuser
             stateless: true
@@ -49,4 +47,3 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
-
