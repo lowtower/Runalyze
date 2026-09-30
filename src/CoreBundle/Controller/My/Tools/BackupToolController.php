@@ -39,7 +39,7 @@ class BackupToolController extends AbstractController
     /**
      * @Route("/download/{filename}", name="tools-backup-download", requirements={"filename"=".+"})
      */
-    public function downloadBackupAction(string $filename, Account $account): BinaryFileResponse
+    public function downloadBackupAction(string $filename, ?Account $account = null): BinaryFileResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -70,7 +70,7 @@ class BackupToolController extends AbstractController
     /**
      * @Route("", name="tools-backup")
      */
-    public function backupAction(Account $account, Request $request): RedirectResponse|Response
+    public function backupAction(?Account $account = null, ?Request $request = null): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -78,7 +78,7 @@ class BackupToolController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $formdata = $request->request->get($form->getName());
+            $formdata = $request->request->all($form->getName());
             $this->messageBus->dispatch(new BackupGenerationMessage(
                 $account->getId(),
                 $formdata['fileFormat']

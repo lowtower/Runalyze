@@ -25,10 +25,12 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Throwable;
 
 abstract class AbstractPluginsAwareController extends AbstractController
 {
     use AppServiceSubscriberTrait;
+    use LegacyOutputCaptureTrait;
 
     protected bool $IsShowingAllPanels = false;
 
@@ -41,6 +43,9 @@ abstract class AbstractPluginsAwareController extends AbstractController
     ) {
     }
 
+    /**
+     * @throws Throwable if a legacy plugin throws
+     */
     protected function getResponseForAllEnabledPanels(Request $request, Account $account): Response
     {
         $this->IsShowingAllPanels = true;
@@ -62,6 +67,9 @@ abstract class AbstractPluginsAwareController extends AbstractController
         return new Response($content);
     }
 
+    /**
+     * @throws Throwable if a legacy plugin throws
+     */
     protected function getResponseFor(int $pluginId, Request $request, Account $account): Response
     {
         $factory = new PluginFactory();
@@ -75,32 +83,31 @@ abstract class AbstractPluginsAwareController extends AbstractController
             $content = HTML::error(__('The plugin could not be found.'));
         }
 
-        if ($plugin instanceof LegacyPlugin) {
-            if ($plugin instanceof RunalyzePluginPanel_Sports) {
-                return $this->getResponseForSportsPanel($account, $plugin);
-            }
-
-            if ($plugin instanceof RunalyzePluginStat_MonthlyStats) {
-                return $this->getResponseForMonthlyStats($request, $account, $pluginId);
-            }
-
-            if ($plugin instanceof PluginPanel) {
-                $plugin->setSurroundingDivVisible($this->IsShowingAllPanels);
-            }
-
-            ob_start();
-            $plugin->display();
-            $content = ob_get_clean();
+        if (! $plugin instanceof LegacyPlugin) {
+            return (new Response())->setContent($content);
         }
 
-        return (new Response())->setContent($content);
+        if ($plugin instanceof RunalyzePluginPanel_Sports) {
+            return $this->getResponseForSportsPanel($account, $plugin);
+        }
+
+        if ($plugin instanceof RunalyzePluginStat_MonthlyStats) {
+            return $this->getResponseForMonthlyStats($request, $account, $pluginId);
+        }
+
+        if ($plugin instanceof PluginPanel) {
+            $plugin->setSurroundingDivVisible($this->IsShowingAllPanels);
+        }
+
+        return $this->captureLegacyOutput(function () use ($plugin): void {
+            $plugin->display();
+        });
     }
 
     protected function getResponseForSportsPanel(Account $account, LegacyPlugin $plugin): Response
     {
         /** @var SportRepository $sportRepository */
-        $sportRepository = $this->getDoctrine()
-            ->getRepository(Sport::class);
+        $sportRepository = $this->doctrine->getRepository(Sport::class);
         $today = (new LocalTime())->setTime(0, 0, 0);
 
         return $this->render('my/panels/sports/base.html.twig', [

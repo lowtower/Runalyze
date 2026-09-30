@@ -14,6 +14,8 @@ use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\ORM\LoadAccountData;
 use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
 {
@@ -72,6 +74,19 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
         $this->EntityManager->clear();
     }
 
+    /**
+     * Overrides LiipFunctionalTestBundle's loginClient(), which forwards to
+     * KernelBrowser::loginUser($user) without passing $firewallName. Since loginUser()'s
+     * $firewallContext parameter then defaults to "main", the token ends up stored in the
+     * session under "_security_main" instead of "_security_{$firewallName}" - so Symfony's
+     * ContextListener never finds it again on the next request for firewalls not named "main"
+     * (e.g. this project's "default" firewall), leaving every subsequent request unauthenticated.
+     */
+    public function loginClient(KernelBrowser $client, UserInterface $user, string $firewallName): void
+    {
+        $client->loginUser($user, $firewallName);
+    }
+
     protected function tearDown(): void
     {
         try {
@@ -114,7 +129,7 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
      */
     private function reloadFixtureReference(string $referenceName, string $entityClass): object
     {
-        $reference = $this->Fixtures->getReference($referenceName);
+        $reference = $this->Fixtures->getReference($referenceName, $entityClass);
 
         return $this->getEntityManager()
             ->getRepository($entityClass)

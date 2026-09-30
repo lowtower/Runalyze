@@ -8,6 +8,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
@@ -30,11 +31,11 @@ class ViewControllerTest extends AbstractFixturesAwareWebTestCase
             ->setUsername('view_test_' . uniqid('', true))
             ->setMail('view_test_' . uniqid('', true) . '@example.test');
 
-        /** @var \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordEncoder */
-        $passwordEncoder = self::getContainer()->get('security.user_password_encoder.generic');
+        /** @var UserPasswordHasherInterface $passwordEncoder */
+        $passwordEncoder = self::getContainer()->get('security.user_password_hasher');
 
         $registration = new Registration($this->getEntityManager(), $account, $passwordEncoder);
-        $account->setPassword($passwordEncoder->encodePassword($account, 'irrelevant-for-this-test'));
+        $account->setPassword($passwordEncoder->hashPassword($account, 'irrelevant-for-this-test'));
         $registeredAccount = $registration->registerAccount();
 
         return $this->getEntityManager()
@@ -105,6 +106,11 @@ class ViewControllerTest extends AbstractFixturesAwareWebTestCase
         $this->request('GET', '/activity/' . $activity->getId() . '?silent=1');
 
         $this->assertStatusCode(200, $this->Client);
+        $this->assertStringNotContainsString(
+            'Failed to start the session',
+            (string) $this->Client->getResponse()
+                ->getContent()
+        );
     }
 
     public function testDisplayActionReturns404ForAPrivateActivityBelongingToAnotherAccount(): void
@@ -127,6 +133,11 @@ class ViewControllerTest extends AbstractFixturesAwareWebTestCase
         $this->request('GET', '/activity/' . $activity->getId() . '?silent=1');
 
         $this->assertStatusCode(200, $this->Client);
+        $this->assertStringNotContainsString(
+            'Failed to start the session',
+            (string) $this->Client->getResponse()
+                ->getContent()
+        );
     }
 
     public function testDisplayActionChangePrivacyTogglesPrivacyForOwnActivity(): void
@@ -137,6 +148,11 @@ class ViewControllerTest extends AbstractFixturesAwareWebTestCase
         $this->request('GET', '/activity/' . $activity->getId() . '?action=changePrivacy&silent=1');
 
         $this->assertStatusCode(200, $this->Client);
+        $this->assertStringNotContainsString(
+            'Failed to start the session',
+            (string) $this->Client->getResponse()
+                ->getContent()
+        );
 
         $this->getEntityManager()
             ->clear();
@@ -171,6 +187,11 @@ class ViewControllerTest extends AbstractFixturesAwareWebTestCase
         $this->request('GET', '/activity/' . $activityId . '?action=delete');
 
         $this->assertStatusCode(200, $this->Client);
+        $this->assertStringNotContainsString(
+            'Failed to start the session',
+            (string) $this->Client->getResponse()
+                ->getContent()
+        );
 
         $this->getEntityManager()
             ->clear();
@@ -239,6 +260,11 @@ class ViewControllerTest extends AbstractFixturesAwareWebTestCase
         $this->request('GET', '/activity/' . $activity->getId() . '/splits-info');
 
         $this->assertStatusCode(200, $this->Client);
+        $this->assertStringNotContainsString(
+            'Failed to start the session',
+            (string) $this->Client->getResponse()
+                ->getContent()
+        );
     }
 
     public function testElevationInfoActionRequiresAuthentication(): void
@@ -258,6 +284,11 @@ class ViewControllerTest extends AbstractFixturesAwareWebTestCase
         $this->request('GET', '/activity/' . $activity->getId() . '/elevation-info');
 
         $this->assertStatusCode(200, $this->Client);
+        $this->assertStringNotContainsString(
+            'Failed to start the session',
+            (string) $this->Client->getResponse()
+                ->getContent()
+        );
     }
 
     public function testElevationInfoActionWithUseCalculatedValueReturns404ForAnUnknownId(): void
@@ -294,6 +325,11 @@ class ViewControllerTest extends AbstractFixturesAwareWebTestCase
         $this->request('GET', '/activity/' . $activity->getId() . '/climb-score');
 
         $this->assertStatusCode(200, $this->Client);
+        $this->assertStringNotContainsString(
+            'Failed to start the session',
+            (string) $this->Client->getResponse()
+                ->getContent()
+        );
     }
 
     public function testClimbScoreActionReturns404ForAPrivateActivityWithoutBeingLoggedIn(): void
@@ -324,5 +360,10 @@ class ViewControllerTest extends AbstractFixturesAwareWebTestCase
         $this->request('GET', '/activity/' . $activity->getId() . '/climb-score');
 
         $this->assertStatusCode(200, $this->Client);
+        $this->assertStringNotContainsString(
+            'Failed to start the session',
+            (string) $this->Client->getResponse()
+                ->getContent()
+        );
     }
 }

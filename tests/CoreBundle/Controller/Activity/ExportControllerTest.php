@@ -7,6 +7,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Controller\Activity;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
@@ -28,11 +29,11 @@ class ExportControllerTest extends AbstractFixturesAwareWebTestCase
             ->setUsername('export_test_' . uniqid('', true))
             ->setMail('export_test_' . uniqid('', true) . '@example.test');
 
-        /** @var \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordEncoder */
-        $passwordEncoder = self::getContainer()->get('security.user_password_encoder.generic');
+        /** @var UserPasswordHasherInterface $passwordEncoder */
+        $passwordEncoder = self::getContainer()->get('security.user_password_hasher');
 
         $registration = new Registration($this->getEntityManager(), $account, $passwordEncoder);
-        $account->setPassword($passwordEncoder->encodePassword($account, 'irrelevant-for-this-test'));
+        $account->setPassword($passwordEncoder->hashPassword($account, 'irrelevant-for-this-test'));
         $registeredAccount = $registration->registerAccount();
 
         return $this->getEntityManager()
@@ -61,6 +62,11 @@ class ExportControllerTest extends AbstractFixturesAwareWebTestCase
 
         $this->assertStatusCode(200, $this->Client);
         $this->assertSame('', $this->Client->getResponse()->getContent());
+        $this->assertStringNotContainsString(
+            'Failed to start the session',
+            (string) $this->Client->getResponse()
+                ->getContent()
+        );
     }
 
     public function testFileExportActionReturnsEmptyResponseForAnInvalidTypeId(): void
@@ -71,5 +77,10 @@ class ExportControllerTest extends AbstractFixturesAwareWebTestCase
 
         $this->assertStatusCode(200, $this->Client);
         $this->assertSame('', $this->Client->getResponse()->getContent());
+        $this->assertStringNotContainsString(
+            'Failed to start the session',
+            (string) $this->Client->getResponse()
+                ->getContent()
+        );
     }
 }

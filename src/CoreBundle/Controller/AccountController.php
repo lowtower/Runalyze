@@ -5,12 +5,12 @@ namespace Runalyze\Bundle\CoreBundle\Controller;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Form\RecoverPasswordType;
-use Runalyze\Bundle\CoreBundle\Services\Sha256SaltedEncoder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -80,7 +80,7 @@ class AccountController extends AbstractController
     /**
      * @Route("/recover/{hash}", name="account_recover_hash", requirements={"hash"="[[:xdigit:]]{32}"})
      */
-    public function recoverForHashAction(string $hash, Request $request, Sha256SaltedEncoder $sha256SaltedEncoder): Response
+    public function recoverForHashAction(string $hash, Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
         $account = $this->getAccountRepository()
             ->findOneBy([
@@ -98,7 +98,7 @@ class AccountController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $account->setNewSalt();
-            $account->setPassword($sha256SaltedEncoder->encodePassword($account->getPlainPassword(), $account->getSalt()));
+            $account->setPassword($passwordHasher->hashPassword($account, $account->getPlainPassword()));
             $account->removeChangePasswordHash();
 
             $this->getAccountRepository()
@@ -130,9 +130,9 @@ class AccountController extends AbstractController
 
         if ($form->isSubmitted()) {
             $account = $this->getAccountRepository()
-                ->loadUserByUsername($request->request->get($form->getName())['username']);
+                ->loadUserByUsername($request->request->all($form->getName())['username']);
 
-            if (! $account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account) {
+            if (! $account instanceof Account) {
                 $form->get('username')
                     ->addError(new FormError($translator->trans('The username is not known.')));
             } else {

@@ -8,6 +8,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
@@ -40,11 +41,11 @@ class SharedControllerTest extends AbstractFixturesAwareWebTestCase
             ->setUsername('shared_test_' . uniqid('', true))
             ->setMail('shared_test_' . uniqid('', true) . '@example.test');
 
-        /** @var \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordEncoder */
-        $passwordEncoder = self::getContainer()->get('security.user_password_encoder.generic');
+        /** @var UserPasswordHasherInterface $passwordEncoder */
+        $passwordEncoder = self::getContainer()->get('security.user_password_hasher');
 
         $registration = new Registration($this->getEntityManager(), $account, $passwordEncoder);
-        $account->setPassword($passwordEncoder->encodePassword($account, 'irrelevant-for-this-test'));
+        $account->setPassword($passwordEncoder->hashPassword($account, 'irrelevant-for-this-test'));
         $registeredAccount = $registration->registerAccount();
 
         return $this->getEntityManager()

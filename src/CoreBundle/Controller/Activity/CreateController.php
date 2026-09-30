@@ -103,7 +103,7 @@ class CreateController extends AbstractController
     /**
      * @Route("/activity/upload", name="activity-upload")
      */
-    public function uploadAction(Request $request, Account $account): Response
+    public function uploadAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -128,7 +128,7 @@ class CreateController extends AbstractController
         return $this->getUploadFormResponse();
     }
 
-    protected function getResponseForImportResults(FileImportResultCollection $results, Account $account, Request $request): Response
+    protected function getResponseForImportResults(FileImportResultCollection $results, ?Account $account = null, ?Request $request = null): Response
     {
         $results->completeAndFilterResults($this->activityDataContainerFilter);
 
@@ -178,12 +178,12 @@ class CreateController extends AbstractController
         ]);
     }
 
-    protected function containerToActivity(ActivityDataContainer $container, Account $account): Training
+    protected function containerToActivity(ActivityDataContainer $container, ?Account $account = null): Training
     {
         return $this->activityDataContainerToActivityContextConverter->getActivityFor($container, $account);
     }
 
-    protected function getResponseForMultipleNewActivities(FileImportResultCollection $results, Request $request, Account $account): Response
+    protected function getResponseForMultipleNewActivities(FileImportResultCollection $results, Request $request, ?Account $account = null): Response
     {
         $activityHashes = [];
         $errors = [];
@@ -216,7 +216,7 @@ class CreateController extends AbstractController
     /**
      * @Route("/activity/multi-import", name="activity-multi-importer")
      */
-    public function multiImporterAction(Request $request, Account $account): RedirectResponse|Response
+    public function multiImporterAction(Request $request, ?Account $account = null): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -275,7 +275,7 @@ class CreateController extends AbstractController
     /**
      * @Route("/activity/new", name="activity-new")
      */
-    public function newAction(Request $request, Account $account): Response
+    public function newAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -354,7 +354,7 @@ class CreateController extends AbstractController
             ->save($activity);
     }
 
-    protected function getDefaultNewActivity(Account $account, ?int $time = null): Training
+    protected function getDefaultNewActivity(?Account $account = null, ?int $time = null): Training
     {
         $activity = new Training();
         $activity->setAccount($account);
@@ -366,7 +366,7 @@ class CreateController extends AbstractController
         return $activity;
     }
 
-    protected function getMainSport(Account $account): ?Sport
+    protected function getMainSport(?Account $account = null): ?Sport
     {
         $mainSportId = $this->configurationManager
             ->getList()

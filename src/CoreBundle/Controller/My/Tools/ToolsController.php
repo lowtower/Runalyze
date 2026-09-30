@@ -53,7 +53,7 @@ class ToolsController extends AbstractController
     /**
      * @Route("/my/tools/cleanup", name="tools-cleanup")
      */
-    public function cleanupAction(Request $request, Account $account): Response
+    public function cleanupAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -140,7 +140,7 @@ class ToolsController extends AbstractController
     /**
      * @Route("/my/tools/vo2max-analysis", name="tools-vo2max-analysis")
      */
-    public function vo2maxAnalysisAction(Account $account): Response
+    public function vo2maxAnalysisAction(?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -170,7 +170,7 @@ class ToolsController extends AbstractController
     /**
      * @Route("/my/tools/anova", name="tools-anova")
      */
-    public function anovaAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\Response
+    public function anovaAction(Request $request, ?Account $account = null): JsonResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -204,7 +204,7 @@ class ToolsController extends AbstractController
                 'tickFormatter' => JavaScriptFormatter::getFormatter($query->getValueUnit($unitSystem)),
                 'groups' => $query->getResults(
                     $this->getDoctrine()
-                        ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Training::class),
+                        ->getRepository(Training::class),
                     $account,
                     $unitSystem
                 ),
@@ -219,7 +219,7 @@ class ToolsController extends AbstractController
     /**
      * @Route("/my/tools/trend-analysis", name="tools-trend-analysis")
      */
-    public function trendAnalysisAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\Response
+    public function trendAnalysisAction(Request $request, ?Account $account = null): JsonResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -249,7 +249,7 @@ class ToolsController extends AbstractController
                 'tickFormatter' => JavaScriptFormatter::getFormatter($query->getValueUnit($unitSystem)),
                 'values' => $query->getResults(
                     $this->getDoctrine()
-                        ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Training::class),
+                        ->getRepository(Training::class),
                     $account,
                     $unitSystem
                 ),
@@ -264,7 +264,7 @@ class ToolsController extends AbstractController
     /**
      * @Route("/my/tools/poster", name="poster")
      */
-    public function posterAction(Request $request, Account $account): Response
+    public function posterAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -281,7 +281,7 @@ class ToolsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $formdata = $request->request->get($form->getName());
+            $formdata = $request->request->all($form->getName());
 
             /** @var TrainingRepository $repository */
             $repository = $this->getDoctrine()
@@ -321,7 +321,7 @@ class ToolsController extends AbstractController
     /**
      * @Route("/my/tools/poster/{name}", name="poster-download", requirements={"name"=".+"})
      */
-    public function posterDownloadAction(Account $account, string $name): Response
+    public function posterDownloadAction(?Account $account = null, string $name = ''): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 

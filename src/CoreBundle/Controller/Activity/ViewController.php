@@ -9,6 +9,7 @@ use Runalyze\Bundle\CoreBundle\Component\Activity\Tool\BestSubSegmentsStatistics
 use Runalyze\Bundle\CoreBundle\Component\Activity\Tool\TimeSeriesStatistics;
 use Runalyze\Bundle\CoreBundle\Component\Activity\VO2maxCalculationDetailsDecorator;
 use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
+use Runalyze\Bundle\CoreBundle\Controller\LegacyOutputCaptureTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Trackdata;
@@ -26,11 +27,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Throwable;
 use TrainingView;
 
 class ViewController extends AbstractController
 {
     use AppServiceSubscriberTrait;
+    use LegacyOutputCaptureTrait;
 
     public function __construct(
         private TokenStorageInterface $tokenStorage,
@@ -59,7 +62,7 @@ class ViewController extends AbstractController
     /**
      * @throws NotFoundHttpException
      */
-    protected function checkThatEntityBelongsToActivity(AccountRelatedEntityInterface $entity, Account $account): void
+    protected function checkThatEntityBelongsToActivity(AccountRelatedEntityInterface $entity, ?Account $account = null): void
     {
         if ($entity->getAccount()->getId() != $account->getId()) {
             throw $this->createNotFoundException();
@@ -70,8 +73,9 @@ class ViewController extends AbstractController
      * @Route("/activity/{id}", name="ActivityShow", requirements={"id"="\d+"})
      *
      * @throws NotFoundHttpException
+     * @throws Throwable if the legacy training view throws
      */
-    public function displayAction(Request $request, int $id, Account $account): Response
+    public function displayAction(Request $request, int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -106,12 +110,14 @@ class ViewController extends AbstractController
         }
 
         if (! $request->query->get('silent')) {
-            $frontend = new Frontend(true, $this->tokenStorage, $this->parameterBag);
+            new Frontend(true, $this->tokenStorage, $this->parameterBag);
 
-            $context = new Context($activity->getId(), $activity->getAccount()->getId());
+            return $this->captureLegacyOutput(function () use ($activity): void {
+                $context = new Context($activity->getId(), $activity->getAccount()->getId());
 
-            $view = new TrainingView($context);
-            $view->display();
+                $view = new TrainingView($context);
+                $view->display();
+            });
         }
 
         return new Response();
@@ -122,7 +128,7 @@ class ViewController extends AbstractController
      *
      * @throws NotFoundHttpException
      */
-    public function vo2maxInfoAction(int $id, Account $account): Response
+    public function vo2maxInfoAction(int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -146,12 +152,14 @@ class ViewController extends AbstractController
 
     /**
      * @Route("/activity/{id}/splits-info", requirements={"id"="\d+"})
+     *
+     * @throws Throwable if the legacy laps window throws
      */
-    public function splitsInfoAction(int $id, Account $account): Response
+    public function splitsInfoAction(int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag);
+        new Frontend(false, $this->tokenStorage, $this->parameterBag);
 
         $context = new Context($id, $account->getId());
 
@@ -159,18 +167,19 @@ class ViewController extends AbstractController
             return $this->render('activity/tool/not_possible.html.twig');
         }
 
-        $window = new Window($context);
-        $window->display();
-
-        return new Response();
+        return $this->captureLegacyOutput(function () use ($context): void {
+            $window = new Window($context);
+            $window->display();
+        });
     }
 
     /**
      * @Route("/activity/{id}/elevation-info", requirements={"id"="\d+"})
      *
      * @throws NotFoundHttpException
+     * @throws Throwable if the legacy elevation info throws
      */
-    public function elevationInfoAction(int $id, Request $request, Account $account): Response
+    public function elevationInfoAction(int $id, Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -190,7 +199,7 @@ class ViewController extends AbstractController
                 ->save($activity);
         }
 
-        $frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag);
+        new Frontend(false, $this->tokenStorage, $this->parameterBag);
 
         $context = new Context($id, $account->getId());
 
@@ -198,16 +207,16 @@ class ViewController extends AbstractController
             return $this->render('activity/tool/not_possible.html.twig');
         }
 
-        $elevationInfo = new ElevationInfo($context);
-        $elevationInfo->display();
-
-        return new Response();
+        return $this->captureLegacyOutput(function () use ($context): void {
+            $elevationInfo = new ElevationInfo($context);
+            $elevationInfo->display();
+        });
     }
 
     /**
      * @Route("/activity/{id}/time-series-info", requirements={"id"="\d+"}, name="activity-tool-time-series-info")
      */
-    public function timeSeriesInfoAction(int $id, Account $account): Response
+    public function timeSeriesInfoAction(int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -238,7 +247,7 @@ class ViewController extends AbstractController
     /**
      * @Route("/activity/{id}/sub-segments-info", requirements={"id"="\d+"}, name="activity-tool-sub-segments-info")
      */
-    public function subSegmentInfoAction(int $id, Account $account): Response
+    public function subSegmentInfoAction(int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 

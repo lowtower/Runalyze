@@ -156,7 +156,7 @@ class ActivityBulkImportCommand extends Command
         # TSC create equipment array for automatic mapping
         $this->createEquiqmentArray($user, $output);
 
-        $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
+        $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
         $this->tokenStorage->setToken($token);
 
         $dataDirectory = $this->parameterBag->get('app.data_directory');

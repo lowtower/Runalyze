@@ -6,6 +6,7 @@ use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
@@ -27,11 +28,11 @@ class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             ->setUsername('default_test_' . uniqid('', true))
             ->setMail('default_test_' . uniqid('', true) . '@example.test');
 
-        /** @var \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordEncoder */
-        $passwordEncoder = self::getContainer()->get('security.user_password_encoder.generic');
+        /** @var UserPasswordHasherInterface $passwordEncoder */
+        $passwordEncoder = self::getContainer()->get('security.user_password_hasher');
 
         $registration = new Registration($this->getEntityManager(), $account, $passwordEncoder);
-        $account->setPassword($passwordEncoder->encodePassword($account, 'irrelevant-for-this-test'));
+        $account->setPassword($passwordEncoder->hashPassword($account, 'irrelevant-for-this-test'));
         $registeredAccount = $registration->registerAccount();
 
         return $this->getEntityManager()
@@ -110,6 +111,26 @@ class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $this->Client->request('GET', '/dashboard');
 
         $this->isSuccessful($this->Client->getResponse(), false);
+    }
+
+    public function testDashboardActionIsAccessibleForLoggedInUser(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $this->Client->request('GET', '/dashboard');
+
+        $this->assertStatusCode(200, $this->Client);
+    }
+
+    public function testDashboardActionRendersTheLegacyDashboardContentForLoggedInUser(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $this->Client->request('GET', '/dashboard');
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('id="data-browser"', (string) $this->Client->getResponse()->getContent());
+        $this->assertStringContainsString('id="statistics"', (string) $this->Client->getResponse()->getContent());
     }
 
     public function testPluginActionRequiresAuthentication(): void

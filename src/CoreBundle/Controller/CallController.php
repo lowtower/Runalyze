@@ -23,10 +23,12 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Throwable;
 
 class CallController extends AbstractController
 {
     use AppServiceSubscriberTrait;
+    use LegacyOutputCaptureTrait;
 
     public function __construct(
         private TokenStorageInterface $tokenStorage,
@@ -37,16 +39,19 @@ class CallController extends AbstractController
     /**
      * @Route("/call/call.DataBrowser.display.php")
      * @Route("databrowser", name="databrowser")
+     *
+     * @throws Throwable if the legacy data browser throws
      */
     public function dataBrowserAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $Frontend = new Frontend(true, $this->tokenStorage, $this->parameterBag);
-        $DataBrowser = new DataBrowser();
-        $DataBrowser->display();
+        new Frontend(true, $this->tokenStorage, $this->parameterBag);
 
-        return new Response();
+        return $this->captureLegacyOutput(function (): void {
+            $DataBrowser = new DataBrowser();
+            $DataBrowser->display();
+        });
     }
 
     /**
@@ -96,20 +101,23 @@ class CallController extends AbstractController
 
     /**
      * @Route("/settings", name="settings")
+     *
+     * @throws Throwable if the legacy config tabs throw
      */
     public function windowConfigAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $Frontend = new Frontend(true, $this->tokenStorage, $this->parameterBag);
-        $ConfigTabs = new ConfigTabs();
-        $ConfigTabs->addDefaultTab(new ConfigTabGeneral());
-        $ConfigTabs->addTab(new ConfigTabPlugins());
-        $ConfigTabs->display();
+        new Frontend(true, $this->tokenStorage, $this->parameterBag);
 
-        echo Ajax::wrapJSforDocumentReady('Runalyze.Overlay.removeClasses();');
+        return $this->captureLegacyOutput(function (): void {
+            $ConfigTabs = new ConfigTabs();
+            $ConfigTabs->addDefaultTab(new ConfigTabGeneral());
+            $ConfigTabs->addTab(new ConfigTabPlugins());
+            $ConfigTabs->display();
 
-        return new Response();
+            echo Ajax::wrapJSforDocumentReady('Runalyze.Overlay.removeClasses();');
+        });
     }
 
     /**
@@ -119,7 +127,7 @@ class CallController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $Frontend = new Frontend(true, $this->tokenStorage, $this->parameterBag);
+        new Frontend(true, $this->tokenStorage, $this->parameterBag);
 
         $key = $request->query->get('key', '');
         $value = $request->query->get('value');
@@ -144,12 +152,15 @@ class CallController extends AbstractController
 
     /**
      * @Route("/my/search", name="my-search")
+     *
+     * @throws Throwable if the legacy search formular or results throw
      */
     public function windowSearchAction(): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $Frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag);
+        new Frontend(false, $this->tokenStorage, $this->parameterBag);
+
         $showResults = ! empty($_POST);
 
         if (isset($_GET['get']) && $_GET['get'] == 'true') {
@@ -157,15 +168,6 @@ class CallController extends AbstractController
             $showResults = true;
 
             SearchFormular::transformOldParamsToNewParams();
-        }
-
-        if (empty($_POST) || Request::createFromGlobals()->query->get('get') == 'true') {
-            echo '<div class="panel-heading">';
-            echo '<h1>' . __('Search for activities') . '</h1>';
-            echo '</div>';
-
-            $Formular = new SearchFormular($this->generateUrl('my-search'));
-            $Formular->display();
         }
 
         $Results = new SearchResults($showResults);
@@ -176,9 +178,18 @@ class CallController extends AbstractController
             ]);
         }
 
-        $Results->display();
+        return $this->captureLegacyOutput(function () use ($Results): void {
+            if (empty($_POST) || Request::createFromGlobals()->query->get('get') == 'true') {
+                echo '<div class="panel-heading">';
+                echo '<h1>' . __('Search for activities') . '</h1>';
+                echo '</div>';
 
-        return new Response();
+                $Formular = new SearchFormular($this->generateUrl('my-search'));
+                $Formular->display();
+            }
+
+            $Results->display();
+        });
     }
 
     protected function getPlotSumData(): PlotSumData
@@ -194,16 +205,19 @@ class CallController extends AbstractController
 
     /**
      * @Route("/call/window.plotSumData.php")
+     *
+     * @throws Throwable if the legacy plot sum data throws
      */
     public function windowsPlotSumDataAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $Frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag);
-        $this->getPlotSumData()
-            ->display();
+        new Frontend(false, $this->tokenStorage, $this->parameterBag);
 
-        return new Response();
+        return $this->captureLegacyOutput(function (): void {
+            $this->getPlotSumData()
+                ->display();
+        });
     }
 
     /**

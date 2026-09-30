@@ -35,7 +35,7 @@ class RaceResultsController extends AbstractController
     /**
      * @Route("/all", name="internal-data-race-results-all")
      */
-    public function allRaceResultsAction(Account $account): JsonResponse
+    public function allRaceResultsAction(?Account $account = null): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 

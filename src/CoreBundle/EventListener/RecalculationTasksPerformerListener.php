@@ -2,7 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\EventListener;
 
-use ProxyManager\Proxy\LazyLoadingInterface;
+use Doctrine\Persistence\Proxy;
 
 class RecalculationTasksPerformerListener
 {
@@ -13,7 +13,7 @@ class RecalculationTasksPerformerListener
 
     public function onTerminate(): void
     {
-        if ($this->Manager instanceof LazyLoadingInterface && ! $this->Manager->isProxyInitialized()) {
+        if ($this->Manager instanceof Proxy && ! $this->Manager->__isInitialized()) {
             return;
         }
 

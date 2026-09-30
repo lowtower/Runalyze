@@ -5,6 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
@@ -26,11 +27,11 @@ class CallControllerTest extends AbstractFixturesAwareWebTestCase
             ->setUsername('call_test_' . uniqid('', true))
             ->setMail('call_test_' . uniqid('', true) . '@example.test');
 
-        /** @var \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordEncoder */
-        $passwordEncoder = self::getContainer()->get('security.user_password_encoder.generic');
+        /** @var UserPasswordHasherInterface $passwordEncoder */
+        $passwordEncoder = self::getContainer()->get('security.user_password_hasher');
 
         $registration = new Registration($this->getEntityManager(), $account, $passwordEncoder);
-        $account->setPassword($passwordEncoder->encodePassword($account, 'irrelevant-for-this-test'));
+        $account->setPassword($passwordEncoder->hashPassword($account, 'irrelevant-for-this-test'));
         $registeredAccount = $registration->registerAccount();
 
         return $this->getEntityManager()
@@ -49,6 +50,20 @@ class CallControllerTest extends AbstractFixturesAwareWebTestCase
         $this->Client->request('GET', '/call/call.DataBrowser.display.php');
 
         $this->isSuccessful($this->Client->getResponse(), false);
+    }
+
+    public function testDataBrowserActionRendersForAuthenticatedUserWithoutLeakingASessionException(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $this->Client->request('GET', '/call/call.DataBrowser.display.php');
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringNotContainsString(
+            'Failed to start the session',
+            (string) $this->Client->getResponse()
+                ->getContent()
+        );
     }
 
     public function testGarminCommunicatorActionRequiresAuthentication(): void
@@ -124,6 +139,20 @@ class CallControllerTest extends AbstractFixturesAwareWebTestCase
         $this->isSuccessful($this->Client->getResponse(), false);
     }
 
+    public function testWindowConfigActionRendersTheConfigTabsForAuthenticatedUser(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $this->Client->request('GET', '/settings');
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString(
+            'Runalyze.Overlay.removeClasses();',
+            (string) $this->Client->getResponse()
+                ->getContent()
+        );
+    }
+
     public function testAjaxChangeConfigActionRequiresAuthentication(): void
     {
         $this->Client->request('GET', '/call/ajax.change.Config.php');
@@ -156,11 +185,39 @@ class CallControllerTest extends AbstractFixturesAwareWebTestCase
         $this->isSuccessful($this->Client->getResponse(), false);
     }
 
+    public function testWindowSearchActionRendersTheSearchFormForAuthenticatedUser(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $this->Client->request('GET', '/my/search');
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString(
+            'Search for activities',
+            (string) $this->Client->getResponse()
+                ->getContent()
+        );
+    }
+
     public function testWindowsPlotSumDataActionRequiresAuthentication(): void
     {
         $this->Client->request('GET', '/call/window.plotSumData.php');
 
         $this->isSuccessful($this->Client->getResponse(), false);
+    }
+
+    public function testWindowsPlotSumDataActionRendersForAuthenticatedUserWithoutLeakingASessionException(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $this->Client->request('GET', '/call/window.plotSumData.php');
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringNotContainsString(
+            'Failed to start the session',
+            (string) $this->Client->getResponse()
+                ->getContent()
+        );
     }
 
     public function testLoginActionRendersWithoutRequiringAuthentication(): void

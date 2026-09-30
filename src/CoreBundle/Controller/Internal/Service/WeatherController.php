@@ -42,7 +42,7 @@ class WeatherController extends AbstractController
      * @Route("", name="internal-service-weather")
      * @throws AccessDeniedException
      */
-    public function fetchWeatherDataAction(Request $request, Account $account): JsonResponse
+    public function fetchWeatherDataAction(Request $request, ?Account $account = null): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -172,7 +172,7 @@ class WeatherController extends AbstractController
         return 'request_failed';
     }
 
-    private function getLocationForRequest(Request $request, Account $account): Location
+    private function getLocationForRequest(Request $request, ?Account $account = null): Location
     {
         $location = new Location();
 

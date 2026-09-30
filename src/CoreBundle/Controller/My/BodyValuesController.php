@@ -30,7 +30,7 @@ class BodyValuesController extends AbstractController
     /**
      * @Route("/add", name="body-values-add")
      */
-    public function addAction(Request $request, Account $account): Response
+    public function addAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -63,7 +63,7 @@ class BodyValuesController extends AbstractController
     /**
      * @Route("/{id}/edit", name="body-values-edit")
      */
-    public function editAction(Request $request, int $id, Account $account): Response
+    public function editAction(Request $request, int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -95,7 +95,7 @@ class BodyValuesController extends AbstractController
     /**
      * @Route("/{id}/delete", name="body-values-delete")
      */
-    public function deleteAction(int $id, Account $account): RedirectResponse
+    public function deleteAction(int $id, ?Account $account = null): RedirectResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -113,7 +113,7 @@ class BodyValuesController extends AbstractController
     /**
      * @Route("/table", name="body-values-table")
      */
-    public function tableAction(Account $account): Response
+    public function tableAction(?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 

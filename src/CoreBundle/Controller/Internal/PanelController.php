@@ -21,7 +21,7 @@ class PanelController extends AbstractController
      * @Route("/sport", name="internal-sport-panel")
      * @throws AccessDeniedException
      */
-    public function sportStatAction(Request $request, Account $account): JsonResponse
+    public function sportStatAction(Request $request, ?Account $account = null): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 

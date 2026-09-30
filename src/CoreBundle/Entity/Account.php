@@ -12,6 +12,7 @@ use Runalyze\Model\Account\UserRole;
 use Runalyze\Parameter\Application\Timezone;
 use Runalyze\Profile\Athlete\Gender;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\LegacyPasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -23,7 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\UniqueConstraint(name: 'username', columns: ['username'])]
 #[ORM\UniqueConstraint(name: 'mail', columns: ['mail'])]
 #[ORM\Entity(repositoryClass: AccountRepository::class)]
-class Account implements UserInterface, IdentifiableEntityInterface
+class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface, IdentifiableEntityInterface
 {
     /**
      * @Assert\Length(

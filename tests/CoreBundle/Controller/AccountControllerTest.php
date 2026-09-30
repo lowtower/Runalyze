@@ -267,7 +267,7 @@ class AccountControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertNull($reloaded->getChangepwHash());
 
         $encoder = new Sha256SaltedEncoder();
-        $this->assertTrue($encoder->isPasswordValid($reloaded->getPassword(), 'brand-new-password-123', $reloaded->getSalt()));
+        $this->assertTrue($encoder->verify($reloaded->getPassword(), 'brand-new-password-123', $reloaded->getSalt()));
     }
 
     public function testSubmittingRecoverForHashFormWithMismatchedPasswordsDoesNotChangePassword(): void

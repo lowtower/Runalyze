@@ -39,7 +39,7 @@ class EquipmentController extends AbstractController
     /**
      * @Route("/category/{typeid}/table", name="equipment-category-table", requirements={"typeid"="\d+"})
      */
-    public function categoryTableAction(int $typeid, Account $account, TranslatorInterface $translator): Response
+    public function categoryTableAction(int $typeid, ?Account $account = null, ?TranslatorInterface $translator = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -75,7 +75,7 @@ class EquipmentController extends AbstractController
     /**
      * @Route("/overview", name="equipment-overview")
      */
-    public function overviewAction(Account $account): Response
+    public function overviewAction(?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -91,7 +91,7 @@ class EquipmentController extends AbstractController
     /**
      * @Route("/category/add", name="equipment-category-add")
      */
-    public function typeAddAction(Request $request, Account $account): Response
+    public function typeAddAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -125,7 +125,7 @@ class EquipmentController extends AbstractController
     /**
      * @Route("/category/{id}/edit", name="equipment-category-edit")
      */
-    public function typeEditAction(Request $request, int $id, Account $account): Response
+    public function typeEditAction(Request $request, int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -166,7 +166,7 @@ class EquipmentController extends AbstractController
     /**
      * @Route("/category/{id}/delete", name="equipment-category-delete")
      */
-    public function deleteEquipmentTypeAction(Request $request, int $id, Account $account, TranslatorInterface $translator): RedirectResponse
+    public function deleteEquipmentTypeAction(Request $request, int $id, ?Account $account = null, ?TranslatorInterface $translator = null): RedirectResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -195,7 +195,7 @@ class EquipmentController extends AbstractController
     /**
      * @Route("/add/{id}", name="equipment-add", requirements={"id"="\d+"})
      */
-    public function equipmentAddAction(Request $request, int $id, Account $account): RedirectResponse|Response
+    public function equipmentAddAction(Request $request, int $id, ?Account $account = null): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -239,7 +239,7 @@ class EquipmentController extends AbstractController
     /**
      * @Route("/{id}/edit", name="equipment-edit")
      */
-    public function equipmentEditAction(Request $request, int $id, Account $account): Response
+    public function equipmentEditAction(Request $request, int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -278,7 +278,7 @@ class EquipmentController extends AbstractController
     /**
      * @Route("/{id}/delete", name="equipment-delete")
      */
-    public function deleteEquipmentAction(Request $request, int $id, Account $account, TranslatorInterface $translator): RedirectResponse
+    public function deleteEquipmentAction(Request $request, int $id, ?Account $account = null, ?TranslatorInterface $translator = null): RedirectResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 

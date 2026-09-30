@@ -53,7 +53,7 @@ class SportController extends AbstractController
      * @Route("", name="settings-sports")
      * @throws AccessDeniedException
      */
-    public function overviewAction(Account $account): Response
+    public function overviewAction(?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -71,7 +71,7 @@ class SportController extends AbstractController
      * @Route("/{sportid}/type/add", name="sport-type-add", requirements={"sportid"="\d+"})
      * @throws AccessDeniedException
      */
-    public function typeAddAction(Request $request, int $sportid, Account $account): RedirectResponse|Response
+    public function typeAddAction(Request $request, int $sportid, ?Account $account = null): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -111,7 +111,7 @@ class SportController extends AbstractController
      * @Route("/type/{id}/edit", name="sport-type-edit", requirements={"id"="\d+"})
      * @throws AccessDeniedException
      */
-    public function typeEditAction(Request $request, int $id, Account $account): RedirectResponse|Response
+    public function typeEditAction(Request $request, int $id, ?Account $account = null): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -151,7 +151,7 @@ class SportController extends AbstractController
      * @Route("/type/{id}/delete", name="sport-type-delete", requirements={"id"="\d+"})
      * @throws AccessDeniedException
      */
-    public function deleteSportTypeAction(Request $request, int $id, Account $account, TranslatorInterface $translator): RedirectResponse
+    public function deleteSportTypeAction(Request $request, int $id, ?Account $account = null, ?TranslatorInterface $translator = null): RedirectResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -189,7 +189,7 @@ class SportController extends AbstractController
      * @Route("/add/custom", name="sport-add-custom")
      * @throws AccessDeniedException
      */
-    public function sportAddAction(Request $request, Account $account, ?string $internalType = null): Response
+    public function sportAddAction(Request $request, ?Account $account = null, ?string $internalType = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -232,7 +232,7 @@ class SportController extends AbstractController
      * @Route("/{id}/edit", name="sport-edit", requirements={"id"="\d+"})
      * @throws AccessDeniedException
      */
-    public function sportEditAction(Request $request, int $id, Account $account): RedirectResponse|Response
+    public function sportEditAction(Request $request, int $id, ?Account $account = null): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -274,7 +274,7 @@ class SportController extends AbstractController
      * @Route("/{id}/delete", name="sport-delete", requirements={"id"="\d+"})
      * @throws AccessDeniedException
      */
-    public function sportDeleteAction(Request $request, int $id, Account $account, TranslatorInterface $translator): RedirectResponse
+    public function sportDeleteAction(Request $request, int $id, ?Account $account = null, ?TranslatorInterface $translator = null): RedirectResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 

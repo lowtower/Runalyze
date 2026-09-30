@@ -35,7 +35,7 @@ class NotificationsController extends AbstractController
      * @Route("", name="notifications-list")
      * @throws AccessDeniedException
      */
-    public function newNotificationsAction(Account $account): Response
+    public function newNotificationsAction(?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 

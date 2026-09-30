@@ -28,7 +28,7 @@ class PluginController extends AbstractPluginsAwareController
     /**
      * @throws AccessDeniedException if no plugin with the given id exists for the current account
      */
-    private function getPluginOwnedByAccountOrFail(int $id, Account $account): Plugin
+    private function getPluginOwnedByAccountOrFail(int $id, ?Account $account = null): Plugin
     {
         $plugin = $this->getPluginRepository()
             ->find($id);
@@ -48,7 +48,7 @@ class PluginController extends AbstractPluginsAwareController
      * @Route("/toggle/{id}", name="internal-plugin-toggle")
      * @throws AccessDeniedException
      */
-    public function togglePanelAction(int $id, Account $account): JsonResponse
+    public function togglePanelAction(int $id, ?Account $account = null): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -64,7 +64,7 @@ class PluginController extends AbstractPluginsAwareController
      * @Route("/move/{id}/up", name="internal-plugin-move-up")
      * @throws AccessDeniedException
      */
-    public function movePanelUpAction(int $id, Account $account): JsonResponse
+    public function movePanelUpAction(int $id, ?Account $account = null): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -80,7 +80,7 @@ class PluginController extends AbstractPluginsAwareController
      * @Route("/move/{id}/down", name="internal-plugin-move-down")
      * @throws AccessDeniedException
      */
-    public function movePanelDownAction(int $id, Account $account): JsonResponse
+    public function movePanelDownAction(int $id, ?Account $account = null): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -96,7 +96,7 @@ class PluginController extends AbstractPluginsAwareController
      * @Route("/all-panels", name="internal-plugin-all-panels")
      * @throws AccessDeniedException
      */
-    public function contentPanelsAction(Request $request, Account $account): Response
+    public function contentPanelsAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 

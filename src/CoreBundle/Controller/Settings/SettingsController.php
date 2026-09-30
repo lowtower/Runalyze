@@ -17,7 +17,6 @@ use Runalyze\Bundle\CoreBundle\Form\Settings\DatasetCollectionType;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
-use Runalyze\Bundle\CoreBundle\Services\Sha256SaltedEncoder;
 use Runalyze\Configuration;
 use Runalyze\Dataset\Context;
 use Runalyze\Dataset\DefaultConfiguration;
@@ -28,6 +27,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -41,7 +41,7 @@ class SettingsController extends AbstractController
         private TranslatorInterface $translator,
         private TokenStorageInterface $tokenStorage,
         private ParameterBagInterface $parameterBag,
-        private Sha256SaltedEncoder $encoder
+        private UserPasswordHasherInterface $passwordHasher
     ) {
     }
 
@@ -61,7 +61,7 @@ class SettingsController extends AbstractController
      * @Route("/settings/account", name="settings-account")
      * @throws AccessDeniedException
      */
-    public function settingsAccountAction(Request $request, Account $account): Response
+    public function settingsAccountAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -74,7 +74,7 @@ class SettingsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $formdata = $request->request->get($form->getName());
+            $formdata = $request->request->all($form->getName());
 
             if (isset($formdata['reset_configuration'])) {
                 Configuration::resetConfiguration($account->getId());
@@ -113,7 +113,7 @@ class SettingsController extends AbstractController
      * @Route("/settings/password", name="settings-password")
      * @throws AccessDeniedException
      */
-    public function settingsPasswordAction(Request $request, Account $account): Response
+    public function settingsPasswordAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -123,9 +123,9 @@ class SettingsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $formdata = $request->request->get($form->getName());
+            $formdata = $request->request->all($form->getName());
             $account->setPlainPassword($formdata['plainPassword']['first']);
-            $this->encodePassword($account);
+            $this->hashPassword($account);
             $this->getAccountRepository()
                 ->save($account);
 
@@ -141,7 +141,7 @@ class SettingsController extends AbstractController
      * @Route("/settings/mail", name="settings-mail")
      * @throws AccessDeniedException
      */
-    public function settingsMailAction(Request $request, Account $account): Response
+    public function settingsMailAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -161,17 +161,17 @@ class SettingsController extends AbstractController
         ]);
     }
 
-    protected function encodePassword(Account $account): void
+    protected function hashPassword(?Account $account = null): void
     {
         $account->setNewSalt();
-        $account->setPassword($this->encoder->encodePassword($account->getPlainPassword(), $account->getSalt()));
+        $account->setPassword($this->passwordHasher->hashPassword($account, $account->getPlainPassword()));
     }
 
     /**
      * @Route("/settings/account/delete", name="settings-account-delete")
      * @throws AccessDeniedException
      */
-    public function windowDeleteAction(Account $account): Response
+    public function windowDeleteAction(?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -190,7 +190,7 @@ class SettingsController extends AbstractController
      * @Route("/settings/dataset", name="settings-dataset-update", methods={"POST"})
      * @throws AccessDeniedException
      */
-    public function datasetPostAction(Account $account, Request $request): RedirectResponse
+    public function datasetPostAction(?Account $account = null, ?Request $request = null): RedirectResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -225,7 +225,7 @@ class SettingsController extends AbstractController
      * @Route("/settings/dataset", name="settings-dataset", methods={"GET"})
      * @throws AccessDeniedException
      */
-    public function datasetAction(Account $account, Request $request): Response
+    public function datasetAction(?Account $account = null, ?Request $request = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -264,7 +264,7 @@ class SettingsController extends AbstractController
     /**
      * @return array<string, mixed>
      */
-    protected function getExampleTraining(Account $account): array
+    protected function getExampleTraining(?Account $account = null): array
     {
         /** @var ConfigurationManager $configurationManager */
         $configurationManager = $this->get('app.configuration_manager');
@@ -345,7 +345,7 @@ class SettingsController extends AbstractController
         ];
     }
 
-    protected function exampleTagID(Account $account): string
+    protected function exampleTagID(?Account $account = null): string
     {
         $tag = $this->getDoctrine()
             ->getRepository(Tag::class)
@@ -360,7 +360,7 @@ class SettingsController extends AbstractController
         return '';
     }
 
-    protected function exampleEquipmentIDs(Account $account): string
+    protected function exampleEquipmentIDs(?Account $account = null): string
     {
         $ids = [];
         $equipment = $this->getDoctrine()

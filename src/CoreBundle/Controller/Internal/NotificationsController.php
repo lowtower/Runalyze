@@ -27,7 +27,7 @@ class NotificationsController extends AbstractController
     /**
      * @Route("/read/all", name="internal-notifications-read-all")
      */
-    public function readAllNotificationsAction(Account $account): JsonResponse
+    public function readAllNotificationsAction(?Account $account = null): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -40,7 +40,7 @@ class NotificationsController extends AbstractController
     /**
      * @Route("/read/{id}", name="internal-notifications-read")
      */
-    public function readNotificationAction(int $id, Account $account): JsonResponse
+    public function readNotificationAction(int $id, ?Account $account = null): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -58,7 +58,7 @@ class NotificationsController extends AbstractController
     /**
      * @Route("", name="internal-notifications-list")
      */
-    public function newNotificationsAction(Request $request, Account $account): JsonResponse
+    public function newNotificationsAction(Request $request, ?Account $account = null): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 

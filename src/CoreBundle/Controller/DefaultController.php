@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Frontend;
 use Runalyze\Activity\Distance;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
@@ -18,11 +19,13 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Throwable;
 use Twig\Environment;
 
 /**
@@ -31,6 +34,7 @@ use Twig\Environment;
 class DefaultController extends AbstractPluginsAwareController
 {
     public function __construct(
+        protected ManagerRegistry $doctrine,
         private readonly AuthorizationCheckerInterface $authorizationChecker,
         private readonly AuthenticationUtils $authenticationUtils,
         TokenStorageInterface $tokenStorage,
@@ -43,25 +47,43 @@ class DefaultController extends AbstractPluginsAwareController
 
     protected function getAccountRepository(): AccountRepository
     {
-        return $this->getDoctrine()
-            ->getRepository(Account::class);
+        return $this->doctrine->getRepository(Account::class);
     }
 
+    /**
+     * Includes a legacy script and captures its direct output into the Symfony Response.
+     *
+     * @throws Throwable if the included legacy file throws
+     */
     protected function includeOldScript(string $file, bool $initFrontend = true): Response
     {
         if ($initFrontend) {
-            $frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag);
+            new Frontend(false, $this->tokenStorage, $this->parameterBag);
         }
 
-        include $file;
+        ob_start();
 
-        return $this->render('legacy_end.html.twig');
+        try {
+            include $file;
+            $legacyContent = ob_get_clean();
+        } catch (Throwable $throwable) {
+            ob_end_clean();
+
+            throw $throwable;
+        }
+
+        $response = $this->render('legacy_end.html.twig');
+        $response->setContent($legacyContent . $response->getContent());
+
+        return $response;
     }
 
     /**
      * @Route("/dashboard", name="dashboard")
+     *
+     * @throws Throwable if the included legacy dashboard throws
      */
-    public function dashboardAction(Request $request, Account $account): Response
+    public function dashboardAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -70,9 +92,21 @@ class DefaultController extends AbstractPluginsAwareController
         $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
             ->getContent();
 
-        include __DIR__ . '/../../../dashboard.php';
+        ob_start();
 
-        return $this->render('legacy_end.html.twig');
+        try {
+            include __DIR__ . '/../../../dashboard.php';
+            $legacyContent = ob_get_clean();
+        } catch (Throwable $throwable) {
+            ob_end_clean();
+
+            throw $throwable;
+        }
+
+        $response = $this->render('legacy_end.html.twig');
+        $response->setContent($legacyContent . $response->getContent());
+
+        return $response;
     }
 
     /**
@@ -90,7 +124,7 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @Route("/{_locale}/register", name="register")
      */
-    public function registerAction(Request $request, \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordEncoder, Environment $twig, TranslatorInterface $translator): Response
+    public function registerAction(Request $request, UserPasswordHasherInterface $passwordEncoder, Environment $twig, TranslatorInterface $translator): Response
     {
         if (! $this->parameterBag->get('app.user_can_register')) {
             return $this->render('register/disabled.html.twig');
@@ -101,8 +135,8 @@ class DefaultController extends AbstractPluginsAwareController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $registration = new Registration($this->getDoctrine()->getManager(), $account, $passwordEncoder);
-            $formdata = $request->request->get($form->getName());
+            $registration = new Registration($this->doctrine->getManager(), $account, $passwordEncoder);
+            $formdata = $request->request->all($form->getName());
 
             $registration->setLocale($request->getLocale());
             $registration->setTimezoneByName($formdata['textTimezone']);
@@ -179,8 +213,7 @@ class DefaultController extends AbstractPluginsAwareController
         $numUser = $repository->getAmountOfActivatedUsers();
 
         /** @var TrainingRepository $repository */
-        $repository = $this->getDoctrine()
-            ->getRepository(Training::class);
+        $repository = $this->doctrine->getRepository(Training::class);
         $numDistance = (float) $repository->getAmountOfLoggedKilometers();
 
         return [
@@ -193,6 +226,7 @@ class DefaultController extends AbstractPluginsAwareController
      * @Route("/plugin/{plugin}/{file}")
      *
      * @throws NotFoundHttpException if $plugin or $file contain a path traversal attempt
+     * @throws Throwable if the included legacy plugin file throws
      */
     public function pluginAction(string $plugin, string $file): Response
     {
@@ -207,8 +241,10 @@ class DefaultController extends AbstractPluginsAwareController
 
     /**
      * @Route("/index.php")
+     *
+     * @throws Throwable if the included legacy dashboard throws
      */
-    public function indexPhpAction(Request $request, Account $account): Response|RedirectResponse
+    public function indexPhpAction(Request $request, ?Account $account = null): Response|RedirectResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -218,9 +254,18 @@ class DefaultController extends AbstractPluginsAwareController
             $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
                 ->getContent();
 
-            include $this->parameterBag->get('kernel.project_dir') . '/dashboard.php';
+            ob_start();
 
-            return new Response();
+            try {
+                include $this->parameterBag->get('kernel.project_dir') . '/dashboard.php';
+                $legacyContent = ob_get_clean();
+            } catch (Throwable $throwable) {
+                ob_end_clean();
+
+                throw $throwable;
+            }
+
+            return new Response($legacyContent);
         }
 
         return $this->redirectToRoute('base_url');
@@ -279,7 +324,7 @@ class DefaultController extends AbstractPluginsAwareController
      *
      * @throws NotFoundHttpException if no feedback recipient is configured
      */
-    public function feedbackAction(Request $request, Account $account): Response
+    public function feedbackAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 

@@ -48,7 +48,7 @@ class EditController extends AbstractController
     /**
      * @throws NotFoundHttpException if the entity does not belong to the given account
      */
-    protected function checkThatEntityBelongsToActivity(AccountRelatedEntityInterface $entity, Account $account): void
+    protected function checkThatEntityBelongsToActivity(AccountRelatedEntityInterface $entity, ?Account $account = null): void
     {
         if ($entity->getAccount()->getId() != $account->getId()) {
             throw $this->createNotFoundException();
@@ -60,7 +60,7 @@ class EditController extends AbstractController
      *
      * @throws NotFoundHttpException if the activity does not exist or does not belong to the account
      */
-    public function activityEditAction(Request $request, int $id, Account $account, TranslatorInterface $translator): RedirectResponse|Response
+    public function activityEditAction(Request $request, int $id, ?Account $account = null, ?TranslatorInterface $translator = null): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -141,7 +141,7 @@ class EditController extends AbstractController
     /**
      * @Route("/activity/multi-editor", name="multi-editor")
      */
-    public function multiEditorAction(Request $request, Account $account): Response
+    public function multiEditorAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -156,7 +156,7 @@ class EditController extends AbstractController
     /**
      * @param int[] $activityIds
      */
-    protected function getResponseForMultiEditor(array $activityIds, Account $account): Response
+    protected function getResponseForMultiEditor(array $activityIds, ?Account $account = null): Response
     {
         $previews = array_map(fn (Training $activity): ActivityPreview => new ActivityPreview($activity), $this->getTrainingRepository()
             ->getPartialEntitiesForPreview($activityIds, $account, 20));
@@ -171,7 +171,7 @@ class EditController extends AbstractController
      *
      * @throws NotFoundHttpException if the activity does not exist or does not belong to the account
      */
-    public function deleteAction(int $id, Account $account): Response
+    public function deleteAction(int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -199,7 +199,7 @@ class EditController extends AbstractController
      *
      * @throws NotFoundHttpException if the activity does not exist or does not belong to the account
      */
-    public function elevationCorrectionAction(Request $request, int $id, Account $account, TranslatorInterface $translator): Response
+    public function elevationCorrectionAction(Request $request, int $id, ?Account $account = null, ?TranslatorInterface $translator = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 

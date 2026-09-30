@@ -113,7 +113,7 @@ class JsonImportToolController extends AbstractController
     /**
      * @Route("/import/do", name="tools-backup-json-import-do")
      */
-    public function backupImportDoAction(Request $request, Account $account): RedirectResponse|Response
+    public function backupImportDoAction(Request $request, ?Account $account = null): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 

@@ -55,8 +55,8 @@
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "friendsoftwig/twigcs": "^6.1",
-        "liip/functional-test-bundle": "^4.3.0",
-        "liip/test-fixtures-bundle": "~2.6",
+        "liip/functional-test-bundle": "~4.16",
+        "liip/test-fixtures-bundle": "^3.1.0",
         "phpstan/phpstan-doctrine": "^2.0",
         "phpstan/phpstan-phpunit": "^2.0",
         "phpstan/phpstan-symfony": "^2.0",

@@ -29,7 +29,7 @@ class TagsController extends AbstractController
      * @Route("", name="settings-tags")
      * @throws AccessDeniedException
      */
-    public function overviewAction(Account $account): Response
+    public function overviewAction(?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -43,7 +43,7 @@ class TagsController extends AbstractController
      * @Route("/{id}/edit", name="settings-tags-edit")
      * @throws AccessDeniedException
      */
-    public function tagEditAction(Request $request, int $id, Account $account): Response
+    public function tagEditAction(Request $request, int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -76,7 +76,7 @@ class TagsController extends AbstractController
      * @Route("/{id}/delete", name="settings-tags-delete")
      * @throws AccessDeniedException
      */
-    public function tagDeleteAction(Request $request, int $id, Account $account, TranslatorInterface $translator): RedirectResponse
+    public function tagDeleteAction(Request $request, TranslatorInterface $translator, int $id, ?Account $account = null): RedirectResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
