@@ -159,26 +159,29 @@ class CallController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        new Frontend(false, $this->tokenStorage, $this->parameterBag);
+        ob_start();
 
-        $showResults = ! empty($_POST);
+        try {
+            $Frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag);
+            $showResults = ! empty($_POST);
 
-        if (isset($_GET['get']) && $_GET['get'] == 'true') {
-            $_POST = array_merge($_POST, $_GET);
-            $showResults = true;
+            if (isset($_GET['get']) && $_GET['get'] == 'true') {
+                $_POST = array_merge($_POST, $_GET);
+                $showResults = true;
 
-            SearchFormular::transformOldParamsToNewParams();
-        }
+                SearchFormular::transformOldParamsToNewParams();
+            }
 
-        $Results = new SearchResults($showResults);
+            $Results = new SearchResults($showResults);
 
-        if ($showResults && $Results->multiEditorRequested()) {
-            return $this->redirectToRoute('multi-editor', [
-                'ids' => implode(',', $Results->getIdsForMultiEditor()),
-            ]);
-        }
+            if ($showResults && $Results->multiEditorRequested()) {
+                ob_end_clean();
 
-        return $this->captureLegacyOutput(function () use ($Results): void {
+                return $this->redirectToRoute('multi-editor', [
+                    'ids' => implode(',', $Results->getIdsForMultiEditor()),
+                ]);
+            }
+
             if (empty($_POST) || Request::createFromGlobals()->query->get('get') == 'true') {
                 echo '<div class="panel-heading">';
                 echo '<h1>' . __('Search for activities') . '</h1>';
@@ -189,7 +192,14 @@ class CallController extends AbstractController
             }
 
             $Results->display();
-        });
+            $legacyContent = ob_get_clean();
+        } catch (Throwable $throwable) {
+            ob_end_clean();
+
+            throw $throwable;
+        }
+
+        return new Response($legacyContent);
     }
 
     protected function getPlotSumData(): PlotSumData
@@ -212,12 +222,20 @@ class CallController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        new Frontend(false, $this->tokenStorage, $this->parameterBag);
+        ob_start();
 
-        return $this->captureLegacyOutput(function (): void {
+        try {
+            $Frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag);
             $this->getPlotSumData()
                 ->display();
-        });
+            $legacyContent = ob_get_clean();
+        } catch (Throwable $throwable) {
+            ob_end_clean();
+
+            throw $throwable;
+        }
+
+        return new Response($legacyContent);
     }
 
     /**

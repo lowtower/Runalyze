@@ -3,6 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\Controller\Settings;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
@@ -32,25 +33,26 @@ class SportController extends AbstractController
     use AppServiceSubscriberTrait;
 
     public function __construct(
+        protected ManagerRegistry $doctrine,
         private AutomaticReloadFlagSetter $automaticReloadFlagSetter
     ) {
     }
 
     protected function getSportRepository(): SportRepository
     {
-        return $this->getDoctrine()
+        return $this->doctrine
             ->getRepository(Sport::class);
     }
 
     protected function getTypeRepository(): TypeRepository
     {
-        return $this->getDoctrine()
+        return $this->doctrine
             ->getRepository(Type::class);
     }
 
     protected function getTrainingRepository(): TrainingRepository
     {
-        return $this->getDoctrine()
+        return $this->doctrine
             ->getRepository(Training::class);
     }
 
@@ -81,7 +83,7 @@ class SportController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         /** @var EntityManagerInterface $em */
-        $em = $this->getDoctrine()
+        $em = $this->doctrine
             ->getManager();
         $type = new Type();
         $type->setAccount($account);
@@ -170,7 +172,7 @@ class SportController extends AbstractController
 
         if ($type->getTrainings()->count() == 0) {
             /** @var EntityManagerInterface $em */
-            $em = $this->getDoctrine()
+            $em = $this->doctrine
                 ->getManager();
             $em->remove($type);
             $em->flush();
@@ -287,7 +289,7 @@ class SportController extends AbstractController
 
         if ($sport->getTrainings()->count() === 0) {
             /** @var EntityManagerInterface $em */
-            $em = $this->getDoctrine()
+            $em = $this->doctrine
                 ->getManager();
             $em->remove($sport);
             $em->flush();

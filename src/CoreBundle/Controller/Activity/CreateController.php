@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\Activity;
 
+use Doctrine\Persistence\ManagerRegistry;
 use LogicException;
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext;
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityPreview;
@@ -40,6 +41,7 @@ class CreateController extends AbstractController
     use AppServiceSubscriberTrait;
 
     public function __construct(
+        protected ManagerRegistry $doctrine,
         private FileImporter $fileImporter,
         private ActivityDataContainerFilter $activityDataContainerFilter,
         private ConfigurationManager $configurationManager,
@@ -54,8 +56,7 @@ class CreateController extends AbstractController
 
     protected function getTrainingRepository(): TrainingRepository
     {
-        return $this->getDoctrine()
-            ->getRepository(Training::class);
+        return $this->doctrine->getRepository(Training::class);
     }
 
     /**
@@ -371,7 +372,7 @@ class CreateController extends AbstractController
             ->getGeneral()
             ->getMainSport();
         /** @var SportRepository $repository */
-        $repository = $this->getDoctrine()
+        $repository = $this->doctrine
             ->getRepository(Sport::class);
         $sport = $repository->findThisOrAny($mainSportId, $account);
 

@@ -12,10 +12,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 #[\Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener(event: 'onFlush')]
 class EquipmentUpdateSubscriber
 {
-    /**
-     * @var EquipmentRepository
-     */
-    protected $EquipmentRepository;
+    protected EquipmentRepository $EquipmentRepository;
 
     public function onFlush(OnFlushEventArgs $args): void
     {

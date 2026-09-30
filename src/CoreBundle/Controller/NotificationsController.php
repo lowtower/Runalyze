@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Controller;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Notification;
 use Runalyze\Bundle\CoreBundle\Entity\NotificationRepository;
@@ -22,6 +23,7 @@ class NotificationsController extends AbstractController
     use AppServiceSubscriberTrait;
 
     public function __construct(
+        protected ManagerRegistry $doctrine,
         private TranslatorInterface $translator,
         private UrlGeneratorInterface $urlGenerator
     ) {
@@ -29,7 +31,7 @@ class NotificationsController extends AbstractController
 
     protected function getNotificationsRepository(): NotificationRepository
     {
-        return $this->getDoctrine()
+        return $this->doctrine
             ->getRepository(Notification::class);
     }
 

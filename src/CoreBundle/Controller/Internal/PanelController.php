@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\Internal;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
@@ -17,6 +18,11 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class PanelController extends AbstractController
 {
+    public function __construct(
+        protected ManagerRegistry $doctrine
+    ) {
+    }
+
     /**
      * @Route("/sport", name="internal-sport-panel")
      * @throws AccessDeniedException
@@ -26,7 +32,7 @@ class PanelController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         /** @var SportRepository $sportRepository */
-        $sportRepository = $this->getDoctrine()
+        $sportRepository = $this->doctrine
             ->getRepository(Sport::class);
 
         $today = (new LocalTime())->setTime(0, 0, 0);

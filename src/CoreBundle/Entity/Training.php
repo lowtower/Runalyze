@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Adapter\ActivityAdapter;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Common\IdentifiableEntityInterface;
+use Runalyze\Bundle\CoreBundle\EntityListener\ActivityListener;
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 use Runalyze\Util\LocalTime;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -17,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Index(columns: ['accountid', 'sportid'], name: 'sportid')]
 #[ORM\Index(columns: ['accountid', 'typeid'], name: 'typeid')]
 #[ORM\Entity(repositoryClass: TrainingRepository::class)]
-#[ORM\EntityListeners([\Runalyze\Bundle\CoreBundle\EntityListener\ActivityListener::class])]
+#[ORM\EntityListeners([ActivityListener::class])]
 #[ORM\HasLifecycleCallbacks]
 class Training implements IdentifiableEntityInterface, AccountRelatedEntityInterface
 {

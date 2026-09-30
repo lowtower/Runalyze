@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\Activity;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityDecorator;
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityPreview;
 use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
@@ -38,6 +39,7 @@ class EditController extends AbstractController
     use AppServiceSubscriberTrait;
 
     public function __construct(
+        protected ManagerRegistry $doctrine,
         private DataSeriesRemover $dataSeriesRemover,
         private LegacyCache $legacyCache,
         private AutomaticReloadFlagSetter $automaticReloadFlagSetter,
@@ -52,7 +54,7 @@ class EditController extends AbstractController
 
     protected function getTrainingRepository(): TrainingRepository
     {
-        return $this->getDoctrine()
+        return $this->doctrine
             ->getRepository(Training::class);
     }
 
@@ -109,7 +111,7 @@ class EditController extends AbstractController
                 $activity->setRaceresult($raceResult);
             } elseif (! $form->get('is_race')->getData() && $activity->hasRaceresult()) {
                 /** @var RaceresultRepository $repository */
-                $repository = $this->getDoctrine()
+                $repository = $this->doctrine
                     ->getRepository(Raceresult::class);
                 $repository->delete($activity->getRaceresult());
                 $activity->setRaceresult();

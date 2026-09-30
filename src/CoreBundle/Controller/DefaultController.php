@@ -47,7 +47,8 @@ class DefaultController extends AbstractPluginsAwareController
 
     protected function getAccountRepository(): AccountRepository
     {
-        return $this->doctrine->getRepository(Account::class);
+        return $this->doctrine
+            ->getRepository(Account::class);
     }
 
     /**
@@ -57,13 +58,13 @@ class DefaultController extends AbstractPluginsAwareController
      */
     protected function includeOldScript(string $file, bool $initFrontend = true): Response
     {
-        if ($initFrontend) {
-            new Frontend(false, $this->tokenStorage, $this->parameterBag);
-        }
-
         ob_start();
 
         try {
+            if ($initFrontend) {
+                new Frontend(false, $this->tokenStorage, $this->parameterBag);
+            }
+
             include $file;
             $legacyContent = ob_get_clean();
         } catch (Throwable $throwable) {
@@ -213,7 +214,8 @@ class DefaultController extends AbstractPluginsAwareController
         $numUser = $repository->getAmountOfActivatedUsers();
 
         /** @var TrainingRepository $repository */
-        $repository = $this->doctrine->getRepository(Training::class);
+        $repository = $this->doctrine
+            ->getRepository(Training::class);
         $numDistance = (float) $repository->getAmountOfLoggedKilometers();
 
         return [

@@ -3,6 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\Controller;
 
 use DataBrowserShared;
+use Doctrine\Persistence\ManagerRegistry;
 use FrontendShared;
 use FrontendSharedStatistics;
 use PlotMonthSumData;
@@ -34,6 +35,7 @@ class SharedController extends AbstractController
     use AppServiceSubscriberTrait;
 
     public function __construct(
+        protected ManagerRegistry $doctrine,
         private TokenStorageInterface $tokenStorage,
         private ParameterBagInterface $parameterBag,
         private ConfigurationManager $configurationManager,
@@ -45,7 +47,7 @@ class SharedController extends AbstractController
 
     protected function getTrainingRepository(): TrainingRepository
     {
-        return $this->getDoctrine()
+        return $this->doctrine
             ->getRepository(Training::class);
     }
 
@@ -61,7 +63,7 @@ class SharedController extends AbstractController
 
         /** @var ?Training $activity */
         $activity = $activityId > 0
-            ? $this->getDoctrine()
+            ? $this->doctrine
                 ->getRepository(Training::class)->find($activityId)
             : null;
 
@@ -71,7 +73,7 @@ class SharedController extends AbstractController
 
         $_GET['user'] = $activity->getAccount()->getUsername();
         /** @var AccountRepository $repository */
-        $repository = $this->getDoctrine()
+        $repository = $this->doctrine
             ->getRepository(Account::class);
         $account = $repository->findByUsername($activity->getAccount()->getUsername());
         $publicList = $this->configurationManager
@@ -129,7 +131,7 @@ class SharedController extends AbstractController
     public function sharedUserAction(string $username, Request $request): Response
     {
         /** @var AccountRepository $repository */
-        $repository = $this->getDoctrine()
+        $repository = $this->doctrine
             ->getRepository(Account::class);
         $account = $repository->findByUsername($username);
         $privacy = $this->configurationManager
@@ -181,7 +183,7 @@ class SharedController extends AbstractController
     public function publicUserFeedAction(string $username): Response
     {
         /** @var AccountRepository $repository */
-        $repository = $this->getDoctrine()
+        $repository = $this->doctrine
             ->getRepository(Account::class);
         $account = $repository->findByUsername($username);
         $privacy = $this->configurationManager

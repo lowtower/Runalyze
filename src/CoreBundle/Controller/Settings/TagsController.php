@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\Settings;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Tag;
 use Runalyze\Bundle\CoreBundle\Entity\TagRepository;
@@ -19,9 +20,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class TagsController extends AbstractController
 {
+    public function __construct(
+        protected ManagerRegistry $doctrine
+    ) {
+    }
+
     protected function getTagRepository(): TagRepository
     {
-        return $this->getDoctrine()
+        return $this->doctrine
             ->getRepository(Tag::class);
     }
 

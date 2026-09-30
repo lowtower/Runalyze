@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\Settings;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Conf;
@@ -21,6 +22,7 @@ class PrivacyController extends AbstractController
     use AppServiceSubscriberTrait;
 
     public function __construct(
+        protected ManagerRegistry $doctrine,
         private ConfigurationUpdater $configurationUpdater,
         private TranslatorInterface $translator,
         private ConfigurationManager $configurationManager
@@ -29,7 +31,7 @@ class PrivacyController extends AbstractController
 
     protected function getConfRepository(): ConfRepository
     {
-        return $this->getDoctrine()
+        return $this->doctrine
             ->getRepository(Conf::class);
     }
 

@@ -282,6 +282,11 @@ services:
       tags:
       - { name: doctrine.orm.entity_listener, lazy: true }
     Runalyze\Bundle\CoreBundle\EntityListener\ActivityListener: '@app.entity_listener.activity'
+    app.entity_subscriber.equipment_update:
+      class: Runalyze\Bundle\CoreBundle\EntityListener\EquipmentUpdateSubscriber
+      tags:
+      - { name: doctrine.event_listener, event: onFlush, connection: default, lazy: true }
+    Runalyze\Bundle\CoreBundle\EntityListener\EquipmentUpdateSubscriber: '@app.entity_subscriber.equipment_update'
     app.entity_listener.user:
       class: Runalyze\Bundle\CoreBundle\EntityListener\UserListener
       arguments:

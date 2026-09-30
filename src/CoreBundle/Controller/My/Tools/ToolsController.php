@@ -3,6 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\Controller\My\Tools;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\AnovaDataQuery;
 use Runalyze\Bundle\CoreBundle\Component\Tool\DatabaseCleanup\JobGeneral;
 use Runalyze\Bundle\CoreBundle\Component\Tool\DatabaseCleanup\JobLoop;
@@ -42,6 +43,7 @@ class ToolsController extends AbstractController
     use AppServiceSubscriberTrait;
 
     public function __construct(
+        protected ManagerRegistry $doctrine,
         private Availability $posterAvailability,
         private TranslatorInterface $translator,
         private TokenStorageInterface $tokenStorage,
@@ -95,7 +97,7 @@ class ToolsController extends AbstractController
 
         $config = $this->configurationManager
             ->getList();
-        $running = $this->getDoctrine()
+        $running = $this->doctrine
             ->getRepository(Sport::class)
             ->find($config->getGeneral()->getRunningSport());
 
@@ -177,7 +179,7 @@ class ToolsController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         /** @var SportRepository $repository */
-        $repository = $this->getDoctrine()
+        $repository = $this->doctrine
             ->getRepository(Sport::class);
         $data = AnovaData::getDefault($repository->findAllFor($account), []);
 
@@ -197,7 +199,7 @@ class ToolsController extends AbstractController
                 ->getList($account)
                 ->getUnitSystem();
             /** @var EntityManager $entityManager */
-            $entityManager = $this->getDoctrine()
+            $entityManager = $this->doctrine
                 ->getManager();
             $query = new AnovaDataQuery($data);
             $query->loadAllGroups($entityManager, $account);
@@ -205,7 +207,7 @@ class ToolsController extends AbstractController
             return new JsonResponse([
                 'tickFormatter' => JavaScriptFormatter::getFormatter($query->getValueUnit($unitSystem)),
                 'groups' => $query->getResults(
-                    $this->getDoctrine()
+                    $this->doctrine
                         ->getRepository(Training::class),
                     $account,
                     $unitSystem
@@ -226,7 +228,7 @@ class ToolsController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         /** @var SportRepository $repository */
-        $repository = $this->getDoctrine()
+        $repository = $this->doctrine
             ->getRepository(Sport::class);
         $data = TrendAnalysisData::getDefault($repository->findAllFor($account), []);
 
@@ -250,7 +252,7 @@ class ToolsController extends AbstractController
             return new JsonResponse([
                 'tickFormatter' => JavaScriptFormatter::getFormatter($query->getValueUnit($unitSystem)),
                 'values' => $query->getResults(
-                    $this->getDoctrine()
+                    $this->doctrine
                         ->getRepository(Training::class),
                     $account,
                     $unitSystem
@@ -271,7 +273,7 @@ class ToolsController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         /** @var TrainingRepository $repository */
-        $repository = $this->getDoctrine()
+        $repository = $this->doctrine
             ->getRepository(Training::class);
         $numberOfActivities = $repository->getNumberOfActivitiesFor($account, 2017, 2);
 
@@ -286,7 +288,7 @@ class ToolsController extends AbstractController
             $formdata = $request->request->all($form->getName());
 
             /** @var TrainingRepository $repository */
-            $repository = $this->getDoctrine()
+            $repository = $this->doctrine
                 ->getRepository(Training::class);
             $numberOfActivities = $repository->getNumberOfActivitiesFor($account, (int) $formdata['year'], (int) $formdata['sport']);
             if ($numberOfActivities <= 1) {

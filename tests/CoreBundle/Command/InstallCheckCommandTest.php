@@ -47,6 +47,10 @@ final class InstallCheckCommandTest extends TestCase
 
         $this->tempRootDirectory = sys_get_temp_dir() . '/install-check-command-test-' . bin2hex(random_bytes(8));
         mkdir($this->tempRootDirectory, 0777, true);
+        // This "app" subdirectory simulates the value InstallCheckCommand::directoriesAreWritable()
+        // receives as kernel.project_dir (see configureKernelRootDir() below) - it is named
+        // "app" only because that is the directory configureKernelRootDir() points the mock
+        // at, not because of any remaining Symfony kernel.root_dir semantics.
         mkdir($this->tempRootDirectory . '/app', 0777, true);
     }
 
@@ -77,12 +81,18 @@ final class InstallCheckCommandTest extends TestCase
     }
 
     /**
+     * Directories must be created under $tempRootDirectory . '/app', not directly under
+     * $tempRootDirectory, because 'app' is exactly the path configureKernelRootDir() mocks
+     * kernel.project_dir to resolve to - and InstallCheckCommand::directoriesAreWritable()
+     * checks each entry relative to that parameter's value, not relative to some directory
+     * above it.
+     *
      * @param string[] $directoriesToCreate
      */
     private function createRequiredDirectories(array $directoriesToCreate): void
     {
         foreach ($directoriesToCreate as $relativePath) {
-            mkdir($this->tempRootDirectory . '/app/../' . $relativePath, 0777, true);
+            mkdir($this->tempRootDirectory . '/app/' . $relativePath, 0777, true);
         }
     }
 
@@ -91,7 +101,7 @@ final class InstallCheckCommandTest extends TestCase
         $this->parameterBag
             ->method('get')
             ->willReturnMap([
-                ['kernel.root_dir', $this->tempRootDirectory . '/app'],
+                ['kernel.project_dir', $this->tempRootDirectory . '/app'],
             ]);
     }
 
@@ -192,7 +202,7 @@ final class InstallCheckCommandTest extends TestCase
         $this->parameterBag
             ->method('get')
             ->willReturnMap([
-                ['kernel.root_dir', $this->tempRootDirectory . '/app'],
+                ['kernel.project_dir', $this->tempRootDirectory . '/app'],
                 ['app.database_prefix', 'custom_prefix_'],
             ]);
         $this->createRequiredDirectories(self::REQUIRED_WRITABLE_DIRECTORIES);

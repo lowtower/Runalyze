@@ -319,16 +319,13 @@
             "config/routes/dev/web_profiler.yaml"
         ]
     },
-    "twig/extensions": {
-        "version": "1.5",
+    "vincentlanglet/twig-cs-fixer": {
+        "version": "4.1",
         "recipe": {
-            "repo": "github.com/symfony/recipes",
+            "repo": "github.com/symfony/recipes-contrib",
             "branch": "main",
-            "version": "1.0",
-            "ref": "a86723ee8d8b2f9437c8ce60a5546a1c267da5ed"
-        },
-        "files": [
-            "config/packages/twig_extensions.yaml"
-        ]
+            "version": "3.0",
+            "ref": "d42582ae1bce86fd43491d6264c738b0867f8ffe"
+        }
     }
 }

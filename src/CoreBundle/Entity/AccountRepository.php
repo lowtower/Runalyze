@@ -64,10 +64,18 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
      */
     public function loadUserByUsername($username): ?Account
     {
+        return $this->loadUserByIdentifier($username);
+    }
+
+    /**
+     * @param string $identifier username or mail
+     */
+    public function loadUserByIdentifier(string $identifier): ?Account
+    {
         return $this->createQueryBuilder('u')
             ->where('u.username = :username OR u.mail = :mail')
-            ->setParameter('username', $username)
-            ->setParameter('mail', $username)
+            ->setParameter('username', $identifier)
+            ->setParameter('mail', $identifier)
             ->getQuery()
             ->getOneOrNullResult();
     }

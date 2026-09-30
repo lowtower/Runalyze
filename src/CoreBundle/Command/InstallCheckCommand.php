@@ -148,7 +148,7 @@ class InstallCheckCommand extends Command
             case self::OKAY:
             default:
                 $tag = 'info';
-                $message = $message ?: 'ok';
+                $message = $message ?: $tag;
         }
 
         return '<' . $tag . '>' . ($message ?: $tag) . '</' . $tag . '>';
@@ -183,7 +183,7 @@ class InstallCheckCommand extends Command
 
     protected function directoriesAreWritable(): int
     {
-        $root = $this->parameterBag->get('kernel.project_dir') . '/src/../';
+        $root = $this->parameterBag->get('kernel.project_dir') . '/';
 
         foreach ($this->DirectoriesThatMustBeWritable as $directory) {
             if (! is_writable($root . $directory)) {

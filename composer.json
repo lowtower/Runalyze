@@ -21,7 +21,7 @@
         "nojacko/email-validator": "~1.0",
         "p3k/picofeed": "^0.1.40",
         "phpfastcache/phpfastcache": "~8",
-        "predis/predis": "^1.0",
+        "predis/predis": "^2.0",
         "runalyze/age-grade": "dev-master",
         "runalyze/common": "dev-master",
         "runalyze/dem-reader": "dev-master",
@@ -29,7 +29,7 @@
         "runalyze/glossary": "v4.3.0",
         "runalyze/gpxtrackposter": "v4.3.0",
         "runalyze/translations": "v4.3.0",
-        "snc/redis-bundle": "^4.0",
+        "snc/redis-bundle": "4.10.0",
         "symfony/asset": "~5.4",
         "symfony/console": "~5.4",
         "symfony/css-selector": "~5.4",
@@ -50,8 +50,7 @@
         "symfony/twig-bridge": "5.4.*",
         "symfony/validator": "~5.4",
         "symfony/yaml": "~5.4",
-        "twig/extensions": "^1.5",
-        "twig/twig": "^2.15"
+        "twig/twig": "^3.27"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",
@@ -72,7 +71,7 @@
         "symfony/web-profiler-bundle": "~5.4",
         "symplify/config-transformer": "^12.5",
         "symplify/easy-coding-standard": "^13.2",
-        "vincentlanglet/twig-cs-fixer": "^0.5.0"
+        "vincentlanglet/twig-cs-fixer": "^4.1"
     },
     "autoload": {
         "files": ["src/functions.php"],

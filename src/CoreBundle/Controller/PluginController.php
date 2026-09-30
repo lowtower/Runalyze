@@ -28,19 +28,21 @@ class PluginController extends AbstractPluginsAwareController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        new Frontend(false, $this->tokenStorage, $this->parameterBag);
+        ob_start();
 
-        $Pluginkey = $request->query->get('key');
+        try {
+            $frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag);
 
-        $factory = new PluginFactory();
+            $Pluginkey = $request->query->get('key');
 
-        $installableKeys = array_column($factory->notInstalledPlugins(), 'key');
+            $factory = new PluginFactory();
 
-        if (! in_array($Pluginkey, $installableKeys, true)) {
-            throw $this->createNotFoundException('Unknown or already installed plugin.');
-        }
+            $installableKeys = array_column($factory->notInstalledPlugins(), 'key');
 
-        return $this->captureLegacyOutput(function () use ($factory, $Pluginkey): void {
+            if (! in_array($Pluginkey, $installableKeys, true)) {
+                throw $this->createNotFoundException('Unknown or already installed plugin.');
+            }
+
             $Installer = new PluginInstaller($Pluginkey);
 
             echo '<h1>' . __('Install') . ' ' . $Pluginkey . '</h1>';
@@ -63,7 +65,15 @@ class PluginController extends AbstractPluginsAwareController
             echo '<ul class="blocklist"><li>';
             echo Ajax::window('<a href="' . ConfigTabPlugins::getExternalUrl() . '">' . Icon::$TABLE . ' ' . __('back to list') . '</a>');
             echo '</li></ul>';
-        });
+
+            $legacyContent = ob_get_clean();
+        } catch (Throwable $throwable) {
+            ob_end_clean();
+
+            throw $throwable;
+        }
+
+        return new Response($legacyContent);
     }
 
     /**
@@ -89,18 +99,28 @@ class PluginController extends AbstractPluginsAwareController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        new Frontend(false, $this->tokenStorage, $this->parameterBag);
-        $Factory = new PluginFactory();
-
         $id = $request->query->get('id');
 
-        return $this->captureLegacyOutput(function () use ($Factory, $id): void {
+        ob_start();
+
+        try {
+            $frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag);
+            $Factory = new PluginFactory();
+
             if ($id !== null && is_numeric($id)) {
                 $Plugin = $Factory->newInstanceFor((int) $id);
                 $Plugin->displayConfigWindow();
             } else {
                 echo '<em>' . __('Something went wrong ...') . '</em>';
             }
-        });
+
+            $legacyContent = ob_get_clean();
+        } catch (Throwable $throwable) {
+            ob_end_clean();
+
+            throw $throwable;
+        }
+
+        return new Response($legacyContent);
     }
 }

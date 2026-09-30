@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\My;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
@@ -26,6 +27,7 @@ class EquipmentController extends AbstractController
     use AppServiceSubscriberTrait;
 
     public function __construct(
+        protected ManagerRegistry $doctrine,
         private ConfigurationManager $configurationManager,
         private AutomaticReloadFlagSetter $automaticReloadFlagSetter
     ) {
@@ -33,13 +35,13 @@ class EquipmentController extends AbstractController
 
     protected function getEquipmentRepository(): EquipmentRepository
     {
-        return $this->getDoctrine()
+        return $this->doctrine
             ->getRepository(Equipment::class);
     }
 
     protected function getEquipmentTypeRepository(): EquipmentTypeRepository
     {
-        return $this->getDoctrine()
+        return $this->doctrine
             ->getRepository(EquipmentType::class);
     }
 

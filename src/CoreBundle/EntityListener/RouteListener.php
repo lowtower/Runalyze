@@ -7,12 +7,14 @@ namespace Runalyze\Bundle\CoreBundle\EntityListener;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Route;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
+use Runalyze\Bundle\CoreBundle\Services\Import\ElevationCorrection;
 
 class RouteListener
 {
     public function __construct(
-        protected \Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager $ConfigurationManager,
-        protected \Runalyze\Bundle\CoreBundle\Services\Import\ElevationCorrection $ElevationCorrection
+        protected ConfigurationManager $ConfigurationManager,
+        protected ElevationCorrection $ElevationCorrection
     ) {
     }
 

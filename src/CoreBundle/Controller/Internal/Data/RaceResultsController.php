@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\Internal\Data;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\PluginConf;
@@ -22,19 +23,20 @@ class RaceResultsController extends AbstractController
     use AppServiceSubscriberTrait;
 
     public function __construct(
+        protected ManagerRegistry $doctrine,
         private AgeGradeLookup $ageGradeLookup
     ) {
     }
 
     protected function getRaceResultRepository(): RaceresultRepository
     {
-        return $this->getDoctrine()
+        return $this->doctrine
             ->getRepository(Raceresult::class);
     }
 
     protected function getPluginConfRepository(): PluginConfRepository
     {
-        return $this->getDoctrine()
+        return $this->doctrine
             ->getRepository(PluginConf::class);
     }
 

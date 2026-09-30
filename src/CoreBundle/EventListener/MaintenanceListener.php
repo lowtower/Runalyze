@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\EventListener;
 
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;

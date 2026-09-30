@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\Settings;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Frontend;
 use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -39,6 +40,7 @@ class SettingsController extends AbstractController
     use AppServiceSubscriberTrait;
 
     public function __construct(
+        protected ManagerRegistry $doctrine,
         private TranslatorInterface $translator,
         private TokenStorageInterface $tokenStorage,
         private ParameterBagInterface $parameterBag,
@@ -52,13 +54,13 @@ class SettingsController extends AbstractController
 
     protected function getAccountRepository(): AccountRepository
     {
-        return $this->getDoctrine()
+        return $this->doctrine
             ->getRepository(Account::class);
     }
 
     protected function getDatasetRepository(): DatasetRepository
     {
-        return $this->getDoctrine()
+        return $this->doctrine
             ->getRepository(Dataset::class);
     }
 
@@ -193,7 +195,7 @@ class SettingsController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $em = $this->getDoctrine()
+        $em = $this->doctrine
             ->getManager();
 
         $dataset = $this->getDatasetRepository()
@@ -343,7 +345,7 @@ class SettingsController extends AbstractController
 
     protected function exampleTagID(?Account $account = null): string
     {
-        $tag = $this->getDoctrine()
+        $tag = $this->doctrine
             ->getRepository(Tag::class)
             ->findBy([
                 'account' => $account->getId(),
@@ -359,7 +361,7 @@ class SettingsController extends AbstractController
     protected function exampleEquipmentIDs(?Account $account = null): string
     {
         $ids = [];
-        $equipment = $this->getDoctrine()
+        $equipment = $this->doctrine
             ->getRepository(Equipment::class)
             ->findBy([
                 'account' => $account->getId(),

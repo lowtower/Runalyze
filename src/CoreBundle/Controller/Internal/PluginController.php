@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Throwable;
 
 /**
  * @Route("/_internal/plugin")
@@ -21,7 +22,7 @@ class PluginController extends AbstractPluginsAwareController
 {
     protected function getPluginRepository(): PluginRepository
     {
-        return $this->getDoctrine()
+        return $this->doctrine
             ->getRepository(Plugin::class);
     }
 
@@ -94,13 +95,25 @@ class PluginController extends AbstractPluginsAwareController
 
     /**
      * @Route("/all-panels", name="internal-plugin-all-panels")
+     *
      * @throws AccessDeniedException
+     * @throws Throwable if a legacy plugin throws while building the panels' content
      */
     public function contentPanelsAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        new Frontend(false, $this->tokenStorage, $this->parameterBag);
+        ob_start();
+
+        try {
+            $frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag);
+        } catch (Throwable $throwable) {
+            ob_end_clean();
+
+            throw $throwable;
+        }
+
+        ob_end_clean();
 
         return $this->getResponseForAllEnabledPanels($request, $account);
     }

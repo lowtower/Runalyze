@@ -1,4 +1,3 @@
-
 <div class="panel-heading">
     <div class="panel-menu">
     {% block panelHeadingMenu %}
@@ -8,18 +7,13 @@
     <h1 class="link clap" rel="{{ pluginId }}">{% block pluginTitle %}{% endblock %}</h1>
 
     <div class="hover-icons">
-    {% block panelHeadingIcons %}
-        {% apply spaceless %}
-            <a data-size="small" class="window" href="{{ url('plugin-config', {'id': pluginId}) }}"><i class="fa fa-fw fa-cog"></i></a>
-            <span class="link up" rel="{{ pluginId }}"><i class="fa fa-fw fa-arrow-up"></i></span>
-            <span class="link down" rel="{{ pluginId }}"><i class="fa fa-fw fa-arrow-down"></i></span>
-            <span class="link" onclick="Runalyze.reloadPlugin('{{ pluginId }}');"><i class="fa far fa-fw fa-redo"></i></span>
-        {% endapply %}
-    {% endblock %}
+    {% block panelHeadingIcons -%}
+        <a data-size="small" class="window" href="{{ url('plugin-config', {'id': pluginId}) }}"><i class="fa fa-fw fa-cog"></i></a><span class="link up" rel="{{ pluginId }}"><i class="fa fa-fw fa-arrow-up"></i></span><span class="link down" rel="{{ pluginId }}"><i class="fa fa-fw fa-arrow-down"></i></span><span class="link" onclick="Runalyze.reloadPlugin('{{ pluginId }}');"><i class="fa far fa-fw fa-redo"></i></span>
+    {%- endblock %}
     </div>
 </div>
 
-<div class="panel-content{% if panelContentNoPadding|default(false) %} nopadding{% endif %}"{% if isHidden|default(false) %} style="display:none;"{% endif %}>
+<div class="panel-content{% if panelContentNoPadding|default(false) %} nopadding{% endif %}"{% if isHidden|default(false) %} style="display:none;"{% endif %}">
     {% block panelContent %}
     {% endblock %}
 </div>

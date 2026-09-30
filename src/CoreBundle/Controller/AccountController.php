@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Form\RecoverPasswordType;
@@ -24,6 +25,7 @@ class AccountController extends AbstractController
     use AppServiceSubscriberTrait;
 
     public function __construct(
+        protected ManagerRegistry $doctrine,
         private readonly TokenStorageInterface $tokenStorage,
         private readonly AccountMailer $accountMailer
     ) {
@@ -31,7 +33,7 @@ class AccountController extends AbstractController
 
     protected function getAccountRepository(): AccountRepository
     {
-        return $this->getDoctrine()
+        return $this->doctrine
             ->getRepository(Account::class);
     }
 

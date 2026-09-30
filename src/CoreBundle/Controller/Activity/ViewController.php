@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\Activity;
 
+use Doctrine\Persistence\ManagerRegistry;
 use ElevationInfo;
 use Frontend;
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityDecorator;
@@ -9,7 +10,6 @@ use Runalyze\Bundle\CoreBundle\Component\Activity\Tool\BestSubSegmentsStatistics
 use Runalyze\Bundle\CoreBundle\Component\Activity\Tool\TimeSeriesStatistics;
 use Runalyze\Bundle\CoreBundle\Component\Activity\VO2maxCalculationDetailsDecorator;
 use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
-use Runalyze\Bundle\CoreBundle\Controller\LegacyOutputCaptureTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Trackdata;
@@ -36,9 +36,9 @@ use TrainingView;
 class ViewController extends AbstractController
 {
     use AppServiceSubscriberTrait;
-    use LegacyOutputCaptureTrait;
 
     public function __construct(
+        protected ManagerRegistry $doctrine,
         private TokenStorageInterface $tokenStorage,
         private ParameterBagInterface $parameterBag,
         private ActivityContextFactory $activityContextFactory,
@@ -49,7 +49,7 @@ class ViewController extends AbstractController
 
     protected function getTrainingRepository(): TrainingRepository
     {
-        return $this->getDoctrine()
+        return $this->doctrine
             ->getRepository(Training::class);
     }
 
@@ -61,7 +61,7 @@ class ViewController extends AbstractController
 
     protected function getTrackdataRepository(): TrackdataRepository
     {
-        return $this->getDoctrine()
+        return $this->doctrine
             ->getRepository(Trackdata::class);
     }
 
@@ -118,12 +118,21 @@ class ViewController extends AbstractController
         if (! $request->query->get('silent')) {
             new Frontend(true, $this->tokenStorage, $this->parameterBag);
 
-            return $this->captureLegacyOutput(function () use ($activity): void {
+            ob_start();
+
+            try {
                 $context = new Context($activity->getId(), $activity->getAccount()->getId());
 
                 $view = new TrainingView($context);
                 $view->display();
-            });
+                $legacyContent = ob_get_clean();
+            } catch (Throwable $throwable) {
+                ob_end_clean();
+
+                throw $throwable;
+            }
+
+            return new Response($legacyContent);
         }
 
         return new Response();
@@ -165,18 +174,28 @@ class ViewController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        new Frontend(false, $this->tokenStorage, $this->parameterBag);
+        ob_start();
 
-        $context = new Context($id, $account->getId());
+        try {
+            $frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag);
+            $context = new Context($id, $account->getId());
 
-        if (! $context->hasTrackdata()) {
-            return $this->render('activity/tool/not_possible.html.twig');
-        }
+            if (! $context->hasTrackdata()) {
+                ob_end_clean();
 
-        return $this->captureLegacyOutput(function () use ($context): void {
+                return $this->render('activity/tool/not_possible.html.twig');
+            }
+
             $window = new Window($context);
             $window->display();
-        });
+            $legacyContent = ob_get_clean();
+        } catch (Throwable $throwable) {
+            ob_end_clean();
+
+            throw $throwable;
+        }
+
+        return new Response($legacyContent);
     }
 
     /**
@@ -205,18 +224,28 @@ class ViewController extends AbstractController
                 ->save($activity);
         }
 
-        new Frontend(false, $this->tokenStorage, $this->parameterBag);
+        ob_start();
 
-        $context = new Context($id, $account->getId());
+        try {
+            $frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag);
+            $context = new Context($id, $account->getId());
 
-        if (! $context->hasRoute()) {
-            return $this->render('activity/tool/not_possible.html.twig');
-        }
+            if (! $context->hasRoute()) {
+                ob_end_clean();
 
-        return $this->captureLegacyOutput(function () use ($context): void {
+                return $this->render('activity/tool/not_possible.html.twig');
+            }
+
             $elevationInfo = new ElevationInfo($context);
             $elevationInfo->display();
-        });
+            $legacyContent = ob_get_clean();
+        } catch (Throwable $throwable) {
+            ob_end_clean();
+
+            throw $throwable;
+        }
+
+        return new Response($legacyContent);
     }
 
     /**
