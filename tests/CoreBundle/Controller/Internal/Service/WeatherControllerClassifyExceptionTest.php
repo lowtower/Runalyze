@@ -10,6 +10,8 @@ use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 use Runalyze\Bundle\CoreBundle\Controller\Internal\Service\WeatherController;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
+use Runalyze\Bundle\CoreBundle\Services\Import\WeatherForecast;
 use Runalyze\Service\WeatherForecast\Exception\TooOldForCurrentConditionsException;
 use RuntimeException;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -20,7 +22,11 @@ class WeatherControllerClassifyExceptionTest extends TestCase
 {
     private function classify(Throwable $exception): string
     {
-        $controller = new WeatherController($this->createMock(TranslatorInterface::class));
+        $controller = new WeatherController(
+            $this->createMock(TranslatorInterface::class),
+            $this->createMock(WeatherForecast::class),
+            $this->createMock(ConfigurationManager::class)
+        );
 
         $reflectionMethod = new ReflectionMethod(WeatherController::class, 'classifyException');
 

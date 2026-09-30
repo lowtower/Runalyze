@@ -16,6 +16,9 @@ use Runalyze\Bundle\CoreBundle\Entity\Trackdata;
 use Runalyze\Bundle\CoreBundle\Entity\TrackdataRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
+use Runalyze\Bundle\CoreBundle\Services\Activity\ActivityContextFactory;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
+use Runalyze\Bundle\CoreBundle\Services\LegacyCache;
 use Runalyze\Metrics\Velocity\Unit\PaceEnum;
 use Runalyze\Service\ElevationCorrection\StepwiseElevationProfileFixer;
 use Runalyze\View\Activity\Context;
@@ -37,7 +40,10 @@ class ViewController extends AbstractController
 
     public function __construct(
         private TokenStorageInterface $tokenStorage,
-        private ParameterBagInterface $parameterBag
+        private ParameterBagInterface $parameterBag,
+        private ActivityContextFactory $activityContextFactory,
+        private ConfigurationManager $configurationManager,
+        private LegacyCache $legacyCache
     ) {
     }
 
@@ -90,7 +96,7 @@ class ViewController extends AbstractController
 
                 $this->getTrainingRepository()
                     ->save($activity->togglePrivacy());
-                $this->get('app.legacy_cache')
+                $this->legacyCache
                     ->clearActivityCache($activity);
                 break;
             case 'delete':
@@ -139,9 +145,9 @@ class ViewController extends AbstractController
 
         $this->checkThatEntityBelongsToActivity($activity, $account);
 
-        $configList = $this->get('app.configuration_manager')
+        $configList = $this->configurationManager
             ->getList();
-        $activityContext = $this->get('app.activity_context.factory')
+        $activityContext = $this->activityContextFactory
             ->getContext($activity);
 
         return $this->render('activity/vo2max_info.html.twig', [
@@ -297,7 +303,7 @@ class ViewController extends AbstractController
             throw $this->createNotFoundException('No activity found.');
         }
 
-        $activityContext = $this->get('app.activity_context.factory')
+        $activityContext = $this->activityContextFactory
             ->getContext($activity);
 
         if (! $activityContext->hasTrackdata() || ! $activityContext->hasRoute()) {

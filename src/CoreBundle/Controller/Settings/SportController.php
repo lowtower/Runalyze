@@ -31,6 +31,11 @@ class SportController extends AbstractController
 {
     use AppServiceSubscriberTrait;
 
+    public function __construct(
+        private AutomaticReloadFlagSetter $automaticReloadFlagSetter
+    ) {
+    }
+
     protected function getSportRepository(): SportRepository
     {
         return $this->getDoctrine()
@@ -92,9 +97,7 @@ class SportController extends AbstractController
             $type->setSport($em->getReference(Sport::class, $sportid));
             $this->getTypeRepository()
                 ->save($type);
-            /** @var AutomaticReloadFlagSetter $automaticReloadFlagSetter */
-            $automaticReloadFlagSetter = $this->get('app.automatic_reload_flag_setter');
-            $automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_PLUGINS);
+            $this->automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_PLUGINS);
 
             return $this->redirectToRoute('sport-edit', [
                 'id' => $sportid,
@@ -131,9 +134,7 @@ class SportController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getTypeRepository()
                 ->save($type);
-            /** @var AutomaticReloadFlagSetter $automaticReloadFlagSetter */
-            $automaticReloadFlagSetter = $this->get('app.automatic_reload_flag_setter');
-            $automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
+            $this->automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
 
             return $this->redirectToRoute('sport-type-edit', [
                 'id' => $type->getId(),
@@ -173,9 +174,7 @@ class SportController extends AbstractController
                 ->getManager();
             $em->remove($type);
             $em->flush();
-            /** @var AutomaticReloadFlagSetter $automaticReloadFlagSetter */
-            $automaticReloadFlagSetter = $this->get('app.automatic_reload_flag_setter');
-            $automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
+            $this->automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
             $this->addFlash('success', $translator->trans('The object has been deleted.'));
         } else {
             $this->addFlash('error', $translator->trans('Object cannot be deleted.') . ' ' . $translator->trans('You have activities associated with this type.'));
@@ -214,9 +213,7 @@ class SportController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getSportRepository()
                 ->save($sport);
-            /** @var AutomaticReloadFlagSetter $automaticReloadFlagSetter */
-            $automaticReloadFlagSetter = $this->get('app.automatic_reload_flag_setter');
-            $automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
+            $this->automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
 
             return $this->redirectToRoute('sport-edit', [
                 'id' => $sport->getId(),
@@ -252,9 +249,7 @@ class SportController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getSportRepository()
                 ->save($sport);
-            /** @var AutomaticReloadFlagSetter $automaticReloadFlagSetter */
-            $automaticReloadFlagSetter = $this->get('app.automatic_reload_flag_setter');
-            $automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
+            $this->automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
 
             return $this->redirectToRoute('sport-edit', [
                 'id' => $sport->getId(),
@@ -296,9 +291,7 @@ class SportController extends AbstractController
                 ->getManager();
             $em->remove($sport);
             $em->flush();
-            /** @var AutomaticReloadFlagSetter $automaticReloadFlagSetter */
-            $automaticReloadFlagSetter = $this->get('app.automatic_reload_flag_setter');
-            $automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
+            $this->automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
             $this->addFlash('success', $translator->trans('The object has been deleted.'));
         } else {
             $this->addFlash('error', $translator->trans('Object cannot be deleted.') . ' ' . $translator->trans('You have activities associated with this sport.'));

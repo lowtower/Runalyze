@@ -8,6 +8,7 @@ use Runalyze\Bundle\CoreBundle\Entity\PluginConf;
 use Runalyze\Bundle\CoreBundle\Entity\PluginConfRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
 use Runalyze\Bundle\CoreBundle\Entity\RaceresultRepository;
+use Runalyze\Bundle\CoreBundle\Services\Activity\AgeGradeLookup;
 use Runalyze\Util\LocalTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,6 +20,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class RaceResultsController extends AbstractController
 {
     use AppServiceSubscriberTrait;
+
+    public function __construct(
+        private AgeGradeLookup $ageGradeLookup
+    ) {
+    }
 
     protected function getRaceResultRepository(): RaceresultRepository
     {
@@ -42,8 +48,8 @@ class RaceResultsController extends AbstractController
         $result = [];
         $races = $this->getRaceResultRepository()
             ->findAllWithActivityStats($account);
-        $ageGradeLookup = $this->get('app.age_grade_lookup')
-            ->getLookup() ?: $this->get('app.age_grade_lookup')
+        $ageGradeLookup = $this->ageGradeLookup
+            ->getLookup() ?: $this->ageGradeLookup
             ->getDefaultLookup();
         $funIds = $this->getPluginConfRepository()
             ->getAllActivityIdsOfFunRaces($account);

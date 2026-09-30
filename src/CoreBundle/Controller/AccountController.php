@@ -5,6 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Controller;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Form\RecoverPasswordType;
+use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormError;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -20,6 +22,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class AccountController extends AbstractController
 {
     use AppServiceSubscriberTrait;
+
+    public function __construct(
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly AccountMailer $accountMailer
+    ) {
+    }
 
     protected function getAccountRepository(): AccountRepository
     {
@@ -48,8 +56,7 @@ class AccountController extends AbstractController
             ->deleteByHash($hash);
 
         if ($isCurrentUser) {
-            $this->get('security.token_storage')
-                ->setToken(null);
+            $this->tokenStorage->setToken();
             $request->getSession()
                 ->invalidate();
         }
@@ -140,8 +147,7 @@ class AccountController extends AbstractController
                 $this->getAccountRepository()
                     ->save($account);
 
-                $this->get('app.mailer.account')
-                    ->sendRecoverPasswordLinkTo($account);
+                $this->accountMailer->sendRecoverPasswordLinkTo($account);
 
                 return $this->render('account/recover/mail_delivered.html.twig');
             }

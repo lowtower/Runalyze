@@ -12,17 +12,17 @@ class CastedDecimalScale2Type extends DecimalType
      */
     public const CASTED_DECIMAL_2 = 'casted_decimal_2';
 
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?float
     {
         return ($value === null) ? null : (float) $value;
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         return ($value === null) ? null : sprintf('%.2f', $value);
     }
 
-    public function getName()
+    public function getName(): string
     {
         return self::CASTED_DECIMAL_2;
     }

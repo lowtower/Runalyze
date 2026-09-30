@@ -11,8 +11,11 @@ use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Form\RaceResultType;
+use Runalyze\Bundle\CoreBundle\Services\Activity\AgeGradeLookup;
+use Runalyze\Bundle\CoreBundle\Services\LegacyCache;
 use Runalyze\Metrics\LegacyUnitConverter;
 use Runalyze\Sports\Running\VO2max\Estimation\DanielsGilbertFormula;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,9 +23,15 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/my/raceresult")
  */
-class RaceResultController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+class RaceResultController extends AbstractController
 {
     use AppServiceSubscriberTrait;
+
+    public function __construct(
+        private LegacyCache $legacyCache,
+        private AgeGradeLookup $ageGradeLookup
+    ) {
+    }
 
     protected function getRaceresultRepository(): RaceresultRepository
     {
@@ -77,7 +86,7 @@ class RaceResultController extends \Symfony\Bundle\FrameworkBundle\Controller\Ab
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getRaceresultRepository()
                 ->save($raceResult);
-            $this->get('app.legacy_cache')
+            $this->legacyCache
                 ->clearRaceResultCache($raceResult);
         }
 
@@ -102,7 +111,7 @@ class RaceResultController extends \Symfony\Bundle\FrameworkBundle\Controller\Ab
         if ($raceResult instanceof Raceresult) {
             $this->getRaceresultRepository()
                 ->delete($raceResult);
-            $this->get('app.legacy_cache')
+            $this->legacyCache
                 ->clearRaceResultCache($raceResult);
         } else {
             throw $this->createAccessDeniedException();
@@ -119,12 +128,12 @@ class RaceResultController extends \Symfony\Bundle\FrameworkBundle\Controller\Ab
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $danielsGilbertFormula = new DanielsGilbertFormula();
-        $ageGradeLookup = $this->get('app.age_grade_lookup')
-            ->getLookup() ?: $this->get('app.age_grade_lookup')
+        $ageGradeLookup = $this->ageGradeLookup
+            ->getLookup() ?: $this->ageGradeLookup
             ->getDefaultLookup();
         $distances = [0.06, 0.1, 0.2, 0.4, 0.8, 1.0, 1.5, 3.0, 5.0, 10.0, 21.1, 42.2, 50.0];
         $distanceTicks = [0.06, 0.1, 0.2, 0.4, 0.8, 1.5, 3.0, 5.0, 10.0, 21.1, 42.2];
-        $ageStandardTimes = array_map(fn (float $kilometer) => $ageGradeLookup->getAgeStandard($kilometer), $distances);
+        $ageStandardTimes = array_map($ageGradeLookup->getAgeStandard(...), $distances);
         $ageStandardVO2max = array_map($danielsGilbertFormula->estimateFromRaceResult(...), $distances, $ageStandardTimes);
 
         return $this->render('my/raceresult/performance_chart.html.twig', [

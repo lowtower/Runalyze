@@ -26,6 +26,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -41,7 +42,11 @@ class SettingsController extends AbstractController
         private TranslatorInterface $translator,
         private TokenStorageInterface $tokenStorage,
         private ParameterBagInterface $parameterBag,
-        private UserPasswordHasherInterface $passwordHasher
+        private UserPasswordHasherInterface $passwordHasher,
+        private AutomaticReloadFlagSetter $automaticReloadFlagSetter,
+        private RequestStack $requestStack,
+        private AccountMailer $accountMailer,
+        private ConfigurationManager $configurationManager
     ) {
     }
 
@@ -80,20 +85,16 @@ class SettingsController extends AbstractController
                 Configuration::resetConfiguration($account->getId());
                 $this->addFlash('success', $this->translator->trans('Default configuration has been restored!'));
 
-                /** @var AutomaticReloadFlagSetter $automaticReloadFlagSetter */
-                $automaticReloadFlagSetter = $this->get('app.automatic_reload_flag_setter');
-                $automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_ALL);
+                $this->automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_ALL);
             }
 
             if (isset($formdata['language'])) {
-                $this->get('session')
+                $this->requestStack->getSession()
                     ->set('_locale', $formdata['language']);
                 Language::setLanguage($formdata['language']);
 
                 if ($account->getLanguage() !== $currentLanguage) {
-                    /** @var AutomaticReloadFlagSetter $automaticReloadFlagSetter */
-                    $automaticReloadFlagSetter = $this->get('app.automatic_reload_flag_setter');
-                    $automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_PAGE);
+                    $this->automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_PAGE);
                 }
             }
 
@@ -179,9 +180,7 @@ class SettingsController extends AbstractController
         $this->getAccountRepository()
             ->save($account);
 
-        /** @var AccountMailer $accountMailer */
-        $accountMailer = $this->get('app.mailer.account');
-        $accountMailer->sendDeleteLinkTo($account);
+        $this->accountMailer->sendDeleteLinkTo($account);
 
         return $this->render('settings/account-delete.html.twig');
     }
@@ -213,9 +212,7 @@ class SettingsController extends AbstractController
             }
 
             $em->flush();
-            /** @var AutomaticReloadFlagSetter $automaticReloadFlagSetter */
-            $automaticReloadFlagSetter = $this->get('app.automatic_reload_flag_setter');
-            $automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
+            $this->automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
         }
 
         return $this->redirectToRoute('settings-dataset');
@@ -266,9 +263,8 @@ class SettingsController extends AbstractController
      */
     protected function getExampleTraining(?Account $account = null): array
     {
-        /** @var ConfigurationManager $configurationManager */
-        $configurationManager = $this->get('app.configuration_manager');
-        $configuration = $configurationManager->getList();
+        $configuration = $this->configurationManager
+            ->getList();
 
         return [
             'id' => 0,

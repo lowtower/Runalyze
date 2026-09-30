@@ -224,6 +224,11 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
         return $this->username;
     }
 
+    public function getUserIdentifier(): string
+    {
+        return $this->username;
+    }
+
     public function setName(string $name): self
     {
         $this->name = $name;

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "900d76b6617f209e5c90d94515ac89ab",
+    "content-hash": "11033df6b45c6cfdc22abf2dab7a43c0",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -6951,6 +6951,90 @@
             "time": "2026-05-22T19:02:28+00:00"
         },
         {
+            "name": "symfony/runtime",
+            "version": "v5.4.53",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/runtime.git",
+                "reference": "aab86e248c9af2aec5eeaa62eef757c5af6e5d9f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/runtime/zipball/aab86e248c9af2aec5eeaa62eef757c5af6e5d9f",
+                "reference": "aab86e248c9af2aec5eeaa62eef757c5af6e5d9f",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0|^2.0",
+                "php": ">=7.2.5",
+                "symfony/polyfill-php80": "^1.15"
+            },
+            "conflict": {
+                "symfony/dotenv": "<5.1"
+            },
+            "require-dev": {
+                "composer/composer": "^1.0.2|^2.0",
+                "symfony/console": "^4.4.30|^5.4.9|^6.0.9",
+                "symfony/dotenv": "^5.1|^6.0",
+                "symfony/http-foundation": "^4.4.30|^5.3.7|^6.0",
+                "symfony/http-kernel": "^4.4.30|^5.3.7|^6.0"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Symfony\\Component\\Runtime\\Internal\\ComposerPlugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Runtime\\": "",
+                    "Symfony\\Runtime\\Symfony\\Component\\": "Internal/"
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Enables decoupling PHP applications from global state",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "runtime"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/runtime/tree/v5.4.53"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2026-05-23T12:08:41+00:00"
+        },
+        {
             "name": "symfony/security-bundle",
             "version": "v5.4.45",
             "source": {
@@ -9287,16 +9371,16 @@
         },
         {
             "name": "phpstan/phpstan-phpunit",
-            "version": "2.0.19",
+            "version": "2.0.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-phpunit.git",
-                "reference": "33a190a5e8e69fd18308443a80d4f43f42d43604"
+                "reference": "ef0c8f5c5e01b2b1863043738d90fbde52559159"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-phpunit/zipball/33a190a5e8e69fd18308443a80d4f43f42d43604",
-                "reference": "33a190a5e8e69fd18308443a80d4f43f42d43604",
+                "url": "https://api.github.com/repos/phpstan/phpstan-phpunit/zipball/ef0c8f5c5e01b2b1863043738d90fbde52559159",
+                "reference": "ef0c8f5c5e01b2b1863043738d90fbde52559159",
                 "shasum": ""
             },
             "require": {
@@ -9339,9 +9423,9 @@
             ],
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-phpunit/issues",
-                "source": "https://github.com/phpstan/phpstan-phpunit/tree/2.0.19"
+                "source": "https://github.com/phpstan/phpstan-phpunit/tree/2.0.20"
             },
-            "time": "2026-09-26T17:07:06+00:00"
+            "time": "2026-09-30T14:50:48+00:00"
         },
         {
             "name": "phpstan/phpstan-symfony",

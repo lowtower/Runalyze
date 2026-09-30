@@ -55,7 +55,7 @@ abstract class AbstractUnitBasedType extends AbstractType implements DataTransfo
         );
     }
 
-    public function reverseTransform($value)
+    public function reverseTransform($value): mixed
     {
         if ($value === null) {
             return null;

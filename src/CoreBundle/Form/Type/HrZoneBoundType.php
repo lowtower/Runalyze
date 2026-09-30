@@ -35,7 +35,7 @@ class HrZoneBoundType extends AbstractType implements DataTransformerInterface
     /**
      * @throws TransformationFailedException
      */
-    public function reverseTransform($zone)
+    public function reverseTransform($zone): mixed
     {
         if ($zone === null) {
             if ($this->IsRequired) {

@@ -23,6 +23,7 @@ use Runalyze\Bundle\CoreBundle\Form\Tools\PosterType;
 use Runalyze\Bundle\CoreBundle\Form\Tools\TrendAnalysis\TrendAnalysisData;
 use Runalyze\Bundle\CoreBundle\Form\Tools\TrendAnalysis\TrendAnalysisType;
 use Runalyze\Bundle\CoreBundle\Message\PosterGenerationMessage;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Metrics\Common\JavaScriptFormatter;
 use Runalyze\Sports\Running\Prognosis\VO2max;
 use Runalyze\Sports\Running\VO2max\VO2maxVelocity;
@@ -46,7 +47,8 @@ class ToolsController extends AbstractController
         private TokenStorageInterface $tokenStorage,
         private ParameterBagInterface $parameterBag,
         private FileHandler $fileHandler,
-        private MessageBusInterface $messageBus
+        private MessageBusInterface $messageBus,
+        private ConfigurationManager $configurationManager
     ) {
     }
 
@@ -91,7 +93,7 @@ class ToolsController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $config = $this->get('app.configuration_manager')
+        $config = $this->configurationManager
             ->getList();
         $running = $this->getDoctrine()
             ->getRepository(Sport::class)
@@ -128,7 +130,7 @@ class ToolsController extends AbstractController
 
         return $this->render('tools/tables/vo2max.html.twig', [
             'activeTable' => 1,
-            'currentVo2max' => $this->get('app.configuration_manager')
+            'currentVo2max' => $this->configurationManager
                 ->getList()
                 ->getCurrentVO2maxShape(),
             'prognosis' => new VO2max(),
@@ -146,7 +148,7 @@ class ToolsController extends AbstractController
 
         $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
 
-        $configuration = $this->get('app.configuration_manager')
+        $configuration = $this->configurationManager
             ->getList();
         $correctionFactor = $configuration->getVO2maxCorrectionFactor();
 
@@ -191,7 +193,7 @@ class ToolsController extends AbstractController
                 ]);
             }
 
-            $unitSystem = $this->get('app.configuration_manager')
+            $unitSystem = $this->configurationManager
                 ->getList($account)
                 ->getUnitSystem();
             /** @var EntityManager $entityManager */
@@ -240,7 +242,7 @@ class ToolsController extends AbstractController
                 ]);
             }
 
-            $unitSystem = $this->get('app.configuration_manager')
+            $unitSystem = $this->configurationManager
                 ->getList($account)
                 ->getUnitSystem();
             $query = new TrendAnalysisDataQuery($data);
@@ -305,7 +307,7 @@ class ToolsController extends AbstractController
 
                 return $this->render('tools/poster_success.html.twig', [
                     'posterStoragePeriod' => $this->parameterBag->get('app.poster_storage_period'),
-                    'listing' => $this->get('app.poster.filehandler')
+                    'listing' => $this->fileHandler
                         ->getFileList($account),
                 ]);
             }

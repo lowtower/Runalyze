@@ -10,6 +10,7 @@ use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentTypeRepository;
 use Runalyze\Bundle\CoreBundle\Form;
 use Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +24,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class EquipmentController extends AbstractController
 {
     use AppServiceSubscriberTrait;
+
+    public function __construct(
+        private ConfigurationManager $configurationManager,
+        private AutomaticReloadFlagSetter $automaticReloadFlagSetter
+    ) {
+    }
 
     protected function getEquipmentRepository(): EquipmentRepository
     {
@@ -57,7 +64,7 @@ class EquipmentController extends AbstractController
             return $this->redirectToRoute('equipment-overview');
         }
 
-        $unitSystem = $this->get('app.configuration_manager')
+        $unitSystem = $this->configurationManager
             ->getList()
             ->getUnitSystem();
 
@@ -82,7 +89,7 @@ class EquipmentController extends AbstractController
         return $this->render('my/equipment/overview.html.twig', [
             'equipmentTypes' => $this->getEquipmentTypeRepository()
                 ->findAllFor($account),
-            'unitSystem' => $this->get('app.configuration_manager')
+            'unitSystem' => $this->configurationManager
                 ->getList()
                 ->getUnitSystem(),
         ]);
@@ -106,7 +113,7 @@ class EquipmentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getEquipmentTypeRepository()
                 ->save($equipmentType);
-            $this->get('app.automatic_reload_flag_setter')
+            $this->automaticReloadFlagSetter
                 ->set(AutomaticReloadFlagSetter::FLAG_PLUGINS);
 
             return $this->redirectToRoute('equipment-category-edit', [
@@ -116,7 +123,7 @@ class EquipmentController extends AbstractController
 
         return $this->render('my/equipment/form-category.html.twig', [
             'form' => $form->createView(),
-            'unitSystem' => $this->get('app.configuration_manager')
+            'unitSystem' => $this->configurationManager
                 ->getList()
                 ->getUnitSystem(),
         ]);
@@ -145,7 +152,7 @@ class EquipmentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getEquipmentTypeRepository()
                 ->save($equipmentType);
-            $this->get('app.automatic_reload_flag_setter')
+            $this->automaticReloadFlagSetter
                 ->set(AutomaticReloadFlagSetter::FLAG_PLUGINS);
 
             return $this->redirectToRoute('equipment-category-edit', [
@@ -157,7 +164,7 @@ class EquipmentController extends AbstractController
             'form' => $form->createView(),
             'equipment' => $this->getEquipmentRepository()
                 ->findByTypeId($equipmentType->getId(), $account),
-            'unitSystem' => $this->get('app.configuration_manager')
+            'unitSystem' => $this->configurationManager
                 ->getList()
                 ->getUnitSystem(),
         ]);
@@ -185,7 +192,7 @@ class EquipmentController extends AbstractController
         $this->getEquipmentTypeRepository()
             ->remove($equipmentType);
 
-        $this->get('app.automatic_reload_flag_setter')
+        $this->automaticReloadFlagSetter
             ->set(AutomaticReloadFlagSetter::FLAG_PLUGINS);
         $this->addFlash('success', $translator->trans('The category has been deleted.'));
 
@@ -221,7 +228,7 @@ class EquipmentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getEquipmentRepository()
                 ->save($equipment);
-            $this->get('app.automatic_reload_flag_setter')
+            $this->automaticReloadFlagSetter
                 ->set(AutomaticReloadFlagSetter::FLAG_PLUGINS);
 
             return $this->redirectToRoute('equipment-category-edit', [
@@ -259,7 +266,7 @@ class EquipmentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getEquipmentRepository()
                 ->save($equipment);
-            $this->get('app.automatic_reload_flag_setter')
+            $this->automaticReloadFlagSetter
                 ->set(AutomaticReloadFlagSetter::FLAG_PLUGINS);
 
             return $this->redirectToRoute('equipment-category-edit', [
@@ -296,7 +303,7 @@ class EquipmentController extends AbstractController
 
         $this->getEquipmentRepository()
             ->remove($equipment);
-        $this->get('app.automatic_reload_flag_setter')
+        $this->automaticReloadFlagSetter
             ->set(AutomaticReloadFlagSetter::FLAG_PLUGINS);
         $this->addFlash('success', $translator->trans('The object has been deleted.'));
 

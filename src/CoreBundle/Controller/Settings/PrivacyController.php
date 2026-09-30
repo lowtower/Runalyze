@@ -8,6 +8,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Conf;
 use Runalyze\Bundle\CoreBundle\Entity\ConfRepository;
 use Runalyze\Bundle\CoreBundle\Form\Settings\PrivacyData;
 use Runalyze\Bundle\CoreBundle\Form\Settings\PrivacyType;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +22,8 @@ class PrivacyController extends AbstractController
 
     public function __construct(
         private ConfigurationUpdater $configurationUpdater,
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
+        private ConfigurationManager $configurationManager
     ) {
     }
 
@@ -38,7 +40,7 @@ class PrivacyController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $privacyConfig = $this->get('app.configuration_manager')
+        $privacyConfig = $this->configurationManager
             ->getList()
             ->getPrivacy();
 

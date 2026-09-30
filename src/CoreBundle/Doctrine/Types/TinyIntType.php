@@ -13,7 +13,7 @@ class TinyIntType extends SmallIntType
      */
     public const TINYINT = 'tinyint';
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
         $declaration = parent::getSQLDeclaration($fieldDeclaration, $platform);
 
@@ -24,7 +24,7 @@ class TinyIntType extends SmallIntType
         return $declaration;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return self::TINYINT;
     }

@@ -10,6 +10,7 @@ use Runalyze\Bundle\CoreBundle\Entity\NotificationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -21,7 +22,8 @@ class NotificationsController extends AbstractController
     use AppServiceSubscriberTrait;
 
     public function __construct(
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
+        private UrlGeneratorInterface $urlGenerator
     ) {
     }
 
@@ -42,7 +44,7 @@ class NotificationsController extends AbstractController
         return $this->render('notifications.html.twig', [
             'notifications' => $this->getNotificationsRepository()
                 ->findAllFor($account),
-            'router' => $this->get('router'),
+            'router' => $this->urlGenerator,
             'translator' => $this->translator,
         ]);
     }

@@ -14,12 +14,12 @@ class RunalyzePauseArray extends Type
      */
     public const RUNALYZE_PAUSE_ARRAY = 'runalyze_pause_array';
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
         return $platform->getClobTypeDeclarationSQL($fieldDeclaration);
     }
 
-    public function getName()
+    public function getName(): string
     {
         return self::RUNALYZE_PAUSE_ARRAY;
     }
@@ -29,7 +29,7 @@ class RunalyzePauseArray extends Type
         return true;
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         if (! ($value instanceof PauseCollection) || $value->isEmpty()) {
             return null;
@@ -44,7 +44,7 @@ class RunalyzePauseArray extends Type
         return json_encode($pauses, JSON_HEX_QUOT);
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform): PauseCollection
     {
         $collection = new PauseCollection();
 
@@ -77,7 +77,7 @@ class RunalyzePauseArray extends Type
     /**
      * @param array<string, mixed> $data
      */
-    protected function getPauseForNativeValue(array $data): \Runalyze\Parser\Activity\Common\Data\Pause\Pause
+    protected function getPauseForNativeValue(array $data): Pause
     {
         $data = array_merge([
             'time' => 0,

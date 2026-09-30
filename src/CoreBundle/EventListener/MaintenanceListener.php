@@ -2,27 +2,31 @@
 
 namespace Runalyze\Bundle\CoreBundle\EventListener;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\KernelInterface;
+use Twig\Environment;
 
 class MaintenanceListener
 {
     public function __construct(
-        private readonly ContainerInterface $container
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly KernelInterface $kernel,
+        private readonly Environment $twig
     ) {
     }
 
-    public function onKernelRequest(\Symfony\Component\HttpKernel\Event\RequestEvent $event): void
+    public function onKernelRequest(RequestEvent $event): void
     {
-        $maintenance = $this->container->hasParameter('app.maintenance') ? $this->container->getParameter('app.maintenance') : false;
+        $maintenance = $this->parameterBag->has('app.maintenance') ? $this->parameterBag->get('app.maintenance') : false;
 
-        $debug = in_array($this->container->get('kernel')->getEnvironment(), ['test', 'dev']);
+        $debug = in_array($this->kernel->getEnvironment(), ['test', 'dev']);
         $request = $event->getRequest();
         $routes = ['update', 'install', 'install_start', 'install_finish', 'update_start', 'admin'];
 
         if ($maintenance && ! $debug && ! in_array($request->get('_route'), $routes)) {
-            $engine = $this->container->get('templating');
-            $content = $engine->render('maintenance.html.twig');
+            $content = $this->twig->render('maintenance.html.twig');
             $event->setResponse(new Response($content, 503));
             $event->stopPropagation();
         }

@@ -12,12 +12,12 @@ class PipeDelimitedArray extends Type
      */
     public const PIPE_ARRAY = 'pipe_array';
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
         return $platform->getClobTypeDeclarationSQL($fieldDeclaration);
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         if (! is_array($value) || $value === []) {
             return null;
@@ -26,7 +26,7 @@ class PipeDelimitedArray extends Type
         return implode('|', $value);
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?array
     {
         if ($value === null || trim($value) === '') {
             return null;
@@ -43,7 +43,7 @@ class PipeDelimitedArray extends Type
         }, explode('|', $value));
     }
 
-    public function getName()
+    public function getName(): string
     {
         return self::PIPE_ARRAY;
     }

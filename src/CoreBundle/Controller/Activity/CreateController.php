@@ -18,6 +18,7 @@ use Runalyze\Bundle\CoreBundle\Form\MultiImporterType;
 use Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityCache;
+use Runalyze\Bundle\CoreBundle\Services\Import\ActivityContextAdapterFactory;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityDataContainerFilter;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityDataContainerToActivityContextConverter;
 use Runalyze\Bundle\CoreBundle\Services\Import\DuplicateFinder;
@@ -45,7 +46,9 @@ class CreateController extends AbstractController
         private ActivityDataContainerToActivityContextConverter $activityDataContainerToActivityContextConverter,
         private ActivityCache $activityCache,
         private DuplicateFinder $duplicateFinder,
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
+        private ActivityContextAdapterFactory $activityContextAdapterFactory,
+        private AutomaticReloadFlagSetter $automaticReloadFlagSetter
     ) {
     }
 
@@ -234,7 +237,6 @@ class CreateController extends AbstractController
             }
 
             $repository = $this->getTrainingRepository();
-            $contextAdapterFactory = $this->get('app.activity_context_adapter_factory');
             $defaultLocation = $this->configurationManager
                 ->getList()
                 ->getActivityForm()
@@ -248,15 +250,13 @@ class CreateController extends AbstractController
                     ->setAccountToRelatedEntities();
 
                 $context = new ActivityContext($activity, null, null, $activity->getRoute());
-                $contextAdapterFactory->getAdapterFor($context)
+                $this->activityContextAdapterFactory->getAdapterFor($context)
                     ->guessWeatherConditions($defaultLocation, $account);
 
                 $activityIds[] = $repository->save($activity, true);
             }
 
-            /** @var AutomaticReloadFlagSetter $automaticReloadFlagSetter */
-            $automaticReloadFlagSetter = $this->get('app.automatic_reload_flag_setter');
-            $automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_ALL);
+            $this->automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_ALL);
 
             if ($form->get('show_multi_editor')->getData()) {
                 return $this->redirectToRoute('multi-editor', [
@@ -303,9 +303,7 @@ class CreateController extends AbstractController
             $this->handleSubmitOfNewActivityForm($activity, $form);
 
             $this->addFlash('success', $this->translator->trans('The activity has been successfully created.'));
-            /** @var AutomaticReloadFlagSetter $automaticReloadFlagSetter */
-            $automaticReloadFlagSetter = $this->get('app.automatic_reload_flag_setter');
-            $automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_ALL);
+            $this->automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_ALL);
 
             return $this->render('util/close_overlay.html.twig');
         }

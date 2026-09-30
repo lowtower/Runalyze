@@ -2,6 +2,8 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\My\Tools;
 
+use Doctrine\Persistence\ManagerRegistry;
+use LogicException;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\FilenameHandler;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Route as RouteEntity;
@@ -16,8 +18,10 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -27,13 +31,29 @@ use Symfony\Component\Routing\Annotation\Route;
 class BackupToolController extends AbstractController
 {
     public function __construct(
-        private readonly MessageBusInterface $messageBus
+        protected ManagerRegistry $doctrine,
+        private readonly MessageBusInterface $messageBus,
+        private readonly RequestStack $requestStack
     ) {
     }
 
     protected function getPathToBackupFiles(): string
     {
         return $this->getParameter('app.data_directory') . '/backup-tool/backup/';
+    }
+
+    /**
+     * @throws LogicException if the current session is not a flash-bag-capable Session instance
+     */
+    private function getFlashBagAwareSession(): Session
+    {
+        $session = $this->requestStack->getSession();
+
+        if (! $session instanceof Session) {
+            throw new LogicException(sprintf('Expected an instance of %s, got %s.', Session::class, get_debug_type($session)));
+        }
+
+        return $session;
     }
 
     /**
@@ -91,12 +111,12 @@ class BackupToolController extends AbstractController
         }
 
         /** @var RouteRepository $repository */
-        $repository = $this->getDoctrine()
+        $repository = $this->doctrine
             ->getManager()
             ->getRepository(RouteEntity::class);
         $lockedRoutes = $repository->accountHasLockedRoutes($account);
         /** @var TrainingRepository $repository */
-        $repository = $this->getDoctrine()
+        $repository = $this->doctrine
             ->getManager()
             ->getRepository(Training::class);
         $hasLockedTrainings = $repository->accountHasLockedTrainings($account);
@@ -110,7 +130,7 @@ class BackupToolController extends AbstractController
             ->sort(fn (\SplFileInfo $a, \SplFileInfo $b): int => $b->getMTime() - $a->getMTime());
 
         return $this->render('tools/backup/export.html.twig', [
-            'backupjobWasCreated' => $this->get('session')
+            'backupjobWasCreated' => $this->getFlashBagAwareSession()
                 ->getFlashBag()
                 ->get('runalyze.backupjob.created'),
             'hasFiles' => $finder->count() > 0,

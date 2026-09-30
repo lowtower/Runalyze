@@ -12,8 +12,12 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
+use Runalyze\Bundle\CoreBundle\Services\Activity\ActivityContextFactory;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
+use Runalyze\Bundle\CoreBundle\Services\PrivacyGuard;
 use Runalyze\Export\Share\Facebook;
 use Runalyze\View\Activity\Context;
+use Runalyze\View\Activity\Feed;
 use Runalyze\View\Activity\Linker;
 use Runalyze\View\Leaflet\Activity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,7 +35,11 @@ class SharedController extends AbstractController
 
     public function __construct(
         private TokenStorageInterface $tokenStorage,
-        private ParameterBagInterface $parameterBag
+        private ParameterBagInterface $parameterBag,
+        private ConfigurationManager $configurationManager,
+        private ActivityContextFactory $activityContextFactory,
+        private PrivacyGuard $privacyGuard,
+        private Feed $activityFeed
     ) {
     }
 
@@ -66,17 +74,17 @@ class SharedController extends AbstractController
         $repository = $this->getDoctrine()
             ->getRepository(Account::class);
         $account = $repository->findByUsername($activity->getAccount()->getUsername());
-        $publicList = $this->get('app.configuration_manager')
+        $publicList = $this->configurationManager
             ->getList($account)
             ->getPrivacy()
             ->isListPublic();
 
         new FrontendShared(true, $this->tokenStorage, $this->parameterBag);
-        $activityContext = $this->get('app.activity_context.factory')
+        $activityContext = $this->activityContextFactory
             ->getContext($activity);
         $activityContextLegacy = new Context($activity->getId(), $activity->getAccount()->getId());
 
-        $hasRoute = $activityContext->canShowMap() && $this->get('app.privacy_guard')
+        $hasRoute = $activityContext->canShowMap() && $this->privacyGuard
             ->isMapVisible($activity, $activityContext->getRaceResult());
 
         if ($request->query->get('mode') == 'iframe') {
@@ -124,7 +132,7 @@ class SharedController extends AbstractController
         $repository = $this->getDoctrine()
             ->getRepository(Account::class);
         $account = $repository->findByUsername($username);
-        $privacy = $this->get('app.configuration_manager')
+        $privacy = $this->configurationManager
             ->getList($account)
             ->getPrivacy();
 
@@ -147,7 +155,7 @@ class SharedController extends AbstractController
             $accountStatistics = $this->getTrainingRepository()
                 ->getAccountStatistics($account);
             $legacyStatistics = new FrontendSharedStatistics();
-            $publicList = $this->get('app.configuration_manager')
+            $publicList = $this->configurationManager
                 ->getList($account)
                 ->getPrivacy()
                 ->isListPublic();
@@ -176,11 +184,11 @@ class SharedController extends AbstractController
         $repository = $this->getDoctrine()
             ->getRepository(Account::class);
         $account = $repository->findByUsername($username);
-        $privacy = $this->get('app.configuration_manager')
+        $privacy = $this->configurationManager
             ->getList($account)
             ->getPrivacy();
 
-        $feed = $this->get('app.activity.feed');
+        $feed = $this->activityFeed;
         $feed->setFeedTitle('RUNALYZE athlete ' . $username)
             ->setFeedUrl($this->generateUrl('shared-athlete-feed', [
                 'username' => $username,

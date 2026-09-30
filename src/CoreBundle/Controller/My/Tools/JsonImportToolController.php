@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\My\Tools;
 
+use LogicException;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\FilenameHandler;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\JsonBackupAnalyzer;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\JsonImporter;
@@ -13,7 +14,9 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -24,13 +27,28 @@ class JsonImportToolController extends AbstractController
 {
     public function __construct(
         private readonly TokenStorageInterface $tokenStorage,
-        private readonly ParameterBagInterface $parameterBag
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly RequestStack $requestStack
     ) {
     }
 
     protected function getImportFilePath(): string
     {
         return $this->parameterBag->get('app.data_directory') . '/backup-tool/import/';
+    }
+
+    /**
+     * @throws LogicException if the current session is not a flash-bag-capable Session instance
+     */
+    private function getFlashBagAwareSession(): Session
+    {
+        $session = $this->requestStack->getSession();
+
+        if (! $session instanceof Session) {
+            throw new LogicException(sprintf('Expected an instance of %s, got %s.', Session::class, get_debug_type($session)));
+        }
+
+        return $session;
     }
 
     /**
@@ -62,7 +80,7 @@ class JsonImportToolController extends AbstractController
             ]);
         }
 
-        $this->get('session')
+        $this->getFlashBagAwareSession()
             ->getFlashBag()
             ->set('json-import.file', $backupFile->getClientOriginalName());
 
@@ -78,7 +96,7 @@ class JsonImportToolController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $sessionFlashBag = $this->get('session')
+        $sessionFlashBag = $this->getFlashBagAwareSession()
             ->getFlashBag();
 
         if (! $sessionFlashBag->has('json-import.file')) {
@@ -117,7 +135,7 @@ class JsonImportToolController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $sessionFlashBag = $this->get('session')
+        $sessionFlashBag = $this->getFlashBagAwareSession()
             ->getFlashBag();
 
         if (! $sessionFlashBag->has('json-import.file')) {

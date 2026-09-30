@@ -59,3 +59,14 @@ parameters:
             identifier: function.alreadyNarrowedType
             count: 1
             path: inc/core/Parser/Common/LineByLineParserTrait.php
+
+        -
+            message: '#^Call to an undefined method Frontend::getUser\(\)\.#'
+            identifier: method.notFound
+            count: 1
+            path: inc/tpl/tpl.Frontend.header.php
+        -
+            message: '#^Call to an undefined method Frontend::generateUrl\(\)\.#'
+            identifier: method.notFound
+            count: 26
+            path: inc/tpl/tpl.Frontend.header.php

@@ -34,7 +34,9 @@ class WeatherController extends AbstractController
     use AppServiceSubscriberTrait;
 
     public function __construct(
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
+        private WeatherForecast $weatherForecast,
+        private ConfigurationManager $configurationManager
     ) {
     }
 
@@ -72,9 +74,7 @@ class WeatherController extends AbstractController
             ]);
         }
 
-        /** @var WeatherForecast $weatherForecastService */
-        $weatherForecastService = $this->get('app.weather_forecast');
-        $weather = $weatherForecastService->loadForecast($location) ?: new WeatherData();
+        $weather = $this->weatherForecast->loadForecast($location) ?: new WeatherData();
 
         /** @var ?SourceInterface $source */
         $source = $weather->Source ? WeatherSourceProfile::get($weather->Source) : null;
@@ -101,7 +101,7 @@ class WeatherController extends AbstractController
         ];
 
         if ($weather->isEmpty()) {
-            $response['sources'] = $this->buildSourceDiagnostics($weatherForecastService);
+            $response['sources'] = $this->buildSourceDiagnostics($this->weatherForecast);
         }
 
         return new JsonResponse($response);
@@ -189,10 +189,7 @@ class WeatherController extends AbstractController
         if ($request->query->has('city')) {
             $location->setLocationName($request->query->get('city'));
         } elseif (! $location->hasPosition()) {
-            /** @var ConfigurationManager $configurationManager */
-            $configurationManager = $this->get('app.configuration_manager');
-
-            $location->setLocationName($configurationManager->getList($account)->get('activity-form.PLZ'));
+            $location->setLocationName($this->configurationManager->getList($account)->get('activity-form.PLZ'));
         }
 
         if ($request->query->has('time') && is_numeric($request->query->get('time'))) {

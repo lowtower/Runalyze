@@ -2,9 +2,12 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\Internal;
 
+use Exception;
 use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
+use Runalyze\Bundle\CoreBundle\Services\Import\DuplicateFinder;
 use Runalyze\Util\LocalTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,6 +17,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class ActivityMatcherController extends AbstractController
 {
     use AppServiceSubscriberTrait;
+
+    public function __construct(
+        private DuplicateFinder $duplicateFinder,
+        private ConfigurationManager $configurationManager
+    ) {
+    }
 
     /**
      * @Route("/_internal/activity/matcher", name="internal-activity-matcher")
@@ -32,14 +41,13 @@ class ActivityMatcherController extends AbstractController
             }
         }
 
-        $duplicateFinder = $this->get('app.activity_duplicate_finder');
         $ignoredActivityIds = array_map(function (string $v): float {
             try {
                 return (int) floor($this->parserStrtotime($v) / 60.0) * 60.0;
-            } catch (\Exception) {
+            } catch (Exception) {
                 return 0.0;
             }
-        }, $this->get('app.configuration_manager')
+        }, $this->configurationManager
             ->getList()
             ->getActivityForm()
             ->getIgnoredActivityIds());
@@ -49,12 +57,12 @@ class ActivityMatcherController extends AbstractController
 
         foreach ($ids as $id) {
             try {
-                $possibleDuplicate = $duplicateFinder->isPossibleDuplicate(
+                $possibleDuplicate = $this->duplicateFinder->isPossibleDuplicate(
                     (new Training())
                         ->setAccount($account)
                         ->setTime($this->parserStrtotime($id))
                 );
-            } catch (\Exception) {
+            } catch (Exception) {
                 $possibleDuplicate = false;
             }
 
@@ -72,7 +80,7 @@ class ActivityMatcherController extends AbstractController
      * Adjusted strtotime
      * Timestamps are given in UTC but local timezone offset has to be considered!
      *
-     * @throws \Exception if $string cannot be parsed as a date/time
+     * @throws Exception if $string cannot be parsed as a date/time
      */
     private function parserStrtotime(string $string): int
     {
