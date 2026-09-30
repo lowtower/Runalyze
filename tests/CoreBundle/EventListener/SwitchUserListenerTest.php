@@ -37,12 +37,10 @@ class SwitchUserListenerTest extends TestCase
         );
     }
 
-    public function testHandleThrowsLogicExceptionWhenExitingWithoutAnOriginalToken(): void
+    public function testInvokeThrowsLogicExceptionWhenExitingWithoutAnOriginalToken(): void
     {
         $tokenStorage = $this->createMock(TokenStorageInterface::class);
         $currentToken = $this->createMock(TokenInterface::class);
-        $currentToken->method('getRoles')
-            ->willReturn([]);
         $tokenStorage->method('getToken')
             ->willReturn($currentToken);
 
@@ -54,10 +52,10 @@ class SwitchUserListenerTest extends TestCase
         $this->expectException(LogicException::class);
         $this->expectExceptionMessageMatches('/Switch User failed/');
 
-        $listener->handle($this->createGetResponseEvent($request));
+        $listener($this->createGetResponseEvent($request));
     }
 
-    public function testHandleDoesNothingWhenUsernameParameterIsAbsent(): void
+    public function testInvokeDoesNothingWhenUsernameParameterIsAbsent(): void
     {
         $tokenStorage = $this->createMock(TokenStorageInterface::class);
         $tokenStorage->expects($this->never())
@@ -68,7 +66,7 @@ class SwitchUserListenerTest extends TestCase
         $listener = $this->createListener($tokenStorage);
         $event = $this->createGetResponseEvent(new Request());
 
-        $listener->handle($event);
+        $listener($event);
 
         $this->assertFalse($event->hasResponse());
     }

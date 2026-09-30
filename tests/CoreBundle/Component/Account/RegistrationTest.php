@@ -48,10 +48,10 @@ class RegistrationTest extends WebTestCase
         $account->setUsername('foobar');
         $account->setMail('foo@bar.com');
 
-        $passwordEncoder = $this->getContainer()
-            ->get('security.user_password_encoder.generic');
+        $passwordHasher = $this->getContainer()
+            ->get('security.user_password_hasher');
 
-        $registration = new Registration($this->EntityManager, $account, $passwordEncoder);
+        $registration = new Registration($this->EntityManager, $account, $passwordHasher);
         $registration->requireAccountActivation();
         $registration->setPassword('Pa$$w0rd');
 

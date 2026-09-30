@@ -10,6 +10,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Activity\ActivityContextFactory;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
@@ -30,11 +31,11 @@ class ActivityContextFactoryTest extends AbstractFixturesAwareWebTestCase
             ->setUsername('activity_context_test_' . uniqid('', true))
             ->setMail('activity_context_test_' . uniqid('', true) . '@example.test');
 
-        /** @var \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordEncoder */
-        $passwordEncoder = self::getContainer()->get('security.user_password_encoder.generic');
+        /** @var UserPasswordHasherInterface $passwordHasher */
+        $passwordHasher = self::getContainer()->get('security.user_password_hasher');
 
-        $registration = new Registration($this->getEntityManager(), $account, $passwordEncoder);
-        $account->setPassword($passwordEncoder->encodePassword($account, 'irrelevant-for-this-test'));
+        $registration = new Registration($this->getEntityManager(), $account, $passwordHasher);
+        $account->setPassword($passwordHasher->hashPassword($account, 'irrelevant-for-this-test'));
         $registeredAccount = $registration->registerAccount();
 
         return $this->getEntityManager()

@@ -204,12 +204,12 @@ services:
 
     Runalyze\Bundle\CoreBundle\Tests\DataFixtures\ORM\LoadAccountData:
         arguments:
-            $passwordEncoder: '@security.user_password_encoder.generic'
+            $passwordHasher: '@security.user_password_hasher'
         tags: [doctrine.fixture.orm]
 
     Runalyze\Bundle\CoreBundle\Component\Account\Registration:
         arguments:
-            $passwordEncoder: '@security.user_password_encoder'
+            $passwordHasher: '@security.user_password_hasher'
 
     Runalyze\Bundle\CoreBundle\Services\AccountChecker: ~
 

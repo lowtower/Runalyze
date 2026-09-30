@@ -2,7 +2,7 @@
 
 {% block form %}
 
-    {{ form(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
     {{ form_row(form.username) }}
 
     <p class="info">

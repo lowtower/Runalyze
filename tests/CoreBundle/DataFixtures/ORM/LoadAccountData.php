@@ -7,11 +7,12 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class LoadAccountData extends AbstractFixture implements OrderedFixtureInterface
 {
     public function __construct(
-        private readonly ?\Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordEncoder = null
+        private readonly ?UserPasswordHasherInterface $passwordHasher = null
     ) {
     }
 
@@ -54,13 +55,12 @@ class LoadAccountData extends AbstractFixture implements OrderedFixtureInterface
 
     protected function registerAccount(ObjectManager $manager, Account $account, string $password): Registration
     {
-        $registration = new Registration($manager, $account, $this->passwordEncoder);
+        $registration = new Registration($manager, $account, $this->passwordHasher);
 
-        if ($this->passwordEncoder instanceof \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface) {
-            # $account->setPassword($encoder->encodePassword($password, $account->getSalt()));
-            $account->setPassword($this->passwordEncoder->encodePassword($account, $password));
+        if ($this->passwordHasher instanceof UserPasswordHasherInterface) {
+            $account->setPassword($this->passwordHasher->hashPassword($account, $password));
         } else {
-            // Fallback for testing environments where the encoder factory is not available
+            // Fallback for testing environments where the hasher factory is not available
             $account->setPassword(password_hash($password, PASSWORD_BCRYPT));
         }
 
