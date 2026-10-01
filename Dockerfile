@@ -73,6 +73,10 @@ RUN printf '%s\n' 'en_US.UTF-8 UTF-8' 'de_DE.UTF-8 UTF-8' > /etc/locale.gen; \
     dpkg-reconfigure --frontend=noninteractive locales; \
     update-locale LANG=en_US.UTF-8
 
+RUN echo 'umask 0002' >> /etc/bash.bashrc
+RUN echo 'alias ll="ls -lrt"' >> /etc/bash.bashrc
+RUN printf '%s\n' "PS1='\n\e[1;33m\$(date +\"%H:%M:%S\")\e[0m -\e[1;32m \h\e[0m - \e[1;36m\u\e[0m - \e[1;37m\$PWD \n/bin/bash\e[0m - \!: '" >> /etc/bash.bashrc
+
 # Install PHP Extensions
 COPY --from=php_extension_installer /usr/bin/install-php-extensions /usr/local/bin/
 RUN install-php-extensions \

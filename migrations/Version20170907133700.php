@@ -6,28 +6,27 @@ namespace Runalyze\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\DBAL\Connection;
+use Psr\Log\LoggerInterface;
 
-/**
- * remove search results per page conf
- */
-class Version20170907133700 extends AbstractMigration implements ContainerAwareInterface
+class Version20170907133700 extends AbstractMigration
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
+    public function __construct(
+        Connection $connection,
+        LoggerInterface $logger,
+        private readonly string $DatabasePrefix
+    ) {
+        parent::__construct($connection, $logger);
+    }
 
-    public function setContainer(?ContainerInterface $container = null)
+    public function getDescription(): string
     {
-        $this->container = $container;
+        return 'Remove search results per page conf.';
     }
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-        $this->addSql('DELETE FROM `' . $prefix . "conf` WHERE `key`='SEARCH_RESULTS_PER_PAGE'");
+        $this->addSql('DELETE FROM `' . $this->DatabasePrefix . "conf` WHERE `key`='SEARCH_RESULTS_PER_PAGE'");
     }
 
     public function down(Schema $schema): void

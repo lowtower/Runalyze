@@ -3,8 +3,10 @@
 namespace App;
 
 use Runalyze\Bundle\CoreBundle\DependencyInjection\Compiler\PublicTranslatorPass;
+use Runalyze\Bundle\CoreBundle\DependencyInjection\Compiler\RestoreMigrationDatabasePrefixBindingPass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
@@ -66,5 +68,11 @@ class Kernel extends BaseKernel
     protected function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new PublicTranslatorPass());
+
+        $container->addCompilerPass(
+            new RestoreMigrationDatabasePrefixBindingPass(),
+            PassConfig::TYPE_BEFORE_OPTIMIZATION,
+            -10
+        );
     }
 }

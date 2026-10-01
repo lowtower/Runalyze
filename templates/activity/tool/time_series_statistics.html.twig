@@ -54,23 +54,22 @@
     </tr>
 {% endmacro %}
 
-{% macro statisticsRowDefault(label, unit, distribution, factor, decimals) %}
+{% macro statisticsRowDefault(label, unit, distribution, factor=1, decimals=0) %}
     {# @var distribution \Runalyze\Calculation\Distribution\Empirical #}
     {% import _self as this %}
-    {% set factor = factor|default(1) %}
 
     {{ this.statisticsRow(
         label,
         unit,
-        (factor * distribution.mean)|number_format(decimals|default(0)),
-        (factor * distribution.min)|number_format(decimals|default(0)),
-        (factor * distribution.max)|number_format(decimals|default(0)),
-        (factor * distribution.median)|number_format(decimals|default(0)),
-        (factor * distribution.mode)|number_format(decimals|default(0)),
+        (factor * distribution.mean)|number_format(decimals),
+        (factor * distribution.min)|number_format(decimals),
+        (factor * distribution.max)|number_format(decimals),
+        (factor * distribution.median)|number_format(decimals),
+        (factor * distribution.mode)|number_format(decimals),
         distribution.coefficientOfVariation,
-        (factor * distribution.stdDev)|number_format(decimals|default(0)),
-        (factor * distribution.quantile(0.1))|number_format(decimals|default(0)),
-        (factor * distribution.quantile(0.9))|number_format(decimals|default(0))
+        (factor * distribution.stdDev)|number_format(decimals),
+        (factor * distribution.quantile(0.1))|number_format(decimals),
+        (factor * distribution.quantile(0.9))|number_format(decimals)
     ) }}
 {% endmacro %}
 

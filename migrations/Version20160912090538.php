@@ -1,28 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\DBAL\Connection;
+use Psr\Log\LoggerInterface;
 
-/**
- * add first dev fit fields to trackdata
- */
-class Version20160912090538 extends AbstractMigration implements ContainerAwareInterface
+class Version20160912090538 extends AbstractMigration
 {
-    private $container;
+    public function __construct(
+        Connection $connection,
+        LoggerInterface $logger,
+        private readonly string $DatabasePrefix
+    ) {
+        parent::__construct($connection, $logger);
+    }
 
-    public function setContainer(?ContainerInterface $container = null)
+    public function getDescription(): string
     {
-        $this->container = $container;
+        return 'Add first dev fit fields to trackdata.';
     }
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-        $this->addSql('ALTER TABLE `' . $prefix . 'trackdata` ADD `smo2_0` longtext AFTER `groundcontact_balance`, 
+        $this->addSql('ALTER TABLE `' . $this->DatabasePrefix . 'trackdata` ADD `smo2_0` longtext AFTER `groundcontact_balance`, 
                                 ADD `smo2_1` longtext AFTER `smo2_0`, 
                                 ADD `thb_0` longtext AFTER `smo2_1`, 
                                 ADD `thb_1` longtext AFTER `thb_0`');
@@ -30,7 +34,6 @@ class Version20160912090538 extends AbstractMigration implements ContainerAwareI
 
     public function down(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-        $this->addSql('ALTER TABLE `' . $prefix . 'trackdata` DROP `smo2_0`, DROP `smo2_1`, DROP `thb_0`, DROP `thb_1`');
+        $this->addSql('ALTER TABLE `' . $this->DatabasePrefix . 'trackdata` DROP `smo2_0`, DROP `smo2_1`, DROP `thb_0`, DROP `thb_1`');
     }
 }

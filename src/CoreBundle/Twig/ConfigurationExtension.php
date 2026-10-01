@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Twig;
 
+use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList;
+use Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
-class ConfigurationExtension extends \Twig\Extension\AbstractExtension
+class ConfigurationExtension extends AbstractExtension
 {
     public function __construct(
-        protected \Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager $ConfigurationManager
+        protected ConfigurationManager $ConfigurationManager
     ) {
     }
 
@@ -22,16 +27,16 @@ class ConfigurationExtension extends \Twig\Extension\AbstractExtension
     }
 
     /**
-     * @return \Twig\TwigFunction[]
+     * @return TwigFunction[]
      *
      * @codeCoverageIgnore
      */
     public function getFunctions(): array
     {
         return [
-            new \Twig\TwigFunction('configVar', $this->configVar(...)),
-            new \Twig\TwigFunction('config', $this->config(...)),
-            new \Twig\TwigFunction('unitSystem', $this->unitSystem(...)),
+            new TwigFunction('configVar', $this->configVar(...)),
+            new TwigFunction('config', $this->config(...)),
+            new TwigFunction('unitSystem', $this->unitSystem(...)),
         ];
     }
 
@@ -44,12 +49,12 @@ class ConfigurationExtension extends \Twig\Extension\AbstractExtension
             ->get($key);
     }
 
-    public function config(?Account $account = null): ?\Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList
+    public function config(?Account $account = null): ?RunalyzeConfigurationList
     {
         return $this->ConfigurationManager->getList($account);
     }
 
-    public function unitSystem(?Account $account = null): \Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem
+    public function unitSystem(?Account $account = null): UnitSystem
     {
         return $this->ConfigurationManager->getList($account)
             ->getUnitSystem();

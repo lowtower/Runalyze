@@ -6,29 +6,16 @@ use Runalyze\Metrics\Common\UnitInterface;
 
 class DisplayableValue implements \Stringable
 {
-    /**
-     * @var mixed
-     */
-    protected $Value;
+    protected mixed $Value;
 
-    /**
-     * @var string
-     */
-    protected $Unit;
+    protected string $Unit;
 
-    /**
-     * @param mixed $value
-     * @param string|UnitInterface $unit
-     * @param int $DefaultDecimals
-     * @param string $DefaultDecimalPoint
-     * @param string $DefaultThousandsSeparator
-     */
     public function __construct(
-        $value,
-        $unit,
-        protected $DefaultDecimals = 0,
-        protected $DefaultDecimalPoint = '.',
-        protected $DefaultThousandsSeparator = ','
+        mixed $value,
+        string|UnitInterface $unit,
+        protected int $DefaultDecimals = 0,
+        protected string $DefaultDecimalPoint = '.',
+        protected string $DefaultThousandsSeparator = ','
     ) {
         if ($unit instanceof UnitInterface) {
             $value = $unit->fromBaseUnit($value);
@@ -45,50 +32,36 @@ class DisplayableValue implements \Stringable
     }
 
     /**
-     * @param bool|int $decimals
-     * @param bool|string $decimalPoint
-     * @param bool|string $thousandsSeparator
      * @return string value and unit, separated by '&nbsp;'
      */
-    public function getWithUnit($decimals = false, $decimalPoint = false, $thousandsSeparator = false): string
+    public function getWithUnit(?int $decimals = null, ?string $decimalPoint = null, ?string $thousandsSeparator = null): string
     {
         return $this->getValue($decimals, $decimalPoint, $thousandsSeparator) . '&nbsp;' . $this->getUnit();
     }
 
-    /**
-     * @param bool|int $decimals
-     * @param bool|string $decimalPoint
-     * @param bool|string $thousandsSeparator
-     */
-    public function getValue($decimals = false, $decimalPoint = false, $thousandsSeparator = false): string
+    public function getValue(?int $decimals = null, ?string $decimalPoint = null, ?string $thousandsSeparator = null): string
     {
         return number_format(
             $this->Value,
-            $decimals === false ? $this->DefaultDecimals : $decimals,
-            $decimalPoint === false ? $this->DefaultDecimalPoint : $decimalPoint,
-            $thousandsSeparator === false ? $this->DefaultThousandsSeparator : $thousandsSeparator
+            $decimals ?? $this->DefaultDecimals,
+            $decimalPoint ?? $this->DefaultDecimalPoint,
+            $thousandsSeparator ?? $this->DefaultThousandsSeparator
         );
     }
 
-    public function setRawValue($value): self
+    public function setRawValue(mixed $value): self
     {
         $this->Value = $value;
 
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getRawValue()
+    public function getRawValue(): mixed
     {
         return $this->Value;
     }
 
-    /**
-     * @return string
-     */
-    public function getUnit()
+    public function getUnit(): string
     {
         return $this->Unit;
     }

@@ -1,33 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\DBAL\Connection;
+use Psr\Log\LoggerInterface;
 
-/**
- * Add `allow_support` & `role` field to account table
- */
-class Version20160819130118 extends AbstractMigration implements ContainerAwareInterface
+class Version20160819130118 extends AbstractMigration
 {
-    private $container;
+    public function __construct(
+        Connection $connection,
+        LoggerInterface $logger,
+        private readonly string $DatabasePrefix
+    ) {
+        parent::__construct($connection, $logger);
+    }
 
-    public function setContainer(?ContainerInterface $container = null)
+    public function getDescription(): string
     {
-        $this->container = $container;
+        return 'Add `allow_support` and `role` field to account table.';
     }
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-        $this->addSql('ALTER TABLE `' . $prefix . 'account` ADD `role` tinyint(3) unsigned NOT NULL DEFAULT 1, ADD `allow_support` tinyint(1) unsigned NOT NULL DEFAULT 0 AFTER `allow_mails`');
+        $this->addSql('ALTER TABLE `' . $this->DatabasePrefix . 'account` ADD `role` tinyint(3) unsigned NOT NULL DEFAULT 1, ADD `allow_support` tinyint(1) unsigned NOT NULL DEFAULT 0 AFTER `allow_mails`');
     }
 
     public function down(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-        $this->addSql('ALTER TABLE `' . $prefix . 'account` DROP `allow_support`, DROP `role`');
+        $this->addSql('ALTER TABLE `' . $this->DatabasePrefix . 'account` DROP `allow_support`, DROP `role`');
     }
 }

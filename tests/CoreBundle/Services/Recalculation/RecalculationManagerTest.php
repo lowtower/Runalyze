@@ -12,6 +12,7 @@ use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager;
 use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
+#[\PHPUnit\Framework\Attributes\Group('default')]
 class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
 {
     protected RecalculationManager $Manager;
@@ -28,7 +29,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
         /** @var ConfRepository&\PHPUnit\Framework\MockObject\MockObject $confRepository */
         $confRepository = $this->getConfRepositoryMock();
         $tokenStorage = new TokenStorage();
-        $tokenStorage->setToken(new PreAuthenticatedToken($this->Account, 'foo', 'bar'));
+        $tokenStorage->setToken(new PreAuthenticatedToken($this->Account, 'bar'));
 
         $this->ConfigurationManager = new ConfigurationManager($confRepository, $tokenStorage);
         $list = $this->ConfigurationManager->getList();
@@ -146,7 +147,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('123456789', $this->ConfigurationManager->getList($this->Account)->get('data.START_TIME'));
     }
 
-    protected function getAccountMock()
+    protected function getAccountMock(): Account
     {
         /** @var Account&\PHPUnit\Framework\MockObject\MockObject $account */
         $account = $this
@@ -162,10 +163,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
         return $account;
     }
 
-    /**
-     * @return TrainingRepository
-     */
-    protected function getTrainingRepositoryMock()
+    protected function getTrainingRepositoryMock(): TrainingRepository
     {
         /** @var TrainingRepository&\PHPUnit\Framework\MockObject\MockObject $repository */
         $repository = $this
@@ -192,10 +190,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
         return $repository;
     }
 
-    /**
-     * @return RaceresultRepository
-     */
-    protected function getRaceResultRepositoryMock()
+    protected function getRaceResultRepositoryMock(): RaceresultRepository
     {
         /** @var RaceresultRepository&\PHPUnit\Framework\MockObject\MockObject $repository */
         $repository = $this
@@ -212,10 +207,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
         return $repository;
     }
 
-    /**
-     * @return ConfRepository
-     */
-    protected function getConfRepositoryMock()
+    protected function getConfRepositoryMock(): ConfRepository
     {
         /** @var ConfRepository&\PHPUnit\Framework\MockObject\MockObject $repository */
         $repository = $this

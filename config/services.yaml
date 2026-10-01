@@ -118,6 +118,11 @@ services:
     Runalyze\Bundle\CoreBundle\Component\Tool\Backup\FinderFactory: ~
     Runalyze\Bundle\CoreBundle\Component\Tool\Backup\FinderFactoryInterface: '@Runalyze\Bundle\CoreBundle\Component\Tool\Backup\FinderFactory'
 
+    Runalyze\Migrations\:
+        resource: '../migrations/*'
+        bind:
+            $DatabasePrefix: '%app.database_prefix%'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     Doctrine\ORM\EntityManager:
@@ -457,7 +462,7 @@ services:
 
     app.automatic_reload_flag_setter:
       class: Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter
-      arguments: ["@session.flash_bag"]
+      arguments: ["@request_stack"]
     Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter: '@app.automatic_reload_flag_setter'
 
     app.privacy_guard:
@@ -752,4 +757,3 @@ services:
         class: Frontend
         arguments:
             $parameterBag: '@parameter_bag'
-

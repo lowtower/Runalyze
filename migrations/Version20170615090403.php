@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
@@ -9,19 +11,17 @@ use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\ClimbScoreCalculator;
 use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\FlatOrHillyAnalyzer;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Service\ElevationCorrection\StepwiseElevationProfileFixer;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\DBAL\Connection;
+use Psr\Log\LoggerInterface;
 
-class Version20170615090403 extends AbstractMigration implements ContainerAwareInterface
+class Version20170615090403 extends AbstractMigration
 {
-    /**
-     * @var ContainerInterface|null
-     */
-    private $container;
-
-    public function setContainer(?ContainerInterface $container = null)
-    {
-        $this->container = $container;
+    public function __construct(
+        Connection $connection,
+        LoggerInterface $logger,
+        private readonly EntityManager $EntityManager
+    ) {
+        parent::__construct($connection, $logger);
     }
 
     public function isTransactional(): bool
@@ -32,7 +32,7 @@ class Version20170615090403 extends AbstractMigration implements ContainerAwareI
     public function up(Schema $schema): void
     {
         /** @var EntityManager $em */
-        $em = $this->container->get('doctrine.orm.entity_manager');
+        $em = $this->EntityManager;
         $em->getConnection()
             ->getConfiguration()
             ->setSQLLogger();

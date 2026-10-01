@@ -1,39 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Twig;
 
 use Runalyze\Metrics\Velocity\Unit\AbstractPaceInTimeFormatUnit;
 
 class DisplayablePace extends DisplayableValue
 {
-    /**
-     * @param mixed $value
-     */
-    public function __construct($value, AbstractPaceInTimeFormatUnit $unit)
+    public function __construct(mixed $value, AbstractPaceInTimeFormatUnit $unit)
     {
         parent::__construct($value, $unit);
     }
 
-    /**
-     * @param bool|int $decimals
-     * @param bool|string $decimalPoint
-     * @param bool|string $thousandsSeparator
-     * @return string value and unit, not separated by '&nbsp;'
-     */
-    public function getWithUnit($decimals = false, $decimalPoint = false, $thousandsSeparator = false): string
+    public function getWithUnit(?int $decimals = null, ?string $decimalPoint = null, ?string $thousandsSeparator = null): string
     {
         return $this->getValue($decimals, $decimalPoint, $thousandsSeparator) . $this->getUnit();
     }
 
-    /**
-     * @param bool|int $decimals
-     * @param bool|string $decimalPoint
-     * @param bool|string $thousandsSeparator
-     */
-    public function getValue($decimals = false, $decimalPoint = false, $thousandsSeparator = false): string
+    public function getValue(?int $decimals = null, ?string $decimalPoint = null, ?string $thousandsSeparator = null): string
     {
         $isNegative = $this->Value < 0;
-        $seconds = round(abs($this->Value));
+        $seconds = round(abs((float) $this->Value));
         $minutes = floor($seconds / 60);
         $seconds -= $minutes * 60;
 

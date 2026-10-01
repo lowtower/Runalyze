@@ -1,40 +1,40 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\DBAL\Connection;
+use Psr\Log\LoggerInterface;
 
-/**
- * route lock
- */
-class Version20161209173160 extends AbstractMigration implements ContainerAwareInterface
+class Version20161209173160 extends AbstractMigration
 {
-    /**
-     * @var ContainerInterface|null
-     */
-    private $container;
+    public function __construct(
+        Connection $connection,
+        LoggerInterface $logger,
+        private readonly string $DatabasePrefix
+    ) {
+        parent::__construct($connection, $logger);
+    }
 
-    public function setContainer(?ContainerInterface $container = null)
+    public function getDescription(): string
     {
-        $this->container = $container;
+        return 'Route lock.';
     }
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-        $this->addSql('ALTER TABLE `' . $prefix . 'route`
+        $this->addSql('ALTER TABLE `' . $this->DatabasePrefix . 'route`
                   ADD `lock` tinyint(1) unsigned NOT NULL DEFAULT 0');
-        $this->addSql('UPDATE `' . $prefix . 'route`
+        $this->addSql('UPDATE `' . $this->DatabasePrefix . 'route`
                   SET `lock` = 1 WHERE geohashes != \'\'');
 
     }
 
     public function down(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-        $this->addSql('ALTER TABLE `' . $prefix . 'route` DROP `lock`');
+        $this->addSql('ALTER TABLE `' . $this->DatabasePrefix . 'route` DROP `lock`');
     }
 }

@@ -1,29 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\DBAL\Connection;
+use Psr\Log\LoggerInterface;
 
-class Version20170320194525 extends AbstractMigration implements ContainerAwareInterface
+class Version20170320194525 extends AbstractMigration
 {
-    /**
-     * @var ContainerInterface|null
-     */
-    private $container;
-
-    public function setContainer(?ContainerInterface $container = null)
-    {
-        $this->container = $container;
+    public function __construct(
+        Connection $connection,
+        LoggerInterface $logger,
+        private readonly string $DatabasePrefix
+    ) {
+        parent::__construct($connection, $logger);
     }
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-
-        $this->addSql('CREATE TABLE IF NOT EXISTS `' . $prefix . 'notification` (
+        $this->addSql('CREATE TABLE IF NOT EXISTS `' . $this->DatabasePrefix . 'notification` (
                           `id` INT UNSIGNED AUTO_INCREMENT NOT NULL,
                           `messageType`  tinyint unsigned NOT NULL,
                           `createdAt` INT UNSIGNED NOT NULL,
@@ -34,13 +32,11 @@ class Version20170320194525 extends AbstractMigration implements ContainerAwareI
                           INDEX IDX_F99B51889B6B5FBA (account_id),
                           PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB
                         ');
-        $this->addSql('ALTER TABLE ' . $prefix . 'notification ADD CONSTRAINT FK_F99B51889B6B5FBA FOREIGN KEY (account_id) REFERENCES ' . $prefix . 'account (id)');
+        $this->addSql('ALTER TABLE ' . $this->DatabasePrefix . 'notification ADD CONSTRAINT FK_F99B51889B6B5FBA FOREIGN KEY (account_id) REFERENCES ' . $this->DatabasePrefix . 'account (id)');
     }
 
     public function down(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-
-        $this->addSql('DROP TABLE `' . $prefix . 'notification`');
+        $this->addSql('DROP TABLE `' . $this->DatabasePrefix . 'notification`');
     }
 }

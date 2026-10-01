@@ -1,4 +1,4 @@
-{% macro dangerZoneDelete(formUrl, csrfTokenKey, formClass, messages) %}
+{% macro dangerZoneDelete(formUrl, csrfTokenKey, formClass='window ajax', messages=[]) %}
     <div class="panel-heading panel-sub-heading">
         <h2>{{ 'Danger zone'|trans }}</h2>
     </div>
@@ -8,11 +8,11 @@
             {% trans %}This action can't be undone.{% endtrans %}
         </p>
 
-        {% for message in messages|default([]) %}
+        {% for message in messages %}
             <p class="text">{{ message }}</p>
         {% endfor %}
 
-        <form action="{{ formUrl }}" class="{{ formClass|default('window ajax') }}" data-confirm="{% trans %}Do you really want to delete this?{% endtrans %}">
+        <form action="{{ formUrl }}" class="{{ formClass }}" data-confirm="{% trans %}Do you really want to delete this?{% endtrans %}">
             <div class="c">
                 <input type="hidden" name="t" value="{{ csrf_token(csrfTokenKey) }}" />
                 <input type="submit" class="danger" value="{% trans %}Delete{% endtrans %}" />

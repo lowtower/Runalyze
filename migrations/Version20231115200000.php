@@ -1,32 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\DBAL\Connection;
+use Psr\Log\LoggerInterface;
 
-/**
- * TSC: Creates new column for Pace-Pro additional informations.
- */
-class Version20231115200000 extends AbstractMigration implements ContainerAwareInterface
+class Version20231115200000 extends AbstractMigration
 {
-    /**
-     * @var ContainerInterface|null
-     */
-    private $container;
+    public function __construct(
+        Connection $connection,
+        LoggerInterface $logger,
+        private readonly string $DatabasePrefix
+    ) {
+        parent::__construct($connection, $logger);
+    }
 
-    public function setContainer(?ContainerInterface $container = null)
+    public function getDescription(): string
     {
-        $this->container = $container;
+        return 'TSC: Creates new column for Pace-Pro additional informations.';
     }
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-
-        $this->addSql('ALTER TABLE `' . $prefix . 'training`
+        $this->addSql('ALTER TABLE `' . $this->DatabasePrefix . 'training`
                                 ADD `pace_goal` JSON DEFAULT NULL AFTER `partner`,
                                 ADD `fit_run_time` MEDIUMINT UNSIGNED DEFAULT NULL AFTER `fit_load_peak`,
                                 ADD `fit_walk_time` MEDIUMINT UNSIGNED DEFAULT NULL AFTER `fit_run_time`,
@@ -36,8 +36,7 @@ class Version20231115200000 extends AbstractMigration implements ContainerAwareI
 
     public function down(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-        $this->addSql('ALTER TABLE `' . $prefix . 'training`
+        $this->addSql('ALTER TABLE `' . $this->DatabasePrefix . 'training`
                                 DROP `pace_goal`,
                                 DROP `fit_run_time`,
                                 DROP `fit_walk_time`,

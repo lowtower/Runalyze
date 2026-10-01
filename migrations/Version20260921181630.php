@@ -6,16 +6,17 @@ namespace Runalyze\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\DBAL\Connection;
+use Psr\Log\LoggerInterface;
 
-final class Version20260921181630 extends AbstractMigration implements ContainerAwareInterface
+final class Version20260921181630 extends AbstractMigration
 {
-    private ContainerInterface $container;
-
-    public function setContainer(?ContainerInterface $container = null)
-    {
-        $this->container = $container;
+    public function __construct(
+        Connection $connection,
+        LoggerInterface $logger,
+        private readonly string $DatabasePrefix
+    ) {
+        parent::__construct($connection, $logger);
     }
 
     public function getDescription() : string
@@ -25,15 +26,11 @@ final class Version20260921181630 extends AbstractMigration implements Container
 
     public function up(Schema $schema) : void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-
-        $this->addSql('ALTER TABLE `' . $prefix . 'route` CHANGE `elevations_source` `elevations_source` VARCHAR(255) NULL DEFAULT NULL');
+        $this->addSql('ALTER TABLE `' . $this->DatabasePrefix . 'route` CHANGE `elevations_source` `elevations_source` VARCHAR(255) NULL DEFAULT NULL');
     }
 
     public function down(Schema $schema) : void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-
-        $this->addSql('ALTER TABLE `' . $prefix . 'route` CHANGE `elevations_source` `elevations_source` VARCHAR(255) NOT NULL DEFAULT \'\'');
+        $this->addSql('ALTER TABLE `' . $this->DatabasePrefix . 'route` CHANGE `elevations_source` `elevations_source` VARCHAR(255) NOT NULL DEFAULT \'\'');
     }
 }

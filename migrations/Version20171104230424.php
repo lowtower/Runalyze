@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
@@ -12,13 +14,11 @@ use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 use Runalyze\Parser\Activity\Common\Exception\InvalidDataException;
 use Runalyze\Parser\Activity\Common\Filter\NegativeDistanceStepFilter;
 use Runalyze\Parser\Activity\Common\Filter\NegativeTimeStepFilter;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Doctrine\DBAL\Connection;
+use Psr\Log\LoggerInterface;
 
-class Version20171104230424 extends AbstractMigration implements ContainerAwareInterface
+class Version20171104230424 extends AbstractMigration
 {
-    use ContainerAwareTrait;
-
     /**
      * @var bool
      */
@@ -34,6 +34,14 @@ class Version20171104230424 extends AbstractMigration implements ContainerAwareI
      */
     protected $NegativeDistanceStepFilter;
 
+    public function __construct(
+        Connection $connection,
+        LoggerInterface $logger,
+        private readonly EntityManager $EntityManager
+    ) {
+        parent::__construct($connection, $logger);
+    }
+
     public function isTransactional(): bool
     {
         return false;
@@ -42,7 +50,7 @@ class Version20171104230424 extends AbstractMigration implements ContainerAwareI
     public function up(Schema $schema): void
     {
         /** @var EntityManager $em */
-        $em = $this->container->get('doctrine.orm.entity_manager');
+        $em = $this->EntityManager;
         $em->getConnection()
             ->getConfiguration()
             ->setSQLLogger();

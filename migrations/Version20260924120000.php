@@ -6,16 +6,18 @@ namespace Runalyze\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\DBAL\Connection;
+use Psr\Log\LoggerInterface;
+use Doctrine\Migrations\Exception\IrreversibleMigration;
 
-final class Version20260924120000 extends AbstractMigration implements ContainerAwareInterface
+final class Version20260924120000 extends AbstractMigration
 {
-    private ContainerInterface $container;
-
-    public function setContainer(?ContainerInterface $container = null)
-    {
-        $this->container = $container;
+    public function __construct(
+        Connection $connection,
+        LoggerInterface $logger,
+        private readonly string $DatabasePrefix
+    ) {
+        parent::__construct($connection, $logger);
     }
 
     public function getDescription(): string
@@ -25,11 +27,12 @@ final class Version20260924120000 extends AbstractMigration implements Container
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-
-        $this->addSql('UPDATE `' . $prefix . 'training` SET wind_deg = MOD(MOD(wind_deg, 360) + 360, 360) WHERE wind_deg >= 360 OR wind_deg < 0');
+        $this->addSql('UPDATE `' . $this->DatabasePrefix . 'training` SET wind_deg = MOD(MOD(wind_deg, 360) + 360, 360) WHERE wind_deg >= 360 OR wind_deg < 0');
     }
 
+    /**
+     * @throws IrreversibleMigration always, since this migration cannot be undone
+     */
     public function down(Schema $schema): void
     {
         $this->throwIrreversibleMigrationException(

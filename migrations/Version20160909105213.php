@@ -1,31 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\DBAL\Connection;
+use Psr\Log\LoggerInterface;
 
-/**
- * Remove 'tools' from plugins
- */
-class Version20160909105213 extends AbstractMigration implements ContainerAwareInterface
+class Version20160909105213 extends AbstractMigration
 {
-    /**
-     * @var ContainerInterface|null
-     */
-    private $container;
+    public function __construct(
+        Connection $connection,
+        LoggerInterface $logger,
+        private readonly string $DatabasePrefix
+    ) {
+        parent::__construct($connection, $logger);
+    }
 
-    public function setContainer(?ContainerInterface $container = null)
+    public function getDescription(): string
     {
-        $this->container = $container;
+        return 'Remove \'tools\' from plugins.';
     }
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-        $this->addSql('DELETE FROM `' . $prefix . 'plugin` WHERE `type`="tool"');
+        $this->addSql('DELETE FROM `' . $this->DatabasePrefix . 'plugin` WHERE `type`="tool"');
     }
 
     public function down(Schema $schema): void

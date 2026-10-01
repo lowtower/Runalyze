@@ -1,28 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\DBAL\Connection;
+use Psr\Log\LoggerInterface;
 
-/**
- * add runscribe data to trackdata
- */
-class Version20180117090538 extends AbstractMigration implements ContainerAwareInterface
+class Version20180117090538 extends AbstractMigration
 {
-    private $container;
+    public function __construct(
+        Connection $connection,
+        LoggerInterface $logger,
+        private readonly string $DatabasePrefix
+    ) {
+        parent::__construct($connection, $logger);
+    }
 
-    public function setContainer(?ContainerInterface $container = null)
+    public function getDescription(): string
     {
-        $this->container = $container;
+        return 'Add runscribe data to trackdata.';
     }
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-        $this->addSql('ALTER TABLE `' . $prefix . 'trackdata` ADD `impact_gs_left` longtext AFTER `thb_0`,
+        $this->addSql('ALTER TABLE `' . $this->DatabasePrefix . 'trackdata` ADD `impact_gs_left` longtext AFTER `thb_0`,
                                 ADD `impact_gs_right` longtext AFTER `impact_gs_left`,
                                 ADD `braking_gs_left` longtext AFTER `impact_gs_right`,
                                 ADD `braking_gs_right` longtext AFTER `braking_gs_left`,
@@ -35,8 +39,7 @@ class Version20180117090538 extends AbstractMigration implements ContainerAwareI
 
     public function down(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-        $this->addSql('ALTER TABLE `' . $prefix . 'trackdata`
+        $this->addSql('ALTER TABLE `' . $this->DatabasePrefix . 'trackdata`
                                 DROP `impact_gs_left`,
                                 DROP `impact_gs_right`,
                                 DROP `braking_gs_left`,

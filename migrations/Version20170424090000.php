@@ -1,36 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\DBAL\Connection;
+use Psr\Log\LoggerInterface;
 
-/**
- * unique key on dataset
- */
-class Version20170424090000 extends AbstractMigration implements ContainerAwareInterface
+class Version20170424090000 extends AbstractMigration
 {
-    /**
-     * @var ContainerInterface|null
-     */
-    private $container;
+    public function __construct(
+        Connection $connection,
+        LoggerInterface $logger,
+        private readonly string $DatabasePrefix
+    ) {
+        parent::__construct($connection, $logger);
+    }
 
-    public function setContainer(?ContainerInterface $container = null)
+    public function getDescription(): string
     {
-        $this->container = $container;
+        return 'Unique key on dataset.';
     }
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-        $this->addSql('CREATE UNIQUE INDEX unique_key ON `' . $prefix . 'dataset` (`accountid`, `keyid`)');
+        $this->addSql('CREATE UNIQUE INDEX unique_key ON `' . $this->DatabasePrefix . 'dataset` (`accountid`, `keyid`)');
     }
 
     public function down(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-        $this->addSql('ALTER table `' . $prefix . 'dataset` DROP INDEX `unique_key`');
+        $this->addSql('ALTER table `' . $this->DatabasePrefix . 'dataset` DROP INDEX `unique_key`');
     }
 }

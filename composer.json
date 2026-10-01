@@ -34,20 +34,20 @@
         "symfony/console": "~5.4",
         "symfony/css-selector": "~5.4",
         "symfony/dotenv": "~5.4",
+        "symfony/error-handler": "~5.4",
         "symfony/flex": "^2.8",
         "symfony/form": "~5.4",
-        "symfony/framework-bundle": "^5.4",
+        "symfony/framework-bundle": "~5.4",
         "symfony/mailer": "~5.4",
         "symfony/messenger": "~5.4",
         "symfony/monolog-bundle": "^3.8",
         "symfony/process": "~5.4",
-        "symfony/runtime": "5.4.*",
+        "symfony/runtime": "~5.4",
         "symfony/security-bundle": "~5.4",
         "symfony/security-core": "~5.4",
-        "symfony/security-guard": "~5.4",
         "symfony/security-http": "~5.4",
         "symfony/translation": "~5.4",
-        "symfony/twig-bridge": "5.4.*",
+        "symfony/twig-bridge": "~5.4",
         "symfony/validator": "~5.4",
         "symfony/yaml": "~5.4",
         "twig/twig": "^3.27"
@@ -78,11 +78,12 @@
         "classmap": ["inc/", "plugin/"],
         "exclude-from-classmap": ["inc/core/"],
         "psr-4": {
-            "DoctrineExtensions\\": "vendor/beberlei/DoctrineExtensions/src",
+            "DoctrineExtensions\\": "vendor/beberlei/DoctrineExtensions/src/",
             "App\\": "src/",
             "Runalyze\\": "inc/core/",
             "Runalyze\\Bundle\\": "src/",
-            "Runalyze\\Bundle\\GlossaryBundle\\": "vendor/runalyze/glossary"
+            "Runalyze\\Bundle\\GlossaryBundle\\": "vendor/runalyze/glossary/",
+            "Runalyze\\Migrations\\": "migrations/"
         }
     },
     "autoload-dev": {

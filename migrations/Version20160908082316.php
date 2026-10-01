@@ -1,33 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\DBAL\Connection;
+use Psr\Log\LoggerInterface;
 
-/**
- * remove autologin_hash
- */
-class Version20160908082316 extends AbstractMigration implements ContainerAwareInterface
+class Version20160908082316 extends AbstractMigration
 {
-    private $container;
+    public function __construct(
+        Connection $connection,
+        LoggerInterface $logger,
+        private readonly string $DatabasePrefix
+    ) {
+        parent::__construct($connection, $logger);
+    }
 
-    public function setContainer(?ContainerInterface $container = null)
+    public function getDescription(): string
     {
-        $this->container = $container;
+        return 'Remove autologin_hash.';
     }
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-        $this->addSql('ALTER TABLE `' . $prefix . 'account` DROP `autologin_hash`');
+        $this->addSql('ALTER TABLE `' . $this->DatabasePrefix . 'account` DROP `autologin_hash`');
     }
 
     public function down(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-        $this->addSql('ALTER TABLE `' . $prefix . "account` ADD `autologin_hash` varchar(32) NOT NULL DEFAULT '' AFTER lastaction");
+        $this->addSql('ALTER TABLE `' . $this->DatabasePrefix . "account` ADD `autologin_hash` varchar(32) NOT NULL DEFAULT '' AFTER lastaction");
     }
 }

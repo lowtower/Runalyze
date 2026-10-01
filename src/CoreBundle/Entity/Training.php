@@ -150,8 +150,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      * @Assert\Range(
      *     min=30,
      *     max=255,
-     *     minMessage="Your average heartrate must be at least {{ limit }} bpm",
-     *     maxMessage="Your average heartrate cannot be greater than {{ limit }} bpm"
+     *     notInRangeMessage="Your average heartrate must be between {{ min }} and {{ max }} bpm"
      * )
      */
     #[ORM\Column(name: 'pulse_avg', type: 'tinyint', nullable: true, options: [
@@ -164,8 +163,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      * @Assert\Range(
      *     min=30,
      *     max=255,
-     *     minMessage="Your maximum heartrate must be at least {{ limit }} bpm",
-     *     maxMessage="Your maximum heartrate cannot be greater than {{ limit }} bpm"
+     *     notInRangeMessage="Your maximum heartrate must be between {{ min }} and {{ max }} bpm"
      * )
      */
     #[ORM\Column(name: 'pulse_max', type: 'tinyint', nullable: true, options: [
@@ -179,8 +177,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      * @Assert\Range(
      *     min=30,
      *     max=255,
-     *     minMessage="Your average heartrate active rounds must be at least {{ limit }} bpm",
-     *     maxMessage="Your average heartrate active rounds cannot be greater than {{ limit }} bpm"
+     *     notInRangeMessage="Your average heartrate active rounds must be between {{ min }} and {{ max }} bpm"
      * )
      */
     #[ORM\Column(name: 'pulse_avg_active', type: 'tinyint', nullable: true, options: [
@@ -194,8 +191,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      * @Assert\Range(
      *     min=30,
      *     max=255,
-     *     minMessage="Your average heartrate active rounds must be at least {{ limit }} bpm",
-     *     maxMessage="Your average heartrate active rounds cannot be greater than {{ limit }} bpm"
+     *     notInRangeMessage="Your maximum heart rate must be between {{ min }} and {{ max }} bpm"
      * )
      */
     #[ORM\Column(name: 'max_hr_user', type: 'tinyint', nullable: true, options: [
@@ -568,8 +564,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      * @Assert\Range(
      *     min=0,
      *     max=359,
-     *     minMessage="The wind direction cannot be less than {{ limit }}",
-     *     maxMessage="The wind direction cannot be greater than {{ limit }}"
+     *     notInRangeMessage="The wind direction must be between {{ min }} and {{ max }} degrees"
      * )
      */
     #[ORM\Column(name: 'wind_deg', type: 'smallint', nullable: true, options: [
@@ -582,8 +577,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      * @Assert\Range(
      *     min=0,
      *     max=100,
-     *     minMessage="The humidity cannot be less than {{ limit }}",
-     *     maxMessage="The humidity cannot be greater than {{ limit }}. Even if it feels like this."
+     *     notInRangeMessage="The humidity must be between {{ min }} and {{ max }}%. Even if it feels higher than this."
      * )
      */
     #[ORM\Column(name: 'humidity', type: 'tinyint', nullable: true, options: [
@@ -624,7 +618,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     private ?Route $route = null;
 
     #[ORM\Column(name: 'splits', type: 'runalyze_round_array', length: 16777215, nullable: true)]
-    private ?\Runalyze\Parser\Activity\Common\Data\Round\RoundCollection $splits;
+    private ?RoundCollection $splits;
 
     #[ORM\Column(name: 'splits_additional', type: 'json', length: 2147483647, nullable: true)]
     private ?array $splitsAdditional = null;

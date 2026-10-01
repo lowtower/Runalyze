@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Services;
 
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\Privacy as BundlePrivacy;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList;
@@ -17,7 +16,7 @@ use Runalyze\Parameter\Application\ActivityRoutePrivacy;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
-#[Group('default')]
+#[\PHPUnit\Framework\Attributes\Group('default')]
 class PrivacyGuardTest extends TestCase
 {
     private function setEntityId(object $entity, int $id): void
@@ -49,14 +48,14 @@ class PrivacyGuardTest extends TestCase
     {
         $tokenStorage = $this->createMock(TokenStorageInterface::class);
 
-        if (! $loggedInUser instanceof \Runalyze\Bundle\CoreBundle\Entity\Account) {
+        if (! $loggedInUser instanceof Account) {
             $tokenStorage->method('getToken')
                 ->willReturn(null);
 
             return $tokenStorage;
         }
 
-        $token = new UsernamePasswordToken($loggedInUser, 'credentials-not-used-in-these-tests', 'main');
+        $token = new UsernamePasswordToken($loggedInUser, 'main');
         $tokenStorage->method('getToken')
             ->willReturn($token);
 

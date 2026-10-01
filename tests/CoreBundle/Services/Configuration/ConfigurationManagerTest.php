@@ -26,7 +26,7 @@ class ConfigurationManagerTest extends TestCase
     private function createLoggedInTokenStorage(Account $user): TokenStorage
     {
         $tokenStorage = new TokenStorage();
-        $tokenStorage->setToken(new UsernamePasswordToken($user, 'credentials-not-used-in-these-tests', 'main'));
+        $tokenStorage->setToken(new UsernamePasswordToken($user, 'main'));
 
         return $tokenStorage;
     }

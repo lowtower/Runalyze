@@ -2,6 +2,9 @@
 
 namespace Runalyze\Bundle\CoreBundle\Services;
 
+use LogicException;
+use Symfony\Component\HttpFoundation\Exception\SessionNotFoundException;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 class AutomaticReloadFlagSetter
@@ -42,19 +45,24 @@ class AutomaticReloadFlagSetter
     public const FLAG_PAGE = 6;
 
     public function __construct(
-        protected FlashBagInterface $FlashBag
+        protected RequestStack $RequestStack
     ) {
     }
 
+    /**
+     * @throws SessionNotFoundException if there is no active request with a session
+     * @throws LogicException if the active session does not register a flash bag
+     */
     public function set(int $flag): int
     {
-        $currentFlag = $this->FlashBag->get(self::FLASH_BAG_KEY);
+        $flashBag = $this->getFlashBag();
+        $currentFlag = $flashBag->get(self::FLASH_BAG_KEY);
 
         if (! empty($currentFlag)) {
             $flag = $this->mergeFlags([(int) $currentFlag[0], $flag]);
         }
 
-        $this->FlashBag->set(self::FLASH_BAG_KEY, (string) $flag);
+        $flashBag->set(self::FLASH_BAG_KEY, (string) $flag);
 
         return $flag;
     }
@@ -75,5 +83,25 @@ class AutomaticReloadFlagSetter
         }
 
         return max($flags);
+    }
+
+    /**
+     * @throws SessionNotFoundException if there is no active request with a session
+     * @throws LogicException if the active session does not register a flash bag
+     */
+    private function getFlashBag(): FlashBagInterface
+    {
+        $flashBag = $this->RequestStack->getSession()
+            ->getBag('flashes');
+
+        if (! $flashBag instanceof FlashBagInterface) {
+            throw new LogicException(sprintf(
+                'Expected instance of %s, got %s.',
+                FlashBagInterface::class,
+                get_debug_type($flashBag)
+            ));
+        }
+
+        return $flashBag;
     }
 }

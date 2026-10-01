@@ -64,9 +64,29 @@ class TagsControllerTest extends AbstractFixturesAwareWebTestCase
         ));
     }
 
-    private function getCsrfToken(string $tokenId): string
+    /**
+     * @throws RuntimeException if the overview page renders no delete link to read a token from
+     */
+    private function extractDeleteTagCsrfToken(): string
     {
-        return self::getContainer()->get('security.csrf.token_manager')->getToken($tokenId)->getValue();
+        $this->persistTagForAccount($this->Account, 'token-source-tag');
+
+        $crawler = $this->Client->request('GET', '/settings/tags');
+        $link = $crawler->filter('a.color-danger')
+            ->first();
+
+        if ($link->count() === 0) {
+            throw new RuntimeException('Expected the tags overview to render at least one delete link to extract a valid CSRF token from.');
+        }
+
+        $href = (string) $link->attr('href');
+        parse_str((string) parse_url($href, PHP_URL_QUERY), $query);
+
+        if (! isset($query['t'])) {
+            throw new RuntimeException(sprintf('No CSRF token query parameter found in delete link "%s".', $href));
+        }
+
+        return $query['t'];
     }
 
     private function persistTagForAccount(Account $account, string $name = 'test-tag'): Tag
@@ -197,7 +217,9 @@ class TagsControllerTest extends AbstractFixturesAwareWebTestCase
     public function testTagDeleteActionReturns404ForUnknownId(): void
     {
         $this->loginClient($this->Client, $this->Account, 'default');
-        $this->Client->request('GET', '/settings/tags/314159/delete?t=' . $this->getCsrfToken('deleteTag'));
+        $token = $this->extractDeleteTagCsrfToken();
+
+        $this->Client->request('GET', '/settings/tags/314159/delete?t=' . $token);
 
         $this->assertStatusCode(404, $this->Client);
     }
@@ -207,7 +229,9 @@ class TagsControllerTest extends AbstractFixturesAwareWebTestCase
         $otherTag = $this->persistTagForAccount($this->getEmptyAccount());
 
         $this->loginClient($this->Client, $this->Account, 'default');
-        $this->Client->request('GET', '/settings/tags/' . $otherTag->getId() . '/delete?t=' . $this->getCsrfToken('deleteTag'));
+        $token = $this->extractDeleteTagCsrfToken();
+
+        $this->Client->request('GET', '/settings/tags/' . $otherTag->getId() . '/delete?t=' . $token);
 
         $this->assertStatusCode(404, $this->Client);
     }
@@ -226,11 +250,16 @@ class TagsControllerTest extends AbstractFixturesAwareWebTestCase
 
     public function testTagDeleteActionDeletesTag(): void
     {
-        $tag = $this->persistTagForAccount($this->Account);
+        $tag = $this->persistTagForAccount($this->Account, 'tag-to-be-deleted');
         $tagId = $tag->getId();
 
         $this->loginClient($this->Client, $this->Account, 'default');
-        $this->Client->request('GET', '/settings/tags/' . $tagId . '/delete?t=' . $this->getCsrfToken('deleteTag'));
+        $crawler = $this->Client->request('GET', '/settings/tags');
+
+        $deleteLink = $crawler->filter(sprintf('a.color-danger[href*="/settings/tags/%d/delete"]', $tagId));
+        $this->assertGreaterThan(0, $deleteLink->count(), 'Expected the overview to render a delete link for the freshly created tag.');
+
+        $this->Client->request('GET', (string) $deleteLink->attr('href'));
 
         $this->assertStatusCode(302, $this->Client);
         $this->assertSame('/settings/tags', $this->Client->getResponse()->headers->get('Location'));

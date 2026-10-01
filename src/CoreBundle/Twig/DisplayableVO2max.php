@@ -6,26 +6,13 @@ use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList
 
 class DisplayableVO2max extends DisplayableValue
 {
-    /**
-     * @var float
-     */
-    protected $UncorrectedValue;
+    protected float $UncorrectedValue;
 
-    /**
-     * @var string
-     */
-    protected $IconClass;
+    protected string $IconClass;
 
-    /**
-     * @var array
-     */
-    protected $LowerLimitsForIcon = [3.0, 1.0, -1.0, -3.0];
+    protected array $LowerLimitsForIcon = [3.0, 1.0, -1.0, -3.0];
 
-    /**
-     * @param float $uncorrectedValue
-     * @param bool $valueIsUsedForShape
-     */
-    public function __construct($uncorrectedValue, RunalyzeConfigurationList $configurationList, $valueIsUsedForShape = true)
+    public function __construct(float $uncorrectedValue, RunalyzeConfigurationList $configurationList, bool $valueIsUsedForShape = true)
     {
         parent::__construct($uncorrectedValue, '', 2);
 
@@ -36,29 +23,23 @@ class DisplayableVO2max extends DisplayableValue
     /**
      * @return float [ml/kg/min]
      */
-    public function getUncorrectedValue()
+    public function getUncorrectedValue(): float
     {
         return $this->UncorrectedValue;
     }
 
-    /**
-     * @return string
-     */
-    public function getIconClass()
+    public function getIconClass(): string
     {
         return $this->IconClass;
     }
 
-    protected function correctValue(RunalyzeConfigurationList $configurationList)
+    protected function correctValue(RunalyzeConfigurationList $configurationList): void
     {
         $this->UncorrectedValue = $this->Value;
         $this->Value *= $configurationList->getVO2maxCorrectionFactor();
     }
 
-    /**
-     * @param bool $valueIsUsedForShape
-     */
-    protected function setIconClass(RunalyzeConfigurationList $configurationList, $valueIsUsedForShape)
+    protected function setIconClass(RunalyzeConfigurationList $configurationList, bool $valueIsUsedForShape): void
     {
         $classes = [
             'vo2max-icon',
@@ -73,10 +54,7 @@ class DisplayableVO2max extends DisplayableValue
         $this->IconClass = implode(' ', $classes);
     }
 
-    /**
-     * @param float $diffToShape
-     */
-    protected function getIconClassFor($diffToShape): string
+    protected function getIconClassFor(float $diffToShape): string
     {
         if ($diffToShape > $this->LowerLimitsForIcon[0]) {
             return 'fa-arrow-up';

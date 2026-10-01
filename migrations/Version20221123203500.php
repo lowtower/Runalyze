@@ -1,40 +1,43 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\DBAL\Connection;
+use Psr\Log\LoggerInterface;
 
-class Version20221123203500 extends AbstractMigration implements ContainerAwareInterface
+class Version20221123203500 extends AbstractMigration
 {
-    /**
-     * @var ContainerInterface|null
-     */
-    private $container;
+    public function __construct(
+        Connection $connection,
+        LoggerInterface $logger,
+        private readonly string $DatabasePrefix
+    ) {
+        parent::__construct($connection, $logger);
+    }
 
-    public function setContainer(?ContainerInterface $container = null)
+    public function getDescription(): string
     {
-        $this->container = $container;
+        return 'Add pulse_avg_active to training.';
     }
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-        $table = '`' . $prefix . 'training`';
+        $table = '`' . $this->DatabasePrefix . 'training`';
 
         $this->addSql('ALTER TABLE ' . $table . '
                                 ADD `pulse_avg_active` TINYINT(3) UNSIGNED DEFAULT NULL AFTER `pulse_max`');
-        $this->addSql('update ' . $prefix . 'training 
+        $this->addSql('update ' . $this->DatabasePrefix . 'training 
                                 set pulse_avg_active = pulse_avg 
                                 where pulse_avg > 0 and pulse_avg_active is null and (splits is null or splits not like \'%-R%\')');
     }
 
     public function down(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-        $table = '`' . $prefix . 'training`';
+        $table = '`' . $this->DatabasePrefix . 'training`';
         $this->addSql('ALTER TABLE ' . $table . '
                                DROP `pulse_avg_active`;');
     }

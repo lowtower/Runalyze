@@ -1,35 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\DBAL\Connection;
+use Psr\Log\LoggerInterface;
 
-class Version20170311194530 extends AbstractMigration implements ContainerAwareInterface
+class Version20170311194530 extends AbstractMigration
 {
-    /**
-     * @var ContainerInterface|null
-     */
-    private $container;
-
-    public function setContainer(?ContainerInterface $container = null)
-    {
-        $this->container = $container;
+    public function __construct(
+        Connection $connection,
+        LoggerInterface $logger,
+        private readonly string $DatabasePrefix
+    ) {
+        parent::__construct($connection, $logger);
     }
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-
-        $this->addSql('ALTER TABLE `' . $prefix . 'training` CHANGE COLUMN `comment` `title` TEXT');
+        $this->addSql('ALTER TABLE `' . $this->DatabasePrefix . 'training` CHANGE COLUMN `comment` `title` TEXT');
     }
 
     public function down(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-
-        $this->addSql('ALTER TABLE `' . $prefix . 'training` CHANGE COLUMN `title` `comment` TEXT');
+        $this->addSql('ALTER TABLE `' . $this->DatabasePrefix . 'training` CHANGE COLUMN `title` `comment` TEXT');
     }
 }

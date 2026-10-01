@@ -1,34 +1,37 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\DBAL\Connection;
+use Psr\Log\LoggerInterface;
 
-class Version20180113231353 extends AbstractMigration implements ContainerAwareInterface
+class Version20180113231353 extends AbstractMigration
 {
-    /**
-     * @var ContainerInterface|null
-     */
-    private $container;
+    public function __construct(
+        Connection $connection,
+        LoggerInterface $logger,
+        private readonly string $DatabasePrefix
+    ) {
+        parent::__construct($connection, $logger);
+    }
 
-    public function setContainer(?ContainerInterface $container = null)
+    public function getDescription(): string
     {
-        $this->container = $container;
+        return 'Add is_power_calculated to training.';
     }
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-
-        $this->addSql('ALTER TABLE `' . $prefix . 'training` ADD `is_power_calculated` TINYINT(1) DEFAULT NULL AFTER `power`');
+        $this->addSql('ALTER TABLE `' . $this->DatabasePrefix . 'training` ADD `is_power_calculated` TINYINT(1) DEFAULT NULL AFTER `power`');
 
     }
 
     public function down(Schema $schema): void
     {
-        $this->container->getParameter('app.database_prefix');
+        $this->DatabasePrefix;
     }
 }

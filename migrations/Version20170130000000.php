@@ -7,11 +7,13 @@ namespace Runalyze\Migrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-/**
- * bernard mysql schema without having bernard/bernard-bundle
- */
 class Version20170130000000 extends AbstractMigration
 {
+    public function getDescription(): string
+    {
+        return 'Bernard mysql schema without having bernard/bernard-bundle.';
+    }
+
     public function up(Schema $schema): void
     {
         $this->addSql('

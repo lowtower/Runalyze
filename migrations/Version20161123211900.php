@@ -1,31 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\DBAL\Connection;
+use Psr\Log\LoggerInterface;
 
-/**
- * Set `training.routeid` nullable
- */
-class Version20161123211900 extends AbstractMigration implements ContainerAwareInterface
+class Version20161123211900 extends AbstractMigration
 {
-    /**
-     * @var string
-     */
-    private $Prefix;
+    public function __construct(
+        Connection $connection,
+        LoggerInterface $logger,
+        private readonly string $DatabasePrefix
+    ) {
+        parent::__construct($connection, $logger);
+    }
 
-    public function setContainer(?ContainerInterface $container = null)
+    public function getDescription(): string
     {
-        $this->Prefix = $container->getParameter('app.database_prefix');
+        return 'Set `training.routeid` nullable.';
     }
 
     public function up(Schema $schema): void
     {
-        $this->addSql('ALTER TABLE `' . $this->Prefix . 'training` MODIFY `routeid` int(10) unsigned DEFAULT NULL');
-        $this->addSql('UPDATE `' . $this->Prefix . 'training` SET `routeid` = NULL WHERE `routeid`= 0');
+        $this->addSql('ALTER TABLE `' . $this->DatabasePrefix . 'training` MODIFY `routeid` int(10) unsigned DEFAULT NULL');
+        $this->addSql('UPDATE `' . $this->DatabasePrefix . 'training` SET `routeid` = NULL WHERE `routeid`= 0');
     }
 
     public function down(Schema $schema): void

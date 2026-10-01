@@ -1,19 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\DBAL\Connection;
+use Psr\Log\LoggerInterface;
 
-class Version20260904000000 extends AbstractMigration implements ContainerAwareInterface
+class Version20260904000000 extends AbstractMigration
 {
-    private ContainerInterface $container;
-
-    public function setContainer(?ContainerInterface $container = null)
-    {
-        $this->container = $container;
+    public function __construct(
+        Connection $connection,
+        LoggerInterface $logger,
+        private readonly string $DatabasePrefix
+    ) {
+        parent::__construct($connection, $logger);
     }
 
     public function getDescription(): string
@@ -23,15 +26,11 @@ class Version20260904000000 extends AbstractMigration implements ContainerAwareI
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-
-        $this->addSql('RENAME TABLE ' . $prefix . 'equipment_spor TO ' . $prefix . 'equipment_to_sport');
+        $this->addSql('RENAME TABLE ' . $this->DatabasePrefix . 'equipment_spor TO ' . $this->DatabasePrefix . 'equipment_to_sport');
     }
 
     public function down(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('app.database_prefix');
-
-        $this->addSql('RENAME TABLE ' . $prefix . 'equipment_to_sport TO ' . $prefix . 'equipment_spor');
+        $this->addSql('RENAME TABLE ' . $this->DatabasePrefix . 'equipment_to_sport TO ' . $this->DatabasePrefix . 'equipment_spor');
     }
 }

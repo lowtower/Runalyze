@@ -10,6 +10,7 @@ use Runalyze\Bundle\CoreBundle\Entity\EquipmentRepository;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentTypeRepository;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
@@ -31,14 +32,56 @@ class EquipmentControllerTest extends AbstractFixturesAwareWebTestCase
         $this->EquipmentRepository = $this->EntityManager->getRepository(Equipment::class);
     }
 
-    protected function generateCsrfToken(KernelBrowser $client, string $id): string
+    /**
+     * @return array{0: KernelBrowser, 1: string}
+     *
+     * @throws RuntimeException if the equipment overview renders no deletable category link
+     */
+    protected function createAuthenticatedClientWithDeleteEquipmentCategoryCsrfToken(): array
     {
-        $client->disableReboot();
+        $this->insertEquipmentTypeFor($this->Account);
 
-        return $client->getContainer()
-            ->get('security.csrf.token_manager')
-            ->getToken($id)
-            ->getValue();
+        $client = $this->makeAuthenticatedClient();
+
+        $crawler = $client->request('GET', '/my/equipment/overview');
+        $link = $crawler->filter('a.color-danger[href*="/equipment/category/"]')
+            ->first();
+
+        if ($link->count() === 0) {
+            throw new RuntimeException('Expected the equipment overview to render at least one deletable category link to extract a valid CSRF token from.');
+        }
+
+        $href = (string) $link->attr('href');
+        parse_str((string) parse_url($href, PHP_URL_QUERY), $query);
+
+        if (! isset($query['t'])) {
+            throw new RuntimeException(sprintf('No CSRF token query parameter found in delete link "%s".', $href));
+        }
+
+        return [$client, $query['t']];
+    }
+
+    /**
+     * @return array{0: KernelBrowser, 1: string}
+     *
+     * @throws RuntimeException if the scratch equipment's edit page renders no "danger zone" form
+     */
+    protected function createAuthenticatedClientWithDeleteEquipmentCsrfToken(): array
+    {
+        $equipmentType = $this->insertEquipmentTypeFor($this->Account);
+        $equipment = $this->insertEquipmentFor($this->Account, $equipmentType);
+
+        $client = $this->makeAuthenticatedClient();
+
+        $crawler = $client->request('GET', '/my/equipment/' . $equipment->getId() . '/edit');
+        $input = $crawler->filter('input[name="t"]')
+            ->first();
+
+        if ($input->count() === 0) {
+            throw new RuntimeException('Expected the scratch equipment edit page to render a deletable "danger zone" form to extract a valid CSRF token from.');
+        }
+
+        return [$client, (string) $input->attr('value')];
     }
 
     protected function insertEquipmentTypeFor(Account $account): EquipmentType
@@ -241,9 +284,10 @@ class EquipmentControllerTest extends AbstractFixturesAwareWebTestCase
 
     public function testDeleteEquipmentTypeActionThrowsNotFoundForUnknownIdWithValidToken(): void
     {
-        $client = $this->makeAuthenticatedClient();
+        [$client, $token] = $this->createAuthenticatedClientWithDeleteEquipmentCategoryCsrfToken();
+
         $client->request('GET', '/my/equipment/category/314159/delete', [
-            't' => $this->generateCsrfToken($client, 'deleteEquipmentCategory'),
+            't' => $token,
         ]);
 
         $this->assertStatusCode(404, $client);
@@ -253,9 +297,10 @@ class EquipmentControllerTest extends AbstractFixturesAwareWebTestCase
     {
         $equipmentType = $this->insertEquipmentTypeFor($this->getEmptyAccount());
 
-        $client = $this->makeAuthenticatedClient();
+        [$client, $token] = $this->createAuthenticatedClientWithDeleteEquipmentCategoryCsrfToken();
+
         $client->request('GET', '/my/equipment/category/' . $equipmentType->getId() . '/delete', [
-            't' => $this->generateCsrfToken($client, 'deleteEquipmentCategory'),
+            't' => $token,
         ]);
 
         $this->assertStatusCode(404, $client);
@@ -266,9 +311,10 @@ class EquipmentControllerTest extends AbstractFixturesAwareWebTestCase
         $equipmentType = $this->insertEquipmentTypeFor($this->Account);
         $id = $equipmentType->getId();
 
-        $client = $this->makeAuthenticatedClient();
+        [$client, $token] = $this->createAuthenticatedClientWithDeleteEquipmentCategoryCsrfToken();
+
         $client->request('GET', '/my/equipment/category/' . $id . '/delete', [
-            't' => $this->generateCsrfToken($client, 'deleteEquipmentCategory'),
+            't' => $token,
         ]);
 
         $this->assertStatusCode(302, $client);
@@ -470,9 +516,10 @@ class EquipmentControllerTest extends AbstractFixturesAwareWebTestCase
 
     public function testDeleteEquipmentActionThrowsNotFoundForUnknownIdWithValidToken(): void
     {
-        $client = $this->makeAuthenticatedClient();
+        [$client, $token] = $this->createAuthenticatedClientWithDeleteEquipmentCsrfToken();
+
         $client->request('GET', '/my/equipment/314159/delete', [
-            't' => $this->generateCsrfToken($client, 'deleteEquipment'),
+            't' => $token,
         ]);
 
         $this->assertStatusCode(404, $client);
@@ -483,9 +530,10 @@ class EquipmentControllerTest extends AbstractFixturesAwareWebTestCase
         $equipmentType = $this->insertEquipmentTypeFor($this->getEmptyAccount());
         $equipment = $this->insertEquipmentFor($this->getEmptyAccount(), $equipmentType);
 
-        $client = $this->makeAuthenticatedClient();
+        [$client, $token] = $this->createAuthenticatedClientWithDeleteEquipmentCsrfToken();
+
         $client->request('GET', '/my/equipment/' . $equipment->getId() . '/delete', [
-            't' => $this->generateCsrfToken($client, 'deleteEquipment'),
+            't' => $token,
         ]);
 
         $this->assertStatusCode(404, $client);
@@ -497,9 +545,10 @@ class EquipmentControllerTest extends AbstractFixturesAwareWebTestCase
         $equipment = $this->insertEquipmentFor($this->Account, $equipmentType);
         $id = $equipment->getId();
 
-        $client = $this->makeAuthenticatedClient();
+        [$client, $token] = $this->createAuthenticatedClientWithDeleteEquipmentCsrfToken();
+
         $client->request('GET', '/my/equipment/' . $id . '/delete', [
-            't' => $this->generateCsrfToken($client, 'deleteEquipment'),
+            't' => $token,
         ]);
 
         $this->assertStatusCode(302, $client);

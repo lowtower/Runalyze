@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
@@ -7,22 +9,17 @@ use Doctrine\Migrations\AbstractMigration;
 use Doctrine\ORM\EntityManager;
 use Runalyze\Bundle\CoreBundle\Entity\Route;
 use Runalyze\Calculation\Route\GeohashLine;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\DBAL\Connection;
+use Psr\Log\LoggerInterface;
 
-/**
- * refactoring geohashes in route table
- */
-class Version20161224173160 extends AbstractMigration implements ContainerAwareInterface
+class Version20161224173160 extends AbstractMigration
 {
-    /**
-     * @var ContainerInterface|null
-     */
-    private $container;
-
-    public function setContainer(?ContainerInterface $container = null)
-    {
-        $this->container = $container;
+    public function __construct(
+        Connection $connection,
+        LoggerInterface $logger,
+        private readonly EntityManager $EntityManager
+    ) {
+        parent::__construct($connection, $logger);
     }
 
     public function isTransactional(): bool
@@ -30,10 +27,15 @@ class Version20161224173160 extends AbstractMigration implements ContainerAwareI
         return false;
     }
 
+    public function getDescription(): string
+    {
+        return 'Refactoring geohashes in route table.';
+    }
+
     public function up(Schema $schema): void
     {
         /** @var EntityManager $em */
-        $em = $this->container->get('doctrine.orm.entity_manager');
+        $em = $this->EntityManager;
         $em->getConnection()
             ->getConfiguration()
             ->setSQLLogger();

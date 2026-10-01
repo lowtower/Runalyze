@@ -80,9 +80,48 @@ class SportControllerTest extends AbstractFixturesAwareWebTestCase
         ));
     }
 
-    private function getCsrfToken(string $tokenId): string
+    /**
+     * @throws RuntimeException if the scratch sport's edit page renders no deletable type link
+     */
+    private function extractDeleteSportTypeCsrfToken(): string
     {
-        return self::getContainer()->get('security.csrf.token_manager')->getToken($tokenId)->getValue();
+        $sport = $this->persistSportForAccount($this->Account, 'csrf-token-source-sport');
+        $this->persistTypeForSport($sport, $this->Account, 'csrf-token-source-type');
+
+        $crawler = $this->Client->request('GET', '/settings/sport/' . $sport->getId() . '/edit');
+        $link = $crawler->filter('#assigned-sport-types a.color-danger')
+            ->first();
+
+        if ($link->count() === 0) {
+            throw new RuntimeException('Expected the scratch sport to render a deletable activity type link to extract a valid CSRF token from.');
+        }
+
+        $href = (string) $link->attr('href');
+        parse_str((string) parse_url($href, PHP_URL_QUERY), $query);
+
+        if (! isset($query['t'])) {
+            throw new RuntimeException(sprintf('No CSRF token query parameter found in delete link "%s".', $href));
+        }
+
+        return $query['t'];
+    }
+
+    /**
+     * @throws RuntimeException if the scratch sport's edit page renders no "danger zone" form
+     */
+    private function extractDeleteSportCsrfToken(): string
+    {
+        $sport = $this->persistSportForAccount($this->Account, 'csrf-token-source-sport-for-delete');
+
+        $crawler = $this->Client->request('GET', '/settings/sport/' . $sport->getId() . '/edit');
+        $input = $crawler->filter('input[name="t"]')
+            ->first();
+
+        if ($input->count() === 0) {
+            throw new RuntimeException('Expected the scratch sport to render a deletable "danger zone" form to extract a valid CSRF token from.');
+        }
+
+        return (string) $input->attr('value');
     }
 
     private function persistSportForAccount(Account $account, string $name = 'Test Sport'): Sport
@@ -286,7 +325,9 @@ class SportControllerTest extends AbstractFixturesAwareWebTestCase
         $typeId = $type->getId();
 
         $this->loginClient($this->Client, $this->Account, 'default');
-        $this->Client->request('GET', '/settings/sport/type/' . $typeId . '/delete?t=' . $this->getCsrfToken('deleteSportType'));
+        $token = $this->extractDeleteSportTypeCsrfToken();
+
+        $this->Client->request('GET', '/settings/sport/type/' . $typeId . '/delete?t=' . $token);
 
         $this->assertStatusCode(302, $this->Client);
         $this->assertNull($this->reloadType($typeId));
@@ -305,7 +346,9 @@ class SportControllerTest extends AbstractFixturesAwareWebTestCase
             ->flush();
 
         $this->loginClient($this->Client, $this->Account, 'default');
-        $this->Client->request('GET', '/settings/sport/type/' . $type->getId() . '/delete?t=' . $this->getCsrfToken('deleteSportType'));
+        $token = $this->extractDeleteSportTypeCsrfToken();
+
+        $this->Client->request('GET', '/settings/sport/type/' . $type->getId() . '/delete?t=' . $token);
 
         $this->assertStatusCode(302, $this->Client);
         $this->assertNotNull($this->reloadType($type->getId()));
@@ -479,7 +522,9 @@ class SportControllerTest extends AbstractFixturesAwareWebTestCase
         $sportId = $sport->getId();
 
         $this->loginClient($this->Client, $this->Account, 'default');
-        $this->Client->request('GET', '/settings/sport/' . $sportId . '/delete?t=' . $this->getCsrfToken('deleteSport'));
+        $token = $this->extractDeleteSportCsrfToken();
+
+        $this->Client->request('GET', '/settings/sport/' . $sportId . '/delete?t=' . $token);
 
         $this->assertStatusCode(302, $this->Client);
         $this->assertNull($this->reloadSport($sportId));
@@ -496,7 +541,9 @@ class SportControllerTest extends AbstractFixturesAwareWebTestCase
             ->flush();
 
         $this->loginClient($this->Client, $this->Account, 'default');
-        $this->Client->request('GET', '/settings/sport/' . $sport->getId() . '/delete?t=' . $this->getCsrfToken('deleteSport'));
+        $token = $this->extractDeleteSportCsrfToken();
+
+        $this->Client->request('GET', '/settings/sport/' . $sport->getId() . '/delete?t=' . $token);
 
         $this->assertStatusCode(302, $this->Client);
         $this->assertNotNull($this->reloadSport($sport->getId()));

@@ -2,6 +2,10 @@
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Services\Import;
 
+use Runalyze\Bundle\CoreBundle\Entity\Conf;
+use Runalyze\Bundle\CoreBundle\Entity\Equipment;
+use Runalyze\Bundle\CoreBundle\Entity\Sport;
+use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityDataContainerToActivityContextConverter;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
@@ -24,17 +28,16 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
         $tokenStorage->setToken(
             new PreAuthenticatedToken(
                 $this->getDefaultAccount(),
-                'foo',
                 'bar'
             )
         );
         $this->Container = new ActivityDataContainer();
         $this->Converter = new ActivityDataContainerToActivityContextConverter(
-            $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Sport::class),
-            $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Type::class),
-            $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Equipment::class),
+            $this->EntityManager->getRepository(Sport::class),
+            $this->EntityManager->getRepository(Type::class),
+            $this->EntityManager->getRepository(Equipment::class),
             new ConfigurationManager(
-                $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Conf::class),
+                $this->EntityManager->getRepository(Conf::class),
                 $tokenStorage
             ),
             $this->getDefaultAccount()
@@ -78,7 +81,7 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
 
         $backupDefaultType = $this->getDefaultAccountsRunningSport()
             ->getDefaultType();
-        $defaultType = $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Type::class)
+        $defaultType = $this->EntityManager->getRepository(Type::class)
             ->findBy([
                 'name' => 'Fartlek',
             ])[0];

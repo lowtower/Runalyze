@@ -6,10 +6,7 @@ use Runalyze\Bundle\CoreBundle\Twig\HtmlExtension;
 
 class HtmlExtensionTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var HtmlExtension
-     */
-    protected $Html;
+    protected HtmlExtension $Html;
 
     protected function setUp(): void
     {

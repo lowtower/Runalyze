@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace DoctrineMigrations;
+namespace Runalyze\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20260904120000 extends AbstractMigration
+final class Version20260904094314 extends AbstractMigration
 {
     public function getDescription(): string
     {
