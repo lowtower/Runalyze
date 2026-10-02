@@ -1,0 +1,11 @@
+when@test:
+    liip_functional_test:
+        authentication:
+            username: "default"
+            password: "defaultPassword"
+
+when@test_empty:
+    liip_functional_test:
+        authentication:
+            username: "default"
+            password: "defaultPassword"

@@ -25,3 +25,16 @@ framework:
     php_errors:
         log: true
 
+when@test:
+    framework:
+        test: ~
+        session:
+            storage_factory_id: session.storage.factory.mock_file
+            name: MOCKSESSID
+
+when@test_empty:
+    framework:
+        test: ~
+        session:
+            storage_factory_id: session.storage.factory.mock_file
+            name: MOCKSESSID

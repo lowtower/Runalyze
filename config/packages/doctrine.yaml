@@ -64,3 +64,103 @@ framework:
                 adapter: cache.app
             doctrine.system_cache_pool:
                 adapter: cache.system
+
+when@prod:
+    doctrine:
+        dbal:
+            default_connection: default
+            connections:
+                default:
+                    driver:   pdo_mysql
+                    host:     '%env(DATABASE_HOST)%'
+                    port:     '%env(int:DATABASE_PORT)%'
+                    dbname:   '%env(DATABASE_NAME)%'
+                    user:     '%env(DATABASE_USER)%'
+                    password: '%env(DATABASE_PASSWORD)%'
+                    server_version: '%env(DATABASE_SERVER_VERSION)%'
+                    charset:  UTF8
+                    options: {1002: "SET time_zone = '+00:00'"}
+                    mapping_types:
+                        enum: string
+                    use_savepoints: true
+        orm:
+            auto_generate_proxy_classes: false
+            query_cache_driver:
+                type: pool
+                pool: doctrine.system_cache_pool
+            result_cache_driver:
+                type: pool
+                pool: doctrine.result_cache_pool
+
+    framework:
+        cache:
+            pools:
+                doctrine.result_cache_pool:
+                    adapter: cache.app
+                doctrine.system_cache_pool:
+                    adapter: cache.system
+
+when@dev:
+
+
+when@test:
+    doctrine:
+        dbal:
+            default_connection: default
+            connections:
+                default:
+                    driver: pdo_sqlite
+                    path: '%kernel.cache_dir%/test.db'
+#                functional:
+#                    driver:   pdo_mysql
+#                    host:     '%env(DB_TEST_HOST)%'
+#                    port:     '%env(int:DB_TEST_PORT)%'
+#                    dbname:   '%env(DB_TEST_NAME)%'
+#                    user:     '%env(DB_TEST_USER)%'
+#                    password: '%env(DB_TEST_PASSWORD)%'
+#                    charset:  UTF8
+#                    options: {1002: "SET time_zone = '+00:00'"}
+                unittest:
+                    driver:   pdo_mysql
+                    host:     '%env(DB_TEST_HOST)%'
+                    port:     '%env(int:DB_TEST_PORT)%'
+                    dbname:   '%env(DB_UNITTEST_NAME)%'
+                    user:     '%env(DB_TEST_USER)%'
+                    password: '%env(DB_TEST_PASSWORD)%'
+                    charset:  UTF8
+                    options: {1002: "SET time_zone = '+00:00'"}
+        orm:
+            dql:
+                datetime_functions:
+                    from_unixtime: Runalyze\Bundle\CoreBundle\Tests\Doctrine\DQL\Sqlite\SqliteFromUnixtime
+                    year: Runalyze\Bundle\CoreBundle\Tests\Doctrine\DQL\Sqlite\SqliteYear
+                    month: Runalyze\Bundle\CoreBundle\Tests\Doctrine\DQL\Sqlite\SqliteMonth
+
+    parameters:
+        database_prefix: 'runalyze_test_'
+        database_prefix.functional: 'runalyze_test_'
+        database_prefix.unittest: 'runalyze_'
+
+    services:
+        _defaults:
+            tags: ['doctrine.fixture.orm']
+        Runalyze\Bundle\CoreBundle\Tests\DataFixtures\ORM\:
+            resource: '%kernel.project_dir%/tests/CoreBundle/DataFixtures/ORM/*'
+
+when@test_empty:
+    doctrine:
+        dbal:
+            default_connection: default
+            connections:
+                default:
+                    driver:   pdo_mysql
+                    host:     '%env(DB_TEST_HOST)%'
+                    port:     '%env(int:DB_TEST_PORT)%'
+                    dbname:   'runalyze_test_empty'
+                    user:     '%env(DB_TEST_USER)%'
+                    password: '%env(DB_TEST_PASSWORD)%'
+                    charset:  UTF8
+                    options: {1002: "SET time_zone = '+00:00'"}
+
+    parameters:
+        database_prefix: 'runalyze_'

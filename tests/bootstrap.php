@@ -5,14 +5,18 @@
  * @author Hannes Christiansen
  * @package Runalyze\PHPUnit
  */
-// ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.dirname(__FILE__).'/../../../php/PEAR');
+// ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR.dirname(__FILE__) . '/../../../php/PEAR');
 
+# require dirname(__DIR__) . '/vendor/autoload.php';
 use App\Kernel;
 use Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookup;
 use Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookupException;
 use Symfony\Component\Dotenv\Dotenv;
 
 error_reporting(E_ALL);
+if (method_exists(Dotenv::class, 'bootEnv')) {
+    (new Dotenv())->bootEnv(__DIR__ . '/../.env');
+}
 
 if ($_SERVER['APP_DEBUG']) {
     umask(0000);
@@ -32,9 +36,6 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $_SERVER['APP_ENV'] = $_ENV['APP_ENV'] = 'test';
 $_SERVER['APP_DEBUG'] = $_ENV['APP_DEBUG'] = '1';
-
-// Load environment variables
-(new Dotenv())->loadEnv(__DIR__ . '/../.env');
 
 // Boot Kernel, to get access to the container
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);

@@ -23,3 +23,7 @@ twig:
         input_unit: ''
     form_themes:
         - 'form/fields.html.twig'
+
+when@test:
+    twig:
+        strict_variables: true
