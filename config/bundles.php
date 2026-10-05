@@ -1,61 +1,19 @@
 <?php
 
-declare(strict_types=1);
-
 return [
-    Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => [
-        'all' => true,
-    ],
-    Doctrine\Bundle\DoctrineBundle\DoctrineBundle::class => [
-        'all' => true,
-    ],
-    Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => [
-        'dev' => true,
-        'test' => true,
-        'test_empty' => true,
-    ],
-    Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle::class => [
-        'all' => true,
-    ],
-    JMS\TranslationBundle\JMSTranslationBundle::class => [
-        'all' => true,
-    ],
-    Liip\FunctionalTestBundle\LiipFunctionalTestBundle::class => [
-        'dev' => true,
-        'test' => true,
-        'test_empty' => true,
-    ],
-    Liip\TestFixturesBundle\LiipTestFixturesBundle::class => [
-        'dev' => true,
-        'test' => true,
-        'test_empty' => true,
-    ],
-    Runalyze\Bundle\CoreBundle\CoreBundle::class => [
-        'all' => true,
-    ],
-    Runalyze\Bundle\GlossaryBundle\GlossaryBundle::class => [
-        'all' => true,
-    ],
-    Snc\RedisBundle\SncRedisBundle::class => [
-        'all' => true,
-    ],
-    Symfony\Bundle\MonologBundle\MonologBundle::class => [
-        'all' => true,
-    ],
-    Symfony\Bundle\MakerBundle\MakerBundle::class => [
-        'dev' => true,
-    ],
-    Symfony\Bundle\TwigBundle\TwigBundle::class => [
-        'all' => true,
-    ],
-    Symfony\Bundle\WebProfilerBundle\WebProfilerBundle::class => [
-        'dev' => true,
-        'test' => true,
-    ],
-    Symfony\Bundle\SecurityBundle\SecurityBundle::class => [
-        'all' => true,
-    ],
-    Symfony\Bundle\DebugBundle\DebugBundle::class => [
-        'dev' => true,
-    ],
+    Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
+    Doctrine\Bundle\DoctrineBundle\DoctrineBundle::class => ['all' => true],
+    Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true, 'test_empty' => true],
+    Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle::class => ['all' => true],
+    Liip\FunctionalTestBundle\LiipFunctionalTestBundle::class => ['dev' => true, 'test' => true, 'test_empty' => true],
+    Liip\TestFixturesBundle\LiipTestFixturesBundle::class => ['dev' => true, 'test' => true, 'test_empty' => true],
+    Runalyze\Bundle\CoreBundle\CoreBundle::class => ['all' => true],
+    Runalyze\Bundle\GlossaryBundle\GlossaryBundle::class => ['all' => true],
+    Snc\RedisBundle\SncRedisBundle::class => ['all' => true],
+    Symfony\Bundle\MonologBundle\MonologBundle::class => ['all' => true],
+    Symfony\Bundle\MakerBundle\MakerBundle::class => ['dev' => true],
+    Symfony\Bundle\TwigBundle\TwigBundle::class => ['all' => true],
+    Symfony\Bundle\WebProfilerBundle\WebProfilerBundle::class => ['dev' => true, 'test' => true],
+    Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
+    Symfony\Bundle\DebugBundle\DebugBundle::class => ['dev' => true],
 ];

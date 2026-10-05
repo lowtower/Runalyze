@@ -59,9 +59,6 @@
             "migrations/.gitignore"
         ]
     },
-    "jms/translation-bundle": {
-        "version": "1.9.1"
-    },
     "liip/functional-test-bundle": {
         "version": "4.10.0"
     },
