@@ -22,10 +22,10 @@ class PlotWeekSumData extends PlotSumData
         $this->timerStart = 1;
         $this->WeekStart = Runalyze\Configuration::General()->weekStart();
 
-        if (Request::param('y') == self::LAST_6_MONTHS) {
+        if (Request::param('y') === self::LAST_6_MONTHS) {
             $this->timerEnd = 26;
         } else {
-            if (Request::param('y') == self::LAST_12_MONTHS) {
+            if (Request::param('y') === self::LAST_12_MONTHS) {
                 $yearEnd = date('Y') - 1;
             } else {
                 $yearEnd = (int) Request::param('y');

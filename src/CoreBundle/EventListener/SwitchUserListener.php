@@ -119,7 +119,7 @@ class SwitchUserListener
         $this->userChecker->checkPostAuth($user);
 
         $roles = $user->getRoles();
-        $roles[] = 'IS_IMPERSONATOR';
+        $roles[] = 'ROLE_PREVIOUS_ADMIN';
 
         $newToken = new SwitchUserToken(
             $user,

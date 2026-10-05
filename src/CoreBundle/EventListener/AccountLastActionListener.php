@@ -31,8 +31,6 @@ class AccountLastActionListener
         if ($this->token->getToken() instanceof TokenInterface) {
             $account = $this->token->getToken()
                 ->getUser();
-            $this->token->getToken()
-                ->getUser();
 
             if ($account instanceof Account && $account->getLastAction() < strtotime('2 minutes ago')) {
                 $account->setLastAction();

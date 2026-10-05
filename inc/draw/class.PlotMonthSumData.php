@@ -16,7 +16,7 @@ class PlotMonthSumData extends PlotSumData
 {
     public function __construct()
     {
-        $this->timerStart = Request::param('y') == parent::LAST_6_MONTHS ? 7 : 1;
+        $this->timerStart = Request::param('y') === parent::LAST_6_MONTHS ? 7 : 1;
         $this->timerEnd = 12;
 
         parent::__construct();

@@ -30,7 +30,7 @@ class PluginController extends AbstractPluginsAwareController
         ob_start();
 
         try {
-            $frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag);
+            $frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag, $this->requestStack);
 
             $Pluginkey = $request->query->get('key');
 
@@ -85,7 +85,7 @@ class PluginController extends AbstractPluginsAwareController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        new Frontend(false, $this->tokenStorage, $this->parameterBag);
+        new Frontend(false, $this->tokenStorage, $this->parameterBag, $this->requestStack);
 
         return $this->getResponseFor($id, $request, $account);
     }
@@ -103,7 +103,7 @@ class PluginController extends AbstractPluginsAwareController
         ob_start();
 
         try {
-            $frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag);
+            $frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag, $this->requestStack);
             $Factory = new PluginFactory();
 
             if ($id !== null && is_numeric($id)) {

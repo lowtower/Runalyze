@@ -72,10 +72,10 @@ class SharedLinker
     public static function getUserId(): int
     {
         if (self::$USER_ID <= 0) {
-            if ((string) Request::param('user') !== '') {
+            if (Request::param('user') !== '') {
                 $Data = DB::getInstance()->query('SELECT * FROM `' . PREFIX . 'account` WHERE `username`=' . DB::getInstance()->escape(Request::param('user')) . ' LIMIT 1')->fetch();
                 self::$USER_ID = $Data['id'];
-            } elseif ((string) Request::param('url') !== '') {
+            } elseif (Request::param('url') !== '') {
                 DB::getInstance()->stopAddingAccountID();
                 $Data = DB::getInstance()->query('SELECT `accountid` FROM `' . PREFIX . 'training` WHERE id="' . self::getTrainingId() . '" LIMIT 1')->fetch();
                 DB::getInstance()->startAddingAccountID();

@@ -115,12 +115,12 @@ class Window
             $this->LapDistance = min($this->Context->trackdata()->totalDistance(), $this->distanceToKm((float) Request::param('distance')));
         }
 
-        if ((string) Request::param('time') !== '') {
+        if (Request::param('time') !== '') {
             $Time = new Duration(Request::param('time'));
             $this->LapTime = min($this->Context->trackdata()->totalTime(), $Time->seconds());
         }
 
-        if ((string) Request::param('demanded-time') !== '') {
+        if (Request::param('demanded-time') !== '') {
             $this->DemandedTime->fromString(Request::param('demanded-time'));
 
             if ($this->LapDistance > 0) {
@@ -131,7 +131,7 @@ class Window
             $this->DemandedPace->setTime($this->DemandedTime->seconds() / $this->LapDistance);
         }
 
-        if ((string) Request::param('demanded-pace') !== '') {
+        if (Request::param('demanded-pace') !== '') {
             $this->DemandedPace->fromMinPerKm(Request::param('demanded-pace'));
             $this->DemandedTime->fromSeconds($this->LapDistance * $this->DemandedPace->secondsPerKm());
         } elseif ($this->DemandedPace->secondsPerKm() === 0) {
@@ -139,7 +139,7 @@ class Window
                 ->pace();
         }
 
-        if ((string) Request::param('manual-distances') !== '') {
+        if (Request::param('manual-distances') !== '') {
             $this->ManualDistances = Calculator::getDistancesFromString(Request::param('manual-distances'));
 
             if (Configuration::General()->distanceUnitSystem()->isImperial()) {
@@ -147,7 +147,7 @@ class Window
             }
         }
 
-        if ((string) Request::param('manual-times') !== '') {
+        if (Request::param('manual-times') !== '') {
             $this->ManualTimes = Calculator::getTimesFromString(Request::param('manual-times'));
         }
     }

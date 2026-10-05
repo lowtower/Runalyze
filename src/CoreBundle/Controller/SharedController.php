@@ -24,6 +24,7 @@ use Runalyze\View\Leaflet\Activity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -41,7 +42,8 @@ class SharedController extends AbstractController
         private ConfigurationManager $configurationManager,
         private ActivityContextFactory $activityContextFactory,
         private PrivacyGuard $privacyGuard,
-        private Feed $activityFeed
+        private Feed $activityFeed,
+        private RequestStack $requestStack
     ) {
     }
 
@@ -76,7 +78,7 @@ class SharedController extends AbstractController
             return $this->render('shared/invalid_activity.html.twig');
         }
 
-        $_GET['user'] = $activity->getAccount()->getUsername();
+        $request->query->set('user', $activity->getAccount()->getUsername());
 
         /** @var AccountRepository $repository */
         $repository = $this->doctrine
@@ -87,7 +89,7 @@ class SharedController extends AbstractController
             ->getPrivacy()
             ->isListPublic();
 
-        new FrontendShared(true, $this->tokenStorage, $this->parameterBag);
+        new FrontendShared(true, $this->tokenStorage, $this->parameterBag, $this->requestStack);
 
         $activityContext = $this->activityContextFactory
             ->getContext($activity);
@@ -144,9 +146,9 @@ class SharedController extends AbstractController
             return $this->render('shared/invalid_athlete.html.twig');
         }
 
-        $_GET['user'] = $username;
+        $request->query->set('user', $username);
 
-        new FrontendShared(true, $this->tokenStorage, $this->parameterBag);
+        new FrontendShared(true, $this->tokenStorage, $this->parameterBag, $this->requestStack);
 
         if ($request->query->has('type')) {
             return $this->render('shared/athlete/base_plot_sum_data.html.twig', [
@@ -218,7 +220,7 @@ class SharedController extends AbstractController
     protected function getPlotSumData(Request $request): PlotSumData
     {
         if ($request->query->get('y') === null) {
-            $_GET['y'] = PlotSumData::LAST_12_MONTHS;
+            $request->query->set('y', PlotSumData::LAST_12_MONTHS);
         }
 
         return $request->query->get('type', 'month') == 'week' ? new PlotWeekSumData() : new PlotMonthSumData();

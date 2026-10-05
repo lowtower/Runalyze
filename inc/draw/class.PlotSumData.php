@@ -82,25 +82,13 @@ abstract class PlotSumData extends Plot
      */
     protected string $Analysis;
 
-    /**
-     * @var mixed
-     */
-    protected $ParamSportId;
+    protected string $ParamSportId;
 
-    /**
-     * @var mixed
-     */
-    protected $ParamYear;
+    protected string $ParamYear;
 
-    /**
-     * @var mixed
-     */
-    protected $ParamGroup;
+    protected string $ParamGroup;
 
-    /**
-     * @var mixed
-     */
-    protected $ParamType;
+    protected string $ParamType;
 
     public function __construct()
     {
@@ -109,7 +97,7 @@ abstract class PlotSumData extends Plot
         $this->ParamGroup = Request::param('group');
         $this->ParamType = Request::param('type');
 
-        $sportid = (string) $this->ParamSportId !== '' ? $this->ParamSportId : Configuration::General()->runningSport();
+        $sportid = is_scalar($this->ParamSportId) && $this->ParamSportId !== '' ? (int) $this->ParamSportId : Configuration::General()->runningSport();
 
         $this->Year = $this->getRequestedYear();
         $this->Sport = new Sport($sportid);
@@ -126,7 +114,7 @@ abstract class PlotSumData extends Plot
      */
     protected function getRequestedYear(): int|string
     {
-        if ($this->ParamYear == self::LAST_12_MONTHS || $this->ParamYear == self::LAST_6_MONTHS) {
+        if ($this->ParamYear === self::LAST_12_MONTHS || $this->ParamYear === self::LAST_6_MONTHS) {
             return $this->ParamYear;
         }
 
@@ -170,7 +158,7 @@ abstract class PlotSumData extends Plot
             $this->getMenuLinksForYears(),
         ];
 
-        if ($this->ParamGroup == 'sport' || $this->ParamGroup == 'mainsport') {
+        if ($this->ParamGroup === 'sport' || $this->ParamGroup === 'mainsport') {
             unset($Menus[0]);
         }
 
@@ -190,15 +178,15 @@ abstract class PlotSumData extends Plot
      */
     private function getMenuLinksForGrouping(): array
     {
-        if ($this->ParamGroup == '') {
+        if ($this->ParamGroup === '') {
             $Current = __('Total');
         } else {
             $Current = __('By type');
         }
 
         $Links = [];
-        $Links[] = $this->link(__('Total'), $this->Year, (int) $this->ParamSportId, '', $this->ParamGroup == '');
-        $Links[] = $this->link(__('By type'), $this->Year, (int) $this->ParamSportId, 'types', $this->ParamGroup == 'types');
+        $Links[] = $this->link(__('Total'), $this->Year, (int) $this->ParamSportId, '', $this->ParamGroup === '');
+        $Links[] = $this->link(__('By type'), $this->Year, (int) $this->ParamSportId, 'types', $this->ParamGroup === 'types');
 
         return [
             'title' => $Current,
@@ -236,11 +224,11 @@ abstract class PlotSumData extends Plot
         $CurrentId = $this->Sport->id();
         $Current = __('All sports');
         $Links = [
-            $this->link(__('All sports'), $this->Year, 0, 'sport', $this->ParamGroup == 'sport'),
-            $this->link(__('Main sports'), $this->Year, 0, 'mainsport', $this->ParamGroup == 'mainsport'),
+            $this->link(__('All sports'), $this->Year, 0, 'sport', $this->ParamGroup === 'sport'),
+            $this->link(__('Main sports'), $this->Year, 0, 'mainsport', $this->ParamGroup === 'mainsport'),
         ];
 
-        $SportGroup = $this->ParamGroup == 'sport' ? 'types' : $this->ParamGroup;
+        $SportGroup = $this->ParamGroup === 'sport' ? 'types' : $this->ParamGroup;
         $Sports = SportFactory::NamesAsArray();
 
         foreach ($Sports as $id => $name) {
@@ -295,7 +283,7 @@ abstract class PlotSumData extends Plot
         }
 
         if (FrontendShared::$IS_SHOWN) {
-            return Ajax::window('<li' . ($current ? ' class="active"' : '') . '><a href="' . DataBrowserShared::getBaseUrl() . '?type=' . ($this->ParamType == 'week' ? 'week' : 'month') . '&type=' . $this->ParamType . '&y=' . $year . '&sportid=' . $sportid . '&group=' . $group . '&analysis=' . $analysis . '">' . $text . '</a></li>');
+            return Ajax::window('<li' . ($current ? ' class="active"' : '') . '><a href="' . DataBrowserShared::getBaseUrl() . '?type=' . ($this->ParamType === 'week' ? 'week' : 'month') . '&type=' . $this->ParamType . '&y=' . $year . '&sportid=' . $sportid . '&group=' . $group . '&analysis=' . $analysis . '">' . $text . '</a></li>');
         }
 
         return Ajax::window('<li' . ($current ? ' class="active"' : '') . '><a href="' . self::$URL . '?type=' . $this->ParamType . '&y=' . $year . '&sportid=' . $sportid . '&group=' . $group . '&analysis=' . $analysis . '">' . $text . '</a></li>');
@@ -384,7 +372,7 @@ abstract class PlotSumData extends Plot
     {
         $request = Request::param('analysis');
 
-        if ($request == self::ANALYSIS_TRIMP) {
+        if ($request === self::ANALYSIS_TRIMP) {
             $this->Analysis = self::ANALYSIS_TRIMP;
         } else {
             $this->Analysis = self::ANALYSIS_DEFAULT;
@@ -396,10 +384,10 @@ abstract class PlotSumData extends Plot
      */
     private function loadData()
     {
-        $whereSport = ($this->ParamGroup == 'sport' || $this->ParamGroup == 'mainsport') ? '' : '`sportid`=' . $this->Sport->id() . ' AND';
+        $whereSport = ($this->ParamGroup === 'sport' || $this->ParamGroup === 'mainsport') ? '' : '`sportid`=' . $this->Sport->id() . ' AND';
 
         $this->usesDistance = $this->Sport->usesDistance();
-        if ($this->ParamGroup != 'sport' && $this->ParamGroup != 'mainsport' && $this->Analysis === self::ANALYSIS_DEFAULT && $this->usesDistance) {
+        if ($this->ParamGroup !== 'sport' && $this->ParamGroup !== 'mainsport' && $this->Analysis === self::ANALYSIS_DEFAULT && $this->usesDistance) {
             $num = DB::getInstance()->query('
 				SELECT COUNT(*) FROM `' . PREFIX . 'training`
 				WHERE
@@ -477,11 +465,11 @@ abstract class PlotSumData extends Plot
      */
     private function groupBy(): string
     {
-        if ($this->ParamGroup == 'sport' || $this->ParamGroup == 'mainsport') {
+        if ($this->ParamGroup === 'sport' || $this->ParamGroup === 'mainsport') {
             return '`sportid`';
         }
 
-        if ($this->ParamGroup == 'types') {
+        if ($this->ParamGroup === 'types') {
             return '`typeid`';
         }
 
@@ -490,9 +478,9 @@ abstract class PlotSumData extends Plot
 
     private function setData()
     {
-        if ($this->ParamGroup == 'sport' || $this->ParamGroup == 'mainsport') {
+        if ($this->ParamGroup === 'sport' || $this->ParamGroup === 'mainsport') {
             $this->setDataForSports();
-        } elseif ($this->ParamGroup == 'types') {
+        } elseif ($this->ParamGroup === 'types') {
             $this->setDataForTypes();
         } else {
             $this->setDataForCompetitionAndTraining();
@@ -532,7 +520,7 @@ abstract class PlotSumData extends Plot
         $idMapping = [];
 
         foreach (\Runalyze\Context::Factory()->allSports() as $Sport) {
-            if ($this->ParamGroup == 'mainsport' && ! $Sport->isMainSport()) {
+            if ($this->ParamGroup === 'mainsport' && ! $Sport->isMainSport()) {
                 $idMapping[$Sport->id()] = -1;
             } else {
                 $Sports[$Sport->id()] = [
@@ -543,7 +531,7 @@ abstract class PlotSumData extends Plot
             }
         }
 
-        if ($this->ParamGroup == 'mainsport') {
+        if ($this->ParamGroup === 'mainsport') {
             $altId = max(array_keys($Sports)) + 1;
             $Sports[$altId] = [
                 'name' => 'Alternative sports',

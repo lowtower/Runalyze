@@ -26,6 +26,7 @@ use Runalyze\View\Window\Laps\Window;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -43,7 +44,8 @@ class ViewController extends AbstractController
         private ParameterBagInterface $parameterBag,
         private ActivityContextFactory $activityContextFactory,
         private ConfigurationManager $configurationManager,
-        private LegacyCache $legacyCache
+        private LegacyCache $legacyCache,
+        private RequestStack $requestStack
     ) {
     }
 
@@ -116,7 +118,7 @@ class ViewController extends AbstractController
         }
 
         if (! $request->query->get('silent')) {
-            new Frontend(true, $this->tokenStorage, $this->parameterBag);
+            new Frontend(true, $this->tokenStorage, $this->parameterBag, $this->requestStack);
 
             ob_start();
 
@@ -178,7 +180,7 @@ class ViewController extends AbstractController
         ob_start();
 
         try {
-            $frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag);
+            $frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag, $this->requestStack);
             $context = new Context($id, $account->getId());
 
             if (! $context->hasTrackdata()) {
@@ -229,7 +231,7 @@ class ViewController extends AbstractController
         ob_start();
 
         try {
-            $frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag);
+            $frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag, $this->requestStack);
             $context = new Context($id, $account->getId());
 
             if (! $context->hasRoute()) {

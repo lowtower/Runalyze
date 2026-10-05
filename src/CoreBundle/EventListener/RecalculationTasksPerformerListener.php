@@ -3,11 +3,12 @@
 namespace Runalyze\Bundle\CoreBundle\EventListener;
 
 use Doctrine\Persistence\Proxy;
+use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager;
 
 class RecalculationTasksPerformerListener
 {
     public function __construct(
-        protected \Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager $Manager
+        protected RecalculationManager $Manager
     ) {
     }
 
