@@ -10,9 +10,8 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
      * Creates a mock object of AbstractDistribution with a predefined histogram.
      *
      * @param array<int, int> $histogram
-     * @return AbstractDistribution&\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getMockWithHistogram(array $histogram): \PHPUnit\Framework\MockObject\MockObject
+    protected function getMockWithHistogram(array $histogram): AbstractDistribution&\PHPUnit\Framework\MockObject\MockObject
     {
         /** @var AbstractDistribution&\PHPUnit\Framework\MockObject\MockObject $mock */
         $mock = $this->getMockForAbstractClass(AbstractDistribution::class);
@@ -25,7 +24,6 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
 
     public function testSomeHistogram(): void
     {
-        /** @var AbstractDistribution&\PHPUnit\Framework\MockObject\MockObject $dist */
         $dist = $this->getMockWithHistogram([
             10 => 1,
             15 => 2,
@@ -45,7 +43,6 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
 
     public function testAnotherHistogram(): void
     {
-        /** @var AbstractDistribution&\PHPUnit\Framework\MockObject\MockObject $dist */
         $dist = $this->getMockWithHistogram([
             0 => 5,
             80 => 10,
@@ -66,7 +63,6 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
 
     public function testEmptyHistogram(): void
     {
-        /** @var AbstractDistribution&\PHPUnit\Framework\MockObject\MockObject $dist */
         $dist = $this->getMockWithHistogram([]);
         $dist->calculateStatistic();
 
@@ -82,7 +78,6 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
 
     public function testRequestingNotGeneratedQuantile(): void
     {
-        /** @var AbstractDistribution&\PHPUnit\Framework\MockObject\MockObject $dist */
         $dist = $this->getMockWithHistogram([]);
 
         $this->expectException(\InvalidArgumentException::class);
@@ -92,7 +87,6 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
 
     public function testQuantiles(): void
     {
-        /** @var AbstractDistribution&\PHPUnit\Framework\MockObject\MockObject $dist */
         $dist = $this->getMockWithHistogram([
             10 => 1,
             20 => 5,

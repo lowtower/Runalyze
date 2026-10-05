@@ -177,10 +177,7 @@ class MonthwiseTable
         ];
     }
 
-    /**
-     * @return \PDOStatement
-     */
-    protected function createStatementToFetchAverageTemperatures(): \PDOStatement|false
+    protected function createStatementToFetchAverageTemperatures(): \PDOStatement
     {
         return $this->PDO->query(
             'SELECT
@@ -222,10 +219,7 @@ class MonthwiseTable
         return $Rows;
     }
 
-    /**
-     * @return \PDOStatement
-     */
-    protected function createStatementToFetchWeatherConditions(): \PDOStatement|false
+    protected function createStatementToFetchWeatherConditions(): \PDOStatement
     {
         return $this->PDO->prepare(
             'SELECT
@@ -266,10 +260,7 @@ class MonthwiseTable
         return $Rows;
     }
 
-    /**
-     * @return \PDOStatement
-     */
-    protected function createStatementToFetchEquipment(): \PDOStatement|false
+    protected function createStatementToFetchEquipment(): \PDOStatement
     {
         return $this->PDO->query(
             'SELECT

@@ -6,15 +6,9 @@ namespace Runalyze\Bundle\CoreBundle\Component\Tool\Poster\Converter;
 
 abstract class AbstractSvgToPngConverter
 {
-    /**
-     * @var array
-     */
-    protected $Parameter = [];
+    protected array $Parameter = [];
 
-    /**
-     * @var string
-     */
-    protected $Command;
+    protected string $Command;
 
     /**
      * @param int|string $height [px]
@@ -31,5 +25,5 @@ abstract class AbstractSvgToPngConverter
      * @param string $target absolute path to target file
      * @return int exit code
      */
-    abstract public function callConverter($source, $target);
+    abstract public function callConverter(string $source, string $target): int;
 }

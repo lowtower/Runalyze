@@ -38,7 +38,7 @@ class DurationType extends AbstractType implements DataTransformerInterface
     /**
      * @throws TransformationFailedException if $duration is null and required
      */
-    public function reverseTransform($duration)
+    public function reverseTransform($duration): mixed
     {
         if ($duration === null) {
             if ($this->IsRequired) {

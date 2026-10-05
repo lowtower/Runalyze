@@ -146,7 +146,7 @@ class PDOforRunalyze extends PDO
      * @param array $values
      * @return int|bool ID of inserted row
      */
-    public function insert(string $table, array $columns, $values): bool|int
+    public function insert(string $table, array $columns, $values): int|bool
     {
         $table = str_replace(PREFIX, '', $table);
 
@@ -183,7 +183,7 @@ class PDOforRunalyze extends PDO
      * @param bool $quotes true for adding quotes for strings
      * @return mixed safe value(s)
      */
-    public function escape($values, bool $quotes = true, bool $forceAsString = false)
+    public function escape($values, bool $quotes = true, bool $forceAsString = false): mixed
     {
         if (is_array($values)) {
             foreach ($values as $key => $value) {
@@ -211,7 +211,7 @@ class PDOforRunalyze extends PDO
      * @see http://php.net/manual/en/pdo.prepare.php
      * @param string $statement <p>This must be a valid SQL statement for the target database server.</p>
      * @param array $driver_options [optional] <p>
-     * This array holds one or more key=&gt;value pairs to set
+     * This array holds one or more key=>value pairs to set
      * attribute values for the PDOStatement object that this method
      * returns. You would most commonly use this to set the
      * PDO::ATTR_CURSOR value to
@@ -230,7 +230,7 @@ class PDOforRunalyze extends PDO
      * Emulated prepared statements does not communicate with the database server
      * so <b>PDO::prepare</b> does not check the statement.
      */
-    public function prepare(string $statement, array $driver_options = []): PDOStatement|false
+    public function prepare(string $statement, array $driver_options = []): PDOStatement
     {
         if ($this->addsAccountID) {
             $this->addAccountIDtoStatement($statement);
@@ -247,7 +247,7 @@ class PDOforRunalyze extends PDO
      * or deleted by the SQL statement you issued. If no rows were affected,
      * <b>PDO::exec</b> returns 0.
      */
-    public function exec(string $statement): int|false
+    public function exec(string $statement): int
     {
         $driver = $this->getAttribute(\PDO::ATTR_DRIVER_NAME);
         if ($this->addsAccountID) {
@@ -269,10 +269,10 @@ class PDOforRunalyze extends PDO
      * Executes an SQL statement, returning a result set as a PDOStatement object
      * @see http://php.net/manual/en/pdo.query.php
      * @param string $statement <p>The SQL statement to prepare and execute.</p>
-     * @return PDOStatement <b>PDO::query</b> returns a PDOStatement object, or <b>FALSE</b>
+     * @return PDOStatement|false <b>PDO::query</b> returns a PDOStatement object, or <b>FALSE</b>
      * on failure.
      */
-    public function query(string $statement, ?int $fetchMode = null, mixed ...$fetchModeArgs): \PDOStatement|false
+    public function query(string $statement, ?int $fetchMode = null, mixed ...$fetchModeArgs): PDOStatement|false
     {
         if ($this->addsAccountID) {
             $this->addAccountIDtoStatement($statement);

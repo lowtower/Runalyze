@@ -359,9 +359,8 @@ class Ajax
     /**
      * JSON encode with function
      * @param array<string, mixed> $funcs
-     * @return string|array
      */
-    public static function json_encode_jsfunc(array $input, array $funcs = [], int $level = 0): array|string|false
+    public static function json_encode_jsfunc(array $input, array $funcs = [], int $level = 0): string|array
     {
         foreach ($input as $key => $value) {
             if (is_array($value)) {

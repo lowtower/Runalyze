@@ -24,7 +24,7 @@ class BackupReadyMessage implements MessageInterface
         return 5;
     }
 
-    public function getText(\Symfony\Contracts\Translation\TranslatorInterface $translator)
+    public function getText(\Symfony\Contracts\Translation\TranslatorInterface $translator): string
     {
         return $translator->trans('Your backup has been generated and is now available for download.');
     }
@@ -34,7 +34,7 @@ class BackupReadyMessage implements MessageInterface
         return true;
     }
 
-    public function getLink(RouterInterface $router)
+    public function getLink(RouterInterface $router): string
     {
         return $router->generate('tools-backup');
     }

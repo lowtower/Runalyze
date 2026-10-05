@@ -32,10 +32,7 @@ class Selection
         $this->CurrentKey = $key;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCurrentKey()
+    public function getCurrentKey(): mixed
     {
         return $this->CurrentKey;
     }

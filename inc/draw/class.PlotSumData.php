@@ -419,10 +419,7 @@ abstract class PlotSumData extends Plot
         )->fetchAll();
     }
 
-    /**
-     * @return string
-     */
-    protected function whereDate()
+    protected function whereDate(): string
     {
         if (is_numeric($this->Year)) {
             return "`time` BETWEEN UNIX_TIMESTAMP('" . (int) $this->Year . "-01-01') AND UNIX_TIMESTAMP('" . ((int) $this->Year + 1) . "-01-01')-1";

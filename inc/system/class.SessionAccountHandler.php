@@ -73,9 +73,8 @@ class SessionAccountHandler
 
     /**
      * Get users gender
-     * @return mixed
      */
-    public static function getGender()
+    public static function getGender(): mixed
     {
         if (! isset(self::$Account['gender'])) {
             return null;

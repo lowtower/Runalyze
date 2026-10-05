@@ -6,10 +6,7 @@ use Runalyze\Metrics\Common\AbstractComparableUnit;
 
 abstract class AbstractPaceUnit extends AbstractComparableUnit
 {
-    /**
-     * @return string
-     */
-    public function getUnit()
+    public function getUnit(): string
     {
         $appendix = $this->getAppendix();
 

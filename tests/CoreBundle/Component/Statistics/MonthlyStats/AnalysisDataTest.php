@@ -22,9 +22,8 @@ class AnalysisDataTest extends TestCase
 {
     /**
      * @param array<int, array<string, int|float>> $results
-     * @return TrainingRepository&MockObject
      */
-    protected function getTrainingRepositoryMock(array $results = []): MockObject
+    protected function getTrainingRepositoryMock(array $results = []): TrainingRepository&MockObject
     {
         /** @var TrainingRepository&MockObject $repository */
         $repository = $this->createMock(TrainingRepository::class);

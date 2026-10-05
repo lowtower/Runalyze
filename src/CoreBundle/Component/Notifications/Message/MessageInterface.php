@@ -10,44 +10,27 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 interface MessageInterface
 {
     /**
-     * @return int
-     *
      * @see \Runalyze\Profile\Notifications\MessageTypeProfile
      */
-    public function getMessageType();
+    public function getMessageType(): int;
 
-    /**
-     * @return string
-     */
-    public function getData();
+    public function getData(): string;
 
     /**
      * @return null|int [days]
      */
-    public function getLifetime();
+    public function getLifetime(): ?int;
 
-    /**
-     * @return string
-     */
-    public function getText(TranslatorInterface $translator);
+    public function getText(TranslatorInterface $translator): string;
 
-    /**
-     * @return bool
-     */
-    public function hasLink();
+    public function hasLink(): bool;
 
-    /**
-     * @return string
-     */
-    public function getLink(RouterInterface $router);
+    public function getLink(RouterInterface $router): string;
 
-    /**
-     * @return bool
-     */
-    public function isLinkInternal();
+    public function isLinkInternal(): bool;
 
     /**
      * @return string e.g. 'big' or 'small' (anything else will be interpreted as default size)
      */
-    public function getWindowSizeForInternalLink();
+    public function getWindowSizeForInternalLink(): string;
 }

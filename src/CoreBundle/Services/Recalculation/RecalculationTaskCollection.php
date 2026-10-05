@@ -7,17 +7,11 @@ class RecalculationTaskCollection
     /**
      * @var RecalculationTaskInterface[]
      */
-    protected $Tasks = [];
+    protected array $Tasks = [];
 
-    /**
-     * @var int
-     */
-    protected $NextTaskIndex = 0;
+    protected int $NextTaskIndex = 0;
 
-    /**
-     * @return int
-     */
-    public function addTask(RecalculationTaskInterface $task)
+    public function addTask(RecalculationTaskInterface $task): int
     {
         $this->Tasks[] = $task;
 
@@ -33,19 +27,12 @@ class RecalculationTaskCollection
         }
     }
 
-    /**
-     * @param int $offset
-     * @return RecalculationTaskInterface
-     */
-    public function offsetGet($offset)
+    public function offsetGet(int $offset): RecalculationTaskInterface
     {
         return $this->Tasks[$offset];
     }
 
-    /**
-     * @param int $offset
-     */
-    public function offsetUnset($offset): void
+    public function offsetUnset(int $offset): void
     {
         unset($this->Tasks[$offset]);
     }

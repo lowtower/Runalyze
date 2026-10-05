@@ -6,20 +6,12 @@ namespace Runalyze\Metrics\Common;
 
 trait BaseUnitTrait
 {
-    /**
-     * @param mixed $valueInThisUnit
-     * @return mixed
-     */
-    public function toBaseUnit($valueInThisUnit)
+    public function toBaseUnit(mixed $valueInThisUnit): mixed
     {
         return $valueInThisUnit;
     }
 
-    /**
-     * @param mixed $valueInBaseUnit
-     * @return mixed
-     */
-    public function fromBaseUnit($valueInBaseUnit)
+    public function fromBaseUnit(mixed $valueInBaseUnit): mixed
     {
         return $valueInBaseUnit;
     }

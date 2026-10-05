@@ -49,10 +49,7 @@ class RaceContainer
         $this->indexDistances();
     }
 
-    /**
-     * @return array
-     */
-    protected function fetchDataFromDB()
+    protected function fetchDataFromDB(): array
     {
         return $this->PDO->query(
             'SELECT
@@ -67,10 +64,7 @@ class RaceContainer
         )->fetchAll();
     }
 
-    /**
-     * @return array
-     */
-    public function allRaces()
+    public function allRaces(): array
     {
         return $this->Data;
     }

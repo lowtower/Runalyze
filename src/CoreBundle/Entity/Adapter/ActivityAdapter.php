@@ -57,10 +57,7 @@ class ActivityAdapter
         }
     }
 
-    /**
-     * @return int
-     */
-    public function getAgeOfActivity(): int|float
+    public function getAgeOfActivity(): int
     {
         return LocalTime::now() - $this->Activity->getTime();
     }

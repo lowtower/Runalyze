@@ -120,10 +120,9 @@ abstract class Category
 
     /**
      * Get value
-     * @return mixed
      * @throws \InvalidArgumentException
      */
-    final protected function get(string $key)
+    final protected function get(string $key): mixed
     {
         return $this->object($key)
             ->value();

@@ -19,7 +19,7 @@ class DurationNullableType extends DurationType
     /**
      * @throws TransformationFailedException if $duration is null but required
      */
-    public function reverseTransform($duration)
+    public function reverseTransform($duration): mixed
     {
         $value = parent::reverseTransform($duration);
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Services\Import;
 
 use Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookup;
@@ -57,12 +59,19 @@ class TimezoneLookupTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testInvalidLocations(): void
+    public function testInvalidLocationsThrowTypeError(): void
     {
-        try {
-            $this->assertNull($this->Lookup->getTimezoneForCoordinate('foo', 'bar'));
-        } catch (TimezoneLookupException $timezoneLookupException) {
-            $this->markTestSkipped('Timezone lookup is not possible: ' . $timezoneLookupException->getMessage());
-        }
+        $this->expectException(\TypeError::class);
+
+        /** @disregard P1006 */
+        $this->Lookup->getTimezoneForCoordinate('foo', 'bar');
+    }
+
+    public function testNumericStringLocationsThrowTypeErrorUnderStrictTypes(): void
+    {
+        $this->expectException(\TypeError::class);
+
+        /** @disregard P1006 */
+        $this->Lookup->getTimezoneForCoordinate('13.41', '52.52');
     }
 }

@@ -12,8 +12,5 @@ interface RecalculationTaskInterface
 
     public function run();
 
-    /**
-     * @return int
-     */
-    public function getOrder();
+    public function getOrder(): int;
 }

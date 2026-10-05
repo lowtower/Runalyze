@@ -161,7 +161,7 @@ class SwitchUserListener
      *
      * @return TokenInterface|false The original TokenInterface instance, false if the current TokenInterface is not switched
      */
-    private function getOriginalToken(?TokenInterface $token): false|TokenInterface
+    private function getOriginalToken(?TokenInterface $token): TokenInterface|false
     {
         if (! $token instanceof SwitchUserToken) {
             return false;

@@ -7,20 +7,14 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 trait TokenStorageAwareTypeTrait
 {
-    /**
-     * @var TokenStorageInterface
-     */
-    protected $TokenStorageInterface;
+    protected TokenStorageInterface $TokenStorageInterface;
 
     public function __construct(TokenStorageInterface $tokenStorage)
     {
         $this->TokenStorageInterface = $tokenStorage;
     }
 
-    /**
-     * @return Account
-     */
-    protected function getAccount()
+    protected function getAccount(): Account
     {
         $account = $this->TokenStorageInterface->getToken() ? $this->TokenStorageInterface->getToken()
             ->getUser() : null;

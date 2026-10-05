@@ -32,10 +32,7 @@ class BasicEndurance extends AbstractCategory
         return (int) $this->Variables['BE_DAYS_FOR_LONGJOGS'];
     }
 
-    /**
-     * @return int
-     */
-    public function getDaysToConsiderForWeeklyMileage($numberOfDaysSinceFirstActivity = null)
+    public function getDaysToConsiderForWeeklyMileage($numberOfDaysSinceFirstActivity = null): int
     {
         if ($numberOfDaysSinceFirstActivity !== null) {
             return max(

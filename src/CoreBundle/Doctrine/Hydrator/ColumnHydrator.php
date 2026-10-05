@@ -8,10 +8,7 @@ use Doctrine\ORM\Internal\Hydration\AbstractHydrator;
 
 class ColumnHydrator extends AbstractHydrator
 {
-    /**
-     * @return array
-     */
-    protected function hydrateAllData()
+    protected function hydrateAllData(): array
     {
         return $this->_stmt->fetchFirstColumn();
     }

@@ -109,10 +109,7 @@ class ConfigTabs
         }
     }
 
-    /**
-     * @return string
-     */
-    protected function getCurrentKey()
+    protected function getCurrentKey(): string
     {
         $CurrentKey = Request::param('key');
 

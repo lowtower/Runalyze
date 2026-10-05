@@ -121,7 +121,7 @@ class JobLoop extends Job
      * @param array<string, mixed> $data activity data
      * @return array ('total', 'up', 'down')
      */
-    protected function elevationsFor(array $data)
+    protected function elevationsFor(array $data): array
     {
         if (isset($this->ElevationResults[$data['routeid']])) {
             return $this->ElevationResults[$data['routeid']];
@@ -134,10 +134,7 @@ class JobLoop extends Job
         return [$data['training_elevation'], $data['training_elevation'], $data['training_elevation']];
     }
 
-    /**
-     * @return \PDOStatement
-     */
-    protected function prepareUpdate(): \PDOStatement|false
+    protected function prepareUpdate(): \PDOStatement
     {
         $Set = $this->updateSet();
 
@@ -174,10 +171,7 @@ class JobLoop extends Job
         return $Set;
     }
 
-    /**
-     * @return \PDOStatement
-     */
-    protected function getQuery(): \PDOStatement|false
+    protected function getQuery(): \PDOStatement
     {
         return $this->PDO->query(
             'SELECT

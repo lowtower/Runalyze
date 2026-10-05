@@ -26,12 +26,8 @@ class SectionRunScribeDataRow extends TrainingViewSectionRowTabbedPlot
 
     /**
      * @param mixed $value
-     * @param int $precision
-     * @param string $unknown
-     *
-     * @return string
      */
-    protected function formatNumber($value, $precision = 0, $unknown = '-')
+    protected function formatNumber($value, int $precision = 0, string $unknown = '-'): string
     {
         if ($value === null || $value == 0) {
             return $unknown;
@@ -42,11 +38,8 @@ class SectionRunScribeDataRow extends TrainingViewSectionRowTabbedPlot
 
     /**
      * @param mixed $value
-     * @param string $unknown
-     *
-     * @return string
      */
-    protected function formatFootstrikeType($value, $unknown = '-')
+    protected function formatFootstrikeType($value, string $unknown = '-'): string
     {
         if ($value === null || $value == 0) {
             return $unknown;
