@@ -8,6 +8,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Adapter\TrackDataAdapter;
 use Runalyze\Bundle\CoreBundle\Entity\Route;
 use Runalyze\Bundle\CoreBundle\Entity\Trackdata;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
+use Runalyze\Model\Trackdata\Entity as EntityModel;
 use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 
 class TrackdataTest extends \PHPUnit\Framework\TestCase
@@ -392,6 +393,6 @@ class TrackdataTest extends \PHPUnit\Framework\TestCase
 
         $result = $this->Data->getLegacyModel();
 
-        $this->assertInstanceOf(\Runalyze\Model\Trackdata\Entity::class, $result);
+        $this->assertInstanceOf(EntityModel::class, $result);
     }
 }

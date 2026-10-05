@@ -130,7 +130,7 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     private ?int $registerdate = null;
 
     /**
-     * @var ?int [timestmap]
+     * @var ?int [timestamp]
      * @Assert\Type("int")
      */
     #[ORM\Column(name: 'lastaction', type: 'integer', nullable: true, options: [
@@ -173,22 +173,37 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     #[ORM\Column(name: 'allow_support', type: 'boolean')]
     private bool $allowSupport = false;
 
-    #[ORM\OneToMany(mappedBy: 'account', targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Sport::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    /**
+     * @var Collection<int, Sport>
+     */
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Sport::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected Collection $sports;
 
-    #[ORM\OneToMany(mappedBy: 'account', targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Type::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    /**
+     * @var Collection<int, Type>
+     */
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Type::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected Collection $activityTypes;
 
-    #[ORM\OneToMany(mappedBy: 'account', targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Tag::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    /**
+     * @var Collection<int, Tag>
+     */
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Tag::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     #[ORM\OrderBy([
         'tag' => 'ASC',
     ])]
     protected Collection $tags;
 
-    #[ORM\OneToMany(mappedBy: 'account', targetEntity: \Runalyze\Bundle\CoreBundle\Entity\Equipment::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    /**
+     * @var Collection<int, Equipment>
+     */
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Equipment::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected Collection $equipment;
 
-    #[ORM\OneToMany(mappedBy: 'account', targetEntity: \Runalyze\Bundle\CoreBundle\Entity\EquipmentType::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    /**
+     * @var Collection<int, EquipmentType>
+     */
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: EquipmentType::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected Collection $equipmentTypes;
 
     #[ORM\Column(name: 'role', type: 'tinyint', nullable: true, options: [
@@ -198,6 +213,8 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
 
     public function __construct()
     {
+        $this->sports = new ArrayCollection();
+        $this->activityTypes = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->equipment = new ArrayCollection();
         $this->equipmentTypes = new ArrayCollection();
@@ -561,29 +578,41 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
         return [UserRole::getRoleName($this->role)];
     }
 
+    /**
+     * @return Collection<int, Sport>
+     */
     public function getSports(): Collection
     {
         return $this->sports;
     }
 
     /**
-     * Get activity/sport types
+     * @return Collection<int, Type>
      */
     public function getActivityTypes(): Collection
     {
         return $this->activityTypes;
     }
 
+    /**
+     * @return Collection<int, Tag>
+     */
     public function getTags(): Collection
     {
         return $this->tags;
     }
 
+    /**
+     * @return Collection<int, Equipment>
+     */
     public function getEquipment(): Collection
     {
         return $this->equipment;
     }
 
+    /**
+     * @return Collection<int, EquipmentType>
+     */
     public function getEquipmentTypes(): Collection
     {
         return $this->equipmentTypes;

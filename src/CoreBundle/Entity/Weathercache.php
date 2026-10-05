@@ -30,7 +30,7 @@ class Weathercache
     #[ORM\Column(name: 'time', type: 'integer', precision: 11, nullable: false)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
-    private ?int $time = null;
+    private int $time;
 
     /**
      * @var ?int [°C]
@@ -90,14 +90,14 @@ class Weathercache
         return $this->geohash;
     }
 
-    public function setTime(?int $time): self
+    public function setTime(int $time): self
     {
         $this->time = $time;
 
         return $this;
     }
 
-    public function getTime(): ?int
+    public function getTime(): int
     {
         return $this->time;
     }
@@ -241,9 +241,19 @@ class Weathercache
         $this->weatherSource = $data->Source;
     }
 
+    /**
+     * @throws \InvalidArgumentException if the location has no position or no date/time
+     */
     public function setLocation(Location $location): void
     {
-        $this->setGeohash($location->getGeohash());
-        $this->setTime($location->getTimestamp());
+        $geohash = $location->getGeohash();
+        $timestamp = $location->getTimestamp();
+
+        if ($geohash === null || $timestamp === null) {
+            throw new \InvalidArgumentException('Location needs both a position and a date/time to be cached.');
+        }
+
+        $this->setGeohash($geohash);
+        $this->setTime($timestamp);
     }
 }

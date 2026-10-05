@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "16d0cc3d51a5cf88682ae5714b20e549",
+    "content-hash": "2cf75ec68dc84420b1f71a33290188b3",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -11046,6 +11046,45 @@
             "time": "2023-02-07T11:34:05+00:00"
         },
         {
+            "name": "sensiolabs/security-advisories",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FriendsOfPHP/security-advisories.git",
+                "reference": "7abea75ff3d4b0c2c73adf8e0ca93b84501fce3c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FriendsOfPHP/security-advisories/zipball/7abea75ff3d4b0c2c73adf8e0ca93b84501fce3c",
+                "reference": "7abea75ff3d4b0c2c73adf8e0ca93b84501fce3c",
+                "shasum": ""
+            },
+            "require-dev": {
+                "composer/composer": "^2.5",
+                "php": ">=8.1",
+                "symfony/console": "^6.2",
+                "symfony/yaml": "^6.2"
+            },
+            "default-branch": true,
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Unlicense"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien.potencier@gmail.com"
+                }
+            ],
+            "description": "Database of known security vulnerabilities in various PHP projects and libraries",
+            "support": {
+                "issues": "https://github.com/FriendsOfPHP/security-advisories/issues",
+                "source": "https://github.com/FriendsOfPHP/security-advisories/tree/master"
+            },
+            "time": "2026-09-30T12:42:22+00:00"
+        },
+        {
             "name": "symfony/browser-kit",
             "version": "v5.4.45",
             "source": {
@@ -11961,7 +12000,8 @@
         "runalyze/age-grade": 20,
         "runalyze/common": 20,
         "runalyze/dem-reader": 20,
-        "runalyze/devices": 20
+        "runalyze/devices": 20,
+        "sensiolabs/security-advisories": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

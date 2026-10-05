@@ -60,12 +60,18 @@ class EquipmentType implements AccountRelatedEntityInterface
     #[ORM\ManyToOne(targetEntity: Account::class, inversedBy: 'equipmentTypes')]
     private Account $account;
 
+    /**
+     * @var Collection<int, Sport>
+     */
     #[ORM\JoinTable(name: 'equipment_sport')]
     #[ORM\JoinColumn(name: 'equipment_typeid', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'sportid', referencedColumnName: 'id')]
     #[ORM\ManyToMany(targetEntity: Sport::class, inversedBy: 'equipmentType')]
     private Collection $sport;
 
+    /**
+     * @var Collection<int, Equipment>
+     */
     #[ORM\OneToMany(mappedBy: 'type', targetEntity: Equipment::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected Collection $equipment;
 
@@ -187,11 +193,17 @@ class EquipmentType implements AccountRelatedEntityInterface
         $this->sport->removeElement($sport);
     }
 
+    /**
+     * @return Collection<int, Sport>
+     */
     public function getSport(): Collection
     {
         return $this->sport;
     }
 
+    /**
+     * @return Collection<int, Equipment>
+     */
     public function getEquipment(): Collection
     {
         return $this->equipment;

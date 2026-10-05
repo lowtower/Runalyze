@@ -3,6 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Common\IdentifiableEntityInterface;
@@ -42,12 +43,12 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     private int $time = 0;
 
     /**
-     * @var ?int [km]
+     * @var int [km]
      */
     #[ORM\Column(name: 'additional_km', type: 'smallint', nullable: false, options: [
         'unsigned' => true,
     ])]
-    private ?int $additionalKm = 0;
+    private int $additionalKm = 0;
 
     #[ORM\Column(name: 'date_start', type: 'date', nullable: true)]
     private ?\DateTime $dateStart = null;
@@ -59,18 +60,24 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     #[ORM\ManyToOne(targetEntity: EquipmentType::class, inversedBy: 'equipment')]
     private EquipmentType $type;
 
+    /**
+     * @var Collection<int, Sport>
+     */
     #[ORM\JoinTable(name: 'equipment_to_sport')]
     #[ORM\JoinColumn(name: 'equipment_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'sportid', referencedColumnName: 'id')]
     #[ORM\ManyToMany(targetEntity: Sport::class, inversedBy: 'equipment')]
-    private \Doctrine\Common\Collections\Collection $sport;
+    private Collection $sport;
 
     #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
     #[ORM\ManyToOne(targetEntity: Account::class, inversedBy: 'equipment')]
     private Account $account;
 
+    /**
+     * @var Collection<int, Training>
+     */
     #[ORM\ManyToMany(targetEntity: Training::class, mappedBy: 'equipment')]
-    private \Doctrine\Common\Collections\Collection $activity;
+    private Collection $activity;
 
     public function __construct()
     {
@@ -190,7 +197,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
      */
     public function getAdditionalKm(): int
     {
-        return $this->additionalKm ?? 0;
+        return $this->additionalKm;
     }
 
     /**
@@ -259,7 +266,10 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
         $this->sport->removeElement($sport);
     }
 
-    public function getSport(): \Doctrine\Common\Collections\Collection
+    /**
+     * @return Collection<int, Sport>
+     */
+    public function getSport(): Collection
     {
         return $this->sport;
     }
@@ -288,7 +298,10 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
         $this->activity->removeElement($activity);
     }
 
-    public function getActivity(): \Doctrine\Common\Collections\Collection
+    /**
+     * @return Collection<int, Training>
+     */
+    public function getActivity(): Collection
     {
         return $this->activity;
     }

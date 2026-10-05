@@ -65,13 +65,13 @@ class Raceresult implements AccountRelatedEntityInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     #[ORM\ManyToOne(targetEntity: Account::class)]
-    private ?Account $account = null;
+    private Account $account;
 
     #[ORM\JoinColumn(name: 'activity_id', referencedColumnName: 'id')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     #[ORM\OneToOne(inversedBy: 'raceresult', targetEntity: Training::class)]
-    private ?Training $activity = null;
+    private Training $activity;
 
     /**
      * @param ?float $officialDistance [km]
@@ -214,7 +214,7 @@ class Raceresult implements AccountRelatedEntityInterface
 
     public function getAccount(): ?Account
     {
-        return $this->account;
+        return $this->account ?? null;
     }
 
     public function setActivity(Training $activity): self
@@ -226,7 +226,7 @@ class Raceresult implements AccountRelatedEntityInterface
 
     public function getActivity(): ?Training
     {
-        return $this->activity;
+        return $this->activity ?? null;
     }
 
     public function fillFromActivity(Training $activity): self

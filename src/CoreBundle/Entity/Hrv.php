@@ -16,13 +16,13 @@ class Hrv implements AccountRelatedEntityInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     #[ORM\ManyToOne(targetEntity: Account::class)]
-    private ?Account $account = null;
+    private Account $account;
 
     #[ORM\JoinColumn(name: 'activityid', referencedColumnName: 'id')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     #[ORM\OneToOne(inversedBy: 'hrv', targetEntity: Training::class)]
-    private ?Training $activity = null;
+    private Training $activity;
 
     public function setData(?array $data = null): self
     {
@@ -45,7 +45,7 @@ class Hrv implements AccountRelatedEntityInterface
 
     public function getAccount(): ?Account
     {
-        return $this->account;
+        return $this->account ?? null;
     }
 
     public function setActivity(Training $activity): self
@@ -57,6 +57,6 @@ class Hrv implements AccountRelatedEntityInterface
 
     public function getActivity(): ?Training
     {
-        return $this->activity;
+        return $this->activity ?? null;
     }
 }

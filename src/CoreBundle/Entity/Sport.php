@@ -28,7 +28,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     private ?int $id = null;
 
     #[ORM\Column(name: 'name', type: 'string', length: 50, nullable: false)]
-    private ?string $name = null;
+    private string $name = '';
 
     #[ORM\Column(name: 'img', type: 'string', length: 100, nullable: false, options: [
         'default' => 'icons8-Sports-Mode',
@@ -87,6 +87,9 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     #[ORM\ManyToOne(targetEntity: EquipmentType::class)]
     private ?EquipmentType $mainEquipmenttype = null;
 
+    /**
+     * @var Collection<int, Equipment>
+     */
     #[ORM\ManyToMany(targetEntity: Equipment::class, mappedBy: 'sport')]
     private Collection $equipment;
 
@@ -111,6 +114,9 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     #[ORM\ManyToOne(targetEntity: Account::class, inversedBy: 'sports')]
     private Account $account;
 
+    /**
+     * @var Collection<int, EquipmentType>
+     */
     #[ORM\ManyToMany(targetEntity: EquipmentType::class, mappedBy: 'sport')]
     private Collection $equipmentType;
 
@@ -120,6 +126,9 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     #[ORM\OneToMany(mappedBy: 'sport', targetEntity: Type::class, fetch: 'EXTRA_LAZY')]
     protected Collection $types;
 
+    /**
+     * @var Collection<int, Training>
+     */
     #[ORM\OneToMany(mappedBy: 'sport', targetEntity: Training::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected Collection $trainings;
 
@@ -153,14 +162,14 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
 
     public function setName(?string $name): self
     {
-        $this->name = $name;
+        $this->name = $name ?? '';
 
         return $this;
     }
 
     public function getName(): string
     {
-        return $this->name ?? '';
+        return $this->name;
     }
 
     public function setImg(string $img): self
@@ -334,6 +343,9 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
         return $this->mainEquipmenttype;
     }
 
+    /**
+     * @return Collection<int, Equipment>
+     */
     public function getEquipment(): Collection
     {
         return $this->equipment;
@@ -427,6 +439,9 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
         $this->equipmentType->removeElement($equipmentType);
     }
 
+    /**
+     * @return Collection<int, EquipmentType>
+     */
     public function getEquipmentTypes(): Collection
     {
         return $this->equipmentType;
@@ -445,6 +460,9 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
         return $this->types;
     }
 
+    /**
+     * @return Collection<int, Training>
+     */
     public function getTrainings(): Collection
     {
         return $this->trainings;

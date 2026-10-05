@@ -64,6 +64,7 @@
         "phpunit/phpunit": "^10.5",
         "rector/rector": "^2.6",
         "rector/swiss-knife": "^2.4",
+        "sensiolabs/security-advisories": "dev-master",
         "symfony/browser-kit": "^5.4",
         "symfony/debug-bundle": "^5.4",
         "symfony/maker-bundle": "^1.39",

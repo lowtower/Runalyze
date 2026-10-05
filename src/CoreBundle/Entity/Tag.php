@@ -19,12 +19,15 @@ class Tag implements AccountRelatedEntityInterface
     private ?int $id = null;
 
     #[ORM\Column(name: 'tag', type: 'string', length: 50, nullable: false)]
-    private ?string $tag = null;
+    private string $tag = '';
 
     #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
     #[ORM\ManyToOne(targetEntity: Account::class, inversedBy: 'tags')]
     private Account $account;
 
+    /**
+     * @var Collection<int, Training>
+     */
     #[ORM\ManyToMany(targetEntity: Training::class, mappedBy: 'tag')]
     private Collection $activity;
 
@@ -40,14 +43,14 @@ class Tag implements AccountRelatedEntityInterface
 
     public function setTag(?string $tag): self
     {
-        $this->tag = $tag;
+        $this->tag = $tag ?? '';
 
         return $this;
     }
 
     public function getTag(): string
     {
-        return $this->tag ?? '';
+        return $this->tag;
     }
 
     public function setAccount(Account $account): self

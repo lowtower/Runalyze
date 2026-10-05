@@ -157,13 +157,13 @@ class Trackdata implements AccountRelatedEntityInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     #[ORM\OneToOne(inversedBy: 'trackdata', targetEntity: Training::class)]
-    private ?Training $activity = null;
+    private Training $activity;
 
     #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     #[ORM\ManyToOne(targetEntity: Account::class)]
-    private ?Account $account = null;
+    private Account $account;
 
     #[ORM\Column(name: '`lock`', type: 'boolean')]
     private bool $lock = false;
@@ -783,7 +783,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function getActivity(): ?Training
     {
-        return $this->activity;
+        return $this->activity ?? null;
     }
 
     public function setAccount(Account $account): self
@@ -795,7 +795,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function getAccount(): ?Account
     {
-        return $this->account;
+        return $this->account ?? null;
     }
 
     public function setLock(bool $flag): self

@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
@@ -21,12 +22,12 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
     private ?int $id = null;
 
     #[ORM\Column(name: 'name', type: 'string', length: 50, nullable: false)]
-    private ?string $name = null;
+    private string $name = '';
 
     #[ORM\Column(name: 'abbr', type: 'string', length: 5, nullable: false, options: [
         'default' => '',
     ])]
-    private ?string $abbr = '';
+    private string $abbr = '';
 
     #[ORM\JoinColumn(name: 'sportid', referencedColumnName: 'id', nullable: false)]
     #[ORM\ManyToOne(targetEntity: Sport::class, inversedBy: 'types')]
@@ -51,12 +52,20 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
     #[ORM\Column(name: 'quality_session', type: 'boolean')]
     private bool $qualitySession = false;
 
+    /**
+     * @var Collection<int, Training>
+     */
     #[ORM\OneToMany(mappedBy: 'type', targetEntity: Training::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected Collection $trainings;
 
     #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
     #[ORM\ManyToOne(targetEntity: Account::class, inversedBy: 'activityTypes')]
     private Account $account;
+
+    public function __construct()
+    {
+        $this->trainings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -65,26 +74,26 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
 
     public function setName(?string $name): self
     {
-        $this->name = $name;
+        $this->name = $name ?? '';
 
         return $this;
     }
 
     public function getName(): string
     {
-        return $this->name ?? '';
+        return $this->name;
     }
 
     public function setAbbr(?string $abbr): self
     {
-        $this->abbr = $abbr;
+        $this->abbr = $abbr ?? '';
 
         return $this;
     }
 
     public function getAbbr(): string
     {
-        return $this->abbr ?? '';
+        return $this->abbr;
     }
 
     public function setSport(Sport $sport): self
@@ -182,6 +191,9 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
         return $this->account;
     }
 
+    /**
+     * @return Collection<int, Training>
+     */
     public function getTrainings(): Collection
     {
         return $this->trainings;

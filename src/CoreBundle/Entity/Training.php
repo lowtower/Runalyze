@@ -655,12 +655,18 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     #[ORM\Column(name: '`lock`', type: 'boolean')]
     private bool $lock = false;
 
+    /**
+     * @var Collection<int, Equipment>
+     */
     #[ORM\JoinTable(name: 'activity_equipment')]
     #[ORM\JoinColumn(name: 'activityid', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'equipmentid', referencedColumnName: 'id')]
     #[ORM\ManyToMany(targetEntity: Equipment::class, inversedBy: 'activity')]
     private Collection $equipment;
 
+    /**
+     * @var Collection<int, Tag>
+     */
     #[ORM\JoinTable(name: 'activity_tag')]
     #[ORM\JoinColumn(name: 'activityid', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'tagid', referencedColumnName: 'id')]
@@ -2161,6 +2167,9 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         $this->equipment->removeElement($equipment);
     }
 
+    /**
+     * @return Collection<int, Equipment>
+     */
     public function getEquipment(): Collection
     {
         return $this->equipment;
@@ -2178,6 +2187,9 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         $this->tag->removeElement($tag);
     }
 
+    /**
+     * @return Collection<int, Tag>
+     */
     public function getTag(): Collection
     {
         return $this->tag;
