@@ -65,9 +65,9 @@ class SettingsController extends AbstractController
     }
 
     /**
-     * @Route("/settings/account", name="settings-account")
      * @throws AccessDeniedException
      */
+    #[Route(path: '/settings/account', name: 'settings-account')]
     public function settingsAccountAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -113,9 +113,9 @@ class SettingsController extends AbstractController
     }
 
     /**
-     * @Route("/settings/password", name="settings-password")
      * @throws AccessDeniedException
      */
+    #[Route(path: '/settings/password', name: 'settings-password')]
     public function settingsPasswordAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -141,9 +141,9 @@ class SettingsController extends AbstractController
     }
 
     /**
-     * @Route("/settings/mail", name="settings-mail")
      * @throws AccessDeniedException
      */
+    #[Route(path: '/settings/mail', name: 'settings-mail')]
     public function settingsMailAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -171,9 +171,9 @@ class SettingsController extends AbstractController
     }
 
     /**
-     * @Route("/settings/account/delete", name="settings-account-delete")
      * @throws AccessDeniedException
      */
+    #[Route(path: '/settings/account/delete', name: 'settings-account-delete')]
     public function windowDeleteAction(?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -188,9 +188,9 @@ class SettingsController extends AbstractController
     }
 
     /**
-     * @Route("/settings/dataset", name="settings-dataset-update", methods={"POST"})
      * @throws AccessDeniedException
      */
+    #[Route(path: '/settings/dataset', name: 'settings-dataset-update', methods: ['POST'])]
     public function datasetPostAction(?Account $account = null, ?Request $request = null): RedirectResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -221,9 +221,9 @@ class SettingsController extends AbstractController
     }
 
     /**
-     * @Route("/settings/dataset", name="settings-dataset", methods={"GET"})
      * @throws AccessDeniedException
      */
+    #[Route(path: '/settings/dataset', name: 'settings-dataset', methods: ['GET'])]
     public function datasetAction(?Account $account = null, ?Request $request = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

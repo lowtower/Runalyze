@@ -29,11 +29,9 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
 
-    /**
-     * @Assert\NotBlank(message="You need to choose a sport.")
-     */
     #[ORM\JoinColumn(name: 'sportid', referencedColumnName: 'id', nullable: false)]
     #[ORM\ManyToOne(targetEntity: Sport::class, inversedBy: 'trainings')]
+    #[Assert\NotBlank(message: 'You need to choose a sport.')]
     private Sport $sport;
 
     #[ORM\JoinColumn(name: 'typeid', referencedColumnName: 'id')]
@@ -42,9 +40,9 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @var int [timestamp]
-     * @Assert\NotBlank(message="Every activity needs a time")
      */
     #[ORM\Column(name: 'time', type: 'integer', nullable: false)]
+    #[Assert\NotBlank(message: 'Every activity needs a time')]
     private int $time;
 
     /**
@@ -88,12 +86,11 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @var ?float [s]
-     *
-     * @Assert\GreaterThan(0)
      */
     #[ORM\Column(name: 's', type: 'casted_decimal_2', precision: 8, scale: 2, options: [
         'unsigned' => true,
     ])]
+    #[Assert\GreaterThan(0)]
     private ?float $s = 0.0;
 
     /**
@@ -146,57 +143,38 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @var ?int [bpm]
-     *
-     * @Assert\Range(
-     *     min=30,
-     *     max=255,
-     *     notInRangeMessage="Your average heartrate must be between {{ min }} and {{ max }} bpm"
-     * )
      */
     #[ORM\Column(name: 'pulse_avg', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
+    #[Assert\Range(notInRangeMessage: 'Your average heartrate must be between {{ min }} and {{ max }} bpm', min: 30, max: 255)]
     private ?int $pulseAvg = null;
 
     /**
      * @var ?int [bpm]
-     * @Assert\Range(
-     *     min=30,
-     *     max=255,
-     *     notInRangeMessage="Your maximum heartrate must be between {{ min }} and {{ max }} bpm"
-     * )
      */
     #[ORM\Column(name: 'pulse_max', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
+    #[Assert\Range(notInRangeMessage: 'Your maximum heartrate must be between {{ min }} and {{ max }} bpm', min: 30, max: 255)]
     private ?int $pulseMax = null;
 
     /**
      * @var ?int [bpm]
-     *
-     * @Assert\Range(
-     *     min=30,
-     *     max=255,
-     *     notInRangeMessage="Your average heartrate active rounds must be between {{ min }} and {{ max }} bpm"
-     * )
      */
     #[ORM\Column(name: 'pulse_avg_active', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
+    #[Assert\Range(notInRangeMessage: 'Your average heartrate active rounds must be between {{ min }} and {{ max }} bpm', min: 30, max: 255)]
     private ?int $pulseAvgActive = null;
 
     /**
      * @var ?int [bpm]
-     *
-     * @Assert\Range(
-     *     min=30,
-     *     max=255,
-     *     notInRangeMessage="Your maximum heart rate must be between {{ min }} and {{ max }} bpm"
-     * )
      */
     #[ORM\Column(name: 'max_hr_user', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
+    #[Assert\Range(notInRangeMessage: 'Your maximum heart rate must be between {{ min }} and {{ max }} bpm', min: 30, max: 255)]
     private ?int $maxHrUser = null;
 
     /**
@@ -561,28 +539,20 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @var ?int [°]
-     * @Assert\Range(
-     *     min=0,
-     *     max=359,
-     *     notInRangeMessage="The wind direction must be between {{ min }} and {{ max }} degrees"
-     * )
      */
     #[ORM\Column(name: 'wind_deg', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
     ])]
+    #[Assert\Range(notInRangeMessage: 'The wind direction must be between {{ min }} and {{ max }} degrees', min: 0, max: 359)]
     private ?int $windDeg = null;
 
     /**
      * @var ?int [%]
-     * @Assert\Range(
-     *     min=0,
-     *     max=100,
-     *     notInRangeMessage="The humidity must be between {{ min }} and {{ max }}%. Even if it feels higher than this."
-     * )
      */
     #[ORM\Column(name: 'humidity', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
+    #[Assert\Range(notInRangeMessage: 'The humidity must be between {{ min }} and {{ max }}%. Even if it feels higher than this.', min: 0, max: 100)]
     private ?int $humidity = null;
 
     /**

@@ -17,9 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @Route("/{_locale}/account")
- */
+#[Route(path: '/{_locale}/account')]
 class AccountController extends AbstractController
 {
     use AppServiceSubscriberTrait;
@@ -37,9 +35,9 @@ class AccountController extends AbstractController
             ->getRepository(Account::class);
     }
 
-    /**
-     * @Route("/delete/{hash}/confirmed", name="account_delete_confirmed", requirements={"hash"="[[:xdigit:]]{32}"})
-     */
+    #[Route(path: '/delete/{hash}/confirmed', name: 'account_delete_confirmed', requirements: [
+        'hash' => '[[:xdigit:]]{32}',
+    ])]
     public function deleteAccountConfirmedAction(string $hash, Request $request): Response
     {
         $accountToDelete = $this->getAccountRepository()
@@ -66,9 +64,9 @@ class AccountController extends AbstractController
         return $this->render('account/delete/success.html.twig');
     }
 
-    /**
-     * @Route("/delete/{hash}", name="account_delete", requirements={"hash"="[[:xdigit:]]{32}"})
-     */
+    #[Route(path: '/delete/{hash}', name: 'account_delete', requirements: [
+        'hash' => '[[:xdigit:]]{32}',
+    ])]
     public function deleteAccountAction(string $hash): Response
     {
         $account = $this->getAccountRepository()
@@ -86,9 +84,9 @@ class AccountController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/recover/{hash}", name="account_recover_hash", requirements={"hash"="[[:xdigit:]]{32}"})
-     */
+    #[Route(path: '/recover/{hash}', name: 'account_recover_hash', requirements: [
+        'hash' => '[[:xdigit:]]{32}',
+    ])]
     public function recoverForHashAction(string $hash, Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
         $account = $this->getAccountRepository()
@@ -123,9 +121,7 @@ class AccountController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/recover", name="account_recover")
-     */
+    #[Route(path: '/recover', name: 'account_recover')]
     public function recoverAction(Request $request, TranslatorInterface $translator): Response
     {
         $form = $this->createFormBuilder()
@@ -160,10 +156,12 @@ class AccountController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/activate/{hash}", requirements={"hash"="[[:xdigit:]]{32}"})
-     * @Route("/activate/{hash}/{username}", name="account_activate", requirements={"hash"="[[:xdigit:]]{32}"})
-     */
+    #[Route(path: '/activate/{hash}', requirements: [
+        'hash' => '[[:xdigit:]]{32}',
+    ])]
+    #[Route(path: '/activate/{hash}/{username}', name: 'account_activate', requirements: [
+        'hash' => '[[:xdigit:]]{32}',
+    ])]
     public function activateAccountAction(string $hash, ?string $username = null): Response
     {
         if ($this->getAccountRepository()->activateByHash($hash)) {

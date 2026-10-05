@@ -26,9 +26,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Throwable;
 
-/**
- * @Route("/_internal/service/weather")
- */
+#[Route(path: '/_internal/service/weather')]
 class WeatherController extends AbstractController
 {
     use AppServiceSubscriberTrait;
@@ -41,9 +39,9 @@ class WeatherController extends AbstractController
     }
 
     /**
-     * @Route("", name="internal-service-weather")
      * @throws AccessDeniedException
      */
+    #[Route(path: '', name: 'internal-service-weather')]
     public function fetchWeatherDataAction(Request $request, ?Account $account = null): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

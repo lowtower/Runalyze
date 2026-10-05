@@ -16,22 +16,15 @@ use Symfony\Component\Security\Core\User\LegacyPasswordAuthenticatedUserInterfac
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @UniqueEntity("mail", message="This mail address is already in use")
- * @UniqueEntity("username", message="This username is already in use")
- */
 #[ORM\Table(name: 'account')]
 #[ORM\UniqueConstraint(name: 'username', columns: ['username'])]
 #[ORM\UniqueConstraint(name: 'mail', columns: ['mail'])]
 #[ORM\Entity(repositoryClass: AccountRepository::class)]
+#[UniqueEntity('mail', message: 'This mail address is already in use')]
+#[UniqueEntity('username', message: 'This username is already in use')]
 class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface, IdentifiableEntityInterface
 {
-    /**
-     * @Assert\Length(
-     *     min=8,
-     *     minMessage="Your password must be at least {{ limit }} characters long"
-     * )
-     */
+    #[Assert\Length(min: 8, minMessage: 'Your password must be at least {{ limit }} characters long')]
     private string $plainPassword;
 
     #[ORM\Column(name: 'id', type: 'integer', precision: 10, unique: true, nullable: false, options: [
@@ -41,20 +34,10 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
 
-    /**
-     * @Assert\NotBlank(message="You need to enter a username.")
-     * @Assert\Length(
-     *     min=3,
-     *     max=32,
-     *     minMessage="Your username must be at least {{ limit }} characters long",
-     *     maxMessage="Your username cannot be longer than {{ limit }} characters")
-     * @Assert\Regex(
-     *     pattern="#[^a-zA-Z0-9\.\_\-]#i",
-     *     match=false,
-     *     message="Besides digits and letters, only the following characters are allowed: . _ -"
-     * )
-     */
     #[ORM\Column(name: 'username', type: 'string', length: 60, unique: true, nullable: false)]
+    #[Assert\NotBlank(message: 'You need to enter a username.')]
+    #[Assert\Length(min: 3, max: 32, minMessage: 'Your username must be at least {{ limit }} characters long', maxMessage: 'Your username cannot be longer than {{ limit }} characters')]
+    #[Assert\Regex(pattern: '#[^a-zA-Z0-9\.\_\-]#i', message: 'Besides digits and letters, only the following characters are allowed: . _ -', match: false)]
     private string $username = '';
 
     #[ORM\Column(name: 'name', type: 'string', length: 50, options: [
@@ -63,50 +46,44 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     private string $name = '';
 
     /**
-     * @Assert\NotBlank()
-     * @Assert\Email(
-     *     message="The email '{{ value }}' is not a valid email.",
-     * )
      * @RunalyzeAssert\ContainsDisposableMailAddress()
      */
     #[ORM\Column(name: 'mail', type: 'string', length: 100, nullable: false)]
+    #[Assert\NotBlank]
+    #[Assert\Email(message: "The email '{{ value }}' is not a valid email.")]
     private string $mail;
 
-    /**
-     * @Assert\NotBlank()
-     */
     #[ORM\Column(name: 'language', type: 'string', length: 5, nullable: false, options: [
         'default' => 'en',
     ])]
+    #[Assert\NotBlank]
     private string $language = 'en';
 
     /**
      * @var int enum
-     * @Assert\NotBlank()
-     * @Assert\Type("int")
      * @RunalyzeAssert\IsValidTimezone()
      */
     #[ORM\Column(name: 'timezone', type: 'smallint', nullable: false, options: [
         'unsigned' => true,
         'default' => 0,
     ])]
+    #[Assert\NotBlank]
+    #[Assert\Type('int')]
     private int $timezone = Timezone::UTC;
 
     /**
      * @var ?int enum, see \Runalyze\Profile\Athlete\Gender
-     * @Assert\Type("int")
      */
     #[ORM\Column(name: 'gender', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
     ])]
+    #[Assert\Type('int')]
     private ?int $gender = Gender::NONE;
 
-    /**
-     * @Assert\Type("int")
-     */
     #[ORM\Column(name: 'birthyear', type: 'smallint', nullable: true, options: [
         'unsigned' => true,
     ])]
+    #[Assert\Type('int')]
     private ?int $birthyear = null;
 
     #[ORM\Column(name: 'password', type: 'string', length: 64, nullable: false, options: [
@@ -122,20 +99,20 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
 
     /**
      * @var ?int [timestamp]
-     * @Assert\Type("int")
      */
     #[ORM\Column(name: 'registerdate', type: 'integer', nullable: true, options: [
         'unsigned' => true,
     ])]
+    #[Assert\Type('int')]
     private ?int $registerdate = null;
 
     /**
      * @var ?int [timestamp]
-     * @Assert\Type("int")
      */
     #[ORM\Column(name: 'lastaction', type: 'integer', nullable: true, options: [
         'unsigned' => true,
     ])]
+    #[Assert\Type('int')]
     private ?int $lastaction = null;
 
     #[ORM\Column(name: 'changepw_hash', type: 'string', length: 32, nullable: true, options: [
@@ -161,16 +138,12 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     ])]
     private ?string $deletionHash = null;
 
-    /**
-     * @Assert\Type("bool")
-     */
     #[ORM\Column(name: 'allow_mails', type: 'boolean')]
+    #[Assert\Type('bool')]
     private bool $allowMails = true;
 
-    /**
-     * @Assert\Type("bool")
-     */
     #[ORM\Column(name: 'allow_support', type: 'boolean')]
+    #[Assert\Type('bool')]
     private bool $allowSupport = false;
 
     /**
@@ -277,9 +250,7 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @Assert\Type("string")
-     */
+    #[Assert\Type('string')]
     public function getLanguage(): string
     {
         return $this->language;

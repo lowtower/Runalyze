@@ -28,10 +28,11 @@ class ExportController extends AbstractController
     }
 
     /**
-     * @Route("/activity/{id}/export/social/{typeid}", requirements={"id"="\d+"})
-     *
      * @throws Throwable if the legacy exporter throws
      */
+    #[Route(path: '/activity/{id}/export/social/{typeid}', requirements: [
+        'id' => '\d+',
+    ])]
     public function exporterExportAction(int $id, int $typeid, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -54,9 +55,9 @@ class ExportController extends AbstractController
         });
     }
 
-    /**
-     * @Route("/activity/{id}/export/file/{typeid}", requirements={"id"="\d+"})
-     */
+    #[Route(path: '/activity/{id}/export/file/{typeid}', requirements: [
+        'id' => '\d+',
+    ])]
     public function fileExportAction(int $id, int $typeid, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

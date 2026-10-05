@@ -14,9 +14,9 @@ class StaticController extends AbstractController
     use AppServiceSubscriberTrait;
 
     /**
-     * @Route("/dashboard/help", name="help")
      * @throws AccessDeniedException
      */
+    #[Route(path: '/dashboard/help', name: 'help')]
     public function dashboardHelpAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -27,9 +27,9 @@ class StaticController extends AbstractController
     }
 
     /**
-     * @Route("/dashboard/help-calculations", name="help-calculations")
      * @throws AccessDeniedException
      */
+    #[Route(path: '/dashboard/help-calculations', name: 'help-calculations')]
     public function dashboardHelpCalculationsAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

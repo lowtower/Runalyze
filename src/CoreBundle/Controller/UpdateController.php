@@ -24,9 +24,7 @@ class UpdateController extends AbstractController
     ) {
     }
 
-    /**
-     * @Route("/update", name="update", condition="'%app.update_disabled%' == 'no'")
-     */
+    #[Route(path: '/update', name: 'update', condition: "'%app.update_disabled%' == 'no'")]
     public function updateAction($entity_manager = 'default'): Response
     {
         $output = new BufferedOutput();
@@ -63,9 +61,7 @@ class UpdateController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/update/start", name="update_start", condition="'%app.update_disabled%' == 'no'")
-     */
+    #[Route(path: '/update/start', name: 'update_start', condition: "'%app.update_disabled%' == 'no'")]
     public function updateStartAction(): Response
     {
         $output = new BufferedOutput();

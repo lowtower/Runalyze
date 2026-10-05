@@ -51,12 +51,18 @@ class SharedController extends AbstractController
             ->getRepository(Training::class);
     }
 
-    /**
-     * @Route("/shared/{activityHash}&{foo}&{bar}&{baz}", requirements={"activityHash"="[a-zA-Z0-9]+"})
-     * @Route("/shared/{activityHash}&{foo}&{bar}", requirements={"activityHash"="[a-zA-Z0-9]+"})
-     * @Route("/shared/{activityHash}&{foo}", requirements={"activityHash"="[a-zA-Z0-9]+"})
-     * @Route("/shared/{activityHash}", requirements={"activityHash"="[a-zA-Z0-9]+"}, name="shared-activity")
-     */
+    #[Route(path: '/shared/{activityHash}&{foo}&{bar}&{baz}', requirements: [
+        'activityHash' => '[a-zA-Z0-9]+',
+    ])]
+    #[Route(path: '/shared/{activityHash}&{foo}&{bar}', requirements: [
+        'activityHash' => '[a-zA-Z0-9]+',
+    ])]
+    #[Route(path: '/shared/{activityHash}&{foo}', requirements: [
+        'activityHash' => '[a-zA-Z0-9]+',
+    ])]
+    #[Route(path: '/shared/{activityHash}', name: 'shared-activity', requirements: [
+        'activityHash' => '[a-zA-Z0-9]+',
+    ])]
     public function sharedTrainingAction(string $activityHash, Request $request): Response
     {
         $activityId = (int) base_convert($activityHash, 35, 10);
@@ -115,9 +121,7 @@ class SharedController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/shared/{username}/")
-     */
+    #[Route(path: '/shared/{username}/')]
     public function oldSharedUserAction(string $username): Response
     {
         return $this->redirectToRoute('shared-athlete', [
@@ -125,9 +129,7 @@ class SharedController extends AbstractController
         ], 301);
     }
 
-    /**
-     * @Route("/athlete/{username}", name="shared-athlete")
-     */
+    #[Route(path: '/athlete/{username}', name: 'shared-athlete')]
     public function sharedUserAction(string $username, Request $request): Response
     {
         /** @var AccountRepository $repository */
@@ -177,9 +179,7 @@ class SharedController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/athlete/{username}/feed", name="shared-athlete-feed")
-     */
+    #[Route(path: '/athlete/{username}/feed', name: 'shared-athlete-feed')]
     public function publicUserFeedAction(string $username): Response
     {
         /** @var AccountRepository $repository */

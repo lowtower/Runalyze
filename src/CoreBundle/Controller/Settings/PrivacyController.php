@@ -35,9 +35,7 @@ class PrivacyController extends AbstractController
             ->getRepository(Conf::class);
     }
 
-    /**
-     * @Route("/settings/privacy", name="settings-privacy")
-     */
+    #[Route(path: '/settings/privacy', name: 'settings-privacy')]
     public function settingsAccountAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

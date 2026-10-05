@@ -21,9 +21,9 @@ return RectorConfig::configure()
         LevelSetList::UP_TO_PHP_81,
     ])
     ->withTypeCoverageLevel(75)         # max level 75
-    ->withTypeCoverageDocblockLevel(15) # max level 15
+    ->withTypeCoverageDocblockLevel(16) # max level 16
     ->withDeadCodeLevel(74)             # max level 74
-    ->withCodeQualityLevel(79)          # max level 79
+    ->withCodeQualityLevel(80)          # max level 80
     ->withCodingStyleLevel(21)          # max level 21
     ->withRules([])
     ->withSkip([])
@@ -33,4 +33,5 @@ return RectorConfig::configure()
         true,   // phpunit
         true,   // twig
     )
+    ->withAttributesSets()
 ;

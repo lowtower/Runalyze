@@ -21,9 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/my/raceresult")
- */
+#[Route(path: '/my/raceresult')]
 class RaceResultController extends AbstractController
 {
     use AppServiceSubscriberTrait;
@@ -53,9 +51,9 @@ class RaceResultController extends AbstractController
             ->getRepository(Training::class);
     }
 
-    /**
-     * @Route("/{activityId}", name="raceresult-form", requirements={"activityId"="\d+"})
-     */
+    #[Route(path: '/{activityId}', name: 'raceresult-form', requirements: [
+        'activityId' => '\d+',
+    ])]
     public function raceresultFormAction(int $activityId, ?Account $account = null, ?Request $request = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -100,9 +98,9 @@ class RaceResultController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{activityId}/delete", name="raceresult-delete", requirements={"activityId"="\d+"})
-     */
+    #[Route(path: '/{activityId}/delete', name: 'raceresult-delete', requirements: [
+        'activityId' => '\d+',
+    ])]
     public function raceresultDeleteAction(int $activityId, Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -122,9 +120,7 @@ class RaceResultController extends AbstractController
         return $this->render('my/raceresult/deleted.html.twig');
     }
 
-    /**
-     * @Route("/performance-chart", name="race-results-performance-chart")
-     */
+    #[Route(path: '/performance-chart', name: 'race-results-performance-chart')]
     public function performanceChartAction(?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

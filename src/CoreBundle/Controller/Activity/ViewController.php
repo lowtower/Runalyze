@@ -76,11 +76,12 @@ class ViewController extends AbstractController
     }
 
     /**
-     * @Route("/activity/{id}", name="ActivityShow", requirements={"id"="\d+"})
-     *
      * @throws NotFoundHttpException
      * @throws Throwable if the legacy training view throws
      */
+    #[Route(path: '/activity/{id}', name: 'ActivityShow', requirements: [
+        'id' => '\d+',
+    ])]
     public function displayAction(Request $request, int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -138,10 +139,9 @@ class ViewController extends AbstractController
     }
 
     /**
-     * @Route("/activity/{id}/vo2max-info")
-     *
      * @throws NotFoundHttpException
      */
+    #[Route(path: '/activity/{id}/vo2max-info')]
     public function vo2maxInfoAction(int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -166,10 +166,11 @@ class ViewController extends AbstractController
     }
 
     /**
-     * @Route("/activity/{id}/splits-info", requirements={"id"="\d+"})
-     *
      * @throws Throwable if the legacy laps window throws
      */
+    #[Route(path: '/activity/{id}/splits-info', requirements: [
+        'id' => '\d+',
+    ])]
     public function splitsInfoAction(int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -200,11 +201,12 @@ class ViewController extends AbstractController
     }
 
     /**
-     * @Route("/activity/{id}/elevation-info", requirements={"id"="\d+"})
-     *
      * @throws NotFoundHttpException
      * @throws Throwable if the legacy elevation info throws
      */
+    #[Route(path: '/activity/{id}/elevation-info', requirements: [
+        'id' => '\d+',
+    ])]
     public function elevationInfoAction(int $id, Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -249,9 +251,9 @@ class ViewController extends AbstractController
         return new Response($legacyContent);
     }
 
-    /**
-     * @Route("/activity/{id}/time-series-info", requirements={"id"="\d+"}, name="activity-tool-time-series-info")
-     */
+    #[Route(path: '/activity/{id}/time-series-info', name: 'activity-tool-time-series-info', requirements: [
+        'id' => '\d+',
+    ])]
     public function timeSeriesInfoAction(int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -279,9 +281,9 @@ class ViewController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/activity/{id}/sub-segments-info", requirements={"id"="\d+"}, name="activity-tool-sub-segments-info")
-     */
+    #[Route(path: '/activity/{id}/sub-segments-info', name: 'activity-tool-sub-segments-info', requirements: [
+        'id' => '\d+',
+    ])]
     public function subSegmentInfoAction(int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -313,10 +315,11 @@ class ViewController extends AbstractController
     }
 
     /**
-     * @Route("/activity/{id}/climb-score", requirements={"id"="\d+"}, name="activity-tool-climb-score")
-     *
      * @throws NotFoundHttpException
      */
+    #[Route(path: '/activity/{id}/climb-score', name: 'activity-tool-climb-score', requirements: [
+        'id' => '\d+',
+    ])]
     public function climbScoreAction(int $id, ?Account $account = null): Response
     {
         $activity = $this->getTraining($id);

@@ -51,30 +51,23 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
 
     /**
      * @var ?float [%]
-     * @Assert\Range(
-     *     min=0,
-     *     max=100)
      */
     #[ORM\Column(name: 'fat', type: 'casted_decimal_1', precision: 3, scale: 1, nullable: true)]
+    #[Assert\Range(min: 0, max: 100)]
     private ?float $fat = null;
 
     /**
      * @var ?float [%]
-     * @Assert\Range(
-     *     min=0,
-     *     max=100)
      */
     #[ORM\Column(name: 'water', type: 'casted_decimal_1', precision: 3, scale: 1, nullable: true)]
+    #[Assert\Range(min: 0, max: 100)]
     private ?float $water = null;
 
     /**
      * @var ?float [%]
-     *
-     * @Assert\Range(
-     *     min=0,
-     *     max=100)
      */
     #[ORM\Column(name: 'muscles', type: 'casted_decimal_1', precision: 3, scale: 1, nullable: true)]
+    #[Assert\Range(min: 0, max: 100)]
     private ?float $muscles = null;
 
     /**

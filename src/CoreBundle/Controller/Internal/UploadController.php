@@ -15,15 +15,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-/**
- * @Route("/_internal/upload")
- */
+#[Route(path: '/_internal/upload')]
 class UploadController extends AbstractController
 {
     /**
-     * @Route("", name="internal-activity-upload")
      * @throws AccessDeniedException
      */
+    #[Route(path: '', name: 'internal-activity-upload')]
     public function uploadAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -67,9 +65,9 @@ class UploadController extends AbstractController
     }
 
     /**
-     * @Route("/tcx", name="internal-activity-upload-tcx")
      * @throws AccessDeniedException
      */
+    #[Route(path: '/tcx', name: 'internal-activity-upload-tcx')]
     public function ajaxSaveTcxAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

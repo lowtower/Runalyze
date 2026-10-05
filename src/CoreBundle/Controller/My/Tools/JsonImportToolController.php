@@ -20,9 +20,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-/**
- * @Route("/my/tools/backup-import")
- */
+#[Route(path: '/my/tools/backup-import')]
 class JsonImportToolController extends AbstractController
 {
     public function __construct(
@@ -51,9 +49,7 @@ class JsonImportToolController extends AbstractController
         return $session;
     }
 
-    /**
-     * @Route("/upload", name="tools-backup-json-upload")
-     */
+    #[Route(path: '/upload', name: 'tools-backup-json-upload')]
     public function backupUploadAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -89,9 +85,7 @@ class JsonImportToolController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/import", name="tools-backup-json-import")
-     */
+    #[Route(path: '/import', name: 'tools-backup-json-import')]
     public function backupImportAction(): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -128,9 +122,7 @@ class JsonImportToolController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/import/do", name="tools-backup-json-import-do")
-     */
+    #[Route(path: '/import/do', name: 'tools-backup-json-import-do')]
     public function backupImportDoAction(Request $request, ?Account $account = null): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -172,9 +164,7 @@ class JsonImportToolController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("", name="tools-backup-json")
-     */
+    #[Route(path: '', name: 'tools-backup-json')]
     public function uploadFormAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

@@ -15,9 +15,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @Route("/notifications")
- */
+#[Route(path: '/notifications')]
 class NotificationsController extends AbstractController
 {
     use AppServiceSubscriberTrait;
@@ -36,9 +34,9 @@ class NotificationsController extends AbstractController
     }
 
     /**
-     * @Route("", name="notifications-list")
      * @throws AccessDeniedException
      */
+    #[Route(path: '', name: 'notifications-list')]
     public function newNotificationsAction(?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

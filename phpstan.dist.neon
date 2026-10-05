@@ -8,13 +8,6 @@ parameters:
     symfony:
         containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
 
-    type_coverage:
-        return: 5
-        param: 5
-        property: 5
-        # enable on PHP 8.3+
-        # constant: 5
-
     bootstrapFiles:
         - vendor/autoload.php
         - inc/class.Helper.php
@@ -36,3 +29,11 @@ parameters:
         repositoryClass: null
 
     treatPhpDocTypesAsCertain: false
+
+    type_coverage:
+        return: 5
+        param: 5
+        property: 5
+        # enable on PHP 8.3+
+        # constant: 5
+

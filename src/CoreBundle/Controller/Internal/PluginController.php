@@ -15,9 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Throwable;
 
-/**
- * @Route("/_internal/plugin")
- */
+#[Route(path: '/_internal/plugin')]
 class PluginController extends AbstractPluginsAwareController
 {
     protected function getPluginRepository(): PluginRepository
@@ -46,9 +44,9 @@ class PluginController extends AbstractPluginsAwareController
     }
 
     /**
-     * @Route("/toggle/{id}", name="internal-plugin-toggle")
      * @throws AccessDeniedException
      */
+    #[Route(path: '/toggle/{id}', name: 'internal-plugin-toggle')]
     public function togglePanelAction(int $id, ?Account $account = null): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -62,9 +60,9 @@ class PluginController extends AbstractPluginsAwareController
     }
 
     /**
-     * @Route("/move/{id}/up", name="internal-plugin-move-up")
      * @throws AccessDeniedException
      */
+    #[Route(path: '/move/{id}/up', name: 'internal-plugin-move-up')]
     public function movePanelUpAction(int $id, ?Account $account = null): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -78,9 +76,9 @@ class PluginController extends AbstractPluginsAwareController
     }
 
     /**
-     * @Route("/move/{id}/down", name="internal-plugin-move-down")
      * @throws AccessDeniedException
      */
+    #[Route(path: '/move/{id}/down', name: 'internal-plugin-move-down')]
     public function movePanelDownAction(int $id, ?Account $account = null): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -94,11 +92,10 @@ class PluginController extends AbstractPluginsAwareController
     }
 
     /**
-     * @Route("/all-panels", name="internal-plugin-all-panels")
-     *
      * @throws AccessDeniedException
      * @throws Throwable if a legacy plugin throws while building the panels' content
      */
+    #[Route(path: '/all-panels', name: 'internal-plugin-all-panels')]
     public function contentPanelsAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

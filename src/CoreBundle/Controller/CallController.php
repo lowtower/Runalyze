@@ -37,11 +37,10 @@ class CallController extends AbstractController
     }
 
     /**
-     * @Route("/call/call.DataBrowser.display.php")
-     * @Route("databrowser", name="databrowser")
-     *
      * @throws Throwable if the legacy data browser throws
      */
+    #[Route(path: '/call/call.DataBrowser.display.php')]
+    #[Route(path: 'databrowser', name: 'databrowser')]
     public function dataBrowserAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -54,10 +53,8 @@ class CallController extends AbstractController
         });
     }
 
-    /**
-     * @Route("/call/call.garminCommunicator.php")
-     * @Route("/upload/garminCommunicator")
-     */
+    #[Route(path: '/call/call.garminCommunicator.php')]
+    #[Route(path: '/upload/garminCommunicator')]
     public function garminCommunicatorAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -68,10 +65,9 @@ class CallController extends AbstractController
     }
 
     /**
-     * @Route("/call/savePng.php", methods={"POST"})
-     *
      * @throws BadRequestHttpException
      */
+    #[Route(path: '/call/savePng.php', methods: ['POST'])]
     public function savePngAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -100,10 +96,9 @@ class CallController extends AbstractController
     }
 
     /**
-     * @Route("/settings", name="settings")
-     *
      * @throws Throwable if the legacy config tabs throw
      */
+    #[Route(path: '/settings', name: 'settings')]
     public function windowConfigAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -120,9 +115,7 @@ class CallController extends AbstractController
         });
     }
 
-    /**
-     * @Route("/call/ajax.change.Config.php", methods={"GET"})
-     */
+    #[Route(path: '/call/ajax.change.Config.php', methods: ['GET'])]
     public function ajaxChanceConfigAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -151,10 +144,9 @@ class CallController extends AbstractController
     }
 
     /**
-     * @Route("/my/search", name="my-search")
-     *
      * @throws Throwable if the legacy search formular or results throw
      */
+    #[Route(path: '/my/search', name: 'my-search')]
     public function windowSearchAction(): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -214,10 +206,9 @@ class CallController extends AbstractController
     }
 
     /**
-     * @Route("/call/window.plotSumData.php")
-     *
      * @throws Throwable if the legacy plot sum data throws
      */
+    #[Route(path: '/call/window.plotSumData.php')]
     public function windowsPlotSumDataAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -238,9 +229,7 @@ class CallController extends AbstractController
         return new Response($legacyContent);
     }
 
-    /**
-     * @Route("/call/login.php")
-     */
+    #[Route(path: '/call/login.php')]
     public function loginAction(): Response
     {
         return $this->render('login/ajax_not_logged_in.html.twig');

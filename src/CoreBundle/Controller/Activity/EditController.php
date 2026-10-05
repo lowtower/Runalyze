@@ -75,10 +75,11 @@ class EditController extends AbstractController
     }
 
     /**
-     * @Route("/activity/{id}/edit", name="activity-edit", requirements={"id"="\d+"})
-     *
      * @throws NotFoundHttpException if the activity does not exist or does not belong to the account
      */
+    #[Route(path: '/activity/{id}/edit', name: 'activity-edit', requirements: [
+        'id' => '\d+',
+    ])]
     public function activityEditAction(Request $request, int $id, ?Account $account = null, ?TranslatorInterface $translator = null): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -157,9 +158,7 @@ class EditController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/activity/multi-editor", name="multi-editor")
-     */
+    #[Route(path: '/activity/multi-editor', name: 'multi-editor')]
     public function multiEditorAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -186,10 +185,11 @@ class EditController extends AbstractController
     }
 
     /**
-     * @Route("/activity/{id}/delete", name="activity-delete", requirements={"id"="\d+"})
-     *
      * @throws NotFoundHttpException if the activity does not exist or does not belong to the account
      */
+    #[Route(path: '/activity/{id}/delete', name: 'activity-delete', requirements: [
+        'id' => '\d+',
+    ])]
     public function deleteAction(int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -214,10 +214,11 @@ class EditController extends AbstractController
     }
 
     /**
-     * @Route("/activity/{id}/elevation-correction", name="activity-elevation-correction", requirements={"id"="\d+"})
-     *
      * @throws NotFoundHttpException if the activity does not exist or does not belong to the account
      */
+    #[Route(path: '/activity/{id}/elevation-correction', name: 'activity-elevation-correction', requirements: [
+        'id' => '\d+',
+    ])]
     public function elevationCorrectionAction(Request $request, int $id, ?Account $account = null, ?TranslatorInterface $translator = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

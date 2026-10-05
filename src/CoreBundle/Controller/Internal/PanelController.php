@@ -13,9 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-/**
- * @Route("/_internal/panel")
- */
+#[Route(path: '/_internal/panel')]
 class PanelController extends AbstractController
 {
     public function __construct(
@@ -24,9 +22,9 @@ class PanelController extends AbstractController
     }
 
     /**
-     * @Route("/sport", name="internal-sport-panel")
      * @throws AccessDeniedException
      */
+    #[Route(path: '/sport', name: 'internal-sport-panel')]
     public function sportStatAction(Request $request, ?Account $account = null): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

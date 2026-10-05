@@ -19,11 +19,10 @@ use Throwable;
 class PluginController extends AbstractPluginsAwareController
 {
     /**
-     * @Route("/call/call.Plugin.install.php")
-     *
      * @throws NotFoundHttpException if "key" does not match an installable plugin
      * @throws Throwable if the legacy plugin installer throws
      */
+    #[Route(path: '/call/call.Plugin.install.php')]
     public function pluginInstallAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -77,10 +76,11 @@ class PluginController extends AbstractPluginsAwareController
     }
 
     /**
-     * @Route("/my/plugin/{id}", requirements={"id"="\d+"}, name="plugin-display")
-     *
      * @throws Throwable if the legacy plugin throws
      */
+    #[Route(path: '/my/plugin/{id}', name: 'plugin-display', requirements: [
+        'id' => '\d+',
+    ])]
     public function pluginDisplayAction(int $id, Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -91,10 +91,9 @@ class PluginController extends AbstractPluginsAwareController
     }
 
     /**
-     * @Route("/call/call.Plugin.config.php", name="plugin-config")
-     *
      * @throws Throwable if the legacy plugin config window throws
      */
+    #[Route(path: '/call/call.Plugin.config.php', name: 'plugin-config')]
     public function pluginConfigAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

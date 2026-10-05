@@ -49,9 +49,9 @@ class ImportActivityController extends AbstractController
      * - call the existing command "runalyze:activity:bulk-import"
      * - cleanup: remove uploaded files and tmp-folder
      *
-     * @Route("/api/import/activity", methods={"POST"})
      * @throws AccessDeniedException
      */
+    #[Route(path: '/api/import/activity', methods: ['POST'])]
     public function postImportActivity(Request $request, Account $account): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

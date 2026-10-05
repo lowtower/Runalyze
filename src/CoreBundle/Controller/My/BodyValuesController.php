@@ -15,9 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/my/body-values")
- */
+#[Route(path: '/my/body-values')]
 class BodyValuesController extends AbstractController
 {
     public function __construct(
@@ -27,9 +25,7 @@ class BodyValuesController extends AbstractController
     ) {
     }
 
-    /**
-     * @Route("/add", name="body-values-add")
-     */
+    #[Route(path: '/add', name: 'body-values-add')]
     public function addAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -60,9 +56,7 @@ class BodyValuesController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="body-values-edit")
-     */
+    #[Route(path: '/{id}/edit', name: 'body-values-edit')]
     public function editAction(Request $request, int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -92,9 +86,7 @@ class BodyValuesController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/delete", name="body-values-delete")
-     */
+    #[Route(path: '/{id}/delete', name: 'body-values-delete')]
     public function deleteAction(int $id, ?Account $account = null): RedirectResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -110,9 +102,7 @@ class BodyValuesController extends AbstractController
         return $this->redirectToRoute('body-values-table');
     }
 
-    /**
-     * @Route("/table", name="body-values-table")
-     */
+    #[Route(path: '/table', name: 'body-values-table')]
     public function tableAction(?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
