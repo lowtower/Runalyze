@@ -111,17 +111,20 @@ class SwitchUserListener
             ]);
         }
 
-        $user = $this->provider->loadUserByUsername($username);
+        $user = $this->provider->loadUserByIdentifier($username);
         if ($user instanceof Account && $user->getAllowSupport() === false) {
             throw new AccessDeniedException('User does not allow access to his account (allow_support)');
         }
 
         $this->userChecker->checkPostAuth($user);
 
+        $roles = $user->getRoles();
+        $roles[] = 'IS_IMPERSONATOR';
+
         $newToken = new SwitchUserToken(
             $user,
             $this->providerKey,
-            $user->getRoles(),
+            $roles,
             $this->tokenStorage->getToken()
         );
 

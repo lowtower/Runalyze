@@ -53,6 +53,7 @@ class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
 
         $registration = new Registration($this->getEntityManager(), $account, $passwordEncoder);
         $registration->requireAccountActivation();
+
         $account->setPassword($passwordEncoder->hashPassword($account, self::KNOWN_PASSWORD));
         $registeredAccount = $registration->registerAccount();
 
@@ -81,6 +82,16 @@ class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     private function createHashGenerator(): UnsubscribeHashGenerator
     {
         return self::getContainer()->get(UnsubscribeHashGenerator::class);
+    }
+
+    private function allowSupportFor(Account $account): void
+    {
+        $account->setAllowSupport(true);
+
+        $this->getEntityManager()
+            ->persist($account);
+        $this->getEntityManager()
+            ->flush();
     }
 
     public function testIndexActionRedirectsToLoginWhenNotAuthenticated(): void
@@ -130,12 +141,18 @@ class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     public function testLoginCheckWithValidCredentialsLogsInAndRedirectsToDashboard(): void
     {
         $crawler = $this->Client->request('GET', '/en/login');
-        $form = $crawler->filter('form')->form([
-            '_username' => $this->Account->getUsername(),
-            '_password' => self::KNOWN_PASSWORD,
-        ]);
+        $form = $crawler->filter('form')
+            ->form([
+                '_username' => $this->Account->getUsername(),
+                '_password' => self::KNOWN_PASSWORD,
+            ]);
 
         $this->Client->submit($form);
+
+        $this->assertStatusCode(302, $this->Client);
+        $this->assertSame('http://localhost/', $this->Client->getResponse()->headers->get('Location'));
+
+        $this->Client->followRedirect();
 
         $this->assertStatusCode(302, $this->Client);
         $this->assertSame('/dashboard', $this->Client->getResponse()->headers->get('Location'));
@@ -144,10 +161,11 @@ class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     public function testLoginCheckWithWrongPasswordRedirectsBackToLoginWithError(): void
     {
         $crawler = $this->Client->request('GET', '/en/login');
-        $form = $crawler->filter('form')->form([
-            '_username' => $this->Account->getUsername(),
-            '_password' => 'this-is-not-the-correct-password',
-        ]);
+        $form = $crawler->filter('form')
+            ->form([
+                '_username' => $this->Account->getUsername(),
+                '_password' => 'this-is-not-the-correct-password',
+            ]);
 
         $this->Client->submit($form);
 
@@ -162,10 +180,11 @@ class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     public function testLoginCheckWithUnknownUsernameRedirectsBackToLoginWithError(): void
     {
         $crawler = $this->Client->request('GET', '/en/login');
-        $form = $crawler->filter('form')->form([
-            '_username' => 'this-user-does-not-exist',
-            '_password' => self::KNOWN_PASSWORD,
-        ]);
+        $form = $crawler->filter('form')
+            ->form([
+                '_username' => 'this-user-does-not-exist',
+                '_password' => self::KNOWN_PASSWORD,
+            ]);
 
         $this->Client->submit($form);
 
@@ -182,10 +201,11 @@ class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $disabledAccount = $this->registerDisabledAccount();
 
         $crawler = $this->Client->request('GET', '/en/login');
-        $form = $crawler->filter('form')->form([
-            '_username' => $disabledAccount->getUsername(),
-            '_password' => self::KNOWN_PASSWORD,
-        ]);
+        $form = $crawler->filter('form')
+            ->form([
+                '_username' => $disabledAccount->getUsername(),
+                '_password' => self::KNOWN_PASSWORD,
+            ]);
 
         $this->Client->submit($form);
 
@@ -231,10 +251,11 @@ class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     public function testSuccessfulLoginWithRememberMeSetsAnAdditionalCookie(): void
     {
         $crawler = $this->Client->request('GET', '/en/login');
-        $form = $crawler->filter('form')->form([
-            '_username' => $this->Account->getUsername(),
-            '_password' => self::KNOWN_PASSWORD,
-        ]);
+        $form = $crawler->filter('form')
+            ->form([
+                '_username' => $this->Account->getUsername(),
+                '_password' => self::KNOWN_PASSWORD,
+            ]);
 
         $this->Client->submit($form);
 
@@ -242,7 +263,8 @@ class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
 
         $cookieNames = array_map(
             static fn ($cookie) => $cookie->getName(),
-            $this->Client->getCookieJar()->all()
+            $this->Client->getCookieJar()
+                ->all()
         );
 
         $this->assertNotEmpty(array_diff($cookieNames, ['MOCKSESSID']));
@@ -250,15 +272,19 @@ class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
 
     public function testSwitchUserAllowsAdminToImpersonateAnotherUser(): void
     {
+        $this->allowSupportFor($this->Account);
+
         $admin = $this->registerAdminAccount();
         $this->loginClient($this->Client, $admin, 'default');
 
         $this->Client->request('GET', '/dashboard?_switch_user=' . $this->Account->getUsername());
 
-        $this->assertStatusCode(200, $this->Client);
+        $this->assertStatusCode(302, $this->Client);
+        $this->assertSame('http://localhost/dashboard', $this->Client->getResponse()->headers->get('Location'));
 
         $tokenStorage = self::getContainer()->get('security.token_storage');
-        $impersonatedUser = $tokenStorage->getToken()->getUser();
+        $impersonatedUser = $tokenStorage->getToken()
+            ->getUser();
 
         $this->assertInstanceOf(Account::class, $impersonatedUser);
         $this->assertSame($this->Account->getUsername(), $impersonatedUser->getUserIdentifier());
@@ -266,16 +292,22 @@ class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
 
     public function testSwitchUserExitReturnsToOriginalUser(): void
     {
+        $this->allowSupportFor($this->Account);
+
         $admin = $this->registerAdminAccount();
         $this->loginClient($this->Client, $admin, 'default');
 
         $this->Client->request('GET', '/dashboard?_switch_user=' . $this->Account->getUsername());
-        $this->Client->request('GET', '/dashboard?_switch_user=_exit');
+        $this->assertStatusCode(302, $this->Client);
+        $this->assertSame('http://localhost/dashboard', $this->Client->getResponse()->headers->get('Location'));
 
-        $this->assertStatusCode(200, $this->Client);
+        $this->Client->request('GET', '/dashboard?_switch_user=_exit');
+        $this->assertStatusCode(302, $this->Client);
+        $this->assertSame('http://localhost/dashboard', $this->Client->getResponse()->headers->get('Location'));
 
         $tokenStorage = self::getContainer()->get('security.token_storage');
-        $currentUser = $tokenStorage->getToken()->getUser();
+        $currentUser = $tokenStorage->getToken()
+            ->getUser();
 
         $this->assertInstanceOf(Account::class, $currentUser);
         $this->assertSame($admin->getUsername(), $currentUser->getUserIdentifier());
@@ -287,6 +319,18 @@ class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $this->loginClient($this->Client, $this->Account, 'default');
 
         $this->Client->request('GET', '/dashboard?_switch_user=' . $otherAccount->getUsername());
+
+        $this->isSuccessful($this->Client->getResponse(), false);
+    }
+
+    public function testSwitchUserIsDeniedWhenTargetAccountDoesNotAllowSupport(): void
+    {
+        $this->assertFalse($this->Account->getAllowSupport());
+
+        $admin = $this->registerAdminAccount();
+        $this->loginClient($this->Client, $admin, 'default');
+
+        $this->Client->request('GET', '/dashboard?_switch_user=' . $this->Account->getUsername());
 
         $this->isSuccessful($this->Client->getResponse(), false);
     }

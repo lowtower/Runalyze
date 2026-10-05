@@ -107,7 +107,7 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     private ?int $registerdate = null;
 
     /**
-     * @var ?int [timestamp]
+     * @var ?int [timestmap]
      */
     #[ORM\Column(name: 'lastaction', type: 'integer', nullable: true, options: [
         'unsigned' => true,
@@ -597,10 +597,13 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
         return [
             'id' => $this->id,
             'username' => $this->username,
+            'mail' => $this->mail ?? null,
             'password' => $this->password,
             'salt' => $this->salt,
             'activationHash' => $this->activationHash,
             'language' => $this->language,
+            'role' => $this->role,
+            'allowSupport' => $this->allowSupport,
         ];
     }
 
@@ -611,10 +614,17 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     {
         $this->id = $data['id'];
         $this->username = $data['username'];
+
+        if ($data['mail'] !== null) {
+            $this->mail = $data['mail'];
+        }
+
         $this->password = $data['password'];
         $this->salt = $data['salt'];
         $this->activationHash = $data['activationHash'];
         $this->language = $data['language'];
+        $this->role = $data['role'] ?? UserRole::ROLE_USER;
+        $this->allowSupport = $data['allowSupport'] ?? false;
     }
 
     public function isEnabled(): bool
