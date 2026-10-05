@@ -2,6 +2,8 @@
 
 namespace Runalyze;
 
+use Runalyze\Configuration\Category\General;
+
 /**
  * @deprecated since v3.1
  */
@@ -46,10 +48,9 @@ class Configuration
     }
 
     /**
-     * @param mixed $accountid
      * @throws \InvalidArgumentException
      */
-    public static function resetConfiguration($accountid = 'auto'): void
+    public static function resetConfiguration(mixed $accountid = 'auto'): void
     {
         if ($accountid !== 'auto' && ! is_numeric($accountid)) {
             throw new \InvalidArgumentException('Invalid accountid: ' . $accountid);
@@ -101,10 +102,7 @@ class Configuration
         return self::$Categories[$categoryName];
     }
 
-    /**
-     * @return \Runalyze\Configuration\Category\General
-     */
-    public static function General()
+    public static function General(): General
     {
         /** @var \Runalyze\Configuration\Category\General $return */
         $return = self::get('General');

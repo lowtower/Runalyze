@@ -49,7 +49,7 @@ class PosterGeneratedMessage implements MessageInterface
         return 5;
     }
 
-    public function getText(\Symfony\Contracts\Translation\TranslatorInterface $translator)
+    public function getText(\Symfony\Contracts\Translation\TranslatorInterface $translator): string
     {
         return match ($this->State) {
             self::STATE_PARTIAL => $translator->trans('Not all of your posters could be generated.'),
@@ -63,7 +63,7 @@ class PosterGeneratedMessage implements MessageInterface
         return $this->State !== self::STATE_FAILED;
     }
 
-    public function getLink(RouterInterface $router)
+    public function getLink(RouterInterface $router): string
     {
         return $router->generate('poster');
     }

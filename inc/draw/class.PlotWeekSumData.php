@@ -79,7 +79,7 @@ class PlotWeekSumData extends PlotSumData
         return $this->WeekStart->mysqlWeek('FROM_UNIXTIME(`time`)');
     }
 
-    protected function whereDate()
+    protected function whereDate(): string
     {
         if (is_numeric($this->Year)) {
             $dateStart = (new LocalTime())->setISODate((int) $this->Year, 1, 1 + $this->WeekStart->differenceToMondayInDays())

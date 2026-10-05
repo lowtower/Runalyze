@@ -403,9 +403,8 @@ class SearchResults
     /**
      * @param string $key
      * @param string $value
-     * @return float|int
      */
-    protected function transformValueForDatabase($key, $value)
+    protected function transformValueForDatabase($key, $value): float|int
     {
         if (in_array($key, ['distance', 'vertical_oscillation', 'vertical_ratio', 'stride_length', 'groundcontact_balance', 'fit_training_effect', 'fit_anaerobic_training_effect', 'kcal'])) {
             $value = (float) str_replace(',', '.', $value);

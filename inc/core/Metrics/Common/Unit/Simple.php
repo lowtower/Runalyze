@@ -11,20 +11,15 @@ class Simple implements UnitInterface
 {
     use BaseUnitTrait;
 
-    /**
-     * @param string $Appendix
-     */
     public function __construct(
-        protected $Appendix
+        protected string $Appendix
     ) {
     }
 
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
-    public function getAppendix()
+    public function getAppendix(): string
     {
         return $this->Appendix;
     }

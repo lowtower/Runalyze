@@ -42,27 +42,16 @@ class ClimbCollection implements \Countable, \ArrayAccess
         return isset($this->Elements[$offset]);
     }
 
-    /**
-     * @param int $offset
-     * @return Climb
-     */
-    public function offsetGet($offset): mixed
+    public function offsetGet(mixed $offset): Climb
     {
         return $this->Elements[$offset];
     }
 
     /**
-     * @param int $offset
-     * @param Climb $value
-     *
      * @throws \InvalidArgumentException
      */
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
-        if (! ($value instanceof Climb)) {
-            throw new \InvalidArgumentException('Climb collection does only accept instances of Climb as elements.');
-        }
-
         $this->Elements[$offset] = $value;
     }
 

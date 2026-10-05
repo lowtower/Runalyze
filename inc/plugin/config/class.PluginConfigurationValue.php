@@ -32,10 +32,7 @@ class PluginConfigurationValue
         return $this->Key;
     }
 
-    /**
-     * @return mixed
-     */
-    final public function value()
+    final public function value(): mixed
     {
         return $this->Value;
     }

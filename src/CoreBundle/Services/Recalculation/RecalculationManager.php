@@ -12,15 +12,12 @@ class RecalculationManager
 {
     protected \Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationTaskCollection $Tasks;
 
-    /**
-     * @var array
-     */
-    protected $AccountRelatedTaskNames = [];
+    protected array $AccountRelatedTaskNames = [];
 
     /**
      * @var array [accountId => startTime]
      */
-    protected $CurrentStartTimes = [];
+    protected array $CurrentStartTimes = [];
 
     public function __construct(
         protected \Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager $ConfigurationManager,
@@ -40,11 +37,7 @@ class RecalculationManager
         return count($this->AccountRelatedTaskNames[$account->getId()]);
     }
 
-    /**
-     * @param int $timestamp
-     * @param bool $isRemoved
-     */
-    public function addStartTimeCheck(Account $account, $timestamp, $isRemoved): void
+    public function addStartTimeCheck(Account $account, int $timestamp, bool $isRemoved): void
     {
         $currentStartTime = $this->getCurrentStartTime($account);
 
@@ -60,10 +53,7 @@ class RecalculationManager
         }
     }
 
-    /**
-     * @return int
-     */
-    protected function getCurrentStartTime(Account $account)
+    protected function getCurrentStartTime(Account $account): int
     {
         if (! isset($this->CurrentStartTimes[$account->getId()])) {
             $this->CurrentStartTimes[$account->getId()] = $this->ConfigurationManager->getList($account)->getData()->getStartTime();
@@ -76,11 +66,7 @@ class RecalculationManager
         return $this->CurrentStartTimes[$account->getId()];
     }
 
-    /**
-     * @param bool $forceRecalculation
-     * @return StartTimeCalculation
-     */
-    public function scheduleStartTimeCalculation(Account $account, $forceRecalculation = true)
+    public function scheduleStartTimeCalculation(Account $account, bool $forceRecalculation = true): StartTimeCalculation
     {
         if (! $this->isTaskScheduled($account, StartTimeCalculation::class)) {
             $task = new StartTimeCalculation($this->TrainingRepository, $this->ConfigurationUpdater);
@@ -129,10 +115,7 @@ class RecalculationManager
         }
     }
 
-    /**
-     * @param string $taskName
-     */
-    public function isTaskScheduled(Account $account, $taskName): bool
+    public function isTaskScheduled(Account $account, string $taskName): bool
     {
         $accountId = $account->getId();
 

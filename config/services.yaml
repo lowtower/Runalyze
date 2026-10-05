@@ -88,6 +88,10 @@ services:
         resource: '../src/CoreBundle/Controller'
         tags: ['controller.service_arguments']
 
+    Runalyze\Bundle\GlossaryBundle\Controller\:
+        resource: '../vendor/runalyze/glossary/Controller'
+        tags: ['controller.service_arguments']
+
     Runalyze\Bundle\CoreBundle\Command\:
         resource: '../src/CoreBundle/Command'
         tags: ['console.command']

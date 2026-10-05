@@ -37,10 +37,7 @@ abstract class HtmlTag
         $this->Id = $id;
     }
 
-    /**
-     * @return string
-     */
-    public function getId()
+    public function getId(): string
     {
         return $this->Id;
     }
@@ -65,9 +62,8 @@ abstract class HtmlTag
 
     /**
      * Get string for all attributes
-     * @return string
      */
-    public function attributes()
+    public function attributes(): string
     {
         if (! empty($this->Id)) {
             $this->addAttribute('id', $this->Id);

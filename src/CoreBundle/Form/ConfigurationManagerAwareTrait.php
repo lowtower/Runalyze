@@ -2,24 +2,19 @@
 
 namespace Runalyze\Bundle\CoreBundle\Form;
 
+use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 
 trait ConfigurationManagerAwareTrait
 {
-    /**
-     * @var ConfigurationManager
-     */
-    protected $ConfigurationManager;
+    protected ConfigurationManager $ConfigurationManager;
 
     public function setConfigurationManager(ConfigurationManager $manager): void
     {
         $this->ConfigurationManager = $manager;
     }
 
-    /**
-     * @return \Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList
-     */
-    public function getConfigurationList()
+    public function getConfigurationList(): RunalyzeConfigurationList
     {
         return $this->ConfigurationManager->getList();
     }

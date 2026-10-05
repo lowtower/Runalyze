@@ -6,20 +6,9 @@ namespace Runalyze\Metrics\Common;
 
 interface UnitInterface
 {
-    /**
-     * @return string
-     */
-    public function getAppendix();
+    public function getAppendix(): string;
 
-    /**
-     * @param mixed $valueInThisUnit
-     * @return mixed
-     */
-    public function toBaseUnit($valueInThisUnit);
+    public function toBaseUnit(mixed $valueInThisUnit): mixed;
 
-    /**
-     * @param mixed $valueInBaseUnit
-     * @return mixed
-     */
-    public function fromBaseUnit($valueInBaseUnit);
+    public function fromBaseUnit(mixed $valueInBaseUnit): mixed;
 }

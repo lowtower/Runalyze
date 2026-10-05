@@ -90,7 +90,7 @@ abstract class AbstractModel
     /**
      * @return array<int, mixed[]> array(enum => data)
      */
-    final public function getArrays()
+    final public function getArrays(): array
     {
         return [
             self::FITNESS => $this->Fitness,

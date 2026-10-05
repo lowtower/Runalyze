@@ -24,10 +24,7 @@ class System
         return '//' . $_SERVER['HTTP_HOST'];
     }
 
-    /**
-     * @param bool $onlyToRunalyze
-     */
-    public static function getFullDomain($onlyToRunalyze = true): string
+    public static function getFullDomain(bool $onlyToRunalyze = true): string
     {
         // TODO: correct handling of /public
 
@@ -47,9 +44,8 @@ class System
 
     /**
      * Is this script running on localhost?
-     * @return bool
      */
-    public static function isAtLocalhost()
+    public static function isAtLocalhost(): bool
     {
         if (! isset($_SERVER['SERVER_NAME'])) {
             return false;

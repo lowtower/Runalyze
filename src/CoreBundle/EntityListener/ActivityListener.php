@@ -224,11 +224,7 @@ class ActivityListener
             ->guessTimezoneBasedOnCoordinates($this->TimezoneLookup);
     }
 
-    /**
-     * @param int $timestamp
-     * @param bool $isRemoved
-     */
-    protected function addStartTimeCheck(Account $account, $timestamp, $isRemoved)
+    protected function addStartTimeCheck(Account $account, int $timestamp, bool $isRemoved)
     {
         $this->RecalculationManager->addStartTimeCheck($account, $timestamp, $isRemoved);
     }
@@ -339,11 +335,7 @@ class ActivityListener
         );
     }
 
-    /**
-     * @param int $numberOfDays
-     * @return bool
-     */
-    protected function timestampEnteredOrLeftPeriodOfLastXDays($numberOfDays, PreUpdateEventArgs $args)
+    protected function timestampEnteredOrLeftPeriodOfLastXDays(int $numberOfDays, PreUpdateEventArgs $args): bool
     {
         if (! $args->hasChangedField('time')) {
             return false;

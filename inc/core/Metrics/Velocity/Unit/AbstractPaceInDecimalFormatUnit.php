@@ -11,10 +11,7 @@ abstract class AbstractPaceInDecimalFormatUnit extends AbstractPaceUnit implemen
 {
     use UnitConversionByDividendTrait;
 
-    /**
-     * @return int
-     */
-    public function getDecimals()
+    public function getDecimals(): int
     {
         return 1;
     }

@@ -13,15 +13,9 @@ class TemplateBasedMessage implements MessageInterface
      */
     public const BASE_PATH = '../../../../../data/views/notifications/';
 
-    /**
-     * @var string
-     */
-    protected $TemplateName;
+    protected string $TemplateName;
 
-    /**
-     * @var null|array
-     */
-    protected $TemplateContent;
+    protected ?array $TemplateContent = null;
 
     /**
      * @param string $templateName relative to self::BASE_PATH
@@ -30,8 +24,8 @@ class TemplateBasedMessage implements MessageInterface
      * @throws \InvalidArgumentException
      */
     public function __construct(
-        $templateName,
-        protected $Lifetime = null
+        string $templateName,
+        protected ?int $Lifetime = null
     ) {
         if (! file_exists(__DIR__ . '/' . self::BASE_PATH . $templateName)) {
             throw new \InvalidArgumentException(sprintf('Given template "%s" cannot be found in "%s".', $templateName, __DIR__ . '/' . self::BASE_PATH));
@@ -45,17 +39,17 @@ class TemplateBasedMessage implements MessageInterface
         return MessageTypeProfile::TEMPLATE_BASED_MESSAGE;
     }
 
-    public function getData()
+    public function getData(): string
     {
         return $this->TemplateName;
     }
 
-    public function getLifetime()
+    public function getLifetime(): ?int
     {
         return $this->Lifetime;
     }
 
-    public function getText(?\Symfony\Contracts\Translation\TranslatorInterface $translator = null)
+    public function getText(?\Symfony\Contracts\Translation\TranslatorInterface $translator = null): string
     {
         $this->loadTemplateIfNotDoneYet();
 
@@ -69,7 +63,7 @@ class TemplateBasedMessage implements MessageInterface
         return isset($this->TemplateContent['link']) && ! empty($this->TemplateContent['link']);
     }
 
-    public function getLink(?RouterInterface $router = null)
+    public function getLink(?RouterInterface $router = null): string
     {
         $this->loadTemplateIfNotDoneYet();
 
@@ -88,7 +82,7 @@ class TemplateBasedMessage implements MessageInterface
         return isset($this->TemplateContent['internal']) || (isset($this->TemplateContent['link']) && ! str_starts_with($this->TemplateContent['link'], 'http'));
     }
 
-    public function getWindowSizeForInternalLink()
+    public function getWindowSizeForInternalLink(): string
     {
         $this->loadTemplateIfNotDoneYet();
 

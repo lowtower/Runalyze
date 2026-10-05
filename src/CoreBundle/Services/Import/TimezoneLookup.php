@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Services\Import;
 
 class TimezoneLookup
@@ -11,20 +13,15 @@ class TimezoneLookup
 
     /**
      * @param string $PathToTimeZoneDatabase absolute path to database
-     * @param string $SpatialiteExtensionName
-     * @param bool $SilentExceptions
      */
     public function __construct(
-        protected $PathToTimeZoneDatabase,
-        protected $SpatialiteExtensionName,
-        protected $SilentExceptions = false
+        protected string $PathToTimeZoneDatabase,
+        protected string $SpatialiteExtensionName,
+        protected bool $SilentExceptions = false
     ) {
     }
 
-    /**
-     * @param bool $flag
-     */
-    public function silentExceptions($flag = true): void
+    public function silentExceptions(bool $flag = true): void
     {
         $this->SilentExceptions = $flag;
     }
@@ -49,14 +46,9 @@ class TimezoneLookup
         return false;
     }
 
-    /**
-     * @param float $longitude
-     * @param float $latitude
-     * @return null|string
-     */
-    public function getTimezoneForCoordinate($longitude, $latitude)
+    public function getTimezoneForCoordinate(float $longitude, float $latitude): ?string
     {
-        if ($this->isPossible() && is_numeric($longitude) && is_numeric($latitude)) {
+        if ($this->isPossible()) {
             $query = $this->SQLite->query('SELECT `tzid` FROM `tz_world` WHERE ST_Contains(`geometry`, MakePoint(' . $longitude . ', ' . $latitude . '))');
 
             if (! is_bool($query)) {
@@ -71,10 +63,7 @@ class TimezoneLookup
         return null;
     }
 
-    /**
-     * @return false|null|\SQLite3
-     */
-    protected function getSQLite()
+    protected function getSQLite(): false|\SQLite3|null
     {
         if ($this->SQLite === null) {
             $this->tryToConnectToSQLite();

@@ -166,10 +166,7 @@ class PluginConfiguration
         return $this->Values === [];
     }
 
-    /**
-     * @return mixed
-     */
-    final public function value(string $key)
+    final public function value(string $key): mixed
     {
         return $this->object($key)
             ->value();

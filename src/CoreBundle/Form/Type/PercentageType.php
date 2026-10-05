@@ -27,7 +27,7 @@ class PercentageType extends AbstractType implements DataTransformerInterface
         return $value === null ? '' : (string) $value;
     }
 
-    public function reverseTransform($value)
+    public function reverseTransform($value): mixed
     {
         return $value === null ? null : (float) str_replace(',', '.', $value);
     }

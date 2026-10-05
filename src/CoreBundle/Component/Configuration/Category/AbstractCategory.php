@@ -19,7 +19,7 @@ abstract class AbstractCategory
     /**
      * @return array ['key' => 'value']
      */
-    abstract public function getDefaultVariables();
+    abstract public function getDefaultVariables(): array;
 
     abstract protected function getLegacyCategoryName(): string;
 
