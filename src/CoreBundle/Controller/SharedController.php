@@ -60,7 +60,6 @@ class SharedController extends AbstractController
     public function sharedTrainingAction(string $activityHash, Request $request): Response
     {
         $activityId = (int) base_convert($activityHash, 35, 10);
-
         /** @var ?Training $activity */
         $activity = $activityId > 0
             ? $this->doctrine
@@ -72,20 +71,21 @@ class SharedController extends AbstractController
         }
 
         $_GET['user'] = $activity->getAccount()->getUsername();
+
         /** @var AccountRepository $repository */
         $repository = $this->doctrine
             ->getRepository(Account::class);
-        $account = $repository->findByUsername($activity->getAccount()->getUsername());
+        $account = $repository->findForUsername($activity->getAccount()->getUsername());
         $publicList = $this->configurationManager
             ->getList($account)
             ->getPrivacy()
             ->isListPublic();
 
         new FrontendShared(true, $this->tokenStorage, $this->parameterBag);
+
         $activityContext = $this->activityContextFactory
             ->getContext($activity);
         $activityContextLegacy = new Context($activity->getId(), $activity->getAccount()->getId());
-
         $hasRoute = $activityContext->canShowMap() && $this->privacyGuard
             ->isMapVisible($activity, $activityContext->getRaceResult());
 
@@ -133,7 +133,7 @@ class SharedController extends AbstractController
         /** @var AccountRepository $repository */
         $repository = $this->doctrine
             ->getRepository(Account::class);
-        $account = $repository->findByUsername($username);
+        $account = $repository->findForUsername($username);
         $privacy = $this->configurationManager
             ->getList($account)
             ->getPrivacy();
@@ -185,7 +185,7 @@ class SharedController extends AbstractController
         /** @var AccountRepository $repository */
         $repository = $this->doctrine
             ->getRepository(Account::class);
-        $account = $repository->findByUsername($username);
+        $account = $repository->findForUsername($username);
         $privacy = $this->configurationManager
             ->getList($account)
             ->getPrivacy();
@@ -199,7 +199,6 @@ class SharedController extends AbstractController
                 'username' => $username,
             ], UrlGeneratorInterface::ABSOLUTE_URL))
             ->setFeedAuthor($username);
-
         $feed->setActivities(
             $account === null || ! $privacy->isListPublic()
                 ? []

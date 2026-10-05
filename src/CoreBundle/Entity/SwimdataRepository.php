@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class SwimdataRepository extends EntityRepository
 {
-    public function findByActivity(int $activityId): ?Swimdata
+    public function findForActivity(int $activityId): ?Swimdata
     {
         return $this->findOneBy([
             'activity' => $activityId,

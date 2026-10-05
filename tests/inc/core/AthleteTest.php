@@ -26,7 +26,6 @@ class AthleteTest extends \PHPUnit\Framework\TestCase
 
     public function testGenderAndHRmax(): void
     {
-
         $Athlete = new Athlete(Gender::MALE, 210);
 
         $this->assertTrue($Athlete->knowsGender());
@@ -42,7 +41,6 @@ class AthleteTest extends \PHPUnit\Framework\TestCase
 
     public function testAllProperties(): void
     {
-
         $Athlete = new Athlete(Gender::MALE, 210, 45, 70, 1993, 60);
 
         $this->assertTrue($Athlete->knowsGender());

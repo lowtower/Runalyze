@@ -3,6 +3,8 @@
 namespace Runalyze\Bundle\CoreBundle\Tests\Entity;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Conf;
+use Runalyze\Bundle\CoreBundle\Entity\ConfRepository;
 use Runalyze\Bundle\CoreBundle\Entity\User;
 use Runalyze\Bundle\CoreBundle\Entity\UserRepository;
 
@@ -49,8 +51,10 @@ class UserRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals(197, $this->UserRepository->getCurrentMaximalHeartRate($this->Account));
         $this->assertEquals(48, $this->UserRepository->getCurrentRestingHeartRate($this->Account));
 
-        $this->assertEquals('197', $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Conf::class)->findByAccountAndKey($this->Account, 'HF_MAX')->getValue());
-        $this->assertEquals('48', $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Conf::class)->findByAccountAndKey($this->Account, 'HF_REST')->getValue());
+        /** @var ConfRepository $confRepository */
+        $confRepository = $this->EntityManager->getRepository(Conf::class);
+        $this->assertEquals('197', $confRepository->findForAccountAndKey($this->Account, 'HF_MAX')->getValue());
+        $this->assertEquals('48', $confRepository->findForAccountAndKey($this->Account, 'HF_REST')->getValue());
     }
 
     public function testThatZeroesAreIgnored(): void

@@ -106,7 +106,6 @@ abstract class SummaryTable
         $this->displayTableHeader();
         $this->displayTableBody();
         $this->displayTableFooter();
-
     }
 
     protected function displayTableHeader()

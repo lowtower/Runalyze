@@ -30,7 +30,6 @@ class ParameterTest extends \PHPUnit\Framework\TestCase
      */
     protected function tearDown(): void
     {
-
     }
 
     public function testDefault(): void

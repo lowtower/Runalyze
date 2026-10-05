@@ -117,7 +117,6 @@ class ActivityBulkRouteNameEvaluationCommand extends Command
                 } else {
                     $output->writeln('<fg=yellow>skip id=' . $activityId . ' / ' . $activity->getTitle() . '</>');
                 }
-
             } else {
                 $output->writeln('<fg=yellow>skip id=' . $activityId . ' / ' . $activity->getTitle() . '</>');
             }

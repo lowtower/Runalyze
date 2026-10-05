@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
  */
 class AccountRepository extends EntityRepository implements UserLoaderInterface
 {
-    public function findByUsername(string $username): ?Account
+    public function findForUsername(string $username): ?Account
     {
         return $this->createQueryBuilder('u')
             ->where('u.username = :username')

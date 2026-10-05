@@ -29,16 +29,14 @@ return ECSConfig::configure()
         NoUnusedImportsFixer::class,
     ])
 
+    ->withPreparedSets(
+        common: true,
+        psr12: true
+    )
+
     ->withSets([
         SetList::PSR_12,
         SetList::CLEAN_CODE,
-        SetList::ARRAY,
-        SetList::COMMON,
-        SetList::COMMENTS,
-        SetList::CONTROL_STRUCTURES,
-        SetList::DOCBLOCK,
-        SetList::NAMESPACES,
-        SetList::SPACES,
         SetList::DOCTRINE_ANNOTATIONS,
     ])
 

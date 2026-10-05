@@ -20,6 +20,5 @@ class BackupExportType extends AbstractType
                     'Database backup (*.sql.gz)' => 'sql',
                 ],
             ]);
-
     }
 }

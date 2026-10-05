@@ -53,7 +53,7 @@ class MaxZoneHR
         /** @var ConfRepository $repository */
         $repository = $this->doctrine->getRepository(Conf::class);
 
-        $conf = $repository->findByAccountAndKey($account, 'IMPORT_MAX_HR_USER');
+        $conf = $repository->findForAccountAndKey($account, 'IMPORT_MAX_HR_USER');
         // some confuse logic with the Conf boolean parameter...to get the boolean value from the Conf
         $bool = new Boolean(false);
         $bool->setFromString($conf === null ? '' : $conf->getValue());
@@ -207,7 +207,6 @@ class ActivityBulkImportCommand extends Command
         /** @var FileImportResult $result */
         foreach ($importResult as $result) {
             foreach ($result->getContainer() as $container) {
-
                 // #TSC override the sportname to set the sport profile
                 if (! empty($sport)) {
                     $container->Metadata->setSportName($sport);
@@ -332,7 +331,6 @@ class ActivityBulkImportCommand extends Command
             // got to all equipments for this sport
             // its possible that several equipments exists with different time-ranges
             foreach ($this->sportEquipment[$sportId] as $eqp) {
-
                 // set the end-date to time 23:59 for the compare
                 $endDate = null;
                 if ($eqp->getDateEnd() !== null) {

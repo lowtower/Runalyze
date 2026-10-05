@@ -172,6 +172,5 @@ class RaceResult extends AbstractKey
         $Icon->setTooltip($TooltipCode);
 
         return $Icon->code();
-
     }
 }

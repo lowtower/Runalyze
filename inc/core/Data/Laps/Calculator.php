@@ -117,7 +117,6 @@ class Calculator
                 $this->goToEnd();
             } else {
                 $this->moveToTime($seconds);
-
             }
 
             $this->readLap();

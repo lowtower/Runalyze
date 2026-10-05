@@ -86,6 +86,7 @@ class ViewController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $activity = $this->getTraining($id);
+
         if (! $activity instanceof Training) {
             throw $this->createNotFoundException('Activity not found.');
         }
@@ -93,7 +94,6 @@ class ViewController extends AbstractController
         switch ($request->query->get('action')) {
             case 'changePrivacy':
                 $this->checkThatEntityBelongsToActivity($activity, $account);
-
                 $this->getTrainingRepository()
                     ->save($activity->togglePrivacy());
                 $this->legacyCache
@@ -101,7 +101,6 @@ class ViewController extends AbstractController
                 break;
             case 'delete':
                 $this->checkThatEntityBelongsToActivity($activity, $account);
-
                 $this->getTrainingRepository()
                     ->remove($activity);
 
@@ -122,9 +121,9 @@ class ViewController extends AbstractController
 
             try {
                 $context = new Context($activity->getId(), $activity->getAccount()->getId());
-
                 $view = new TrainingView($context);
                 $view->display();
+
                 $legacyContent = ob_get_clean();
             } catch (Throwable $throwable) {
                 ob_end_clean();
@@ -148,6 +147,7 @@ class ViewController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $activity = $this->getTraining($id);
+
         if (! $activity instanceof Training) {
             throw $this->createNotFoundException('Activity not found.');
         }
@@ -188,6 +188,7 @@ class ViewController extends AbstractController
 
             $window = new Window($context);
             $window->display();
+
             $legacyContent = ob_get_clean();
         } catch (Throwable $throwable) {
             ob_end_clean();
@@ -219,7 +220,6 @@ class ViewController extends AbstractController
 
             $activity->getAdapter()
                 ->useElevationFromRoute();
-
             $this->getTrainingRepository()
                 ->save($activity);
         }
@@ -238,6 +238,7 @@ class ViewController extends AbstractController
 
             $elevationInfo = new ElevationInfo($context);
             $elevationInfo->display();
+
             $legacyContent = ob_get_clean();
         } catch (Throwable $throwable) {
             ob_end_clean();
@@ -256,14 +257,13 @@ class ViewController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $trackdata = $this->getTrackdataRepository()
-            ->findByActivity($id, $account);
+            ->findForActivity($id, $account);
 
         if (! $trackdata instanceof Trackdata) {
             return $this->render('activity/tool/not_possible.html.twig');
         }
 
         $trackdataModel = $trackdata->getLegacyModel();
-
         $paceUnit = PaceEnum::get(
             $this->getTrainingRepository()
                 ->getSpeedUnitFor($id, $account->getId())
@@ -287,14 +287,13 @@ class ViewController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $trackdata = $this->getTrackdataRepository()
-            ->findByActivity($id, $account);
+            ->findForActivity($id, $account);
 
         if (! $trackdata instanceof Trackdata) {
             return $this->render('activity/tool/not_possible.html.twig');
         }
 
         $trackdataModel = $trackdata->getLegacyModel();
-
         $paceUnit = PaceEnum::get(
             $this->getTrainingRepository()
                 ->getSpeedUnitFor($id, $account->getId())
@@ -321,6 +320,7 @@ class ViewController extends AbstractController
     public function climbScoreAction(int $id, ?Account $account = null): Response
     {
         $activity = $this->getTraining($id);
+
         if (! $activity instanceof Training) {
             throw $this->createNotFoundException('No activity found.');
         }

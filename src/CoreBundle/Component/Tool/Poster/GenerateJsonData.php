@@ -97,7 +97,7 @@ class GenerateJsonData
 
     protected function listSpecialFiles(Account $account, Sport $sport, int $year)
     {
-        $races = $this->RaceresultRepository->findBySportAndYear($account, $sport, $year);
+        $races = $this->RaceresultRepository->findForSportAndYear($account, $sport, $year);
 
         if ($races !== []) {
             $argument = '';

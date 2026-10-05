@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class HrvRepository extends EntityRepository
 {
-    public function findByActivity(int $activityId): ?Hrv
+    public function findForActivity(int $activityId): ?Hrv
     {
         return $this->findOneBy([
             'activity' => $activityId,

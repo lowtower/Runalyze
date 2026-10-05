@@ -234,7 +234,6 @@ class CreateNotificationCommand extends Command
 
         if ($registrationBefore) {
             $whereCondition[] = '`a`.`registerdate` < ' . (int) $registrationBefore;
-
         }
 
         if ($excludeLang !== []) {

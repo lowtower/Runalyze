@@ -31,9 +31,8 @@ class RaceresultRepositoryTest extends AbstractRepositoryTestCase
 
     public function testEmptyDatabase(): void
     {
-        $this->assertNull($this->RaceresultRepository->findByActivity(1));
+        $this->assertNull($this->RaceresultRepository->findForActivity(1));
         $this->assertNull($this->RaceresultRepository->findForAccount(1, 1));
-
         $this->assertEquals(1.0, $this->RaceresultRepository->getEffectiveVO2maxCorrectionFactor(
             $this->Account,
             $this->getDefaultAccountsRunningSport()
@@ -48,22 +47,20 @@ class RaceresultRepositoryTest extends AbstractRepositoryTestCase
 
         $this->assertNull($this->RaceresultRepository->findForAccount($race->getActivity()->getId(), $this->Account->getId() + 1));
         $this->assertEquals(
-            $this->RaceresultRepository->findByActivity($race->getActivity()->getId()),
+            $this->RaceresultRepository->findForActivity($race->getActivity()->getId()),
             $this->RaceresultRepository->findForAccount($race->getActivity()->getId(), $this->Account->getId())
         );
         $this->assertEquals(2400, $this->RaceresultRepository->findForAccount($race->getActivity()->getId(), $this->Account->getId())->getOfficialTime());
+        $this->assertEmpty($this->RaceresultRepository->findForSportAndYear($this->Account, $this->getDefaultAccountsRunningSport(), 2017));
+        $this->assertEmpty($this->RaceresultRepository->findForSportAndYear($this->Account, $this->getDefaultAccountsCyclingSport(), 2016));
+        $this->assertEmpty($this->RaceresultRepository->findForSportAndYear(new Account(), $this->getDefaultAccountsRunningSport(), 2016));
 
-        $this->assertEmpty($this->RaceresultRepository->findBySportAndYear($this->Account, $this->getDefaultAccountsRunningSport(), 2017));
-        $this->assertEmpty($this->RaceresultRepository->findBySportAndYear($this->Account, $this->getDefaultAccountsCyclingSport(), 2016));
-        $this->assertEmpty($this->RaceresultRepository->findBySportAndYear(new Account(), $this->getDefaultAccountsRunningSport(), 2016));
-
-        $races = $this->RaceresultRepository->findBySportAndYear($this->Account, $this->getDefaultAccountsRunningSport(), 2016);
+        $races = $this->RaceresultRepository->findForSportAndYear($this->Account, $this->getDefaultAccountsRunningSport(), 2016);
 
         $this->assertEquals(1, count($races));
         $this->assertEquals(mktime(3, 14, 15, 9, 26, 2016), $races[0]['time']);
         $this->assertEquals('10', $races[0][0]['officialDistance']);
         $this->assertEquals('Awesome pirace', $races[0][0]['name']);
-
         $this->assertFalse($this->getContainer()->get('app.recalculation_manager')->isTaskScheduled($this->Account, VO2maxCorrectionFactorCalculation::class));
     }
 
@@ -81,7 +78,6 @@ class RaceresultRepositoryTest extends AbstractRepositoryTestCase
             $this->getDefaultAccountsRunningSport()
                 ->getId()
         ), 0.01);
-
         $this->assertTrue($this->getContainer()->get('app.recalculation_manager')->isTaskScheduled($this->Account, VO2maxCorrectionFactorCalculation::class));
     }
 
@@ -101,6 +97,7 @@ class RaceresultRepositoryTest extends AbstractRepositoryTestCase
         $activity->setPulseAvg(180)
             ->setUseVO2max(true);
         $this->insertRace('foobar', $activity);
+
         $expectedFactor = $activity->getVO2maxByTime() / $activity->getVO2max();
 
         $activity = $this->getActivityForDefaultAccount(time(), 2400, 5.0);
@@ -115,7 +112,7 @@ class RaceresultRepositoryTest extends AbstractRepositoryTestCase
         ), 0.01);
     }
 
-    protected function insertRace(string $name, Training $activity): \Runalyze\Bundle\CoreBundle\Entity\Raceresult
+    protected function insertRace(string $name, Training $activity): Raceresult
     {
         $this->TrainingRepository->save($activity);
 

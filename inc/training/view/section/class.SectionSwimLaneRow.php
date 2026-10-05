@@ -40,7 +40,6 @@ class SectionSwimLaneRow extends TrainingViewSectionRowTabbedPlot
     {
         $this->withShadow = true;
         $this->addTable();
-
     }
 
     /**

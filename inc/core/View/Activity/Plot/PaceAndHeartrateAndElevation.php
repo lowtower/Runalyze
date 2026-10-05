@@ -40,6 +40,5 @@ class PaceAndHeartrateAndElevation extends ActivityPlot
         $this->addSeries($GradeAdjustedPaceSeries, 4, false);
 
         $this->Plot->Options['legend']['hidden'] = [$Gradient->label(), $GradeAdjustedPaceSeries->label()]; // hide by default
-
     }
 }

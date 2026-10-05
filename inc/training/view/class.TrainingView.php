@@ -161,14 +161,10 @@ class TrainingView
 
     protected function initSections()
     {
-
         if (Configuration::ActivityView()->mapFirst() && Configuration::ActivityView()->plotMode()->showCollection()) {
-
             $this->Sections[] = new SectionComposite($this->Context);
             $this->Sections[] = new SectionLaps($this->Context);
-
         } else {
-
             $this->Sections[] = new SectionOverview($this->Context);
 
             if (Configuration::ActivityView()->mapFirst()) {
@@ -188,18 +184,15 @@ class TrainingView
                 } else {
                     $this->Sections[] = new SectionRoute($this->Context);
                 }
-
             } else {
                 $this->Sections[] = new SectionComposite($this->Context);
 
                 if (Configuration::ActivityView()->plotMode()->showPaceAndHR()) {
-
                     if (Configuration::ActivityView()->mapFirst()) {
                         $this->Sections[] = new SectionRouteOnlyElevation($this->Context);
                     } else {
                         $this->Sections[] = new SectionRoute($this->Context);
                     }
-
                 } else {
                     if (! Configuration::ActivityView()->mapFirst()) {
                         $this->Sections[] = new SectionRouteOnlyMap($this->Context);

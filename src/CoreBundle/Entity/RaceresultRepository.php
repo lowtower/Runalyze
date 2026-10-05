@@ -5,16 +5,13 @@ namespace Runalyze\Bundle\CoreBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 
 /**
- * @extends EntityRepository<RaceResult>
+ * @extends EntityRepository<Raceresult>
  */
 class RaceresultRepository extends EntityRepository
 {
-    /**
-     * @var int
-     */
     public const NUMBER_OF_RACES_TO_CONSIDER_FOR_CORRECTION_FACTOR = 3;
 
-    public function findByActivity(int $activityId): ?Raceresult
+    public function findForActivity(int $activityId): ?Raceresult
     {
         return $this->findOneBy([
             'activity' => $activityId,
@@ -29,7 +26,7 @@ class RaceresultRepository extends EntityRepository
         ]);
     }
 
-    public function findBySportAndYear(Account $account, Sport $sport, int $year): array
+    public function findForSportAndYear(Account $account, Sport $sport, int $year): array
     {
         return $this->_em->createQueryBuilder()
             ->select(

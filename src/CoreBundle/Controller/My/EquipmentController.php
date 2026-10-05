@@ -165,7 +165,7 @@ class EquipmentController extends AbstractController
         return $this->render('my/equipment/form-category.html.twig', [
             'form' => $form->createView(),
             'equipment' => $this->getEquipmentRepository()
-                ->findByTypeId($equipmentType->getId(), $account),
+                ->findForTypeId($equipmentType->getId(), $account),
             'unitSystem' => $this->configurationManager
                 ->getList()
                 ->getUnitSystem(),

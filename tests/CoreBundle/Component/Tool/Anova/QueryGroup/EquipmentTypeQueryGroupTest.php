@@ -113,7 +113,7 @@ class EquipmentTypeQueryGroupTest extends TestCase
 
         $equipmentRepository = $this->createMock(EquipmentRepository::class);
         $equipmentRepository->expects($this->once())
-            ->method('findByTypeId')
+            ->method('findForTypeId')
             ->with(5, $account)
             ->willReturn([$shoe1, $shoe2]);
 
@@ -136,7 +136,7 @@ class EquipmentTypeQueryGroupTest extends TestCase
         $account = $this->createMock(Account::class);
 
         $equipmentRepository = $this->createMock(EquipmentRepository::class);
-        $equipmentRepository->method('findByTypeId')
+        $equipmentRepository->method('findForTypeId')
             ->willReturn([]);
 
         $entityManager = $this->createMock(EntityManager::class);

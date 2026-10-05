@@ -213,17 +213,17 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
         $repository = $this
             ->getMockBuilder(ConfRepository::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['findByAccount', 'findByAccountAndKey', 'save'])
+            ->onlyMethods(['findForAccount', 'findForAccountAndKey', 'save'])
             ->getMock();
 
         $repository
             ->expects($this->any())
-            ->method('findByAccount')
+            ->method('findForAccount')
             ->will($this->returnValue([]));
 
         $repository
             ->expects($this->any())
-            ->method('findByAccountAndKey')
+            ->method('findForAccountAndKey')
             ->will($this->returnValue(null));
 
         $repository

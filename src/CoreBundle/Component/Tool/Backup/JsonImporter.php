@@ -349,7 +349,6 @@ class JsonImporter
 
             $line = $this->Reader->readLine();
         }
-
     }
 
     protected function equipmentSportRelationDoesExist(int $sportid, int $equipmentTypeid): bool

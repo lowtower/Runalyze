@@ -15,7 +15,6 @@ class EquipmentStatistics
         $inactiveEquipment = [];
 
         foreach ($queryResult as $row) {
-
             $equipmentStatistic = new EquipmentStatistic($row[0]);
             $equipmentStatistic->setNumberOfActivities($row['num']);
             $equipmentStatistic->setMaximalPace($row['max_pace']);

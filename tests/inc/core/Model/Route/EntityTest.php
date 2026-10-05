@@ -86,7 +86,6 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['u0mx37xb9hmx', 'u0mrzjwzpjb4'], $Object->get(Entity::GEOHASHES));
         $this->assertEquals('u0mrr5wbxh', $Object->get(Entity::MIN));
         $this->assertEquals('u0mxcmxz1j', $Object->get(Entity::MAX));
-
     }
 
     public function testThatSetLatitudesLongitudesMustHaveExpectedSize(): void

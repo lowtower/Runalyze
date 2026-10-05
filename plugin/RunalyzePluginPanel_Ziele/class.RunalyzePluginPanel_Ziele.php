@@ -164,7 +164,6 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
                 $togo = $goal - $dat['distanz_sum'];
                 $this->addLine(sprintf(__('%d days left'), $rest), $togo);
                 if ($showDetails) {
-
                     $this->addLine(__('avg.') . ' ' . __('Day'), $rest > 0 ? $togo / $rest : 0);
 
                     if ($rest > 7) {
@@ -178,7 +177,6 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
             $diff = $goal / $dauer * $days - $dat['distanz_sum'];
 
             if ($showDetails) {
-
                 $this->addHeadline(__('Pace Bunny'), $goal / $dauer * $days);
                 $this->addLine(__('avg.') . ' ' . __('Day'), $goal / $dauer);
 

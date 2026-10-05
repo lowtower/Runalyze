@@ -62,13 +62,12 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
         $account = $this->getNewAccount('uniqueuser', 'unique-mail@test.com');
         $this->persistAccounts($account);
 
-        $found = $this->AccountRepository->findByUsername('uniqueuser');
+        $found = $this->AccountRepository->findForUsername('uniqueuser');
+
         $this->assertInstanceOf(Account::class, $found);
         $this->assertEquals($account->getId(), $found->getId());
-
-        $this->assertNull($this->AccountRepository->findByUsername('unknownuser'));
-
-        $this->assertNull($this->AccountRepository->findByUsername('unique-mail@test.com'));
+        $this->assertNull($this->AccountRepository->findForUsername('unknownuser'));
+        $this->assertNull($this->AccountRepository->findForUsername('unique-mail@test.com'));
     }
 
     public function testExistsOneWith(): void
@@ -87,7 +86,6 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
     {
         $activeAccounts = $this->AccountRepository->getAmountOfActivatedUsers(false);
         $activatedAccountNames = ['foo', 'bar', 'baz'];
-
         $accountsToPersist = array_map(
             fn (string $name): Account => $this->getNewAccount($name),
             $activatedAccountNames
@@ -108,7 +106,6 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
                 ->setRegisterdate(strtotime('today -30 days')),
             $notActivatedAccountNames
         );
-
         $accountsToPersist[] = $this->getNewAccount('foobar', 'foobar@test.com');
         $accountsToPersist[] = $this->getNewAccount('todays_user')
             ->setActivationHash(bin2hex(random_bytes(16)))
@@ -150,7 +147,9 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
 
         $this->getEntityManager()
             ->clear();
+
         $reloaded = $this->AccountRepository->find($fooAccount->getId());
+
         $this->assertNotNull($reloaded);
         $this->assertNull($reloaded->getActivationHash());
     }

@@ -84,7 +84,6 @@ class Ajax
         if (defined('MAPBOX_API_KEY') && MAPBOX_API_KEY != '') {
             echo self::wrapJS('Runalyze.Options.setMapboxLayerAuth("' . MAPBOX_API_KEY . '")');
         }
-
     }
 
     public static function setReloadFlag(int $Flag): void

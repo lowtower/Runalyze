@@ -30,12 +30,12 @@ class EquipmentRepositoryTest extends AbstractRepositoryTestCase
 
     public function testEmptyDatabase(): void
     {
-        $this->assertEmpty($this->EquipmentRepository->findByTypeId(1, new Account()));
+        $this->assertEmpty($this->EquipmentRepository->findForTypeId(1, new Account()));
     }
 
     public function testEquipmentStatistics(): void
     {
-        $clothes = $this->EquipmentRepository->findByTypeId($this->getDefaultAccountsClothesType()->getId(), $this->Account);
+        $clothes = $this->EquipmentRepository->findForTypeId($this->getDefaultAccountsClothesType()->getId(), $this->Account);
 
         $this->assertNotEmpty($clothes);
 

@@ -43,7 +43,7 @@ class ConfigurationManager
     {
         $listData = [];
 
-        foreach ($this->Repository->findByAccount($account) as $conf) {
+        foreach ($this->Repository->findForAccount($account) as $conf) {
             $listData[$conf->getCategory() . '.' . $conf->getKey()] = $conf->getValue();
         }
 

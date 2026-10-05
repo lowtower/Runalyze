@@ -48,7 +48,6 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         ?Sport $sport = null
     ): Training {
         $activity = $this->getActivityForDefaultAccount($timestamp, $duration, $distance, $sport);
-
         $this->TrainingRepository->save($activity);
 
         return $activity;
@@ -121,7 +120,6 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
                 $this->Account->getId()
             )
         );
-
         $this->assertEquals(
             $this->getDefaultAccountsCyclingSport()
                 ->getSpeed(),
@@ -185,7 +183,6 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
             'max_distance' => '17.5',
         ], $this->TrainingRepository->getStatsForPoster($this->Account, $this->getDefaultAccountsRunningSport(), 2015)
             ->getScalarResult()[0]);
-
         $this->assertEquals([
             'num' => '2',
             'total_distance' => '22.5',
@@ -193,7 +190,6 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
             'max_distance' => '12.5',
         ], $this->TrainingRepository->getStatsForPoster($this->Account, $this->getDefaultAccountsRunningSport(), 2016)
             ->getScalarResult()[0]);
-
         $this->assertEquals([
             'num' => '0',
             'total_distance' => null,
@@ -201,7 +197,6 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
             'max_distance' => null,
         ], $this->TrainingRepository->getStatsForPoster($this->Account, $this->getDefaultAccountsCyclingSport(), 2015)
             ->getScalarResult()[0]);
-
         $this->assertEquals([
             'num' => '1',
             'total_distance' => '33.3',
@@ -256,7 +251,6 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertNull($insertedActivity->getSwimdata());
         $this->assertNull($insertedActivity->getHrv());
         $this->assertNull($insertedActivity->getRaceresult());
-
         $this->assertInstanceOf(RoundCollection::class, $insertedActivity->getSplits());
         $this->assertTrue($insertedActivity->getSplits()->isEmpty());
     }
@@ -290,18 +284,18 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertTrue($result->hasRoute());
         $this->assertTrue($result->hasTrackdata());
         $this->assertTrue($result->hasHrv());
-
         $this->assertGreaterThan(0, $result->getRoute()->getElevation());
         $this->assertNotNull($result->getClimbScore());
 
         $routeId = $result->getRoute()
             ->getId();
         $activityId = $activity->getId();
+
         $this->TrainingRepository->remove($activity);
 
         $this->assertNull($this->getEntityManager()->getRepository(Route::class)->find($routeId));
-        $this->assertNull($this->getEntityManager()->getRepository(Trackdata::class)->findByActivity($activityId, $this->getDefaultAccount()));
-        $this->assertNull($this->getEntityManager()->getRepository(Hrv::class)->findByActivity($activityId));
+        $this->assertNull($this->getEntityManager()->getRepository(Trackdata::class)->findForActivity($activityId, $this->getDefaultAccount()));
+        $this->assertNull($this->getEntityManager()->getRepository(Hrv::class)->findForActivity($activityId));
     }
 
     public function testThatPowerIsNotRemovedAtUpdate(): void
@@ -358,9 +352,10 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals(3.0, $result->getRaceresult()->getOfficialDistance());
 
         $activityId = $activity->getId();
+
         $this->TrainingRepository->remove($activity);
 
-        $this->assertNull($this->getEntityManager()->getRepository(Raceresult::class)->findByActivity($activityId));
+        $this->assertNull($this->getEntityManager()->getRepository(Raceresult::class)->findForActivity($activityId));
     }
 
     public function testActivityWithSwimData(): void
@@ -385,9 +380,10 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals(5000, $result->getSwimdata()->getPoolLength());
 
         $activityId = $activity->getId();
+
         $this->TrainingRepository->remove($activity);
 
-        $this->assertNull($this->getEntityManager()->getRepository(Swimdata::class)->findByActivity($activityId));
+        $this->assertNull($this->getEntityManager()->getRepository(Swimdata::class)->findForActivity($activityId));
     }
 
     #[\PHPUnit\Framework\Attributes\Group('idontcare')]
@@ -441,6 +437,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->getContainer()
             ->get('app.recalculation_manager')
             ->runScheduledTasks();
+
         $configList = $this->getContainer()
             ->get('app.configuration_manager')
             ->getList($this->getDefaultAccount());
@@ -454,6 +451,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->getContainer()
             ->get('app.recalculation_manager')
             ->runScheduledTasks();
+
         $configList = $this->getContainer()
             ->get('app.configuration_manager')
             ->getList($this->getDefaultAccount());
@@ -465,6 +463,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->getContainer()
             ->get('app.recalculation_manager')
             ->runScheduledTasks();
+
         $configList = $this->getContainer()
             ->get('app.configuration_manager')
             ->getList($this->getDefaultAccount());
@@ -577,7 +576,6 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
                 ->getId(),
             $date
         ));
-
         $this->assertEquals(31.0, $this->TrainingRepository->calculateMarathonShape(
             $this->getDefaultAccount(),
             $config,
@@ -608,7 +606,6 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
                 ->getId(),
             $date
         );
-
         $resultWithLongEstablishedFirstActivity = $this->TrainingRepository->calculateMarathonShape(
             $this->getDefaultAccount(),
             $config,
@@ -640,16 +637,12 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
 
         $this->assertNull($this->TrainingRepository->getIdOfPreviousActivity($activity1));
         $this->assertEquals($activity2->getId(), $this->TrainingRepository->getIdOfNextActivity($activity1));
-
         $this->assertEquals($activity1->getId(), $this->TrainingRepository->getIdOfPreviousActivity($activity2));
         $this->assertEquals($activity3->getId(), $this->TrainingRepository->getIdOfNextActivity($activity2));
-
         $this->assertEquals($activity2->getId(), $this->TrainingRepository->getIdOfPreviousActivity($activity3));
         $this->assertEquals($activity4->getId(), $this->TrainingRepository->getIdOfNextActivity($activity3));
-
         $this->assertEquals($activity3->getId(), $this->TrainingRepository->getIdOfPreviousActivity($activity4));
         $this->assertEquals($activity5->getId(), $this->TrainingRepository->getIdOfNextActivity($activity4));
-
         $this->assertEquals($activity4->getId(), $this->TrainingRepository->getIdOfPreviousActivity($activity5));
         $this->assertNull($this->TrainingRepository->getIdOfNextActivity($activity5));
     }
@@ -686,7 +679,6 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
             $activity->setS(3580);
 
             $this->TrainingRepository->save($activity);
-
             $this->refreshEquipment($someEquipment);
 
             $this->assertEquals(3580, $someEquipment[0]->getTime());
@@ -700,7 +692,6 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
             $activity->addEquipment($someEquipment[2]);
 
             $this->TrainingRepository->save($activity);
-
             $this->refreshEquipment($someEquipment);
 
             $this->assertEquals(0, $someEquipment[0]->getTime());
@@ -711,7 +702,6 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
             $this->assertEquals(12.0, $someEquipment[2]->getDistance());
 
             $this->TrainingRepository->remove($activity);
-
             $this->refreshEquipment($someEquipment);
 
             $this->assertEquals(0, $someEquipment[0]->getTime());
@@ -952,13 +942,13 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
     public function testLatestActivitiesOnlyPublicFilter(): void
     {
         $privateActivity = $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 6, 1, 2016));
-
         $publicActivity = $this->getActivityForDefaultAccount(mktime(12, 0, 0, 6, 2, 2016));
         $publicActivity->setPublic(true);
 
         $this->TrainingRepository->save($publicActivity);
 
         $allActivities = $this->TrainingRepository->getLatestActivities($this->Account);
+
         $this->assertCount(2, $allActivities);
 
         $onlyPublic = $this->TrainingRepository->getLatestActivities($this->Account, 20, true);
@@ -970,13 +960,13 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
             static fn (Training $training): int => $training->getId(),
             $onlyPublic
         );
+
         $this->assertNotContains($privateActivity->getId(), $privateIds);
     }
 
     public function testLatestPublicActivitiesDelegatesToLatestActivities(): void
     {
         $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 6, 1, 2016));
-
         $publicActivity = $this->getActivityForDefaultAccount(mktime(12, 0, 0, 6, 2, 2016));
         $publicActivity->setPublic(true);
 
@@ -993,6 +983,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         for ($day = 1; $day <= 3; $day++) {
             $activity = $this->getActivityForDefaultAccount(mktime(12, 0, 0, 6, $day, 2016));
             $activity->setPublic(true);
+
             $this->TrainingRepository->save($activity);
         }
 
@@ -1016,6 +1007,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $route->setElevationsCorrected([100, 105, 110]);
 
         $matchingActivity->setRoute($route);
+
         $this->TrainingRepository->save($matchingActivity);
 
         $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 6, 2, $year), 3600, 12.0, $sport);
@@ -1030,6 +1022,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $zeroDistanceRoute->setElevationsCorrected([100]);
 
         $zeroDistanceActivity->setRoute($zeroDistanceRoute);
+
         $this->TrainingRepository->save($zeroDistanceActivity);
 
         $cyclingActivity = $this->getActivityForDefaultAccount(
@@ -1042,6 +1035,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $cyclingRoute->setElevationsCorrected([100]);
 
         $cyclingActivity->setRoute($cyclingRoute);
+
         $this->TrainingRepository->save($cyclingActivity);
 
         $wrongYearActivity = $this->getActivityForDefaultAccount(
@@ -1054,6 +1048,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $wrongYearRoute->setElevationsCorrected([100]);
 
         $wrongYearActivity->setRoute($wrongYearRoute);
+
         $this->TrainingRepository->save($wrongYearActivity);
 
         $results = $this->TrainingRepository->getQueryForJsonPosterData($this->Account, $sport, $year)

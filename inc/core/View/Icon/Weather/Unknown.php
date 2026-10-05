@@ -21,7 +21,6 @@ class Unknown extends \Runalyze\View\Icon\WeatherIcon
      */
     protected function setLayer()
     {
-
     }
 
     public function code(): string

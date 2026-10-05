@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class TrackdataRepository extends EntityRepository
 {
-    public function findByActivity(int $activityId, Account $account): ?Trackdata
+    public function findForActivity(int $activityId, Account $account): ?Trackdata
     {
         return $this->findOneBy([
             'activity' => $activityId,

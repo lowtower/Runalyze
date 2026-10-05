@@ -13,7 +13,7 @@ class EquipmentRepository extends EntityRepository
     /**
      * @return Equipment[]
      */
-    public function findByTypeId(int $equipmentTypeId, Account $account): array
+    public function findForTypeId(int $equipmentTypeId, Account $account): array
     {
         return $this->findBy([
             'type' => $equipmentTypeId,
@@ -22,10 +22,9 @@ class EquipmentRepository extends EntityRepository
     }
 
     /**
-     * @param string|string[] $equipmentName
      * @return Equipment[]
      */
-    public function findByName($equipmentName, Account $account): array
+    public function findForName(string|array $equipmentName, Account $account): array
     {
         return $this->findBy([
             'account' => $account->getId(),
@@ -33,7 +32,7 @@ class EquipmentRepository extends EntityRepository
         ]);
     }
 
-    public function getStatisticsForType(int $typeId, Account $account): \Runalyze\Bundle\CoreBundle\Model\Equipment\EquipmentStatistics
+    public function getStatisticsForType(int $typeId, Account $account): EquipmentStatistics
     {
         return new EquipmentStatistics(
             $this->createQueryBuilder('eq')
@@ -63,7 +62,6 @@ class EquipmentRepository extends EntityRepository
         foreach ($equipment as $object) {
             $object->addTime($additionalDuration);
             $object->addDistance($additionalDistance);
-
             $this->_em->persist($object);
         }
 

@@ -93,7 +93,6 @@ class ActivityDataContainerToActivityContextConverter
         $this->setActivityWeatherDataFor($activity, $container->WeatherData);
 
         $container->Rounds->roundDurations();
-
         $activity->setSplits($container->Rounds);
     }
 
@@ -102,7 +101,6 @@ class ActivityDataContainerToActivityContextConverter
         $activity->setTime($metadata->getTimestamp() ?? time());
         $activity->setTimezoneOffset($metadata->getTimezoneOffset());
         $activity->setActivityId($metadata->getActivityId());
-
         $activity->setCreator($metadata->getCreator());
         $activity->setCreatorDetails($metadata->getCreatorDetails());
 
@@ -149,6 +147,7 @@ class ActivityDataContainerToActivityContextConverter
 
         $activity->setSport($sport);
         $activity->setPublic(! $sport->getDefaultPrivacy());
+
         if ($sport->getDefaultType() instanceof Type) {
             $activity->setType($sport->getDefaultType());
         }
@@ -177,15 +176,16 @@ class ActivityDataContainerToActivityContextConverter
 
         // #TSC: first set a possible type from the typeName (can be interval or from the evaluation)
         $typeName = $metadata->getTypeName();
+
         if ($typeName !== '') {
-            $type = $this->TypeRepository->findByNameFor($typeName, $this->Account, $activity->getSport());
+            $type = $this->TypeRepository->findForNameAndAccount($typeName, $this->Account, $activity->getSport());
             // #TSC if the name not found, try it with the short-cut
-            $type ??= $this->TypeRepository->findByShortCutFor($typeName, $this->Account, $activity->getSport());
+            $type ??= $this->TypeRepository->findForShortCutAndAccount($typeName, $this->Account, $activity->getSport());
         }
 
         // #TSC: if not set, try from workoutName
         if (! $type instanceof Type && ! empty($metadata->getWorkoutName())) {
-            $type = $this->TypeRepository->findByNameFor($metadata->getWorkoutName(), $this->Account, $activity->getSport());
+            $type = $this->TypeRepository->findForNameAndAccount($metadata->getWorkoutName(), $this->Account, $activity->getSport());
         }
 
         if ($type instanceof Type) {
@@ -199,7 +199,7 @@ class ActivityDataContainerToActivityContextConverter
     protected function tryToSetEquipmentFor(Training $activity, array $equipmentNames): void
     {
         if ($equipmentNames !== []) {
-            foreach ($this->EquipmentRepository->findByName($equipmentNames, $this->Account) as $equipment) {
+            foreach ($this->EquipmentRepository->findForName($equipmentNames, $this->Account) as $equipment) {
                 $activity->addEquipment($equipment);
             }
         }
@@ -243,17 +243,13 @@ class ActivityDataContainerToActivityContextConverter
         $activity->setWithGoal($activityData->WithGoal);
     }
 
-    /**
-     * @param mixed $value
-     * @param int $precision
-     */
-    protected function getRoundedValue($value, $precision = 0): null|int|float
+    protected function getRoundedValue(mixed $value, int $precision = 0): null|int|float
     {
         if ($value === null) {
             return null;
         }
 
-        if ($precision == 0) {
+        if ($precision === 0) {
             return (int) round($value);
         }
 
@@ -394,14 +390,12 @@ class ActivityDataContainerToActivityContextConverter
         $route->setElevation((int) $container->ActivityData->Elevation);
         $route->setElevationUp((int) $container->ActivityData->ElevationAscent);
         $route->setElevationDown((int) $container->ActivityData->ElevationDescent);
-
         // #TSC store Altitude-Barometric flag
         $route->setAltitudeBarometric($container->ContinuousData->IsAltitudeDataBarometric ?? false);
 
         if ($container->ContinuousData->Altitude !== []) {
             // #TSC do not here store the "$route->setElevationsCorrected($container->ContinuousData->Altitude)"
             // in case of IsAltitudeDataBarometric; this is not necessary anymore
-
             // TSC: save only the original fields - so if the correction is removed we have the originals
             $route->setElevationsOriginal($container->ContinuousData->Altitude);
         }
@@ -438,7 +432,7 @@ class ActivityDataContainerToActivityContextConverter
     {
         $raceResult = $this->getRaceResultFor($container);
 
-        if ($raceResult instanceof \Runalyze\Bundle\CoreBundle\Entity\Raceresult) {
+        if ($raceResult instanceof Raceresult) {
             $raceResult->fillFromActivity($activity);
             $activity->setRaceresult($raceResult);
         }

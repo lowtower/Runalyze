@@ -144,7 +144,6 @@ class Dataview
         $placeString = $place . '.';
 
         if ($participants !== null && $participants !== 0) {
-
             $Tooltip = new Tooltip(sprintf($sprintfString, $participants) . ' ' . sprintf(__('(first %u%%)'), 100 * $place / $participants));
             $Tooltip->wrapAround($placeString);
         }

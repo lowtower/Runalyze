@@ -23,7 +23,6 @@ class TemperatureUnitTest extends \PHPUnit\Framework\TestCase
 
     public function testHasTemperature(): void
     {
-
         $this->object->set(TemperatureUnit::CELSIUS);
         $this->assertTrue($this->object->isCelsius());
         $this->assertFalse($this->object->isFahrenheit());

@@ -156,7 +156,6 @@ class MailingCommand extends Command
     {
         $source = $this->parameterBag->get('app.data_directory') . '/views' . $this->customMailDirectory . $templateName;
         return (new Filesystem())->exists($source);
-
     }
 
     protected function validateLanguage(array $lang): bool

@@ -226,7 +226,6 @@ class Frontend
      */
     public function displayHeader(): void
     {
-
         if (! Request::isAjax() && ! isset($_GET['hideHtmlHeader'])) {
             include __DIR__ . '/tpl/tpl.Frontend.header.php';
         }

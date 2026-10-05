@@ -109,12 +109,12 @@ class ConfigurationManagerTest extends TestCase
         $repository = $this
             ->getMockBuilder(ConfRepository::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['findByAccount'])
+            ->onlyMethods(['findForAccount'])
             ->getMock();
 
         $repository
             ->expects($this->once())
-            ->method('findByAccount')
+            ->method('findForAccount')
             ->will($this->returnValue($existingData));
 
         return $repository;
@@ -129,12 +129,12 @@ class ConfigurationManagerTest extends TestCase
         $repository = $this
             ->getMockBuilder(ConfRepository::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['findByAccount'])
+            ->onlyMethods(['findForAccount'])
             ->getMock();
 
         $repository
             ->expects($this->exactly($expectedCallCount))
-            ->method('findByAccount')
+            ->method('findForAccount')
             ->will($this->returnValue($existingData));
 
         return $repository;

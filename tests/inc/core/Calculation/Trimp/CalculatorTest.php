@@ -121,7 +121,6 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
      */
     public function testReferenceExampleWithoutHRrest(): void
     {
-
         // Fellrnr's example is with HRrest (max = 200, rest = 40, avg = 130)
         $Trimp = new Calculator(new Athlete(
             Gender::MALE,
@@ -139,7 +138,6 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
      */
     public function testReferenceExample(): void
     {
-
         $Trimp = new Calculator(new Athlete(
             Gender::MALE,
             200,

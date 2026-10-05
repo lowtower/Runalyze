@@ -105,7 +105,6 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         ]);
         $this->assertEquals(true, $IsNight->knowsIfItIsNight());
         $this->assertEquals(true, $IsNight->isNight());
-
     }
 
     #[DataProvider('provideNullableNumericGetters')]

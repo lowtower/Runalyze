@@ -374,7 +374,7 @@ class EquipmentControllerTest extends AbstractFixturesAwareWebTestCase
 
         $this->EntityManager->clear();
 
-        $newEquipment = $this->EquipmentRepository->findByTypeId($typeId, $this->Account);
+        $newEquipment = $this->EquipmentRepository->findForTypeId($typeId, $this->Account);
 
         $this->assertCount(1, $newEquipment);
         $this->assertSame('New Shoes', $newEquipment[0]->getName());
@@ -411,7 +411,7 @@ class EquipmentControllerTest extends AbstractFixturesAwareWebTestCase
 
         $this->EntityManager->clear();
 
-        $this->assertCount(0, $this->EquipmentRepository->findByTypeId($typeId, $this->Account));
+        $this->assertCount(0, $this->EquipmentRepository->findForTypeId($typeId, $this->Account));
     }
 
     public function testEquipmentEditActionThrowsNotFoundForUnknownId(): void

@@ -91,7 +91,6 @@ class Lap
         if ($distance > 0.0) {
             $this->LapPace = new Pace($duration, $distance);
         }
-
     }
 
     public function setMode(LapIntensity $mode): void
