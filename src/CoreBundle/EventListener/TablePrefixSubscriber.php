@@ -3,6 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\EventListener;
 
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 
 /**
@@ -20,7 +21,7 @@ class TablePrefixSubscriber
 
     public function loadClassMetadata(LoadClassMetadataEventArgs $eventArgs): void
     {
-        /** @var \Doctrine\ORM\Mapping\ClassMetadata $classMetadata */
+        /** @var ClassMetadata $classMetadata */
         $classMetadata = $eventArgs->getClassMetadata();
 
         if (strlen($this->prefix)) {

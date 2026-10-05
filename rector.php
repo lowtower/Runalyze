@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use Rector\Renaming\Rector\String_\RenameStringRector;
 use Rector\Set\ValueObject\LevelSetList;
 
 return RectorConfig::configure()
@@ -26,7 +27,11 @@ return RectorConfig::configure()
     ->withCodeQualityLevel(80)          # max level 80
     ->withCodingStyleLevel(21)          # max level 21
     ->withRules([])
-    ->withSkip([])
+    ->withSkip([
+        RenameStringRector::class => [
+            __DIR__ . '/src/CoreBundle/EventListener/SwitchUserListener.php',
+        ],
+    ])
     ->withComposerBased(
         true,   // symfony
         true,   // doctrine

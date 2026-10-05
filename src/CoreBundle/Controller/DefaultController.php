@@ -17,6 +17,7 @@ use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -39,10 +40,12 @@ class DefaultController extends AbstractPluginsAwareController
         private readonly AuthenticationUtils $authenticationUtils,
         TokenStorageInterface $tokenStorage,
         ParameterBagInterface $parameterBag,
-        private readonly AccountMailer $accountMailer
+        private readonly AccountMailer $accountMailer,
+        RequestStack $requestStack
     ) {
         $this->tokenStorage = $tokenStorage;
         $this->parameterBag = $parameterBag;
+        $this->requestStack = $requestStack;
     }
 
     protected function getAccountRepository(): AccountRepository
@@ -62,7 +65,7 @@ class DefaultController extends AbstractPluginsAwareController
 
         try {
             if ($initFrontend) {
-                new Frontend(false, $this->tokenStorage, $this->parameterBag);
+                new Frontend(false, $this->tokenStorage, $this->parameterBag, $this->requestStack);
             }
 
             include $file;
@@ -87,7 +90,7 @@ class DefaultController extends AbstractPluginsAwareController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        new Frontend(true, $this->tokenStorage, $this->parameterBag);
+        new Frontend(true, $this->tokenStorage, $this->parameterBag, $this->requestStack);
 
         $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
             ->getContent();
@@ -238,7 +241,7 @@ class DefaultController extends AbstractPluginsAwareController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         if ($request->isXmlHttpRequest()) {
-            new Frontend(true, $this->tokenStorage, $this->parameterBag);
+            new Frontend(true, $this->tokenStorage, $this->parameterBag, $this->requestStack);
 
             $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
                 ->getContent();

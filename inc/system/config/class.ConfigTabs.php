@@ -68,7 +68,7 @@ class ConfigTabs
      */
     public function display(): void
     {
-        if (Request::param('form') == 'true') {
+        if (Request::param('form') === 'true') {
             $this->Tabs[$this->getCurrentKey()]->parsePostData();
 
             $SubmitInfo = '<p class="okay"><em>' . __('The settings have been saved.') . '</em></p>';
@@ -97,7 +97,7 @@ class ConfigTabs
      */
     private function hasToShowDiv(): bool
     {
-        return Request::param('key') == '' || Request::param('form') == 'true' || Request::param('external') == 'true';
+        return Request::param('key') === '' || Request::param('form') === 'true' || Request::param('external') === 'true';
     }
 
     protected function displayCurrentTab()

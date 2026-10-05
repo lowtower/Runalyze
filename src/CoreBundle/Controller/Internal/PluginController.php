@@ -37,7 +37,7 @@ class PluginController extends AbstractPluginsAwareController
         }
 
         // Only as long as PluginFactory's cache is in use
-        new Frontend(true, $this->tokenStorage, $this->parameterBag);
+        new Frontend(true, $this->tokenStorage, $this->parameterBag, $this->requestStack);
         PluginFactory::clearCache();
 
         return $plugin;
@@ -103,7 +103,7 @@ class PluginController extends AbstractPluginsAwareController
         ob_start();
 
         try {
-            $frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag);
+            $frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag, $this->requestStack);
         } catch (Throwable $throwable) {
             ob_end_clean();
 

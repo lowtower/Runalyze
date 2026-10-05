@@ -4,11 +4,12 @@ namespace Runalyze\Bundle\CoreBundle\EventListener;
 
 use Runalyze\Language;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class LocaleListener implements EventSubscriberInterface
 {
-    public function onKernelRequest(\Symfony\Component\HttpKernel\Event\RequestEvent $event): void
+    public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
 

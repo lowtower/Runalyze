@@ -23,6 +23,7 @@ use RunalyzePluginStat_MonthlyStats;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Throwable;
@@ -39,7 +40,8 @@ abstract class AbstractPluginsAwareController extends AbstractController
         protected ConfigurationManager $configurationManager,
         protected SportSelectionFactory $sportSelectionFactory,
         protected TokenStorageInterface $tokenStorage,
-        protected ParameterBagInterface $parameterBag
+        protected ParameterBagInterface $parameterBag,
+        protected RequestStack $requestStack
     ) {
     }
 

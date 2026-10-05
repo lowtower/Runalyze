@@ -18,6 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -32,7 +33,8 @@ class CallController extends AbstractController
 
     public function __construct(
         private TokenStorageInterface $tokenStorage,
-        private ParameterBagInterface $parameterBag
+        private ParameterBagInterface $parameterBag,
+        private RequestStack $requestStack
     ) {
     }
 
@@ -45,7 +47,7 @@ class CallController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        new Frontend(true, $this->tokenStorage, $this->parameterBag);
+        new Frontend(true, $this->tokenStorage, $this->parameterBag, $this->requestStack);
 
         return $this->captureLegacyOutput(function (): void {
             $DataBrowser = new DataBrowser();
@@ -103,7 +105,7 @@ class CallController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        new Frontend(true, $this->tokenStorage, $this->parameterBag);
+        new Frontend(true, $this->tokenStorage, $this->parameterBag, $this->requestStack);
 
         return $this->captureLegacyOutput(function (): void {
             $ConfigTabs = new ConfigTabs();
@@ -120,7 +122,7 @@ class CallController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        new Frontend(true, $this->tokenStorage, $this->parameterBag);
+        new Frontend(true, $this->tokenStorage, $this->parameterBag, $this->requestStack);
 
         $key = $request->query->get('key', '');
         $value = $request->query->get('value');
@@ -154,7 +156,7 @@ class CallController extends AbstractController
         ob_start();
 
         try {
-            $Frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag);
+            $Frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag, $this->requestStack);
             $showResults = ! empty($_POST);
 
             if (isset($_GET['get']) && $_GET['get'] == 'true') {
@@ -196,13 +198,13 @@ class CallController extends AbstractController
 
     protected function getPlotSumData(): PlotSumData
     {
-        $Request = Request::createFromGlobals();
+        $request = $this->requestStack->getCurrentRequest();
 
-        if ($Request->query->get('y') === null) {
-            $_GET['y'] = PlotSumData::LAST_12_MONTHS;
+        if ($request->query->get('y') === null) {
+            $request->query->set('y', PlotSumData::LAST_12_MONTHS);
         }
 
-        return $Request->query->get('type', 'month') == 'week' ? new PlotWeekSumData() : new PlotMonthSumData();
+        return $request->query->get('type', 'month') == 'week' ? new PlotWeekSumData() : new PlotMonthSumData();
     }
 
     /**
@@ -216,7 +218,7 @@ class CallController extends AbstractController
         ob_start();
 
         try {
-            $Frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag);
+            $Frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag, $this->requestStack);
             $this->getPlotSumData()
                 ->display();
             $legacyContent = ob_get_clean();

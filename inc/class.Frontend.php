@@ -9,6 +9,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Configuration;
 use Runalyze\Timezone;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
@@ -43,7 +44,8 @@ class Frontend
     public function __construct(
         bool $hideHeaderAndFooter = false,
         protected ?TokenStorageInterface $symfonyToken = null,
-        protected ?ParameterBagInterface $parameterBag = null
+        protected ?ParameterBagInterface $parameterBag = null,
+        protected ?RequestStack $requestStack = null
     ) {
         $this->initSystem();
         $this->defineConsts();
@@ -81,6 +83,7 @@ class Frontend
         $this->initCache();
         $this->initConfig();
         $this->initDatabase();
+        $this->initRequestBridge();
         $this->initSessionAccountHandler();
         $this->initTimezone();
         $this->forwardAccountIDtoDatabaseWrapper();
@@ -142,9 +145,6 @@ class Frontend
         $this->defineConstantIfMissing('OSM_OVERPASS_PROXY', $this->yamlConfig['osm_overpass_proxy']);
     }
 
-    /**
-     * Setup timezone
-     */
     private function initTimezone(): void
     {
         Timezone::setPHPTimezone((int) SessionAccountHandler::getTimezone());
@@ -152,8 +152,6 @@ class Frontend
     }
 
     /**
-     * Setup legacy cache
-     *
      * @throws \RuntimeException if the legacy cache directory cannot be initialized
      */
     private function initCache(): void
@@ -171,9 +169,6 @@ class Frontend
         }
     }
 
-    /**
-     * Init constants
-     */
     private function defineConsts(): void
     {
         require_once FRONTEND_PATH . 'system/define.consts.php';
@@ -185,14 +180,18 @@ class Frontend
         require_once FRONTEND_PATH . 'class.Helper.php';
     }
 
-    /**
-     * Connect to database
-     */
     private function initDatabase(): void
     {
         $this->defineConstantIfMissing('PREFIX', $this->yamlConfig['database_prefix']);
 
         DB::connect($this->yamlConfig['database_host'], $this->yamlConfig['database_port'], $this->yamlConfig['database_user'], $this->yamlConfig['database_password'], $this->yamlConfig['database_name']);
+    }
+
+    private function initRequestBridge(): void
+    {
+        if ($this->requestStack instanceof RequestStack) {
+            \Request::setRequestStack($this->requestStack);
+        }
     }
 
     protected function initSessionAccountHandler(): void
@@ -221,9 +220,6 @@ class Frontend
         DB::getInstance()->setAccountID(SessionAccountHandler::getId());
     }
 
-    /**
-     * Display the HTML-Header
-     */
     public function displayHeader(): void
     {
         if (! Request::isAjax() && ! isset($_GET['hideHtmlHeader'])) {
@@ -231,9 +227,6 @@ class Frontend
         }
     }
 
-    /**
-     * Display the HTML-Footer
-     */
     public function displayFooter(): void
     {
         if (! Request::isAjax() && ! isset($_GET['hideHtmlHeader'])) {

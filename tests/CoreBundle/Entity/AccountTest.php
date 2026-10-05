@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Tests\Entity;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Model\Account\UserRole;
 use Runalyze\Profile\Athlete\Gender;
 
+#[\PHPUnit\Framework\Attributes\Group('default')]
 class AccountTest extends \PHPUnit\Framework\TestCase
 {
     protected Account $Account;
@@ -74,5 +76,114 @@ class AccountTest extends \PHPUnit\Framework\TestCase
 
         $this->assertTrue($this->Account->knowsBirthYear());
         $this->assertEquals(42, $this->Account->getAge());
+    }
+
+    public function testSportsCollectionIsInitializedByConstructor(): void
+    {
+        $this->assertTrue($this->Account->getSports()->isEmpty());
+    }
+
+    public function testActivityTypesCollectionIsInitializedByConstructor(): void
+    {
+        $this->assertTrue($this->Account->getActivityTypes()->isEmpty());
+    }
+
+    public function testRoleDefaultsToRoleUser(): void
+    {
+        $this->assertSame([UserRole::getRoleName(UserRole::ROLE_USER)], $this->Account->getRoles());
+    }
+
+    public function testAllowSupportDefaultsToFalse(): void
+    {
+        $this->assertFalse($this->Account->getAllowSupport());
+    }
+
+    public function testSerializingAnAccountWithoutMailDoesNotThrow(): void
+    {
+        $this->Account->setUsername('no-mail-account');
+
+        $serialized = serialize($this->Account);
+
+        $this->assertIsString($serialized);
+    }
+
+    public function testUnserializingAnAccountThatWasSerializedWithoutMailLeavesMailUninitialized(): void
+    {
+        $this->Account->setUsername('no-mail-account');
+
+        $restored = unserialize(serialize($this->Account));
+
+        $this->assertInstanceOf(Account::class, $restored);
+        $this->expectException(\Error::class);
+
+        $restored->getMail();
+    }
+
+    public function testSerializationRoundTripPreservesIdUsernameAndMail(): void
+    {
+        $this->Account->setUsername('round-trip-user');
+        $this->Account->setMail('round-trip@example.test');
+
+        $restored = unserialize(serialize($this->Account));
+
+        $this->assertSame('round-trip-user', $restored->getUsername());
+        $this->assertSame('round-trip@example.test', $restored->getMail());
+    }
+
+    public function testSerializationRoundTripPreservesPasswordAndSalt(): void
+    {
+        $this->Account->setPassword('some-hashed-password');
+        $this->Account->setSalt('some-salt');
+
+        $restored = unserialize(serialize($this->Account));
+
+        $this->assertSame('some-hashed-password', $restored->getPassword());
+        $this->assertSame('some-salt', $restored->getSalt());
+    }
+
+    public function testSerializationRoundTripPreservesActivationHash(): void
+    {
+        $this->Account->setActivationHash('some-activation-hash');
+
+        $restored = unserialize(serialize($this->Account));
+
+        $this->assertSame('some-activation-hash', $restored->getActivationHash());
+    }
+
+    public function testSerializationRoundTripPreservesLanguage(): void
+    {
+        $this->Account->setLanguage('de');
+
+        $restored = unserialize(serialize($this->Account));
+
+        $this->assertSame('de', $restored->getLanguage());
+    }
+
+    public function testSerializationRoundTripPreservesAdminRole(): void
+    {
+        $this->Account->setRole(UserRole::ROLE_ADMIN);
+
+        $restored = unserialize(serialize($this->Account));
+
+        $this->assertSame([UserRole::getRoleName(UserRole::ROLE_ADMIN)], $restored->getRoles());
+    }
+
+    public function testSerializationRoundTripPreservesAllowSupportFlag(): void
+    {
+        $this->Account->setAllowSupport(true);
+
+        $restored = unserialize(serialize($this->Account));
+
+        $this->assertTrue($restored->getAllowSupport());
+    }
+
+    public function testSerializationRoundTripPreservesIdAfterBeingSet(): void
+    {
+        $reflection = new \ReflectionProperty(Account::class, 'id');
+        $reflection->setValue($this->Account, 42);
+
+        $restored = unserialize(serialize($this->Account));
+
+        $this->assertSame(42, $restored->getId());
     }
 }

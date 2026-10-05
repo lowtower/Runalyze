@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
@@ -15,11 +16,12 @@ class FrontendShared extends Frontend
     public function __construct(
         bool $hideHeaderAndFooter = false,
         ?TokenStorageInterface $symfonyToken = null,
-        ?ParameterBagInterface $parameterBag = null
+        ?ParameterBagInterface $parameterBag = null,
+        ?RequestStack $requestStack = null
     ) {
         self::$IS_SHOWN = true;
 
-        parent::__construct($hideHeaderAndFooter, $symfonyToken, $parameterBag);
+        parent::__construct($hideHeaderAndFooter, $symfonyToken, $parameterBag, $requestStack);
     }
 
     public function displayHeader(): void

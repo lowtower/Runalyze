@@ -83,7 +83,7 @@
         </fieldset>
 
         {% set use_elevation_adjustment = conf.useVO2maxCorrectionForElevation %}
-        {% set activity_vO2max = context.decorator.effectiveVO2max(conf) %}
+        {% set activity_vo2max = context.decorator.effectiveVO2max(conf) %}
         {% set distance_modifier = details.distanceModifierForElevationAdjustment %}
         <fieldset>
             <legend>{% trans %}Correction: considering elevation{% endtrans %}</legend>
@@ -109,9 +109,9 @@
             </div>
         </fieldset>
 
-        {% if (use_elevation_adjustment and (not (activity_vO2max|round(1) == details.correctedVO2maxWithElevationAdjustment|round(1)))) or ((not use_elevation_adjustment) and (not (activity_vO2max|round(1) == details.correctedVO2max|round(1)))) %}
+        {% if (use_elevation_adjustment and (not (activity_vo2max|round(1) == details.correctedVO2maxWithElevationAdjustment|round(1)))) or ((not use_elevation_adjustment) and (not (activity_vo2max|round(1) == details.correctedVO2max|round(1)))) %}
         <p class="warning">
-            {% trans with {'%activity_vO2max%': activity_vO2max|round(2)} %}The calculated value is not equal to what is saved for the activity (%activity_vO2max%).
+            {% trans with {'%activity_vo2max%': activity_vo2max|round(2)} %}The calculated value is not equal to what is saved for the activity (%activity_vo2max%).
             The activity's value has probably been calculated based on other settings.{% endtrans %}
 
             {% trans with {'%linkStart%': '<a href="' ~ url('tools-cleanup') ~ '">', '%linkEnd%': '</a>'} %}You can use the %linkStart%database cleanup%linkEnd% to recalculate the value.{% endtrans %}
