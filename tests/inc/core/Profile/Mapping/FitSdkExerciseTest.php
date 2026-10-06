@@ -16,33 +16,33 @@ class FitSdkExerciseTest extends \PHPUnit\Framework\TestCase
 
     public function testFullMap1(): void
     {
-        $this->assertEquals('curl, bench_press', $this->underTest->getFullMapping('7,65534,0'));
+        $this->assertSame('curl, bench_press', $this->underTest->getFullMapping('7,65534,0'));
     }
 
     public function testFullMap2(): void
     {
-        $this->assertEquals('triceps_extension, ez_bar_pullover', $this->underTest->getFullMapping('30,21,65534', '65535,8,65535'));
+        $this->assertSame('triceps_extension, ez_bar_pullover', $this->underTest->getFullMapping('30,21,65534', '65535,8,65535'));
     }
 
     public function testFullMapAllMultiple(): void
     {
-        $this->assertEquals('jumping_jacks', $this->underTest->getFullMapping('2,2,2', '12,12,12'));
+        $this->assertSame('jumping_jacks', $this->underTest->getFullMapping('2,2,2', '12,12,12'));
     }
 
     public function testFullMapTwoMultiple(): void
     {
-        $this->assertEquals('triceps_extension, ez_bar_pullover', $this->underTest->getFullMapping('30,21,30', '65535,8,65535'));
+        $this->assertSame('triceps_extension, ez_bar_pullover', $this->underTest->getFullMapping('30,21,30', '65535,8,65535'));
     }
 
     public function testFullMapWrongSub(): void
     {
-        $this->assertEquals('triceps_extension, pull_up', $this->underTest->getFullMapping('30,21,65534', '65535'));
+        $this->assertSame('triceps_extension, pull_up', $this->underTest->getFullMapping('30,21,65534', '65535'));
     }
 
     public function testCategory(): void
     {
-        $this->assertEquals('flye', $this->underTest->getMapping(9));
-        $this->assertEquals('flye', $this->underTest->getMapping(9));
+        $this->assertSame('flye', $this->underTest->getMapping(9));
+        $this->assertSame('flye', $this->underTest->getMapping(9));
     }
 
     public function testFailedCategory(): void
@@ -57,24 +57,24 @@ class FitSdkExerciseTest extends \PHPUnit\Framework\TestCase
 
     public function testCategoryWithSub1(): void
     {
-        $this->assertEquals('single_leg_decline_push_up', $this->underTest->getMapping(1, 11));
+        $this->assertSame('single_leg_decline_push_up', $this->underTest->getMapping(1, 11));
     }
 
     public function testCategoryWithSub30(): void
     {
-        $this->assertEquals('weighted_dip', $this->underTest->getMapping(30, 40));
+        $this->assertSame('weighted_dip', $this->underTest->getMapping(30, 40));
     }
 
     public function testCategoryWithSubNotExists(): void
     {
         // use only exercise
-        $this->assertEquals('calf_raise', $this->underTest->getMapping(1, 99));
+        $this->assertSame('calf_raise', $this->underTest->getMapping(1, 99));
     }
 
     public function testCategoryWithSubUnused(): void
     {
         // use only exercise
-        $this->assertEquals('sit_up', $this->underTest->getMapping(27, 65535));
+        $this->assertSame('sit_up', $this->underTest->getMapping(27, 65535));
     }
 
     public function testGetFullMappingAcceptsNullSubtypesWithoutDeprecation(): void
@@ -94,6 +94,6 @@ class FitSdkExerciseTest extends \PHPUnit\Framework\TestCase
         restore_error_handler();
 
         $this->assertSame([], $deprecations);
-        $this->assertEquals('curl, bench_press', $result);
+        $this->assertSame('curl, bench_press', $result);
     }
 }

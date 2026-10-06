@@ -96,7 +96,7 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
     public function testExecuteFailsWhenOsmOverpassUrlIsNotConfigured(): void
     {
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
 
         $this->accountRepository
             ->method('loadUserByUsername')
@@ -395,7 +395,7 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
         $account->method('getId')
             ->willReturn(42);
 
-        $route = $this->createMock(Route::class);
+        $route = $this->createStub(Route::class);
 
         $activity = $this->createMock(Training::class);
         $activity->method('hasRoute')
@@ -462,7 +462,7 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
         $account->method('getId')
             ->willReturn(42);
 
-        $route = $this->createMock(Route::class);
+        $route = $this->createStub(Route::class);
 
         $activity = $this->createMock(Training::class);
         $activity->method('hasRoute')
@@ -522,7 +522,7 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
         $account->method('getId')
             ->willReturn(42);
 
-        $route = $this->createMock(Route::class);
+        $route = $this->createStub(Route::class);
 
         $activity = $this->createMock(Training::class);
         $activity->method('hasRoute')

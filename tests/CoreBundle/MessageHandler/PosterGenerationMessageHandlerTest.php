@@ -156,7 +156,7 @@ class PosterGenerationMessageHandlerTest extends TestCase
         $this->accountRepositoryMock->method('find')
             ->willReturn(null);
         $this->sportRepositoryMock->method('find')
-            ->willReturn($this->createMock(Sport::class));
+            ->willReturn($this->createStub(Sport::class));
 
         $this->generateJsonDataMock->expects($this->never())
             ->method('createJsonFilesFor');
@@ -169,7 +169,7 @@ class PosterGenerationMessageHandlerTest extends TestCase
 
     public function testInvokeReturnsEarlyWhenSportIsNotFound(): void
     {
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
 
         $this->accountRepositoryMock->method('find')
             ->willReturn($account);

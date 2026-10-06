@@ -28,7 +28,7 @@ class StringObjectTest extends \PHPUnit\Framework\TestCase
     {
         $String = new StringObject_MockTester('foo');
 
-        $this->assertEquals('foo', $String->asString());
+        $this->assertSame('foo', $String->asString());
     }
 
     public function testSimpleStringObject(): void
@@ -36,7 +36,7 @@ class StringObjectTest extends \PHPUnit\Framework\TestCase
         $String = new StringObject_MockTester();
         $String->fromString('foo');
 
-        $this->assertEquals('foo', $String->asString());
+        $this->assertSame('foo', $String->asString());
         $this->assertFalse($String->isEmpty());
     }
 

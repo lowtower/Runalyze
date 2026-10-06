@@ -47,13 +47,13 @@ class DatabaseOrderTest extends \PHPUnit\Framework\TestCase
     public function testAsQuery(): void
     {
         $this->object->set(DatabaseOrder::ASC);
-        $this->assertEquals('ORDER BY `id` ASC', $this->object->asQuery());
+        $this->assertSame('ORDER BY `id` ASC', $this->object->asQuery());
 
         $this->object->set(DatabaseOrder::DESC);
-        $this->assertEquals('ORDER BY `id` DESC', $this->object->asQuery());
+        $this->assertSame('ORDER BY `id` DESC', $this->object->asQuery());
 
         $this->object->set(DatabaseOrder::ALPHA);
-        $this->assertEquals('ORDER BY `name` ASC', $this->object->asQuery());
+        $this->assertSame('ORDER BY `name` ASC', $this->object->asQuery());
     }
 
     public function testUnknownValueFallsBackToDefault(): void

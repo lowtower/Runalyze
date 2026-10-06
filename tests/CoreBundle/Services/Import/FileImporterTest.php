@@ -43,7 +43,7 @@ class FileImporterTest extends \PHPUnit\Framework\TestCase
         $results = $this->Importer->importSingleFile('idontexist.foo');
 
         $this->assertCount(1, $results);
-        $this->assertEquals(0, $results->getTotalNumberOfActivities());
+        $this->assertSame(0, $results->getTotalNumberOfActivities());
         $this->assertTrue($results[0]->isFailed());
 
         $this->assertTrue($handler->hasErrorThatContains('idontexist.foo'));
@@ -59,7 +59,7 @@ class FileImporterTest extends \PHPUnit\Framework\TestCase
         ]);
 
         $this->assertCount(3, $results);
-        $this->assertEquals(0, $results->getTotalNumberOfActivities());
+        $this->assertSame(0, $results->getTotalNumberOfActivities());
         $this->assertTrue($results[0]->isFailed());
         $this->assertTrue($results[1]->isFailed());
         $this->assertTrue($results[2]->isFailed());
@@ -77,7 +77,7 @@ class FileImporterTest extends \PHPUnit\Framework\TestCase
         ]);
 
         $this->assertCount(1, $results);
-        $this->assertEquals(1, $results->getTotalNumberOfActivities());
+        $this->assertSame(1, $results->getTotalNumberOfActivities());
 
         $container = $results[0]->getContainer(0);
 

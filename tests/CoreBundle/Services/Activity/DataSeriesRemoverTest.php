@@ -502,7 +502,7 @@ class DataSeriesRemoverTest extends TestCase
 
     public function testHrvIsRemovedWhenSelectedAndPresent(): void
     {
-        $hrv = $this->createMock(Hrv::class);
+        $hrv = $this->createStub(Hrv::class);
 
         $activity = $this->createMock(Training::class);
         $activity->method('hasTrackdata')
@@ -632,7 +632,7 @@ class DataSeriesRemoverTest extends TestCase
         $route->method('hasCorrectedElevations')
             ->willReturn(false);
 
-        $hrv = $this->createMock(Hrv::class);
+        $hrv = $this->createStub(Hrv::class);
 
         $activity = $this->createMock(Training::class);
         $activity->method('getTrackdata')

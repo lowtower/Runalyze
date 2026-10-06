@@ -26,8 +26,8 @@ class ElevationTest extends \PHPUnit\Framework\TestCase
 
     public function testSettingInPreferredUnit(): void
     {
-        $this->assertEquals(100, (new Elevation(0, new DistanceUnitSystem(DistanceUnitSystem::METRIC)))->setInPreferredUnit(100)->meter());
-        $this->assertEquals(30, (new Elevation(0, new DistanceUnitSystem(DistanceUnitSystem::IMPERIAL)))->setInPreferredUnit(100)->meter());
+        $this->assertSame(100, (new Elevation(0, new DistanceUnitSystem(DistanceUnitSystem::METRIC)))->setInPreferredUnit(100)->meter());
+        $this->assertSame(30, (new Elevation(0, new DistanceUnitSystem(DistanceUnitSystem::IMPERIAL)))->setInPreferredUnit(100)->meter());
     }
 
     public function testFromMeter(): void
@@ -35,8 +35,8 @@ class ElevationTest extends \PHPUnit\Framework\TestCase
         $Elevation = new Elevation();
         $Elevation->set(100);
 
-        $this->assertEquals(100, $Elevation->meter());
-        $this->assertEquals(328, $Elevation->feet());
+        $this->assertSame(100, $Elevation->meter());
+        $this->assertSame(328, $Elevation->feet());
     }
 
     public function testFromFeet(): void
@@ -44,8 +44,8 @@ class ElevationTest extends \PHPUnit\Framework\TestCase
         $Elevation = new Elevation();
         $Elevation->setFeet(100);
 
-        $this->assertEquals(30, $Elevation->meter());
-        $this->assertEquals(100, $Elevation->feet());
+        $this->assertSame(30, $Elevation->meter());
+        $this->assertSame(100, $Elevation->feet());
     }
 
     public function testStaticMethod(): void

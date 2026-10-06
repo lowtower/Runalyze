@@ -10,7 +10,7 @@ class HoursTest extends \PHPUnit\Framework\TestCase
     {
         $unit = new Hours();
 
-        $this->assertEquals(1.0, $unit->fromBaseUnit(3600));
+        $this->assertSame(1.0, $unit->fromBaseUnit(3600));
         $this->assertEquals(2700, $unit->toBaseUnit(0.75));
     }
 }

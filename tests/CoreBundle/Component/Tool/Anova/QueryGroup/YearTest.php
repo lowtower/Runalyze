@@ -35,8 +35,8 @@ class YearTest extends TestCase
         $anovaData->method('getDateTo')
             ->willReturn(new \DateTime('2024-01-01'));
 
-        $entityManager = $this->createMock(EntityManager::class);
-        $account = $this->createMock(Account::class);
+        $entityManager = $this->createStub(EntityManager::class);
+        $account = $this->createStub(Account::class);
 
         $result = (new Year())->loadAllGroups($entityManager, $account, $anovaData);
 
@@ -55,8 +55,8 @@ class YearTest extends TestCase
         $anovaData->method('getDateTo')
             ->willReturn(new \DateTime('2024-12-31'));
 
-        $entityManager = $this->createMock(EntityManager::class);
-        $account = $this->createMock(Account::class);
+        $entityManager = $this->createStub(EntityManager::class);
+        $account = $this->createStub(Account::class);
 
         $result = (new Year())->loadAllGroups($entityManager, $account, $anovaData);
 

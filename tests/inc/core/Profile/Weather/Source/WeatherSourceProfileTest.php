@@ -15,7 +15,7 @@ class WeatherSourceProfileTest extends \PHPUnit\Framework\TestCase
 
             $this->assertInstanceOf(SourceInterface::class, $source);
             $this->assertEquals($enum, $source->getInternalProfileEnum());
-            $this->assertTrue(is_bool($source->requiresAttribution()));
+            $this->assertIsBool($source->requiresAttribution());
 
             if ($source->hasAttributionUrl()) {
                 $this->assertNotEmpty($source->getAttributionUrl());

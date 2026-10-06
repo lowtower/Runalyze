@@ -57,7 +57,7 @@ class FitTest extends AbstractActivityParserTestCase
     {
         $this->convertAndParse('fit/Standard.fit');
 
-        $this->assertEquals('2014-03-29 12:17', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2014-03-29 12:17', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEqualsWithDelta(8.983, $this->Container->ActivityData->Distance, 0.001);
         $this->assertEqualsWithDelta(124, $this->Container->ActivityData->AvgHeartRate, 0.5);
         $this->assertEquals(146, $this->Container->ActivityData->MaxHeartRate);
@@ -131,7 +131,7 @@ class FitTest extends AbstractActivityParserTestCase
     {
         $this->convertAndParse('fit/Fenix-2-negative-times.fit');
 
-        $this->assertEquals('2014-08-28 09:32', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2014-08-28 09:32', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(2 * 3600 + 35 * 60 + 21, $this->Container->ActivityData->Duration);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
@@ -142,7 +142,7 @@ class FitTest extends AbstractActivityParserTestCase
     {
         $this->convertAndParse('fit/FR920-additional-start-events.fit');
 
-        $this->assertEquals(1, $this->NumberOfActivities);
+        $this->assertSame(1, $this->NumberOfActivities);
 
         $this->assertEquals(2 * 3600 + 47 * 60 + 22, $this->Container->ActivityData->Duration);
 
@@ -155,14 +155,14 @@ class FitTest extends AbstractActivityParserTestCase
     {
         $this->convertAndParse('fit/Multisession.fit');
 
-        $this->assertEquals(2, $this->NumberOfActivities);
+        $this->assertSame(2, $this->NumberOfActivities);
 
-        $this->assertEquals('2015-05-23 12:52', LocalTime::date('Y-m-d H:i', $this->Container[0]->Metadata->getTimestamp()));
+        $this->assertSame('2015-05-23 12:52', LocalTime::date('Y-m-d H:i', $this->Container[0]->Metadata->getTimestamp()));
         $this->assertEquals(1131, $this->Container[0]->ActivityData->Duration);
         $this->assertEquals(1173, $this->Container[0]->ActivityData->ElapsedTime);
         $this->assertEqualsWithDelta(4.111, $this->Container[0]->ActivityData->Distance, 0.001);
 
-        $this->assertEquals('2015-05-23 14:31', LocalTime::date('Y-m-d H:i', $this->Container[1]->Metadata->getTimestamp()));
+        $this->assertSame('2015-05-23 14:31', LocalTime::date('Y-m-d H:i', $this->Container[1]->Metadata->getTimestamp()));
         $this->assertEquals(1001, $this->Container[1]->ActivityData->Duration);
         $this->assertEquals(1118, $this->Container[1]->ActivityData->ElapsedTime);
         $this->assertEqualsWithDelta(3.746, $this->Container[1]->ActivityData->Distance, 0.001);
@@ -189,7 +189,7 @@ class FitTest extends AbstractActivityParserTestCase
     {
         $this->convertAndParse('fit/swim-25m-lane.fit');
 
-        $this->assertEquals('2015-06-17 07:34', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2015-06-17 07:34', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(2116, $this->Container->ActivityData->Duration);
@@ -214,7 +214,7 @@ class FitTest extends AbstractActivityParserTestCase
     {
         $this->convertAndParse('fit/swim-fenix-50m.fit');
 
-        $this->assertEquals('2015-07-18 08:29', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2015-07-18 08:29', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(3272, $this->Container->ActivityData->Duration);
@@ -269,7 +269,7 @@ class FitTest extends AbstractActivityParserTestCase
     {
         $this->convertAndParse('fit/HRV-example.fit');
 
-        $this->assertEquals('2015-06-13 11:03', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2015-06-13 11:03', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertNotEmpty($this->Container->RRIntervals);
@@ -281,7 +281,7 @@ class FitTest extends AbstractActivityParserTestCase
     {
         $this->convertAndParse('fit/with-power.fit');
 
-        $this->assertEquals('2015-07-29 15:23', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2015-07-29 15:23', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(3600 + 18 * 60 + 9, $this->Container->ActivityData->Duration);
@@ -305,10 +305,10 @@ class FitTest extends AbstractActivityParserTestCase
     {
         $this->convertAndParse('fit/multisport-triathlon-fenix3.fit');
 
-        $this->assertEquals(5, $this->NumberOfActivities);
+        $this->assertSame(5, $this->NumberOfActivities);
 
         $this->assertEquals('swimming', $this->Container[0]->Metadata->getSportName());
-        $this->assertEquals('2015-08-09 09:13', LocalTime::date('Y-m-d H:i', $this->Container[0]->Metadata->getTimestamp()));
+        $this->assertSame('2015-08-09 09:13', LocalTime::date('Y-m-d H:i', $this->Container[0]->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container[0]->Metadata->getTimezoneOffset());
         $this->assertEquals(2033, $this->Container[0]->ActivityData->Duration);
         $this->assertEqualsWithDelta(1.526, $this->Container[0]->ActivityData->Distance, 0.001);
@@ -316,14 +316,14 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container[0]->ContinuousData->Cadence);
 
         $this->assertEquals('transition', $this->Container[1]->Metadata->getSportName());
-        $this->assertEquals('2015-08-09 09:48', LocalTime::date('Y-m-d H:i', $this->Container[1]->Metadata->getTimestamp()));
+        $this->assertSame('2015-08-09 09:48', LocalTime::date('Y-m-d H:i', $this->Container[1]->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container[1]->Metadata->getTimezoneOffset());
         $this->assertEquals(165, $this->Container[1]->ActivityData->Duration);
         $this->assertEqualsWithDelta(165, end($this->Container[1]->ContinuousData->Time), 1);
         $this->assertEqualsWithDelta(0.367, $this->Container[1]->ActivityData->Distance, 0.001);
 
         $this->assertEquals('cycling', $this->Container[2]->Metadata->getSportName());
-        $this->assertEquals('2015-08-09 09:51', LocalTime::date('Y-m-d H:i', $this->Container[2]->Metadata->getTimestamp()));
+        $this->assertSame('2015-08-09 09:51', LocalTime::date('Y-m-d H:i', $this->Container[2]->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container[2]->Metadata->getTimezoneOffset());
         $this->assertEquals(4455, $this->Container[2]->ActivityData->Duration);
         $this->assertEqualsWithDelta(4451, end($this->Container[2]->ContinuousData->Time), 5);
@@ -333,14 +333,14 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container[2]->ContinuousData->Altitude);
 
         $this->assertEquals('transition', $this->Container[3]->Metadata->getSportName());
-        $this->assertEquals('2015-08-09 11:05', LocalTime::date('Y-m-d H:i', $this->Container[3]->Metadata->getTimestamp()));
+        $this->assertSame('2015-08-09 11:05', LocalTime::date('Y-m-d H:i', $this->Container[3]->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container[3]->Metadata->getTimezoneOffset());
         $this->assertEquals(109, $this->Container[3]->ActivityData->Duration);
         $this->assertEqualsWithDelta(109, end($this->Container[3]->ContinuousData->Time), 1);
         $this->assertEqualsWithDelta(0.419, $this->Container[3]->ActivityData->Distance, 0.001);
 
         $this->assertEquals('running', $this->Container[4]->Metadata->getSportName());
-        $this->assertEquals('2015-08-09 11:07', LocalTime::date('Y-m-d H:i', $this->Container[4]->Metadata->getTimestamp()));
+        $this->assertSame('2015-08-09 11:07', LocalTime::date('Y-m-d H:i', $this->Container[4]->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container[4]->Metadata->getTimezoneOffset());
         $this->assertEquals(2381, $this->Container[4]->ActivityData->Duration);
         $this->assertEqualsWithDelta(2381, end($this->Container[4]->ContinuousData->Time), 5);
@@ -360,30 +360,30 @@ class FitTest extends AbstractActivityParserTestCase
     {
         $this->convertAndParse('fit/Multisession-stop-after-transition.fit', true, false);
 
-        $this->assertEquals(5, $this->NumberOfActivities);
+        $this->assertSame(5, $this->NumberOfActivities);
 
         $this->assertEquals('running', $this->Container[0]->Metadata->getSportName());
-        $this->assertEquals('2016-04-17 09:44', LocalTime::date('Y-m-d H:i', $this->Container[0]->Metadata->getTimestamp()));
+        $this->assertSame('2016-04-17 09:44', LocalTime::date('Y-m-d H:i', $this->Container[0]->Metadata->getTimestamp()));
         $this->assertEquals(1134, $this->Container[0]->ActivityData->Duration);
         $this->assertEqualsWithDelta(4.460, $this->Container[0]->ActivityData->Distance, 0.001);
 
         $this->assertEquals('transition', $this->Container[1]->Metadata->getSportName());
-        $this->assertEquals('2016-04-17 10:03', LocalTime::date('Y-m-d H:i', $this->Container[1]->Metadata->getTimestamp()));
+        $this->assertSame('2016-04-17 10:03', LocalTime::date('Y-m-d H:i', $this->Container[1]->Metadata->getTimestamp()));
         $this->assertEquals(130, $this->Container[1]->ActivityData->Duration);
         $this->assertEqualsWithDelta(0.266, $this->Container[1]->ActivityData->Distance, 0.001);
 
         $this->assertEquals('cycling', $this->Container[2]->Metadata->getSportName());
-        $this->assertEquals('2016-04-17 10:05', LocalTime::date('Y-m-d H:i', $this->Container[2]->Metadata->getTimestamp()));
+        $this->assertSame('2016-04-17 10:05', LocalTime::date('Y-m-d H:i', $this->Container[2]->Metadata->getTimestamp()));
         $this->assertEquals(2692, $this->Container[2]->ActivityData->Duration);
         $this->assertEqualsWithDelta(23.572, $this->Container[2]->ActivityData->Distance, 0.001);
 
         $this->assertEquals('transition', $this->Container[3]->Metadata->getSportName());
-        $this->assertEquals('2016-04-17 10:50', LocalTime::date('Y-m-d H:i', $this->Container[3]->Metadata->getTimestamp()));
+        $this->assertSame('2016-04-17 10:50', LocalTime::date('Y-m-d H:i', $this->Container[3]->Metadata->getTimestamp()));
         $this->assertEquals(134, $this->Container[3]->ActivityData->Duration);
         $this->assertEqualsWithDelta(0.193, $this->Container[3]->ActivityData->Distance, 0.001);
 
         $this->assertEquals('running', $this->Container[4]->Metadata->getSportName());
-        $this->assertEquals('2016-04-17 10:52', LocalTime::date('Y-m-d H:i', $this->Container[4]->Metadata->getTimestamp()));
+        $this->assertSame('2016-04-17 10:52', LocalTime::date('Y-m-d H:i', $this->Container[4]->Metadata->getTimestamp()));
         $this->assertEquals(544, $this->Container[4]->ActivityData->Duration);
         $this->assertEqualsWithDelta(2.083, $this->Container[4]->ActivityData->Distance, 0.001);
     }
@@ -392,7 +392,7 @@ class FitTest extends AbstractActivityParserTestCase
     {
         $this->convertAndParse('fit/osynce-stop-bug.fit');
 
-        $this->assertEquals('2015-11-04 17:06', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2015-11-04 17:06', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
         $this->assertEquals('osynce', $this->Container->Metadata->getCreator());
 
@@ -416,7 +416,7 @@ class FitTest extends AbstractActivityParserTestCase
     {
         $this->convertAndParse('fit/with-new-dynamics.fit');
 
-        $this->assertEquals('2015-11-21 09:25', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2015-11-21 09:25', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(8270, $this->Container->ActivityData->Duration);
@@ -436,7 +436,7 @@ class FitTest extends AbstractActivityParserTestCase
     {
         $this->convertAndParse('fit/FR70-intervals.fit');
 
-        $this->assertEquals('2013-05-27 08:52', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2013-05-27 08:52', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(3163, $this->Container->ActivityData->Duration);
@@ -465,7 +465,7 @@ class FitTest extends AbstractActivityParserTestCase
     {
         $this->convertAndParse('fit/FR630-with-lth.fit');
 
-        $this->assertEquals('2015-11-27 21:02', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2015-11-27 21:02', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
         $this->assertEquals('fr630', $this->Container->Metadata->getCreator());
 
@@ -492,7 +492,7 @@ class FitTest extends AbstractActivityParserTestCase
     {
         $this->convertAndParse('fit/FR265-with-self-evaluation.fit');
 
-        $this->assertEquals('2026-08-02 16:39', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2026-08-02 16:39', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
         $this->assertEquals(4257, $this->Container->Metadata->getCreator());
 
@@ -519,14 +519,14 @@ class FitTest extends AbstractActivityParserTestCase
     {
         $this->convertAndParse('fit/Suunto-Ambit-3-Peak-without-final-lap.fit');
 
-        $this->assertEquals('2016-06-29 17:43', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2016-06-29 17:43', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
         $this->assertEquals('suunto', $this->Container->Metadata->getCreator());
 
         $this->assertEquals(4961, $this->Container->ActivityData->Duration);
         $this->assertEqualsWithDelta(15.220, $this->Container->ActivityData->Distance, 0.001);
 
-        $this->assertEquals(22, $this->Container->Rounds->count());
+        $this->assertCount(22, $this->Container->Rounds);
         $this->assertEquals(4961, $this->Container->Rounds->getTotalDuration());
         $this->assertEquals(15.220, $this->Container->Rounds->getTotalDistance());
     }

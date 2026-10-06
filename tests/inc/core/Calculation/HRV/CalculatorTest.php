@@ -58,8 +58,8 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         ]));
         $Calculator->calculate();
 
-        $this->assertEquals(6 / 10, $Calculator->pNN20());
-        $this->assertEquals(4 / 10, $Calculator->pNN50());
+        $this->assertSame(6 / 10, $Calculator->pNN20());
+        $this->assertSame(4 / 10, $Calculator->pNN50());
     }
 
     public function testFiltering(): void
@@ -68,22 +68,22 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
             Entity::DATA => [300, 350, 400, 701, 99, 400, 350, 300],
         ]), null);
         $CalculatorWithoutFilter->calculate();
-        $this->assertEquals(362.5, $CalculatorWithoutFilter->mean());
-        $this->assertEquals(0.0, $CalculatorWithoutFilter->percentageAnomalies());
+        $this->assertSame(362.5, $CalculatorWithoutFilter->mean());
+        $this->assertSame(0.0, $CalculatorWithoutFilter->percentageAnomalies());
 
         $CalculatorWithNormalFilter = new Calculator(new Entity([
             Entity::DATA => [300, 350, 400, 701, 99, 400, 350, 300],
         ]), 0.75);
         $CalculatorWithNormalFilter->calculate();
         $this->assertEquals(350, $CalculatorWithNormalFilter->mean());
-        $this->assertEquals(0.25, $CalculatorWithNormalFilter->percentageAnomalies());
+        $this->assertSame(0.25, $CalculatorWithNormalFilter->percentageAnomalies());
 
         $CalculatorWithJumpInData = new Calculator(new Entity([
             Entity::DATA => [300, 350, 400, 800, 750, 700],
         ]), 0.75);
         $CalculatorWithJumpInData->calculate();
         $this->assertEquals(550, $CalculatorWithJumpInData->mean());
-        $this->assertEquals(0.0, $CalculatorWithJumpInData->percentageAnomalies());
+        $this->assertSame(0.0, $CalculatorWithJumpInData->percentageAnomalies());
     }
 
     /**
@@ -112,7 +112,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $Calculator->calculate();
 
         $this->assertEquals(342, $Calculator->mean());
-        $this->assertEquals(0.1, $Calculator->percentageAnomalies());
+        $this->assertSame(0.1, $Calculator->percentageAnomalies());
     }
 
     public function testCalculateDoesNothingForEmptyData(): void

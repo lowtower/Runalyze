@@ -30,7 +30,7 @@ class SelectRowTest extends TestCase
 
     public function testTableAndColumn(): void
     {
-        $this->assertEquals('table', $this->object->table());
+        $this->assertSame('table', $this->object->table());
         $this->assertEquals('col', $this->object->column());
     }
 

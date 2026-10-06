@@ -45,7 +45,7 @@ class MeterPerSecondTest extends \PHPUnit\Framework\TestCase
 
         $Pace = new MeterPerSecond();
 
-        $this->assertEquals('3,3', $Pace->format(300));
-        $this->assertEquals('4,5', $Pace->format(224));
+        $this->assertSame('3,3', $Pace->format(300));
+        $this->assertSame('4,5', $Pace->format(224));
     }
 }

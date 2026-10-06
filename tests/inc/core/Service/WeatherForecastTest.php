@@ -58,7 +58,8 @@ class WeatherForecastTest extends \PHPUnit\Framework\TestCase
 
         $result = $weatherForecast->loadForecast($location);
 
-        $this->assertNotNull(
+        $this->assertInstanceOf(
+            \Runalyze\Parser\Activity\Common\Data\WeatherData::class,
             $result,
             'loadForecast() should still return the (practically useless) '
             . 'WeatherData object - the point of this test is that it must '
@@ -94,7 +95,7 @@ class WeatherForecastTest extends \PHPUnit\Framework\TestCase
 
         $result = $weatherForecast->loadForecast($location);
 
-        $this->assertNotNull($result);
+        $this->assertInstanceOf(\Runalyze\Parser\Activity\Common\Data\WeatherData::class, $result);
         $this->assertFalse($result->hasNoUsableData());
     }
 

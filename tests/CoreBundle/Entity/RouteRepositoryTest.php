@@ -48,7 +48,7 @@ class RouteRepositoryTest extends AbstractRepositoryTestCase
         $this->assertNull($route->getMax());
         $this->assertNull($route->getStartpoint());
         $this->assertNull($route->getEndpoint());
-        $this->assertEquals('', $route->getElevationsSource());
+        $this->assertSame('', $route->getElevationsSource());
     }
 
     public function testSynchronizationTasks(): void
@@ -62,11 +62,11 @@ class RouteRepositoryTest extends AbstractRepositoryTestCase
         $this->RouteRepository->save($route);
 
         $this->assertEquals(['7zzzzzzzzzzz', 'u1xjnxhj49qr', 'u1xjnxhm6zkm', 'u1xjnxhjr7wb'], $route->getGeohashes());
-        $this->assertEquals('u1xjnxhj49', $route->getMin());
-        $this->assertEquals('u1xjnxhm6z', $route->getMax());
-        $this->assertEquals('u1xjnxhj49', $route->getStartpoint());
-        $this->assertEquals('u1xjnxhjr7', $route->getEndpoint());
-        $this->assertEquals('device', $route->getElevationsSource());
+        $this->assertSame('u1xjnxhj49', $route->getMin());
+        $this->assertSame('u1xjnxhm6z', $route->getMax());
+        $this->assertSame('u1xjnxhj49', $route->getStartpoint());
+        $this->assertSame('u1xjnxhjr7', $route->getEndpoint());
+        $this->assertSame('device', $route->getElevationsSource());
     }
 
     public function testRecalculationOfElevation(): void
@@ -77,32 +77,32 @@ class RouteRepositoryTest extends AbstractRepositoryTestCase
 
         $this->RouteRepository->save($route);
 
-        $this->assertEquals(30, $route->getElevationUp());
-        $this->assertEquals(0, $route->getElevationDown());
-        $this->assertEquals(30, $route->getElevation());
+        $this->assertSame(30, $route->getElevationUp());
+        $this->assertSame(0, $route->getElevationDown());
+        $this->assertSame(30, $route->getElevation());
 
         $this->getEntityManager()
             ->getUnitOfWork()
             ->refresh($route);
 
-        $this->assertEquals(30, $route->getElevationUp());
-        $this->assertEquals(0, $route->getElevationDown());
-        $this->assertEquals(30, $route->getElevation());
+        $this->assertSame(30, $route->getElevationUp());
+        $this->assertSame(0, $route->getElevationDown());
+        $this->assertSame(30, $route->getElevation());
 
         $route->setElevationsCorrected([30, 29, 29, 28, 26, 26, 25, 25, 20, 15, 13, 13, 12, 10, 10, 10]);
 
         $this->RouteRepository->save($route);
 
-        $this->assertEquals(0, $route->getElevationUp());
-        $this->assertEquals(20, $route->getElevationDown());
-        $this->assertEquals(20, $route->getElevation());
+        $this->assertSame(0, $route->getElevationUp());
+        $this->assertSame(20, $route->getElevationDown());
+        $this->assertSame(20, $route->getElevation());
 
         $this->getEntityManager()
             ->getUnitOfWork()
             ->refresh($route);
 
-        $this->assertEquals(0, $route->getElevationUp());
-        $this->assertEquals(20, $route->getElevationDown());
-        $this->assertEquals(20, $route->getElevation());
+        $this->assertSame(0, $route->getElevationUp());
+        $this->assertSame(20, $route->getElevationDown());
+        $this->assertSame(20, $route->getElevation());
     }
 }

@@ -137,11 +137,26 @@ class AbstractDecimalUnitTest extends TestCase
 
     private function createUnitWithDividend(float $dividend): AbstractDecimalUnit
     {
-        /** @var AbstractDecimalUnit&\PHPUnit\Framework\MockObject\MockObject $Unit */
-        $Unit = $this->getMockForAbstractClass(AbstractDecimalUnit::class);
-        $Unit->method('dividendForUnit')
-            ->willReturn($dividend);
+        return new class($dividend) extends AbstractDecimalUnit {
+            public function __construct(
+                private readonly float $dividend
+            ) {
+            }
 
-        return $Unit;
+            public function unit(): int
+            {
+                return 0;
+            }
+
+            public function appendix(): string
+            {
+                return '';
+            }
+
+            public function dividendForUnit(): float
+            {
+                return $this->dividend;
+            }
+        };
     }
 }

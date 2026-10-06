@@ -13,12 +13,12 @@ class SportStatisticTest extends TestCase
 {
     private function createStatistic(): SportStatistic
     {
-        return new SportStatistic($this->createMock(Sport::class));
+        return new SportStatistic($this->createStub(Sport::class));
     }
 
     public function testGetSportReturnsConstructorValue(): void
     {
-        $sport = $this->createMock(Sport::class);
+        $sport = $this->createStub(Sport::class);
 
         $statistic = new SportStatistic($sport);
 

@@ -22,7 +22,7 @@ class SlfTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'slf/Standard.slf');
 
-        $this->assertEquals('2012-04-29 12:58', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2012-04-29 12:58', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(1257, $this->Container->ActivityData->Duration);
@@ -39,7 +39,7 @@ class SlfTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'slf/2012_10_14__13_19_.slf');
 
-        $this->assertEquals('2012-10-14 13:19', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2012-10-14 13:19', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEqualsWithDelta(1803, $this->Container->ActivityData->Duration, 30);
@@ -53,7 +53,7 @@ class SlfTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'slf/DatacenterVersion4-HM.slf');
 
-        $this->assertEquals('2015-03-29 11:10', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2015-03-29 11:10', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(5559, $this->Container->ActivityData->Duration);
@@ -62,14 +62,14 @@ class SlfTest extends AbstractActivityParserTestCase
         $this->assertEquals(169, $this->Container->ActivityData->MaxHeartRate);
         $this->assertEqualsWithDelta(1068, $this->Container->ActivityData->EnergyConsumption, 1);
 
-        $this->assertEquals(14, $this->Container->Rounds->count());
+        $this->assertCount(14, $this->Container->Rounds);
     }
 
     public function testVersion4WithoutEntriesFile(): void
     {
         $this->parseFile($this->Parser, 'slf/slf4-without-entries-.slf');
 
-        $this->assertEquals('2015-02-03 10:01', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2015-02-03 10:01', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(2766, $this->Container->ActivityData->Duration);

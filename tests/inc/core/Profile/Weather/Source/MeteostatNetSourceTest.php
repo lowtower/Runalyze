@@ -11,10 +11,10 @@ class MeteostatNetSourceTest extends \PHPUnit\Framework\TestCase
     {
         $source = new MeteostatNet();
 
-        $this->assertEquals(WeatherSourceProfile::METEOSTAT_NET, $source->getInternalProfileEnum());
+        $this->assertSame(WeatherSourceProfile::METEOSTAT_NET, $source->getInternalProfileEnum());
 
-        $this->assertEquals('meteostat.net', $source->getAttributionLabel($this->createMock(\Symfony\Contracts\Translation\TranslatorInterface::class)));
+        $this->assertSame('meteostat.net', $source->getAttributionLabel($this->createStub(\Symfony\Contracts\Translation\TranslatorInterface::class)));
 
-        $this->assertEquals('https://meteostat.net/', $source->getAttributionUrl());
+        $this->assertSame('https://meteostat.net/', $source->getAttributionUrl());
     }
 }

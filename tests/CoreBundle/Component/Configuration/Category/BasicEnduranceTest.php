@@ -12,11 +12,11 @@ class BasicEnduranceTest extends \PHPUnit\Framework\TestCase
     {
         $config = new BasicEndurance();
 
-        $this->assertEquals(182, $config->getDaysToConsiderForWeeklyMileage());
-        $this->assertEquals(182, $config->getDaysToConsiderForWeeklyMileage(365));
-        $this->assertEquals(150, $config->getDaysToConsiderForWeeklyMileage(150));
-        $this->assertEquals(92, $config->getDaysToConsiderForWeeklyMileage(92));
-        $this->assertEquals(70, $config->getDaysToConsiderForWeeklyMileage(42));
-        $this->assertEquals(70, $config->getDaysToConsiderForWeeklyMileage(0));
+        $this->assertSame(182, $config->getDaysToConsiderForWeeklyMileage());
+        $this->assertSame(182, $config->getDaysToConsiderForWeeklyMileage(365));
+        $this->assertSame(150, $config->getDaysToConsiderForWeeklyMileage(150));
+        $this->assertSame(92, $config->getDaysToConsiderForWeeklyMileage(92));
+        $this->assertSame(70, $config->getDaysToConsiderForWeeklyMileage(42));
+        $this->assertSame(70, $config->getDaysToConsiderForWeeklyMileage(0));
     }
 }

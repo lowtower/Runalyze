@@ -45,7 +45,7 @@ class JsonBackupAnalyzerTest extends \PHPUnit\Framework\TestCase
 
         $this->assertFalse($analyzer->fileIsOkay());
         $this->assertFalse($analyzer->versionIsOkay());
-        $this->assertEquals('unknown', $analyzer->fileVersion());
+        $this->assertSame('unknown', $analyzer->fileVersion());
     }
 
     public function testVersionExtractionForWrongVersion(): void
@@ -54,7 +54,7 @@ class JsonBackupAnalyzerTest extends \PHPUnit\Framework\TestCase
 
         $this->assertFalse($analyzer->fileIsOkay());
         $this->assertFalse($analyzer->versionIsOkay());
-        $this->assertEquals('v1.0-alpha', $analyzer->fileVersion());
+        $this->assertSame('v1.0-alpha', $analyzer->fileVersion());
     }
 
     public function testVersionExtractionForDefaultEmpty(): void

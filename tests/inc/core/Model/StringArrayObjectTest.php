@@ -17,7 +17,7 @@ class StringArrayObjectTest extends \PHPUnit\Framework\TestCase
     {
         $Array = new StringArrayObject_MockTester(['foo', 'bar']);
 
-        $this->assertEquals(2, $Array->num());
+        $this->assertSame(2, $Array->num());
         $this->assertEquals('foo', $Array->at(0));
         $this->assertEquals('bar', $Array->at(1));
         $this->assertEquals(['foo', 'bar'], $Array->asArray());
@@ -27,7 +27,7 @@ class StringArrayObjectTest extends \PHPUnit\Framework\TestCase
     {
         $Array = new StringArrayObject_MockTester('[1,2,3]');
 
-        $this->assertEquals(3, $Array->num());
+        $this->assertSame(3, $Array->num());
         $this->assertEquals([1, 2, 3], $Array->asArray());
     }
 
@@ -35,7 +35,7 @@ class StringArrayObjectTest extends \PHPUnit\Framework\TestCase
     {
         $Array = new StringArrayObject_MockTester('{"a":"foo","b":"bar"}');
 
-        $this->assertEquals(2, $Array->num());
+        $this->assertSame(2, $Array->num());
         $this->assertEquals([
             'a' => 'foo',
             'b' => 'bar',
@@ -52,7 +52,7 @@ class StringArrayObjectTest extends \PHPUnit\Framework\TestCase
         $Array->add('bar');
 
         $this->assertFalse($Array->isEmpty());
-        $this->assertEquals(2, $Array->num());
+        $this->assertSame(2, $Array->num());
     }
 
     public function testClearing(): void
@@ -61,7 +61,7 @@ class StringArrayObjectTest extends \PHPUnit\Framework\TestCase
         $Array->clear();
 
         $this->assertTrue($Array->isEmpty());
-        $this->assertEquals(0, $Array->num());
+        $this->assertSame(0, $Array->num());
     }
 
     public function testException(): void

@@ -3,7 +3,6 @@
 namespace Runalyze\Bundle\CoreBundle\Tests\Doctrine\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use PHPUnit\Framework\MockObject\MockObject;
 use Runalyze\Bundle\CoreBundle\Doctrine\Types\RunalyzeRoundArray;
 use Runalyze\Parser\Activity\Common\Data\Round\Round;
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
@@ -12,14 +11,17 @@ class RunalyzeRoundArrayTest extends \PHPUnit\Framework\TestCase
 {
     protected RunalyzeRoundArray $Type;
 
-    protected MockObject $PlatformMock;
+    /**
+     * @var \PHPUnit\Framework\MockObject\Stub&\Doctrine\DBAL\Platforms\AbstractPlatform
+     */
+    protected \PHPUnit\Framework\MockObject\Stub $PlatformMock;
 
     protected function setUp(): void
     {
         /** @var RunalyzeRoundArray $type */
         $type = RunalyzeRoundArray::getType(RunalyzeRoundArray::RUNALYZE_ROUND_ARRAY);
         $this->Type = $type;
-        $this->PlatformMock = $this->getMockForAbstractClass(AbstractPlatform::class);
+        $this->PlatformMock = $this->createStub(AbstractPlatform::class);
     }
 
     public function testEmptyData(): void
@@ -47,14 +49,14 @@ class RunalyzeRoundArrayTest extends \PHPUnit\Framework\TestCase
 
         $newCollection = $this->Type->convertToPHPValue($this->Type->convertToDatabaseValue($collection, $this->PlatformMock), $this->PlatformMock);
 
-        $this->assertEquals(3, $newCollection->count());
-        $this->assertEquals(1.0, $newCollection[0]->getDistance());
+        $this->assertCount(3, $newCollection);
+        $this->assertSame(1.0, $newCollection[0]->getDistance());
         $this->assertEquals(311, $newCollection[0]->getDuration());
         $this->assertFalse($newCollection[0]->isActive());
-        $this->assertEquals(1.0, $newCollection[1]->getDistance());
+        $this->assertSame(1.0, $newCollection[1]->getDistance());
         $this->assertEquals(189, $newCollection[1]->getDuration());
         $this->assertTrue($newCollection[1]->isActive());
-        $this->assertEquals(1.0, $newCollection[2]->getDistance());
+        $this->assertSame(1.0, $newCollection[2]->getDistance());
         $this->assertEquals(267, $newCollection[2]->getDuration());
         $this->assertFalse($newCollection[2]->isActive());
     }
@@ -66,7 +68,7 @@ class RunalyzeRoundArrayTest extends \PHPUnit\Framework\TestCase
             $this->PlatformMock
         );
 
-        $this->assertEquals(3, $collection->count());
+        $this->assertCount(3, $collection);
         $this->assertEquals([1.2, 320, false], [$collection[0]->getDistance(), $collection[0]->getDuration(), $collection[0]->isActive()]);
         $this->assertEquals([0.4, 80, true], [$collection[1]->getDistance(), $collection[1]->getDuration(), $collection[1]->isActive()]);
         $this->assertEquals([1.0, 197, true], [$collection[2]->getDistance(), $collection[2]->getDuration(), $collection[2]->isActive()]);

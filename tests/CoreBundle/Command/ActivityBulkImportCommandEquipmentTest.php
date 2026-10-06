@@ -28,15 +28,15 @@ class ActivityBulkImportCommandEquipmentTest extends TestCase
     private function createCommand(): ActivityBulkImportCommand
     {
         return new ActivityBulkImportCommand(
-            $this->createMock(ParameterBagInterface::class),
-            $this->createMock(ManagerRegistry::class),
-            $this->createMock(TokenStorageInterface::class),
-            $this->createMock(Filesystem::class),
-            $this->createMock(FileImporter::class),
-            $this->createMock(ActivityDataContainerFilter::class),
-            $this->createMock(ActivityDataContainerToActivityContextConverter::class),
-            $this->createMock(ActivityContextAdapterFactory::class),
-            $this->createMock(ConfigurationManager::class)
+            $this->createStub(ParameterBagInterface::class),
+            $this->createStub(ManagerRegistry::class),
+            $this->createStub(TokenStorageInterface::class),
+            $this->createStub(Filesystem::class),
+            $this->createStub(FileImporter::class),
+            $this->createStub(ActivityDataContainerFilter::class),
+            $this->createStub(ActivityDataContainerToActivityContextConverter::class),
+            $this->createStub(ActivityContextAdapterFactory::class),
+            $this->createStub(ConfigurationManager::class)
         );
     }
 

@@ -19,10 +19,7 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
-        /** @var \Psr\Log\LoggerInterface&\PHPUnit\Framework\MockObject\MockObject $logger */
-        $logger = $this->createMock(LoggerInterface::class);
-
-        $this->Strategy = new MeteostatNet('test-api-key', null, new \GuzzleHttp\Client(), $logger);
+        $this->Strategy = new MeteostatNet('test-api-key', null, new \GuzzleHttp\Client(), $this->createStub(LoggerInterface::class));
 
         $this->GetUrlForMethod = new \ReflectionMethod($this->Strategy, 'getUrlFor');
 
@@ -153,7 +150,7 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
     public function testProxyIsPassedToHttpClient(): void
     {
         /** @var \Psr\Log\LoggerInterface&\PHPUnit\Framework\MockObject\MockObject $logger */
-        $logger = $this->createMock(LoggerInterface::class);
+        $logger = $this->createStub(LoggerInterface::class);
         $location = new Location();
         $location->setPosition(52.4, 10.7);
         $location->setTimezone('Europe/Berlin');
@@ -211,7 +208,7 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
             'handler' => $handlerStack,
         ]);
 
-        $logger = $this->createMock(LoggerInterface::class);
+        $logger = $this->createStub(LoggerInterface::class);
         $strategy = new MeteostatNet('test-api-key', null, $client, $logger);
 
         $location = new Location();
@@ -220,7 +217,8 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
 
         $result = $strategy->loadForecast($location);
 
-        $this->assertNotNull(
+        $this->assertInstanceOf(
+            \Runalyze\Parser\Activity\Common\Data\WeatherData::class,
             $result,
             'loadForecast() must not crash and must return usable weather '
             . 'data for a Location without an explicitly set DateTime, '
@@ -241,7 +239,7 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
             'handler' => $handlerStack,
         ]);
 
-        $logger = $this->createMock(LoggerInterface::class);
+        $logger = $this->createStub(LoggerInterface::class);
         $strategy = new MeteostatNet('test-api-key', null, $client, $logger);
 
         $location = new Location();

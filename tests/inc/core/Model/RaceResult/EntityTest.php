@@ -37,7 +37,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
             Entity::ACTIVITY_ID => 2,
         ]);
 
-        $this->assertEquals(10.50, $RaceResult->officialDistance());
+        $this->assertSame(10.50, $RaceResult->officialDistance());
         $this->assertEquals(2400, $RaceResult->officialTime());
         $this->assertTrue($RaceResult->officiallyMeasured());
         $this->assertEquals(10, $RaceResult->placeTotal());

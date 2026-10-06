@@ -139,7 +139,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
      */
     protected function checkExpectedRoundDataFor(ActivityDataContainer $container, array $expectedRounds, float $deltaDuration = 0.0, float $deltaDistance = 0.0)
     {
-        $this->assertEquals(count($expectedRounds), $container->Rounds->count(), 'The number of rounds does not match.');
+        $this->assertCount(count($expectedRounds), $container->Rounds, 'The number of rounds does not match.');
 
         foreach ($expectedRounds as $i => $expectedRoundData) {
             $this->assertEqualsWithDelta($expectedRoundData[0], $container->Rounds[$i]->getDuration(), $deltaDuration, 'Round #' . $i . ' has wrong duration.');
@@ -153,7 +153,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
      */
     protected function checkExpectedPauseData(array $expectedPauses, float $deltaDuration = 0.0)
     {
-        $this->assertEquals(count($expectedPauses), $this->Container->Pauses->count(), 'The number of pauses does not match.');
+        $this->assertCount(count($expectedPauses), $this->Container->Pauses, 'The number of pauses does not match.');
 
         foreach ($expectedPauses as $i => $expectedPauseData) {
             $this->assertEqualsWithDelta($expectedPauseData[0], $this->Container->Pauses[$i]->getTimeIndex(), $deltaDuration, 'Pause #' . $i . ' has wrong time index.');

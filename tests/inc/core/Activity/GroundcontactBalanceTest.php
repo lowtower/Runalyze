@@ -8,8 +8,8 @@ class GroundcontactBalanceTest extends \PHPUnit\Framework\TestCase
 {
     public function testStaticFunction(): void
     {
-        $this->assertEquals('49.5L/50.5R&nbsp;%', GroundcontactBalance::format(4950, true));
-        $this->assertEquals('49.5L/50.5R', GroundcontactBalance::format(4950, false));
+        $this->assertSame('49.5L/50.5R&nbsp;%', GroundcontactBalance::format(4950, true));
+        $this->assertSame('49.5L/50.5R', GroundcontactBalance::format(4950, false));
     }
 
     public function testSetter(): void
@@ -24,7 +24,7 @@ class GroundcontactBalanceTest extends \PHPUnit\Framework\TestCase
 
         $Balance->setPercent(50.5);
         $this->assertEquals(50.5, $Balance->leftInPercent());
-        $this->assertEquals(5050, $Balance->value());
+        $this->assertSame(5050, $Balance->value());
     }
 
     public function testIsKnown(): void

@@ -61,18 +61,18 @@ class TrainingEffectTest extends \PHPUnit\Framework\TestCase
         $Effect = new TrainingEffect(3.1);
 
         $this->assertTrue($Effect->isKnown());
-        $this->assertEquals(3.1, $Effect->value());
-        $this->assertEquals(TrainingEffectLevel::IMPROVING, $Effect->level());
+        $this->assertSame(3.1, $Effect->value());
+        $this->assertSame(TrainingEffectLevel::IMPROVING, $Effect->level());
 
-        $this->assertEquals(2.9, $Effect->set(2.9)->value());
-        $this->assertEquals(TrainingEffectLevel::MAINTAINING, $Effect->level());
+        $this->assertSame(2.9, $Effect->set(2.9)->value());
+        $this->assertSame(TrainingEffectLevel::MAINTAINING, $Effect->level());
 
         $this->assertFalse($Effect->set(null)->isKnown());
     }
 
     public function testFormattingValues(): void
     {
-        $this->assertEquals('', TrainingEffect::format(null));
+        $this->assertSame('', TrainingEffect::format(null));
         $this->assertEquals('3.1', TrainingEffect::format(3.14));
         $this->assertEquals('5.0', TrainingEffect::format(5.0));
     }
@@ -82,9 +82,9 @@ class TrainingEffectTest extends \PHPUnit\Framework\TestCase
         $Effect = new TrainingEffect();
 
         $this->assertFalse($Effect->isKnown());
-        $this->assertEquals('', $Effect->string());
-        $this->assertEquals('', $Effect->shortDescription());
-        $this->assertEquals('', $Effect->description());
+        $this->assertSame('', $Effect->string());
+        $this->assertSame('', $Effect->shortDescription());
+        $this->assertSame('', $Effect->description());
         $this->assertEquals(0, $Effect->numericValue());
         $this->assertNull($Effect->value());
         $this->assertNull($Effect->level());

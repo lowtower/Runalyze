@@ -102,7 +102,7 @@ class TcxTest extends \PHPUnit\Framework\TestCase
         $parser->setFileContent($Exporter->fileContent());
         $parser->parse();
 
-        $this->assertEquals(1, $parser->getNumberOfActivities());
+        $this->assertSame(1, $parser->getNumberOfActivities());
         $this->assertNotEmpty($parser->getActivityDataContainer()->ContinuousData->Time);
         $this->assertNotEmpty($parser->getActivityDataContainer()->ContinuousData->Distance);
         $this->assertNotEmpty($parser->getActivityDataContainer()->ContinuousData->HeartRate);
@@ -127,7 +127,7 @@ class TcxTest extends \PHPUnit\Framework\TestCase
         $parser->setFileContent($Exporter->fileContent());
         $parser->parse();
 
-        $this->assertEquals(1, $parser->getNumberOfActivities());
+        $this->assertSame(1, $parser->getNumberOfActivities());
         $this->assertNotEmpty($parser->getActivityDataContainer()->ContinuousData->Time);
         $this->assertNotEmpty($parser->getActivityDataContainer()->ContinuousData->HeartRate);
     }
@@ -154,7 +154,7 @@ class TcxTest extends \PHPUnit\Framework\TestCase
         $parser->setFileContent($Exporter->fileContent());
         $parser->parse();
 
-        $this->assertEquals(1, $parser->getNumberOfActivities());
+        $this->assertSame(1, $parser->getNumberOfActivities());
         $this->assertNotEmpty($parser->getActivityDataContainer()->ContinuousData->Time);
         $this->assertNotEmpty($parser->getActivityDataContainer()->ContinuousData->Distance);
         $this->assertNotEmpty($parser->getActivityDataContainer()->ContinuousData->HeartRate);
@@ -184,7 +184,7 @@ class TcxTest extends \PHPUnit\Framework\TestCase
         $parser->setFileContent($Exporter->fileContent());
         $parser->parse();
 
-        $this->assertEquals(1, $parser->getNumberOfActivities());
+        $this->assertSame(1, $parser->getNumberOfActivities());
         $this->assertNotEmpty($parser->getActivityDataContainer()->ContinuousData->Time);
         $this->assertNotEmpty($parser->getActivityDataContainer()->ContinuousData->Distance);
         $this->assertNotEmpty($parser->getActivityDataContainer()->ContinuousData->HeartRate);

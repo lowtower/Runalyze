@@ -19,6 +19,6 @@ class LinearTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(7.0, $unit->fromBaseUnit(1.0));
         $this->assertEquals(1.0, $unit->toBaseUnit(7.0));
-        $this->assertEquals('foo', $unit->getAppendix());
+        $this->assertSame('foo', $unit->getAppendix());
     }
 }

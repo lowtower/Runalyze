@@ -401,7 +401,7 @@ class SettingsControllerTest extends AbstractFixturesAwareWebTestCase
 
         $persisted = $this->findDatasetForAccount($this->Account, $keyId);
 
-        $this->assertNotNull($persisted);
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Dataset::class, $persisted);
         $this->assertTrue($persisted->getActive());
         $this->assertSame('my-custom-style', $persisted->getStyle());
     }

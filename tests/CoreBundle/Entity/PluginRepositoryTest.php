@@ -43,17 +43,17 @@ class PluginRepositoryTest extends AbstractRepositoryTestCase
 
         $this->PluginRepository->movePanelUp($secondPanel);
 
-        $this->assertEquals(1, $secondPanel->getOrder());
-        $this->assertEquals(2, $firstPanel->getOrder());
+        $this->assertSame(1, $secondPanel->getOrder());
+        $this->assertSame(2, $firstPanel->getOrder());
 
         $this->PluginRepository->movePanelUp($secondPanel);
 
-        $this->assertEquals(1, $secondPanel->getOrder());
-        $this->assertEquals(2, $firstPanel->getOrder());
+        $this->assertSame(1, $secondPanel->getOrder());
+        $this->assertSame(2, $firstPanel->getOrder());
 
         $this->PluginRepository->movePanelDown($secondPanel);
 
-        $this->assertEquals(2, $secondPanel->getOrder());
-        $this->assertEquals(1, $firstPanel->getOrder());
+        $this->assertSame(2, $secondPanel->getOrder());
+        $this->assertSame(1, $firstPanel->getOrder());
     }
 }

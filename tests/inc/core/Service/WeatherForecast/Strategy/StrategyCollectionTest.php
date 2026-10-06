@@ -2,6 +2,7 @@
 
 namespace Runalyze\Tests\Service\WeatherForecast\Strategy;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use Runalyze\Parser\Activity\Common\Data\WeatherData;
 use Runalyze\Service\WeatherForecast\Location;
 use Runalyze\Service\WeatherForecast\Strategy\StrategyCollection;
@@ -28,12 +29,12 @@ class StrategyCollectionTest extends \PHPUnit\Framework\TestCase
         $exampleData = new WeatherData();
         $exampleData->Temperature = 5;
 
-        /** @var StrategyInterface&\PHPUnit\Framework\MockObject\MockObject $mock */
-        $mock = $this->getMockForAbstractClass(StrategyInterface::class);
-        $mock->expects($this->any())
+        /** @var StrategyInterface&MockObject $mock */
+        $mock = $this->createMock(StrategyInterface::class);
+        $mock
             ->method('isPossible')
             ->willReturn(true);
-        $mock->expects($this->any())
+        $mock
             ->method('loadForecast')
             ->willReturn($exampleData);
 
@@ -41,7 +42,7 @@ class StrategyCollectionTest extends \PHPUnit\Framework\TestCase
 
         $result = $this->Collection->tryToLoadForecast(new Location());
 
-        $this->assertNotNull($result);
+        $this->assertInstanceOf(WeatherData::class, $result);
         $this->assertEquals(5, $result->Temperature);
         $this->assertEquals($mock, $this->Collection->getLastSuccessfulStrategy());
     }

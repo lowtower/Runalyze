@@ -88,16 +88,16 @@ class FactoryTest extends TestCase
         $this->DB->exec('INSERT INTO `runalyze_sport` (`id`, `name`, `accountid`) VALUES(2, "Test B", ' . $this->accountID . ')');
         $this->DB->exec('INSERT INTO `runalyze_sport` (`id`, `name`, `accountid`) VALUES(3, "Test C", ' . $this->accountID . ')');
 
-        $this->assertEquals('Test A', $this->object->sport(1)->name());
+        $this->assertSame('Test A', $this->object->sport(1)->name());
 
         $this->DB->stopAddingAccountID();
         $this->DB->exec('DELETE FROM `runalyze_sport` WHERE `id`=2');
         $this->DB->startAddingAccountID();
-        $this->assertEquals('Test B', $this->object->sport(2)->name());
+        $this->assertSame('Test B', $this->object->sport(2)->name());
 
         $this->object->clearCache('sport');
         $this->assertTrue($this->object->sport(2)->isEmpty());
-        $this->assertEquals('Test C', $this->object->sport(3)->name());
+        $this->assertSame('Test C', $this->object->sport(3)->name());
     }
 
     public function testTags(): void

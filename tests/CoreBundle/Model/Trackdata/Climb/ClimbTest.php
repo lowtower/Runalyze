@@ -18,8 +18,8 @@ class ClimbTest extends \PHPUnit\Framework\TestCase
     {
         $climb = new Climb(1.0, 50);
 
-        $this->assertEquals(1.0, $climb->getDistance());
-        $this->assertEquals(50, $climb->getElevation());
+        $this->assertSame(1.0, $climb->getDistance());
+        $this->assertSame(50, $climb->getElevation());
         $this->assertFalse($climb->knowsAltitudeAtTop());
         $this->assertFalse($climb->knowsClimbProfile());
 
@@ -35,8 +35,8 @@ class ClimbTest extends \PHPUnit\Framework\TestCase
 
         $this->assertTrue($climb->knowsTrackdataStartIndex());
         $this->assertTrue($climb->knowsTrackdataEndIndex());
-        $this->assertEquals(42, $climb->getTrackdataStartIndex());
-        $this->assertEquals(123, $climb->getTrackdataEndIndex());
+        $this->assertSame(42, $climb->getTrackdataStartIndex());
+        $this->assertSame(123, $climb->getTrackdataEndIndex());
     }
 
     public function testAltitudeAtTop(): void
@@ -45,14 +45,14 @@ class ClimbTest extends \PHPUnit\Framework\TestCase
             ->setAltitudeAtTop(1234);
 
         $this->assertTrue($climb->knowsAltitudeAtTop());
-        $this->assertEquals(1234, $climb->getAltitudeAtTop());
+        $this->assertSame(1234, $climb->getAltitudeAtTop());
     }
 
     public function testGradient(): void
     {
-        $this->assertEquals(0.05, (new Climb(1.0, 50))->getGradient());
-        $this->assertEquals(0.16, (new Climb(0.2, 32))->getGradient());
-        $this->assertEquals(0.06, (new Climb(0.5, 30))->getGradient());
+        $this->assertSame(0.05, (new Climb(1.0, 50))->getGradient());
+        $this->assertSame(0.16, (new Climb(0.2, 32))->getGradient());
+        $this->assertSame(0.06, (new Climb(0.5, 30))->getGradient());
         $this->assertEqualsWithDelta(0.033, (new Climb(3.0, 100))->getGradient(), 0.001);
     }
 

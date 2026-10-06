@@ -12,8 +12,8 @@ class PercentReserveTest extends \PHPUnit\Framework\TestCase
     {
         $unit = new PercentReserve(200, 60);
 
-        $this->assertEquals(200, $unit->getMaximalHeartRate());
-        $this->assertEquals(60, $unit->getRestingHeartRate());
+        $this->assertSame(200, $unit->getMaximalHeartRate());
+        $this->assertSame(60, $unit->getRestingHeartRate());
 
         $this->assertEqualsWithDelta(0.29, $unit->fromBaseUnit(100), 0.01);
         $this->assertEqualsWithDelta(100.6, $unit->toBaseUnit(0.29), 0.01);
@@ -26,13 +26,13 @@ class PercentReserveTest extends \PHPUnit\Framework\TestCase
     {
         $unit = new PercentReserve(175, 75);
 
-        $this->assertEquals(175, $unit->getMaximalHeartRate());
-        $this->assertEquals(75, $unit->getRestingHeartRate());
+        $this->assertSame(175, $unit->getMaximalHeartRate());
+        $this->assertSame(75, $unit->getRestingHeartRate());
 
-        $this->assertEquals(0.45, $unit->fromBaseUnit(120));
+        $this->assertSame(0.45, $unit->fromBaseUnit(120));
         $this->assertEquals(120, $unit->toBaseUnit(0.45));
 
-        $this->assertEquals(0.75, $unit->fromBaseUnit(150));
+        $this->assertSame(0.75, $unit->fromBaseUnit(150));
         $this->assertEquals(150, $unit->toBaseUnit(0.75));
     }
 }

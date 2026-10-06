@@ -23,9 +23,9 @@ class RoundCollectionFillerTest extends \PHPUnit\Framework\TestCase
             [0.0, 0.2, 0.4, 0.6, 0.8, 0.9]
         );
 
-        $this->assertEquals(0.9, $collection->getTotalDistance());
-        $this->assertEquals(0.4, $collection[0]->getDistance());
-        $this->assertEquals(0.5, $collection[1]->getDistance());
+        $this->assertSame(0.9, $collection->getTotalDistance());
+        $this->assertSame(0.4, $collection[0]->getDistance());
+        $this->assertSame(0.5, $collection[1]->getDistance());
     }
 
     public function testEasyCompletionByTimeArray(): void

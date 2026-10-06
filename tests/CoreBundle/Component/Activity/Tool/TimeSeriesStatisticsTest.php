@@ -127,7 +127,7 @@ class TimeSeriesStatisticsTest extends TestCase
         $trackdata = $this->createTrackdataMock([TrackdataEntity::TIME]);
         $stats = new TimeSeriesStatistics($trackdata);
 
-        $distribution = $this->createMock(EmpiricalDistribution::class);
+        $distribution = $this->createStub(EmpiricalDistribution::class);
         $multipleTimeSeries = $this->createMock(MultipleTimeSeries::class);
         $multipleTimeSeries->expects($this->once())
             ->method('getDistribution')
@@ -174,7 +174,7 @@ class TimeSeriesStatisticsTest extends TestCase
         $trackdata = $this->createTrackdataMock([TrackdataEntity::TIME]);
         $stats = new TimeSeriesStatistics($trackdata);
 
-        $distribution = $this->createMock(EmpiricalDistribution::class);
+        $distribution = $this->createStub(EmpiricalDistribution::class);
         $multipleTimeSeries = $this->createMock(MultipleTimeSeries::class);
         $multipleTimeSeries->expects($this->once())
             ->method('getDistribution')
@@ -193,7 +193,7 @@ class TimeSeriesStatisticsTest extends TestCase
         $trackdata = $this->createTrackdataMock([TrackdataEntity::TIME]);
         $stats = new TimeSeriesStatistics($trackdata);
 
-        $distribution = $this->createMock(EmpiricalDistribution::class);
+        $distribution = $this->createStub(EmpiricalDistribution::class);
         $multipleTimeSeries = $this->createMock(MultipleTimeSeries::class);
         $multipleTimeSeries->expects($this->once())
             ->method('getDistribution')

@@ -46,7 +46,7 @@ class TemperatureTest extends \PHPUnit\Framework\TestCase
         $Temperature = new Temperature();
         $Temperature->set(15);
 
-        $this->assertEquals(15.00, $Temperature->celsius());
+        $this->assertSame(15.00, $Temperature->celsius());
         $this->assertEqualsWithDelta(59.00, $Temperature->fahrenheit(), 0.01);
     }
 
@@ -55,7 +55,7 @@ class TemperatureTest extends \PHPUnit\Framework\TestCase
         $Temperature = new Temperature();
         $Temperature->setFahrenheit(59);
 
-        $this->assertEquals(59.00, $Temperature->fahrenheit());
+        $this->assertSame(59.00, $Temperature->fahrenheit());
         $this->assertEqualsWithDelta(15, $Temperature->celsius(), 0.01);
     }
 
@@ -64,8 +64,8 @@ class TemperatureTest extends \PHPUnit\Framework\TestCase
         Configuration::General()->temperatureUnit()->set(TemperatureUnit::CELSIUS);
         $unit = '&nbsp;' . Configuration::General()->TemperatureUnit()->unit();
 
-        $this->assertEquals('10.0' . $unit, Temperature::format(10, true, 1));
-        $this->assertEquals('12.35' . $unit, Temperature::format(12.3456, true, 2));
+        $this->assertSame('10.0' . $unit, Temperature::format(10, true, 1));
+        $this->assertSame('12.35' . $unit, Temperature::format(12.3456, true, 2));
     }
 
     public function testEmptyTemperature(): void

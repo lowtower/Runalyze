@@ -52,7 +52,7 @@ class FitDetailsMergerTest extends \PHPUnit\Framework\TestCase
 
         (new FitDetailsMerger($this->FirstDetails, $this->SecondDetails))->merge();
 
-        $this->assertEquals(3, $this->FirstDetails->PerformanceCondition);
+        $this->assertSame(3, $this->FirstDetails->PerformanceCondition);
         $this->assertEquals(-1, $this->FirstDetails->PerformanceConditionEnd);
     }
 }

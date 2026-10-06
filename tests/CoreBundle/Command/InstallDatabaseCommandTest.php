@@ -66,7 +66,7 @@ class InstallDatabaseCommandTest extends KernelTestCase
         $query = 'SHOW TABLES LIKE "' . $this->DatabasePrefix . '%"';
         $tableCount = count($this->Connection->executeQuery($query)->fetchAllAssociative());
 
-        $this->assertEquals(24, $tableCount);
+        $this->assertSame(24, $tableCount);
         $this->assertStringContainsString('Database has been successfully initialized.', $commandTester->getDisplay());
     }
 }

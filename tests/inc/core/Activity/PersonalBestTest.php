@@ -105,7 +105,7 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase
         $this->insert(5.0, 1100);
         $this->insert(5.0, 1200);
 
-        $this->assertEquals(3, PersonalBest::lookupDistances([1, 3.1, 5], self::SPORTID, $this->PDO));
+        $this->assertSame(3, PersonalBest::lookupDistances([1, 3.1, 5], self::SPORTID, $this->PDO));
 
         $PB1k = new PersonalBest(1, self::SPORTID, $this->PDO, true);
         $PB3k = new PersonalBest('3.1', self::SPORTID, $this->PDO, true);
@@ -128,7 +128,7 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase
         $this->insert(5.0, 1100, $date);
         $this->insert(5.0, 1200, $date);
 
-        $this->assertEquals(3, PersonalBest::lookupDistances([1, 3.1, 5], self::SPORTID, $this->PDO, true));
+        $this->assertSame(3, PersonalBest::lookupDistances([1, 3.1, 5], self::SPORTID, $this->PDO, true));
 
         $PB1k = new PersonalBest(1, self::SPORTID, $this->PDO, true, true);
         $PB3k = new PersonalBest('3.1', self::SPORTID, $this->PDO, true, true);
@@ -152,7 +152,7 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase
         $first = $this->insert(1.0, 180, $date1);
         $this->insert(1.0, 180, $date2);
 
-        $this->assertEquals(1, PersonalBest::lookupDistances([1.0], self::SPORTID, $this->PDO, true));
+        $this->assertSame(1, PersonalBest::lookupDistances([1.0], self::SPORTID, $this->PDO, true));
 
         $PB = new PersonalBest(1, self::SPORTID, $this->PDO, true, true);
 

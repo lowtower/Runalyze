@@ -14,7 +14,6 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test empty splits
-     * @covers Splits::areEmpty
      */
     public function testEmpty(): void
     {
@@ -29,9 +28,6 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($Splits->areEmpty());
     }
 
-    /**
-     * @covers Splits::hasActiveAndInactiveLaps
-     */
     public function testHasActiveAndInactiveLaps(): void
     {
         $Splits = new Splits();
@@ -53,7 +49,6 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test adding splits
-     * @covers Splits::addSplit
      */
     public function testAddSplit(): void
     {
@@ -62,19 +57,16 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
         $Splits->addSplit(1, 260);
         $Splits->addSplit(1, 360, false);
 
-        $this->assertTrue(! $Splits->areEmpty());
-        $this->assertEquals('1.000|5:00-1.000|4:20-R1.000|6:00', $Splits->asString());
+        $this->assertFalse($Splits->areEmpty());
+        $this->assertSame('1.000|5:00-1.000|4:20-R1.000|6:00', $Splits->asString());
     }
 
-    /**
-     * @covers Splits::removeSingleSplits
-     */
     public function testRemoveSingleSplits(): void
     {
         $Splits = new Splits();
         $Splits->addSplit(1, 300);
 
-        $this->assertTrue(! $Splits->areEmpty());
+        $this->assertFalse($Splits->areEmpty());
 
         $Splits->removeSingleSplits();
 
@@ -84,7 +76,7 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
         $Splits->addSplit(1, 300);
         $Splits->removeSingleSplits();
 
-        $this->assertTrue(! $Splits->areEmpty());
+        $this->assertFalse($Splits->areEmpty());
     }
 
     /**
@@ -108,24 +100,16 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
             'km' => [1.2, 0.4, 1],
             'time' => ['5:20', '1:20', '3:17'],
         ]);
-        $this->assertEquals('1.200|5:20-0.400|1:20-1.000|3:17', $Splits->asString());
+        $this->assertSame('1.200|5:20-0.400|1:20-1.000|3:17', $Splits->asString());
 
         $Splits2 = new Splits([
             'km' => [1.2, 0.4, 1],
             'time' => ['5:20', '1:20', '3:17'],
             'active' => [false, true, true],
         ]);
-        $this->assertEquals('R1.200|5:20-0.400|1:20-1.000|3:17', $Splits2->asString());
+        $this->assertSame('R1.200|5:20-0.400|1:20-1.000|3:17', $Splits2->asString());
     }
 
-    /**
-     * @covers Splits::asArray
-     * @covers Splits::distancesAsArray
-     * @covers Splits::pacesAsArray
-     * @covers Splits::timesAsArray
-     * @covers Splits::totalDistance
-     * @covers Splits::totalTime
-     */
     public function testAsArray(): void
     {
         $Splits = new Splits('1|4:20-2.4|10:09-10|1:00:00-R1|6:00');
@@ -160,38 +144,29 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([260, 254, 360], $Splits->pacesAsArray());
         $this->assertEquals([260, 254, 360, 360], $Splits->pacesAsArray(true));
 
-        $this->assertEquals(14.4, $Splits->totalDistance());
-        $this->assertEquals(4829, $Splits->totalTime());
+        $this->assertSame(14.4, $Splits->totalDistance());
+        $this->assertSame(4829, $Splits->totalTime());
     }
 
-    /**
-     * @covers Splits::asString
-     */
     public function testAsString(): void
     {
         $Splits = new Splits('1|4:20-2.4|10:09-10|1:00:00-R1|6:00');
-        $this->assertEquals('1.000|4:20-2.400|10:09-10.000|1:00:00-R1.000|6:00', $Splits->asString());
+        $this->assertSame('1.000|4:20-2.400|10:09-10.000|1:00:00-R1.000|6:00', $Splits->asString());
     }
 
-    /**
-     * @covers Splits::asReadableString
-     */
     public function testAsReadableString(): void
     {
         $Splits = new Splits('1|4:20-1|4:09-R1|6:00');
 
-        $this->assertEquals('1.000&nbsp;km&nbsp;in&nbsp;4:20, 1.000&nbsp;km&nbsp;in&nbsp;4:09', $Splits->asReadableString());
-        $this->assertEquals('1.000&nbsp;km&nbsp;in&nbsp;4:20, 1.000&nbsp;km&nbsp;in&nbsp;4:09, 1.000&nbsp;km&nbsp;in&nbsp;6:00&nbsp;(Resting)', $Splits->asReadableString(true));
+        $this->assertSame('1.000&nbsp;km&nbsp;in&nbsp;4:20, 1.000&nbsp;km&nbsp;in&nbsp;4:09', $Splits->asReadableString());
+        $this->assertSame('1.000&nbsp;km&nbsp;in&nbsp;4:20, 1.000&nbsp;km&nbsp;in&nbsp;4:09, 1.000&nbsp;km&nbsp;in&nbsp;6:00&nbsp;(Resting)', $Splits->asReadableString(true));
     }
 
-    /**
-     * @covers Splits::asString
-     */
     public function testRemoveSecondsFormat(): void
     {
         $Splits = new Splits('1|4:20-0.2|35,00s');
 
-        $this->assertEquals('1.000|4:20-0.200|0:35', $Splits->asString());
+        $this->assertSame('1.000|4:20-0.200|0:35', $Splits->asString());
         $this->assertEquals([
             [
                 'km' => 1,
@@ -206,9 +181,6 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
         ], $Splits->asArray());
     }
 
-    /**
-     * @covers Splits::fillTimesFromArray
-     */
     public function testFillTimesFromArray(): void
     {
         $Splits = new Splits('1|0:00-1|0:00-1|0:00');
@@ -217,12 +189,9 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
             [0.5, 1, 1.9, 2.1, 2.7]
         );
 
-        $this->assertEquals('1.000|4:00-1.000|3:55-1.000|4:05', $Splits->asString());
+        $this->assertSame('1.000|4:00-1.000|3:55-1.000|4:05', $Splits->asString());
     }
 
-    /**
-     * @covers Splits::fillDistancesFromArray
-     */
     public function testFillDistancesFromArray(): void
     {
         $Splits = new Splits('0|4:00-0|3:55-0|4:05');
@@ -231,7 +200,7 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
             [0.5, 1, 1.9, 2.1, 2.7]
         );
 
-        $this->assertEquals('1.000|4:00-1.100|3:55-0.600|4:05', $Splits->asString());
+        $this->assertSame('1.000|4:00-1.100|3:55-0.600|4:05', $Splits->asString());
     }
 
     public function testHasActiveLaps(): void
@@ -252,11 +221,11 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
     {
         $Splits = new Splits();
 
-        $this->assertEquals('', $Splits->asIconWithTooltip());
+        $this->assertSame('', $Splits->asIconWithTooltip());
 
         $Splits->addSplit(1, 300);
 
-        $this->assertNotEquals('', $Splits->asIconWithTooltip());
+        $this->assertNotSame('', $Splits->asIconWithTooltip());
     }
 
     public function testCompletingSplits(): void
@@ -268,20 +237,20 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
         $Splits->addLastSplitToComplete(4.5, 1350);
 
         $asArray1 = $Splits->asArray();
-        $this->assertEquals(4, count($asArray1));
+        $this->assertCount(4, $asArray1);
         $this->assertEquals(1.5, $asArray1[3]['km']);
         $this->assertEquals('7:30', $asArray1[3]['time']);
 
         $Splits->addLastSplitToComplete(5, 1500);
 
         $asArray2 = $Splits->asArray();
-        $this->assertEquals(5, count($asArray2));
+        $this->assertCount(5, $asArray2);
         $this->assertEquals(0.5, $asArray2[4]['km']);
         $this->assertEquals('2:30', $asArray2[4]['time']);
 
         $Splits->addLastSplitToComplete(4, 1200);
 
         $asArray3 = $Splits->asArray();
-        $this->assertEquals(5, count($asArray3));
+        $this->assertCount(5, $asArray3);
     }
 }

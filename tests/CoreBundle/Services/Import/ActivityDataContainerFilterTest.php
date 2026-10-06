@@ -29,7 +29,7 @@ class ActivityDataContainerFilterTest extends TestCase
 
     public function testUsesTheGivenLoggerWhenProvided(): void
     {
-        $logger = $this->createMock(LoggerInterface::class);
+        $logger = $this->createStub(LoggerInterface::class);
 
         $filter = new ActivityDataContainerFilter($logger);
 

@@ -35,14 +35,14 @@ class ContextTest extends \PHPUnit\Framework\TestCase
             'more-data' => 42,
         ], 0);
 
-        $this->assertEquals('30.10.2015', date('d.m.Y', $Context->activity()->timestamp()));
-        $this->assertEquals(3600, $Context->activity()->duration());
-        $this->assertEquals(12.3, $Context->activity()->distance());
+        $this->assertSame('30.10.2015', date('d.m.Y', $Context->activity()->timestamp()));
+        $this->assertSame(3600, $Context->activity()->duration());
+        $this->assertSame(12.3, $Context->activity()->distance());
         $this->assertEquals(42, $Context->data('more-data'));
         $this->assertFalse($Context->hasSport());
         $this->assertFalse($Context->hasType());
-        $this->assertTrue($Context->dataview() instanceof \Runalyze\View\Activity\Dataview);
-        $this->assertTrue($Context->linker() instanceof \Runalyze\View\Activity\Linker);
+        $this->assertInstanceOf(\Runalyze\View\Activity\Dataview::class, $Context->dataview());
+        $this->assertInstanceOf(\Runalyze\View\Activity\Linker::class, $Context->linker());
     }
 
     public function testContextFromObject(): void
@@ -51,7 +51,7 @@ class ContextTest extends \PHPUnit\Framework\TestCase
             Activity\Entity::TIMESTAMP => mktime(12, 0, 0, 10, 30, 2015),
         ]), 0);
 
-        $this->assertEquals('30.10.2015', date('d.m.Y', $Context->activity()->timestamp()));
+        $this->assertSame('30.10.2015', date('d.m.Y', $Context->activity()->timestamp()));
     }
 
     public function testUnknownData(): void
@@ -95,6 +95,6 @@ class ContextTest extends \PHPUnit\Framework\TestCase
             Activity\Entity::TIMESTAMP => mktime(12, 0, 0, 11, 11, 2015),
         ]);
 
-        $this->assertEquals('11.11.2015', date('d.m.Y', $Context->activity()->timestamp()));
+        $this->assertSame('11.11.2015', date('d.m.Y', $Context->activity()->timestamp()));
     }
 }

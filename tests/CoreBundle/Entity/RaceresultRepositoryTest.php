@@ -33,7 +33,7 @@ class RaceresultRepositoryTest extends AbstractRepositoryTestCase
     {
         $this->assertNull($this->RaceresultRepository->findForActivity(1));
         $this->assertNull($this->RaceresultRepository->findForAccount(1, 1));
-        $this->assertEquals(1.0, $this->RaceresultRepository->getEffectiveVO2maxCorrectionFactor(
+        $this->assertSame(1.0, $this->RaceresultRepository->getEffectiveVO2maxCorrectionFactor(
             $this->Account,
             $this->getDefaultAccountsRunningSport()
                 ->getId()
@@ -57,7 +57,7 @@ class RaceresultRepositoryTest extends AbstractRepositoryTestCase
 
         $races = $this->RaceresultRepository->findForSportAndYear($this->Account, $this->getDefaultAccountsRunningSport(), 2016);
 
-        $this->assertEquals(1, count($races));
+        $this->assertCount(1, $races);
         $this->assertEquals(mktime(3, 14, 15, 9, 26, 2016), $races[0]['time']);
         $this->assertEquals('10', $races[0][0]['officialDistance']);
         $this->assertEquals('Awesome pirace', $races[0][0]['name']);

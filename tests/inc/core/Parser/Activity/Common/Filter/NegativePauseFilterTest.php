@@ -42,7 +42,7 @@ class NegativePauseFilterTest extends \PHPUnit\Framework\TestCase
 
         $this->Filter->filter($this->Container);
 
-        $this->assertEquals(3, $this->Container->Pauses->count());
+        $this->assertCount(3, $this->Container->Pauses);
     }
 
     public function testInvalidPause(): void
@@ -53,8 +53,8 @@ class NegativePauseFilterTest extends \PHPUnit\Framework\TestCase
 
         $this->Filter->filter($this->Container);
 
-        $this->assertEquals(1, $this->Container->Pauses->count());
-        $this->assertEquals([506, 2], [$this->Container->Pauses[0]->getTimeIndex(), $this->Container->Pauses[0]->getDuration()]);
+        $this->assertCount(1, $this->Container->Pauses);
+        $this->assertSame([506, 2.0], [$this->Container->Pauses[0]->getTimeIndex(), $this->Container->Pauses[0]->getDuration()]);
     }
 
     public function testStrictMode(): void

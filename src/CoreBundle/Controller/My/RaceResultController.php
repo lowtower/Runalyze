@@ -100,7 +100,7 @@ class RaceResultController extends AbstractController
     #[\Symfony\Component\Routing\Attribute\Route(path: '/{activityId}/delete', name: 'raceresult-delete', requirements: [
         'activityId' => '\d+',
     ])]
-    public function raceresultDeleteAction(int $activityId, Request $request, ?Account $account = null): Response
+    public function raceresultDeleteAction(int $activityId, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 

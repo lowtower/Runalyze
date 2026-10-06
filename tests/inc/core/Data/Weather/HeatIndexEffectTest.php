@@ -34,10 +34,10 @@ class HeatIndexEffectTest extends \PHPUnit\Framework\TestCase
 
     public function testSomeLevels(): void
     {
-        $this->assertEquals(HeatIndexEffect::NO_EFFECT, HeatIndexEffect::levelFor(79));
-        $this->assertEquals(HeatIndexEffect::CAUTION, HeatIndexEffect::levelFor(90));
-        $this->assertEquals(HeatIndexEffect::EXTREME_CAUTION, HeatIndexEffect::levelFor(91));
-        $this->assertEquals(HeatIndexEffect::DANGER, HeatIndexEffect::levelFor(105));
-        $this->assertEquals(HeatIndexEffect::EXTREME_DANGER, HeatIndexEffect::levelFor(140));
+        $this->assertSame(HeatIndexEffect::NO_EFFECT, HeatIndexEffect::levelFor(79));
+        $this->assertSame(HeatIndexEffect::CAUTION, HeatIndexEffect::levelFor(90));
+        $this->assertSame(HeatIndexEffect::EXTREME_CAUTION, HeatIndexEffect::levelFor(91));
+        $this->assertSame(HeatIndexEffect::DANGER, HeatIndexEffect::levelFor(105));
+        $this->assertSame(HeatIndexEffect::EXTREME_DANGER, HeatIndexEffect::levelFor(140));
     }
 }

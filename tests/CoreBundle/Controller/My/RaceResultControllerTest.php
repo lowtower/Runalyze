@@ -142,7 +142,7 @@ class RaceResultControllerTest extends AbstractFixturesAwareWebTestCase
 
         $saved = $this->reloadRaceresult($activityId, $this->Account);
 
-        $this->assertNotNull($saved);
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Raceresult::class, $saved);
         $this->assertSame('City Marathon', $saved->getName());
         $this->assertNull($saved->getOfficialDistance());
     }
@@ -172,7 +172,7 @@ class RaceResultControllerTest extends AbstractFixturesAwareWebTestCase
 
         $saved = $this->reloadRaceresult($activityId, $this->Account);
 
-        $this->assertNotNull($saved);
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Raceresult::class, $saved);
         $this->assertNotNull($saved->getOfficialDistance());
         $this->assertTrue($saved->getOfficiallyMeasured());
         $this->assertSame(42, $saved->getPlaceTotal());

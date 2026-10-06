@@ -19,8 +19,8 @@ class TemplateBasedMessageTest extends \PHPUnit\Framework\TestCase
         $message = new TemplateBasedMessage('../../../tests/CoreBundle/DataFixtures/messages/test-message.yml');
 
         $this->assertTrue($message->hasLink());
-        $this->assertEquals('foobar', $message->getText());
-        $this->assertEquals('http://runalyze.com/', $message->getLink());
+        $this->assertSame('foobar', $message->getText());
+        $this->assertSame('http://runalyze.com/', $message->getLink());
         $this->assertFalse($message->isLinkInternal());
     }
 }

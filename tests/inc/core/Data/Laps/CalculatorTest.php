@@ -92,7 +92,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         ));
         $this->object->calculateFrom($this->trackdata(), $this->route());
 
-        $this->assertEquals(6, $this->Laps->num());
+        $this->assertSame(6, $this->Laps->num());
         $this->checkAgainst([
             [300, 1.0, 300, 1.0, 129, 135, 20, 5],
             [70, 0.4, 370, 1.4, 163, 175, 0, 0],
@@ -110,7 +110,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         ));
         $this->object->calculateFrom($this->trackdata());
 
-        $this->assertEquals(6, $this->Laps->num());
+        $this->assertSame(6, $this->Laps->num());
         $this->checkAgainst([
             [300, 1.0, 300, 1.0, 129, 135, 0, 0],
             [70, 0.4, 370, 1.4, 163, 175, 0, 0],
@@ -128,13 +128,13 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         ]);
         $this->object->calculateFrom($this->trackdata());
 
-        $this->assertEquals(4, $this->Laps->num());
-        $this->assertEquals(1.0, $this->Laps->at(0)->distance()->kilometer());
-        $this->assertEquals(1.0, $this->Laps->at(1)->distance()->kilometer());
-        $this->assertEquals(1.0, $this->Laps->at(2)->distance()->kilometer());
-        $this->assertEquals(1.0, $this->Laps->at(0)->trackDistance()->kilometer());
-        $this->assertEquals(2.0, $this->Laps->at(1)->trackDistance()->kilometer());
-        $this->assertEquals(3.0, $this->Laps->at(2)->trackDistance()->kilometer());
+        $this->assertSame(4, $this->Laps->num());
+        $this->assertSame(1.0, $this->Laps->at(0)->distance()->kilometer());
+        $this->assertSame(1.0, $this->Laps->at(1)->distance()->kilometer());
+        $this->assertSame(1.0, $this->Laps->at(2)->distance()->kilometer());
+        $this->assertSame(1.0, $this->Laps->at(0)->trackDistance()->kilometer());
+        $this->assertSame(2.0, $this->Laps->at(1)->trackDistance()->kilometer());
+        $this->assertSame(3.0, $this->Laps->at(2)->trackDistance()->kilometer());
     }
 
     public function testConsecutiveTimes(): void
@@ -144,7 +144,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         ]);
         $this->object->calculateFrom($this->trackdata());
 
-        $this->assertEquals(6, $this->Laps->num());
+        $this->assertSame(6, $this->Laps->num());
         $this->assertEquals(300, $this->Laps->at(0)->duration()->seconds());
         $this->assertEquals(70, $this->Laps->at(1)->duration()->seconds());
         $this->assertEquals(60, $this->Laps->at(2)->duration()->seconds());
@@ -229,7 +229,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
             ])
         );
 
-        $this->assertEquals(10, $this->Laps->num());
+        $this->assertSame(10, $this->Laps->num());
         $this->checkAgainst([
             [300, 1.0,  300, 1.0, 150, 150, 0, 0],
             [300, 1.1,  600, 2.1, 150, 150, 0, 0],

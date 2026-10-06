@@ -96,8 +96,8 @@ class AnovaDataQueryBuildQueryTest extends TestCase
             ->willReturn([]);
 
         $query = $this->createAnovaDataQuery($anovaData);
-        $this->setProtectedProperty($query, 'QueryGroup', $this->createMock(QueryGroupInterface::class));
-        $this->setProtectedProperty($query, 'QueryValue', $this->createMock(QueryValueInterface::class));
+        $this->setProtectedProperty($query, 'QueryGroup', $this->createStub(QueryGroupInterface::class));
+        $this->setProtectedProperty($query, 'QueryValue', $this->createStub(QueryValueInterface::class));
 
         $setParameterCalls = [];
         $queryBuilder = $this->createFluentQueryBuilderMock();
@@ -110,9 +110,9 @@ class AnovaDataQueryBuildQueryTest extends TestCase
                 }
             );
         $queryBuilder->method('expr')
-            ->willReturn($this->createMock(Expr::class));
+            ->willReturn($this->createStub(Expr::class));
         $queryBuilder->method('getQuery')
-            ->willReturn($this->createMock(Query::class));
+            ->willReturn($this->createStub(Query::class));
 
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository->expects($this->once())
@@ -148,8 +148,8 @@ class AnovaDataQueryBuildQueryTest extends TestCase
             ->willReturn([]);
 
         $query = $this->createAnovaDataQuery($anovaData);
-        $this->setProtectedProperty($query, 'QueryGroup', $this->createMock(QueryGroupInterface::class));
-        $this->setProtectedProperty($query, 'QueryValue', $this->createMock(QueryValueInterface::class));
+        $this->setProtectedProperty($query, 'QueryGroup', $this->createStub(QueryGroupInterface::class));
+        $this->setProtectedProperty($query, 'QueryValue', $this->createStub(QueryValueInterface::class));
 
         $setParameterCalls = [];
         $queryBuilder = $this->createFluentQueryBuilderMock();
@@ -162,15 +162,15 @@ class AnovaDataQueryBuildQueryTest extends TestCase
                 }
             );
         $queryBuilder->method('expr')
-            ->willReturn($this->createMock(Expr::class));
+            ->willReturn($this->createStub(Expr::class));
         $queryBuilder->method('getQuery')
-            ->willReturn($this->createMock(Query::class));
+            ->willReturn($this->createStub(Query::class));
 
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository->method('createQueryBuilder')
             ->willReturn($queryBuilder);
 
-        $this->invokeBuildQuery($query, $trainingRepository, $this->createMock(Account::class));
+        $this->invokeBuildQuery($query, $trainingRepository, $this->createStub(Account::class));
 
         $this->assertSame([1, 2], $setParameterCalls[':sports']);
     }
@@ -188,8 +188,8 @@ class AnovaDataQueryBuildQueryTest extends TestCase
             ->willReturn([]);
 
         $query = $this->createAnovaDataQuery($anovaData);
-        $this->setProtectedProperty($query, 'QueryGroup', $this->createMock(QueryGroupInterface::class));
-        $this->setProtectedProperty($query, 'QueryValue', $this->createMock(QueryValueInterface::class));
+        $this->setProtectedProperty($query, 'QueryGroup', $this->createStub(QueryGroupInterface::class));
+        $this->setProtectedProperty($query, 'QueryValue', $this->createStub(QueryValueInterface::class));
 
         $setParameterCalls = [];
         $queryBuilder = $this->createFluentQueryBuilderMock();
@@ -202,15 +202,15 @@ class AnovaDataQueryBuildQueryTest extends TestCase
                 }
             );
         $queryBuilder->method('expr')
-            ->willReturn($this->createMock(Expr::class));
+            ->willReturn($this->createStub(Expr::class));
         $queryBuilder->method('getQuery')
-            ->willReturn($this->createMock(Query::class));
+            ->willReturn($this->createStub(Query::class));
 
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository->method('createQueryBuilder')
             ->willReturn($queryBuilder);
 
-        $this->invokeBuildQuery($query, $trainingRepository, $this->createMock(Account::class));
+        $this->invokeBuildQuery($query, $trainingRepository, $this->createStub(Account::class));
 
         $this->assertArrayNotHasKey(':types', $setParameterCalls);
     }
@@ -235,8 +235,8 @@ class AnovaDataQueryBuildQueryTest extends TestCase
             ->willReturn([$type1, $type2]);
 
         $query = $this->createAnovaDataQuery($anovaData);
-        $this->setProtectedProperty($query, 'QueryGroup', $this->createMock(QueryGroupInterface::class));
-        $this->setProtectedProperty($query, 'QueryValue', $this->createMock(QueryValueInterface::class));
+        $this->setProtectedProperty($query, 'QueryGroup', $this->createStub(QueryGroupInterface::class));
+        $this->setProtectedProperty($query, 'QueryValue', $this->createStub(QueryValueInterface::class));
 
         $setParameterCalls = [];
         $queryBuilder = $this->createFluentQueryBuilderMock();
@@ -249,15 +249,15 @@ class AnovaDataQueryBuildQueryTest extends TestCase
                 }
             );
         $queryBuilder->method('expr')
-            ->willReturn($this->createMock(Expr::class));
+            ->willReturn($this->createStub(Expr::class));
         $queryBuilder->method('getQuery')
-            ->willReturn($this->createMock(Query::class));
+            ->willReturn($this->createStub(Query::class));
 
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository->method('createQueryBuilder')
             ->willReturn($queryBuilder);
 
-        $this->invokeBuildQuery($query, $trainingRepository, $this->createMock(Account::class));
+        $this->invokeBuildQuery($query, $trainingRepository, $this->createStub(Account::class));
 
         $this->assertSame([10, 11], $setParameterCalls[':types']);
     }
@@ -283,9 +283,9 @@ class AnovaDataQueryBuildQueryTest extends TestCase
 
         $queryBuilder = $this->createFluentQueryBuilderMock();
         $queryBuilder->method('expr')
-            ->willReturn($this->createMock(Expr::class));
+            ->willReturn($this->createStub(Expr::class));
 
-        $expectedQuery = $this->createMock(Query::class);
+        $expectedQuery = $this->createStub(Query::class);
         $queryBuilder->method('getQuery')
             ->willReturn($expectedQuery);
 
@@ -300,7 +300,7 @@ class AnovaDataQueryBuildQueryTest extends TestCase
             ->method('addSelectionToQuery')
             ->with($queryBuilder, 't', 'value');
 
-        $result = $this->invokeBuildQuery($query, $trainingRepository, $this->createMock(Account::class));
+        $result = $this->invokeBuildQuery($query, $trainingRepository, $this->createStub(Account::class));
 
         $this->assertSame($expectedQuery, $result);
     }

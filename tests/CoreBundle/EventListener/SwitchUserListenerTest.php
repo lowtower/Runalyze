@@ -21,17 +21,17 @@ class SwitchUserListenerTest extends TestCase
     {
         return new SwitchUserListener(
             $tokenStorage,
-            $this->createMock(UserProviderInterface::class),
-            $this->createMock(UserCheckerInterface::class),
+            $this->createStub(UserProviderInterface::class),
+            $this->createStub(UserCheckerInterface::class),
             'main',
-            $this->createMock(AccessDecisionManagerInterface::class)
+            $this->createStub(AccessDecisionManagerInterface::class)
         );
     }
 
     private function createGetResponseEvent(Request $request): RequestEvent
     {
         return new RequestEvent(
-            $this->createMock(HttpKernelInterface::class),
+            $this->createStub(HttpKernelInterface::class),
             $request,
             HttpKernelInterface::MAIN_REQUEST
         );
@@ -40,7 +40,7 @@ class SwitchUserListenerTest extends TestCase
     public function testInvokeThrowsLogicExceptionWhenExitingWithoutAnOriginalToken(): void
     {
         $tokenStorage = $this->createMock(TokenStorageInterface::class);
-        $currentToken = $this->createMock(TokenInterface::class);
+        $currentToken = $this->createStub(TokenInterface::class);
         $tokenStorage->method('getToken')
             ->willReturn($currentToken);
 

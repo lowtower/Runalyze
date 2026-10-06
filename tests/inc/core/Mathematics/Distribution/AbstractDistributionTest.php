@@ -7,24 +7,31 @@ use Runalyze\Mathematics\Distribution\AbstractDistribution;
 class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Creates a mock object of AbstractDistribution with a predefined histogram.
+     * Creates a distribution with a predefined histogram.
      *
      * @param array<int, int> $histogram
      */
-    protected function getMockWithHistogram(array $histogram): AbstractDistribution&\PHPUnit\Framework\MockObject\MockObject
+    protected function createDistributionWithHistogram(array $histogram): AbstractDistribution
     {
-        /** @var AbstractDistribution&\PHPUnit\Framework\MockObject\MockObject $mock */
-        $mock = $this->getMockForAbstractClass(AbstractDistribution::class);
-        $mock->expects($this->any())
-            ->method('histogram')
-            ->willReturn($histogram);
+        return new class($histogram) extends AbstractDistribution {
+            /**
+             * @param array<int, int> $fixedHistogram
+             */
+            public function __construct(
+                private readonly array $fixedHistogram
+            ) {
+            }
 
-        return $mock;
+            public function histogram(): array
+            {
+                return $this->fixedHistogram;
+            }
+        };
     }
 
     public function testSomeHistogram(): void
     {
-        $dist = $this->getMockWithHistogram([
+        $dist = $this->createDistributionWithHistogram([
             10 => 1,
             15 => 2,
             20 => 1,
@@ -36,14 +43,14 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(15, $dist->median());
         $this->assertEquals(15, $dist->mode());
         $this->assertEquals(20, $dist->max());
-        $this->assertEquals(12.5, $dist->variance());
+        $this->assertSame(12.5, $dist->variance());
         $this->assertEqualsWithDelta(3.5, $dist->stdDev(), 0.1);
         $this->assertEqualsWithDelta(3.5 / 15, $dist->coefficientOfVariation(), 0.1);
     }
 
     public function testAnotherHistogram(): void
     {
-        $dist = $this->getMockWithHistogram([
+        $dist = $this->createDistributionWithHistogram([
             0 => 5,
             80 => 10,
             85 => 10,
@@ -56,14 +63,14 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(85, $dist->median());
         $this->assertEquals(90, $dist->mode());
         $this->assertEquals(90, $dist->max());
-        $this->assertEquals(818.75, $dist->variance());
+        $this->assertSame(818.75, $dist->variance());
         $this->assertEqualsWithDelta(28.6, $dist->stdDev(), 0.1);
         $this->assertEqualsWithDelta(28.6 / 75, $dist->coefficientOfVariation(), 0.1);
     }
 
     public function testEmptyHistogram(): void
     {
-        $dist = $this->getMockWithHistogram([]);
+        $dist = $this->createDistributionWithHistogram([]);
         $dist->calculateStatistic();
 
         $this->assertEquals(0, $dist->min());
@@ -78,7 +85,7 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
 
     public function testRequestingNotGeneratedQuantile(): void
     {
-        $dist = $this->getMockWithHistogram([]);
+        $dist = $this->createDistributionWithHistogram([]);
 
         $this->expectException(\InvalidArgumentException::class);
 
@@ -87,7 +94,7 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
 
     public function testQuantiles(): void
     {
-        $dist = $this->getMockWithHistogram([
+        $dist = $this->createDistributionWithHistogram([
             10 => 1,
             20 => 5,
             30 => 2,

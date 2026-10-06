@@ -150,7 +150,7 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
                 'c' => '#b80000',
             ],
         ], $result);
-        $this->assertEquals('activity stored zones', $underTest->getSourceHint());
+        $this->assertSame('activity stored zones', $underTest->getSourceHint());
         // sort of array
         $this->assertEquals(6, array_key_first($result));
         $this->assertEquals(0, array_key_last($result));
@@ -198,7 +198,7 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
                 'hr' => 191,
             ],
         ], $result);
-        $this->assertEquals('activity stored zones', $underTest->getSourceHint());
+        $this->assertSame('activity stored zones', $underTest->getSourceHint());
     }
 
     public function testDefaultZones(): void
@@ -240,7 +240,7 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
                 'c' => '#b80000',
             ],
         ], $result);
-        $this->assertEquals('default zones', $underTest->getSourceHint());
+        $this->assertSame('default zones', $underTest->getSourceHint());
         // sort of array
         $this->assertEquals(8, array_key_first($result));
         $this->assertEquals(0, array_key_last($result));
@@ -288,7 +288,7 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
                 'hr' => 111,
             ],
         ], $result);
-        $this->assertEquals('default zones', $underTest->getSourceHint());
+        $this->assertSame('default zones', $underTest->getSourceHint());
     }
 
     public function testSportZones(): void
@@ -313,7 +313,7 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
                 'hr' => 120,
             ],
         ], $result);
-        $this->assertEquals('sport stored zones', $underTest->getSourceHint());
+        $this->assertSame('sport stored zones', $underTest->getSourceHint());
         // sort of array
         $this->assertEquals(3, array_key_first($result));
         $this->assertEquals(0, array_key_last($result));
@@ -344,7 +344,7 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
                 'hr' => 161,
             ],
         ], $result);
-        $this->assertEquals('sport stored zones', $underTest->getSourceHint());
+        $this->assertSame('sport stored zones', $underTest->getSourceHint());
         $this->assertEquals([
             'hr' => 52,
         ], end($result));

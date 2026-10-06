@@ -10,7 +10,7 @@ class PercentLeftTest extends \PHPUnit\Framework\TestCase
     {
         $unit = new PercentLeft();
 
-        $this->assertEquals(49.5, $unit->fromBaseUnit(4950));
+        $this->assertSame(49.5, $unit->fromBaseUnit(4950));
         $this->assertEquals(5120, $unit->toBaseUnit(51.2));
     }
 }

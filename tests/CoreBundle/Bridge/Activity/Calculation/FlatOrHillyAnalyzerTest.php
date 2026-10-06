@@ -56,14 +56,14 @@ class FlatOrHillyAnalyzerTest extends \PHPUnit\Framework\TestCase
         $activity->setTrackdata($trackdata);
         $activity->setRoute($route);
 
-        $this->assertEquals(0.30, $this->Analyzer->calculatePercentageHillyFor($activity, 0.01));
-        $this->assertEquals(0.58, $this->Analyzer->calculatePercentageHillyFor($activity, 0.02));
-        $this->assertEquals(0.78, $this->Analyzer->calculatePercentageHillyFor($activity, 0.03));
+        $this->assertSame(0.30, $this->Analyzer->calculatePercentageHillyFor($activity, 0.01));
+        $this->assertSame(0.58, $this->Analyzer->calculatePercentageHillyFor($activity, 0.02));
+        $this->assertSame(0.78, $this->Analyzer->calculatePercentageHillyFor($activity, 0.03));
     }
 
     public function testArrayWithShortPeak(): void
     {
-        $this->assertEquals(0.625, $this->Analyzer->calculatePercentageFlatForArrays(
+        $this->assertSame(0.625, $this->Analyzer->calculatePercentageFlatForArrays(
             [0.00, 0.01, 0.05, 0.10, 0.20, 1.00, 1.60],
             [100, 104, 104, 104, 104, 104, 175],
             0.05

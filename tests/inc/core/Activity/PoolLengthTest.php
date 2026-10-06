@@ -11,7 +11,7 @@ class PoolLengthTest extends \PHPUnit\Framework\TestCase
 {
     public function testStaticFunction(): void
     {
-        $this->assertEquals('25&nbsp;' . DistanceUnitSystem::METER, PoolLength::format(2500, true));
+        $this->assertSame('25&nbsp;' . DistanceUnitSystem::METER, PoolLength::format(2500, true));
         $this->assertEquals('25', PoolLength::format(2500, false));
     }
 
@@ -21,7 +21,7 @@ class PoolLengthTest extends \PHPUnit\Framework\TestCase
         $PoolLength->setMeter(50);
 
         $this->assertEquals(50, $PoolLength->meter());
-        $this->assertEquals('50&nbsp;' . DistanceUnitSystem::METER, $PoolLength->stringMeter());
+        $this->assertSame('50&nbsp;' . DistanceUnitSystem::METER, $PoolLength->stringMeter());
     }
 
     public function testInCentimeter(): void
@@ -29,8 +29,8 @@ class PoolLengthTest extends \PHPUnit\Framework\TestCase
         $PoolLength = new PoolLength();
         $PoolLength->set(5000);
 
-        $this->assertEquals(5000, $PoolLength->cm());
-        $this->assertEquals('5000&nbsp;' . DistanceUnitSystem::CM, $PoolLength->stringCM());
+        $this->assertSame(5000, $PoolLength->cm());
+        $this->assertSame('5000&nbsp;' . DistanceUnitSystem::CM, $PoolLength->stringCM());
     }
 
     public function testInYards(): void
@@ -38,14 +38,14 @@ class PoolLengthTest extends \PHPUnit\Framework\TestCase
         $PoolLength = new PoolLength();
         $PoolLength->setYards(27.34);
 
-        $this->assertEquals(27.34, $PoolLength->yards());
-        $this->assertEquals('27.34&nbsp;' . DistanceUnitSystem::YARDS, $PoolLength->stringYards());
+        $this->assertSame(27.34, $PoolLength->yards());
+        $this->assertSame('27.34&nbsp;' . DistanceUnitSystem::YARDS, $PoolLength->stringYards());
     }
 
     public function testSettingInPreferredUnit(): void
     {
         $this->assertEquals(25, (new PoolLength(0, new DistanceUnitSystem(DistanceUnitSystem::METRIC)))->setInPreferredUnit(25)->meter());
-        $this->assertEquals(54.68, (new PoolLength(0, new DistanceUnitSystem(DistanceUnitSystem::IMPERIAL)))->setInPreferredUnit(54.68)->yards());
+        $this->assertSame(54.68, (new PoolLength(0, new DistanceUnitSystem(DistanceUnitSystem::IMPERIAL)))->setInPreferredUnit(54.68)->yards());
     }
 
     public function testSetRoundsInsteadOfTruncatingWhenDerivedFromYards(): void

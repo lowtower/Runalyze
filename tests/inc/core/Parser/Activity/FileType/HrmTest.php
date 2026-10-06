@@ -19,7 +19,7 @@ class HrmTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'hrm/12011801.hrm');
 
-        $this->assertEquals('2012-01-18 11:31', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2012-01-18 11:31', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(59 * 60 + 39.1, $this->Container->ActivityData->Duration);
@@ -47,7 +47,7 @@ class HrmTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'hrm/15031101.spinning.hrm');
 
-        $this->assertEquals('2015-03-11 20:18', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2015-03-11 20:18', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(61 * 60 + 29.1, $this->Container->ActivityData->Duration);
@@ -60,7 +60,7 @@ class HrmTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'hrm/15031801.spinning.hrm');
 
-        $this->assertEquals('2015-03-18 20:15', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2015-03-18 20:15', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(63 * 60 + 34.8, $this->Container->ActivityData->Duration);
@@ -73,7 +73,7 @@ class HrmTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'hrm/hrv.hrm');
 
-        $this->assertEquals('2012-08-08 18:09', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2012-08-08 18:09', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(2 * 60 + 13.3, $this->Container->ActivityData->Duration);

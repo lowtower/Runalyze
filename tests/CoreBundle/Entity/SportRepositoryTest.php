@@ -71,14 +71,14 @@ class SportRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals($this->getDefaultAccountsRunningSport()->getId(), $this->SportRepository->findRunningFor($account)->getId());
 
         $this->assertEquals($this->getDefaultAccountsRunningSport(), $this->SportRepository->findThisOrAny($this->getDefaultAccountsRunningSport()->getId(), $account));
-        $this->assertNotNull($this->SportRepository->findThisOrAny(-123, $account));
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Sport::class, $this->SportRepository->findThisOrAny(-123, $account));
     }
 
     public function testSportStatisticsWithoutData(): void
     {
         $statistics = $this->SportRepository->getSportStatisticsSince(null, $this->Account);
 
-        $this->assertEquals(0, $statistics->getCount());
+        $this->assertSame(0, $statistics->getCount());
         $this->assertEmpty($statistics->getStatistics());
     }
 
@@ -92,14 +92,14 @@ class SportRepositoryTest extends AbstractRepositoryTestCase
         $allTimeStatisticsRunning = $allTimeStatistics->getStatisticFor($this->getDefaultAccountsRunningSport());
         $allTimeStatisticsCycling = $allTimeStatistics->getStatisticFor($this->getDefaultAccountsCyclingSport());
 
-        $this->assertEquals(2, $allTimeStatistics->getCount());
+        $this->assertSame(2, $allTimeStatistics->getCount());
 
-        $this->assertEquals(7000.0, $allTimeStatisticsRunning->getTotalDuration());
-        $this->assertEquals(22.0, $allTimeStatisticsRunning->getTotalDistance());
-        $this->assertEquals(2, $allTimeStatisticsRunning->getNumberOfActivities());
+        $this->assertSame(7000.0, $allTimeStatisticsRunning->getTotalDuration());
+        $this->assertSame(22.0, $allTimeStatisticsRunning->getTotalDistance());
+        $this->assertSame(2, $allTimeStatisticsRunning->getNumberOfActivities());
 
-        $this->assertEquals(7600.0, $allTimeStatisticsCycling->getTotalDuration());
-        $this->assertEquals(63.5, $allTimeStatisticsCycling->getTotalDistance());
-        $this->assertEquals(1, $allTimeStatisticsCycling->getNumberOfActivities());
+        $this->assertSame(7600.0, $allTimeStatisticsCycling->getTotalDuration());
+        $this->assertSame(63.5, $allTimeStatisticsCycling->getTotalDistance());
+        $this->assertSame(1, $allTimeStatisticsCycling->getNumberOfActivities());
     }
 }

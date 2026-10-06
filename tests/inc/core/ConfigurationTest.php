@@ -56,7 +56,7 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
         Configuration::resetConfiguration(0);
         Configuration::loadAll(0);
 
-        $this->assertEquals('', Configuration::ActivityForm()->weatherLocation());
+        $this->assertSame('', Configuration::ActivityForm()->weatherLocation());
         $this->assertEquals('42', Configuration::Data()->vo2maxShape());
 
         Configuration::loadAll(1);

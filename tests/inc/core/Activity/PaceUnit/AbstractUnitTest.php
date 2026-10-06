@@ -29,11 +29,51 @@ class AbstractUnitTest extends TestCase
 
     private function createUnitWithTimeFormat(bool $isTimeFormat): AbstractUnit
     {
-        /** @var AbstractUnit&\PHPUnit\Framework\MockObject\MockObject $Unit */
-        $Unit = $this->getMockForAbstractClass(AbstractUnit::class);
-        $Unit->method('isTimeFormat')
-            ->willReturn($isTimeFormat);
+        return new class($isTimeFormat) extends AbstractUnit {
+            public function __construct(
+                private readonly bool $isTimeFormat
+            ) {
+            }
 
-        return $Unit;
+            public function unit(): int
+            {
+                return 0;
+            }
+
+            public function appendix(): string
+            {
+                return '';
+            }
+
+            public function isTimeFormat(): bool
+            {
+                return $this->isTimeFormat;
+            }
+
+            public function factorForUnit(): float
+            {
+                return 0.0;
+            }
+
+            public function dividendForUnit(): float
+            {
+                return 0.0;
+            }
+
+            public function rawValue(float $secondsPerKm): float
+            {
+                return 0.0;
+            }
+
+            public function format(float $secondsPerKm): string
+            {
+                return '';
+            }
+
+            public function compare(float $firstPaceInSecondsPerKm, float $secondPaceInSecondsPerKm): float
+            {
+                return 0.0;
+            }
+        };
     }
 }

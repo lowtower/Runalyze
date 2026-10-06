@@ -21,7 +21,7 @@ class CsvTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'csv/Epson.csv');
 
-        $this->assertEquals('19-12-2014 16:35', LocalTime::date('d-m-Y H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('19-12-2014 16:35', LocalTime::date('d-m-Y H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(4648, $this->Container->ActivityData->Duration);
@@ -63,7 +63,7 @@ class CsvTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'csv/Wahoo.csv');
 
-        $this->assertEquals('07-10-2016 17:24', LocalTime::date('d-m-Y H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('07-10-2016 17:24', LocalTime::date('d-m-Y H:i', $this->Container->Metadata->getTimestamp()));
 
         $this->assertEquals(490, $this->Container->ActivityData->Duration);
         $this->assertEqualsWithDelta(1.086, $this->Container->ActivityData->Distance, 0.001);
@@ -82,7 +82,7 @@ class CsvTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->GroundContactTime);
         $this->assertNotEmpty($this->Container->ContinuousData->VerticalOscillation);
 
-        $this->assertEquals(11, count($this->Container->Rounds));
+        $this->assertCount(11, $this->Container->Rounds);
         $this->assertEqualsWithDelta(4618, $this->Container->Rounds->getTotalDuration(), 5);
         $this->assertEqualsWithDelta(10.016, $this->Container->Rounds->getTotalDistance(), 0.01);
 

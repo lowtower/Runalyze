@@ -12,7 +12,7 @@ class RoundTest extends \PHPUnit\Framework\TestCase
     {
         $round = new Round(1.0, 265);
 
-        $this->assertEquals(1.0, $round->getDistance());
+        $this->assertSame(1.0, $round->getDistance());
         $this->assertEquals(265, $round->getDuration());
         $this->assertTrue($round->isActive());
     }
@@ -31,7 +31,7 @@ class RoundTest extends \PHPUnit\Framework\TestCase
         $round->setDuration(104);
         $round->setActive();
 
-        $this->assertEquals(0.5, $round->getDistance());
+        $this->assertSame(0.5, $round->getDistance());
         $this->assertEquals(104, $round->getDuration());
         $this->assertTrue($round->isActive());
     }
@@ -39,7 +39,7 @@ class RoundTest extends \PHPUnit\Framework\TestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getProviderForComparison')]
     public function testComparison(bool $expectedComparison, float $distanceFirst, int $durationFirst, bool $isActiveFirst, float $distanceSecond, int $durationSecond, bool $isActiveSecond): void
     {
-        $this->assertEquals(
+        $this->assertSame(
             $expectedComparison,
             (new Round($distanceFirst, $durationFirst, $isActiveFirst))
                 ->isEqualTo(new Round($distanceSecond, $durationSecond, $isActiveSecond))

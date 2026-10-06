@@ -39,6 +39,6 @@ class WindChillFactorTest extends \PHPUnit\Framework\TestCase
         );
 
         $this->assertEquals($Temperature->valueInPreferredUnit(), $WindChill->adjustedTemperature()->valueInPreferredUnit());
-        $this->assertEquals($Temperature->string(true, 2), $WindChill->string(true, 2));
+        $this->assertSame($Temperature->string(true, 2), $WindChill->string(true, 2));
     }
 }

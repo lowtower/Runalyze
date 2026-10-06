@@ -26,11 +26,11 @@ class EntityTest extends \PHPUnit\Framework\TestCase
             Entity::DEFAULT_TYPEID => 2,
         ]);
 
-        $this->assertEquals('Sport name', $Sport->name());
-        $this->assertEquals(700, $Sport->caloriesPerHour());
-        $this->assertEquals(140, $Sport->avgHR());
-        $this->assertEquals(PaceUnit::M_PER_S, $Sport->getLegacyPaceUnitEnum());
-        $this->assertEquals(2, $Sport->defaultTypeID());
+        $this->assertSame('Sport name', $Sport->name());
+        $this->assertSame(700, $Sport->caloriesPerHour());
+        $this->assertSame(140, $Sport->avgHR());
+        $this->assertSame(PaceUnit::M_PER_S, $Sport->getLegacyPaceUnitEnum());
+        $this->assertSame(2, $Sport->defaultTypeID());
         $this->assertTrue($Sport->hasDistances());
         $this->assertTrue($Sport->isOutside());
 

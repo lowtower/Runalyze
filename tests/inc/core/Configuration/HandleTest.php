@@ -26,7 +26,7 @@ class HandleTest extends TestCase
 
     public function testKey(): void
     {
-        $this->assertEquals('key', $this->object->key());
+        $this->assertSame('key', $this->object->key());
     }
 
     public function testObject(): void

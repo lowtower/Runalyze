@@ -74,7 +74,7 @@ class ShapeTest extends \PHPUnit\Framework\TestCase
         $Shape = new Shape($this->PDO, 1, 1, new CategoryFake());
         $Shape->calculate();
 
-        $this->assertEquals(62.5, $Shape->value());
+        $this->assertSame(62.5, $Shape->value());
     }
 
     public function testSimpleCalculationWithElevation(): void

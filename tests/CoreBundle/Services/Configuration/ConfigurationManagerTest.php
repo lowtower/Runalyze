@@ -115,7 +115,7 @@ class ConfigurationManagerTest extends TestCase
         $repository
             ->expects($this->once())
             ->method('findForAccount')
-            ->will($this->returnValue($existingData));
+            ->willReturn($existingData);
 
         return $repository;
     }
@@ -135,7 +135,7 @@ class ConfigurationManagerTest extends TestCase
         $repository
             ->expects($this->exactly($expectedCallCount))
             ->method('findForAccount')
-            ->will($this->returnValue($existingData));
+            ->willReturn($existingData);
 
         return $repository;
     }

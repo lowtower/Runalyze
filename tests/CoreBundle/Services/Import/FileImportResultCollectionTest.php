@@ -27,11 +27,11 @@ class FileImportResultCollectionTest extends TestCase
         $collection[] = new FileImportResult([], 'c.bar', 'c.bar');
         unset($collection[4]);
 
-        $this->assertEquals(4, count($collection));
-        $this->assertEquals(3, $collection->getTotalNumberOfActivities());
+        $this->assertCount(4, $collection);
+        $this->assertSame(3, $collection->getTotalNumberOfActivities());
 
         foreach ($collection as $result) {
-            $this->assertEquals('.', substr($result->getFileName(), 1, 1));
+            $this->assertSame('.', substr($result->getFileName(), 1, 1));
         }
     }
 

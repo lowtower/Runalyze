@@ -18,9 +18,9 @@ class TsbModelTest extends \PHPUnit\Framework\TestCase
         );
         $Model->calculate();
 
-        $this->assertEquals(47, $Model->fitnessAt(0));
-        $this->assertEquals(250, $Model->fatigueAt(0));
-        $this->assertEquals(-203, $Model->performanceAt(0));
+        $this->assertSame(47, $Model->fitnessAt(0));
+        $this->assertSame(250, $Model->fatigueAt(0));
+        $this->assertSame(-203, $Model->performanceAt(0));
         $this->assertEqualsWithDelta(7.0, $Model->restDaysAt(0), 0.5);
     }
 
@@ -36,25 +36,25 @@ class TsbModelTest extends \PHPUnit\Framework\TestCase
         ], 42, 7);
         $Model->calculate();
 
-        $this->assertEquals(7, $Model->fitnessAt(0));
-        $this->assertEquals(38, $Model->fatigueAt(0));
-        $this->assertEquals(-31, $Model->performanceAt(0));
+        $this->assertSame(7, $Model->fitnessAt(0));
+        $this->assertSame(38, $Model->fatigueAt(0));
+        $this->assertSame(-31, $Model->performanceAt(0));
 
-        $this->assertEquals(9, $Model->fitnessAt(1));
-        $this->assertEquals(10, $Model->fitnessAt(2));
-        $this->assertEquals(10, $Model->fitnessAt(3));
-        $this->assertEquals(9, $Model->fitnessAt(4));
-        $this->assertEquals(12, $Model->fitnessAt(5));
-        $this->assertEquals(13, $Model->fitnessAt(6));
-        $this->assertEquals(17, $Model->fitnessAt(7));
+        $this->assertSame(9, $Model->fitnessAt(1));
+        $this->assertSame(10, $Model->fitnessAt(2));
+        $this->assertSame(10, $Model->fitnessAt(3));
+        $this->assertSame(9, $Model->fitnessAt(4));
+        $this->assertSame(12, $Model->fitnessAt(5));
+        $this->assertSame(13, $Model->fitnessAt(6));
+        $this->assertSame(17, $Model->fitnessAt(7));
 
-        $this->assertEquals(41, $Model->fatigueAt(1));
-        $this->assertEquals(40, $Model->fatigueAt(2));
-        $this->assertEquals(30, $Model->fatigueAt(3));
-        $this->assertEquals(23, $Model->fatigueAt(4));
-        $this->assertEquals(32, $Model->fatigueAt(5));
-        $this->assertEquals(32, $Model->fatigueAt(6));
-        $this->assertEquals(49, $Model->fatigueAt(7));
+        $this->assertSame(41, $Model->fatigueAt(1));
+        $this->assertSame(40, $Model->fatigueAt(2));
+        $this->assertSame(30, $Model->fatigueAt(3));
+        $this->assertSame(23, $Model->fatigueAt(4));
+        $this->assertSame(32, $Model->fatigueAt(5));
+        $this->assertSame(32, $Model->fatigueAt(6));
+        $this->assertSame(49, $Model->fatigueAt(7));
     }
 
     public function testSteadyState(): void
@@ -62,8 +62,8 @@ class TsbModelTest extends \PHPUnit\Framework\TestCase
         $Model = new TsbModel(array_fill(0, 101, 50), 42, 7);
         $Model->calculate();
 
-        $this->assertEquals(50, $Model->fitnessAt(100));
-        $this->assertEquals(50, $Model->fatigueAt(100));
+        $this->assertSame(50, $Model->fitnessAt(100));
+        $this->assertSame(50, $Model->fatigueAt(100));
 
         $this->assertEqualsWithDelta(50, $Model->fitnessAt(70), 2.5);
         $this->assertEqualsWithDelta(50, $Model->fatigueAt(14), 2.5);
@@ -83,20 +83,20 @@ class TsbModelTest extends \PHPUnit\Framework\TestCase
         $Model->setRange(0, 100);
         $Model->calculate();
 
-        $this->assertEquals(44, $Model->fitnessAt(1));
-        $this->assertEquals(42, $Model->fitnessAt(2));
-        $this->assertEquals(37, $Model->fitnessAt(5));
-        $this->assertEquals(29, $Model->fitnessAt(10));
-        $this->assertEquals(23, $Model->fitnessAt(15));
-        $this->assertEquals(18, $Model->fitnessAt(20));
-        $this->assertEquals(11, $Model->fitnessAt(30));
-        $this->assertEquals(7, $Model->fitnessAt(40));
-        $this->assertEquals(4, $Model->fitnessAt(50));
-        $this->assertEquals(3, $Model->fitnessAt(60));
-        $this->assertEquals(2, $Model->fitnessAt(70));
-        $this->assertEquals(1, $Model->fitnessAt(80));
-        $this->assertEquals(1, $Model->fitnessAt(90));
-        $this->assertEquals(0, $Model->fitnessAt(100));
+        $this->assertSame(44, $Model->fitnessAt(1));
+        $this->assertSame(42, $Model->fitnessAt(2));
+        $this->assertSame(37, $Model->fitnessAt(5));
+        $this->assertSame(29, $Model->fitnessAt(10));
+        $this->assertSame(23, $Model->fitnessAt(15));
+        $this->assertSame(18, $Model->fitnessAt(20));
+        $this->assertSame(11, $Model->fitnessAt(30));
+        $this->assertSame(7, $Model->fitnessAt(40));
+        $this->assertSame(4, $Model->fitnessAt(50));
+        $this->assertSame(3, $Model->fitnessAt(60));
+        $this->assertSame(2, $Model->fitnessAt(70));
+        $this->assertSame(1, $Model->fitnessAt(80));
+        $this->assertSame(1, $Model->fitnessAt(90));
+        $this->assertSame(0, $Model->fitnessAt(100));
     }
 
     public function testFutureFatigue(): void
@@ -107,13 +107,13 @@ class TsbModelTest extends \PHPUnit\Framework\TestCase
         $Model->setRange(0, 30);
         $Model->calculate();
 
-        $this->assertEquals(188, $Model->fatigueAt(1));
-        $this->assertEquals(141, $Model->fatigueAt(2));
-        $this->assertEquals(59, $Model->fatigueAt(5));
-        $this->assertEquals(14, $Model->fatigueAt(10));
-        $this->assertEquals(3, $Model->fatigueAt(15));
-        $this->assertEquals(1, $Model->fatigueAt(20));
-        $this->assertEquals(0, $Model->fatigueAt(22));
+        $this->assertSame(188, $Model->fatigueAt(1));
+        $this->assertSame(141, $Model->fatigueAt(2));
+        $this->assertSame(59, $Model->fatigueAt(5));
+        $this->assertSame(14, $Model->fatigueAt(10));
+        $this->assertSame(3, $Model->fatigueAt(15));
+        $this->assertSame(1, $Model->fatigueAt(20));
+        $this->assertSame(0, $Model->fatigueAt(22));
     }
 
     public function testBadTimeConstants(): void

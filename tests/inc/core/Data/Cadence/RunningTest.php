@@ -10,7 +10,7 @@ class RunningTest extends \PHPUnit\Framework\TestCase
     {
         $Cadence = new Running(90);
 
-        $this->assertEquals(180, $Cadence->value());
+        $this->assertSame(180, $Cadence->value());
     }
 
     public function testFactor(): void

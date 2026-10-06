@@ -23,7 +23,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         );
         $Calculator->calculate();
 
-        $this->assertEquals(100, $Calculator->average());
+        $this->assertSame(100, $Calculator->average());
     }
 
     public function testSimpleArray(): void
@@ -37,7 +37,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         );
         $Calculator->calculate();
 
-        $this->assertEquals(122, $Calculator->average());
+        $this->assertSame(122, $Calculator->average());
         $this->assertEquals(
             [100, 90, 120, 200, 100],
             $Calculator->stridesData()
@@ -47,7 +47,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1951
      */
-    public function testTooBigValue(): void
+    public function testTooBigValueReturnsNull(): void
     {
         $Calculator = new Calculator(
             new Trackdata\Entity([
@@ -58,7 +58,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         );
         $Calculator->calculate();
 
-        $this->assertEquals(0, Calculator::forActivity(new Activity\Entity([
+        $this->assertNull(Calculator::forActivity(new Activity\Entity([
             Activity\Entity::DISTANCE => 75,
             Activity\Entity::TIME_IN_SECONDS => 7200,
         ])));

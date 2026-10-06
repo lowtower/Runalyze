@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
@@ -15,7 +16,7 @@ class InstallControllerTest extends AbstractFixturesAwareWebTestCase
     {
         $this->Client->request('GET', '/install/finish');
 
-        $this->assertNotSame(404, $this->Client->getResponse()->getStatusCode());
+        $this->assertNotSame(Response::HTTP_NOT_FOUND, $this->Client->getResponse()->getStatusCode());
     }
 
     public function testInstallActionRedirectsToFinishWhenInstallationWasAlreadySuccessful(): void

@@ -76,15 +76,15 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
             $CalculatorOnlyActivity->estimateVO2maxByHeartRateWithElevation()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $CalculatorUpAndDown->estimateVO2maxByHeartRateWithElevationFor(500, 100),
             $CalculatorUpAndDown->estimateVO2maxByHeartRateWithElevation()
         );
-        $this->assertEquals(
+        $this->assertSame(
             $CalculatorOnlyElevation->estimateVO2maxByHeartRateWithElevationFor(500, 500),
             $CalculatorOnlyElevation->estimateVO2maxByHeartRateWithElevation()
         );
-        $this->assertEquals(
+        $this->assertSame(
             $CalculatorOnlyActivity->estimateVO2maxByHeartRateWithElevationFor(100, 100),
             $CalculatorOnlyActivity->estimateVO2maxByHeartRateWithElevation()
         );
@@ -121,6 +121,6 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
             Model\Trackdata\Entity::HEARTRATE => [0, 0],
         ]));
 
-        $this->assertEquals($CalculatorOnlyActivity->calculateTrimp(), $CalculatorWithTrackdata->calculateTrimp());
+        $this->assertSame($CalculatorOnlyActivity->calculateTrimp(), $CalculatorWithTrackdata->calculateTrimp());
     }
 }

@@ -19,7 +19,7 @@ class ContinuousDataTest extends \PHPUnit\Framework\TestCase
     public function testPropertyAccessByName(): void
     {
         foreach ($this->Data->getPropertyNamesOfArrays() as $name) {
-            $this->assertTrue(is_array($this->Data->{$name}), 'Can\'t access property "' . $name . '".');
+            $this->assertIsArray($this->Data->{$name}, 'Can\'t access property "' . $name . '".');
         }
     }
 

@@ -59,8 +59,8 @@ class ActivityDataContainerMergerTest extends \PHPUnit\Framework\TestCase
         $merger = new ActivityDataContainerMerger($this->FirstContainer, $this->SecondContainer);
         $newContainer = $merger->getResultingContainer();
 
-        $this->assertEquals(2, $newContainer->Rounds->count());
-        $this->assertEquals(1, $newContainer->Pauses->count());
+        $this->assertCount(2, $newContainer->Rounds);
+        $this->assertCount(1, $newContainer->Pauses);
     }
 
     public function testMergingOfRRIntervals(): void

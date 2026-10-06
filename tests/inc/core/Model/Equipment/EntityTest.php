@@ -20,15 +20,15 @@ class EntityTest extends \PHPUnit\Framework\TestCase
             Entity::DATE_END => null,
         ]);
 
-        $this->assertEquals('Equipment name', $Equipment->name());
-        $this->assertEquals('Here are some notes', $Equipment->notes());
+        $this->assertSame('Equipment name', $Equipment->name());
+        $this->assertSame('Here are some notes', $Equipment->notes());
         $this->assertTrue($Equipment->hasStartDate());
-        $this->assertEquals('2015-01-01', $Equipment->startDate());
+        $this->assertSame('2015-01-01', $Equipment->startDate());
         $this->assertTrue($Equipment->isInUse());
         $this->assertEquals(null, $Equipment->endDate());
 
-        $this->assertEquals(123.45, $Equipment->distance());
+        $this->assertSame(123.45, $Equipment->distance());
         $this->assertEquals(50, $Equipment->additionalDistance());
-        $this->assertEquals(173.45, $Equipment->totalDistance());
+        $this->assertSame(173.45, $Equipment->totalDistance());
     }
 }

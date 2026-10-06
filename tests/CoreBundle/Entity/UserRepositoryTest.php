@@ -48,8 +48,8 @@ class UserRepositoryTest extends AbstractRepositoryTestCase
     {
         $this->insertDataForDefaultAccount(197, 48);
 
-        $this->assertEquals(197, $this->UserRepository->getCurrentMaximalHeartRate($this->Account));
-        $this->assertEquals(48, $this->UserRepository->getCurrentRestingHeartRate($this->Account));
+        $this->assertSame(197, $this->UserRepository->getCurrentMaximalHeartRate($this->Account));
+        $this->assertSame(48, $this->UserRepository->getCurrentRestingHeartRate($this->Account));
 
         /** @var ConfRepository $confRepository */
         $confRepository = $this->EntityManager->getRepository(Conf::class);
@@ -64,11 +64,11 @@ class UserRepositoryTest extends AbstractRepositoryTestCase
         $this->insertDataForDefaultAccount(0, 53, time() - 600);
         $this->insertDataForDefaultAccount(200, 60, time() - 900);
 
-        $this->assertEquals(195, $this->UserRepository->getCurrentMaximalHeartRate($this->Account));
-        $this->assertEquals(53, $this->UserRepository->getCurrentRestingHeartRate($this->Account));
+        $this->assertSame(195, $this->UserRepository->getCurrentMaximalHeartRate($this->Account));
+        $this->assertSame(53, $this->UserRepository->getCurrentRestingHeartRate($this->Account));
 
         $latestEntry = $this->UserRepository->getLatestEntryFor($this->Account);
-        $this->assertEquals(0, $latestEntry->getPulseMax());
-        $this->assertEquals(0, $latestEntry->getPulseRest());
+        $this->assertSame(0, $latestEntry->getPulseMax());
+        $this->assertSame(0, $latestEntry->getPulseRest());
     }
 }

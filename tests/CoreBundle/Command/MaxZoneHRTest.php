@@ -215,15 +215,15 @@ final class ActivityBulkImportCommandAdditionalTest extends TestCase
     private function createCommand(?ManagerRegistry $doctrine = null): ActivityBulkImportCommand
     {
         return new ActivityBulkImportCommand(
-            $this->createMock(ParameterBagInterface::class),
-            $doctrine ?? $this->createMock(ManagerRegistry::class),
-            $this->createMock(TokenStorageInterface::class),
-            $this->createMock(Filesystem::class),
-            $this->createMock(FileImporter::class),
-            $this->createMock(ActivityDataContainerFilter::class),
-            $this->createMock(ActivityDataContainerToActivityContextConverter::class),
-            $this->createMock(ActivityContextAdapterFactory::class),
-            $this->createMock(ConfigurationManager::class)
+            $this->createStub(ParameterBagInterface::class),
+            $doctrine ?? $this->createStub(ManagerRegistry::class),
+            $this->createStub(TokenStorageInterface::class),
+            $this->createStub(Filesystem::class),
+            $this->createStub(FileImporter::class),
+            $this->createStub(ActivityDataContainerFilter::class),
+            $this->createStub(ActivityDataContainerToActivityContextConverter::class),
+            $this->createStub(ActivityContextAdapterFactory::class),
+            $this->createStub(ConfigurationManager::class)
         );
     }
 
@@ -264,7 +264,7 @@ final class ActivityBulkImportCommandAdditionalTest extends TestCase
 
         $command = $this->createCommand($doctrine);
 
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
         $maxZoneHR = $this->createMaxZoneHRWithValues(190, 1_700_000_000);
 
         $this->invokeCheckStoreMaxZoneHR($command, $account, new BufferedOutput(), $maxZoneHR);
@@ -288,7 +288,7 @@ final class ActivityBulkImportCommandAdditionalTest extends TestCase
 
         $command = $this->createCommand($doctrine);
 
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
         $maxZoneHR = $this->createMaxZoneHRWithValues(190, 1_700_000_000);
 
         $this->invokeCheckStoreMaxZoneHR($command, $account, new BufferedOutput(), $maxZoneHR);
@@ -309,7 +309,7 @@ final class ActivityBulkImportCommandAdditionalTest extends TestCase
         $oldUser->method('cloneObjectForForm')
             ->willReturn($newUser);
 
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
 
         $userRepository = $this->createMock(UserRepository::class);
         $userRepository->method('getLatestEntryFor')

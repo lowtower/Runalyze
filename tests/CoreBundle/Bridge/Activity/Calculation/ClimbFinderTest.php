@@ -110,7 +110,7 @@ final class ClimbFinderTest extends TestCase
 
         $result = $this->climbFinder->findClimbsFor($training);
 
-        self::assertSame(1, $result->count());
+        self::assertCount(1, $result);
 
         $climb = $result->getElements()[0];
         self::assertSame(4.0, $climb->getDistance());
@@ -121,7 +121,7 @@ final class ClimbFinderTest extends TestCase
 
         $profile = $climb->getClimbProfile();
         self::assertNotNull($profile);
-        self::assertSame(4, $profile->count());
+        self::assertCount(4, $profile);
         self::assertSame([1.0, 1.0, 1.0, 1.0], $profile->getDistances());
         self::assertSame([10, 10, 10, 10], $profile->getElevations());
     }
@@ -165,7 +165,7 @@ final class ClimbFinderTest extends TestCase
 
         $result = $this->climbFinder->findClimbsFor($training);
 
-        self::assertSame(2, $result->count());
+        self::assertCount(2, $result);
 
         $firstClimb = $result->getElements()[0];
         self::assertSame(1.0, $firstClimb->getDistance());
@@ -191,7 +191,7 @@ final class ClimbFinderTest extends TestCase
 
         $result = $this->climbFinder->findClimbsFor($training, 5.0);
 
-        self::assertSame(1, $result->count());
+        self::assertCount(1, $result);
 
         $climb = $result->getElements()[0];
         self::assertSame(1.0, $climb->getDistance());
@@ -220,7 +220,7 @@ final class ClimbFinderTest extends TestCase
 
         $result = $this->invokeCreateClimbsForIndices($indices, $distances, $elevations);
 
-        self::assertSame(2, $result->count());
+        self::assertCount(2, $result);
 
         $firstClimb = $result->getElements()[0];
         self::assertSame(1.0, $firstClimb->getDistance());

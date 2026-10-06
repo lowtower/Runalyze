@@ -21,15 +21,15 @@ class RoundCollectionTest extends \PHPUnit\Framework\TestCase
             new Round(1.0, 260),
         ]);
 
-        $this->assertEquals(2, $this->Collection->count());
-        $this->assertEquals(2.0, $this->Collection->getTotalDistance());
+        $this->assertCount(2, $this->Collection);
+        $this->assertSame(2.0, $this->Collection->getTotalDistance());
         $this->assertEquals(545, $this->Collection->getTotalDuration());
     }
 
     public function testDefaultConstructor(): void
     {
-        $this->assertEquals(0, $this->Collection->count());
-        $this->assertEquals(0.0, $this->Collection->getTotalDistance());
+        $this->assertCount(0, $this->Collection);
+        $this->assertSame(0.0, $this->Collection->getTotalDistance());
         $this->assertEquals(0, $this->Collection->getTotalDuration());
         $this->assertTrue($this->Collection->isEmpty());
         $this->assertFalse($this->Collection->offsetExists(0));
@@ -38,13 +38,13 @@ class RoundCollectionTest extends \PHPUnit\Framework\TestCase
 
     public function testDefaultArrayAccessors(): void
     {
-        $this->assertEquals(0, count($this->Collection));
+        $this->assertCount(0, $this->Collection);
         $this->assertEmpty($this->Collection);
 
         $this->Collection[] = new Round(1.0, 285);
         $this->Collection[] = new Round(1.0, 260);
 
-        $this->assertEquals(2, count($this->Collection));
+        $this->assertCount(2, $this->Collection);
         $this->assertNotEmpty($this->Collection);
 
         $this->assertInstanceOf(Round::class, $this->Collection[0]);
@@ -56,7 +56,7 @@ class RoundCollectionTest extends \PHPUnit\Framework\TestCase
         $this->Collection->add(new Round(1.0, 285));
         $this->Collection->add(new Round(1.0, 260));
 
-        $this->assertEquals(2, $this->Collection->count());
+        $this->assertCount(2, $this->Collection);
     }
 
     public function testRoundingDurations(): void
@@ -100,6 +100,6 @@ class RoundCollectionTest extends \PHPUnit\Framework\TestCase
         $this->Collection->clear();
 
         $this->assertTrue($this->Collection->isEmpty());
-        $this->assertEquals(0, $this->Collection->count());
+        $this->assertCount(0, $this->Collection);
     }
 }

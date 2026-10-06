@@ -245,7 +245,7 @@ class TagsControllerTest extends AbstractFixturesAwareWebTestCase
         $this->Client->request('GET', '/settings/tags/' . $tagId . '/delete?t=invalid-token');
 
         $this->assertStatusCode(302, $this->Client);
-        $this->assertNotNull($this->reloadTag($tagId));
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Tag::class, $this->reloadTag($tagId));
     }
 
     public function testTagDeleteActionDeletesTag(): void

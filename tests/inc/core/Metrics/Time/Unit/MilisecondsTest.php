@@ -10,7 +10,7 @@ class MilisecondsTest extends \PHPUnit\Framework\TestCase
     {
         $unit = new Miliseconds();
 
-        $this->assertEquals(234.0, $unit->fromBaseUnit(0.234));
-        $this->assertEquals(0.75, $unit->toBaseUnit(750));
+        $this->assertSame(234.0, $unit->fromBaseUnit(0.234));
+        $this->assertSame(0.75, $unit->toBaseUnit(750));
     }
 }

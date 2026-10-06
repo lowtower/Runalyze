@@ -9,7 +9,6 @@ use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
 use Runalyze\Util\LocalTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[\Symfony\Component\Routing\Attribute\Route(path: '/_internal/panel')]
@@ -24,7 +23,7 @@ class PanelController extends AbstractController
      * @throws AccessDeniedException
      */
     #[\Symfony\Component\Routing\Attribute\Route(path: '/sport', name: 'internal-sport-panel')]
-    public function sportStatAction(Request $request, ?Account $account = null): JsonResponse
+    public function sportStatAction(?Account $account = null): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 

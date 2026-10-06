@@ -39,7 +39,7 @@ class EntityWithIDTest extends \PHPUnit\Framework\TestCase
         ]);
 
         $this->assertTrue($O->hasID());
-        $this->assertEquals(1, $O->id());
+        $this->assertSame(1, $O->id());
 
         $this->assertEquals([
             'foo' => 'bar',

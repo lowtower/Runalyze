@@ -115,7 +115,7 @@ class AccountMailerTest extends TestCase
     public function testSetFromWithInvalidMailThrowsRfcComplianceException(): void
     {
         $service = $this->createMailerService(
-            $this->createMock(MailerInterface::class),
+            $this->createStub(MailerInterface::class),
             $this->createTwig(languageTemplateExists: false, html: 'HTML'),
             $this->createTranslator()
         );
@@ -130,7 +130,7 @@ class AccountMailerTest extends TestCase
         $this->expectException(RfcComplianceException::class);
 
         new AccountMailer(
-            $this->createMock(MailerInterface::class),
+            $this->createStub(MailerInterface::class),
             $this->createTwig(languageTemplateExists: false, html: 'HTML'),
             $this->createTranslator(),
             'not-an-email',
@@ -143,7 +143,7 @@ class AccountMailerTest extends TestCase
         $this->expectException(RfcComplianceException::class);
 
         new AccountMailer(
-            $this->createMock(MailerInterface::class),
+            $this->createStub(MailerInterface::class),
             $this->createTwig(languageTemplateExists: false, html: 'HTML'),
             $this->createTranslator(),
             '',
@@ -245,7 +245,7 @@ class AccountMailerTest extends TestCase
     {
         $twig = $this->createMock(Environment::class);
         $twig->method('getLoader')
-            ->willReturn($this->createMock(LoaderInterface::class));
+            ->willReturn($this->createStub(LoaderInterface::class));
         $twig->method('render')
             ->willThrowException(new LoaderError('Template not found'));
 

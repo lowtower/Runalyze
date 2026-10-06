@@ -30,13 +30,13 @@ class TimeTest extends \PHPUnit\Framework\TestCase
 
     public function testDiffOfDays(): void
     {
-        $this->assertEquals(0, Time::diffOfDates('2006-09-07', '2006-09-07'));
-        $this->assertEquals(1, Time::diffOfDates('2006-09-06', '2006-09-07'));
-        $this->assertEquals(2, Time::diffOfDates('2006-09-05', '2006-09-07'));
-        $this->assertEquals(10, Time::diffOfDates('2006-08-28', '2006-09-07'));
-        $this->assertEquals(31, Time::diffOfDates('2006-08-07', '2006-09-07'));
+        $this->assertSame(0, Time::diffOfDates('2006-09-07', '2006-09-07'));
+        $this->assertSame(1, Time::diffOfDates('2006-09-06', '2006-09-07'));
+        $this->assertSame(2, Time::diffOfDates('2006-09-05', '2006-09-07'));
+        $this->assertSame(10, Time::diffOfDates('2006-08-28', '2006-09-07'));
+        $this->assertSame(31, Time::diffOfDates('2006-08-07', '2006-09-07'));
 
-        $this->assertEquals(2, Time::diffOfDates('2014-03-30', '2014-04-01'));
+        $this->assertSame(2, Time::diffOfDates('2014-03-30', '2014-04-01'));
     }
 
     public function testIsToday(): void

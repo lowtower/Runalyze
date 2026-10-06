@@ -133,7 +133,7 @@ class GeneratePosterTest extends TestCase
         $account = $this->createMock(Account::class);
         $account->method('getUsername')
             ->willReturn('johndoe');
-        $sport = $this->createMock(Sport::class);
+        $sport = $this->createStub(Sport::class);
 
         $generator = $this->createGenerator('/app');
         $generator->buildCommand(
@@ -173,7 +173,7 @@ class GeneratePosterTest extends TestCase
         $account = $this->createMock(Account::class);
         $account->method('getUsername')
             ->willReturn('johndoe');
-        $sport = $this->createMock(Sport::class);
+        $sport = $this->createStub(Sport::class);
 
         $generator = $this->createGenerator('/app');
         $generator->buildCommand(
@@ -201,7 +201,7 @@ class GeneratePosterTest extends TestCase
         $account = $this->createMock(Account::class);
         $account->method('getUsername')
             ->willReturn('johndoe');
-        $sport = $this->createMock(Sport::class);
+        $sport = $this->createStub(Sport::class);
 
         $generator = $this->createGenerator('/app');
         $generator->buildCommand(
@@ -231,7 +231,7 @@ class GeneratePosterTest extends TestCase
         $account = $this->createMock(Account::class);
         $account->method('getUsername')
             ->willReturn('johndoe');
-        $sport = $this->createMock(Sport::class);
+        $sport = $this->createStub(Sport::class);
 
         $generator = $this->createGenerator('/app');
         $generator->buildCommand($type, '/tmp/json', 2024, $account, $sport, 'Title', '#000', '#111', '#222', '#333');

@@ -44,7 +44,7 @@ class FitlogTest extends AbstractActivityParserTestCase
 </FitnessWorkbook>');
 
         $this->assertEquals(1, $this->Parser->getNumberOfActivities());
-        $this->assertEquals('2013-12-10 00:00', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2013-12-10 00:00', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(-210, $this->Container->Metadata->getTimezoneOffset());
         $this->assertEquals('Laufen', $this->Container->Metadata->getSportName());
 
@@ -57,7 +57,7 @@ class FitlogTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'sporttracks/20110411_Laufeinheit_division_by_zero.fitlog');
 
-        $this->assertEquals('11-04-2011 18:52', LocalTime::date('d-m-Y H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('11-04-2011 18:52', LocalTime::date('d-m-Y H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEqualsWithDelta(1399, $this->Container->ActivityData->Duration, 30);
@@ -80,7 +80,7 @@ class FitlogTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'sporttracks/spinning.fitlog');
 
-        $this->assertEquals('24-12-2015 12:48', LocalTime::date('d-m-Y H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('24-12-2015 12:48', LocalTime::date('d-m-Y H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(1803, $this->Container->ActivityData->Duration);
@@ -96,7 +96,7 @@ class FitlogTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'sporttracks/with-pauses.fitlog');
 
-        $this->assertEquals('01-08-2008 10:02', LocalTime::date('d-m-Y H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('01-08-2008 10:02', LocalTime::date('d-m-Y H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);

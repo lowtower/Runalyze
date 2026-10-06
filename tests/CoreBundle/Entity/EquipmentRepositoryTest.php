@@ -54,7 +54,7 @@ class EquipmentRepositoryTest extends AbstractRepositoryTestCase
 
         $statistics = $this->EquipmentRepository->getStatisticsForType($this->getDefaultAccountsClothesType()->getId(), $this->Account);
 
-        $this->assertEquals(2, $statistics->getCount());
+        $this->assertSame(2, $statistics->getCount());
         $this->assertEquals(2, $statistics->getStatistics()[0]->getNumberOfActivities());
         $this->assertEquals(10.0, $statistics->getStatistics()[0]->getMaximalDistance());
         $this->assertEquals(240, $statistics->getStatistics()[0]->getMaximalPace());

@@ -12,6 +12,6 @@ class NoneTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(1.23, $unit->fromBaseUnit(1.23));
         $this->assertEquals(3.14, $unit->toBaseUnit(3.14));
-        $this->assertEquals('', $unit->getAppendix());
+        $this->assertSame('', $unit->getAppendix());
     }
 }

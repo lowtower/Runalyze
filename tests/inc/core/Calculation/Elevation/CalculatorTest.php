@@ -16,9 +16,9 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $Calculator = new Calculator([]);
         $Calculator->calculate();
 
-        $this->assertEquals(0, $Calculator->totalElevation());
-        $this->assertEquals(0, $Calculator->elevationUp());
-        $this->assertEquals(0, $Calculator->elevationDown());
+        $this->assertSame(0, $Calculator->totalElevation());
+        $this->assertSame(0, $Calculator->elevationUp());
+        $this->assertSame(0, $Calculator->elevationDown());
     }
 
     public function testValuesSimple(): void
@@ -29,9 +29,9 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $Calc = new Calculator([0, 10, 17, 14, 20, 3, 11, 0], $Method, 0);
         $Calc->calculate();
 
-        $this->assertEquals(31, $Calc->totalElevation());
-        $this->assertEquals(31, $Calc->elevationUp());
-        $this->assertEquals(31, $Calc->elevationDown());
+        $this->assertSame(31, $Calc->totalElevation());
+        $this->assertSame(31, $Calc->elevationUp());
+        $this->assertSame(31, $Calc->elevationDown());
     }
 
     public function testValuesOnlyUp(): void
@@ -42,9 +42,9 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $Calc = new Calculator([0, 10, 17, 20, 35], $Method, 0);
         $Calc->calculate();
 
-        $this->assertEquals(35, $Calc->totalElevation());
-        $this->assertEquals(35, $Calc->elevationUp());
-        $this->assertEquals(0, $Calc->elevationDown());
+        $this->assertSame(35, $Calc->totalElevation());
+        $this->assertSame(35, $Calc->elevationUp());
+        $this->assertSame(0, $Calc->elevationDown());
     }
 
     public function testValuesOnlyDown(): void
@@ -55,9 +55,9 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $Calc = new Calculator([0, -10, -17, -20, -35], $Method, 0);
         $Calc->calculate();
 
-        $this->assertEquals(35, $Calc->totalElevation());
-        $this->assertEquals(0, $Calc->elevationUp());
-        $this->assertEquals(35, $Calc->elevationDown());
+        $this->assertSame(35, $Calc->totalElevation());
+        $this->assertSame(0, $Calc->elevationUp());
+        $this->assertSame(35, $Calc->elevationDown());
     }
 
     public function testAlgorithmTreshold(): void
@@ -68,9 +68,9 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $Calc = new Calculator([0, 2, 4, 6, 5, 7, 4, 8, 10, 0], $Method, 2);
         $Calc->calculate();
 
-        $this->assertEquals(10, $Calc->totalElevation());
-        $this->assertEquals(10, $Calc->elevationUp());
-        $this->assertEquals(10, $Calc->elevationDown());
+        $this->assertSame(10, $Calc->totalElevation());
+        $this->assertSame(10, $Calc->elevationUp());
+        $this->assertSame(10, $Calc->elevationDown());
     }
 
     public function testAlgorithmDouglasPeucker(): void
@@ -81,8 +81,8 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $Calc = new Calculator([0, 2, 4, 6, 5, 7, 4, 8, 10, 0], $Method, 2);
         $Calc->calculate();
 
-        $this->assertEquals(13, $Calc->totalElevation());
-        $this->assertEquals(13, $Calc->elevationUp());
-        $this->assertEquals(13, $Calc->elevationDown());
+        $this->assertSame(13, $Calc->totalElevation());
+        $this->assertSame(13, $Calc->elevationUp());
+        $this->assertSame(13, $Calc->elevationDown());
     }
 }

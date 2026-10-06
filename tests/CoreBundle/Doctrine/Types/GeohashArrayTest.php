@@ -3,21 +3,23 @@
 namespace Runalyze\Bundle\CoreBundle\Tests\Doctrine\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use PHPUnit\Framework\MockObject\MockObject;
 use Runalyze\Bundle\CoreBundle\Doctrine\Types\GeohashArray;
 
 class GeohashArrayTest extends \PHPUnit\Framework\TestCase
 {
     protected GeohashArray $Type;
 
-    protected MockObject $PlatformMock;
+    /**
+     * @var \PHPUnit\Framework\MockObject\Stub&\Doctrine\DBAL\Platforms\AbstractPlatform
+     */
+    protected \PHPUnit\Framework\MockObject\Stub $PlatformMock;
 
     protected function setUp(): void
     {
         /** @var GeohashArray $type */
         $type = GeohashArray::getType(GeohashArray::GEOHASH_ARRAY);
         $this->Type = $type;
-        $this->PlatformMock = $this->getMockForAbstractClass(AbstractPlatform::class);
+        $this->PlatformMock = $this->createStub(AbstractPlatform::class);
     }
 
     public function testEmptyData(): void
@@ -33,6 +35,6 @@ class GeohashArrayTest extends \PHPUnit\Framework\TestCase
         $shortHashes = implode('|', ['7zzzzzzzzzzz', 'u1xjnxhj49qr', '', 'r7wb', '7zzzzzzzzzzz', 'u1xjnxhmqqg2', '6zkm']);
 
         $this->assertEquals($longHashes, $this->Type->convertToPHPValue($shortHashes, $this->PlatformMock));
-        $this->assertEquals($shortHashes, $this->Type->convertToDatabaseValue($longHashes, $this->PlatformMock));
+        $this->assertSame($shortHashes, $this->Type->convertToDatabaseValue($longHashes, $this->PlatformMock));
     }
 }

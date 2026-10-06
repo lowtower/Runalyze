@@ -12,7 +12,7 @@ class FilenameHandlerTest extends \PHPUnit\Framework\TestCase
     {
         $Handler = new FilenameHandler(42);
 
-        $this->assertNotEquals(
+        $this->assertNotSame(
             $Handler->generateInternalFilename('sql.gz'),
             $Handler->generateInternalFilename('sql.gz')
         );
@@ -41,7 +41,7 @@ class FilenameHandlerTest extends \PHPUnit\Framework\TestCase
         $internalFilenameA = $HandlerA->generateInternalFilename('sql.gz');
         $internalFilenameB = $HandlerB->generateInternalFilename('sql.gz');
 
-        $this->assertNotEquals($internalFilenameA, $internalFilenameB);
+        $this->assertNotSame($internalFilenameA, $internalFilenameB);
         $this->assertFalse($HandlerA->validateInternalFilename($internalFilenameB));
         $this->assertFalse($HandlerB->validateInternalFilename($internalFilenameA));
     }

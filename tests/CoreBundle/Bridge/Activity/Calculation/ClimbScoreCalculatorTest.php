@@ -103,7 +103,7 @@ final class ClimbScoreCalculatorTest extends TestCase
         $this->climbFinder->method('findClimbsFor')
             ->willReturn(new ClimbCollection());
 
-        $activity->expects(self::once())->method('setClimbScore')->with(self::isType('float'));
+        $activity->expects(self::once())->method('setClimbScore')->with(self::isFloat());
 
         $score = $this->calculator->calculateFor($activity);
 
@@ -165,7 +165,7 @@ final class ClimbScoreCalculatorTest extends TestCase
         $mockedFietsIndex
             ->expects(self::once())
             ->method('getScoreForProfile')
-            ->with(self::isType('array'), 200)
+            ->with(self::isArray(), 200)
             ->willReturn(3.5);
         $mockedFietsIndex->expects(self::never())->method('getScoreFor');
 

@@ -31,7 +31,7 @@ class ActivityContextTest extends TestCase
 
     public function testGetAccountDelegatesToActivity(): void
     {
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
         $activity = $this->createTraining();
         $activity->method('getAccount')
             ->willReturn($account);
@@ -43,7 +43,7 @@ class ActivityContextTest extends TestCase
 
     public function testGetSportDelegatesToActivity(): void
     {
-        $sport = $this->createMock(Sport::class);
+        $sport = $this->createStub(Sport::class);
         $activity = $this->createTraining();
         $activity->method('getSport')
             ->willReturn($sport);
@@ -77,7 +77,7 @@ class ActivityContextTest extends TestCase
 
     public function testTrackdataIsExposedWhenProvided(): void
     {
-        $trackdata = $this->createMock(Trackdata::class);
+        $trackdata = $this->createStub(Trackdata::class);
         $context = new ActivityContext($this->createTraining(), $trackdata);
 
         $this->assertSame($trackdata, $context->getTrackdata());
@@ -86,7 +86,7 @@ class ActivityContextTest extends TestCase
 
     public function testSwimdataIsExposedWhenProvided(): void
     {
-        $swimdata = $this->createMock(Swimdata::class);
+        $swimdata = $this->createStub(Swimdata::class);
         $context = new ActivityContext($this->createTraining(), null, $swimdata);
 
         $this->assertSame($swimdata, $context->getSwimdata());
@@ -95,7 +95,7 @@ class ActivityContextTest extends TestCase
 
     public function testHrvIsExposedWhenProvided(): void
     {
-        $hrv = $this->createMock(Hrv::class);
+        $hrv = $this->createStub(Hrv::class);
         $context = new ActivityContext($this->createTraining(), null, null, null, $hrv);
 
         $this->assertSame($hrv, $context->getHrv());
@@ -104,7 +104,7 @@ class ActivityContextTest extends TestCase
 
     public function testRaceResultIsExposedWhenProvided(): void
     {
-        $raceResult = $this->createMock(Raceresult::class);
+        $raceResult = $this->createStub(Raceresult::class);
         $context = new ActivityContext($this->createTraining(), null, null, null, null, $raceResult);
 
         $this->assertSame($raceResult, $context->getRaceResult());

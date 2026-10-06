@@ -69,7 +69,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $WithHRmaxAdapted = new Calculator(new Athlete(null, 180), $adaptedData);
         $WithoutHRmax = new Calculator(new Athlete(), $this->hrData());
 
-        $this->assertEquals($WithHRmaxDefault->value(), $WithoutHRmax->value());
+        $this->assertSame($WithHRmaxDefault->value(), $WithoutHRmax->value());
         $this->assertEqualsWithDelta($WithHRmaxDefault->value(), $WithHRmaxAdapted->value(), 0.1 * $WithHRmaxDefault->value(), 'Trimp dismatch for adapted data');
     }
 
@@ -88,7 +88,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $WithHRrestAdapted = new Calculator(new Athlete(null, Calculator::DEFAULT_HR_MAX, 40), $adaptedData);
         $WithoutHRrest = new Calculator(new Athlete(), $this->hrData());
 
-        $this->assertEquals($WithHRrestDefault->value(), $WithoutHRrest->value());
+        $this->assertSame($WithHRrestDefault->value(), $WithoutHRrest->value());
         $this->assertEqualsWithDelta($WithHRrestDefault->value(), $WithHRrestAdapted->value(), 0.1 * $WithHRrestDefault->value(), 'Trimp dismatch for adapted data');
     }
 
@@ -113,7 +113,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 
         // Make sure that it's not only an epsilon
         $delta = 1.02;
-        $this->assertTrue($TrimpHigh->value() > $TrimpLow->value() * $delta, sprintf('Exponential increase failed: %s has to be larger than %s', $TrimpHigh->value(), $TrimpLow->value()));
+        $this->assertGreaterThan($TrimpLow->value() * $delta, $TrimpHigh->value(), sprintf('Exponential increase failed: %s has to be larger than %s', $TrimpHigh->value(), $TrimpLow->value()));
     }
 
     /**

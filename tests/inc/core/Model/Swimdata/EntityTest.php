@@ -34,7 +34,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
     {
         $T = $this->simpleObject();
 
-        $this->assertEquals(2500, $T->poollength());
+        $this->assertSame(2500, $T->poollength());
         $this->assertEquals([25, 20, 15, 20], $T->stroke());
         $this->assertEquals([2, 2, 2, 2], $T->stroketype());
         $this->assertEquals([], $T->swolf());

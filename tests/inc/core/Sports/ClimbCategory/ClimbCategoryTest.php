@@ -13,7 +13,7 @@ class ClimbCategoryTest extends \PHPUnit\Framework\TestCase
         foreach (ClimbCategory::getOptions() as $category) {
             $object->setCategory($category);
 
-            $this->assertEquals((string) $object, $object->getString());
+            $this->assertSame((string) $object, $object->getString());
         }
     }
 
@@ -30,13 +30,13 @@ class ClimbCategoryTest extends \PHPUnit\Framework\TestCase
     {
         $categoryLimits = [10.0, 7.5, 5.0, 3.0, 2.0, 1.0];
 
-        $this->assertEquals('hc', ClimbCategory::getCategoryFor(12.3, $categoryLimits)->getString());
+        $this->assertSame('hc', ClimbCategory::getCategoryFor(12.3, $categoryLimits)->getString());
         $this->assertEquals('1', ClimbCategory::getCategoryFor(9.9, $categoryLimits)->getString());
         $this->assertEquals('2', ClimbCategory::getCategoryFor(5.0, $categoryLimits)->getString());
         $this->assertEquals('3', ClimbCategory::getCategoryFor(3.3, $categoryLimits)->getString());
         $this->assertEquals('4', ClimbCategory::getCategoryFor(2.7, $categoryLimits)->getString());
         $this->assertEquals('5', ClimbCategory::getCategoryFor(1.6, $categoryLimits)->getString());
-        $this->assertEquals('-', ClimbCategory::getCategoryFor(0.4, $categoryLimits)->getString());
+        $this->assertSame('-', ClimbCategory::getCategoryFor(0.4, $categoryLimits)->getString());
     }
 
     public function testThatCategoryMappingIgnoresAdditionalLimits(): void

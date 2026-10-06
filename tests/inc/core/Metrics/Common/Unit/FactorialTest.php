@@ -12,17 +12,17 @@ class FactorialTest extends \PHPUnit\Framework\TestCase
     {
         $unit = new Factorial('foo', 10);
 
-        $this->assertEquals(7.9, $unit->fromBaseUnit(0.79));
-        $this->assertEquals(4.2, $unit->toBaseUnit(42));
-        $this->assertEquals('foo', $unit->getAppendix());
+        $this->assertSame(7.9, $unit->fromBaseUnit(0.79));
+        $this->assertSame(4.2, $unit->toBaseUnit(42));
+        $this->assertSame('foo', $unit->getAppendix());
     }
 
     public function testDecimals(): void
     {
-        $this->assertEquals(2, (new Factorial('foo', 0.01))->getDecimals());
-        $this->assertEquals(1, (new Factorial('foo', 0.2))->getDecimals());
-        $this->assertEquals(0, (new Factorial('foo', 10))->getDecimals());
-        $this->assertEquals(0, (new Factorial('foo', 10, 0))->getDecimals());
-        $this->assertEquals(2, (new Factorial('foo', 10, 2))->getDecimals());
+        $this->assertSame(2, (new Factorial('foo', 0.01))->getDecimals());
+        $this->assertSame(1, (new Factorial('foo', 0.2))->getDecimals());
+        $this->assertSame(0, (new Factorial('foo', 10))->getDecimals());
+        $this->assertSame(0, (new Factorial('foo', 10, 0))->getDecimals());
+        $this->assertSame(2, (new Factorial('foo', 10, 2))->getDecimals());
     }
 }

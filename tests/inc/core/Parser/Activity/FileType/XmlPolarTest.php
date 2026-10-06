@@ -22,7 +22,7 @@ class XmlPolarTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'xml/Polar.xml');
 
-        $this->assertEquals('2013-03-24 11:33', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2013-03-24 11:33', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEqualsWithDelta(6.6, $this->Container->ActivityData->Distance, 0.001);
@@ -38,7 +38,7 @@ class XmlPolarTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'xml/Polar-with-arrays.xml');
 
-        $this->assertEquals('2014-09-07 09:58', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2014-09-07 09:58', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEqualsWithDelta(20.05, $this->Container->ActivityData->Distance, 0.001);
@@ -68,7 +68,7 @@ class XmlPolarTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'xml/Multiple-Polar.xml');
 
-        $this->assertEquals(6, count($this->Container));
+        $this->assertCount(6, $this->Container);
 
         $this->assertEquals(
             LocalTime::mktime(7, 9, 34, 5, 11, 2011),

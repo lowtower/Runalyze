@@ -19,7 +19,7 @@ class BackupGenerationMessageHandlerTest extends TestCase
 
     private NotificationRepository&MockObject $notificationRepositoryMock;
 
-    private ParameterBagInterface&MockObject $parameterBagMock;
+    private ParameterBagInterface&\PHPUnit\Framework\MockObject\Stub $parameterBagMock;
 
     private AccountMailer&MockObject $accountMailerMock;
 
@@ -27,7 +27,7 @@ class BackupGenerationMessageHandlerTest extends TestCase
     {
         $this->accountRepositoryMock = $this->createMock(AccountRepository::class);
         $this->notificationRepositoryMock = $this->createMock(NotificationRepository::class);
-        $this->parameterBagMock = $this->createMock(ParameterBagInterface::class);
+        $this->parameterBagMock = $this->createStub(ParameterBagInterface::class);
         $this->accountMailerMock = $this->createMock(AccountMailer::class);
     }
 

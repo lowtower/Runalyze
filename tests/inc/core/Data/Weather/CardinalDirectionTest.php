@@ -14,8 +14,8 @@ class CardinalDirectionTest extends \PHPUnit\Framework\TestCase
     {
         $Direction = new CardinalDirection(90.5);
 
-        $this->assertEquals(90.5, $Direction->value());
-        $this->assertEquals(12.3, $Direction->setDegree(12.3)->value());
+        $this->assertSame(90.5, $Direction->value());
+        $this->assertSame(12.3, $Direction->setDegree(12.3)->value());
     }
 
     public function testDirections(): void

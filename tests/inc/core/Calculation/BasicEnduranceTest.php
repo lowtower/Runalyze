@@ -32,21 +32,21 @@ class BasicEnduranceTest extends \PHPUnit\Framework\TestCase
         $this->object->setMinimalDistanceForLongjogs(10);
 
         $this->assertEquals(50, $this->object->getUsedEffectiveVO2max());
-        $this->assertEquals(30, $this->object->getDaysToRecognizeForLongjogs());
-        $this->assertEquals(60, $this->object->getDaysToRecognizeForWeekKilometer());
-        $this->assertEquals(30, $this->object->getMinimalDaysToRecognizeForWeekKilometer());
+        $this->assertSame(30, $this->object->getDaysToRecognizeForLongjogs());
+        $this->assertSame(60, $this->object->getDaysToRecognizeForWeekKilometer());
+        $this->assertSame(30, $this->object->getMinimalDaysToRecognizeForWeekKilometer());
         $this->assertEquals(10, $this->object->getMinimalDistanceForLongjogs());
     }
 
     public function testSetterAndGetterForPercentages(): void
     {
         $this->object->setPercentageForLongjogs(0.4);
-        $this->assertEquals(0.4, $this->object->getPercentageForLongjogs());
-        $this->assertEquals(0.6, $this->object->getPercentageForWeekKilometer());
+        $this->assertSame(0.4, $this->object->getPercentageForLongjogs());
+        $this->assertSame(0.6, $this->object->getPercentageForWeekKilometer());
 
         $this->object->setPercentageForWeekKilometer(0.1);
-        $this->assertEquals(0.9, $this->object->getPercentageForLongjogs());
-        $this->assertEquals(0.1, $this->object->getPercentageForWeekKilometer());
+        $this->assertSame(0.9, $this->object->getPercentageForLongjogs());
+        $this->assertSame(0.1, $this->object->getPercentageForWeekKilometer());
 
         $this->object->setPercentageForLongjogs(15);
         $this->assertEquals(1, $this->object->getPercentageForLongjogs());
@@ -112,20 +112,20 @@ class BasicEnduranceTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(0.63, $Results['weekkm-percentage'], 0.01);
         $this->assertEqualsWithDelta(0.36, $Results['longjog-percentage'], 0.01);
         $this->assertEqualsWithDelta(54, $Results['percentage'], 0.01);
-        $this->assertEquals(54, $this->object->value());
-        $this->assertEquals('54 %', $this->object->valueInPercent());
+        $this->assertSame(54, $this->object->value());
+        $this->assertSame('54 %', $this->object->valueInPercent());
 
         $this->object->setPercentageForLongjogs(1);
-        $this->assertEquals(36, $this->object->value());
+        $this->assertSame(36, $this->object->value());
 
         $this->object->setDaysToRecognizeForLongjogs(14);
-        $this->assertEquals(240, $this->object->value());
+        $this->assertSame(240, $this->object->value());
 
         // Attention: depens on START_TIME
         $this->object->setMinimalDaysToRecognizeForWeekKilometer(70);
         $this->object->setDaysToRecognizeForWeekKilometer(70);
         $this->object->setPercentageForLongjogs(0.01);
-        $this->assertEquals(17, $this->object->value());
+        $this->assertSame(17, $this->object->value());
     }
 
     public function testValueInPercentIsLimitedToHundredPercent(): void

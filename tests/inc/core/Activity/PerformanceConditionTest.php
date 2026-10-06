@@ -8,9 +8,9 @@ class PerformanceConditionTest extends \PHPUnit\Framework\TestCase
 {
     public function testFormattingValues(): void
     {
-        $this->assertEquals('', PerformanceCondition::format(null));
+        $this->assertSame('', PerformanceCondition::format(null));
         $this->assertEquals('+2', PerformanceCondition::format(102));
-        $this->assertEquals('&plusmn;0', PerformanceCondition::format(100));
+        $this->assertSame('&plusmn;0', PerformanceCondition::format(100));
         $this->assertEquals('-3', PerformanceCondition::format(97));
     }
 
@@ -19,7 +19,7 @@ class PerformanceConditionTest extends \PHPUnit\Framework\TestCase
         $Condition = new PerformanceCondition();
 
         $this->assertFalse($Condition->isKnown());
-        $this->assertEquals('', $Condition->string());
+        $this->assertSame('', $Condition->string());
         $this->assertNull($Condition->value());
     }
 

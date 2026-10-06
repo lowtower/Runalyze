@@ -22,7 +22,7 @@ class SmlTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'sml/Suunto-Ambit-reduced.sml');
 
-        $this->assertEquals('2014-08-22 10:15', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2014-08-22 10:15', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
 
         $this->assertEqualsWithDelta(0.100, $this->Container->ActivityData->Distance, 0.001);
         $this->assertEquals(3773, $this->Container->ActivityData->Duration);
@@ -63,7 +63,7 @@ class SmlTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'sml/Suunto-Ambit-Indoor-reduced.sml');
 
-        $this->assertEquals('2014-10-15 15:15', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2014-10-15 15:15', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
 
         $this->assertEqualsWithDelta(6.060, $this->Container->ActivityData->Distance, 0.001);
         $this->assertEquals(3964, $this->Container->ActivityData->Duration);

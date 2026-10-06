@@ -23,7 +23,7 @@ class CompletorForTimeTest extends \PHPUnit\Framework\TestCase
         );
         $Completor->completeSplits();
 
-        $this->assertEquals(300, $Splits->at(0)->time());
-        $this->assertEquals(350, $Splits->at(1)->time());
+        $this->assertSame(300, $Splits->at(0)->time());
+        $this->assertSame(350, $Splits->at(1)->time());
     }
 }

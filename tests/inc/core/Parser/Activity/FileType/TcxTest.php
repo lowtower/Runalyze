@@ -19,7 +19,7 @@ class TcxTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'tcx/Standard.tcx');
 
-        $this->assertEquals('2011-07-10 11:47', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2011-07-10 11:47', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEqualsWithDelta(6523, $this->Container->ActivityData->Duration, 30);
@@ -50,7 +50,7 @@ class TcxTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'tcx/Swim-without-time_by-Timekiller.tcx');
 
-        $this->assertEquals('2012-04-13 13:51', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2012-04-13 13:51', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEqualsWithDelta(2100, $this->Container->ActivityData->Duration, 30);
@@ -64,7 +64,7 @@ class TcxTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'tcx/Indoor-Training.tcx');
 
-        $this->assertEquals('2012-02-10 16:48', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2012-02-10 16:48', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEqualsWithDelta(7204, $this->Container->ActivityData->Duration, 70);
@@ -77,20 +77,20 @@ class TcxTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'tcx/Multisport.tcx');
 
-        $this->assertTrue(is_array($this->Container));
-        $this->assertEquals(3, count($this->Container));
+        $this->assertIsArray($this->Container);
+        $this->assertCount(3, $this->Container);
 
-        $this->assertEquals('2013-04-18 18:14', LocalTime::date('Y-m-d H:i', $this->Container[0]->Metadata->getTimestamp()));
+        $this->assertSame('2013-04-18 18:14', LocalTime::date('Y-m-d H:i', $this->Container[0]->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container[0]->Metadata->getTimezoneOffset());
         $this->assertEqualsWithDelta(494, $this->Container[0]->ActivityData->Duration, 20);
         $this->assertEqualsWithDelta(2.355, $this->Container[0]->ActivityData->Distance, 0.1);
 
-        $this->assertEquals('2013-04-18 18:24', LocalTime::date('Y-m-d H:i', $this->Container[1]->Metadata->getTimestamp()));
+        $this->assertSame('2013-04-18 18:24', LocalTime::date('Y-m-d H:i', $this->Container[1]->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container[1]->Metadata->getTimezoneOffset());
         $this->assertEqualsWithDelta(3571, $this->Container[1]->ActivityData->Duration, 30);
         $this->assertEqualsWithDelta(11.46, $this->Container[1]->ActivityData->Distance, 0.1);
 
-        $this->assertEquals('2013-04-18 19:35', LocalTime::date('Y-m-d H:i', $this->Container[2]->Metadata->getTimestamp()));
+        $this->assertSame('2013-04-18 19:35', LocalTime::date('Y-m-d H:i', $this->Container[2]->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container[2]->Metadata->getTimezoneOffset());
         $this->assertEqualsWithDelta(420, $this->Container[2]->ActivityData->Duration, 10);
         $this->assertEqualsWithDelta(2.355, $this->Container[2]->ActivityData->Distance, 0.1);
@@ -100,7 +100,7 @@ class TcxTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'tcx/Dakota.tcx');
 
-        $this->assertEquals('2012-08-19 09:21', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2012-08-19 09:21', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEqualsWithDelta(2.34, $this->Container->ActivityData->Distance, 0.1);
@@ -117,7 +117,7 @@ class TcxTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'tcx/watt-extension-without-namespace.tcx');
 
-        $this->assertEquals('2013-11-03 14:05', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2013-11-03 14:05', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(
@@ -141,12 +141,12 @@ class TcxTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'tcx/missing-distances.tcx');
 
-        $this->assertEquals('2010-12-27 15:46', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2010-12-27 15:46', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
 
         foreach ($this->Container->ContinuousData->Distance as $i => $km) {
             if ($i > 0) {
-                $this->assertTrue($km >= $this->Container->ContinuousData->Distance[$i - 1], 'Distance is decreasing');
+                $this->assertGreaterThanOrEqual($this->Container->ContinuousData->Distance[$i - 1], $km, 'Distance is decreasing');
             }
         }
     }
@@ -155,7 +155,7 @@ class TcxTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'tcx/Runtastic.tcx');
 
-        $this->assertEquals('2015-05-10 16:13', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2015-05-10 16:13', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEqualsWithDelta(61, $this->Container->ActivityData->Duration, 5);
@@ -251,7 +251,7 @@ class TcxTest extends AbstractActivityParserTestCase
         // exactly as it already does for multi-lap files.
         // Last trackpoint is 08:40:55Z, i.e. 142s after the (correct) StartTime baseline.
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
-        $this->assertEquals(
+        $this->assertSame(
             '2015-07-09 10:38:33',
             LocalTime::date('Y-m-d H:i:s', $this->Container->Metadata->getTimestamp())
         );
@@ -271,10 +271,10 @@ class TcxTest extends AbstractActivityParserTestCase
         }
 
         if (RUNALYZE_TEST_TZ_LOOKUP) {
-            $this->assertEquals('2016-04-10 19:40', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+            $this->assertSame('2016-04-10 19:40', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
             $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
         } else {
-            $this->assertEquals('2016-04-10 18:40', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+            $this->assertSame('2016-04-10 18:40', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
             $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
         }
 

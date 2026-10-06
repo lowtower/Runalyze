@@ -27,7 +27,7 @@ class HumidityTest extends \PHPUnit\Framework\TestCase
         $Humidity = new Humidity();
 
         $this->assertEquals(null, $Humidity->value());
-        $this->assertEquals('', $Humidity->string());
+        $this->assertSame('', $Humidity->string());
         $this->assertTrue($Humidity->isUnknown());
     }
 

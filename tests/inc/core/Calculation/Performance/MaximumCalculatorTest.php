@@ -35,17 +35,17 @@ class MaximumCalculatorTest extends \PHPUnit\Framework\TestCase
     {
         $Calc = new MaximumCalculator(fn (array $array): TsbModel => new TsbModel($array), []);
 
-        $this->assertEquals(0, $Calc->maxFitness());
-        $this->assertEquals(0, $Calc->maxFatigue());
-        $this->assertEquals(0, $Calc->maxTrimp());
+        $this->assertSame(0, $Calc->maxFitness());
+        $this->assertSame(0, $Calc->maxFatigue());
+        $this->assertSame(0, $Calc->maxTrimp());
     }
 
     public function testFakeModel(): void
     {
         $Calc = new MaximumCalculator(fn (array $array): \Runalyze\Calculation\Performance\FakeAbstractModel => new FakeAbstractModel($array), [10, 0, 50, 100, 0, 75, 13]);
 
-        $this->assertEquals(200, $Calc->maxFitness());
-        $this->assertEquals(500, $Calc->maxFatigue());
-        $this->assertEquals(100, $Calc->maxTrimp());
+        $this->assertSame(200, $Calc->maxFitness());
+        $this->assertSame(500, $Calc->maxFatigue());
+        $this->assertSame(100, $Calc->maxTrimp());
     }
 }

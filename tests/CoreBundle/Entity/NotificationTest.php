@@ -29,7 +29,7 @@ class NotificationTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals('+2 days', $created->diff($expiration)->format('%R%a days'));
         // Uhrzeit muss trotz evtl. Zeitumstellung erhalten bleiben
-        $this->assertEquals($created->format('H:i:s'), $expiration->format('H:i:s'));
+        $this->assertSame($created->format('H:i:s'), $expiration->format('H:i:s'));
     }
 
     #[DataProvider('dstTransitionProvider')]
@@ -46,7 +46,7 @@ class NotificationTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals('+2 days', $created->diff($expiration)->format('%R%a days'));
 
-        $this->assertEquals($created->format('H:i:s'), $expiration->format('H:i:s'));
+        $this->assertSame($created->format('H:i:s'), $expiration->format('H:i:s'));
     }
 
     /**

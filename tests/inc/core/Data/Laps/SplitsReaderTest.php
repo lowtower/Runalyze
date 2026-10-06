@@ -47,7 +47,7 @@ class SplitsReaderTest extends \PHPUnit\Framework\TestCase
 
         $this->object->readFrom($Splits);
 
-        $this->assertEquals(6, $this->Laps->num());
+        $this->assertSame(6, $this->Laps->num());
         $this->checkAgainst([
             [1000, 3.0, false],
             [72, 0.4,  true],

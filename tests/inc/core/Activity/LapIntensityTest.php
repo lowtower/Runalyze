@@ -13,7 +13,7 @@ class LapIntensityTest extends TestCase
     {
         $Intensity = LapIntensity::fromFitToEnum($fitValue);
 
-        $this->assertNotNull($Intensity);
+        $this->assertInstanceOf(\Runalyze\Activity\LapIntensity::class, $Intensity);
         $this->assertSame($expectedLabel, $Intensity->getLabel());
     }
 
@@ -137,7 +137,7 @@ class LapIntensityTest extends TestCase
     {
         $Intensity = LapIntensity::fromValue($value);
 
-        $this->assertNotNull($Intensity);
+        $this->assertInstanceOf(\Runalyze\Activity\LapIntensity::class, $Intensity);
         $this->assertSame($expectedLabel, $Intensity->getLabel());
     }
 
