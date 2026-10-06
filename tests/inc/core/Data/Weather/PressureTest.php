@@ -15,7 +15,7 @@ class PressureTest extends \PHPUnit\Framework\TestCase
         $Pressure = new Pressure();
 
         $this->assertEquals(null, $Pressure->value());
-        $this->assertEquals('', $Pressure->string());
+        $this->assertSame('', $Pressure->string());
         $this->assertTrue($Pressure->isUnknown());
     }
 

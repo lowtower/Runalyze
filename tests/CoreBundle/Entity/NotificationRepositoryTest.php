@@ -51,8 +51,8 @@ class NotificationRepositoryTest extends AbstractRepositoryTestCase
         $this->insertMessageFor($this->Account);
         $this->insertMessageFor($this->Account);
 
-        $this->assertEquals(3, count($this->NotificationRepository->findAllFor($this->Account)));
-        $this->assertEquals(1, count($this->NotificationRepository->findAllFor($this->getEmptyAccount())));
+        $this->assertCount(3, $this->NotificationRepository->findAllFor($this->Account));
+        $this->assertCount(1, $this->NotificationRepository->findAllFor($this->getEmptyAccount()));
     }
 
     public function testFindAllReturnsNotificationsAcrossAllAccounts(): void
@@ -70,10 +70,10 @@ class NotificationRepositoryTest extends AbstractRepositoryTestCase
         $this->insertMessageFor($this->Account, 20);
         $this->insertMessageFor($this->Account, 30);
 
-        $this->assertEquals(3, count($this->NotificationRepository->findAllSince(5, $this->Account)));
-        $this->assertEquals(2, count($this->NotificationRepository->findAllSince(15, $this->Account)));
-        $this->assertEquals(1, count($this->NotificationRepository->findAllSince(25, $this->Account)));
-        $this->assertEquals(0, count($this->NotificationRepository->findAllSince(35, $this->Account)));
+        $this->assertCount(3, $this->NotificationRepository->findAllSince(5, $this->Account));
+        $this->assertCount(2, $this->NotificationRepository->findAllSince(15, $this->Account));
+        $this->assertCount(1, $this->NotificationRepository->findAllSince(25, $this->Account));
+        $this->assertCount(0, $this->NotificationRepository->findAllSince(35, $this->Account));
     }
 
     public function testMarkSingleNotificationAsRead(): void
@@ -107,7 +107,7 @@ class NotificationRepositoryTest extends AbstractRepositoryTestCase
         $idRecent = $this->insertMessageFor($this->Account, 0, time() + 3600);
         $idOtherAccount = $this->insertMessageFor($this->getEmptyAccount(), 0, time() - 3600);
 
-        $this->assertEquals(3, $this->NotificationRepository->removeExpiredNotifications());
+        $this->assertSame(3, $this->NotificationRepository->removeExpiredNotifications());
 
         $this->assertNull($this->NotificationRepository->find($idFirst));
         $this->assertNull($this->NotificationRepository->find($idSecond));

@@ -41,7 +41,7 @@ class WeightTest extends \PHPUnit\Framework\TestCase
         $Weight = new Weight();
         $Weight->set(10);
 
-        $this->assertEquals(10.00, $Weight->kg());
+        $this->assertSame(10.00, $Weight->kg());
         $this->assertEqualsWithDelta(22.04, $Weight->pounds(), 0.01);
         $this->assertEqualsWithDelta(1.57, $Weight->stones(), 0.01);
     }
@@ -51,7 +51,7 @@ class WeightTest extends \PHPUnit\Framework\TestCase
         $Weight = new Weight();
         $Weight->setPounds(10);
 
-        $this->assertEquals(10.00, $Weight->pounds());
+        $this->assertSame(10.00, $Weight->pounds());
         $this->assertEqualsWithDelta(4.54, $Weight->kg(), 0.01);
         $this->assertEqualsWithDelta(0.71, $Weight->stones(), 0.01);
     }
@@ -61,7 +61,7 @@ class WeightTest extends \PHPUnit\Framework\TestCase
         $Weight = new Weight();
         $Weight->setStones(10);
 
-        $this->assertEquals(10.00, $Weight->stones());
+        $this->assertSame(10.00, $Weight->stones());
         $this->assertEqualsWithDelta(63.50, $Weight->kg(), 0.01);
         $this->assertEqualsWithDelta(140.0, $Weight->pounds(), 0.01);
     }
@@ -71,8 +71,8 @@ class WeightTest extends \PHPUnit\Framework\TestCase
         Configuration::General()->weightUnit()->set(WeightUnit::KG);
         $unit = '&nbsp;' . Configuration::General()->weightUnit()->unit();
 
-        $this->assertEquals('10.0' . $unit, Weight::format(10, true, 1));
-        $this->assertEquals('12.346' . $unit, Weight::format(12.3456, true, 3));
+        $this->assertSame('10.0' . $unit, Weight::format(10, true, 1));
+        $this->assertSame('12.346' . $unit, Weight::format(12.3456, true, 3));
         $this->assertEquals('12.3', Weight::format(12.3456, false, 1));
     }
 

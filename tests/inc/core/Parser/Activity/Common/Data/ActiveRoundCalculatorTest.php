@@ -41,7 +41,7 @@ class ActiveRoundCalculatorTest extends \PHPUnit\Framework\TestCase
 
         $underTest = new ActiveRoundCalculator($this->ContinuousData, $rounds);
 
-        $this->assertEquals(128, $underTest->calcAvgHeartRate());
+        $this->assertSame(128, $underTest->calcAvgHeartRate());
     }
 
     public function testBreakSmallDiffsTimeAndRounds(): void
@@ -65,7 +65,7 @@ class ActiveRoundCalculatorTest extends \PHPUnit\Framework\TestCase
 
         $underTest = new ActiveRoundCalculator($this->ContinuousData, $rounds);
 
-        $this->assertEquals(128, $underTest->calcAvgHeartRate());
+        $this->assertSame(128, $underTest->calcAvgHeartRate());
     }
 
     public function testBreakOneTimeSmallDiffsTimeAndRounds(): void
@@ -89,7 +89,7 @@ class ActiveRoundCalculatorTest extends \PHPUnit\Framework\TestCase
 
         $underTest = new ActiveRoundCalculator($this->ContinuousData, $rounds);
 
-        $this->assertEquals(126, $underTest->calcAvgHeartRate());
+        $this->assertSame(126, $underTest->calcAvgHeartRate());
     }
 
     public function testBreakStartEnd(): void
@@ -113,7 +113,7 @@ class ActiveRoundCalculatorTest extends \PHPUnit\Framework\TestCase
 
         $underTest = new ActiveRoundCalculator($this->ContinuousData, $rounds);
 
-        $this->assertEquals(115, $underTest->calcAvgHeartRate());
+        $this->assertSame(115, $underTest->calcAvgHeartRate());
     }
 
     public function test2RoundsOnlyBreak(): void
@@ -181,7 +181,7 @@ class ActiveRoundCalculatorTest extends \PHPUnit\Framework\TestCase
 
         $underTest = new ActiveRoundCalculator($this->ContinuousData, $rounds);
 
-        $this->assertEquals(120, $underTest->calcAvgHeartRate());
+        $this->assertSame(120, $underTest->calcAvgHeartRate());
 
         $rounds = new RoundCollection();
         $rounds->add(new Round(1, 8.8, true));
@@ -189,7 +189,7 @@ class ActiveRoundCalculatorTest extends \PHPUnit\Framework\TestCase
 
         $underTest = new ActiveRoundCalculator($this->ContinuousData, $rounds);
 
-        $this->assertEquals(120, $underTest->calcAvgHeartRate());
+        $this->assertSame(120, $underTest->calcAvgHeartRate());
     }
 
     public function testInactiveRoundExtendingBeyondContinuousData(): void
@@ -203,6 +203,6 @@ class ActiveRoundCalculatorTest extends \PHPUnit\Framework\TestCase
 
         $underTest = new ActiveRoundCalculator($this->ContinuousData, $rounds);
 
-        $this->assertEquals(90, $underTest->calcAvgHeartRate());
+        $this->assertSame(90, $underTest->calcAvgHeartRate());
     }
 }

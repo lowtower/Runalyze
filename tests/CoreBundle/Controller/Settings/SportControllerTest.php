@@ -315,7 +315,7 @@ class SportControllerTest extends AbstractFixturesAwareWebTestCase
         $this->Client->request('GET', '/settings/sport/type/' . $type->getId() . '/delete?t=invalid-token');
 
         $this->assertStatusCode(302, $this->Client);
-        $this->assertNotNull($this->reloadType($type->getId()));
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Type::class, $this->reloadType($type->getId()));
     }
 
     public function testDeleteSportTypeActionDeletesTypeWithoutTrainings(): void
@@ -351,7 +351,7 @@ class SportControllerTest extends AbstractFixturesAwareWebTestCase
         $this->Client->request('GET', '/settings/sport/type/' . $type->getId() . '/delete?t=' . $token);
 
         $this->assertStatusCode(302, $this->Client);
-        $this->assertNotNull($this->reloadType($type->getId()));
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Type::class, $this->reloadType($type->getId()));
     }
 
     public function testSportAddActionRequiresAuthentication(): void
@@ -513,7 +513,7 @@ class SportControllerTest extends AbstractFixturesAwareWebTestCase
         $this->Client->request('GET', '/settings/sport/' . $sport->getId() . '/delete?t=invalid-token');
 
         $this->assertStatusCode(302, $this->Client);
-        $this->assertNotNull($this->reloadSport($sport->getId()));
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Sport::class, $this->reloadSport($sport->getId()));
     }
 
     public function testSportDeleteActionDeletesSportWithoutTrainings(): void
@@ -546,6 +546,6 @@ class SportControllerTest extends AbstractFixturesAwareWebTestCase
         $this->Client->request('GET', '/settings/sport/' . $sport->getId() . '/delete?t=' . $token);
 
         $this->assertStatusCode(302, $this->Client);
-        $this->assertNotNull($this->reloadSport($sport->getId()));
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Sport::class, $this->reloadSport($sport->getId()));
     }
 }

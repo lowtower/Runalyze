@@ -28,8 +28,8 @@ class ClimbScoreTest extends \PHPUnit\Framework\TestCase
 
     public function testManualScore(): void
     {
-        $this->assertEquals(3.1, (new ClimbScore(3.1))->getScore());
-        $this->assertEquals(4.2, (new ClimbScore())->setScore(4.2)->getScore());
+        $this->assertSame(3.1, (new ClimbScore(3.1))->getScore());
+        $this->assertSame(4.2, (new ClimbScore())->setScore(4.2)->getScore());
     }
 
     public function testExampleForCyclingTourInSwitzerland(): void

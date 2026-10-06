@@ -54,14 +54,14 @@ class WeathercacheRepositoryTest extends AbstractRepositoryTestCase
 
         $result = $this->Repository->getCachedWeatherDataFor($this->Location, 1800);
 
-        $this->assertNotNull($result);
+        $this->assertInstanceOf(\Runalyze\Parser\Activity\Common\Data\WeatherData::class, $result);
         $this->assertEquals(10, $result->Temperature);
         $this->assertEquals(25, $result->WindSpeed);
-        $this->assertEquals(302, $result->WindDirection);
-        $this->assertEquals(86, $result->Humidity);
+        $this->assertSame(302, $result->WindDirection);
+        $this->assertSame(86, $result->Humidity);
         $this->assertEquals(1033, $result->AirPressure);
-        $this->assertEquals(WeatherConditionProfile::CLOUDY, $result->InternalConditionId);
-        $this->assertEquals(WeatherSourceProfile::OPEN_WEATHER_MAP, $result->Source);
+        $this->assertSame(WeatherConditionProfile::CLOUDY, $result->InternalConditionId);
+        $this->assertSame(WeatherSourceProfile::OPEN_WEATHER_MAP, $result->Source);
     }
 
     public function testWrongGeohashOrTime(): void
@@ -84,11 +84,11 @@ class WeathercacheRepositoryTest extends AbstractRepositoryTestCase
 
         $this->Location->setDateTime((new \DateTime())->setTimestamp(1234567890 - 1800 + 1));
 
-        $this->assertNotNull($this->Repository->getCachedWeatherDataFor($this->Location, 1800));
+        $this->assertInstanceOf(\Runalyze\Parser\Activity\Common\Data\WeatherData::class, $this->Repository->getCachedWeatherDataFor($this->Location, 1800));
 
         $this->Location->setDateTime((new \DateTime())->setTimestamp(1234567890 + 1800 - 1));
 
-        $this->assertNotNull($this->Repository->getCachedWeatherDataFor($this->Location, 1800));
+        $this->assertInstanceOf(\Runalyze\Parser\Activity\Common\Data\WeatherData::class, $this->Repository->getCachedWeatherDataFor($this->Location, 1800));
         $this->assertNull($this->Repository->getCachedWeatherDataFor($this->Location, 1700));
     }
 }

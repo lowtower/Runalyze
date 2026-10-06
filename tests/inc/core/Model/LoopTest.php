@@ -264,7 +264,7 @@ class LoopTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($object->has('foo'));
         $this->assertFalse($object->has('bar'));
         $this->assertEquals([0, 10, 20], $object->get('foo'));
-        $this->assertEquals(3, $object->num());
+        $this->assertSame(3, $object->num());
         $this->assertEquals(10, $object->at(1, 'foo'));
     }
 }

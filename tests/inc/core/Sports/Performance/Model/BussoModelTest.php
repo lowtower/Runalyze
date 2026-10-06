@@ -27,8 +27,8 @@ class BussoModelTest extends \PHPUnit\Framework\TestCase
         $Busso->calculate();
 
         for ($i = 0; $i <= 7; ++$i) {
-            $this->assertEquals($Banister->fitnessAt($i), $Busso->fitnessAt($i), 'Banister and Busso fitness is not equal at day ' . $i);
-            $this->assertEquals($Banister->fatigueAt($i), $Busso->fatigueAt($i), 'Banister and Busso fatigue is not equal at day ' . $i);
+            $this->assertSame($Banister->fitnessAt($i), $Busso->fitnessAt($i), 'Banister and Busso fitness is not equal at day ' . $i);
+            $this->assertSame($Banister->fatigueAt($i), $Busso->fatigueAt($i), 'Banister and Busso fatigue is not equal at day ' . $i);
         }
     }
 }

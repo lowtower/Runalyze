@@ -48,9 +48,9 @@ class DistanceTypeTest extends \PHPUnit\Framework\TestCase
     {
         $precision = $this->Type->getViewPrecision();
 
-        $this->assertEquals(1.234, round(1.234, $precision));
-        $this->assertEquals(1234.50, round(1234.5, $precision));
-        $this->assertEquals(7.69, round(7.69, $precision));
+        $this->assertSame(1.234, round(1.234, $precision));
+        $this->assertSame(1234.50, round(1234.5, $precision));
+        $this->assertSame(7.69, round(7.69, $precision));
     }
 
     public function testTransformWithViewPrecision(): void

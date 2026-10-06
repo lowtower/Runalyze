@@ -53,7 +53,7 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
         $accountInRepository = $this->AccountRepository->loadUserByUsername('foobar');
 
         $this->assertInstanceOf(Account::class, $accountInRepository);
-        $this->assertEquals('foobar', $accountInRepository->getUsername());
+        $this->assertSame('foobar', $accountInRepository->getUsername());
         $this->assertEquals($accountInRepository, $this->AccountRepository->loadUserByUsername('foo@bar.com'));
     }
 
@@ -113,9 +113,9 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
 
         $this->persistAccounts(...$accountsToPersist);
 
-        $this->assertEquals(3, count($this->AccountRepository->deleteNotActivatedAccounts(7)));
-        $this->assertNotNull($this->AccountRepository->loadUserByUsername('foobar'));
-        $this->assertNotNull($this->AccountRepository->loadUserByUsername('todays_user'));
+        $this->assertCount(3, $this->AccountRepository->deleteNotActivatedAccounts(7));
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Account::class, $this->AccountRepository->loadUserByUsername('foobar'));
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Account::class, $this->AccountRepository->loadUserByUsername('todays_user'));
     }
 
     public function testDeletingByHash(): void
@@ -130,7 +130,7 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
         $this->assertFalse($this->AccountRepository->deleteByHash('unknownHash'));
         $this->assertTrue($this->AccountRepository->deleteByHash($deletionHash));
         $this->assertNull($this->AccountRepository->loadUserByUsername('foo'));
-        $this->assertNotNull($this->AccountRepository->loadUserByUsername('bar'));
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Account::class, $this->AccountRepository->loadUserByUsername('bar'));
     }
 
     public function testActivatingByHash(): void
@@ -150,7 +150,7 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
 
         $reloaded = $this->AccountRepository->find($fooAccount->getId());
 
-        $this->assertNotNull($reloaded);
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Account::class, $reloaded);
         $this->assertNull($reloaded->getActivationHash());
     }
 

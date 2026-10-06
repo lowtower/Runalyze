@@ -42,8 +42,8 @@ class MinPer100yTest extends \PHPUnit\Framework\TestCase
     {
         $Pace = new MinPer100y();
 
-        $this->assertEquals('0:27', $Pace->format(300));
-        $this->assertEquals('0:20', $Pace->format(224));
-        $this->assertEquals('-:--', $Pace->format(0));
+        $this->assertSame('0:27', $Pace->format(300));
+        $this->assertSame('0:20', $Pace->format(224));
+        $this->assertSame('-:--', $Pace->format(0));
     }
 }

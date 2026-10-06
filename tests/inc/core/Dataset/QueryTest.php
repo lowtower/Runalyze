@@ -89,7 +89,7 @@ class QueryTest extends TestCase
         $allActivities = $this->Query->statementToFetchActivities(0, time())
             ->fetchAll();
 
-        $this->assertEquals(1, count($allActivities));
+        $this->assertCount(1, $allActivities);
         $this->assertEquals(300, $allActivities[0]['s']);
     }
 
@@ -140,8 +140,8 @@ class QueryTest extends TestCase
             $this->Query->fetchSummaryForSport(3),
         ];
 
-        $this->assertEquals([1, 2, 1], array_map(fn (array $data) => $data['num'], $summary));
-        $this->assertEquals([100, 323, 500], array_map(fn (array $data) => $data['s'], $summary));
+        $this->assertSame(['1', '2', '1'], array_map(fn (array $data) => $data['num'], $summary));
+        $this->assertSame(['100.00', '323.00', '500.00'], array_map(fn (array $data) => $data['s'], $summary));
     }
 
     public function testSummaryForWeekTimerange(): void
@@ -166,7 +166,7 @@ class QueryTest extends TestCase
 
         $summary = $this->Query->fetchSummaryForTimerange($this->Running);
 
-        $this->assertEquals(2, count($summary));
+        $this->assertCount(2, $summary);
         $this->assertEquals(300, $summary[0]['s']);
         $this->assertEquals(500, $summary[1]['s']);
     }
@@ -193,7 +193,7 @@ class QueryTest extends TestCase
 
         $summary = $this->Query->fetchSummaryForTimerange($this->Running, Query::MONTH_TIMERANGE);
 
-        $this->assertEquals(2, count($summary));
+        $this->assertCount(2, $summary);
         $this->assertEquals(300, $summary[0]['s']);
         $this->assertEquals(500, $summary[1]['s']);
     }
@@ -220,7 +220,7 @@ class QueryTest extends TestCase
 
         $summary = $this->Query->fetchSummaryForTimerange($this->Running, Query::YEAR_TIMERANGE);
 
-        $this->assertEquals(2, count($summary));
+        $this->assertCount(2, $summary);
         $this->assertEquals(300, $summary[0]['s']);
         $this->assertEquals(500, $summary[1]['s']);
     }

@@ -18,7 +18,7 @@ class LoopTest extends \PHPUnit\Framework\TestCase
         $i = 0;
         while ($Loop->nextStep()) {
             $i++;
-            $this->assertEquals($i, $Loop->time());
+            $this->assertSame($i, $Loop->time());
         }
 
         $this->assertTrue($Loop->isAtEnd());
@@ -88,13 +88,13 @@ class LoopTest extends \PHPUnit\Framework\TestCase
         ]));
 
         $Loop->nextKilometer();
-        $this->assertEquals(1.0, $Loop->distance());
+        $this->assertSame(1.0, $Loop->distance());
         $Loop->nextKilometer();
-        $this->assertEquals(2.0, $Loop->distance());
+        $this->assertSame(2.0, $Loop->distance());
         $Loop->moveDistance(0.4);
-        $this->assertEquals(3.0, $Loop->distance());
+        $this->assertSame(3.0, $Loop->distance());
         $Loop->moveDistance(0.4);
-        $this->assertEquals(3.5, $Loop->distance());
+        $this->assertSame(3.5, $Loop->distance());
 
         $Loop->reset();
         $Loop->moveToDistance(2.9);

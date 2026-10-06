@@ -39,7 +39,7 @@ class HrvRepositoryTest extends AbstractRepositoryTestCase
 
         $hrv = $this->HrvRepository->findForActivity($activity->getId());
 
-        $this->assertNotNull($hrv);
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Hrv::class, $hrv);
         $this->assertSame([800, 810, 795, 805], $hrv->getData());
         $this->assertSame($activity->getId(), $hrv->getActivity()->getId());
     }

@@ -14,6 +14,6 @@ class SimpleTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(0.79, $unit->fromBaseUnit(0.79));
         $this->assertEquals(42, $unit->toBaseUnit(42));
-        $this->assertEquals('foo', $unit->getAppendix());
+        $this->assertSame('foo', $unit->getAppendix());
     }
 }

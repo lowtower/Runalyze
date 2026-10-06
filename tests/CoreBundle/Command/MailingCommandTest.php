@@ -253,7 +253,7 @@ class MailingCommandTest extends TestCase
     public function testExecuteSendsMailToEveryMatchingAccountWhenForced(): void
     {
         $command = $this->createCommandWithSuccessfulValidation();
-        $this->configureQueryResult([$this->createMock(Account::class), $this->createMock(Account::class)]);
+        $this->configureQueryResult([$this->createStub(Account::class), $this->createStub(Account::class)]);
 
         $this->mailer
             ->expects(self::exactly(2))
@@ -287,7 +287,7 @@ class MailingCommandTest extends TestCase
     {
         $command = $this->createCommandWithSuccessfulValidation();
         $command->setApplication(new Application());
-        $this->configureQueryResult([$this->createMock(Account::class)]);
+        $this->configureQueryResult([$this->createStub(Account::class)]);
 
         $this->mailer
             ->expects(self::once())
@@ -310,7 +310,7 @@ class MailingCommandTest extends TestCase
     {
         $command = $this->createCommandWithSuccessfulValidation();
         $command->setApplication(new Application());
-        $this->configureQueryResult([$this->createMock(Account::class)]);
+        $this->configureQueryResult([$this->createStub(Account::class)]);
 
         $this->mailer
             ->expects(self::never())

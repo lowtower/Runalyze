@@ -20,7 +20,7 @@ class WindSpeedTest extends \PHPUnit\Framework\TestCase
     {
         $WindSpeed = new WindSpeed(30);
         $this->assertEquals(30, $WindSpeed->value());
-        $this->assertEquals('km/h', $WindSpeed->unit());
+        $this->assertSame('km/h', $WindSpeed->unit());
         $this->assertFalse($WindSpeed->isUnknown());
     }
 
@@ -37,10 +37,10 @@ class WindSpeedTest extends \PHPUnit\Framework\TestCase
     {
         $WindSpeed = new WindSpeed();
 
-        $this->assertEquals('', $WindSpeed->string(false));
-        $this->assertEquals('', $WindSpeed->string(true));
+        $this->assertSame('', $WindSpeed->string(false));
+        $this->assertSame('', $WindSpeed->string(true));
         $this->assertEquals('12.5', $WindSpeed->setKilometerPerHour(12.49)->string(false, 1));
-        $this->assertEquals('12&nbsp;km/h', $WindSpeed->string(true));
+        $this->assertSame('12&nbsp;km/h', $WindSpeed->string(true));
     }
 
     public function testMetricUnit(): void
@@ -50,7 +50,7 @@ class WindSpeedTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(37, $WindSpeed->value());
         $this->assertEquals(37, $WindSpeed->valueInPreferredUnit());
-        $this->assertEquals('37&nbsp;km/h', $WindSpeed->string());
+        $this->assertSame('37&nbsp;km/h', $WindSpeed->string());
     }
 
     public function testImperialUnit(): void
@@ -60,6 +60,6 @@ class WindSpeedTest extends \PHPUnit\Framework\TestCase
 
         $this->assertNotEquals(37, $WindSpeed->value());
         $this->assertEquals(37, $WindSpeed->valueInPreferredUnit());
-        $this->assertEquals('37&nbsp;mph', $WindSpeed->string());
+        $this->assertSame('37&nbsp;mph', $WindSpeed->string());
     }
 }

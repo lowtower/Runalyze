@@ -36,7 +36,7 @@ class LocaleListenerTest extends TestCase
     private function handle(Request $request): void
     {
         $this->listener->onKernelRequest(
-            new RequestEvent($this->createMock(HttpKernelInterface::class), $request, HttpKernelInterface::MAIN_REQUEST)
+            new RequestEvent($this->createStub(HttpKernelInterface::class), $request, HttpKernelInterface::MAIN_REQUEST)
         );
     }
 

@@ -40,7 +40,7 @@ class DistanceTest extends TestCase
 
         $this->assertEquals(10, $Distance->set(10)->kilometer());
         $this->assertEquals(20, $Distance->multiply(2)->kilometer());
-        $this->assertEquals(21.1, $Distance->add(new Distance(1.1))->kilometer());
+        $this->assertSame(21.1, $Distance->add(new Distance(1.1))->kilometer());
         $this->assertFalse($Distance->isZero());
 
         $this->assertEqualsWithDelta(-0.9, $Distance->subtract(new Distance(22))->kilometer(), 0.0001);
@@ -49,19 +49,19 @@ class DistanceTest extends TestCase
 
     public function testStaticFormatting(): void
     {
-        $this->assertEquals('1,000&nbsp;km', Distance::format(1.0));
+        $this->assertSame('1,000&nbsp;km', Distance::format(1.0));
     }
 
     public function testAutoFormat(): void
     {
         $Distance = new Distance();
 
-        $this->assertEquals('100m', $Distance->set(0.1)->stringAuto());
-        $this->assertEquals('1.000m', $Distance->set(1.0)->stringAuto());
-        $this->assertEquals('1.500m', $Distance->set(1.5)->stringAuto());
-        $this->assertEquals('1,756&nbsp;km', $Distance->set(1.756)->stringAuto());
-        $this->assertEquals('3.000m', $Distance->set(3.0)->stringAuto());
-        $this->assertEquals('5,000&nbsp;km', $Distance->set(5)->stringAuto());
+        $this->assertSame('100m', $Distance->set(0.1)->stringAuto());
+        $this->assertSame('1.000m', $Distance->set(1.0)->stringAuto());
+        $this->assertSame('1.500m', $Distance->set(1.5)->stringAuto());
+        $this->assertSame('1,756&nbsp;km', $Distance->set(1.756)->stringAuto());
+        $this->assertSame('3.000m', $Distance->set(3.0)->stringAuto());
+        $this->assertSame('5,000&nbsp;km', $Distance->set(5)->stringAuto());
     }
 
     public function testWithoutUnit(): void
@@ -69,7 +69,7 @@ class DistanceTest extends TestCase
         $Distance = new Distance();
 
         $this->assertEquals('100', $Distance->set(0.1)->stringMeter(false));
-        $this->assertEquals('0,10', $Distance->set(0.1)->stringKilometer(false, 2));
+        $this->assertSame('0,10', $Distance->set(0.1)->stringKilometer(false, 2));
         $this->assertEquals('1.0', $Distance->set(1.609)->stringMiles(false, 1));
         $this->assertEquals('16.404', $Distance->set(5.0)->stringFeet(false));
         $this->assertEquals('5.468', $Distance->set(5.0)->stringYards(false));

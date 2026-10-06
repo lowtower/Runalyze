@@ -24,10 +24,10 @@ class WindSpeedTypeTest extends \PHPUnit\Framework\TestCase
         $type = new WindSpeedType(new KilometerPerHour());
 
         $this->assertEquals(null, $type->reverseTransform(''));
-        $this->assertEquals(0, $type->reverseTransform('0'));
-        $this->assertEquals(11, $type->reverseTransform('11'));
-        $this->assertEquals(27, $type->reverseTransform('27'));
-        $this->assertEquals(81, $type->reverseTransform('81'));
+        $this->assertSame(0, $type->reverseTransform('0'));
+        $this->assertSame(11, $type->reverseTransform('11'));
+        $this->assertSame(27, $type->reverseTransform('27'));
+        $this->assertSame(81, $type->reverseTransform('81'));
     }
 
     public function testTransformWithMilesPerHour(): void
@@ -46,9 +46,9 @@ class WindSpeedTypeTest extends \PHPUnit\Framework\TestCase
         $type = new WindSpeedType(new MilesPerHour());
 
         $this->assertEquals(null, $type->reverseTransform(''));
-        $this->assertEquals(0, $type->reverseTransform('0'));
-        $this->assertEquals(18, $type->reverseTransform('11'));
-        $this->assertEquals(43, $type->reverseTransform('27'));
-        $this->assertEquals(130, $type->reverseTransform('81'));
+        $this->assertSame(0, $type->reverseTransform('0'));
+        $this->assertSame(18, $type->reverseTransform('11'));
+        $this->assertSame(43, $type->reverseTransform('27'));
+        $this->assertSame(130, $type->reverseTransform('81'));
     }
 }

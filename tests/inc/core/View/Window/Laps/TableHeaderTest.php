@@ -15,9 +15,8 @@ use Runalyze\Profile\Sport\SportProfile;
 
 /**
  * Tests for the "Pace"/"Speed" column header in Runalyze\View\Window\Laps\Table.
- *
- * @covers \Runalyze\View\Window\Laps\Table
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Runalyze\View\Window\Laps\Table::class)]
 class TableHeaderTest extends TestCase
 {
     /**

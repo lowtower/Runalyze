@@ -23,7 +23,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         );
         $Calculator->calculate();
 
-        $this->assertEquals(0, $Calculator->average());
+        $this->assertSame(0, $Calculator->average());
         $this->assertEmpty($Calculator->powerData());
     }
 
@@ -76,7 +76,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         );
         $Calculator->calculate(75, 1.0);
 
-        $this->assertEquals(205, $Calculator->average());
+        $this->assertSame(205, $Calculator->average());
         $this->assertEquals(
             [205, 205, 205, 205, 205, 205],
             $Calculator->powerData()

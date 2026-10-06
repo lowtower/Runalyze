@@ -15,6 +15,6 @@ class EntityTest extends \PHPUnit\Framework\TestCase
             Entity::TAG => 'Tag Test',
         ]);
 
-        $this->assertEquals('Tag Test', $Tag->tag());
+        $this->assertSame('Tag Test', $Tag->tag());
     }
 }

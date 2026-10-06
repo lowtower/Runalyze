@@ -69,8 +69,8 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
         $activityContext = $this->Converter->getContextFor($this->Container);
 
         $this->assertEquals($this->getDefaultAccountsRunningSport(), $activityContext->getSport());
-        $this->assertNotNull($activityContext->getActivity()->getType());
-        $this->assertEquals('Fartlek', $activityContext->getActivity()->getType()->getName());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Type::class, $activityContext->getActivity()->getType());
+        $this->assertSame('Fartlek', $activityContext->getActivity()->getType()->getName());
         $this->assertCount(1, $activityContext->getActivity()->getEquipment());
         $this->assertEquals('singlet', $activityContext->getActivity()->getEquipment()[0]->getName());
     }
@@ -91,8 +91,8 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
         $activityContext = $this->Converter->getContextFor($this->Container);
 
         $this->assertEquals($this->getDefaultAccountsRunningSport(), $activityContext->getSport());
-        $this->assertNotNull($activityContext->getActivity()->getType());
-        $this->assertEquals('Fartlek', $activityContext->getActivity()->getType()->getName());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Type::class, $activityContext->getActivity()->getType());
+        $this->assertSame('Fartlek', $activityContext->getActivity()->getType()->getName());
 
         $this->getDefaultAccountsRunningSport()
             ->setDefaultType($backupDefaultType);
@@ -107,7 +107,7 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
         $activityContext = $this->Converter->getContextFor($this->Container);
 
         $this->assertNotNull($activityContext->getSport());
-        $this->assertEquals('Swimming', $activityContext->getActivity()->getSport()->getName());
+        $this->assertSame('Swimming', $activityContext->getActivity()->getSport()->getName());
 
         $this->assertNull($activityContext->getActivity()->getType());
         $this->assertEmpty($activityContext->getActivity()->getEquipment());
@@ -120,7 +120,7 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
 
         $activityContext = $this->Converter->getContextFor($this->Container);
 
-        $this->assertNotNull($activityContext->getRoute());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Route::class, $activityContext->getRoute());
         $this->assertNotEmpty($activityContext->getRoute()->getGeohashes());
         $this->assertEquals($this->Container->ContinuousData->Latitude, $activityContext->getRoute()->getLatitudes());
         $this->assertEquals($this->Container->ContinuousData->Longitude, $activityContext->getRoute()->getLongitudes());
@@ -133,7 +133,7 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
 
         $activityContext = $this->Converter->getContextFor($this->Container);
 
-        $this->assertNotNull($activityContext->getRoute());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Route::class, $activityContext->getRoute());
         $this->assertEquals($this->Container->ContinuousData->Altitude, $activityContext->getRoute()->getElevationsOriginal());
         $this->assertNull($activityContext->getRoute()->getElevationsCorrected());
         $this->assertTrue($activityContext->getRoute()->getAltitudeBarometric());

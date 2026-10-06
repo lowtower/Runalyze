@@ -41,8 +41,8 @@ class MonthTest extends TestCase
         $anovaData->method('getDateTo')
             ->willReturn(new \DateTime('2024-07-10'));
 
-        $entityManager = $this->createMock(EntityManager::class);
-        $account = $this->createMock(Account::class);
+        $entityManager = $this->createStub(EntityManager::class);
+        $account = $this->createStub(Account::class);
 
         $result = (new Month())->loadAllGroups($entityManager, $account, $anovaData);
 
@@ -57,8 +57,8 @@ class MonthTest extends TestCase
         $anovaData->method('getDateTo')
             ->willReturn(new \DateTime('2025-03-20'));
 
-        $entityManager = $this->createMock(EntityManager::class);
-        $account = $this->createMock(Account::class);
+        $entityManager = $this->createStub(EntityManager::class);
+        $account = $this->createStub(Account::class);
 
         $result = (new Month())->loadAllGroups($entityManager, $account, $anovaData);
 
@@ -73,8 +73,8 @@ class MonthTest extends TestCase
         $anovaData->method('getDateTo')
             ->willReturn(new \DateTime('2025-01-01'));
 
-        $entityManager = $this->createMock(EntityManager::class);
-        $account = $this->createMock(Account::class);
+        $entityManager = $this->createStub(EntityManager::class);
+        $account = $this->createStub(Account::class);
 
         $result = (new Month())->loadAllGroups($entityManager, $account, $anovaData);
 

@@ -42,8 +42,8 @@ class MinPerKilometerTest extends \PHPUnit\Framework\TestCase
     {
         $Pace = new MinPerKilometer();
 
-        $this->assertEquals('5:00', $Pace->format(300));
-        $this->assertEquals('3:44', $Pace->format(224));
-        $this->assertEquals('-:--', $Pace->format(0));
+        $this->assertSame('5:00', $Pace->format(300));
+        $this->assertSame('3:44', $Pace->format(224));
+        $this->assertSame('-:--', $Pace->format(0));
     }
 }

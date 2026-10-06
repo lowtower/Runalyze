@@ -45,7 +45,7 @@ class FloatingPointTest extends \PHPUnit\Framework\TestCase
 
         $this->assertNotNull($object->value());
         $this->assertFalse($object->isEmpty());
-        $this->assertNotEquals('', $object->valueAsString());
+        $this->assertNotSame('', $object->valueAsString());
     }
 
     public function testEmptyStringForNull(): void
@@ -57,7 +57,7 @@ class FloatingPointTest extends \PHPUnit\Framework\TestCase
 
         $this->assertNull($object->value());
         $this->assertTrue($object->isEmpty());
-        $this->assertEquals('', $object->valueAsString());
+        $this->assertSame('', $object->valueAsString());
     }
 
     /**

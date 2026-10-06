@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\Backup;
 
+use PDOStatement;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\AbstractBackup;
 
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]
@@ -15,17 +16,17 @@ class AbstractBackupTest extends \PHPUnit\Framework\TestCase
      */
     public const TESTFILE = '/../../../../../data/backup-tool/backup/test.json.gz';
 
-    /**
-     * @var AbstractBackup
-     */
-    protected \PHPUnit\Framework\MockObject\MockObject $Backup;
+    protected AbstractBackup $Backup;
 
     protected function setUp(): void
     {
-        $mockBuilder = $this->getMockBuilder(AbstractBackup::class);
-        $mockBuilder->setConstructorArgs([__DIR__ . self::TESTFILE, 1, \DB::getInstance(), 'runalyze_', '3.2.0']);
-
-        $this->Backup = $mockBuilder->getMockForAbstractClass();
+        // AbstractBackup::run() is final and has to run for real. Only the one abstract method is implemented, and
+        // it does nothing: the test is about the queries of run(), not about how the rows are written.
+        $this->Backup = new class(__DIR__ . self::TESTFILE, 1, \DB::getInstance(), 'runalyze_', '3.2.0') extends AbstractBackup {
+            protected function saveRowsFromStatement(string $tableName, array $columnInfo, PDOStatement $statement): void
+            {
+            }
+        };
     }
 
     protected function tearDown(): void

@@ -37,12 +37,12 @@ class EntityTest extends \PHPUnit\Framework\TestCase
     {
         $T = $this->simpleObject();
 
-        $this->assertEquals('Test route', $T->name());
+        $this->assertSame('Test route', $T->name());
         $this->assertEquals(['City A', 'City B'], $T->citiesAsArray());
-        $this->assertEquals(3.14, $T->distance());
-        $this->assertEquals(20, $T->elevation());
-        $this->assertEquals(20, $T->elevationUp());
-        $this->assertEquals(15, $T->elevationDown());
+        $this->assertSame(3.14, $T->distance());
+        $this->assertSame(20, $T->elevation());
+        $this->assertSame(20, $T->elevationUp());
+        $this->assertSame(15, $T->elevationDown());
         $this->assertEquals(['u1xjhpfe7yvs', 'u1xjhzdtjx62'], $T->geohashes());
         $this->assertEquals([195, 210], $T->elevationsOriginal());
         $this->assertEquals([200, 220], $T->elevationsCorrected());
@@ -73,8 +73,8 @@ class EntityTest extends \PHPUnit\Framework\TestCase
             Entity::ELEVATIONS_CORRECTED => [240, 240, 240, 240, 240, 237, 237, 237, 237, 237, 259, 259, 259, 259, 259],
         ]);
 
-        $this->assertEquals(11, $Object->num());
-        $this->assertEquals(11, count($Object->elevationsCorrected()));
+        $this->assertSame(11, $Object->num());
+        $this->assertCount(11, $Object->elevationsCorrected());
     }
 
     public function testSetLatitudesLongitudes(): void

@@ -13,7 +13,7 @@ class PartnerTest extends \PHPUnit\Framework\TestCase
     {
         $Partner = new Partner('Max, Moritz');
 
-        $this->assertEquals(2, $Partner->num());
+        $this->assertSame(2, $Partner->num());
         $this->assertEquals('Max', $Partner->at(0));
         $this->assertEquals('Moritz', $Partner->at(1));
         $this->assertEquals(['Max', 'Moritz'], $Partner->asArray());
@@ -23,8 +23,8 @@ class PartnerTest extends \PHPUnit\Framework\TestCase
     {
         $Partner = new Partner(' Max,   Moritz,Martina');
 
-        $this->assertEquals(3, $Partner->num());
+        $this->assertSame(3, $Partner->num());
         $this->assertEquals('Moritz', $Partner->at(1));
-        $this->assertEquals('Max, Moritz, Martina', $Partner->asString());
+        $this->assertSame('Max, Moritz, Martina', $Partner->asString());
     }
 }

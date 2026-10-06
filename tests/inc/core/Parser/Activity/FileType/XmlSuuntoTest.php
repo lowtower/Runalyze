@@ -29,7 +29,7 @@ class XmlSuuntoTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'xml/Suunto-Ambit-reduced.xml');
 
-        $this->assertEquals('2013-04-28 15:27', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2013-04-28 15:27', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
 
         $this->assertEqualsWithDelta(0.264, $this->Container->ActivityData->Distance, 0.001);
         $this->assertEquals(107, $this->Container->ActivityData->Duration);
@@ -53,7 +53,7 @@ class XmlSuuntoTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'xml/Suunto-Ambit-with-laps-reduced.xml');
 
-        $this->assertEquals('2014-04-26 16:17', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2014-04-26 16:17', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
 
         $this->assertEqualsWithDelta(5.013, $this->Container->ActivityData->Distance, 0.001);
         $this->assertEquals(1551, $this->Container->ActivityData->Duration);

@@ -27,7 +27,7 @@ class TrimpCalculatorTest extends \PHPUnit\Framework\TestCase
     {
         $this->Calculator->calculateFor($this->Activity, Gender::MALE, 200, 60);
 
-        $this->assertEquals(0, $this->Activity->getTrimp());
+        $this->assertSame(0, $this->Activity->getTrimp());
     }
 
     public function testInvalidActivity(): void

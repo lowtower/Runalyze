@@ -51,7 +51,7 @@ class ElevationsRecalculatorTest extends \PHPUnit\Framework\TestCase
         $Fetch = $this->PDO->prepare('SELECT `elevation`, `elevation_up`, `elevation_down` FROM `runalyze_route` WHERE `id`=:id');
         $Fetch->setFetchMode(\PDO::FETCH_NUM);
 
-        $this->assertEquals(2, $Job->numberOfRoutes());
+        $this->assertSame(2, $Job->numberOfRoutes());
 
         $Fetch->execute([
             ':id' => 1,

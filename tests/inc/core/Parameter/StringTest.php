@@ -19,14 +19,14 @@ class ParameterStringTest extends \PHPUnit\Framework\TestCase
     public function testAsString(): void
     {
         $this->assertEquals('', $this->object->value());
-        $this->assertEquals('', $this->object->valueAsString());
+        $this->assertSame('', $this->object->valueAsString());
 
         $this->object->set('foo');
         $this->assertEquals('foo', $this->object->value());
-        $this->assertEquals('foo', $this->object->valueAsString());
+        $this->assertSame('foo', $this->object->valueAsString());
 
         $this->object->set('bar');
         $this->assertEquals('bar', $this->object->value());
-        $this->assertEquals('bar', $this->object->valueAsString());
+        $this->assertSame('bar', $this->object->valueAsString());
     }
 }

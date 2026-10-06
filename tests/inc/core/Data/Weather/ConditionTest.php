@@ -31,13 +31,6 @@ class ConditionTest extends \PHPUnit\Framework\TestCase
     {
     }
 
-    /**
-     * @covers Runalyze\Data\Weather\Condition::completeList
-     * @covers Runalyze\Data\Weather\Condition::icon
-     * @covers Runalyze\Data\Weather\Condition::id
-     * @covers Runalyze\Data\Weather\Condition::set
-     * @covers Runalyze\Data\Weather\Condition::string
-     */
     public function testConditions(): void
     {
         foreach (Condition::completeList() as $id) {

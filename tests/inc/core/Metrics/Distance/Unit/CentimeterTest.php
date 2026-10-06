@@ -11,6 +11,6 @@ class CentimeterTest extends \PHPUnit\Framework\TestCase
         $unit = new Centimeter();
 
         $this->assertEquals(100, $unit->fromBaseUnit(0.001));
-        $this->assertEquals(0.001, $unit->toBaseUnit(100));
+        $this->assertSame(0.001, $unit->toBaseUnit(100));
     }
 }

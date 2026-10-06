@@ -27,11 +27,11 @@ class CsvEpsonTest extends AbstractActivityParserTestCase
 
         $sizeTimeData = count($this->Container->ContinuousData->Time);
 
-        $this->assertEquals($sizeTimeData, count($this->Container->ContinuousData->Distance), 'Distance array has wrong size.');
-        $this->assertEquals($sizeTimeData, count($this->Container->ContinuousData->Latitude), 'Latitude array has wrong size.');
-        $this->assertEquals($sizeTimeData, count($this->Container->ContinuousData->Longitude), 'Longitude array has wrong size.');
-        $this->assertEquals($sizeTimeData, count($this->Container->ContinuousData->Altitude), 'Altitude array has wrong size.');
-        $this->assertEquals($sizeTimeData, count($this->Container->ContinuousData->HeartRate), 'Heartrate array has wrong size.');
-        $this->assertEquals($sizeTimeData, count($this->Container->ContinuousData->Cadence), 'Cadence array has wrong size.');
+        $this->assertCount($sizeTimeData, $this->Container->ContinuousData->Distance, 'Distance array has wrong size.');
+        $this->assertCount($sizeTimeData, $this->Container->ContinuousData->Latitude, 'Latitude array has wrong size.');
+        $this->assertCount($sizeTimeData, $this->Container->ContinuousData->Longitude, 'Longitude array has wrong size.');
+        $this->assertCount($sizeTimeData, $this->Container->ContinuousData->Altitude, 'Altitude array has wrong size.');
+        $this->assertCount($sizeTimeData, $this->Container->ContinuousData->HeartRate, 'Heartrate array has wrong size.');
+        $this->assertCount($sizeTimeData, $this->Container->ContinuousData->Cadence, 'Cadence array has wrong size.');
     }
 }

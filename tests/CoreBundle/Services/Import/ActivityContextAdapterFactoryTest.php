@@ -19,18 +19,18 @@ class ActivityContextAdapterFactoryTest extends TestCase
 {
     public function testGetAdapterForReturnsAnActivityContextAdapter(): void
     {
-        $routeNameEval = $this->createMock(RouteNameEval::class);
+        $routeNameEval = $this->createStub(RouteNameEval::class);
         $routeNameEvalFactory = $this->createMock(RouteNameEvalFactory::class);
         $routeNameEvalFactory->method('getInstance')
             ->willReturn($routeNameEval);
 
         $factory = new ActivityContextAdapterFactory(
-            $this->createMock(WeatherForecast::class),
-            $this->createMock(DuplicateFinder::class),
+            $this->createStub(WeatherForecast::class),
+            $this->createStub(DuplicateFinder::class),
             $routeNameEvalFactory
         );
 
-        $context = new ActivityContext($this->createMock(Training::class));
+        $context = new ActivityContext($this->createStub(Training::class));
         $adapter = $factory->getAdapterFor($context);
 
         $this->assertInstanceOf(ActivityContextAdapter::class, $adapter);
@@ -41,15 +41,15 @@ class ActivityContextAdapterFactoryTest extends TestCase
         $routeNameEvalFactory = $this->createMock(RouteNameEvalFactory::class);
         $routeNameEvalFactory->expects($this->once())
             ->method('getInstance')
-            ->willReturn($this->createMock(RouteNameEval::class));
+            ->willReturn($this->createStub(RouteNameEval::class));
 
         $factory = new ActivityContextAdapterFactory(
-            $this->createMock(WeatherForecast::class),
-            $this->createMock(DuplicateFinder::class),
+            $this->createStub(WeatherForecast::class),
+            $this->createStub(DuplicateFinder::class),
             $routeNameEvalFactory
         );
 
-        $context = new ActivityContext($this->createMock(Training::class));
+        $context = new ActivityContext($this->createStub(Training::class));
         $factory->getAdapterFor($context);
         $factory->getAdapterFor($context);
     }
@@ -58,15 +58,15 @@ class ActivityContextAdapterFactoryTest extends TestCase
     {
         $routeNameEvalFactory = $this->createMock(RouteNameEvalFactory::class);
         $routeNameEvalFactory->method('getInstance')
-            ->willReturn($this->createMock(RouteNameEval::class));
+            ->willReturn($this->createStub(RouteNameEval::class));
 
         $factory = new ActivityContextAdapterFactory(
-            $this->createMock(WeatherForecast::class),
-            $this->createMock(DuplicateFinder::class),
+            $this->createStub(WeatherForecast::class),
+            $this->createStub(DuplicateFinder::class),
             $routeNameEvalFactory
         );
 
-        $context = new ActivityContext($this->createMock(Training::class));
+        $context = new ActivityContext($this->createStub(Training::class));
 
         $this->assertNotSame($factory->getAdapterFor($context), $factory->getAdapterFor($context));
     }

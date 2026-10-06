@@ -28,7 +28,7 @@ class MonotonyTest extends \PHPUnit\Framework\TestCase
         $monotony = new Monotony([1, 1, 1, 1, 1, 1, 1]);
         $monotony->calculate();
 
-        $this->assertEquals(Monotony::MAX, $monotony->value());
+        $this->assertSame(Monotony::MAX, $monotony->value());
     }
 
     public function testSimpleExample(): void
@@ -36,8 +36,8 @@ class MonotonyTest extends \PHPUnit\Framework\TestCase
         $monotony = new Monotony([0, 20, 10, 10, 10, 10, 10]);
         $monotony->calculate();
 
-        $this->assertEquals(10 / sqrt(200 / 7), $monotony->value());
-        $this->assertEquals(7 * 10 * 10 / sqrt(200 / 7), $monotony->trainingStrain());
+        $this->assertSame(10 / sqrt(200 / 7), $monotony->value());
+        $this->assertSame(7 * 10 * 10 / sqrt(200 / 7), $monotony->trainingStrain());
     }
 
     public function testAnotherSimpleExample(): void
@@ -57,7 +57,7 @@ class MonotonyTest extends \PHPUnit\Framework\TestCase
         $withoutZeroes = new Monotony([10, 20, 30, 40]);
         $withoutZeroes->calculate();
 
-        $this->assertEquals($withZeroes->value(), $withoutZeroes->value());
-        $this->assertEquals($withZeroes->trainingStrain(), $withoutZeroes->trainingStrain());
+        $this->assertSame($withZeroes->value(), $withoutZeroes->value());
+        $this->assertSame($withZeroes->trainingStrain(), $withoutZeroes->trainingStrain());
     }
 }

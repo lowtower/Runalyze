@@ -342,7 +342,7 @@ class TrackdataTest extends \PHPUnit\Framework\TestCase
 
     public function testSetAndGetAccount(): void
     {
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
 
         $this->Data->setAccount($account);
 

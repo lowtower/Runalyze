@@ -93,7 +93,7 @@ class EquipmentTypeTest extends \PHPUnit\Framework\TestCase
 
     public function testSetAccountAndGetAccount(): void
     {
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
 
         $this->EquipmentType->setAccount($account);
 
@@ -107,7 +107,7 @@ class EquipmentTypeTest extends \PHPUnit\Framework\TestCase
 
     public function testAddSportAddsToCollection(): void
     {
-        $sport = $this->createMock(Sport::class);
+        $sport = $this->createStub(Sport::class);
 
         $this->EquipmentType->addSport($sport);
 
@@ -117,7 +117,7 @@ class EquipmentTypeTest extends \PHPUnit\Framework\TestCase
 
     public function testRemoveSportRemovesFromCollection(): void
     {
-        $sport = $this->createMock(Sport::class);
+        $sport = $this->createStub(Sport::class);
         $this->EquipmentType->addSport($sport);
 
         $this->EquipmentType->removeSport($sport);

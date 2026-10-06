@@ -10,6 +10,6 @@ class GeneralTest extends \PHPUnit\Framework\TestCase
     {
         $Cadence = new General(90);
 
-        $this->assertEquals(90, $Cadence->value());
+        $this->assertSame(90, $Cadence->value());
     }
 }

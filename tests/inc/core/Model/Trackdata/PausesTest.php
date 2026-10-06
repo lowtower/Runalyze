@@ -19,14 +19,14 @@ class PausesTest extends \PHPUnit\Framework\TestCase
         $P->add($P2);
 
         $this->assertFalse($P->isEmpty());
-        $this->assertEquals(2, $P->num());
+        $this->assertSame(2, $P->num());
         $this->assertEquals($P1, $P->at(0));
         $this->assertEquals($P2, $P->at(1));
 
         $P->clear();
 
         $this->assertTrue($P->isEmpty());
-        $this->assertEquals(0, $P->num());
+        $this->assertSame(0, $P->num());
     }
 
     public function testArrayTransformation(): void
@@ -38,12 +38,12 @@ class PausesTest extends \PHPUnit\Framework\TestCase
         $P2 = new Pauses();
         $P2->fromArray($P1->asArray());
 
-        $this->assertEquals(2, $P2->num());
+        $this->assertSame(2, $P2->num());
         $this->assertEquals($P1->asArray(), $P2->asArray());
 
         $P3 = new Pauses($P1->asArray());
 
-        $this->assertEquals(2, $P2->num());
+        $this->assertSame(2, $P2->num());
         $this->assertEquals($P1->asArray(), $P3->asArray());
     }
 
@@ -56,25 +56,25 @@ class PausesTest extends \PHPUnit\Framework\TestCase
         $P2 = new Pauses();
         $P2->fromString($P1->asString());
 
-        $this->assertEquals(2, $P2->num());
-        $this->assertEquals($P1->asString(), $P2->asString());
+        $this->assertSame(2, $P2->num());
+        $this->assertSame($P1->asString(), $P2->asString());
 
         $P3 = new Pauses($P1->asString());
 
-        $this->assertEquals(2, $P2->num());
-        $this->assertEquals($P1->asString(), $P3->asString());
+        $this->assertSame(2, $P2->num());
+        $this->assertSame($P1->asString(), $P3->asString());
     }
 
     public function testEmptyPauses(): void
     {
         $P = new Pauses('');
-        $this->assertEquals(0, $P->num());
+        $this->assertSame(0, $P->num());
 
         $P->add(new Pause(60, 10, 120, 100));
         $P->fromString('');
 
-        $this->assertEquals(0, $P->num());
-        $this->assertEquals('', $P->asString());
+        $this->assertSame(0, $P->num());
+        $this->assertSame('', $P->asString());
     }
 
     public function testException(): void

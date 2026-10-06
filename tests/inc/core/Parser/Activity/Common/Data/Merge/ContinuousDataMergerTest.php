@@ -45,7 +45,7 @@ class ContinuousDataMergerTest extends \PHPUnit\Framework\TestCase
 
         (new ContinuousDataMerger($this->FirstData, $this->SecondData))->merge(true);
 
-        $this->assertEquals([1, 2, 3], $this->FirstData->Time);
+        $this->assertSame([1, 2, 3], $this->FirstData->Time);
     }
 
     public function testWithEmptyFirstObject(): void
@@ -67,7 +67,7 @@ class ContinuousDataMergerTest extends \PHPUnit\Framework\TestCase
 
         (new ContinuousDataMerger($this->FirstData, $this->SecondData))->merge(true);
 
-        $this->assertEquals([120, 125, 120], $this->FirstData->Altitude);
+        $this->assertSame([120, 125, 120], $this->FirstData->Altitude);
         $this->assertTrue($this->FirstData->IsAltitudeDataBarometric);
     }
 
@@ -81,7 +81,7 @@ class ContinuousDataMergerTest extends \PHPUnit\Framework\TestCase
 
         (new ContinuousDataMerger($this->FirstData, $this->SecondData))->merge(true);
 
-        $this->assertEquals([121, 124, 122], $this->FirstData->Altitude);
+        $this->assertSame([121, 124, 122], $this->FirstData->Altitude);
         $this->assertTrue($this->FirstData->IsAltitudeDataBarometric);
     }
 }

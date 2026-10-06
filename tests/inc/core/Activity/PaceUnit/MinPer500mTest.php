@@ -42,8 +42,8 @@ class MinPer500mTest extends \PHPUnit\Framework\TestCase
     {
         $Pace = new MinPer500m();
 
-        $this->assertEquals('2:30', $Pace->format(300));
-        $this->assertEquals('1:52', $Pace->format(224));
-        $this->assertEquals('-:--', $Pace->format(0));
+        $this->assertSame('2:30', $Pace->format(300));
+        $this->assertSame('1:52', $Pace->format(224));
+        $this->assertSame('-:--', $Pace->format(0));
     }
 }

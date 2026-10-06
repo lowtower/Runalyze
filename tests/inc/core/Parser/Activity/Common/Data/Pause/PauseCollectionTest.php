@@ -21,13 +21,13 @@ class PauseCollectionTest extends \PHPUnit\Framework\TestCase
             new Pause(242, 17),
         ]);
 
-        $this->assertEquals(2, $this->Collection->count());
+        $this->assertCount(2, $this->Collection);
         $this->assertEquals(27, $this->Collection->getTotalDuration());
     }
 
     public function testEmptyCollection(): void
     {
-        $this->assertEquals(0, $this->Collection->count());
+        $this->assertCount(0, $this->Collection);
         $this->assertEquals(0, $this->Collection->getTotalDuration());
         $this->assertTrue($this->Collection->isEmpty());
         $this->assertFalse($this->Collection->offsetExists(0));
@@ -36,13 +36,13 @@ class PauseCollectionTest extends \PHPUnit\Framework\TestCase
 
     public function testDefaultArrayAccessors(): void
     {
-        $this->assertEquals(0, count($this->Collection));
+        $this->assertCount(0, $this->Collection);
         $this->assertEmpty($this->Collection);
 
         $this->Collection[] = new Pause(100, 10);
         $this->Collection[] = new Pause(242, 17);
 
-        $this->assertEquals(2, count($this->Collection));
+        $this->assertCount(2, $this->Collection);
         $this->assertNotEmpty($this->Collection);
 
         $this->assertInstanceOf(Pause::class, $this->Collection[0]);
@@ -54,7 +54,7 @@ class PauseCollectionTest extends \PHPUnit\Framework\TestCase
         $this->Collection->add(new Pause(100, 10));
         $this->Collection->add(new Pause(242, 17));
 
-        $this->assertEquals(2, $this->Collection->count());
+        $this->assertCount(2, $this->Collection);
     }
 
     public function testConstructorWithBadTypes(): void
@@ -82,7 +82,7 @@ class PauseCollectionTest extends \PHPUnit\Framework\TestCase
 
         $this->Collection->rebase();
 
-        $this->assertEquals(2, $this->Collection->count());
+        $this->assertCount(2, $this->Collection);
         $this->assertEquals(10, $this->Collection[0]->getTimeIndex());
         $this->assertEquals(30, $this->Collection[1]->getTimeIndex());
     }

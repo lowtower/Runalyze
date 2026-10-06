@@ -29,7 +29,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
             $this->assertFalse($T->has($key));
         }
 
-        $this->assertEquals(0, $T->num());
+        $this->assertSame(0, $T->num());
         $this->assertFalse($T->hasPauses());
         $this->assertTrue($T->pauses()->isEmpty());
     }
@@ -43,7 +43,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
             $this->assertFalse($T->has($key));
         }
 
-        $this->assertEquals(0, $T->num());
+        $this->assertSame(0, $T->num());
         $this->assertFalse($T->hasPauses());
     }
 
@@ -51,14 +51,14 @@ class EntityTest extends \PHPUnit\Framework\TestCase
     {
         $T = $this->simpleObjectByStrings();
 
-        $this->assertEquals(1, $T->activityID());
+        $this->assertSame(1, $T->activityID());
         $this->assertEquals([20, 40], $T->time());
         $this->assertEquals([0.1, 0.2], $T->distance());
         $this->assertEquals([140, 120], $T->heartRate());
 
-        $this->assertEquals(2, $T->num());
+        $this->assertSame(2, $T->num());
         $this->assertTrue($T->hasPauses());
-        $this->assertEquals(1, $T->pauses()->num());
+        $this->assertSame(1, $T->pauses()->num());
         $this->assertEquals(20, $T->pauses()->at(0)->hrDiff());
 
         $this->assertEquals(40, $T->totalTime());
@@ -76,7 +76,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
             Entity::GROUNDCONTACT_BALANCE => [6500, 6430],
         ]);
 
-        $this->assertEquals(2, $T->num());
+        $this->assertSame(2, $T->num());
         $this->assertEquals([180, 185], $T->cadence());
         $this->assertEquals([200, 250], $T->power());
         $this->assertEquals([25,  24], $T->temperature());
@@ -154,7 +154,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
             Entity::HEARTRATE => [120, 125, 130, 135, 140],
         ]);
 
-        $this->assertEquals(4, $T->num());
+        $this->assertSame(4, $T->num());
     }
 
     public function testDefectActivitiesFromSpoQgpx(): void
@@ -165,7 +165,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
             Entity::HEARTRATE => [130, 135, 140],
         ]);
 
-        $this->assertEquals(4, $T->num());
+        $this->assertSame(4, $T->num());
     }
 
     public function testEmptyArrays(): void

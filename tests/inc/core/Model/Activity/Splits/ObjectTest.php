@@ -20,10 +20,10 @@ class ObjectTest extends \PHPUnit\Framework\TestCase
         $Splits = new Entity($Split1->asString() . Entity::SEPARATOR . $Split2->asString());
 
         $this->assertFalse($Splits->isEmpty());
-        $this->assertEquals(2, $Splits->num());
+        $this->assertSame(2, $Splits->num());
         $this->assertEquals($Split1, $Splits->at(0));
         $this->assertEquals($Split2, $Splits->at(1));
-        $this->assertEquals(
+        $this->assertSame(
             $Split1->asString() . Entity::SEPARATOR . $Split2->asString(),
             $Splits->asString()
         );
@@ -39,7 +39,7 @@ class ObjectTest extends \PHPUnit\Framework\TestCase
         $Splits2->add($Split1);
         $Splits2->add($Split2);
 
-        $this->assertEquals(2, count($Splits1->asArray()));
+        $this->assertCount(2, $Splits1->asArray());
         $this->assertEquals($Splits1->asArray(), $Splits2->asArray());
     }
 
@@ -53,7 +53,7 @@ class ObjectTest extends \PHPUnit\Framework\TestCase
         ]);
 
         $this->assertEquals(6, $Splits->totalDistance());
-        $this->assertEquals(1800, $Splits->totalTime());
+        $this->assertSame(1800, $Splits->totalTime());
     }
 
     public function testActiveAndInactiveFlags(): void

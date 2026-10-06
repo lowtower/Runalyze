@@ -21,7 +21,7 @@ class QueryValueUnitDelegationTest extends TestCase
 {
     public function testWeatherWindSpeedDelegatesToUnitSystemsWindSpeedUnit(): void
     {
-        $expectedUnit = $this->createMock(AbstractPaceInDecimalFormatUnit::class);
+        $expectedUnit = $this->createStub(AbstractPaceInDecimalFormatUnit::class);
 
         $unitSystem = $this->createMock(UnitSystem::class);
         $unitSystem->expects($this->once())
@@ -35,7 +35,7 @@ class QueryValueUnitDelegationTest extends TestCase
 
     public function testHeartRateMaximumDelegatesToUnitSystemsHeartRateUnit(): void
     {
-        $expectedUnit = $this->createMock(AbstractHeartRateUnit::class);
+        $expectedUnit = $this->createStub(AbstractHeartRateUnit::class);
 
         $unitSystem = $this->createMock(UnitSystem::class);
         $unitSystem->expects($this->once())
@@ -49,7 +49,7 @@ class QueryValueUnitDelegationTest extends TestCase
 
     public function testHeartRateAverageDelegatesToUnitSystemsHeartRateUnit(): void
     {
-        $expectedUnit = $this->createMock(AbstractHeartRateUnit::class);
+        $expectedUnit = $this->createStub(AbstractHeartRateUnit::class);
 
         $unitSystem = $this->createMock(UnitSystem::class);
         $unitSystem->expects($this->once())
@@ -63,7 +63,7 @@ class QueryValueUnitDelegationTest extends TestCase
 
     public function testWeatherTemperatureDelegatesToUnitSystemsTemperatureUnit(): void
     {
-        $expectedUnit = $this->createMock(AbstractTemperatureUnit::class);
+        $expectedUnit = $this->createStub(AbstractTemperatureUnit::class);
 
         $unitSystem = $this->createMock(UnitSystem::class);
         $unitSystem->expects($this->once())
@@ -77,7 +77,7 @@ class QueryValueUnitDelegationTest extends TestCase
 
     public function testPaceDelegatesToUnitSystemsPaceUnit(): void
     {
-        $expectedUnit = $this->createMock(AbstractPaceUnit::class);
+        $expectedUnit = $this->createStub(AbstractPaceUnit::class);
 
         $unitSystem = $this->createMock(UnitSystem::class);
         $unitSystem->expects($this->once())
@@ -91,7 +91,7 @@ class QueryValueUnitDelegationTest extends TestCase
 
     public function testVo2maxDelegatesToUnitSystemsVO2maxUnit(): void
     {
-        $expectedUnit = $this->createMock(Factorial::class);
+        $expectedUnit = $this->createStub(Factorial::class);
 
         $unitSystem = $this->createMock(UnitSystem::class);
         $unitSystem->expects($this->once())
@@ -105,7 +105,7 @@ class QueryValueUnitDelegationTest extends TestCase
 
     public function testVo2maxWithElevationInheritsVo2maxsUnitDelegation(): void
     {
-        $expectedUnit = $this->createMock(Factorial::class);
+        $expectedUnit = $this->createStub(Factorial::class);
 
         $unitSystem = $this->createMock(UnitSystem::class);
         $unitSystem->expects($this->once())

@@ -33,11 +33,11 @@ class ConfRepositoryTest extends AbstractRepositoryTestCase
 
         $this->assertEquals([$conf], $this->ConfRepository->findForAccount($account));
         $this->assertEquals($conf, $this->ConfRepository->findForAccountAndKey($account, 'SOME_KEY'));
-        $this->assertEquals('foo', $conf->getValue());
+        $this->assertSame('foo', $conf->getValue());
 
         $this->ConfRepository->updateOrInsert($account, 'cat', 'SOME_KEY', 'bar');
 
-        $this->assertEquals(1, count($this->ConfRepository->findForAccount($account)));
-        $this->assertEquals('bar', $this->ConfRepository->findForAccountAndKey($account, 'SOME_KEY')->getValue());
+        $this->assertCount(1, $this->ConfRepository->findForAccount($account));
+        $this->assertSame('bar', $this->ConfRepository->findForAccountAndKey($account, 'SOME_KEY')->getValue());
     }
 }

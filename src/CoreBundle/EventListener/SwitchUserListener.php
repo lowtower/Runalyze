@@ -9,6 +9,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\SwitchUserToken;
@@ -75,7 +76,7 @@ class SwitchUserListener
         $request->query->remove($this->usernameParameter);
         $request->server->set('QUERY_STRING', http_build_query($request->query->all()));
 
-        $response = new RedirectResponse($request->getUri(), 302);
+        $response = new RedirectResponse($request->getUri(), Response::HTTP_FOUND);
 
         $event->setResponse($response);
     }

@@ -3,7 +3,6 @@
 namespace Runalyze\Bundle\CoreBundle\Tests\Doctrine\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use PHPUnit\Framework\MockObject\MockObject;
 use Runalyze\Bundle\CoreBundle\Doctrine\Types\RunalyzePauseArray;
 use Runalyze\Parser\Activity\Common\Data\Pause\Pause;
 use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
@@ -12,14 +11,17 @@ class RunalyzePauseArrayTest extends \PHPUnit\Framework\TestCase
 {
     protected RunalyzePauseArray $Type;
 
-    protected MockObject $PlatformMock;
+    /**
+     * @var \PHPUnit\Framework\MockObject\Stub&\Doctrine\DBAL\Platforms\AbstractPlatform
+     */
+    protected \PHPUnit\Framework\MockObject\Stub $PlatformMock;
 
     protected function setUp(): void
     {
         /** @var RunalyzePauseArray $type */
         $type = RunalyzePauseArray::getType(RunalyzePauseArray::RUNALYZE_PAUSE_ARRAY);
         $this->Type = $type;
-        $this->PlatformMock = $this->getMockForAbstractClass(AbstractPlatform::class);
+        $this->PlatformMock = $this->createStub(AbstractPlatform::class);
     }
 
     public function testEmptyData(): void
@@ -48,7 +50,7 @@ class RunalyzePauseArrayTest extends \PHPUnit\Framework\TestCase
 
         $newCollection = $this->Type->convertToPHPValue($this->Type->convertToDatabaseValue($collection, $this->PlatformMock), $this->PlatformMock);
 
-        $this->assertEquals(4, $newCollection->count());
+        $this->assertCount(4, $newCollection);
         $this->assertEquals(123, $newCollection[0]->getTimeIndex());
         $this->assertEquals(50, $newCollection[0]->getDuration());
         $this->assertEquals(160, $newCollection[1]->getHeartRateAtStart());
@@ -67,10 +69,10 @@ class RunalyzePauseArrayTest extends \PHPUnit\Framework\TestCase
             $this->PlatformMock
         );
 
-        $this->assertEquals(3, $collection->count());
-        $this->assertEquals([93, 46, 136, 91], [$collection[0]->getTimeIndex(), $collection[0]->getDuration(), $collection[0]->getHeartRateAtStart(), $collection[0]->getHeartRateAtEnd()]);
-        $this->assertEquals([339, 49, 150, 109], [$collection[1]->getTimeIndex(), $collection[1]->getDuration(), $collection[1]->getHeartRateAtStart(), $collection[1]->getHeartRateAtEnd()]);
-        $this->assertEquals([621, 9, 142, 140], [$collection[2]->getTimeIndex(), $collection[2]->getDuration(), $collection[2]->getHeartRateAtStart(), $collection[2]->getHeartRateAtEnd()]);
+        $this->assertCount(3, $collection);
+        $this->assertSame([93, 46.0, 136, 91], [$collection[0]->getTimeIndex(), $collection[0]->getDuration(), $collection[0]->getHeartRateAtStart(), $collection[0]->getHeartRateAtEnd()]);
+        $this->assertSame([339, 49.0, 150, 109], [$collection[1]->getTimeIndex(), $collection[1]->getDuration(), $collection[1]->getHeartRateAtStart(), $collection[1]->getHeartRateAtEnd()]);
+        $this->assertSame([621, 9.0, 142, 140], [$collection[2]->getTimeIndex(), $collection[2]->getDuration(), $collection[2]->getHeartRateAtStart(), $collection[2]->getHeartRateAtEnd()]);
     }
 
     public function testBrokenExample(): void

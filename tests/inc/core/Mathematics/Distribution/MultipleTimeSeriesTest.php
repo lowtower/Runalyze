@@ -27,8 +27,8 @@ class MultipleTimeSeriesTest extends TestCase
             EmpiricalDistribution::class,
             $object->getDistribution('bar')
         );
-        $this->assertEquals(11.0, $object->getDistribution('foo')->mean());
-        $this->assertEquals(2.4, $object->getDistribution('bar')->mean());
+        $this->assertSame(11.0, $object->getDistribution('foo')->mean());
+        $this->assertSame(2.4, $object->getDistribution('bar')->mean());
     }
 
     public function testTimeDifferencesAreUsedAsHistogramWeights(): void

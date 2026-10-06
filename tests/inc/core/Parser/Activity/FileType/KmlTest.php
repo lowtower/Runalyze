@@ -49,7 +49,7 @@ class KmlTest extends AbstractActivityParserTestCase
 
         $this->assertEqualsWithDelta(0.4, $this->Container->ActivityData->Distance, 0.05);
 
-        $this->assertEquals(11, count($this->Container->ContinuousData->Distance));
+        $this->assertCount(11, $this->Container->ContinuousData->Distance);
     }
 
     public function testStandardFileMultiLineWithoutAltitude(): void
@@ -71,7 +71,7 @@ class KmlTest extends AbstractActivityParserTestCase
         $this->parseFile($this->Parser, 'kml/TomTom.kml');
 
         // assume that '...Z' time strings are converted to Europe/Berlin (see bootstrap.php)
-        $this->assertEquals('2013-09-08 10:34', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2013-09-08 10:34', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(3637, $this->Container->ActivityData->Duration);
@@ -91,7 +91,7 @@ class KmlTest extends AbstractActivityParserTestCase
         $this->parseFile($this->Parser, 'kml/TomTom-without-distance-extension.kml');
 
         // assume that '...Z' time strings are converted to Europe/Berlin (see bootstrap.php)
-        $this->assertEquals('2015-03-15 07:29', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame('2015-03-15 07:29', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(5 * 3600 + 50 * 60 + 6, $this->Container->ActivityData->Duration);

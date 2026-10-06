@@ -14,16 +14,16 @@ class DistanceModifierTest extends \PHPUnit\Framework\TestCase
         $Modifier = new DistanceModifier(10, 200, 100);
         $Modifier->setCorrectionValues(+2, -1);
 
-        $this->assertEquals(0.3, $Modifier->additionalDistance());
-        $this->assertEquals(10.3, $Modifier->correctedDistance());
+        $this->assertSame(0.3, $Modifier->additionalDistance());
+        $this->assertSame(10.3, $Modifier->correctedDistance());
     }
 
     public function testNoModification(): void
     {
         $Modifier = new DistanceModifier(10);
 
-        $this->assertEquals(0.0, $Modifier->additionalDistance());
-        $this->assertEquals(10.0, $Modifier->correctedDistance());
+        $this->assertSame(0.0, $Modifier->additionalDistance());
+        $this->assertSame(10.0, $Modifier->correctedDistance());
     }
 
     public function testNegativeModification(): void
@@ -31,8 +31,8 @@ class DistanceModifierTest extends \PHPUnit\Framework\TestCase
         $Modifier = new DistanceModifier(10, 200, 500);
         $Modifier->setCorrectionValues(+2, -1);
 
-        $this->assertEquals(-0.1, $Modifier->additionalDistance());
-        $this->assertEquals(9.9, $Modifier->correctedDistance());
+        $this->assertSame(-0.1, $Modifier->additionalDistance());
+        $this->assertSame(9.9, $Modifier->correctedDistance());
     }
 
     public function testConfigurationSettings(): void
@@ -42,7 +42,7 @@ class DistanceModifierTest extends \PHPUnit\Framework\TestCase
 
         $addition = 0.1 * $VO2maxConfig->correctionForPositiveElevation() + 0.1 * $VO2maxConfig->correctionForNegativeElevation();
 
-        $this->assertEquals($addition, $Modifier->additionalDistance());
-        $this->assertEquals(10 + $addition, $Modifier->correctedDistance());
+        $this->assertSame($addition, $Modifier->additionalDistance());
+        $this->assertSame(10 + $addition, $Modifier->correctedDistance());
     }
 }

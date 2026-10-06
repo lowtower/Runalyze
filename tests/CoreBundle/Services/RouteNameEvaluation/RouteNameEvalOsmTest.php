@@ -178,8 +178,8 @@ class RouteNameEvalOsmTest extends TestCase
 
         $result = $this->underTest->createResult($this->getSportRunning(), $this->coll);
 
-        $this->assertEquals($expectedNames, $result->getNames());
-        $this->assertEquals($expectedNotes, $result->getNotes());
+        $this->assertSame($expectedNames, $result->getNames());
+        $this->assertSame($expectedNotes, $result->getNotes());
     }
 
     public static function categoryCombinations(): iterable
@@ -234,13 +234,13 @@ class RouteNameEvalOsmTest extends TestCase
 
         $runningResult = $this->underTest->createResult($this->getSportRunning(), $this->coll);
 
-        $this->assertEquals('aplace', $runningResult->getNames());
-        $this->assertEquals("Verpflegung: ahut\n", $runningResult->getNotes());
+        $this->assertSame('aplace', $runningResult->getNames());
+        $this->assertSame("Verpflegung: ahut\n", $runningResult->getNotes());
 
         $mountainResult = $this->underTest->createResult($this->getSportMountain(), $this->coll);
 
-        $this->assertEquals('aplace - ahut', $mountainResult->getNames());
-        $this->assertEquals('', $mountainResult->getNotes());
+        $this->assertSame('aplace - ahut', $mountainResult->getNames());
+        $this->assertSame('', $mountainResult->getNotes());
     }
 
     public function testCreateResultUsesAtMostSevenNames(): void
@@ -254,7 +254,7 @@ class RouteNameEvalOsmTest extends TestCase
 
         $result = $this->underTest->createResult($this->getSportRunning(), $this->coll);
 
-        $this->assertEquals(implode(' - ', array_slice($places, 0, 7)), $result->getNames());
+        $this->assertSame(implode(' - ', array_slice($places, 0, 7)), $result->getNames());
     }
 
     public function testEvaluateReturnsNullImmediatelyWhenUrlIsEmpty(): void

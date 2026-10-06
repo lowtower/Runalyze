@@ -86,7 +86,7 @@ class PowerCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->Calculator->calculateFor($this->Activity);
 
         $this->assertFalse($this->Activity->isPowerCalculated());
-        $this->assertEquals(314, $this->Activity->getPower());
+        $this->assertSame(314, $this->Activity->getPower());
         $this->assertEquals([42, 42, 42, 42, 42], $this->Activity->getTrackdata()->getPower());
     }
 

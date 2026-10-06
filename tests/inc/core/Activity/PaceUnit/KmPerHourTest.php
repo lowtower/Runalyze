@@ -47,8 +47,8 @@ class KmPerHourTest extends TestCase
 
         $Pace = new KmPerHour();
 
-        $this->assertEquals('12,0', $Pace->format(300));
-        $this->assertEquals('16,1', $Pace->format(224));
-        $this->assertEquals('0,0', $Pace->format(0));
+        $this->assertSame('12,0', $Pace->format(300));
+        $this->assertSame('16,1', $Pace->format(224));
+        $this->assertSame('0,0', $Pace->format(0));
     }
 }

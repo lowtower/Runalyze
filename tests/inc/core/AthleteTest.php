@@ -35,8 +35,8 @@ class AthleteTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($Athlete->knowsBirthyear());
         $this->assertFalse($Athlete->knowsWeight());
 
-        $this->assertEquals(Gender::MALE, $Athlete->gender());
-        $this->assertEquals(210, $Athlete->maximalHR());
+        $this->assertSame(Gender::MALE, $Athlete->gender());
+        $this->assertSame(210, $Athlete->maximalHR());
     }
 
     public function testAllProperties(): void
@@ -51,11 +51,11 @@ class AthleteTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($Athlete->knowsWeight());
         $this->assertTrue($Athlete->knowsEffectiveVO2max());
 
-        $this->assertEquals(GENDER::MALE, $Athlete->gender());
-        $this->assertEquals(210, $Athlete->maximalHR());
-        $this->assertEquals(45, $Athlete->restingHR());
+        $this->assertSame(GENDER::MALE, $Athlete->gender());
+        $this->assertSame(210, $Athlete->maximalHR());
+        $this->assertSame(45, $Athlete->restingHR());
         $this->assertEquals(70, $Athlete->weight());
-        $this->assertEquals(1993, $Athlete->birthyear());
+        $this->assertSame(1993, $Athlete->birthyear());
         $this->assertEquals(date('Y') - 1993, $Athlete->age());
         $this->assertEquals(60, $Athlete->vo2max());
     }

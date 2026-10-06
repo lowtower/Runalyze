@@ -20,10 +20,10 @@ class EntityTest extends \PHPUnit\Framework\TestCase
             Entity::QUALITY_SESSION,
         ]);
 
-        $this->assertEquals('Type name', $Type->name());
-        $this->assertEquals('Tn', $Type->abbreviation());
-        $this->assertEquals(1, $Type->sportid());
-        $this->assertEquals(123, $Type->hrAvg());
+        $this->assertSame('Type name', $Type->name());
+        $this->assertSame('Tn', $Type->abbreviation());
+        $this->assertSame(1, $Type->sportid());
+        $this->assertSame(123, $Type->hrAvg());
         $this->assertEquals(false, $Type->isQualitySession());
         $this->assertEquals(true, $Type->usesShortMode());
         $this->assertEquals(false, $Type->inheritsShortMode());

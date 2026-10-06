@@ -85,7 +85,7 @@ class TrendAnalysisDataQueryBuildQueryTest extends TestCase
             ->willReturn([]);
 
         $query = $this->createQuery($trendAnalysisData);
-        $this->setProtectedProperty($query, 'QueryValue', $this->createMock(QueryValueInterface::class));
+        $this->setProtectedProperty($query, 'QueryValue', $this->createStub(QueryValueInterface::class));
 
         $queryBuilder = $this->createFluentQueryBuilderMock();
         $queryBuilder->expects($this->once())
@@ -93,9 +93,9 @@ class TrendAnalysisDataQueryBuildQueryTest extends TestCase
             ->with('t.time')
             ->willReturn($queryBuilder);
         $queryBuilder->method('expr')
-            ->willReturn($this->createMock(Expr::class));
+            ->willReturn($this->createStub(Expr::class));
         $queryBuilder->method('getQuery')
-            ->willReturn($this->createMock(Query::class));
+            ->willReturn($this->createStub(Query::class));
 
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository->expects($this->once())
@@ -103,7 +103,7 @@ class TrendAnalysisDataQueryBuildQueryTest extends TestCase
             ->with('t')
             ->willReturn($queryBuilder);
 
-        $this->invokeBuildQuery($query, $trainingRepository, $this->createMock(Account::class));
+        $this->invokeBuildQuery($query, $trainingRepository, $this->createStub(Account::class));
     }
 
     public function testBuildQuerySetsAccountAndTimeRangeParameters(): void
@@ -123,7 +123,7 @@ class TrendAnalysisDataQueryBuildQueryTest extends TestCase
             ->willReturn([]);
 
         $query = $this->createQuery($trendAnalysisData);
-        $this->setProtectedProperty($query, 'QueryValue', $this->createMock(QueryValueInterface::class));
+        $this->setProtectedProperty($query, 'QueryValue', $this->createStub(QueryValueInterface::class));
 
         $setParameterCalls = [];
         $queryBuilder = $this->createFluentQueryBuilderMock();
@@ -136,9 +136,9 @@ class TrendAnalysisDataQueryBuildQueryTest extends TestCase
                 }
             );
         $queryBuilder->method('expr')
-            ->willReturn($this->createMock(Expr::class));
+            ->willReturn($this->createStub(Expr::class));
         $queryBuilder->method('getQuery')
-            ->willReturn($this->createMock(Query::class));
+            ->willReturn($this->createStub(Query::class));
 
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository->method('createQueryBuilder')
@@ -172,7 +172,7 @@ class TrendAnalysisDataQueryBuildQueryTest extends TestCase
             ->willReturn([]);
 
         $query = $this->createQuery($trendAnalysisData);
-        $this->setProtectedProperty($query, 'QueryValue', $this->createMock(QueryValueInterface::class));
+        $this->setProtectedProperty($query, 'QueryValue', $this->createStub(QueryValueInterface::class));
 
         $setParameterCalls = [];
         $queryBuilder = $this->createFluentQueryBuilderMock();
@@ -185,15 +185,15 @@ class TrendAnalysisDataQueryBuildQueryTest extends TestCase
                 }
             );
         $queryBuilder->method('expr')
-            ->willReturn($this->createMock(Expr::class));
+            ->willReturn($this->createStub(Expr::class));
         $queryBuilder->method('getQuery')
-            ->willReturn($this->createMock(Query::class));
+            ->willReturn($this->createStub(Query::class));
 
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository->method('createQueryBuilder')
             ->willReturn($queryBuilder);
 
-        $this->invokeBuildQuery($query, $trainingRepository, $this->createMock(Account::class));
+        $this->invokeBuildQuery($query, $trainingRepository, $this->createStub(Account::class));
 
         $this->assertSame([1, 2], $setParameterCalls[':sports']);
     }
@@ -211,7 +211,7 @@ class TrendAnalysisDataQueryBuildQueryTest extends TestCase
             ->willReturn([]);
 
         $query = $this->createQuery($trendAnalysisData);
-        $this->setProtectedProperty($query, 'QueryValue', $this->createMock(QueryValueInterface::class));
+        $this->setProtectedProperty($query, 'QueryValue', $this->createStub(QueryValueInterface::class));
 
         $setParameterCalls = [];
         $queryBuilder = $this->createFluentQueryBuilderMock();
@@ -224,15 +224,15 @@ class TrendAnalysisDataQueryBuildQueryTest extends TestCase
                 }
             );
         $queryBuilder->method('expr')
-            ->willReturn($this->createMock(Expr::class));
+            ->willReturn($this->createStub(Expr::class));
         $queryBuilder->method('getQuery')
-            ->willReturn($this->createMock(Query::class));
+            ->willReturn($this->createStub(Query::class));
 
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository->method('createQueryBuilder')
             ->willReturn($queryBuilder);
 
-        $this->invokeBuildQuery($query, $trainingRepository, $this->createMock(Account::class));
+        $this->invokeBuildQuery($query, $trainingRepository, $this->createStub(Account::class));
 
         $this->assertArrayNotHasKey(':types', $setParameterCalls);
     }
@@ -257,7 +257,7 @@ class TrendAnalysisDataQueryBuildQueryTest extends TestCase
             ->willReturn([$type1, $type2]);
 
         $query = $this->createQuery($trendAnalysisData);
-        $this->setProtectedProperty($query, 'QueryValue', $this->createMock(QueryValueInterface::class));
+        $this->setProtectedProperty($query, 'QueryValue', $this->createStub(QueryValueInterface::class));
 
         $setParameterCalls = [];
         $queryBuilder = $this->createFluentQueryBuilderMock();
@@ -270,15 +270,15 @@ class TrendAnalysisDataQueryBuildQueryTest extends TestCase
                 }
             );
         $queryBuilder->method('expr')
-            ->willReturn($this->createMock(Expr::class));
+            ->willReturn($this->createStub(Expr::class));
         $queryBuilder->method('getQuery')
-            ->willReturn($this->createMock(Query::class));
+            ->willReturn($this->createStub(Query::class));
 
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository->method('createQueryBuilder')
             ->willReturn($queryBuilder);
 
-        $this->invokeBuildQuery($query, $trainingRepository, $this->createMock(Account::class));
+        $this->invokeBuildQuery($query, $trainingRepository, $this->createStub(Account::class));
 
         $this->assertSame([10, 11], $setParameterCalls[':types']);
     }
@@ -302,9 +302,9 @@ class TrendAnalysisDataQueryBuildQueryTest extends TestCase
 
         $queryBuilder = $this->createFluentQueryBuilderMock();
         $queryBuilder->method('expr')
-            ->willReturn($this->createMock(Expr::class));
+            ->willReturn($this->createStub(Expr::class));
 
-        $expectedQuery = $this->createMock(Query::class);
+        $expectedQuery = $this->createStub(Query::class);
         $queryBuilder->method('getQuery')
             ->willReturn($expectedQuery);
 
@@ -316,7 +316,7 @@ class TrendAnalysisDataQueryBuildQueryTest extends TestCase
             ->method('addSelectionToQuery')
             ->with($queryBuilder, 't', 'value');
 
-        $result = $this->invokeBuildQuery($query, $trainingRepository, $this->createMock(Account::class));
+        $result = $this->invokeBuildQuery($query, $trainingRepository, $this->createStub(Account::class));
 
         $this->assertSame($expectedQuery, $result);
     }

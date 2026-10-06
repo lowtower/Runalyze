@@ -45,7 +45,7 @@ class MilesPerHourTest extends \PHPUnit\Framework\TestCase
 
         $Pace = new MilesPerHour();
 
-        $this->assertEquals('7,5', $Pace->format(300));
-        $this->assertEquals('10,0', $Pace->format(224));
+        $this->assertSame('7,5', $Pace->format(300));
+        $this->assertSame('10,0', $Pace->format(224));
     }
 }

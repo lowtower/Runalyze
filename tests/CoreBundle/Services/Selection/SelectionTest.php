@@ -26,7 +26,7 @@ class SelectionTest extends TestCase
         $this->assertEquals(['foo', 'bar'], $list->getList());
         $this->assertNull($list->getCurrentKey());
         $this->assertFalse($list->hasCurrentKey());
-        $this->assertEquals('foo', $list->getCurrentLabel());
+        $this->assertSame('foo', $list->getCurrentLabel());
     }
 
     public function testSelectionWithCurrentKey(): void
@@ -35,7 +35,7 @@ class SelectionTest extends TestCase
 
         $this->assertEquals(1, $list->getCurrentKey());
         $this->assertTrue($list->hasCurrentKey());
-        $this->assertEquals('bar', $list->getCurrentLabel());
+        $this->assertSame('bar', $list->getCurrentLabel());
     }
 
     public function testUnknownCurrentKey(): void

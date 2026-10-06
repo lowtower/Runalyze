@@ -46,7 +46,7 @@ class ImportActivityControllerUnitTest extends TestCase
         $container = new Container();
         $container->set('security.authorization_checker', $this->authorizationChecker);
 
-        $this->controller = new ImportActivityController($this->createMock(KernelInterface::class), $this->logger);
+        $this->controller = new ImportActivityController($this->createStub(KernelInterface::class), $this->logger);
         $this->controller->setContainer($container);
     }
 

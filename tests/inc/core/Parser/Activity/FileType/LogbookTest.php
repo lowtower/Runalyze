@@ -22,10 +22,10 @@ class LogbookTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'sporttracks/test.logbook');
 
-        $this->assertTrue(is_array($this->Container));
-        $this->assertEquals(5, count($this->Container));
+        $this->assertIsArray($this->Container);
+        $this->assertCount(5, $this->Container);
 
-        $this->assertEquals('2008-09-06 18:01', LocalTime::date('Y-m-d H:i', $this->Container[0]->Metadata->getTimestamp()));
+        $this->assertSame('2008-09-06 18:01', LocalTime::date('Y-m-d H:i', $this->Container[0]->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container[0]->Metadata->getTimezoneOffset());
         $this->assertEquals(9382, $this->Container[0]->ActivityData->Duration);
         $this->assertEquals(26.743, $this->Container[0]->ActivityData->Distance);
@@ -35,7 +35,7 @@ class LogbookTest extends AbstractActivityParserTestCase
         $this->assertEquals("20°C\r\n1-2 Bft", $this->Container[0]->Metadata->getNotes());
         $this->assertEquals('Clouds', $this->Container[0]->WeatherData->Condition);
 
-        $this->assertEquals('2009-03-28 15:03', LocalTime::date('Y-m-d H:i', $this->Container[1]->Metadata->getTimestamp()));
+        $this->assertSame('2009-03-28 15:03', LocalTime::date('Y-m-d H:i', $this->Container[1]->Metadata->getTimestamp()));
         $this->assertEquals(60, $this->Container[1]->Metadata->getTimezoneOffset());
         $this->assertEquals(10837, $this->Container[1]->ActivityData->Duration);
         $this->assertEquals(25.864, $this->Container[1]->ActivityData->Distance);
@@ -48,7 +48,7 @@ class LogbookTest extends AbstractActivityParserTestCase
         $this->assertEquals('LightRain', $this->Container[1]->WeatherData->Condition);
         $this->assertTrue($this->Container[1]->Rounds->isEmpty());
 
-        $this->assertEquals('2009-03-31 20:22', LocalTime::date('Y-m-d H:i', $this->Container[2]->Metadata->getTimestamp()));
+        $this->assertSame('2009-03-31 20:22', LocalTime::date('Y-m-d H:i', $this->Container[2]->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container[2]->Metadata->getTimezoneOffset());
         $this->assertEquals(2310, $this->Container[2]->ActivityData->Duration);
         $this->assertEquals(6.904, $this->Container[2]->ActivityData->Distance);

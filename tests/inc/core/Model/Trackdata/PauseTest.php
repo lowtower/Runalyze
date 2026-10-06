@@ -13,7 +13,7 @@ class PauseTest extends \PHPUnit\Framework\TestCase
     {
         $P = new Pause();
 
-        $this->assertEquals(0, $P->time());
+        $this->assertSame(0, $P->time());
         $this->assertEquals(0, $P->duration());
         $this->assertFalse($P->hasHeartRateInfo());
         $this->assertNull($P->hrStart());
@@ -24,12 +24,12 @@ class PauseTest extends \PHPUnit\Framework\TestCase
     {
         $P = new Pause(60, 10, 120, 100);
 
-        $this->assertEquals(60, $P->time());
+        $this->assertSame(60, $P->time());
         $this->assertEquals(10, $P->duration());
         $this->assertTrue($P->hasHeartRateInfo());
-        $this->assertEquals(120, $P->hrStart());
-        $this->assertEquals(100, $P->hrEnd());
-        $this->assertEquals(20, $P->hrDiff());
+        $this->assertSame(120, $P->hrStart());
+        $this->assertSame(100, $P->hrEnd());
+        $this->assertSame(20, $P->hrDiff());
     }
 
     public function testArray(): void
@@ -44,12 +44,12 @@ class PauseTest extends \PHPUnit\Framework\TestCase
         $P = new Pause();
         $P->fromArray($array);
 
-        $this->assertEquals(60, $P->time());
+        $this->assertSame(60, $P->time());
         $this->assertEquals(10, $P->duration());
         $this->assertTrue($P->hasHeartRateInfo());
-        $this->assertEquals(120, $P->hrStart());
-        $this->assertEquals(100, $P->hrEnd());
-        $this->assertEquals(20, $P->hrDiff());
+        $this->assertSame(120, $P->hrStart());
+        $this->assertSame(100, $P->hrEnd());
+        $this->assertSame(20, $P->hrDiff());
 
         $this->assertEquals($array, $P->asArray());
     }

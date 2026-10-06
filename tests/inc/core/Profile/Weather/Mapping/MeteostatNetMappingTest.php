@@ -12,7 +12,7 @@ class MeteostatNetMappingTest extends \PHPUnit\Framework\TestCase
     {
         $mapping = new MeteostatNetMapping();
 
-        $this->assertEquals($expected, $mapping->toInternal($meteostatCode));
+        $this->assertSame($expected, $mapping->toInternal($meteostatCode));
     }
 
     /**

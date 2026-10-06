@@ -15,9 +15,9 @@ class BanisterModelTest extends \PHPUnit\Framework\TestCase
         ], 42, 7, 1, 2);
         $Model->calculate();
 
-        $this->assertEquals(1000, $Model->fitnessAt(0));
-        $this->assertEquals(1000, $Model->fatigueAt(0));
-        $this->assertEquals(-1000, $Model->performanceAt(0));
+        $this->assertSame(1000, $Model->fitnessAt(0));
+        $this->assertSame(1000, $Model->fatigueAt(0));
+        $this->assertSame(-1000, $Model->performanceAt(0));
     }
 
     public function testSimpleExample(): void
@@ -32,23 +32,23 @@ class BanisterModelTest extends \PHPUnit\Framework\TestCase
         ], 42, 7, 1, 2);
         $Model->calculate();
 
-        $this->assertEquals(196, $Model->fitnessAt(1));
-        $this->assertEquals(180, $Model->fatigueAt(1));
-        $this->assertEquals(-164, $Model->performanceAt(1));
+        $this->assertSame(196, $Model->fitnessAt(1));
+        $this->assertSame(180, $Model->fatigueAt(1));
+        $this->assertSame(-164, $Model->performanceAt(1));
 
-        $this->assertEquals(232, $Model->fitnessAt(2));
-        $this->assertEquals(226, $Model->fitnessAt(3));
-        $this->assertEquals(221, $Model->fitnessAt(4));
-        $this->assertEquals(276, $Model->fitnessAt(5));
-        $this->assertEquals(299, $Model->fitnessAt(6));
-        $this->assertEquals(392, $Model->fitnessAt(7));
+        $this->assertSame(232, $Model->fitnessAt(2));
+        $this->assertSame(226, $Model->fitnessAt(3));
+        $this->assertSame(221, $Model->fitnessAt(4));
+        $this->assertSame(276, $Model->fitnessAt(5));
+        $this->assertSame(299, $Model->fitnessAt(6));
+        $this->assertSame(392, $Model->fitnessAt(7));
 
-        $this->assertEquals(196, $Model->fatigueAt(2));
-        $this->assertEquals(170, $Model->fatigueAt(3));
-        $this->assertEquals(147, $Model->fatigueAt(4));
-        $this->assertEquals(188, $Model->fatigueAt(5));
-        $this->assertEquals(193, $Model->fatigueAt(6));
-        $this->assertEquals(267, $Model->fatigueAt(7));
+        $this->assertSame(196, $Model->fatigueAt(2));
+        $this->assertSame(170, $Model->fatigueAt(3));
+        $this->assertSame(147, $Model->fatigueAt(4));
+        $this->assertSame(188, $Model->fatigueAt(5));
+        $this->assertSame(193, $Model->fatigueAt(6));
+        $this->assertSame(267, $Model->fatigueAt(7));
     }
 
     public function testNoSteadyState(): void
@@ -56,17 +56,17 @@ class BanisterModelTest extends \PHPUnit\Framework\TestCase
         $Model = new BanisterModel(array_fill(0, 51, 100), 42, 7, 1, 2);
         $Model->calculate();
 
-        $this->assertEquals(979, $Model->fitnessAt(10));
-        $this->assertEquals(1672, $Model->fitnessAt(20));
-        $this->assertEquals(2219, $Model->fitnessAt(30));
-        $this->assertEquals(2649, $Model->fitnessAt(40));
-        $this->assertEquals(2988, $Model->fitnessAt(50));
+        $this->assertSame(979, $Model->fitnessAt(10));
+        $this->assertSame(1672, $Model->fitnessAt(20));
+        $this->assertSame(2219, $Model->fitnessAt(30));
+        $this->assertSame(2649, $Model->fitnessAt(40));
+        $this->assertSame(2988, $Model->fitnessAt(50));
 
-        $this->assertEquals(595, $Model->fatigueAt(10));
-        $this->assertEquals(714, $Model->fatigueAt(20));
-        $this->assertEquals(742, $Model->fatigueAt(30));
-        $this->assertEquals(749, $Model->fatigueAt(40));
-        $this->assertEquals(751, $Model->fatigueAt(50));
+        $this->assertSame(595, $Model->fatigueAt(10));
+        $this->assertSame(714, $Model->fatigueAt(20));
+        $this->assertSame(742, $Model->fatigueAt(30));
+        $this->assertSame(749, $Model->fatigueAt(40));
+        $this->assertSame(751, $Model->fatigueAt(50));
     }
 
     public function testFutureFitness(): void
@@ -77,12 +77,12 @@ class BanisterModelTest extends \PHPUnit\Framework\TestCase
         $Model->setRange(0, 100);
         $Model->calculate();
 
-        $this->assertEquals(976, $Model->fitnessAt(1));
-        $this->assertEquals(788, $Model->fitnessAt(10));
-        $this->assertEquals(551, $Model->fitnessAt(25));
-        $this->assertEquals(304, $Model->fitnessAt(50));
-        $this->assertEquals(168, $Model->fitnessAt(75));
-        $this->assertEquals(92, $Model->fitnessAt(100));
+        $this->assertSame(976, $Model->fitnessAt(1));
+        $this->assertSame(788, $Model->fitnessAt(10));
+        $this->assertSame(551, $Model->fitnessAt(25));
+        $this->assertSame(304, $Model->fitnessAt(50));
+        $this->assertSame(168, $Model->fitnessAt(75));
+        $this->assertSame(92, $Model->fitnessAt(100));
     }
 
     public function testFutureFatigue(): void
@@ -93,11 +93,11 @@ class BanisterModelTest extends \PHPUnit\Framework\TestCase
         $Model->setRange(0, 30);
         $Model->calculate();
 
-        $this->assertEquals(867, $Model->fatigueAt(1));
-        $this->assertEquals(490, $Model->fatigueAt(5));
-        $this->assertEquals(240, $Model->fatigueAt(10));
-        $this->assertEquals(117, $Model->fatigueAt(15));
-        $this->assertEquals(57, $Model->fatigueAt(20));
-        $this->assertEquals(28, $Model->fatigueAt(25));
+        $this->assertSame(867, $Model->fatigueAt(1));
+        $this->assertSame(490, $Model->fatigueAt(5));
+        $this->assertSame(240, $Model->fatigueAt(10));
+        $this->assertSame(117, $Model->fatigueAt(15));
+        $this->assertSame(57, $Model->fatigueAt(20));
+        $this->assertSame(28, $Model->fatigueAt(25));
     }
 }

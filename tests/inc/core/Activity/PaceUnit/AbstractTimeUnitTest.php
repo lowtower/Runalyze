@@ -104,11 +104,26 @@ class AbstractTimeUnitTest extends TestCase
 
     private function createUnitWithFactor(float $factor): AbstractTimeUnit
     {
-        /** @var AbstractTimeUnit&\PHPUnit\Framework\MockObject\MockObject $Unit */
-        $Unit = $this->getMockForAbstractClass(AbstractTimeUnit::class);
-        $Unit->method('factorForUnit')
-            ->willReturn($factor);
+        return new class($factor) extends AbstractTimeUnit {
+            public function __construct(
+                private readonly float $factor
+            ) {
+            }
 
-        return $Unit;
+            public function unit(): int
+            {
+                return 0;
+            }
+
+            public function appendix(): string
+            {
+                return '';
+            }
+
+            public function factorForUnit(): float
+            {
+                return $this->factor;
+            }
+        };
     }
 }

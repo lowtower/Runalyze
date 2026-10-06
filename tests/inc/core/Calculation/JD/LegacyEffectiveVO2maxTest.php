@@ -21,7 +21,7 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
         $Value = new LegacyEffectiveVO2max(50.1234);
 
         $this->assertEquals(50.12, $Value->value());
-        $this->assertEquals(50.1234, $Value->exactValue());
+        $this->assertSame(50.1234, $Value->exactValue());
     }
 
     public function testWithCorrector(): void
@@ -167,7 +167,7 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(0, $Value->value());
         $this->assertEquals(0, $Value->speed());
-        $this->assertEquals(0, $Value->pace());
+        $this->assertSame(0, $Value->pace());
     }
 
     public function testDistanceIndependenceOfEstimateByHR(): void
@@ -178,7 +178,7 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
         $Value2 = new LegacyEffectiveVO2max();
         $Value2->fromPaceAndHR(3, 12 * 60, 0.75);
 
-        $this->assertEquals($Value1->value(), $Value2->value());
+        $this->assertSame($Value1->value(), $Value2->value());
     }
 
     public function testMissingValueForEmptyHR(): void

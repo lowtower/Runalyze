@@ -46,7 +46,7 @@ class QueryValueDirectUnitInstantiationTest extends TestCase
     public function testGetValueUnitReturnsExpectedUnitType(string $className, string $expectedUnitClass): void
     {
         $instance = new $className();
-        $unitSystem = $this->createMock(UnitSystem::class);
+        $unitSystem = $this->createStub(UnitSystem::class);
 
         $unit = $instance->getValueUnit($unitSystem);
 

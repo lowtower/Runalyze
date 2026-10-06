@@ -59,7 +59,7 @@ class AnalysisDataTest extends TestCase
         $data = $this->getAnalysisDataWithEmptySelections();
 
         $this->assertTrue($data->isEmpty());
-        $this->assertEquals(0.0, $data->getRawValue(1970, 1));
+        $this->assertSame(0.0, $data->getRawValue(1970, 1));
         $this->assertNotEquals(0, $data->getMaximum());
     }
 
@@ -80,10 +80,10 @@ class AnalysisDataTest extends TestCase
 
         $this->assertFalse($data->isEmpty());
         $this->assertEquals([2009, 2008, 2007, 2006], $data->getYears());
-        $this->assertEquals(42.0, $data->getRawValue(2006, 7));
-        $this->assertEquals(0.0, $data->getRawValue(2007, 7));
-        $this->assertEquals(3.14, $data->getRawValue(2009, 1));
-        $this->assertEquals(42.0, $data->getMaximum());
+        $this->assertSame(42.0, $data->getRawValue(2006, 7));
+        $this->assertSame(0.0, $data->getRawValue(2007, 7));
+        $this->assertSame(3.14, $data->getRawValue(2009, 1));
+        $this->assertSame(42.0, $data->getMaximum());
     }
 
     /**
@@ -135,7 +135,7 @@ class AnalysisDataTest extends TestCase
             ]),
             new Account()
         );
-        $data->setValueExtension($this->createMock(ValueExtension::class));
+        $data->setValueExtension($this->createStub(ValueExtension::class));
 
         $this->assertInstanceOf(DisplayableTime::class, $data->getValue(2023, 5));
     }
@@ -148,7 +148,7 @@ class AnalysisDataTest extends TestCase
             $this->getTrainingRepositoryMock(),
             new Account()
         );
-        $data->setValueExtension($this->createMock(ValueExtension::class));
+        $data->setValueExtension($this->createStub(ValueExtension::class));
 
         $value = $data->getValue(2023, 5);
 

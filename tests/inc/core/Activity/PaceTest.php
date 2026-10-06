@@ -14,35 +14,35 @@ class PaceTest extends \PHPUnit\Framework\TestCase
     {
         $Pace = new Pace(300);
 
-        $this->assertEquals(Pace::STANDARD, $Pace->unitEnum());
+        $this->assertSame(Pace::STANDARD, $Pace->unitEnum());
     }
 
     public function testKmh(): void
     {
         $Pace = new Pace(300, 1, PaceUnit::KM_PER_H);
 
-        $this->assertEquals('12,0&nbsp;km/h', $Pace->valueWithAppendix());
+        $this->assertSame('12,0&nbsp;km/h', $Pace->valueWithAppendix());
     }
 
     public function testMeterPerSecond(): void
     {
         $Pace = new Pace(10, 0.027, PaceUnit::M_PER_S);
 
-        $this->assertEquals('2,7&nbsp;m/s', $Pace->valueWithAppendix());
+        $this->assertSame('2,7&nbsp;m/s', $Pace->valueWithAppendix());
     }
 
     public function testMinPerKm(): void
     {
         $Pace = new Pace(312, 1, PaceUnit::MIN_PER_KM);
 
-        $this->assertEquals('5:12/km', $Pace->valueWithAppendix());
+        $this->assertSame('5:12/km', $Pace->valueWithAppendix());
     }
 
     public function testMinPer100m(): void
     {
         $Pace = new Pace(123, 0.1, PaceUnit::MIN_PER_100M);
 
-        $this->assertEquals('2:03/100m', $Pace->valueWithAppendix());
+        $this->assertSame('2:03/100m', $Pace->valueWithAppendix());
     }
 
     public function testDifferentUnitsForComparison(): void
@@ -61,9 +61,9 @@ class PaceTest extends \PHPUnit\Framework\TestCase
         $Pace3 = new Pace(300, 1, PaceUnit::KM_PER_H);
         $Pace4 = new Pace(180, 1, PaceUnit::KM_PER_H);
 
-        $this->assertEquals('+2,0', $Pace1->compareTo($Pace2, true));
-        $this->assertEquals('+0,0', $Pace1->compareTo($Pace3, true));
-        $this->assertEquals('-8,0', $Pace1->compareTo($Pace4, true));
+        $this->assertSame('+2,0', $Pace1->compareTo($Pace2, true));
+        $this->assertSame('+0,0', $Pace1->compareTo($Pace3, true));
+        $this->assertSame('-8,0', $Pace1->compareTo($Pace4, true));
     }
 
     public function testMinPerKmComparison(): void
@@ -73,17 +73,17 @@ class PaceTest extends \PHPUnit\Framework\TestCase
         $Pace3 = new Pace(300, 1, PaceUnit::MIN_PER_KM);
         $Pace4 = new Pace(246, 1, PaceUnit::MIN_PER_KM);
 
-        $this->assertEquals('+1:00', $Pace1->compareTo($Pace2, true));
-        $this->assertEquals('+0:00', $Pace1->compareTo($Pace3, true));
-        $this->assertEquals('-0:54', $Pace1->compareTo($Pace4, true));
+        $this->assertSame('+1:00', $Pace1->compareTo($Pace2, true));
+        $this->assertSame('+0:00', $Pace1->compareTo($Pace3, true));
+        $this->assertSame('-0:54', $Pace1->compareTo($Pace4, true));
     }
 
     public function testMethodChaining(): void
     {
         $Pace = new Pace(0, 1, PaceUnit::MIN_PER_KM);
 
-        $this->assertEquals('3:00', $Pace->setTime(180)->value());
-        $this->assertEquals('6:00', $Pace->setDistance(0.5)->value());
+        $this->assertSame('3:00', $Pace->setTime(180)->value());
+        $this->assertSame('6:00', $Pace->setDistance(0.5)->value());
     }
 
     public function testSecondsPerKmRoundsInsteadOfTruncating(): void
@@ -129,7 +129,7 @@ class PaceTest extends \PHPUnit\Framework\TestCase
         $Pace->fromMinPerKm('3:00');
 
         $this->assertSame(180, $Pace->secondsPerKm());
-        $this->assertEquals('3:00', $Pace->value());
+        $this->assertSame('3:00', $Pace->value());
     }
 
     public function testSetUnitChangesUnitObjectDirectly(): void
@@ -139,28 +139,28 @@ class PaceTest extends \PHPUnit\Framework\TestCase
         $Pace->setUnit(new MinPerKilometer());
 
         $this->assertSame(PaceUnit::MIN_PER_KM, $Pace->unitEnum());
-        $this->assertEquals('5:00', $Pace->value());
+        $this->assertSame('5:00', $Pace->value());
     }
 
     public function testAsKmPerHourFormatsIndependentlyOfConfiguredUnit(): void
     {
         $Pace = new Pace(300, 1, PaceUnit::MIN_PER_KM);
 
-        $this->assertEquals('12,0', $Pace->asKmPerHour());
+        $this->assertSame('12,0', $Pace->asKmPerHour());
     }
 
     public function testAsMinPerKmFormatsIndependentlyOfConfiguredUnit(): void
     {
         $Pace = new Pace(300, 1, PaceUnit::KM_PER_H);
 
-        $this->assertEquals('5:00', $Pace->asMinPerKm());
+        $this->assertSame('5:00', $Pace->asMinPerKm());
     }
 
     public function testAsUnitEnumFormatsUsingGivenLegacyUnit(): void
     {
         $Pace = new Pace(312, 1, PaceUnit::MIN_PER_KM);
 
-        $this->assertEquals('11,5', $Pace->asUnitEnum((string) PaceUnit::KM_PER_H));
+        $this->assertSame('11,5', $Pace->asUnitEnum((string) PaceUnit::KM_PER_H));
     }
 
     public function testCompareToReturnsEmptyStringWhenThisPaceIsEmpty(): void

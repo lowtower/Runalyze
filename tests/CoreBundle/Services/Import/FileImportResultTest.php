@@ -19,7 +19,7 @@ class FileImportResultTest extends TestCase
         $result = new FileImportResult([], 'foo.bar', 'bar.foo', new Exception('Test'));
 
         $this->assertTrue($result->isFailed());
-        $this->assertEquals('Test', $result->getException()->getMessage());
+        $this->assertSame('Test', $result->getException()->getMessage());
     }
 
     public function testEmptyResult(): void
@@ -27,10 +27,10 @@ class FileImportResultTest extends TestCase
         $result = new FileImportResult([], 'foo.bar', 'bar.foo');
 
         $this->assertFalse($result->isFailed());
-        $this->assertEquals(0, $result->getNumberOfActivities());
+        $this->assertSame(0, $result->getNumberOfActivities());
         $this->assertEmpty($result->getContainer());
-        $this->assertEquals('foo.bar', $result->getFileName());
-        $this->assertEquals('bar.foo', $result->getOriginalFileName());
+        $this->assertSame('foo.bar', $result->getFileName());
+        $this->assertSame('bar.foo', $result->getOriginalFileName());
     }
 
     public function testSimpleResult(): void
@@ -43,9 +43,9 @@ class FileImportResultTest extends TestCase
 
         $result = new FileImportResult([$containerA, $containerB], 'foo.bar', 'bar.foo');
 
-        $this->assertEquals(2, $result->getNumberOfActivities());
-        $this->assertEquals('A', $result->getContainer(0)->Metadata->getDescription());
-        $this->assertEquals('B', $result->getContainer(1)->Metadata->getDescription());
+        $this->assertSame(2, $result->getNumberOfActivities());
+        $this->assertSame('A', $result->getContainer(0)->Metadata->getDescription());
+        $this->assertSame('B', $result->getContainer(1)->Metadata->getDescription());
         $this->assertCount(2, $result->getContainer());
     }
 

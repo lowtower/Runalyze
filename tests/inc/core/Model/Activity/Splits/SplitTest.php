@@ -13,8 +13,8 @@ class SplitTest extends \PHPUnit\Framework\TestCase
     {
         $Split = new Split('R1.00|4:20');
 
-        $this->assertEquals(1.00, $Split->distance());
-        $this->assertEquals(260, $Split->time());
+        $this->assertSame(1.00, $Split->distance());
+        $this->assertSame(260, $Split->time());
         $this->assertFalse($Split->isActive());
     }
 
@@ -22,8 +22,8 @@ class SplitTest extends \PHPUnit\Framework\TestCase
     {
         $Split = new Split(1.00, 260, false);
 
-        $this->assertEquals(1.00, $Split->distance());
-        $this->assertEquals(260, $Split->time());
+        $this->assertSame(1.00, $Split->distance());
+        $this->assertSame(260, $Split->time());
         $this->assertFalse($Split->isActive());
     }
 
@@ -39,8 +39,8 @@ class SplitTest extends \PHPUnit\Framework\TestCase
         $Split->setResting();
 
         $this->assertFalse($Split->isEmpty());
-        $this->assertEquals(1.00, $Split->distance());
-        $this->assertEquals(300, $Split->time());
+        $this->assertSame(1.00, $Split->distance());
+        $this->assertSame(300, $Split->time());
         $this->assertFalse($Split->isActive());
     }
 }

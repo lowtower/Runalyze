@@ -72,7 +72,7 @@ class TypeQueryGroupTest extends TestCase
         $selectedRunningSport->method('getId')
             ->willReturn(1);
 
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
 
         $typeRepository = $this->createMock(TypeRepository::class);
         $typeRepository->method('findAllFor')
@@ -109,7 +109,7 @@ class TypeQueryGroupTest extends TestCase
         $selectedRunningSport->method('getId')
             ->willReturn(1);
 
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
 
         $typeRepository = $this->createMock(TypeRepository::class);
         $typeRepository->method('findAllFor')

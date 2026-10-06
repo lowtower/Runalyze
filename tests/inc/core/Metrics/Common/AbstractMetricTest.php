@@ -10,8 +10,12 @@ class AbstractMetricTest extends \PHPUnit\Framework\TestCase
 {
     public function testThatConversionWorksAsExpected(): void
     {
-        /** @var AbstractMetric&\PHPUnit\Framework\MockObject\MockObject $mock */
-        $mock = $this->getMockForAbstractClass(AbstractMetric::class);
+        $mock = new class() extends AbstractMetric {
+            public function getBaseUnitClass(): string
+            {
+                return self::class;
+            }
+        };
 
         $this->assertFalse($mock->isKnown());
         $this->assertEquals(42, $mock->setValue(42)->getValue());

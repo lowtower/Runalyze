@@ -50,7 +50,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
 
     public function testNoScheduledTasks(): void
     {
-        $this->assertEquals(0, $this->Manager->getNumberOfScheduledTasksFor($this->Account));
+        $this->assertSame(0, $this->Manager->getNumberOfScheduledTasksFor($this->Account));
 
         $this->Manager->runScheduledTasks();
 
@@ -64,7 +64,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
     {
         $this->Manager->scheduleEffectiveVO2maxShapeCalculation($this->Account);
 
-        $this->assertEquals(2, $this->Manager->getNumberOfScheduledTasksFor($this->Account));
+        $this->assertSame(2, $this->Manager->getNumberOfScheduledTasksFor($this->Account));
     }
 
     public function testThatTasksAreNotScheduledMultipleTimes(): void
@@ -75,7 +75,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
         $this->Manager->scheduleMarathonShapeCalculation($this->Account);
         $this->Manager->scheduleMarathonShapeCalculation($this->Account);
 
-        $this->assertEquals(2, $this->Manager->getNumberOfScheduledTasksFor($this->Account));
+        $this->assertSame(2, $this->Manager->getNumberOfScheduledTasksFor($this->Account));
     }
 
     public function testThatResultsOfTasksAreForwardedToConfiguration(): void
@@ -85,7 +85,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
         $this->Manager->scheduleStartTimeCalculation($this->Account);
         $this->Manager->scheduleEffectiveVO2maxCorrectionFactorCalculation($this->Account);
 
-        $this->assertEquals(4, $this->Manager->getNumberOfScheduledTasksFor($this->Account));
+        $this->assertSame(4, $this->Manager->getNumberOfScheduledTasksFor($this->Account));
 
         $this->Manager->runScheduledTasks();
 
@@ -156,9 +156,8 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
             ->getMock();
 
         $account
-            ->expects($this->any())
             ->method('getId')
-            ->will($this->returnValue(1));
+            ->willReturn(1);
 
         return $account;
     }
@@ -173,19 +172,16 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
             ->getMock();
 
         $repository
-            ->expects($this->any())
             ->method('getStartTime')
-            ->will($this->returnValue(123456789));
+            ->willReturn(123456789);
 
         $repository
-            ->expects($this->any())
             ->method('calculateVO2maxShape')
-            ->will($this->returnValue(42.0));
+            ->willReturn(42.0);
 
         $repository
-            ->expects($this->any())
             ->method('calculateMarathonShape')
-            ->will($this->returnValue(68));
+            ->willReturn(68);
 
         return $repository;
     }
@@ -200,9 +196,8 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
             ->getMock();
 
         $repository
-            ->expects($this->any())
             ->method('getEffectiveVO2maxCorrectionFactor')
-            ->will($this->returnValue(0.85));
+            ->willReturn(0.85);
 
         return $repository;
     }
@@ -217,19 +212,12 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
             ->getMock();
 
         $repository
-            ->expects($this->any())
             ->method('findForAccount')
-            ->will($this->returnValue([]));
+            ->willReturn([]);
 
         $repository
-            ->expects($this->any())
             ->method('findForAccountAndKey')
-            ->will($this->returnValue(null));
-
-        $repository
-            ->expects($this->any())
-            ->method('save')
-            ->will($this->returnValue(null));
+            ->willReturn(null);
 
         return $repository;
     }

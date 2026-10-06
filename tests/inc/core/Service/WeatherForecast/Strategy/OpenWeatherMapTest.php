@@ -52,15 +52,15 @@ class OpenWeatherMapTest extends \PHPUnit\Framework\TestCase
 
         $result = $darkSky->loadForecast($location);
 
-        $this->assertNotNull($result);
+        $this->assertInstanceOf(\Runalyze\Parser\Activity\Common\Data\WeatherData::class, $result);
 
-        $this->assertEquals(WeatherConditionProfile::CLOUDY, $result->InternalConditionId);
+        $this->assertSame(WeatherConditionProfile::CLOUDY, $result->InternalConditionId);
         $this->assertEqualsWithDelta(6.34, $result->WindSpeed, 0.01);
-        $this->assertEquals(314, $result->WindDirection);
-        $this->assertEquals(59, $result->Humidity);
+        $this->assertSame(314, $result->WindDirection);
+        $this->assertSame(59, $result->Humidity);
         $this->assertEquals(1013, $result->AirPressure);
         $this->assertEqualsWithDelta(17.0, $result->Temperature, 0.1);
-        $this->assertEquals(WeatherSourceProfile::OPEN_WEATHER_MAP, $result->Source);
+        $this->assertSame(WeatherSourceProfile::OPEN_WEATHER_MAP, $result->Source);
     }
 
     public function testWindDirectionOf360(): void
@@ -77,9 +77,9 @@ class OpenWeatherMapTest extends \PHPUnit\Framework\TestCase
 
         $result = $darkSky->loadForecast($location);
 
-        $this->assertNotNull($result);
+        $this->assertInstanceOf(\Runalyze\Parser\Activity\Common\Data\WeatherData::class, $result);
 
-        $this->assertEquals(0, $result->WindDirection);
+        $this->assertSame(0, $result->WindDirection);
     }
 
     public function testTooOldActivityReturnsNullNotEmptyWeatherData(): void
@@ -125,8 +125,8 @@ class OpenWeatherMapTest extends \PHPUnit\Framework\TestCase
 
         $result = $openWeatherMap->loadForecast($location);
 
-        $this->assertNotNull($result);
-        $this->assertEquals(WeatherConditionProfile::SUNNY, $result->InternalConditionId);
+        $this->assertInstanceOf(\Runalyze\Parser\Activity\Common\Data\WeatherData::class, $result);
+        $this->assertSame(WeatherConditionProfile::SUNNY, $result->InternalConditionId);
     }
 
     public function testInvalidApiKeyResponseReturnsNullAndRecordsException(): void
@@ -142,7 +142,7 @@ class OpenWeatherMapTest extends \PHPUnit\Framework\TestCase
         $result = $openWeatherMap->loadForecast($location);
 
         $this->assertNull($result);
-        $this->assertNotNull($openWeatherMap->getLastException());
+        $this->assertInstanceOf(\Throwable::class, $openWeatherMap->getLastException());
         $this->assertStringContainsString('401', $openWeatherMap->getLastException()->getMessage());
     }
 }

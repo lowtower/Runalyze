@@ -9,7 +9,7 @@ class SelfEvaluationFeelingTest extends \PHPUnit\Framework\TestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('fitValuesProvider')]
     public function testConversionFromFit(int $fitValue, int $expected): void
     {
-        $this->assertEquals(
+        $this->assertSame(
             $expected,
             SelfEvaluationFeeling::fromFitToEnum($fitValue)
         );

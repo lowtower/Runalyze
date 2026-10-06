@@ -211,7 +211,7 @@ class ViewControllerTest extends AbstractFixturesAwareWebTestCase
 
         $this->getEntityManager()
             ->clear();
-        $this->assertNotNull($this->getTrainingRepository()->find($activityId), "The other account's activity must not have been deleted.");
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Training::class, $this->getTrainingRepository()->find($activityId), "The other account's activity must not have been deleted.");
     }
 
     public function testVo2maxInfoActionRequiresAuthentication(): void

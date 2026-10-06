@@ -3,21 +3,23 @@
 namespace Runalyze\Bundle\CoreBundle\Tests\Doctrine\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use PHPUnit\Framework\MockObject\MockObject;
 use Runalyze\Bundle\CoreBundle\Doctrine\Types\TinyIntType;
 
 class TinyIntTypeTest extends \PHPUnit\Framework\TestCase
 {
     protected TinyIntType $Type;
 
-    protected MockObject $PlatformMock;
+    /**
+     * @var \PHPUnit\Framework\MockObject\Stub&\Doctrine\DBAL\Platforms\AbstractPlatform
+     */
+    protected \PHPUnit\Framework\MockObject\Stub $PlatformMock;
 
     protected function setUp(): void
     {
         /** @var TinyIntType $type */
         $type = TinyIntType::getType(TinyIntType::TINYINT);
         $this->Type = $type;
-        $this->PlatformMock = $this->getMockForAbstractClass(AbstractPlatform::class);
+        $this->PlatformMock = $this->createStub(AbstractPlatform::class);
     }
 
     public function testNull(): void

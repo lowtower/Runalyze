@@ -17,13 +17,13 @@ class LoopTest extends \PHPUnit\Framework\TestCase
         ]));
 
         $Loop->nextStep();
-        $this->assertEquals(20, $Loop->stroke());
-        $this->assertEquals(2, $Loop->stroketype());
+        $this->assertSame(20, $Loop->stroke());
+        $this->assertSame(2, $Loop->stroketype());
 
         $Loop->setStepSize(2);
         $Loop->nextStep();
-        $this->assertEquals(20, $Loop->stroke());
-        $this->assertEquals(2, $Loop->stroketype());
+        $this->assertSame(20, $Loop->stroke());
+        $this->assertSame(2, $Loop->stroketype());
 
         $Loop->nextStep();
         $this->assertTrue($Loop->isAtEnd());

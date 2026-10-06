@@ -11,7 +11,7 @@ class VerticalRatioCalculatorTest extends \PHPUnit\Framework\TestCase
 {
     public function testForActivity(): void
     {
-        $this->assertEquals(53.0, VerticalRatioCalculator::forActivity(new Activity\Entity([
+        $this->assertSame(53.0, VerticalRatioCalculator::forActivity(new Activity\Entity([
             Activity\Entity::VERTICAL_OSCILLATION => 53,
             Activity\Entity::STRIDE_LENGTH => 100,
         ])));
@@ -40,7 +40,7 @@ class VerticalRatioCalculatorTest extends \PHPUnit\Framework\TestCase
         );
         $Calculator->calculate();
 
-        $this->assertEquals(69.0, $Calculator->average());
+        $this->assertSame(69.0, $Calculator->average());
         $this->assertEquals(
             [73, 67, 60, 67, 80],
             $Calculator->verticalRatioData()

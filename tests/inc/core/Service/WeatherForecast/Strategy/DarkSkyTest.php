@@ -63,15 +63,15 @@ class DarkSkyTest extends \PHPUnit\Framework\TestCase
 
         $result = $darkSky->loadForecast($location);
 
-        $this->assertNotNull($result);
+        $this->assertInstanceOf(\Runalyze\Parser\Activity\Common\Data\WeatherData::class, $result);
 
-        $this->assertEquals(WeatherConditionProfile::CHANGEABLE, $result->InternalConditionId);
+        $this->assertSame(WeatherConditionProfile::CHANGEABLE, $result->InternalConditionId);
         $this->assertEqualsWithDelta(18.02, $result->WindSpeed, 0.01);
-        $this->assertEquals(109, $result->WindDirection);
-        $this->assertEquals(59, $result->Humidity);
+        $this->assertSame(109, $result->WindDirection);
+        $this->assertSame(59, $result->Humidity);
         $this->assertEquals(1013, $result->AirPressure);
         $this->assertEqualsWithDelta(22.8, $result->Temperature, 0.1);
-        $this->assertEquals(WeatherSourceProfile::DARK_SKY, $result->Source);
+        $this->assertSame(WeatherSourceProfile::DARK_SKY, $result->Source);
     }
 
     public function testSuccessfulResponseIsNotDiscardedAsNull(): void
@@ -85,7 +85,8 @@ class DarkSkyTest extends \PHPUnit\Framework\TestCase
 
         $result = $darkSky->loadForecast($location);
 
-        $this->assertNotNull(
+        $this->assertInstanceOf(
+            \Runalyze\Parser\Activity\Common\Data\WeatherData::class,
             $result,
             'loadForecast() must return actual weather data for a valid, '
             . 'successful API response containing a "currently" key - not '
@@ -106,7 +107,8 @@ class DarkSkyTest extends \PHPUnit\Framework\TestCase
         $result = $darkSky->loadForecast($location);
 
         $this->assertNull($result);
-        $this->assertNotNull(
+        $this->assertInstanceOf(
+            \Throwable::class,
             $darkSky->getLastException(),
             'getLastException() should record a reason when a response '
             . 'parses as valid JSON but is missing the expected '

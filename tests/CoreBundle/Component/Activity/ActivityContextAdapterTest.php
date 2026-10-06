@@ -24,9 +24,9 @@ class ActivityContextAdapterTest extends TestCase
     ): ActivityContextAdapter {
         return new ActivityContextAdapter(
             $context,
-            $weatherForecast ?? $this->createMock(WeatherForecast::class),
-            $duplicateFinder ?? $this->createMock(DuplicateFinder::class),
-            $routeNameEval ?? $this->createMock(RouteNameEval::class)
+            $weatherForecast ?? $this->createStub(WeatherForecast::class),
+            $duplicateFinder ?? $this->createStub(DuplicateFinder::class),
+            $routeNameEval ?? $this->createStub(RouteNameEval::class)
         );
     }
 
@@ -52,7 +52,7 @@ class ActivityContextAdapterTest extends TestCase
 
         $adapter = $this->createAdapter($context, $weatherForecast);
 
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
 
         $adapter->guessWeatherConditions('Wolfsburg', $account);
     }
@@ -109,7 +109,7 @@ class ActivityContextAdapterTest extends TestCase
         $route->method('hasGeohashes')
             ->willReturn(true);
 
-        $sport = $this->createMock(Sport::class);
+        $sport = $this->createStub(Sport::class);
 
         $activity = $this->createMock(Training::class);
         $activity->method('hasRoute')
@@ -143,7 +143,7 @@ class ActivityContextAdapterTest extends TestCase
         $route->method('hasGeohashes')
             ->willReturn(true);
 
-        $sport = $this->createMock(Sport::class);
+        $sport = $this->createStub(Sport::class);
 
         $activity = $this->createMock(Training::class);
         $activity->method('hasRoute')
@@ -186,7 +186,7 @@ class ActivityContextAdapterTest extends TestCase
 
     public function testIsPossibleDuplicateDelegatesToDuplicateFinder(): void
     {
-        $activity = $this->createMock(Training::class);
+        $activity = $this->createStub(Training::class);
         $context = new ActivityContext($activity);
 
         $duplicateFinder = $this->createMock(DuplicateFinder::class);
@@ -202,7 +202,7 @@ class ActivityContextAdapterTest extends TestCase
 
     public function testIsPossibleDuplicateReturnsFalseWhenFinderReportsNoMatch(): void
     {
-        $activity = $this->createMock(Training::class);
+        $activity = $this->createStub(Training::class);
         $context = new ActivityContext($activity);
 
         $duplicateFinder = $this->createMock(DuplicateFinder::class);

@@ -65,10 +65,10 @@ class LocalTimeTest extends \PHPUnit\Framework\TestCase
 
     public function testThatObjectHasUTCTimezone(): void
     {
-        $this->assertEquals('UTC', (new LocalTime())->getTimezone()->getName());
-        $this->assertEquals('UTC', (new LocalTime(time()))->getTimezone()->getName());
-        $this->assertEquals('UTC', LocalTime::fromServerTime(time())->getTimezone()->getName());
-        $this->assertEquals('UTC', LocalTime::fromString('2016-01-01 12:00:00+06:00')->getTimezone()->getName());
+        $this->assertSame('UTC', (new LocalTime())->getTimezone()->getName());
+        $this->assertSame('UTC', (new LocalTime(time()))->getTimezone()->getName());
+        $this->assertSame('UTC', LocalTime::fromServerTime(time())->getTimezone()->getName());
+        $this->assertSame('UTC', LocalTime::fromString('2016-01-01 12:00:00+06:00')->getTimezone()->getName());
     }
 
     public function testThatGivenTimezoneWillBeIgnored(): void
@@ -82,7 +82,7 @@ class LocalTimeTest extends \PHPUnit\Framework\TestCase
         $Object = LocalTime::fromString('2016-01-31 12:34:56');
 
         $this->assertEquals('12:34:56 +00:00', $Object->format('H:i:s P'));
-        $this->assertEquals('12:34:56 +03:00', $Object->toServerTime()->format('H:i:s P'));
+        $this->assertSame('12:34:56 +03:00', $Object->toServerTime()->format('H:i:s P'));
         $this->assertNotEquals($Object->getTimestamp(), $Object->toServerTimestamp());
         $this->assertEquals($Object->getTimestamp() - 3 * 3600, $Object->toServerTimestamp());
     }

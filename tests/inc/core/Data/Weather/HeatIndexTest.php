@@ -12,7 +12,7 @@ class HeatIndexTest extends \PHPUnit\Framework\TestCase
         $obj = new HeatIndex();
 
         $this->assertTrue($obj->isUnknown());
-        $this->assertEquals('', $obj->string());
+        $this->assertSame('', $obj->string());
     }
 
     public function testManualSetting(): void

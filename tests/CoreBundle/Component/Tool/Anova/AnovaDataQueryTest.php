@@ -85,8 +85,8 @@ class AnovaDataQueryTest extends TestCase
         $query = new AnovaDataQuery($this->createAnovaDataMock());
 
         $queryGroupMock = $this->createMock(QueryGroupInterface::class);
-        $entityManager = $this->createMock(EntityManager::class);
-        $account = $this->createMock(Account::class);
+        $entityManager = $this->createStub(EntityManager::class);
+        $account = $this->createStub(Account::class);
         $anovaData = $this->getProtectedProperty($query, 'AnovaData');
 
         $queryGroupMock->expects($this->once())
@@ -133,7 +133,7 @@ class AnovaDataQueryTest extends TestCase
             ]);
         $this->setProtectedProperty($query, 'QueryGroup', $queryGroupMock);
 
-        $query->loadAllGroups($this->createMock(EntityManager::class), $this->createMock(Account::class));
+        $query->loadAllGroups($this->createStub(EntityManager::class), $this->createStub(Account::class));
 
         $this->assertSame([
             1 => [
@@ -150,7 +150,7 @@ class AnovaDataQueryTest extends TestCase
             ->willReturn([]);
         $query = new AnovaDataQuery($anovaData);
 
-        $expectedUnit = $this->createMock(UnitInterface::class);
+        $expectedUnit = $this->createStub(UnitInterface::class);
         $queryValueMock = $this->createMock(QueryValueInterface::class);
         $queryValueMock->method('getValueUnit')
             ->willReturn($expectedUnit);
@@ -167,7 +167,7 @@ class AnovaDataQueryTest extends TestCase
 
     public function testGetValueUnitSetsPaceUnitFromTheSingleSelectedSport(): void
     {
-        $sport = $this->createMock(Sport::class);
+        $sport = $this->createStub(Sport::class);
         $anovaData = $this->createAnovaDataMock();
         $anovaData->method('getSport')
             ->willReturn([$sport]);
@@ -175,7 +175,7 @@ class AnovaDataQueryTest extends TestCase
 
         $queryValueMock = $this->createMock(QueryValueInterface::class);
         $queryValueMock->method('getValueUnit')
-            ->willReturn($this->createMock(UnitInterface::class));
+            ->willReturn($this->createStub(UnitInterface::class));
         $this->setProtectedProperty($query, 'QueryValue', $queryValueMock);
 
         $unitSystem = $this->createMock(UnitSystem::class);
@@ -191,14 +191,14 @@ class AnovaDataQueryTest extends TestCase
         $anovaData = $this->createAnovaDataMock();
         $anovaData->method('getSport')
             ->willReturn([
-                $this->createMock(Sport::class),
-                $this->createMock(Sport::class),
+                $this->createStub(Sport::class),
+                $this->createStub(Sport::class),
             ]);
         $query = new AnovaDataQuery($anovaData);
 
         $queryValueMock = $this->createMock(QueryValueInterface::class);
         $queryValueMock->method('getValueUnit')
-            ->willReturn($this->createMock(UnitInterface::class));
+            ->willReturn($this->createStub(UnitInterface::class));
         $this->setProtectedProperty($query, 'QueryValue', $queryValueMock);
 
         $unitSystem = $this->createMock(UnitSystem::class);
@@ -312,9 +312,9 @@ class AnovaDataQueryTest extends TestCase
             ->willReturn($unitMock);
         $this->setProtectedProperty($query, 'QueryValue', $queryValueMock);
 
-        $trainingRepository = $this->createMock(TrainingRepository::class);
-        $account = $this->createMock(Account::class);
-        $unitSystem = $this->createMock(UnitSystem::class);
+        $trainingRepository = $this->createStub(TrainingRepository::class);
+        $account = $this->createStub(Account::class);
+        $unitSystem = $this->createStub(UnitSystem::class);
 
         $doctrineQueryMock = $this->createMock(Query::class);
         $doctrineQueryMock->method('toIterable')

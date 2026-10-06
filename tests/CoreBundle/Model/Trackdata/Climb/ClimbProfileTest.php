@@ -19,7 +19,7 @@ class ClimbProfileTest extends \PHPUnit\Framework\TestCase
 
     public function testCount(): void
     {
-        $this->assertEquals(3, count(new ClimbProfile([1.0, 1.0, 1.0], [17, 42, 31])));
+        $this->assertCount(3, new ClimbProfile([1.0, 1.0, 1.0], [17, 42, 31]));
     }
 
     public function testThatWrongArraySizesAreCatched(): void
@@ -42,7 +42,7 @@ class ClimbProfileTest extends \PHPUnit\Framework\TestCase
         $profile->addSegment(1.0, 69);
         $profile->addSegment(0.2, 30);
 
-        $this->assertEquals(4, $profile->count());
+        $this->assertCount(4, $profile);
         $this->assertEquals([1.0, 2.0, 1.0, 0.2], $profile->getDistances());
         $this->assertEquals([50, 80, 69, 30], $profile->getElevations());
         $this->assertEquals([0.05, 0.04, 0.069, 0.15], $profile->getGradients());
@@ -63,7 +63,7 @@ class ClimbProfileTest extends \PHPUnit\Framework\TestCase
             1.0
         );
 
-        $this->assertEquals(5, $profile->count());
+        $this->assertCount(5, $profile);
         $this->assertEqualsWithDelta([1.0, 1.0, 3.0, 1.1, 0.2], $profile->getDistances(), 0.0001);
         $this->assertEqualsWithDelta([20, 30, 50, 30, 10], $profile->getElevations(), 0.0001);
     }

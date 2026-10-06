@@ -261,7 +261,7 @@ class AccountTest extends TestCase
         $this->Account->setBirthyear((int) date('Y') - 42);
 
         $this->assertTrue($this->Account->knowsBirthYear());
-        $this->assertEquals(42, $this->Account->getAge());
+        $this->assertSame(42, $this->Account->getAge());
     }
 
     public function testRemovingBirthyearRemovesAge(): void

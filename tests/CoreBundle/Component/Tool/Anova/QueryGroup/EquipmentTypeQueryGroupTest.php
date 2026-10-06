@@ -109,7 +109,7 @@ class EquipmentTypeQueryGroupTest extends TestCase
         $shoe2->method('getName')
             ->willReturn('Road Shoes');
 
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
 
         $equipmentRepository = $this->createMock(EquipmentRepository::class);
         $equipmentRepository->expects($this->once())
@@ -121,7 +121,7 @@ class EquipmentTypeQueryGroupTest extends TestCase
         $entityManager->method('getRepository')
             ->with(Equipment::class)->willReturn($equipmentRepository);
 
-        $anovaData = $this->createMock(AnovaData::class);
+        $anovaData = $this->createStub(AnovaData::class);
 
         $result = (new EquipmentTypeQueryGroup(5))->loadAllGroups($entityManager, $account, $anovaData);
 
@@ -133,7 +133,7 @@ class EquipmentTypeQueryGroupTest extends TestCase
 
     public function testLoadAllGroupsReturnsEmptyArrayWhenNoEquipmentOfThatTypeExists(): void
     {
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
 
         $equipmentRepository = $this->createMock(EquipmentRepository::class);
         $equipmentRepository->method('findForTypeId')
@@ -143,7 +143,7 @@ class EquipmentTypeQueryGroupTest extends TestCase
         $entityManager->method('getRepository')
             ->willReturn($equipmentRepository);
 
-        $anovaData = $this->createMock(AnovaData::class);
+        $anovaData = $this->createStub(AnovaData::class);
 
         $result = (new EquipmentTypeQueryGroup(5))->loadAllGroups($entityManager, $account, $anovaData);
 

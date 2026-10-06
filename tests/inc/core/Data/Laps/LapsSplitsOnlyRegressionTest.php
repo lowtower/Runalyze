@@ -29,7 +29,7 @@ class LapsSplitsOnlyRegressionTest extends \PHPUnit\Framework\TestCase
     {
         $this->Laps->readFrom($this->createSingleSplit());
 
-        $this->assertEquals(1, $this->Laps->num());
+        $this->assertSame(1, $this->Laps->num());
 
         $Lap = $this->Laps->at(0);
 
@@ -87,8 +87,8 @@ class LapsSplitsOnlyRegressionTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($Lap->hasTrackValues());
         $this->assertTrue($Lap->hasHR());
 
-        $this->assertEquals(305.0, $Lap->trackDuration()->seconds());
-        $this->assertEquals(1.02, $Lap->trackDistance()->kilometer());
+        $this->assertSame(305.0, $Lap->trackDuration()->seconds());
+        $this->assertSame(1.02, $Lap->trackDistance()->kilometer());
         $this->assertEquals(140.0, $Lap->HRavg()->inBPM());
         $this->assertEquals(165.0, $Lap->HRmax()->inBPM());
     }

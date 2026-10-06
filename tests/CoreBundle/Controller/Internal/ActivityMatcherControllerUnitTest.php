@@ -45,10 +45,8 @@ class ActivityMatcherControllerUnitTest extends TestCase
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
         $this->authorizationChecker->method('isGranted')
             ->willReturn(true);
-
-        $account = $this->createMock(Account::class);
         $tokenStorage = new TokenStorage();
-        $tokenStorage->setToken(new UsernamePasswordToken($account, 'default', ['ROLE_USER']));
+        $tokenStorage->setToken(new UsernamePasswordToken($this->createStub(Account::class), 'default', ['ROLE_USER']));
 
         $container = new Container();
         $container->set('security.authorization_checker', $this->authorizationChecker);

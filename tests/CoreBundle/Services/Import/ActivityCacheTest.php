@@ -78,7 +78,7 @@ class ActivityCacheTest extends TestCase
     public function testRemoveDeletesTheCachedActivity(): void
     {
         $hash = $this->Cache->save(new Training());
-        $this->assertNotNull($this->Cache->get($hash));
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Training::class, $this->Cache->get($hash));
 
         $this->Cache->remove($hash);
 
@@ -90,7 +90,7 @@ class ActivityCacheTest extends TestCase
         $hash = $this->Cache->save(new Training());
 
         $firstRetrieval = $this->Cache->get($hash, null, true);
-        $this->assertNotNull($firstRetrieval);
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Training::class, $firstRetrieval);
 
         $this->assertNull($this->Cache->get($hash));
     }
@@ -114,9 +114,9 @@ class ActivityCacheTest extends TestCase
 
         $result = $this->Cache->get($this->Cache->save($activityToCache), $activityToMerge);
 
-        $this->assertNotNull($result);
-        $this->assertEquals(12.3, $result->getDistance());
-        $this->assertEquals(3625, $result->getElapsedTime());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Training::class, $result);
+        $this->assertSame(12.3, $result->getDistance());
+        $this->assertSame(3625, $result->getElapsedTime());
         $this->assertEquals($mergerAccount, $result->getAccount());
         $this->assertEquals($mergerAccount, $result->getRoute()->getAccount());
         $this->assertEquals($mergerAccount, $result->getTrackdata()->getAccount());
@@ -124,11 +124,11 @@ class ActivityCacheTest extends TestCase
         $this->assertEquals($mergerAccount, $result->getHrv()->getAccount());
         $this->assertEquals($mergerAccount, $result->getRaceresult()->getAccount());
 
-        $this->assertEquals(10.0, $result->getRoute()->getDistance());
+        $this->assertSame(10.0, $result->getRoute()->getDistance());
         $this->assertEquals([0.0, 5.0, 10.0], $result->getTrackdata()->getDistance());
-        $this->assertEquals(5000, $result->getSwimdata()->getPoolLength());
+        $this->assertSame(5000, $result->getSwimdata()->getPoolLength());
         $this->assertEquals([820, 800, 850], $result->getHrv()->getData());
-        $this->assertEquals('Foobar event', $result->getRaceresult()->getName());
+        $this->assertSame('Foobar event', $result->getRaceresult()->getName());
     }
 
     public function testMergeTransfersPowerWhenCachedActivityHasPowerCalculatedFlagSet(): void

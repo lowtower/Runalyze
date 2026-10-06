@@ -22,7 +22,7 @@ class BisectionTest extends \PHPUnit\Framework\TestCase
         $Bisection->setIterations(4);
         $Bisection->setEpsilon(0.01);
 
-        $this->assertEquals(0.9375, $Bisection->findValue());
+        $this->assertSame(0.9375, $Bisection->findValue());
     }
 
     public function testSimpleApproximation(): void

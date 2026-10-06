@@ -29,7 +29,7 @@ class MaintenanceListener
 
         if ($maintenance && ! $debug && ! in_array($request->get('_route'), $routes)) {
             $content = $this->twig->render('maintenance.html.twig');
-            $event->setResponse(new Response($content, 503));
+            $event->setResponse(new Response($content, Response::HTTP_SERVICE_UNAVAILABLE));
             $event->stopPropagation();
         }
     }

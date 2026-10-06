@@ -42,8 +42,8 @@ class MinPerMileTest extends \PHPUnit\Framework\TestCase
     {
         $Pace = new MinPerMile();
 
-        $this->assertEquals('8:03', $Pace->format(300));
-        $this->assertEquals('6:00', $Pace->format(224));
-        $this->assertEquals('-:--', $Pace->format(0));
+        $this->assertSame('8:03', $Pace->format(300));
+        $this->assertSame('6:00', $Pace->format(224));
+        $this->assertSame('-:--', $Pace->format(0));
     }
 }

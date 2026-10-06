@@ -34,9 +34,9 @@ class FormularValueParserTest extends \PHPUnit\Framework\TestCase
             'date' => '13.4.2010',
         ];
 
-        $this->assertTrue($this->object->validatePost('empty', $Parser) !== true);
-        $this->assertTrue($this->object->validatePost('text', $Parser) !== true);
-        $this->assertTrue($this->object->validatePost('int', $Parser) !== true);
+        $this->assertNotTrue($this->object->validatePost('empty', $Parser));
+        $this->assertNotTrue($this->object->validatePost('text', $Parser));
+        $this->assertNotTrue($this->object->validatePost('int', $Parser));
         $this->assertTrue($this->object->validatePost('d.m', $Parser));
         $this->assertTrue($this->object->validatePost('d.m.Y', $Parser));
         $this->assertTrue($this->object->validatePost('date', $Parser));

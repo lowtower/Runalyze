@@ -63,7 +63,7 @@ class TrendAnalysisDataQueryTest extends TestCase
             ->willReturn([]);
         $query = new TrendAnalysisDataQuery($trendAnalysisData);
 
-        $expectedUnit = $this->createMock(UnitInterface::class);
+        $expectedUnit = $this->createStub(UnitInterface::class);
         $queryValueMock = $this->createMock(QueryValueInterface::class);
         $queryValueMock->method('getValueUnit')
             ->willReturn($expectedUnit);
@@ -80,7 +80,7 @@ class TrendAnalysisDataQueryTest extends TestCase
 
     public function testGetValueUnitSetsPaceUnitFromTheSingleSelectedSport(): void
     {
-        $sport = $this->createMock(Sport::class);
+        $sport = $this->createStub(Sport::class);
         $trendAnalysisData = $this->createTrendAnalysisDataMock();
         $trendAnalysisData->method('getSport')
             ->willReturn([$sport]);
@@ -88,7 +88,7 @@ class TrendAnalysisDataQueryTest extends TestCase
 
         $queryValueMock = $this->createMock(QueryValueInterface::class);
         $queryValueMock->method('getValueUnit')
-            ->willReturn($this->createMock(UnitInterface::class));
+            ->willReturn($this->createStub(UnitInterface::class));
         $this->setProtectedProperty($query, 'QueryValue', $queryValueMock);
 
         $unitSystem = $this->createMock(UnitSystem::class);
@@ -104,14 +104,14 @@ class TrendAnalysisDataQueryTest extends TestCase
         $trendAnalysisData = $this->createTrendAnalysisDataMock();
         $trendAnalysisData->method('getSport')
             ->willReturn([
-                $this->createMock(Sport::class),
-                $this->createMock(Sport::class),
+                $this->createStub(Sport::class),
+                $this->createStub(Sport::class),
             ]);
         $query = new TrendAnalysisDataQuery($trendAnalysisData);
 
         $queryValueMock = $this->createMock(QueryValueInterface::class);
         $queryValueMock->method('getValueUnit')
-            ->willReturn($this->createMock(UnitInterface::class));
+            ->willReturn($this->createStub(UnitInterface::class));
         $this->setProtectedProperty($query, 'QueryValue', $queryValueMock);
 
         $unitSystem = $this->createMock(UnitSystem::class);
@@ -211,9 +211,9 @@ class TrendAnalysisDataQueryTest extends TestCase
         $query->method('buildQuery')
             ->willReturnOnConsecutiveCalls($firstDoctrineQuery, $secondDoctrineQuery);
 
-        $trainingRepository = $this->createMock(TrainingRepository::class);
-        $account = $this->createMock(Account::class);
-        $unitSystem = $this->createMock(UnitSystem::class);
+        $trainingRepository = $this->createStub(TrainingRepository::class);
+        $account = $this->createStub(Account::class);
+        $unitSystem = $this->createStub(UnitSystem::class);
 
         $query->getResults($trainingRepository, $account, $unitSystem);
         $secondResult = $query->getResults($trainingRepository, $account, $unitSystem);
@@ -234,7 +234,7 @@ class TrendAnalysisDataQueryTest extends TestCase
 
         $queryValueMock = $this->createMock(QueryValueInterface::class);
         $queryValueMock->method('getValueUnit')
-            ->willReturn($this->createMock(UnitInterface::class));
+            ->willReturn($this->createStub(UnitInterface::class));
         $this->setProtectedProperty($query, 'QueryValue', $queryValueMock);
 
         $doctrineQueryMock = $this->createMock(Query::class);

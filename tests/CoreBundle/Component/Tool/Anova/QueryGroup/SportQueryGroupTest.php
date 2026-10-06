@@ -57,7 +57,7 @@ class SportQueryGroupTest extends TestCase
         $selectedSwimming->method('getId')
             ->willReturn(3);
 
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
 
         $sportRepository = $this->createMock(SportRepository::class);
         $sportRepository->method('findAllFor')
@@ -86,7 +86,7 @@ class SportQueryGroupTest extends TestCase
         $sport->method('getId')
             ->willReturn(1);
 
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
 
         $sportRepository = $this->createMock(SportRepository::class);
         $sportRepository->method('findAllFor')

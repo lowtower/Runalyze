@@ -26,8 +26,8 @@ class GpxTest extends AbstractActivityParserTestCase
         $this->assertInstanceOf(ActivityDataContainer::class, $this->Container);
 
         // assume that '...Z' time strings are converted to Europe/Berlin (see bootstrap.php)
-        $this->assertEquals('2013-02-04 21:38', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
-        $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
+        $this->assertSame('2013-02-04 21:38', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame(60, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEqualsWithDelta(2295, $this->Container->ActivityData->Duration, 15);
         $this->assertEquals(2306, $this->Container->ActivityData->ElapsedTime);
@@ -77,8 +77,8 @@ class GpxTest extends AbstractActivityParserTestCase
         $this->assertInstanceOf(ActivityDataContainer::class, $this->Container);
 
         // Assume '...Z' is converted to Europe/Berlin
-        $this->assertEquals('2013-02-04 21:38', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
-        $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
+        $this->assertSame('2013-02-04 21:38', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame(60, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(10, $this->Container->ActivityData->Duration);
         $this->assertEquals(90, $this->Container->ActivityData->AvgCadence);
@@ -97,11 +97,11 @@ class GpxTest extends AbstractActivityParserTestCase
         $this->assertInstanceOf(ActivityDataContainer::class, $this->Container);
 
         // assume that '...Z' time strings are converted to Europe/Berlin (see bootstrap.php)
-        $this->assertEquals('2013-09-29 11:36', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
-        $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
+        $this->assertSame('2013-09-29 11:36', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEqualsWithDelta(112, $this->Container->ActivityData->AvgHeartRate, 0.5);
-        $this->assertEquals(132, $this->Container->ActivityData->MaxHeartRate);
+        $this->assertSame(132, $this->Container->ActivityData->MaxHeartRate);
     }
 
     public function testAnotherFileFromSpoQ(): void
@@ -111,11 +111,11 @@ class GpxTest extends AbstractActivityParserTestCase
         $this->assertInstanceOf(ActivityDataContainer::class, $this->Container);
 
         // assume that '...Z' time strings are converted to Europe/Berlin (see bootstrap.php)
-        $this->assertEquals('2014-07-01 10:18', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
-        $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
+        $this->assertSame('2014-07-01 10:18', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEqualsWithDelta(106, $this->Container->ActivityData->AvgHeartRate, 0.5);
-        $this->assertEquals(128, $this->Container->ActivityData->MaxHeartRate);
+        $this->assertSame(128, $this->Container->ActivityData->MaxHeartRate);
     }
 
     public function testFileFromNavRun500(): void
@@ -125,8 +125,8 @@ class GpxTest extends AbstractActivityParserTestCase
         $this->assertInstanceOf(ActivityDataContainer::class, $this->Container);
 
         // assume that '...Z' time strings are converted to Europe/Berlin (see bootstrap.php)
-        $this->assertEquals('2015-05-25 14:40', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
-        $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
+        $this->assertSame('2015-05-25 14:40', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame(120, $this->Container->Metadata->getTimezoneOffset());
 
         // Original start: 2015-05-25T11:05:01Z
         // New start: 2015-05-25T12:40:01Z (i.e. -1:35:00)
@@ -171,8 +171,8 @@ class GpxTest extends AbstractActivityParserTestCase
         $this->assertInstanceOf(ActivityDataContainer::class, $this->Container);
 
         // Assume '...Z' is converted to Europe/Berlin
-        $this->assertEquals('2015-12-01 21:11', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
-        $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
+        $this->assertSame('2015-12-01 21:11', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame(60, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEqualsWithDelta(87, $this->Container->ActivityData->AvgCadence, 0.5);
     }
@@ -230,8 +230,8 @@ class GpxTest extends AbstractActivityParserTestCase
         $this->assertInstanceOf(ActivityDataContainer::class, $this->Container);
 
         // Assume '...Z' is converted to Europe/Berlin
-        $this->assertEquals('2010-04-02 10:26', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
-        $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
+        $this->assertSame('2010-04-02 10:26', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+        $this->assertSame(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEqualsWithDelta(5 * 3600 + 17 * 60 + 21, $this->Container->ActivityData->Duration, 10);
 

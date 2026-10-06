@@ -20,7 +20,7 @@ class ClimbCollectionTest extends TestCase
         $collection = new ClimbCollection();
 
         $this->assertTrue($collection->isEmpty());
-        $this->assertSame(0, $collection->count());
+        $this->assertCount(0, $collection);
         $this->assertSame([], $collection->getElements());
     }
 
@@ -32,7 +32,7 @@ class ClimbCollectionTest extends TestCase
         $collection = new ClimbCollection([$climb1, $climb2]);
 
         $this->assertFalse($collection->isEmpty());
-        $this->assertSame(2, $collection->count());
+        $this->assertCount(2, $collection);
         $this->assertSame([$climb1, $climb2], $collection->getElements());
     }
 
@@ -76,7 +76,7 @@ class ClimbCollectionTest extends TestCase
         $collection->add($this->createClimb());
         $collection->add($this->createClimb());
 
-        $this->assertSame(3, $collection->count());
+        $this->assertCount(3, $collection);
     }
 
     public function testCountableInterfaceWorksWithNativeCountFunction(): void

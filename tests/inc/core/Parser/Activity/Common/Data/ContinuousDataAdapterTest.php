@@ -38,7 +38,7 @@ class ContinuousDataAdapterTest extends \PHPUnit\Framework\TestCase
 
         $this->Adapter->calculateDistancesIfRequired();
 
-        $this->assertEquals([0.0, 1.0, 2.0], $this->Data->Distance);
+        $this->assertSame([0.0, 1.0, 2.0], $this->Data->Distance);
     }
 
     public function testSimpleDistanceCalculation(): void

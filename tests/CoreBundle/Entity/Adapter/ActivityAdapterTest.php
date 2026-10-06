@@ -48,7 +48,7 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->Activity->getSwolf());
         $this->assertNull($this->Activity->getTotalStrokes());
         $this->assertNull($this->Activity->isNight());
-        $this->assertEquals(0, $this->Activity->getTrimp());
+        $this->assertSame(0, $this->Activity->getTrimp());
     }
 
     public function testAgeOfActivity(): void
@@ -84,8 +84,8 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
 
         $this->Adapter->calculateValuesForSwimming();
 
-        $this->assertEquals(112, $this->Activity->getTotalStrokes());
-        $this->assertEquals(109, $this->Activity->getSwolf());
+        $this->assertSame(112, $this->Activity->getTotalStrokes());
+        $this->assertSame(109, $this->Activity->getSwolf());
     }
 
     public function testCalculationOfSwimmingValuesIgnoresBreaksForSwolf(): void
@@ -106,8 +106,8 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
 
         $this->Adapter->calculateValuesForSwimming();
 
-        $this->assertEquals(112, $this->Activity->getTotalStrokes());
-        $this->assertEquals(109, $this->Activity->getSwolf());
+        $this->assertSame(112, $this->Activity->getTotalStrokes());
+        $this->assertSame(109, $this->Activity->getSwolf());
     }
 
     public function testSwolfIsNullIfOnlyBreakLapsExist(): void
@@ -154,13 +154,13 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
 
         $this->Adapter->calculateEnergyConsumptionIfEmpty();
 
-        $this->assertEquals(360, $this->Activity->getKcal());
+        $this->assertSame(360, $this->Activity->getKcal());
 
         $this->Activity->setKcal(371);
 
         $this->Adapter->calculateEnergyConsumptionIfEmpty();
 
-        $this->assertEquals(371, $this->Activity->getKcal());
+        $this->assertSame(371, $this->Activity->getKcal());
     }
 
     public function testCalculationOfEnergyConsumptionWithoutSportDoesNotCrash(): void
@@ -188,7 +188,7 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
 
         $this->Adapter->calculateClimbScore();
 
-        $this->assertEquals(0.4, $this->Activity->getPercentageHilly());
+        $this->assertSame(0.4, $this->Activity->getPercentageHilly());
         $this->assertGreaterThan(0.0, $this->Activity->getClimbScore());
         $this->assertLessThan(10.0, $this->Activity->getClimbScore());
 

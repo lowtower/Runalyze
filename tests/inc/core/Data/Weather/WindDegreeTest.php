@@ -15,7 +15,7 @@ class WindDegreeTest extends \PHPUnit\Framework\TestCase
         $Degrees = new WindDegree();
 
         $this->assertEquals(null, $Degrees->value());
-        $this->assertEquals('', $Degrees->string());
+        $this->assertSame('', $Degrees->string());
         $this->assertTrue($Degrees->isUnknown());
     }
 

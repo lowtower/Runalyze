@@ -18,11 +18,11 @@ class EntityTest extends \PHPUnit\Framework\TestCase
             Entity::MAX_TIME => 0,
         ]);
 
-        $this->assertEquals('Equipment type name', $Type->name());
+        $this->assertSame('Equipment type name', $Type->name());
         $this->assertTrue($Type->allowsMultipleValues());
         $this->assertTrue($Type->hasMaxDistance());
         $this->assertEquals(100, $Type->maxDistance());
         $this->assertFalse($Type->hasMaxDuration());
-        $this->assertEquals(0, $Type->maxDuration());
+        $this->assertSame(0, $Type->maxDuration());
     }
 }

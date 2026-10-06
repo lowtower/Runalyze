@@ -23,9 +23,9 @@ class WeatherControllerClassifyExceptionTest extends TestCase
     private function classify(Throwable $exception): string
     {
         $controller = new WeatherController(
-            $this->createMock(TranslatorInterface::class),
-            $this->createMock(WeatherForecast::class),
-            $this->createMock(ConfigurationManager::class)
+            $this->createStub(TranslatorInterface::class),
+            $this->createStub(WeatherForecast::class),
+            $this->createStub(ConfigurationManager::class)
         );
 
         $reflectionMethod = new ReflectionMethod(WeatherController::class, 'classifyException');

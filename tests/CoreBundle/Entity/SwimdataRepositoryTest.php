@@ -39,7 +39,7 @@ class SwimdataRepositoryTest extends AbstractRepositoryTestCase
 
         $swimdata = $this->SwimdataRepository->findForActivity($activity->getId());
 
-        $this->assertNotNull($swimdata);
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Swimdata::class, $swimdata);
         $this->assertSame([1, 2, 1, 2], $swimdata->getStroke());
         $this->assertSame([1, 1, 2, 2], $swimdata->getStroketype());
         $this->assertSame(50, $swimdata->getPoolLength());

@@ -17,16 +17,16 @@ class HeartRateTest extends \PHPUnit\Framework\TestCase
 
         $this->assertFalse($HR->canShowInHRmax());
         $this->assertFalse($HR->canShowInHRrest());
-        $this->assertEquals(150, $HR->inBPM());
+        $this->assertSame(150, $HR->inBPM());
     }
 
     public function testDynamicSetting(): void
     {
         $HR = new HeartRate(150);
-        $this->assertEquals(150, $HR->inBPM());
+        $this->assertSame(150, $HR->inBPM());
 
         $HR->setBPM(120);
-        $this->assertEquals(120, $HR->inBPM());
+        $this->assertSame(120, $HR->inBPM());
     }
 
     public function testWithAthlete(): void

@@ -41,7 +41,7 @@ class SummaryModeTest extends \PHPUnit\Framework\TestCase
 
     public function testNoSummary(): void
     {
-        $this->assertEquals('', SummaryMode::query(SummaryMode::NO, 'value'));
+        $this->assertSame('', SummaryMode::query(SummaryMode::NO, 'value'));
     }
 
     public function testAvg(): void

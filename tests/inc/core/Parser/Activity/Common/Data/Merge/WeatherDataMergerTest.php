@@ -38,7 +38,7 @@ class WeatherDataMergerTest extends \PHPUnit\Framework\TestCase
 
         (new WeatherDataMerger($this->FirstData, $this->SecondData))->merge();
 
-        $this->assertEquals(0, $this->FirstData->Temperature);
+        $this->assertSame(0, $this->FirstData->Temperature);
         $this->assertEquals('sunny', $this->FirstData->Condition);
     }
 }
