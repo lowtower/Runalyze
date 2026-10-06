@@ -21,51 +21,43 @@ final class SummaryMode extends AbstractEnum
 {
     /**
      * NO: This value can't be summarized.
-     * @var int
      */
-    public const NO = 0;
+    public const int NO = 0;
 
     /**
      * AVG: This value will be summarized by its average.
-     * @var int
      */
-    public const AVG = 1;
+    public const int AVG = 1;
 
     /**
      * SUM: This value will be summarized by its sum.
-     * @var int
      */
-    public const SUM = 2;
+    public const int SUM = 2;
 
     /**
      * MAX: This value will be summarized by its maximum.
-     * @var int
      */
-    public const MAX = 3;
+    public const int MAX = 3;
 
     /**
      * MIN: This value will be summarized by its maximum.
-     * @var int
      */
-    public const MIN = 4;
+    public const int MIN = 4;
 
     /**
      * AVG_WITHOUT_NULL: This value will be summarized by its average ignoring nulls.
-     * @var int
      */
-    public const AVG_WITHOUT_NULL = 5;
+    public const int AVG_WITHOUT_NULL = 5;
 
     /**
      * VO2MAX: take only the average of activities with `use_vo2max` and respect elevation correction
-     * @var int
      */
-    public const VO2MAX = 6;
+    public const int VO2MAX = 6;
 
     /**
      * AVG_WITH_ZERO: This value will not ignore zeros.
-     * @var int
      */
-    public const AVG_WITH_ZERO = 7;
+    public const int AVG_WITH_ZERO = 7;
 
     /**
      * @param int $mode int from internal enum

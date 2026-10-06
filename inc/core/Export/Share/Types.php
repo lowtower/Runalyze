@@ -18,30 +18,15 @@ use Runalyze\View\Activity\Context;
  */
 final class Types extends AbstractEnum
 {
-    /**
-     * @var int
-     */
-    public const TWITTER = 1;
+    public const int TWITTER = 1;
 
-    /**
-     * @var int
-     */
-    public const FACEBOOK = 2;
+    public const int FACEBOOK = 2;
 
-    /**
-     * @var int
-     */
-    public const GOOGLE_PLUS = 3;
+    public const int GOOGLE_PLUS = 3;
 
-    /**
-     * @var int
-     */
-    public const HTML = 4;
+    public const int HTML = 4;
 
-    /**
-     * @var int
-     */
-    public const IFRAME = 5;
+    public const int IFRAME = 5;
 
     /**
      * Get sharer

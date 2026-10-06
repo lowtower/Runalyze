@@ -51,7 +51,7 @@ class RouteNameEvalOsmRecordingLogger extends AbstractLogger
 #[\PHPUnit\Framework\Attributes\Group('default')]
 class RouteNameEvalOsmTest extends TestCase
 {
-    private const API_URL = 'http://example.test/api';
+    private const string API_URL = 'http://example.test/api';
 
     private RouteNameEvalOsm $underTest;
 

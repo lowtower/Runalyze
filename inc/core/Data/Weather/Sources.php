@@ -19,25 +19,13 @@ use Runalyze\Common\Enum\AbstractEnum;
  */
 final class Sources extends AbstractEnum
 {
-    /**
-     * @var int
-     */
-    public const OPENWEATHERMAP = 1;
+    public const int OPENWEATHERMAP = 1;
 
-    /**
-     * @var int
-     */
-    public const DBWEATHERCACHE = 2;
+    public const int DBWEATHERCACHE = 2;
 
-    /**
-     * @var int
-     */
-    public const DARKSKY = 3;
+    public const int DARKSKY = 3;
 
-    /**
-     * @var int
-     */
-    public const METEOSTAT_NET = 4;
+    public const int METEOSTAT_NET = 4;
 
     /**
      * @param int $sourceId id from internal enum

@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ActivityMatcherController extends AbstractController
 {
-    private const EXTERNAL_IDS_PREFIX = 'externalIds=';
+    private const string EXTERNAL_IDS_PREFIX = 'externalIds=';
 
     public function __construct(
         private readonly DuplicateFinder $duplicateFinder,

@@ -21,7 +21,7 @@ final class InstallCheckCommandTest extends TestCase
 
     private string $tempRootDirectory;
 
-    private const REQUIRED_WRITABLE_DIRECTORIES = [
+    private const array REQUIRED_WRITABLE_DIRECTORIES = [
         'data/backup-tool/backup/',
         'data/backup-tool/import/',
         'data/cache/',

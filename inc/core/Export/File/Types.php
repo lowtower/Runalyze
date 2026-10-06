@@ -18,25 +18,13 @@ use Runalyze\View\Activity\Context;
  */
 final class Types extends AbstractEnum
 {
-    /**
-     * @var int
-     */
-    public const TCX = 1;
+    public const int TCX = 1;
 
-    /**
-     * @var int
-     */
-    public const GPX = 2;
+    public const int GPX = 2;
 
-    /**
-     * @var int
-     */
-    public const KML = 3;
+    public const int KML = 3;
 
-    /**
-     * @var int
-     */
-    public const FITLOG = 4;
+    public const int FITLOG = 4;
 
     /**
      * Get exporter

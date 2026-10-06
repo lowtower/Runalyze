@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class LocaleListener implements EventSubscriberInterface
 {
-    private const SESSION_KEY = '_locale';
+    private const string SESSION_KEY = '_locale';
 
     public function onKernelRequest(RequestEvent $event): void
     {

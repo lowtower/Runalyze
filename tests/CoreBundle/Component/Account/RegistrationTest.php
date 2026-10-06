@@ -23,7 +23,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 class RegistrationTest extends KernelTestCase
 {
-    private const PASSWORD = 'Pa$$w0rd';
+    private const string PASSWORD = 'Pa$$w0rd';
 
     protected ObjectManager $EntityManager;
 

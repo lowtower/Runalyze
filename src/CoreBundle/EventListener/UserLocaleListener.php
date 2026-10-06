@@ -13,7 +13,7 @@ use Symfony\Component\Security\Http\Event\SwitchUserEvent;
 
 class UserLocaleListener
 {
-    private const SESSION_KEY = '_locale';
+    private const string SESSION_KEY = '_locale';
 
     public function __construct(
         private readonly RequestStack $requestStack

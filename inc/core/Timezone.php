@@ -97,7 +97,7 @@ class Timezone implements InterfaceChoosable
                 $prettyOffset = 'UTC' . $offsetPrefix . $offsetFormatted;
 
                 $currentTime = (new DateTime('', new DateTimeZone($timezone)))->format('g:i A');
-                $timezoneId = constant(\Runalyze\Parameter\Application\Timezone::class . '::' . strtoupper($timezoneEnum[$timezone]));
+                $timezoneId = \Runalyze\Parameter\Application\Timezone::{strtoupper($timezoneEnum[$timezone])};
                 $timezoneList[$timezoneId] = '(' . $prettyOffset . ') ' . str_replace('_', '', $timezone) . ' - ' . $currentTime;
             }
         }

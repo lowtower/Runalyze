@@ -18,7 +18,7 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
 class ActivityMatcherControllerTest extends AbstractFixturesAwareWebTestCase
 {
-    private const MATCHER_URL = '/_internal/activity/matcher';
+    private const string MATCHER_URL = '/_internal/activity/matcher';
 
     protected Account $Account;
 

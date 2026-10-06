@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 #[\PHPUnit\Framework\Attributes\Group('default')]
 class FileHandlerTest extends TestCase
 {
-    private const ACCOUNT_ID = 7;
+    private const int ACCOUNT_ID = 7;
 
     private string $dataDirectory;
 

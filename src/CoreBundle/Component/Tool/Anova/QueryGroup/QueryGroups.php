@@ -10,30 +10,15 @@ final class QueryGroups extends AbstractEnum
 {
     use AbstractEnumFactoryTrait;
 
-    /**
-     * @var string
-     */
-    public const MONTH = 'month';
+    public const string MONTH = 'month';
 
-    /**
-     * @var string
-     */
-    public const YEAR = 'year';
+    public const string YEAR = 'year';
 
-    /**
-     * @var string
-     */
-    public const SPORT = 'sport';
+    public const string SPORT = 'sport';
 
-    /**
-     * @var string
-     */
-    public const TYPE = 'type';
+    public const string TYPE = 'type';
 
-    /**
-     * @var string
-     */
-    public const EQUIPMENT_TYPE = 'equipment';
+    public const string EQUIPMENT_TYPE = 'equipment';
 
     public static function getEnumForEquipmentType(EquipmentTypeEntity $equipmentType): string
     {

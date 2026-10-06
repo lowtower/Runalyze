@@ -15,7 +15,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[\PHPUnit\Framework\Attributes\Group('import')]
 class CreateControllerTest extends AbstractFixturesAwareWebTestCase
 {
-    private const FIXTURE_FIT_FILE = 'fit/FR265-with-self-evaluation.fit';
+    private const string FIXTURE_FIT_FILE = 'fit/FR265-with-self-evaluation.fit';
 
     protected Account $Account;
 

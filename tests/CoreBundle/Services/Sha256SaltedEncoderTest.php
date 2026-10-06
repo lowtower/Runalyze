@@ -14,9 +14,9 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 #[\PHPUnit\Framework\Attributes\Group('default')]
 class Sha256SaltedEncoderTest extends TestCase
 {
-    private const SHA256_OF_ABC = 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad';
+    private const string SHA256_OF_ABC = 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad';
 
-    private const SHA256_OF_PASSWORD_AND_SALT = '7a37b85c8918eac19a9089c0fa5a2ab4dce3f90528dcdeec108b23ddf3607b99';
+    private const string SHA256_OF_PASSWORD_AND_SALT = '7a37b85c8918eac19a9089c0fa5a2ab4dce3f90528dcdeec108b23ddf3607b99';
 
     private Sha256SaltedEncoder $Encoder;
 

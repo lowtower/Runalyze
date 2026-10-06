@@ -17,11 +17,11 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[\PHPUnit\Framework\Attributes\Group('import')]
 class ImportActivityControllerTest extends AbstractFixturesAwareWebTestCase
 {
-    private const FIXTURE_FIT_FILE = 'fit/FR265-with-self-evaluation.fit';
+    private const string FIXTURE_FIT_FILE = 'fit/FR265-with-self-evaluation.fit';
 
-    private const IMPORT_URL = '/api/import/activity';
+    private const string IMPORT_URL = '/api/import/activity';
 
-    private const PASSWORD = 'Import-Test-Password-1';
+    private const string PASSWORD = 'Import-Test-Password-1';
 
     protected Account $Account;
 

@@ -23,11 +23,11 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
 class ApiSessionUsageTest extends AbstractFixturesAwareWebTestCase
 {
-    private const IMPORT_URL = '/api/import/activity';
+    private const string IMPORT_URL = '/api/import/activity';
 
-    private const FIXTURE_FIT_FILE = 'fit/FR265-with-self-evaluation.fit';
+    private const string FIXTURE_FIT_FILE = 'fit/FR265-with-self-evaluation.fit';
 
-    private const PASSWORD = 'Session-Test-Password-1';
+    private const string PASSWORD = 'Session-Test-Password-1';
 
     protected Account $Account;
 

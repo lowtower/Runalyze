@@ -23,39 +23,20 @@ class LapIntensity extends AbstractEnum
 {
     /**
      * For compatibility reasons active has an empty value.
-     * @var string
      */
-    private const ACTIVE = '';
+    private const string ACTIVE = '';
 
-    /**
-     * @var string
-     */
-    private const REST = 'R';
+    private const string REST = 'R';
 
-    /**
-     * @var string
-     */
-    private const WARMUP = 'W';
+    private const string WARMUP = 'W';
 
-    /**
-     * @var string
-     */
-    private const COOLDOWN = 'C';
+    private const string COOLDOWN = 'C';
 
-    /**
-     * @var string
-     */
-    private const RECOVERY = 'Y';
+    private const string RECOVERY = 'Y';
 
-    /**
-     * @var string
-     */
-    private const INTERVAL = 'I';
+    private const string INTERVAL = 'I';
 
-    /**
-     * @var string
-     */
-    private const OTHER = 'O';
+    private const string OTHER = 'O';
 
     private static ?LapIntensity $INST_ACTIVE = null;
 

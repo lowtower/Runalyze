@@ -24,11 +24,11 @@ class InstallController extends AbstractController
 {
     use AppServiceSubscriberTrait;
 
-    private const SESSION_POSSIBLE = 'installer/possible';
+    private const string SESSION_POSSIBLE = 'installer/possible';
 
-    private const SESSION_SUCCESSFUL = 'installer/successful';
+    private const string SESSION_SUCCESSFUL = 'installer/successful';
 
-    private const SESSION_OUTPUT = 'installer/output';
+    private const string SESSION_OUTPUT = 'installer/output';
 
     public function __construct(
         private readonly KernelInterface $kernel

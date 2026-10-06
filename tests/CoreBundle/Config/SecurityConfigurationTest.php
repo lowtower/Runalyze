@@ -11,7 +11,7 @@ use Symfony\Component\Yaml\Yaml;
 #[\PHPUnit\Framework\Attributes\Group('default')]
 class SecurityConfigurationTest extends TestCase
 {
-    private const ACCOUNT_CHECKER = \Runalyze\Bundle\CoreBundle\Services\AccountChecker::class;
+    private const string ACCOUNT_CHECKER = \Runalyze\Bundle\CoreBundle\Services\AccountChecker::class;
 
     /**
      * @var array<string, mixed>

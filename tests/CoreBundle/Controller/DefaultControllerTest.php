@@ -14,7 +14,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
 {
-    private const KNOWN_PASSWORD = 'irrelevant-for-this-test';
+    private const string KNOWN_PASSWORD = 'irrelevant-for-this-test';
 
     protected Account $Account;
 

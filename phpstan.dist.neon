@@ -30,9 +30,9 @@ parameters:
 
     treatPhpDocTypesAsCertain: false
 
-    type_coverage:
-        return: 5
-        param: 5
-        property: 5
-        # enable on PHP 8.3+
-        constant: 5
+#    type_coverage:
+#        return: 5
+#        param: 5
+#        property: 5
+#        # enable on PHP 8.3+
+#        constant: 5

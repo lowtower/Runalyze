@@ -8,15 +8,9 @@ use Runalyze\Common\Enum\AbstractEnum;
 
 final class UserRole extends AbstractEnum
 {
-    /**
-     * @var int
-     */
-    public const ROLE_USER = 1;
+    public const int ROLE_USER = 1;
 
-    /**
-     * @var int
-     */
-    public const ROLE_ADMIN = 2;
+    public const int ROLE_ADMIN = 2;
 
     /**
      * @param int $roleId int from internal enum

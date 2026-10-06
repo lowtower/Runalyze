@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 #[\PHPUnit\Framework\Attributes\Group('default')]
 class ActivityMatcherControllerUnitTest extends TestCase
 {
-    private const MATCHING_ID = '2020-06-15T10:00:00Z';
+    private const string MATCHING_ID = '2020-06-15T10:00:00Z';
 
     private DuplicateFinder&MockObject $duplicateFinder;
 

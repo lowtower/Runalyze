@@ -17,50 +17,23 @@ use Runalyze\Common\Enum\AbstractEnum;
  */
 final class Kernels extends AbstractEnum
 {
-    /**
-     * @var int
-     */
-    public const UNIFORM = 1;
+    public const int UNIFORM = 1;
 
-    /**
-     * @var int
-     */
-    public const TRIANGULAR = 2;
+    public const int TRIANGULAR = 2;
 
-    /**
-     * @var int
-     */
-    public const EPANECHNIKOV = 3;
+    public const int EPANECHNIKOV = 3;
 
-    /**
-     * @var int
-     */
-    public const QUARTIC = 4;
+    public const int QUARTIC = 4;
 
-    /**
-     * @var int
-     */
-    public const TRIWEIGHT = 5;
+    public const int TRIWEIGHT = 5;
 
-    /**
-     * @var int
-     */
-    public const TRICUBE = 6;
+    public const int TRICUBE = 6;
 
-    /**
-     * @var int
-     */
-    public const GAUSSIAN = 7;
+    public const int GAUSSIAN = 7;
 
-    /**
-     * @var int
-     */
-    public const COSINE = 8;
+    public const int COSINE = 8;
 
-    /**
-     * @var int
-     */
-    public const LOGISTIC = 9;
+    public const int LOGISTIC = 9;
 
     /**
      * Get exporter

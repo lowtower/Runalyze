@@ -20,12 +20,12 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 #[AsCommand(name: 'runalyze:mails:send', description: 'Send out a mails to users with custom templates in data/views/mail/custom')]
 class MailingCommand extends Command
 {
-    private const CUSTOM_MAIL_DIRECTORY = '/mail/custom/';
+    private const string CUSTOM_MAIL_DIRECTORY = '/mail/custom/';
 
     /**
      * Option name => [DQL condition, query parameter name]
      */
-    private const TIMESTAMP_FILTERS = [
+    private const array TIMESTAMP_FILTERS = [
         'last-action-after' => ['a.lastaction > :lastActionAfter', 'lastActionAfter'],
         'last-action-before' => ['a.lastaction < :lastActionBefore', 'lastActionBefore'],
         'registration-after' => ['a.registerdate > :registrationAfter', 'registrationAfter'],

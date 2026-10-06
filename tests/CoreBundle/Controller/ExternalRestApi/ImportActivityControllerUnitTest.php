@@ -23,7 +23,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 #[\PHPUnit\Framework\Attributes\Group('default')]
 class ImportActivityControllerUnitTest extends TestCase
 {
-    private const USERNAME = 'unit_test_user';
+    private const string USERNAME = 'unit_test_user';
 
     private LoggerInterface&MockObject $logger;
 

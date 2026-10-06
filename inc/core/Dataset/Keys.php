@@ -17,335 +17,137 @@ use Runalyze\Common\Enum\AbstractEnum;
  */
 final class Keys extends AbstractEnum
 {
-    /**
-     * @var int
-     */
-    public const SPORT = 1;
-
-    /**
-     * @var int
-     */
-    public const TYPE = 2;
-
-    /**
-     * @var int
-     */
-    public const DAYTIME = 3;
-
-    /**
-     * @var int
-     */
-    public const SHARED_LINK = 4;
-
-    /**
-     * @var int
-     */
-    public const DISTANCE = 5;
-
-    /**
-     * @var int
-     */
-    public const DURATION = 6;
-
-    /**
-     * @var int
-     */
-    public const PACE = 7;
-
-    /**
-     * @var int
-     */
-    public const ELAPSED_TIME = 8;
-
-    /**
-     * @var int
-     */
-    public const ELEVATION = 9;
-
-    /**
-     * @var int
-     */
-    public const ENERGY = 10;
-
-    /**
-     * @var int
-     */
-    public const HEARTRATE_AVG = 11;
-
-    /**
-     * @var int
-     */
-    public const HEARTRATE_MAX = 12;
-
-    /**
-     * @var int
-     */
-    public const VO2MAX_ICON = 13;
-
-    /**
-     * @var int
-     */
-    public const VO2MAX_VALUE = 14;
-
-    /**
-     * @var int
-     */
-    public const FIT_VO2MAX_ESTIMATE = 15;
-
-    /**
-     * @var int
-     */
-    public const FIT_RECOVERY_TIME = 16;
-
-    /**
-     * @var int
-     */
-    public const FIT_HRV_ANALYSIS = 17;
-
-    /**
-     * @var int
-     */
-    public const TRIMP = 19;
-
-    /**
-     * @var int
-     */
-    public const CADENCE = 20;
-
-    /**
-     * @var int
-     */
-    public const POWER = 21;
-
-    /**
-     * @var int
-     */
-    public const SWOLF = 22;
-
-    /**
-     * @var int
-     */
-    public const STRIDE_LENGTH = 23;
-
-    /**
-     * @var int
-     */
-    public const GROUNDCONTACT = 24;
-
-    /**
-     * @var int
-     */
-    public const VERTICAL_OSCILLATION = 25;
-
-    /**
-     * @var int
-     */
-    public const TEMPERATURE = 26;
-
-    /**
-     * @var int
-     */
-    public const WEATHER = 27;
-
-    /**
-     * @var int
-     */
-    public const ROUTE = 28;
-
-    /**
-     * @var int
-     */
-    public const SPLITS = 29;
-
-    /**
-     * @var int
-     */
-    public const TITLE = 30;
-
-    /**
-     * @var int
-     */
-    public const TRAININGPARTNER = 31;
-
-    /**
-     * @var int
-     */
-    public const TOTAL_STROKES = 32;
-
-    /**
-     * @var int
-     */
-    public const VERTICAL_RATIO = 33;
-
-    /**
-     * @var int
-     */
-    public const GROUNDCONTACT_BALANCE = 34;
-
-    /**
-     * @var int
-     */
-    public const TAGS = 35;
-
-    /**
-     * @var int
-     */
-    public const COMPLETE_EQUIPMENT = 36;
-
-    /**
-     * @var int
-     */
-    public const MAIN_EQUIPMENT = 37;
-
-    /**
-     * @var int
-     */
-    public const WIND = 38;
-
-    /**
-     * @var int
-     */
-    public const HUMIDITY = 39;
-
-    /**
-     * @var int
-     */
-    public const AIR_PRESSURE = 40;
-
-    /**
-     * @var int
-     */
-    public const WIND_CHILL = 41;
-
-    /**
-     * @var int
-     */
-    public const SETTING = 42;
-
-    /**
-     * @var int
-     */
-    public const FIT_TRAINING_EFFECT = 43;
-
-    /**
-     * @var int
-     */
-    public const RPE = 44;
-
-    /**
-     * @var int
-     */
-    public const GRADIENT = 45;
-
-    /**
-     * @var int
-     */
-    public const FIT_PERFORMANCE_CONDITION = 46;
-
-    /**
-     * @var int
-     */
-    public const RACE_RESULT = 47;
-
-    /**
-     * @var int
-     */
-    public const HEAT_INDEX = 48;
-
-    /**
-     * @var int
-     */
-    public const FIT_PERFORMANCE_CONDITION_START = 49;
-
-    /**
-     * @var int
-     */
-    public const FIT_PERFORMANCE_CONDITION_END = 50;
-
-    /**
-     * @var int
-     */
-    public const CLIMB_SCORE = 51;
-
-    /**
-     * @var int
-     */
-    public const PERCENTAGE_HILLY = 52;
-
-    /**
-     * @var int
-     */
-    public const TOOLS = 53;
-
-    /**
-     * @var int
-     */
-    public const FLIGHT_TIME = 54;
-
-    /**
-     * @var int
-     */
-    public const FLIGHT_RATIO = 55;
-
-    /**
-     * @var int
-     */
-    public const AVG_IMPACT_GS = 56;
-
-    /**
-     * @var int
-     */
-    public const AVG_BRAKING_GS = 57;
-
-    /**
-     * @var int
-     */
-    public const AVG_FOOTSTRIKE_TYPE = 58;
-
-    /**
-     * @var int
-     */
-    public const AVG_PRONATION_EXCURSION = 59;
-
-    /**
-     * @var int
-     */
-    public const FIT_ANAEROBIC_TRAINING_EFFECT = 60;
-
-    /**
-     * @var int
-     */
-    public const AVG_RESPIRATION_RATE = 61;
-
-    /**
-     * @var int
-     */
-    public const HEARTRATE_AVG_ACTIVE = 62;
-
-    /**
-     * @var int
-     */
-    public const TOTAL_CYCLES = 63;
-
-    /**
-     * @var int
-     */
-    public const FIT_LOAD_PEAK = 64;
-
-    /**
-     * @var int
-     */
-    public const OPEN_TAB = 65;
-
-    /**
-     * @var int
-     */
-    public const FIT_TRAINING_EFFECT_BENEFIT = 66;
-
-    /**
-     * @var int
-     */
-    public const WITH_GOAL = 67;
+    public const int SPORT = 1;
+
+    public const int TYPE = 2;
+
+    public const int DAYTIME = 3;
+
+    public const int SHARED_LINK = 4;
+
+    public const int DISTANCE = 5;
+
+    public const int DURATION = 6;
+
+    public const int PACE = 7;
+
+    public const int ELAPSED_TIME = 8;
+
+    public const int ELEVATION = 9;
+
+    public const int ENERGY = 10;
+
+    public const int HEARTRATE_AVG = 11;
+
+    public const int HEARTRATE_MAX = 12;
+
+    public const int VO2MAX_ICON = 13;
+
+    public const int VO2MAX_VALUE = 14;
+
+    public const int FIT_VO2MAX_ESTIMATE = 15;
+
+    public const int FIT_RECOVERY_TIME = 16;
+
+    public const int FIT_HRV_ANALYSIS = 17;
+
+    public const int TRIMP = 19;
+
+    public const int CADENCE = 20;
+
+    public const int POWER = 21;
+
+    public const int SWOLF = 22;
+
+    public const int STRIDE_LENGTH = 23;
+
+    public const int GROUNDCONTACT = 24;
+
+    public const int VERTICAL_OSCILLATION = 25;
+
+    public const int TEMPERATURE = 26;
+
+    public const int WEATHER = 27;
+
+    public const int ROUTE = 28;
+
+    public const int SPLITS = 29;
+
+    public const int TITLE = 30;
+
+    public const int TRAININGPARTNER = 31;
+
+    public const int TOTAL_STROKES = 32;
+
+    public const int VERTICAL_RATIO = 33;
+
+    public const int GROUNDCONTACT_BALANCE = 34;
+
+    public const int TAGS = 35;
+
+    public const int COMPLETE_EQUIPMENT = 36;
+
+    public const int MAIN_EQUIPMENT = 37;
+
+    public const int WIND = 38;
+
+    public const int HUMIDITY = 39;
+
+    public const int AIR_PRESSURE = 40;
+
+    public const int WIND_CHILL = 41;
+
+    public const int SETTING = 42;
+
+    public const int FIT_TRAINING_EFFECT = 43;
+
+    public const int RPE = 44;
+
+    public const int GRADIENT = 45;
+
+    public const int FIT_PERFORMANCE_CONDITION = 46;
+
+    public const int RACE_RESULT = 47;
+
+    public const int HEAT_INDEX = 48;
+
+    public const int FIT_PERFORMANCE_CONDITION_START = 49;
+
+    public const int FIT_PERFORMANCE_CONDITION_END = 50;
+
+    public const int CLIMB_SCORE = 51;
+
+    public const int PERCENTAGE_HILLY = 52;
+
+    public const int TOOLS = 53;
+
+    public const int FLIGHT_TIME = 54;
+
+    public const int FLIGHT_RATIO = 55;
+
+    public const int AVG_IMPACT_GS = 56;
+
+    public const int AVG_BRAKING_GS = 57;
+
+    public const int AVG_FOOTSTRIKE_TYPE = 58;
+
+    public const int AVG_PRONATION_EXCURSION = 59;
+
+    public const int FIT_ANAEROBIC_TRAINING_EFFECT = 60;
+
+    public const int AVG_RESPIRATION_RATE = 61;
+
+    public const int HEARTRATE_AVG_ACTIVE = 62;
+
+    public const int TOTAL_CYCLES = 63;
+
+    public const int FIT_LOAD_PEAK = 64;
+
+    public const int OPEN_TAB = 65;
+
+    public const int FIT_TRAINING_EFFECT_BENEFIT = 66;
+
+    public const int WITH_GOAL = 67;
 
     private static ?array $ClassNames = null;
 

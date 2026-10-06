@@ -22,9 +22,8 @@ class RunalyzePluginPanel_Equipment extends PluginPanel
 
     /**
      * Width of the usage bar in pixels, must match the CSS in getStyle().
-     * @var int
      */
-    private const USAGE_BAR_MAX_WIDTH_PX = 330;
+    private const int USAGE_BAR_MAX_WIDTH_PX = 330;
 
     /**
      * @codeCoverageIgnore
