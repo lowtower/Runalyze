@@ -588,7 +588,7 @@ class Plot
      */
     public static function correctSpecialChars(string $string): string
     {
-        $string = utf8_encode($string);
+        $string = mb_convert_encoding($string, 'UTF-8', 'ISO-8859-1');
         $encrypted = ['ß',      'Ä',      'Ö',      'Ü',      'ä',      'ö',      'ü'];
         $correct = ['&#223;', '&#196;', '&#214;', '&#220;', '&#228;', '&#246;', '&#252;'];
 

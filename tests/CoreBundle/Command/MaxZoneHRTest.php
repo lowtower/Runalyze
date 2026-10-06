@@ -189,10 +189,10 @@ final class StubActivityDataForZoneHR
     }
 }
 
-final class StubMetadataForZoneHR
+final readonly class StubMetadataForZoneHR
 {
     public function __construct(
-        private readonly int $timestamp
+        private int $timestamp
     ) {
     }
 
