@@ -14,7 +14,7 @@ class InstallCheckCommand extends Command
     /**
      * @var string
      */
-    public const REQUIRED_PHP_VERSION = '8.2.0';
+    public const REQUIRED_PHP_VERSION = '8.3.0';
 
     /**
      * @var int exit code
