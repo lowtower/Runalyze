@@ -11,11 +11,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route(path: '/settings/tags')]
+#[\Symfony\Component\Routing\Attribute\Route(path: '/settings/tags')]
 class TagsController extends AbstractController
 {
     public function __construct(
@@ -32,7 +31,7 @@ class TagsController extends AbstractController
     /**
      * @throws AccessDeniedException
      */
-    #[Route(path: '', name: 'settings-tags')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '', name: 'settings-tags')]
     public function overviewAction(?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -46,7 +45,7 @@ class TagsController extends AbstractController
     /**
      * @throws AccessDeniedException
      */
-    #[Route(path: '/{id}/edit', name: 'settings-tags-edit')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/{id}/edit', name: 'settings-tags-edit')]
     public function tagEditAction(Request $request, int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -79,7 +78,7 @@ class TagsController extends AbstractController
     /**
      * @throws AccessDeniedException
      */
-    #[Route(path: '/{id}/delete', name: 'settings-tags-delete')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/{id}/delete', name: 'settings-tags-delete')]
     public function tagDeleteAction(Request $request, TranslatorInterface $translator, int $id, ?Account $account = null): RedirectResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

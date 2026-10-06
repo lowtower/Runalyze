@@ -1,40 +1,44 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\ArgumentResolver;
 
-use Generator;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
+use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class AccountValueResolver implements ArgumentValueResolverInterface
+class AccountValueResolver implements ValueResolverInterface
 {
     public function __construct(
         private readonly TokenStorageInterface $tokenStorage
     ) {
     }
 
-    public function supports(Request $request, ArgumentMetadata $argument): bool
+    /**
+     * @return iterable<Account>
+     */
+    public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         if ($argument->getType() !== Account::class) {
-            return false;
+            return [];
         }
 
         $token = $this->tokenStorage->getToken();
 
         if (! $token instanceof TokenInterface) {
-            return false;
+            return [];
         }
 
-        return $token->getUser() instanceof Account;
-    }
+        $user = $token->getUser();
 
-    public function resolve(Request $request, ArgumentMetadata $argument): Generator
-    {
-        yield $this->tokenStorage->getToken()
-            ->getUser();
+        if (! $user instanceof Account) {
+            return [];
+        }
+
+        yield $user;
     }
 }

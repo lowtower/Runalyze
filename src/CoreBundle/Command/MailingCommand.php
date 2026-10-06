@@ -17,6 +17,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'runalyze:mails:send', description: 'Send out a mails to users with custom templates in data/views/mail/custom')]
 class MailingCommand extends Command
 {
     protected string $customMailDirectory = '/mail/custom/';
@@ -29,11 +30,9 @@ class MailingCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
-            ->setName('runalyze:mails:send')
-            ->setDescription('Send out a mails to users with custom templates in data/views/mail/custom')
             ->addArgument('template', InputArgument::REQUIRED, 'Template file')
             ->addOption('subject', null, InputOption::VALUE_REQUIRED, 'Mail subject')
             ->addOption('lang', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Languages to select accounts')

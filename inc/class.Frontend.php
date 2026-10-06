@@ -11,6 +11,7 @@ use Runalyze\Timezone;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Frontend class for setting up everything
@@ -198,7 +199,7 @@ class Frontend
     {
         new SessionAccountHandler();
 
-        if ($this->symfonyToken instanceof TokenStorageInterface && $this->symfonyToken->getToken() !== null && $this->symfonyToken->getToken()->getUser() != 'anon.') {
+        if ($this->symfonyToken instanceof TokenStorageInterface && $this->symfonyToken->getToken() instanceof TokenInterface && $this->symfonyToken->getToken()->getUser() != 'anon.') {
             /** @var Account $user */
             $user = $this->symfonyToken->getToken()
                 ->getUser();

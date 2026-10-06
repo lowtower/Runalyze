@@ -32,7 +32,7 @@ class AnovaType extends AbstractType
 
     protected function getAccount(): Account
     {
-        $account = $this->TokenStorageInterface->getToken() ? $this->TokenStorageInterface->getToken()
+        $account = $this->TokenStorageInterface->getToken() instanceof \Symfony\Component\Security\Core\Authentication\Token\TokenInterface ? $this->TokenStorageInterface->getToken()
             ->getUser() : null;
 
         if (! ($account instanceof Account)) {

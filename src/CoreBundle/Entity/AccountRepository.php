@@ -62,7 +62,7 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
      *
      * @param string $username username or mail
      */
-    public function loadUserByUsername($username): ?Account
+    public function loadUserByUsername(string $username): ?Account
     {
         return $this->loadUserByIdentifier($username);
     }

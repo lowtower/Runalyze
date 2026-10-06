@@ -14,7 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Throwable;
 
@@ -32,7 +31,7 @@ class ExportController extends AbstractController
     /**
      * @throws Throwable if the legacy exporter throws
      */
-    #[Route(path: '/activity/{id}/export/social/{typeid}', requirements: [
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/activity/{id}/export/social/{typeid}', requirements: [
         'id' => '\d+',
     ])]
     public function exporterExportAction(int $id, int $typeid, ?Account $account = null): Response
@@ -57,7 +56,7 @@ class ExportController extends AbstractController
         });
     }
 
-    #[Route(path: '/activity/{id}/export/file/{typeid}', requirements: [
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/activity/{id}/export/file/{typeid}', requirements: [
         'id' => '\d+',
     ])]
     public function fileExportAction(int $id, int $typeid, ?Account $account = null): Response

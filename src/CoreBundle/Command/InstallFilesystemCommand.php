@@ -11,6 +11,7 @@ use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\KernelInterface;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'runalyze:install:filesystem', description: 'Setup RUNALYZE file system.')]
 class InstallFilesystemCommand extends Command
 {
     public function __construct(
@@ -18,14 +19,6 @@ class InstallFilesystemCommand extends Command
         private readonly KernelInterface $kernel
     ) {
         parent::__construct();
-    }
-
-    protected function configure()
-    {
-        $this
-            ->setName('runalyze:install:filesystem')
-            ->setDescription('Setup RUNALYZE file system.')
-        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

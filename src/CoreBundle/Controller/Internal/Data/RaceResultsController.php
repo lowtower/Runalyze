@@ -13,9 +13,8 @@ use Runalyze\Bundle\CoreBundle\Services\Activity\AgeGradeLookup;
 use Runalyze\Util\LocalTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Routing\Annotation\Route;
 
-#[Route(path: '/_internal/data/race-results')]
+#[\Symfony\Component\Routing\Attribute\Route(path: '/_internal/data/race-results')]
 class RaceResultsController extends AbstractController
 {
     use AppServiceSubscriberTrait;
@@ -38,7 +37,7 @@ class RaceResultsController extends AbstractController
             ->getRepository(PluginConf::class);
     }
 
-    #[Route(path: '/all', name: 'internal-data-race-results-all')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/all', name: 'internal-data-race-results-all')]
     public function allRaceResultsAction(?Account $account = null): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

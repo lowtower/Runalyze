@@ -6,11 +6,8 @@ namespace Runalyze\Bundle\CoreBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
-/**
- * @Annotation
- */
+#[\Attribute]
 class ContainsDisposableMailAddress extends Constraint
 {
-    #   public string $message = 'Disposable email addresses are not permitted.';
     public string $message = 'Disposable email addresses are not permitted: "{{ value }}"';
 }

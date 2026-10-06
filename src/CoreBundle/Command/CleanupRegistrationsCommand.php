@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'runalyze:cleanup:registrations', description: 'Delete not activated account (default: older than 7 days).')]
 class CleanupRegistrationsCommand extends Command
 {
     public function __construct(
@@ -18,11 +19,9 @@ class CleanupRegistrationsCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
-            ->setName('runalyze:cleanup:registrations')
-            ->setDescription('Delete not activated account (default: older than 7 days).')
             ->addArgument('days', InputArgument::OPTIONAL, 'min. age of not activated accounts')
         ;
     }

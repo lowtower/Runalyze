@@ -6,11 +6,8 @@ namespace Runalyze\Bundle\CoreBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
-/**
- * @Annotation
- */
+#[\Attribute]
 class IsValidTimezone extends Constraint
 {
-    #    public string $message = 'Invalid timezone';
     public string $message = 'Invalid timezone: "{{ value }}"';
 }

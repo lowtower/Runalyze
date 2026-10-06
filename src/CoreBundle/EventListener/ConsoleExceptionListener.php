@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\EventListener;
 
 use Psr\Log\LoggerInterface;
@@ -23,7 +25,7 @@ class ConsoleExceptionListener
             $error->getMessage(),
             $error->getFile(),
             $error->getLine(),
-            $command !== null ? $command->getName() : 'n/a'
+            $command instanceof \Symfony\Component\Console\Command\Command ? $command->getName() : 'n/a'
         );
 
         $this->Logger->error($message, [

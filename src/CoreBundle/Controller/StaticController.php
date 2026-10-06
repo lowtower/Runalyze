@@ -6,7 +6,6 @@ namespace Runalyze\Bundle\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class StaticController extends AbstractController
@@ -16,7 +15,7 @@ class StaticController extends AbstractController
     /**
      * @throws AccessDeniedException
      */
-    #[Route(path: '/dashboard/help', name: 'help')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/dashboard/help', name: 'help')]
     public function dashboardHelpAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -29,7 +28,7 @@ class StaticController extends AbstractController
     /**
      * @throws AccessDeniedException
      */
-    #[Route(path: '/dashboard/help-calculations', name: 'help-calculations')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/dashboard/help-calculations', name: 'help-calculations')]
     public function dashboardHelpCalculationsAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

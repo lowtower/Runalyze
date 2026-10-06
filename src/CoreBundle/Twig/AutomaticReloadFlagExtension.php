@@ -43,7 +43,7 @@ class AutomaticReloadFlagExtension extends AbstractExtension
             AutomaticReloadFlagSetter::FLAG_PAGE => 'Runalyze.reloadPage();',
         ];
 
-        if (! empty($reloadFlag) && isset($javaScriptCommands[$reloadFlag[0]])) {
+        if ($reloadFlag !== [] && isset($javaScriptCommands[$reloadFlag[0]])) {
             return $javaScriptCommands[$reloadFlag[0]];
         }
 

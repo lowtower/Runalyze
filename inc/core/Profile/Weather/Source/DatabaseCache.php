@@ -16,7 +16,7 @@ class DatabaseCache extends AbstractSource
         return false;
     }
 
-    public function getAttributionLabel(\Symfony\Contracts\Translation\TranslatorInterface $translator)
+    public function getAttributionLabel(\Symfony\Contracts\Translation\TranslatorInterface $translator): string
     {
         return $translator->trans('internal database');
     }

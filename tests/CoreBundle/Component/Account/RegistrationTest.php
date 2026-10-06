@@ -57,7 +57,7 @@ class RegistrationTest extends WebTestCase
 
         $registeredAccount = $registration->registerAccount();
 
-        $this->assertEquals('foobar', $this->AccountRepository->find($registeredAccount->getId())->getUsername());
+        $this->assertEquals('foobar', $this->AccountRepository->find($registeredAccount->getId())->getUserIdentifier());
         $this->assertNotNull($registeredAccount->getActivationHash());
     }
 }

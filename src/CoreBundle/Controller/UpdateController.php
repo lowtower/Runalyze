@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -8,7 +10,6 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @author Hannes Christiansen <hannes@runalyze.de>
@@ -24,7 +25,7 @@ class UpdateController extends AbstractController
     ) {
     }
 
-    #[Route(path: '/update', name: 'update', condition: "'%app.update_disabled%' == 'no'")]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/update', name: 'update', condition: "'%app.update_disabled%' == 'no'")]
     public function updateAction($entity_manager = 'default'): Response
     {
         $output = new BufferedOutput();
@@ -35,7 +36,7 @@ class UpdateController extends AbstractController
             '--em' => $entity_manager,
         ]), $output);
 
-        if ($this->kernel->getEnvironment() == 'prod') {
+        if ($this->kernel->getEnvironment() === 'prod') {
             $application->run(new ArrayInput([
                 'command' => 'cache:clear',
                 '--env' => 'prod',
@@ -61,7 +62,7 @@ class UpdateController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/update/start', name: 'update_start', condition: "'%app.update_disabled%' == 'no'")]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/update/start', name: 'update_start', condition: "'%app.update_disabled%' == 'no'")]
     public function updateStartAction(): Response
     {
         $output = new BufferedOutput();

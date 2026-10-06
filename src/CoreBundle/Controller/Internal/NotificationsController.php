@@ -8,11 +8,10 @@ use Runalyze\Bundle\CoreBundle\Entity\NotificationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route(path: '/_internal/notifications')]
+#[\Symfony\Component\Routing\Attribute\Route(path: '/_internal/notifications')]
 class NotificationsController extends AbstractController
 {
     public function __construct(
@@ -22,7 +21,7 @@ class NotificationsController extends AbstractController
     ) {
     }
 
-    #[Route(path: '/read/all', name: 'internal-notifications-read-all')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/read/all', name: 'internal-notifications-read-all')]
     public function readAllNotificationsAction(?Account $account = null): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -33,7 +32,7 @@ class NotificationsController extends AbstractController
         return new JsonResponse();
     }
 
-    #[Route(path: '/read/{id}', name: 'internal-notifications-read')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/read/{id}', name: 'internal-notifications-read')]
     public function readNotificationAction(int $id, ?Account $account = null): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -49,7 +48,7 @@ class NotificationsController extends AbstractController
         return new JsonResponse();
     }
 
-    #[Route(path: '', name: 'internal-notifications-list')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '', name: 'internal-notifications-list')]
     public function newNotificationsAction(Request $request, ?Account $account = null): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

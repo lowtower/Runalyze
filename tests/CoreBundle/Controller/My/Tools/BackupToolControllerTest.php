@@ -10,7 +10,6 @@ use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\DomCrawler\Field\FormField;
 use Symfony\Component\DomCrawler\Form;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Messenger\Transport\InMemoryTransport;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
@@ -106,7 +105,7 @@ class BackupToolControllerTest extends AbstractFixturesAwareWebTestCase
 
         $this->assertStatusCode(302, $this->Client);
 
-        /** @var InMemoryTransport $transport */
+        /** @var \Symfony\Component\Messenger\Transport\InMemory\InMemoryTransport $transport */
         $transport = self::getContainer()->get('messenger.transport.async');
         $envelopes = $transport->getSent();
 

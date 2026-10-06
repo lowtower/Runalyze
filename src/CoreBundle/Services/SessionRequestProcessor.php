@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Services;
 
 use Symfony\Component\HttpFoundation\Request;

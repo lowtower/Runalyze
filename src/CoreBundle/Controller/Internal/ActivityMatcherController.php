@@ -12,7 +12,6 @@ use Runalyze\Util\LocalTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 
 class ActivityMatcherController extends AbstractController
 {
@@ -24,7 +23,7 @@ class ActivityMatcherController extends AbstractController
     ) {
     }
 
-    #[Route(path: '/_internal/activity/matcher', name: 'internal-activity-matcher')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/_internal/activity/matcher', name: 'internal-activity-matcher')]
     public function ajaxActivityMatcher(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

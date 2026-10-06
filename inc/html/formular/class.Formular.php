@@ -87,7 +87,7 @@ class Formular extends HtmlTag
      */
     public function addFieldset(FormularFieldset $Fieldset, bool $opened = true): void
     {
-        if ($Fieldset->getId() == '') {
+        if ($Fieldset->getId() === '') {
             $Fieldset->setId($this->Id . '_legend_' . count($this->fieldsets));
         }
 

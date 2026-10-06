@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'runalyze:install', description: 'Install RUNALYZE and setup database.')]
 class InstallCommand extends Command
 {
     protected ?Application $Application = null;
@@ -34,8 +35,6 @@ class InstallCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('runalyze:install')
-            ->setDescription('Install RUNALYZE and setup database.')
             ->addOption(
                 'skip',
                 null,

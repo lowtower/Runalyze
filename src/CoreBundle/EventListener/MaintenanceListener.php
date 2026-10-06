@@ -23,7 +23,7 @@ class MaintenanceListener
     {
         $maintenance = $this->parameterBag->has('app.maintenance') ? $this->parameterBag->get('app.maintenance') : false;
 
-        $debug = in_array($this->kernel->getEnvironment(), ['test', 'dev']);
+        $debug = in_array($this->kernel->getEnvironment(), ['test', 'dev'], true);
         $request = $event->getRequest();
         $routes = ['update', 'install', 'install_start', 'install_finish', 'update_start', 'admin'];
 

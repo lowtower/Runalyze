@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @author Hannes Christiansen <hannes@runalyze.de>
@@ -29,7 +28,7 @@ class InstallController extends AbstractController
     ) {
     }
 
-    #[Route(path: '/install', name: 'install', condition: "'%app.update_disabled%' == 'no'")]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/install', name: 'install', condition: "'%app.update_disabled%' == 'no'")]
     public function installAction(Request $request): RedirectResponse|Response
     {
         $session = $request->getSession();
@@ -50,7 +49,7 @@ class InstallController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/install/start', name: 'install_start', condition: "'%app.update_disabled%' == 'no'")]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/install/start', name: 'install_start', condition: "'%app.update_disabled%' == 'no'")]
     public function startAction(Request $request): RedirectResponse|Response
     {
         $session = $request->getSession();
@@ -81,7 +80,7 @@ class InstallController extends AbstractController
         return $this->redirectToRoute('install_finish');
     }
 
-    #[Route(path: '/install/finish', name: 'install_finish', condition: "'%app.update_disabled%' == 'no'")]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/install/finish', name: 'install_finish', condition: "'%app.update_disabled%' == 'no'")]
     public function finishAction(Request $request): RedirectResponse|Response
     {
         $session = $request->getSession();

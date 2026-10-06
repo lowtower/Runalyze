@@ -101,7 +101,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
     {
         $athlete = \Runalyze\Context::Athlete();
 
-        if (Configuration::General()->runningSport() == $this->sportid && $athlete->knowsGender() && $athlete->knowsAge()) {
+        if (Configuration::General()->runningSport() === $this->sportid && $athlete->knowsGender() && $athlete->knowsAge()) {
             $table = $athlete->gender() === Gender::FEMALE ? new FemaleTable() : new MaleTable();
             $this->AgeGradeLookup = new Lookup($table, $athlete->age());
         }
@@ -176,7 +176,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
         $this->displayTableEnd('pb-table');
         $this->displayHintForPersonalBests();
 
-        if (Configuration::General()->runningSport() == $this->sportid) {
+        if (Configuration::General()->runningSport() === $this->sportid) {
             $this->displayLinkToPerformanceChart();
         }
 

@@ -34,7 +34,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -54,7 +53,7 @@ class ToolsController extends AbstractController
     ) {
     }
 
-    #[Route(path: '/my/tools/cleanup', name: 'tools-cleanup')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/my/tools/cleanup', name: 'tools-cleanup')]
     public function cleanupAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -86,7 +85,7 @@ class ToolsController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/my/tools/tables/vo2max-pace', name: 'tools-tables-vo2max-pace')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/my/tools/tables/vo2max-pace', name: 'tools-tables-vo2max-pace')]
     public function tableVo2maxPaceAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -106,7 +105,7 @@ class ToolsController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/my/tools/tables/general-pace', name: 'tools-tables-general-pace')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/my/tools/tables/general-pace', name: 'tools-tables-general-pace')]
     public function tableGeneralPaceAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -116,8 +115,8 @@ class ToolsController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/my/tools/tables/vo2max', name: 'tools-tables-vo2max')]
-    #[Route(path: '/my/tools/tables', name: 'tools-tables')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/my/tools/tables/vo2max', name: 'tools-tables-vo2max')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/my/tools/tables', name: 'tools-tables')]
     public function tableVo2maxRaceResultAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -133,7 +132,7 @@ class ToolsController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/my/tools/vo2max-analysis', name: 'tools-vo2max-analysis')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/my/tools/vo2max-analysis', name: 'tools-vo2max-analysis')]
     public function vo2maxAnalysisAction(?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -161,7 +160,7 @@ class ToolsController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/my/tools/anova', name: 'tools-anova')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/my/tools/anova', name: 'tools-anova')]
     public function anovaAction(Request $request, ?Account $account = null): JsonResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -208,7 +207,7 @@ class ToolsController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/my/tools/trend-analysis', name: 'tools-trend-analysis')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/my/tools/trend-analysis', name: 'tools-trend-analysis')]
     public function trendAnalysisAction(Request $request, ?Account $account = null): JsonResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -251,7 +250,7 @@ class ToolsController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/my/tools/poster', name: 'poster')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/my/tools/poster', name: 'poster')]
     public function posterAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -306,8 +305,8 @@ class ToolsController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/my/tools/poster/{name}', name: 'poster-download', requirements: [
-        'name' => '.+',
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/my/tools/poster/{name}', name: 'poster-download', requirements: [
+        'name' => \Symfony\Component\Routing\Requirement\Requirement::CATCH_ALL,
     ])]
     public function posterDownloadAction(?Account $account = null, string $name = ''): Response
     {
@@ -316,7 +315,7 @@ class ToolsController extends AbstractController
         return $this->fileHandler->getPosterDownloadResponse($account, $name);
     }
 
-    #[Route(path: '/my/tools', name: 'tools')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/my/tools', name: 'tools')]
     public function overviewAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

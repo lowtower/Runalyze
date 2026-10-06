@@ -48,7 +48,7 @@ class BasicEndurance extends \Runalyze\Configuration\Category
     /**
      * @return int
      */
-    public function minKmForLongjog()
+    public function minKmForLongjog(): mixed
     {
         return $this->get('BE_MIN_KM_FOR_LONGJOG');
     }
@@ -57,7 +57,7 @@ class BasicEndurance extends \Runalyze\Configuration\Category
      * Days for longjogs
      * @return int
      */
-    public function daysForLongjogs()
+    public function daysForLongjogs(): mixed
     {
         return $this->get('BE_DAYS_FOR_LONGJOGS');
     }
@@ -66,7 +66,7 @@ class BasicEndurance extends \Runalyze\Configuration\Category
      * Days for week km
      * @return int
      */
-    public function daysForWeekKm()
+    public function daysForWeekKm(): mixed
     {
         return $this->get('BE_DAYS_FOR_WEEK_KM');
     }
@@ -75,7 +75,7 @@ class BasicEndurance extends \Runalyze\Configuration\Category
      * Days for week km (min)
      * @return int
      */
-    public function daysForWeekKmMin()
+    public function daysForWeekKmMin(): mixed
     {
         return $this->get('BE_DAYS_FOR_WEEK_KM_MIN');
     }
@@ -83,7 +83,7 @@ class BasicEndurance extends \Runalyze\Configuration\Category
     /**
      * @return float
      */
-    public function percentageWeekKm()
+    public function percentageWeekKm(): mixed
     {
         return $this->get('BE_PERCENTAGE_WEEK_KM');
     }

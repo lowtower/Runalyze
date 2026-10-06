@@ -31,7 +31,7 @@ class EquipmentCategoryType extends AbstractType
      */
     protected function getAccount(): Account
     {
-        $account = $this->TokenStorage->getToken() ? $this->TokenStorage->getToken()
+        $account = $this->TokenStorage->getToken() instanceof \Symfony\Component\Security\Core\Authentication\Token\TokenInterface ? $this->TokenStorage->getToken()
             ->getUser() : null;
 
         if (! ($account instanceof Account)) {

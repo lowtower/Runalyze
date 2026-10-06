@@ -203,7 +203,7 @@ class DatabaseOrderTest extends \PHPUnit\Framework\TestCase
 
         self::assertSame(
             ['Alice', 'Bob', 'Charlie'],
-            array_values(array_map(static fn (NamedEntityInterface $entity) => $entity->getName(), $sorted->toArray()))
+            array_values(array_map(static fn (NamedEntityInterface $entity): string => $entity->getName(), $sorted->toArray()))
         );
     }
 
@@ -220,7 +220,7 @@ class DatabaseOrderTest extends \PHPUnit\Framework\TestCase
 
         self::assertSame(
             [1, 2, 3],
-            array_values(array_map(static fn (IdentifiableEntityInterface $entity) => $entity->getId(), $sorted->toArray()))
+            array_values(array_map(static fn (IdentifiableEntityInterface $entity): ?int => $entity->getId(), $sorted->toArray()))
         );
     }
 
@@ -237,7 +237,7 @@ class DatabaseOrderTest extends \PHPUnit\Framework\TestCase
 
         self::assertSame(
             [3, 2, 1],
-            array_values(array_map(static fn (IdentifiableEntityInterface $entity) => $entity->getId(), $sorted->toArray()))
+            array_values(array_map(static fn (IdentifiableEntityInterface $entity): ?int => $entity->getId(), $sorted->toArray()))
         );
     }
 
@@ -255,7 +255,7 @@ class DatabaseOrderTest extends \PHPUnit\Framework\TestCase
 
         self::assertSame(
             ['Charlie', 'Alice', 'Bob'],
-            array_values(array_map(static fn (NamedEntityInterface $entity) => $entity->getName(), $sorted->toArray()))
+            array_values(array_map(static fn (NamedEntityInterface $entity): string => $entity->getName(), $sorted->toArray()))
         );
     }
 }

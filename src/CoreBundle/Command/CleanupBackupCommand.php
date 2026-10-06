@@ -10,6 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'runalyze:cleanup:backups', description: 'Cleanup user backups older than parameter: backup_storage_period')]
 class CleanupBackupCommand extends Command
 {
     public function __construct(
@@ -20,11 +21,9 @@ class CleanupBackupCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
-            ->setName('runalyze:cleanup:backups')
-            ->setDescription('Cleanup user backups older than parameter: backup_storage_period')
             ->addArgument('days', InputArgument::OPTIONAL, 'min. age backups')
         ;
     }

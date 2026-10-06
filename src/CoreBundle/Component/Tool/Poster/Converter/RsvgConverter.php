@@ -10,7 +10,7 @@ class RsvgConverter extends AbstractSvgToPngConverter
     /**
      * @param string $rsvgPath absolut path to rsvg[-convert]
      */
-    public function __construct($rsvgPath)
+    public function __construct(string $rsvgPath)
     {
         $this->Command = $rsvgPath;
     }

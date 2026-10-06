@@ -33,7 +33,7 @@ class Cadence extends ActivityPointSeries
      */
     public function __construct(Activity\Context $context)
     {
-        $this->isRunning = ($context->activity()->sportid() == Configuration::General()->runningSport());
+        $this->isRunning = ($context->activity()->sportid() === Configuration::General()->runningSport());
         $cadence = $this->isRunning ? new Data\Cadence\Running() : new Data\Cadence\General(0);
 
         $this->initOptions();

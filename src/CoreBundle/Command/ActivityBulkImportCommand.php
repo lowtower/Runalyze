@@ -83,6 +83,7 @@ class MaxZoneHR
     }
 }
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'runalyze:activity:bulk-import', description: 'Bulk import of activity files')]
 class ActivityBulkImportCommand extends Command
 {
     // move files after import to "this"-folder
@@ -107,11 +108,9 @@ class ActivityBulkImportCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
-            ->setName('runalyze:activity:bulk-import')
-            ->setDescription('Bulk import of activity files')
             ->addArgument('username', InputArgument::REQUIRED, 'username')
             ->addArgument('path', InputArgument::REQUIRED, 'Path to files')
             // #TSC: new optional to set the sports profile if the imported file has no sport (f.e. GPX files) -> usage "--sport=mountaineering"

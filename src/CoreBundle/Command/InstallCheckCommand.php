@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'runalyze:install:check', description: 'Check requirements for installing RUNALYZE.')]
 class InstallCheckCommand extends Command
 {
     /**
@@ -81,14 +82,6 @@ class InstallCheckCommand extends Command
         private readonly ManagerRegistry $doctrine
     ) {
         parent::__construct();
-    }
-
-    protected function configure()
-    {
-        $this
-            ->setName('runalyze:install:check')
-            ->setDescription('Check requirements for installing RUNALYZE.')
-        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

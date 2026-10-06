@@ -17,10 +17,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-#[Route(path: '/my/tools/backup-import')]
+#[\Symfony\Component\Routing\Attribute\Route(path: '/my/tools/backup-import')]
 class JsonImportToolController extends AbstractController
 {
     public function __construct(
@@ -49,7 +48,7 @@ class JsonImportToolController extends AbstractController
         return $session;
     }
 
-    #[Route(path: '/upload', name: 'tools-backup-json-upload')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/upload', name: 'tools-backup-json-upload')]
     public function backupUploadAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -85,7 +84,7 @@ class JsonImportToolController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/import', name: 'tools-backup-json-import')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/import', name: 'tools-backup-json-import')]
     public function backupImportAction(): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -122,7 +121,7 @@ class JsonImportToolController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/import/do', name: 'tools-backup-json-import-do')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/import/do', name: 'tools-backup-json-import-do')]
     public function backupImportDoAction(Request $request, ?Account $account = null): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -164,7 +163,7 @@ class JsonImportToolController extends AbstractController
         ]);
     }
 
-    #[Route(path: '', name: 'tools-backup-json')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '', name: 'tools-backup-json')]
     public function uploadFormAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

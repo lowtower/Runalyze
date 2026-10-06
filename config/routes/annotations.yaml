@@ -1,12 +1,12 @@
 controllers:
     resource: ../../src/CoreBundle/Controller/
-    type: annotation
+    type: attribute
 
 controllers_glossary:
     resource: ../../vendor/runalyze/glossary/Controller/
-    type: annotation
+    type: attribute
     prefix: /glossary
 
 kernel:
     resource: ../../src/Kernel.php
-    type: annotation
+    type: attribute

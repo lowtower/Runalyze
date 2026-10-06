@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Form\Type;
 
 use Runalyze\Bundle\CoreBundle\Entity\Type;

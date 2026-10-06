@@ -19,6 +19,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 /**
  * Command to update activities with details of a route.
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'runalyze:activity:bulk-routeval', description: 'Bulk update of trainings route-name evaluation')]
 class ActivityBulkRouteNameEvaluationCommand extends Command
 {
     private bool $override = false;
@@ -32,11 +33,9 @@ class ActivityBulkRouteNameEvaluationCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
-            ->setName('runalyze:activity:bulk-routeval')
-            ->setDescription('Bulk update of trainings route-name evaluation')
             ->addArgument('username', InputArgument::REQUIRED, 'username')
             ->addArgument('id', InputArgument::REQUIRED, 'Id of activity')
             ->addOption('nexted', null, InputOption::VALUE_NONE, 'Update next activities')

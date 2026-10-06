@@ -21,11 +21,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route(path: '/settings/sport')]
+#[\Symfony\Component\Routing\Attribute\Route(path: '/settings/sport')]
 class SportController extends AbstractController
 {
     use AppServiceSubscriberTrait;
@@ -57,7 +56,7 @@ class SportController extends AbstractController
     /**
      * @throws AccessDeniedException
      */
-    #[Route(path: '', name: 'settings-sports')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '', name: 'settings-sports')]
     public function overviewAction(?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -75,7 +74,7 @@ class SportController extends AbstractController
     /**
      * @throws AccessDeniedException
      */
-    #[Route(path: '/{sportid}/type/add', name: 'sport-type-add', requirements: [
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/{sportid}/type/add', name: 'sport-type-add', requirements: [
         'sportid' => '\d+',
     ])]
     public function typeAddAction(Request $request, int $sportid, ?Account $account = null): RedirectResponse|Response
@@ -115,7 +114,7 @@ class SportController extends AbstractController
     /**
      * @throws AccessDeniedException
      */
-    #[Route(path: '/type/{id}/edit', name: 'sport-type-edit', requirements: [
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/type/{id}/edit', name: 'sport-type-edit', requirements: [
         'id' => '\d+',
     ])]
     public function typeEditAction(Request $request, int $id, ?Account $account = null): RedirectResponse|Response
@@ -155,7 +154,7 @@ class SportController extends AbstractController
     /**
      * @throws AccessDeniedException
      */
-    #[Route(path: '/type/{id}/delete', name: 'sport-type-delete', requirements: [
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/type/{id}/delete', name: 'sport-type-delete', requirements: [
         'id' => '\d+',
     ])]
     public function deleteSportTypeAction(Request $request, int $id, ?Account $account = null, ?TranslatorInterface $translator = null): RedirectResponse
@@ -192,10 +191,10 @@ class SportController extends AbstractController
     /**
      * @throws AccessDeniedException
      */
-    #[Route(path: '/add/{internalType}', name: 'sport-add', requirements: [
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/add/{internalType}', name: 'sport-add', requirements: [
         'internalType' => '\d+',
     ])]
-    #[Route(path: '/add/custom', name: 'sport-add-custom')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/add/custom', name: 'sport-add-custom')]
     public function sportAddAction(Request $request, ?Account $account = null, ?string $internalType = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -236,7 +235,7 @@ class SportController extends AbstractController
     /**
      * @throws AccessDeniedException
      */
-    #[Route(path: '/{id}/edit', name: 'sport-edit', requirements: [
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/{id}/edit', name: 'sport-edit', requirements: [
         'id' => '\d+',
     ])]
     public function sportEditAction(Request $request, int $id, ?Account $account = null): RedirectResponse|Response
@@ -278,7 +277,7 @@ class SportController extends AbstractController
     /**
      * @throws AccessDeniedException
      */
-    #[Route(path: '/{id}/delete', name: 'sport-delete', requirements: [
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/{id}/delete', name: 'sport-delete', requirements: [
         'id' => '\d+',
     ])]
     public function sportDeleteAction(Request $request, int $id, ?Account $account = null, ?TranslatorInterface $translator = null): RedirectResponse

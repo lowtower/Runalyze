@@ -9,20 +9,13 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'runalyze:notifications:clear', description: 'Delete all expired notifications')]
 class DeleteExpiredNotificationsCommand extends Command
 {
     public function __construct(
         private readonly ManagerRegistry $doctrine
     ) {
         parent::__construct();
-    }
-
-    protected function configure()
-    {
-        $this
-            ->setName('runalyze:notifications:clear')
-            ->setDescription('Delete all expired notifications')
-        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

@@ -16,10 +16,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route(path: '/my/equipment')]
+#[\Symfony\Component\Routing\Attribute\Route(path: '/my/equipment')]
 class EquipmentController extends AbstractController
 {
     use AppServiceSubscriberTrait;
@@ -43,7 +42,7 @@ class EquipmentController extends AbstractController
             ->getRepository(EquipmentType::class);
     }
 
-    #[Route(path: '/category/{typeid}/table', name: 'equipment-category-table', requirements: [
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/category/{typeid}/table', name: 'equipment-category-table', requirements: [
         'typeid' => '\d+',
     ])]
     public function categoryTableAction(int $typeid, ?Account $account = null, ?TranslatorInterface $translator = null): Response
@@ -79,7 +78,7 @@ class EquipmentController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/overview', name: 'equipment-overview')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/overview', name: 'equipment-overview')]
     public function overviewAction(?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -93,7 +92,7 @@ class EquipmentController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/category/add', name: 'equipment-category-add')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/category/add', name: 'equipment-category-add')]
     public function typeAddAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -125,7 +124,7 @@ class EquipmentController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/category/{id}/edit', name: 'equipment-category-edit')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/category/{id}/edit', name: 'equipment-category-edit')]
     public function typeEditAction(Request $request, int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -164,7 +163,7 @@ class EquipmentController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/category/{id}/delete', name: 'equipment-category-delete')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/category/{id}/delete', name: 'equipment-category-delete')]
     public function deleteEquipmentTypeAction(Request $request, int $id, ?Account $account = null, ?TranslatorInterface $translator = null): RedirectResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -191,7 +190,7 @@ class EquipmentController extends AbstractController
         return $this->redirectToRoute('equipment-overview');
     }
 
-    #[Route(path: '/add/{id}', name: 'equipment-add', requirements: [
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/add/{id}', name: 'equipment-add', requirements: [
         'id' => '\d+',
     ])]
     public function equipmentAddAction(Request $request, int $id, ?Account $account = null): RedirectResponse|Response
@@ -235,7 +234,7 @@ class EquipmentController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/{id}/edit', name: 'equipment-edit')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/{id}/edit', name: 'equipment-edit')]
     public function equipmentEditAction(Request $request, int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -272,7 +271,7 @@ class EquipmentController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/{id}/delete', name: 'equipment-delete')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/{id}/delete', name: 'equipment-delete')]
     public function deleteEquipmentAction(Request $request, int $id, ?Account $account = null, ?TranslatorInterface $translator = null): RedirectResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

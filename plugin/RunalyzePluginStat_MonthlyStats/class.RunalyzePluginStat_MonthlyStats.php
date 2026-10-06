@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains the class of the RunalyzePluginStat "MonthlyStats".
  * @package Runalyze\Plugins\Stats

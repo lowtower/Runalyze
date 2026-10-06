@@ -50,7 +50,7 @@ class DataBrowser extends \Runalyze\Configuration\Category
      * Show dataset labels
      * @return bool
      */
-    public function showLabels()
+    public function showLabels(): mixed
     {
         return $this->get('DB_SHOW_DATASET_LABELS');
     }
@@ -58,7 +58,7 @@ class DataBrowser extends \Runalyze\Configuration\Category
     /**
      * @return bool
      */
-    public function showCreateLink()
+    public function showCreateLink(): mixed
     {
         return $this->get('DB_SHOW_CREATELINK_FOR_DAYS');
     }
@@ -67,7 +67,7 @@ class DataBrowser extends \Runalyze\Configuration\Category
      * Show days with activities only
      * @return bool
      */
-    public function showActiveDaysOnly()
+    public function showActiveDaysOnly(): mixed
     {
         return $this->get('DB_SHOW_ACTIVE_DAYS_ONLY');
     }
@@ -76,7 +76,7 @@ class DataBrowser extends \Runalyze\Configuration\Category
      * Show days with activities only
      * @return bool
      */
-    public function reverseMode()
+    public function reverseMode(): mixed
     {
         return $this->get('DB_REVERSE_MODE');
     }

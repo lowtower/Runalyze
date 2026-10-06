@@ -204,7 +204,7 @@ class Dataview
     public function cadence(): \Runalyze\Data\Cadence\AbstractCadence
     {
         return $this->object($this->Cadence, function (Activity\Entity $Activity): \Runalyze\Data\Cadence\Running|\Runalyze\Data\Cadence\General {
-            if ($Activity->sportid() == Configuration::General()->runningSport()) {
+            if ($Activity->sportid() === Configuration::General()->runningSport()) {
                 return new Cadence\Running($Activity->cadence());
             }
 

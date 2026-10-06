@@ -17,7 +17,7 @@ class SectionRunningDynamicsRow extends TrainingViewSectionRowTabbedPlot
     protected function setRightContent()
     {
         if ($this->Context->trackdata()->has(Trackdata\Entity::CADENCE)) {
-            if ($this->Context->activity()->sportid() == Runalyze\Configuration::General()->runningSport()) {
+            if ($this->Context->activity()->sportid() === Runalyze\Configuration::General()->runningSport()) {
                 $Cadence = new Cadence\Running();
             } else {
                 $Cadence = new Cadence\General();
@@ -29,7 +29,7 @@ class SectionRunningDynamicsRow extends TrainingViewSectionRowTabbedPlot
 
         if (
             $this->Context->activity()
-                ->sportid() == Runalyze\Configuration::General()->runningSport() &&
+                ->sportid() === Runalyze\Configuration::General()->runningSport() &&
             $this->Context->trackdata()
                 ->has(Trackdata\Entity::TIME) &&
             $this->Context->trackdata()

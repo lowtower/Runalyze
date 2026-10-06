@@ -10,7 +10,7 @@ class InkscapeConverter extends AbstractSvgToPngConverter
     /**
      * @param string $inkscapePath absolut path to inkscape
      */
-    public function __construct($inkscapePath)
+    public function __construct(string $inkscapePath)
     {
         $this->Command = $inkscapePath;
     }

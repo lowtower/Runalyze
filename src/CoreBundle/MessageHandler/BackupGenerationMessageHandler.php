@@ -14,9 +14,9 @@ use Runalyze\Bundle\CoreBundle\Entity\NotificationRepository;
 use Runalyze\Bundle\CoreBundle\Message\BackupGenerationMessage;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-class BackupGenerationMessageHandler implements MessageHandlerInterface
+#[\Symfony\Component\Messenger\Attribute\AsMessageHandler]
+class BackupGenerationMessageHandler
 {
     private readonly string $dataDirectory;
 

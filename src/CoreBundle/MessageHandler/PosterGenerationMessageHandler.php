@@ -21,10 +21,10 @@ use Runalyze\Bundle\CoreBundle\Message\PosterGenerationMessage;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
-class PosterGenerationMessageHandler implements MessageHandlerInterface
+#[\Symfony\Component\Messenger\Attribute\AsMessageHandler]
+class PosterGenerationMessageHandler
 {
     private readonly string $dataDir;
 

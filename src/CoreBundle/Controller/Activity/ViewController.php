@@ -29,7 +29,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Throwable;
 use TrainingView;
@@ -81,7 +80,7 @@ class ViewController extends AbstractController
      * @throws NotFoundHttpException
      * @throws Throwable if the legacy training view throws
      */
-    #[Route(path: '/activity/{id}', name: 'ActivityShow', requirements: [
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/activity/{id}', name: 'ActivityShow', requirements: [
         'id' => '\d+',
     ])]
     public function displayAction(Request $request, int $id, ?Account $account = null): Response
@@ -143,7 +142,7 @@ class ViewController extends AbstractController
     /**
      * @throws NotFoundHttpException
      */
-    #[Route(path: '/activity/{id}/vo2max-info')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/activity/{id}/vo2max-info')]
     public function vo2maxInfoAction(int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -170,7 +169,7 @@ class ViewController extends AbstractController
     /**
      * @throws Throwable if the legacy laps window throws
      */
-    #[Route(path: '/activity/{id}/splits-info', requirements: [
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/activity/{id}/splits-info', requirements: [
         'id' => '\d+',
     ])]
     public function splitsInfoAction(int $id, ?Account $account = null): Response
@@ -206,7 +205,7 @@ class ViewController extends AbstractController
      * @throws NotFoundHttpException
      * @throws Throwable if the legacy elevation info throws
      */
-    #[Route(path: '/activity/{id}/elevation-info', requirements: [
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/activity/{id}/elevation-info', requirements: [
         'id' => '\d+',
     ])]
     public function elevationInfoAction(int $id, Request $request, ?Account $account = null): Response
@@ -253,7 +252,7 @@ class ViewController extends AbstractController
         return new Response($legacyContent);
     }
 
-    #[Route(path: '/activity/{id}/time-series-info', name: 'activity-tool-time-series-info', requirements: [
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/activity/{id}/time-series-info', name: 'activity-tool-time-series-info', requirements: [
         'id' => '\d+',
     ])]
     public function timeSeriesInfoAction(int $id, ?Account $account = null): Response
@@ -283,7 +282,7 @@ class ViewController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/activity/{id}/sub-segments-info', name: 'activity-tool-sub-segments-info', requirements: [
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/activity/{id}/sub-segments-info', name: 'activity-tool-sub-segments-info', requirements: [
         'id' => '\d+',
     ])]
     public function subSegmentInfoAction(int $id, ?Account $account = null): Response
@@ -319,7 +318,7 @@ class ViewController extends AbstractController
     /**
      * @throws NotFoundHttpException
      */
-    #[Route(path: '/activity/{id}/climb-score', name: 'activity-tool-climb-score', requirements: [
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/activity/{id}/climb-score', name: 'activity-tool-climb-score', requirements: [
         'id' => '\d+',
     ])]
     public function climbScoreAction(int $id, ?Account $account = null): Response

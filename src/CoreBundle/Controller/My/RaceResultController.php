@@ -19,9 +19,8 @@ use Runalyze\Sports\Running\VO2max\Estimation\DanielsGilbertFormula;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
-#[Route(path: '/my/raceresult')]
+#[\Symfony\Component\Routing\Attribute\Route(path: '/my/raceresult')]
 class RaceResultController extends AbstractController
 {
     use AppServiceSubscriberTrait;
@@ -51,7 +50,7 @@ class RaceResultController extends AbstractController
             ->getRepository(Training::class);
     }
 
-    #[Route(path: '/{activityId}', name: 'raceresult-form', requirements: [
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/{activityId}', name: 'raceresult-form', requirements: [
         'activityId' => '\d+',
     ])]
     public function raceresultFormAction(int $activityId, ?Account $account = null, ?Request $request = null): Response
@@ -98,7 +97,7 @@ class RaceResultController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/{activityId}/delete', name: 'raceresult-delete', requirements: [
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/{activityId}/delete', name: 'raceresult-delete', requirements: [
         'activityId' => '\d+',
     ])]
     public function raceresultDeleteAction(int $activityId, Request $request, ?Account $account = null): Response
@@ -120,7 +119,7 @@ class RaceResultController extends AbstractController
         return $this->render('my/raceresult/deleted.html.twig');
     }
 
-    #[Route(path: '/performance-chart', name: 'race-results-performance-chart')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/performance-chart', name: 'race-results-performance-chart')]
     public function performanceChartAction(?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

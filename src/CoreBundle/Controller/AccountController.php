@@ -13,7 +13,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -56,7 +56,7 @@ class AccountController extends AbstractController
             ->deleteByHash($hash);
 
         if ($isCurrentUser) {
-            $this->tokenStorage->setToken();
+            $this->tokenStorage->setToken(null);
             $request->getSession()
                 ->invalidate();
         }

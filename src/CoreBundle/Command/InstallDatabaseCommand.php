@@ -12,6 +12,7 @@ use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'runalyze:install:database', description: 'Setup RUNALYZE database.')]
 class InstallDatabaseCommand extends Command
 {
     public const DATABASE_STRUCTURE_FILE = 'inc/install/structure.sql';
@@ -21,14 +22,6 @@ class InstallDatabaseCommand extends Command
         private readonly ManagerRegistry $doctrine
     ) {
         parent::__construct();
-    }
-
-    protected function configure(): void
-    {
-        $this
-            ->setName('runalyze:install:database')
-            ->setDescription('Setup RUNALYZE database.')
-        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

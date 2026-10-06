@@ -13,7 +13,6 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
 use Throwable;
 
 class PluginController extends AbstractPluginsAwareController
@@ -22,7 +21,7 @@ class PluginController extends AbstractPluginsAwareController
      * @throws NotFoundHttpException if "key" does not match an installable plugin
      * @throws Throwable if the legacy plugin installer throws
      */
-    #[Route(path: '/call/call.Plugin.install.php')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/call/call.Plugin.install.php')]
     public function pluginInstallAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -78,7 +77,7 @@ class PluginController extends AbstractPluginsAwareController
     /**
      * @throws Throwable if the legacy plugin throws
      */
-    #[Route(path: '/my/plugin/{id}', name: 'plugin-display', requirements: [
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/my/plugin/{id}', name: 'plugin-display', requirements: [
         'id' => '\d+',
     ])]
     public function pluginDisplayAction(int $id, Request $request, ?Account $account = null): Response
@@ -93,7 +92,7 @@ class PluginController extends AbstractPluginsAwareController
     /**
      * @throws Throwable if the legacy plugin config window throws
      */
-    #[Route(path: '/call/call.Plugin.config.php', name: 'plugin-config')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/call/call.Plugin.config.php', name: 'plugin-config')]
     public function pluginConfigAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

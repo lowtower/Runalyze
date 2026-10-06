@@ -45,12 +45,10 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     ])]
     private string $name = '';
 
-    /**
-     * @RunalyzeAssert\ContainsDisposableMailAddress()
-     */
     #[ORM\Column(name: 'mail', type: 'string', length: 100, nullable: false)]
     #[Assert\NotBlank]
     #[Assert\Email(message: "The email '{{ value }}' is not a valid email.")]
+    #[RunalyzeAssert\ContainsDisposableMailAddress]
     private string $mail;
 
     #[ORM\Column(name: 'language', type: 'string', length: 5, nullable: false, options: [
@@ -61,7 +59,6 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
 
     /**
      * @var int enum
-     * @RunalyzeAssert\IsValidTimezone()
      */
     #[ORM\Column(name: 'timezone', type: 'smallint', nullable: false, options: [
         'unsigned' => true,
@@ -69,6 +66,7 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     ])]
     #[Assert\NotBlank]
     #[Assert\Type('int')]
+    #[RunalyzeAssert\IsValidTimezone]
     private int $timezone = Timezone::UTC;
 
     /**

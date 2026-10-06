@@ -378,7 +378,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
             ->value('highest_pacegroup');
         [$speed_step, $ceil_corr] = $this->getPaceStepAndCeilCorrection($speed_min);
 
-        if ($this->sportid != Configuration::General()->runningSport()) {
+        if ($this->sportid !== Configuration::General()->runningSport()) {
             $MinMax = DB::getInstance()->query('
 				SELECT
 					MIN(`s`/`distance`) as `min`,

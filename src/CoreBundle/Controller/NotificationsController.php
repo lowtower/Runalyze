@@ -10,12 +10,11 @@ use Runalyze\Bundle\CoreBundle\Entity\Notification;
 use Runalyze\Bundle\CoreBundle\Entity\NotificationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route(path: '/notifications')]
+#[\Symfony\Component\Routing\Attribute\Route(path: '/notifications')]
 class NotificationsController extends AbstractController
 {
     use AppServiceSubscriberTrait;
@@ -36,7 +35,7 @@ class NotificationsController extends AbstractController
     /**
      * @throws AccessDeniedException
      */
-    #[Route(path: '', name: 'notifications-list')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '', name: 'notifications-list')]
     public function newNotificationsAction(?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

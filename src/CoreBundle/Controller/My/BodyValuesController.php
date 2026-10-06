@@ -13,9 +13,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
-#[Route(path: '/my/body-values')]
+#[\Symfony\Component\Routing\Attribute\Route(path: '/my/body-values')]
 class BodyValuesController extends AbstractController
 {
     public function __construct(
@@ -25,7 +24,7 @@ class BodyValuesController extends AbstractController
     ) {
     }
 
-    #[Route(path: '/add', name: 'body-values-add')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/add', name: 'body-values-add')]
     public function addAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -56,7 +55,7 @@ class BodyValuesController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/{id}/edit', name: 'body-values-edit')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/{id}/edit', name: 'body-values-edit')]
     public function editAction(Request $request, int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -86,7 +85,7 @@ class BodyValuesController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/{id}/delete', name: 'body-values-delete')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/{id}/delete', name: 'body-values-delete')]
     public function deleteAction(int $id, ?Account $account = null): RedirectResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -102,7 +101,7 @@ class BodyValuesController extends AbstractController
         return $this->redirectToRoute('body-values-table');
     }
 
-    #[Route(path: '/table', name: 'body-values-table')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/table', name: 'body-values-table')]
     public function tableAction(?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

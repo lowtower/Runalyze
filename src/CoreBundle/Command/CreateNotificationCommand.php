@@ -17,6 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'runalyze:notifications:create', description: 'Create global notifications')]
 class CreateNotificationCommand extends Command
 {
     public function __construct(
@@ -26,11 +27,9 @@ class CreateNotificationCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
-            ->setName('runalyze:notifications:create')
-            ->setDescription('Create global notifications')
             ->addArgument('template', InputArgument::REQUIRED, 'Template file')
             ->addOption('lang', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Languages to select accounts')
             ->addOption('exclude-lang', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Excluded languages to select accounts')

@@ -23,9 +23,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Routing\Annotation\Route;
 
-#[Route(path: '/my/tools/backup')]
+#[\Symfony\Component\Routing\Attribute\Route(path: '/my/tools/backup')]
 class BackupToolController extends AbstractController
 {
     public function __construct(
@@ -54,8 +53,8 @@ class BackupToolController extends AbstractController
         return $session;
     }
 
-    #[Route(path: '/download/{filename}', name: 'tools-backup-download', requirements: [
-        'filename' => '.+',
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/download/{filename}', name: 'tools-backup-download', requirements: [
+        'filename' => \Symfony\Component\Routing\Requirement\Requirement::CATCH_ALL,
     ])]
     public function downloadBackupAction(string $filename, ?Account $account = null): BinaryFileResponse
     {
@@ -85,7 +84,7 @@ class BackupToolController extends AbstractController
         return $response;
     }
 
-    #[Route(path: '', name: 'tools-backup')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '', name: 'tools-backup')]
     public function backupAction(?Account $account = null, ?Request $request = null): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

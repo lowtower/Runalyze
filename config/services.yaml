@@ -136,8 +136,9 @@ services:
     app.value_resolver.account:
       class: Runalyze\Bundle\CoreBundle\ArgumentResolver\AccountValueResolver
       tags:
-        - { name: controller.argument_value_resolver, priority: 50 }
+        - { name: controller.argument_value_resolver, priority: 150 }
     Runalyze\Bundle\CoreBundle\ArgumentResolver\AccountValueResolver: '@app.value_resolver.account'
+
     app.listener.console_exception:
       class: Runalyze\Bundle\CoreBundle\EventListener\ConsoleExceptionListener
       tags:

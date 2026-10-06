@@ -25,7 +25,7 @@ class Category_MockTester extends Category
         $this->addHandle(new Handle('FLAG', new Boolean(true)));
     }
 
-    public function test()
+    public function test(): mixed
     {
         return $this->get('TEST');
     }

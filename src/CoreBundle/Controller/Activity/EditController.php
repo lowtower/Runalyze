@@ -31,7 +31,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class EditController extends AbstractController
@@ -77,7 +76,7 @@ class EditController extends AbstractController
     /**
      * @throws NotFoundHttpException if the activity does not exist or does not belong to the account
      */
-    #[Route(path: '/activity/{id}/edit', name: 'activity-edit', requirements: [
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/activity/{id}/edit', name: 'activity-edit', requirements: [
         'id' => '\d+',
     ])]
     public function activityEditAction(Request $request, int $id, ?Account $account = null, ?TranslatorInterface $translator = null): RedirectResponse|Response
@@ -158,7 +157,7 @@ class EditController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/activity/multi-editor', name: 'multi-editor')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/activity/multi-editor', name: 'multi-editor')]
     public function multiEditorAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -187,7 +186,7 @@ class EditController extends AbstractController
     /**
      * @throws NotFoundHttpException if the activity does not exist or does not belong to the account
      */
-    #[Route(path: '/activity/{id}/delete', name: 'activity-delete', requirements: [
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/activity/{id}/delete', name: 'activity-delete', requirements: [
         'id' => '\d+',
     ])]
     public function deleteAction(int $id, ?Account $account = null): Response
@@ -216,7 +215,7 @@ class EditController extends AbstractController
     /**
      * @throws NotFoundHttpException if the activity does not exist or does not belong to the account
      */
-    #[Route(path: '/activity/{id}/elevation-correction', name: 'activity-elevation-correction', requirements: [
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/activity/{id}/elevation-correction', name: 'activity-elevation-correction', requirements: [
         'id' => '\d+',
     ])]
     public function elevationCorrectionAction(Request $request, int $id, ?Account $account = null, ?TranslatorInterface $translator = null): Response

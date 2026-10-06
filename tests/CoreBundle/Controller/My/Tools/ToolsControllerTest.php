@@ -12,7 +12,6 @@ use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCa
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Messenger\Transport\InMemoryTransport;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
@@ -32,7 +31,7 @@ class ToolsControllerTest extends AbstractFixturesAwareWebTestCase
         return self::getContainer()->getParameter('app.data_directory') . '/poster/';
     }
 
-    protected function getTransportFromClientKernel(Client $client): InMemoryTransport
+    protected function getTransportFromClientKernel(Client $client): \Symfony\Component\Messenger\Transport\InMemory\InMemoryTransport
     {
         $container = $client->getKernel()
             ->getContainer();
@@ -41,7 +40,7 @@ class ToolsControllerTest extends AbstractFixturesAwareWebTestCase
             $container = $container->get('test.service_container');
         }
 
-        /** @var InMemoryTransport $transport */
+        /** @var \Symfony\Component\Messenger\Transport\InMemory\InMemoryTransport $transport */
         $transport = $container->get('messenger.transport.async');
 
         return $transport;

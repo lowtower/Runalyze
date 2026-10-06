@@ -19,6 +19,7 @@
         "monolog/monolog": "^1.26",
         "nojacko/email-validator": "^1.0",
         "p3k/picofeed": "^0.1.40",
+        "phpfastcache/phpfastcache": "^9.2",
         "predis/predis": "^2.0",
         "runalyze/age-grade": "dev-master",
         "runalyze/common": "dev-master",
@@ -31,8 +32,10 @@
         "symfony/asset": "^6.4",
         "symfony/console": "^6.4",
         "symfony/css-selector": "^6.4",
+        "symfony/doctrine-messenger": "6.4.*",
         "symfony/dotenv": "^6.4",
         "symfony/error-handler": "^6.4",
+        "symfony/expression-language": "^6.4",
         "symfony/flex": "^2.8",
         "symfony/form": "^6.4",
         "symfony/framework-bundle": "^6.4",
@@ -164,13 +167,25 @@
             "@analyse",
             "@twig:lint"
         ],
-        "cache:prod:clear": "php bin/console cache:clear --env=prod --no-warmup",
+        "cache:prod:clear": [
+            "mkdir -p var/cache/prod",
+            "php bin/console cache:clear --env=prod --no-warmup"
+        ],
         "cache:prod:warmup": "php bin/console cache:warmup --env=prod",
-        "cache:dev:clear": "php bin/console cache:clear --env=dev --no-warmup",
+        "cache:dev:clear": [
+            "mkdir -p var/cache/dev",
+            "php bin/console cache:clear --env=dev --no-warmup"
+        ],
         "cache:dev:warmup": "php bin/console cache:warmup --env=dev",
-        "cache:test:clear": "php bin/console cache:clear --env=test --no-warmup",
+        "cache:test:clear": [
+            "mkdir -p var/cache/test",
+            "php bin/console cache:clear --env=test --no-warmup"
+        ],
         "cache:test:warmup": "php bin/console cache:warmup --env=test",
-        "cache:test_empty:clear": "php bin/console cache:clear --env=test_empty --no-warmup",
+        "cache:test_empty:clear": [
+            "mkdir -p var/cache/test_empty",
+            "php bin/console cache:clear --env=test_empty --no-warmup"
+        ],
         "cache:test_empty:warmup": "php bin/console cache:warmup --env=test_empty",
         "cache:clear":  [
             "@cache:prod:clear",

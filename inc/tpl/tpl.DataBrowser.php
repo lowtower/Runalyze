@@ -100,7 +100,7 @@ $currentWeek = null;
 $currentMonth = null;
 foreach ($this->getDays() as $i => $day) {
     $trClass = '';
-    $week = (int) \Runalyze\Configuration::General()->weekStart()->phpWeek($day['date'], true);
+    $week = \Runalyze\Configuration::General()->weekStart()->phpWeek($day['date'], true);
     $month = (int) LocalTime::date('n', $day['date']);
 
     if ($i > 0 && $week != $currentWeek) {

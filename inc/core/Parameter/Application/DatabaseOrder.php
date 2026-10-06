@@ -92,7 +92,7 @@ class DatabaseOrder extends \Runalyze\Parameter\Select
         $iterator = $collection->getIterator();
         $iterator->uasort(function ($a, $b) use ($key, $desc): int {
             if ($key === 'name' && $a instanceof NamedEntityInterface && $b instanceof NamedEntityInterface) {
-                if ($a->getName() == $b->getName()) {
+                if ($a->getName() === $b->getName()) {
                     return 0;
                 }
 

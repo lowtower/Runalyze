@@ -2,7 +2,9 @@
 
 namespace Tests\Runalyze\Bundle\CoreBundle\Command;
 
+use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Schema\DefaultSchemaManagerFactory;
 use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -28,10 +30,13 @@ final class CreateNotificationCommandTest extends TestCase
             ->with('app.database_prefix')
             ->willReturn('runalyze_');
 
+        $configuration = new Configuration();
+        $configuration->setSchemaManagerFactory(new DefaultSchemaManagerFactory());
+
         $this->connection = DriverManager::getConnection([
             'driver' => 'pdo_sqlite',
             'memory' => true,
-        ]);
+        ], $configuration);
 
         $this->createSchema();
 

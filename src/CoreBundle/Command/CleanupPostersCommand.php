@@ -10,6 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'runalyze:cleanup:posters', description: 'Cleanup posters older than parameter: poster_storage_period')]
 class CleanupPostersCommand extends Command
 {
     public function __construct(
@@ -20,11 +21,9 @@ class CleanupPostersCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
-            ->setName('runalyze:cleanup:posters')
-            ->setDescription('Cleanup posters older than parameter: poster_storage_period')
             ->addArgument('days', InputArgument::OPTIONAL, 'min. age posters')
         ;
     }

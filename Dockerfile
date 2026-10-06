@@ -110,8 +110,8 @@ COPY --link . ./
 # Composer
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY composer.* ./
-RUN composer install --no-progress || true \
-    composer --version
+RUN composer install --no-progress || true; \
+    composer --version;
 
 # Python dependencies for gpxtrackposter
 #RUN pip3 install --no-cache-dir -r vendor/runalyze/gpxtrackposter/requirements.txt
