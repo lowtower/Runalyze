@@ -41,6 +41,7 @@ services:
       MAILER_HOST: mailhog
       MAILER_PORT: 1025
       TEST_TIMEZONE: Europe/Berlin
+      ENTRYPOINT_ROLE: app
     depends_on:
       db:
         condition: service_healthy
@@ -80,10 +81,13 @@ services:
       SQLITE_MOD_SPATIALITE: mod_spatialite.so
       MAILER_HOST: mailhog
       MAILER_PORT: 1025
+      ENTRYPOINT_ROLE: worker
     depends_on:
       db:
         condition: service_healthy
       redis:
+        condition: service_healthy
+      app:
         condition: service_healthy
     volumes:
       - .:/var/www/html

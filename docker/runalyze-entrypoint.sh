@@ -16,15 +16,20 @@ DB_NAME="${DB_NAME:-runalyze}"
 DB_USER="${DB_USER:-runalyze}"
 DB_PASSWORD="${DB_PASSWORD:-runalyze}"
 
+ENTRYPOINT_ROLE="${ENTRYPOINT_ROLE:-app}"
+
 LOCK_FILE="/var/www/html/var/.entrypoint-setup.lock"
 LOCK_TIMEOUT="${ENTRYPOINT_LOCK_TIMEOUT:-180}"
+
+READY_FILE="/var/www/html/var/.entrypoint-cache-ready"
+READY_TIMEOUT="${ENTRYPOINT_READY_TIMEOUT:-180}"
 
 log() {
     echo "[runalyze] $(date '+%Y-%m-%d %H:%M:%S') - $*"
 }
 
 # =============================================================================
-# Setup-Block
+# Setup-Block (only ever run by the "app" role)
 # =============================================================================
 setup() {
     log "Keep setup-lock (PID $$). Start initialisation ..."
@@ -43,9 +48,10 @@ setup() {
       var/poster \
       var/queue \
       var/sessions \
-      var/tmp \
       public/uploads \
       /tmp/composer-cache
+
+    rm -f "${READY_FILE}"
 
     log "Cleaning caches, logs and sessions ..."
     for dir in \
@@ -106,25 +112,50 @@ setup() {
         sleep 2
     done
     log "Database is ready."
+
+    touch "${READY_FILE}"
+    log "Cache marked as ready (${READY_FILE})."
 }
 
 # -----------------------------------------------------------------------------
-# Serialise setup block with flock
+# Wait-only block (every role other than "app")
 # -----------------------------------------------------------------------------
+wait_for_cache_ready() {
+    log "Role '${ENTRYPOINT_ROLE}' does not perform cache setup; waiting for the 'app' role to signal readiness ..."
+
+    local waited=0
+    while [ ! -f "${READY_FILE}" ]; do
+        if [ "${waited}" -ge "${READY_TIMEOUT}" ]; then
+            log "ERROR: Cache was not marked ready within ${READY_TIMEOUT}s (missing ${READY_FILE}). Is the 'app' container running and healthy?"
+            exit 1
+        fi
+
+        sleep 2
+        waited=$((waited + 2))
+    done
+
+    log "Cache is ready, continuing."
+}
+
 mkdir -p "$(dirname "${LOCK_FILE}")"
 
-(
-    log "Warte auf Setup-Lock (${LOCK_FILE}) ..."
-    if ! flock -w "${LOCK_TIMEOUT}" 200; then
-        log "ERROR: Don't retrieve setup lock within ${LOCK_TIMEOUT}s."
-        exit 1
-    fi
-    setup
-) 200>"${LOCK_FILE}"
+if [ "${ENTRYPOINT_ROLE}" = "app" ]; then
+    (
+        log "Warte auf Setup-Lock (${LOCK_FILE}) ..."
+        if ! flock -w "${LOCK_TIMEOUT}" 200; then
+            log "ERROR: Don't retrieve setup lock within ${LOCK_TIMEOUT}s."
+            exit 1
+        fi
+        setup
+    ) 200>"${LOCK_FILE}"
+else
+    wait_for_cache_ready
+fi
 
 echo ""
 echo "=================================================="
 echo "RUNALYZE started"
+echo "Role        : ${ENTRYPOINT_ROLE}"
 echo "Hostname    : $(hostname)"
 echo "IPs         : $(hostname -I)"
 echo "Port        : 8080"
