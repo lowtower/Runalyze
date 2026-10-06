@@ -25,9 +25,9 @@ doctrine:
             runalyze_round_array: Runalyze\Bundle\CoreBundle\Doctrine\Types\RunalyzeRoundArray
 
     orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
         enable_lazy_ghost_objects: true
         report_fields_where_declared: true
-        auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: false
         mappings:
@@ -86,6 +86,8 @@ when@prod:
                     use_savepoints: true
         orm:
             auto_generate_proxy_classes: false
+            # Proxy classes live in the build directory. Check before deploying: composer cache:prod:warmup
+            proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
             query_cache_driver:
                 type: pool
                 pool: doctrine.system_cache_pool
@@ -102,6 +104,11 @@ when@prod:
                     adapter: cache.system
 
 when@dev:
+    doctrine:
+        dbal:
+            connections:
+                default:
+                    profiling_collect_backtrace: true
 
 when@test:
     doctrine:
@@ -167,3 +174,4 @@ when@test_empty:
     parameters:
         env(DB_TEST_EMPTY_NAME): 'runalyze_test_empty'
         database_prefix: 'runalyze_'
+

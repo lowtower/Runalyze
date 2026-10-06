@@ -2,10 +2,9 @@
 framework:
     secret: '%env(APP_SECRET)%'
     csrf_protection: true
+    annotations: false
     http_method_override: false
     handle_all_throwables: true
-
-    annotations: false
 
     serializer:
         enable_attributes: true
@@ -28,8 +27,6 @@ framework:
         paths:
             - '%kernel.project_dir%/vendor/runalyze/translations/xlf'
             - '%kernel.project_dir%/vendor/runalyze/translations/gettext'
-    #esi: true
-    #fragments: true
     php_errors:
         log: true
 
