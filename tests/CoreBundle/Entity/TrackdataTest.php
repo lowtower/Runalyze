@@ -113,7 +113,7 @@ class TrackdataTest extends \PHPUnit\Framework\TestCase
     }
 
     #[DataProvider('provideSimpleFieldAccessors')]
-    public function testSimpleFieldDefaultsToNull(string $hasMethod, string $getMethod): void
+    public function testSimpleFieldDefaultsToNull(string $hasMethod, string $getMethod, string $setMethod): void
     {
         $this->assertFalse($this->Data->{$hasMethod}());
         $this->assertNull($this->Data->{$getMethod}());
