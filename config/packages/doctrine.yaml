@@ -110,7 +110,7 @@ when@test:
             connections:
                 default:
                     driver: pdo_sqlite
-                    path: '%kernel.cache_dir%/test.db'
+                    path: '%env(resolve:TEST_SQLITE_PATH)%'
 #                functional:
 #                    driver:   pdo_mysql
 #                    host:     '%env(DB_TEST_HOST)%'
@@ -137,6 +137,8 @@ when@test:
                     month: Runalyze\Bundle\CoreBundle\Tests\Doctrine\DQL\Sqlite\SqliteMonth
 
     parameters:
+        # SQLite file of the kernel tests. Without TEST_SQLITE_PATH it stays in the cache directory.
+        env(TEST_SQLITE_PATH): '%kernel.cache_dir%/test.db'
         database_prefix: 'runalyze_test_'
         database_prefix.functional: 'runalyze_test_'
         database_prefix.unittest: 'runalyze_'
@@ -156,11 +158,12 @@ when@test_empty:
                     driver:   pdo_mysql
                     host:     '%env(DB_TEST_HOST)%'
                     port:     '%env(int:DB_TEST_PORT)%'
-                    dbname:   'runalyze_test_empty'
+                    dbname:   '%env(DB_TEST_EMPTY_NAME)%'
                     user:     '%env(DB_TEST_USER)%'
                     password: '%env(DB_TEST_PASSWORD)%'
                     charset:  UTF8
                     options: {1002: "SET time_zone = '+00:00'"}
 
     parameters:
+        env(DB_TEST_EMPTY_NAME): 'runalyze_test_empty'
         database_prefix: 'runalyze_'
