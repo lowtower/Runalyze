@@ -1,4 +1,4 @@
-ARG PHP_VERSION=8.1.34
+ARG PHP_VERSION=8.2.34
 ARG DEBIAN_FRONTEND=noninteractive
 
 ARG APP_ENV=dev
@@ -14,6 +14,9 @@ FROM docker.io/mlocati/php-extension-installer:latest AS php_extension_installer
 # Web Server
 ###############################################################################
 FROM docker.io/php:${PHP_VERSION}-apache
+
+ARG DEBIAN_FRONTEND
+ARG APP_ENV
 
 ENV APP_ENV=${APP_ENV} \
     TZ=Europe/Berlin \
@@ -126,3 +129,4 @@ RUN chmod +x /usr/local/bin/runalyze-entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/runalyze-entrypoint.sh"]
 
 CMD ["apache2-foreground"]
+

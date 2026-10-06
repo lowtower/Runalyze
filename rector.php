@@ -19,7 +19,7 @@ return RectorConfig::configure()
         __DIR__ . '/tests',
     ])
     ->withSets([
-        LevelSetList::UP_TO_PHP_81,
+        LevelSetList::UP_TO_PHP_82,
     ])
     ->withTypeCoverageLevel(75)         # max level 75
     ->withTypeCoverageDocblockLevel(16) # max level 16
