@@ -16,7 +16,7 @@
         "doctrine/orm": "^2.14",
         "guzzlehttp/guzzle": "^7.0",
         "league/geotools": "^1.3",
-        "monolog/monolog": "^1.26",
+        "monolog/monolog": "^3.0",
         "nojacko/email-validator": "^1.0",
         "p3k/picofeed": "^0.1.40",
         "phpfastcache/phpfastcache": "^9.2",
@@ -54,7 +54,7 @@
         "twig/twig": "^3.27"
     },
     "require-dev": {
-        "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "doctrine/doctrine-fixtures-bundle": "^4.0",
         "friendsoftwig/twigcs": "^6.1",
         "liip/functional-test-bundle": "^4.16",
         "liip/test-fixtures-bundle": "^3.1.0",
@@ -68,7 +68,6 @@
         "sensiolabs/security-advisories": "dev-master",
         "symfony/browser-kit": "^6.4",
         "symfony/debug-bundle": "^6.4",
-        "symfony/maker-bundle": "^1.39",
         "symfony/phpunit-bridge": "^6.4",
         "symfony/stopwatch": "^6.4",
         "symfony/web-profiler-bundle": "^6.4",
@@ -131,7 +130,7 @@
                 "source": {
                     "url": "https://github.com/lowtower/Runalyze-Glossary.git",
                     "type": "git",
-                    "reference": "v4.3.0"
+                    "reference": "master"
                 }
             }
         },
@@ -200,7 +199,7 @@
             "@cache:test_empty:warmup"
         ],
         "test:setup": "bash docker/setup-test-db.sh",
-        "test": "php vendor/bin/phpunit -c phpunit.xml.dist",
+        "test": "php vendor/bin/phpunit -c phpunit.xml.dist --display-warnings",
         "test:dev": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --exclude-group dependsOnSRTM,dependsOnTimezoneDatabase",
         "test:import": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group import",
         "test:plugin": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group plugin",

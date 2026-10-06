@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller\ExternalRestApi;
 
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
@@ -10,11 +12,16 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
+#[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
 #[\PHPUnit\Framework\Attributes\Group('import')]
 class ImportActivityControllerTest extends AbstractFixturesAwareWebTestCase
 {
     private const FIXTURE_FIT_FILE = 'fit/FR265-with-self-evaluation.fit';
+
+    private const IMPORT_URL = '/api/import/activity';
+
+    private const PASSWORD = 'Import-Test-Password-1';
 
     protected Account $Account;
 
@@ -54,11 +61,11 @@ class ImportActivityControllerTest extends AbstractFixturesAwareWebTestCase
             ->setUsername('import_test_' . uniqid('', true))
             ->setMail('import_test_' . uniqid('', true) . '@example.test');
 
-        /** @var UserPasswordHasherInterface $passwordEncoder */
-        $passwordEncoder = self::getContainer()->get('security.user_password_hasher');
+        /** @var UserPasswordHasherInterface $passwordHasher */
+        $passwordHasher = self::getContainer()->get('security.user_password_hasher');
 
-        $registration = new Registration($this->getEntityManager(), $account, $passwordEncoder);
-        $account->setPassword($passwordEncoder->hashPassword($account, 'irrelevant-for-this-test'));
+        $registration = new Registration($this->getEntityManager(), $account, $passwordHasher);
+        $account->setPassword($passwordHasher->hashPassword($account, self::PASSWORD));
         $registeredAccount = $registration->registerAccount();
 
         return $this->getEntityManager()
@@ -91,82 +98,131 @@ class ImportActivityControllerTest extends AbstractFixturesAwareWebTestCase
         putenv('SHELL_VERBOSITY=-1');
     }
 
-    public function testPostImportActivityRequiresAuthentication(): void
+    /**
+     * @param UploadedFile[] $files
+     * @param string|null $password null sends no credentials at all
+     */
+    private function requestImport(array $files = [], ?string $password = self::PASSWORD): void
     {
-        $this->Client->request('POST', '/api/import/activity');
+        $server = $password === null ? [] : [
+            'PHP_AUTH_USER' => $this->Account->getUsername(),
+            'PHP_AUTH_PW' => $password,
+        ];
 
-        $this->isSuccessful($this->Client->getResponse(), false);
+        $this->Client->request('POST', self::IMPORT_URL, [], $files, $server);
+    }
+
+    private function requestImportOfTwoFilesWithTheSameName(): void
+    {
+        $this->requestImport([
+            'file1' => $this->makeUploadedFitFile('same-name.fit'),
+            'file2' => $this->makeUploadedFitFile('same-name.fit'),
+        ]);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function findTemporaryUploadDirectoriesOfAccount(): array
+    {
+        return glob(sys_get_temp_dir() . '/' . $this->Account->getUsername() . '_*') ?: [];
+    }
+
+    public function testPostImportActivityRespondsWithUnauthorizedWithoutCredentials(): void
+    {
+        $this->requestImport(password: null);
+
+        $this->assertStatusCode(401, $this->Client);
+    }
+
+    public function testPostImportActivityRespondsWithUnauthorizedForWrongPassword(): void
+    {
+        $this->requestImport([
+            'file1' => $this->makeUploadedFitFile(),
+        ], 'wrong-password');
+
+        $this->assertStatusCode(401, $this->Client);
     }
 
     public function testPostImportActivitySuccessfullyImportsAValidFitFile(): void
     {
-        $this->loginClient($this->Client, $this->Account, 'default');
-        $this->Client->request('POST', '/api/import/activity', [], [
+        $this->requestImport([
             'file1' => $this->makeUploadedFitFile(),
         ]);
 
-        $response = $this->Client->getResponse();
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('successfully imported', $this->Client->getResponse()->getContent());
+    }
+
+    public function testPostImportActivityLeavesNoTemporaryUploadDirectoryBehindAfterSuccess(): void
+    {
+        $this->requestImport([
+            'file1' => $this->makeUploadedFitFile(),
+        ]);
 
         $this->assertStatusCode(200, $this->Client);
-        $this->assertStringContainsString('successfully imported', $response->getContent());
+        $this->assertSame([], $this->findTemporaryUploadDirectoriesOfAccount());
     }
 
     public function testPostImportActivitySucceedsEvenWhenShellVerbosityWasLeftQuietByAnEarlierCommand(): void
     {
         $this->poisonShellVerbosityAsQuiet();
 
-        $this->loginClient($this->Client, $this->Account, 'default');
-        $this->Client->request('POST', '/api/import/activity', [], [
+        $this->requestImport([
             'file1' => $this->makeUploadedFitFile(),
         ]);
 
-        $response = $this->Client->getResponse();
-
         $this->assertStatusCode(200, $this->Client);
-        $this->assertStringContainsString('successfully imported', $response->getContent());
+        $this->assertStringContainsString('successfully imported', $this->Client->getResponse()->getContent());
     }
 
     public function testPostImportActivityReturns202WhenTheSameFileIsImportedTwice(): void
     {
-        $this->loginClient($this->Client, $this->Account, 'default');
-
         $sharedClientFileName = 'shared-within-this-test-' . uniqid('', true) . '.fit';
 
-        $this->Client->request('POST', '/api/import/activity', [], [
+        $this->requestImport([
             'file1' => $this->makeUploadedFitFile($sharedClientFileName),
         ]);
 
         $this->assertStatusCode(200, $this->Client);
 
-        $this->Client->request('POST', '/api/import/activity', [], [
+        $this->requestImport([
             'file1' => $this->makeUploadedFitFile($sharedClientFileName),
         ]);
 
-        $response = $this->Client->getResponse();
-
         $this->assertStatusCode(202, $this->Client);
-        $this->assertStringContainsString('is a duplicate', $response->getContent());
-        $this->assertStringContainsString('NOT imported successfully', $response->getContent());
+        $this->assertStringContainsString('is a duplicate', $this->Client->getResponse()->getContent());
+        $this->assertStringContainsString('NOT imported successfully', $this->Client->getResponse()->getContent());
     }
 
     public function testPostImportActivityReturns500ForTwoFilesWithTheSameClientFileName(): void
     {
-        $this->loginClient($this->Client, $this->Account, 'default');
-        $this->Client->request('POST', '/api/import/activity', [], [
-            'file1' => $this->makeUploadedFitFile('same-name.fit'),
-            'file2' => $this->makeUploadedFitFile('same-name.fit'),
-        ]);
-
-        $response = $this->Client->getResponse();
+        $this->requestImportOfTwoFilesWithTheSameName();
 
         $this->assertStatusCode(500, $this->Client);
-        $this->assertStringContainsString('same-name.fit', $response->getContent());
+        $this->assertStringContainsString('same-name.fit', $this->Client->getResponse()->getContent());
     }
 
-    public function testPostImportActivityReturns500ForAnEmptyRequestWithNoFiles(): void
+    public function testPostImportActivityDoesNotExposeStackTraceInErrorResponse(): void
     {
-        $this->loginClient($this->Client, $this->Account, 'default');
-        $this->Client->request('POST', '/api/import/activity');
+        $this->requestImportOfTwoFilesWithTheSameName();
+
+        $this->assertStatusCode(500, $this->Client);
+        $this->assertStringNotContainsString('#0', $this->Client->getResponse()->getContent());
+        $this->assertStringNotContainsString('.php', $this->Client->getResponse()->getContent());
+    }
+
+    public function testPostImportActivityRemovesTemporaryUploadDirectoryAfterError(): void
+    {
+        $this->requestImportOfTwoFilesWithTheSameName();
+
+        $this->assertStatusCode(500, $this->Client);
+        $this->assertSame([], $this->findTemporaryUploadDirectoriesOfAccount());
+    }
+
+    public function testPostImportActivityReturns200ForAnEmptyRequestWithNoFiles(): void
+    {
+        $this->requestImport();
 
         $this->assertStatusCode(200, $this->Client);
     }

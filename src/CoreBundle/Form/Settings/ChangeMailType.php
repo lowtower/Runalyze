@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Form\Settings;
 
+use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -21,9 +22,7 @@ class ChangeMailType extends AbstractType
                 'label' => 'Enter your current password',
                 'mapped' => false,
                 'empty_data' => null,
-                'constraints' => new UserPassword([
-                    'message' => 'Please enter your current password',
-                ]),
+                'constraints' => new UserPassword(message: 'Please enter your current password'),
                 'attr' => [
                     'autofocus' => true,
                 ],
@@ -38,7 +37,7 @@ class ChangeMailType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Account::class,
+            'data_class' => Account::class,
         ]);
     }
 }

@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Command;
 
-use Doctrine\ORM\QueryBuilder;
-use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
@@ -14,18 +15,28 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'runalyze:mails:send', description: 'Send out a mails to users with custom templates in data/views/mail/custom')]
+#[AsCommand(name: 'runalyze:mails:send', description: 'Send out a mails to users with custom templates in data/views/mail/custom')]
 class MailingCommand extends Command
 {
-    protected string $customMailDirectory = '/mail/custom/';
+    private const CUSTOM_MAIL_DIRECTORY = '/mail/custom/';
+
+    /**
+     * Option name => [DQL condition, query parameter name]
+     */
+    private const TIMESTAMP_FILTERS = [
+        'last-action-after' => ['a.lastaction > :lastActionAfter', 'lastActionAfter'],
+        'last-action-before' => ['a.lastaction < :lastActionBefore', 'lastActionBefore'],
+        'registration-after' => ['a.registerdate > :registrationAfter', 'registrationAfter'],
+        'registration-before' => ['a.registerdate < :registrationBefore', 'registrationBefore'],
+    ];
 
     public function __construct(
-        private readonly ParameterBagInterface $parameterBag,
+        #[Autowire(param: 'app.data_directory')]
+        private readonly string $dataDirectory,
         private readonly AccountMailer $mailer,
-        private readonly ManagerRegistry $doctrine
+        private readonly AccountRepository $accountRepository
     ) {
         parent::__construct();
     }
@@ -48,10 +59,10 @@ class MailingCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (! $this->validateInput($input, $output)) {
-            return \Symfony\Component\Console\Command\Command::FAILURE;
+            return Command::FAILURE;
         }
 
-        $accounts = $this->buildQuery($input);
+        $accounts = $this->findAccounts($input);
 
         if (! $input->getOption('force')) {
             /** @var QuestionHelper $helper */
@@ -60,16 +71,19 @@ class MailingCommand extends Command
             $question = new ConfirmationQuestion('Continue with this action? (y/n)', false);
 
             if (! $helper->ask($input, $output, $question)) {
-                return \Symfony\Component\Console\Command\Command::SUCCESS;
+                return Command::SUCCESS;
             }
         }
+
+        $subject = (string) $input->getOption('subject');
+        $template = self::CUSTOM_MAIL_DIRECTORY . $input->getArgument('template');
 
         foreach ($accounts as $account) {
             /** @var Account $account */
             $this->mailer->sendMailTo(
                 $account,
-                $input->getOption('subject'),
-                $this->customMailDirectory . $input->getArgument('template'),
+                $subject,
+                $template,
                 [
                     'account' => $account,
                 ]
@@ -79,50 +93,45 @@ class MailingCommand extends Command
         $output->writeln(sprintf('<info>%u mail(s) have been sent.</info>', count($accounts)));
         $output->writeln('');
 
-        return \Symfony\Component\Console\Command\Command::SUCCESS;
+        return Command::SUCCESS;
     }
 
-    private function buildQuery(InputInterface $input): array
+    /**
+     * @return Account[]
+     */
+    private function findAccounts(InputInterface $input): array
     {
-        /** @var AccountRepository $repository */
-        $repository = $this->doctrine->getRepository(Account::class);
-        /** @var QueryBuilder $query */
-        $query = $repository->createQueryBuilder('a');
+        $query = $this->accountRepository->createQueryBuilder('a');
 
         $query->andWhere('a.allowMails = 1');
 
-        if ($input->getOption('last-action-after')) {
-            $query->andWhere('a.lastaction > ' . (int) $input->getOption('last-action-after'));
+        foreach (self::TIMESTAMP_FILTERS as $option => [$condition, $parameter]) {
+            $value = $input->getOption($option);
+
+            if ($value) {
+                $query->andWhere($condition)
+                    ->setParameter($parameter, (int) $value);
+            }
         }
 
-        if ($input->getOption('last-action-before')) {
-            $query->andWhere('a.lastaction < ' . (int) $input->getOption('last-action-before'));
-        }
-
-        if ($input->getOption('registration-after')) {
-            $query->andWhere('a.registerdate > ' . (int) $input->getOption('registration-after'));
-        }
-
-        if ($input->getOption('registration-before')) {
-            $query->andWhere('a.registerdate < ' . (int) $input->getOption('registration-before'));
-        }
-
-        $lang = $input->getOption('lang');
+        $languages = $input->getOption('lang');
         $excludedLanguages = $input->getOption('exclude-lang');
 
         if (! empty($excludedLanguages)) {
             $query->andWhere('a.language NOT IN (:languages)')
                 ->setParameter('languages', $excludedLanguages);
-        } elseif (! empty($lang)) {
+        } elseif (! empty($languages)) {
             $query->andWhere('a.language IN (:languages)')
-                ->setParameter('languages', $lang);
+                ->setParameter('languages', $languages);
         }
 
-        if (! empty($input->getOption('account'))) {
+        $accountIds = $input->getOption('account');
+
+        if (! empty($accountIds)) {
             $query->andWhere('a.id IN (:accountIds)')
                 ->setParameter(
                     'accountIds',
-                    array_map(intval(...), $input->getOption('account'))
+                    array_map(static fn ($accountId): int => (int) $accountId, $accountIds)
                 );
         }
 
@@ -132,7 +141,8 @@ class MailingCommand extends Command
 
     protected function validateInput(InputInterface $input, OutputInterface $output): bool
     {
-        return $this->checkValidation($this->validateTemplate($input->getArgument('template')), $output, 'Template must exist in /data/views/mail/custom.') &&
+        return $this->checkValidation($this->validateTemplate((string) $input->getArgument('template')), $output, 'Template must exist in /data/views/mail/custom.') &&
+               $this->checkValidation($this->validateSubject($input->getOption('subject')), $output, 'Subject must not be empty.') &&
                $this->checkValidation($this->validateLanguage($input->getOption('lang')), $output, 'Language keys must be alphabetic strings.') &&
                $this->checkValidation($this->validateLanguage($input->getOption('exclude-lang')), $output, 'Language keys to exclude must be alphabetic strings.') &&
                $this->checkValidation($this->validateAccountIds($input->getOption('account')), $output, 'Account IDs must be integers.')
@@ -153,24 +163,35 @@ class MailingCommand extends Command
 
     protected function validateTemplate(string $templateName): bool
     {
-        $source = $this->parameterBag->get('app.data_directory') . '/views' . $this->customMailDirectory . $templateName;
-        return (new Filesystem())->exists($source);
+        return $templateName !== ''
+            && is_file($this->dataDirectory . '/views' . self::CUSTOM_MAIL_DIRECTORY . $templateName);
     }
 
+    protected function validateSubject(mixed $subject): bool
+    {
+        return is_string($subject) && trim($subject) !== '';
+    }
+
+    /**
+     * @param array<array-key, mixed> $lang
+     */
     protected function validateLanguage(array $lang): bool
     {
         return array_reduce(
             $lang,
-            fn (bool $state, $value): bool => $state && ctype_alpha($value),
+            static fn (bool $state, mixed $value): bool => $state && ctype_alpha((string) $value),
             true
         );
     }
 
+    /**
+     * @param array<array-key, mixed> $accountIds
+     */
     protected function validateAccountIds(array $accountIds): bool
     {
         return array_reduce(
             $accountIds,
-            fn (bool $state, $value): bool => $state && ctype_digit((string) $value),
+            static fn (bool $state, mixed $value): bool => $state && ctype_digit((string) $value),
             true
         );
     }

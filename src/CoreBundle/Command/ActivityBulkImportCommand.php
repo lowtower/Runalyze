@@ -56,7 +56,7 @@ class MaxZoneHR
         $conf = $repository->findForAccountAndKey($account, 'IMPORT_MAX_HR_USER');
         // some confuse logic with the Conf boolean parameter...to get the boolean value from the Conf
         $bool = new Boolean(false);
-        $bool->setFromString($conf === null ? '' : $conf->getValue());
+        $bool->setFromString($conf?->getValue() ?? '');
 
         $this->import = $bool->value();
     }

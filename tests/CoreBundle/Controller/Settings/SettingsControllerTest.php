@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller\Settings;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -10,8 +12,10 @@ use RuntimeException;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\DomCrawler\Field\ChoiceFormField;
 use Symfony\Component\DomCrawler\Form;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
+#[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
 class SettingsControllerTest extends AbstractFixturesAwareWebTestCase
 {
@@ -62,6 +66,20 @@ class SettingsControllerTest extends AbstractFixturesAwareWebTestCase
         $field = $form[$name];
 
         return $field;
+    }
+
+    public function testLoadedAccountHasNoValidationViolations(): void
+    {
+        $validator = static::getContainer()->get('validator');
+        $this->assertInstanceOf(ValidatorInterface::class, $validator);
+
+        $violations = [];
+
+        foreach ($validator->validate($this->Account) as $violation) {
+            $violations[] = $violation->getPropertyPath() . ': ' . $violation->getMessage();
+        }
+
+        $this->assertSame([], $violations);
     }
 
     public function testSettingsAccountActionRequiresAuthentication(): void

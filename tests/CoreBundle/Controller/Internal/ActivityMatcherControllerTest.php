@@ -11,12 +11,15 @@ use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
 use Runalyze\Util\LocalTime;
-use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
+#[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
 class ActivityMatcherControllerTest extends AbstractFixturesAwareWebTestCase
 {
+    private const MATCHER_URL = '/_internal/activity/matcher';
+
     protected Account $Account;
 
     protected function setUp(): void
@@ -42,7 +45,7 @@ class ActivityMatcherControllerTest extends AbstractFixturesAwareWebTestCase
         }
     }
 
-    protected function insertTrainingWithActivityId(Client $client, int $accountId, int $activityId, ?int $sportOwnerAccountId = null): Training
+    protected function insertTrainingWithActivityId(KernelBrowser $client, int $accountId, int $activityId, ?int $sportOwnerAccountId = null): Training
     {
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()
@@ -50,12 +53,14 @@ class ActivityMatcherControllerTest extends AbstractFixturesAwareWebTestCase
             ->getManager();
 
         $account = $entityManager->getRepository(Account::class)->find($accountId);
+        self::assertInstanceOf(Account::class, $account, 'Account ' . $accountId . ' must exist.');
 
         /** @var SportRepository $sportRepository */
         $sportRepository = $entityManager->getRepository(Sport::class);
         $runningSport = $sportRepository->findOneBy([
             'account' => $sportOwnerAccountId ?? $accountId,
         ]);
+        self::assertInstanceOf(Sport::class, $runningSport, 'Account ' . ($sportOwnerAccountId ?? $accountId) . ' must own a sport.');
 
         $activity = (new Training())
             ->setAccount($account)
@@ -82,12 +87,30 @@ class ActivityMatcherControllerTest extends AbstractFixturesAwareWebTestCase
         ));
     }
 
+    /**
+     * @param string[] $externalIds
+     *
+     * @return array<string, array<string, mixed>>
+     *
+     * @throws \JsonException if the response is not valid JSON
+     */
+    protected function requestMatchesFor(KernelBrowser $client, array $externalIds): array
+    {
+        $client->request('POST', self::MATCHER_URL, [], [], [], $this->requestBodyFor($externalIds));
+
+        $this->assertStatusCode(200, $client);
+
+        $responseData = json_decode((string) $client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
+
+        return $responseData['matches'];
+    }
+
     public function testAjaxActivityMatcherRequiresAuthentication(): void
     {
         $client = $this->makeClient();
         $client->request(
             'POST',
-            '/_internal/activity/matcher',
+            self::MATCHER_URL,
             [],
             [],
             [],
@@ -101,21 +124,9 @@ class ActivityMatcherControllerTest extends AbstractFixturesAwareWebTestCase
     {
         $externalId = '2020-06-15T10:00:00Z';
 
-        $client = $this->makeAuthenticatedClient();
-        $client->request(
-            'POST',
-            '/_internal/activity/matcher',
-            [],
-            [],
-            [],
-            $this->requestBodyFor([$externalId])
-        );
+        $matches = $this->requestMatchesFor($this->makeAuthenticatedClient(), [$externalId]);
 
-        $this->assertStatusCode(200, $client);
-
-        $responseData = json_decode($client->getResponse()->getContent(), true);
-
-        $this->assertFalse($responseData['matches'][$externalId]['match']);
+        $this->assertFalse($matches[$externalId]['match']);
     }
 
     public function testAjaxActivityMatcherDetectsExistingActivityAsDuplicate(): void
@@ -125,20 +136,9 @@ class ActivityMatcherControllerTest extends AbstractFixturesAwareWebTestCase
         $client = $this->makeAuthenticatedClient();
         $this->insertTrainingWithActivityId($client, $this->Account->getId(), $this->computeActivityIdFor($externalId));
 
-        $client->request(
-            'POST',
-            '/_internal/activity/matcher',
-            [],
-            [],
-            [],
-            $this->requestBodyFor([$externalId])
-        );
+        $matches = $this->requestMatchesFor($client, [$externalId]);
 
-        $this->assertStatusCode(200, $client);
-
-        $responseData = json_decode($client->getResponse()->getContent(), true);
-
-        $this->assertTrue($responseData['matches'][$externalId]['match']);
+        $this->assertTrue($matches[$externalId]['match']);
     }
 
     public function testAjaxActivityMatcherDoesNotMatchActivityOfAnotherAccount(): void
@@ -154,41 +154,18 @@ class ActivityMatcherControllerTest extends AbstractFixturesAwareWebTestCase
             $this->Account->getId()
         );
 
-        $client->request(
-            'POST',
-            '/_internal/activity/matcher',
-            [],
-            [],
-            [],
-            $this->requestBodyFor([$externalId])
-        );
+        $matches = $this->requestMatchesFor($client, [$externalId]);
 
-        $this->assertStatusCode(200, $client);
-
-        $responseData = json_decode($client->getResponse()->getContent(), true);
-
-        $this->assertFalse($responseData['matches'][$externalId]['match']);
+        $this->assertFalse($matches[$externalId]['match']);
     }
 
     public function testAjaxActivityMatcherReturnsFalseForUnparseableExternalId(): void
     {
         $externalId = 'not-a-valid-date';
 
-        $client = $this->makeAuthenticatedClient();
-        $client->request(
-            'POST',
-            '/_internal/activity/matcher',
-            [],
-            [],
-            [],
-            $this->requestBodyFor([$externalId])
-        );
+        $matches = $this->requestMatchesFor($this->makeAuthenticatedClient(), [$externalId]);
 
-        $this->assertStatusCode(200, $client);
-
-        $responseData = json_decode($client->getResponse()->getContent(), true);
-
-        $this->assertFalse($responseData['matches'][$externalId]['match']);
+        $this->assertFalse($matches[$externalId]['match']);
     }
 
     public function testAjaxActivityMatcherHandlesMultipleExternalIdsIndependently(): void
@@ -199,32 +176,37 @@ class ActivityMatcherControllerTest extends AbstractFixturesAwareWebTestCase
         $client = $this->makeAuthenticatedClient();
         $this->insertTrainingWithActivityId($client, $this->Account->getId(), $this->computeActivityIdFor($duplicateExternalId));
 
+        $matches = $this->requestMatchesFor($client, [$duplicateExternalId, $unknownExternalId]);
+
+        $this->assertTrue($matches[$duplicateExternalId]['match']);
+        $this->assertFalse($matches[$unknownExternalId]['match']);
+    }
+
+    public function testAjaxActivityMatcherIgnoresParametersOtherThanExternalIds(): void
+    {
+        $externalId = '2021-01-01T00:00:00Z';
+
+        $client = $this->makeAuthenticatedClient();
         $client->request(
             'POST',
-            '/_internal/activity/matcher',
+            self::MATCHER_URL,
             [],
             [],
             [],
-            $this->requestBodyFor([$duplicateExternalId, $unknownExternalId])
+            'other=value&externalIds=' . urlencode($externalId) . '&another=1'
         );
 
         $this->assertStatusCode(200, $client);
 
-        $responseData = json_decode($client->getResponse()->getContent(), true);
+        $responseData = json_decode((string) $client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
-        $this->assertTrue($responseData['matches'][$duplicateExternalId]['match']);
-        $this->assertFalse($responseData['matches'][$unknownExternalId]['match']);
+        $this->assertSame([$externalId], array_keys($responseData['matches']));
     }
 
     public function testAjaxActivityMatcherReturnsEmptyMatchesForEmptyRequestBody(): void
     {
-        $client = $this->makeAuthenticatedClient();
-        $client->request('POST', '/_internal/activity/matcher', [], [], [], '');
+        $matches = $this->requestMatchesFor($this->makeAuthenticatedClient(), []);
 
-        $this->assertStatusCode(200, $client);
-
-        $responseData = json_decode($client->getResponse()->getContent(), true);
-
-        $this->assertSame([], $responseData['matches']);
+        $this->assertSame([], $matches);
     }
 }

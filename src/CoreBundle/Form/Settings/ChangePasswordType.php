@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Form\Settings;
 
+use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -23,9 +24,7 @@ class ChangePasswordType extends AbstractType
                 'label' => 'Old password',
                 'mapped' => false,
                 'empty_data' => null,
-                'constraints' => new UserPassword([
-                    'message' => 'Please enter your current password',
-                ]),
+                'constraints' => new UserPassword(message: 'Please enter your current password'),
                 'attr' => [
                     'autofocus' => true,
                 ],
@@ -48,9 +47,7 @@ class ChangePasswordType extends AbstractType
                 'empty_data' => null,
                 'constraints' => [
                     new NotBlank(),
-                    new Length([
-                        'min' => 8,
-                    ]),
+                    new Length(min: 8),
                 ],
             ])
         ;
@@ -59,7 +56,7 @@ class ChangePasswordType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Account::class,
+            'data_class' => Account::class,
         ]);
     }
 }

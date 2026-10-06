@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * @author Hannes Christiansen <hannes@runalyze.de>
@@ -23,24 +24,30 @@ class InstallController extends AbstractController
 {
     use AppServiceSubscriberTrait;
 
+    private const SESSION_POSSIBLE = 'installer/possible';
+
+    private const SESSION_SUCCESSFUL = 'installer/successful';
+
+    private const SESSION_OUTPUT = 'installer/output';
+
     public function __construct(
-        private KernelInterface $kernel
+        private readonly KernelInterface $kernel
     ) {
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/install', name: 'install', condition: "'%app.update_disabled%' == 'no'")]
+    #[Route(path: '/install', name: 'install', condition: "'%app.update_disabled%' == 'no'")]
     public function installAction(Request $request): RedirectResponse|Response
     {
         $session = $request->getSession();
 
-        if ($session->has('installer/successful')) {
+        if ($session->has(self::SESSION_SUCCESSFUL)) {
             return $this->redirectToRoute('install_finish');
         }
 
         $output = new BufferedOutput(BufferedOutput::VERBOSITY_NORMAL, true, new HtmlOutputFormatter(true));
         $exitCode = $this->runInstallerCommand('runalyze:install:check', $output);
 
-        $session->set('installer/possible', $exitCode === 0);
+        $session->set(self::SESSION_POSSIBLE, $exitCode === 0);
 
         return $this->render('system/install.html.twig', [
             'output' => '$ php bin/console runalyze:install:check' . "\n\n" . $output->fetch(),
@@ -49,16 +56,16 @@ class InstallController extends AbstractController
         ]);
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/install/start', name: 'install_start', condition: "'%app.update_disabled%' == 'no'")]
+    #[Route(path: '/install/start', name: 'install_start', condition: "'%app.update_disabled%' == 'no'")]
     public function startAction(Request $request): RedirectResponse|Response
     {
         $session = $request->getSession();
 
-        if (! $session->has('installer/possible') || ! $session->get('installer/possible')) {
+        if (! $session->has(self::SESSION_POSSIBLE) || ! $session->get(self::SESSION_POSSIBLE)) {
             return $this->redirectToRoute('install');
         }
 
-        if ($session->has('installer/successful')) {
+        if ($session->has(self::SESSION_SUCCESSFUL)) {
             return $this->redirectToRoute('install_finish');
         }
 
@@ -74,23 +81,23 @@ class InstallController extends AbstractController
             ]);
         }
 
-        $session->set('installer/successful', true);
-        $session->set('installer/output', $outputString);
+        $session->set(self::SESSION_SUCCESSFUL, true);
+        $session->set(self::SESSION_OUTPUT, $outputString);
 
         return $this->redirectToRoute('install_finish');
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/install/finish', name: 'install_finish', condition: "'%app.update_disabled%' == 'no'")]
+    #[Route(path: '/install/finish', name: 'install_finish', condition: "'%app.update_disabled%' == 'no'")]
     public function finishAction(Request $request): RedirectResponse|Response
     {
         $session = $request->getSession();
 
-        if (! $session->has('installer/successful')) {
+        if (! $session->has(self::SESSION_SUCCESSFUL)) {
             return $this->redirectToRoute('install');
         }
 
         return $this->render('system/install.html.twig', [
-            'output' => $session->get('installer/output', ''),
+            'output' => $session->get(self::SESSION_OUTPUT, ''),
             'installationPossible' => false,
             'installationSuccessful' => true,
         ]);

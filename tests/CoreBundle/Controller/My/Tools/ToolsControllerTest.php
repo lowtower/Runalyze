@@ -9,11 +9,13 @@ use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Message\PosterGenerationMessage;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
-use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Messenger\Transport\InMemory\InMemoryTransport;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
+#[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
 class ToolsControllerTest extends AbstractFixturesAwareWebTestCase
 {
@@ -31,7 +33,7 @@ class ToolsControllerTest extends AbstractFixturesAwareWebTestCase
         return self::getContainer()->getParameter('app.data_directory') . '/poster/';
     }
 
-    protected function getTransportFromClientKernel(Client $client): \Symfony\Component\Messenger\Transport\InMemory\InMemoryTransport
+    protected function getTransportFromClientKernel(KernelBrowser $client): InMemoryTransport
     {
         $container = $client->getKernel()
             ->getContainer();
@@ -40,8 +42,8 @@ class ToolsControllerTest extends AbstractFixturesAwareWebTestCase
             $container = $container->get('test.service_container');
         }
 
-        /** @var \Symfony\Component\Messenger\Transport\InMemory\InMemoryTransport $transport */
         $transport = $container->get('messenger.transport.async');
+        self::assertInstanceOf(InMemoryTransport::class, $transport);
 
         return $transport;
     }
@@ -64,6 +66,37 @@ class ToolsControllerTest extends AbstractFixturesAwareWebTestCase
         return $options->reduce(fn ($node): bool => trim($node->text()) === $text)
             ->first()
             ->attr('value');
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function posterFormData(string $token, string $yearOptionValue, string $sportOptionValue): array
+    {
+        return [
+            'poster' => [
+                '_token' => $token,
+                'postertype' => ['heatmap'],
+                'year' => $yearOptionValue,
+                'title' => 'Test',
+                'sport' => $sportOptionValue,
+                'size' => '4000',
+                'backgroundColor' => '#222222',
+                'trackColor' => '#4DD2FF',
+                'textColor' => '#FFFFFF',
+                'raceColor' => '#FFFF00',
+            ],
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     *
+     * @throws \JsonException if the response is not valid JSON
+     */
+    protected function decodeJsonResponse(KernelBrowser $client): array
+    {
+        return json_decode((string) $client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
     }
 
     public function testOverviewActionRequiresAuthentication(): void
@@ -185,9 +218,8 @@ class ToolsControllerTest extends AbstractFixturesAwareWebTestCase
 
         $this->assertStatusCode(200, $client);
 
-        $responseData = json_decode($client->getResponse()->getContent(), true);
+        $responseData = $this->decodeJsonResponse($client);
 
-        $this->assertIsArray($responseData);
         $this->assertArrayHasKey('tickFormatter', $responseData);
         $this->assertArrayHasKey('groups', $responseData);
     }
@@ -206,7 +238,7 @@ class ToolsControllerTest extends AbstractFixturesAwareWebTestCase
             json_encode([
                 'status' => 'There was a problem.',
             ]),
-            $client->getResponse()
+            (string) $client->getResponse()
                 ->getContent()
         );
     }
@@ -254,9 +286,8 @@ class ToolsControllerTest extends AbstractFixturesAwareWebTestCase
 
         $this->assertStatusCode(200, $client);
 
-        $responseData = json_decode($client->getResponse()->getContent(), true);
+        $responseData = $this->decodeJsonResponse($client);
 
-        $this->assertIsArray($responseData);
         $this->assertArrayHasKey('tickFormatter', $responseData);
         $this->assertArrayHasKey('values', $responseData);
     }
@@ -275,7 +306,7 @@ class ToolsControllerTest extends AbstractFixturesAwareWebTestCase
             json_encode([
                 'status' => 'There was a problem.',
             ]),
-            $client->getResponse()
+            (string) $client->getResponse()
                 ->getContent()
         );
     }
@@ -312,30 +343,16 @@ class ToolsControllerTest extends AbstractFixturesAwareWebTestCase
         $sportOptionValue = $this->findOptionValueByText($crawler->filter('#poster_sport option'), $runningSport->getName());
         $yearOptionValue = $this->findOptionValueByText($crawler->filter('#poster_year option'), (string) $year);
 
-        $client->request('POST', '/my/tools/poster', [
-            'poster' => [
-                '_token' => $token,
-                'postertype' => ['heatmap'],
-                'year' => $yearOptionValue,
-                'title' => 'Test',
-                'sport' => $sportOptionValue,
-                'size' => '4000',
-                'backgroundColor' => '#222222',
-                'trackColor' => '#4DD2FF',
-                'textColor' => '#FFFFFF',
-                'raceColor' => '#FFFF00',
-            ],
-        ]);
+        $client->request('POST', '/my/tools/poster', $this->posterFormData($token, $yearOptionValue, $sportOptionValue));
 
         $this->assertStatusCode(200, $client);
 
-        $transport = $this->getTransportFromClientKernel($client);
-        $envelopes = $transport->getSent();
+        $envelopes = $this->getTransportFromClientKernel($client)
+            ->getSent();
 
         $this->assertNotEmpty($envelopes, 'Expected a poster generation message to have been dispatched.');
 
-        $message = end($envelopes)
-            ->getMessage();
+        $message = $envelopes[array_key_last($envelopes)]->getMessage();
         $this->assertInstanceOf(PosterGenerationMessage::class, $message);
         $this->assertSame($this->Account->getId(), $message->getAccountId());
         $this->assertSame($year, $message->getYear());
@@ -361,20 +378,7 @@ class ToolsControllerTest extends AbstractFixturesAwareWebTestCase
         $transport = $this->getTransportFromClientKernel($client);
         $envelopesBefore = count($transport->getSent());
 
-        $client->request('POST', '/my/tools/poster', [
-            'poster' => [
-                '_token' => $token,
-                'postertype' => ['heatmap'],
-                'year' => $yearOptionValue,
-                'title' => 'Test',
-                'sport' => $sportOptionValue,
-                'size' => '4000',
-                'backgroundColor' => '#222222',
-                'trackColor' => '#4DD2FF',
-                'textColor' => '#FFFFFF',
-                'raceColor' => '#FFFF00',
-            ],
-        ]);
+        $client->request('POST', '/my/tools/poster', $this->posterFormData($token, $yearOptionValue, $sportOptionValue));
 
         $this->assertStatusCode(200, $client);
         $this->assertCount(
@@ -452,6 +456,27 @@ class ToolsControllerTest extends AbstractFixturesAwareWebTestCase
         }
     }
 
+    public function testPosterDownloadActionDoesNotServeFileOfAnotherAccount(): void
+    {
+        $filesystem = new Filesystem();
+        $posterPath = $this->getPathToPosterFiles();
+        $residualFilename = 'test-foreign-poster.png';
+        $internalFilename = $this->getEmptyAccount()
+            ->getId() . '-' . $residualFilename;
+
+        $filesystem->mkdir($posterPath);
+        $filesystem->dumpFile($posterPath . $internalFilename, 'foreign poster content');
+
+        try {
+            $client = $this->makeAuthenticatedClient();
+            $client->request('GET', '/my/tools/poster/' . $residualFilename);
+
+            $this->assertStatusCode(404, $client);
+        } finally {
+            $filesystem->remove($posterPath . $internalFilename);
+        }
+    }
+
     public function testVo2maxAnalysisActionRequiresAuthentication(): void
     {
         $client = $this->makeClient();
@@ -484,25 +509,17 @@ class ToolsControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStatusCode(200, $client);
     }
 
-    public function testCleanupActionRendersResultsForGeneralModeWithNoOptionsSelected(): void
+    /**
+     * @return iterable<string, array{string}>
+     */
+    public static function cleanupModes(): iterable
     {
-        $client = $this->makeAuthenticatedClient();
-        $crawler = $client->request('GET', '/my/tools/cleanup');
-
-        $token = $crawler->filter('input[name="database_cleanup[_token]"]')
-            ->attr('value');
-
-        $client->request('POST', '/my/tools/cleanup', [
-            'database_cleanup' => [
-                '_token' => $token,
-                'mode' => 'general',
-            ],
-        ]);
-
-        $this->assertStatusCode(200, $client);
+        yield 'general mode' => ['general'];
+        yield 'loop mode' => ['loop'];
     }
 
-    public function testCleanupActionRendersResultsForLoopModeWithNoOptionsSelected(): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('cleanupModes')]
+    public function testCleanupActionRendersResultsForModeWithNoOptionsSelected(string $mode): void
     {
         $client = $this->makeAuthenticatedClient();
         $crawler = $client->request('GET', '/my/tools/cleanup');
@@ -513,7 +530,7 @@ class ToolsControllerTest extends AbstractFixturesAwareWebTestCase
         $client->request('POST', '/my/tools/cleanup', [
             'database_cleanup' => [
                 '_token' => $token,
-                'mode' => 'loop',
+                'mode' => $mode,
             ],
         ]);
 

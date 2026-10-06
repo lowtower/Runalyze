@@ -19,9 +19,9 @@ class AccountValueResolver implements ValueResolverInterface
     }
 
     /**
-     * @return iterable<Account>
+     * @return Account[] the logged in account, or an empty list if there is none
      */
-    public function resolve(Request $request, ArgumentMetadata $argument): iterable
+    public function resolve(Request $request, ArgumentMetadata $argument): array
     {
         if ($argument->getType() !== Account::class) {
             return [];
@@ -39,6 +39,6 @@ class AccountValueResolver implements ValueResolverInterface
             return [];
         }
 
-        yield $user;
+        return [$user];
     }
 }

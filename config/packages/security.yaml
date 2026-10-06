@@ -1,15 +1,27 @@
 security:
-    enable_authenticator_manager: true
-    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+    # see https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Runalyze\Bundle\CoreBundle\Entity\Account:
             id: app.sha256salted_encoder
     providers:
-        users_in_memory: { memory: null }
         runalyzeuser:
             entity:
                 class: Runalyze\Bundle\CoreBundle\Entity\Account
     firewalls:
+        # The first firewall whose pattern matches is used, so the most specific ones come first
+        # and the firewall without a pattern ("default") has to be the last one.
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        setup:
+            pattern: ^/(update|install)
+            security: false
+        externalapi:
+            pattern:  ^/api
+            http_basic: true
+            provider:  runalyzeuser
+            stateless: true
+            user_checker: Runalyze\Bundle\CoreBundle\Services\AccountChecker
         default:
             entry_point: form_login
             http_basic: ~
@@ -29,33 +41,13 @@ security:
                 secret: '%app.secret%'
                 lifetime: 604800
                 path: /
-        externalapi:
-            pattern:  ^/api
-            http_basic: true
-            provider:  runalyzeuser
-            stateless: true
-            user_checker: Runalyze\Bundle\CoreBundle\Services\AccountChecker
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-        main:
-            lazy: true
-            provider: users_in_memory
-
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#the-firewall
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-        setup:
-            pattern: ^/(update|install)
-            security: false
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        - { path: ^/api, roles: ROLE_USER }
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 

@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Controller\Internal;
 
 use Exception;
-use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
@@ -12,65 +13,98 @@ use Runalyze\Util\LocalTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ActivityMatcherController extends AbstractController
 {
-    use AppServiceSubscriberTrait;
+    private const EXTERNAL_IDS_PREFIX = 'externalIds=';
 
     public function __construct(
-        private DuplicateFinder $duplicateFinder,
-        private ConfigurationManager $configurationManager
+        private readonly DuplicateFinder $duplicateFinder,
+        private readonly ConfigurationManager $configurationManager
     ) {
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/_internal/activity/matcher', name: 'internal-activity-matcher')]
+    /**
+     * @throws AccessDeniedException if the user is not logged in
+     */
+    #[Route(path: '/_internal/activity/matcher', name: 'internal-activity-matcher')]
     public function ajaxActivityMatcher(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $ids = [];
-        $matches = [];
-        $input = explode('&', urldecode($request->getContent()));
-
-        foreach ($input as $line) {
-            if (str_starts_with($line, 'externalIds=')) {
-                $ids[] = substr($line, 12);
-            }
-        }
-
-        $ignoredActivityIds = array_map(function (string $v): float {
-            try {
-                return (int) floor($this->parserStrtotime($v) / 60.0) * 60.0;
-            } catch (Exception) {
-                return 0.0;
-            }
-        }, $this->configurationManager
-            ->getList()
-            ->getActivityForm()
-            ->getIgnoredActivityIds());
+        $ignoredTimestamps = $this->getIgnoredActivityTimestamps();
 
         /** @var Account $account */
         $account = $this->getUser();
 
-        foreach ($ids as $id) {
+        $matches = [];
+
+        foreach ($this->extractExternalIds($request->getContent()) as $id) {
+            $timestamp = null;
+
             try {
+                $timestamp = $this->parserStrtotime($id);
                 $possibleDuplicate = $this->duplicateFinder->isPossibleDuplicate(
                     (new Training())
                         ->setAccount($account)
-                        ->setTime($this->parserStrtotime($id))
+                        ->setTime($timestamp)
                 );
             } catch (Exception) {
                 $possibleDuplicate = false;
             }
 
             $matches[$id] = [
-                'match' => $possibleDuplicate || in_array($id, $ignoredActivityIds),
+                'match' => $possibleDuplicate
+                    || ($timestamp !== null && in_array($this->roundDownToMinute($timestamp), $ignoredTimestamps, true)),
             ];
         }
 
         return new JsonResponse([
             'matches' => $matches,
         ]);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function extractExternalIds(string $content): array
+    {
+        $ids = [];
+
+        foreach (explode('&', urldecode($content)) as $line) {
+            if (str_starts_with($line, self::EXTERNAL_IDS_PREFIX)) {
+                $ids[] = substr($line, strlen(self::EXTERNAL_IDS_PREFIX));
+            }
+        }
+
+        return $ids;
+    }
+
+    /**
+     * Ignored activities that cannot be parsed are skipped.
+     *
+     * @return int[]
+     */
+    private function getIgnoredActivityTimestamps(): array
+    {
+        $timestamps = [];
+
+        foreach ($this->configurationManager->getList()->getActivityForm()->getIgnoredActivityIds() as $ignoredId) {
+            try {
+                $timestamps[] = $this->roundDownToMinute($this->parserStrtotime($ignoredId));
+            } catch (Exception) {
+                continue;
+            }
+        }
+
+        return $timestamps;
+    }
+
+    private function roundDownToMinute(int $timestamp): int
+    {
+        return (int) floor($timestamp / 60) * 60;
     }
 
     /**

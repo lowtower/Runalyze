@@ -89,10 +89,8 @@ class ZipConverter implements FileTypeConverterInterface
 
     /**
      * @param string $extension
-     *
-     * @return bool
      */
-    protected function isFileExtensionAllowed($extension)
+    protected function isFileExtensionAllowed($extension): bool
     {
         if (is_array($this->AcceptedFileExtensions)) {
             return in_array(mb_strtolower($extension), $this->AcceptedFileExtensions);

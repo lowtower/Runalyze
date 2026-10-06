@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\DataFixtures;
 
 use Doctrine\Common\DataFixtures\ReferenceRepository;
@@ -13,16 +15,20 @@ use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\ORM\LoadAccountData;
-use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Component\BrowserKit\Cookie;
+use Symfony\Component\HttpFoundation\Session\SessionFactoryInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
 {
-    protected Client $Client;
+    protected KernelBrowser $Client;
 
     protected ReferenceRepository $Fixtures;
 
+    /**
+     * @var array<int, class-string>|null
+     */
     protected ?array $FixtureClasses = null;
 
     protected ?ObjectManager $EntityManager = null;
@@ -102,6 +108,26 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
     }
 
     /**
+     * @param array<string, mixed> $attributes
+     */
+    protected function createSessionWithAttributes(array $attributes): void
+    {
+        $sessionFactory = static::getContainer()->get('session.factory');
+        self::assertInstanceOf(SessionFactoryInterface::class, $sessionFactory);
+
+        $session = $sessionFactory->createSession();
+
+        foreach ($attributes as $name => $value) {
+            $session->set($name, $value);
+        }
+
+        $session->save();
+
+        $this->Client->getCookieJar()
+            ->set(new Cookie($session->getName(), $session->getId()));
+    }
+
+    /**
      * @throws LogicException if the manager is not a Doctrine ORM EntityManager
      */
     protected function getEntityManager(): EntityManager
@@ -126,14 +152,27 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
      * @template T of object
      * @param class-string<T> $entityClass
      * @return T
+     *
+     * @throws LogicException if the referenced entity does not exist in the database
      */
     private function reloadFixtureReference(string $referenceName, string $entityClass): object
     {
         $reference = $this->Fixtures->getReference($referenceName, $entityClass);
 
-        return $this->getEntityManager()
+        $entity = $this->getEntityManager()
             ->getRepository($entityClass)
             ->find($reference->getId());
+
+        if (! $entity instanceof $entityClass) {
+            throw new LogicException(sprintf(
+                'Fixture reference "%s" (%s with id %s) could not be reloaded from the database.',
+                $referenceName,
+                $entityClass,
+                (string) $reference->getId()
+            ));
+        }
+
+        return $entity;
     }
 
     protected function getDefaultAccount(): Account

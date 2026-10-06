@@ -64,7 +64,7 @@ class ExportControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertSame('', $this->Client->getResponse()->getContent());
         $this->assertStringNotContainsString(
             'Failed to start the session',
-            (string) $this->Client->getResponse()
+            $this->Client->getResponse()
                 ->getContent()
         );
     }
@@ -79,7 +79,7 @@ class ExportControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertSame('', $this->Client->getResponse()->getContent());
         $this->assertStringNotContainsString(
             'Failed to start the session',
-            (string) $this->Client->getResponse()
+            $this->Client->getResponse()
                 ->getContent()
         );
     }

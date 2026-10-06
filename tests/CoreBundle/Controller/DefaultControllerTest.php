@@ -262,7 +262,7 @@ class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStatusCode(302, $this->Client);
 
         $cookieNames = array_map(
-            static fn ($cookie) => $cookie->getName(),
+            static fn (\Symfony\Component\BrowserKit\Cookie $cookie): string => $cookie->getName(),
             $this->Client->getCookieJar()
                 ->all()
         );

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Services;
 
+use Monolog\LogRecord;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -16,10 +17,7 @@ class SessionRequestProcessor
     ) {
     }
 
-    /**
-     * @param array<string, mixed> $record
-     */
-    public function processRecord(array $record): array
+    public function processRecord(LogRecord $record): LogRecord
     {
         $request = $this->requestStack->getMainRequest();
 
@@ -37,7 +35,7 @@ class SessionRequestProcessor
             $this->sessionId = substr($session->getId(), 0, 8) ?: '????????';
         }
 
-        $record['extra']['token'] = $this->sessionId;
+        $record->extra['token'] = $this->sessionId;
 
         return $record;
     }

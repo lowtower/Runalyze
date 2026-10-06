@@ -1,26 +1,47 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Services;
 
 use Runalyze\Bundle\CoreBundle\Component\Notifications\Message\PosterGeneratedMessage;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Exception\RfcComplianceException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class AccountMailer
 {
-    protected string|Address|null $sender = null;
+    protected Address $sender;
 
+    /**
+     * @throws RfcComplianceException if the sender mail address is invalid
+     */
     public function __construct(
         protected MailerInterface $mailer,
         protected Environment $twig,
-        protected TranslatorInterface $translator
+        protected TranslatorInterface $translator,
+        #[Autowire(param: 'app.mail_sender')]
+        string $senderMail,
+        #[Autowire(param: 'app.mail_name')]
+        string $senderName
     ) {
+        $this->sender = new Address($senderMail, $senderName);
     }
 
+    /**
+     * @deprecated Pass the sender to the constructor instead.
+     *
+     * @throws RfcComplianceException if the sender mail address is invalid
+     */
     public function setFrom(string $senderMail, string $senderName): void
     {
         $this->sender = new Address($senderMail, $senderName);
@@ -28,6 +49,12 @@ class AccountMailer
 
     /**
      * @param array<string, scalar|object|null> $templateData
+     *
+     * @throws RfcComplianceException if the mail address of the account is invalid
+     * @throws TransportExceptionInterface
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function sendMailTo(Account $account, string $subject, string $template, array $templateData): void
     {
@@ -42,6 +69,10 @@ class AccountMailer
         $this->mailer->send($email);
     }
 
+    /**
+     * @throws RfcComplianceException if the recipient or the mail address of the account is invalid
+     * @throws TransportExceptionInterface
+     */
     public function sendCustomFeedbackToSystem(Account $account, string $mailTo, string $customText): void
     {
         $subject = 'RUNALYZE - ' . $this->translator->trans('Customer feedback');
@@ -71,6 +102,13 @@ class AccountMailer
         return $template . 'html.twig';
     }
 
+    /**
+     * @throws RfcComplianceException
+     * @throws TransportExceptionInterface
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function sendActivationLinkTo(Account $account): void
     {
         $this->sendMailTo(
@@ -84,6 +122,13 @@ class AccountMailer
         );
     }
 
+    /**
+     * @throws RfcComplianceException
+     * @throws TransportExceptionInterface
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function sendRecoverPasswordLinkTo(Account $account): void
     {
         $this->sendMailTo(
@@ -97,6 +142,13 @@ class AccountMailer
         );
     }
 
+    /**
+     * @throws RfcComplianceException
+     * @throws TransportExceptionInterface
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function sendDeleteLinkTo(Account $account): void
     {
         $this->sendMailTo(
@@ -110,6 +162,13 @@ class AccountMailer
         );
     }
 
+    /**
+     * @throws RfcComplianceException
+     * @throws TransportExceptionInterface
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function sendPosterGeneratedTo(Account $account, int $state): void
     {
         $this->sendMailTo(
@@ -123,6 +182,13 @@ class AccountMailer
         );
     }
 
+    /**
+     * @throws RfcComplianceException
+     * @throws TransportExceptionInterface
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function sendBackupGeneratedTo(Account $account): void
     {
         $this->sendMailTo(

@@ -4,18 +4,36 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Entity;
 
+use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
+use ReflectionProperty;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Model\Account\UserRole;
 use Runalyze\Profile\Athlete\Gender;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class AccountTest extends \PHPUnit\Framework\TestCase
+class AccountTest extends TestCase
 {
     protected Account $Account;
 
     protected function setUp(): void
     {
         $this->Account = new Account();
+    }
+
+    private function serializeAndRestore(): Account
+    {
+        $restored = unserialize(serialize($this->Account));
+
+        $this->assertInstanceOf(Account::class, $restored);
+
+        return $restored;
+    }
+
+    private function readPlainPasswordProperty(Account $account): ?string
+    {
+        return (new ReflectionProperty(Account::class, 'plainPassword'))->getValue($account);
     }
 
     public function testDefaultValues(): void
@@ -31,6 +49,107 @@ class AccountTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->Account->getAge());
     }
 
+    public function testMailAndPlainPasswordAreEmptyForNewAccount(): void
+    {
+        $this->assertSame('', $this->Account->getMail());
+        $this->assertSame('', $this->Account->getPlainPassword());
+    }
+
+    public function testPlainPasswordIsNotSetOnNewAccountSoThatLengthValidationSkipsIt(): void
+    {
+        $this->assertNull($this->readPlainPasswordProperty($this->Account));
+    }
+
+    public function testPlainPasswordCanBeSetAndRead(): void
+    {
+        $this->Account->setPlainPassword('plain-secret');
+
+        $this->assertSame('plain-secret', $this->Account->getPlainPassword());
+    }
+
+    public function testAllowMailsDefaultsToTrue(): void
+    {
+        $this->assertTrue($this->Account->getAllowMails());
+    }
+
+    public function testNewAccountHasSaltOfSixtyFourHexCharacters(): void
+    {
+        $this->assertMatchesRegularExpression('/^[0-9a-f]{64}$/', $this->Account->getSalt());
+    }
+
+    public function testSetNewSaltReplacesSalt(): void
+    {
+        $previousSalt = $this->Account->getSalt();
+
+        $this->Account->setNewSalt();
+
+        $this->assertNotSame($previousSalt, $this->Account->getSalt());
+        $this->assertMatchesRegularExpression('/^[0-9a-f]{64}$/', $this->Account->getSalt());
+    }
+
+    public function testRegisterdateAndLastActionAreSetByConstructor(): void
+    {
+        $before = time();
+        $account = new Account();
+        $after = time();
+
+        $this->assertGreaterThanOrEqual($before, $account->getRegisterdate());
+        $this->assertLessThanOrEqual($after, $account->getRegisterdate());
+        $this->assertGreaterThanOrEqual($before, $account->getLastAction());
+        $this->assertLessThanOrEqual($after, $account->getLastAction());
+    }
+
+    public function testSetLastActionWithoutArgumentUsesCurrentTime(): void
+    {
+        $before = time();
+        $this->Account->setLastAction();
+        $after = time();
+
+        $this->assertGreaterThanOrEqual($before, $this->Account->getLastAction());
+        $this->assertLessThanOrEqual($after, $this->Account->getLastAction());
+    }
+
+    public function testSetLastActionStoresGivenTimestamp(): void
+    {
+        $this->Account->setLastAction(1_700_000_000);
+
+        $this->assertSame(1_700_000_000, $this->Account->getLastAction());
+    }
+
+    public function testSettersReturnTheSameAccountForChaining(): void
+    {
+        $this->assertSame($this->Account, $this->Account->setUsername('chained'));
+        $this->assertSame($this->Account, $this->Account->setMail('chained@example.test'));
+        $this->assertSame($this->Account, $this->Account->setLanguage('de'));
+        $this->assertSame($this->Account, $this->Account->setRole(UserRole::ROLE_ADMIN));
+    }
+
+    public function testUserIdentifierIsTheUsername(): void
+    {
+        $this->Account->setUsername('johndoe');
+
+        $this->assertSame('johndoe', $this->Account->getUserIdentifier());
+        $this->assertSame('johndoe', $this->Account->getUsername());
+    }
+
+    public function testEraseCredentialsClearsPlainPassword(): void
+    {
+        $this->Account->setPlainPassword('plain-secret');
+
+        $this->Account->eraseCredentials();
+
+        $this->assertSame('', $this->Account->getPlainPassword());
+    }
+
+    public function testEraseCredentialsLeavesPlainPasswordUnsetSoThatLengthValidationSkipsIt(): void
+    {
+        $this->Account->setPlainPassword('plain-secret');
+
+        $this->Account->eraseCredentials();
+
+        $this->assertNull($this->readPlainPasswordProperty($this->Account));
+    }
+
     public function testChangePasswordHash(): void
     {
         $this->Account->setNewChangePasswordHash();
@@ -44,6 +163,17 @@ class AccountTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->Account->getChangepwTimelimit());
     }
 
+    public function testNewChangePasswordHashIsValidForOneDay(): void
+    {
+        $before = time();
+        $this->Account->setNewChangePasswordHash();
+        $after = time();
+
+        $this->assertMatchesRegularExpression('/^[0-9a-f]{32}$/', (string) $this->Account->getChangepwHash());
+        $this->assertGreaterThanOrEqual($before + 86400, $this->Account->getChangepwTimelimit());
+        $this->assertLessThanOrEqual($after + 86400, $this->Account->getChangepwTimelimit());
+    }
+
     public function testActivationHash(): void
     {
         $this->Account->setNewActivationHash();
@@ -53,6 +183,52 @@ class AccountTest extends \PHPUnit\Framework\TestCase
         $this->Account->removeActivationHash();
 
         $this->assertNull($this->Account->getActivationHash());
+    }
+
+    public function testNewActivationHashAndNewDeletionHashHaveThirtyTwoHexCharacters(): void
+    {
+        $this->Account->setNewActivationHash();
+        $this->Account->setNewDeletionHash();
+
+        $this->assertMatchesRegularExpression('/^[0-9a-f]{32}$/', (string) $this->Account->getActivationHash());
+        $this->assertMatchesRegularExpression('/^[0-9a-f]{32}$/', (string) $this->Account->getDeletionHash());
+    }
+
+    #[DataProvider('activationHashes')]
+    public function testIsEnabledDependsOnActivationHash(?string $activationHash, bool $expectedEnabled): void
+    {
+        $this->Account->setActivationHash($activationHash);
+
+        $this->assertSame($expectedEnabled, $this->Account->isEnabled());
+    }
+
+    public static function activationHashes(): iterable
+    {
+        yield 'no hash' => [null, true];
+        yield 'empty hash' => ['', true];
+        yield 'hash' => ['a1b2c3', false];
+        yield 'zero as text is a hash' => ['0', false];
+    }
+
+    #[DataProvider('hashLengthsInBytes')]
+    public function testGetRandomHashHasTwoHexCharactersPerByte(int $bytes): void
+    {
+        $this->assertMatchesRegularExpression('/^[0-9a-f]{' . ($bytes * 2) . '}$/', Account::getRandomHash($bytes));
+    }
+
+    public static function hashLengthsInBytes(): iterable
+    {
+        yield 'one byte' => [1];
+        yield 'sixteen bytes' => [16];
+        yield 'thirty-two bytes' => [32];
+    }
+
+    public function testGetRandomHashUsesSixteenBytesByDefaultAndDiffersBetweenCalls(): void
+    {
+        $firstHash = Account::getRandomHash();
+
+        $this->assertSame(32, strlen($firstHash));
+        $this->assertNotSame($firstHash, Account::getRandomHash());
     }
 
     public function testGender(): void
@@ -70,12 +246,31 @@ class AccountTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->Account->isMale());
     }
 
+    public function testGenderNoneIsNotKnown(): void
+    {
+        $this->Account->setGender(Gender::FEMALE);
+        $this->Account->setGender(Gender::NONE);
+
+        $this->assertFalse($this->Account->knowsGender());
+        $this->assertFalse($this->Account->isFemale());
+        $this->assertFalse($this->Account->isMale());
+    }
+
     public function testAge(): void
     {
         $this->Account->setBirthyear((int) date('Y') - 42);
 
         $this->assertTrue($this->Account->knowsBirthYear());
         $this->assertEquals(42, $this->Account->getAge());
+    }
+
+    public function testRemovingBirthyearRemovesAge(): void
+    {
+        $this->Account->setBirthyear(1980);
+        $this->Account->setBirthyear(null);
+
+        $this->assertFalse($this->Account->knowsBirthYear());
+        $this->assertNull($this->Account->getAge());
     }
 
     public function testSportsCollectionIsInitializedByConstructor(): void
@@ -88,9 +283,33 @@ class AccountTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->Account->getActivityTypes()->isEmpty());
     }
 
+    public function testTagsEquipmentAndEquipmentTypesCollectionsAreInitializedByConstructor(): void
+    {
+        $this->assertTrue($this->Account->getTags()->isEmpty());
+        $this->assertTrue($this->Account->getEquipment()->isEmpty());
+        $this->assertTrue($this->Account->getEquipmentTypes()->isEmpty());
+    }
+
     public function testRoleDefaultsToRoleUser(): void
     {
         $this->assertSame([UserRole::getRoleName(UserRole::ROLE_USER)], $this->Account->getRoles());
+    }
+
+    public function testSetRoleChangesRoles(): void
+    {
+        $this->Account->setRole(UserRole::ROLE_ADMIN);
+
+        $this->assertSame(UserRole::ROLE_ADMIN, $this->Account->getRole());
+        $this->assertSame(['ROLE_ADMIN'], $this->Account->getRoles());
+    }
+
+    public function testGetRolesThrowsInvalidArgumentExceptionForUnknownRole(): void
+    {
+        $this->Account->setRole(99);
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->Account->getRoles();
     }
 
     public function testAllowSupportDefaultsToFalse(): void
@@ -107,16 +326,56 @@ class AccountTest extends \PHPUnit\Framework\TestCase
         $this->assertIsString($serialized);
     }
 
-    public function testUnserializingAnAccountThatWasSerializedWithoutMailLeavesMailUninitialized(): void
+    public function testUnserializingAnAccountThatWasSerializedWithoutMailRestoresEmptyMail(): void
     {
         $this->Account->setUsername('no-mail-account');
 
-        $restored = unserialize(serialize($this->Account));
+        $restored = $this->serializeAndRestore();
 
-        $this->assertInstanceOf(Account::class, $restored);
-        $this->expectException(\Error::class);
+        $this->assertSame('', $restored->getMail());
+    }
 
-        $restored->getMail();
+    public function testUnserializeWithoutDataFallsBackToDefaults(): void
+    {
+        $account = new Account();
+
+        $account->__unserialize([]);
+
+        $this->assertNull($account->getId());
+        $this->assertSame('', $account->getUsername());
+        $this->assertSame('', $account->getMail());
+        $this->assertSame('', $account->getPassword());
+        $this->assertSame('', $account->getSalt());
+        $this->assertNull($account->getActivationHash());
+        $this->assertSame('en', $account->getLanguage());
+        $this->assertSame(['ROLE_USER'], $account->getRoles());
+        $this->assertFalse($account->getAllowSupport());
+    }
+
+    public function testUnserializedAccountHasInitializedCollections(): void
+    {
+        $restored = $this->serializeAndRestore();
+
+        $this->assertTrue($restored->getSports()->isEmpty());
+        $this->assertTrue($restored->getActivityTypes()->isEmpty());
+        $this->assertTrue($restored->getTags()->isEmpty());
+        $this->assertTrue($restored->getEquipment()->isEmpty());
+        $this->assertTrue($restored->getEquipmentTypes()->isEmpty());
+    }
+
+    public function testSerializationContainsOnlyDataNeededToIdentifyAndAuthenticate(): void
+    {
+        $this->assertSame(
+            ['id', 'username', 'mail', 'password', 'salt', 'activationHash', 'language', 'role', 'allowSupport'],
+            array_keys($this->Account->__serialize())
+        );
+    }
+
+    public function testSerializationDoesNotContainPlainPassword(): void
+    {
+        $this->Account->setPlainPassword('plain-secret-that-must-not-be-stored');
+
+        $this->assertStringNotContainsString('plain-secret-that-must-not-be-stored', serialize($this->Account));
     }
 
     public function testSerializationRoundTripPreservesIdUsernameAndMail(): void
@@ -124,7 +383,7 @@ class AccountTest extends \PHPUnit\Framework\TestCase
         $this->Account->setUsername('round-trip-user');
         $this->Account->setMail('round-trip@example.test');
 
-        $restored = unserialize(serialize($this->Account));
+        $restored = $this->serializeAndRestore();
 
         $this->assertSame('round-trip-user', $restored->getUsername());
         $this->assertSame('round-trip@example.test', $restored->getMail());
@@ -135,7 +394,7 @@ class AccountTest extends \PHPUnit\Framework\TestCase
         $this->Account->setPassword('some-hashed-password');
         $this->Account->setSalt('some-salt');
 
-        $restored = unserialize(serialize($this->Account));
+        $restored = $this->serializeAndRestore();
 
         $this->assertSame('some-hashed-password', $restored->getPassword());
         $this->assertSame('some-salt', $restored->getSalt());
@@ -145,7 +404,7 @@ class AccountTest extends \PHPUnit\Framework\TestCase
     {
         $this->Account->setActivationHash('some-activation-hash');
 
-        $restored = unserialize(serialize($this->Account));
+        $restored = $this->serializeAndRestore();
 
         $this->assertSame('some-activation-hash', $restored->getActivationHash());
     }
@@ -154,7 +413,7 @@ class AccountTest extends \PHPUnit\Framework\TestCase
     {
         $this->Account->setLanguage('de');
 
-        $restored = unserialize(serialize($this->Account));
+        $restored = $this->serializeAndRestore();
 
         $this->assertSame('de', $restored->getLanguage());
     }
@@ -163,7 +422,7 @@ class AccountTest extends \PHPUnit\Framework\TestCase
     {
         $this->Account->setRole(UserRole::ROLE_ADMIN);
 
-        $restored = unserialize(serialize($this->Account));
+        $restored = $this->serializeAndRestore();
 
         $this->assertSame([UserRole::getRoleName(UserRole::ROLE_ADMIN)], $restored->getRoles());
     }
@@ -172,17 +431,17 @@ class AccountTest extends \PHPUnit\Framework\TestCase
     {
         $this->Account->setAllowSupport(true);
 
-        $restored = unserialize(serialize($this->Account));
+        $restored = $this->serializeAndRestore();
 
         $this->assertTrue($restored->getAllowSupport());
     }
 
     public function testSerializationRoundTripPreservesIdAfterBeingSet(): void
     {
-        $reflection = new \ReflectionProperty(Account::class, 'id');
+        $reflection = new ReflectionProperty(Account::class, 'id');
         $reflection->setValue($this->Account, 42);
 
-        $restored = unserialize(serialize($this->Account));
+        $restored = $this->serializeAndRestore();
 
         $this->assertSame(42, $restored->getId());
     }

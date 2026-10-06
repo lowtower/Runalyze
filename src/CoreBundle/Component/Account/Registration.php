@@ -3,6 +3,8 @@
 namespace Runalyze\Bundle\CoreBundle\Component\Account;
 
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectRepository;
+use Exception;
 use InvalidArgumentException;
 use LogicException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -20,10 +22,15 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class Registration
 {
-    /**
-     * @var array<string, Sport|EquipmentType>
-     */
-    protected array $specialVars;
+    private ?Sport $runningSport = null;
+
+    private ?Sport $bikeSport = null;
+
+    private ?EquipmentType $equipmentTypeClothes = null;
+
+    private ?EquipmentType $equipmentTypeShoes = null;
+
+    private ?EquipmentType $equipmentTypeBikes = null;
 
     public function __construct(
         protected ObjectManager $em,
@@ -34,12 +41,17 @@ class Registration
 
     /**
      * Add hash to activation_hash
+     *
+     * @throws Exception if no secure random source is available
      */
     public function requireAccountActivation(): void
     {
         $this->Account->setActivationHash(self::getNewSalt());
     }
 
+    /**
+     * @throws InvalidArgumentException if neither the given nor the default timezone is known
+     */
     public function setTimezoneByName(string $timezoneName): void
     {
         try {
@@ -59,6 +71,9 @@ class Registration
         $this->Account->setPassword($this->passwordHasher->hashPassword($this->Account, $password));
     }
 
+    /**
+     * @throws LogicException if a default sport or equipment type could not be found
+     */
     private function setEmptyData(): void
     {
         $this->setEquipmentData();
@@ -151,6 +166,9 @@ class Registration
         $this->em->flush();
     }
 
+    /**
+     * @throws LogicException if the default running sport is not available
+     */
     private function setTypeData(): void
     {
         $TypeData = [
@@ -166,6 +184,8 @@ class Registration
             [__('Grundlagenausdauer'), __('GA'), 130, false],
         ];
 
+        $runningSport = $this->getRegisteredSportForRunning();
+
         foreach ($TypeData as $tData) {
             $Type = new Type();
             $Type->setAccount($this->Account);
@@ -173,58 +193,87 @@ class Registration
             $Type->setAbbr($tData[1]);
             $Type->setHrAvg($tData[2]);
             $Type->setQualitySession($tData[3]);
-            $Type->setSport($this->specialVars['RUNNINGSPORT']);
+            $Type->setSport($runningSport);
             $this->em->persist($Type);
         }
 
         $this->em->flush();
     }
 
+    /**
+     * @throws LogicException if a default sport or equipment type could not be found for the new account
+     */
     private function collectSpecialVars(): void
     {
         /** @var SportRepository $repository */
         $repository = $this->em->getRepository(Sport::class);
-        /** @var Sport[] $sport */
-        $sport = $repository->findAllFor($this->Account);
 
-        foreach ($sport as $item) {
+        foreach ($repository->findAllFor($this->Account) as $item) {
             switch ($item->getImg()) {
                 case 'icons8-Running':
-                    $this->specialVars['RUNNINGSPORT'] = $item;
+                    $this->runningSport = $item;
                     break;
                 case 'icons8-Regular-Biking':
-                    $this->specialVars['BIKESPORT'] = $item;
+                    $this->bikeSport = $item;
                     break;
             }
         }
 
-        $equipmentType = $this->em->getRepository(EquipmentType::class);
-        $equipmentClothes = $equipmentType->findOneBy([
-            'name' => __('Clothes'),
-            'account' => $this->Account->getId(),
-        ]);
-        $equipmentShoes = $equipmentType->findOneBy([
-            'name' => __('Shoes'),
-            'account' => $this->Account->getId(),
-        ]);
-        $equipmentBikes = $equipmentType->findOneBy([
-            'name' => __('Bikes'),
-            'account' => $this->Account->getId(),
-        ]);
+        if (! $this->runningSport instanceof Sport) {
+            throw new LogicException('Default running sport could not be found for the new account.');
+        }
 
-        $this->specialVars['EQUIPMENT_CLOTHES'] = $equipmentClothes;
-        $this->specialVars['EQUIPMENT_SHOES'] = $equipmentShoes;
-        $this->specialVars['EQUIPMENT_BIKES'] = $equipmentBikes;
+        if (! $this->bikeSport instanceof Sport) {
+            throw new LogicException('Default cycling sport could not be found for the new account.');
+        }
+
+        $equipmentTypeRepository = $this->em->getRepository(EquipmentType::class);
+
+        $this->equipmentTypeClothes = $this->findEquipmentType($equipmentTypeRepository, __('Clothes'));
+        $this->equipmentTypeShoes = $this->findEquipmentType($equipmentTypeRepository, __('Shoes'));
+        $this->equipmentTypeBikes = $this->findEquipmentType($equipmentTypeRepository, __('Bikes'));
     }
 
+    /**
+     * @param ObjectRepository<EquipmentType> $repository
+     *
+     * @throws LogicException if the equipment type does not exist for the new account
+     */
+    private function findEquipmentType(ObjectRepository $repository, string $name): EquipmentType
+    {
+        $equipmentType = $repository->findOneBy([
+            'name' => $name,
+            'account' => $this->Account->getId(),
+        ]);
+
+        if (! $equipmentType instanceof EquipmentType) {
+            throw new LogicException(sprintf('Equipment type "%s" could not be found for the new account.', $name));
+        }
+
+        return $equipmentType;
+    }
+
+    /**
+     * @throws LogicException if the special sports or equipment types have not been collected yet
+     */
     private function setSpecialVars(): void
     {
+        $running = $this->getRegisteredSportForRunning();
+        $biking = $this->getRegisteredSportForCycling();
+        $clothes = $this->getRegisteredEquipmentTypeClothes();
+        $shoes = $this->equipmentTypeShoes;
+        $bikes = $this->equipmentTypeBikes;
+
+        if (! $shoes instanceof EquipmentType || ! $bikes instanceof EquipmentType) {
+            throw new LogicException('Account has to be registered first.');
+        }
+
         $Clothes = [__('long sleeve'), __('T-shirt'), __('singlet'), __('jacket'), __('long pants'), __('shorts'), __('gloves'), __('hat')];
         foreach ($Clothes as $cloth) {
             $Equipment = new Equipment();
             $Equipment->setAccount($this->Account);
             $Equipment->setName($cloth);
-            $Equipment->setType($this->specialVars['EQUIPMENT_CLOTHES']);
+            $Equipment->setType($clothes);
             $this->em->persist($Equipment);
         }
 
@@ -233,25 +282,26 @@ class Registration
             $Conf->setAccount($this->Account);
             $Conf->setCategory('general');
             $Conf->setKey($cKey);
-            $Conf->setValue((string) $this->specialVars['RUNNINGSPORT']->getId());
+            $Conf->setValue((string) $running->getId());
             $this->em->persist($Conf);
         }
 
-        $Running = $this->specialVars['RUNNINGSPORT'];
-        $Running->setMainEquipmenttype($this->specialVars['EQUIPMENT_SHOES']);
-        $Running->addEquipmentType($this->specialVars['EQUIPMENT_CLOTHES']);
-        $Running->addEquipmentType($this->specialVars['EQUIPMENT_SHOES']);
+        $running->setMainEquipmenttype($shoes);
+        $running->addEquipmentType($clothes);
+        $running->addEquipmentType($shoes);
 
-        $this->em->persist($Running);
+        $this->em->persist($running);
 
-        $Biking = $this->specialVars['BIKESPORT'];
-        $Biking->addEquipmentType($this->specialVars['EQUIPMENT_BIKES']);
+        $biking->addEquipmentType($bikes);
 
-        $this->em->persist($Biking);
+        $this->em->persist($biking);
         $this->em->flush();
         $this->em->clear();
     }
 
+    /**
+     * @throws LogicException if a default sport or equipment type could not be found for the new account
+     */
     public function registerAccount(): Account
     {
         $this->em->persist($this->Account);
@@ -266,11 +316,11 @@ class Registration
      */
     public function getRegisteredSportForRunning(): Sport
     {
-        if (! isset($this->specialVars['RUNNINGSPORT'])) {
+        if (! $this->runningSport instanceof Sport) {
             throw new LogicException('Account has to be registered first.');
         }
 
-        return $this->specialVars['RUNNINGSPORT'];
+        return $this->runningSport;
     }
 
     /**
@@ -278,11 +328,11 @@ class Registration
      */
     public function getRegisteredSportForCycling(): Sport
     {
-        if (! isset($this->specialVars['BIKESPORT'])) {
+        if (! $this->bikeSport instanceof Sport) {
             throw new LogicException('Account has to be registered first.');
         }
 
-        return $this->specialVars['BIKESPORT'];
+        return $this->bikeSport;
     }
 
     /**
@@ -290,13 +340,16 @@ class Registration
      */
     public function getRegisteredEquipmentTypeClothes(): EquipmentType
     {
-        if (! isset($this->specialVars['EQUIPMENT_CLOTHES'])) {
+        if (! $this->equipmentTypeClothes instanceof EquipmentType) {
             throw new LogicException('Account has to be registered first.');
         }
 
-        return $this->specialVars['EQUIPMENT_CLOTHES'];
+        return $this->equipmentTypeClothes;
     }
 
+    /**
+     * @throws Exception if no secure random source is available
+     */
     public static function getNewSalt(): string
     {
         return bin2hex(random_bytes(16));

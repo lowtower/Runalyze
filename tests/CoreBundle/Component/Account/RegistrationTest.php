@@ -1,20 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Account;
 
 use Doctrine\Persistence\ObjectManager;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Doctrine\Persistence\ObjectRepository;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use LogicException;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
-use Symfony\Bundle\FrameworkBundle\Client;
+use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
+use Runalyze\Bundle\CoreBundle\Entity\Sport;
+use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
-#[\PHPUnit\Framework\Attributes\Group('requiresClient')]
-class RegistrationTest extends WebTestCase
+#[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
+class RegistrationTest extends KernelTestCase
 {
-    protected Client $Client;
+    private const PASSWORD = 'Pa$$w0rd';
 
     protected ObjectManager $EntityManager;
 
@@ -24,40 +33,274 @@ class RegistrationTest extends WebTestCase
     {
         parent::setUp();
 
-        $databaseTool = static::getContainer()->get(DatabaseToolCollection::class);
-        $databaseTool->get()
-            ->loadFixtures([])->getReferenceRepository();
+        self::bootKernel();
 
-        $this->Client = $this->getContainer()
-            ->get('test.client');
-        $this->Client->disableReboot();
+        static::getContainer()
+            ->get(DatabaseToolCollection::class)
+            ->get()
+            ->loadFixtures([]);
 
-        $this->EntityManager = $this->getContainer()
+        $this->EntityManager = static::getContainer()
             ->get('doctrine')
             ->getManager();
         $this->EntityManager->clear();
 
-        /** @var AccountRepository $accountRepository */
         $accountRepository = $this->EntityManager->getRepository(Account::class);
+        self::assertInstanceOf(AccountRepository::class, $accountRepository);
         $this->AccountRepository = $accountRepository;
     }
 
     public function testThatRegistrationProcessWorks(): void
     {
+        $registration = $this->createRegistration();
+        $registration->requireAccountActivation();
+
+        $storedAccount = $this->registerAndReload($registration);
+
+        self::assertSame('foobar', $storedAccount->getUserIdentifier());
+        self::assertSame('foo@bar.com', $storedAccount->getMail());
+        self::assertNotNull($storedAccount->getActivationHash());
+    }
+
+    public function testRequireAccountActivationSetsRandomHash(): void
+    {
+        $account = $this->createAccount();
+
+        $this->createRegistration($account)
+            ->requireAccountActivation();
+
+        self::assertMatchesRegularExpression('/^[0-9a-f]{32}$/', (string) $account->getActivationHash());
+    }
+
+    public function testNewSaltHasThirtyTwoHexCharactersAndDiffersBetweenCalls(): void
+    {
+        $firstSalt = Registration::getNewSalt();
+        $secondSalt = Registration::getNewSalt();
+
+        self::assertMatchesRegularExpression('/^[0-9a-f]{32}$/', $firstSalt);
+        self::assertNotSame($firstSalt, $secondSalt);
+    }
+
+    public function testSetLocaleChangesLanguageOfAccount(): void
+    {
+        $account = $this->createAccount();
+
+        $this->createRegistration($account)
+            ->setLocale('de');
+
+        self::assertSame('de', $account->getLanguage());
+    }
+
+    public function testSetPasswordStoresHashThatMatchesTheGivenPassword(): void
+    {
+        $account = $this->createAccount();
+
+        $this->createRegistration($account)
+            ->setPassword(self::PASSWORD);
+
+        self::assertNotSame(self::PASSWORD, $account->getPassword());
+        self::assertTrue($this->getPasswordHasher()->isPasswordValid($account, self::PASSWORD));
+        self::assertFalse($this->getPasswordHasher()->isPasswordValid($account, 'wrong password'));
+    }
+
+    public function testRegisterAccountCreatesAllDefaultSports(): void
+    {
+        $storedAccount = $this->registerAndReload($this->createRegistration());
+
+        /** @var SportRepository $sportRepository */
+        $sportRepository = $this->EntityManager->getRepository(Sport::class);
+        self::assertInstanceOf(SportRepository::class, $sportRepository);
+
+        $images = array_map(
+            static fn (Sport $sport): string => $sport->getImg(),
+            $sportRepository->findAllFor($storedAccount)
+        );
+
+        self::assertEqualsCanonicalizing(
+            ['icons8-Running', 'icons8-Swimming', 'icons8-Regular-Biking', 'icons8-Yoga', 'icons8-Sports-Mode'],
+            $images
+        );
+    }
+
+    #[DataProvider('equipmentTypeNames')]
+    public function testRegisterAccountCreatesDefaultEquipmentType(string $name): void
+    {
+        $storedAccount = $this->registerAndReload($this->createRegistration());
+
+        $equipmentType = $this->EntityManager
+            ->getRepository(EquipmentType::class)
+            ->findOneBy([
+                'name' => __($name),
+                'account' => $storedAccount->getId(),
+            ]);
+
+        self::assertInstanceOf(EquipmentType::class, $equipmentType);
+    }
+
+    public static function equipmentTypeNames(): iterable
+    {
+        yield 'shoes' => ['Shoes'];
+        yield 'clothes' => ['Clothes'];
+        yield 'bikes' => ['Bikes'];
+    }
+
+    public function testRegisteredSportsAndEquipmentTypeAreAvailableAfterRegistration(): void
+    {
+        $registration = $this->createRegistration();
+        $this->registerAndReload($registration);
+
+        self::assertSame('icons8-Running', $registration->getRegisteredSportForRunning()->getImg());
+        self::assertSame('icons8-Regular-Biking', $registration->getRegisteredSportForCycling()->getImg());
+        self::assertInstanceOf(EquipmentType::class, $registration->getRegisteredEquipmentTypeClothes());
+    }
+
+    #[DataProvider('registeredDataGetters')]
+    public function testGettersThrowLogicExceptionBeforeAccountWasRegistered(string $getter): void
+    {
+        $registration = $this->createRegistration();
+
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('Account has to be registered first.');
+
+        $registration->{$getter}();
+    }
+
+    public static function registeredDataGetters(): iterable
+    {
+        yield 'running sport' => ['getRegisteredSportForRunning'];
+        yield 'cycling sport' => ['getRegisteredSportForCycling'];
+        yield 'equipment type clothes' => ['getRegisteredEquipmentTypeClothes'];
+    }
+
+    /**
+     * @param string[] $availableSportImages
+     */
+    #[DataProvider('incompleteSports')]
+    public function testRegisterAccountThrowsLogicExceptionWhenDefaultSportIsMissing(array $availableSportImages, string $expectedMessage): void
+    {
+        $registration = $this->createRegistration(
+            entityManager: $this->createEntityManagerWithRepositories(
+                $this->createSportRepository($availableSportImages),
+                $this->createEquipmentTypeRepository(null)
+            )
+        );
+
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage($expectedMessage);
+
+        $registration->registerAccount();
+    }
+
+    public static function incompleteSports(): iterable
+    {
+        $missingRunning = 'Default running sport could not be found for the new account.';
+        $missingCycling = 'Default cycling sport could not be found for the new account.';
+
+        yield 'no sport at all' => [[], $missingRunning];
+        yield 'only unrelated sport' => [['icons8-Yoga'], $missingRunning];
+        yield 'only cycling' => [['icons8-Regular-Biking'], $missingRunning];
+        yield 'only running' => [['icons8-Running'], $missingCycling];
+    }
+
+    #[DataProvider('equipmentTypeNames')]
+    public function testRegisterAccountThrowsLogicExceptionWhenEquipmentTypeIsMissing(string $missingName): void
+    {
+        $translatedName = __($missingName);
+
+        $registration = $this->createRegistration(
+            entityManager: $this->createEntityManagerWithRepositories(
+                $this->createSportRepository(['icons8-Running', 'icons8-Regular-Biking']),
+                $this->createEquipmentTypeRepository($translatedName)
+            )
+        );
+
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage(sprintf('Equipment type "%s" could not be found for the new account.', $translatedName));
+
+        $registration->registerAccount();
+    }
+
+    private function createAccount(): Account
+    {
         $account = new Account();
         $account->setUsername('foobar');
         $account->setMail('foo@bar.com');
 
-        $passwordHasher = $this->getContainer()
+        return $account;
+    }
+
+    private function createRegistration(?Account $account = null, ?ObjectManager $entityManager = null): Registration
+    {
+        return new Registration(
+            $entityManager ?? $this->EntityManager,
+            $account ?? $this->createAccount(),
+            $this->getPasswordHasher()
+        );
+    }
+
+    private function getPasswordHasher(): UserPasswordHasherInterface
+    {
+        $passwordHasher = static::getContainer()
             ->get('security.user_password_hasher');
+        self::assertInstanceOf(UserPasswordHasherInterface::class, $passwordHasher);
 
-        $registration = new Registration($this->EntityManager, $account, $passwordHasher);
-        $registration->requireAccountActivation();
-        $registration->setPassword('Pa$$w0rd');
+        return $passwordHasher;
+    }
 
+    private function registerAndReload(Registration $registration): Account
+    {
+        $registration->setPassword(self::PASSWORD);
         $registeredAccount = $registration->registerAccount();
 
-        $this->assertEquals('foobar', $this->AccountRepository->find($registeredAccount->getId())->getUserIdentifier());
-        $this->assertNotNull($registeredAccount->getActivationHash());
+        $storedAccount = $this->AccountRepository->find($registeredAccount->getId());
+        self::assertInstanceOf(Account::class, $storedAccount);
+
+        return $storedAccount;
+    }
+
+    /**
+     * @param string[] $images
+     */
+    private function createSportRepository(array $images): SportRepository&MockObject
+    {
+        $sports = array_map(
+            static function (string $image): Sport {
+                $sport = new Sport();
+                $sport->setImg($image);
+
+                return $sport;
+            },
+            $images
+        );
+
+        $repository = $this->createMock(SportRepository::class);
+        $repository->method('findAllFor')
+            ->willReturn($sports);
+
+        return $repository;
+    }
+
+    private function createEquipmentTypeRepository(?string $missingName): ObjectRepository&MockObject
+    {
+        $repository = $this->createMock(ObjectRepository::class);
+        $repository->method('findOneBy')
+            ->willReturnCallback(
+                static fn (array $criteria): ?EquipmentType => $criteria['name'] === $missingName ? null : new EquipmentType()
+            );
+
+        return $repository;
+    }
+
+    private function createEntityManagerWithRepositories(
+        SportRepository $sportRepository,
+        ObjectRepository $equipmentTypeRepository
+    ): ObjectManager&MockObject {
+        $entityManager = $this->createMock(ObjectManager::class);
+        $entityManager->method('getRepository')
+            ->willReturnCallback(
+                static fn (string $className): ObjectRepository => $className === Sport::class ? $sportRepository : $equipmentTypeRepository
+            );
+
+        return $entityManager;
     }
 }

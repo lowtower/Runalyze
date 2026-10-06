@@ -87,7 +87,7 @@ class WeatherController extends AbstractController
             ],
             'source' => [
                 'id' => $weather->Source,
-                'name' => $source !== null ? $source->getAttribution($this->translator) : '',
+                'name' => $source?->getAttribution($this->translator) ?? '',
             ],
             'weatherid' => $weather->InternalConditionId,
             'temperature' => $weather->Temperature,

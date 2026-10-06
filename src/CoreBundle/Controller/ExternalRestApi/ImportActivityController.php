@@ -1,18 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Controller\ExternalRestApi;
 
 use Exception;
+use Psr\Log\LoggerInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Exception\DuplicateUploadFileNameException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
@@ -22,6 +29,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * If no problems occur and all uploaded files are imported successfully a HTTP state 200 is returned otherwise (duplicates or failed) a state 202 is returned.
  * If there are technical trouble (while creating the tmp-folder, moving files ...) a HTTP state 500 is returned.
  * Additional infos and the output of the "runalyze:activity:bulk-import" are set in the response content as "Content-Type: text/plain"
+ * Only duplicate file names are explained in detail in the response. The details of any other technical trouble (including the stack trace) are written to the log.
  *
  * example with 2 files:
  * curl -k -u "user:pwd" -H "Accept-Language: de,en" -X POST https://<domain>/api/import/activity -F 'file1=@afile.fit' -F 'file2=@another.fit' -w 'HttpCode: %{http_code}\n'
@@ -34,8 +42,13 @@ class ImportActivityController extends AbstractController
 
     public const SUCCESS_MSG = 'successfully imported';
 
+    public const GENERIC_ERROR_MSG = 'ERROR: The import failed. Details have been written to the server log.';
+
+    public const TEMP_FOLDER_ERROR_MSG = 'ERROR: Error while creating temp folder!';
+
     public function __construct(
-        private readonly KernelInterface $kernel
+        private readonly KernelInterface $kernel,
+        private readonly LoggerInterface $logger
     ) {
     }
 
@@ -48,12 +61,16 @@ class ImportActivityController extends AbstractController
      * - call the existing command "runalyze:activity:bulk-import"
      * - cleanup: remove uploaded files and tmp-folder
      *
-     * @throws AccessDeniedException
+     * @throws AccessDeniedException if the user is not logged in
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/api/import/activity', methods: ['POST'])]
-    public function postImportActivity(Request $request, Account $account): Response
+    #[Route(path: '/api/import/activity', methods: ['POST'])]
+    public function postImportActivity(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
+
+        if (! $account instanceof Account) {
+            throw $this->createAccessDeniedException();
+        }
 
         $result = '';
 
@@ -78,7 +95,7 @@ class ImportActivityController extends AbstractController
         $allfilesCount = count($allfiles);
 
         $uploadDir = $this->createUploadDir($username);
-        if ($uploadDir != null) {
+        if ($uploadDir !== null) {
             $result = $result . 'Storing ' . $allfilesCount . ' uploaded files to temp folder ' . $uploadDir . '.' . PHP_EOL;
 
             try {
@@ -92,12 +109,22 @@ class ImportActivityController extends AbstractController
                     $result = $result . 'WARNING: ' . $notSuccessful . ' of ' . $allfilesCount . ' files are NOT imported successfully - please check the above protocol.' . PHP_EOL;
                     $resultCode = Response::HTTP_ACCEPTED; // 202
                 }
-            } catch (Exception $exception) {
-                $result = $result . 'ERROR: Error while importing ' . $exception->getMessage() . PHP_EOL . $exception->getTraceAsString() . PHP_EOL;
+            } catch (DuplicateUploadFileNameException $exception) {
+                $result = $result . 'ERROR: ' . $exception->getMessage() . PHP_EOL;
                 $resultCode = Response::HTTP_INTERNAL_SERVER_ERROR; // 500
+            } catch (Exception $exception) {
+                $this->logger->error('Activity import via REST API failed.', [
+                    'username' => $username,
+                    'exception' => $exception,
+                ]);
+
+                $result = $result . self::GENERIC_ERROR_MSG . PHP_EOL;
+                $resultCode = Response::HTTP_INTERNAL_SERVER_ERROR; // 500
+            } finally {
+                $this->removeUploadDir($uploadDir);
             }
         } else {
-            $result = $result . 'ERROR: Error while creating temp folder!' . PHP_EOL;
+            $result = $result . self::TEMP_FOLDER_ERROR_MSG . PHP_EOL;
             $resultCode = Response::HTTP_INTERNAL_SERVER_ERROR; // 500
         }
 
@@ -108,7 +135,8 @@ class ImportActivityController extends AbstractController
 
     /**
      * @param UploadedFile[] $allfiles
-     * @throws DuplicateUploadFileNameException
+     *
+     * @throws DuplicateUploadFileNameException if two uploaded files share the same client file name
      */
     private function assertNoDuplicateFileNames(array $allfiles): void
     {
@@ -131,16 +159,38 @@ class ImportActivityController extends AbstractController
     private function createUploadDir(string $username): ?string
     {
         $tmpDir = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . uniqid($username . '_', true);
-        if (mkdir($tmpDir)) {
-            return $tmpDir;
+
+        try {
+            (new Filesystem())->mkdir($tmpDir);
+        } catch (IOException $ioException) {
+            $this->logger->error('Temporary upload directory could not be created.', [
+                'directory' => $tmpDir,
+                'exception' => $ioException,
+            ]);
+
+            return null;
         }
 
-        return null;
+        return $tmpDir;
+    }
+
+    private function removeUploadDir(string $uploadDir): void
+    {
+        try {
+            (new Filesystem())->remove($uploadDir);
+        } catch (IOException $ioException) {
+            $this->logger->warning('Temporary upload directory could not be removed.', [
+                'directory' => $uploadDir,
+                'exception' => $ioException,
+            ]);
+        }
     }
 
     /**
      * @param UploadedFile[] $allfiles
-     * @throws DuplicateUploadFileNameException
+     *
+     * @throws DuplicateUploadFileNameException if two uploaded files share the same client file name
+     * @throws FileException if an uploaded file cannot be moved to the upload directory
      */
     private function processFiles(string $username, string $uploadDir, array $allfiles): string
     {

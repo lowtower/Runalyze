@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Entity;
 
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use Runalyze\Bundle\CoreBundle\Entity\Common\IdentifiableEntityInterface;
 use Runalyze\Bundle\CoreBundle\Validator\Constraints as RunalyzeAssert;
 use Runalyze\Model\Account\UserRole;
@@ -25,7 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface, IdentifiableEntityInterface
 {
     #[Assert\Length(min: 8, minMessage: 'Your password must be at least {{ limit }} characters long')]
-    private string $plainPassword;
+    private ?string $plainPassword = null;
 
     #[ORM\Column(name: 'id', type: 'integer', precision: 10, unique: true, nullable: false, options: [
         'unsigned' => true,
@@ -49,7 +51,7 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     #[Assert\NotBlank]
     #[Assert\Email(message: "The email '{{ value }}' is not a valid email.")]
     #[RunalyzeAssert\ContainsDisposableMailAddress]
-    private string $mail;
+    private string $mail = '';
 
     #[ORM\Column(name: 'language', type: 'string', length: 5, nullable: false, options: [
         'default' => 'en',
@@ -58,7 +60,7 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     private string $language = 'en';
 
     /**
-     * @var int enum
+     * @see Timezone
      */
     #[ORM\Column(name: 'timezone', type: 'smallint', nullable: false, options: [
         'unsigned' => true,
@@ -70,7 +72,7 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     private int $timezone = Timezone::UTC;
 
     /**
-     * @var ?int enum, see \Runalyze\Profile\Athlete\Gender
+     * @see Gender
      */
     #[ORM\Column(name: 'gender', type: 'tinyint', nullable: true, options: [
         'unsigned' => true,
@@ -105,7 +107,7 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     private ?int $registerdate = null;
 
     /**
-     * @var ?int [timestmap]
+     * @var ?int [timestamp]
      */
     #[ORM\Column(name: 'lastaction', type: 'integer', nullable: true, options: [
         'unsigned' => true,
@@ -182,13 +184,12 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     ])]
     private ?int $role = UserRole::ROLE_USER;
 
+    /**
+     * @throws Exception if no secure random source is available
+     */
     public function __construct()
     {
-        $this->sports = new ArrayCollection();
-        $this->activityTypes = new ArrayCollection();
-        $this->tags = new ArrayCollection();
-        $this->equipment = new ArrayCollection();
-        $this->equipmentTypes = new ArrayCollection();
+        $this->initializeCollections();
 
         $this->setRegisterdate(time());
         $this->setLastAction(time());
@@ -255,7 +256,7 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     }
 
     /**
-     * @param int $enum enum
+     * @see Timezone
      */
     public function setTimezone(int $enum): self
     {
@@ -265,7 +266,7 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return int enum
+     * @see Timezone
      */
     public function getTimezone(): int
     {
@@ -273,7 +274,7 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     }
 
     /**
-     * @param int $enum enum, see \Runalyze\Profile\Athlete\Gender
+     * @see Gender
      */
     public function setGender(int $enum): self
     {
@@ -283,7 +284,7 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return ?int enum, see \Runalyze\Profile\Athlete\Gender
+     * @see Gender
      */
     public function getGender(): ?int
     {
@@ -351,9 +352,12 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
 
     public function getPlainPassword(): string
     {
-        return $this->plainPassword;
+        return $this->plainPassword ?? '';
     }
 
+    /**
+     * @throws Exception if no secure random source is available
+     */
     public function setNewSalt(): self
     {
         return $this->setSalt(self::getRandomHash(32));
@@ -373,10 +377,12 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
 
     /**
      * @return string hash of length 2*$bytes
+     *
+     * @throws Exception if no secure random source is available
      */
     public static function getRandomHash(int $bytes = 16): string
     {
-        return bin2hex(openssl_random_pseudo_bytes($bytes));
+        return bin2hex(random_bytes($bytes));
     }
 
     /**
@@ -402,9 +408,7 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
      */
     public function setLastAction(?int $lastAction = null): self
     {
-        $lastAction ??= (new DateTime())->getTimestamp();
-
-        $this->lastaction = $lastAction;
+        $this->lastaction = $lastAction ?? time();
 
         return $this;
     }
@@ -417,6 +421,9 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
         return $this->lastaction;
     }
 
+    /**
+     * @throws Exception if no secure random source is available
+     */
     public function setNewChangePasswordHash(): self
     {
         $this->setChangepwHash(self::getRandomHash(16));
@@ -457,6 +464,9 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
         return $this->changepwTimelimit;
     }
 
+    /**
+     * @throws Exception if no secure random source is available
+     */
     public function setNewActivationHash(): self
     {
         return $this->setActivationHash(self::getRandomHash(16));
@@ -481,6 +491,9 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
         return $this->activationHash;
     }
 
+    /**
+     * @throws Exception if no secure random source is available
+     */
     public function setNewDeletionHash(): self
     {
         return $this->setDeletionHash(self::getRandomHash(16));
@@ -536,7 +549,7 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
 
     public function eraseCredentials(): void
     {
-        $this->setPlainPassword('');
+        $this->plainPassword = null;
     }
 
     /**
@@ -588,14 +601,14 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array{id: ?int, username: string, mail: string, password: string, salt: string, activationHash: ?string, language: string, role: ?int, allowSupport: bool}
      */
     public function __serialize(): array
     {
         return [
             'id' => $this->id,
             'username' => $this->username,
-            'mail' => $this->mail ?? null,
+            'mail' => $this->mail,
             'password' => $this->password,
             'salt' => $this->salt,
             'activationHash' => $this->activationHash,
@@ -610,23 +623,30 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
      */
     public function __unserialize(array $data): void
     {
-        $this->id = $data['id'];
-        $this->username = $data['username'];
+        $this->initializeCollections();
 
-        if ($data['mail'] !== null) {
-            $this->mail = $data['mail'];
-        }
-
-        $this->password = $data['password'];
-        $this->salt = $data['salt'];
-        $this->activationHash = $data['activationHash'];
-        $this->language = $data['language'];
+        $this->id = $data['id'] ?? null;
+        $this->username = $data['username'] ?? '';
+        $this->mail = $data['mail'] ?? '';
+        $this->password = $data['password'] ?? '';
+        $this->salt = $data['salt'] ?? '';
+        $this->activationHash = $data['activationHash'] ?? null;
+        $this->language = $data['language'] ?? 'en';
         $this->role = $data['role'] ?? UserRole::ROLE_USER;
         $this->allowSupport = $data['allowSupport'] ?? false;
     }
 
     public function isEnabled(): bool
     {
-        return empty($this->getActivationHash());
+        return $this->activationHash === null || $this->activationHash === '';
+    }
+
+    private function initializeCollections(): void
+    {
+        $this->sports = new ArrayCollection();
+        $this->activityTypes = new ArrayCollection();
+        $this->tags = new ArrayCollection();
+        $this->equipment = new ArrayCollection();
+        $this->equipmentTypes = new ArrayCollection();
     }
 }

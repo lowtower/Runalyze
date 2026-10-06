@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Form\Settings;
 
+use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Language;
 use Runalyze\Profile\Athlete\Gender;
 use Runalyze\Timezone;
@@ -78,7 +79,7 @@ class AccountType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Account::class,
+            'data_class' => Account::class,
         ]);
     }
 }
