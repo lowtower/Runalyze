@@ -38,6 +38,10 @@ class TagsControllerTest extends AbstractFixturesAwareWebTestCase
             }
         }
 
+        if ($forms->count() === 1) {
+            return $forms->eq(0)->form();
+        }
+
         $availableNames = $forms->each(fn ($node) => $node->attr('name') ?? '(no name)');
         throw new RuntimeException(sprintf(
             'No form with name attribute containing "%s" found. Available forms: %s',

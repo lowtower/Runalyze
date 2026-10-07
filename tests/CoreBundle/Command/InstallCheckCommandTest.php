@@ -240,7 +240,7 @@ final class InstallCheckCommandTest extends TestCase
         );
         self::assertSame(
             InstallCheckCommand::OKAY,
-            $command->evaluatePhpVersionPublic('8.3.0')
+            $command->evaluatePhpVersionPublic('8.4.0')
         );
     }
 
