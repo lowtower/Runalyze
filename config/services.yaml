@@ -535,38 +535,40 @@ services:
       factory: ["@app.unit_system_factory", "getWeightUnit"]
       arguments: ["@app.configuration_manager"]
     Runalyze\Metrics\Weight\Unit\AbstractWeightUnit: '@app.unit_system.weight'
+
     app.twig_configuration_extension:
       class: Runalyze\Bundle\CoreBundle\Twig\ConfigurationExtension
       public: false
       arguments: ["@app.configuration_manager"]
       tags:
-        - { name: twig.extension }
+        - { name: twig.attribute_extension }
     Runalyze\Bundle\CoreBundle\Twig\ConfigurationExtension: '@app.twig_configuration_extension'
     app.twig_html_extension:
       class: Runalyze\Bundle\CoreBundle\Twig\HtmlExtension
       public: false
       tags:
-        - { name: twig.extension }
+        - { name: twig.attribute_extension }
     Runalyze\Bundle\CoreBundle\Twig\HtmlExtension: '@app.twig_html_extension'
     app.twig_utility_extension:
       class: Runalyze\Bundle\CoreBundle\Twig\UtilityExtension
       public: false
       tags:
-        - { name: twig.extension }
+        - { name: twig.attribute_extension }
     Runalyze\Bundle\CoreBundle\Twig\UtilityExtension: '@app.twig_utility_extension'
     app.twig_value_extension:
       class: Runalyze\Bundle\CoreBundle\Twig\ValueExtension
       public: false
       arguments: ["@app.configuration_manager"]
       tags:
-        - { name: twig.extension }
+        - { name: twig.attribute_extension }
     Runalyze\Bundle\CoreBundle\Twig\ValueExtension: '@app.twig_value_extension'
     app.twig_automatic_reload_flag_extension:
       class: Runalyze\Bundle\CoreBundle\Twig\AutomaticReloadFlagExtension
       public: false
       tags:
-        - { name: twig.extension }
+        - { name: twig.attribute_extension }
     Runalyze\Bundle\CoreBundle\Twig\AutomaticReloadFlagExtension: '@app.twig_automatic_reload_flag_extension'
+
     app.poster.generate_json:
       class: Runalyze\Bundle\CoreBundle\Component\Tool\Poster\GenerateJsonData
       arguments: ["@app.repository.training", "@app.repository.race_result", "%kernel.project_dir%/.."]

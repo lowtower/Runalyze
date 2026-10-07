@@ -4,48 +4,12 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Twig;
 
-class HtmlExtension extends \Twig\Extension\AbstractExtension
+class HtmlExtension
 {
     /**
      * @codeCoverageIgnore
      */
-    public function getName(): string
-    {
-        return 'runalyze.html_extension';
-    }
-
-    /**
-     * @return \Twig\TwigFilter[]
-     *
-     * @codeCoverageIgnore
-     */
-    public function getFilters(): array
-    {
-        return [
-            new \Twig\TwigFilter('info', $this->info(...), [
-                'is_safe' => ['html'],
-            ]),
-            new \Twig\TwigFilter('error', $this->error(...), [
-                'is_safe' => ['html'],
-            ]),
-            new \Twig\TwigFilter('warning', $this->warning(...), [
-                'is_safe' => ['html'],
-            ]),
-            new \Twig\TwigFilter('okay', $this->okay(...), [
-                'is_safe' => ['html'],
-            ]),
-            new \Twig\TwigFilter('nbsp', $this->nbsp(...), [
-                'is_safe' => ['html'],
-            ]),
-            new \Twig\TwigFilter('nonbsp', $this->nonbsp(...), [
-                'is_safe' => ['html'],
-            ]),
-        ];
-    }
-
-    /**
-     * @codeCoverageIgnore
-     */
+    #[\Twig\Attribute\AsTwigFilter(name: 'info', isSafe: ['html'])]
     public function info(string $string): string
     {
         return '<p class="info">' . $string . '</p>';
@@ -54,6 +18,7 @@ class HtmlExtension extends \Twig\Extension\AbstractExtension
     /**
      * @codeCoverageIgnore
      */
+    #[\Twig\Attribute\AsTwigFilter(name: 'error', isSafe: ['html'])]
     public function error(string $string): string
     {
         return '<p class="error">' . $string . '</p>';
@@ -62,6 +27,7 @@ class HtmlExtension extends \Twig\Extension\AbstractExtension
     /**
      * @codeCoverageIgnore
      */
+    #[\Twig\Attribute\AsTwigFilter(name: 'warning', isSafe: ['html'])]
     public function warning(string $string): string
     {
         return '<p class="warning">' . $string . '</p>';
@@ -70,16 +36,19 @@ class HtmlExtension extends \Twig\Extension\AbstractExtension
     /**
      * @codeCoverageIgnore
      */
+    #[\Twig\Attribute\AsTwigFilter(name: 'okay', isSafe: ['html'])]
     public function okay(string $string): string
     {
         return '<p class="okay">' . $string . '</p>';
     }
 
+    #[\Twig\Attribute\AsTwigFilter(name: 'nbsp', isSafe: ['html'])]
     public function nbsp(string $string): string
     {
         return str_replace(' ', '&nbsp;', $string);
     }
 
+    #[\Twig\Attribute\AsTwigFilter(name: 'nonbsp', isSafe: ['html'])]
     public function nonbsp(string $string): string
     {
         return str_replace('&nbsp;', ' ', $string);

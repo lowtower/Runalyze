@@ -11,6 +11,8 @@ use ReflectionProperty;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Model\Account\UserRole;
 use Runalyze\Profile\Athlete\Gender;
+use Symfony\Component\Security\Core\User\EquatableInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
 class AccountTest extends TestCase
@@ -444,5 +446,92 @@ class AccountTest extends TestCase
         $restored = $this->serializeAndRestore();
 
         $this->assertSame(42, $restored->getId());
+    }
+
+    private function createAccount(
+        int $id = 1,
+        string $username = 'same-user',
+        string $password = 'same-password',
+        string $salt = 'same-salt',
+        int $role = UserRole::ROLE_USER
+    ): Account {
+        $account = (new Account())
+            ->setUsername($username)
+            ->setPassword($password)
+            ->setSalt($salt)
+            ->setRole($role);
+
+        (new ReflectionProperty(Account::class, 'id'))->setValue($account, $id);
+
+        return $account;
+    }
+
+    public function testAccountImplementsEquatableInterface(): void
+    {
+        $this->assertInstanceOf(EquatableInterface::class, $this->Account);
+    }
+
+    public function testAccountIsEqualToAnotherAccountWithTheSameData(): void
+    {
+        $this->assertTrue($this->createAccount()->isEqualTo($this->createAccount()));
+    }
+
+    public function testAccountIsEqualToItself(): void
+    {
+        $account = $this->createAccount();
+
+        $this->assertTrue($account->isEqualTo($account));
+    }
+
+    public function testAccountIsEqualToItsOwnSerializedAndRestoredCopy(): void
+    {
+        $this->Account = $this->createAccount(id: 42, role: UserRole::ROLE_ADMIN);
+
+        $this->assertTrue($this->Account->isEqualTo($this->serializeAndRestore()));
+    }
+
+    public function testAccountIsNotEqualWhenTheIdDiffers(): void
+    {
+        $this->assertFalse($this->createAccount(id: 1)->isEqualTo($this->createAccount(id: 2)));
+    }
+
+    public function testAccountIsNotEqualWhenTheUsernameDiffers(): void
+    {
+        $this->assertFalse($this->createAccount(username: 'user-a')->isEqualTo($this->createAccount(username: 'user-b')));
+    }
+
+    public function testAccountIsNotEqualWhenThePasswordDiffers(): void
+    {
+        $this->assertFalse($this->createAccount(password: 'old-hash')->isEqualTo($this->createAccount(password: 'new-hash')));
+    }
+
+    public function testAccountIsNotEqualWhenTheSaltDiffers(): void
+    {
+        $this->assertFalse($this->createAccount(salt: 'old-salt')->isEqualTo($this->createAccount(salt: 'new-salt')));
+    }
+
+    public function testAccountIsNotEqualWhenTheRoleDiffers(): void
+    {
+        $this->assertFalse(
+            $this->createAccount(role: UserRole::ROLE_USER)->isEqualTo($this->createAccount(role: UserRole::ROLE_ADMIN))
+        );
+    }
+
+    public function testAccountIsStillEqualWhenOnlyUnrelatedDataDiffers(): void
+    {
+        $original = $this->createAccount();
+        $changed = $this->createAccount();
+        $changed->setName('Other Name')
+            ->setLastAction(1_700_000_000)
+            ->setAllowMails(false);
+
+        $this->assertTrue($original->isEqualTo($changed));
+    }
+
+    public function testAccountIsNotEqualToAnotherUserType(): void
+    {
+        $otherUser = $this->createStub(UserInterface::class);
+
+        $this->assertFalse($this->createAccount()->isEqualTo($otherUser));
     }
 }

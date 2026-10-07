@@ -14,10 +14,10 @@ use Runalyze\Model\Account\UserRole;
 use Runalyze\Parameter\Application\Timezone;
 use Runalyze\Profile\Athlete\Gender;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\LegacyPasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Security\Core\User\EquatableInterface;
 
 #[ORM\Table(name: 'account')]
 #[ORM\UniqueConstraint(name: 'username', columns: ['username'])]
@@ -653,11 +653,11 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
 
     public function isEqualTo(UserInterface $user): bool
     {
-    return $user instanceof self
-    && $this->id === $user->getId()
-    && $this->username === $user->getUsername()
-    && $this->password === $user->getPassword()
-    && $this->salt === $user->getSalt()
-    && $this->role === $user->getRole();
+        return $user instanceof self
+        && $this->id === $user->getId()
+        && $this->username === $user->getUsername()
+        && $this->password === $user->getPassword()
+        && $this->salt === $user->getSalt()
+        && $this->role === $user->getRole();
     }
 }

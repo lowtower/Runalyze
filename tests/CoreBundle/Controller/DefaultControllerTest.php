@@ -507,4 +507,19 @@ class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
 
         $this->assertStatusCode(404, $this->Client);
     }
+
+    public function testSwitchedUserStaysLoggedInOnTheFollowingRequest(): void
+    {
+        $this->allowSupportFor($this->Account);
+
+        $admin = $this->registerAdminAccount();
+        $this->loginClient($this->Client, $admin, 'default');
+
+        $this->Client->request('GET', '/dashboard?_switch_user=' . $this->Account->getUsername());
+        $this->assertStatusCode(302, $this->Client);
+
+        $this->Client->request('GET', '/dashboard');
+
+        $this->assertStatusCode(200, $this->Client);
+    }
 }

@@ -17,7 +17,7 @@ use Runalyze\Metrics\Velocity\Unit\AbstractPaceInTimeFormatUnit;
 use Runalyze\Metrics\Velocity\Unit\AbstractPaceUnit;
 use Runalyze\Metrics\Weight\Unit\AbstractWeightUnit;
 
-class ValueExtension extends \Twig\Extension\AbstractExtension
+class ValueExtension
 {
     protected UnitSystem $UnitSystem;
 
@@ -26,45 +26,7 @@ class ValueExtension extends \Twig\Extension\AbstractExtension
         $this->UnitSystem = new UnitSystem($configurationManager->getList());
     }
 
-    /**
-     * @codeCoverageIgnore
-     */
-    public function getName(): string
-    {
-        return 'runalyze.value_extension';
-    }
-
-    /**
-     * @return \Twig\TwigFunction[]
-     *
-     * @codeCoverageIgnore
-     */
-    public function getFunctions(): array
-    {
-        $safeHtmlOptions = [
-            'is_safe' => ['html'],
-        ];
-
-        return [
-            new \Twig\TwigFunction('value', $this->value(...), $safeHtmlOptions),
-            new \Twig\TwigFunction('distance', $this->distance(...), $safeHtmlOptions),
-            new \Twig\TwigFunction('elevation', $this->elevation(...), $safeHtmlOptions),
-            new \Twig\TwigFunction('strideLength', $this->strideLength(...), $safeHtmlOptions),
-            new \Twig\TwigFunction('energy', $this->energy(...), $safeHtmlOptions),
-            new \Twig\TwigFunction('heartRate', $this->heartRate(...), $safeHtmlOptions),
-            new \Twig\TwigFunction('heartRatePercentMaximum', $this->heartRatePercentMaximum(...), $safeHtmlOptions),
-            new \Twig\TwigFunction('heartRateComparison', $this->heartRateComparison(...), $safeHtmlOptions),
-            new \Twig\TwigFunction('pace', $this->pace(...), $safeHtmlOptions),
-            new \Twig\TwigFunction('paceComparison', $this->paceComparison(...), $safeHtmlOptions),
-            new \Twig\TwigFunction('temperature', $this->temperature(...), $safeHtmlOptions),
-            new \Twig\TwigFunction('weight', $this->weight(...), $safeHtmlOptions),
-            new \Twig\TwigFunction('vo2max', $this->vo2max(...), $safeHtmlOptions),
-            new \Twig\TwigFunction('vo2maxFor', $this->vo2maxFor(...), $safeHtmlOptions),
-            new \Twig\TwigFunction('jsFormatter', $this->jsFormatter(...), $safeHtmlOptions),
-            new \Twig\TwigFunction('jsTransformer', $this->jsTransformer(...), $safeHtmlOptions),
-        ];
-    }
-
+    #[\Twig\Attribute\AsTwigFunction(name: 'value')]
     public function value(mixed $value, string|UnitInterface $unit, int $defaultDecimals = 0, string $defaultDecimalPoint = '.', string $defaultThousandsSeparator = ','): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
         return new DisplayableValue($value, $unit, $defaultDecimals, $defaultDecimalPoint, $defaultThousandsSeparator);
@@ -73,6 +35,7 @@ class ValueExtension extends \Twig\Extension\AbstractExtension
     /**
      * @param float $kilometer [km]
      */
+    #[\Twig\Attribute\AsTwigFunction(name: 'distance')]
     public function distance(float $kilometer, ?AbstractDistanceUnit $unit = null, int $decimals = 2): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
         $unit = $unit ?: $this->UnitSystem->getDistanceUnit();
@@ -83,6 +46,7 @@ class ValueExtension extends \Twig\Extension\AbstractExtension
     /**
      * @param float $meter [m]
      */
+    #[\Twig\Attribute\AsTwigFunction(name: 'elevation')]
     public function elevation(float $meter, ?AbstractDistanceUnit $unit = null): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
         $unit = $unit ?: $this->UnitSystem->getElevationUnit();
@@ -93,6 +57,7 @@ class ValueExtension extends \Twig\Extension\AbstractExtension
     /**
      * @param float $centimeter [cm]
      */
+    #[\Twig\Attribute\AsTwigFunction(name: 'strideLength')]
     public function strideLength(float $centimeter, ?AbstractDistanceUnit $unit = null, int $decimals = 2): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
         $unit = $unit ?: $this->UnitSystem->getStrideLengthUnit();
@@ -103,6 +68,7 @@ class ValueExtension extends \Twig\Extension\AbstractExtension
     /**
      * @param float $kcal [kcal]
      */
+    #[\Twig\Attribute\AsTwigFunction(name: 'energy')]
     public function energy(float $kcal, ?AbstractEnergyUnit $unit = null): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
         $unit = $unit ?: $this->UnitSystem->getEnergyUnit();
@@ -113,6 +79,7 @@ class ValueExtension extends \Twig\Extension\AbstractExtension
     /**
      * @param float $bpm [bpm]
      */
+    #[\Twig\Attribute\AsTwigFunction(name: 'heartRate')]
     public function heartRate(float $bpm, ?AbstractHeartRateUnit $unit = null): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValueInPercent|\Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
         $unit = $unit ?: $this->UnitSystem->getHeartRateUnit();
@@ -128,6 +95,7 @@ class ValueExtension extends \Twig\Extension\AbstractExtension
      * @param int $bpm [bpm]
      * @param ?int $bpmMax [bpm]
      */
+    #[\Twig\Attribute\AsTwigFunction(name: 'heartRatePercentMaximum')]
     public function heartRatePercentMaximum(int $bpm, ?int $bpmMax = null): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValueInPercent
     {
         return new DisplayableValueInPercent($bpm, $this->UnitSystem->getHeartRateUnitPercentMaximum($bpmMax));
@@ -137,6 +105,7 @@ class ValueExtension extends \Twig\Extension\AbstractExtension
      * @param float $baseValue [bpm]
      * @param float $comparisonValue [bpm]
      */
+    #[\Twig\Attribute\AsTwigFunction(name: 'heartRateComparison')]
     public function heartRateComparison(float $baseValue, float $comparisonValue, ?AbstractHeartRateUnit $unit = null): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
         $unit = $unit ?: $this->UnitSystem->getHeartRateUnit();
@@ -147,6 +116,7 @@ class ValueExtension extends \Twig\Extension\AbstractExtension
     /**
      * @param float $secondsPerKilometer [s/km]
      */
+    #[\Twig\Attribute\AsTwigFunction(name: 'pace')]
     public function pace(float $secondsPerKilometer, ?AbstractPaceUnit $unit = null, int $decimals = 1): \Runalyze\Bundle\CoreBundle\Twig\DisplayablePace|\Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
         $unit = $unit ?: $this->UnitSystem->getPaceUnit();
@@ -162,6 +132,7 @@ class ValueExtension extends \Twig\Extension\AbstractExtension
      * @param float $baseValue [s/km]
      * @param float $comparisonValue [s/km]
      */
+    #[\Twig\Attribute\AsTwigFunction(name: 'paceComparison')]
     public function paceComparison(float $baseValue, float $comparisonValue, ?AbstractPaceUnit $unit = null): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
         $unit = $unit ?: $this->UnitSystem->getPaceUnit();
@@ -172,6 +143,7 @@ class ValueExtension extends \Twig\Extension\AbstractExtension
     /**
      * @param float $celsius [°C]
      */
+    #[\Twig\Attribute\AsTwigFunction(name: 'temperature')]
     public function temperature(float $celsius, ?AbstractTemperatureUnit $unit = null, int $decimals = 0): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
         $unit = $unit ?: $this->UnitSystem->getTemperatureUnit();
@@ -182,6 +154,7 @@ class ValueExtension extends \Twig\Extension\AbstractExtension
     /**
      * @param float $kilogram [kg]
      */
+    #[\Twig\Attribute\AsTwigFunction(name: 'weight')]
     public function weight($kilogram, ?AbstractWeightUnit $unit = null, int $decimals = 1): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
         $unit = $unit ?: $this->UnitSystem->getWeightUnit();
@@ -189,11 +162,13 @@ class ValueExtension extends \Twig\Extension\AbstractExtension
         return new DisplayableValue($kilogram, $unit, $decimals);
     }
 
+    #[\Twig\Attribute\AsTwigFunction(name: 'vo2max')]
     public function vo2max(float $uncorrectedValue, RunalyzeConfigurationList $configurationList, bool $valueIsUsedForShape = true): \Runalyze\Bundle\CoreBundle\Twig\DisplayableVO2max
     {
         return new DisplayableVO2max($uncorrectedValue, $configurationList, $valueIsUsedForShape);
     }
 
+    #[\Twig\Attribute\AsTwigFunction(name: 'vo2maxFor')]
     public function vo2maxFor(ActivityContext $activityContext, RunalyzeConfigurationList $configurationList): \Runalyze\Bundle\CoreBundle\Twig\DisplayableVO2max
     {
         return $this->vo2max(
@@ -205,11 +180,13 @@ class ValueExtension extends \Twig\Extension\AbstractExtension
         );
     }
 
+    #[\Twig\Attribute\AsTwigFunction(name: 'jsFormatter')]
     public function jsFormatter(UnitInterface $unit): string
     {
         return JavaScriptFormatter::getFormatter($unit);
     }
 
+    #[\Twig\Attribute\AsTwigFunction(name: 'jsTransformer')]
     public function jsTransformer(UnitInterface $unit): string
     {
         return JavaScriptFormatter::getTransformer($unit);

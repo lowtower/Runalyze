@@ -2,30 +2,9 @@
 
 namespace Runalyze\Bundle\CoreBundle\Twig;
 
-class UtilityExtension extends \Twig\Extension\AbstractExtension
+class UtilityExtension
 {
-    /**
-     * @codeCoverageIgnore
-     */
-    public function getName(): string
-    {
-        return 'runalyze.utility_extension';
-    }
-
-    /**
-     * @return \Twig\TwigFilter[]
-     *
-     * @codeCoverageIgnore
-     */
-    public function getFilters(): array
-    {
-        return [
-            new \Twig\TwigFilter('duration', $this->duration(...)),
-            new \Twig\TwigFilter('filesize', $this->filesizeAsString(...)),
-            new \Twig\TwigFilter('md5', $this->md5(...)),
-        ];
-    }
-
+    #[\Twig\Attribute\AsTwigFilter(name: 'duration')]
     public function duration(float $seconds, int $decimals = 0, string $decimalPoint = ','): string
     {
         $fraction = (round($seconds) !== round($seconds, $decimals) && $decimals > 0) ? $decimalPoint . 'u' : '';
@@ -59,6 +38,7 @@ class UtilityExtension extends \Twig\Extension\AbstractExtension
         return $time->format($format);
     }
 
+    #[\Twig\Attribute\AsTwigFilter(name: 'filesize')]
     public function filesizeAsString(float $bytes): string
     {
         if ($bytes < 1.0) {
@@ -73,6 +53,7 @@ class UtilityExtension extends \Twig\Extension\AbstractExtension
         return number_format($bytes / 1024 ** $exponent, $exponent >= 1 ? 2 : 0, '.', '') . ' ' . $FS[$exponent];
     }
 
+    #[\Twig\Attribute\AsTwigFilter(name: 'md5')]
     public function md5(string $value): string
     {
         return md5($value);
