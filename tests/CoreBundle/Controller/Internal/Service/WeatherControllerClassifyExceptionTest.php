@@ -35,8 +35,7 @@ class WeatherControllerClassifyExceptionTest extends TestCase
 
     private function requestExceptionWithStatus(int $statusCode): RequestException
     {
-        return new RequestException(
-            'request failed',
+        return RequestException::create(
             new Request('GET', 'https://example.test/weather'),
             new Response($statusCode)
         );

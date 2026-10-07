@@ -979,6 +979,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         phpredis_client?: scalar|Param|null, // Default: "Redis"
  *         relay_client?: scalar|Param|null, // Default: "Relay\\Relay"
  *         phpredis_clusterclient?: scalar|Param|null, // Default: "RedisCluster"
+ *         phpredis_arrayclient?: scalar|Param|null, // Default: "RedisArray"
  *         logger?: scalar|Param|null, // Default: "Snc\\RedisBundle\\Logger\\RedisLogger"
  *         data_collector?: scalar|Param|null, // Default: "Snc\\RedisBundle\\DataCollector\\RedisDataCollector"
  *         monolog_handler?: scalar|Param|null, // Default: "Monolog\\Handler\\RedisHandler"
@@ -986,6 +987,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     clients?: array<string, array{ // Default: []
  *         type?: scalar|Param|null,
  *         alias?: scalar|Param|null,
+ *         class?: scalar|Param|null, // Default: null
  *         logging?: bool|Param, // Default: true
  *         dsns?: Param|string|list<mixed>,
  *         options?: array{
@@ -993,11 +995,15 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             connection_async?: bool|Param, // Default: false
  *             connection_persistent?: mixed, // Default: false
  *             connection_timeout?: scalar|Param|null, // Default: 5
+ *             scan?: int|Param, // Default: null
  *             read_write_timeout?: scalar|Param|null, // Default: null
  *             iterable_multibulk?: bool|Param, // Default: false
  *             throw_errors?: bool|Param, // Default: true
  *             serialization?: scalar|Param|null, // Default: "default"
+ *             compression?: scalar|Param|null, // Default: null
+ *             compression_level?: int|Param, // Default: null
  *             cluster?: scalar|Param|null, // Default: null
+ *             array?: bool|Param, // Default: false
  *             prefix?: scalar|Param|null, // Default: null
  *             replication?: true|"predis"|"sentinel"|Param,
  *             service?: scalar|Param|null, // Default: null

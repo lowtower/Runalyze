@@ -3,7 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\Controller\Internal\Service;
 
 use DateTime;
-use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\BadResponseException;
 use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
@@ -151,9 +151,8 @@ class WeatherController extends AbstractController
             return 'too_old';
         }
 
-        if ($exception instanceof RequestException && $exception->hasResponse()) {
-            $statusCode = $exception->getResponse()
-                ->getStatusCode();
+        if ($exception instanceof BadResponseException) {
+            $statusCode = $exception->getResponse()->getStatusCode();
 
             if (in_array($statusCode, [401, 403], true)) {
                 return 'auth_failed';

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Renaming\Rector\String_\RenameStringRector;
 use Rector\Set\ValueObject\LevelSetList;
@@ -21,7 +22,9 @@ return RectorConfig::configure()
     ])
     ->withSets([
         LevelSetList::UP_TO_PHP_83,
+        \Rector\Set\ValueObject\SetList::PHP_VERSION_BASED_SET,
         # PHPUnitSetList::PHPUNIT_CODE_QUALITY,
+        # DoctrineSetList::TYPED_COLLECTIONS,
     ])
     ->withTypeCoverageLevel(75)         # max level 75
     ->withTypeCoverageDocblockLevel(16) # max level 16
