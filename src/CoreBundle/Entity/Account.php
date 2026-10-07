@@ -548,6 +548,7 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
         return $this->role;
     }
 
+    #[\Deprecated]
     public function eraseCredentials(): void
     {
         $this->plainPassword = null;

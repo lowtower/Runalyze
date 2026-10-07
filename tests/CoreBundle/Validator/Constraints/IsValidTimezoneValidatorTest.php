@@ -3,6 +3,8 @@
 namespace Runalyze\Bundle\CoreBundle\Tests\Validator\Constraints;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Validator\Constraints\IsValidTimezone;
 use Runalyze\Bundle\CoreBundle\Validator\Constraints\IsValidTimezoneValidator;
@@ -14,9 +16,26 @@ use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 class IsValidTimezoneValidatorTest extends TestCase
 {
     /**
-     * @return array<int, \Runalyze\Bundle\CoreBundle\Validator\Constraints\IsValidTimezoneValidator|(\PHPUnit\Framework\MockObject\MockObject&\Symfony\Component\Validator\Context\ExecutionContextInterface)>
+     * For tests that only need a context object to exist (no expectations
+     * are ever put on it).
+     *
+     * @return array{0: IsValidTimezoneValidator, 1: ExecutionContextInterface&Stub}
      */
-    private function createValidatorWithContext(): array
+    private function createValidatorWithStubContext(): array
+    {
+        $validator = new IsValidTimezoneValidator();
+        $context = $this->createStub(ExecutionContextInterface::class);
+        $validator->initialize($context);
+
+        return [$validator, $context];
+    }
+
+    /**
+     * For tests that put expects() on the context (e.g. buildViolation).
+     *
+     * @return array{0: IsValidTimezoneValidator, 1: ExecutionContextInterface&MockObject}
+     */
+    private function createValidatorWithMockContext(): array
     {
         $validator = new IsValidTimezoneValidator();
         $context = $this->createMock(ExecutionContextInterface::class);
@@ -28,7 +47,7 @@ class IsValidTimezoneValidatorTest extends TestCase
     #[DataProvider('provideValidTimezoneEnumValues')]
     public function testValidTimezoneEnumValueRaisesNoViolation(int $enumValue): void
     {
-        [$validator, $context] = $this->createValidatorWithContext();
+        [$validator, $context] = $this->createValidatorWithMockContext();
         $context->expects($this->never())
             ->method('buildViolation');
 
@@ -51,7 +70,7 @@ class IsValidTimezoneValidatorTest extends TestCase
     #[DataProvider('provideInvalidTimezoneValues')]
     public function testInvalidValueRaisesViolation(mixed $value): void
     {
-        [$validator, $context] = $this->createValidatorWithContext();
+        [$validator, $context] = $this->createValidatorWithMockContext();
         $constraint = new IsValidTimezone();
 
         $builder = $this->createMock(ConstraintViolationBuilderInterface::class);
@@ -85,7 +104,7 @@ class IsValidTimezoneValidatorTest extends TestCase
 
     public function testWrongConstraintTypeIsSilentlyIgnoredWhenValueIsValid(): void
     {
-        [$validator, $context] = $this->createValidatorWithContext();
+        [$validator, $context] = $this->createValidatorWithMockContext();
         $context->expects($this->never())
             ->method('buildViolation');
 
@@ -94,7 +113,7 @@ class IsValidTimezoneValidatorTest extends TestCase
 
     public function testWrongConstraintTypeThrowsOnlyWhenValueIsAlsoInvalid(): void
     {
-        [$validator] = $this->createValidatorWithContext();
+        [$validator] = $this->createValidatorWithStubContext();
 
         $this->expectException(\InvalidArgumentException::class);
 

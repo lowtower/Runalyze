@@ -272,7 +272,6 @@ class Ajax
      * @param string $target  ID of target div-container
      * @param string $href    URL to be loaded
      * @param string $data    data to be passed
-     * @param string $title   title
      */
     public static function link(string $name, string $target, string $href, string $data = '', string $title = '', ?string $onclick = null): string
     {

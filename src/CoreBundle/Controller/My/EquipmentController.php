@@ -167,8 +167,8 @@ class EquipmentController extends AbstractController
     public function deleteEquipmentTypeAction(Request $request, int $id, ?Account $account = null, ?TranslatorInterface $translator = null): RedirectResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-
-        if (! $this->isCsrfTokenValid('deleteEquipmentCategory', $request->get('t'))) {
+        $token = $request->query->get('t') ?? $request->request->get('t');
+        if (! $this->isCsrfTokenValid('deleteEquipmentCategory', $token)) {
             $this->addFlash('error', $translator->trans('Invalid token.'));
 
             return $this->redirectToRoute('equipment-overview');
@@ -275,8 +275,8 @@ class EquipmentController extends AbstractController
     public function deleteEquipmentAction(Request $request, int $id, ?Account $account = null, ?TranslatorInterface $translator = null): RedirectResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-
-        if (! $this->isCsrfTokenValid('deleteEquipment', $request->get('t'))) {
+        $token = $request->query->get('t') ?? $request->request->get('t');
+        if (! $this->isCsrfTokenValid('deleteEquipment', $token)) {
             $this->addFlash('error', $translator->trans('Invalid token.'));
 
             return $this->redirectToRoute('equipment-overview');

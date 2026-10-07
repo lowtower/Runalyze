@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -14,11 +13,12 @@ use PHPUnit\Framework\TestCase;
 #[Group('requiresDoctrine')]
 class RunalyzePluginPanel_EquipmentCharacterizationTest extends TestCase
 {
-    private MockObject&RunalyzePluginPanel_Equipment $plugin;
+    private RunalyzePluginPanel_Equipment $plugin;
 
     protected function setUp(): void
     {
-        $this->plugin = $this->createPartialMock(RunalyzePluginPanel_Equipment::class, []);
+        $this->plugin = (new \ReflectionClass(RunalyzePluginPanel_Equipment::class))
+            ->newInstanceWithoutConstructor();
     }
 
     #[DataProvider('provideUsagePercentages')]

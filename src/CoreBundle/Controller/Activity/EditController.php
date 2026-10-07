@@ -143,7 +143,7 @@ class EditController extends AbstractController
         return $this->render('activity/form.html.twig', [
             'form' => $form->createView(),
             'isNew' => false,
-            'isMulti' => (bool) $request->get('multi', false),
+            'isMulti' => $request->query->getBoolean('multi'),
             'decorator' => new ActivityDecorator($context),
             'activity_id' => $activity->getId(),
             'prev_activity_id' => $this->getTrainingRepository()
@@ -164,7 +164,7 @@ class EditController extends AbstractController
 
         $ids = array_map(
             intval(...),
-            array_filter(explode(',', $request->get('ids', '')))
+            array_filter(explode(',', $request->query->get('ids', '')))
         );
 
         return $this->getResponseForMultiEditor($ids, $account);

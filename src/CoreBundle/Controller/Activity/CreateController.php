@@ -309,7 +309,7 @@ class CreateController extends AbstractController
             'prev_activity_id' => null,
             'next_activity_id' => null,
             'activity_id' => null,
-            'isMulti' => (bool) $request?->get('multi', false),
+            'isMulti' => (bool) ($request?->attributes->get('multi') ?? $request?->query->get('multi') ?? $request?->request->get('multi') ?? false),
         ]);
     }
 

@@ -3,7 +3,7 @@
 namespace Tests\Runalyze\Bundle\CoreBundle\Command;
 
 use Doctrine\Persistence\ManagerRegistry;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Command\ActivityBulkRouteNameEvaluationCommand;
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext;
@@ -19,36 +19,44 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 {
-    private ManagerRegistry&MockObject $doctrine;
+    private AccountRepository&Stub $accountRepository;
 
-    private ParameterBagInterface&MockObject $parameterBag;
+    private ParameterBagInterface&Stub $parameterBag;
 
-    private TrainingRepository&MockObject $trainingRepository;
+    private TrainingRepository&Stub $trainingRepository;
 
-    private ActivityContextAdapterFactory&MockObject $activityContextAdapterFactory;
-
-    private AccountRepository&MockObject $accountRepository;
+    private ActivityContextAdapterFactory&Stub $activityContextAdapterFactory;
 
     private ActivityBulkRouteNameEvaluationCommand $command;
 
     protected function setUp(): void
     {
-        $this->doctrine = $this->createMock(ManagerRegistry::class);
-        $this->parameterBag = $this->createMock(ParameterBagInterface::class);
-        $this->trainingRepository = $this->createMock(TrainingRepository::class);
-        $this->activityContextAdapterFactory = $this->createMock(ActivityContextAdapterFactory::class);
-        $this->accountRepository = $this->createMock(AccountRepository::class);
+        $this->accountRepository = $this->createStub(AccountRepository::class);
+        $this->parameterBag = $this->createStub(ParameterBagInterface::class);
+        $this->trainingRepository = $this->createStub(TrainingRepository::class);
+        $this->activityContextAdapterFactory = $this->createStub(ActivityContextAdapterFactory::class);
 
-        $this->doctrine
+        $this->command = $this->createCommand();
+    }
+
+    private function createCommand(
+        ?AccountRepository $accountRepository = null,
+        ?ParameterBagInterface $parameterBag = null,
+        ?TrainingRepository $trainingRepository = null,
+        ?ActivityContextAdapterFactory $activityContextAdapterFactory = null
+    ): ActivityBulkRouteNameEvaluationCommand {
+        $accountRepository ??= $this->accountRepository;
+
+        $doctrine = $this->createStub(ManagerRegistry::class);
+        $doctrine
             ->method('getRepository')
-            ->with(Account::class)
-            ->willReturn($this->accountRepository);
+            ->willReturn($accountRepository);
 
-        $this->command = new ActivityBulkRouteNameEvaluationCommand(
-            $this->doctrine,
-            $this->parameterBag,
-            $this->trainingRepository,
-            $this->activityContextAdapterFactory
+        return new ActivityBulkRouteNameEvaluationCommand(
+            $doctrine,
+            $parameterBag ?? $this->parameterBag,
+            $trainingRepository ?? $this->trainingRepository,
+            $activityContextAdapterFactory ?? $this->activityContextAdapterFactory
         );
     }
 
@@ -74,17 +82,21 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
     public function testExecuteFailsForUnknownUser(): void
     {
-        $this->accountRepository
+        $accountRepository = $this->createMock(AccountRepository::class);
+        $accountRepository
             ->expects(self::once())
             ->method('loadUserByUsername')
             ->with('ghost')
             ->willReturn(null);
 
-        $this->trainingRepository
+        $trainingRepository = $this->createMock(TrainingRepository::class);
+        $trainingRepository
             ->expects(self::never())
             ->method('findForAccount');
 
-        $tester = new CommandTester($this->command);
+        $command = $this->createCommand(accountRepository: $accountRepository, trainingRepository: $trainingRepository);
+
+        $tester = new CommandTester($command);
         $exitCode = $tester->execute([
             'username' => 'ghost',
             'id' => '123',
@@ -97,22 +109,24 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
     public function testExecuteFailsWhenOsmOverpassUrlIsNotConfigured(): void
     {
         $account = $this->createStub(Account::class);
-
-        $this->accountRepository
-            ->method('loadUserByUsername')
+        $this->accountRepository->method('loadUserByUsername')
             ->willReturn($account);
 
-        $this->parameterBag
+        $parameterBag = $this->createMock(ParameterBagInterface::class);
+        $parameterBag
             ->expects(self::once())
             ->method('get')
             ->with('osm_overpass_url')
             ->willReturn('');
 
-        $this->trainingRepository
+        $trainingRepository = $this->createMock(TrainingRepository::class);
+        $trainingRepository
             ->expects(self::never())
             ->method('findForAccount');
 
-        $tester = new CommandTester($this->command);
+        $command = $this->createCommand(parameterBag: $parameterBag, trainingRepository: $trainingRepository);
+
+        $tester = new CommandTester($command);
         $exitCode = $tester->execute([
             'username' => 'runner',
             'id' => '123',
@@ -124,40 +138,44 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
     public function testExecuteSkipsSilentlyWhenActivityHasNoRoute(): void
     {
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
         $account->method('getId')
             ->willReturn(42);
 
-        $activity = $this->createMock(Training::class);
+        $activity = $this->createStub(Training::class);
         $activity->method('hasRoute')
             ->willReturn(false);
 
-        $this->accountRepository
-            ->method('loadUserByUsername')
+        $this->accountRepository->method('loadUserByUsername')
             ->willReturn($account);
-
-        $this->parameterBag
-            ->method('get')
-            ->with('osm_overpass_url')
+        // $this->parameterBag is a stub: with() has no effect on stubs (and is
+        // deprecated). Only 'osm_overpass_url' is ever queried in this test.
+        $this->parameterBag->method('get')
             ->willReturn('https://overpass.example.org');
 
-        $this->trainingRepository
+        $trainingRepository = $this->createMock(TrainingRepository::class);
+        $trainingRepository
             ->expects(self::once())
             ->method('findForAccount')
             ->with(123, 42)
             ->willReturn($activity);
-
-        $this->trainingRepository
+        $trainingRepository
             ->expects(self::once())
             ->method('getIdOfNextActivity')
             ->with($activity)
             ->willReturn(null);
 
-        $this->activityContextAdapterFactory
+        $activityContextAdapterFactory = $this->createMock(ActivityContextAdapterFactory::class);
+        $activityContextAdapterFactory
             ->expects(self::never())
             ->method('getAdapterFor');
 
-        $tester = new CommandTester($this->command);
+        $command = $this->createCommand(
+            trainingRepository: $trainingRepository,
+            activityContextAdapterFactory: $activityContextAdapterFactory
+        );
+
+        $tester = new CommandTester($command);
         $exitCode = $tester->execute([
             'username' => 'runner',
             'id' => '123',
@@ -173,11 +191,11 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
     public function testExecuteSkipsActivityThatAlreadyHasARouteNameWithoutOverride(): void
     {
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
         $account->method('getId')
             ->willReturn(42);
 
-        $activity = $this->createMock(Training::class);
+        $activity = $this->createStub(Training::class);
         $activity->method('hasRoute')
             ->willReturn(true);
         $activity->method('getRouteName')
@@ -185,31 +203,31 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
         $activity->method('getTitle')
             ->willReturn('Morning Run');
 
-        $this->accountRepository
-            ->method('loadUserByUsername')
+        $this->accountRepository->method('loadUserByUsername')
             ->willReturn($account);
-
-        $this->parameterBag
-            ->method('get')
+        $this->parameterBag->method('get')
             ->willReturn('https://overpass.example.org');
 
-        $this->trainingRepository
-            ->method('findForAccount')
+        $trainingRepository = $this->createMock(TrainingRepository::class);
+        $trainingRepository->method('findForAccount')
             ->willReturn($activity);
-
-        $this->trainingRepository
-            ->method('getIdOfNextActivity')
+        $trainingRepository->method('getIdOfNextActivity')
             ->willReturn(null);
-
-        $this->trainingRepository
+        $trainingRepository
             ->expects(self::never())
             ->method('save');
 
-        $this->activityContextAdapterFactory
+        $activityContextAdapterFactory = $this->createMock(ActivityContextAdapterFactory::class);
+        $activityContextAdapterFactory
             ->expects(self::never())
             ->method('getAdapterFor');
 
-        $tester = new CommandTester($this->command);
+        $command = $this->createCommand(
+            trainingRepository: $trainingRepository,
+            activityContextAdapterFactory: $activityContextAdapterFactory
+        );
+
+        $tester = new CommandTester($command);
         $exitCode = $tester->execute([
             'username' => 'runner',
             'id' => '123',
@@ -221,35 +239,32 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
     public function testExecuteWithNextedOptionProcessesUntilNoNextActivityExists(): void
     {
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
         $account->method('getId')
             ->willReturn(42);
 
-        $firstActivity = $this->createMock(Training::class);
+        $firstActivity = $this->createStub(Training::class);
         $firstActivity->method('hasRoute')
             ->willReturn(false);
 
-        $secondActivity = $this->createMock(Training::class);
+        $secondActivity = $this->createStub(Training::class);
         $secondActivity->method('hasRoute')
             ->willReturn(false);
 
-        $this->accountRepository
-            ->method('loadUserByUsername')
+        $this->accountRepository->method('loadUserByUsername')
             ->willReturn($account);
-
-        $this->parameterBag
-            ->method('get')
+        $this->parameterBag->method('get')
             ->willReturn('https://overpass.example.org');
 
-        $this->trainingRepository
+        $trainingRepository = $this->createMock(TrainingRepository::class);
+        $trainingRepository
             ->expects(self::exactly(2))
             ->method('findForAccount')
             ->willReturnMap([
                 [100, 42, $firstActivity],
                 [200, 42, $secondActivity],
             ]);
-
-        $this->trainingRepository
+        $trainingRepository
             ->expects(self::exactly(2))
             ->method('getIdOfNextActivity')
             ->willReturnMap([
@@ -257,7 +272,9 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
                 [$secondActivity, null],
             ]);
 
-        $tester = new CommandTester($this->command);
+        $command = $this->createCommand(trainingRepository: $trainingRepository);
+
+        $tester = new CommandTester($command);
         $exitCode = $tester->execute([
             'username' => 'runner',
             'id' => '100',
@@ -270,35 +287,34 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
     public function testExecuteWithoutNextedOptionProcessesOnlyOneActivityEvenIfANextOneExists(): void
     {
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
         $account->method('getId')
             ->willReturn(42);
 
-        $activity = $this->createMock(Training::class);
+        $activity = $this->createStub(Training::class);
         $activity->method('hasRoute')
             ->willReturn(false);
 
-        $this->accountRepository
-            ->method('loadUserByUsername')
+        $this->accountRepository->method('loadUserByUsername')
             ->willReturn($account);
-
-        $this->parameterBag
-            ->method('get')
+        $this->parameterBag->method('get')
             ->willReturn('https://overpass.example.org');
 
-        $this->trainingRepository
+        $trainingRepository = $this->createMock(TrainingRepository::class);
+        $trainingRepository
             ->expects(self::once())
             ->method('findForAccount')
             ->with(100, 42)
             ->willReturn($activity);
-
-        $this->trainingRepository
+        $trainingRepository
             ->expects(self::once())
             ->method('getIdOfNextActivity')
             ->with($activity)
             ->willReturn(200);
 
-        $tester = new CommandTester($this->command);
+        $command = $this->createCommand(trainingRepository: $trainingRepository);
+
+        $tester = new CommandTester($command);
         $exitCode = $tester->execute([
             'username' => 'runner',
             'id' => '100',
@@ -310,29 +326,28 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
     public function testExecuteHandlesMissingActivityGracefully(): void
     {
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
         $account->method('getId')
             ->willReturn(42);
 
-        $this->accountRepository
-            ->method('loadUserByUsername')
+        $this->accountRepository->method('loadUserByUsername')
             ->willReturn($account);
-
-        $this->parameterBag
-            ->method('get')
+        $this->parameterBag->method('get')
             ->willReturn('https://overpass.example.org');
 
-        $this->trainingRepository
+        $trainingRepository = $this->createMock(TrainingRepository::class);
+        $trainingRepository
             ->expects(self::once())
             ->method('findForAccount')
             ->with(999, 42)
             ->willReturn(null);
-
-        $this->trainingRepository
+        $trainingRepository
             ->expects(self::never())
             ->method('getIdOfNextActivity');
 
-        $tester = new CommandTester($this->command);
+        $command = $this->createCommand(trainingRepository: $trainingRepository);
+
+        $tester = new CommandTester($command);
         $exitCode = $tester->execute([
             'username' => 'runner',
             'id' => '999',
@@ -346,37 +361,36 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
     public function testExecuteWithNextedOptionStopsWhenAnIntermediateActivityIsMissing(): void
     {
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
         $account->method('getId')
             ->willReturn(42);
 
-        $firstActivity = $this->createMock(Training::class);
+        $firstActivity = $this->createStub(Training::class);
         $firstActivity->method('hasRoute')
             ->willReturn(false);
 
-        $this->accountRepository
-            ->method('loadUserByUsername')
+        $this->accountRepository->method('loadUserByUsername')
             ->willReturn($account);
-
-        $this->parameterBag
-            ->method('get')
+        $this->parameterBag->method('get')
             ->willReturn('https://overpass.example.org');
 
-        $this->trainingRepository
+        $trainingRepository = $this->createMock(TrainingRepository::class);
+        $trainingRepository
             ->expects(self::exactly(2))
             ->method('findForAccount')
             ->willReturnMap([
                 [100, 42, $firstActivity],
                 [200, 42, null],
             ]);
-
-        $this->trainingRepository
+        $trainingRepository
             ->expects(self::once())
             ->method('getIdOfNextActivity')
             ->with($firstActivity)
             ->willReturn(200);
 
-        $tester = new CommandTester($this->command);
+        $command = $this->createCommand(trainingRepository: $trainingRepository);
+
+        $tester = new CommandTester($command);
         $exitCode = $tester->execute([
             'username' => 'runner',
             'id' => '100',
@@ -391,13 +405,13 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
     public function testExecuteSuccessfullyUpdatesRouteNameWhenNoneExistsYet(): void
     {
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
         $account->method('getId')
             ->willReturn(42);
 
         $route = $this->createStub(Route::class);
 
-        $activity = $this->createMock(Training::class);
+        $activity = $this->createStub(Training::class);
         $activity->method('hasRoute')
             ->willReturn(true);
         $activity->method('getRoute')
@@ -407,29 +421,30 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
         $activity->method('getTitle')
             ->willReturn('Morning Run');
 
-        $this->accountRepository
-            ->method('loadUserByUsername')
+        $this->accountRepository->method('loadUserByUsername')
             ->willReturn($account);
-
-        $this->parameterBag
-            ->method('get')
+        $this->parameterBag->method('get')
             ->willReturn('https://overpass.example.org');
 
-        $this->trainingRepository
-            ->method('findForAccount')
+        $trainingRepository = $this->createMock(TrainingRepository::class);
+        $trainingRepository->method('findForAccount')
             ->willReturn($activity);
-
-        $this->trainingRepository
-            ->method('getIdOfNextActivity')
+        $trainingRepository->method('getIdOfNextActivity')
             ->willReturn(null);
+        $trainingRepository
+            ->expects(self::once())
+            ->method('save')
+            ->with($activity);
 
+        // Stays a mock: it has an expectation (once)
         $adapter = $this->createMock(ActivityContextAdapter::class);
         $adapter
             ->expects(self::once())
             ->method('guessRouteDetails')
             ->willReturn(true);
 
-        $this->activityContextAdapterFactory
+        $activityContextAdapterFactory = $this->createMock(ActivityContextAdapterFactory::class);
+        $activityContextAdapterFactory
             ->expects(self::once())
             ->method('getAdapterFor')
             ->with(self::callback(
@@ -438,12 +453,12 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
             ))
             ->willReturn($adapter);
 
-        $this->trainingRepository
-            ->expects(self::once())
-            ->method('save')
-            ->with($activity);
+        $command = $this->createCommand(
+            trainingRepository: $trainingRepository,
+            activityContextAdapterFactory: $activityContextAdapterFactory
+        );
 
-        $tester = new CommandTester($this->command);
+        $tester = new CommandTester($command);
         $exitCode = $tester->execute([
             'username' => 'runner',
             'id' => '123',
@@ -458,13 +473,13 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
     public function testExecuteSkipsWhenGuessRouteDetailsFindsNothing(): void
     {
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
         $account->method('getId')
             ->willReturn(42);
 
         $route = $this->createStub(Route::class);
 
-        $activity = $this->createMock(Training::class);
+        $activity = $this->createStub(Training::class);
         $activity->method('hasRoute')
             ->willReturn(true);
         $activity->method('getRoute')
@@ -474,38 +489,39 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
         $activity->method('getTitle')
             ->willReturn('Morning Run');
 
-        $this->accountRepository
-            ->method('loadUserByUsername')
+        $this->accountRepository->method('loadUserByUsername')
             ->willReturn($account);
-
-        $this->parameterBag
-            ->method('get')
+        $this->parameterBag->method('get')
             ->willReturn('https://overpass.example.org');
 
-        $this->trainingRepository
-            ->method('findForAccount')
+        $trainingRepository = $this->createMock(TrainingRepository::class);
+        $trainingRepository->method('findForAccount')
             ->willReturn($activity);
-
-        $this->trainingRepository
-            ->method('getIdOfNextActivity')
+        $trainingRepository->method('getIdOfNextActivity')
             ->willReturn(null);
+        $trainingRepository
+            ->expects(self::never())
+            ->method('save');
 
+        // Stays a mock: it has an expectation (once)
         $adapter = $this->createMock(ActivityContextAdapter::class);
         $adapter
             ->expects(self::once())
             ->method('guessRouteDetails')
             ->willReturn(false);
 
-        $this->activityContextAdapterFactory
+        $activityContextAdapterFactory = $this->createMock(ActivityContextAdapterFactory::class);
+        $activityContextAdapterFactory
             ->expects(self::once())
             ->method('getAdapterFor')
             ->willReturn($adapter);
 
-        $this->trainingRepository
-            ->expects(self::never())
-            ->method('save');
+        $command = $this->createCommand(
+            trainingRepository: $trainingRepository,
+            activityContextAdapterFactory: $activityContextAdapterFactory
+        );
 
-        $tester = new CommandTester($this->command);
+        $tester = new CommandTester($command);
         $exitCode = $tester->execute([
             'username' => 'runner',
             'id' => '123',
@@ -518,13 +534,13 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
     public function testExecuteWithOverrideOptionReEvaluatesExistingRouteName(): void
     {
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
         $account->method('getId')
             ->willReturn(42);
 
         $route = $this->createStub(Route::class);
 
-        $activity = $this->createMock(Training::class);
+        $activity = $this->createStub(Training::class);
         $activity->method('hasRoute')
             ->willReturn(true);
         $activity->method('getRoute')
@@ -534,39 +550,40 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
         $activity->method('getTitle')
             ->willReturn('Evening Run');
 
-        $this->accountRepository
-            ->method('loadUserByUsername')
+        $this->accountRepository->method('loadUserByUsername')
             ->willReturn($account);
-
-        $this->parameterBag
-            ->method('get')
+        $this->parameterBag->method('get')
             ->willReturn('https://overpass.example.org');
 
-        $this->trainingRepository
-            ->method('findForAccount')
+        $trainingRepository = $this->createMock(TrainingRepository::class);
+        $trainingRepository->method('findForAccount')
             ->willReturn($activity);
-
-        $this->trainingRepository
-            ->method('getIdOfNextActivity')
+        $trainingRepository->method('getIdOfNextActivity')
             ->willReturn(null);
+        $trainingRepository
+            ->expects(self::once())
+            ->method('save')
+            ->with($activity);
 
+        // Stays a mock: it has an expectation (once)
         $adapter = $this->createMock(ActivityContextAdapter::class);
         $adapter
             ->expects(self::once())
             ->method('guessRouteDetails')
             ->willReturn(true);
 
-        $this->activityContextAdapterFactory
+        $activityContextAdapterFactory = $this->createMock(ActivityContextAdapterFactory::class);
+        $activityContextAdapterFactory
             ->expects(self::once())
             ->method('getAdapterFor')
             ->willReturn($adapter);
 
-        $this->trainingRepository
-            ->expects(self::once())
-            ->method('save')
-            ->with($activity);
+        $command = $this->createCommand(
+            trainingRepository: $trainingRepository,
+            activityContextAdapterFactory: $activityContextAdapterFactory
+        );
 
-        $tester = new CommandTester($this->command);
+        $tester = new CommandTester($command);
         $exitCode = $tester->execute([
             'username' => 'runner',
             'id' => '123',

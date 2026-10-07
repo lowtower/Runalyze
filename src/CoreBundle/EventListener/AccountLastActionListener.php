@@ -34,7 +34,7 @@ class AccountLastActionListener
 
             if ($account instanceof Account && $account->getLastAction() < strtotime('2 minutes ago')) {
                 $account->setLastAction();
-                $this->em->flush($account);
+                $this->em->flush();
             }
         }
     }

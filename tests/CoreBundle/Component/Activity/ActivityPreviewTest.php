@@ -14,7 +14,7 @@ class ActivityPreviewTest extends TestCase
 {
     private function createRoundCollection(bool $isEmpty): RoundCollection
     {
-        $collection = $this->createMock(RoundCollection::class);
+        $collection = $this->createStub(RoundCollection::class);
         $collection->method('isEmpty')
             ->willReturn($isEmpty);
 
@@ -23,7 +23,7 @@ class ActivityPreviewTest extends TestCase
 
     private function createSport(string $name = 'Running', string $img = 'running.png'): Sport
     {
-        $sport = $this->createMock(Sport::class);
+        $sport = $this->createStub(Sport::class);
         $sport->method('getName')
             ->willReturn($name);
         $sport->method('getImg')
@@ -48,7 +48,7 @@ class ActivityPreviewTest extends TestCase
 
         unset($config['getSplits'], $config['getSport']);
 
-        $activity = $this->createMock(Training::class);
+        $activity = $this->createStub(Training::class);
         foreach ($config as $method => $value) {
             $activity->method($method)
                 ->willReturn($value);
@@ -69,10 +69,14 @@ class ActivityPreviewTest extends TestCase
 
     private function createDecoratorMock(string $title, int $timestamp): ActivityDecorator
     {
-        $decorator = $this->createMock(ActivityDecorator::class);
+        $decorator = $this->createStub(ActivityDecorator::class);
         $decorator->method('getTitle')
-            ->with(true)
-            ->willReturn($title);
+            ->willReturnCallback(function (bool $typeWithSport = false) use ($title): string {
+                // Replaces ->with(true): a stub has no with()
+                $this->assertTrue($typeWithSport);
+
+                return $title;
+            });
         $decorator->method('getDateTime')
             ->willReturn(new LocalTime($timestamp));
 

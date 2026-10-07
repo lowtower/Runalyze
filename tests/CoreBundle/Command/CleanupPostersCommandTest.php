@@ -2,7 +2,7 @@
 
 namespace Tests\Runalyze\Bundle\CoreBundle\Command;
 
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Command\CleanupPostersCommand;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\FinderFactoryInterface;
@@ -13,11 +13,11 @@ use Symfony\Component\Finder\Finder;
 
 final class CleanupPostersCommandTest extends TestCase
 {
-    private ParameterBagInterface&MockObject $parameterBag;
+    private ParameterBagInterface&Stub $parameterBag;
 
     private Filesystem $filesystem;
 
-    private FinderFactoryInterface&MockObject $finderFactory;
+    private FinderFactoryInterface&Stub $finderFactory;
 
     private string $tempDataDirectory;
 
@@ -25,9 +25,9 @@ final class CleanupPostersCommandTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->parameterBag = $this->createMock(ParameterBagInterface::class);
+        $this->parameterBag = $this->createStub(ParameterBagInterface::class);
         $this->filesystem = new Filesystem();
-        $this->finderFactory = $this->createMock(FinderFactoryInterface::class);
+        $this->finderFactory = $this->createStub(FinderFactoryInterface::class);
 
         $this->finderFactory
             ->method('create')
@@ -46,9 +46,9 @@ final class CleanupPostersCommandTest extends TestCase
         }
     }
 
-    private function createCommand(): CleanupPostersCommand
+    private function createCommand(?FinderFactoryInterface $finderFactory = null): CleanupPostersCommand
     {
-        return new CleanupPostersCommand($this->parameterBag, $this->filesystem, $this->finderFactory);
+        return new CleanupPostersCommand($this->parameterBag, $this->filesystem, $finderFactory ?? $this->finderFactory);
     }
 
     /**
@@ -180,15 +180,15 @@ final class CleanupPostersCommandTest extends TestCase
 
     public function testExecuteRequestsExactlyOneFinderFromTheFactory(): void
     {
-        $this->finderFactory = $this->createMock(FinderFactoryInterface::class);
-        $this->finderFactory
+        $finderFactory = $this->createMock(FinderFactoryInterface::class);
+        $finderFactory
             ->expects(self::once())
             ->method('create')
             ->willReturn(new Finder());
 
         $this->configureDataDirectory();
 
-        $tester = new CommandTester($this->createCommand());
+        $tester = new CommandTester($this->createCommand($finderFactory));
         $tester->execute([
             'days' => '30',
         ]);

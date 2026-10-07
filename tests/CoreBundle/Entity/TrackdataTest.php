@@ -281,7 +281,7 @@ class TrackdataTest extends \PHPUnit\Framework\TestCase
 
     public function testIsEmptyStillReturnsFalseWhenOnlyPausesAreNonEmpty(): void
     {
-        $pauses = $this->createMock(PauseCollection::class);
+        $pauses = $this->createStub(PauseCollection::class);
         $pauses->method('isEmpty')
             ->willReturn(false);
         $this->Data->setPauses($pauses);
@@ -303,7 +303,7 @@ class TrackdataTest extends \PHPUnit\Framework\TestCase
 
     public function testIsEmptyIsFalseWhenPausesAreNotEmpty(): void
     {
-        $pauses = $this->createMock(PauseCollection::class);
+        $pauses = $this->createStub(PauseCollection::class);
         $pauses->method('isEmpty')
             ->willReturn(false);
 
@@ -385,7 +385,7 @@ class TrackdataTest extends \PHPUnit\Framework\TestCase
 
     public function testGetLegacyModelReturnsCorrectTypeWhenActivityIsSet(): void
     {
-        $activity = $this->createMock(Training::class);
+        $activity = $this->createStub(Training::class);
         $activity->method('getId')
             ->willReturn(123);
 

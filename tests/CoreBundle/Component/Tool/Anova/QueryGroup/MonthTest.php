@@ -35,7 +35,7 @@ class MonthTest extends TestCase
 
     public function testLoadAllGroupsForSameYearRangeReturnsOnlyMonthsInRange(): void
     {
-        $anovaData = $this->createMock(AnovaData::class);
+        $anovaData = $this->createStub(AnovaData::class);
         $anovaData->method('getDateFrom')
             ->willReturn(new \DateTime('2024-03-15'));
         $anovaData->method('getDateTo')
@@ -51,7 +51,7 @@ class MonthTest extends TestCase
 
     public function testLoadAllGroupsForRangeCrossingOneYearBoundaryWrapsAround(): void
     {
-        $anovaData = $this->createMock(AnovaData::class);
+        $anovaData = $this->createStub(AnovaData::class);
         $anovaData->method('getDateFrom')
             ->willReturn(new \DateTime('2024-10-05'));
         $anovaData->method('getDateTo')
@@ -67,7 +67,7 @@ class MonthTest extends TestCase
 
     public function testLoadAllGroupsForMultiYearRangeReturnsAllMonths(): void
     {
-        $anovaData = $this->createMock(AnovaData::class);
+        $anovaData = $this->createStub(AnovaData::class);
         $anovaData->method('getDateFrom')
             ->willReturn(new \DateTime('2023-01-01'));
         $anovaData->method('getDateTo')

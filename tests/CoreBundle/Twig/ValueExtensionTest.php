@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Twig;
 
+use PHPUnit\Framework\MockObject\Stub;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Twig\ValueExtension;
@@ -16,10 +17,13 @@ class ValueExtensionTest extends \PHPUnit\Framework\TestCase
         $this->Extension = $this->getExtensionFor();
     }
 
-    protected function getExtensionFor(array $configurationListData = []): \Runalyze\Bundle\CoreBundle\Twig\ValueExtension
+    /**
+     * @param array<string, mixed> $configurationListData
+     */
+    protected function getExtensionFor(array $configurationListData = []): ValueExtension
     {
-        /** @var ConfigurationManager&\PHPUnit\Framework\MockObject\MockObject $configManager */
-        $configManager = $this->createMock(ConfigurationManager::class);
+        /** @var ConfigurationManager&Stub $configManager */
+        $configManager = $this->createStub(ConfigurationManager::class);
         $configManager
             ->method('getList')
             ->willReturn(new RunalyzeConfigurationList($configurationListData));

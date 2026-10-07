@@ -82,8 +82,8 @@ class TagsController extends AbstractController
     public function tagDeleteAction(Request $request, TranslatorInterface $translator, int $id, ?Account $account = null): RedirectResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-
-        if (! $this->isCsrfTokenValid('deleteTag', $request->get('t'))) {
+        $token = $request->query->get('t') ?? $request->request->get('t');
+        if (! $this->isCsrfTokenValid('deleteTag', $token)) {
             $this->addFlash('notice', $translator->trans('Invalid token.'));
 
             return $this->redirectToRoute('settings-tags');

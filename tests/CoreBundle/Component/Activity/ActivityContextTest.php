@@ -18,7 +18,7 @@ class ActivityContextTest extends TestCase
 {
     private function createTraining(): Training
     {
-        return $this->createMock(Training::class);
+        return $this->createStub(Training::class);
     }
 
     public function testGetActivityReturnsInjectedTraining(): void
@@ -113,7 +113,7 @@ class ActivityContextTest extends TestCase
 
     public function testCanShowMapIsTrueOnlyWithRouteAndGeohashes(): void
     {
-        $routeWithGeohashes = $this->createMock(Route::class);
+        $routeWithGeohashes = $this->createStub(Route::class);
         $routeWithGeohashes->method('hasGeohashes')
             ->willReturn(true);
 
@@ -125,7 +125,7 @@ class ActivityContextTest extends TestCase
 
     public function testCanShowMapIsFalseWhenRouteHasNoGeohashes(): void
     {
-        $routeWithoutGeohashes = $this->createMock(Route::class);
+        $routeWithoutGeohashes = $this->createStub(Route::class);
         $routeWithoutGeohashes->method('hasGeohashes')
             ->willReturn(false);
 

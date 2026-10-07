@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -14,13 +13,27 @@ use PHPUnit\Framework\TestCase;
 #[Group('requiresDoctrine')]
 class RunalyzePluginPanel_PrognoseCharacterizationTest extends TestCase
 {
-    private RunalyzePluginPanel_Prognose&MockObject $plugin;
+    public $configuration;
 
-    private ?PluginConfiguration $configuration = null;
+    private RunalyzePluginPanel_Prognose $plugin;
+
+    private \ArrayObject $topResult;
 
     protected function setUp(): void
     {
-        $this->plugin = $this->createPartialMock(RunalyzePluginPanel_Prognose::class, ['getTopResult']);
+        $this->topResult = new \ArrayObject();
+
+        $this->plugin = new class($this->topResult) extends RunalyzePluginPanel_Prognose {
+            public function __construct(
+                private readonly \ArrayObject $topResultHolder
+            ) {
+            }
+
+            public function getTopResult(mixed ...$arguments): array
+            {
+                return $this->topResultHolder->getArrayCopy();
+            }
+        };
     }
 
     public function testThereAreNotEnoughCompetitionsIsTrueWhenNoPersonalBestsWereFound(): void
@@ -63,17 +76,16 @@ class RunalyzePluginPanel_PrognoseCharacterizationTest extends TestCase
     public function testPrepareForPrognosisUsesBockForCppModelWhenTwoTopResultsExist(): void
     {
         $this->setConfigurationValue('model', 'cpp');
-        $this->plugin->method('getTopResult')
-            ->willReturn([
-                [
-                    'distance' => 5.0,
-                    's' => 1200.0,
-                ],
-                [
-                    'distance' => 10.0,
-                    's' => 2550.0,
-                ],
-            ]);
+        $this->topResult->exchangeArray([
+            [
+                'distance' => 5.0,
+                's' => 1200.0,
+            ],
+            [
+                'distance' => 10.0,
+                's' => 2550.0,
+            ],
+        ]);
 
         $this->callProtectedMethod('prepareForPrognosis');
         $prognosis = $this->getProtectedProperty('Prognosis');
@@ -85,13 +97,12 @@ class RunalyzePluginPanel_PrognoseCharacterizationTest extends TestCase
     public function testPrepareForPrognosisLeavesBockInvalidForCppModelWhenFewerThanTwoTopResultsExist(): void
     {
         $this->setConfigurationValue('model', 'cpp');
-        $this->plugin->method('getTopResult')
-            ->willReturn([
-                [
-                    'distance' => 5.0,
-                    's' => 1200.0,
-                ],
-            ]);
+        $this->topResult->exchangeArray([
+            [
+                'distance' => 5.0,
+                's' => 1200.0,
+            ],
+        ]);
 
         $this->callProtectedMethod('prepareForPrognosis');
         $prognosis = $this->getProtectedProperty('Prognosis');
@@ -103,17 +114,16 @@ class RunalyzePluginPanel_PrognoseCharacterizationTest extends TestCase
     public function testPrepareForPrognosisUsesSteffnyForSteffnyModel(): void
     {
         $this->setConfigurationValue('model', 'steffny');
-        $this->plugin->method('getTopResult')
-            ->willReturn([
-                [
-                    'distance' => 10.0,
-                    's' => 2550.0,
-                ],
-                [
-                    'distance' => 5.0,
-                    's' => 1200.0,
-                ],
-            ]);
+        $this->topResult->exchangeArray([
+            [
+                'distance' => 10.0,
+                's' => 2550.0,
+            ],
+            [
+                'distance' => 5.0,
+                's' => 1200.0,
+            ],
+        ]);
 
         $this->callProtectedMethod('prepareForPrognosis');
         $prognosis = $this->getProtectedProperty('Prognosis');
@@ -124,17 +134,16 @@ class RunalyzePluginPanel_PrognoseCharacterizationTest extends TestCase
     public function testPrepareForPrognosisUsesCameronForCameronModel(): void
     {
         $this->setConfigurationValue('model', 'cameron');
-        $this->plugin->method('getTopResult')
-            ->willReturn([
-                [
-                    'distance' => 10.0,
-                    's' => 2550.0,
-                ],
-                [
-                    'distance' => 5.0,
-                    's' => 1200.0,
-                ],
-            ]);
+        $this->topResult->exchangeArray([
+            [
+                'distance' => 10.0,
+                's' => 2550.0,
+            ],
+            [
+                'distance' => 5.0,
+                's' => 1200.0,
+            ],
+        ]);
 
         $this->callProtectedMethod('prepareForPrognosis');
         $prognosis = $this->getProtectedProperty('Prognosis');

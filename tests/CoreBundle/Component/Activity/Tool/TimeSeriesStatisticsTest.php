@@ -14,17 +14,17 @@ class TimeSeriesStatisticsTest extends TestCase
     /**
      * @param string[] $availableKeys
      */
-    private function createTrackdataMock(array $availableKeys = [TrackdataEntity::TIME]): TrackdataEntity
+    private function createTrackdataStub(array $availableKeys = [TrackdataEntity::TIME]): TrackdataEntity
     {
-        $mock = $this->createMock(TrackdataEntity::class);
-        $mock->method('has')
+        $stub = $this->createStub(TrackdataEntity::class);
+        $stub->method('has')
             ->willReturnCallback(
                 static fn ($key): bool => in_array($key, $availableKeys, true)
             );
-        $mock->method('get')
+        $stub->method('get')
             ->willReturn([1.0, 2.0, 3.0]);
 
-        return $mock;
+        return $stub;
     }
 
     private function injectMultipleTimeSeries(TimeSeriesStatistics $stats, MultipleTimeSeries $multipleTimeSeries): void
@@ -50,7 +50,7 @@ class TimeSeriesStatisticsTest extends TestCase
 
     public function testConstructorSucceedsWhenTrackdataHasTimeSeries(): void
     {
-        $trackdata = $this->createTrackdataMock([TrackdataEntity::TIME]);
+        $trackdata = $this->createTrackdataStub([TrackdataEntity::TIME]);
 
         $stats = new TimeSeriesStatistics($trackdata);
 
@@ -59,7 +59,7 @@ class TimeSeriesStatisticsTest extends TestCase
 
     public function testHasStatisticsForReturnsFalseForTimeKeyItself(): void
     {
-        $trackdata = $this->createTrackdataMock([TrackdataEntity::TIME]);
+        $trackdata = $this->createTrackdataStub([TrackdataEntity::TIME]);
         $stats = new TimeSeriesStatistics($trackdata);
 
         $this->assertFalse($stats->hasStatisticsFor(TrackdataEntity::TIME));
@@ -67,7 +67,7 @@ class TimeSeriesStatisticsTest extends TestCase
 
     public function testHasStatisticsForReturnsFalseForKeyNotPresentInTrackdata(): void
     {
-        $trackdata = $this->createTrackdataMock([TrackdataEntity::TIME]);
+        $trackdata = $this->createTrackdataStub([TrackdataEntity::TIME]);
         $stats = new TimeSeriesStatistics($trackdata);
 
         $this->assertFalse($stats->hasStatisticsFor(TrackdataEntity::PACE));
@@ -76,7 +76,7 @@ class TimeSeriesStatisticsTest extends TestCase
     #[DataProvider('provideSimpleKeyMethodPairs')]
     public function testHasStatisticsForXxxReturnsTrueWhenKeyIsPresent(string $hasMethod, string $key): void
     {
-        $trackdata = $this->createTrackdataMock([TrackdataEntity::TIME, $key]);
+        $trackdata = $this->createTrackdataStub([TrackdataEntity::TIME, $key]);
         $stats = new TimeSeriesStatistics($trackdata);
 
         $this->assertTrue($stats->{$hasMethod}());
@@ -85,7 +85,7 @@ class TimeSeriesStatisticsTest extends TestCase
     #[DataProvider('provideSimpleKeyMethodPairs')]
     public function testHasStatisticsForXxxReturnsFalseWhenKeyIsAbsent(string $hasMethod, string $key): void
     {
-        $trackdata = $this->createTrackdataMock([TrackdataEntity::TIME]);
+        $trackdata = $this->createTrackdataStub([TrackdataEntity::TIME]);
         $stats = new TimeSeriesStatistics($trackdata);
 
         $this->assertFalse($stats->{$hasMethod}());
@@ -124,7 +124,7 @@ class TimeSeriesStatisticsTest extends TestCase
     #[DataProvider('provideGetterKeyPairs')]
     public function testGetStatisticsForXxxRequestsDistributionForMatchingKey(string $getMethod, string $expectedKey): void
     {
-        $trackdata = $this->createTrackdataMock([TrackdataEntity::TIME]);
+        $trackdata = $this->createTrackdataStub([TrackdataEntity::TIME]);
         $stats = new TimeSeriesStatistics($trackdata);
 
         $distribution = $this->createStub(EmpiricalDistribution::class);
@@ -171,7 +171,7 @@ class TimeSeriesStatisticsTest extends TestCase
 
     public function testGetStatisticsForFootstrikeTypeLeftRequestsLeftNotRight(): void
     {
-        $trackdata = $this->createTrackdataMock([TrackdataEntity::TIME]);
+        $trackdata = $this->createTrackdataStub([TrackdataEntity::TIME]);
         $stats = new TimeSeriesStatistics($trackdata);
 
         $distribution = $this->createStub(EmpiricalDistribution::class);
@@ -190,7 +190,7 @@ class TimeSeriesStatisticsTest extends TestCase
 
     public function testGetStatisticsForFootstrikeTypeRightRequestsRightNotLeft(): void
     {
-        $trackdata = $this->createTrackdataMock([TrackdataEntity::TIME]);
+        $trackdata = $this->createTrackdataStub([TrackdataEntity::TIME]);
         $stats = new TimeSeriesStatistics($trackdata);
 
         $distribution = $this->createStub(EmpiricalDistribution::class);
@@ -217,7 +217,7 @@ class TimeSeriesStatisticsTest extends TestCase
 
     public function testTrackdataIsNotClonedWhenNoNonIntegerKeysArePresent(): void
     {
-        $trackdata = $this->createTrackdataMock([TrackdataEntity::TIME, TrackdataEntity::PACE]);
+        $trackdata = $this->createTrackdataStub([TrackdataEntity::TIME, TrackdataEntity::PACE]);
 
         $stats = new TimeSeriesStatistics($trackdata);
 
@@ -227,7 +227,7 @@ class TimeSeriesStatisticsTest extends TestCase
     #[DataProvider('provideNonIntegerKeys')]
     public function testTrackdataIsClonedWhenAnyNonIntegerKeyIsPresent(string $nonIntegerKey): void
     {
-        $trackdata = $this->createTrackdataMock([TrackdataEntity::TIME, $nonIntegerKey]);
+        $trackdata = $this->createTrackdataStub([TrackdataEntity::TIME, $nonIntegerKey]);
 
         $stats = new TimeSeriesStatistics($trackdata);
 

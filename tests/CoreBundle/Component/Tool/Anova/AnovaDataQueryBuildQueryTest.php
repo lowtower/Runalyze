@@ -5,6 +5,8 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\Anova;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\AnovaDataQuery;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryGroup\QueryGroupInterface;
@@ -21,7 +23,7 @@ class AnovaDataQueryBuildQueryTest extends TestCase
 {
     private function createAnovaDataQuery(AnovaData $anovaData): AnovaDataQuery
     {
-        $anovaDataFull = $this->createMock(AnovaData::class);
+        $anovaDataFull = $this->createStub(AnovaData::class);
         $anovaDataFull->method('getValueToGroupBy')
             ->willReturn(QueryGroups::MONTH);
         $anovaDataFull->method('getValueToLookAt')
@@ -47,6 +49,25 @@ class AnovaDataQueryBuildQueryTest extends TestCase
         return new AnovaDataQuery($anovaDataFull);
     }
 
+    /**
+     * @param array<int, Sport> $sports
+     * @param array<int, Type> $types
+     */
+    private function createAnovaDataStub(array $sports = [], array $types = []): Stub&AnovaData
+    {
+        $anovaData = $this->createStub(AnovaData::class);
+        $anovaData->method('getDateFromTimestamp')
+            ->willReturn(1000);
+        $anovaData->method('getDateToTimestamp')
+            ->willReturn(2000);
+        $anovaData->method('getSport')
+            ->willReturn($sports);
+        $anovaData->method('getType')
+            ->willReturn($types);
+
+        return $anovaData;
+    }
+
     private function setProtectedProperty(object $object, string $name, mixed $value): void
     {
         $reflection = new \ReflectionObject($object);
@@ -62,9 +83,11 @@ class AnovaDataQueryBuildQueryTest extends TestCase
         return $method->invoke($query, $repo, $account);
     }
 
-    private function createFluentQueryBuilderMock(): QueryBuilder&\PHPUnit\Framework\MockObject\MockObject
+    /**
+     * Works for stubs and for mocks (a MockObject is also a Stub).
+     */
+    private function configureFluentQueryBuilder(QueryBuilder&Stub $queryBuilder): void
     {
-        $queryBuilder = $this->createMock(QueryBuilder::class);
         $queryBuilder->method('select')
             ->willReturn($queryBuilder);
         $queryBuilder->method('andWhere')
@@ -75,32 +98,28 @@ class AnovaDataQueryBuildQueryTest extends TestCase
             ->willReturn($queryBuilder);
         $queryBuilder->method('distinct')
             ->willReturn($queryBuilder);
+    }
+
+    private function createFluentQueryBuilderStub(): QueryBuilder&Stub
+    {
+        $queryBuilder = $this->createStub(QueryBuilder::class);
+        $this->configureFluentQueryBuilder($queryBuilder);
 
         return $queryBuilder;
     }
 
     public function testBuildQuerySetsAccountAndTimeRangeParameters(): void
     {
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
         $account->method('getId')
             ->willReturn(42);
 
-        $anovaData = $this->createMock(AnovaData::class);
-        $anovaData->method('getDateFromTimestamp')
-            ->willReturn(1000);
-        $anovaData->method('getDateToTimestamp')
-            ->willReturn(2000);
-        $anovaData->method('getSport')
-            ->willReturn([]);
-        $anovaData->method('getType')
-            ->willReturn([]);
-
-        $query = $this->createAnovaDataQuery($anovaData);
+        $query = $this->createAnovaDataQuery($this->createAnovaDataStub());
         $this->setProtectedProperty($query, 'QueryGroup', $this->createStub(QueryGroupInterface::class));
         $this->setProtectedProperty($query, 'QueryValue', $this->createStub(QueryValueInterface::class));
 
         $setParameterCalls = [];
-        $queryBuilder = $this->createFluentQueryBuilderMock();
+        $queryBuilder = $this->createFluentQueryBuilderStub();
         $queryBuilder->method('setParameter')
             ->willReturnCallback(
                 function (string $name, $value) use (&$setParameterCalls, $queryBuilder): QueryBuilder {
@@ -114,6 +133,7 @@ class AnovaDataQueryBuildQueryTest extends TestCase
         $queryBuilder->method('getQuery')
             ->willReturn($this->createStub(Query::class));
 
+        // Stays a mock: it has expectations (once, with)
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository->expects($this->once())
             ->method('createQueryBuilder')
@@ -130,29 +150,19 @@ class AnovaDataQueryBuildQueryTest extends TestCase
 
     public function testBuildQueryMapsSelectedSportsToTheirIdsForTheInClause(): void
     {
-        $sport1 = $this->createMock(Sport::class);
+        $sport1 = $this->createStub(Sport::class);
         $sport1->method('getId')
             ->willReturn(1);
-        $sport2 = $this->createMock(Sport::class);
+        $sport2 = $this->createStub(Sport::class);
         $sport2->method('getId')
             ->willReturn(2);
 
-        $anovaData = $this->createMock(AnovaData::class);
-        $anovaData->method('getDateFromTimestamp')
-            ->willReturn(1000);
-        $anovaData->method('getDateToTimestamp')
-            ->willReturn(2000);
-        $anovaData->method('getSport')
-            ->willReturn([$sport1, $sport2]);
-        $anovaData->method('getType')
-            ->willReturn([]);
-
-        $query = $this->createAnovaDataQuery($anovaData);
+        $query = $this->createAnovaDataQuery($this->createAnovaDataStub([$sport1, $sport2]));
         $this->setProtectedProperty($query, 'QueryGroup', $this->createStub(QueryGroupInterface::class));
         $this->setProtectedProperty($query, 'QueryValue', $this->createStub(QueryValueInterface::class));
 
         $setParameterCalls = [];
-        $queryBuilder = $this->createFluentQueryBuilderMock();
+        $queryBuilder = $this->createFluentQueryBuilderStub();
         $queryBuilder->method('setParameter')
             ->willReturnCallback(
                 function (string $name, $value) use (&$setParameterCalls, $queryBuilder): QueryBuilder {
@@ -166,7 +176,7 @@ class AnovaDataQueryBuildQueryTest extends TestCase
         $queryBuilder->method('getQuery')
             ->willReturn($this->createStub(Query::class));
 
-        $trainingRepository = $this->createMock(TrainingRepository::class);
+        $trainingRepository = $this->createStub(TrainingRepository::class);
         $trainingRepository->method('createQueryBuilder')
             ->willReturn($queryBuilder);
 
@@ -177,22 +187,12 @@ class AnovaDataQueryBuildQueryTest extends TestCase
 
     public function testBuildQueryDoesNotAddTypeConditionWhenNoTypesAreSelected(): void
     {
-        $anovaData = $this->createMock(AnovaData::class);
-        $anovaData->method('getDateFromTimestamp')
-            ->willReturn(1000);
-        $anovaData->method('getDateToTimestamp')
-            ->willReturn(2000);
-        $anovaData->method('getSport')
-            ->willReturn([]);
-        $anovaData->method('getType')
-            ->willReturn([]);
-
-        $query = $this->createAnovaDataQuery($anovaData);
+        $query = $this->createAnovaDataQuery($this->createAnovaDataStub());
         $this->setProtectedProperty($query, 'QueryGroup', $this->createStub(QueryGroupInterface::class));
         $this->setProtectedProperty($query, 'QueryValue', $this->createStub(QueryValueInterface::class));
 
         $setParameterCalls = [];
-        $queryBuilder = $this->createFluentQueryBuilderMock();
+        $queryBuilder = $this->createFluentQueryBuilderStub();
         $queryBuilder->method('setParameter')
             ->willReturnCallback(
                 function (string $name, $value) use (&$setParameterCalls, $queryBuilder): QueryBuilder {
@@ -206,7 +206,7 @@ class AnovaDataQueryBuildQueryTest extends TestCase
         $queryBuilder->method('getQuery')
             ->willReturn($this->createStub(Query::class));
 
-        $trainingRepository = $this->createMock(TrainingRepository::class);
+        $trainingRepository = $this->createStub(TrainingRepository::class);
         $trainingRepository->method('createQueryBuilder')
             ->willReturn($queryBuilder);
 
@@ -217,29 +217,19 @@ class AnovaDataQueryBuildQueryTest extends TestCase
 
     public function testBuildQueryMapsSelectedTypesToTheirIdsForTheInClauseWhenPresent(): void
     {
-        $type1 = $this->createMock(Type::class);
+        $type1 = $this->createStub(Type::class);
         $type1->method('getId')
             ->willReturn(10);
-        $type2 = $this->createMock(Type::class);
+        $type2 = $this->createStub(Type::class);
         $type2->method('getId')
             ->willReturn(11);
 
-        $anovaData = $this->createMock(AnovaData::class);
-        $anovaData->method('getDateFromTimestamp')
-            ->willReturn(1000);
-        $anovaData->method('getDateToTimestamp')
-            ->willReturn(2000);
-        $anovaData->method('getSport')
-            ->willReturn([]);
-        $anovaData->method('getType')
-            ->willReturn([$type1, $type2]);
-
-        $query = $this->createAnovaDataQuery($anovaData);
+        $query = $this->createAnovaDataQuery($this->createAnovaDataStub([], [$type1, $type2]));
         $this->setProtectedProperty($query, 'QueryGroup', $this->createStub(QueryGroupInterface::class));
         $this->setProtectedProperty($query, 'QueryValue', $this->createStub(QueryValueInterface::class));
 
         $setParameterCalls = [];
-        $queryBuilder = $this->createFluentQueryBuilderMock();
+        $queryBuilder = $this->createFluentQueryBuilderStub();
         $queryBuilder->method('setParameter')
             ->willReturnCallback(
                 function (string $name, $value) use (&$setParameterCalls, $queryBuilder): QueryBuilder {
@@ -253,7 +243,7 @@ class AnovaDataQueryBuildQueryTest extends TestCase
         $queryBuilder->method('getQuery')
             ->willReturn($this->createStub(Query::class));
 
-        $trainingRepository = $this->createMock(TrainingRepository::class);
+        $trainingRepository = $this->createStub(TrainingRepository::class);
         $trainingRepository->method('createQueryBuilder')
             ->willReturn($queryBuilder);
 
@@ -264,24 +254,15 @@ class AnovaDataQueryBuildQueryTest extends TestCase
 
     public function testBuildQueryDelegatesToQueryGroupAndQueryValueWithFixedAliasesAndReturnsTheBuiltQuery(): void
     {
-        $anovaData = $this->createMock(AnovaData::class);
-        $anovaData->method('getDateFromTimestamp')
-            ->willReturn(1000);
-        $anovaData->method('getDateToTimestamp')
-            ->willReturn(2000);
-        $anovaData->method('getSport')
-            ->willReturn([]);
-        $anovaData->method('getType')
-            ->willReturn([]);
+        $query = $this->createAnovaDataQuery($this->createAnovaDataStub());
 
-        $query = $this->createAnovaDataQuery($anovaData);
-
+        // Stay mocks: both have expectations (once, with)
         $queryGroupMock = $this->createMock(QueryGroupInterface::class);
         $queryValueMock = $this->createMock(QueryValueInterface::class);
         $this->setProtectedProperty($query, 'QueryGroup', $queryGroupMock);
         $this->setProtectedProperty($query, 'QueryValue', $queryValueMock);
 
-        $queryBuilder = $this->createFluentQueryBuilderMock();
+        $queryBuilder = $this->createFluentQueryBuilderStub();
         $queryBuilder->method('expr')
             ->willReturn($this->createStub(Expr::class));
 
@@ -289,7 +270,7 @@ class AnovaDataQueryBuildQueryTest extends TestCase
         $queryBuilder->method('getQuery')
             ->willReturn($expectedQuery);
 
-        $trainingRepository = $this->createMock(TrainingRepository::class);
+        $trainingRepository = $this->createStub(TrainingRepository::class);
         $trainingRepository->method('createQueryBuilder')
             ->willReturn($queryBuilder);
 

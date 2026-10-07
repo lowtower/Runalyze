@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Statistics\MonthlyStats;
 
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisData;
 use Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisSelection;
@@ -23,10 +23,9 @@ class AnalysisDataTest extends TestCase
     /**
      * @param array<int, array<string, int|float>> $results
      */
-    protected function getTrainingRepositoryMock(array $results = []): TrainingRepository&MockObject
+    protected function getTrainingRepositoryMock(array $results = []): TrainingRepository&Stub
     {
-        /** @var TrainingRepository&MockObject $repository */
-        $repository = $this->createMock(TrainingRepository::class);
+        $repository = $this->createStub(TrainingRepository::class);
         $repository->method('getMonthlyStatsFor')
             ->willReturn($results);
 

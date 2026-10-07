@@ -12,15 +12,20 @@ use PHPUnit\Framework\TestCase;
 #[Group('requiresDoctrine')]
 class RunalyzePluginStat_TagCharacterizationTest extends TestCase
 {
-    private \PHPUnit\Framework\MockObject\MockObject $plugin;
+    private RunalyzePluginStat_Tag $plugin;
 
     protected function setUp(): void
     {
-        $this->plugin = $this->createPartialMock(RunalyzePluginStat_Tag::class, ['getInnerLink']);
-        $this->plugin->method('getInnerLink')
-            ->willReturnCallback(
-                static fn (string $name, int $sport, int $year, string $dat): string => '<a href="?dat=' . $dat . '">' . $name . '</a>'
-            );
+        $this->plugin = new class() extends RunalyzePluginStat_Tag {
+            public function __construct()
+            {
+            }
+
+            public function getInnerLink(string $name, int $sport = 0, int $year = 0, string $dat = ''): string
+            {
+                return '<a href="?dat=' . $dat . '">' . $name . '</a>';
+            }
+        };
     }
 
     public function testToolbarNavigationLinksSnapshotForMultipleTagsWithOneActive(): void

@@ -31,7 +31,7 @@ class Configuration
     /**
      * Load dataset configuration from database
      * @param \PDO $pdo database connection
-     * @param int $accountID accountid
+     * @param int $accountID
      * @param bool $fallbackToDefault
      */
     public function __construct(\PDO $pdo, $accountID, $fallbackToDefault = true)

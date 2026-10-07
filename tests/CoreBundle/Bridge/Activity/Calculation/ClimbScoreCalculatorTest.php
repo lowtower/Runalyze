@@ -3,6 +3,7 @@
 namespace Tests\Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation;
 
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\ClimbFinder;
 use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\ClimbScoreCalculator;
@@ -15,7 +16,9 @@ use Runalyze\Sports\ClimbQuantification\FietsIndex;
 
 final class ClimbScoreCalculatorTest extends TestCase
 {
-    private ClimbFinder&MockObject $climbFinder;
+    // Stub by default. Tests that need expects() on the ClimbFinder
+    // build their own mock and their own calculator.
+    private ClimbFinder&Stub $climbFinder;
 
     private FietsIndex $fietsIndex;
 
@@ -23,14 +26,13 @@ final class ClimbScoreCalculatorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->climbFinder = $this->createMock(ClimbFinder::class);
+        $this->climbFinder = $this->createStub(ClimbFinder::class);
         $this->fietsIndex = new FietsIndex();
         $this->calculator = new ClimbScoreCalculator($this->fietsIndex, $this->climbFinder);
     }
 
-    private function createTraining(bool $hasRoute, bool $hasTrackdata, ?Route $route, ?float $percentageFlat): Training&MockObject
+    private function configureTraining(Stub $training, bool $hasRoute, bool $hasTrackdata, ?Route $route, ?float $percentageFlat): void
     {
-        $training = $this->createMock(Training::class);
         $training->method('hasRoute')
             ->willReturn($hasRoute);
         $training->method('hasTrackdata')
@@ -39,13 +41,30 @@ final class ClimbScoreCalculatorTest extends TestCase
             ->willReturn($route);
         $training->method('getPercentageFlat')
             ->willReturn($percentageFlat);
+    }
+
+    private function createTraining(bool $hasRoute, bool $hasTrackdata, ?Route $route, ?float $percentageFlat): Training&Stub
+    {
+        $training = $this->createStub(Training::class);
+        $this->configureTraining($training, $hasRoute, $hasTrackdata, $route, $percentageFlat);
 
         return $training;
     }
 
-    private function createRoute(float $distance): Route&MockObject
+    /**
+     * For tests that put expects() on the training itself.
+     */
+    private function createTrainingMock(bool $hasRoute, bool $hasTrackdata, ?Route $route, ?float $percentageFlat): Training&MockObject
     {
-        $route = $this->createMock(Route::class);
+        $training = $this->createMock(Training::class);
+        $this->configureTraining($training, $hasRoute, $hasTrackdata, $route, $percentageFlat);
+
+        return $training;
+    }
+
+    private function createRoute(float $distance): Route&Stub
+    {
+        $route = $this->createStub(Route::class);
         $route->method('getDistance')
             ->willReturn($distance);
 
@@ -72,12 +91,14 @@ final class ClimbScoreCalculatorTest extends TestCase
 
     public function testCalculateForSetsAnUnknownScoreWhenActivityHasNoRoute(): void
     {
-        $activity = $this->createTraining(false, true, null, null);
+        $activity = $this->createTrainingMock(false, true, null, null);
         $activity->expects(self::once())->method('setClimbScore')->with(null);
 
-        $this->climbFinder->expects(self::never())->method('findClimbsFor');
+        $climbFinder = $this->createMock(ClimbFinder::class);
+        $climbFinder->expects(self::never())->method('findClimbsFor');
+        $calculator = new ClimbScoreCalculator($this->fietsIndex, $climbFinder);
 
-        $score = $this->calculator->calculateFor($activity);
+        $score = $calculator->calculateFor($activity);
 
         self::assertFalse($score->isKnown());
         self::assertNull($score->getScore());
@@ -85,12 +106,14 @@ final class ClimbScoreCalculatorTest extends TestCase
 
     public function testCalculateForSetsAnUnknownScoreWhenActivityHasNoTrackdata(): void
     {
-        $activity = $this->createTraining(true, false, $this->createRoute(10.0), 0.0);
+        $activity = $this->createTrainingMock(true, false, $this->createRoute(10.0), 0.0);
         $activity->expects(self::once())->method('setClimbScore')->with(null);
 
-        $this->climbFinder->expects(self::never())->method('findClimbsFor');
+        $climbFinder = $this->createMock(ClimbFinder::class);
+        $climbFinder->expects(self::never())->method('findClimbsFor');
+        $calculator = new ClimbScoreCalculator($this->fietsIndex, $climbFinder);
 
-        $score = $this->calculator->calculateFor($activity);
+        $score = $calculator->calculateFor($activity);
 
         self::assertFalse($score->isKnown());
     }
@@ -98,7 +121,7 @@ final class ClimbScoreCalculatorTest extends TestCase
     public function testCalculateForReturnsAKnownButZeroScoreWhenThereAreNoClimbs(): void
     {
         $route = $this->createRoute(10.0);
-        $activity = $this->createTraining(true, true, $route, 1.0); // fully flat
+        $activity = $this->createTrainingMock(true, true, $route, 1.0); // fully flat
 
         $this->climbFinder->method('findClimbsFor')
             ->willReturn(new ClimbCollection());
@@ -207,7 +230,7 @@ final class ClimbScoreCalculatorTest extends TestCase
 
     public function testCalculateForSumsScoresAcrossMultipleClimbs(): void
     {
-        $mockedFietsIndex = $this->createMock(FietsIndex::class);
+        $mockedFietsIndex = $this->createStub(FietsIndex::class);
         $mockedFietsIndex
             ->method('getScoreForProfile')
             ->willReturnOnConsecutiveCalls(1.0, 2.0);
@@ -232,7 +255,7 @@ final class ClimbScoreCalculatorTest extends TestCase
     public function testCalculateForSetsClimbScoreOnTheActivityItself(): void
     {
         $route = $this->createRoute(10.0);
-        $activity = $this->createTraining(true, true, $route, 0.5);
+        $activity = $this->createTrainingMock(true, true, $route, 0.5);
 
         $this->climbFinder->method('findClimbsFor')
             ->willReturn(new ClimbCollection());

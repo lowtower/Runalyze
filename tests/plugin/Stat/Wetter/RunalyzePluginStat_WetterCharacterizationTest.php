@@ -224,24 +224,27 @@ class RunalyzePluginStat_WetterCharacterizationTest extends TestCase
 
     private function callGetEquipmentTypeSubmenuLinks(): array
     {
-        $mock = $this->getMockBuilder(RunalyzePluginStat_Wetter::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getInnerLink'])
-            ->getMock();
-        $mock->method('getInnerLink')
-            ->willReturnCallback(
-                static fn (string $name, int $sport, int $year, string $id): string => "[LINK:{$name}:{$sport}:{$year}:{$id}]"
-            );
+        $testPlugin = new class() extends RunalyzePluginStat_Wetter {
+            public function __construct()
+            {
+                // Intentionally empty: replaces disableOriginalConstructor()
+            }
+
+            public function getInnerLink(string $name, int $sport = 0, int $year = 0, string $dat = ''): string
+            {
+                return "[LINK:{$name}:{$sport}:{$year}:{$dat}]";
+            }
+        };
 
         $allTypesProperty = new \ReflectionProperty(RunalyzePluginStat_Wetter::class, 'AllTypes');
-        $allTypesProperty->setValue($mock, $allTypesProperty->getValue($this->plugin));
+        $allTypesProperty->setValue($testPlugin, $allTypesProperty->getValue($this->plugin));
 
         $equipmentTypeIdProperty = new \ReflectionProperty(RunalyzePluginStat_Wetter::class, 'EquipmentTypeId');
-        $equipmentTypeIdProperty->setValue($mock, $equipmentTypeIdProperty->getValue($this->plugin));
+        $equipmentTypeIdProperty->setValue($testPlugin, $equipmentTypeIdProperty->getValue($this->plugin));
 
         $closure = \Closure::bind(
             fn (): array => $this->getEquipmentTypeSubmenuLinks(),
-            $mock,
+            $testPlugin,
             RunalyzePluginStat_Wetter::class
         );
 

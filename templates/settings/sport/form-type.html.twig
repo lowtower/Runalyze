@@ -49,6 +49,6 @@
     </div>
 
     {% if form.vars.data.id is not null and form.vars.data.trainings.count() is null %}
-        {{ dangerZoneDelete(url('sport-type-delete', {'id': form.vars.data.id}), 'deleteSport') }}
+        {{ dangerZoneDelete(url('sport-type-delete', {'id': form.vars.data.id}), 'deleteSportType') }}
     {% endif %}
 {% endblock %}

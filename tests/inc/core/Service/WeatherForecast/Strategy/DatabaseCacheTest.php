@@ -2,6 +2,7 @@
 
 namespace Runalyze\Tests\Service\WeatherForecast\Strategy;
 
+use PHPUnit\Framework\MockObject\Stub;
 use Runalyze\Parser\Activity\Common\Data\WeatherData;
 use Runalyze\Service\WeatherForecast\DatabaseCacheInterface;
 use Runalyze\Service\WeatherForecast\Location;
@@ -9,19 +10,18 @@ use Runalyze\Service\WeatherForecast\Strategy\DatabaseCache;
 
 class DatabaseCacheTest extends \PHPUnit\Framework\TestCase
 {
-    protected function getMockForResponse(?WeatherData $data = null): DatabaseCacheInterface&\PHPUnit\Framework\MockObject\MockObject
+    protected function getStubForResponse(?WeatherData $data = null): DatabaseCacheInterface&Stub
     {
-        /** @var DatabaseCacheInterface&\PHPUnit\Framework\MockObject\MockObject $mock */
-        $mock = $this->createMock(DatabaseCacheInterface::class);
-        $mock->method('getCachedWeatherDataFor')
+        $stub = $this->createStub(DatabaseCacheInterface::class);
+        $stub->method('getCachedWeatherDataFor')
             ->willReturn($data);
 
-        return $mock;
+        return $stub;
     }
 
     public function testEmptyResponse(): void
     {
-        $cache = new DatabaseCache($this->getMockForResponse());
+        $cache = new DatabaseCache($this->getStubForResponse());
 
         $this->assertNull($cache->loadForecast(new Location()));
     }
@@ -33,7 +33,7 @@ class DatabaseCacheTest extends \PHPUnit\Framework\TestCase
         $data->WindDirection = 314;
         $data->WindSpeed = 42;
 
-        $cache = new DatabaseCache($this->getMockForResponse($data));
+        $cache = new DatabaseCache($this->getStubForResponse($data));
 
         $this->assertEquals($data, $cache->loadForecast(new Location()));
     }

@@ -3,7 +3,7 @@
 namespace Tests\Runalyze\Bundle\CoreBundle\Command;
 
 use Doctrine\Persistence\ManagerRegistry;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Command\CleanupRegistrationsCommand;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -12,24 +12,36 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 final class CleanupRegistrationsCommandTest extends TestCase
 {
-    private ManagerRegistry&MockObject $doctrine;
-
-    private AccountRepository&MockObject $accountRepository;
+    // Stub by default. Tests that need expects() on the repository build
+    // their own mock and pass it to createCommand().
+    private AccountRepository&Stub $accountRepository;
 
     protected function setUp(): void
     {
-        $this->doctrine = $this->createMock(ManagerRegistry::class);
-        $this->accountRepository = $this->createMock(AccountRepository::class);
-
-        $this->doctrine
-            ->method('getRepository')
-            ->with(Account::class)
-            ->willReturn($this->accountRepository);
+        $this->accountRepository = $this->createStub(AccountRepository::class);
     }
 
-    private function createCommand(): CleanupRegistrationsCommand
+    /**
+     * Replaces ->with(Account::class): a stub has no with(), so the check
+     * is an assertion inside the callback.
+     */
+    private function createDoctrine(AccountRepository $accountRepository): ManagerRegistry
     {
-        return new CleanupRegistrationsCommand($this->doctrine);
+        $doctrine = $this->createStub(ManagerRegistry::class);
+        $doctrine
+            ->method('getRepository')
+            ->willReturnCallback(function (string $className) use ($accountRepository): AccountRepository {
+                $this->assertSame(Account::class, $className);
+
+                return $accountRepository;
+            });
+
+        return $doctrine;
+    }
+
+    private function createCommand(?AccountRepository $accountRepository = null): CleanupRegistrationsCommand
+    {
+        return new CleanupRegistrationsCommand($this->createDoctrine($accountRepository ?? $this->accountRepository));
     }
 
     public function testCommandConfiguration(): void
@@ -50,13 +62,14 @@ final class CleanupRegistrationsCommandTest extends TestCase
 
     public function testExecuteUsesDefaultOfSevenDaysWhenArgumentOmitted(): void
     {
-        $this->accountRepository
+        $accountRepository = $this->createMock(AccountRepository::class);
+        $accountRepository
             ->expects(self::once())
             ->method('deleteNotActivatedAccounts')
             ->with(7)
             ->willReturn([1, 2, 3]);
 
-        $tester = new CommandTester($this->createCommand());
+        $tester = new CommandTester($this->createCommand($accountRepository));
         $exitCode = $tester->execute([]);
 
         self::assertSame(0, $exitCode);
@@ -67,13 +80,14 @@ final class CleanupRegistrationsCommandTest extends TestCase
 
     public function testExecuteUsesProvidedDaysArgument(): void
     {
-        $this->accountRepository
+        $accountRepository = $this->createMock(AccountRepository::class);
+        $accountRepository
             ->expects(self::once())
             ->method('deleteNotActivatedAccounts')
             ->with(30)
             ->willReturn([1]);
 
-        $tester = new CommandTester($this->createCommand());
+        $tester = new CommandTester($this->createCommand($accountRepository));
         $exitCode = $tester->execute([
             'days' => '30',
         ]);
@@ -86,13 +100,14 @@ final class CleanupRegistrationsCommandTest extends TestCase
 
     public function testExecuteTreatsExplicitZeroDaysAsFalsyAndFallsBackToDefault(): void
     {
-        $this->accountRepository
+        $accountRepository = $this->createMock(AccountRepository::class);
+        $accountRepository
             ->expects(self::once())
             ->method('deleteNotActivatedAccounts')
             ->with(7)
             ->willReturn([]);
 
-        $tester = new CommandTester($this->createCommand());
+        $tester = new CommandTester($this->createCommand($accountRepository));
         $exitCode = $tester->execute([
             'days' => '0',
         ]);

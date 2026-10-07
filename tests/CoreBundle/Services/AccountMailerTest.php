@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Services;
 
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Component\Notifications\Message\PosterGeneratedMessage;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -30,9 +30,9 @@ class AccountMailerTest extends TestCase
         return $account;
     }
 
-    private function createTranslator(): TranslatorInterface&MockObject
+    private function createTranslator(): TranslatorInterface&Stub
     {
-        $translator = $this->createMock(TranslatorInterface::class);
+        $translator = $this->createStub(TranslatorInterface::class);
         $translator->method('trans')
             ->willReturnCallback(
                 static fn (string $id, array $parameters = [], ?string $domain = null, ?string $locale = null): string => $id . ' (translated)'
@@ -44,7 +44,7 @@ class AccountMailerTest extends TestCase
     private function createCapturingMailer(mixed &$captured = null): MailerInterface
     {
         $captured = null;
-        $mailer = $this->createMock(MailerInterface::class);
+        $mailer = $this->createStub(MailerInterface::class);
         $mailer->method('send')
             ->willReturnCallback(function ($message) use (&$captured): void {
                 $captured = $message;
@@ -65,11 +65,11 @@ class AccountMailerTest extends TestCase
     {
         $renderCalls = [];
 
-        $loader = $this->createMock(LoaderInterface::class);
+        $loader = $this->createStub(LoaderInterface::class);
         $loader->method('exists')
             ->willReturn($languageTemplateExists);
 
-        $twig = $this->createMock(Environment::class);
+        $twig = $this->createStub(Environment::class);
         $twig->method('getLoader')
             ->willReturn($loader);
         $twig->method('render')
@@ -243,7 +243,7 @@ class AccountMailerTest extends TestCase
 
     public function testSendMailToDoesNotSendWhenTemplateRenderingFails(): void
     {
-        $twig = $this->createMock(Environment::class);
+        $twig = $this->createStub(Environment::class);
         $twig->method('getLoader')
             ->willReturn($this->createStub(LoaderInterface::class));
         $twig->method('render')

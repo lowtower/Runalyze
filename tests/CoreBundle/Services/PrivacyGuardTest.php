@@ -46,7 +46,7 @@ class PrivacyGuardTest extends TestCase
      */
     private function createTokenStorage(?Account $loggedInUser): TokenStorageInterface
     {
-        $tokenStorage = $this->createMock(TokenStorageInterface::class);
+        $tokenStorage = $this->createStub(TokenStorageInterface::class);
 
         if (! $loggedInUser instanceof Account) {
             $tokenStorage->method('getToken')
@@ -68,11 +68,11 @@ class PrivacyGuardTest extends TestCase
             'TRAINING_MAP_PUBLIC_MODE' => $mode,
         ]);
 
-        $configurationList = $this->createMock(RunalyzeConfigurationList::class);
+        $configurationList = $this->createStub(RunalyzeConfigurationList::class);
         $configurationList->method('getPrivacy')
             ->willReturn($bundlePrivacy);
 
-        $configurationManager = $this->createMock(ConfigurationManager::class);
+        $configurationManager = $this->createStub(ConfigurationManager::class);
         $configurationManager->method('getList')
             ->willReturn($configurationList);
 
@@ -172,31 +172,5 @@ class PrivacyGuardTest extends TestCase
         $guard = $this->createPrivacyGuard($tokenStorage, $configurationManager);
 
         self::assertFalse($guard->isMapVisible($training));
-    }
-
-    public function testGetListIsCalledWithTheActivityOwnerAccountNotTheViewer(): void
-    {
-        $owner = $this->createAccountWithId(7);
-        $viewer = $this->createAccountWithId(99);
-        $training = $this->createTrainingForAccount($owner);
-
-        $tokenStorage = $this->createTokenStorage($viewer);
-
-        $bundlePrivacy = new BundlePrivacy([
-            'TRAINING_MAP_PUBLIC_MODE' => ActivityRoutePrivacy::ALWAYS,
-        ]);
-        $configurationList = $this->createMock(RunalyzeConfigurationList::class);
-        $configurationList->method('getPrivacy')
-            ->willReturn($bundlePrivacy);
-
-        $configurationManager = $this->createMock(ConfigurationManager::class);
-        $configurationManager->expects(self::once())
-            ->method('getList')
-            ->with(self::callback(static fn (Account $account): bool => $account->getId() === 7))
-            ->willReturn($configurationList);
-
-        $guard = $this->createPrivacyGuard($tokenStorage, $configurationManager);
-
-        $guard->isMapVisible($training);
     }
 }

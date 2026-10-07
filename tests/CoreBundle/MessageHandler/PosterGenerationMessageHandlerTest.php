@@ -6,7 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\MessageHandler;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use ReflectionObject;
@@ -32,21 +32,23 @@ use Symfony\Component\Process\Process;
 #[\PHPUnit\Framework\Attributes\Group('default')]
 class PosterGenerationMessageHandlerTest extends TestCase
 {
-    private LoggerInterface&MockObject $loggerMock;
+    // These are stubs by default. A test that needs expects() replaces the
+    // affected property with a local mock before calling createHandler().
+    private LoggerInterface&Stub $loggerMock;
 
-    private AccountRepository&MockObject $accountRepositoryMock;
+    private AccountRepository&Stub $accountRepositoryMock;
 
-    private SportRepository&MockObject $sportRepositoryMock;
+    private SportRepository&Stub $sportRepositoryMock;
 
-    private NotificationRepository&MockObject $notificationRepositoryMock;
+    private NotificationRepository&Stub $notificationRepositoryMock;
 
-    private GenerateJsonData&MockObject $generateJsonDataMock;
+    private GenerateJsonData&Stub $generateJsonDataMock;
 
-    private GeneratePoster&MockObject $generatePosterMock;
+    private GeneratePoster&Stub $generatePosterMock;
 
-    private FileHandler&MockObject $fileHandlerMock;
+    private FileHandler&Stub $fileHandlerMock;
 
-    private AccountMailer&MockObject $accountMailerMock;
+    private AccountMailer&Stub $accountMailerMock;
 
     /**
      * @var string[]
@@ -55,14 +57,14 @@ class PosterGenerationMessageHandlerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->loggerMock = $this->createMock(LoggerInterface::class);
-        $this->accountRepositoryMock = $this->createMock(AccountRepository::class);
-        $this->sportRepositoryMock = $this->createMock(SportRepository::class);
-        $this->notificationRepositoryMock = $this->createMock(NotificationRepository::class);
-        $this->generateJsonDataMock = $this->createMock(GenerateJsonData::class);
-        $this->generatePosterMock = $this->createMock(GeneratePoster::class);
-        $this->fileHandlerMock = $this->createMock(FileHandler::class);
-        $this->accountMailerMock = $this->createMock(AccountMailer::class);
+        $this->loggerMock = $this->createStub(LoggerInterface::class);
+        $this->accountRepositoryMock = $this->createStub(AccountRepository::class);
+        $this->sportRepositoryMock = $this->createStub(SportRepository::class);
+        $this->notificationRepositoryMock = $this->createStub(NotificationRepository::class);
+        $this->generateJsonDataMock = $this->createStub(GenerateJsonData::class);
+        $this->generatePosterMock = $this->createStub(GeneratePoster::class);
+        $this->fileHandlerMock = $this->createStub(FileHandler::class);
+        $this->accountMailerMock = $this->createStub(AccountMailer::class);
     }
 
     protected function tearDown(): void
@@ -125,13 +127,13 @@ class PosterGenerationMessageHandlerTest extends TestCase
         return new ProcessFailedException($process);
     }
 
-    private function arrangeSportOfRequestingAccount(): Account&MockObject
+    private function arrangeSportOfRequestingAccount(): Account&Stub
     {
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
         $account->method('getId')
             ->willReturn(1);
 
-        $sport = $this->createMock(Sport::class);
+        $sport = $this->createStub(Sport::class);
         $sport->method('getAccount')
             ->willReturn($account);
 
@@ -158,10 +160,15 @@ class PosterGenerationMessageHandlerTest extends TestCase
         $this->sportRepositoryMock->method('find')
             ->willReturn($this->createStub(Sport::class));
 
-        $this->generateJsonDataMock->expects($this->never())
+        $generateJsonData = $this->createMock(GenerateJsonData::class);
+        $generateJsonData->expects($this->never())
             ->method('createJsonFilesFor');
-        $this->notificationRepositoryMock->expects($this->never())
+        $this->generateJsonDataMock = $generateJsonData;
+
+        $notificationRepository = $this->createMock(NotificationRepository::class);
+        $notificationRepository->expects($this->never())
             ->method('save');
+        $this->notificationRepositoryMock = $notificationRepository;
 
         $handler = $this->createHandler();
         $handler($this->createMessage());
@@ -176,10 +183,15 @@ class PosterGenerationMessageHandlerTest extends TestCase
         $this->sportRepositoryMock->method('find')
             ->willReturn(null);
 
-        $this->generateJsonDataMock->expects($this->never())
+        $generateJsonData = $this->createMock(GenerateJsonData::class);
+        $generateJsonData->expects($this->never())
             ->method('createJsonFilesFor');
-        $this->notificationRepositoryMock->expects($this->never())
+        $this->generateJsonDataMock = $generateJsonData;
+
+        $notificationRepository = $this->createMock(NotificationRepository::class);
+        $notificationRepository->expects($this->never())
             ->method('save');
+        $this->notificationRepositoryMock = $notificationRepository;
 
         $handler = $this->createHandler();
         $handler($this->createMessage());
@@ -187,15 +199,15 @@ class PosterGenerationMessageHandlerTest extends TestCase
 
     public function testInvokeReturnsEarlyWhenSportBelongsToDifferentAccount(): void
     {
-        $requestingAccount = $this->createMock(Account::class);
+        $requestingAccount = $this->createStub(Account::class);
         $requestingAccount->method('getId')
             ->willReturn(1);
 
-        $otherAccount = $this->createMock(Account::class);
+        $otherAccount = $this->createStub(Account::class);
         $otherAccount->method('getId')
             ->willReturn(2);
 
-        $sport = $this->createMock(Sport::class);
+        $sport = $this->createStub(Sport::class);
         $sport->method('getAccount')
             ->willReturn($otherAccount);
 
@@ -204,10 +216,15 @@ class PosterGenerationMessageHandlerTest extends TestCase
         $this->sportRepositoryMock->method('find')
             ->willReturn($sport);
 
-        $this->generateJsonDataMock->expects($this->never())
+        $generateJsonData = $this->createMock(GenerateJsonData::class);
+        $generateJsonData->expects($this->never())
             ->method('createJsonFilesFor');
-        $this->notificationRepositoryMock->expects($this->never())
+        $this->generateJsonDataMock = $generateJsonData;
+
+        $notificationRepository = $this->createMock(NotificationRepository::class);
+        $notificationRepository->expects($this->never())
             ->method('save');
+        $this->notificationRepositoryMock = $notificationRepository;
 
         $handler = $this->createHandler();
         $handler($this->createMessage(accountId: 1, sportId: 5));
@@ -216,12 +233,14 @@ class PosterGenerationMessageHandlerTest extends TestCase
     public function testInvokeCreatesJsonFilesForAccountSportAndYear(): void
     {
         $account = $this->arrangeSportOfRequestingAccount();
-        $this->generateJsonDataMock->method('getPathToJsonFiles')
-            ->willReturn($this->createJsonDirectory(withJsonFile: false));
 
-        $this->generateJsonDataMock->expects($this->once())
+        $generateJsonData = $this->createMock(GenerateJsonData::class);
+        $generateJsonData->method('getPathToJsonFiles')
+            ->willReturn($this->createJsonDirectory(withJsonFile: false));
+        $generateJsonData->expects($this->once())
             ->method('createJsonFilesFor')
             ->with($account, $this->isInstanceOf(Sport::class), 2024);
+        $this->generateJsonDataMock = $generateJsonData;
 
         $handler = $this->createHandler();
         $handler($this->createMessage());
@@ -230,17 +249,28 @@ class PosterGenerationMessageHandlerTest extends TestCase
     public function testInvokeNotifiesButSendsNoMailWhenThereIsNoDataForPosters(): void
     {
         $this->arrangeSportOfRequestingAccount();
-        $this->generateJsonDataMock->method('getPathToJsonFiles')
-            ->willReturn($this->createJsonDirectory(withJsonFile: false));
 
-        $this->generatePosterMock->expects($this->never())
-            ->method('buildCommand');
-        $this->notificationRepositoryMock->expects($this->once())
-            ->method('save');
-        $this->accountMailerMock->expects($this->never())
-            ->method('sendPosterGeneratedTo');
-        $this->generateJsonDataMock->expects($this->once())
+        $generateJsonData = $this->createMock(GenerateJsonData::class);
+        $generateJsonData->method('getPathToJsonFiles')
+            ->willReturn($this->createJsonDirectory(withJsonFile: false));
+        $generateJsonData->expects($this->once())
             ->method('deleteGeneratedFiles');
+        $this->generateJsonDataMock = $generateJsonData;
+
+        $generatePoster = $this->createMock(GeneratePoster::class);
+        $generatePoster->expects($this->never())
+            ->method('buildCommand');
+        $this->generatePosterMock = $generatePoster;
+
+        $notificationRepository = $this->createMock(NotificationRepository::class);
+        $notificationRepository->expects($this->once())
+            ->method('save');
+        $this->notificationRepositoryMock = $notificationRepository;
+
+        $accountMailer = $this->createMock(AccountMailer::class);
+        $accountMailer->expects($this->never())
+            ->method('sendPosterGeneratedTo');
+        $this->accountMailerMock = $accountMailer;
 
         $handler = $this->createHandler();
         $handler($this->createMessage());
@@ -256,18 +286,29 @@ class PosterGenerationMessageHandlerTest extends TestCase
         $this->generatePosterMock->method('buildCommand')
             ->willThrowException($exception);
 
-        $this->loggerMock->expects($this->once())
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($this->once())
             ->method('error')
             ->with('Poster creation failed', [
                 'type' => 'circular',
                 'exception' => $exception,
             ]);
-        $this->fileHandlerMock->expects($this->never())
+        $this->loggerMock = $logger;
+
+        $fileHandler = $this->createMock(FileHandler::class);
+        $fileHandler->expects($this->never())
             ->method('buildFinalFileName');
-        $this->notificationRepositoryMock->expects($this->once())
+        $this->fileHandlerMock = $fileHandler;
+
+        $notificationRepository = $this->createMock(NotificationRepository::class);
+        $notificationRepository->expects($this->once())
             ->method('save');
-        $this->accountMailerMock->expects($this->never())
+        $this->notificationRepositoryMock = $notificationRepository;
+
+        $accountMailer = $this->createMock(AccountMailer::class);
+        $accountMailer->expects($this->never())
             ->method('sendPosterGeneratedTo');
+        $this->accountMailerMock = $accountMailer;
 
         $handler = $this->createHandler();
         $handler($this->createMessage());
@@ -284,13 +325,15 @@ class PosterGenerationMessageHandlerTest extends TestCase
         $this->generatePosterMock->method('buildCommand')
             ->willThrowException($exception);
 
-        $this->loggerMock->expects($this->once())
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($this->once())
             ->method('error')
             ->with('Poster creation failed', [
                 'type' => 'circular',
                 'exception' => $exception,
                 'processErrorOutput' => 'boom',
             ]);
+        $this->loggerMock = $logger;
 
         $handler = $this->createHandler();
         $handler($this->createMessage());
@@ -299,13 +342,18 @@ class PosterGenerationMessageHandlerTest extends TestCase
     public function testInvokeDeletesGeneratedFilesWhenJsonFilesCannotBeCreated(): void
     {
         $this->arrangeSportOfRequestingAccount();
-        $this->generateJsonDataMock->method('createJsonFilesFor')
-            ->willThrowException(new RuntimeException('JSON files could not be created.'));
 
-        $this->generateJsonDataMock->expects($this->once())
+        $generateJsonData = $this->createMock(GenerateJsonData::class);
+        $generateJsonData->method('createJsonFilesFor')
+            ->willThrowException(new RuntimeException('JSON files could not be created.'));
+        $generateJsonData->expects($this->once())
             ->method('deleteGeneratedFiles');
-        $this->notificationRepositoryMock->expects($this->never())
+        $this->generateJsonDataMock = $generateJsonData;
+
+        $notificationRepository = $this->createMock(NotificationRepository::class);
+        $notificationRepository->expects($this->never())
             ->method('save');
+        $this->notificationRepositoryMock = $notificationRepository;
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('JSON files could not be created.');
@@ -317,13 +365,16 @@ class PosterGenerationMessageHandlerTest extends TestCase
     public function testInvokeDeletesGeneratedFilesWhenNotificationCannotBeSaved(): void
     {
         $this->arrangeSportOfRequestingAccount();
-        $this->generateJsonDataMock->method('getPathToJsonFiles')
+
+        $generateJsonData = $this->createMock(GenerateJsonData::class);
+        $generateJsonData->method('getPathToJsonFiles')
             ->willReturn($this->createJsonDirectory(withJsonFile: false));
+        $generateJsonData->expects($this->once())
+            ->method('deleteGeneratedFiles');
+        $this->generateJsonDataMock = $generateJsonData;
+
         $this->notificationRepositoryMock->method('save')
             ->willThrowException(new RuntimeException('Database is not available.'));
-
-        $this->generateJsonDataMock->expects($this->once())
-            ->method('deleteGeneratedFiles');
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Database is not available.');

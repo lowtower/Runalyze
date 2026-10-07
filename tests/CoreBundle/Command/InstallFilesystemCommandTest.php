@@ -2,7 +2,7 @@
 
 namespace Tests\Runalyze\Bundle\CoreBundle\Command;
 
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Command\InstallFilesystemCommand;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -13,7 +13,7 @@ final class InstallFilesystemCommandTest extends TestCase
 {
     private Filesystem $filesystem;
 
-    private KernelInterface&MockObject $kernel;
+    private KernelInterface&Stub $kernel;
 
     private string $tempProjectDirectory;
 
@@ -24,7 +24,7 @@ final class InstallFilesystemCommandTest extends TestCase
         $this->tempProjectDirectory = sys_get_temp_dir() . '/install-filesystem-command-test-' . bin2hex(random_bytes(8));
         mkdir($this->tempProjectDirectory, 0777, true);
 
-        $this->kernel = $this->createMock(\Symfony\Component\HttpKernel\Kernel::class);
+        $this->kernel = $this->createStub(\Symfony\Component\HttpKernel\Kernel::class);
         $this->kernel
             ->method('getProjectDir')
             ->willReturn($this->tempProjectDirectory);

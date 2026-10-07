@@ -127,6 +127,7 @@ class FileImportResultTest extends TestCase
         $exception = new ParserException('boom');
         $result = new FileImportResult([], 'file.gpx', 'file.gpx', $exception);
 
+        // Stays a mock: it has an expectation (never)
         $filter = $this->createMock(ActivityDataContainerFilter::class);
         $filter->expects($this->never())
             ->method('filter');
@@ -143,7 +144,7 @@ class FileImportResultTest extends TestCase
         $result = new FileImportResult([$keptContainer, $removedContainer], 'file.gpx', 'file.gpx');
 
         $filterException = new ParserException('invalid data');
-        $filter = $this->createMock(ActivityDataContainerFilter::class);
+        $filter = $this->createStub(ActivityDataContainerFilter::class);
         $filter->method('filter')
             ->willReturnCallback(function (ActivityDataContainer $container) use ($removedContainer, $filterException): void {
                 if ($container === $removedContainer) {

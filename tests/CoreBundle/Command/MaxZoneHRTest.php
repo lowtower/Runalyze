@@ -3,7 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\Tests\Command;
 
 use Doctrine\Persistence\ManagerRegistry;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Command\ActivityBulkImportCommand;
 use Runalyze\Bundle\CoreBundle\Command\MaxZoneHR;
@@ -35,13 +35,13 @@ final class MaxZoneHRTest extends TestCase
         return $instance;
     }
 
-    private function createMainSportActivity(bool $isMain): MockObject&Training
+    private function createMainSportActivity(bool $isMain): Stub&Training
     {
-        $sport = $this->createMock(Sport::class);
+        $sport = $this->createStub(Sport::class);
         $sport->method('isMain')
             ->willReturn($isMain);
 
-        $activity = $this->createMock(Training::class);
+        $activity = $this->createStub(Training::class);
         $activity->method('getSport')
             ->willReturn($sport);
 
@@ -208,7 +208,7 @@ final class ActivityBulkImportCommandAdditionalTest extends TestCase
      * $doctrine is declared `private readonly` in ActivityBulkImportCommand.
      * Reflection cannot overwrite an already-initialized readonly property
      * (only uninitialized ones, as used for MaxZoneHR's $import above), so
-     * any test-specific ManagerRegistry mock must be passed in directly at
+     * any test-specific ManagerRegistry must be passed in directly at
      * construction time via this optional parameter, rather than injected
      * afterwards.
      */
@@ -225,6 +225,23 @@ final class ActivityBulkImportCommandAdditionalTest extends TestCase
             $this->createStub(ActivityContextAdapterFactory::class),
             $this->createStub(ConfigurationManager::class)
         );
+    }
+
+    /**
+     * Replaces ->with(User::class): a stub has no with(), so the check
+     * is an assertion inside the callback.
+     */
+    private function createDoctrineReturning(UserRepository $userRepository): ManagerRegistry
+    {
+        $doctrine = $this->createStub(ManagerRegistry::class);
+        $doctrine->method('getRepository')
+            ->willReturnCallback(function (string $className) use ($userRepository): UserRepository {
+                $this->assertSame(User::class, $className);
+
+                return $userRepository;
+            });
+
+        return $doctrine;
     }
 
     private function invokeCheckStoreMaxZoneHR(
@@ -253,16 +270,13 @@ final class ActivityBulkImportCommandAdditionalTest extends TestCase
 
     public function testCheckStoreMaxZoneHRDoesNothingWhenNoPreviousUserEntryExists(): void
     {
+        // Stays a mock: it has an expectation (never)
         $userRepository = $this->createMock(UserRepository::class);
         $userRepository->method('getLatestEntryFor')
             ->willReturn(null);
         $userRepository->expects(self::never())->method('save');
 
-        $doctrine = $this->createMock(ManagerRegistry::class);
-        $doctrine->method('getRepository')
-            ->with(User::class)->willReturn($userRepository);
-
-        $command = $this->createCommand($doctrine);
+        $command = $this->createCommand($this->createDoctrineReturning($userRepository));
 
         $account = $this->createStub(Account::class);
         $maxZoneHR = $this->createMaxZoneHRWithValues(190, 1_700_000_000);
@@ -272,6 +286,7 @@ final class ActivityBulkImportCommandAdditionalTest extends TestCase
 
     public function testCheckStoreMaxZoneHRDoesNothingWhenPulseIsUnchanged(): void
     {
+        // Stays a mock: it has an expectation (never)
         $oldUser = $this->createMock(User::class);
         $oldUser->method('getPulseMax')
             ->willReturn(190);
@@ -282,11 +297,7 @@ final class ActivityBulkImportCommandAdditionalTest extends TestCase
             ->willReturn($oldUser);
         $userRepository->expects(self::never())->method('save');
 
-        $doctrine = $this->createMock(ManagerRegistry::class);
-        $doctrine->method('getRepository')
-            ->with(User::class)->willReturn($userRepository);
-
-        $command = $this->createCommand($doctrine);
+        $command = $this->createCommand($this->createDoctrineReturning($userRepository));
 
         $account = $this->createStub(Account::class);
         $maxZoneHR = $this->createMaxZoneHRWithValues(190, 1_700_000_000);
@@ -303,7 +314,8 @@ final class ActivityBulkImportCommandAdditionalTest extends TestCase
             'New max pulse is set while importing main-sports activity.'
         );
 
-        $oldUser = $this->createMock(User::class);
+        // Only returns values, so a stub is enough
+        $oldUser = $this->createStub(User::class);
         $oldUser->method('getPulseMax')
             ->willReturn(190);
         $oldUser->method('cloneObjectForForm')
@@ -316,11 +328,7 @@ final class ActivityBulkImportCommandAdditionalTest extends TestCase
             ->willReturn($oldUser);
         $userRepository->expects(self::once())->method('save')->with($newUser, $account);
 
-        $doctrine = $this->createMock(ManagerRegistry::class);
-        $doctrine->method('getRepository')
-            ->with(User::class)->willReturn($userRepository);
-
-        $command = $this->createCommand($doctrine);
+        $command = $this->createCommand($this->createDoctrineReturning($userRepository));
 
         $maxZoneHR = $this->createMaxZoneHRWithValues(200, 1_700_000_000);
 

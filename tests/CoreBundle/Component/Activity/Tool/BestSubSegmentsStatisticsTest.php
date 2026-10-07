@@ -15,7 +15,7 @@ class BestSubSegmentsStatisticsTest extends TestCase
      */
     private function createTrackdataMock(array $time, array $distance): TrackdataEntity
     {
-        $mock = $this->createMock(TrackdataEntity::class);
+        $mock = $this->createStub(TrackdataEntity::class);
         $mock->method('has')
             ->willReturnCallback(
                 static fn ($key): bool => in_array($key, [TrackdataEntity::TIME, TrackdataEntity::DISTANCE], true)
@@ -32,7 +32,7 @@ class BestSubSegmentsStatisticsTest extends TestCase
 
     public function testConstructorThrowsWhenTimeIsMissing(): void
     {
-        $trackdata = $this->createMock(TrackdataEntity::class);
+        $trackdata = $this->createStub(TrackdataEntity::class);
         $trackdata->method('has')
             ->willReturnCallback(
                 static fn ($key): bool => $key === TrackdataEntity::DISTANCE
@@ -46,7 +46,7 @@ class BestSubSegmentsStatisticsTest extends TestCase
 
     public function testConstructorThrowsWhenDistanceIsMissing(): void
     {
-        $trackdata = $this->createMock(TrackdataEntity::class);
+        $trackdata = $this->createStub(TrackdataEntity::class);
         $trackdata->method('has')
             ->willReturnCallback(
                 static fn ($key): bool => $key === TrackdataEntity::TIME

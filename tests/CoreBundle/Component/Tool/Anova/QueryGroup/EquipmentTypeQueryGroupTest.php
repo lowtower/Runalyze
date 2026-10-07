@@ -97,13 +97,13 @@ class EquipmentTypeQueryGroupTest extends TestCase
 
     public function testLoadAllGroupsReturnsIdToNameMapOfMatchingEquipment(): void
     {
-        $shoe1 = $this->createMock(Equipment::class);
+        $shoe1 = $this->createStub(Equipment::class);
         $shoe1->method('getId')
             ->willReturn(101);
         $shoe1->method('getName')
             ->willReturn('Trail Shoes');
 
-        $shoe2 = $this->createMock(Equipment::class);
+        $shoe2 = $this->createStub(Equipment::class);
         $shoe2->method('getId')
             ->willReturn(102);
         $shoe2->method('getName')
@@ -135,11 +135,11 @@ class EquipmentTypeQueryGroupTest extends TestCase
     {
         $account = $this->createStub(Account::class);
 
-        $equipmentRepository = $this->createMock(EquipmentRepository::class);
+        $equipmentRepository = $this->createStub(EquipmentRepository::class);
         $equipmentRepository->method('findForTypeId')
             ->willReturn([]);
 
-        $entityManager = $this->createMock(EntityManager::class);
+        $entityManager = $this->createStub(EntityManager::class);
         $entityManager->method('getRepository')
             ->willReturn($equipmentRepository);
 

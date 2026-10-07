@@ -4,6 +4,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\TrendAnalysis;
 
 use Doctrine\ORM\Query;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryValue\Pace;
@@ -18,13 +19,13 @@ use Runalyze\Metrics\Common\UnitInterface;
 
 class TrendAnalysisDataQueryTest extends TestCase
 {
-    private function createTrendAnalysisDataMock(string $valueEnum = QueryValues::PACE): MockObject&TrendAnalysisData
+    private function createTrendAnalysisDataMock(string $valueEnum = QueryValues::PACE): Stub&TrendAnalysisData
     {
-        $mock = $this->createMock(TrendAnalysisData::class);
-        $mock->method('getValueToLookAt')
+        $stub = $this->createStub(TrendAnalysisData::class);
+        $stub->method('getValueToLookAt')
             ->willReturn($valueEnum);
 
-        return $mock;
+        return $stub;
     }
 
     private function getProtectedProperty(object $object, string $name): mixed
@@ -64,11 +65,12 @@ class TrendAnalysisDataQueryTest extends TestCase
         $query = new TrendAnalysisDataQuery($trendAnalysisData);
 
         $expectedUnit = $this->createStub(UnitInterface::class);
-        $queryValueMock = $this->createMock(QueryValueInterface::class);
+        $queryValueMock = $this->createStub(QueryValueInterface::class);
         $queryValueMock->method('getValueUnit')
             ->willReturn($expectedUnit);
         $this->setProtectedProperty($query, 'QueryValue', $queryValueMock);
 
+        // Stays a mock: it has an expectation (never)
         $unitSystem = $this->createMock(UnitSystem::class);
         $unitSystem->expects($this->never())
             ->method('setPaceUnitFromSport');
@@ -86,7 +88,7 @@ class TrendAnalysisDataQueryTest extends TestCase
             ->willReturn([$sport]);
         $query = new TrendAnalysisDataQuery($trendAnalysisData);
 
-        $queryValueMock = $this->createMock(QueryValueInterface::class);
+        $queryValueMock = $this->createStub(QueryValueInterface::class);
         $queryValueMock->method('getValueUnit')
             ->willReturn($this->createStub(UnitInterface::class));
         $this->setProtectedProperty($query, 'QueryValue', $queryValueMock);
@@ -109,7 +111,7 @@ class TrendAnalysisDataQueryTest extends TestCase
             ]);
         $query = new TrendAnalysisDataQuery($trendAnalysisData);
 
-        $queryValueMock = $this->createMock(QueryValueInterface::class);
+        $queryValueMock = $this->createStub(QueryValueInterface::class);
         $queryValueMock->method('getValueUnit')
             ->willReturn($this->createStub(UnitInterface::class));
         $this->setProtectedProperty($query, 'QueryValue', $queryValueMock);
@@ -137,16 +139,16 @@ class TrendAnalysisDataQueryTest extends TestCase
 
         $query = $this->createPartialMockWithBuildQueryMocked($trendAnalysisData);
 
-        $unitMock = $this->createMock(UnitInterface::class);
+        $unitMock = $this->createStub(UnitInterface::class);
         $unitMock->method('fromBaseUnit')
             ->willReturnCallback(static fn (float $v): float => $v * 2);
 
-        $queryValueMock = $this->createMock(QueryValueInterface::class);
+        $queryValueMock = $this->createStub(QueryValueInterface::class);
         $queryValueMock->method('getValueUnit')
             ->willReturn($unitMock);
         $this->setProtectedProperty($query, 'QueryValue', $queryValueMock);
 
-        $doctrineQueryMock = $this->createMock(Query::class);
+        $doctrineQueryMock = $this->createStub(Query::class);
         $doctrineQueryMock->method('toIterable')
             ->willReturn([
                 // Numeric STRING key to verify the (int) cast on 'time'.
@@ -160,13 +162,15 @@ class TrendAnalysisDataQueryTest extends TestCase
                 ],
             ]);
 
-        $query->method('buildQuery')
+        // Was method() only. expects(once()) makes it a real expectation.
+        $query->expects($this->once())
+            ->method('buildQuery')
             ->willReturn($doctrineQueryMock);
 
         $result = $query->getResults(
-            $this->createMock(TrainingRepository::class),
-            $this->createMock(Account::class),
-            $this->createMock(UnitSystem::class)
+            $this->createStub(TrainingRepository::class),
+            $this->createStub(Account::class),
+            $this->createStub(UnitSystem::class)
         );
 
         $this->assertSame([
@@ -183,15 +187,15 @@ class TrendAnalysisDataQueryTest extends TestCase
 
         $query = $this->createPartialMockWithBuildQueryMocked($trendAnalysisData);
 
-        $unitMock = $this->createMock(UnitInterface::class);
+        $unitMock = $this->createStub(UnitInterface::class);
         $unitMock->method('fromBaseUnit')
             ->willReturnArgument(0);
-        $queryValueMock = $this->createMock(QueryValueInterface::class);
+        $queryValueMock = $this->createStub(QueryValueInterface::class);
         $queryValueMock->method('getValueUnit')
             ->willReturn($unitMock);
         $this->setProtectedProperty($query, 'QueryValue', $queryValueMock);
 
-        $firstDoctrineQuery = $this->createMock(Query::class);
+        $firstDoctrineQuery = $this->createStub(Query::class);
         $firstDoctrineQuery->method('toIterable')
             ->willReturn([
                 [
@@ -199,7 +203,7 @@ class TrendAnalysisDataQueryTest extends TestCase
                     'value' => 1.0,
                 ],
             ]);
-        $secondDoctrineQuery = $this->createMock(Query::class);
+        $secondDoctrineQuery = $this->createStub(Query::class);
         $secondDoctrineQuery->method('toIterable')
             ->willReturn([
                 [
@@ -208,7 +212,9 @@ class TrendAnalysisDataQueryTest extends TestCase
                 ],
             ]);
 
-        $query->method('buildQuery')
+        // Was method() only. expects(exactly(2)) makes it a real expectation.
+        $query->expects($this->exactly(2))
+            ->method('buildQuery')
             ->willReturnOnConsecutiveCalls($firstDoctrineQuery, $secondDoctrineQuery);
 
         $trainingRepository = $this->createStub(TrainingRepository::class);
@@ -232,21 +238,24 @@ class TrendAnalysisDataQueryTest extends TestCase
 
         $query = $this->createPartialMockWithBuildQueryMocked($trendAnalysisData);
 
-        $queryValueMock = $this->createMock(QueryValueInterface::class);
+        $queryValueMock = $this->createStub(QueryValueInterface::class);
         $queryValueMock->method('getValueUnit')
             ->willReturn($this->createStub(UnitInterface::class));
         $this->setProtectedProperty($query, 'QueryValue', $queryValueMock);
 
-        $doctrineQueryMock = $this->createMock(Query::class);
+        $doctrineQueryMock = $this->createStub(Query::class);
         $doctrineQueryMock->method('toIterable')
             ->willReturn([]);
-        $query->method('buildQuery')
+
+        // Was method() only. expects(once()) makes it a real expectation.
+        $query->expects($this->once())
+            ->method('buildQuery')
             ->willReturn($doctrineQueryMock);
 
         $result = $query->getResults(
-            $this->createMock(TrainingRepository::class),
-            $this->createMock(Account::class),
-            $this->createMock(UnitSystem::class)
+            $this->createStub(TrainingRepository::class),
+            $this->createStub(Account::class),
+            $this->createStub(UnitSystem::class)
         );
 
         $this->assertSame([], $result);

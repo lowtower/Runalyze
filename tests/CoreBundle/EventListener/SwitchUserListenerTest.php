@@ -39,7 +39,7 @@ class SwitchUserListenerTest extends TestCase
 
     public function testInvokeThrowsLogicExceptionWhenExitingWithoutAnOriginalToken(): void
     {
-        $tokenStorage = $this->createMock(TokenStorageInterface::class);
+        $tokenStorage = $this->createStub(TokenStorageInterface::class);
         $currentToken = $this->createStub(TokenInterface::class);
         $tokenStorage->method('getToken')
             ->willReturn($currentToken);

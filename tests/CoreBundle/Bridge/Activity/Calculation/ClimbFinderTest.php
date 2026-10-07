@@ -2,7 +2,7 @@
 
 namespace Tests\Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation;
 
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\ClimbFinder;
 use Runalyze\Bundle\CoreBundle\Entity\Route;
@@ -24,8 +24,8 @@ final class ClimbFinderTest extends TestCase
         ?Route $route,
         bool $hasTrackdata,
         ?Trackdata $trackdata
-    ): Training&MockObject {
-        $training = $this->createMock(Training::class);
+    ): Training&Stub {
+        $training = $this->createStub(Training::class);
         $training->method('hasRoute')
             ->willReturn($hasRoute);
         $training->method('getRoute')
@@ -38,9 +38,9 @@ final class ClimbFinderTest extends TestCase
         return $training;
     }
 
-    private function createRoute(bool $hasElevations, ?array $elevations): Route&MockObject
+    private function createRoute(bool $hasElevations, ?array $elevations): Route&Stub
     {
-        $route = $this->createMock(Route::class);
+        $route = $this->createStub(Route::class);
         $route->method('hasElevations')
             ->willReturn($hasElevations);
         $route->method('getElevations')
@@ -49,9 +49,9 @@ final class ClimbFinderTest extends TestCase
         return $route;
     }
 
-    private function createTrackdata(?array $distance): Trackdata&MockObject
+    private function createTrackdata(?array $distance): Trackdata&Stub
     {
-        $trackdata = $this->createMock(Trackdata::class);
+        $trackdata = $this->createStub(Trackdata::class);
         $trackdata->method('getDistance')
             ->willReturn($distance);
 

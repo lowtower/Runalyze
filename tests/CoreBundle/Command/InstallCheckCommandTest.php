@@ -5,7 +5,7 @@ namespace Tests\Runalyze\Bundle\CoreBundle\Command;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Result;
 use Doctrine\Persistence\ManagerRegistry;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Command\InstallCheckCommand;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -13,11 +13,13 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 final class InstallCheckCommandTest extends TestCase
 {
-    private ParameterBagInterface&MockObject $parameterBag;
+    // Stubs by default. The one test that needs expects() on the connection
+    // builds its own mock and passes it in through a separate ManagerRegistry stub.
+    private ParameterBagInterface&Stub $parameterBag;
 
-    private ManagerRegistry&MockObject $doctrine;
+    private ManagerRegistry&Stub $doctrine;
 
-    private Connection&MockObject $connection;
+    private Connection&Stub $connection;
 
     private string $tempRootDirectory;
 
@@ -37,9 +39,9 @@ final class InstallCheckCommandTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->parameterBag = $this->createMock(ParameterBagInterface::class);
-        $this->doctrine = $this->createMock(ManagerRegistry::class);
-        $this->connection = $this->createMock(Connection::class);
+        $this->parameterBag = $this->createStub(ParameterBagInterface::class);
+        $this->doctrine = $this->createStub(ManagerRegistry::class);
+        $this->connection = $this->createStub(Connection::class);
 
         $this->doctrine
             ->method('getConnection')
@@ -107,7 +109,7 @@ final class InstallCheckCommandTest extends TestCase
 
     private function mockPrefixQuery(int $matchingTableCount): void
     {
-        $result = $this->createMock(Result::class);
+        $result = $this->createStub(Result::class);
         $result->method('rowCount')
             ->willReturn($matchingTableCount);
 
@@ -116,9 +118,9 @@ final class InstallCheckCommandTest extends TestCase
             ->willReturn($result);
     }
 
-    private function createCommand(): InstallCheckCommand
+    private function createCommand(?ManagerRegistry $doctrine = null): InstallCheckCommand
     {
-        return new InstallCheckCommand($this->parameterBag, $this->doctrine);
+        return new InstallCheckCommand($this->parameterBag, $doctrine ?? $this->doctrine);
     }
 
     public function testCommandConfiguration(): void
@@ -207,17 +209,24 @@ final class InstallCheckCommandTest extends TestCase
             ]);
         $this->createRequiredDirectories(self::REQUIRED_WRITABLE_DIRECTORIES);
 
-        $result = $this->createMock(Result::class);
+        $result = $this->createStub(Result::class);
         $result->method('rowCount')
             ->willReturn(0);
 
-        $this->connection
+        // Stays a mock: it has expectations (once, with)
+        $connection = $this->createMock(Connection::class);
+        $connection
             ->expects(self::once())
             ->method('executeQuery')
             ->with(self::stringContains('custom_prefix_%'))
             ->willReturn($result);
 
-        $tester = new CommandTester($this->createCommand());
+        $doctrine = $this->createStub(ManagerRegistry::class);
+        $doctrine
+            ->method('getConnection')
+            ->willReturn($connection);
+
+        $tester = new CommandTester($this->createCommand($doctrine));
         $tester->execute([]);
     }
 

@@ -12,7 +12,7 @@ class ClimbCollectionTest extends TestCase
 {
     private function createClimb(): Climb
     {
-        return $this->createMock(Climb::class);
+        return $this->createStub(Climb::class);
     }
 
     public function testDefaultConstructorProducesEmptyCollection(): void

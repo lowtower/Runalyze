@@ -13,7 +13,7 @@ use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Request as GuzzlePsr7Request;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\AbstractLogger;
@@ -55,12 +55,12 @@ class RouteNameEvalOsmTest extends TestCase
 
     private RouteNameEvalOsm $underTest;
 
-    private MockObject&OsmCsvDataCollection $coll;
+    private OsmCsvDataCollection&Stub $coll;
 
     protected function setUp(): void
     {
         $this->underTest = new RouteNameEvalOsm('', '', new Client());
-        $this->coll = $this->createMock(OsmCsvDataCollection::class);
+        $this->coll = $this->createStub(OsmCsvDataCollection::class);
     }
 
     private function getSportRunning(): Sport

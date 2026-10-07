@@ -110,8 +110,7 @@
         {{ dangerZoneDelete(
             url('equipment-category-delete', {'id': form.vars.data.id}),
             'deleteEquipmentCategory',
-            '',
-            ['If you delete an equipment category all objects in this category and all relations between your activities and these objects will be deleted.'|trans]
+            messages: ['If you delete an equipment category all objects in this category and all relations between your activities and these objects will be deleted.'|trans]
         ) }}
     {% endif %}
 {% endblock %}

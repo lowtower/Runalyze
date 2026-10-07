@@ -9,7 +9,7 @@ use Doctrine\Persistence\ObjectRepository;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use LogicException;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
@@ -261,7 +261,7 @@ class RegistrationTest extends KernelTestCase
     /**
      * @param string[] $images
      */
-    private function createSportRepository(array $images): SportRepository&MockObject
+    private function createSportRepository(array $images): SportRepository&Stub
     {
         $sports = array_map(
             static function (string $image): Sport {
@@ -273,16 +273,16 @@ class RegistrationTest extends KernelTestCase
             $images
         );
 
-        $repository = $this->createMock(SportRepository::class);
+        $repository = $this->createStub(SportRepository::class);
         $repository->method('findAllFor')
             ->willReturn($sports);
 
         return $repository;
     }
 
-    private function createEquipmentTypeRepository(?string $missingName): ObjectRepository&MockObject
+    private function createEquipmentTypeRepository(?string $missingName): ObjectRepository&Stub
     {
-        $repository = $this->createMock(ObjectRepository::class);
+        $repository = $this->createStub(ObjectRepository::class);
         $repository->method('findOneBy')
             ->willReturnCallback(
                 static fn (array $criteria): ?EquipmentType => $criteria['name'] === $missingName ? null : new EquipmentType()
@@ -294,8 +294,8 @@ class RegistrationTest extends KernelTestCase
     private function createEntityManagerWithRepositories(
         SportRepository $sportRepository,
         ObjectRepository $equipmentTypeRepository
-    ): ObjectManager&MockObject {
-        $entityManager = $this->createMock(ObjectManager::class);
+    ): ObjectManager&Stub {
+        $entityManager = $this->createStub(ObjectManager::class);
         $entityManager->method('getRepository')
             ->willReturnCallback(
                 static fn (string $className): ObjectRepository => $className === Sport::class ? $sportRepository : $equipmentTypeRepository

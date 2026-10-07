@@ -2,7 +2,7 @@
 
 namespace Tests\Runalyze\Bundle\CoreBundle\Command;
 
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Command\CleanupBackupCommand;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\FinderFactoryInterface;
@@ -13,11 +13,11 @@ use Symfony\Component\Finder\Finder;
 
 final class CleanupBackupCommandTest extends TestCase
 {
-    private ParameterBagInterface&MockObject $parameterBag;
+    private ParameterBagInterface&Stub $parameterBag;
 
     private Filesystem $filesystem;
 
-    private FinderFactoryInterface&MockObject $finderFactory;
+    private FinderFactoryInterface&Stub $finderFactory;
 
     private string $tempDataDirectory;
 
@@ -25,9 +25,9 @@ final class CleanupBackupCommandTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->parameterBag = $this->createMock(ParameterBagInterface::class);
+        $this->parameterBag = $this->createStub(ParameterBagInterface::class);
         $this->filesystem = new Filesystem();
-        $this->finderFactory = $this->createMock(FinderFactoryInterface::class);
+        $this->finderFactory = $this->createStub(FinderFactoryInterface::class);
 
         $this->finderFactory
             ->method('create')
@@ -46,9 +46,15 @@ final class CleanupBackupCommandTest extends TestCase
         }
     }
 
-    private function createCommand(): CleanupBackupCommand
-    {
-        return new CleanupBackupCommand($this->parameterBag, $this->filesystem, $this->finderFactory);
+    private function createCommand(
+        ?ParameterBagInterface $parameterBag = null,
+        ?FinderFactoryInterface $finderFactory = null
+    ): CleanupBackupCommand {
+        return new CleanupBackupCommand(
+            $parameterBag ?? $this->parameterBag,
+            $this->filesystem,
+            $finderFactory ?? $this->finderFactory
+        );
     }
 
     /**
@@ -81,13 +87,14 @@ final class CleanupBackupCommandTest extends TestCase
 
     public function testExecuteUsesProvidedDaysArgumentInsteadOfConfiguredPeriod(): void
     {
-        $this->parameterBag
+        $parameterBag = $this->createMock(ParameterBagInterface::class);
+        $parameterBag
             ->expects(self::once())
             ->method('get')
             ->with('app.data_directory')
             ->willReturn($this->tempDataDirectory);
 
-        $tester = new CommandTester($this->createCommand());
+        $tester = new CommandTester($this->createCommand($parameterBag));
         $exitCode = $tester->execute([
             'days' => '30',
         ]);
@@ -187,8 +194,8 @@ final class CleanupBackupCommandTest extends TestCase
 
     public function testExecuteRequestsExactlyOneFinderFromTheFactory(): void
     {
-        $this->finderFactory = $this->createMock(FinderFactoryInterface::class);
-        $this->finderFactory
+        $finderFactory = $this->createMock(FinderFactoryInterface::class);
+        $finderFactory
             ->expects(self::once())
             ->method('create')
             ->willReturn(new Finder());
@@ -199,7 +206,7 @@ final class CleanupBackupCommandTest extends TestCase
                 ['app.data_directory', $this->tempDataDirectory],
             ]);
 
-        $tester = new CommandTester($this->createCommand());
+        $tester = new CommandTester($this->createCommand(null, $finderFactory));
         $tester->execute([
             'days' => '30',
         ]);

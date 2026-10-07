@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\Poster;
 
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\FileHandler;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -38,9 +38,9 @@ class FileHandlerTest extends TestCase
         $this->filesystem->remove($this->dataDirectory);
     }
 
-    private function createAccount(int $id = self::ACCOUNT_ID): Account&MockObject
+    private function createAccount(int $id = self::ACCOUNT_ID): Account&Stub
     {
-        $account = $this->createMock(Account::class);
+        $account = $this->createStub(Account::class);
         $account->method('getId')
             ->willReturn($id);
 

@@ -2,8 +2,10 @@
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Model\Equipment;
 
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
+use Runalyze\Bundle\CoreBundle\Model\Equipment\EquipmentStatistic;
 use Runalyze\Bundle\CoreBundle\Model\Equipment\EquipmentStatistics;
 
 class EquipmentStatisticsTest extends TestCase
@@ -16,11 +18,11 @@ class EquipmentStatisticsTest extends TestCase
     }
 
     /**
-     * @return array<int|string, (\PHPUnit\Framework\MockObject\MockObject&\Runalyze\Bundle\CoreBundle\Entity\Equipment)|int|float|null>
+     * @return array<int|string, (Stub&Equipment)|int|float|null>
      */
     private function createEquipmentRow(string $label, bool $isActive, ?int $num = 1, ?float $maxPace = 300.0, ?float $maxDistance = 10.0): array
     {
-        $equipment = $this->createMock(Equipment::class);
+        $equipment = $this->createStub(Equipment::class);
         $equipment->method('isActive')
             ->willReturn($isActive);
         $this->labels[$equipment] = $label;
@@ -96,7 +98,7 @@ class EquipmentStatisticsTest extends TestCase
         $statistics = new EquipmentStatistics($rows);
         $result = $statistics->getStatistics();
 
-        $labels = array_map(fn (\Runalyze\Bundle\CoreBundle\Model\Equipment\EquipmentStatistic $stat): string => $this->labelFor($stat->getEquipment()), $result);
+        $labels = array_map(fn (EquipmentStatistic $stat): string => $this->labelFor($stat->getEquipment()), $result);
 
         $this->assertSame(
             ['active-1', 'active-2', 'inactive-1', 'inactive-2'],
@@ -115,7 +117,7 @@ class EquipmentStatisticsTest extends TestCase
         $statistics = new EquipmentStatistics($rows);
         $result = $statistics->getStatistics();
 
-        $labels = array_map(fn (\Runalyze\Bundle\CoreBundle\Model\Equipment\EquipmentStatistic $stat): string => $this->labelFor($stat->getEquipment()), $result);
+        $labels = array_map(fn (EquipmentStatistic $stat): string => $this->labelFor($stat->getEquipment()), $result);
 
         $this->assertSame(['first', 'second', 'third'], $labels);
     }
@@ -130,7 +132,7 @@ class EquipmentStatisticsTest extends TestCase
         $statistics = new EquipmentStatistics($rows);
         $result = $statistics->getStatistics();
 
-        $labels = array_map(fn (\Runalyze\Bundle\CoreBundle\Model\Equipment\EquipmentStatistic $stat): string => $this->labelFor($stat->getEquipment()), $result);
+        $labels = array_map(fn (EquipmentStatistic $stat): string => $this->labelFor($stat->getEquipment()), $result);
 
         $this->assertSame(['first', 'second'], $labels);
     }

@@ -59,15 +59,17 @@ class SwitchUserListener
     {
         $request = $event->getRequest();
 
-        if (! $request->get($this->usernameParameter)) {
+        $requestedUser = $this->getRequestedUsername($request);
+
+        if ($requestedUser === null) {
             return;
         }
 
         try {
-            if ($request->get($this->usernameParameter) === '_exit') {
+            if ($requestedUser === '_exit') {
                 $this->tokenStorage->setToken($this->attemptExitUser());
             } else {
-                $this->tokenStorage->setToken($this->attemptSwitchUser($request));
+                $this->tokenStorage->setToken($this->attemptSwitchUser($request, $requestedUser));
             }
         } catch (AuthenticationException $authenticationException) {
             throw new LogicException(sprintf('Switch User failed: "%s"', $authenticationException->getMessage()), $authenticationException->getCode(), $authenticationException);
@@ -87,13 +89,13 @@ class SwitchUserListener
      * @throws LogicException
      * @throws AccessDeniedException
      */
-    private function attemptSwitchUser(Request $request): ?TokenInterface
+    private function attemptSwitchUser(Request $request, string $username): ?TokenInterface
     {
         $token = $this->tokenStorage->getToken();
         $originalToken = $this->getOriginalToken($token);
 
         if ($originalToken !== false) {
-            if ($token->getUserIdentifier() === $request->get($this->usernameParameter)) {
+            if ($token->getUserIdentifier() === $username) {
                 return $token;
             }
 
@@ -103,8 +105,6 @@ class SwitchUserListener
         if ($this->accessDecisionManager->decide($token, [$this->role]) === false) {
             throw new AccessDeniedException();
         }
-
-        $username = $request->get($this->usernameParameter);
 
         if ($this->logger instanceof LoggerInterface) {
             $this->logger->info('Attempting to switch to user.', [
@@ -169,5 +169,13 @@ class SwitchUserListener
         }
 
         return $token->getOriginalToken();
+    }
+
+    private function getRequestedUsername(Request $request): ?string
+    {
+        $value = $request->query->get($this->usernameParameter)
+            ?? $request->request->get($this->usernameParameter);
+
+        return is_string($value) && $value !== '' ? $value : null;
     }
 }

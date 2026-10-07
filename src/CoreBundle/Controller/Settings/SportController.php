@@ -161,7 +161,8 @@ class SportController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        if (! $this->isCsrfTokenValid('deleteSportType', $request->get('t'))) {
+        $token = $request->query->get('t') ?? $request->request->get('t');
+        if (! $this->isCsrfTokenValid('deleteSportType', $token)) {
             $this->addFlash('error', $translator->trans('Invalid token.'));
 
             return $this->redirectToRoute('settings-sports');
@@ -284,7 +285,8 @@ class SportController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        if (! $this->isCsrfTokenValid('deleteSport', $request->get('t'))) {
+        $token = $request->query->get('t') ?? $request->request->get('t');
+        if (! $this->isCsrfTokenValid('deleteSport', $token)) {
             $this->addFlash('error', $translator->trans('Invalid token.'));
 
             return $this->redirectToRoute('settings-sports');

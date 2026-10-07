@@ -20,7 +20,7 @@ class ActivityContextAdapterFactoryTest extends TestCase
     public function testGetAdapterForReturnsAnActivityContextAdapter(): void
     {
         $routeNameEval = $this->createStub(RouteNameEval::class);
-        $routeNameEvalFactory = $this->createMock(RouteNameEvalFactory::class);
+        $routeNameEvalFactory = $this->createStub(RouteNameEvalFactory::class);
         $routeNameEvalFactory->method('getInstance')
             ->willReturn($routeNameEval);
 
@@ -38,6 +38,7 @@ class ActivityContextAdapterFactoryTest extends TestCase
 
     public function testRouteNameEvalIsResolvedOnceAndReusedAcrossMultipleAdapters(): void
     {
+        // Stays a mock: it has an expectation (once)
         $routeNameEvalFactory = $this->createMock(RouteNameEvalFactory::class);
         $routeNameEvalFactory->expects($this->once())
             ->method('getInstance')
@@ -56,7 +57,7 @@ class ActivityContextAdapterFactoryTest extends TestCase
 
     public function testEachCallToGetAdapterForReturnsANewAdapterInstance(): void
     {
-        $routeNameEvalFactory = $this->createMock(RouteNameEvalFactory::class);
+        $routeNameEvalFactory = $this->createStub(RouteNameEvalFactory::class);
         $routeNameEvalFactory->method('getInstance')
             ->willReturn($this->createStub(RouteNameEval::class));
 

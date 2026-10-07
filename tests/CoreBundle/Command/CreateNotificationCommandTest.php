@@ -6,7 +6,7 @@ use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Schema\DefaultSchemaManagerFactory;
 use Doctrine\Persistence\ManagerRegistry;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Command\CreateNotificationCommand;
 use Runalyze\Bundle\CoreBundle\Entity\Notification;
@@ -14,9 +14,9 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 final class CreateNotificationCommandTest extends TestCase
 {
-    private ParameterBagInterface&MockObject $parameterBag;
+    private ParameterBagInterface&Stub $parameterBag;
 
-    private ManagerRegistry&MockObject $doctrine;
+    private ManagerRegistry&Stub $doctrine;
 
     private \Doctrine\DBAL\Connection $connection;
 
@@ -24,10 +24,9 @@ final class CreateNotificationCommandTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->parameterBag = $this->createMock(ParameterBagInterface::class);
+        $this->parameterBag = $this->createStub(ParameterBagInterface::class);
         $this->parameterBag
             ->method('get')
-            ->with('app.database_prefix')
             ->willReturn('runalyze_');
 
         $configuration = new Configuration();
@@ -40,7 +39,7 @@ final class CreateNotificationCommandTest extends TestCase
 
         $this->createSchema();
 
-        $this->doctrine = $this->createMock(ManagerRegistry::class);
+        $this->doctrine = $this->createStub(ManagerRegistry::class);
         $this->doctrine
             ->method('getConnection')
             ->willReturn($this->connection);
@@ -81,9 +80,9 @@ final class CreateNotificationCommandTest extends TestCase
         return (int) $this->connection->lastInsertId();
     }
 
-    private function createNotification(): Notification&MockObject
+    private function createNotification(): Notification&Stub
     {
-        $notification = $this->createMock(Notification::class);
+        $notification = $this->createStub(Notification::class);
         $notification->method('getMessageType')
             ->willReturn(1);
         $notification->method('getCreatedAt')

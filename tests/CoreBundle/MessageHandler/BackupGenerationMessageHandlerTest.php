@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\MessageHandler;
 
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Entity\NotificationRepository;
@@ -15,29 +15,34 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class BackupGenerationMessageHandlerTest extends TestCase
 {
-    private AccountRepository&MockObject $accountRepositoryMock;
+    // Stubs by default. The one test that needs expects() builds its own
+    // mocks and passes them to createHandler().
+    private AccountRepository&Stub $accountRepositoryMock;
 
-    private NotificationRepository&MockObject $notificationRepositoryMock;
+    private NotificationRepository&Stub $notificationRepositoryMock;
 
-    private ParameterBagInterface&\PHPUnit\Framework\MockObject\Stub $parameterBagMock;
+    private ParameterBagInterface&Stub $parameterBagMock;
 
-    private AccountMailer&MockObject $accountMailerMock;
+    private AccountMailer&Stub $accountMailerMock;
 
     protected function setUp(): void
     {
-        $this->accountRepositoryMock = $this->createMock(AccountRepository::class);
-        $this->notificationRepositoryMock = $this->createMock(NotificationRepository::class);
+        $this->accountRepositoryMock = $this->createStub(AccountRepository::class);
+        $this->notificationRepositoryMock = $this->createStub(NotificationRepository::class);
         $this->parameterBagMock = $this->createStub(ParameterBagInterface::class);
-        $this->accountMailerMock = $this->createMock(AccountMailer::class);
+        $this->accountMailerMock = $this->createStub(AccountMailer::class);
     }
 
-    private function createHandler(): BackupGenerationMessageHandler
-    {
+    private function createHandler(
+        ?AccountRepository $accountRepository = null,
+        ?NotificationRepository $notificationRepository = null,
+        ?AccountMailer $accountMailer = null
+    ): BackupGenerationMessageHandler {
         return new BackupGenerationMessageHandler(
-            $this->accountRepositoryMock,
-            $this->notificationRepositoryMock,
+            $accountRepository ?? $this->accountRepositoryMock,
+            $notificationRepository ?? $this->notificationRepositoryMock,
             $this->parameterBagMock,
-            $this->accountMailerMock,
+            $accountMailer ?? $this->accountMailerMock,
             sys_get_temp_dir(),
             'runalyze_',
             '3.x-test'
@@ -46,16 +51,22 @@ class BackupGenerationMessageHandlerTest extends TestCase
 
     public function testInvokeReturnsEarlyWhenAccountIsNotFound(): void
     {
-        $this->accountRepositoryMock->method('find')
+        $accountRepository = $this->createMock(AccountRepository::class);
+        $accountRepository
+            ->expects($this->once())
+            ->method('find')
             ->with(42)
             ->willReturn(null);
 
-        $this->notificationRepositoryMock->expects($this->never())
+        $notificationRepository = $this->createMock(NotificationRepository::class);
+        $notificationRepository->expects($this->never())
             ->method('save');
-        $this->accountMailerMock->expects($this->never())
+
+        $accountMailer = $this->createMock(AccountMailer::class);
+        $accountMailer->expects($this->never())
             ->method('sendBackupGeneratedTo');
 
-        $handler = $this->createHandler();
+        $handler = $this->createHandler($accountRepository, $notificationRepository, $accountMailer);
         $message = new BackupGenerationMessage(42, 'json');
 
         // No exception and no interaction with the heavy backup

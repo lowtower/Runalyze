@@ -212,7 +212,7 @@ class ViewController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        if ($request->get('use-calculated-value') == 'true') {
+        if ($request->query->get('use-calculated-value') == 'true') {
             $activity = $this->getTraining($id);
 
             if (! $activity instanceof Training) {

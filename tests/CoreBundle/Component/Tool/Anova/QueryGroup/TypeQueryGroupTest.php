@@ -36,15 +36,15 @@ class TypeQueryGroupTest extends TestCase
 
     public function testLoadAllGroupsReturnsOnlyTypesBelongingToSelectedSports(): void
     {
-        $runningSport = $this->createMock(Sport::class);
+        $runningSport = $this->createStub(Sport::class);
         $runningSport->method('getId')
             ->willReturn(1);
 
-        $cyclingSport = $this->createMock(Sport::class);
+        $cyclingSport = $this->createStub(Sport::class);
         $cyclingSport->method('getId')
             ->willReturn(2);
 
-        $easyRun = $this->createMock(Type::class);
+        $easyRun = $this->createStub(Type::class);
         $easyRun->method('getId')
             ->willReturn(10);
         $easyRun->method('getName')
@@ -52,7 +52,7 @@ class TypeQueryGroupTest extends TestCase
         $easyRun->method('getSport')
             ->willReturn($runningSport);
 
-        $intervalRun = $this->createMock(Type::class);
+        $intervalRun = $this->createStub(Type::class);
         $intervalRun->method('getId')
             ->willReturn(11);
         $intervalRun->method('getName')
@@ -60,7 +60,7 @@ class TypeQueryGroupTest extends TestCase
         $intervalRun->method('getSport')
             ->willReturn($runningSport);
 
-        $roadRide = $this->createMock(Type::class);
+        $roadRide = $this->createStub(Type::class);
         $roadRide->method('getId')
             ->willReturn(20);
         $roadRide->method('getName')
@@ -68,22 +68,29 @@ class TypeQueryGroupTest extends TestCase
         $roadRide->method('getSport')
             ->willReturn($cyclingSport);
 
-        $selectedRunningSport = $this->createMock(Sport::class);
+        $selectedRunningSport = $this->createStub(Sport::class);
         $selectedRunningSport->method('getId')
             ->willReturn(1);
 
         $account = $this->createStub(Account::class);
 
-        $typeRepository = $this->createMock(TypeRepository::class);
+        $typeRepository = $this->createStub(TypeRepository::class);
         $typeRepository->method('findAllFor')
-            ->with($account)
-            ->willReturn([$easyRun, $intervalRun, $roadRide]);
+            ->willReturnCallback(function (Account $requestedAccount) use ($account, $easyRun, $intervalRun, $roadRide): array {
+                $this->assertSame($account, $requestedAccount);
 
-        $entityManager = $this->createMock(EntityManager::class);
+                return [$easyRun, $intervalRun, $roadRide];
+            });
+
+        $entityManager = $this->createStub(EntityManager::class);
         $entityManager->method('getRepository')
-            ->with(Type::class)->willReturn($typeRepository);
+            ->willReturnCallback(function (string $className) use ($typeRepository): TypeRepository {
+                $this->assertSame(Type::class, $className);
 
-        $anovaData = $this->createMock(AnovaData::class);
+                return $typeRepository;
+            });
+
+        $anovaData = $this->createStub(AnovaData::class);
         $anovaData->method('getSport')
             ->willReturn([$selectedRunningSport]);
 
@@ -97,29 +104,29 @@ class TypeQueryGroupTest extends TestCase
 
     public function testLoadAllGroupsReturnsEmptyArrayWhenNoTypeMatchesSelectedSports(): void
     {
-        $cyclingSport = $this->createMock(Sport::class);
+        $cyclingSport = $this->createStub(Sport::class);
         $cyclingSport->method('getId')
             ->willReturn(2);
 
-        $roadRide = $this->createMock(Type::class);
+        $roadRide = $this->createStub(Type::class);
         $roadRide->method('getSport')
             ->willReturn($cyclingSport);
 
-        $selectedRunningSport = $this->createMock(Sport::class);
+        $selectedRunningSport = $this->createStub(Sport::class);
         $selectedRunningSport->method('getId')
             ->willReturn(1);
 
         $account = $this->createStub(Account::class);
 
-        $typeRepository = $this->createMock(TypeRepository::class);
+        $typeRepository = $this->createStub(TypeRepository::class);
         $typeRepository->method('findAllFor')
             ->willReturn([$roadRide]);
 
-        $entityManager = $this->createMock(EntityManager::class);
+        $entityManager = $this->createStub(EntityManager::class);
         $entityManager->method('getRepository')
             ->willReturn($typeRepository);
 
-        $anovaData = $this->createMock(AnovaData::class);
+        $anovaData = $this->createStub(AnovaData::class);
         $anovaData->method('getSport')
             ->willReturn([$selectedRunningSport]);
 

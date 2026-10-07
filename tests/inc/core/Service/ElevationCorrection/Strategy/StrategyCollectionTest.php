@@ -2,7 +2,7 @@
 
 namespace Runalyze\Tests\Service\ElevationCorrection\Strategy;
 
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use Runalyze\Service\ElevationCorrection\Strategy\StrategyCollection;
 use Runalyze\Service\ElevationCorrection\Strategy\StrategyInterface;
 
@@ -33,20 +33,20 @@ class StrategyCollectionTest extends \PHPUnit\Framework\TestCase
     {
         $altitudes = [123, 121, 115];
 
-        /** @var StrategyInterface&MockObject $mock */
-        $mock = $this->createMock(StrategyInterface::class);
-        $mock
+        /** @var StrategyInterface&Stub $stub */
+        $stub = $this->createStub(StrategyInterface::class);
+        $stub
             ->method('isPossible')
             ->willReturn(true);
-        $mock
+        $stub
             ->method('loadAltitudeData')
             ->willReturn($altitudes);
 
-        $this->Collection->add($mock);
+        $this->Collection->add($stub);
 
         $result = $this->Collection->loadAltitudeData([49.9, 49.8, 49.7], [7.7, 7.6, 7.5]);
 
         $this->assertEquals($altitudes, $result);
-        $this->assertEquals($mock, $this->Collection->getLastSuccessfulStrategy());
+        $this->assertEquals($stub, $this->Collection->getLastSuccessfulStrategy());
     }
 }

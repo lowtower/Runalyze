@@ -23,7 +23,7 @@ class ActivityDecoratorTest extends TestCase
 
     private function createSport(string $name = 'Running'): Sport
     {
-        $sport = $this->createMock(Sport::class);
+        $sport = $this->createStub(Sport::class);
         $sport->method('getName')
             ->willReturn($name);
 
@@ -32,7 +32,7 @@ class ActivityDecoratorTest extends TestCase
 
     public function testGetTitleUsesCustomTitleWithSportPrefixWhenTitleIsSet(): void
     {
-        $activity = $this->createMock(Training::class);
+        $activity = $this->createStub(Training::class);
         $activity->method('getTitle')
             ->willReturn('Morning Run');
         $activity->method('getSport')
@@ -46,11 +46,11 @@ class ActivityDecoratorTest extends TestCase
 
     public function testGetTitleFallsBackToTypeNameWhenNoCustomTitleAndTypeWithSportIsFalse(): void
     {
-        $type = $this->createMock(Type::class);
+        $type = $this->createStub(Type::class);
         $type->method('getName')
             ->willReturn('Interval');
 
-        $activity = $this->createMock(Training::class);
+        $activity = $this->createStub(Training::class);
         $activity->method('getTitle')
             ->willReturn('');
         $activity->method('getType')
@@ -65,11 +65,11 @@ class ActivityDecoratorTest extends TestCase
 
     public function testGetTitlePrefixesTypeNameWithSportWhenTypeWithSportIsTrue(): void
     {
-        $type = $this->createMock(Type::class);
+        $type = $this->createStub(Type::class);
         $type->method('getName')
             ->willReturn('Interval');
 
-        $activity = $this->createMock(Training::class);
+        $activity = $this->createStub(Training::class);
         $activity->method('getTitle')
             ->willReturn('');
         $activity->method('getType')
@@ -84,7 +84,7 @@ class ActivityDecoratorTest extends TestCase
 
     public function testGetTitleFallsBackToSportNameWhenNoCustomTitleAndNoType(): void
     {
-        $activity = $this->createMock(Training::class);
+        $activity = $this->createStub(Training::class);
         $activity->method('getTitle')
             ->willReturn('');
         $activity->method('getType')
@@ -104,7 +104,7 @@ class ActivityDecoratorTest extends TestCase
         // \DateTime - confirmed by PHPUnit's return-type check.
         $timestamp = (new \DateTime('2026-05-01 07:30:00'))->getTimestamp();
 
-        $activity = $this->createMock(Training::class);
+        $activity = $this->createStub(Training::class);
         $activity->method('getTime')
             ->willReturn($timestamp);
 
@@ -117,7 +117,7 @@ class ActivityDecoratorTest extends TestCase
 
     public function testElevationFallsBackToActivityElevationWhenNoRoute(): void
     {
-        $activity = $this->createMock(Training::class);
+        $activity = $this->createStub(Training::class);
         $activity->method('getElevation')
             ->willReturn(123);
 
@@ -129,13 +129,13 @@ class ActivityDecoratorTest extends TestCase
 
     public function testElevationFallsBackToActivityElevationWhenRouteHasNoElevationData(): void
     {
-        $route = $this->createMock(Route::class);
+        $route = $this->createStub(Route::class);
         $route->method('getElevationUp')
             ->willReturn(0);
         $route->method('getElevationDown')
             ->willReturn(0);
 
-        $activity = $this->createMock(Training::class);
+        $activity = $this->createStub(Training::class);
         $activity->method('getElevation')
             ->willReturn(50);
 
@@ -147,12 +147,13 @@ class ActivityDecoratorTest extends TestCase
 
     public function testElevationUsesRouteValuesWhenRouteHasElevationData(): void
     {
-        $route = $this->createMock(Route::class);
+        $route = $this->createStub(Route::class);
         $route->method('getElevationUp')
             ->willReturn(300);
         $route->method('getElevationDown')
             ->willReturn(280);
 
+        // Stays a mock: it has an expectation (never).
         $activity = $this->createMock(Training::class);
         // Should not be used at all when the route provides elevation data.
         $activity->expects($this->never())
@@ -166,13 +167,13 @@ class ActivityDecoratorTest extends TestCase
 
     public function testUncorrectedVO2maxUsesElevationCorrectedValueWhenEnabledAndPositive(): void
     {
-        $activity = $this->createMock(Training::class);
+        $activity = $this->createStub(Training::class);
         $activity->method('getVO2maxWithElevation')
             ->willReturn(55.5);
         $activity->method('getVO2max')
             ->willReturn(50.0);
 
-        $config = $this->createMock(RunalyzeConfigurationList::class);
+        $config = $this->createStub(RunalyzeConfigurationList::class);
         $config->method('useVO2maxCorrectionForElevation')
             ->willReturn(true);
 
@@ -183,13 +184,13 @@ class ActivityDecoratorTest extends TestCase
 
     public function testUncorrectedVO2maxFallsBackToPlainVO2maxWhenCorrectionDisabled(): void
     {
-        $activity = $this->createMock(Training::class);
+        $activity = $this->createStub(Training::class);
         $activity->method('getVO2maxWithElevation')
             ->willReturn(55.5);
         $activity->method('getVO2max')
             ->willReturn(50.0);
 
-        $config = $this->createMock(RunalyzeConfigurationList::class);
+        $config = $this->createStub(RunalyzeConfigurationList::class);
         $config->method('useVO2maxCorrectionForElevation')
             ->willReturn(false);
 
@@ -200,13 +201,13 @@ class ActivityDecoratorTest extends TestCase
 
     public function testUncorrectedVO2maxFallsBackToPlainVO2maxWhenElevationValueIsNotPositive(): void
     {
-        $activity = $this->createMock(Training::class);
+        $activity = $this->createStub(Training::class);
         $activity->method('getVO2maxWithElevation')
             ->willReturn(0.0);
         $activity->method('getVO2max')
             ->willReturn(50.0);
 
-        $config = $this->createMock(RunalyzeConfigurationList::class);
+        $config = $this->createStub(RunalyzeConfigurationList::class);
         $config->method('useVO2maxCorrectionForElevation')
             ->willReturn(true);
 
@@ -217,13 +218,13 @@ class ActivityDecoratorTest extends TestCase
 
     public function testEffectiveVO2maxMultipliesUncorrectedValueByCorrectionFactor(): void
     {
-        $activity = $this->createMock(Training::class);
+        $activity = $this->createStub(Training::class);
         $activity->method('getVO2maxWithElevation')
             ->willReturn(0.0);
         $activity->method('getVO2max')
             ->willReturn(50.0);
 
-        $config = $this->createMock(RunalyzeConfigurationList::class);
+        $config = $this->createStub(RunalyzeConfigurationList::class);
         $config->method('useVO2maxCorrectionForElevation')
             ->willReturn(false);
         $config->method('getVO2maxCorrectionFactor')
@@ -236,7 +237,7 @@ class ActivityDecoratorTest extends TestCase
 
     public function testFlightTimeIsNullWhenCadenceIsZero(): void
     {
-        $activity = $this->createMock(Training::class);
+        $activity = $this->createStub(Training::class);
         $activity->method('getCadence')
             ->willReturn(0);
         $activity->method('getGroundcontact')
@@ -250,7 +251,7 @@ class ActivityDecoratorTest extends TestCase
 
     public function testFlightTimeIsNullWhenGroundContactTimeIsZero(): void
     {
-        $activity = $this->createMock(Training::class);
+        $activity = $this->createStub(Training::class);
         $activity->method('getCadence')
             ->willReturn(180);
         $activity->method('getGroundcontact')
@@ -264,7 +265,7 @@ class ActivityDecoratorTest extends TestCase
 
     public function testFlightTimeAndRatioAreComputedWhenBothValuesArePositive(): void
     {
-        $activity = $this->createMock(Training::class);
+        $activity = $this->createStub(Training::class);
         $activity->method('getCadence')
             ->willReturn(180);
         $activity->method('getGroundcontact')

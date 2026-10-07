@@ -25,7 +25,7 @@ class TableHeaderTest extends TestCase
      */
     private function createTable(Pace $demandedPace, int $sportProfileEnum = SportProfile::RUNNING): Table
     {
-        $laps = $this->createMock(Laps::class);
+        $laps = $this->createStub(Laps::class);
         $laps->method('hasMoreThanActiveOrRestLaps')
             ->willReturn(false);
         $laps->method('objects')

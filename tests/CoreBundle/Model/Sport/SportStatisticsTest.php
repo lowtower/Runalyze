@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Model\Sport;
 
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Model\Sport\SportStatistic;
@@ -9,9 +10,9 @@ use Runalyze\Bundle\CoreBundle\Model\Sport\SportStatistics;
 
 class SportStatisticsTest extends TestCase
 {
-    private function createSport(int $id): Sport&\PHPUnit\Framework\MockObject\MockObject
+    private function createSport(int $id): Sport&Stub
     {
-        $sport = $this->createMock(Sport::class);
+        $sport = $this->createStub(Sport::class);
         $sport->method('getId')
             ->willReturn($id);
 
@@ -19,7 +20,7 @@ class SportStatisticsTest extends TestCase
     }
 
     /**
-     * @return array<int|string, \Runalyze\Bundle\CoreBundle\Entity\Sport|int|float|null>
+     * @return array<int|string, Sport|int|float|null>
      */
     private function createRow(Sport $sport, int $num, ?int $countDistance, ?float $distance, ?float $timeInS): array
     {

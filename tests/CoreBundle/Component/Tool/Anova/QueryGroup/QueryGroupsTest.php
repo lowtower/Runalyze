@@ -15,7 +15,7 @@ class QueryGroupsTest extends TestCase
 {
     public function testGetEnumForEquipmentTypeBuildsExpectedString(): void
     {
-        $equipmentType = $this->createMock(EquipmentType::class);
+        $equipmentType = $this->createStub(EquipmentType::class);
         $equipmentType->method('getId')
             ->willReturn(7);
 

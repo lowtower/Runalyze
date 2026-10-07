@@ -27,7 +27,7 @@ class MaintenanceListener
         $request = $event->getRequest();
         $routes = ['update', 'install', 'install_start', 'install_finish', 'update_start', 'admin'];
 
-        if ($maintenance && ! $debug && ! in_array($request->get('_route'), $routes)) {
+        if ($maintenance && ! $debug && ! in_array($request->attributes->get('_route'), $routes)) {
             $content = $this->twig->render('maintenance.html.twig');
             $event->setResponse(new Response($content, Response::HTTP_SERVICE_UNAVAILABLE));
             $event->stopPropagation();

@@ -31,7 +31,7 @@ class DuplicateFinderTest extends TestCase
     {
         $activity = (new Training())->setTime(1700000000);
 
-        $repository = $this->createMock(TrainingRepository::class);
+        $repository = $this->createStub(TrainingRepository::class);
         $repository->method('isPossibleDuplicate')
             ->willReturn(false);
 
@@ -63,7 +63,7 @@ class DuplicateFinderTest extends TestCase
             ->setTime(1700000123)
             ->setActivityId(42);
 
-        $repository = $this->createMock(TrainingRepository::class);
+        $repository = $this->createStub(TrainingRepository::class);
         $repository->method('isPossibleDuplicate')
             ->willReturn(false);
 

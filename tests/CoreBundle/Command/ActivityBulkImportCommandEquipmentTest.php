@@ -5,6 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Command;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Command\ActivityBulkImportCommand;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -69,8 +70,8 @@ class ActivityBulkImportCommandEquipmentTest extends TestCase
         array $sports,
         ?\DateTime $dateStart = null,
         ?\DateTime $dateEnd = null
-    ): MockObject&Equipment {
-        $equipment = $this->createMock(Equipment::class);
+    ): Stub&Equipment {
+        $equipment = $this->createStub(Equipment::class);
         $equipment->method('getId')
             ->willReturn($id);
         $equipment->method('getName')
@@ -87,9 +88,9 @@ class ActivityBulkImportCommandEquipmentTest extends TestCase
         return $equipment;
     }
 
-    private function createEquipmentType(int $id, string $name, int $input): MockObject&EquipmentType
+    private function createEquipmentType(int $id, string $name, int $input): Stub&EquipmentType
     {
-        $type = $this->createMock(EquipmentType::class);
+        $type = $this->createStub(EquipmentType::class);
         $type->method('getId')
             ->willReturn($id);
         $type->method('getName')
@@ -100,9 +101,9 @@ class ActivityBulkImportCommandEquipmentTest extends TestCase
         return $type;
     }
 
-    private function createSport(int $id, string $name = 'Running'): MockObject&Sport
+    private function createSport(int $id, string $name = 'Running'): Stub&Sport
     {
-        $sport = $this->createMock(Sport::class);
+        $sport = $this->createStub(Sport::class);
         $sport->method('getId')
             ->willReturn($id);
         $sport->method('getName')
@@ -111,6 +112,23 @@ class ActivityBulkImportCommandEquipmentTest extends TestCase
         return $sport;
     }
 
+    /**
+     * @param Equipment[] $equipment
+     */
+    private function createAccount(array $equipment): Stub&Account
+    {
+        $account = $this->createStub(Account::class);
+        $account->method('getUsername')
+            ->willReturn('tester');
+        $account->method('getEquipment')
+            ->willReturn(new ArrayCollection($equipment));
+
+        return $account;
+    }
+
+    /**
+     * Stays a mock: every test that uses it sets expects() on addEquipment.
+     */
     private function createTrainingActivity(int $sportId, \DateTime $activityDateTime): MockObject&Training
     {
         $sport = $this->createSport($sportId);
@@ -128,11 +146,7 @@ class ActivityBulkImportCommandEquipmentTest extends TestCase
     {
         $command = $this->createCommand();
 
-        $account = $this->createMock(Account::class);
-        $account->method('getUsername')
-            ->willReturn('tester');
-        $account->method('getEquipment')
-            ->willReturn(new ArrayCollection([]));
+        $account = $this->createAccount([]);
 
         $this->invokeCreateEquiqmentArray($command, $account, new BufferedOutput());
 
@@ -147,11 +161,7 @@ class ActivityBulkImportCommandEquipmentTest extends TestCase
         $sport = $this->createSport(10);
         $equipment = $this->createEquipment(100, 'Trail Shoes', $multiChoiceType, [$sport]);
 
-        $account = $this->createMock(Account::class);
-        $account->method('getUsername')
-            ->willReturn('tester');
-        $account->method('getEquipment')
-            ->willReturn(new ArrayCollection([$equipment]));
+        $account = $this->createAccount([$equipment]);
 
         $this->invokeCreateEquiqmentArray($command, $account, new BufferedOutput());
 
@@ -166,11 +176,7 @@ class ActivityBulkImportCommandEquipmentTest extends TestCase
         $sport = $this->createSport(10, 'Cycling');
         $equipment = $this->createEquipment(100, 'Road Bike', $type, [$sport]);
 
-        $account = $this->createMock(Account::class);
-        $account->method('getUsername')
-            ->willReturn('tester');
-        $account->method('getEquipment')
-            ->willReturn(new ArrayCollection([$equipment]));
+        $account = $this->createAccount([$equipment]);
 
         $this->invokeCreateEquiqmentArray($command, $account, new BufferedOutput());
 
@@ -189,11 +195,7 @@ class ActivityBulkImportCommandEquipmentTest extends TestCase
         $hikingSport = $this->createSport(20, 'Hiking');
         $equipment = $this->createEquipment(100, 'Trail Shoes', $type, [$runningSport, $hikingSport]);
 
-        $account = $this->createMock(Account::class);
-        $account->method('getUsername')
-            ->willReturn('tester');
-        $account->method('getEquipment')
-            ->willReturn(new ArrayCollection([$equipment]));
+        $account = $this->createAccount([$equipment]);
 
         $this->invokeCreateEquiqmentArray($command, $account, new BufferedOutput());
 
@@ -221,11 +223,7 @@ class ActivityBulkImportCommandEquipmentTest extends TestCase
         $sport = $this->createSport(10, 'Cycling');
         $equipment = $this->createEquipment(100, 'Road Bike', $type, [$sport]);
 
-        $account = $this->createMock(Account::class);
-        $account->method('getUsername')
-            ->willReturn('tester');
-        $account->method('getEquipment')
-            ->willReturn(new ArrayCollection([$equipment]));
+        $account = $this->createAccount([$equipment]);
         $this->invokeCreateEquiqmentArray($command, $account, new BufferedOutput());
 
         $activity = $this->createTrainingActivity(10, new \DateTime('2026-06-01 10:00'));
@@ -251,11 +249,7 @@ class ActivityBulkImportCommandEquipmentTest extends TestCase
             new \DateTime('2026-12-31')
         );
 
-        $account = $this->createMock(Account::class);
-        $account->method('getUsername')
-            ->willReturn('tester');
-        $account->method('getEquipment')
-            ->willReturn(new ArrayCollection([$equipment]));
+        $account = $this->createAccount([$equipment]);
         $this->invokeCreateEquiqmentArray($command, $account, new BufferedOutput());
 
         $activity = $this->createTrainingActivity(10, new \DateTime('2026-06-15 08:00'));
@@ -281,11 +275,7 @@ class ActivityBulkImportCommandEquipmentTest extends TestCase
             new \DateTime('2026-12-31')
         );
 
-        $account = $this->createMock(Account::class);
-        $account->method('getUsername')
-            ->willReturn('tester');
-        $account->method('getEquipment')
-            ->willReturn(new ArrayCollection([$equipment]));
+        $account = $this->createAccount([$equipment]);
         $this->invokeCreateEquiqmentArray($command, $account, new BufferedOutput());
 
         $activity = $this->createTrainingActivity(10, new \DateTime('2026-01-15 08:00'));
@@ -310,11 +300,7 @@ class ActivityBulkImportCommandEquipmentTest extends TestCase
             new \DateTime('2026-06-01')
         );
 
-        $account = $this->createMock(Account::class);
-        $account->method('getUsername')
-            ->willReturn('tester');
-        $account->method('getEquipment')
-            ->willReturn(new ArrayCollection([$equipment]));
+        $account = $this->createAccount([$equipment]);
         $this->invokeCreateEquiqmentArray($command, $account, new BufferedOutput());
 
         $activity = $this->createTrainingActivity(10, new \DateTime('2026-07-15 08:00'));
@@ -339,11 +325,7 @@ class ActivityBulkImportCommandEquipmentTest extends TestCase
             new \DateTime('2026-06-01')
         );
 
-        $account = $this->createMock(Account::class);
-        $account->method('getUsername')
-            ->willReturn('tester');
-        $account->method('getEquipment')
-            ->willReturn(new ArrayCollection([$equipment]));
+        $account = $this->createAccount([$equipment]);
         $this->invokeCreateEquiqmentArray($command, $account, new BufferedOutput());
 
         $activity = $this->createTrainingActivity(10, new \DateTime('2026-06-01 22:00'));
@@ -364,11 +346,7 @@ class ActivityBulkImportCommandEquipmentTest extends TestCase
         $shoesA = $this->createEquipment(100, 'Shoes A', $type, [$sport]);
         $shoesB = $this->createEquipment(101, 'Shoes B', $type, [$sport]);
 
-        $account = $this->createMock(Account::class);
-        $account->method('getUsername')
-            ->willReturn('tester');
-        $account->method('getEquipment')
-            ->willReturn(new ArrayCollection([$shoesA, $shoesB]));
+        $account = $this->createAccount([$shoesA, $shoesB]);
         $this->invokeCreateEquiqmentArray($command, $account, new BufferedOutput());
 
         $activity = $this->createTrainingActivity(10, new \DateTime('2026-06-01 08:00'));
@@ -392,11 +370,7 @@ class ActivityBulkImportCommandEquipmentTest extends TestCase
         $shoes = $this->createEquipment(100, 'Running Shoes', $shoeType, [$sport]);
         $bike = $this->createEquipment(200, 'Road Bike', $bikeType, [$sport]);
 
-        $account = $this->createMock(Account::class);
-        $account->method('getUsername')
-            ->willReturn('tester');
-        $account->method('getEquipment')
-            ->willReturn(new ArrayCollection([$shoes, $bike]));
+        $account = $this->createAccount([$shoes, $bike]);
         $this->invokeCreateEquiqmentArray($command, $account, new BufferedOutput());
 
         $activity = $this->createTrainingActivity(10, new \DateTime('2026-06-01 08:00'));

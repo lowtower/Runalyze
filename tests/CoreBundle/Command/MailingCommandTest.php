@@ -23,9 +23,11 @@ use Symfony\Component\Filesystem\Filesystem;
 #[\PHPUnit\Framework\Attributes\Group('default')]
 class MailingCommandTest extends TestCase
 {
-    private AccountMailer&MockObject $mailer;
+    // Stubs by default. Tests that need expects() build their own mocks
+    // and create the command again with createCommand() or createCommandWithSuccessfulValidation().
+    private AccountMailer $mailer;
 
-    private AccountRepository&MockObject $accountRepository;
+    private AccountRepository $accountRepository;
 
     private string $dataDirectory;
 
@@ -36,19 +38,24 @@ class MailingCommandTest extends TestCase
         $this->dataDirectory = sys_get_temp_dir() . '/mailing-command-test-' . bin2hex(random_bytes(8));
         mkdir($this->dataDirectory . '/views/mail/custom', 0777, true);
 
-        $this->mailer = $this->createMock(AccountMailer::class);
-        $this->accountRepository = $this->createMock(AccountRepository::class);
+        $this->mailer = $this->createStub(AccountMailer::class);
+        $this->accountRepository = $this->createStub(AccountRepository::class);
 
-        $this->command = new TestableMailingCommand(
-            $this->dataDirectory,
-            $this->mailer,
-            $this->accountRepository
-        );
+        $this->command = $this->createCommand();
     }
 
     protected function tearDown(): void
     {
         (new Filesystem())->remove($this->dataDirectory);
+    }
+
+    private function createCommand(?AccountMailer $mailer = null, ?AccountRepository $accountRepository = null): TestableMailingCommand
+    {
+        return new TestableMailingCommand(
+            $this->dataDirectory,
+            $mailer ?? $this->mailer,
+            $accountRepository ?? $this->accountRepository
+        );
     }
 
     public function testCommandConfiguration(): void
@@ -252,10 +259,10 @@ class MailingCommandTest extends TestCase
 
     public function testExecuteSendsMailToEveryMatchingAccountWhenForced(): void
     {
-        $command = $this->createCommandWithSuccessfulValidation();
-        $this->configureQueryResult([$this->createStub(Account::class), $this->createStub(Account::class)]);
+        $accountRepository = $this->configureQueryResult([$this->createStub(Account::class), $this->createStub(Account::class)]);
 
-        $this->mailer
+        $mailer = $this->createMock(AccountMailer::class);
+        $mailer
             ->expects(self::exactly(2))
             ->method('sendMailTo')
             ->with(
@@ -267,6 +274,8 @@ class MailingCommandTest extends TestCase
                         && $data['account'] instanceof Account
                 )
             );
+
+        $command = $this->createCommandWithSuccessfulValidation($mailer, $accountRepository);
 
         $tester = new CommandTester($command);
 
@@ -285,13 +294,15 @@ class MailingCommandTest extends TestCase
 
     public function testExecuteSendsMailWhenUserConfirms(): void
     {
-        $command = $this->createCommandWithSuccessfulValidation();
-        $command->setApplication(new Application());
-        $this->configureQueryResult([$this->createStub(Account::class)]);
+        $accountRepository = $this->configureQueryResult([$this->createStub(Account::class)]);
 
-        $this->mailer
+        $mailer = $this->createMock(AccountMailer::class);
+        $mailer
             ->expects(self::once())
             ->method('sendMailTo');
+
+        $command = $this->createCommandWithSuccessfulValidation($mailer, $accountRepository);
+        $command->setApplication(new Application());
 
         $tester = new CommandTester($command);
         $tester->setInputs(['y']);
@@ -308,13 +319,15 @@ class MailingCommandTest extends TestCase
 
     public function testExecuteDoesNotSendMailWhenUserDeclinesConfirmation(): void
     {
-        $command = $this->createCommandWithSuccessfulValidation();
-        $command->setApplication(new Application());
-        $this->configureQueryResult([$this->createStub(Account::class)]);
+        $accountRepository = $this->configureQueryResult([$this->createStub(Account::class)]);
 
-        $this->mailer
+        $mailer = $this->createMock(AccountMailer::class);
+        $mailer
             ->expects(self::never())
             ->method('sendMailTo');
+
+        $command = $this->createCommandWithSuccessfulValidation($mailer, $accountRepository);
+        $command->setApplication(new Application());
 
         $tester = new CommandTester($command);
         $tester->setInputs(['n']);
@@ -337,11 +350,21 @@ class MailingCommandTest extends TestCase
 
     public function testExecuteReturnsFailureWhenValidationFails(): void
     {
+        $accountRepository = $this->createMock(AccountRepository::class);
+        $accountRepository
+            ->expects(self::never())
+            ->method('createQueryBuilder');
+
+        $mailer = $this->createMock(AccountMailer::class);
+        $mailer
+            ->expects(self::never())
+            ->method('sendMailTo');
+
         $command = $this->getMockBuilder(TestableMailingCommand::class)
             ->setConstructorArgs([
                 $this->dataDirectory,
-                $this->mailer,
-                $this->accountRepository,
+                $mailer,
+                $accountRepository,
             ])
             ->onlyMethods(['validateInput'])
             ->getMock();
@@ -350,14 +373,6 @@ class MailingCommandTest extends TestCase
             ->expects(self::once())
             ->method('validateInput')
             ->willReturn(false);
-
-        $this->accountRepository
-            ->expects(self::never())
-            ->method('createQueryBuilder');
-
-        $this->mailer
-            ->expects(self::never())
-            ->method('sendMailTo');
 
         $tester = new CommandTester($command);
 
@@ -378,15 +393,17 @@ class MailingCommandTest extends TestCase
     {
         $this->createTemplate('newsletter.html.twig');
 
-        $this->accountRepository
+        $accountRepository = $this->createMock(AccountRepository::class);
+        $accountRepository
             ->expects(self::never())
             ->method('createQueryBuilder');
 
-        $this->mailer
+        $mailer = $this->createMock(AccountMailer::class);
+        $mailer
             ->expects(self::never())
             ->method('sendMailTo');
 
-        $tester = new CommandTester($this->command);
+        $tester = new CommandTester($this->createCommand($mailer, $accountRepository));
 
         $exitCode = $tester->execute([
             'template' => $template,
@@ -453,9 +470,9 @@ class MailingCommandTest extends TestCase
     public function testExecuteFiltersAccountsByGivenOptions(array $options, array $expectedConditions, array $expectedParameters): void
     {
         $this->createTemplate('newsletter.html.twig');
-        $this->configureQueryResult([], $conditions, $parameters);
+        $accountRepository = $this->configureQueryResult([], $conditions, $parameters);
 
-        $tester = new CommandTester($this->command);
+        $tester = new CommandTester($this->createCommand(null, $accountRepository));
 
         $exitCode = $tester->execute(
             [
@@ -557,13 +574,13 @@ class MailingCommandTest extends TestCase
         file_put_contents($this->dataDirectory . '/views/mail/custom/' . $templateName, 'Mail content');
     }
 
-    private function createCommandWithSuccessfulValidation(): TestableMailingCommand&MockObject
+    private function createCommandWithSuccessfulValidation(AccountMailer $mailer, AccountRepository $accountRepository): TestableMailingCommand&MockObject
     {
         $command = $this->getMockBuilder(TestableMailingCommand::class)
             ->setConstructorArgs([
                 $this->dataDirectory,
-                $this->mailer,
-                $this->accountRepository,
+                $mailer,
+                $accountRepository,
             ])
             ->onlyMethods(['validateInput'])
             ->getMock();
@@ -577,11 +594,13 @@ class MailingCommandTest extends TestCase
     }
 
     /**
-     * @param (MockObject&Account)[] $accounts
+     * Creates a repository mock that returns the given accounts and records the query conditions.
+     *
+     * @param Account[] $accounts
      * @param string[] $conditions
      * @param array<string, mixed> $parameters
      */
-    private function configureQueryResult(array $accounts, ?array &$conditions = null, ?array &$parameters = null): void
+    private function configureQueryResult(array $accounts, ?array &$conditions = null, ?array &$parameters = null): AccountRepository&MockObject
     {
         $conditions = [];
         $parameters = [];
@@ -593,7 +612,8 @@ class MailingCommandTest extends TestCase
 
         $query = $this->createMock(AbstractQuery::class);
 
-        $this->accountRepository
+        $accountRepository = $this->createMock(AccountRepository::class);
+        $accountRepository
             ->expects(self::once())
             ->method('createQueryBuilder')
             ->with('a')
@@ -629,6 +649,8 @@ class MailingCommandTest extends TestCase
             ->expects(self::once())
             ->method('getResult')
             ->willReturn($accounts);
+
+        return $accountRepository;
     }
 }
 

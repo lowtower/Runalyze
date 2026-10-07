@@ -29,7 +29,7 @@ class YearTest extends TestCase
 
     public function testLoadAllGroupsReturnsInclusiveYearRangeAsStrings(): void
     {
-        $anovaData = $this->createMock(AnovaData::class);
+        $anovaData = $this->createStub(AnovaData::class);
         $anovaData->method('getDateFrom')
             ->willReturn(new \DateTime('2022-06-01'));
         $anovaData->method('getDateTo')
@@ -49,7 +49,7 @@ class YearTest extends TestCase
 
     public function testLoadAllGroupsForSingleYearRangeReturnsOnlyThatYear(): void
     {
-        $anovaData = $this->createMock(AnovaData::class);
+        $anovaData = $this->createStub(AnovaData::class);
         $anovaData->method('getDateFrom')
             ->willReturn(new \DateTime('2024-01-01'));
         $anovaData->method('getDateTo')

@@ -23,7 +23,7 @@
                             <ul class="submenu">
                                 {% for key, locale in locales %}
                                     <li{% if key == app.request.locale %} class="triggered"{% endif %}>
-                                        <a href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale': key})) }}">{{ locale.name }}</a>
+                                        <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale': key})) }}">{{ locale.name }}</a>
                                     </li>
                                 {% endfor %}
                             </ul>
@@ -48,7 +48,7 @@
                     </div>
 
                     <div id="login-panel">
-                        {% if app.request.get('_route') == 'login' or app.request.get('_route') == 'base_url' %}
+                        {% if app.request.attributes.get('_route') == 'login' or app.request.attributes.get('_route') == 'base_url' %}
                         <a href="{{ path('register') }}"><i class="fa fa-fw fa-lg fa-user"></i> {% trans %}Sign up now{% endtrans %}</a>
                         {% else %}
                         <a href="{{ path('login') }}"><i class="fa far fa-fw fa-lg fa-sign-in-alt"></i> {% trans %}Login{% endtrans %}</a>

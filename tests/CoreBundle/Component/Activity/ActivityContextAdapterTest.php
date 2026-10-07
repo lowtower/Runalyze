@@ -32,10 +32,11 @@ class ActivityContextAdapterTest extends TestCase
 
     public function testGuessWeatherConditionsDoesNothingWhenSportIsNotOutside(): void
     {
-        $sport = $this->createMock(Sport::class);
+        $sport = $this->createStub(Sport::class);
         $sport->method('getOutside')
             ->willReturn(false);
 
+        // Stays a mock: it has expectations (never)
         $activity = $this->createMock(Training::class);
         $activity->method('getSport')
             ->willReturn($sport);
@@ -80,7 +81,7 @@ class ActivityContextAdapterTest extends TestCase
 
     public function testGuessRouteDetailsReturnsFalseWhenRouteHasNoGeohashes(): void
     {
-        $route = $this->createMock(Route::class);
+        $route = $this->createStub(Route::class);
         $route->method('hasGeohashes')
             ->willReturn(false);
 
@@ -105,7 +106,7 @@ class ActivityContextAdapterTest extends TestCase
 
     public function testGuessRouteDetailsReturnsFalseWhenEvaluationYieldsNoResult(): void
     {
-        $route = $this->createMock(Route::class);
+        $route = $this->createStub(Route::class);
         $route->method('hasGeohashes')
             ->willReturn(true);
 
@@ -127,8 +128,10 @@ class ActivityContextAdapterTest extends TestCase
 
         $context = new ActivityContext($activity);
 
+        // Was method()->with() only. expects(once()) makes it a real expectation.
         $routeNameEval = $this->createMock(RouteNameEval::class);
-        $routeNameEval->method('evaluate')
+        $routeNameEval->expects($this->once())
+            ->method('evaluate')
             ->with($sport, $route, 10.0)
             ->willReturn(null);
 
@@ -139,7 +142,7 @@ class ActivityContextAdapterTest extends TestCase
 
     public function testGuessRouteDetailsSetsRouteNameAndNotesWhenEvaluationSucceeds(): void
     {
-        $route = $this->createMock(Route::class);
+        $route = $this->createStub(Route::class);
         $route->method('hasGeohashes')
             ->willReturn(true);
 
@@ -167,15 +170,18 @@ class ActivityContextAdapterTest extends TestCase
 
         $context = new ActivityContext($activity);
 
+        // Was method()->with() only. expects(once()) makes it a real expectation.
         $result = $this->createMock(RouteNameEvalResult::class);
         $result->method('getNames')
             ->willReturn('Nice Trail Names');
-        $result->method('appendNotes')
+        $result->expects($this->once())
+            ->method('appendNotes')
             ->with('existing note')
             ->willReturn('existing note + auto notes');
 
         $routeNameEval = $this->createMock(RouteNameEval::class);
-        $routeNameEval->method('evaluate')
+        $routeNameEval->expects($this->once())
+            ->method('evaluate')
             ->with($sport, $route, 21.1)
             ->willReturn($result);
 
@@ -205,8 +211,10 @@ class ActivityContextAdapterTest extends TestCase
         $activity = $this->createStub(Training::class);
         $context = new ActivityContext($activity);
 
+        // Was method()->with() only. expects(once()) makes it a real expectation.
         $duplicateFinder = $this->createMock(DuplicateFinder::class);
-        $duplicateFinder->method('isPossibleDuplicate')
+        $duplicateFinder->expects($this->once())
+            ->method('isPossibleDuplicate')
             ->with($activity)
             ->willReturn(false);
 

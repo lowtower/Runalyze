@@ -31,44 +31,51 @@ class SportQueryGroupTest extends TestCase
 
     public function testLoadAllGroupsReturnsOnlyTheIntersectionOfAccountSportsAndSelectedSports(): void
     {
-        $running = $this->createMock(Sport::class);
+        $running = $this->createStub(Sport::class);
         $running->method('getId')
             ->willReturn(1);
         $running->method('getName')
             ->willReturn('Running');
 
-        $cycling = $this->createMock(Sport::class);
+        $cycling = $this->createStub(Sport::class);
         $cycling->method('getId')
             ->willReturn(2);
         $cycling->method('getName')
             ->willReturn('Cycling');
 
-        $swimming = $this->createMock(Sport::class);
+        $swimming = $this->createStub(Sport::class);
         $swimming->method('getId')
             ->willReturn(3);
         $swimming->method('getName')
             ->willReturn('Swimming');
 
-        $selectedRunning = $this->createMock(Sport::class);
+        $selectedRunning = $this->createStub(Sport::class);
         $selectedRunning->method('getId')
             ->willReturn(1);
 
-        $selectedSwimming = $this->createMock(Sport::class);
+        $selectedSwimming = $this->createStub(Sport::class);
         $selectedSwimming->method('getId')
             ->willReturn(3);
 
         $account = $this->createStub(Account::class);
 
-        $sportRepository = $this->createMock(SportRepository::class);
+        $sportRepository = $this->createStub(SportRepository::class);
         $sportRepository->method('findAllFor')
-            ->with($account)
-            ->willReturn([$running, $cycling, $swimming]);
+            ->willReturnCallback(function (Account $requestedAccount) use ($account, $running, $cycling, $swimming): array {
+                $this->assertSame($account, $requestedAccount);
 
-        $entityManager = $this->createMock(EntityManager::class);
+                return [$running, $cycling, $swimming];
+            });
+
+        $entityManager = $this->createStub(EntityManager::class);
         $entityManager->method('getRepository')
-            ->with(Sport::class)->willReturn($sportRepository);
+            ->willReturnCallback(function (string $className) use ($sportRepository): SportRepository {
+                $this->assertSame(Sport::class, $className);
 
-        $anovaData = $this->createMock(AnovaData::class);
+                return $sportRepository;
+            });
+
+        $anovaData = $this->createStub(AnovaData::class);
         $anovaData->method('getSport')
             ->willReturn([$selectedRunning, $selectedSwimming]);
 
@@ -82,21 +89,21 @@ class SportQueryGroupTest extends TestCase
 
     public function testLoadAllGroupsReturnsEmptyArrayWhenNoSportsAreSelected(): void
     {
-        $sport = $this->createMock(Sport::class);
+        $sport = $this->createStub(Sport::class);
         $sport->method('getId')
             ->willReturn(1);
 
         $account = $this->createStub(Account::class);
 
-        $sportRepository = $this->createMock(SportRepository::class);
+        $sportRepository = $this->createStub(SportRepository::class);
         $sportRepository->method('findAllFor')
             ->willReturn([$sport]);
 
-        $entityManager = $this->createMock(EntityManager::class);
+        $entityManager = $this->createStub(EntityManager::class);
         $entityManager->method('getRepository')
             ->willReturn($sportRepository);
 
-        $anovaData = $this->createMock(AnovaData::class);
+        $anovaData = $this->createStub(AnovaData::class);
         $anovaData->method('getSport')
             ->willReturn([]);
 

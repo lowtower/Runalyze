@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller\ExternalRestApi;
 
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Runalyze\Bundle\CoreBundle\Controller\ExternalRestApi\ImportActivityController;
@@ -25,9 +25,12 @@ class ImportActivityControllerUnitTest extends TestCase
 {
     private const string USERNAME = 'unit_test_user';
 
-    private LoggerInterface&MockObject $logger;
+    // Stubs by default. Tests that need expects() on the logger or a
+    // different authorizationChecker behavior build their own and pass
+    // them to createController().
+    private LoggerInterface&Stub $logger;
 
-    private AuthorizationCheckerInterface&MockObject $authorizationChecker;
+    private AuthorizationCheckerInterface&Stub $authorizationChecker;
 
     private ImportActivityController $controller;
 
@@ -38,16 +41,13 @@ class ImportActivityControllerUnitTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->logger = $this->createMock(LoggerInterface::class);
-        $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
+        $this->logger = $this->createStub(LoggerInterface::class);
+
+        $this->authorizationChecker = $this->createStub(AuthorizationCheckerInterface::class);
         $this->authorizationChecker->method('isGranted')
             ->willReturn(true);
 
-        $container = new Container();
-        $container->set('security.authorization_checker', $this->authorizationChecker);
-
-        $this->controller = new ImportActivityController($this->createStub(KernelInterface::class), $this->logger);
-        $this->controller->setContainer($container);
+        $this->controller = $this->createController();
     }
 
     protected function tearDown(): void
@@ -56,6 +56,22 @@ class ImportActivityControllerUnitTest extends TestCase
 
         $filesystem->remove($this->temporaryFiles);
         $filesystem->remove($this->findTemporaryUploadDirectories(self::USERNAME));
+    }
+
+    private function createController(
+        ?LoggerInterface $logger = null,
+        ?AuthorizationCheckerInterface $authorizationChecker = null
+    ): ImportActivityController {
+        $container = new Container();
+        $container->set('security.authorization_checker', $authorizationChecker ?? $this->authorizationChecker);
+
+        $controller = new ImportActivityController(
+            $this->createStub(KernelInterface::class),
+            $logger ?? $this->logger
+        );
+        $controller->setContainer($container);
+
+        return $controller;
     }
 
     private function createAccount(string $username = self::USERNAME): Account
@@ -89,41 +105,47 @@ class ImportActivityControllerUnitTest extends TestCase
 
     public function testAccessIsDeniedWhenUserIsNotLoggedIn(): void
     {
-        $authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
+        // A stub is enough: only one call pattern (isGranted('ROLE_USER'))
+        // ever occurs here, so an unconditional return is equivalent to the
+        // previous ->with('ROLE_USER') constraint. with() on a stub has no
+        // effect and is deprecated, so we don't use it here.
+        $authorizationChecker = $this->createStub(AuthorizationCheckerInterface::class);
         $authorizationChecker->method('isGranted')
-            ->with('ROLE_USER')
             ->willReturn(false);
 
-        $container = new Container();
-        $container->set('security.authorization_checker', $authorizationChecker);
-
-        $this->controller->setContainer($container);
+        $controller = $this->createController(authorizationChecker: $authorizationChecker);
 
         $this->expectException(AccessDeniedException::class);
 
-        $this->postImport([], $this->createAccount());
+        $controller->postImportActivity(new Request(), $this->createAccount());
     }
 
     public function testAccessIsDeniedWhenNoAccountIsAvailable(): void
     {
-        $this->logger->expects(self::never())
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects(self::never())
             ->method('error');
+
+        $controller = $this->createController(logger: $logger);
 
         $this->expectException(AccessDeniedException::class);
 
-        $this->postImport([], null);
+        $controller->postImportActivity(new Request());
     }
 
     public function testDuplicateFileNamesAreReportedWithTheirNameAsPlainText(): void
     {
-        $this->logger->expects(self::never())
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects(self::never())
             ->method('error');
 
-        $response = $this->postImport(
-            [
+        $controller = $this->createController(logger: $logger);
+
+        $response = $controller->postImportActivity(
+            new Request(files: [
                 'file1' => $this->createUploadedFile('same-name.fit'),
                 'file2' => $this->createUploadedFile('same-name.fit'),
-            ],
+            ]),
             $this->createAccount()
         );
 
@@ -164,7 +186,8 @@ class ImportActivityControllerUnitTest extends TestCase
     #[DataProvider('uploadErrors')]
     public function testFileThatCannotBeMovedIsLoggedWithUsernameAndException(int $uploadError): void
     {
-        $this->logger->expects(self::once())
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects(self::once())
             ->method('error')
             ->with(
                 'Activity import via REST API failed.',
@@ -174,10 +197,12 @@ class ImportActivityControllerUnitTest extends TestCase
                 )
             );
 
-        $this->postImport(
-            [
+        $controller = $this->createController(logger: $logger);
+
+        $controller->postImportActivity(
+            new Request(files: [
                 'file1' => $this->createUploadedFile('private-name.fit', $uploadError),
-            ],
+            ]),
             $this->createAccount()
         );
     }
@@ -205,17 +230,20 @@ class ImportActivityControllerUnitTest extends TestCase
 
     public function testImportFailsWithTempFolderMessageWhenUploadDirectoryCannotBeCreated(): void
     {
-        $this->logger->expects(self::once())
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects(self::once())
             ->method('error')
             ->with(
                 'Temporary upload directory could not be created.',
                 self::callback(static fn (array $context): bool => is_string($context['directory']) && isset($context['exception']))
             );
 
-        $response = $this->postImport(
-            [
+        $controller = $this->createController(logger: $logger);
+
+        $response = $controller->postImportActivity(
+            new Request(files: [
                 'file1' => $this->createUploadedFile('any.fit'),
-            ],
+            ]),
             $this->createAccount(str_repeat('a', 300))
         );
 

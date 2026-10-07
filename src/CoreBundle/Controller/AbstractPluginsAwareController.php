@@ -125,8 +125,8 @@ abstract class AbstractPluginsAwareController extends AbstractController
     protected function getResponseForMonthlyStats(Request $request, Account $account, int $pluginId): Response
     {
         $valueExtension = new ValueExtension($this->configurationManager);
-        $sportSelection = $this->sportSelectionFactory->getSelection($request->get('sport'));
-        $analysisList = new AnalysisSelection($request->get('dat'));
+        $sportSelection = $this->sportSelectionFactory->getSelection($request->query->get('sport'));
+        $analysisList = new AnalysisSelection($request->query->get('dat'));
 
         if (! $analysisList->hasCurrentKey()) {
             $analysisList->setCurrentKey(AnalysisSelection::DISTANCE);

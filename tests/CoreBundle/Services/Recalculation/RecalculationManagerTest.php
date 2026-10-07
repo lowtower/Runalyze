@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Services\Recalculation;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\ConfRepository;
 use Runalyze\Bundle\CoreBundle\Entity\RaceresultRepository;
@@ -26,8 +27,8 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
     protected function setUp(): void
     {
         $this->Account = new Account();
-        /** @var ConfRepository&\PHPUnit\Framework\MockObject\MockObject $confRepository */
-        $confRepository = $this->getConfRepositoryMock();
+        /** @var ConfRepository&MockObject $confRepository */
+        $confRepository = $this->getConfRepositoryStub();
         $tokenStorage = new TokenStorage();
         $tokenStorage->setToken(new PreAuthenticatedToken($this->Account, 'bar'));
 
@@ -43,8 +44,8 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
         $this->Manager = new RecalculationManager(
             $this->ConfigurationManager,
             $this->ConfigurationUpdater,
-            $this->getTrainingRepositoryMock(),
-            $this->getRaceResultRepositoryMock()
+            $this->getTrainingRepositoryStub(),
+            $this->getRaceResultRepositoryStub()
         );
     }
 
@@ -147,14 +148,9 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('123456789', $this->ConfigurationManager->getList($this->Account)->get('data.START_TIME'));
     }
 
-    protected function getAccountMock(): Account
+    protected function getAccountStub(): Account
     {
-        /** @var Account&\PHPUnit\Framework\MockObject\MockObject $account */
-        $account = $this
-            ->getMockBuilder(Account::class)
-            ->onlyMethods(['getId'])
-            ->getMock();
-
+        $account = $this->createStub(Account::class);
         $account
             ->method('getId')
             ->willReturn(1);
@@ -162,23 +158,15 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
         return $account;
     }
 
-    protected function getTrainingRepositoryMock(): TrainingRepository
+    protected function getTrainingRepositoryStub(): TrainingRepository
     {
-        /** @var TrainingRepository&\PHPUnit\Framework\MockObject\MockObject $repository */
-        $repository = $this
-            ->getMockBuilder(TrainingRepository::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getStartTime', 'calculateVO2maxShape', 'calculateMarathonShape'])
-            ->getMock();
-
+        $repository = $this->createStub(TrainingRepository::class);
         $repository
             ->method('getStartTime')
             ->willReturn(123456789);
-
         $repository
             ->method('calculateVO2maxShape')
             ->willReturn(42.0);
-
         $repository
             ->method('calculateMarathonShape')
             ->willReturn(68);
@@ -186,15 +174,9 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
         return $repository;
     }
 
-    protected function getRaceResultRepositoryMock(): RaceresultRepository
+    protected function getRaceResultRepositoryStub(): RaceresultRepository
     {
-        /** @var RaceresultRepository&\PHPUnit\Framework\MockObject\MockObject $repository */
-        $repository = $this
-            ->getMockBuilder(RaceresultRepository::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getEffectiveVO2maxCorrectionFactor'])
-            ->getMock();
-
+        $repository = $this->createStub(RaceresultRepository::class);
         $repository
             ->method('getEffectiveVO2maxCorrectionFactor')
             ->willReturn(0.85);
@@ -202,19 +184,12 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
         return $repository;
     }
 
-    protected function getConfRepositoryMock(): ConfRepository
+    protected function getConfRepositoryStub(): ConfRepository
     {
-        /** @var ConfRepository&\PHPUnit\Framework\MockObject\MockObject $repository */
-        $repository = $this
-            ->getMockBuilder(ConfRepository::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['findForAccount', 'findForAccountAndKey', 'save'])
-            ->getMock();
-
+        $repository = $this->createStub(ConfRepository::class);
         $repository
             ->method('findForAccount')
             ->willReturn([]);
-
         $repository
             ->method('findForAccountAndKey')
             ->willReturn(null);

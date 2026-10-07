@@ -130,17 +130,10 @@ class GradeAdjustedPaceCalculatorTest extends \PHPUnit\Framework\TestCase
 
         $route = new Route\Entity([]);
 
-        $context = $this->getMockBuilder(Context::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['trackdata', 'route'])
-            ->getMock();
-
-        $context
-            ->method('trackdata')
+        $context = $this->createStub(Context::class);
+        $context->method('trackdata')
             ->willReturn($trackdata);
-
-        $context
-            ->method('route')
+        $context->method('route')
             ->willReturn($route);
 
         return new class($context, $gradient) extends GradeAdjustedPaceCalculator {
