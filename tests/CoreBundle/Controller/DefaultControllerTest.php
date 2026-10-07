@@ -27,7 +27,7 @@ class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
 
     private function registerUniqueAccount(): Account
     {
-        $account = (new Account())
+        $account = new Account()
             ->setUsername('default_test_' . uniqid('', true))
             ->setMail('default_test_' . uniqid('', true) . '@example.test');
 
@@ -44,7 +44,7 @@ class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
 
     private function registerDisabledAccount(): Account
     {
-        $account = (new Account())
+        $account = new Account()
             ->setUsername('default_test_' . uniqid('', true))
             ->setMail('default_test_' . uniqid('', true) . '@example.test');
 
@@ -63,7 +63,7 @@ class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
 
     private function registerAdminAccount(): Account
     {
-        $account = (new Account())
+        $account = new Account()
             ->setUsername('default_test_admin_' . uniqid('', true))
             ->setMail('default_test_admin_' . uniqid('', true) . '@example.test')
             ->setRole(UserRole::ROLE_ADMIN);

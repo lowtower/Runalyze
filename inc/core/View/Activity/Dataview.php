@@ -108,12 +108,12 @@ class Dataview
      */
     public function date(string $format = 'd.m.Y'): string
     {
-        return (new LocalTime($this->Activity->timestamp()))->format($format);
+        return new LocalTime($this->Activity->timestamp())->format($format);
     }
 
     public function daytime(): string
     {
-        $time = (new LocalTime($this->Activity->timestamp()))->format('H:i');
+        $time = new LocalTime($this->Activity->timestamp())->format('H:i');
 
         if ($time != '00:00') {
             return $time;
@@ -129,7 +129,7 @@ class Dataview
 
     public function weekday(): string
     {
-        return Time::weekday((new LocalTime($this->Activity->timestamp()))->format('w'));
+        return Time::weekday(new LocalTime($this->Activity->timestamp())->format('w'));
     }
 
     public function duration(): Duration
@@ -152,7 +152,7 @@ class Dataview
 
         if ($this->Activity->distance() > 0) {
             if ($this->Activity->isTrack()) {
-                return (new Distance($this->Activity->distance()))->stringMeter();
+                return new Distance($this->Activity->distance())->stringMeter();
             }
 
             return Distance::format($this->Activity->distance(), true, $decimals);
@@ -230,7 +230,7 @@ class Dataview
             return $this->Activity->rpe();
         }
 
-        return (new RpeColor($this->Activity->rpe()))->string();
+        return new RpeColor($this->Activity->rpe())->string();
     }
 
     public function fitVO2maxEstimate(): string

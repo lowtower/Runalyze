@@ -27,7 +27,7 @@ class ClimbFinder
                 ->getDistance();
             $elevations = $activity->getRoute()
                 ->getElevations();
-            $cuttingIndices = (new RamerDouglasPeucker($distances, $elevations, $epsilon))->getReducedIndices();
+            $cuttingIndices = new RamerDouglasPeucker($distances, $elevations, $epsilon)->getReducedIndices();
 
             return $this->createClimbsForIndices($cuttingIndices, $distances, $elevations);
         }

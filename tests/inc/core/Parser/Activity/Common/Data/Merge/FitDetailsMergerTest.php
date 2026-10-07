@@ -25,7 +25,7 @@ class FitDetailsMergerTest extends \PHPUnit\Framework\TestCase
 
     public function testThatMergeWorksWithEmptyObjects(): void
     {
-        (new FitDetailsMerger($this->FirstDetails, $this->SecondDetails))->merge();
+        new FitDetailsMerger($this->FirstDetails, $this->SecondDetails)->merge();
 
         // Properties mirrored from FitDetailsMerger::getPropertiesToMerge() (protected)
         $properties = [
@@ -50,7 +50,7 @@ class FitDetailsMergerTest extends \PHPUnit\Framework\TestCase
         $this->FirstDetails->PerformanceCondition = 3;
         $this->SecondDetails->PerformanceConditionEnd = -1;
 
-        (new FitDetailsMerger($this->FirstDetails, $this->SecondDetails))->merge();
+        new FitDetailsMerger($this->FirstDetails, $this->SecondDetails)->merge();
 
         $this->assertSame(3, $this->FirstDetails->PerformanceCondition);
         $this->assertEquals(-1, $this->FirstDetails->PerformanceConditionEnd);

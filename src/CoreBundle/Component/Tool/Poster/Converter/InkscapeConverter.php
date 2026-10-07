@@ -27,7 +27,7 @@ class InkscapeConverter extends AbstractSvgToPngConverter
 
     public function callConverter($source, $target): int
     {
-        if ((new Filesystem())->exists($source)) {
+        if (new Filesystem()->exists($source)) {
             $command = array_merge(
                 [$this->Command, '-z', '-o', $target],
                 $this->Parameter,

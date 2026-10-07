@@ -48,7 +48,7 @@ class DurationType extends AbstractType implements DataTransformerInterface
             return null;
         }
 
-        return (new Duration($duration))->seconds();
+        return new Duration($duration)->seconds();
     }
 
     public function getParent(): string

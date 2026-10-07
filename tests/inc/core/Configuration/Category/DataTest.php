@@ -34,9 +34,9 @@ class DataTest extends \PHPUnit\Framework\TestCase
      */
     private function resetConfigurationSingleton(): void
     {
-        (new \ReflectionProperty(Configuration::class, 'Categories'))->setValue(null, []);
-        (new \ReflectionProperty(Configuration::class, 'AccountID'))->setValue(null, null);
-        (new \ReflectionProperty(Configuration::class, 'ValuesFromDB'))->setValue(null, null);
+        new \ReflectionProperty(Configuration::class, 'Categories')->setValue(null, []);
+        new \ReflectionProperty(Configuration::class, 'AccountID')->setValue(null, null);
+        new \ReflectionProperty(Configuration::class, 'ValuesFromDB')->setValue(null, null);
     }
 
     public function testStartTimeDefaultsToZero(): void

@@ -49,7 +49,7 @@ class NightDetector
     {
         if ($route->hasGeohashes() && $route->get(Route\Entity::STARTPOINT) != '') {
             // TODO use activity's offset if known
-            $timestamp = (new LocalTime($activity->timestamp()))->toServerTimestamp() + (int) round(0.5 * $activity->duration());
+            $timestamp = new LocalTime($activity->timestamp())->toServerTimestamp() + (int) round(0.5 * $activity->duration());
             $coordinate = $this->coordinate($route->get(Route\Entity::STARTPOINT));
 
             $this->setFrom($timestamp, $coordinate);
@@ -87,7 +87,7 @@ class NightDetector
     private function decodedGeohash(string $geohash): Geohash
     {
         /** @var Geohash $decoded */
-        $decoded = (new Geohash())->decode($geohash);
+        $decoded = new Geohash()->decode($geohash);
 
         return $decoded;
     }

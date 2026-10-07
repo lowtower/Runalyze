@@ -74,7 +74,7 @@ class NightDetectorTest extends \PHPUnit\Framework\TestCase
         foreach ($testData as $data) {
             $this->assertEquals(
                 $data[2],
-                (new NightDetector(strtotime($data[0]), new Coordinate($data[1])))->isNight(),
+                new NightDetector(strtotime($data[0]), new Coordinate($data[1]))->isNight(),
                 'Tried to test ' . $data[0] . ' at ' . implode('/', $data[1])
             );
         }
@@ -83,7 +83,7 @@ class NightDetectorTest extends \PHPUnit\Framework\TestCase
     public function testThatDurationIsRespected(): void
     {
         /** @var Geohash $geohashObj */
-        $geohashObj = (new Geohash())->encode(new Coordinate([49.44, 7.45]));
+        $geohashObj = new Geohash()->encode(new Coordinate([49.44, 7.45]));
         $Detector = new NightDetector();
         $Context = FakeContext::withDefaultSport(
             new Activity\Entity([

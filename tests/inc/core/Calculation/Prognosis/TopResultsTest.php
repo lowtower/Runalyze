@@ -44,7 +44,7 @@ class TopResultsTest extends \PHPUnit\Framework\TestCase
 
     public function testReturnsSingleTopResultByDefault(): void
     {
-        $result = (new TopResults())->getTopResults();
+        $result = new TopResults()->getTopResults();
 
         $this->assertSame(10.0, (float) $result['distance']);
         $this->assertSame(60.0, (float) $result['vo2max_by_time']);
@@ -52,7 +52,7 @@ class TopResultsTest extends \PHPUnit\Framework\TestCase
 
     public function testReturnsMultipleTopResults(): void
     {
-        $results = (new TopResults())->getTopResults(2);
+        $results = new TopResults()->getTopResults(2);
 
         $this->assertCount(2, $results);
 
@@ -62,7 +62,7 @@ class TopResultsTest extends \PHPUnit\Framework\TestCase
 
     public function testMinimalDistanceFilter(): void
     {
-        $results = (new TopResults())->getTopResults(10, 15.0);
+        $results = new TopResults()->getTopResults(10, 15.0);
 
         $this->assertCount(1, $results);
 
@@ -71,7 +71,7 @@ class TopResultsTest extends \PHPUnit\Framework\TestCase
 
     public function testResultsAreGroupedByDistance(): void
     {
-        $results = (new TopResults())->getTopResults(10);
+        $results = new TopResults()->getTopResults(10);
 
         $tenKilometerResults = array_filter(
             $results,

@@ -31,7 +31,7 @@ class PanelController extends AbstractController
         $sportRepository = $this->doctrine
             ->getRepository(Sport::class);
 
-        $today = (new LocalTime())->setTime(0, 0, 0);
+        $today = new LocalTime()->setTime(0, 0, 0);
         $weekStart = $today->weekstart();
         $monthStart = $today->monthStart();
         $yearStart = $today->yearStart();

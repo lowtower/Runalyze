@@ -44,7 +44,7 @@ class ContainsDisposableMailAddressValidatorTest extends TestCase
 
     private function isActuallyDisposable(string $email): bool
     {
-        return (new \EmailValidator\Validator())->isDisposable($email);
+        return new \EmailValidator\Validator()->isDisposable($email);
     }
 
     public function testDisposableAddressRaisesViolation(): void

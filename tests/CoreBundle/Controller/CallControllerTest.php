@@ -23,7 +23,7 @@ class CallControllerTest extends AbstractFixturesAwareWebTestCase
 
     private function registerUniqueAccount(): Account
     {
-        $account = (new Account())
+        $account = new Account()
             ->setUsername('call_test_' . uniqid('', true))
             ->setMail('call_test_' . uniqid('', true) . '@example.test');
 

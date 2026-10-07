@@ -139,7 +139,7 @@ class RunalyzePluginPanel_Prognose extends PluginPanel
 
     protected function getTopResult(int $num = 1): array
     {
-        return (new Prognosis\TopResults())->getTopResults($num);
+        return new Prognosis\TopResults()->getTopResults($num);
     }
 
     /**

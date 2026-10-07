@@ -53,7 +53,7 @@ class FitTrainingEffectBenefitTest extends TestCase
     public function testFromFitToEnumThrowsExceptionForInvalidValues(float $fitValue): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(sprintf('Provided TrainingEffect benefit %s is invalid.', $fitValue));
+        $this->expectExceptionMessageIsOrContains(sprintf('Provided TrainingEffect benefit %s is invalid.', $fitValue));
 
         FitTrainingEffectBenefit::fromFitToEnum($fitValue);
     }

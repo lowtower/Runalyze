@@ -92,11 +92,11 @@ class Hrm extends AbstractSingleParser implements FileContentAwareParserInterfac
             $this->Container->Metadata->setTimestampAndTimezoneOffsetFrom(substr($this->CurrentLine, 5) . ' 00:00');
         } elseif (str_starts_with($this->CurrentLine, 'StartTime')) {
             $this->Container->Metadata->setTimestamp(
-                $this->Container->Metadata->getTimestamp() + (int) ((new Duration(substr($this->CurrentLine, 10)))->seconds()),
+                $this->Container->Metadata->getTimestamp() + (int) (new Duration(substr($this->CurrentLine, 10))->seconds()),
                 $this->Container->Metadata->getTimezoneOffset()
             );
         } elseif (str_starts_with($this->CurrentLine, 'Length')) {
-            $this->Container->ActivityData->Duration = ((new Duration(substr($this->CurrentLine, 7)))->seconds());
+            $this->Container->ActivityData->Duration = (new Duration(substr($this->CurrentLine, 7))->seconds());
         } elseif (str_starts_with($this->CurrentLine, 'Interval')) {
             $this->RecordingInterval = (int) trim(substr($this->CurrentLine, 9));
         } elseif (str_starts_with($this->CurrentLine, 'Mode')) {

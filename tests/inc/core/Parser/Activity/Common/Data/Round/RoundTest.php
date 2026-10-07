@@ -41,7 +41,7 @@ class RoundTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertSame(
             $expectedComparison,
-            (new Round($distanceFirst, $durationFirst, $isActiveFirst))
+            new Round($distanceFirst, $durationFirst, $isActiveFirst)
                 ->isEqualTo(new Round($distanceSecond, $durationSecond, $isActiveSecond))
         );
     }

@@ -86,7 +86,7 @@ class Location
         }
 
         /** @var Geohash $geohashObj */
-        $geohashObj = (new Geohash())->encode(new Coordinate([$this->lat(), $this->lon()]), 12);
+        $geohashObj = new Geohash()->encode(new Coordinate([$this->lat(), $this->lon()]), 12);
         return $geohashObj->getGeohash();
     }
 
@@ -157,7 +157,7 @@ class Location
     private function decodedGeohash(string $geohash): Geohash
     {
         /** @var Geohash $decoded */
-        $decoded = (new Geohash())->decode($geohash);
+        $decoded = new Geohash()->decode($geohash);
 
         return $decoded;
     }

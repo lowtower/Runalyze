@@ -143,7 +143,7 @@ class ClimbCollectionTest extends TestCase
         $collection = new ClimbCollection();
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Climb collection does only accept instances of Climb as elements.');
+        $this->expectExceptionMessageIsOrContains('Climb collection does only accept instances of Climb as elements.');
 
         $collection[0] = 'not-a-climb';
     }

@@ -59,7 +59,7 @@ class AbstractEnumFactoryTraitTest extends TestCase
     public function testGetThrowsInvalidArgumentExceptionForUnknownEnumValue(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid enum "does_not_exist".');
+        $this->expectExceptionMessageIsOrContains('Invalid enum "does_not_exist".');
 
         FactoryTraitEnumFixture::get('does_not_exist');
     }
@@ -91,7 +91,7 @@ class AbstractEnumFactoryTraitTest extends TestCase
     public function testGetThrowsBadMethodCallExceptionWhenGetEnumMethodIsMissing(): void
     {
         $this->expectException(\BadMethodCallException::class);
-        $this->expectExceptionMessage('Classes using this trait must have static method getEnum().');
+        $this->expectExceptionMessageIsOrContains('Classes using this trait must have static method getEnum().');
 
         EnumWithoutGetEnumFixture::get('anything');
     }

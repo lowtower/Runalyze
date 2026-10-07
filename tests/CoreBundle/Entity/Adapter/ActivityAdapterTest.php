@@ -53,7 +53,7 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
 
     public function testAgeOfActivity(): void
     {
-        $this->Activity->setTime((new LocalTime())->sub(new \DateInterval('P2D'))->getTimestamp());
+        $this->Activity->setTime(new LocalTime()->sub(new \DateInterval('P2D'))->getTimestamp());
 
         $this->assertFalse($this->Adapter->isNotOlderThanXDays(1));
         $this->assertTrue($this->Adapter->isNotOlderThanXDays(2));

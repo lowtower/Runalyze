@@ -51,7 +51,7 @@ class LegacyEffectiveVO2max
      */
     public function fromPace(?float $distance, int $seconds): void
     {
-        $this->Value = (new DanielsGilbertFormula())->estimateFromRaceResult($distance, $seconds);
+        $this->Value = new DanielsGilbertFormula()->estimateFromRaceResult($distance, $seconds);
     }
 
     /**
@@ -106,7 +106,7 @@ class LegacyEffectiveVO2max
      */
     public function fromSpeed(float $speed): void
     {
-        $this->Value = (new DanielsGilbertFormula())->estimateFromVelocity($speed);
+        $this->Value = new DanielsGilbertFormula()->estimateFromVelocity($speed);
     }
 
     /**
@@ -116,7 +116,7 @@ class LegacyEffectiveVO2max
      */
     public function speed(): float
     {
-        return (new VO2maxVelocity())->getVelocity($this->Value);
+        return new VO2maxVelocity()->getVelocity($this->Value);
     }
 
     /**

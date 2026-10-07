@@ -25,7 +25,7 @@ class TimeSeriesTest extends \PHPUnit\Framework\TestCase
     public function testEmptyTimeArrayIsRejected(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage(
+        $this->expectExceptionMessageIsOrContains(
             'Time array must not be empty.'
         );
 
@@ -38,7 +38,7 @@ class TimeSeriesTest extends \PHPUnit\Framework\TestCase
     public function testTimeArrayMustNotBeSmallerThanDataArray(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage(
+        $this->expectExceptionMessageIsOrContains(
             'Time array must be at least as large as data array.'
         );
 
@@ -84,7 +84,7 @@ class TimeSeriesTest extends \PHPUnit\Framework\TestCase
     public function testDescendingTimeValuesAreRejected(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage(
+        $this->expectExceptionMessageIsOrContains(
             'Time values must be ordered ascending.'
         );
 

@@ -363,8 +363,8 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 
         $timeset['woche'] = [
             'name' => __('Week'),
-            'start' => (new DateTime())->setTimestamp(Time::weekstart(time())),
-            'end' => (new DateTime())->setTimestamp(Time::weekend(time())),
+            'start' => new DateTime()->setTimestamp(Time::weekstart(time())),
+            'end' => new DateTime()->setTimestamp(Time::weekend(time())),
         ];
         $timeset['mon'] = [
             'name' => __('Month'),

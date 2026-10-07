@@ -79,7 +79,7 @@ class RunalyzeRoundArray extends Type
 
         $data = $intensity instanceof LapIntensity ? substr($data, 1) : $data;
 
-        $duration = (new Duration(substr(strrchr($data, '|'), 1)))->seconds();
+        $duration = new Duration(substr(strrchr($data, '|'), 1))->seconds();
         $distance = (float) strstr($data, '|', true);
 
         $r = new Round($distance, $duration);

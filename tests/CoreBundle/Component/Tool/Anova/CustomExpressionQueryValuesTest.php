@@ -28,7 +28,7 @@ class CustomExpressionQueryValuesTest extends TestCase
                 }
             );
 
-        (new FlightTime())->addSelectionToQuery($queryBuilder, 'tr', 'ft');
+        new FlightTime()->addSelectionToQuery($queryBuilder, 'tr', 'ft');
 
         $this->assertSame(
             ['tr.cadence IS NOT NULL', 'tr.groundcontact IS NOT NULL'],
@@ -54,7 +54,7 @@ class CustomExpressionQueryValuesTest extends TestCase
                 }
             );
 
-        (new FlightRatio())->addSelectionToQuery($queryBuilder, 'tr', 'fr');
+        new FlightRatio()->addSelectionToQuery($queryBuilder, 'tr', 'fr');
 
         $this->assertSame(
             ['tr.cadence IS NOT NULL', 'tr.groundcontact IS NOT NULL'],
@@ -74,7 +74,7 @@ class CustomExpressionQueryValuesTest extends TestCase
             ->with('tr.distance IS NOT NULL')
             ->willReturn($queryBuilder);
 
-        (new Pace())->addSelectionToQuery($queryBuilder, 'tr', 'p');
+        new Pace()->addSelectionToQuery($queryBuilder, 'tr', 'p');
     }
 
     public function testPaceDoesNotGuardTheDurationColumnAgainstNull(): void
@@ -86,6 +86,6 @@ class CustomExpressionQueryValuesTest extends TestCase
             ->method('andWhere')
             ->with($this->logicalNot($this->stringContains('.s IS NOT NULL')));
 
-        (new Pace())->addSelectionToQuery($queryBuilder, 'tr', 'p');
+        new Pace()->addSelectionToQuery($queryBuilder, 'tr', 'p');
     }
 }

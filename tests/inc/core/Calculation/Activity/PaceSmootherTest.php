@@ -122,7 +122,7 @@ class PaceSmootherTest extends \PHPUnit\Framework\TestCase
     public function testStepSizeMustBeGreaterThanZero(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage(
+        $this->expectExceptionMessageIsOrContains(
             'Step size must be greater than zero.'
         );
 
@@ -139,7 +139,7 @@ class PaceSmootherTest extends \PHPUnit\Framework\TestCase
     public function testStepSizeMustBeIntegerInStepMode(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage(
+        $this->expectExceptionMessageIsOrContains(
             'Step size must be an integer in step mode.'
         );
 

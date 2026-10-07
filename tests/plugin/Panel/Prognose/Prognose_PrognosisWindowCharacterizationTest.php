@@ -19,7 +19,7 @@ class Prognose_PrognosisWindowCharacterizationTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->window = (new \ReflectionClass(Prognose_PrognosisWindow::class))
+        $this->window = new \ReflectionClass(Prognose_PrognosisWindow::class)
             ->newInstanceWithoutConstructor();
 
         $this->originalPost = $_POST;

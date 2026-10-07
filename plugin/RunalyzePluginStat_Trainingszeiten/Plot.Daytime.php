@@ -51,7 +51,7 @@ foreach ($Sports as $sport) {
     $data = $Query->fetchAll();
 
     foreach ($data as $dat) {
-        $time = (new LocalTime($dat['time']))->toServerTimestamp();
+        $time = new LocalTime($dat['time'])->toServerTimestamp();
         $starttime = getdate($time);
         $endtime = getdate($time + $dat['s']);
 

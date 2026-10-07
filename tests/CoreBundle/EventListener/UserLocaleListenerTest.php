@@ -50,7 +50,7 @@ class UserLocaleListenerTest extends TestCase
 
     private function createAccount(string $language): Account
     {
-        return (new Account())->setLanguage($language);
+        return new Account()->setLanguage($language);
     }
 
     private function login(UserInterface $user): void

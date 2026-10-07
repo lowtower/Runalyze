@@ -54,7 +54,7 @@ class HeatIndexTest extends \PHPUnit\Framework\TestCase
 
             $this->assertEqualsWithDelta(
                 $dataToTest[2],
-                (new HeatIndex($temp, $humidity))->value(),
+                new HeatIndex($temp, $humidity)->value(),
                 0.5,
                 sprintf('Heat index does not match for $valuesToTest[%u]', $i)
             );

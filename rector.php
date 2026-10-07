@@ -22,7 +22,6 @@ return RectorConfig::configure()
     ])
     ->withSets([
         LevelSetList::UP_TO_PHP_84,
-        \Rector\Set\ValueObject\SetList::PHP_VERSION_BASED_SET,
         # PHPUnitSetList::PHPUNIT_CODE_QUALITY,
         # DoctrineSetList::TYPED_COLLECTIONS,
     ])

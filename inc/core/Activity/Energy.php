@@ -34,7 +34,7 @@ class Energy implements ValueInterface
      */
     public static function format(float $energy, bool $withUnit = true): string
     {
-        return (new self($energy))->string($withUnit);
+        return new self($energy)->string($withUnit);
     }
 
     /**

@@ -19,7 +19,7 @@ class ContinuousDataAdapter
     public function calculateDistancesIfRequired(): void
     {
         if ($this->distancesShouldBeCalculated()) {
-            (new GpsDistanceCalculator())->calculateDistancesFor($this->ContinuousData);
+            new GpsDistanceCalculator()->calculateDistancesFor($this->ContinuousData);
         }
     }
 

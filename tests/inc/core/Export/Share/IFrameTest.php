@@ -11,17 +11,17 @@ class IFrameTest extends \PHPUnit\Framework\TestCase
 {
     public function checkFeasibility(): void
     {
-        $this->assertFalse((new IFrame(FakeContext::onlyWithActivity(
+        $this->assertFalse(new IFrame(FakeContext::onlyWithActivity(
             new Activity\Entity([
                 Activity\Entity::IS_PUBLIC => false,
             ])
-        )))->isPossible());
+        ))->isPossible());
 
-        $this->assertTrue((new IFrame(FakeContext::onlyWithActivity(
+        $this->assertTrue(new IFrame(FakeContext::onlyWithActivity(
             new Activity\Entity([
                 Activity\Entity::IS_PUBLIC => true,
             ])
-        )))->isPossible());
+        ))->isPossible());
     }
 
     public function testThatCodeCanBeCreated(): void

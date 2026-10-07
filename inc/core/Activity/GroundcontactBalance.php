@@ -20,7 +20,7 @@ class GroundcontactBalance implements ValueInterface
      */
     public static function format(int $basispoint, bool $withUnit = true): string
     {
-        return (new self($basispoint))->string($withUnit);
+        return new self($basispoint)->string($withUnit);
     }
 
     /**

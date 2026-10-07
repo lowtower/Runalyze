@@ -27,7 +27,7 @@ class Vo2maxAndElevationTest extends TestCase
                 }
             );
 
-        (new Vo2max())->addSelectionToQuery($queryBuilder, 'tr', 'v');
+        new Vo2max()->addSelectionToQuery($queryBuilder, 'tr', 'v');
 
         $this->assertSame(
             ['tr.vo2max IS NOT NULL', 'tr.useVO2max = 1'],
@@ -53,7 +53,7 @@ class Vo2maxAndElevationTest extends TestCase
                 }
             );
 
-        (new Vo2maxWithElevation())->addSelectionToQuery($queryBuilder, 'tr', 'v');
+        new Vo2maxWithElevation()->addSelectionToQuery($queryBuilder, 'tr', 'v');
 
         $this->assertSame(
             ['tr.vo2maxWithElevation IS NOT NULL', 'tr.useVO2max = 1'],

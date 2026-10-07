@@ -15,7 +15,7 @@ class VerticalRatio implements ValueInterface
 {
     public static function format(int $permille, bool $withUnit = true): string
     {
-        return (new self($permille))->string($withUnit);
+        return new self($permille)->string($withUnit);
     }
 
     /**

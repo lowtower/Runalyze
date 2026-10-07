@@ -108,7 +108,7 @@ class PluginFactoryTest extends TestCase
         $this->setPluginsData($this->samplePlugins());
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('No plugin found for id "999".');
+        $this->expectExceptionMessageIsOrContains('No plugin found for id "999".');
 
         PluginFactory::keyFor(999);
     }
@@ -152,7 +152,7 @@ class PluginFactoryTest extends TestCase
         $factory = new PluginFactory();
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Plugin with key "NoSuchKey" is not installed.');
+        $this->expectExceptionMessageIsOrContains('Plugin with key "NoSuchKey" is not installed.');
 
         $factory->newInstance('NoSuchKey');
     }

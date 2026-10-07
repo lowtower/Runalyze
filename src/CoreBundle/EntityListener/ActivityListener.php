@@ -342,9 +342,9 @@ class ActivityListener
         }
 
         $now = new LocalTime();
-        $ageOfOldDate = (new LocalTime($args->getOldValue('time')))->diff($now, true)
+        $ageOfOldDate = new LocalTime($args->getOldValue('time'))->diff($now, true)
             ->days;
-        $ageOfNewDate = (new LocalTime($args->getNewValue('time')))->diff($now, true)
+        $ageOfNewDate = new LocalTime($args->getNewValue('time'))->diff($now, true)
             ->days;
 
         return

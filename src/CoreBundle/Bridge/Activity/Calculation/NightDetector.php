@@ -16,10 +16,10 @@ class NightDetector
 
         // TODO use activity's offset if known
         /** @var Geohash $geohashObj */
-        $geohashObj = (new Geohash())->decode($activity->getRoute()->getStartpoint());
+        $geohashObj = new Geohash()->decode($activity->getRoute()->getStartpoint());
         $detector = new \Runalyze\Calculation\NightDetector();
         $detector->setFrom(
-            (int) ((new LocalTime($activity->getTime()))
+            (int) (new LocalTime($activity->getTime())
                 ->toServerTimestamp() + 0.5 * $activity->getS()),
             $geohashObj->getCoordinate()
         );

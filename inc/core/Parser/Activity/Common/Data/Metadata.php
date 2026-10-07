@@ -84,7 +84,7 @@ class Metadata
 
     public function interpretTimestampAsServerTime(int $timestamp): void
     {
-        $this->TimezoneOffset = (int) round((new \DateTime())->setTimestamp($timestamp)->getOffset() / 60);
+        $this->TimezoneOffset = (int) round(new \DateTime()->setTimestamp($timestamp)->getOffset() / 60);
         $this->Timestamp = LocalTime::fromServerTime($timestamp)->getTimestamp();
     }
 
@@ -112,7 +112,7 @@ class Metadata
 
             $this->setTimestamp(
                 $localTimestamp,
-                (int) round((new \DateTime())->setTimestamp($localTimestamp)->getOffset() / 60)
+                (int) round(new \DateTime()->setTimestamp($localTimestamp)->getOffset() / 60)
             );
         } else {
             $this->setTimestampAndTimezoneOffsetFrom($string);

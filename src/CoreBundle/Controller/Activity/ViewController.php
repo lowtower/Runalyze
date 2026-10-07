@@ -360,10 +360,10 @@ class ViewController extends AbstractController
 
         if ($activity->getRoute()->getElevationsCorrected() !== null && $activity->getTrackdata()->getDistance() !== null) {
             $activity->getRoute()
-                ->setElevationsCorrected((new StepwiseElevationProfileFixer(
+                ->setElevationsCorrected(new StepwiseElevationProfileFixer(
                     5,
                     StepwiseElevationProfileFixer::METHOD_VARIABLE_GROUP_SIZE
-                ))->fixStepwiseElevations(
+                )->fixStepwiseElevations(
                     $activity->getRoute()
                         ->getElevationsCorrected(),
                     $activity->getTrackdata()

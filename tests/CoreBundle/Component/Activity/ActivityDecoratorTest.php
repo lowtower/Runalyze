@@ -102,7 +102,7 @@ class ActivityDecoratorTest extends TestCase
     {
         // Training::getTime() is declared as `int` (Unix timestamp), not
         // \DateTime - confirmed by PHPUnit's return-type check.
-        $timestamp = (new \DateTime('2026-05-01 07:30:00'))->getTimestamp();
+        $timestamp = new \DateTime('2026-05-01 07:30:00')->getTimestamp();
 
         $activity = $this->createStub(Training::class);
         $activity->method('getTime')

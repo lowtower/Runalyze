@@ -370,7 +370,7 @@ final class ActivityBulkImportCommandAdditionalTest extends TestCase
 
             self::assertFileExists($filePath, 'File must remain in place when --move was not used.');
         } finally {
-            (new Filesystem())->remove($tempDirectory);
+            new Filesystem()->remove($tempDirectory);
         }
     }
 
@@ -393,7 +393,7 @@ final class ActivityBulkImportCommandAdditionalTest extends TestCase
             self::assertFileExists($tempDirectory . '/imported/activity.fit');
             self::assertSame('dummy content', file_get_contents($tempDirectory . '/imported/activity.fit'));
         } finally {
-            (new Filesystem())->remove($tempDirectory);
+            new Filesystem()->remove($tempDirectory);
         }
     }
 
@@ -425,7 +425,7 @@ final class ActivityBulkImportCommandAdditionalTest extends TestCase
             );
             self::assertStringContainsString('Cant move to', $output->fetch());
         } finally {
-            (new Filesystem())->remove($tempDirectory);
+            new Filesystem()->remove($tempDirectory);
         }
     }
 }

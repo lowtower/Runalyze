@@ -219,6 +219,12 @@
             "@test:setup",
             "@test"
         ],
+        "test:verbose": [
+            "@cache:test:clear",
+            "@cache:test_empty:clear",
+            "@test:setup",
+            "php vendor/bin/phpunit -c phpunit.xml.dist --display-all"
+        ],
         "test:coverage-html": "XDEBUG_MODE=coverage php vendor/bin/phpunit -c phpunit.xml.dist --coverage-html var/coverage",
         "test:coverage-clover": "XDEBUG_MODE=coverage php vendor/bin/phpunit -c phpunit.xml.dist --coverage-clover var/coverage/clover.xml",
         "test:coverage-text": "XDEBUG_MODE=coverage php vendor/bin/phpunit -c phpunit.xml.dist --coverage-text",

@@ -82,10 +82,10 @@ class PlotWeekSumData extends PlotSumData
     protected function whereDate(): string
     {
         if (is_numeric($this->Year)) {
-            $dateStart = (new LocalTime())->setISODate((int) $this->Year, 1, 1 + $this->WeekStart->differenceToMondayInDays())
+            $dateStart = new LocalTime()->setISODate((int) $this->Year, 1, 1 + $this->WeekStart->differenceToMondayInDays())
                 ->setTime(0, 0, 0)
                 ->getTimestamp();
-            $dateEnd = (new LocalTime())->setISODate((int) $this->Year + 1, 0, 7 + $this->WeekStart->differenceToMondayInDays())
+            $dateEnd = new LocalTime()->setISODate((int) $this->Year + 1, 0, 7 + $this->WeekStart->differenceToMondayInDays())
                 ->setTime(23, 59, 59)
                 ->getTimestamp();
 

@@ -26,7 +26,7 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
             $mail = $username . '@test.com';
         }
 
-        return (new Account())
+        return new Account()
             ->setUsername($username)
             ->setMail($mail)
             ->setPassword('');

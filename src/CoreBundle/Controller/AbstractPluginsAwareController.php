@@ -86,7 +86,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
         }
 
         if (! $plugin instanceof LegacyPlugin) {
-            return (new Response())->setContent($content);
+            return new Response()->setContent($content);
         }
 
         if ($plugin instanceof RunalyzePluginPanel_Sports) {
@@ -110,7 +110,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
     {
         /** @var SportRepository $sportRepository */
         $sportRepository = $this->doctrine->getRepository(Sport::class);
-        $today = (new LocalTime())->setTime(0, 0, 0);
+        $today = new LocalTime()->setTime(0, 0, 0);
 
         return $this->render('my/panels/sports/base.html.twig', [
             'isHidden' => $plugin->isHidden(),

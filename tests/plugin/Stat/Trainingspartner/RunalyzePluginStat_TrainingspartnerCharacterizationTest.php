@@ -15,7 +15,7 @@ class RunalyzePluginStat_TrainingspartnerCharacterizationTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->plugin = (new \ReflectionClass(RunalyzePluginStat_Trainingspartner::class))
+        $this->plugin = new \ReflectionClass(RunalyzePluginStat_Trainingspartner::class)
             ->newInstanceWithoutConstructor();
     }
 

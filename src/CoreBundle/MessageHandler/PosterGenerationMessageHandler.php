@@ -90,7 +90,7 @@ class PosterGenerationMessageHandler
 
     private function generatePosters(PosterGenerationMessage $message, Account $account, Sport $sport): int
     {
-        $jsonFiles = (new Finder())->files()
+        $jsonFiles = new Finder()->files()
             ->in($this->generateJsonData->getPathToJsonFiles());
 
         if ($jsonFiles->count() === 0) {

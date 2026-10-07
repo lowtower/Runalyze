@@ -196,7 +196,7 @@ class ActivityPreviewTest extends TestCase
 
     public function testSetPropertiesFromSportLeavesDefaultsWhenSportIsNull(): void
     {
-        $preview = (new \ReflectionClass(ActivityPreview::class))->newInstanceWithoutConstructor();
+        $preview = new \ReflectionClass(ActivityPreview::class)->newInstanceWithoutConstructor();
 
         $method = new \ReflectionMethod(ActivityPreview::class, 'setPropertiesFromSport');
         $method->invoke($preview, null);
@@ -207,7 +207,7 @@ class ActivityPreviewTest extends TestCase
 
     public function testTitleAndDateTimeComeFromInjectedDecorator(): void
     {
-        $timestamp = (new \DateTime('2026-03-10 06:15:00'))->getTimestamp();
+        $timestamp = new \DateTime('2026-03-10 06:15:00')->getTimestamp();
         $decorator = $this->createDecoratorMock('Running: Long Run', $timestamp);
 
         $preview = new ActivityPreview($this->createTraining(), false, $decorator);
@@ -218,7 +218,7 @@ class ActivityPreviewTest extends TestCase
 
     public function testDefaultDecoratorIsUsedWhenNoneIsInjected(): void
     {
-        $timestamp = (new \DateTime('2026-01-15 08:00:00'))->getTimestamp();
+        $timestamp = new \DateTime('2026-01-15 08:00:00')->getTimestamp();
         $activity = $this->createTraining([
             'getTitle' => 'Long Run',
             'getTime' => $timestamp,

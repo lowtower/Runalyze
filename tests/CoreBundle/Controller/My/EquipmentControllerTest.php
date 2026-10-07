@@ -86,7 +86,7 @@ class EquipmentControllerTest extends AbstractFixturesAwareWebTestCase
 
     protected function insertEquipmentTypeFor(Account $account): EquipmentType
     {
-        $equipmentType = (new EquipmentType())->setAccount($account);
+        $equipmentType = new EquipmentType()->setAccount($account);
 
         $this->EquipmentTypeRepository->save($equipmentType);
 
@@ -95,7 +95,7 @@ class EquipmentControllerTest extends AbstractFixturesAwareWebTestCase
 
     protected function insertEquipmentFor(Account $account, EquipmentType $equipmentType): Equipment
     {
-        $equipment = (new Equipment())
+        $equipment = new Equipment()
             ->setName('Test Equipment')
             ->setAccount($account)
             ->setType($equipmentType);

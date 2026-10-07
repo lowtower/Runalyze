@@ -14,7 +14,7 @@ class DuplicateFinderTest extends TestCase
 {
     public function testIsPossibleDuplicateDelegatesToTrainingRepository(): void
     {
-        $activity = (new Training())->setTime(1700000000);
+        $activity = new Training()->setTime(1700000000);
 
         $repository = $this->createMock(TrainingRepository::class);
         $repository->expects($this->once())
@@ -29,7 +29,7 @@ class DuplicateFinderTest extends TestCase
 
     public function testIsPossibleDuplicateReturnsFalseWhenRepositoryReturnsFalse(): void
     {
-        $activity = (new Training())->setTime(1700000000);
+        $activity = new Training()->setTime(1700000000);
 
         $repository = $this->createStub(TrainingRepository::class);
         $repository->method('isPossibleDuplicate')
@@ -42,7 +42,7 @@ class DuplicateFinderTest extends TestCase
 
     public function testSetsActivityIdFromTimestampBeforeDelegatingWhenNotAlreadySet(): void
     {
-        $activity = (new Training())->setTime(1700000123);
+        $activity = new Training()->setTime(1700000123);
         $this->assertNull($activity->getActivityId());
 
         $repository = $this->createMock(TrainingRepository::class);
@@ -59,7 +59,7 @@ class DuplicateFinderTest extends TestCase
 
     public function testDoesNotOverwriteAnAlreadySetActivityId(): void
     {
-        $activity = (new Training())
+        $activity = new Training()
             ->setTime(1700000123)
             ->setActivityId(42);
 

@@ -67,7 +67,7 @@ class ActivityAdapter
      */
     public function isNotOlderThanXDays($days): bool
     {
-        return (new LocalTime())->diff(new LocalTime($this->Activity->getTime()))
+        return new LocalTime()->diff(new LocalTime($this->Activity->getTime()))
             ->days <= $days;
     }
 
@@ -249,7 +249,7 @@ class ActivityAdapter
     public function calculateIfActivityWasAtNight(): void
     {
         if ($this->Activity->getRoute() instanceof Route && $this->Activity->getRoute()->hasGeohashes()) {
-            $this->Activity->setNight((new NightDetector())->isActivityAtNight($this->Activity));
+            $this->Activity->setNight(new NightDetector()->isActivityAtNight($this->Activity));
         } else {
             $this->Activity->setNight(null);
         }
@@ -322,8 +322,8 @@ class ActivityAdapter
         if ($this->canCalculateClimbScore()) {
             $elevationsBackup = $this->temporarilyFixStepwiseElevationsInRoute();
 
-            (new FlatOrHillyAnalyzer())->calculatePercentageHillyFor($this->Activity);
-            (new ClimbScoreCalculator(new FietsIndex(), new ClimbFinder()))->calculateFor($this->Activity);
+            new FlatOrHillyAnalyzer()->calculatePercentageHillyFor($this->Activity);
+            new ClimbScoreCalculator(new FietsIndex(), new ClimbFinder())->calculateFor($this->Activity);
 
             $this->revertTemporaryFixForStepwiseElevationsInRoute($elevationsBackup);
         } else {
@@ -352,7 +352,7 @@ class ActivityAdapter
         if ($backupElevations !== null) {
             $this->Activity->getRoute()
                 ->setElevationsCorrected(
-                    (new StepwiseElevationProfileFixer(5, StepwiseElevationProfileFixer::METHOD_VARIABLE_GROUP_SIZE))
+                    new StepwiseElevationProfileFixer(5, StepwiseElevationProfileFixer::METHOD_VARIABLE_GROUP_SIZE)
                         ->fixStepwiseElevations(
                             $this->Activity->getRoute()
                                 ->getElevationsCorrected(),
@@ -391,7 +391,7 @@ class ActivityAdapter
 
             if ($startPoint !== null) {
                 /** @var Geohash $geohashObj */
-                $geohashObj = (new Geohash())->decode($startPoint);
+                $geohashObj = new Geohash()->decode($startPoint);
                 $coordinate = $geohashObj->getCoordinate();
                 $timezone = $timezoneLookup->getTimezoneForCoordinate((float) $coordinate->getLongitude(), (float) $coordinate->getLatitude());
                 $this->updateTimezoneForActivity($timezone);
@@ -408,7 +408,7 @@ class ActivityAdapter
             return;
         }
 
-        $newOffset = (new \DateTime('', new \DateTimeZone($timezone)))->setTimestamp($this->Activity->getTime())
+        $newOffset = new \DateTime('', new \DateTimeZone($timezone))->setTimestamp($this->Activity->getTime())
             ->getOffset() / 60;
 
         if ($this->Activity->getTimezoneOffset() !== null) {

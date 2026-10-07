@@ -25,7 +25,7 @@ class PluginControllerTest extends AbstractFixturesAwareWebTestCase
 
     private function persistPluginForAccount(Account $account, string $type, int $active, int $order): Plugin
     {
-        $plugin = (new Plugin())
+        $plugin = new Plugin()
             ->setKey('test-plugin')
             ->setType($type)
             ->setActive($active)

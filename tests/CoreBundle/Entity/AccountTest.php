@@ -35,7 +35,12 @@ class AccountTest extends TestCase
 
     private function readPlainPasswordProperty(Account $account): ?string
     {
-        return (new ReflectionProperty(Account::class, 'plainPassword'))->getValue($account);
+        return new ReflectionProperty(Account::class, 'plainPassword')->getValue($account);
+    }
+
+    private function expectEraseCredentialsDeprecation(): void
+    {
+        $this->expectUserDeprecationMessage('Method ' . Account::class . '::eraseCredentials() is deprecated');
     }
 
     public function testDefaultValues(): void
@@ -137,6 +142,7 @@ class AccountTest extends TestCase
     public function testEraseCredentialsClearsPlainPassword(): void
     {
         $this->Account->setPlainPassword('plain-secret');
+        $this->expectEraseCredentialsDeprecation();
 
         $this->Account->eraseCredentials();
 
@@ -146,6 +152,7 @@ class AccountTest extends TestCase
     public function testEraseCredentialsLeavesPlainPasswordUnsetSoThatLengthValidationSkipsIt(): void
     {
         $this->Account->setPlainPassword('plain-secret');
+        $this->expectEraseCredentialsDeprecation();
 
         $this->Account->eraseCredentials();
 
@@ -455,13 +462,13 @@ class AccountTest extends TestCase
         string $salt = 'same-salt',
         int $role = UserRole::ROLE_USER
     ): Account {
-        $account = (new Account())
+        $account = new Account()
             ->setUsername($username)
             ->setPassword($password)
             ->setSalt($salt)
             ->setRole($role);
 
-        (new ReflectionProperty(Account::class, 'id'))->setValue($account, $id);
+        new ReflectionProperty(Account::class, 'id')->setValue($account, $id);
 
         return $account;
     }

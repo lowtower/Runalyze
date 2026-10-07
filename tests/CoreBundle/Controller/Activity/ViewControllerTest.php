@@ -27,7 +27,7 @@ class ViewControllerTest extends AbstractFixturesAwareWebTestCase
 
     private function registerUniqueAccount(): Account
     {
-        $account = (new Account())
+        $account = new Account()
             ->setUsername('view_test_' . uniqid('', true))
             ->setMail('view_test_' . uniqid('', true) . '@example.test');
 
@@ -67,7 +67,7 @@ class ViewControllerTest extends AbstractFixturesAwareWebTestCase
 
     private function createTrainingForAccount(Account $account, bool $isPublic = false): Training
     {
-        $activity = (new Training())
+        $activity = new Training()
             ->setAccount($account)
             ->setSport($this->getRunningSportForAccount($account))
             ->setTime(time())

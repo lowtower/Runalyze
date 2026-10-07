@@ -116,7 +116,7 @@ class RaceAnalysis
 
     public function getCorrectionFactor(): float
     {
-        return (new LegacyEffectiveVO2maxCorrector())->fromActivity($this->Activity);
+        return new LegacyEffectiveVO2maxCorrector()->fromActivity($this->Activity);
     }
 
     /**
@@ -130,7 +130,7 @@ class RaceAnalysis
             return null;
         }
 
-        return (new VO2max($vo2max))->getSeconds($distance);
+        return new VO2max($vo2max)->getSeconds($distance);
     }
 
     /**

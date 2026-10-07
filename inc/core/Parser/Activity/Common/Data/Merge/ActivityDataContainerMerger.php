@@ -23,11 +23,11 @@ class ActivityDataContainerMerger
 
     protected function forwardMergingToClassesFor(ActivityDataContainer $container)
     {
-        (new MetadataMerger($this->ResultingContainer->Metadata, $container->Metadata))->merge();
-        (new ActivityDataMerger($this->ResultingContainer->ActivityData, $container->ActivityData))->merge();
-        (new ContinuousDataMerger($this->ResultingContainer->ContinuousData, $container->ContinuousData))->merge();
-        (new FitDetailsMerger($this->ResultingContainer->FitDetails, $container->FitDetails))->merge();
-        (new WeatherDataMerger($this->ResultingContainer->WeatherData, $container->WeatherData))->merge();
+        new MetadataMerger($this->ResultingContainer->Metadata, $container->Metadata)->merge();
+        new ActivityDataMerger($this->ResultingContainer->ActivityData, $container->ActivityData)->merge();
+        new ContinuousDataMerger($this->ResultingContainer->ContinuousData, $container->ContinuousData)->merge();
+        new FitDetailsMerger($this->ResultingContainer->FitDetails, $container->FitDetails)->merge();
+        new WeatherDataMerger($this->ResultingContainer->WeatherData, $container->WeatherData)->merge();
     }
 
     protected function copyPropertiesIfEmptyFrom(ActivityDataContainer $container)

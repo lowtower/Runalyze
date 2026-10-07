@@ -160,7 +160,7 @@ class ActivityDataContainerToActivityContextConverter
         }
 
         if ($metadata->getSportName() !== '') {
-            $internalId = (new EnglishLanguageMapping())->toInternal($metadata->getSportName());
+            $internalId = new EnglishLanguageMapping()->toInternal($metadata->getSportName());
 
             if ($internalId != SportProfile::GENERIC) {
                 return $internalId;

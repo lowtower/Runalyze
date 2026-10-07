@@ -22,7 +22,7 @@ class SummaryTable10Weeks extends SummaryTable
     {
         $this->Title = __('Last 10 training weeks');
         $this->Timerange = 7 * DAY_IN_S;
-        $this->TimeEnd = (new LocalTime())->weekend();
+        $this->TimeEnd = new LocalTime()->weekend();
         $this->TimeStart = $this->TimeEnd - 10 * $this->Timerange;
     }
 
@@ -32,8 +32,8 @@ class SummaryTable10Weeks extends SummaryTable
     protected function rowHead(int $index): string
     {
         $time = (int) ($this->TimeEnd - ($index + 0.5) * 7 * DAY_IN_S);
-        $start = (new LocalTime($time))->weekstart(true);
-        $end = (new LocalTime($time))->weekend(true);
+        $start = new LocalTime($time)->weekstart(true);
+        $end = new LocalTime($time)->weekend(true);
         $week = Icon::$CALENDAR . ' ' . __('Week') . ' ' . $start->week();
 
         return DataBrowserLinker::link($week, $start->getTimestamp(), $end->getTimestamp(), '', '', $this->Sportid > 0 ? $this->Sportid : null) .

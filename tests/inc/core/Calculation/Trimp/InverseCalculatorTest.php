@@ -72,7 +72,7 @@ class InverseCalculatorTest extends TestCase
     public function testConstructorThrowsExceptionForNonPositiveHeartRateOrTrimp(int $heartRate, float $trimp): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Heart rate and trimp have to be greater than zero.');
+        $this->expectExceptionMessageIsOrContains('Heart rate and trimp have to be greater than zero.');
 
         new InverseCalculator(new Athlete(null, 200, 60), $heartRate, $trimp);
     }
@@ -96,7 +96,7 @@ class InverseCalculatorTest extends TestCase
     public function testConstructorThrowsExceptionWhenHeartRateDoesNotExceedRestingHeartRate(Athlete $Athlete, int $heartRate): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("Heart rate must be greater than the athlete's resting heart rate.");
+        $this->expectExceptionMessageIsOrContains("Heart rate must be greater than the athlete's resting heart rate.");
 
         new InverseCalculator($Athlete, $heartRate, 10.0);
     }

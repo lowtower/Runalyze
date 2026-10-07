@@ -15,7 +15,7 @@ class ContextTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->context = (new \ReflectionClass(Context::class))
+        $this->context = new \ReflectionClass(Context::class)
             ->newInstanceWithoutConstructor();
     }
 
@@ -113,7 +113,7 @@ class ContextTest extends TestCase
 
     private function newInstanceOf(string $class): object
     {
-        return (new \ReflectionClass($class))->newInstanceWithoutConstructor();
+        return new \ReflectionClass($class)->newInstanceWithoutConstructor();
     }
 
     private function setProperty(string $name, mixed $value): void

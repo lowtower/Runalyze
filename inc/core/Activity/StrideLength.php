@@ -27,7 +27,7 @@ class StrideLength implements ValueInterface
 
     public static function format(int $centimeter, bool $withUnit = true): string
     {
-        return (new self($centimeter))->string($withUnit);
+        return new self($centimeter)->string($withUnit);
     }
 
     public function __construct(float $value = 0.0, ?DistanceUnitSystem $unitSystem = null)

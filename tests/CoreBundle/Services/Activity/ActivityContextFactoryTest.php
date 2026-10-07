@@ -27,7 +27,7 @@ class ActivityContextFactoryTest extends AbstractFixturesAwareWebTestCase
 
     private function registerUniqueAccount(): Account
     {
-        $account = (new Account())
+        $account = new Account()
             ->setUsername('activity_context_test_' . uniqid('', true))
             ->setMail('activity_context_test_' . uniqid('', true) . '@example.test');
 
@@ -60,7 +60,7 @@ class ActivityContextFactoryTest extends AbstractFixturesAwareWebTestCase
 
     private function createTrainingForAccount(Account $account): Training
     {
-        $activity = (new Training())
+        $activity = new Training()
             ->setAccount($account)
             ->setSport($this->getRunningSportForAccount($account))
             ->setTime(time())

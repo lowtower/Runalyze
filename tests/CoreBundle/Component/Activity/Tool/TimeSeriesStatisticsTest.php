@@ -43,7 +43,7 @@ class TimeSeriesStatisticsTest extends TestCase
             ->willReturn(false);
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Provided trackdata object must have time array.');
+        $this->expectExceptionMessageIsOrContains('Provided trackdata object must have time array.');
 
         new TimeSeriesStatistics($trackdata);
     }

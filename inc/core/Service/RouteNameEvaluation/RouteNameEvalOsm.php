@@ -164,10 +164,10 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
 
         // set a (bounding)box for better performance
         /** @var Geohash $geohashMin */
-        $geohashMin = (new Geohash())->decode($route->getMin());
+        $geohashMin = new Geohash()->decode($route->getMin());
         $geoMin = $geohashMin->getCoordinate();
         /** @var Geohash $geohashMax */
-        $geohashMax = (new Geohash())->decode($route->getMax());
+        $geohashMax = new Geohash()->decode($route->getMax());
         $geoMax = $geohashMax->getCoordinate();
         // the bounding-box is "corrected" by the radius to avoid ignore point near the original bounding-box border
         $osm .= sprintf(

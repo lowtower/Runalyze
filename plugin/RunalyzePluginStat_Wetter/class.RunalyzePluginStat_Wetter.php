@@ -157,19 +157,19 @@ class RunalyzePluginStat_Wetter extends PluginStat
         $maxhumidity = DB::getInstance()->query('SELECT `humidity`, `id`, `time` FROM `' . PREFIX . 'training` WHERE `humidity` IS NOT NULL ' . $this->getSportAndYearDependenceForQuery() . ' AND accountid = ' . SessionAccountHandler::getId() . ' ORDER BY `humidity` DESC LIMIT 5')->fetchAll();
 
         foreach ($hot as $i => $h) {
-            $hot[$i] = Temperature::format($h['temperature'], true) . ' ' . __('on') . ' ' . Ajax::trainingLink($h['id'], (new LocalTime($h['time']))->format('d.m.Y'));
+            $hot[$i] = Temperature::format($h['temperature'], true) . ' ' . __('on') . ' ' . Ajax::trainingLink($h['id'], new LocalTime($h['time'])->format('d.m.Y'));
         }
 
         foreach ($cold as $i => $c) {
-            $cold[$i] = Temperature::format($c['temperature'], true) . ' ' . __('on') . ' ' . Ajax::trainingLink($c['id'], (new LocalTime($c['time']))->format('d.m.Y'));
+            $cold[$i] = Temperature::format($c['temperature'], true) . ' ' . __('on') . ' ' . Ajax::trainingLink($c['id'], new LocalTime($c['time'])->format('d.m.Y'));
         }
 
         foreach ($windiest as $i => $w) {
-            $windiest[$i] = (new WindSpeed($w['wind_speed']))->string() . ' ' . __('on') . ' ' . Ajax::trainingLink($w['id'], (new LocalTime($w['time']))->format('d.m.Y'));
+            $windiest[$i] = new WindSpeed($w['wind_speed'])->string() . ' ' . __('on') . ' ' . Ajax::trainingLink($w['id'], new LocalTime($w['time'])->format('d.m.Y'));
         }
 
         foreach ($maxhumidity as $i => $h) {
-            $maxhumidity[$i] = (new Humidity($h['humidity']))->string() . ' ' . __('on') . ' ' . Ajax::trainingLink($h['id'], (new LocalTime($h['time']))->format('d.m.Y'));
+            $maxhumidity[$i] = new Humidity($h['humidity'])->string() . ' ' . __('on') . ' ' . Ajax::trainingLink($h['id'], new LocalTime($h['time'])->format('d.m.Y'));
         }
 
         echo $this->buildExtremeTrainingsHtml($hot, $cold, $windiest, $maxhumidity);

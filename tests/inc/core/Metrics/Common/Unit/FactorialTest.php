@@ -19,10 +19,10 @@ class FactorialTest extends \PHPUnit\Framework\TestCase
 
     public function testDecimals(): void
     {
-        $this->assertSame(2, (new Factorial('foo', 0.01))->getDecimals());
-        $this->assertSame(1, (new Factorial('foo', 0.2))->getDecimals());
-        $this->assertSame(0, (new Factorial('foo', 10))->getDecimals());
-        $this->assertSame(0, (new Factorial('foo', 10, 0))->getDecimals());
-        $this->assertSame(2, (new Factorial('foo', 10, 2))->getDecimals());
+        $this->assertSame(2, new Factorial('foo', 0.01)->getDecimals());
+        $this->assertSame(1, new Factorial('foo', 0.2)->getDecimals());
+        $this->assertSame(0, new Factorial('foo', 10)->getDecimals());
+        $this->assertSame(0, new Factorial('foo', 10, 0)->getDecimals());
+        $this->assertSame(2, new Factorial('foo', 10, 2)->getDecimals());
     }
 }

@@ -192,7 +192,7 @@ class Entity extends Model\EntityWithID implements ProfileInterface
 
     public function legacyPaceUnit(): AbstractUnit
     {
-        return (new LegacyUnitConverter())->getLegacyPaceUnit($this->Data[self::PACE_UNIT]);
+        return new LegacyUnitConverter()->getLegacyPaceUnit($this->Data[self::PACE_UNIT]);
     }
 
     /**
@@ -200,7 +200,7 @@ class Entity extends Model\EntityWithID implements ProfileInterface
      */
     public function getLegacyPaceUnitEnum(): int
     {
-        return (new LegacyUnitConverter())->getLegacyPaceUnit($this->Data[self::PACE_UNIT], true);
+        return new LegacyUnitConverter()->getLegacyPaceUnit($this->Data[self::PACE_UNIT], true);
     }
 
     public function getPaceUnitEnum(): int

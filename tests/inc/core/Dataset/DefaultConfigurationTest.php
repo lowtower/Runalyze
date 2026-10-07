@@ -6,7 +6,7 @@ class DefaultConfigurationTest extends \PHPUnit\Framework\TestCase
 {
     public function testThatAllKeysFromEnumAppearInDefaultConfiguration(): void
     {
-        $allKeys = (new DefaultConfiguration())->allKeys();
+        $allKeys = new DefaultConfiguration()->allKeys();
 
         foreach (Keys::getEnum() as $key) {
             $this->assertContains($key, $allKeys, 'Key ' . $key . ' is missing in default dataset config.');

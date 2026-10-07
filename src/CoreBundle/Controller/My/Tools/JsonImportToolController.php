@@ -102,7 +102,7 @@ class JsonImportToolController extends AbstractController
         $analyzer = new JsonBackupAnalyzer($filePath . $filename, $this->parameterBag->get('RUNALYZE_VERSION'));
 
         if (! $analyzer->fileIsOkay()) {
-            (new Filesystem())->remove($filePath . $filename);
+            new Filesystem()->remove($filePath . $filename);
 
             return $this->render('tools/backup/import_bad_file.html.twig', [
                 'file' => $fileInfo,

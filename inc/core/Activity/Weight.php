@@ -41,7 +41,7 @@ class Weight implements ValueInterface
      */
     public static function format(float $weight, bool $withUnit = true, int|bool $decimals = false): string
     {
-        return (new self($weight))->string($withUnit, $decimals);
+        return new self($weight)->string($withUnit, $decimals);
     }
 
     /**

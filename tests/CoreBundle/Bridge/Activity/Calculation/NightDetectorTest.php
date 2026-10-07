@@ -67,7 +67,7 @@ class NightDetectorTest extends \PHPUnit\Framework\TestCase
 
         foreach ($testData as $data) {
             /** @var Geohash $geohashObj */
-            $geohashObj = (new Geohash())->encode(new Coordinate($data[1]));
+            $geohashObj = new Geohash()->encode(new Coordinate($data[1]));
             // Check the actual return type and available methods$this->Activity->getRoute()->setStartpoint($geohash->getHash()); // or similar
             $this->Activity->setTime(LocalTime::fromServerTime(strtotime($data[0]))->getTimestamp());
             $this->Activity->getRoute()
@@ -84,7 +84,7 @@ class NightDetectorTest extends \PHPUnit\Framework\TestCase
     public function testThatDurationIsRespected(): void
     {
         /** @var Geohash $geohashObj */
-        $geohashObj = (new Geohash())->encode(new Coordinate([49.44, 7.45]));
+        $geohashObj = new Geohash()->encode(new Coordinate([49.44, 7.45]));
         $this->Activity->getRoute()
             ->setGeohashes([]);
         $this->Activity->setTime(LocalTime::fromServerTime(strtotime('2016-01-13 08:00:00'))->getTimestamp());

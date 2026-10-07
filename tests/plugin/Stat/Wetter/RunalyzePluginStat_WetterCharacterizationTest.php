@@ -16,7 +16,7 @@ class RunalyzePluginStat_WetterCharacterizationTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->plugin = (new \ReflectionClass(RunalyzePluginStat_Wetter::class))
+        $this->plugin = new \ReflectionClass(RunalyzePluginStat_Wetter::class)
             ->newInstanceWithoutConstructor();
     }
 

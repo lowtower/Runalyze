@@ -45,10 +45,10 @@ class HampelFilterTest extends \PHPUnit\Framework\TestCase
     {
         $data = [10, 11, 12, 13, 50, 12, 100, 11, 50, 10, 11, 12, 13];
 
-        $this->assertEquals([4, 6, 8, 9], (new HampelFilter(1))->filter($data, false));
-        $this->assertEquals([4, 6, 8], (new HampelFilter(2))->filter($data, false));
-        $this->assertEquals([4, 6, 8], (new HampelFilter(3))->filter($data, false));
-        $this->assertEquals([4, 6, 8], (new HampelFilter(4))->filter($data, false));
-        $this->assertEquals([6], (new HampelFilter(5))->filter($data, false));
+        $this->assertEquals([4, 6, 8, 9], new HampelFilter(1)->filter($data, false));
+        $this->assertEquals([4, 6, 8], new HampelFilter(2)->filter($data, false));
+        $this->assertEquals([4, 6, 8], new HampelFilter(3)->filter($data, false));
+        $this->assertEquals([4, 6, 8], new HampelFilter(4)->filter($data, false));
+        $this->assertEquals([6], new HampelFilter(5)->filter($data, false));
     }
 }

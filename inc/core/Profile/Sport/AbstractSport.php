@@ -45,6 +45,6 @@ abstract class AbstractSport implements ProfileInterface
      */
     public function getLegacyPaceUnitEnum()
     {
-        return (new LegacyUnitConverter())->getLegacyPaceUnit($this->getPaceUnitEnum(), true);
+        return new LegacyUnitConverter()->getLegacyPaceUnit($this->getPaceUnitEnum(), true);
     }
 }

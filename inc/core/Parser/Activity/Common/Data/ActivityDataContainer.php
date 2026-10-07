@@ -139,12 +139,12 @@ class ActivityDataContainer
     {
         if (! $this->Rounds->isEmpty() && $this->ContinuousData->Time !== [] && $this->ContinuousData->Distance !== []) {
             if ($this->Rounds->getTotalDuration() === 0.0) {
-                (new RoundCollectionFiller($this->Rounds))->fillTimesFromArray(
+                new RoundCollectionFiller($this->Rounds)->fillTimesFromArray(
                     $this->ContinuousData->Time,
                     $this->ContinuousData->Distance
                 );
             } elseif ($this->Rounds->getTotalDistance() === 0.0) {
-                (new RoundCollectionFiller($this->Rounds))->fillDistancesFromArray(
+                new RoundCollectionFiller($this->Rounds)->fillDistancesFromArray(
                     $this->ContinuousData->Time,
                     $this->ContinuousData->Distance
                 );

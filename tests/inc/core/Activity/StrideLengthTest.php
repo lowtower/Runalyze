@@ -44,8 +44,8 @@ class StrideLengthTest extends \PHPUnit\Framework\TestCase
 
     public function testSettingInPreferredUnit(): void
     {
-        $this->assertSame(1.23, (new StrideLength(0, new DistanceUnitSystem(DistanceUnitSystem::METRIC)))->setInPreferredUnit(1.23)->meter());
-        $this->assertSame(3.2, (new StrideLength(0, new DistanceUnitSystem(DistanceUnitSystem::IMPERIAL)))->setInPreferredUnit(3.2)->feet());
+        $this->assertSame(1.23, new StrideLength(0, new DistanceUnitSystem(DistanceUnitSystem::METRIC))->setInPreferredUnit(1.23)->meter());
+        $this->assertSame(3.2, new StrideLength(0, new DistanceUnitSystem(DistanceUnitSystem::IMPERIAL))->setInPreferredUnit(3.2)->feet());
     }
 
     public function testSetRoundsInsteadOfTruncatingWhenDerivedFromFeet(): void

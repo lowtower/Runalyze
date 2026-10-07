@@ -391,7 +391,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 
         for ($i = 0; $i < $size; ++$i) {
             /** @var Geohash $geohashObj */
-            $geohashObj = (new Geohash())->encode(new Coordinate([$latitudes[$i], $longitudes[$i]]), self::PATH_GEOHASH_PRECISION);
+            $geohashObj = new Geohash()->encode(new Coordinate([$latitudes[$i], $longitudes[$i]]), self::PATH_GEOHASH_PRECISION);
             $geohashes[] = $geohashObj->getGeohash();
         }
 
@@ -450,12 +450,12 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
         if ($latitudes !== [] && $longitudes !== []) {
             $MinCoordinate = new Coordinate([min($latitudes), min($longitudes)]);
             /** @var Geohash $geohashObj */
-            $geohashObj = (new Geohash())->encode($MinCoordinate, self::BOUNDARIES_GEOHASH_PRECISION);
+            $geohashObj = new Geohash()->encode($MinCoordinate, self::BOUNDARIES_GEOHASH_PRECISION);
             $this->Data[self::MIN] = $geohashObj->getGeohash();
 
             $MaxCoordinate = new Coordinate([max($latitudes), max($longitudes)]);
             /** @var Geohash $geohashObj */
-            $geohashObj = (new Geohash())->encode($MaxCoordinate, self::BOUNDARIES_GEOHASH_PRECISION);
+            $geohashObj = new Geohash()->encode($MaxCoordinate, self::BOUNDARIES_GEOHASH_PRECISION);
             $this->Data[self::MAX] = $geohashObj->getGeohash();
         } else {
             $this->setMinMaxToNull();
@@ -497,7 +497,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
     protected function findFirstNonNullGeohash(array $geohashes): ?string
     {
         /** @var Geohash $nullGeohashObj */
-        $nullGeohashObj = (new Geohash())->encode(new Coordinate([0, 0]), self::BOUNDARIES_GEOHASH_PRECISION);
+        $nullGeohashObj = new Geohash()->encode(new Coordinate([0, 0]), self::BOUNDARIES_GEOHASH_PRECISION);
         $nullGeohash = $nullGeohashObj->getGeohash();
 
         foreach ($geohashes as $geohash) {
@@ -699,7 +699,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
     private function decodedGeohash(string $geohash): Geohash
     {
         /** @var Geohash $decoded */
-        $decoded = (new Geohash())->decode($geohash);
+        $decoded = new Geohash()->decode($geohash);
 
         return $decoded;
     }

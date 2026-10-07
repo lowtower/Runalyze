@@ -146,7 +146,7 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface, LastExc
     protected function getInternalConditionId(array $result): int
     {
         if (isset($result['weather']) && isset($result['weather'][0]) && isset($result['weather'][0]['id'])) {
-            return (new OpenWeatherMapMapping())->toInternal($result['weather'][0]['id']);
+            return new OpenWeatherMapMapping()->toInternal($result['weather'][0]['id']);
         }
 
         return WeatherConditionProfile::UNKNOWN;
@@ -232,7 +232,7 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface, LastExc
         }
 
         if (isset($result['dt']) && is_numeric($result['dt'])) {
-            $location->setDateTime((new \DateTime())->setTimestamp($result['dt']));
+            $location->setDateTime(new \DateTime()->setTimestamp($result['dt']));
         }
     }
 }

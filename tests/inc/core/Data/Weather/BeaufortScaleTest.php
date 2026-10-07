@@ -31,7 +31,7 @@ class BeaufortScaleTest extends \PHPUnit\Framework\TestCase
 
     public function testInvalidValue(): void
     {
-        $this->assertFalse((new BeaufortScale())->set(42)->isValid());
+        $this->assertFalse(new BeaufortScale()->set(42)->isValid());
     }
 
     public function testLimits(): void

@@ -48,7 +48,7 @@ class Trk extends AbstractSingleParser implements FileContentAwareParserInterfac
     {
         $this->Container->Metadata->setTimestamp(
             $this->StartTime,
-            (int) round((new \DateTime())->setTimestamp($this->StartTime)->getOffset() / 60)
+            (int) round(new \DateTime()->setTimestamp($this->StartTime)->getOffset() / 60)
         );
     }
 

@@ -260,7 +260,7 @@ class ActivityType extends AbstractType
                 if (is_numeric($tag)) {
                     $tagElement = $this->TagRepository->find((int) $tag);
                 } else {
-                    $tagElement = (new Tag())->setTag($tag)
+                    $tagElement = new Tag()->setTag($tag)
                         ->setAccount($this->getAccount());
                     $this->TagRepository->save($tagElement);
                 }
@@ -314,7 +314,7 @@ class ActivityType extends AbstractType
 
             if ($activity->getRoute()->getStartpoint() !== null) {
                 /** @var Geohash $geohashObj */
-                $geohashObj = (new Geohash())->decode($activity->getRoute()->getStartpoint());
+                $geohashObj = new Geohash()->decode($activity->getRoute()->getStartpoint());
                 $coordinate = $geohashObj->getCoordinate();
                 $data = $coordinate->getLatitude() . ',' . $coordinate->getLongitude();
             }

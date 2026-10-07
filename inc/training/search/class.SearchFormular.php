@@ -228,16 +228,16 @@ class SearchFormular extends Formular
         $this->addNumericConditionField('kcal', __('Energy'), FormularInput::$SIZE_SMALL, Configuration::General()->energyUnit()->unit());
         $this->addNumericConditionField('groundcontact_balance', __('Ground Contact Balance'), FormularInput::$SIZE_SMALL, 'L' . FormularUnit::$PERCENT);
 
-        $this->addNumericConditionField('wind_speed', __('Wind Speed'), FormularInput::$SIZE_SMALL, (new WindSpeed())->unit());
+        $this->addNumericConditionField('wind_speed', __('Wind Speed'), FormularInput::$SIZE_SMALL, new WindSpeed()->unit());
         $this->addNumericConditionField('fit_performance_condition', __('Performance condition'), FormularInput::$SIZE_SMALL);
         $this->addNumericConditionField('fit_training_effect', __('(Aerob) Training Effect'), FormularInput::$SIZE_SMALL);
 
-        $this->addNumericConditionField('humidity', __('Humidity'), FormularInput::$SIZE_SMALL, (new Humidity())->unit());
+        $this->addNumericConditionField('humidity', __('Humidity'), FormularInput::$SIZE_SMALL, new Humidity()->unit());
         // #TSC change label from "Dataset\Keys::get(Dataset\Keys::FIT_VO2MAX_ESTIMATE)->label()" to static-string to avoid layout problems
         $this->addNumericConditionField('fit_vo2max_estimate', 'VO2max (laut Datei)', FormularInput::$SIZE_SMALL);
         $this->addNumericConditionField('fit_recovery_time', Dataset\Keys::get(Dataset\Keys::FIT_RECOVERY_TIME)->label(), FormularInput::$SIZE_SMALL, 'h');
 
-        $this->addNumericConditionField('pressure', __('Pressure'), FormularInput::$SIZE_SMALL, (new Pressure())->unit());
+        $this->addNumericConditionField('pressure', __('Pressure'), FormularInput::$SIZE_SMALL, new Pressure()->unit());
         $this->addNumericConditionField('climb_score', __('Climb Score'), FormularInput::$SIZE_SMALL);
         $this->addNumericConditionField('percentage_hilly', __('Percentage Hilly'), FormularInput::$SIZE_SMALL, '%');
 

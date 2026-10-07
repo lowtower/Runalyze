@@ -115,7 +115,7 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface, LastExceptionA
     protected function getInternalConditionId(array $currently): int
     {
         if (isset($currently['icon'])) {
-            return (new DarkskyMapping())->toInternal($currently['icon']);
+            return new DarkskyMapping()->toInternal($currently['icon']);
         }
 
         return WeatherConditionProfile::UNKNOWN;
@@ -164,7 +164,7 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface, LastExceptionA
         }
 
         if (isset($result['dt']) && is_numeric($result['dt'])) {
-            $location->setDateTime((new \DateTime())->setTimestamp($result['dt']));
+            $location->setDateTime(new \DateTime()->setTimestamp($result['dt']));
         }
     }
 }

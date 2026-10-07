@@ -13,7 +13,7 @@ class WeatherConditionType extends AbstractType
     {
         $resolver->setDefaults([
             'choices' => Condition::completeList(),
-            'choice_label' => fn ($value, $key, $index): string => (new Condition($value))->string(),
+            'choice_label' => fn ($value, $key, $index): string => new Condition($value)->string(),
             'choice_translation_domain' => false,
         ]);
     }

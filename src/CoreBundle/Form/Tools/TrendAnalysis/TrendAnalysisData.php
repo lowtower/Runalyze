@@ -32,7 +32,7 @@ class TrendAnalysisData
         $data = new self();
         $data->setSport($sports);
         $data->setType($types);
-        $data->setDateFrom((new \DateTime())->sub(new \DateInterval('P6M')));
+        $data->setDateFrom(new \DateTime()->sub(new \DateInterval('P6M')));
         $data->setDateTo(new \DateTime());
 
         return $data;

@@ -17,7 +17,7 @@ class RunalyzePluginPanel_EquipmentCharacterizationTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->plugin = (new \ReflectionClass(RunalyzePluginPanel_Equipment::class))
+        $this->plugin = new \ReflectionClass(RunalyzePluginPanel_Equipment::class)
             ->newInstanceWithoutConstructor();
     }
 

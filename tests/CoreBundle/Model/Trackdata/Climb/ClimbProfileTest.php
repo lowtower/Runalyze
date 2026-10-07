@@ -31,7 +31,7 @@ class ClimbProfileTest extends \PHPUnit\Framework\TestCase
     public function testThatSegmentsWithoutDistanceCantBeAdded(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        (new ClimbProfile())->addSegment(0.0, 17);
+        new ClimbProfile()->addSegment(0.0, 17);
     }
 
     public function testExampleProfile(): void

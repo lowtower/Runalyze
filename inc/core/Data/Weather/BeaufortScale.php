@@ -45,12 +45,12 @@ class BeaufortScale implements ValueInterface
      */
     public static function getString(WindSpeed $windSpeed): string
     {
-        return (new self($windSpeed))->string();
+        return new self($windSpeed)->string();
     }
 
     public static function getShortString(WindSpeed $windSpeed): string
     {
-        return (new self($windSpeed))->shortString();
+        return new self($windSpeed)->shortString();
     }
 
     /**

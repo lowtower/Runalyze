@@ -34,7 +34,7 @@ class AnaerobicTrainingEffect implements ValueInterface
 
     public static function format(mixed $value): string
     {
-        return (new self($value))->string();
+        return new self($value)->string();
     }
 
     public function __construct(mixed $value = null)

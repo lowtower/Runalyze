@@ -92,7 +92,8 @@ class ActivityMatcherControllerUnitTest extends TestCase
     public function testAccessIsDeniedWhenUserIsNotLoggedIn(): void
     {
         $authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
-        $authorizationChecker->method('isGranted')
+        $authorizationChecker->expects($this->once())
+            ->method('isGranted')
             ->with('ROLE_USER')
             ->willReturn(false);
 

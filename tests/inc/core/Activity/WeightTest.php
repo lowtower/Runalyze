@@ -24,16 +24,16 @@ class WeightTest extends \PHPUnit\Framework\TestCase
 
     public function testConstructor(): void
     {
-        $this->assertEquals('75.0', (new Weight(75, new WeightUnit(WeightUnit::KG)))->string(false, 1));
-        $this->assertEquals('165.3', (new Weight(75, new WeightUnit(WeightUnit::POUNDS)))->string(false, 1));
-        $this->assertEquals('11.8', (new Weight(75, new WeightUnit(WeightUnit::STONES)))->string(false, 1));
+        $this->assertEquals('75.0', new Weight(75, new WeightUnit(WeightUnit::KG))->string(false, 1));
+        $this->assertEquals('165.3', new Weight(75, new WeightUnit(WeightUnit::POUNDS))->string(false, 1));
+        $this->assertEquals('11.8', new Weight(75, new WeightUnit(WeightUnit::STONES))->string(false, 1));
     }
 
     public function testSettingInPreferredUnit(): void
     {
-        $this->assertEqualsWithDelta(10, (new Weight(0, new WeightUnit(WeightUnit::KG)))->setInPreferredUnit(10)->kg(), 0.1);
-        $this->assertEqualsWithDelta(4.54, (new Weight(0, new WeightUnit(WeightUnit::POUNDS)))->setInPreferredUnit(10)->kg(), 0.1);
-        $this->assertEqualsWithDelta(63.5, (new Weight(0, new WeightUnit(WeightUnit::STONES)))->setInPreferredUnit(10)->kg(), 0.1);
+        $this->assertEqualsWithDelta(10, new Weight(0, new WeightUnit(WeightUnit::KG))->setInPreferredUnit(10)->kg(), 0.1);
+        $this->assertEqualsWithDelta(4.54, new Weight(0, new WeightUnit(WeightUnit::POUNDS))->setInPreferredUnit(10)->kg(), 0.1);
+        $this->assertEqualsWithDelta(63.5, new Weight(0, new WeightUnit(WeightUnit::STONES))->setInPreferredUnit(10)->kg(), 0.1);
     }
 
     public function testFromKilograms(): void

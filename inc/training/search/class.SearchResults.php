@@ -411,10 +411,10 @@ class SearchResults
         }
 
         if ($key == 'elevation') {
-            $value = (new Elevation())->setInPreferredUnit($value)
+            $value = new Elevation()->setInPreferredUnit($value)
                 ->meter();
         } elseif ($key == 'distance') {
-            $value = (new Distance())->setInPreferredUnit($value)
+            $value = new Distance()->setInPreferredUnit($value)
                 ->kilometer();
         } elseif ($key == 'percentage_hilly') {
             $value *= 0.01;
@@ -423,18 +423,18 @@ class SearchResults
         } elseif ($key == 'groundcontact_balance') {
             $value *= 100;
         } elseif ($key == 'stride_length') {
-            $value = (new StrideLength())->setInPreferredUnit($value)
+            $value = new StrideLength()->setInPreferredUnit($value)
                 ->cm();
         } elseif ($key == 'temperature') {
-            $value = (new Temperature())->setInPreferredUnit($value)
+            $value = new Temperature()->setInPreferredUnit($value)
                 ->celsius();
         } elseif ($key == 'wind_speed') {
-            $value = (new WindSpeed())->setInPreferredUnit($value)
+            $value = new WindSpeed()->setInPreferredUnit($value)
                 ->value();
         } elseif (($key == 'vo2max' || $key == 'vo2max_with_elevation')) {
             $value /= Configuration::Data()->vo2maxCorrectionFactor();
         } elseif ($key == 'kcal') {
-            $value = (new Energy())->setInPreferredUnit($value)
+            $value = new Energy()->setInPreferredUnit($value)
                 ->kcal();
         } elseif ($key == 'fit_recovery_time') {
             $value *= 60;
@@ -695,7 +695,7 @@ class SearchResults
         $Context = new \Runalyze\Dataset\Context(new Runalyze\Model\Activity\Entity(), $this->AccountID);
 
         foreach ($this->Trainings as $training) {
-            $date = (new LocalTime($training['time']))->format('d.m.Y');
+            $date = new LocalTime($training['time'])->format('d.m.Y');
             $link = Ajax::trainingLink($training['id'], $date, true);
             $Context->setActivityData($training);
 

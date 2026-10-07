@@ -351,7 +351,8 @@ class DataSeriesRemoverTest extends TestCase
         $trackData = $this->createMock(Trackdata::class);
         $trackData->method('hasTime')
             ->willReturn(true);
-        $trackData->method('setTime')
+        $trackData->expects($this->once())
+            ->method('setTime')
             ->with(null);
         $trackData->method('isEmpty')
             ->willReturn(true);

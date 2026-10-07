@@ -34,7 +34,7 @@ class DeleteWithCsrfTokenTest extends AbstractFixturesAwareWebTestCase
 
     private function registerUniqueAccount(): Account
     {
-        $account = (new Account())
+        $account = new Account()
             ->setUsername('delete_test_' . uniqid('', true))
             ->setMail('delete_test_' . uniqid('', true) . '@example.test');
 

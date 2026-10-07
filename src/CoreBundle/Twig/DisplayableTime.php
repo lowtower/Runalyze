@@ -16,6 +16,6 @@ class DisplayableTime extends DisplayableValue
 
     public function getValue(?int $decimals = null, ?string $decimalPoint = null, ?string $thousandsSeparator = null): string
     {
-        return (new UtilityExtension())->duration($this->Value);
+        return new UtilityExtension()->duration($this->Value);
     }
 }

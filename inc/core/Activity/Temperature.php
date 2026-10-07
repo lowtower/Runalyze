@@ -31,7 +31,7 @@ class Temperature implements ValueInterface
      */
     public static function format(?float $temperature, bool $withUnit = true, int|bool $decimals = false): string
     {
-        return (new self($temperature))->string($withUnit, $decimals);
+        return new self($temperature)->string($withUnit, $decimals);
     }
 
     /**

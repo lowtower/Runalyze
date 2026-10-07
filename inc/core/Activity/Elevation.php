@@ -22,7 +22,7 @@ class Elevation implements ValueInterface
 
     public static function format(int $meter, bool $withUnit = true): string
     {
-        return (new self($meter))->string($withUnit);
+        return new self($meter)->string($withUnit);
     }
 
     public function __construct(?float $value = 0.0, ?DistanceUnitSystem $unitSystem = null)

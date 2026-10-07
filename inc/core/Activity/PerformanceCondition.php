@@ -39,7 +39,7 @@ class PerformanceCondition implements ValueInterface
 
     public static function format(?int $value): string
     {
-        return (new self($value))->string();
+        return new self($value)->string();
     }
 
     public function __construct(?int $value = null)

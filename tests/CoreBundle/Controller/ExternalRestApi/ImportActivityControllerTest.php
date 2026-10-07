@@ -57,7 +57,7 @@ class ImportActivityControllerTest extends AbstractFixturesAwareWebTestCase
 
     private function registerUniqueAccount(): Account
     {
-        $account = (new Account())
+        $account = new Account()
             ->setUsername('import_test_' . uniqid('', true))
             ->setMail('import_test_' . uniqid('', true) . '@example.test');
 
@@ -79,7 +79,7 @@ class ImportActivityControllerTest extends AbstractFixturesAwareWebTestCase
         $temporaryPath = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR)
             . DIRECTORY_SEPARATOR . 'import_test_' . uniqid('', true) . '.fit';
 
-        (new Filesystem())->copy($fixtureFitFile, $temporaryPath, true);
+        new Filesystem()->copy($fixtureFitFile, $temporaryPath, true);
 
         $this->temporaryUploadCopies[] = $temporaryPath;
 

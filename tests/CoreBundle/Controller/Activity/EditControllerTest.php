@@ -38,7 +38,7 @@ class EditControllerTest extends AbstractFixturesAwareWebTestCase
 
     private function registerUniqueAccount(): Account
     {
-        $account = (new Account())
+        $account = new Account()
             ->setUsername('edit_test_' . uniqid('', true))
             ->setMail('edit_test_' . uniqid('', true) . '@example.test');
 
@@ -76,7 +76,7 @@ class EditControllerTest extends AbstractFixturesAwareWebTestCase
         // via the DomCrawler) would otherwise fail validation on this field regardless of what
         // else is being tested, causing the controller to re-render the form as invalid instead
         // of persisting the submission.
-        $activity = (new Training())
+        $activity = new Training()
             ->setAccount($account)
             ->setSport($this->getRunningSportForAccount($account))
             ->setTime($time)
@@ -111,7 +111,7 @@ class EditControllerTest extends AbstractFixturesAwareWebTestCase
     {
         $formNode = $formCrawler->getNode(0);
 
-        foreach ((new Crawler($formNode))->filter('.split-prototype') as $prototypeNode) {
+        foreach (new Crawler($formNode)->filter('.split-prototype') as $prototypeNode) {
             $prototypeNode->parentNode->removeChild($prototypeNode);
         }
     }
@@ -245,7 +245,7 @@ class EditControllerTest extends AbstractFixturesAwareWebTestCase
     public function testActivityEditActionRemovesTheRaceresultWhenIsRaceIsUnchecked(): void
     {
         $activity = $this->createTrainingForAccount($this->Account, time());
-        $activity->setRaceresult((new Raceresult())->fillFromActivity($activity));
+        $activity->setRaceresult(new Raceresult()->fillFromActivity($activity));
         $this->getTrainingRepository()
             ->save($activity);
         $this->assertTrue($activity->hasRaceresult());

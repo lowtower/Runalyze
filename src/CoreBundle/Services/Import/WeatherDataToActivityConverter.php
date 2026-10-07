@@ -24,7 +24,7 @@ class WeatherDataToActivityConverter
         if ($weatherData->InternalConditionId !== null) {
             $activity->setWeatherid($weatherData->InternalConditionId);
         } elseif ($weatherData->Condition !== '') {
-            $activity->setWeatherid((new EnglishTextMapping())->toInternal($weatherData->Condition));
+            $activity->setWeatherid(new EnglishTextMapping()->toInternal($weatherData->Condition));
         }
     }
 

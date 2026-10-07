@@ -35,7 +35,7 @@ class AnovaData
         $data = new self();
         $data->setSport($sport);
         $data->setType($type);
-        $data->setDateFrom((new \DateTime())->sub(new \DateInterval('P6M')));
+        $data->setDateFrom(new \DateTime()->sub(new \DateInterval('P6M')));
         $data->setDateTo(new \DateTime());
 
         return $data;

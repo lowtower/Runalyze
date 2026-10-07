@@ -133,6 +133,6 @@ class XmlPolarExercise extends AbstractSingleParser
      */
     protected function stringToDuration($string): float
     {
-        return (new Duration($string))->seconds();
+        return new Duration($string)->seconds();
     }
 }

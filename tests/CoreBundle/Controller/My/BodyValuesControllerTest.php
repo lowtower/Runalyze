@@ -27,7 +27,7 @@ class BodyValuesControllerTest extends AbstractFixturesAwareWebTestCase
 
     protected function insertBodyValuesFor(Account $account): int
     {
-        $user = (new User())
+        $user = new User()
             ->setAccount($account)
             ->setCurrentTimestamp()
             ->setWeight(80.0);
@@ -67,7 +67,7 @@ class BodyValuesControllerTest extends AbstractFixturesAwareWebTestCase
         $client->request('POST', '/my/body-values/add', [
             'body_values' => [
                 '_token' => $token,
-                'time' => (new \DateTime())->format('d.m.Y'),
+                'time' => new \DateTime()->format('d.m.Y'),
                 'weight' => '',
                 'fat' => '20',
                 'water' => '55',
@@ -142,7 +142,7 @@ class BodyValuesControllerTest extends AbstractFixturesAwareWebTestCase
         $client->request('POST', '/my/body-values/' . $id . '/edit', [
             'body_values' => [
                 '_token' => $token,
-                'time' => (new \DateTime())->format('d.m.Y'),
+                'time' => new \DateTime()->format('d.m.Y'),
                 'weight' => '82.5',
                 'fat' => '18',
                 'water' => '58',

@@ -57,7 +57,7 @@ class LocalTime extends DateTime
             throw new InvalidArgumentException('Given timestamp must be numeric.');
         }
 
-        $correctedTimestamp = $timestampInServerTimezone + (new DateTime())->setTimestamp($timestampInServerTimezone)
+        $correctedTimestamp = $timestampInServerTimezone + new DateTime()->setTimestamp($timestampInServerTimezone)
             ->getOffset();
 
         return new self($correctedTimestamp);
@@ -203,7 +203,7 @@ class LocalTime extends DateTime
             return self::fromServerTime(time())->format($format);
         }
 
-        return (new self($timestamp))->format($format);
+        return new self($timestamp)->format($format);
     }
 
     /**

@@ -135,12 +135,12 @@ class DurationTest extends \PHPUnit\Framework\TestCase
 
     public function testCompareToReturnsEmptyStringWhenThisDurationIsZero(): void
     {
-        $this->assertSame('', (new Duration(0))->compareTo(new Duration(100)));
+        $this->assertSame('', new Duration(0)->compareTo(new Duration(100)));
     }
 
     public function testCompareToReturnsEmptyStringWhenOtherDurationIsZero(): void
     {
-        $this->assertSame('', (new Duration(100))->compareTo(new Duration(0)));
+        $this->assertSame('', new Duration(100)->compareTo(new Duration(0)));
     }
 
     #[DataProvider('provideCompareToCases')]
@@ -148,7 +148,7 @@ class DurationTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertSame(
             $expected,
-            (new Duration($thisSeconds))->compareTo(new Duration($otherSeconds), $invert, true)
+            new Duration($thisSeconds)->compareTo(new Duration($otherSeconds), $invert, true)
         );
     }
 
@@ -192,7 +192,7 @@ class DurationTest extends \PHPUnit\Framework\TestCase
     #[DataProvider('provideScalarInputTypes')]
     public function testConstructorAcceptsAllDocumentedScalarTypes(int|float|string $input, float $expectedSeconds): void
     {
-        $this->assertSame($expectedSeconds, (new Duration($input))->seconds());
+        $this->assertSame($expectedSeconds, new Duration($input)->seconds());
     }
 
     /**

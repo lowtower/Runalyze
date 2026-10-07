@@ -76,8 +76,8 @@ class SummaryTableMonths extends SummaryTable
 
             case self::MODE_ALL:
                 $this->Title = __('All months');
-                $this->TimeEnd = (new LocalTime())->yearEnd();
-                $this->TimeStart = (new LocalTime(START_TIME))->yearStart();
+                $this->TimeEnd = new LocalTime()->yearEnd();
+                $this->TimeStart = new LocalTime(START_TIME)->yearStart();
                 break;
 
             case self::MODE_YEAR:

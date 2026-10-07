@@ -16,7 +16,7 @@ class RunalyzePluginStat_WettkampfCharacterizationTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->plugin = (new \ReflectionClass(RunalyzePluginStat_Wettkampf::class))
+        $this->plugin = new \ReflectionClass(RunalyzePluginStat_Wettkampf::class)
             ->newInstanceWithoutConstructor();
     }
 
@@ -34,7 +34,7 @@ class RunalyzePluginStat_WettkampfCharacterizationTest extends TestCase
 
     public function testKnowsAgeGradeIsTrueWhenLookupIsSet(): void
     {
-        $lookup = (new \ReflectionClass(\Runalyze\AgeGrade\Lookup::class))
+        $lookup = new \ReflectionClass(\Runalyze\AgeGrade\Lookup::class)
             ->newInstanceWithoutConstructor();
         $this->setAgeGradeLookup($lookup);
 

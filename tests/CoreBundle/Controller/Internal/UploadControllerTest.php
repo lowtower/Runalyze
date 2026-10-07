@@ -77,7 +77,7 @@ class UploadControllerTest extends AbstractFixturesAwareWebTestCase
             $this->assertFileExists($targetPath);
             $this->assertSame('fake activity data', file_get_contents($targetPath));
         } finally {
-            (new Filesystem())->remove($targetPath);
+            new Filesystem()->remove($targetPath);
             if (file_exists($sourcePath)) {
                 unlink($sourcePath);
             }
@@ -100,7 +100,7 @@ class UploadControllerTest extends AbstractFixturesAwareWebTestCase
             $this->isSuccessful($this->Client->getResponse());
             $this->assertFileExists($targetPath);
         } finally {
-            (new Filesystem())->remove($targetPath);
+            new Filesystem()->remove($targetPath);
             if (file_exists($sourcePath)) {
                 unlink($sourcePath);
             }
@@ -199,7 +199,7 @@ class UploadControllerTest extends AbstractFixturesAwareWebTestCase
             $this->assertFileExists($targetPath);
             $this->assertSame('<tcx>first-chunk</tcx>', file_get_contents($targetPath));
         } finally {
-            (new Filesystem())->remove($targetPath);
+            new Filesystem()->remove($targetPath);
         }
     }
 
@@ -222,7 +222,7 @@ class UploadControllerTest extends AbstractFixturesAwareWebTestCase
 
             $this->assertSame('first-second', file_get_contents($targetPath));
         } finally {
-            (new Filesystem())->remove($targetPath);
+            new Filesystem()->remove($targetPath);
         }
     }
 

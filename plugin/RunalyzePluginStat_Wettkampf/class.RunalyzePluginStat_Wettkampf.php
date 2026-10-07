@@ -243,12 +243,12 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
 
         $SubLinks = [];
         foreach ($this->PBdistances as $km) {
-            $name = (new Distance($km))->stringAuto(true, 1);
+            $name = new Distance($km)->stringAuto(true, 1);
             $SubLinks[] = Ajax::flotChange($name, 'bestzeitenFlots', 'bestzeit' . ($km * 1000));
         }
 
         $Links = [[
-            'tag' => '<span class="link">' . (new Distance($display_km))->stringAuto(true, 1) . '</span>',
+            'tag' => '<span class="link">' . new Distance($display_km)->stringAuto(true, 1) . '</span>',
             'subs' => $SubLinks,
         ]];
 
@@ -333,7 +333,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
         PersonalBest::lookupDistances($kms, $this->sportid);
 
         foreach ($kms as $km) {
-            echo '<tr class="r"><td class="b">' . (new Distance($km))->stringAuto(true, 1) . '</td>';
+            echo '<tr class="r"><td class="b">' . new Distance($km)->stringAuto(true, 1) . '</td>';
 
             foreach ($Years as $key) {
                 $y = $year[$key];
@@ -357,7 +357,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
             echo '</tr>';
         }
 
-        $icon = (new Icon(Icon::INFO))->code();
+        $icon = new Icon(Icon::INFO)->code();
         $tooltip = new Tooltip(__('This includes races of all distances, not only those selected for yearly comparison.'));
         $tooltip->setPosition(Tooltip::POSITION_RIGHT);
         $tooltip->wrapAround($icon);
@@ -392,13 +392,13 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
                         <th colspan="2">' . __('Name') . '</th>
                         <th class="{sorter: \'distance\'}">' . __('Distance') . '</th>
                         <th class="{sorter: \'resulttime\'}">' . __('Time') . '</th>
-                        ' . ($this->knowsAgeGrade() ? '<th>' . Ajax::tooltip(__('Age grade') . (new \Runalyze\View\Icon(Runalyze\View\Icon::INFO))->code(), __('Your result in proportion to the world best performance in your age/gender.')) . '</th>' : '') . '
+                        ' . ($this->knowsAgeGrade() ? '<th>' . Ajax::tooltip(__('Age grade') . new \Runalyze\View\Icon(Runalyze\View\Icon::INFO)->code(), __('Your result in proportion to the world best performance in your age/gender.')) . '</th>' : '') . '
                         <th>' . __('Pace') . '</th>
-                        <th ' . (new Tooltip(__('Heart rate')))->attributes() . '>' . __('HR') . '</th>
+                        <th ' . new Tooltip(__('Heart rate'))->attributes() . '>' . __('HR') . '</th>
                         <th class="{sorter: \'temperature\'}">' . __('Weather') . '</th>
                         <th>' . __('Overall') . '</th>
-                        <th ' . (new Tooltip(__('Age group')))->attributes() . '>' . __('AG') . '</th>
-                        <th ' . (new Tooltip(__('male/female')))->attributes() . '>' . __('M/F') . '</th>
+                        <th ' . new Tooltip(__('Age group'))->attributes() . '>' . __('AG') . '</th>
+                        <th ' . new Tooltip(__('male/female'))->attributes() . '>' . __('M/F') . '</th>
                         <th class="{sorter: false}">&nbsp;</th>
                     </tr>
                 </thead>
@@ -489,12 +489,12 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
 
     private function getEditIconForActivity(int $id): string
     {
-        $SportIcon = (new Factory(SessionAccountHandler::getId()))->sport($this->sportid)
+        $SportIcon = new Factory(SessionAccountHandler::getId())->sport($this->sportid)
             ->icon()
             ->code();
-        $url = (new Linker(new Runalyze\Model\Activity\Entity([
+        $url = new Linker(new Runalyze\Model\Activity\Entity([
             'id' => $id,
-        ])))->editUrl();
+        ]))->editUrl();
         $code = Ajax::window('<a href="' . $url . '">' . $SportIcon . '</a>', 'small');
 
         $Tooltip = new Tooltip(__('Edit the activity'));
@@ -505,7 +505,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
 
     private function getEditIconForRaceResult(int $id): string
     {
-        $code = (new Icon('far fa-pencil-alt'))->code();
+        $code = new Icon('far fa-pencil-alt')->code();
 
         $Tooltip = new Tooltip(__('Edit the race result details'));
         $Tooltip->setPosition(Tooltip::POSITION_RIGHT);

@@ -21,13 +21,13 @@ $Submenu = '';
 foreach ($distances as $km) {
     $km = (float) trim($km);
     $link = 'plugin/RunalyzePluginPanel_Prognose/window.plot.php?distance=' . $km;
-    $Submenu .= '<li' . ($km == $distance ? ' class="active"' : '') . '>' . Ajax::window('<a href="' . $link . '">' . ((new Distance($km))->stringAuto()) . '</a>') . '</li>';
+    $Submenu .= '<li' . ($km == $distance ? ' class="active"' : '') . '>' . Ajax::window('<a href="' . $link . '">' . (new Distance($km)->stringAuto()) . '</a>') . '</li>';
 }
 ?>
 <div class="panel-heading">
 	<div class="panel-menu">
 		<ul>
-			<li class="with-submenu"><span class="link"><?php echo (new Distance($distance))->stringAuto(); ?></span><ul class="submenu"><?php echo $Submenu; ?></ul></li>
+			<li class="with-submenu"><span class="link"><?php echo new Distance($distance)->stringAuto(); ?></span><ul class="submenu"><?php echo $Submenu; ?></ul></li>
 		</ul>
 	</div>
 	<h1><?php _e('Prognosis calculator: form trend'); ?></h1>

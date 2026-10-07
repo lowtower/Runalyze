@@ -150,7 +150,7 @@ if (time() != START_TIME) {
 
         foreach ($ResultsData as $dat) {
             if (! isset($WKplugin) || ! $WKplugin->isFunCompetition($dat['id'])) {
-                $Results[(new LocalTime($dat['time']))->toServerTimestamp() . '000'] = $dat['official_time'] * 1000;
+                $Results[new LocalTime($dat['time'])->toServerTimestamp() . '000'] = $dat['official_time'] * 1000;
             }
         }
     } else {

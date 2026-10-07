@@ -239,7 +239,7 @@ class SettingsController extends AbstractController
         }
 
         foreach ($missingKeyObjects as $key => $missingDataset) {
-            $dataset[] = (new Dataset())->setActive(false)->setKeyId($key)->setAccount($account);
+            $dataset[] = new Dataset()->setActive(false)->setKeyId($key)->setAccount($account);
         }
 
         $form = $this->createForm(DatasetCollectionType::class, [
@@ -253,7 +253,7 @@ class SettingsController extends AbstractController
             'form' => $form->createView(),
             'datasetKeys' => new Keys(),
             'missingKeys' => $missingKeyObjects,
-            'defaultConfiguration' => (new DefaultConfiguration())->data(),
+            'defaultConfiguration' => new DefaultConfiguration()->data(),
             'numberOfExistingKeys' => $numberOfExistingKeys,
             'context' => new Context($this->getExampleTraining($account), $account->getId()),
         ]);

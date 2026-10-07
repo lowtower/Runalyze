@@ -35,7 +35,7 @@ class RouteRepository extends EntityRepository
 
         if ($result !== null && $result['startpoint'] !== null) {
             /** @var Geohash $geohashObj */
-            $geohashObj = (new Geohash())->decode($result['startpoint']);
+            $geohashObj = new Geohash()->decode($result['startpoint']);
             return $geohashObj->getCoordinate();
         }
 

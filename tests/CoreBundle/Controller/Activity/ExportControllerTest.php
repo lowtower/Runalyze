@@ -25,7 +25,7 @@ class ExportControllerTest extends AbstractFixturesAwareWebTestCase
 
     private function registerUniqueAccount(): Account
     {
-        $account = (new Account())
+        $account = new Account()
             ->setUsername('export_test_' . uniqid('', true))
             ->setMail('export_test_' . uniqid('', true) . '@example.test');
 

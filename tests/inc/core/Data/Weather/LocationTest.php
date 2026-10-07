@@ -47,10 +47,10 @@ class LocationTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->object->hasDateTime());
         $this->assertFalse($this->object->isOlderThan());
 
-        $this->object->setDateTime((new \DateTime())->setTimestamp(time() - 2 * 86400));
+        $this->object->setDateTime(new \DateTime()->setTimestamp(time() - 2 * 86400));
         $this->assertTrue($this->object->isOlderThan());
 
-        $this->object->setDateTime((new \DateTime())->setTimestamp(time() - 7100));
+        $this->object->setDateTime(new \DateTime()->setTimestamp(time() - 7100));
         $this->assertFalse($this->object->isOlderThan(7200));
     }
 }

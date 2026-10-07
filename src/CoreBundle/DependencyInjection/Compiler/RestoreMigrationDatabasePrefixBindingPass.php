@@ -33,18 +33,12 @@ final class RestoreMigrationDatabasePrefixBindingPass implements CompilerPassInt
 
     private function constructorDeclaresDatabasePrefix(string $class): bool
     {
-        $constructor = (new ReflectionClass($class))->getConstructor();
+        $constructor = new ReflectionClass($class)->getConstructor();
 
         if ($constructor === null) {
             return false;
         }
 
-        foreach ($constructor->getParameters() as $parameter) {
-            if ($parameter->getName() === 'DatabasePrefix') {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($constructor->getParameters(), fn (\ReflectionParameter $parameter): bool => $parameter->getName() === 'DatabasePrefix');
     }
 }

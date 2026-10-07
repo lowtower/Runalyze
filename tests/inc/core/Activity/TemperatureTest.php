@@ -24,8 +24,8 @@ class TemperatureTest extends \PHPUnit\Framework\TestCase
 
     public function testConstructor(): void
     {
-        $this->assertEquals('15.0', (new Temperature(15, new TemperatureUnit(TemperatureUnit::CELSIUS)))->string(false, 1));
-        $this->assertEquals('59.0', (new Temperature(15, new TemperatureUnit(TemperatureUnit::FAHRENHEIT)))->string(false, 1));
+        $this->assertEquals('15.0', new Temperature(15, new TemperatureUnit(TemperatureUnit::CELSIUS))->string(false, 1));
+        $this->assertEquals('59.0', new Temperature(15, new TemperatureUnit(TemperatureUnit::FAHRENHEIT))->string(false, 1));
     }
 
     public function testConstructorAlwaysInterpretsInputAsCelsiusRegardlessOfPreferredUnit(): void
@@ -37,8 +37,8 @@ class TemperatureTest extends \PHPUnit\Framework\TestCase
 
     public function testSettingInPreferredUnit(): void
     {
-        $this->assertEqualsWithDelta(15, (new Temperature(0, new TemperatureUnit(TemperatureUnit::CELSIUS)))->setInPreferredUnit(15)->celsius(), 0.1);
-        $this->assertEqualsWithDelta(15.00, (new Temperature(0, new TemperatureUnit(TemperatureUnit::FAHRENHEIT)))->setInPreferredUnit(59)->celsius(), 0.1);
+        $this->assertEqualsWithDelta(15, new Temperature(0, new TemperatureUnit(TemperatureUnit::CELSIUS))->setInPreferredUnit(15)->celsius(), 0.1);
+        $this->assertEqualsWithDelta(15.00, new Temperature(0, new TemperatureUnit(TemperatureUnit::FAHRENHEIT))->setInPreferredUnit(59)->celsius(), 0.1);
     }
 
     public function testFromCelsius(): void

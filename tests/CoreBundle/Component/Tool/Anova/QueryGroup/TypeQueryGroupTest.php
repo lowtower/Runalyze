@@ -26,12 +26,12 @@ class TypeQueryGroupTest extends TestCase
             ->with('tr.type', 'ty')
             ->willReturn($queryBuilder);
 
-        (new TypeQueryGroup())->addSelectionToQuery($queryBuilder, 'tr', 't', 'sp');
+        new TypeQueryGroup()->addSelectionToQuery($queryBuilder, 'tr', 't', 'sp');
     }
 
     public function testShowEmptyGroupsReturnsTrue(): void
     {
-        $this->assertTrue((new TypeQueryGroup())->showEmptyGroups());
+        $this->assertTrue(new TypeQueryGroup()->showEmptyGroups());
     }
 
     public function testLoadAllGroupsReturnsOnlyTypesBelongingToSelectedSports(): void
@@ -94,7 +94,7 @@ class TypeQueryGroupTest extends TestCase
         $anovaData->method('getSport')
             ->willReturn([$selectedRunningSport]);
 
-        $result = (new TypeQueryGroup())->loadAllGroups($entityManager, $account, $anovaData);
+        $result = new TypeQueryGroup()->loadAllGroups($entityManager, $account, $anovaData);
 
         $this->assertSame([
             10 => 'Easy Run',
@@ -130,7 +130,7 @@ class TypeQueryGroupTest extends TestCase
         $anovaData->method('getSport')
             ->willReturn([$selectedRunningSport]);
 
-        $result = (new TypeQueryGroup())->loadAllGroups($entityManager, $account, $anovaData);
+        $result = new TypeQueryGroup()->loadAllGroups($entityManager, $account, $anovaData);
 
         $this->assertSame([], $result);
     }

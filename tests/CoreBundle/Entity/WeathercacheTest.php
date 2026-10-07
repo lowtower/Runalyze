@@ -133,7 +133,7 @@ class WeathercacheTest extends TestCase
     {
         $location = new Location();
         $location->setPosition(52.52, 13.41);
-        $location->setDateTime((new \DateTime())->setTimestamp(1234567890));
+        $location->setDateTime(new \DateTime()->setTimestamp(1234567890));
 
         $this->weathercache->setLocation($location);
 

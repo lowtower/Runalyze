@@ -19,13 +19,13 @@ class NotificationTest extends \PHPUnit\Framework\TestCase
     public function testSetLifetime(): void
     {
         $timezone = new DateTimeZone('Europe/Berlin');
-        $createdAt = (new DateTime('2026-06-15 10:00:00', $timezone))->getTimestamp();
+        $createdAt = new DateTime('2026-06-15 10:00:00', $timezone)->getTimestamp();
 
         $this->Notification->setCreatedAt($createdAt);
         $this->Notification->setLifetime(2);
 
-        $created = (new DateTime('@' . $createdAt))->setTimezone($timezone);
-        $expiration = (new DateTime('@' . $this->Notification->getExpirationAt()))->setTimezone($timezone);
+        $created = new DateTime('@' . $createdAt)->setTimezone($timezone);
+        $expiration = new DateTime('@' . $this->Notification->getExpirationAt())->setTimezone($timezone);
 
         $this->assertEquals('+2 days', $created->diff($expiration)->format('%R%a days'));
         // Uhrzeit muss trotz evtl. Zeitumstellung erhalten bleiben
@@ -36,13 +36,13 @@ class NotificationTest extends \PHPUnit\Framework\TestCase
     public function testSetLifetimeAcrossDstTransition(string $createdAtString): void
     {
         $timezone = new DateTimeZone('Europe/Berlin');
-        $createdAt = (new DateTime($createdAtString, $timezone))->getTimestamp();
+        $createdAt = new DateTime($createdAtString, $timezone)->getTimestamp();
 
         $this->Notification->setCreatedAt($createdAt);
         $this->Notification->setLifetime(2);
 
-        $created = (new DateTime('@' . $createdAt))->setTimezone($timezone);
-        $expiration = (new DateTime('@' . $this->Notification->getExpirationAt()))->setTimezone($timezone);
+        $created = new DateTime('@' . $createdAt)->setTimezone($timezone);
+        $expiration = new DateTime('@' . $this->Notification->getExpirationAt())->setTimezone($timezone);
 
         $this->assertEquals('+2 days', $created->diff($expiration)->format('%R%a days'));
 

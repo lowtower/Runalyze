@@ -25,7 +25,7 @@ class ActivityTypeTest extends AbstractFixturesAwareWebTestCase
 
     private function persistTag(string $name): Tag
     {
-        $tag = (new Tag())
+        $tag = new Tag()
             ->setAccount($this->Account)
             ->setTag($name);
 
@@ -41,7 +41,7 @@ class ActivityTypeTest extends AbstractFixturesAwareWebTestCase
 
     private function createTransientActivity(): Training
     {
-        return (new Training())
+        return new Training()
             ->setAccount($this->Account)
             ->setSport($this->getDefaultAccountsRunningSport())
             ->setTime(1700000000);

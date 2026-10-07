@@ -24,8 +24,8 @@ class SummaryTableAllYears extends SummaryTable
     {
         $this->Title = __('All years');
         $this->Timerange = 366 * DAY_IN_S;
-        $this->TimeEnd = (new LocalTime())->yearEnd();
-        $this->TimeStart = (new LocalTime(START_TIME))->yearStart();
+        $this->TimeEnd = new LocalTime()->yearEnd();
+        $this->TimeStart = new LocalTime(START_TIME)->yearStart();
         $this->AdditionalColumns = 1 * ($this->Sportid === Configuration::General()->runningSport());
     }
 

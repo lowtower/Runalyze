@@ -43,9 +43,9 @@ class RunalyzePauseArrayTest extends \PHPUnit\Framework\TestCase
     {
         $collection = new PauseCollection([
             new Pause(123, 50),
-            (new Pause(234, 10))->setHeartRateDetails(160, 140),
-            (new Pause(345, 120))->setRecoveryDetails(120, 90),
-            (new Pause(456, 63))->setPerformanceCondition(-4),
+            new Pause(234, 10)->setHeartRateDetails(160, 140),
+            new Pause(345, 120)->setRecoveryDetails(120, 90),
+            new Pause(456, 63)->setPerformanceCondition(-4),
         ]);
 
         $newCollection = $this->Type->convertToPHPValue($this->Type->convertToDatabaseValue($collection, $this->PlatformMock), $this->PlatformMock);

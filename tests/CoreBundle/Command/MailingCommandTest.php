@@ -46,7 +46,7 @@ class MailingCommandTest extends TestCase
 
     protected function tearDown(): void
     {
-        (new Filesystem())->remove($this->dataDirectory);
+        new Filesystem()->remove($this->dataDirectory);
     }
 
     private function createCommand(?AccountMailer $mailer = null, ?AccountRepository $accountRepository = null): TestableMailingCommand

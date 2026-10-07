@@ -95,7 +95,7 @@ class TagsControllerTest extends AbstractFixturesAwareWebTestCase
 
     private function persistTagForAccount(Account $account, string $name = 'test-tag'): Tag
     {
-        $tag = (new Tag())
+        $tag = new Tag()
             ->setAccount($account)
             ->setTag($name);
 

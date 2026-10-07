@@ -22,7 +22,7 @@ class RunalyzePluginStat_HoehenmeterCharacterizationTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->plugin = (new \ReflectionClass(RunalyzePluginStat_Hoehenmeter::class))
+        $this->plugin = new \ReflectionClass(RunalyzePluginStat_Hoehenmeter::class)
             ->newInstanceWithoutConstructor();
 
         $this->originalDecimalSeparator = Distance::$DecimalSeparator;

@@ -334,13 +334,13 @@ class Calculator
     protected function addVO2maxToDataFrom(Lap $Lap, array &$AdditionalData)
     {
         if (Configuration::VO2max()->useElevationCorrection() && $Lap->hasElevation()) {
-            $distance = (new Calculation\Elevation\DistanceModifier(
+            $distance = new Calculation\Elevation\DistanceModifier(
                 $Lap->distance()
                     ->kilometer(),
                 $Lap->elevationUp(),
                 $Lap->elevationDown(),
                 Configuration::VO2max()
-            ))->correctedDistance();
+            )->correctedDistance();
         } else {
             $distance = $Lap->distance()
                 ->kilometer();

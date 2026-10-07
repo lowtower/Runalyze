@@ -27,7 +27,7 @@ class ActivityDataMergerTest extends \PHPUnit\Framework\TestCase
     {
         $this->FirstData->Duration = 321;
 
-        (new ActivityDataMerger($this->FirstData, $this->SecondData))->merge();
+        new ActivityDataMerger($this->FirstData, $this->SecondData)->merge();
 
         $this->assertEquals(321, $this->FirstData->Duration);
     }
@@ -36,7 +36,7 @@ class ActivityDataMergerTest extends \PHPUnit\Framework\TestCase
     {
         $this->FirstData->Duration = 321;
 
-        (new ActivityDataMerger($this->FirstData, $this->SecondData))->merge();
+        new ActivityDataMerger($this->FirstData, $this->SecondData)->merge();
 
         $this->assertEquals(321, $this->FirstData->Duration);
     }

@@ -43,7 +43,7 @@ class AbstractDecimalUnitTest extends TestCase
         $Unit = $this->createUnitWithDividend(1.0);
 
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('factorForUnit() must not be used for units in decimal format');
+        $this->expectExceptionMessageIsOrContains('factorForUnit() must not be used for units in decimal format');
 
         $Unit->factorForUnit();
     }

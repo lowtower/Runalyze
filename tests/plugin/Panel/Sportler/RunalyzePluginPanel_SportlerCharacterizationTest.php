@@ -20,7 +20,7 @@ class RunalyzePluginPanel_SportlerCharacterizationTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->plugin = (new \ReflectionClass(RunalyzePluginPanel_Sportler::class))
+        $this->plugin = new \ReflectionClass(RunalyzePluginPanel_Sportler::class)
             ->newInstanceWithoutConstructor();
 
         $this->originalWeightDecimals = Weight::$DefaultDecimals;

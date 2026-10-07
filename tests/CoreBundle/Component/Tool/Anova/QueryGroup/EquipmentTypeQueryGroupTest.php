@@ -63,7 +63,7 @@ class EquipmentTypeQueryGroupTest extends TestCase
             ->method('distinct')
             ->willReturn($queryBuilder);
 
-        (new EquipmentTypeQueryGroup(5))->addSelectionToQuery($queryBuilder, 'tr', 'et', 'sp');
+        new EquipmentTypeQueryGroup(5)->addSelectionToQuery($queryBuilder, 'tr', 'et', 'sp');
     }
 
     public function testAddSelectionToQuerySelectAliasIsIndependentOfMainAlias(): void
@@ -87,12 +87,12 @@ class EquipmentTypeQueryGroupTest extends TestCase
             ->method('leftJoin')
             ->with('training.equipment', 'eq');
 
-        (new EquipmentTypeQueryGroup(5))->addSelectionToQuery($queryBuilder, 'training', 'equipment_col', 'sp');
+        new EquipmentTypeQueryGroup(5)->addSelectionToQuery($queryBuilder, 'training', 'equipment_col', 'sp');
     }
 
     public function testShowEmptyGroupsReturnsFalse(): void
     {
-        $this->assertFalse((new EquipmentTypeQueryGroup(1))->showEmptyGroups());
+        $this->assertFalse(new EquipmentTypeQueryGroup(1)->showEmptyGroups());
     }
 
     public function testLoadAllGroupsReturnsIdToNameMapOfMatchingEquipment(): void
@@ -118,12 +118,14 @@ class EquipmentTypeQueryGroupTest extends TestCase
             ->willReturn([$shoe1, $shoe2]);
 
         $entityManager = $this->createMock(EntityManager::class);
-        $entityManager->method('getRepository')
-            ->with(Equipment::class)->willReturn($equipmentRepository);
+        $entityManager->expects($this->once())
+            ->method('getRepository')
+            ->with(Equipment::class)
+            ->willReturn($equipmentRepository);
 
         $anovaData = $this->createStub(AnovaData::class);
 
-        $result = (new EquipmentTypeQueryGroup(5))->loadAllGroups($entityManager, $account, $anovaData);
+        $result = new EquipmentTypeQueryGroup(5)->loadAllGroups($entityManager, $account, $anovaData);
 
         $this->assertSame([
             101 => 'Trail Shoes',
@@ -145,7 +147,7 @@ class EquipmentTypeQueryGroupTest extends TestCase
 
         $anovaData = $this->createStub(AnovaData::class);
 
-        $result = (new EquipmentTypeQueryGroup(5))->loadAllGroups($entityManager, $account, $anovaData);
+        $result = new EquipmentTypeQueryGroup(5)->loadAllGroups($entityManager, $account, $anovaData);
 
         $this->assertSame([], $result);
     }

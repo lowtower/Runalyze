@@ -98,7 +98,7 @@ class MultipleTimeSeriesTest extends TestCase
         $object = new MultipleTimeSeries();
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Time array must not be empty.');
+        $this->expectExceptionMessageIsOrContains('Time array must not be empty.');
 
         $object->generateDistributionsFor([
             'foo' => [10, 20, 15],
@@ -114,7 +114,7 @@ class MultipleTimeSeriesTest extends TestCase
         ], [1, 2, 3]);
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Unknown distribution key "bar"');
+        $this->expectExceptionMessageIsOrContains('Unknown distribution key "bar"');
 
         $object->getDistribution('bar');
     }
@@ -135,7 +135,7 @@ class MultipleTimeSeriesTest extends TestCase
         $object = new MultipleTimeSeries();
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Time values must be ordered ascending.');
+        $this->expectExceptionMessageIsOrContains('Time values must be ordered ascending.');
 
         $object->generateDistributionsFor([
             'foo' => [10, 20, 30],

@@ -70,7 +70,7 @@ class Timezone implements InterfaceChoosable
         $timezone_offsets = [];
         foreach ($timezones as $timezone) {
             try {
-                $timezone_offsets[(new DateTimeZone($timezone))->getOffset($currentTime)][] = $timezone;
+                $timezone_offsets[new DateTimeZone($timezone)->getOffset($currentTime)][] = $timezone;
             } catch (\Exception) {
                 // Invalid time zone
             }
@@ -96,7 +96,7 @@ class Timezone implements InterfaceChoosable
 
                 $prettyOffset = 'UTC' . $offsetPrefix . $offsetFormatted;
 
-                $currentTime = (new DateTime('', new DateTimeZone($timezone)))->format('g:i A');
+                $currentTime = new DateTime('', new DateTimeZone($timezone))->format('g:i A');
                 $timezoneId = \Runalyze\Parameter\Application\Timezone::{strtoupper($timezoneEnum[$timezone])};
                 $timezoneList[$timezoneId] = '(' . $prettyOffset . ') ' . str_replace('_', '', $timezone) . ' - ' . $currentTime;
             }

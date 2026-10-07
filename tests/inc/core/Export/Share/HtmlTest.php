@@ -11,17 +11,17 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
 {
     public function testThatItsAlwaysPossible(): void
     {
-        $this->assertTrue((new Html(FakeContext::onlyWithActivity(
+        $this->assertTrue(new Html(FakeContext::onlyWithActivity(
             new Activity\Entity([
                 Activity\Entity::IS_PUBLIC => false,
             ])
-        )))->isPossible());
+        ))->isPossible());
 
-        $this->assertTrue((new Html(FakeContext::onlyWithActivity(
+        $this->assertTrue(new Html(FakeContext::onlyWithActivity(
             new Activity\Entity([
                 Activity\Entity::IS_PUBLIC => true,
             ])
-        )))->isPossible());
+        ))->isPossible());
     }
 
     public function testThatCodeCanBeCreated(): void

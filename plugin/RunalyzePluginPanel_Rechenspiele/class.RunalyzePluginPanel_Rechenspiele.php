@@ -419,7 +419,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel
                     $Table .= '<tr>';
                 }
 
-                $Tooltip->setText((new LocalTime($Data['time']))->format('d.m.Y') . ': ' . Distance::format($Data['distance']));
+                $Tooltip->setText(new LocalTime($Data['time'])->format('d.m.Y') . ': ' . Distance::format($Data['distance']));
                 $EffectiveVO2max->setValue($Data['vo2max']);
 
                 $Table .= '<td ' . $Tooltip->attributes() . '>' . Ajax::trainingLink($Data['id'], $EffectiveVO2max->value()) . '</td>';
@@ -503,7 +503,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel
         foreach ($Longjogs as $Longjog) {
             if ($Longjog['points'] >= 0.2) {
                 $LongjogTable .= '<tr>
-							<td>' . Ajax::trainingLink($Longjog['id'], (new LocalTime($Longjog['time']))->format('d.m.Y')) . '</td>
+							<td>' . Ajax::trainingLink($Longjog['id'], new LocalTime($Longjog['time'])->format('d.m.Y')) . '</td>
 							<td>' . Distance::format($Longjog['distance']) . '</td>
 							<td>' . round($Longjog['points'], 1) . ' points</td>
 						</tr>';

@@ -150,13 +150,7 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
             return false;
         }
 
-        foreach ($this->getElements() as $key => $round) {
-            if (! $round->isEqualTo($other->offsetGet($key))) {
-                return false;
-            }
-        }
-
-        return true;
+        return array_all($this->getElements(), fn (\Runalyze\Parser\Activity\Common\Data\Round\Round $round, $key): bool => $round->isEqualTo($other->offsetGet($key)));
     }
 
     /**

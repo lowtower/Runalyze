@@ -33,7 +33,7 @@ class UserRepositoryTest extends AbstractRepositoryTestCase
 
     protected function insertDataForDefaultAccount(int $heartRateMax, int $heartRateRest, ?int $timestamp = null): User
     {
-        $user = (new User())
+        $user = new User()
             ->setPulseMax($heartRateMax)
             ->setPulseRest($heartRateRest)
             ->setTime($timestamp ?: time())

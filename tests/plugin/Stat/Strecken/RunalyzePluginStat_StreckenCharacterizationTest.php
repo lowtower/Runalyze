@@ -15,7 +15,7 @@ class RunalyzePluginStat_StreckenCharacterizationTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->plugin = (new \ReflectionClass(RunalyzePluginStat_Strecken::class))
+        $this->plugin = new \ReflectionClass(RunalyzePluginStat_Strecken::class)
             ->newInstanceWithoutConstructor();
     }
 

@@ -206,7 +206,7 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
         ?float $distance = null,
         ?Sport $sport = null
     ): Training {
-        return (new Training())
+        return new Training()
             ->setS($duration)
             ->setTime($timestamp ?: time())
             ->setDistance($distance)

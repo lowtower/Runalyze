@@ -93,7 +93,7 @@ class Monotony
 
     public function valueAsPercentage(): float
     {
-        return (new Scale\TwoPartPercental(self::MIN, self::CRITICAL, self::MAX))->transform($this->value());
+        return new Scale\TwoPartPercental(self::MIN, self::CRITICAL, self::MAX)->transform($this->value());
     }
 
     /**
@@ -105,6 +105,6 @@ class Monotony
             throw new \RuntimeException('Maximum per day needs to be set to get a percentage.');
         }
 
-        return (new Scale\Percental(0.0, $this->MaximumPerDay * static::DAYS))->transform($this->trainingStrain());
+        return new Scale\Percental(0.0, $this->MaximumPerDay * static::DAYS)->transform($this->trainingStrain());
     }
 }

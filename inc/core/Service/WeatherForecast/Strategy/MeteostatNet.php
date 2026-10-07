@@ -113,7 +113,7 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface, LastExcep
         if (isset($result['coco'])) {
             $this->logger->debug(sprintf('meteostat.net weather condition %s.', $result['coco']));
 
-            return (new MeteostatNetMapping())->toInternal($result['coco']);
+            return new MeteostatNetMapping()->toInternal($result['coco']);
         }
 
         return WeatherConditionProfile::UNKNOWN;

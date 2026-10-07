@@ -85,7 +85,7 @@ class Linker
     public function weekLink(string $name = ''): string
     {
         if ($name === '') {
-            $name = (new LocalTime($this->Activity->timestamp()))->format('d.m.Y');
+            $name = new LocalTime($this->Activity->timestamp())->format('d.m.Y');
         }
 
         return DataBrowserLinker::weekLink($name, $this->Activity->timestamp());

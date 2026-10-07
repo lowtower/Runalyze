@@ -29,11 +29,11 @@ class RaceResultControllerTest extends AbstractFixturesAwareWebTestCase
 
     protected function insertActivityFor(Account $account): Training
     {
-        $sport = (new Sport())
+        $sport = new Sport()
             ->setName('Test Sport')
             ->setAccount($account);
 
-        $activity = (new Training())
+        $activity = new Training()
             ->setSport($sport)
             ->setTime(time())
             ->setS(3600.0)
@@ -48,7 +48,7 @@ class RaceResultControllerTest extends AbstractFixturesAwareWebTestCase
 
     protected function insertRaceResultFor(Training $activity, Account $account): Raceresult
     {
-        $raceResult = (new Raceresult())
+        $raceResult = new Raceresult()
             ->setAccount($account)
             ->setActivity($activity)
             ->setOfficialTime(3600.0);

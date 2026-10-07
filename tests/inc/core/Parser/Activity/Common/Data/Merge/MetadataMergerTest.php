@@ -28,7 +28,7 @@ class MetadataMergerTest extends \PHPUnit\Framework\TestCase
         $this->FirstMetadata->setTimestamp(123456789);
         $this->SecondMetadata->setTimestamp(987654321, 120);
 
-        (new MetadataMerger($this->FirstMetadata, $this->SecondMetadata))->merge();
+        new MetadataMerger($this->FirstMetadata, $this->SecondMetadata)->merge();
 
         $this->assertEquals(123456789, $this->FirstMetadata->getTimestamp());
     }
@@ -38,7 +38,7 @@ class MetadataMergerTest extends \PHPUnit\Framework\TestCase
         $this->FirstMetadata->setCreator('foo');
         $this->SecondMetadata->setCreator('', 'bar');
 
-        (new MetadataMerger($this->FirstMetadata, $this->SecondMetadata))->merge();
+        new MetadataMerger($this->FirstMetadata, $this->SecondMetadata)->merge();
 
         $this->assertEquals('foo', $this->FirstMetadata->getCreator());
         $this->assertEquals('bar', $this->FirstMetadata->getCreatorDetails());
@@ -49,7 +49,7 @@ class MetadataMergerTest extends \PHPUnit\Framework\TestCase
         $this->FirstMetadata->addEquipment('Foo');
         $this->SecondMetadata->addEquipment('Bar');
 
-        (new MetadataMerger($this->FirstMetadata, $this->SecondMetadata))->merge();
+        new MetadataMerger($this->FirstMetadata, $this->SecondMetadata)->merge();
 
         $this->assertEquals(['Foo', 'Bar'], $this->FirstMetadata->getEquipmentNames());
     }

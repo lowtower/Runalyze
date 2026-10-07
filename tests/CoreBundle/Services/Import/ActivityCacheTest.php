@@ -32,14 +32,14 @@ class ActivityCacheTest extends TestCase
 
     public function testGetWithNullHashReturnsTheGivenMergeTargetUnchanged(): void
     {
-        $activityToMerge = (new Training())->setDistance(5.0);
+        $activityToMerge = new Training()->setDistance(5.0);
 
         $this->assertSame($activityToMerge, $this->Cache->get(null, $activityToMerge));
     }
 
     public function testGetWithEmptyStringHashReturnsTheGivenMergeTargetUnchanged(): void
     {
-        $activityToMerge = (new Training())->setDistance(5.0);
+        $activityToMerge = new Training()->setDistance(5.0);
 
         $this->assertSame($activityToMerge, $this->Cache->get('', $activityToMerge));
     }
@@ -51,7 +51,7 @@ class ActivityCacheTest extends TestCase
 
     public function testGetWithUnknownHashFallsBackToTheGivenMergeTarget(): void
     {
-        $activityToMerge = (new Training())->setDistance(5.0);
+        $activityToMerge = new Training()->setDistance(5.0);
 
         $this->assertSame($activityToMerge, $this->Cache->get('unknown-hash', $activityToMerge));
     }
@@ -100,14 +100,14 @@ class ActivityCacheTest extends TestCase
         $activityToCache = new Training();
         $activityToCache->setDistance(10.0);
         $activityToCache->setElapsedTime(3625);
-        $activityToCache->setAccount((new Account())->setName('tester'));
-        $activityToCache->setRoute((new Route())->setDistance(10.0));
-        $activityToCache->setTrackdata((new Trackdata())->setDistance([0.0, 5.0, 10.0]));
-        $activityToCache->setSwimdata((new Swimdata())->setPoolLength(5000));
-        $activityToCache->setHrv((new Hrv())->setData([820, 800, 850]));
-        $activityToCache->setRaceresult((new Raceresult())->setName('Foobar event'));
+        $activityToCache->setAccount(new Account()->setName('tester'));
+        $activityToCache->setRoute(new Route()->setDistance(10.0));
+        $activityToCache->setTrackdata(new Trackdata()->setDistance([0.0, 5.0, 10.0]));
+        $activityToCache->setSwimdata(new Swimdata()->setPoolLength(5000));
+        $activityToCache->setHrv(new Hrv()->setData([820, 800, 850]));
+        $activityToCache->setRaceresult(new Raceresult()->setName('Foobar event'));
 
-        $mergerAccount = (new Account())->setName('merger');
+        $mergerAccount = new Account()->setName('merger');
         $activityToMerge = new Training();
         $activityToMerge->setAccount($mergerAccount);
         $activityToMerge->setDistance(12.3);
@@ -133,11 +133,11 @@ class ActivityCacheTest extends TestCase
 
     public function testMergeTransfersPowerWhenCachedActivityHasPowerCalculatedFlagSet(): void
     {
-        $activityToCache = (new Training())
+        $activityToCache = new Training()
             ->setPower(250)
             ->setPowerCalculated(true);
 
-        $activityToMerge = (new Training())->setPower(999);
+        $activityToMerge = new Training()->setPower(999);
 
         $result = $this->Cache->get($this->Cache->save($activityToCache), $activityToMerge);
 
@@ -146,10 +146,10 @@ class ActivityCacheTest extends TestCase
 
     public function testMergeDoesNotOverwritePowerWhenCachedActivityHasNoPowerCalculatedFlag(): void
     {
-        $activityToCache = (new Training())->setPower(250);
+        $activityToCache = new Training()->setPower(250);
         $this->assertNull($activityToCache->isPowerCalculated());
 
-        $activityToMerge = (new Training())->setPower(999);
+        $activityToMerge = new Training()->setPower(999);
 
         $result = $this->Cache->get($this->Cache->save($activityToCache), $activityToMerge);
 

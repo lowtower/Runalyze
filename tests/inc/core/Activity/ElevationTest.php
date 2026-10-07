@@ -13,21 +13,21 @@ class ElevationTest extends \PHPUnit\Framework\TestCase
 {
     public function testConstructor(): void
     {
-        $this->assertEquals('100', (new Elevation(100, new DistanceUnitSystem(DistanceUnitSystem::METRIC)))->string(false));
-        $this->assertEquals('328', (new Elevation(100, new DistanceUnitSystem(DistanceUnitSystem::IMPERIAL)))->string(false));
+        $this->assertEquals('100', new Elevation(100, new DistanceUnitSystem(DistanceUnitSystem::METRIC))->string(false));
+        $this->assertEquals('328', new Elevation(100, new DistanceUnitSystem(DistanceUnitSystem::IMPERIAL))->string(false));
     }
 
     public function testConstructorFallsBackToConfiguredUnitSystemWhenNoneGiven(): void
     {
         Configuration::General()->distanceUnitSystem()->set(DistanceUnitSystem::METRIC);
 
-        $this->assertSame(DistanceUnitSystem::METER, (new Elevation(100))->unit());
+        $this->assertSame(DistanceUnitSystem::METER, new Elevation(100)->unit());
     }
 
     public function testSettingInPreferredUnit(): void
     {
-        $this->assertSame(100, (new Elevation(0, new DistanceUnitSystem(DistanceUnitSystem::METRIC)))->setInPreferredUnit(100)->meter());
-        $this->assertSame(30, (new Elevation(0, new DistanceUnitSystem(DistanceUnitSystem::IMPERIAL)))->setInPreferredUnit(100)->meter());
+        $this->assertSame(100, new Elevation(0, new DistanceUnitSystem(DistanceUnitSystem::METRIC))->setInPreferredUnit(100)->meter());
+        $this->assertSame(30, new Elevation(0, new DistanceUnitSystem(DistanceUnitSystem::IMPERIAL))->setInPreferredUnit(100)->meter());
     }
 
     public function testFromMeter(): void

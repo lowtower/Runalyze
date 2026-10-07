@@ -56,7 +56,7 @@ class LapsManual extends Laps
     {
         foreach ($splits->asArray() as $split) {
             if (($showInactive || $split->isActive()) && $split->distance() > 0) {
-                $this->Labels[] = round((new Distance($split->distance()))->valueInPreferredUnit(), 2);
+                $this->Labels[] = round(new Distance($split->distance())->valueInPreferredUnit(), 2);
                 $this->Data[] = $split->time() / $split->distance();
             }
         }

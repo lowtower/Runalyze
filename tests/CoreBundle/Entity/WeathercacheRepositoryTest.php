@@ -24,7 +24,7 @@ class WeathercacheRepositoryTest extends AbstractRepositoryTestCase
 
         $this->Location = new Location();
         $this->Location->setGeohash('u1xjn3n74zxv');
-        $this->Location->setDateTime((new \DateTime())->setTimestamp(1234567890));
+        $this->Location->setDateTime(new \DateTime()->setTimestamp(1234567890));
     }
 
     protected function insertExampleWeatherData()
@@ -73,7 +73,7 @@ class WeathercacheRepositoryTest extends AbstractRepositoryTestCase
         $this->assertNull($this->Repository->getCachedWeatherDataFor($this->Location, 1800));
 
         $this->Location->setGeohash('u1xjn3n74zxv');
-        $this->Location->setDateTime((new \DateTime())->setTimestamp(9876543210));
+        $this->Location->setDateTime(new \DateTime()->setTimestamp(9876543210));
 
         $this->assertNull($this->Repository->getCachedWeatherDataFor($this->Location, 1800));
     }
@@ -82,11 +82,11 @@ class WeathercacheRepositoryTest extends AbstractRepositoryTestCase
     {
         $this->insertExampleWeatherData();
 
-        $this->Location->setDateTime((new \DateTime())->setTimestamp(1234567890 - 1800 + 1));
+        $this->Location->setDateTime(new \DateTime()->setTimestamp(1234567890 - 1800 + 1));
 
         $this->assertInstanceOf(\Runalyze\Parser\Activity\Common\Data\WeatherData::class, $this->Repository->getCachedWeatherDataFor($this->Location, 1800));
 
-        $this->Location->setDateTime((new \DateTime())->setTimestamp(1234567890 + 1800 - 1));
+        $this->Location->setDateTime(new \DateTime()->setTimestamp(1234567890 + 1800 - 1));
 
         $this->assertInstanceOf(\Runalyze\Parser\Activity\Common\Data\WeatherData::class, $this->Repository->getCachedWeatherDataFor($this->Location, 1800));
         $this->assertNull($this->Repository->getCachedWeatherDataFor($this->Location, 1700));

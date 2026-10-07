@@ -44,8 +44,8 @@ class LocalTimeTest extends \PHPUnit\Framework\TestCase
 
     public function testThatConstructorDoesNotChangeTimestamps(): void
     {
-        $this->assertEqualsWithDelta(time(), (new LocalTime())->getTimestamp(), 1);
-        $this->assertEqualsWithDelta(time(), (new LocalTime(time()))->getTimestamp(), 1);
+        $this->assertEqualsWithDelta(time(), new LocalTime()->getTimestamp(), 1);
+        $this->assertEqualsWithDelta(time(), new LocalTime(time())->getTimestamp(), 1);
     }
 
     public function testThatServerTimezoneIsIgnored(): void
@@ -65,8 +65,8 @@ class LocalTimeTest extends \PHPUnit\Framework\TestCase
 
     public function testThatObjectHasUTCTimezone(): void
     {
-        $this->assertSame('UTC', (new LocalTime())->getTimezone()->getName());
-        $this->assertSame('UTC', (new LocalTime(time()))->getTimezone()->getName());
+        $this->assertSame('UTC', new LocalTime()->getTimezone()->getName());
+        $this->assertSame('UTC', new LocalTime(time())->getTimezone()->getName());
         $this->assertSame('UTC', LocalTime::fromServerTime(time())->getTimezone()->getName());
         $this->assertSame('UTC', LocalTime::fromString('2016-01-01 12:00:00+06:00')->getTimezone()->getName());
     }

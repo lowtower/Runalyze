@@ -37,7 +37,7 @@ class SharedControllerTest extends AbstractFixturesAwareWebTestCase
 
     private function registerUniqueAccount(): Account
     {
-        $account = (new Account())
+        $account = new Account()
             ->setUsername('shared_test_' . uniqid('', true))
             ->setMail('shared_test_' . uniqid('', true) . '@example.test');
 
@@ -70,7 +70,7 @@ class SharedControllerTest extends AbstractFixturesAwareWebTestCase
 
     private function createTrainingForAccount(Account $account, bool $isPublic): Training
     {
-        $activity = (new Training())
+        $activity = new Training()
             ->setAccount($account)
             ->setSport($this->getRunningSportForAccount($account))
             ->setTime(time())

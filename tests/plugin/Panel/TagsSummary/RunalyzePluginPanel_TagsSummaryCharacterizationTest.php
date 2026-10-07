@@ -16,7 +16,7 @@ class RunalyzePluginPanel_TagsSummaryCharacterizationTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->plugin = (new \ReflectionClass(RunalyzePluginPanel_TagsSummary::class))
+        $this->plugin = new \ReflectionClass(RunalyzePluginPanel_TagsSummary::class)
             ->newInstanceWithoutConstructor();
     }
 

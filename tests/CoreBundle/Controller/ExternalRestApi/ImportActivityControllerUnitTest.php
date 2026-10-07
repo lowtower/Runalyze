@@ -76,7 +76,7 @@ class ImportActivityControllerUnitTest extends TestCase
 
     private function createAccount(string $username = self::USERNAME): Account
     {
-        return (new Account())->setUsername($username);
+        return new Account()->setUsername($username);
     }
 
     private function createUploadedFile(string $clientFileName, int $error = UPLOAD_ERR_OK): UploadedFile

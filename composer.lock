@@ -8757,16 +8757,16 @@
         },
         {
             "name": "entropy/entropy",
-            "version": "0.4.28",
+            "version": "0.4.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TomasVotruba/entropy.git",
-                "reference": "d6f2c8a591133434692e9478a5bba4aebfe820f1"
+                "reference": "e2dfbd791ab7acea5aed40deefa00b12ad902ca2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TomasVotruba/entropy/zipball/d6f2c8a591133434692e9478a5bba4aebfe820f1",
-                "reference": "d6f2c8a591133434692e9478a5bba4aebfe820f1",
+                "url": "https://api.github.com/repos/TomasVotruba/entropy/zipball/e2dfbd791ab7acea5aed40deefa00b12ad902ca2",
+                "reference": "e2dfbd791ab7acea5aed40deefa00b12ad902ca2",
                 "shasum": ""
             },
             "require": {
@@ -8802,9 +8802,9 @@
             "description": "Entropy framework",
             "support": {
                 "issues": "https://github.com/TomasVotruba/entropy/issues",
-                "source": "https://github.com/TomasVotruba/entropy/tree/0.4.28"
+                "source": "https://github.com/TomasVotruba/entropy/tree/0.4.29"
             },
-            "time": "2026-10-07T08:43:40+00:00"
+            "time": "2026-10-08T07:55:55+00:00"
         },
         {
             "name": "friendsoftwig/twigcs",
@@ -10037,12 +10037,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "d71417d3eaf81e9ae416da7bf1e001e0f75ab3a3"
+                "reference": "39dbe89bdbb39d0b3c60cc180f162b708f82a2da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/d71417d3eaf81e9ae416da7bf1e001e0f75ab3a3",
-                "reference": "d71417d3eaf81e9ae416da7bf1e001e0f75ab3a3",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/39dbe89bdbb39d0b3c60cc180f162b708f82a2da",
+                "reference": "39dbe89bdbb39d0b3c60cc180f162b708f82a2da",
                 "shasum": ""
             },
             "require": {
@@ -10122,7 +10122,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2026-10-06T13:16:07+00:00"
+            "time": "2026-10-08T09:25:59+00:00"
         },
         {
             "name": "rector/rector",

@@ -25,12 +25,12 @@ class MonthTest extends TestCase
             ->with('MONTH(FROM_UNIXTIME(tr.time)) as m')
             ->willReturn($queryBuilder);
 
-        (new Month())->addSelectionToQuery($queryBuilder, 'tr', 'm', 'sp');
+        new Month()->addSelectionToQuery($queryBuilder, 'tr', 'm', 'sp');
     }
 
     public function testShowEmptyGroupsReturnsTrue(): void
     {
-        $this->assertTrue((new Month())->showEmptyGroups());
+        $this->assertTrue(new Month()->showEmptyGroups());
     }
 
     public function testLoadAllGroupsForSameYearRangeReturnsOnlyMonthsInRange(): void
@@ -44,7 +44,7 @@ class MonthTest extends TestCase
         $entityManager = $this->createStub(EntityManager::class);
         $account = $this->createStub(Account::class);
 
-        $result = (new Month())->loadAllGroups($entityManager, $account, $anovaData);
+        $result = new Month()->loadAllGroups($entityManager, $account, $anovaData);
 
         $this->assertSame([3, 4, 5, 6, 7], array_keys($result));
     }
@@ -60,7 +60,7 @@ class MonthTest extends TestCase
         $entityManager = $this->createStub(EntityManager::class);
         $account = $this->createStub(Account::class);
 
-        $result = (new Month())->loadAllGroups($entityManager, $account, $anovaData);
+        $result = new Month()->loadAllGroups($entityManager, $account, $anovaData);
 
         $this->assertSame([10, 11, 12, 1, 2, 3], array_keys($result));
     }
@@ -76,7 +76,7 @@ class MonthTest extends TestCase
         $entityManager = $this->createStub(EntityManager::class);
         $account = $this->createStub(Account::class);
 
-        $result = (new Month())->loadAllGroups($entityManager, $account, $anovaData);
+        $result = new Month()->loadAllGroups($entityManager, $account, $anovaData);
 
         $this->assertSame(range(1, 12), array_keys($result));
     }

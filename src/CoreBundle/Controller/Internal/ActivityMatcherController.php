@@ -47,7 +47,7 @@ class ActivityMatcherController extends AbstractController
             try {
                 $timestamp = $this->parserStrtotime($id);
                 $possibleDuplicate = $this->duplicateFinder->isPossibleDuplicate(
-                    (new Training())
+                    new Training()
                         ->setAccount($account)
                         ->setTime($timestamp)
                 );

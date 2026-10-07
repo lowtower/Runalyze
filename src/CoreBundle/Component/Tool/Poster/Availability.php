@@ -25,16 +25,16 @@ class Availability
 
     protected function isInkscapeAvailable(): bool
     {
-        return (new Filesystem())->exists($this->InkscapePath);
+        return new Filesystem()->exists($this->InkscapePath);
     }
 
     protected function isRsvgConverterAvailable(): bool
     {
-        return (new Filesystem())->exists($this->RsvgPath);
+        return new Filesystem()->exists($this->RsvgPath);
     }
 
     protected function isPythonAvailable(): bool
     {
-        return (new Filesystem())->exists($this->Python3Path);
+        return new Filesystem()->exists($this->Python3Path);
     }
 }

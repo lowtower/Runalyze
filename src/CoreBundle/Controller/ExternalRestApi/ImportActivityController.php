@@ -161,7 +161,7 @@ class ImportActivityController extends AbstractController
         $tmpDir = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . uniqid($username . '_', true);
 
         try {
-            (new Filesystem())->mkdir($tmpDir);
+            new Filesystem()->mkdir($tmpDir);
         } catch (IOException $ioException) {
             $this->logger->error('Temporary upload directory could not be created.', [
                 'directory' => $tmpDir,
@@ -177,7 +177,7 @@ class ImportActivityController extends AbstractController
     private function removeUploadDir(string $uploadDir): void
     {
         try {
-            (new Filesystem())->remove($uploadDir);
+            new Filesystem()->remove($uploadDir);
         } catch (IOException $ioException) {
             $this->logger->warning('Temporary upload directory could not be removed.', [
                 'directory' => $uploadDir,

@@ -107,7 +107,7 @@ class EditController extends AbstractController
             }
 
             if ($form->get('is_race')->getData() && ! $activity->hasRaceresult()) {
-                $raceResult = (new Raceresult())->fillFromActivity($activity);
+                $raceResult = new Raceresult()->fillFromActivity($activity);
                 $activity->setRaceresult($raceResult);
             } elseif (! $form->get('is_race')->getData() && $activity->hasRaceresult()) {
                 /** @var RaceresultRepository $repository */

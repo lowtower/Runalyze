@@ -50,7 +50,7 @@ class ToolsControllerTest extends AbstractFixturesAwareWebTestCase
 
     protected function insertActivityForSportAndYear(Sport $sport, int $year): void
     {
-        $activity = (new Training())
+        $activity = new Training()
             ->setSport($sport)
             ->setTime(mktime(12, 0, 0, 6, 15, $year))
             ->setS(3600.0)

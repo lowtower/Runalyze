@@ -39,7 +39,7 @@ class BestSubSegmentsStatisticsTest extends TestCase
             );
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Provided trackdata object must have time and distance array.');
+        $this->expectExceptionMessageIsOrContains('Provided trackdata object must have time and distance array.');
 
         new BestSubSegmentsStatistics($trackdata);
     }
@@ -53,7 +53,7 @@ class BestSubSegmentsStatisticsTest extends TestCase
             );
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Provided trackdata object must have time and distance array.');
+        $this->expectExceptionMessageIsOrContains('Provided trackdata object must have time and distance array.');
 
         new BestSubSegmentsStatistics($trackdata);
     }

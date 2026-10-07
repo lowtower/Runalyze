@@ -130,12 +130,12 @@ class RouteNameEvalOsmTest extends TestCase
 
     private function invokeRequest(RouteNameEvalOsm $service, ?int $routeId, string $payload): string
     {
-        return (new ReflectionMethod($service, 'request'))->invoke($service, $routeId, $payload);
+        return new ReflectionMethod($service, 'request')->invoke($service, $routeId, $payload);
     }
 
     private function invokeCreateOsmPayload(RouteNameEvalOsm $service, Route $route, float $distance): string
     {
-        return (new ReflectionMethod($service, 'createOsmPayload'))->invoke($service, $route, $distance);
+        return new ReflectionMethod($service, 'createOsmPayload')->invoke($service, $route, $distance);
     }
 
     /**

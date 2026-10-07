@@ -27,7 +27,7 @@ class RsvgConverter extends AbstractSvgToPngConverter
 
     public function callConverter($source, $target): int
     {
-        if ((new Filesystem())->exists($source)) {
+        if (new Filesystem()->exists($source)) {
             $command = array_merge(
                 [$this->Command, '-f', 'png'],
                 $this->Parameter,

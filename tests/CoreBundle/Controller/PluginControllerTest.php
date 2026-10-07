@@ -34,7 +34,7 @@ class PluginControllerTest extends AbstractFixturesAwareWebTestCase
 
     private function registerUniqueAccount(): Account
     {
-        $account = (new Account())
+        $account = new Account()
             ->setUsername('plugin_test_' . uniqid('', true))
             ->setMail('plugin_test_' . uniqid('', true) . '@example.test');
 

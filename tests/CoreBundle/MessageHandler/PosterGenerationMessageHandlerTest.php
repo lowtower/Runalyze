@@ -69,7 +69,7 @@ class PosterGenerationMessageHandlerTest extends TestCase
 
     protected function tearDown(): void
     {
-        (new Filesystem())->remove($this->temporaryDirectories);
+        new Filesystem()->remove($this->temporaryDirectories);
     }
 
     private function createHandler(?string $dataDirectory = null): PosterGenerationMessageHandler
@@ -148,7 +148,7 @@ class PosterGenerationMessageHandlerTest extends TestCase
     public function testConstructorThrowsInvalidArgumentExceptionForMissingDataDirectory(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('/this/directory/does/not/exist');
+        $this->expectExceptionMessageIsOrContains('/this/directory/does/not/exist');
 
         $this->createHandler('/this/directory/does/not/exist');
     }
@@ -356,7 +356,7 @@ class PosterGenerationMessageHandlerTest extends TestCase
         $this->notificationRepositoryMock = $notificationRepository;
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('JSON files could not be created.');
+        $this->expectExceptionMessageIsOrContains('JSON files could not be created.');
 
         $handler = $this->createHandler();
         $handler($this->createMessage());
@@ -377,7 +377,7 @@ class PosterGenerationMessageHandlerTest extends TestCase
             ->willThrowException(new RuntimeException('Database is not available.'));
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Database is not available.');
+        $this->expectExceptionMessageIsOrContains('Database is not available.');
 
         $handler = $this->createHandler();
         $handler($this->createMessage());

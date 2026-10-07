@@ -17,7 +17,7 @@ class CreateControllerFindFirstActivityDataContainerTest extends TestCase
 {
     private function invokeFindFirstActivityDataContainer(FileImportResultCollection $results): ActivityDataContainer
     {
-        $controller = (new ReflectionClass(CreateController::class))->newInstanceWithoutConstructor();
+        $controller = new ReflectionClass(CreateController::class)->newInstanceWithoutConstructor();
         $method = new ReflectionMethod(CreateController::class, 'findFirstActivityDataContainer');
 
         return $method->invoke($controller, $results);

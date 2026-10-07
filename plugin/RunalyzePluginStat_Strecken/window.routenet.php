@@ -72,10 +72,10 @@ while ($RouteData = $Routes->fetch()) {
 
     if ($RouteData['min'] !== null && $RouteData['max'] !== null) {
         /** @var Geohash $geohashObjMin */
-        $geohashObjMin = (new Geohash())->decode($RouteData['min']);
+        $geohashObjMin = new Geohash()->decode($RouteData['min']);
         $MinCoordinate = $geohashObjMin->getCoordinate();
         /** @var Geohash $geohashObjMax */
-        $geohashObjMax = (new Geohash())->decode($RouteData['max']);
+        $geohashObjMax = new Geohash()->decode($RouteData['max']);
         $MaxCoordinate = $geohashObjMin->getCoordinate();
 
         $minLat = $MinCoordinate->getLatitude() != 0 ? min($minLat, $MinCoordinate->getLatitude()) : $minLat;
@@ -110,7 +110,7 @@ $Map->display();
 
 function getTooltipText($time, $routename, $distance, $sporticon): string
 {
-    $tt = '<strong><i class="' . $sporticon . '"></i> ' . __('Date') . ':</strong> ' . (new LocalTime($time))->format('d.m.Y H:i');
+    $tt = '<strong><i class="' . $sporticon . '"></i> ' . __('Date') . ':</strong> ' . new LocalTime($time)->format('d.m.Y H:i');
     if (! empty($routename)) {
         $tt .= '<br/>';
         $tt .= '<strong>' . __('Course') . ':</strong> ' . $routename;

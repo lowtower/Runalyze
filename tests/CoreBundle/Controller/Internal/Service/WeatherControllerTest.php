@@ -155,7 +155,7 @@ class WeatherControllerTest extends AbstractFixturesAwareWebTestCase
         ]);
 
         $this->assertSame(
-            (new \DateTime('@' . $timestamp))->format('c'),
+            new \DateTime('@' . $timestamp)->format('c'),
             $data['location']['date']
         );
     }

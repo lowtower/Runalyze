@@ -28,7 +28,7 @@ class HRVwithoutAnomalies extends HRV
             $this->defineFilteredDataAndAxis($hrv);
         } else {
             $this->XAxis = DataCollector::X_AXIS_INDEX;
-            $this->Data = (new Calculator($hrv))->filteredObject()
+            $this->Data = new Calculator($hrv)->filteredObject()
                 ->data();
         }
     }
@@ -36,7 +36,7 @@ class HRVwithoutAnomalies extends HRV
     protected function defineFilteredDataAndAxis(Model\HRV\Entity $hrv)
     {
         $OriginalData = $hrv->data();
-        $FilteredData = (new Calculator($hrv))->filteredObject()
+        $FilteredData = new Calculator($hrv)->filteredObject()
             ->data();
         $filteredIndex = 0;
         $num = $hrv->num();

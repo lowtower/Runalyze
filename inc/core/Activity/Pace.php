@@ -101,7 +101,7 @@ class Pace
 
     public function setNewUnitEnum(int $unitEnum): void
     {
-        $this->UnitObject = (new LegacyUnitConverter())->getLegacyPaceUnit($unitEnum);
+        $this->UnitObject = new LegacyUnitConverter()->getLegacyPaceUnit($unitEnum);
     }
 
     public function setUnitEnum(int $unitEnum): void

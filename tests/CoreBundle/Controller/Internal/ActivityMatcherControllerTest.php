@@ -62,7 +62,7 @@ class ActivityMatcherControllerTest extends AbstractFixturesAwareWebTestCase
         ]);
         self::assertInstanceOf(Sport::class, $runningSport, 'Account ' . ($sportOwnerAccountId ?? $accountId) . ' must own a sport.');
 
-        $activity = (new Training())
+        $activity = new Training()
             ->setAccount($account)
             ->setSport($runningSport)
             ->setTime(time())

@@ -15,7 +15,7 @@ class RunalyzePluginPanel_RechenspieleCharacterizationTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->plugin = (new \ReflectionClass(RunalyzePluginPanel_Rechenspiele::class))
+        $this->plugin = new \ReflectionClass(RunalyzePluginPanel_Rechenspiele::class)
             ->newInstanceWithoutConstructor();
     }
 

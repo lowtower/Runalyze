@@ -62,7 +62,7 @@ class RamerDouglasPeuckerTest extends \PHPUnit\Framework\TestCase
     public function testArraysMustNotBeEmpty(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Arrays must not be empty.');
+        $this->expectExceptionMessageIsOrContains('Arrays must not be empty.');
 
         new RamerDouglasPeucker([], [], 1.0);
     }
@@ -70,7 +70,7 @@ class RamerDouglasPeuckerTest extends \PHPUnit\Framework\TestCase
     public function testArraysMustHaveSameSize(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Arrays must be of same size.');
+        $this->expectExceptionMessageIsOrContains('Arrays must be of same size.');
 
         new RamerDouglasPeucker(
             [0, 1, 2],

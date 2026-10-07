@@ -215,7 +215,7 @@ class ElevationInfo
 
     protected function displayElevationCorrection()
     {
-        $Url = (new Runalyze\View\Activity\Linker($this->Context->activity()))->urlToElevationCorrection();
+        $Url = new Runalyze\View\Activity\Linker($this->Context->activity())->urlToElevationCorrection();
         $Fieldset = new FormularFieldset(__('Elevation correction'));
         $Links = [];
 

@@ -16,7 +16,7 @@ class RunalyzePluginStat_TrainingszeitenCharacterizationTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->plugin = (new \ReflectionClass(RunalyzePluginStat_Trainingszeiten::class))
+        $this->plugin = new \ReflectionClass(RunalyzePluginStat_Trainingszeiten::class)
             ->newInstanceWithoutConstructor();
     }
 

@@ -92,12 +92,6 @@ class Laps
      */
     public function hasMoreThanActiveOrRestLaps(): bool
     {
-        foreach ($this->Objects as $lap) {
-            if (! $lap->getMode()->isActive() && ! $lap->getMode()->isRest()) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($this->Objects, fn (\Runalyze\Data\Laps\Lap $lap): bool => ! $lap->getMode()->isActive() && ! $lap->getMode()->isRest());
     }
 }

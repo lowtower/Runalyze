@@ -230,13 +230,7 @@ class ContinuousData
 
     public function isEmpty(): bool
     {
-        foreach ($this->getPropertyNamesOfArrays() as $property) {
-            if (! empty($this->{$property})) {
-                return false;
-            }
-        }
-
-        return true;
+        return array_all($this->getPropertyNamesOfArrays(), fn (string $property): bool => empty($this->{$property}));
     }
 
     /**

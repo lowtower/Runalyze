@@ -107,7 +107,7 @@ class Notification implements AccountRelatedEntityInterface
         if ($lifetime === null) {
             $this->expirationAt = null;
         } else {
-            $this->expirationAt = (new DateTime())->setTimestamp($this->createdAt)
+            $this->expirationAt = new DateTime()->setTimestamp($this->createdAt)
                 ->modify('+' . $lifetime . ' days')->getTimestamp();
         }
 
@@ -170,7 +170,7 @@ class Notification implements AccountRelatedEntityInterface
 
     public function getMessage(): MessageInterface
     {
-        return (new MessageFactory())->getMessage($this);
+        return new MessageFactory()->getMessage($this);
     }
 
     public static function createFromMessage(MessageInterface $message, Account $account): self

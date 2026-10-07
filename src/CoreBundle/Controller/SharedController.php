@@ -115,9 +115,9 @@ class SharedController extends AbstractController
                 ->getUsername(),
             'activity' => $activity,
             'hasPublicList' => $publicList,
-            'activityUrl' => (new Linker($activityContextLegacy->activity()))->publicUrl(),
+            'activityUrl' => new Linker($activityContextLegacy->activity())->publicUrl(),
             'activityHasRoute' => $hasRoute,
-            'metaTitle' => (new Facebook($activityContextLegacy))->metaTitle(),
+            'metaTitle' => new Facebook($activityContextLegacy)->metaTitle(),
             'view' => new TrainingView($activityContextLegacy),
         ]);
     }

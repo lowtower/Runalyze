@@ -77,7 +77,7 @@ class GeneratePoster
 
         $this->addStatsParameter($account, $sport, $year);
 
-        if ((new Filesystem())->exists($jsonDir . '/special.params')) {
+        if (new Filesystem()->exists($jsonDir . '/special.params')) {
             $specialParams = file_get_contents($jsonDir . '/special.params');
             if ($specialParams !== false) {
                 $this->Parameter[] = $specialParams;

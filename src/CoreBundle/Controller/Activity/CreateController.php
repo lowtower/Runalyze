@@ -319,7 +319,7 @@ class CreateController extends AbstractController
 
         if ($activity->getRouteName() != '') {
             if (! $activity->hasRoute()) {
-                $activity->setRoute((new RouteEntity())->setAccount($activity->getAccount()));
+                $activity->setRoute(new RouteEntity()->setAccount($activity->getAccount()));
             }
 
             $activity->getRoute()
@@ -332,7 +332,7 @@ class CreateController extends AbstractController
         }
 
         if ($form->get('is_race')->getData()) {
-            $raceResult = (new Raceresult())->fillFromActivity($activity);
+            $raceResult = new Raceresult()->fillFromActivity($activity);
             $activity->setRaceresult($raceResult);
         }
 

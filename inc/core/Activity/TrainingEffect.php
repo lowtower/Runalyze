@@ -34,7 +34,7 @@ class TrainingEffect implements ValueInterface
 
     public static function format(?float $value): string
     {
-        return (new self($value))->string();
+        return new self($value)->string();
     }
 
     /**

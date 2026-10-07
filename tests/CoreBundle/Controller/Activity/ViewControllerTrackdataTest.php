@@ -28,7 +28,7 @@ class ViewControllerTrackdataTest extends AbstractFixturesAwareWebTestCase
 
     private function registerUniqueAccount(): Account
     {
-        $account = (new Account())
+        $account = new Account()
             ->setUsername('view_trackdata_test_' . uniqid('', true))
             ->setMail('view_trackdata_test_' . uniqid('', true) . '@example.test');
 
@@ -67,7 +67,7 @@ class ViewControllerTrackdataTest extends AbstractFixturesAwareWebTestCase
 
     private function createTrainingForAccount(Account $account): Training
     {
-        $activity = (new Training())
+        $activity = new Training()
             ->setAccount($account)
             ->setSport($this->getRunningSportForAccount($account))
             ->setTime(time())
@@ -81,7 +81,7 @@ class ViewControllerTrackdataTest extends AbstractFixturesAwareWebTestCase
 
     private function createTrackdataForActivity(Training $activity): Trackdata
     {
-        $trackdata = (new Trackdata())
+        $trackdata = new Trackdata()
             ->setActivity($activity)
             ->setAccount($activity->getAccount())
             ->setTime([100, 200, 300, 400, 500, 600])

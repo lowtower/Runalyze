@@ -38,7 +38,7 @@ class LapIntensityTest extends TestCase
     public function testFromFitToEnumThrowsExceptionForOutOfRangeValues(float $fitValue): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage(sprintf('Provided workout_step intensity %s is invalid.', $fitValue));
+        $this->expectExceptionMessageIsOrContains(sprintf('Provided workout_step intensity %s is invalid.', $fitValue));
 
         LapIntensity::fromFitToEnum($fitValue);
     }

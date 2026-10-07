@@ -132,8 +132,8 @@ class DataBrowser
                 $this->TimestampStart = LocalTime::fromString('first day of this month 00:00:00')->getTimestamp();
                 $this->TimestampEnd = LocalTime::fromString('last day of this month 23:59:59')->getTimestamp();
             } else {
-                $this->TimestampStart = (new LocalTime())->weekstart();
-                $this->TimestampEnd = (new LocalTime())->weekend();
+                $this->TimestampStart = new LocalTime()->weekstart();
+                $this->TimestampEnd = new LocalTime()->weekend();
             }
         } else {
             $this->TimestampStart = $_GET['start'];
@@ -250,7 +250,7 @@ class DataBrowser
 
     public function displayTitle(): void
     {
-        $now = (new LocalTime())->getTimestamp();
+        $now = new LocalTime()->getTimestamp();
         $timestampForLinks = ($this->TimestampStart < $now && $now < $this->TimestampEnd) ? $now : $this->TimestampStart;
         $timeForLinks = new LocalTime($timestampForLinks);
 
@@ -428,7 +428,7 @@ class DataBrowser
     {
         $t = new DateTime('now', new DateTimeZone('UTC'));
         $oneYear = new DateInterval('P1Y');
-        $selectedYear = (new LocalTime($this->TimestampStart))->format('Y');
+        $selectedYear = new LocalTime($this->TimestampStart)->format('Y');
 
         echo '<table>';
         for ($i = 0; $i < 20; $i++) {

@@ -37,7 +37,7 @@ class Dataview
 
         if ($this->RaceResult->officialDistance() > 0) {
             if ($isTrack) {
-                return (new Distance($this->RaceResult->officialDistance()))->stringMeter();
+                return new Distance($this->RaceResult->officialDistance())->stringMeter();
             }
 
             return Distance::format($this->RaceResult->officialDistance(), true, $decimals);

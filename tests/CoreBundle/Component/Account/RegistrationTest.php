@@ -160,7 +160,7 @@ class RegistrationTest extends KernelTestCase
         $registration = $this->createRegistration();
 
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('Account has to be registered first.');
+        $this->expectExceptionMessageIsOrContains('Account has to be registered first.');
 
         $registration->{$getter}();
     }
@@ -186,7 +186,7 @@ class RegistrationTest extends KernelTestCase
         );
 
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage($expectedMessage);
+        $this->expectExceptionMessageIsOrContains($expectedMessage);
 
         $registration->registerAccount();
     }
@@ -215,7 +215,7 @@ class RegistrationTest extends KernelTestCase
         );
 
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage(sprintf('Equipment type "%s" could not be found for the new account.', $translatedName));
+        $this->expectExceptionMessageIsOrContains(sprintf('Equipment type "%s" could not be found for the new account.', $translatedName));
 
         $registration->registerAccount();
     }

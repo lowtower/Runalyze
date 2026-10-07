@@ -209,7 +209,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
 
         $timestamp = $container->Metadata->getTimestamp();
         $oldOffset = $container->Metadata->getTimezoneOffset();
-        $newOffset = (new \DateTime('', new \DateTimeZone($timezoneName)))->setTimestamp($timestamp)
+        $newOffset = new \DateTime('', new \DateTimeZone($timezoneName))->setTimestamp($timestamp)
             ->getOffset() / 60;
         if ($oldOffset !== null) {
             $timestamp += 60 * ($newOffset - $oldOffset);

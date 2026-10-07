@@ -46,7 +46,7 @@ class CreateControllerTest extends AbstractFixturesAwareWebTestCase
 
     private function registerUniqueAccount(): Account
     {
-        $account = (new Account())
+        $account = new Account()
             ->setUsername('create_test_' . uniqid('', true))
             ->setMail('create_test_' . uniqid('', true) . '@example.test');
 
@@ -78,7 +78,7 @@ class CreateControllerTest extends AbstractFixturesAwareWebTestCase
         $fixtureFitFile = TESTS_ROOT . '/testfiles/' . self::FIXTURE_FIT_FILE;
         $targetPath = $this->importDirectory() . $clientFileName;
 
-        (new Filesystem())->copy($fixtureFitFile, $targetPath, true);
+        new Filesystem()->copy($fixtureFitFile, $targetPath, true);
 
         $this->temporaryImportCopies[] = $targetPath;
 

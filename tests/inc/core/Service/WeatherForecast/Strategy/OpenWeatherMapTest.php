@@ -90,7 +90,7 @@ class OpenWeatherMapTest extends \PHPUnit\Framework\TestCase
         $location->setPosition(49.45, 7.75);
         // one full day old - well past both the previous hardcoded 7200s
         // (2h) threshold and any reasonable configured value.
-        $location->setDateTime((new \DateTime())->modify('-1 day'));
+        $location->setDateTime(new \DateTime()->modify('-1 day'));
 
         $result = $openWeatherMap->loadForecast($location);
 
@@ -121,7 +121,7 @@ class OpenWeatherMapTest extends \PHPUnit\Framework\TestCase
         $location->setPosition(49.45, 7.75);
         // 5 hours old: would have been rejected by the previous hardcoded
         // 7200s (2h) default, but is well within a 24h configured threshold.
-        $location->setDateTime((new \DateTime())->modify('-5 hours'));
+        $location->setDateTime(new \DateTime()->modify('-5 hours'));
 
         $result = $openWeatherMap->loadForecast($location);
 

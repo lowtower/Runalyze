@@ -44,7 +44,7 @@ class AccountCheckerTest extends TestCase
         $account->setNewActivationHash();
 
         $this->expectException(DisabledException::class);
-        $this->expectExceptionMessage('Your account has not been activated yet.');
+        $this->expectExceptionMessageIsOrContains('Your account has not been activated yet.');
 
         $this->checker->checkPreAuth($account);
     }

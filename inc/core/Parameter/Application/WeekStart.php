@@ -98,7 +98,7 @@ class WeekStart extends \Runalyze\Parameter\Select
         if ($now === false) {
             $now = time();
         } elseif ($transformToServerTime) {
-            $now = (new LocalTime($now))->toServerTimestamp();
+            $now = new LocalTime($now)->toServerTimestamp();
         }
 
         if ($this->isSunday() && date('w', $now) == 0) {

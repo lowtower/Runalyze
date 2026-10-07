@@ -28,7 +28,7 @@ class QueryValueUnitDelegationTest extends TestCase
             ->method('getWindSpeedUnit')
             ->willReturn($expectedUnit);
 
-        $result = (new WeatherWindSpeed())->getValueUnit($unitSystem);
+        $result = new WeatherWindSpeed()->getValueUnit($unitSystem);
 
         $this->assertSame($expectedUnit, $result);
     }
@@ -42,7 +42,7 @@ class QueryValueUnitDelegationTest extends TestCase
             ->method('getHeartRateUnit')
             ->willReturn($expectedUnit);
 
-        $result = (new HeartRateMaximum())->getValueUnit($unitSystem);
+        $result = new HeartRateMaximum()->getValueUnit($unitSystem);
 
         $this->assertSame($expectedUnit, $result);
     }
@@ -56,7 +56,7 @@ class QueryValueUnitDelegationTest extends TestCase
             ->method('getHeartRateUnit')
             ->willReturn($expectedUnit);
 
-        $result = (new HeartRateAverage())->getValueUnit($unitSystem);
+        $result = new HeartRateAverage()->getValueUnit($unitSystem);
 
         $this->assertSame($expectedUnit, $result);
     }
@@ -70,7 +70,7 @@ class QueryValueUnitDelegationTest extends TestCase
             ->method('getTemperatureUnit')
             ->willReturn($expectedUnit);
 
-        $result = (new WeatherTemperature())->getValueUnit($unitSystem);
+        $result = new WeatherTemperature()->getValueUnit($unitSystem);
 
         $this->assertSame($expectedUnit, $result);
     }
@@ -84,7 +84,7 @@ class QueryValueUnitDelegationTest extends TestCase
             ->method('getPaceUnit')
             ->willReturn($expectedUnit);
 
-        $result = (new Pace())->getValueUnit($unitSystem);
+        $result = new Pace()->getValueUnit($unitSystem);
 
         $this->assertSame($expectedUnit, $result);
     }
@@ -98,7 +98,7 @@ class QueryValueUnitDelegationTest extends TestCase
             ->method('getVO2maxUnit')
             ->willReturn($expectedUnit);
 
-        $result = (new Vo2max())->getValueUnit($unitSystem);
+        $result = new Vo2max()->getValueUnit($unitSystem);
 
         $this->assertSame($expectedUnit, $result);
     }
@@ -112,7 +112,7 @@ class QueryValueUnitDelegationTest extends TestCase
             ->method('getVO2maxUnit')
             ->willReturn($expectedUnit);
 
-        $result = (new Vo2maxWithElevation())->getValueUnit($unitSystem);
+        $result = new Vo2maxWithElevation()->getValueUnit($unitSystem);
 
         $this->assertSame($expectedUnit, $result);
     }

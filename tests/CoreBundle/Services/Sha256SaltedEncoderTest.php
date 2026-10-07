@@ -116,7 +116,7 @@ class Sha256SaltedEncoderTest extends TestCase
         };
 
         $this->expectException(InvalidPasswordException::class);
-        $this->expectExceptionMessage('Account');
+        $this->expectExceptionMessageIsOrContains('Account');
 
         $this->Encoder->getLegacyEncoderPassword($userWithoutSalt);
     }

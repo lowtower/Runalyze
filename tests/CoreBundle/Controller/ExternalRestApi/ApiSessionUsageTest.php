@@ -43,7 +43,7 @@ class ApiSessionUsageTest extends AbstractFixturesAwareWebTestCase
     protected function tearDown(): void
     {
         if ($this->temporaryUploadCopy !== null) {
-            (new Filesystem())->remove($this->temporaryUploadCopy);
+            new Filesystem()->remove($this->temporaryUploadCopy);
         }
 
         parent::tearDown();
@@ -51,7 +51,7 @@ class ApiSessionUsageTest extends AbstractFixturesAwareWebTestCase
 
     private function registerUniqueAccount(): Account
     {
-        $account = (new Account())
+        $account = new Account()
             ->setUsername('session_test_' . uniqid('', true))
             ->setMail('session_test_' . uniqid('', true) . '@example.test');
 
@@ -71,7 +71,7 @@ class ApiSessionUsageTest extends AbstractFixturesAwareWebTestCase
         $this->temporaryUploadCopy = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR)
             . DIRECTORY_SEPARATOR . 'session_test_' . uniqid('', true) . '.fit';
 
-        (new Filesystem())->copy(TESTS_ROOT . '/testfiles/' . self::FIXTURE_FIT_FILE, $this->temporaryUploadCopy, true);
+        new Filesystem()->copy(TESTS_ROOT . '/testfiles/' . self::FIXTURE_FIT_FILE, $this->temporaryUploadCopy, true);
 
         return new UploadedFile($this->temporaryUploadCopy, 'session_test_' . uniqid('', true) . '.fit', 'application/octet-stream', null, true);
     }

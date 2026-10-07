@@ -60,7 +60,7 @@ class AccountMailer
     {
         $template = $this->customLanguageTemplates($template, $account->getLanguage());
 
-        $email = (new Email())
+        $email = new Email()
             ->from($this->sender)
             ->to(new Address($account->getMail(), $account->getUsername()))
             ->subject($subject)
@@ -80,7 +80,7 @@ class AccountMailer
         $content .= 'Mail: ' . $account->getMail() . "\n";
         $content .= 'Message:' . "\n" . $customText;
 
-        $email = (new Email())
+        $email = new Email()
             ->subject($subject)
             ->from($this->sender)
             ->to($mailTo)

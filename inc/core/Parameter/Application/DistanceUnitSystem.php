@@ -130,16 +130,16 @@ class DistanceUnitSystem extends \Runalyze\Parameter\Select
 
     public function distanceUnit(): string
     {
-        return (new Distance(0, $this))->unit();
+        return new Distance(0, $this)->unit();
     }
 
     public function elevationUnit(): string
     {
-        return (new Elevation(0, $this))->unit();
+        return new Elevation(0, $this)->unit();
     }
 
     public function strideLengthUnit(): string
     {
-        return (new StrideLength(0, $this))->unit();
+        return new StrideLength(0, $this)->unit();
     }
 }

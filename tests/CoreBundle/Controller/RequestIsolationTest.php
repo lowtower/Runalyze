@@ -23,7 +23,7 @@ class RequestIsolationTest extends AbstractFixturesAwareWebTestCase
 
     private function registerUniqueAccount(): Account
     {
-        $account = (new Account())
+        $account = new Account()
             ->setUsername('isolation_test_' . uniqid('', true))
             ->setMail('isolation_test_' . uniqid('', true) . '@example.test');
 

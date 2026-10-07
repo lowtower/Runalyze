@@ -19,12 +19,12 @@ class YearTest extends TestCase
             ->with('YEAR(FROM_UNIXTIME(tr.time)) as y')
             ->willReturn($queryBuilder);
 
-        (new Year())->addSelectionToQuery($queryBuilder, 'tr', 'y', 'sp');
+        new Year()->addSelectionToQuery($queryBuilder, 'tr', 'y', 'sp');
     }
 
     public function testShowEmptyGroupsReturnsTrue(): void
     {
-        $this->assertTrue((new Year())->showEmptyGroups());
+        $this->assertTrue(new Year()->showEmptyGroups());
     }
 
     public function testLoadAllGroupsReturnsInclusiveYearRangeAsStrings(): void
@@ -38,7 +38,7 @@ class YearTest extends TestCase
         $entityManager = $this->createStub(EntityManager::class);
         $account = $this->createStub(Account::class);
 
-        $result = (new Year())->loadAllGroups($entityManager, $account, $anovaData);
+        $result = new Year()->loadAllGroups($entityManager, $account, $anovaData);
 
         $this->assertSame([
             2022 => '2022',
@@ -58,7 +58,7 @@ class YearTest extends TestCase
         $entityManager = $this->createStub(EntityManager::class);
         $account = $this->createStub(Account::class);
 
-        $result = (new Year())->loadAllGroups($entityManager, $account, $anovaData);
+        $result = new Year()->loadAllGroups($entityManager, $account, $anovaData);
 
         $this->assertSame([
             2024 => '2024',

@@ -294,7 +294,7 @@ class Route implements AccountRelatedEntityInterface
 
         for ($i = 0; $i < $size; ++$i) {
             /** @var Geohash $geohashObj */
-            $geohashObj = (new Geohash())->encode(
+            $geohashObj = new Geohash()->encode(
                 new Coordinate([$latitudes[$i], $longitudes[$i]]),
                 self::PATH_GEOHASH_PRECISION
             );
@@ -316,7 +316,7 @@ class Route implements AccountRelatedEntityInterface
 
             for ($i = 0; $i < $size; $i++) {
                 /** @var Geohash $geohashObj */
-                $geohashObj = (new Geohash())->decode($this->geohashes[$i]);
+                $geohashObj = new Geohash()->decode($this->geohashes[$i]);
                 $coordinate = $geohashObj->getCoordinate();
                 $coordinates[0][] = round((float) $coordinate->getLatitude(), 6);
                 $coordinates[1][] = round((float) $coordinate->getLongitude(), 6);
@@ -580,10 +580,10 @@ class Route implements AccountRelatedEntityInterface
             $maxCoordinate = new Coordinate([max($latitudes), max($longitudes)]);
 
             /** @var Geohash $geohashObjMin */
-            $geohashObjMin = (new Geohash())->encode($minCoordinate, self::BOUNDARIES_GEOHASH_PRECISION);
+            $geohashObjMin = new Geohash()->encode($minCoordinate, self::BOUNDARIES_GEOHASH_PRECISION);
             $this->min = $geohashObjMin->getGeohash();
             /** @var Geohash $geohashObjMax */
-            $geohashObjMax = (new Geohash())->encode($maxCoordinate, self::BOUNDARIES_GEOHASH_PRECISION);
+            $geohashObjMax = new Geohash()->encode($maxCoordinate, self::BOUNDARIES_GEOHASH_PRECISION);
             $this->max = $geohashObjMax->getGeohash();
         }
 

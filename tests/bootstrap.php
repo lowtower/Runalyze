@@ -15,7 +15,7 @@ use Symfony\Component\Dotenv\Dotenv;
 
 error_reporting(E_ALL);
 if (method_exists(Dotenv::class, 'bootEnv')) {
-    (new Dotenv())->bootEnv(__DIR__ . '/../.env');
+    new Dotenv()->bootEnv(__DIR__ . '/../.env');
 }
 
 if ($_SERVER['APP_DEBUG']) {

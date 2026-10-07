@@ -267,7 +267,7 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
 
     public function cloneObjectForForm(): self
     {
-        return (new self())
+        return new self()
             ->setAccount($this->account)
             ->setCurrentTimestamp()
             ->setPulseMax($this->pulseMax)

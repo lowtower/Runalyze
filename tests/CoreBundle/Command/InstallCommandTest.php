@@ -176,7 +176,7 @@ final class InstallCommandTest extends TestCase
         ]);
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('boom');
+        $this->expectExceptionMessageIsOrContains('boom');
 
         $tester->execute([]);
     }

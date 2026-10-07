@@ -44,8 +44,8 @@ class PoolLengthTest extends \PHPUnit\Framework\TestCase
 
     public function testSettingInPreferredUnit(): void
     {
-        $this->assertEquals(25, (new PoolLength(0, new DistanceUnitSystem(DistanceUnitSystem::METRIC)))->setInPreferredUnit(25)->meter());
-        $this->assertSame(54.68, (new PoolLength(0, new DistanceUnitSystem(DistanceUnitSystem::IMPERIAL)))->setInPreferredUnit(54.68)->yards());
+        $this->assertEquals(25, new PoolLength(0, new DistanceUnitSystem(DistanceUnitSystem::METRIC))->setInPreferredUnit(25)->meter());
+        $this->assertSame(54.68, new PoolLength(0, new DistanceUnitSystem(DistanceUnitSystem::IMPERIAL))->setInPreferredUnit(54.68)->yards());
     }
 
     public function testSetRoundsInsteadOfTruncatingWhenDerivedFromYards(): void

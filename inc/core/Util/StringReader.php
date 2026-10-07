@@ -48,7 +48,7 @@ class StringReader
         preg_match('/' . $searchPattern . $timePattern . '/', $this->String, $matches);
 
         if (isset($matches[1])) {
-            return (new Duration($matches[1]))->seconds();
+            return new Duration($matches[1])->seconds();
         }
 
         return 0.0;

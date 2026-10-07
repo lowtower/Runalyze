@@ -12,7 +12,7 @@ class SubSegmentMaximizationTest extends TestCase
     public function testConstructorThrowsWhenDataIsEmpty(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Input data must not be empty.');
+        $this->expectExceptionMessageIsOrContains('Input data must not be empty.');
 
         new SubSegmentMaximization([], [], [3]);
     }
@@ -20,7 +20,7 @@ class SubSegmentMaximizationTest extends TestCase
     public function testConstructorThrowsWhenSegmentLengthsIsEmpty(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Input data must not be empty.');
+        $this->expectExceptionMessageIsOrContains('Input data must not be empty.');
 
         new SubSegmentMaximization([1, 2, 3], [1, 1, 1], []);
     }
@@ -28,7 +28,7 @@ class SubSegmentMaximizationTest extends TestCase
     public function testConstructorThrowsWhenDataAndIndexDataSizesDiffer(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Input data and index data must be of same size.');
+        $this->expectExceptionMessageIsOrContains('Input data and index data must be of same size.');
 
         new SubSegmentMaximization([1, 2, 3], [1, 1], [3]);
     }

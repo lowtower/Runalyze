@@ -59,7 +59,7 @@ class RaceResultsControllerTest extends AbstractFixturesAwareWebTestCase
         $this->getEntityManager()
             ->flush();
 
-        $raceResult = (new Raceresult())
+        $raceResult = new Raceresult()
             ->setAccount($this->Account)
             ->setActivity($training)
             ->setName($name)
@@ -80,7 +80,7 @@ class RaceResultsControllerTest extends AbstractFixturesAwareWebTestCase
      */
     private function markActivitiesAsFunRaces(array $activityIds): void
     {
-        $plugin = (new Plugin())
+        $plugin = new Plugin()
             ->setKey('RunalyzePluginStat_Wettkampf')
             ->setType(Plugin::TYPE_STAT)
             ->setActive(Plugin::STATE_ACTIVE)
@@ -90,7 +90,7 @@ class RaceResultsControllerTest extends AbstractFixturesAwareWebTestCase
         $this->getEntityManager()
             ->persist($plugin);
 
-        $pluginConf = (new PluginConf())
+        $pluginConf = new PluginConf()
             ->setConfig('fun_ids')
             ->setValue(implode(',', $activityIds))
             ->setPlugin($plugin);
@@ -128,7 +128,7 @@ class RaceResultsControllerTest extends AbstractFixturesAwareWebTestCase
         $race = $data[0];
 
         $this->assertSame('Sunday 10k', $race['name']);
-        $this->assertSame((new DateTime('@' . $timestamp))->format('c'), $race['date']);
+        $this->assertSame(new DateTime('@' . $timestamp)->format('c'), $race['date']);
         $this->assertSame($sport->getId(), $race['sport_id']);
         $this->assertEqualsWithDelta(10.0, $race['distance'], 0.001);
         $this->assertEqualsWithDelta(2400.0, $race['duration'], 0.001);

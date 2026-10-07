@@ -21,12 +21,12 @@ class SportQueryGroupTest extends TestCase
             ->with('sp.id as s')
             ->willReturn($queryBuilder);
 
-        (new SportQueryGroup())->addSelectionToQuery($queryBuilder, 'tr', 's', 'sp');
+        new SportQueryGroup()->addSelectionToQuery($queryBuilder, 'tr', 's', 'sp');
     }
 
     public function testShowEmptyGroupsReturnsTrue(): void
     {
-        $this->assertTrue((new SportQueryGroup())->showEmptyGroups());
+        $this->assertTrue(new SportQueryGroup()->showEmptyGroups());
     }
 
     public function testLoadAllGroupsReturnsOnlyTheIntersectionOfAccountSportsAndSelectedSports(): void
@@ -79,7 +79,7 @@ class SportQueryGroupTest extends TestCase
         $anovaData->method('getSport')
             ->willReturn([$selectedRunning, $selectedSwimming]);
 
-        $result = (new SportQueryGroup())->loadAllGroups($entityManager, $account, $anovaData);
+        $result = new SportQueryGroup()->loadAllGroups($entityManager, $account, $anovaData);
 
         $this->assertSame([
             1 => 'Running',
@@ -107,7 +107,7 @@ class SportQueryGroupTest extends TestCase
         $anovaData->method('getSport')
             ->willReturn([]);
 
-        $result = (new SportQueryGroup())->loadAllGroups($entityManager, $account, $anovaData);
+        $result = new SportQueryGroup()->loadAllGroups($entityManager, $account, $anovaData);
 
         $this->assertSame([], $result);
     }

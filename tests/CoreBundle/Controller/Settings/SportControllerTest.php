@@ -130,7 +130,7 @@ class SportControllerTest extends AbstractFixturesAwareWebTestCase
 
     private function persistSportForAccount(Account $account, string $name = 'Test Sport'): Sport
     {
-        $sport = (new Sport())
+        $sport = new Sport()
             ->setAccount($account)
             ->setName($name);
 
@@ -147,7 +147,7 @@ class SportControllerTest extends AbstractFixturesAwareWebTestCase
 
     private function persistTypeForSport(Sport $sport, Account $account, string $name = 'Test Type'): Type
     {
-        $type = (new Type())
+        $type = new Type()
             ->setAccount($account)
             ->setSport($sport)
             ->setName($name);

@@ -140,6 +140,6 @@ class SportFactory
     {
         $Sports = self::AllSports();
 
-        return (isset($Sports[$ID])) ? (new \Runalyze\Metrics\LegacyUnitConverter())->getLegacyPaceUnit($Sports[$ID]['speed'], true) : Pace::STANDARD;
+        return (isset($Sports[$ID])) ? new \Runalyze\Metrics\LegacyUnitConverter()->getLegacyPaceUnit($Sports[$ID]['speed'], true) : Pace::STANDARD;
     }
 }

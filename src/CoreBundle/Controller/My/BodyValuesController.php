@@ -32,7 +32,7 @@ class BodyValuesController extends AbstractController
         /** @var User $oldUser */
         $oldUser = $this->userRepository
             ->getLatestEntryFor($account);
-        $user = $oldUser ? $oldUser->cloneObjectForForm() : (new User())->setAccount($account)
+        $user = $oldUser ? $oldUser->cloneObjectForForm() : new User()->setAccount($account)
             ->setCurrentTimestamp();
 
         $form = $this->createForm(BodyValuesType::class, $user, [

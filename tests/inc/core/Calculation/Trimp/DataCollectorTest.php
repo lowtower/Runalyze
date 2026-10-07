@@ -69,7 +69,7 @@ class DataCollectorTest extends \PHPUnit\Framework\TestCase
     public function testThrowsExceptionForEmptyHeartRateArray(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Heart rate array must not be empty.');
+        $this->expectExceptionMessageIsOrContains('Heart rate array must not be empty.');
 
         new DataCollector([]);
     }
@@ -77,7 +77,7 @@ class DataCollectorTest extends \PHPUnit\Framework\TestCase
     public function testThrowsExceptionWhenDurationSizeDoesNotMatchHeartRateSize(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Heart rate and duration array must be of equal size.');
+        $this->expectExceptionMessageIsOrContains('Heart rate and duration array must be of equal size.');
 
         new DataCollector([140, 150], [60]);
     }

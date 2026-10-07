@@ -12,21 +12,21 @@ class EnergyTest extends \PHPUnit\Framework\TestCase
 {
     public function testConstructor(): void
     {
-        $this->assertEquals('100', (new Energy(100, new EnergyUnit(EnergyUnit::KCAL)))->string(false));
-        $this->assertEquals('419', (new Energy(100, new EnergyUnit(EnergyUnit::KJ)))->string(false));
+        $this->assertEquals('100', new Energy(100, new EnergyUnit(EnergyUnit::KCAL))->string(false));
+        $this->assertEquals('419', new Energy(100, new EnergyUnit(EnergyUnit::KJ))->string(false));
     }
 
     public function testConstructorFallsBackToConfiguredUnitWhenNoneGiven(): void
     {
         Configuration::General()->energyUnit()->set(EnergyUnit::KCAL);
 
-        $this->assertSame(EnergyUnit::KCAL, (new Energy(100))->unit());
+        $this->assertSame(EnergyUnit::KCAL, new Energy(100)->unit());
     }
 
     public function testSettingInPreferredUnit(): void
     {
-        $this->assertSame(100, (new Energy(0, new EnergyUnit(EnergyUnit::KCAL)))->setInPreferredUnit(100)->kcal());
-        $this->assertSame(24, (new Energy(0, new EnergyUnit(EnergyUnit::KJ)))->setInPreferredUnit(100)->kcal());
+        $this->assertSame(100, new Energy(0, new EnergyUnit(EnergyUnit::KCAL))->setInPreferredUnit(100)->kcal());
+        $this->assertSame(24, new Energy(0, new EnergyUnit(EnergyUnit::KJ))->setInPreferredUnit(100)->kcal());
     }
 
     public function testFromKilocalorie(): void

@@ -276,13 +276,7 @@ abstract class Entity
      */
     public function isEmpty(): bool
     {
-        foreach ($this->properties() as $key) {
-            if (! empty($this->Data[$key]) && ! $this->ignoreNonEmptyValue($key)) {
-                return false;
-            }
-        }
-
-        return true;
+        return array_all($this->properties(), fn ($key): bool => empty($this->Data[$key]) || $this->ignoreNonEmptyValue($key));
     }
 
     /**

@@ -22,7 +22,7 @@ class RunalyzePluginPanel_ZieleCharacterizationTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->plugin = (new \ReflectionClass(RunalyzePluginPanel_Ziele::class))
+        $this->plugin = new \ReflectionClass(RunalyzePluginPanel_Ziele::class)
             ->newInstanceWithoutConstructor();
 
         $this->originalDecimalSeparator = Distance::$DecimalSeparator;

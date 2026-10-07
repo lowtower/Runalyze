@@ -2,18 +2,18 @@
 
 <!-- https://phpunit.readthedocs.io/en/latest/configuration.html -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
-         executionOrder="depends,defects"
-         resolveDependencies="true"
-         backupGlobals="false"
-         colors="true"
-         failOnNotice="true"
-         failOnWarning="true"
-         bootstrap="tests/bootstrap.php"
-         processIsolation="false"
-         stopOnError="false"
-         stopOnFailure="false"
-         beStrictAboutTestsThatDoNotTestAnything="false"
+    xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+    executionOrder="defects"
+    resolveDependencies="true"
+    backupGlobals="false"
+    colors="true"
+    failOnNotice="true"
+    failOnWarning="true"
+    bootstrap="tests/bootstrap.php"
+    processIsolation="false"
+    stopOnError="false"
+    stopOnFailure="false"
+    beStrictAboutTestsThatDoNotTestAnything="false"
 >
     <php>
         <ini name="display_errors" value="1" />
@@ -41,7 +41,7 @@
         </testsuite>
     </testsuites>
 
-    <source ignoreSuppressionOfDeprecations="true" restrictNotices="true" restrictWarnings="true">
+    <source baseline="phpunit-baseline.xml"  ignoreSuppressionOfDeprecations="true" restrictNotices="true" restrictWarnings="true">
         <include>
             <directory suffix=".php">inc</directory>
             <directory suffix=".php">plugin</directory>

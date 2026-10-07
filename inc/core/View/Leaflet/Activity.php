@@ -164,7 +164,7 @@ class Activity extends LeafletRoute
     protected function fillCurrentSegment()
     {
         /** @var Geohash $geohash */
-        $geohash = (new Geotools())->geohash()
+        $geohash = new Geotools()->geohash()
             ->decode($this->RouteLoop->geohash());
         if ($this->RouteLoop->geohash() === '7zzzzzzzzzzz') {
             return;
@@ -203,7 +203,7 @@ class Activity extends LeafletRoute
             return;
         }
 
-        if (round((new Distance($this->TrackdataLoop->distance()))->valueInPreferredUnit(), 2) >= $this->Dist) {
+        if (round(new Distance($this->TrackdataLoop->distance())->valueInPreferredUnit(), 2) >= $this->Dist) {
             $Pace = new Pace($this->TrackdataLoop->time() - $this->Time);
 
             $Tooltip = sprintf(__('<strong>%s. %s</strong> in %s'), $this->Dist, Configuration::General()->distanceUnitSystem()->distanceUnit(), $Pace->asMinPerKm()) . '<br>';

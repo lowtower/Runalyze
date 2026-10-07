@@ -67,7 +67,7 @@ class Prognose_PrognosisWindow
     {
         $this->UnitSystem = Configuration::General()->distanceUnitSystem();
 
-        $TopResults = (new Prognosis\TopResults())->getTopResults(2);
+        $TopResults = new Prognosis\TopResults()->getTopResults(2);
         $CurrentShape = Configuration::Data()->vo2maxShape();
 
         if (empty($_POST)) {
@@ -103,17 +103,17 @@ class Prognose_PrognosisWindow
                 __('%s in %s <small>(%s)</small> and %s in %s <small>(%s)</small>'),
                 Distance::format($TopResults[0]['distance']),
                 Duration::format($TopResults[0]['s']),
-                (new LocalTime($TopResults[0]['time']))->format('d.m.Y'),
+                new LocalTime($TopResults[0]['time'])->format('d.m.Y'),
                 Distance::format($TopResults[1]['distance']),
                 Duration::format($TopResults[1]['s']),
-                (new LocalTime($TopResults[1]['time']))->format('d.m.Y')
+                new LocalTime($TopResults[1]['time'])->format('d.m.Y')
             );
         } elseif (count($TopResults) === 1) {
             $ResultLine = sprintf(
                 __('%s in %s <small>(%s)</small>'),
                 Distance::format($TopResults[0]['distance']),
                 Duration::format($TopResults[0]['s']),
-                (new LocalTime($TopResults[0]['time']))->format('d.m.Y')
+                new LocalTime($TopResults[0]['time'])->format('d.m.Y')
             );
         } else {
             $ResultLine = __('none');
@@ -171,16 +171,16 @@ class Prognose_PrognosisWindow
     {
         $this->PrognosisObject = new Bock(
             (float) $_POST['best-result-km'],
-            (new Duration($_POST['best-result-time']))->seconds(),
+            new Duration($_POST['best-result-time'])->seconds(),
             (float) $_POST['second-best-result-km'],
-            (new Duration($_POST['second-best-result-time']))->seconds()
+            new Duration($_POST['second-best-result-time'])->seconds()
         );
     }
 
     protected function setupSteffnyPrognosis()
     {
         $this->PrognosisObject = new Steffny(
-            (new Duration($_POST['best-result-time']))->seconds(),
+            new Duration($_POST['best-result-time'])->seconds(),
             (float) $_POST['best-result-km']
         );
     }
@@ -188,7 +188,7 @@ class Prognose_PrognosisWindow
     protected function setupCameronPrognosis()
     {
         $this->PrognosisObject = new Cameron(
-            (new Duration($_POST['best-result-time']))->seconds(),
+            new Duration($_POST['best-result-time'])->seconds(),
             (float) $_POST['best-result-km']
         );
     }
@@ -218,11 +218,11 @@ class Prognose_PrognosisWindow
             $PacePB = new Pace($PB->seconds(), $km, SportFactory::getSpeedUnitFor(Configuration::General()->runningSport()));
 
             $DateWithLink = $PB->seconds() > 0
-                ? Ajax::trainingLink($PB->activityId(), (new LocalTime($PB->timestamp()))->format('d.m.Y'), true)
+                ? Ajax::trainingLink($PB->activityId(), new LocalTime($PB->timestamp())->format('d.m.Y'), true)
                 : '-';
 
             $this->Prognoses[] = [
-                'distance' => (new Distance($km))->stringAuto(),
+                'distance' => new Distance($km)->stringAuto(),
                 'prognosis' => $Prognosis > 0 ? Duration::format($Prognosis) : '-',
                 'prognosis-pace' => $PacePrognosis->valueWithAppendix(),
                 'prognosis-vo2max' => $Prognosis > 0 ? $VO2maxprognosis->uncorrectedValue() : '-',

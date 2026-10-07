@@ -154,7 +154,7 @@ class Route
         }
 
         /** @var Geohash $geohashObj */
-        $geohashObj = (new Geotools())->geohash()
+        $geohashObj = new Geotools()->geohash()
             ->decode($geohash);
         $coordinate = $geohashObj->getCoordinate();
 

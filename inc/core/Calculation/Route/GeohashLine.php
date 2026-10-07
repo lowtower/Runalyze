@@ -45,7 +45,7 @@ class GeohashLine
     public static function findFirstNonNullGeohash(array $geohashes, int $precision): ?string
     {
         /** @var Geohash $nullGeohashObj */
-        $nullGeohashObj = (new Geohash())->encode(new Coordinate([0.0, 0.0]), $precision);
+        $nullGeohashObj = new Geohash()->encode(new Coordinate([0.0, 0.0]), $precision);
         $nullGeohash = $nullGeohashObj->getGeohash();
 
         foreach ($geohashes as $geohash) {

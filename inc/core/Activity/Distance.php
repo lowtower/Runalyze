@@ -50,7 +50,7 @@ class Distance implements ValueInterface
      */
     public static function format(float $km, bool $withUnit = true, $decimals = false): string
     {
-        return (new self($km))->string($withUnit, $decimals);
+        return new self($km)->string($withUnit, $decimals);
     }
 
     /**

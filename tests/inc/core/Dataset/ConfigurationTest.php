@@ -39,12 +39,12 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertFalse($this->Configuration->isEmpty());
 
-        $this->assertTrue((new Configuration($this->PDO, 2, false))->isEmpty());
+        $this->assertTrue(new Configuration($this->PDO, 2, false)->isEmpty());
     }
 
     public function testFallbackToDefault(): void
     {
-        $this->assertFalse((new Configuration($this->PDO, 42))->isEmpty());
+        $this->assertFalse(new Configuration($this->PDO, 42)->isEmpty());
     }
 
     public function testExistance(): void

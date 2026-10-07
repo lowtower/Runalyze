@@ -338,7 +338,7 @@ abstract class Loop
     protected function decodedGeohash(string $geohash): Geohash
     {
         /** @var Geohash $decoded */
-        $decoded = (new Geohash())->decode($geohash);
+        $decoded = new Geohash()->decode($geohash);
 
         return $decoded;
     }

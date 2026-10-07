@@ -156,16 +156,16 @@ class DistanceTest extends TestCase
 
     public function testIsNegativeIsTrueOnlyForNegativeKilometer(): void
     {
-        $this->assertTrue((new Distance(-0.001))->isNegative());
-        $this->assertFalse((new Distance(0.0))->isNegative());
-        $this->assertFalse((new Distance(0.001))->isNegative());
+        $this->assertTrue(new Distance(-0.001)->isNegative());
+        $this->assertFalse(new Distance(0.0)->isNegative());
+        $this->assertFalse(new Distance(0.001)->isNegative());
     }
 
     public function testIsZeroIsTrueOnlyForZeroKilometer(): void
     {
-        $this->assertTrue((new Distance(0.0))->isZero());
-        $this->assertFalse((new Distance(0.001))->isZero());
-        $this->assertFalse((new Distance(-0.001))->isZero());
+        $this->assertTrue(new Distance(0.0)->isZero());
+        $this->assertFalse(new Distance(0.001)->isZero());
+        $this->assertFalse(new Distance(-0.001)->isZero());
     }
 
     public function testStringKilometerUsesDefaultDecimalsWhenNotGiven(): void

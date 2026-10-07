@@ -22,6 +22,7 @@ use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaData;
 use Runalyze\Metrics\Common\UnitInterface;
 
+#[\PHPUnit\Framework\Attributes\Group('default')]
 class AnovaDataQueryTest extends TestCase
 {
     private function createAnovaDataMock(
@@ -127,12 +128,12 @@ class AnovaDataQueryTest extends TestCase
             ],
         ]);
 
-        $queryGroupMock = $this->createStub(QueryGroupInterface::class);
-        $queryGroupMock->method('loadAllGroups')
+        $queryGroupStub = $this->createStub(QueryGroupInterface::class);
+        $queryGroupStub->method('loadAllGroups')
             ->willReturn([
                 1 => 'Fresh',
             ]);
-        $this->setProtectedProperty($query, 'QueryGroup', $queryGroupMock);
+        $this->setProtectedProperty($query, 'QueryGroup', $queryGroupStub);
 
         $query->loadAllGroups($this->createStub(EntityManager::class), $this->createStub(Account::class));
 
@@ -152,10 +153,10 @@ class AnovaDataQueryTest extends TestCase
         $query = new AnovaDataQuery($anovaData);
 
         $expectedUnit = $this->createStub(UnitInterface::class);
-        $queryValueMock = $this->createStub(QueryValueInterface::class);
-        $queryValueMock->method('getValueUnit')
+        $queryValueStub = $this->createStub(QueryValueInterface::class);
+        $queryValueStub->method('getValueUnit')
             ->willReturn($expectedUnit);
-        $this->setProtectedProperty($query, 'QueryValue', $queryValueMock);
+        $this->setProtectedProperty($query, 'QueryValue', $queryValueStub);
 
         $unitSystem = $this->createMock(UnitSystem::class);
         $unitSystem->expects($this->never())
@@ -174,10 +175,10 @@ class AnovaDataQueryTest extends TestCase
             ->willReturn([$sport]);
         $query = new AnovaDataQuery($anovaData);
 
-        $queryValueMock = $this->createStub(QueryValueInterface::class);
-        $queryValueMock->method('getValueUnit')
+        $queryValueStub = $this->createStub(QueryValueInterface::class);
+        $queryValueStub->method('getValueUnit')
             ->willReturn($this->createStub(UnitInterface::class));
-        $this->setProtectedProperty($query, 'QueryValue', $queryValueMock);
+        $this->setProtectedProperty($query, 'QueryValue', $queryValueStub);
 
         $unitSystem = $this->createMock(UnitSystem::class);
         $unitSystem->expects($this->once())
@@ -197,10 +198,10 @@ class AnovaDataQueryTest extends TestCase
             ]);
         $query = new AnovaDataQuery($anovaData);
 
-        $queryValueMock = $this->createStub(QueryValueInterface::class);
-        $queryValueMock->method('getValueUnit')
+        $queryValueStub = $this->createStub(QueryValueInterface::class);
+        $queryValueStub->method('getValueUnit')
             ->willReturn($this->createStub(UnitInterface::class));
-        $this->setProtectedProperty($query, 'QueryValue', $queryValueMock);
+        $this->setProtectedProperty($query, 'QueryValue', $queryValueStub);
 
         $unitSystem = $this->createMock(UnitSystem::class);
         $unitSystem->expects($this->never())
@@ -213,10 +214,10 @@ class AnovaDataQueryTest extends TestCase
     {
         $query = new AnovaDataQuery($this->createAnovaDataMock());
 
-        $queryGroupMock = $this->createStub(QueryGroupInterface::class);
-        $queryGroupMock->method('showEmptyGroups')
+        $queryGroupStub = $this->createStub(QueryGroupInterface::class);
+        $queryGroupStub->method('showEmptyGroups')
             ->willReturn(false);
-        $this->setProtectedProperty($query, 'QueryGroup', $queryGroupMock);
+        $this->setProtectedProperty($query, 'QueryGroup', $queryGroupStub);
 
         $this->setProtectedProperty($query, 'Groups', [
             1 => [
@@ -246,10 +247,10 @@ class AnovaDataQueryTest extends TestCase
     {
         $query = new AnovaDataQuery($this->createAnovaDataMock());
 
-        $queryGroupMock = $this->createStub(QueryGroupInterface::class);
-        $queryGroupMock->method('showEmptyGroups')
+        $queryGroupStub = $this->createStub(QueryGroupInterface::class);
+        $queryGroupStub->method('showEmptyGroups')
             ->willReturn(true);
-        $this->setProtectedProperty($query, 'QueryGroup', $queryGroupMock);
+        $this->setProtectedProperty($query, 'QueryGroup', $queryGroupStub);
 
         $groups = [
             1 => [
@@ -299,27 +300,27 @@ class AnovaDataQueryTest extends TestCase
             ],
         ]);
 
-        $queryGroupMock = $this->createStub(QueryGroupInterface::class);
-        $queryGroupMock->method('showEmptyGroups')
+        $queryGroupStub = $this->createStub(QueryGroupInterface::class);
+        $queryGroupStub->method('showEmptyGroups')
             ->willReturn(false);
-        $this->setProtectedProperty($query, 'QueryGroup', $queryGroupMock);
+        $this->setProtectedProperty($query, 'QueryGroup', $queryGroupStub);
 
-        $unitMock = $this->createStub(UnitInterface::class);
-        $unitMock->method('fromBaseUnit')
+        $unitStub = $this->createStub(UnitInterface::class);
+        $unitStub->method('fromBaseUnit')
             ->willReturnCallback(static fn (float $v): float => $v * 2);
 
-        $queryValueMock = $this->createStub(QueryValueInterface::class);
-        $queryValueMock->method('getValueUnit')
-            ->willReturn($unitMock);
-        $this->setProtectedProperty($query, 'QueryValue', $queryValueMock);
+        $queryValueStub = $this->createStub(QueryValueInterface::class);
+        $queryValueStub->method('getValueUnit')
+            ->willReturn($unitStub);
+        $this->setProtectedProperty($query, 'QueryValue', $queryValueStub);
 
         $trainingRepository = $this->createStub(TrainingRepository::class);
         $account = $this->createStub(Account::class);
         $unitSystem = $this->createStub(UnitSystem::class);
 
-        // Stays a mock: it uses with() on toIterable()
         $doctrineQueryMock = $this->createMock(Query::class);
-        $doctrineQueryMock->method('toIterable')
+        $doctrineQueryMock->expects($this->once())
+            ->method('toIterable')
             ->with([], AbstractQuery::HYDRATE_ARRAY)
             ->willReturn([
                 [
@@ -377,21 +378,21 @@ class AnovaDataQueryTest extends TestCase
             ],
         ]);
 
-        $queryGroupMock = $this->createStub(QueryGroupInterface::class);
-        $queryGroupMock->method('showEmptyGroups')
+        $queryGroupStub = $this->createStub(QueryGroupInterface::class);
+        $queryGroupStub->method('showEmptyGroups')
             ->willReturn(true);
-        $this->setProtectedProperty($query, 'QueryGroup', $queryGroupMock);
+        $this->setProtectedProperty($query, 'QueryGroup', $queryGroupStub);
 
-        $unitMock = $this->createStub(UnitInterface::class);
-        $unitMock->method('fromBaseUnit')
+        $unitStub = $this->createStub(UnitInterface::class);
+        $unitStub->method('fromBaseUnit')
             ->willReturnArgument(0);
-        $queryValueMock = $this->createStub(QueryValueInterface::class);
-        $queryValueMock->method('getValueUnit')
-            ->willReturn($unitMock);
-        $this->setProtectedProperty($query, 'QueryValue', $queryValueMock);
+        $queryValueStub = $this->createStub(QueryValueInterface::class);
+        $queryValueStub->method('getValueUnit')
+            ->willReturn($unitStub);
+        $this->setProtectedProperty($query, 'QueryValue', $queryValueStub);
 
-        $doctrineQueryMock = $this->createStub(Query::class);
-        $doctrineQueryMock->method('toIterable')
+        $doctrineQueryStub = $this->createStub(Query::class);
+        $doctrineQueryStub->method('toIterable')
             ->willReturn([
                 [
                     'grouping' => 1,
@@ -399,10 +400,9 @@ class AnovaDataQueryTest extends TestCase
                 ],
             ]);
 
-        // Was method() only. expects(once()) makes it a real expectation.
         $query->expects($this->once())
             ->method('buildQuery')
-            ->willReturn($doctrineQueryMock);
+            ->willReturn($doctrineQueryStub);
 
         $result = $query->getResults(
             $this->createStub(TrainingRepository::class),

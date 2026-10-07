@@ -24,11 +24,11 @@ class RouteRepositoryTest extends AbstractRepositoryTestCase
 
         $this->assertFalse($this->RouteRepository->accountHasLockedRoutes($account));
 
-        $this->RouteRepository->save((new Route())->setAccount($account));
+        $this->RouteRepository->save(new Route()->setAccount($account));
 
         $this->assertFalse($this->RouteRepository->accountHasLockedRoutes($account));
 
-        $this->RouteRepository->save((new Route())->setAccount($account)->setLock(true));
+        $this->RouteRepository->save(new Route()->setAccount($account)->setLock(true));
 
         $this->assertTrue($this->RouteRepository->accountHasLockedRoutes($account));
     }
