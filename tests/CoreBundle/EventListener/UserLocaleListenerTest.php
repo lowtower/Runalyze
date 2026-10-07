@@ -38,8 +38,7 @@ class UserLocaleListenerTest extends TestCase
         $this->request = new Request();
         $this->request->setSession($this->session);
 
-        $requestStack = new RequestStack();
-        $requestStack->push($this->request);
+        $requestStack = new RequestStack([$this->request]);
 
         $this->listener = new UserLocaleListener($requestStack);
     }

@@ -45,10 +45,10 @@ final class InstallCommandTest extends TestCase
     private function createInstallCommandTester(array $stubCommands): CommandTester
     {
         $application = new Application();
-        $application->add(new InstallCommand());
+        $application->addCommand(new InstallCommand());
 
         foreach ($stubCommands as $stubCommand) {
-            $application->add($stubCommand);
+            $application->addCommand($stubCommand);
         }
 
         $installCommand = $application->find('runalyze:install');

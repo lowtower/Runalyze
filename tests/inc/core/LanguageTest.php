@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class LanguageTest extends TestCase
 {
-    private const LOCALE_CATEGORIES = [
+    private const array LOCALE_CATEGORIES = [
         'LC_COLLATE' => LC_COLLATE,
         'LC_CTYPE' => LC_CTYPE,
         'LC_MONETARY' => LC_MONETARY,

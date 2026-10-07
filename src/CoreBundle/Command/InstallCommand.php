@@ -47,9 +47,6 @@ class InstallCommand extends Command
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         $this->Application = $this->getApplication();
-        $this->Application->setCatchExceptions(false);
-        $this->Application->setAutoExit(false);
-
         $this->removeCommandsThatShouldBeSkipped($input);
     }
 
@@ -66,42 +63,39 @@ class InstallCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $previousShellVerbosity = getenv('SHELL_VERBOSITY');
-        putenv('SHELL_VERBOSITY=0');
-
-        try {
-            return $this->runInstallationSteps($output);
-        } finally {
-            putenv($previousShellVerbosity === false ? 'SHELL_VERBOSITY' : 'SHELL_VERBOSITY=' . $previousShellVerbosity);
-        }
-    }
-
-    private function runInstallationSteps(OutputInterface $output): int
-    {
         $output->writeln('<info>Installing RUNALYZE...</info>');
         $output->writeln('');
 
         foreach ($this->Commands as $step => $command) {
-            $output->writeln(sprintf('<comment>Step %d of %d.</comment> <info>%s</info>', $step + 1, count($this->Commands), $command['message']));
+            $output->writeln(sprintf(
+                '<comment>Step %d of %d.</comment> <info>%s</info>',
+                $step + 1,
+                count($this->Commands),
+                $command['message']
+            ));
 
-            if (! $command['skip']) {
-                $subInput = new ArrayInput([
-                    'command' => 'runalyze:install:' . $command['command'],
-                ]);
-                $exitCode = $this->Application->run($subInput, $output);
-                $output->writeln('');
-
-                if ($exitCode > 0) {
-                    return $exitCode;
-                }
-            } else {
+            if ($command['skip'] ?? false) {
                 $output->writeln('skipped');
                 $output->writeln('');
+                continue;
+            }
+
+            $subCommand = $this->Application->find('runalyze:install:' . $command['command']);
+            $subInput = new ArrayInput([
+                'command' => $subCommand->getName(),
+            ]);
+            $subInput->setInteractive($input->isInteractive());
+
+            $exitCode = $subCommand->run($subInput, $output);
+            $output->writeln('');
+
+            if ($exitCode > 0) {
+                return $exitCode;
             }
         }
 
         $output->writeln('<info>RUNALYZE has been successfully installed.</info>');
 
-        return 0;
+        return \Symfony\Component\Console\Command\Command::SUCCESS;
     }
 }

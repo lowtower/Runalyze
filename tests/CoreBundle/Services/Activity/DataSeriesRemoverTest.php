@@ -12,6 +12,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Trackdata;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Services\Activity\DataSeriesRemover;
 
+#[\PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations]
 class DataSeriesRemoverTest extends TestCase
 {
     private EntityManager&MockObject $EntityManagerMock;

@@ -20,9 +20,7 @@ class FeedbackType extends AbstractType
                     'placeholder' => 'Share your feedback here',
                 ],
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'An empty feedback makes no sense.',
-                    ]),
+                    new NotBlank(message: 'An empty feedback makes no sense.'),
                 ],
             ]);
     }

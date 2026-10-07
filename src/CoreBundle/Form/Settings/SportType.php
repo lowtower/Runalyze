@@ -79,9 +79,7 @@ class SportType extends AbstractType
                     'autofocus' => true,
                 ],
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a name.',
-                    ]),
+                    new NotBlank(message: 'Please enter a name.'),
                 ],
             ])
             ->add('img', ChoiceType::class, [

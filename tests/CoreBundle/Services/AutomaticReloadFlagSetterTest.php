@@ -26,8 +26,7 @@ class AutomaticReloadFlagSetterTest extends \PHPUnit\Framework\TestCase
         $request = new Request();
         $request->setSession($session);
 
-        $requestStack = new RequestStack();
-        $requestStack->push($request);
+        $requestStack = new RequestStack([$request]);
 
         $this->FlagSetter = new AutomaticReloadFlagSetter($requestStack);
     }

@@ -17,6 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\LegacyPasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\EquatableInterface;
 
 #[ORM\Table(name: 'account')]
 #[ORM\UniqueConstraint(name: 'username', columns: ['username'])]
@@ -24,7 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: AccountRepository::class)]
 #[UniqueEntity('mail', message: 'This mail address is already in use')]
 #[UniqueEntity('username', message: 'This username is already in use')]
-class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface, IdentifiableEntityInterface
+class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface, EquatableInterface, IdentifiableEntityInterface
 {
     #[Assert\Length(min: 8, minMessage: 'Your password must be at least {{ limit }} characters long')]
     private ?string $plainPassword = null;
@@ -648,5 +649,15 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
         $this->tags = new ArrayCollection();
         $this->equipment = new ArrayCollection();
         $this->equipmentTypes = new ArrayCollection();
+    }
+
+    public function isEqualTo(UserInterface $user): bool
+    {
+    return $user instanceof self
+    && $this->id === $user->getId()
+    && $this->username === $user->getUsername()
+    && $this->password === $user->getPassword()
+    && $this->salt === $user->getSalt()
+    && $this->role === $user->getRole();
     }
 }

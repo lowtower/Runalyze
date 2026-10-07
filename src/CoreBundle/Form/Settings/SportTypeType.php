@@ -49,18 +49,14 @@ class SportTypeType extends AbstractType
                     'autofocus' => true,
                 ],
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a name.',
-                    ]),
+                    new NotBlank(message: 'Please enter a name.'),
                 ],
             ])
             ->add('abbr', TextType::class, [
                 'required' => true,
                 'label' => 'Abbreviation',
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter an abbreviation.',
-                    ]),
+                    new NotBlank(message: 'Please enter an abbreviation.'),
                 ],
             ])
             ->add('hrAvg', HeartRateType::class, [

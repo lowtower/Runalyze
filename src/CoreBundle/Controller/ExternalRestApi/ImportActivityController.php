@@ -229,28 +229,18 @@ class ImportActivityController extends AbstractController
     private function processImport(string $username, string $uploadDir): string
     {
         $application = new Application($this->kernel);
-        $application->setAutoExit(false);
+
+        $command = $application->find(self::IMPORT_CMD);
 
         $input = new ArrayInput([
-            'command' => self::IMPORT_CMD,
-            // '--env' => 'prod',
             'username' => $username,
             'path' => $uploadDir,
         ]);
+        $input->setInteractive(false);
 
-        // You can use NullOutput() if you don't need the output
         $output = new BufferedOutput();
+        $command->run($input, $output);
 
-        $previousShellVerbosity = getenv('SHELL_VERBOSITY');
-        putenv('SHELL_VERBOSITY=0');
-
-        try {
-            $application->run($input, $output);
-        } finally {
-            putenv($previousShellVerbosity === false ? 'SHELL_VERBOSITY' : 'SHELL_VERBOSITY=' . $previousShellVerbosity);
-        }
-
-        // return the output, don't use if you used NullOutput()
         return $output->fetch();
     }
 }

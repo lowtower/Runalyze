@@ -19,9 +19,7 @@ class TagType extends AbstractType
             ->add('tag', TextType::class, [
                 'required' => true,
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a tag name.',
-                    ]),
+                    new NotBlank(message: 'Please enter a tag name.'),
                 ],
             ])
         ;

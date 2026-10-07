@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Component\Tool\VO2maxAnalysis\RaceAnalysis;
 use Runalyze\Model\Activity\Entity as ActivityEntity;
 
+#[\PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations]
 class RaceAnalysisTest extends TestCase
 {
     private function createActivityMock(): ActivityEntity&\PHPUnit\Framework\MockObject\MockObject

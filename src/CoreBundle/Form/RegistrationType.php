@@ -35,9 +35,7 @@ class RegistrationType extends AbstractType
             ->add('termsAccepted', CheckboxType::class, [
                 'mapped' => false,
                 'required' => false,
-                'constraints' => new IsTrue([
-                    'message' => 'You have to accept our terms of use',
-                ]),
+                'constraints' => new IsTrue(message: 'You have to accept our terms of use'),
                 'label' => 'Accept our terms of use',
             ])
             ->add('textTimezone', HiddenType::class, [
