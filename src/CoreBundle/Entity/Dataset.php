@@ -23,10 +23,10 @@ class Dataset implements AccountRelatedEntityInterface
     #[ORM\Id]
     private int $keyid;
 
-    #[ORM\Column(name: 'active', type: 'boolean')]
+    #[ORM\Column(name: 'active', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     private bool $active = true;
 
-    #[ORM\Column(name: 'style', type: 'string', length: 100, nullable: false, options: [
+    #[ORM\Column(name: 'style', type: \Doctrine\DBAL\Types\Types::STRING, length: 100, nullable: false, options: [
         'default' => '',
     ])]
     private string $style = '';
@@ -39,7 +39,7 @@ class Dataset implements AccountRelatedEntityInterface
     /**
      * @see DatasetPrivacyProfile
      */
-    #[ORM\Column(name: 'privacy', type: 'boolean')]
+    #[ORM\Column(name: 'privacy', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     private bool $privacy = true;
 
     public function setAccount(Account $account): self

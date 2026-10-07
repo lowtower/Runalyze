@@ -20,28 +20,28 @@ use Runalyze\Profile\Sport\SportProfile;
 #[ORM\Entity(repositoryClass: SportRepository::class)]
 class Sport implements IdentifiableEntityInterface, NamedEntityInterface, AccountRelatedEntityInterface
 {
-    #[ORM\Column(name: 'id', type: 'integer', options: [
+    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER, options: [
         'unsigned' => true,
     ])]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'name', type: 'string', length: 50, nullable: false)]
+    #[ORM\Column(name: 'name', type: \Doctrine\DBAL\Types\Types::STRING, length: 50, nullable: false)]
     private string $name = '';
 
-    #[ORM\Column(name: 'img', type: 'string', length: 100, nullable: false, options: [
+    #[ORM\Column(name: 'img', type: \Doctrine\DBAL\Types\Types::STRING, length: 100, nullable: false, options: [
         'default' => 'icons8-Sports-Mode',
     ])]
     private string $img = 'icons8-Sports-Mode';
 
-    #[ORM\Column(name: 'short', type: 'boolean')]
+    #[ORM\Column(name: 'short', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     private bool $short = false;
 
     /**
      * @var int [kcal/h]
      */
-    #[ORM\Column(name: 'kcal', type: 'smallint', precision: 4, nullable: false, options: [
+    #[ORM\Column(name: 'kcal', type: \Doctrine\DBAL\Types\Types::SMALLINT, precision: 4, nullable: false, options: [
         'unsigned' => true,
     ])]
     private int $kcal = 0;
@@ -54,7 +54,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     ])]
     private int $hfavg = 120;
 
-    #[ORM\Column(name: 'distances', type: 'boolean')]
+    #[ORM\Column(name: 'distances', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     private bool $distances = true;
 
     /**
@@ -65,16 +65,16 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     ])]
     private int $speed = 6;
 
-    #[ORM\Column(name: 'power', type: 'boolean')]
+    #[ORM\Column(name: 'power', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     private bool $power = false;
 
-    #[ORM\Column(name: 'outside', type: 'boolean')]
+    #[ORM\Column(name: 'outside', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     private bool $outside = false;
 
     /**
      * @var bool true: defaults to private
      */
-    #[ORM\Column(name: 'default_privacy', type: 'boolean')]
+    #[ORM\Column(name: 'default_privacy', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     private bool $defaultPrivacy = true;
 
     /**
@@ -97,7 +97,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     #[ORM\ManyToOne(targetEntity: Type::class)]
     private ?Type $defaultType = null;
 
-    #[ORM\Column(name: 'is_main', type: 'boolean')]
+    #[ORM\Column(name: 'is_main', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     private bool $isMain = false;
 
     /**

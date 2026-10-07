@@ -21,14 +21,14 @@ class EquipmentType implements AccountRelatedEntityInterface
      */
     public const CHOICE_MULTIPLE = 1;
 
-    #[ORM\Column(name: 'id', type: 'integer', precision: 10, nullable: false, options: [
+    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER, precision: 10, nullable: false, options: [
         'unsigned' => true,
     ])]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'name', type: 'string', length: 50, nullable: false)]
+    #[ORM\Column(name: 'name', type: \Doctrine\DBAL\Types\Types::STRING, length: 50, nullable: false)]
     private string $name = '';
 
     /**
@@ -43,7 +43,7 @@ class EquipmentType implements AccountRelatedEntityInterface
     /**
      * @var ?int [km]
      */
-    #[ORM\Column(name: 'max_km', type: 'integer', nullable: true, options: [
+    #[ORM\Column(name: 'max_km', type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $maxKm = null;
@@ -51,7 +51,7 @@ class EquipmentType implements AccountRelatedEntityInterface
     /**
      * @var ?int [s]
      */
-    #[ORM\Column(name: 'max_time', type: 'integer', nullable: true, options: [
+    #[ORM\Column(name: 'max_time', type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $maxTime = null;

@@ -23,40 +23,40 @@ class Raceresult implements AccountRelatedEntityInterface
     #[ORM\Column(name: 'official_time', type: 'casted_decimal_2', precision: 8, scale: 2, nullable: false)]
     private float $officialTime;
 
-    #[ORM\Column(name: 'officially_measured', type: 'boolean')]
+    #[ORM\Column(name: 'officially_measured', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     private bool $officiallyMeasured = false;
 
-    #[ORM\Column(name: 'name', type: 'string', length: 50, nullable: false, options: [
+    #[ORM\Column(name: 'name', type: \Doctrine\DBAL\Types\Types::STRING, length: 50, nullable: false, options: [
         'default' => '',
     ])]
     private string $name = '';
 
-    #[ORM\Column(name: 'place_total', type: 'integer', nullable: true, options: [
+    #[ORM\Column(name: 'place_total', type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $placeTotal = null;
 
-    #[ORM\Column(name: 'place_gender', type: 'integer', nullable: true, options: [
+    #[ORM\Column(name: 'place_gender', type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $placeGender = null;
 
-    #[ORM\Column(name: 'place_ageclass', type: 'integer', nullable: true, options: [
+    #[ORM\Column(name: 'place_ageclass', type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $placeAgeclass = null;
 
-    #[ORM\Column(name: 'participants_total', type: 'integer', nullable: true, options: [
+    #[ORM\Column(name: 'participants_total', type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $participantsTotal = null;
 
-    #[ORM\Column(name: 'participants_gender', type: 'integer', nullable: true, options: [
+    #[ORM\Column(name: 'participants_gender', type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $participantsGender = null;
 
-    #[ORM\Column(name: 'participants_ageclass', type: 'integer', nullable: true, options: [
+    #[ORM\Column(name: 'participants_ageclass', type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $participantsAgeclass = null;

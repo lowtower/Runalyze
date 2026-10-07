@@ -10,20 +10,20 @@ use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 #[ORM\Entity(repositoryClass: ConfRepository::class)]
 class Conf implements AccountRelatedEntityInterface
 {
-    #[ORM\Column(name: 'id', type: 'integer', options: [
+    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER, options: [
         'unsigned' => true,
     ])]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'category', type: 'string', length: 32, nullable: false)]
+    #[ORM\Column(name: 'category', type: \Doctrine\DBAL\Types\Types::STRING, length: 32, nullable: false)]
     private string $category;
 
-    #[ORM\Column(name: '`key`', type: 'string', length: 100, nullable: false)]
+    #[ORM\Column(name: '`key`', type: \Doctrine\DBAL\Types\Types::STRING, length: 100, nullable: false)]
     private string $key;
 
-    #[ORM\Column(name: 'value', type: 'string', length: 255, nullable: false)]
+    #[ORM\Column(name: 'value', type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: false)]
     private string $value;
 
     #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]

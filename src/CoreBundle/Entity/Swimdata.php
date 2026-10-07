@@ -18,7 +18,7 @@ class Swimdata implements AccountRelatedEntityInterface
     /**
      * @var int [cm]
      */
-    #[ORM\Column(name: 'pool_length', type: 'smallint', precision: 5, nullable: false, options: [
+    #[ORM\Column(name: 'pool_length', type: \Doctrine\DBAL\Types\Types::SMALLINT, precision: 5, nullable: false, options: [
         'unsigned' => true,
     ])]
     private int $poolLength = 0;

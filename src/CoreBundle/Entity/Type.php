@@ -14,17 +14,17 @@ use Runalyze\Profile\View\DataBrowserRowProfile;
 #[ORM\Entity(repositoryClass: TypeRepository::class)]
 class Type implements IdentifiableEntityInterface, NamedEntityInterface, AccountRelatedEntityInterface
 {
-    #[ORM\Column(name: 'id', type: 'integer', options: [
+    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER, options: [
         'unsigned' => true,
     ])]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'name', type: 'string', length: 50, nullable: false)]
+    #[ORM\Column(name: 'name', type: \Doctrine\DBAL\Types\Types::STRING, length: 50, nullable: false)]
     private string $name = '';
 
-    #[ORM\Column(name: 'abbr', type: 'string', length: 5, nullable: false, options: [
+    #[ORM\Column(name: 'abbr', type: \Doctrine\DBAL\Types\Types::STRING, length: 5, nullable: false, options: [
         'default' => '',
     ])]
     private string $abbr = '';
@@ -49,7 +49,7 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
     ])]
     private int $hrAvg = 100;
 
-    #[ORM\Column(name: 'quality_session', type: 'boolean')]
+    #[ORM\Column(name: 'quality_session', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     private bool $qualitySession = false;
 
     /**

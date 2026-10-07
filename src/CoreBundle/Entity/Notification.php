@@ -12,7 +12,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 #[ORM\Entity(repositoryClass: NotificationRepository::class)]
 class Notification implements AccountRelatedEntityInterface
 {
-    #[ORM\Column(name: 'id', type: 'integer', options: [
+    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER, options: [
         'unsigned' => true,
     ])]
     #[ORM\Id]
@@ -22,7 +22,7 @@ class Notification implements AccountRelatedEntityInterface
     /**
      * @see \Runalyze\Profile\Notifications\MessageTypeProfile
      */
-    #[ORM\Column(name: 'messageType', type: 'smallint', nullable: false, options: [
+    #[ORM\Column(name: 'messageType', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: false, options: [
         'unsigned' => true,
     ])]
     private int $messageType;
@@ -30,7 +30,7 @@ class Notification implements AccountRelatedEntityInterface
     /**
      * @var int [timestamp]
      */
-    #[ORM\Column(name: 'createdAt', type: 'integer', nullable: false, options: [
+    #[ORM\Column(name: 'createdAt', type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: false, options: [
         'unsigned' => true,
     ])]
     private int $createdAt;
@@ -38,15 +38,15 @@ class Notification implements AccountRelatedEntityInterface
     /**
      * @var ?int [timestamp]
      */
-    #[ORM\Column(name: 'expirationAt', type: 'integer', nullable: true, options: [
+    #[ORM\Column(name: 'expirationAt', type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $expirationAt = null;
 
-    #[ORM\Column(name: 'data', type: 'text', length: 255)]
+    #[ORM\Column(name: 'data', type: \Doctrine\DBAL\Types\Types::TEXT, length: 255)]
     private string $data;
 
-    #[ORM\Column(name: 'wasRead', type: 'boolean')]
+    #[ORM\Column(name: 'wasRead', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     protected bool $wasRead = false;
 
     #[ORM\JoinColumn(name: 'account_id', referencedColumnName: 'id', nullable: false)]

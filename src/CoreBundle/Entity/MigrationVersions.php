@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity]
 class MigrationVersions
 {
-    #[ORM\Column(name: 'version', type: 'string', length: 255, nullable: false)]
+    #[ORM\Column(name: 'version', type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: false)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private string $version = '';

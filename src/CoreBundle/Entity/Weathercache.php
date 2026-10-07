@@ -20,14 +20,14 @@ class Weathercache
      */
     public const GEOHASH_PRECISION_LOOKUP = 4;
 
-    #[ORM\Column(name: 'geohash', type: 'string', length: 5, nullable: false, options: [
+    #[ORM\Column(name: 'geohash', type: \Doctrine\DBAL\Types\Types::STRING, length: 5, nullable: false, options: [
         'fixed' => true,
     ])]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     private string $geohash = '';
 
-    #[ORM\Column(name: 'time', type: 'integer', precision: 11, nullable: false)]
+    #[ORM\Column(name: 'time', type: \Doctrine\DBAL\Types\Types::INTEGER, precision: 11, nullable: false)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     private int $time;
@@ -49,7 +49,7 @@ class Weathercache
     /**
      * @var ?int [°]
      */
-    #[ORM\Column(name: 'wind_deg', type: 'smallint', precision: 3, nullable: true, options: [
+    #[ORM\Column(name: 'wind_deg', type: \Doctrine\DBAL\Types\Types::SMALLINT, precision: 3, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $windDeg = null;
@@ -65,12 +65,12 @@ class Weathercache
     /**
      * @var ?int [hPa]
      */
-    #[ORM\Column(name: 'pressure', type: 'smallint', precision: 4, nullable: true, options: [
+    #[ORM\Column(name: 'pressure', type: \Doctrine\DBAL\Types\Types::SMALLINT, precision: 4, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $pressure = null;
 
-    #[ORM\Column(name: 'weatherid', type: 'smallint', nullable: false)]
+    #[ORM\Column(name: 'weatherid', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: false)]
     private int $weatherid = 1;
 
     #[ORM\Column(name: 'weather_source', type: 'tinyint', nullable: true, options: [

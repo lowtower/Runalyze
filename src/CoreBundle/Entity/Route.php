@@ -21,19 +21,19 @@ class Route implements AccountRelatedEntityInterface
 
     public const BOUNDARIES_GEOHASH_PRECISION = 10;
 
-    #[ORM\Column(name: 'id', type: 'integer', precision: 10, nullable: false, options: [
+    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER, precision: 10, nullable: false, options: [
         'unsigned' => true,
     ])]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'name', type: 'string', length: 255, nullable: false, options: [
+    #[ORM\Column(name: 'name', type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: false, options: [
         'default' => '',
     ])]
     private string $name = '';
 
-    #[ORM\Column(name: 'cities', type: 'string', length: 255, nullable: false, options: [
+    #[ORM\Column(name: 'cities', type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: false, options: [
         'default' => '',
     ])]
     private string $cities = '';
@@ -49,7 +49,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @var int [m]
      */
-    #[ORM\Column(name: 'elevation', type: 'smallint', nullable: false, options: [
+    #[ORM\Column(name: 'elevation', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: false, options: [
         'unsigned' => true,
     ])]
     private int $elevation = 0;
@@ -57,7 +57,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @var int [m]
      */
-    #[ORM\Column(name: 'elevation_up', type: 'smallint', nullable: false, options: [
+    #[ORM\Column(name: 'elevation_up', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: false, options: [
         'unsigned' => true,
     ])]
     private int $elevationUp = 0;
@@ -65,7 +65,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @var int [m]
      */
-    #[ORM\Column(name: 'elevation_down', type: 'smallint', nullable: false, options: [
+    #[ORM\Column(name: 'elevation_down', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: false, options: [
         'unsigned' => true,
     ])]
     private int $elevationDown = 0;
@@ -85,18 +85,18 @@ class Route implements AccountRelatedEntityInterface
     #[ORM\Column(name: 'elevations_corrected', type: 'pipe_array', nullable: true)]
     private ?array $elevationsCorrected = null;
 
-    #[ORM\Column(name: 'elevations_source', type: 'string', length: 255, nullable: true, options: [
+    #[ORM\Column(name: 'elevations_source', type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true, options: [
         'default' => '',
     ])]
     private ?string $elevationsSource = null;
 
-    #[ORM\Column(name: 'altitude_barometric', type: 'boolean')]
+    #[ORM\Column(name: 'altitude_barometric', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     private bool $altitudeBarometric = false;
 
     /**
      * @var ?string [geohash]
      */
-    #[ORM\Column(name: 'startpoint', type: 'string', length: 10, nullable: true, options: [
+    #[ORM\Column(name: 'startpoint', type: \Doctrine\DBAL\Types\Types::STRING, length: 10, nullable: true, options: [
         'fixed' => true,
     ])]
     private ?string $startpoint = null;
@@ -104,7 +104,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @var ?string [geohash]
      */
-    #[ORM\Column(name: 'endpoint', type: 'string', length: 10, nullable: true, options: [
+    #[ORM\Column(name: 'endpoint', type: \Doctrine\DBAL\Types\Types::STRING, length: 10, nullable: true, options: [
         'fixed' => true,
     ])]
     private ?string $endpoint = null;
@@ -112,7 +112,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @var ?string [geohash]
      */
-    #[ORM\Column(name: 'min', type: 'string', length: 10, nullable: true, options: [
+    #[ORM\Column(name: 'min', type: \Doctrine\DBAL\Types\Types::STRING, length: 10, nullable: true, options: [
         'fixed' => true,
     ])]
     private ?string $min = null;
@@ -120,19 +120,19 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @var ?string [geohash]
      */
-    #[ORM\Column(name: 'max', type: 'string', length: 10, nullable: true, options: [
+    #[ORM\Column(name: 'max', type: \Doctrine\DBAL\Types\Types::STRING, length: 10, nullable: true, options: [
         'fixed' => true,
     ])]
     private ?string $max = null;
 
-    #[ORM\Column(name: 'in_routenet', type: 'boolean')]
+    #[ORM\Column(name: 'in_routenet', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     private bool $inRoutenet = false;
 
     #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
     #[ORM\ManyToOne(targetEntity: Account::class)]
     private Account $account;
 
-    #[ORM\Column(name: '`lock`', type: 'boolean')]
+    #[ORM\Column(name: '`lock`', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     private bool $lock = false;
 
     private bool $areMinMaxSynchronized = true;

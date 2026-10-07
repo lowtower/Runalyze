@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\HasLifecycleCallbacks]
 class Training implements IdentifiableEntityInterface, AccountRelatedEntityInterface
 {
-    #[ORM\Column(name: 'id', type: 'integer', precision: 10, unique: true, nullable: false, options: [
+    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER, precision: 10, unique: true, nullable: false, options: [
         'unsigned' => true,
     ])]
     #[ORM\Id]
@@ -41,20 +41,20 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var int [timestamp]
      */
-    #[ORM\Column(name: 'time', type: 'integer', nullable: false)]
+    #[ORM\Column(name: 'time', type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: false)]
     #[Assert\NotBlank(message: 'Every activity needs a time')]
     private int $time;
 
     /**
      * @var ?int [min]
      */
-    #[ORM\Column(name: 'timezone_offset', type: 'smallint', nullable: true)]
+    #[ORM\Column(name: 'timezone_offset', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true)]
     private ?int $timezoneOffset = null;
 
     /**
      * @var ?int [timestamp]
      */
-    #[ORM\Column(name: 'created', type: 'integer', nullable: true, options: [
+    #[ORM\Column(name: 'created', type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $created = null;
@@ -62,18 +62,18 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?int [timestamp]
      */
-    #[ORM\Column(name: 'edited', type: 'integer', nullable: true, options: [
+    #[ORM\Column(name: 'edited', type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $edited = null;
 
-    #[ORM\Column(name: 'is_public', type: 'boolean')]
+    #[ORM\Column(name: 'is_public', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     private bool $isPublic = false;
 
-    #[ORM\Column(name: 'is_track', type: 'boolean')]
+    #[ORM\Column(name: 'is_track', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     private bool $isTrack = false;
 
-    #[ORM\Column(name: 'with_goal', type: 'boolean')]
+    #[ORM\Column(name: 'with_goal', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     private bool $withGoal = false;
 
     /**
@@ -96,7 +96,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?int [s]
      */
-    #[ORM\Column(name: 'elapsed_time', type: 'integer', nullable: true, options: [
+    #[ORM\Column(name: 'elapsed_time', type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $elapsedTime = null;
@@ -104,7 +104,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?int [m]
      */
-    #[ORM\Column(name: 'elevation', type: 'smallint', nullable: true, options: [
+    #[ORM\Column(name: 'elevation', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $elevation = null;
@@ -128,7 +128,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?int [kcal]
      */
-    #[ORM\Column(name: 'kcal', type: 'smallint', nullable: true, options: [
+    #[ORM\Column(name: 'kcal', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $kcal = null;
@@ -136,7 +136,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?int [kcal]
      */
-    #[ORM\Column(name: 'kcal_rest', type: 'smallint', nullable: true, options: [
+    #[ORM\Column(name: 'kcal_rest', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $kcalInRest = null;
@@ -207,7 +207,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     ])]
     private ?float $vo2maxWithElevation = null;
 
-    #[ORM\Column(name: 'use_vo2max', type: 'boolean')]
+    #[ORM\Column(name: 'use_vo2max', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     private bool $useVO2max = true;
 
     /**
@@ -221,12 +221,12 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?int [min]
      */
-    #[ORM\Column(name: 'fit_recovery_time', type: 'smallint', nullable: true, options: [
+    #[ORM\Column(name: 'fit_recovery_time', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $fitRecoveryTime = null;
 
-    #[ORM\Column(name: 'fit_hrv_analysis', type: 'smallint', nullable: true, options: [
+    #[ORM\Column(name: 'fit_hrv_analysis', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $fitHrvAnalysis = null;
@@ -234,7 +234,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?int [1 .. 7]
      */
-    #[ORM\Column(name: 'fit_training_effect_benefit', type: 'smallint', nullable: true, options: [
+    #[ORM\Column(name: 'fit_training_effect_benefit', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $fitTrainingEffectBenefit = null;
@@ -283,7 +283,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?int [m]
      */
-    #[ORM\Column(name: 'fit_total_ascent', type: 'smallint', nullable: true, options: [
+    #[ORM\Column(name: 'fit_total_ascent', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $fitTotalAscent = null;
@@ -291,7 +291,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?int [m]
      */
-    #[ORM\Column(name: 'fit_total_descent', type: 'smallint', nullable: true, options: [
+    #[ORM\Column(name: 'fit_total_descent', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $fitTotalDescent = null;
@@ -299,7 +299,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?int [-]
      */
-    #[ORM\Column(name: 'fit_self_evaluation_feeling', type: 'smallint', nullable: true, options: [
+    #[ORM\Column(name: 'fit_self_evaluation_feeling', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $fitSelfEvaluationFeeling = null;
@@ -307,7 +307,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?int [-]
      */
-    #[ORM\Column(name: 'fit_self_evaluation_perceived_effort', type: 'smallint', nullable: true, options: [
+    #[ORM\Column(name: 'fit_self_evaluation_perceived_effort', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $fitSelfEvaluationPerceivedEffort = null;
@@ -315,7 +315,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?int [-]
      */
-    #[ORM\Column(name: 'fit_load_peak', type: 'smallint', nullable: true, options: [
+    #[ORM\Column(name: 'fit_load_peak', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $fitLoadPeak = null;
@@ -323,7 +323,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?int [s]
      */
-    #[ORM\Column(name: 'fit_run_time', type: 'integer', nullable: true, options: [
+    #[ORM\Column(name: 'fit_run_time', type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $fitRunTime = null;
@@ -331,7 +331,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?int [s]
      */
-    #[ORM\Column(name: 'fit_walk_time', type: 'integer', nullable: true, options: [
+    #[ORM\Column(name: 'fit_walk_time', type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $fitWalkTime = null;
@@ -339,7 +339,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?int [s]
      */
-    #[ORM\Column(name: 'fit_stand_time', type: 'smallint', nullable: true, options: [
+    #[ORM\Column(name: 'fit_stand_time', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $fitStandTime = null;
@@ -353,7 +353,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?int [ml]
      */
-    #[ORM\Column(name: 'fit_sweat_loss', type: 'smallint', nullable: true, options: [
+    #[ORM\Column(name: 'fit_sweat_loss', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $fitSweatLoss = null;
@@ -361,7 +361,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?int [-]
      */
-    #[ORM\Column(name: 'avg_respiration_rate', type: 'smallint', nullable: true, options: [
+    #[ORM\Column(name: 'avg_respiration_rate', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $avgRespirationRate = null;
@@ -369,7 +369,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?int [-]
      */
-    #[ORM\Column(name: 'max_respiration_rate', type: 'smallint', nullable: true, options: [
+    #[ORM\Column(name: 'max_respiration_rate', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $maxRespirationRate = null;
@@ -382,7 +382,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     ])]
     private ?int $rpe = null;
 
-    #[ORM\Column(name: 'trimp', type: 'smallint', nullable: true, options: [
+    #[ORM\Column(name: 'trimp', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $trimp = null;
@@ -390,7 +390,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?int [rpm]
      */
-    #[ORM\Column(name: 'cadence', type: 'smallint', nullable: true, options: [
+    #[ORM\Column(name: 'cadence', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $cadence = null;
@@ -398,17 +398,17 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?int [W]
      */
-    #[ORM\Column(name: 'power', type: 'smallint', nullable: true, options: [
+    #[ORM\Column(name: 'power', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $power = null;
 
-    #[ORM\Column(name: 'is_power_calculated', type: 'boolean', nullable: true, options: [
+    #[ORM\Column(name: 'is_power_calculated', type: \Doctrine\DBAL\Types\Types::BOOLEAN, nullable: true, options: [
         'default' => null,
     ])]
     private ?bool $isPowerCalculated = null;
 
-    #[ORM\Column(name: 'total_strokes', type: 'smallint', nullable: true, options: [
+    #[ORM\Column(name: 'total_strokes', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $totalStrokes = null;
@@ -426,7 +426,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     ])]
     private ?int $strideLength = null;
 
-    #[ORM\Column(name: 'total_cycles', type: 'smallint', nullable: true, options: [
+    #[ORM\Column(name: 'total_cycles', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $totalCycles = null;
@@ -434,7 +434,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?int [ms]
      */
-    #[ORM\Column(name: 'groundcontact', type: 'smallint', nullable: true, options: [
+    #[ORM\Column(name: 'groundcontact', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $groundcontact = null;
@@ -442,7 +442,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?int [%ooL]
      */
-    #[ORM\Column(name: 'groundcontact_balance', type: 'smallint', nullable: true, options: [
+    #[ORM\Column(name: 'groundcontact_balance', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $groundcontactBalance = null;
@@ -458,7 +458,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?int [%]
      */
-    #[ORM\Column(name: 'vertical_ratio', type: 'smallint', nullable: true, options: [
+    #[ORM\Column(name: 'vertical_ratio', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $verticalRatio = null;
@@ -466,7 +466,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?float [G]
      */
-    #[ORM\Column(name: 'avg_impact_gs_left', type: 'float', nullable: true, options: [
+    #[ORM\Column(name: 'avg_impact_gs_left', type: \Doctrine\DBAL\Types\Types::FLOAT, nullable: true, options: [
         'unsigned' => true,
     ], columnDefinition: 'FLOAT')]
     private ?float $avgImpactGsLeft = null;
@@ -474,7 +474,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?float [G]
      */
-    #[ORM\Column(name: 'avg_impact_gs_right', type: 'float', nullable: true, options: [
+    #[ORM\Column(name: 'avg_impact_gs_right', type: \Doctrine\DBAL\Types\Types::FLOAT, nullable: true, options: [
         'unsigned' => true,
     ], columnDefinition: 'FLOAT')]
     private ?float $avgImpactGsRight = null;
@@ -482,7 +482,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?float [G]
      */
-    #[ORM\Column(name: 'avg_braking_gs_left', type: 'float', nullable: true, options: [
+    #[ORM\Column(name: 'avg_braking_gs_left', type: \Doctrine\DBAL\Types\Types::FLOAT, nullable: true, options: [
         'unsigned' => true,
     ], columnDefinition: 'FLOAT')]
     private ?float $avgBrakingGsLeft = null;
@@ -490,7 +490,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?float [G]
      */
-    #[ORM\Column(name: 'avg_braking_gs_right', type: 'float', nullable: true, options: [
+    #[ORM\Column(name: 'avg_braking_gs_right', type: \Doctrine\DBAL\Types\Types::FLOAT, nullable: true, options: [
         'unsigned' => true,
     ], columnDefinition: 'FLOAT')]
     private ?float $avgBrakingGsRight = null;
@@ -514,13 +514,13 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?float [°]
      */
-    #[ORM\Column(name: 'avg_pronation_excursion_left', type: 'float', nullable: true, columnDefinition: 'FLOAT')]
+    #[ORM\Column(name: 'avg_pronation_excursion_left', type: \Doctrine\DBAL\Types\Types::FLOAT, nullable: true, columnDefinition: 'FLOAT')]
     private ?float $avgPronationExcursionLeft = null;
 
     /**
      * @var ?float [°]
      */
-    #[ORM\Column(name: 'avg_pronation_excursion_right', type: 'float', nullable: true, columnDefinition: 'FLOAT')]
+    #[ORM\Column(name: 'avg_pronation_excursion_right', type: \Doctrine\DBAL\Types\Types::FLOAT, nullable: true, columnDefinition: 'FLOAT')]
     private ?float $avgPronationExcursionRight = null;
 
     /**
@@ -540,7 +540,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?int [°]
      */
-    #[ORM\Column(name: 'wind_deg', type: 'smallint', nullable: true, options: [
+    #[ORM\Column(name: 'wind_deg', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true, options: [
         'unsigned' => true,
     ])]
     #[Assert\Range(notInRangeMessage: 'The wind direction must be between {{ min }} and {{ max }} degrees', min: 0, max: 359)]
@@ -558,18 +558,18 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var ?int [hPa]
      */
-    #[ORM\Column(name: 'pressure', type: 'smallint', nullable: true, options: [
+    #[ORM\Column(name: 'pressure', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $pressure = null;
 
-    #[ORM\Column(name: 'is_night', type: 'boolean', nullable: true)]
+    #[ORM\Column(name: 'is_night', type: \Doctrine\DBAL\Types\Types::BOOLEAN, nullable: true)]
     private ?bool $isNight = null;
 
     /**
      * @var int enum, see \Runalyze\Profile\Weather\WeatherConditionProfile
      */
-    #[ORM\Column(name: 'weatherid', type: 'smallint', nullable: false, options: [
+    #[ORM\Column(name: 'weatherid', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: false, options: [
         'unsigned' => true,
         'default' => 1,
     ])]
@@ -580,7 +580,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     ])]
     private ?int $weatherSource = null;
 
-    #[ORM\Column(name: 'route', type: 'text', length: 65535, nullable: true)]
+    #[ORM\Column(name: 'route', type: \Doctrine\DBAL\Types\Types::TEXT, length: 65535, nullable: true)]
     private ?string $routeName = null;
 
     #[ORM\JoinColumn(name: 'routeid', referencedColumnName: 'id', nullable: true)]
@@ -590,39 +590,39 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     #[ORM\Column(name: 'splits', type: 'runalyze_round_array', length: 16777215, nullable: true)]
     private ?RoundCollection $splits;
 
-    #[ORM\Column(name: 'splits_additional', type: 'json', length: 2147483647, nullable: true)]
+    #[ORM\Column(name: 'splits_additional', type: \Doctrine\DBAL\Types\Types::JSON, length: 2147483647, nullable: true)]
     private ?array $splitsAdditional = null;
 
-    #[ORM\Column(name: 'title', type: 'text', length: 65535, nullable: true)]
+    #[ORM\Column(name: 'title', type: \Doctrine\DBAL\Types\Types::TEXT, length: 65535, nullable: true)]
     private ?string $title = null;
 
-    #[ORM\Column(name: 'partner', type: 'text', length: 65535, nullable: true)]
+    #[ORM\Column(name: 'partner', type: \Doctrine\DBAL\Types\Types::TEXT, length: 65535, nullable: true)]
     private ?string $partner = null;
 
-    #[ORM\Column(name: 'pace_goal', type: 'json', length: 2147483647, nullable: true)]
+    #[ORM\Column(name: 'pace_goal', type: \Doctrine\DBAL\Types\Types::JSON, length: 2147483647, nullable: true)]
     private ?array $paceGoal = null;
 
-    #[ORM\Column(name: 'notes', type: 'text', length: 65535, nullable: true)]
+    #[ORM\Column(name: 'notes', type: \Doctrine\DBAL\Types\Types::TEXT, length: 65535, nullable: true)]
     private ?string $notes = null;
 
     #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
     #[ORM\ManyToOne(targetEntity: Account::class)]
     private Account $account;
 
-    #[ORM\Column(name: 'creator', type: 'string', length: 100, nullable: false, options: [
+    #[ORM\Column(name: 'creator', type: \Doctrine\DBAL\Types\Types::STRING, length: 100, nullable: false, options: [
         'default' => '',
     ])]
     private string $creator = '';
 
-    #[ORM\Column(name: 'creator_details', type: 'text', length: 255, nullable: true)]
+    #[ORM\Column(name: 'creator_details', type: \Doctrine\DBAL\Types\Types::TEXT, length: 255, nullable: true)]
     private ?string $creatorDetails = null;
 
-    #[ORM\Column(name: 'activity_id', type: 'integer', nullable: true, options: [
+    #[ORM\Column(name: 'activity_id', type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $activityId = null;
 
-    #[ORM\Column(name: '`lock`', type: 'boolean')]
+    #[ORM\Column(name: '`lock`', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     private bool $lock = false;
 
     /**

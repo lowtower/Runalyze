@@ -13,17 +13,17 @@ use Runalyze\Bundle\CoreBundle\Entity\Common\NamedEntityInterface;
 #[ORM\Entity(repositoryClass: EquipmentRepository::class)]
 class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, AccountRelatedEntityInterface
 {
-    #[ORM\Column(name: 'id', type: 'integer', options: [
+    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER, options: [
         'unsigned' => true,
     ])]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'name', type: 'string', length: 50, nullable: false)]
+    #[ORM\Column(name: 'name', type: \Doctrine\DBAL\Types\Types::STRING, length: 50, nullable: false)]
     private string $name;
 
-    #[ORM\Column(name: 'notes', type: 'text', length: 255, nullable: false)]
+    #[ORM\Column(name: 'notes', type: \Doctrine\DBAL\Types\Types::TEXT, length: 255, nullable: false)]
     private string $notes = '';
 
     /**
@@ -37,7 +37,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     /**
      * @var int [s]
      */
-    #[ORM\Column(name: 'time', type: 'integer', nullable: false, options: [
+    #[ORM\Column(name: 'time', type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: false, options: [
         'unsigned' => true,
     ])]
     private int $time = 0;
@@ -45,15 +45,15 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     /**
      * @var int [km]
      */
-    #[ORM\Column(name: 'additional_km', type: 'smallint', nullable: false, options: [
+    #[ORM\Column(name: 'additional_km', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: false, options: [
         'unsigned' => true,
     ])]
     private int $additionalKm = 0;
 
-    #[ORM\Column(name: 'date_start', type: 'date', nullable: true)]
+    #[ORM\Column(name: 'date_start', type: \Doctrine\DBAL\Types\Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTime $dateStart = null;
 
-    #[ORM\Column(name: 'date_end', type: 'date', nullable: true)]
+    #[ORM\Column(name: 'date_end', type: \Doctrine\DBAL\Types\Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTime $dateEnd = null;
 
     #[ORM\JoinColumn(name: 'typeid', referencedColumnName: 'id', nullable: false)]

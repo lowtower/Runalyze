@@ -8,14 +8,16 @@ framework:
     serializer:
         enable_attributes: true
 
-    # Enables session support. Note that the session will ONLY be started if you read or write from it.
-    # Remove or comment this section to explicitly disable session support.
+    # Note that the session will be started ONLY if you read or write from it.
     session:
         storage_factory_id: session.storage.factory.native
         handler_id: '%session.handler_id%'
         save_path: '%app.data_directory%/sessions'
         cookie_secure: auto
         cookie_samesite: lax
+
+    #esi: true
+    #fragments: true
 
     form: ~
 

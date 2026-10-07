@@ -13,14 +13,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\EntityListeners([\Runalyze\Bundle\CoreBundle\EntityListener\UserListener::class])]
 class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
 {
-    #[ORM\Column(name: 'id', type: 'integer', nullable: false, options: [
+    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: false, options: [
         'unsigned' => true,
     ])]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'time', type: 'integer', precision: 11, nullable: false, options: [
+    #[ORM\Column(name: 'time', type: \Doctrine\DBAL\Types\Types::INTEGER, precision: 11, nullable: false, options: [
         'unsigned' => true,
     ])]
     private int $time;
@@ -73,12 +73,12 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
     /**
      * @var ?int [s]
      */
-    #[ORM\Column(name: 'sleep_duration', type: 'smallint', precision: 3, nullable: true, options: [
+    #[ORM\Column(name: 'sleep_duration', type: \Doctrine\DBAL\Types\Types::SMALLINT, precision: 3, nullable: true, options: [
         'unsigned' => true,
     ])]
-    private $sleepDuration;
+    private ?int $sleepDuration = null;
 
-    #[ORM\Column(name: 'notes', type: 'text', length: 65535, nullable: true)]
+    #[ORM\Column(name: 'notes', type: \Doctrine\DBAL\Types\Types::TEXT, length: 65535, nullable: true)]
     private ?string $notes = null;
 
     #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
@@ -226,7 +226,7 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
     /**
      * @param ?int $sleepDuration [min]
      */
-    public function setSleepDuration($sleepDuration): self
+    public function setSleepDuration(?int $sleepDuration): self
     {
         $this->sleepDuration = $sleepDuration;
 

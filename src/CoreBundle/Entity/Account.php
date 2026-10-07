@@ -30,31 +30,31 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     #[Assert\Length(min: 8, minMessage: 'Your password must be at least {{ limit }} characters long')]
     private ?string $plainPassword = null;
 
-    #[ORM\Column(name: 'id', type: 'integer', precision: 10, unique: true, nullable: false, options: [
+    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER, precision: 10, unique: true, nullable: false, options: [
         'unsigned' => true,
     ])]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'username', type: 'string', length: 60, unique: true, nullable: false)]
+    #[ORM\Column(name: 'username', type: \Doctrine\DBAL\Types\Types::STRING, length: 60, unique: true, nullable: false)]
     #[Assert\NotBlank(message: 'You need to enter a username.')]
     #[Assert\Length(min: 3, max: 32, minMessage: 'Your username must be at least {{ limit }} characters long', maxMessage: 'Your username cannot be longer than {{ limit }} characters')]
     #[Assert\Regex(pattern: '#[^a-zA-Z0-9\.\_\-]#i', message: 'Besides digits and letters, only the following characters are allowed: . _ -', match: false)]
     private string $username = '';
 
-    #[ORM\Column(name: 'name', type: 'string', length: 50, options: [
+    #[ORM\Column(name: 'name', type: \Doctrine\DBAL\Types\Types::STRING, length: 50, options: [
         'default' => '',
     ])]
     private string $name = '';
 
-    #[ORM\Column(name: 'mail', type: 'string', length: 100, nullable: false)]
+    #[ORM\Column(name: 'mail', type: \Doctrine\DBAL\Types\Types::STRING, length: 100, nullable: false)]
     #[Assert\NotBlank]
     #[Assert\Email(message: "The email '{{ value }}' is not a valid email.")]
     #[RunalyzeAssert\ContainsDisposableMailAddress]
     private string $mail = '';
 
-    #[ORM\Column(name: 'language', type: 'string', length: 5, nullable: false, options: [
+    #[ORM\Column(name: 'language', type: \Doctrine\DBAL\Types\Types::STRING, length: 5, nullable: false, options: [
         'default' => 'en',
     ])]
     #[Assert\NotBlank]
@@ -63,7 +63,7 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     /**
      * @see Timezone
      */
-    #[ORM\Column(name: 'timezone', type: 'smallint', nullable: false, options: [
+    #[ORM\Column(name: 'timezone', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: false, options: [
         'unsigned' => true,
         'default' => 0,
     ])]
@@ -81,18 +81,18 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     #[Assert\Type('int')]
     private ?int $gender = Gender::NONE;
 
-    #[ORM\Column(name: 'birthyear', type: 'smallint', nullable: true, options: [
+    #[ORM\Column(name: 'birthyear', type: \Doctrine\DBAL\Types\Types::SMALLINT, nullable: true, options: [
         'unsigned' => true,
     ])]
     #[Assert\Type('int')]
     private ?int $birthyear = null;
 
-    #[ORM\Column(name: 'password', type: 'string', length: 64, nullable: false, options: [
+    #[ORM\Column(name: 'password', type: \Doctrine\DBAL\Types\Types::STRING, length: 64, nullable: false, options: [
         'default' => '',
     ])]
     private string $password = '';
 
-    #[ORM\Column(name: 'salt', type: 'string', length: 64, nullable: false, options: [
+    #[ORM\Column(name: 'salt', type: \Doctrine\DBAL\Types\Types::STRING, length: 64, nullable: false, options: [
         'fixed' => true,
         'default' => '',
     ])]
@@ -101,7 +101,7 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     /**
      * @var ?int [timestamp]
      */
-    #[ORM\Column(name: 'registerdate', type: 'integer', nullable: true, options: [
+    #[ORM\Column(name: 'registerdate', type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: true, options: [
         'unsigned' => true,
     ])]
     #[Assert\Type('int')]
@@ -110,13 +110,13 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     /**
      * @var ?int [timestamp]
      */
-    #[ORM\Column(name: 'lastaction', type: 'integer', nullable: true, options: [
+    #[ORM\Column(name: 'lastaction', type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: true, options: [
         'unsigned' => true,
     ])]
     #[Assert\Type('int')]
     private ?int $lastaction = null;
 
-    #[ORM\Column(name: 'changepw_hash', type: 'string', length: 32, nullable: true, options: [
+    #[ORM\Column(name: 'changepw_hash', type: \Doctrine\DBAL\Types\Types::STRING, length: 32, nullable: true, options: [
         'fixed' => true,
     ])]
     private ?string $changepwHash = null;
@@ -124,26 +124,26 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     /**
      * @var ?int [timestamp]
      */
-    #[ORM\Column(name: 'changepw_timelimit', type: 'integer', nullable: true, options: [
+    #[ORM\Column(name: 'changepw_timelimit', type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: true, options: [
         'unsigned' => true,
     ])]
     private ?int $changepwTimelimit = null;
 
-    #[ORM\Column(name: 'activation_hash', type: 'string', length: 32, nullable: true, options: [
+    #[ORM\Column(name: 'activation_hash', type: \Doctrine\DBAL\Types\Types::STRING, length: 32, nullable: true, options: [
         'fixed' => true,
     ])]
     private ?string $activationHash = null;
 
-    #[ORM\Column(name: 'deletion_hash', type: 'string', length: 32, nullable: true, options: [
+    #[ORM\Column(name: 'deletion_hash', type: \Doctrine\DBAL\Types\Types::STRING, length: 32, nullable: true, options: [
         'fixed' => true,
     ])]
     private ?string $deletionHash = null;
 
-    #[ORM\Column(name: 'allow_mails', type: 'boolean')]
+    #[ORM\Column(name: 'allow_mails', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     #[Assert\Type('bool')]
     private bool $allowMails = true;
 
-    #[ORM\Column(name: 'allow_support', type: 'boolean')]
+    #[ORM\Column(name: 'allow_support', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     #[Assert\Type('bool')]
     private bool $allowSupport = false;
 

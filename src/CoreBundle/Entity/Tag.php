@@ -11,14 +11,14 @@ use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 #[ORM\Entity(repositoryClass: TagRepository::class)]
 class Tag implements AccountRelatedEntityInterface
 {
-    #[ORM\Column(name: 'id', type: 'integer', nullable: false, options: [
+    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: false, options: [
         'unsigned' => true,
     ])]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'tag', type: 'string', length: 50, nullable: false)]
+    #[ORM\Column(name: 'tag', type: \Doctrine\DBAL\Types\Types::STRING, length: 50, nullable: false)]
     private string $tag = '';
 
     #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]

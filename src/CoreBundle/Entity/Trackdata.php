@@ -165,7 +165,7 @@ class Trackdata implements AccountRelatedEntityInterface
     #[ORM\ManyToOne(targetEntity: Account::class)]
     private Account $account;
 
-    #[ORM\Column(name: '`lock`', type: 'boolean')]
+    #[ORM\Column(name: '`lock`', type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
     private bool $lock = false;
 
     private ?TrackDataAdapter $Adapter = null;

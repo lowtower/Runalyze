@@ -9,17 +9,17 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: PluginConfRepository::class)]
 class PluginConf
 {
-    #[ORM\Column(name: 'id', type: 'integer', nullable: false, options: [
+    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: false, options: [
         'unsigned' => true,
     ])]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'config', type: 'string', length: 100, nullable: false)]
+    #[ORM\Column(name: 'config', type: \Doctrine\DBAL\Types\Types::STRING, length: 100, nullable: false)]
     private string $config;
 
-    #[ORM\Column(name: 'value', type: 'string', length: 255, nullable: false)]
+    #[ORM\Column(name: 'value', type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: false)]
     private string $value;
 
     #[ORM\JoinColumn(name: 'pluginid', referencedColumnName: 'id', nullable: false)]

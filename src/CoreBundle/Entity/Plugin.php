@@ -34,17 +34,17 @@ class Plugin implements AccountRelatedEntityInterface
      */
     public const TYPE_PANEL = 'panel';
 
-    #[ORM\Column(name: 'id', type: 'integer', options: [
+    #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER, options: [
         'unsigned' => true,
     ])]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
 
-    #[ORM\Column(name: '`key`', type: 'string', length: 100, nullable: false)]
+    #[ORM\Column(name: '`key`', type: \Doctrine\DBAL\Types\Types::STRING, length: 100, nullable: false)]
     private string $key;
 
-    #[ORM\Column(name: 'type', type: 'string', length: 5, nullable: false, options: [
+    #[ORM\Column(name: 'type', type: \Doctrine\DBAL\Types\Types::STRING, length: 5, nullable: false, options: [
         'default' => 'stat',
     ])]
     private string $type = 'stat';
