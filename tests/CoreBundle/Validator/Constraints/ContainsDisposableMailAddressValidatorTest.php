@@ -21,11 +21,10 @@ class ContainsDisposableMailAddressValidatorTest extends TestCase
      */
     private function createValidatorWithStubContext(): array
     {
-        $validator = new ContainsDisposableMailAddressValidator();
-        $context = $this->createStub(ExecutionContextInterface::class);
-        $validator->initialize($context);
-
-        return [$validator, $context];
+        return [
+            new ContainsDisposableMailAddressValidator(),
+            $this->createStub(ExecutionContextInterface::class),
+        ];
     }
 
     /**
@@ -35,11 +34,10 @@ class ContainsDisposableMailAddressValidatorTest extends TestCase
      */
     private function createValidatorWithMockContext(): array
     {
-        $validator = new ContainsDisposableMailAddressValidator();
-        $context = $this->createMock(ExecutionContextInterface::class);
-        $validator->initialize($context);
-
-        return [$validator, $context];
+        return [
+            new ContainsDisposableMailAddressValidator(),
+            $this->createMock(ExecutionContextInterface::class),
+        ];
     }
 
     private function isActuallyDisposable(string $email): bool
@@ -74,7 +72,7 @@ class ContainsDisposableMailAddressValidatorTest extends TestCase
             ->with($constraint->message)
             ->willReturn($builder);
 
-        $validator->validate($email, $constraint);
+        $validator->validateInContext($email, $constraint, $context);
     }
 
     public function testNonDisposableAddressRaisesNoViolation(): void
@@ -92,7 +90,7 @@ class ContainsDisposableMailAddressValidatorTest extends TestCase
         $context->expects($this->never())
             ->method('buildViolation');
 
-        $validator->validate($email, new ContainsDisposableMailAddress());
+        $validator->validateInContext($email, new ContainsDisposableMailAddress(), $context);
     }
 
     public function testWrongConstraintTypeIsSilentlyIgnoredForNonDisposableAddress(): void
@@ -110,7 +108,7 @@ class ContainsDisposableMailAddressValidatorTest extends TestCase
         $context->expects($this->never())
             ->method('buildViolation');
 
-        $validator->validate($email, new NotBlank());
+        $validator->validateInContext($email, new NotBlank(), $context);
     }
 
     public function testWrongConstraintTypeThrowsOnlyForDisposableAddress(): void
@@ -124,10 +122,10 @@ class ContainsDisposableMailAddressValidatorTest extends TestCase
             );
         }
 
-        [$validator] = $this->createValidatorWithStubContext();
+        [$validator, $context] = $this->createValidatorWithStubContext();
 
         $this->expectException(\InvalidArgumentException::class);
 
-        $validator->validate($email, new NotBlank());
+        $validator->validateInContext($email, new NotBlank(), $context);
     }
 }

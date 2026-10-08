@@ -23,11 +23,10 @@ class IsValidTimezoneValidatorTest extends TestCase
      */
     private function createValidatorWithStubContext(): array
     {
-        $validator = new IsValidTimezoneValidator();
-        $context = $this->createStub(ExecutionContextInterface::class);
-        $validator->initialize($context);
-
-        return [$validator, $context];
+        return [
+            new IsValidTimezoneValidator(),
+            $this->createStub(ExecutionContextInterface::class),
+        ];
     }
 
     /**
@@ -37,11 +36,10 @@ class IsValidTimezoneValidatorTest extends TestCase
      */
     private function createValidatorWithMockContext(): array
     {
-        $validator = new IsValidTimezoneValidator();
-        $context = $this->createMock(ExecutionContextInterface::class);
-        $validator->initialize($context);
-
-        return [$validator, $context];
+        return [
+            new IsValidTimezoneValidator(),
+            $this->createMock(ExecutionContextInterface::class),
+        ];
     }
 
     #[DataProvider('provideValidTimezoneEnumValues')]
@@ -51,7 +49,7 @@ class IsValidTimezoneValidatorTest extends TestCase
         $context->expects($this->never())
             ->method('buildViolation');
 
-        $validator->validate($enumValue, new IsValidTimezone());
+        $validator->validateInContext($enumValue, new IsValidTimezone(), $context);
     }
 
     /**
@@ -86,7 +84,7 @@ class IsValidTimezoneValidatorTest extends TestCase
             ->with($constraint->message)
             ->willReturn($builder);
 
-        $validator->validate($value, $constraint);
+        $validator->validateInContext($value, $constraint, $context);
     }
 
     /**
@@ -108,15 +106,15 @@ class IsValidTimezoneValidatorTest extends TestCase
         $context->expects($this->never())
             ->method('buildViolation');
 
-        $validator->validate(TimezoneEnum::BERLIN, new NotBlank());
+        $validator->validateInContext(TimezoneEnum::BERLIN, new NotBlank(), $context);
     }
 
     public function testWrongConstraintTypeThrowsOnlyWhenValueIsAlsoInvalid(): void
     {
-        [$validator] = $this->createValidatorWithStubContext();
+        [$validator, $context] = $this->createValidatorWithStubContext();
 
         $this->expectException(\InvalidArgumentException::class);
 
-        $validator->validate(999999, new NotBlank());
+        $validator->validateInContext(999999, new NotBlank(), $context);
     }
 }
