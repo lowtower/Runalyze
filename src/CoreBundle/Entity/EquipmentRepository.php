@@ -45,7 +45,7 @@ class EquipmentRepository extends EntityRepository
                 ->andWhere('eq.account = :account')
                 ->setParameter(':typeid', $typeId)
                 ->setParameter(':account', $account->getId())
-                ->addOrderBy('eq.distance', 'DESC')
+                ->addOrderBy('eq.distance', \SortDirection::Descending)
                 ->groupBy('eq.id')
                 ->getQuery()
                 ->getResult()
@@ -62,23 +62,23 @@ class EquipmentRepository extends EntityRepository
         foreach ($equipment as $object) {
             $object->addTime($additionalDuration);
             $object->addDistance($additionalDistance);
-            $this->_em->persist($object);
+            $this->getEntityManager()->persist($object);
         }
 
         if ($flush) {
-            $this->_em->flush();
+            $this->getEntityManager()->flush();
         }
     }
 
     public function save(Equipment $equipment): void
     {
-        $this->_em->persist($equipment);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($equipment);
+        $this->getEntityManager()->flush();
     }
 
     public function remove(Equipment $equipment): void
     {
-        $this->_em->remove($equipment);
-        $this->_em->flush();
+        $this->getEntityManager()->remove($equipment);
+        $this->getEntityManager()->flush();
     }
 }

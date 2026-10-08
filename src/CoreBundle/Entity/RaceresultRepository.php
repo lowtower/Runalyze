@@ -28,7 +28,7 @@ class RaceresultRepository extends EntityRepository
 
     public function findForSportAndYear(Account $account, Sport $sport, int $year): array
     {
-        return $this->_em->createQueryBuilder()
+        return $this->getEntityManager()->createQueryBuilder()
             ->select(
                 'r',
                 't.time'
@@ -38,12 +38,10 @@ class RaceresultRepository extends EntityRepository
             ->where('r.account = :account')
             ->andWhere('t.sport = :sport')
             ->andWhere('t.time BETWEEN :startTime and :endTime')
-            ->setParameters([
-                ':account' => $account->getId(),
-                ':sport' => $sport->getId(),
-                ':startTime' => mktime(0, 0, 0, 1, 1, $year),
-                ':endTime' => mktime(23, 59, 59, 12, 31, $year),
-            ])
+            ->setParameter('account', $account->getId())
+            ->setParameter('sport', $sport->getId())
+            ->setParameter('startTime', mktime(0, 0, 0, 1, 1, $year))
+            ->setParameter('endTime', mktime(23, 59, 59, 12, 31, $year))
             ->getQuery()
             ->getArrayResult();
     }
@@ -58,9 +56,7 @@ class RaceresultRepository extends EntityRepository
             ->addSelect('partial a.{id, time, sport, vo2max, vo2maxByTime, vo2maxWithElevation}')
             ->join('r.activity', 'a')
             ->where('r.account = :account')
-            ->setParameters([
-                ':account' => $account,
-            ])
+            ->setParameters(new \Doctrine\Common\Collections\ArrayCollection([new \Doctrine\ORM\Query\Parameter(':account', $account)]))
             ->getQuery()
             ->getResult();
     }
@@ -78,7 +74,7 @@ class RaceresultRepository extends EntityRepository
             ->andWhere('t.vo2max > 0')
             ->setParameter('account', $account->getId())
             ->setParameter('sport', $sportId)
-            ->orderBy('t.vo2maxByTime', 'DESC')
+            ->orderBy('t.vo2maxByTime', \SortDirection::Descending)
             ->setMaxResults(self::NUMBER_OF_RACES_TO_CONSIDER_FOR_CORRECTION_FACTOR)
             ->getQuery()
             ->getResult('COLUMN_HYDRATOR');
@@ -92,13 +88,13 @@ class RaceresultRepository extends EntityRepository
 
     public function save(Raceresult $raceResult): void
     {
-        $this->_em->persist($raceResult);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($raceResult);
+        $this->getEntityManager()->flush();
     }
 
     public function delete(Raceresult $raceResult): void
     {
-        $this->_em->remove($raceResult);
-        $this->_em->flush();
+        $this->getEntityManager()->remove($raceResult);
+        $this->getEntityManager()->flush();
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Doctrine\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -8,17 +10,14 @@ use Runalyze\Calculation\Route\GeohashLine;
 
 class GeohashArray extends Type
 {
-    /**
-     * @var string
-     */
-    public const GEOHASH_ARRAY = 'geohash_array';
+    public const string GEOHASH_ARRAY = 'geohash_array';
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
-        return $platform->getClobTypeDeclarationSQL($fieldDeclaration);
+        return $platform->getClobTypeDeclarationSQL($column);
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
+    public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
     {
         if (! is_array($value) || $value === []) {
             return null;
@@ -27,24 +26,16 @@ class GeohashArray extends Type
         return implode('|', GeohashLine::shorten($value));
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?array
+    public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?array
     {
-        if ($value === null || trim($value) === '') {
+        if (is_resource($value)) {
+            $value = stream_get_contents($value);
+        }
+
+        if (! is_string($value) || trim($value) === '') {
             return null;
         }
 
-        $value = (is_resource($value)) ? stream_get_contents($value) : $value;
-
         return GeohashLine::extend(explode('|', $value));
-    }
-
-    public function getName(): string
-    {
-        return self::GEOHASH_ARRAY;
-    }
-
-    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
-    {
-        return true;
     }
 }

@@ -7,12 +7,12 @@ use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 use Runalyze\Profile\View\DatasetPrivacyProfile;
 
 #[ORM\Table(name: 'dataset')]
-#[ORM\Index(columns: ['accountid', 'position'], name: 'position')]
+#[ORM\Index(name: 'position', columns: ['accountid', 'position'])]
 #[ORM\UniqueConstraint(name: 'unique_key', columns: ['accountid', 'keyid'])]
 #[ORM\Entity(repositoryClass: DatasetRepository::class)]
 class Dataset implements AccountRelatedEntityInterface
 {
-    #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
+    #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id')]
     #[ORM\ManyToOne(targetEntity: Account::class)]
     #[Orm\Id]
     private Account $account;

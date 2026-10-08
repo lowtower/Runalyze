@@ -34,13 +34,13 @@ class EquipmentTypeRepository extends EntityRepository
 
     public function save(EquipmentType $equipmentType): void
     {
-        $this->_em->persist($equipmentType);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($equipmentType);
+        $this->getEntityManager()->flush();
     }
 
     public function remove(EquipmentType $equipmentType): void
     {
-        $this->_em->remove($equipmentType);
-        $this->_em->flush();
+        $this->getEntityManager()->remove($equipmentType);
+        $this->getEntityManager()->flush();
     }
 }

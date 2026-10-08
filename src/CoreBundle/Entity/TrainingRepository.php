@@ -26,10 +26,12 @@ class TrainingRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('t')
             ->select('SUM(t.distance)')
-            ->getQuery()
-            ->useResultCache($cache);
+            ->getQuery();
+
         if ($cache) {
-            $query->setResultCacheLifetime(120);
+            $query->enableResultCache(120);
+        } else {
+            $query->disableResultCache();
         }
 
         return $query->getSingleScalarResult();
@@ -42,7 +44,7 @@ class TrainingRepository extends EntityRepository
      */
     public function getSpeedUnitFor(int $activityid, int $accountid): mixed
     {
-        return $this->_em->createQueryBuilder()
+        return $this->getEntityManager()->createQueryBuilder()
             ->select('s.speed')
             ->from(Training::class, 't')
             ->join('t.sport', 's')
@@ -79,8 +81,8 @@ class TrainingRepository extends EntityRepository
             ->setParameter('account', $activity->getAccount())
             ->setParameter('id', $activity->getId())
             ->setParameter('time', $activity->getTime())
-            ->orderBy('t.time', 'ASC')
-            ->addOrderBy('t.id', 'ASC')
+            ->orderBy('t.time', \SortDirection::Ascending)
+            ->addOrderBy('t.id', \SortDirection::Ascending)
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR);
@@ -96,8 +98,8 @@ class TrainingRepository extends EntityRepository
             ->setParameter('account', $activity->getAccount())
             ->setParameter('id', $activity->getId())
             ->setParameter('time', $activity->getTime())
-            ->orderBy('t.time', 'DESC')
-            ->addOrderBy('t.id', 'DESC')
+            ->orderBy('t.time', \SortDirection::Descending)
+            ->addOrderBy('t.id', \SortDirection::Descending)
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR);
@@ -105,7 +107,7 @@ class TrainingRepository extends EntityRepository
 
     public function getActiveYearsFor(Account $account, ?int $sportid = null, ?int $minimumActivities = null): array
     {
-        $queryBuilder = $this->_em->createQueryBuilder()
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()
             ->select('YEAR(FROM_UNIXTIME(t.time)) AS year')
             ->from(Training::class, 't')
             ->where('t.account = :account')
@@ -134,7 +136,7 @@ class TrainingRepository extends EntityRepository
      */
     public function getNumberOfActivitiesFor(Account $account, ?int $year = null, ?int $sportid = null): int
     {
-        $queryBuilder = $this->_em->createQueryBuilder()
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()
             ->select('COUNT(1) as num')
             ->from(Training::class, 't')
             ->where('t.account = :account')
@@ -163,7 +165,7 @@ class TrainingRepository extends EntityRepository
      */
     public function getNumberOfActivitiesWithActivityType(Type $type): bool|float|int|string|null
     {
-        $queryBuilder = $this->_em->createQueryBuilder()
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()
             ->select('COUNT(1) as num')
             ->from(Training::class, 't')
             ->where('t.type = :typeid')
@@ -175,7 +177,7 @@ class TrainingRepository extends EntityRepository
 
     public function getTypesWithTraining(Account $account): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $queryBuilder = $qb
             ->select('IDENTITY(t.type)')
             ->from(Training::class, 't')
@@ -190,7 +192,7 @@ class TrainingRepository extends EntityRepository
 
     public function getSportsWithTraining(Account $account): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $queryBuilder = $qb
             ->select('IDENTITY(t.sport)')
             ->from(Training::class, 't')
@@ -205,7 +207,7 @@ class TrainingRepository extends EntityRepository
 
     public function getMonthlyStatsFor(Account $account, ?string $column = null, ?int $sportid = null): array
     {
-        $queryBuilder = $this->_em->createQueryBuilder()
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()
             ->select(
                 'YEAR(FROM_UNIXTIME(t.time)) AS year',
                 'MONTH(FROM_UNIXTIME(t.time)) AS month'
@@ -244,7 +246,7 @@ class TrainingRepository extends EntityRepository
     {
         $statistics = new AccountStatistics();
 
-        $dataForAccount = $this->_em->createQueryBuilder()
+        $dataForAccount = $this->getEntityManager()->createQueryBuilder()
             ->select(
                 'COUNT(1) as num',
                 'SUM(t.distance) as distance',
@@ -267,7 +269,7 @@ class TrainingRepository extends EntityRepository
 
     public function getQueryForJsonPosterData(Account $account, Sport $sport, int $year): Query
     {
-        return $this->_em->createQueryBuilder()
+        return $this->getEntityManager()->createQueryBuilder()
             ->select(
                 't.s',
                 't.time',
@@ -280,18 +282,16 @@ class TrainingRepository extends EntityRepository
             ->andWhere('t.sport = :sport')
             ->andWhere('t.distance > 0')
             ->andWhere('t.time BETWEEN :startTime and :endTime')
-            ->setParameters([
-                ':account' => $account->getId(),
-                ':sport' => $sport->getId(),
-                ':startTime' => mktime(0, 0, 0, 1, 1, $year),
-                ':endTime' => mktime(23, 59, 59, 12, 31, $year),
-            ])
+            ->setParameter('account', $account->getId())
+            ->setParameter('sport', $sport->getId())
+            ->setParameter('startTime', mktime(0, 0, 0, 1, 1, $year))
+            ->setParameter('endTime', mktime(23, 59, 59, 12, 31, $year))
             ->getQuery();
     }
 
     public function getStatsForPoster(Account $account, Sport $sport, int $year): Query
     {
-        return $this->_em->createQueryBuilder()
+        return $this->getEntityManager()->createQueryBuilder()
             ->select(
                 'COUNT(t.id) as num',
                 'SUM(t.distance) as total_distance',
@@ -302,12 +302,10 @@ class TrainingRepository extends EntityRepository
             ->where('t.account = :account')
             ->andWhere('t.sport = :sport')
             ->andWhere('t.time BETWEEN :startTime and :endTime')
-            ->setParameters([
-                ':account' => $account->getId(),
-                ':sport' => $sport->getId(),
-                ':startTime' => mktime(0, 0, 0, 1, 1, $year),
-                ':endTime' => mktime(23, 59, 59, 12, 31, $year),
-            ])
+            ->setParameter('account', $account->getId())
+            ->setParameter('sport', $sport->getId())
+            ->setParameter('startTime', mktime(0, 0, 0, 1, 1, $year))
+            ->setParameter('endTime', mktime(23, 59, 59, 12, 31, $year))
             ->getQuery();
     }
 
@@ -331,7 +329,7 @@ class TrainingRepository extends EntityRepository
             ->select('t')
             ->where('t.account = :accountid')
             ->setParameter('accountid', $account->getId())
-            ->orderBy('t.time', 'DESC')
+            ->orderBy('t.time', \SortDirection::Descending)
             ->setMaxResults($limit);
 
         if ($onlyPublic) {
@@ -366,7 +364,7 @@ class TrainingRepository extends EntityRepository
 
             $queryBuilder->where('t.account = :accountid')
                 ->setParameter('accountid', $account->getId())
-                ->orderBy('t.time', 'DESC')
+                ->orderBy('t.time', \SortDirection::Descending)
                 ->setMaxResults($limit);
         } else {
             $queryBuilder->where('t.id IN(:ids)')
@@ -478,27 +476,27 @@ class TrainingRepository extends EntityRepository
         }
 
         if ($training->getRoute() instanceof Route) {
-            $this->_em->persist($training->getRoute());
+            $this->getEntityManager()->persist($training->getRoute());
         }
 
         if ($training->getTrackdata() instanceof Trackdata) {
-            $this->_em->persist($training->getTrackdata());
+            $this->getEntityManager()->persist($training->getTrackdata());
         }
 
         if ($training->getSwimdata() instanceof Swimdata) {
-            $this->_em->persist($training->getSwimdata());
+            $this->getEntityManager()->persist($training->getSwimdata());
         }
 
         if ($training->getHrv() instanceof Hrv) {
-            $this->_em->persist($training->getHrv());
+            $this->getEntityManager()->persist($training->getHrv());
         }
 
         if ($training->getRaceresult() instanceof Raceresult) {
-            $this->_em->persist($training->getRaceresult());
+            $this->getEntityManager()->persist($training->getRaceresult());
         }
 
-        $this->_em->persist($training);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($training);
+        $this->getEntityManager()->flush();
 
         return $training->getId();
     }
@@ -508,15 +506,15 @@ class TrainingRepository extends EntityRepository
         $sport = $activity->getSport();
         $type = $activity->getType();
 
-        if ($sport->getId() && ! $this->_em->getUnitOfWork()->isInIdentityMap($sport)) {
+        if ($sport->getId() && ! $this->getEntityManager()->getUnitOfWork()->isInIdentityMap($sport)) {
             $activity->setSport(
-                $this->_em->find(Sport::class, $sport->getId())
+                $this->getEntityManager()->find(Sport::class, $sport->getId())
             );
         }
 
-        if ($type instanceof Type && $type->getId() && ! $this->_em->getUnitOfWork()->isInIdentityMap($type)) {
+        if ($type instanceof Type && $type->getId() && ! $this->getEntityManager()->getUnitOfWork()->isInIdentityMap($type)) {
             $activity->setType(
-                $this->_em->find(Type::class, $type->getId())
+                $this->getEntityManager()->find(Type::class, $type->getId())
             );
         }
     }
@@ -524,30 +522,30 @@ class TrainingRepository extends EntityRepository
     public function remove(Training $activity): void
     {
         if ($activity->getRoute() instanceof Route) {
-            $this->_em->remove($activity->getRoute());
+            $this->getEntityManager()->remove($activity->getRoute());
         }
 
         if ($activity->getTrackdata() instanceof Trackdata) {
-            $this->_em->remove($activity->getTrackdata());
+            $this->getEntityManager()->remove($activity->getTrackdata());
         }
 
         if ($activity->getSwimdata() instanceof Swimdata) {
-            $this->_em->remove($activity->getSwimdata());
+            $this->getEntityManager()->remove($activity->getSwimdata());
         }
 
         if ($activity->getHrv() instanceof Hrv) {
-            $this->_em->remove($activity->getHrv());
+            $this->getEntityManager()->remove($activity->getHrv());
         }
 
         if ($activity->getRaceresult() instanceof Raceresult) {
-            $this->_em->remove($activity->getRaceresult());
+            $this->getEntityManager()->remove($activity->getRaceresult());
         }
 
         // #TSC: hacky request the lazy equipments here, so that while removing via EventListener the collection is filled
         $activity->getEquipment()
             ->count();
 
-        $this->_em->remove($activity);
-        $this->_em->flush();
+        $this->getEntityManager()->remove($activity);
+        $this->getEntityManager()->flush();
     }
 }

@@ -156,10 +156,10 @@ class Trackdata implements AccountRelatedEntityInterface
     #[ORM\JoinColumn(name: 'activityid', referencedColumnName: 'id', unique: true)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
-    #[ORM\OneToOne(inversedBy: 'trackdata', targetEntity: Training::class)]
+    #[ORM\OneToOne(targetEntity: Training::class, inversedBy: 'trackdata')]
     private Training $activity;
 
-    #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
+    #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     #[ORM\ManyToOne(targetEntity: Account::class)]

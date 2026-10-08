@@ -51,8 +51,8 @@ class PluginRepository extends EntityRepository
 
     public function save(Plugin $plugin): void
     {
-        $this->_em->persist($plugin);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($plugin);
+        $this->getEntityManager()->flush();
     }
 
     /**
@@ -61,9 +61,9 @@ class PluginRepository extends EntityRepository
     public function saveMultiple(array $plugins): void
     {
         foreach ($plugins as $plugin) {
-            $this->_em->persist($plugin);
+            $this->getEntityManager()->persist($plugin);
         }
 
-        $this->_em->flush();
+        $this->getEntityManager()->flush();
     }
 }

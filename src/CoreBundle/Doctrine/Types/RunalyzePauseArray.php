@@ -9,27 +9,14 @@ use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 
 class RunalyzePauseArray extends Type
 {
-    /**
-     * @var string
-     */
-    public const RUNALYZE_PAUSE_ARRAY = 'runalyze_pause_array';
+    public const string RUNALYZE_PAUSE_ARRAY = 'runalyze_pause_array';
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
-        return $platform->getClobTypeDeclarationSQL($fieldDeclaration);
+        return $platform->getClobTypeDeclarationSQL($column);
     }
 
-    public function getName(): string
-    {
-        return self::RUNALYZE_PAUSE_ARRAY;
-    }
-
-    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
-    {
-        return true;
-    }
-
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
+    public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
     {
         if (! ($value instanceof PauseCollection) || $value->isEmpty()) {
             return null;
@@ -44,7 +31,7 @@ class RunalyzePauseArray extends Type
         return json_encode($pauses, JSON_HEX_QUOT);
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform): PauseCollection
+    public function convertToPHPValue(mixed $value, AbstractPlatform $platform): PauseCollection
     {
         $collection = new PauseCollection();
 

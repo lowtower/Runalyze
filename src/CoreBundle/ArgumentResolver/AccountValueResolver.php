@@ -19,7 +19,7 @@ class AccountValueResolver implements ValueResolverInterface
     }
 
     /**
-     * @return Account[] the logged in account, or an empty list if there is none
+     * @return array<int, Account|null> the logged in account, null for a nullable argument without login, otherwise an empty list
      */
     public function resolve(Request $request, ArgumentMetadata $argument): array
     {
@@ -28,17 +28,12 @@ class AccountValueResolver implements ValueResolverInterface
         }
 
         $token = $this->tokenStorage->getToken();
+        $user = $token instanceof TokenInterface ? $token->getUser() : null;
 
-        if (! $token instanceof TokenInterface) {
-            return [];
+        if ($user instanceof Account) {
+            return [$user];
         }
 
-        $user = $token->getUser();
-
-        if (! $user instanceof Account) {
-            return [];
-        }
-
-        return [$user];
+        return $argument->isNullable() ? [null] : [];
     }
 }

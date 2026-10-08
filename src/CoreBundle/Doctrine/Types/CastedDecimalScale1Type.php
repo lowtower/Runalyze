@@ -3,32 +3,24 @@
 namespace Runalyze\Bundle\CoreBundle\Doctrine\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\DecimalType;
+use Doctrine\DBAL\Types\Type;
 
-class CastedDecimalScale1Type extends DecimalType
+class CastedDecimalScale1Type extends Type
 {
-    /**
-     * @var string
-     */
-    public const CASTED_DECIMAL_1 = 'casted_decimal_1';
+    public const string CASTED_DECIMAL_1 = 'casted_decimal_1';
 
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?float
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
+    {
+        return $platform->getDecimalTypeDeclarationSQL($column);
+    }
+
+    public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?float
     {
         return ($value === null) ? null : (float) $value;
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
+    public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
     {
         return ($value === null) ? null : sprintf('%.1f', $value);
-    }
-
-    public function getName(): string
-    {
-        return self::CASTED_DECIMAL_1;
-    }
-
-    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
-    {
-        return true;
     }
 }

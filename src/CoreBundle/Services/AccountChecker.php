@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Services;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\DisabledException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -18,7 +19,7 @@ class AccountChecker implements UserCheckerInterface
         }
     }
 
-    public function checkPostAuth(UserInterface $user): void
+    public function checkPostAuth(UserInterface $user, ?TokenInterface $token = null): void
     {
         // post-auth-check not necessary
     }

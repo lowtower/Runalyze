@@ -14,9 +14,9 @@ use Runalyze\Util\LocalTime;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'training')]
-#[ORM\Index(columns: ['accountid', 'time'], name: 'time')]
-#[ORM\Index(columns: ['accountid', 'sportid'], name: 'sportid')]
-#[ORM\Index(columns: ['accountid', 'typeid'], name: 'typeid')]
+#[ORM\Index(name: 'time', columns: ['accountid', 'time'])]
+#[ORM\Index(name: 'sportid', columns: ['accountid', 'sportid'])]
+#[ORM\Index(name: 'typeid', columns: ['accountid', 'typeid'])]
 #[ORM\Entity(repositoryClass: TrainingRepository::class)]
 #[ORM\EntityListeners([ActivityListener::class])]
 #[ORM\HasLifecycleCallbacks]
@@ -643,16 +643,16 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'activity')]
     private Collection $tag;
 
-    #[ORM\OneToOne(mappedBy: 'activity', targetEntity: Trackdata::class)]
+    #[ORM\OneToOne(targetEntity: Trackdata::class, mappedBy: 'activity')]
     private ?Trackdata $trackdata = null;
 
-    #[ORM\OneToOne(mappedBy: 'activity', targetEntity: Swimdata::class)]
+    #[ORM\OneToOne(targetEntity: Swimdata::class, mappedBy: 'activity')]
     private ?Swimdata $swimdata = null;
 
-    #[ORM\OneToOne(mappedBy: 'activity', targetEntity: Hrv::class)]
+    #[ORM\OneToOne(targetEntity: Hrv::class, mappedBy: 'activity')]
     private ?Hrv $hrv = null;
 
-    #[ORM\OneToOne(mappedBy: 'activity', targetEntity: Raceresult::class)]
+    #[ORM\OneToOne(targetEntity: Raceresult::class, mappedBy: 'activity')]
     private ?Raceresult $raceresult = null;
 
     private ?ActivityAdapter $Adapter = null;

@@ -150,34 +150,34 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Sport>
      */
-    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Sport::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    #[ORM\OneToMany(targetEntity: Sport::class, mappedBy: 'account', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected Collection $sports;
 
     /**
      * @var Collection<int, Type>
      */
-    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Type::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    #[ORM\OneToMany(targetEntity: Type::class, mappedBy: 'account', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected Collection $activityTypes;
 
     /**
      * @var Collection<int, Tag>
      */
-    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Tag::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    #[ORM\OneToMany(targetEntity: Tag::class, mappedBy: 'account', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     #[ORM\OrderBy([
-        'tag' => 'ASC',
+        'tag' => \SortDirection::Ascending,
     ])]
     protected Collection $tags;
 
     /**
      * @var Collection<int, Equipment>
      */
-    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Equipment::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    #[ORM\OneToMany(targetEntity: Equipment::class, mappedBy: 'account', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected Collection $equipment;
 
     /**
      * @var Collection<int, EquipmentType>
      */
-    #[ORM\OneToMany(mappedBy: 'account', targetEntity: EquipmentType::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    #[ORM\OneToMany(targetEntity: EquipmentType::class, mappedBy: 'account', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected Collection $equipmentTypes;
 
     #[ORM\Column(name: 'role', type: 'tinyint', nullable: true, options: [

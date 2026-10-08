@@ -32,7 +32,7 @@ class Swimdata implements AccountRelatedEntityInterface
     #[ORM\JoinColumn(name: 'activityid', referencedColumnName: 'id')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
-    #[ORM\OneToOne(inversedBy: 'swimdata', targetEntity: Training::class)]
+    #[ORM\OneToOne(targetEntity: Training::class, inversedBy: 'swimdata')]
     private Training $activity;
 
     public function setStroke(?array $stroke = null): self

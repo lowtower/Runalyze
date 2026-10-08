@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Doctrine\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -7,17 +9,14 @@ use Doctrine\DBAL\Types\Type;
 
 class PipeDelimitedArray extends Type
 {
-    /**
-     * @var string
-     */
-    public const PIPE_ARRAY = 'pipe_array';
+    public const string PIPE_ARRAY = 'pipe_array';
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
-        return $platform->getClobTypeDeclarationSQL($fieldDeclaration);
+        return $platform->getClobTypeDeclarationSQL($column);
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
+    public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
     {
         if (! is_array($value) || $value === []) {
             return null;
@@ -26,30 +25,19 @@ class PipeDelimitedArray extends Type
         return implode('|', $value);
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?array
+    public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?array
     {
-        if ($value === null || trim($value) === '') {
+        if (is_resource($value)) {
+            $value = stream_get_contents($value);
+        }
+
+        if (! is_string($value) || trim($value) === '') {
             return null;
         }
 
-        $value = (is_resource($value)) ? stream_get_contents($value) : $value;
-
-        return array_map(function ($v): int|float|null {
-            if (is_numeric($v)) {
-                return $v + 0;
-            }
-
-            return null;
-        }, explode('|', $value));
-    }
-
-    public function getName(): string
-    {
-        return self::PIPE_ARRAY;
-    }
-
-    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
-    {
-        return true;
+        return array_map(
+            static fn (string $element): int|float|null => is_numeric($element) ? $element + 0 : null,
+            explode('|', $value)
+        );
     }
 }

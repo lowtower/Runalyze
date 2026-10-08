@@ -14,7 +14,6 @@ doctrine:
                 mapping_types:
                     enum: string
                 profiling_collect_backtrace: '%kernel.debug%'
-                use_savepoints: true
         types:
             casted_decimal_1: Runalyze\Bundle\CoreBundle\Doctrine\Types\CastedDecimalScale1Type
             casted_decimal_2: Runalyze\Bundle\CoreBundle\Doctrine\Types\CastedDecimalScale2Type
@@ -24,11 +23,7 @@ doctrine:
             geohash_array: Runalyze\Bundle\CoreBundle\Doctrine\Types\GeohashArray
             runalyze_pause_array: Runalyze\Bundle\CoreBundle\Doctrine\Types\RunalyzePauseArray
             runalyze_round_array: Runalyze\Bundle\CoreBundle\Doctrine\Types\RunalyzeRoundArray
-
     orm:
-        auto_generate_proxy_classes: '%kernel.debug%'
-        enable_lazy_ghost_objects: true
-        report_fields_where_declared: true
         validate_xml_mapping: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: false
@@ -39,9 +34,6 @@ doctrine:
                 dir: '%kernel.project_dir%/src/CoreBundle/Entity'
                 prefix: 'Runalyze\Bundle\CoreBundle\Entity'
                 alias: CoreBundle
-        controller_resolver:
-            auto_mapping: false
-
         resolve_target_entities: ~
         metadata_cache_driver:
             type: pool
@@ -88,18 +80,13 @@ when@prod:
                     options: {1002: "SET time_zone = '+00:00'"}
                     mapping_types:
                         enum: string
-                    use_savepoints: true
         orm:
-            auto_generate_proxy_classes: false
-            # Proxy classes live in the build directory. Check before deploying: composer cache:prod:warmup
-            proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
             query_cache_driver:
                 type: pool
                 pool: doctrine.system_cache_pool
             result_cache_driver:
                 type: pool
                 pool: doctrine.result_cache_pool
-
     framework:
         cache:
             pools:
@@ -147,14 +134,12 @@ when@test:
                     from_unixtime: Runalyze\Bundle\CoreBundle\Tests\Doctrine\DQL\Sqlite\SqliteFromUnixtime
                     year: Runalyze\Bundle\CoreBundle\Tests\Doctrine\DQL\Sqlite\SqliteYear
                     month: Runalyze\Bundle\CoreBundle\Tests\Doctrine\DQL\Sqlite\SqliteMonth
-
     parameters:
         # SQLite file of the kernel tests. Without TEST_SQLITE_PATH it stays in the cache directory.
         env(TEST_SQLITE_PATH): '%kernel.cache_dir%/test.db'
         database_prefix: 'runalyze_test_'
         database_prefix.functional: 'runalyze_test_'
         database_prefix.unittest: 'runalyze_'
-
     services:
         _defaults:
             tags: ['doctrine.fixture.orm']
@@ -175,8 +160,6 @@ when@test_empty:
                     password: '%env(DB_TEST_PASSWORD)%'
                     charset:  UTF8
                     options: {1002: "SET time_zone = '+00:00'"}
-
     parameters:
         env(DB_TEST_EMPTY_NAME): 'runalyze_test_empty'
         database_prefix: 'runalyze_'
-

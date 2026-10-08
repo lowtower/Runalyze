@@ -5,7 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'plugin_conf')]
-#[ORM\Index(columns: ['pluginid'], name: 'pluginid')]
+#[ORM\Index(name: 'pluginid', columns: ['pluginid'])]
 #[ORM\Entity(repositoryClass: PluginConfRepository::class)]
 class PluginConf
 {

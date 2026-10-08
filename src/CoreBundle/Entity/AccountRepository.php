@@ -2,7 +2,6 @@
 
 namespace Runalyze\Bundle\CoreBundle\Entity;
 
-use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -51,7 +50,7 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
         if ($language !== []) {
             $queryBuilder
                 ->where('u.language ' . ($excluded ? 'NOT' : '') . ' IN (:lang)')
-                ->setParameter('lang', $language, Connection::PARAM_STR_ARRAY);
+                ->setParameter('lang', $language, \Doctrine\DBAL\ArrayParameterType::STRING);
         }
 
         return $queryBuilder;
@@ -86,12 +85,18 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
      */
     public function getAmountOfActivatedUsers(bool $cache = true): bool|float|int|string|null
     {
-        return $this->createQueryBuilder('u')
+        $query = $this->createQueryBuilder('u')
             ->select('COUNT(u.id)')
             ->where('u.activationHash is NULL')
-            ->getQuery()
-            ->useResultCache($cache, 320)
-            ->getSingleScalarResult();
+            ->getQuery();
+
+        if ($cache) {
+            $query->enableResultCache(320);
+        } else {
+            $query->disableResultCache();
+        }
+
+        return $query->getSingleScalarResult();
     }
 
     public function deleteNotActivatedAccounts(int $days = 7): array
@@ -130,8 +135,8 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
         ]);
 
         if ($account !== null) {
-            $this->_em->remove($account);
-            $this->_em->flush();
+            $this->getEntityManager()->remove($account);
+            $this->getEntityManager()->flush();
 
             return true;
         }
@@ -159,7 +164,7 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
 
     public function save(Account $account): void
     {
-        $this->_em->persist($account);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($account);
+        $this->getEntityManager()->flush();
     }
 }

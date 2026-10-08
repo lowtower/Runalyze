@@ -201,19 +201,19 @@
             "@cache:test_empty:warmup"
         ],
         "test:setup": "bash docker/setup-test-db.sh",
-        "test": "php vendor/bin/phpunit -c phpunit.xml.dist --display-warnings",
-        "test:dev": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --exclude-group dependsOnSRTM,dependsOnTimezoneDatabase",
-        "test:import": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group import",
-        "test:plugin": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group plugin",
+        "test": "XDEBUG_MODE=off php vendor/bin/phpunit -c phpunit.xml.dist --display-warnings",
+        "test:dev": "XDEBUG_MODE=off php vendor/bin/phpunit --colors -c phpunit.xml.dist --exclude-group dependsOnSRTM,dependsOnTimezoneDatabase",
+        "test:import": "XDEBUG_MODE=off php vendor/bin/phpunit --colors -c phpunit.xml.dist --group import",
+        "test:plugin": "XDEBUG_MODE=off php vendor/bin/phpunit --colors -c phpunit.xml.dist --group plugin",
         "test:sqlite": [
             "@cache:test:clear",
             "@test:setup",
-            "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group requiresSqlite"
+            "XDEBUG_MODE=off php vendor/bin/phpunit --colors -c phpunit.xml.dist --group requiresSqlite"
         ],
-        "test:doctrine": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group requiresDoctrine",
-        "test:kernel": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group requiresKernel",
-        "test:client": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group requiresClient",
-        "test:default": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group default,dependsOn,requiresSqlite --exclude-group import,plugin,requiresKernel,requiresDoctrine,requiresClient",
+        "test:doctrine": "XDEBUG_MODE=off php vendor/bin/phpunit --colors -c phpunit.xml.dist --group requiresDoctrine",
+        "test:kernel": "XDEBUG_MODE=off php vendor/bin/phpunit --colors -c phpunit.xml.dist --group requiresKernel",
+        "test:client": "XDEBUG_MODE=off php vendor/bin/phpunit --colors -c phpunit.xml.dist --group requiresClient",
+        "test:default": "XDEBUG_MODE=off php vendor/bin/phpunit --colors -c phpunit.xml.dist --group default,dependsOn,requiresSqlite --exclude-group import,plugin,requiresKernel,requiresDoctrine,requiresClient",
         "test:ci": [
             "@cache:test:clear",
             "@cache:test_empty:clear",
@@ -224,7 +224,7 @@
             "@cache:test:clear",
             "@cache:test_empty:clear",
             "@test:setup",
-            "php vendor/bin/phpunit -c phpunit.xml.dist --display-all"
+            "XDEBUG_MODE=off php vendor/bin/phpunit -c phpunit.xml.dist --display-all"
         ],
         "test:coverage-html": "XDEBUG_MODE=coverage php vendor/bin/phpunit -c phpunit.xml.dist --coverage-html var/coverage",
         "test:coverage-clover": "XDEBUG_MODE=coverage php vendor/bin/phpunit -c phpunit.xml.dist --coverage-clover var/coverage/clover.xml",

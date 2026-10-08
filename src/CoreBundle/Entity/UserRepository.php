@@ -33,7 +33,7 @@ class UserRepository extends EntityRepository
             ->where('u.account = :accountid')
             ->andWhere('u.pulseRest > 0')
             ->setParameter('accountid', $account->getId())
-            ->orderBy('u.time', 'DESC')
+            ->orderBy('u.time', \SortDirection::Descending)
             ->getQuery()
             ->getOneOrNullResult(AbstractQuery::HYDRATE_SCALAR);
 
@@ -51,7 +51,7 @@ class UserRepository extends EntityRepository
             ->where('u.account = :accountid')
             ->andWhere('u.pulseMax > 0')
             ->setParameter('accountid', $account->getId())
-            ->orderBy('u.time', 'DESC')
+            ->orderBy('u.time', \SortDirection::Descending)
             ->getQuery()
             ->getOneOrNullResult(AbstractQuery::HYDRATE_SCALAR);
 
@@ -60,8 +60,8 @@ class UserRepository extends EntityRepository
 
     public function save(User $user, Account $account): void
     {
-        $this->_em->persist($user);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($user);
+        $this->getEntityManager()->flush();
     }
 
     public function getLatestEntryFor(Account $account): ?User
@@ -69,7 +69,7 @@ class UserRepository extends EntityRepository
         return $this->createQueryBuilder('u')
             ->where('u.account = :account')
             ->setParameter('account', $account->getId())
-            ->addOrderBy('u.time', 'DESC')
+            ->addOrderBy('u.time', \SortDirection::Descending)
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
@@ -77,7 +77,7 @@ class UserRepository extends EntityRepository
 
     public function remove(User $user): void
     {
-        $this->_em->remove($user);
-        $this->_em->flush();
+        $this->getEntityManager()->remove($user);
+        $this->getEntityManager()->flush();
     }
 }

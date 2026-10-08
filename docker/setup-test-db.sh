@@ -55,10 +55,10 @@ mkdir -p var/cache/legacy/cache
 chmod -R 777 var/cache/legacy
 
 log "Updating the schema of the SQLite database (environment test) ..."
-php bin/console --env=test doctrine:schema:update --force --complete
+php bin/console --env=test doctrine:schema:update --force
 
 log "Updating the schema of the MySQL database (environment test_empty) ..."
-php bin/console --env=test_empty doctrine:schema:update --force --complete
+php bin/console --env=test_empty doctrine:schema:update --force
 
 log "Importing the legacy schema into ${DB_UNITTEST_NAME} ..."
 mysql "${mysql_args[@]}" "${DB_UNITTEST_NAME}" < inc/install/structure.sql

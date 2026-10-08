@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Runalyze\Bundle\CoreBundle\Command;
 
-use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -610,7 +610,7 @@ class MailingCommandTest extends TestCase
             ->onlyMethods(['andWhere', 'setParameter', 'getQuery'])
             ->getMock();
 
-        $query = $this->createMock(AbstractQuery::class);
+        $query = $this->createMock(Query::class);
 
         $accountRepository = $this->createMock(AccountRepository::class);
         $accountRepository

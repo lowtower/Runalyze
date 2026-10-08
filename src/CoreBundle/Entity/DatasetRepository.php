@@ -28,13 +28,13 @@ class DatasetRepository extends EntityRepository
 
     public function save(Dataset $dataset): void
     {
-        $this->_em->persist($dataset);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($dataset);
+        $this->getEntityManager()->flush();
     }
 
     public function remove(Dataset $dataset): void
     {
-        $this->_em->remove($dataset);
-        $this->_em->flush();
+        $this->getEntityManager()->remove($dataset);
+        $this->getEntityManager()->flush();
     }
 }

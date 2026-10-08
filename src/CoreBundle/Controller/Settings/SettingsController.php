@@ -350,7 +350,7 @@ class SettingsController extends AbstractController
                 'account' => $account->getId(),
             ], null, 1);
 
-        if ($tag) {
+        if ($tag !== []) {
             return (string) $tag[0]->getId();
         }
 
@@ -366,10 +366,8 @@ class SettingsController extends AbstractController
                 'account' => $account->getId(),
             ], null, 2);
 
-        if (is_array($equipment)) {
-            foreach ($equipment as $element) {
-                $ids[] = $element->getId();
-            }
+        foreach ($equipment as $element) {
+            $ids[] = $element->getId();
         }
 
         return implode(',', $ids);

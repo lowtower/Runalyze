@@ -50,7 +50,7 @@ class TypeRepository extends EntityRepository
 
     public function save(Type $type): void
     {
-        $this->_em->persist($type);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($type);
+        $this->getEntityManager()->flush();
     }
 }

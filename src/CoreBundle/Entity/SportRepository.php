@@ -72,7 +72,7 @@ class SportRepository extends EntityRepository
                 1
             );
 
-            if (is_array($results) && count($results) === 1) {
+            if (count($results) === 1) {
                 return $results[0];
             }
         }
@@ -80,7 +80,7 @@ class SportRepository extends EntityRepository
         return $requestedSport;
     }
 
-    public function findEquipmentCategoryIdsFor(array $sportIds)
+    public function findEquipmentCategoryIdsFor(array $sportIds): mixed
     {
         // TODO: this query results in two joins with one of them being useless
         // SELECT r0_.id AS id_0, r1_.id AS id_1 FROM runalyze_sport r0_ INNER JOIN runalyze_equipment_sport r2_ ON r0_.id = r2_.sportid INNER JOIN runalyze_equipment_type r1_ ON r1_.id = r2_.equipment_typeid WHERE r0_.id IN (?)
@@ -137,7 +137,7 @@ class SportRepository extends EntityRepository
      */
     public function getSportStatisticsSince(?int $timestamp, Account $account, bool $raw = false): SportStatistics|array
     {
-        $queryBuilder = $this->_em->createQueryBuilder()
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()
             ->select('s')
             ->addSelect('COUNT(t.id) as num')
             ->addSelect('SUM(t.distance) as distance')
@@ -148,8 +148,8 @@ class SportRepository extends EntityRepository
             ->where('s.account = :account')
             ->setParameter(':account', $account->getId())
             ->groupBy('s.id')
-            ->orderBy('distance', 'DESC')
-            ->addOrderBy('time_in_s', 'DESC');
+            ->orderBy('distance', \SortDirection::Descending)
+            ->addOrderBy('time_in_s', \SortDirection::Descending);
 
         if ($timestamp !== null) {
             $queryBuilder->andWhere('t.time > :startTime');
@@ -166,13 +166,13 @@ class SportRepository extends EntityRepository
 
     public function save(Sport $sport): void
     {
-        $this->_em->persist($sport);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($sport);
+        $this->getEntityManager()->flush();
     }
 
     public function remove(Sport $sport): void
     {
-        $this->_em->remove($sport);
-        $this->_em->flush();
+        $this->getEntityManager()->remove($sport);
+        $this->getEntityManager()->flush();
     }
 }

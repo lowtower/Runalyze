@@ -26,7 +26,7 @@ class WeathercacheRepository extends EntityRepository implements DatabaseCacheIn
                 ->setParameter('geohash', substr($location->getGeohash(), 0, Weathercache::GEOHASH_PRECISION_LOOKUP) . '%')
                 ->setParameter('starttime', $location->getTimestamp() - $timeTolerance)
                 ->setParameter('endtime', $location->getTimestamp() + $timeTolerance)
-                ->orderBy('w.time', 'DESC')
+                ->orderBy('w.time', \SortDirection::Descending)
                 ->setMaxResults(1)
                 ->getQuery()
                 ->getOneOrNullResult();
@@ -52,7 +52,7 @@ class WeathercacheRepository extends EntityRepository implements DatabaseCacheIn
 
     public function save(Weathercache $cache): void
     {
-        $this->_em->persist($cache);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($cache);
+        $this->getEntityManager()->flush();
     }
 }

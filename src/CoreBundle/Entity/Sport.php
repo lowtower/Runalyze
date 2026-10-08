@@ -123,13 +123,13 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     /**
      * @var Collection<int, Type>
      */
-    #[ORM\OneToMany(mappedBy: 'sport', targetEntity: Type::class, fetch: 'EXTRA_LAZY')]
+    #[ORM\OneToMany(targetEntity: Type::class, mappedBy: 'sport', fetch: 'EXTRA_LAZY')]
     protected Collection $types;
 
     /**
      * @var Collection<int, Training>
      */
-    #[ORM\OneToMany(mappedBy: 'sport', targetEntity: Training::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    #[ORM\OneToMany(targetEntity: Training::class, mappedBy: 'sport', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected Collection $trainings;
 
     public function __construct()

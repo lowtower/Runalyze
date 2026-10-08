@@ -47,7 +47,7 @@ class InstallDatabaseCommandTest extends KernelTestCase
         $this->Connection->executeStatement('SET foreign_key_checks = 0');
         try {
             foreach ($tables as $table) {
-                $quotedTable = $this->Connection->quoteIdentifier($table);
+                $quotedTable = $this->Connection->quoteSingleIdentifier($table);
                 $this->Connection->executeStatement('DROP TABLE ' . $quotedTable);
             }
         } finally {

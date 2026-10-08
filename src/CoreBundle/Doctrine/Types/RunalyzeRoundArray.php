@@ -11,27 +11,14 @@ use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 
 class RunalyzeRoundArray extends Type
 {
-    /**
-     * @var string
-     */
-    public const RUNALYZE_ROUND_ARRAY = 'runalyze_round_array';
+    public const string RUNALYZE_ROUND_ARRAY = 'runalyze_round_array';
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
-        return $platform->getClobTypeDeclarationSQL($fieldDeclaration);
+        return $platform->getClobTypeDeclarationSQL($column);
     }
 
-    public function getName(): string
-    {
-        return self::RUNALYZE_ROUND_ARRAY;
-    }
-
-    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
-    {
-        return true;
-    }
-
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
+    public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
     {
         if (! ($value instanceof RoundCollection) || $value->isEmpty()) {
             return null;
@@ -39,14 +26,14 @@ class RunalyzeRoundArray extends Type
 
         $rounds = [];
 
-        foreach ($value->getElements() as $pause) {
-            $rounds[] = $this->getNativeValueForRound($pause);
+        foreach ($value->getElements() as $round) {
+            $rounds[] = $this->getNativeValueForRound($round);
         }
 
         return implode('-', $rounds);
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform): RoundCollection
+    public function convertToPHPValue(mixed $value, AbstractPlatform $platform): RoundCollection
     {
         $collection = new RoundCollection();
 
@@ -70,10 +57,7 @@ class RunalyzeRoundArray extends Type
         return $intensity->getValue() . $distance . '|' . $duration;
     }
 
-    /**
-     * @param string $data
-     */
-    protected function getRoundForNativeValue($data): Round
+    protected function getRoundForNativeValue(string $data): Round
     {
         $intensity = LapIntensity::fromValue(substr($data, 0, 1));
 

@@ -1,36 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Doctrine\Types;
 
+use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Types\SmallIntType;
 
 class TinyIntType extends SmallIntType
 {
-    /**
-     * @var string
-     */
-    public const TINYINT = 'tinyint';
+    public const string TINYINT = 'tinyint';
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
-        $declaration = parent::getSQLDeclaration($fieldDeclaration, $platform);
+        $declaration = parent::getSQLDeclaration($column, $platform);
 
-        if ($platform instanceof MySQLPlatform) {
+        if ($platform instanceof AbstractMySQLPlatform) {
             return str_replace('SMALLINT', 'TINYINT', $declaration);
         }
 
         return $declaration;
-    }
-
-    public function getName(): string
-    {
-        return self::TINYINT;
-    }
-
-    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
-    {
-        return true;
     }
 }

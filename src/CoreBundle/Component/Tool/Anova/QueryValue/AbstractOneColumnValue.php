@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryValue;
 
 use Doctrine\ORM\QueryBuilder;

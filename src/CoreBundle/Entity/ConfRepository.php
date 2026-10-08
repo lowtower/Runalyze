@@ -26,7 +26,7 @@ class ConfRepository extends EntityRepository
             'key' => $key,
         ]);
 
-        return empty($results) ? null : $results[0];
+        return $results === [] ? null : $results[0];
     }
 
     public function updateOrInsert(Account $account, string $category, string $key, string $value): Conf
@@ -47,7 +47,7 @@ class ConfRepository extends EntityRepository
 
     public function save(Conf $conf): void
     {
-        $this->_em->persist($conf);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($conf);
+        $this->getEntityManager()->flush();
     }
 }

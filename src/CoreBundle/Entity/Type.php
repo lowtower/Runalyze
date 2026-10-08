@@ -55,7 +55,7 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
     /**
      * @var Collection<int, Training>
      */
-    #[ORM\OneToMany(mappedBy: 'type', targetEntity: Training::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    #[ORM\OneToMany(targetEntity: Training::class, mappedBy: 'type', cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     protected Collection $trainings;
 
     #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]

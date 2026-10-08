@@ -4,7 +4,7 @@ namespace Runalyze\Bundle\CoreBundle\EventListener;
 
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\ORM\Mapping\ManyToManyOwningSideMapping;
 
 /**
  * @author https://github.com/avanzu/Symfony-Doctrine-Prefix-Bundle/blob/master/Subscriber/TablePrefixSubscriber.php
@@ -32,20 +32,14 @@ class TablePrefixSubscriber
             }
         }
 
-        foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping) {
-            if ($mapping['type'] == ClassMetadataInfo::MANY_TO_MANY) {
-                if (
-                    ! isset($classMetadata->associationMappings[$fieldName]['joinTable']) ||
-                    ! isset($classMetadata->associationMappings[$fieldName]['joinTable']['name'])
-                ) {
-                    continue;
-                }
+        foreach ($classMetadata->getAssociationMappings() as $mapping) {
+            // only the owning side of a many-to-many association has a join table
+            if (! $mapping instanceof ManyToManyOwningSideMapping) {
+                continue;
+            }
 
-                $mappedTableName = $classMetadata->associationMappings[$fieldName]['joinTable']['name'];
-
-                if (! str_starts_with($mappedTableName, $this->prefix)) {
-                    $classMetadata->associationMappings[$fieldName]['joinTable']['name'] = $this->prefix . $mappedTableName;
-                }
+            if (! str_starts_with($mapping->joinTable->name, $this->prefix)) {
+                $mapping->joinTable->name = $this->prefix . $mapping->joinTable->name;
             }
         }
     }

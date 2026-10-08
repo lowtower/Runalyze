@@ -12,7 +12,7 @@ class Hrv implements AccountRelatedEntityInterface
     #[ORM\Column(name: 'data', type: 'pipe_array', nullable: true)]
     private ?array $data = null;
 
-    #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id', nullable: false)]
+    #[ORM\JoinColumn(name: 'accountid', referencedColumnName: 'id')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     #[ORM\ManyToOne(targetEntity: Account::class)]
@@ -21,7 +21,7 @@ class Hrv implements AccountRelatedEntityInterface
     #[ORM\JoinColumn(name: 'activityid', referencedColumnName: 'id')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
-    #[ORM\OneToOne(inversedBy: 'hrv', targetEntity: Training::class)]
+    #[ORM\OneToOne(targetEntity: Training::class, inversedBy: 'hrv')]
     private Training $activity;
 
     public function setData(?array $data = null): self

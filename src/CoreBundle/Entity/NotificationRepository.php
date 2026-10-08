@@ -25,14 +25,14 @@ class NotificationRepository extends EntityRepository
         $queryBuilder = $this->createQueryBuilder('n')
             ->where('n.account = :account')
             ->setParameter('account', $account)
-            ->orderBy('n.createdAt', 'DESC');
+            ->orderBy('n.createdAt', \SortDirection::Descending);
 
         if ($timestamp !== null && $timestamp !== 0) {
             $queryBuilder
                 ->andWhere('n.wasRead = 0') // Only necessary as long as headline menu is filled via request with $timestamp = 1
                 ->andWhere('n.createdAt > :time')
                 ->setParameter('time', $timestamp)
-                ->orderBy('n.createdAt', 'ASC');
+                ->orderBy('n.createdAt', \SortDirection::Ascending);
         }
 
         return $queryBuilder->getQuery()
@@ -54,7 +54,7 @@ class NotificationRepository extends EntityRepository
             ->getQuery()
             ->execute();
 
-        $this->_em->clear();
+        $this->getEntityManager()->clear();
     }
 
     public function removeExpiredNotifications(): int
@@ -66,14 +66,14 @@ class NotificationRepository extends EntityRepository
             ->getQuery()
             ->execute();
 
-        $this->_em->clear();
+        $this->getEntityManager()->clear();
 
         return $numDeleted;
     }
 
     public function save(Notification $notification): void
     {
-        $this->_em->persist($notification);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($notification);
+        $this->getEntityManager()->flush();
     }
 }
