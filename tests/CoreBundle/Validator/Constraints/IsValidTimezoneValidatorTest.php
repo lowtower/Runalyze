@@ -25,7 +25,7 @@ class IsValidTimezoneValidatorTest extends TestCase
     {
         return [
             new IsValidTimezoneValidator(),
-            $this->createMock(ExecutionContextInterface::class),
+            $this->createStub(ExecutionContextInterface::class),
         ];
     }
 

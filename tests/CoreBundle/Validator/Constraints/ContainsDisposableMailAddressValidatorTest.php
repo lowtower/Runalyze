@@ -23,7 +23,7 @@ class ContainsDisposableMailAddressValidatorTest extends TestCase
     {
         return [
             new ContainsDisposableMailAddressValidator(),
-            $this->createMock(ExecutionContextInterface::class),
+            $this->createStub(ExecutionContextInterface::class),
         ];
     }
 
