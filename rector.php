@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
+use Rector\PHPUnit\PHPUnit120\Rector\CallLike\CreateStubOverCreateMockArgRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Renaming\Rector\String_\RenameStringRector;
 use Rector\Set\ValueObject\LevelSetList;
@@ -34,6 +35,10 @@ return RectorConfig::configure()
     ->withSkip([
         RenameStringRector::class => [
             __DIR__ . '/src/CoreBundle/EventListener/SwitchUserListener.php',
+        ],
+        CreateStubOverCreateMockArgRector::class => [
+            __DIR__ . '/tests/CoreBundle/Validator/Constraints/ContainsDisposableMailAddressValidatorTest.php',
+            __DIR__ . '/tests/CoreBundle/Validator/Constraints/IsValidTimezoneValidatorTest.php',
         ],
     ])
     ->withComposerBased(

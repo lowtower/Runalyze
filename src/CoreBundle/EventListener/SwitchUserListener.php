@@ -21,6 +21,8 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Event\SwitchUserEvent;
+use Symfony\Component\Security\Http\Firewall\AbstractListener;
+use Symfony\Component\Security\Http\Firewall\FirewallListenerInterface;
 
 /**
  * SwitchUserListener allows a user to impersonate another one temporarily
@@ -28,7 +30,7 @@ use Symfony\Component\Security\Http\Event\SwitchUserEvent;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class SwitchUserListener
+class SwitchUserListener implements FirewallListenerInterface
 {
     private readonly string $providerKey;
 
@@ -48,6 +50,27 @@ class SwitchUserListener
         }
 
         $this->providerKey = $providerKey;
+    }
+
+    /**
+     * Uses the same priority as Symfony's own SwitchUserListener, which inherits it from AbstractListener.
+     */
+    public static function getPriority(): int
+    {
+        return AbstractListener::getPriority();
+    }
+
+    public function supports(Request $request): ?bool
+    {
+        return $this->getRequestedUsername($request) !== null;
+    }
+
+    /**
+     * @throws LogicException if switching to a user failed
+     */
+    public function authenticate(RequestEvent $event): void
+    {
+        $this($event);
     }
 
     /**

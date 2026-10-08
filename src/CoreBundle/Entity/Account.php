@@ -548,12 +548,6 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
         return $this->role;
     }
 
-    #[\Deprecated]
-    public function eraseCredentials(): void
-    {
-        $this->plainPassword = null;
-    }
-
     /**
      * @return array<int, string>
      */
@@ -603,6 +597,8 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     }
 
     /**
+     * Intentionally leaves out the plain password, so that it never ends up in the session.
+     *
      * @return array{id: ?int, username: string, mail: string, password: string, salt: string, activationHash: ?string, language: string, role: ?int, allowSupport: bool}
      */
     public function __serialize(): array

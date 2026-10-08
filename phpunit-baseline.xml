@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <files version="1">
     <file path="vendor/symfony/error-handler/DebugClassLoader.php">
-        <line number="363" hash="fa7c41d0a475fe381404d497814e227243716c10">
+        <line number="391" hash="fa7c41d0a475fe381404d497814e227243716c10">
             <issue><![CDATA[Method "JsonSerializable::jsonSerialize()" might add "mixed" as a native return type declaration in the future. Do the same in implementation "League\Geotools\Coordinate\Coordinate" now to avoid errors or add an explicit @return annotation to suppress this message.]]></issue>
         </line>
     </file>

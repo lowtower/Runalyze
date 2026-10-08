@@ -38,31 +38,6 @@ class AccountTest extends TestCase
         return new ReflectionProperty(Account::class, 'plainPassword')->getValue($account);
     }
 
-    /**
-     * @return list<string> messages of all deprecations triggered by eraseCredentials()
-     */
-    private function eraseCredentialsAndCollectDeprecations(): array
-    {
-        $messages = [];
-
-        set_error_handler(
-            static function (int $errorNumber, string $errorMessage) use (&$messages): bool {
-                $messages[] = $errorMessage;
-
-                return true;
-            },
-            E_USER_DEPRECATED
-        );
-
-        try {
-            $this->Account->eraseCredentials();
-        } finally {
-            restore_error_handler();
-        }
-
-        return $messages;
-    }
-
     public function testDefaultValues(): void
     {
         $this->assertNotNull($this->Account->getSalt());
@@ -159,32 +134,31 @@ class AccountTest extends TestCase
         $this->assertSame('johndoe', $this->Account->getUsername());
     }
 
-    public function testEraseCredentialsClearsPlainPassword(): void
+    public function testRestoredAccountHasNoPlainPassword(): void
     {
         $this->Account->setPlainPassword('plain-secret');
 
-        $this->eraseCredentialsAndCollectDeprecations();
+        $restored = $this->serializeAndRestore();
 
-        $this->assertSame('', $this->Account->getPlainPassword());
+        $this->assertSame('', $restored->getPlainPassword());
     }
 
-    public function testEraseCredentialsLeavesPlainPasswordUnsetSoThatLengthValidationSkipsIt(): void
+    public function testRestoredAccountLeavesPlainPasswordUnsetSoThatLengthValidationSkipsIt(): void
     {
         $this->Account->setPlainPassword('plain-secret');
 
-        $this->eraseCredentialsAndCollectDeprecations();
+        $restored = $this->serializeAndRestore();
 
-        $this->assertNull($this->readPlainPasswordProperty($this->Account));
+        $this->assertNull($this->readPlainPasswordProperty($restored));
     }
 
-    public function testEraseCredentialsTriggersExactlyOneDeprecation(): void
+    public function testSerializingDoesNotChangePlainPasswordOfTheOriginalAccount(): void
     {
-        $messages = $this->eraseCredentialsAndCollectDeprecations();
+        $this->Account->setPlainPassword('plain-secret');
 
-        $this->assertSame(
-            ['Method ' . Account::class . '::eraseCredentials() is deprecated'],
-            $messages
-        );
+        serialize($this->Account);
+
+        $this->assertSame('plain-secret', $this->Account->getPlainPassword());
     }
 
     public function testChangePasswordHash(): void
