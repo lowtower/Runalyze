@@ -915,17 +915,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     enable_profiler?: bool|Param, // Whether or not to enable the profiler collector to calculate and visualize migration status. This adds some queries overhead. // Default: false
  *     transactional?: bool|Param, // Whether or not to wrap migrations in a single transaction. // Default: true
  * }
- * @psalm-type LiipFunctionalTestConfig = array{
- *     command_verbosity?: scalar|Param|null, // Default: "normal"
- *     command_decoration?: bool|Param, // Default: true
- *     query?: array{
- *         max_query_count?: scalar|Param|null, // Default: null
- *     },
- *     authentication?: array{
- *         username?: scalar|Param|null, // Default: ""
- *         password?: scalar|Param|null, // Default: ""
- *     },
- * }
  * @psalm-type LiipTestFixturesConfig = array{
  *     cache_db?: array{
  *         sqlite?: scalar|Param|null, // Default: null
@@ -1515,7 +1504,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         framework?: FrameworkConfig,
  *         doctrine?: DoctrineConfig,
  *         doctrine_migrations?: DoctrineMigrationsConfig,
- *         liip_functional_test?: LiipFunctionalTestConfig,
  *         liip_test_fixtures?: LiipTestFixturesConfig,
  *         snc_redis?: SncRedisConfig,
  *         monolog?: MonologConfig,
@@ -1543,7 +1531,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         framework?: FrameworkConfig,
  *         doctrine?: DoctrineConfig,
  *         doctrine_migrations?: DoctrineMigrationsConfig,
- *         liip_functional_test?: LiipFunctionalTestConfig,
  *         liip_test_fixtures?: LiipTestFixturesConfig,
  *         snc_redis?: SncRedisConfig,
  *         monolog?: MonologConfig,
@@ -1558,7 +1545,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         framework?: FrameworkConfig,
  *         doctrine?: DoctrineConfig,
  *         doctrine_migrations?: DoctrineMigrationsConfig,
- *         liip_functional_test?: LiipFunctionalTestConfig,
  *         liip_test_fixtures?: LiipTestFixturesConfig,
  *         snc_redis?: SncRedisConfig,
  *         monolog?: MonologConfig,

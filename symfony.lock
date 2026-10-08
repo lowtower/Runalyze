@@ -47,9 +47,6 @@
             "migrations/.gitignore"
         ]
     },
-    "liip/functional-test-bundle": {
-        "version": "4.10.0"
-    },
     "liip/test-fixtures-bundle": {
         "version": "2.6.0"
     },
