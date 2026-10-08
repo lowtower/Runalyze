@@ -38,9 +38,29 @@ class AccountTest extends TestCase
         return new ReflectionProperty(Account::class, 'plainPassword')->getValue($account);
     }
 
-    private function expectEraseCredentialsDeprecation(): void
+    /**
+     * @return list<string> messages of all deprecations triggered by eraseCredentials()
+     */
+    private function eraseCredentialsAndCollectDeprecations(): array
     {
-        $this->expectUserDeprecationMessage('Method ' . Account::class . '::eraseCredentials() is deprecated');
+        $messages = [];
+
+        set_error_handler(
+            static function (int $errorNumber, string $errorMessage) use (&$messages): bool {
+                $messages[] = $errorMessage;
+
+                return true;
+            },
+            E_USER_DEPRECATED
+        );
+
+        try {
+            $this->Account->eraseCredentials();
+        } finally {
+            restore_error_handler();
+        }
+
+        return $messages;
     }
 
     public function testDefaultValues(): void
@@ -142,9 +162,8 @@ class AccountTest extends TestCase
     public function testEraseCredentialsClearsPlainPassword(): void
     {
         $this->Account->setPlainPassword('plain-secret');
-        $this->expectEraseCredentialsDeprecation();
 
-        $this->Account->eraseCredentials();
+        $this->eraseCredentialsAndCollectDeprecations();
 
         $this->assertSame('', $this->Account->getPlainPassword());
     }
@@ -152,11 +171,20 @@ class AccountTest extends TestCase
     public function testEraseCredentialsLeavesPlainPasswordUnsetSoThatLengthValidationSkipsIt(): void
     {
         $this->Account->setPlainPassword('plain-secret');
-        $this->expectEraseCredentialsDeprecation();
 
-        $this->Account->eraseCredentials();
+        $this->eraseCredentialsAndCollectDeprecations();
 
         $this->assertNull($this->readPlainPasswordProperty($this->Account));
+    }
+
+    public function testEraseCredentialsTriggersExactlyOneDeprecation(): void
+    {
+        $messages = $this->eraseCredentialsAndCollectDeprecations();
+
+        $this->assertSame(
+            ['Method ' . Account::class . '::eraseCredentials() is deprecated'],
+            $messages
+        );
     }
 
     public function testChangePasswordHash(): void
