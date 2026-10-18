@@ -21,13 +21,13 @@
         "p3k/picofeed": "^0.1.40",
         "phpfastcache/phpfastcache": "^9.2",
         "predis/predis": "^3.6",
-        "runalyze/age-grade": "dev-master",
-        "runalyze/common": "dev-master",
-        "runalyze/dem-reader": "dev-master",
-        "runalyze/devices": "dev-master",
-        "runalyze/glossary": "v4.3.0",
-        "runalyze/gpxtrackposter": "v4.3.0",
-        "runalyze/translations": "v4.3.0",
+        "runalyze/age-grade": "v2.2.0",
+        "runalyze/common": "v4.3.0",
+        "runalyze/dem-reader": "v1.2.0",
+        "runalyze/devices": "v0.5.31",
+        "runalyze/glossary": "dev-main",
+        "runalyze/gpxtrackposter": "dev-runalyze",
+        "runalyze/translations": "dev-main",
         "snc/redis-bundle": "^4.13",
         "symfony/asset": "^8.1",
         "symfony/console": "^8.1",
@@ -80,12 +80,16 @@
         "classmap": ["inc/", "plugin/"],
         "exclude-from-classmap": ["inc/core/"],
         "psr-4": {
-            "DoctrineExtensions\\": "vendor/beberlei/DoctrineExtensions/src/",
             "App\\": "src/",
-            "Runalyze\\": "inc/core/",
-            "Runalyze\\Bundle\\": "src/",
+            "DoctrineExtensions\\": "vendor/beberlei/DoctrineExtensions/src/",
             "Runalyze\\Bundle\\GlossaryBundle\\": "vendor/runalyze/glossary/",
-            "Runalyze\\Migrations\\": "migrations/"
+            "Runalyze\\AgeGrade\\": "vendor/runalyze/age-grade/src/",
+            "Runalyze\\Common\\": "vendor/runalyze/common/src/",
+            "Runalyze\\DEM\\": "vendor/runalyze/dem-reader/src/",
+            "Runalyze\\Devices\\": "vendor/runalyze/devices/src/",
+            "Runalyze\\Migrations\\": "migrations/",
+            "Runalyze\\Bundle\\": "src/",
+            "Runalyze\\": "inc/core/"
         }
     },
     "autoload-dev": {
@@ -115,8 +119,68 @@
         {
             "type": "package",
             "package": {
-                "name": "runalyze/gpxtrackposter",
+                "name": "runalyze/age-grade",
+                "version": "v2.2.0",
+                "source": {
+                    "url": "https://github.com/lowtower/Runalyze_age-grade.git",
+                    "type": "git",
+                    "reference": "v2.2.0"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "runalyze/common",
                 "version": "v4.3.0",
+                "source": {
+                    "url": "https://github.com/lowtower/Runalyze_common.git",
+                    "type": "git",
+                    "reference": "v4.3.0"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "runalyze/dem-reader",
+                "version": "v1.2.0",
+                "source": {
+                    "url": "https://github.com/lowtower/Runalyze_dem-reader.git",
+                    "type": "git",
+                    "reference": "v1.2.0"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "runalyze/devices",
+                "version": "v0.5.31",
+                "source": {
+                    "url": "https://github.com/lowtower/Runalyze_devices.git",
+                    "type": "git",
+                    "reference": "v0.5.31"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "runalyze/glossary",
+                "version": "dev-main",
+                "source": {
+                    "url": "https://github.com/lowtower/Runalyze_glossary.git",
+                    "type": "git",
+                    "reference": "main"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "runalyze/gpxtrackposter",
+                "version": "dev-runalyze",
                 "source": {
                     "url": "https://github.com/lowtower/GpxTrackPoster.git",
                     "type": "git",
@@ -127,24 +191,12 @@
         {
             "type": "package",
             "package": {
-                "name": "runalyze/glossary",
-                "version": "v4.3.0",
-                "source": {
-                    "url": "https://github.com/lowtower/Runalyze-Glossary.git",
-                    "type": "git",
-                    "reference": "master"
-                }
-            }
-        },
-        {
-            "type": "package",
-            "package": {
                 "name": "runalyze/translations",
-                "version": "v4.3.0",
+                "version": "dev-main",
                 "source": {
-                    "url": "https://github.com/lowtower/Runalyze-Translations.git",
+                    "url": "https://github.com/lowtower/Runalyze_translations.git",
                     "type": "git",
-                    "reference": "master"
+                    "reference": "main"
                 }
             }
         }],
