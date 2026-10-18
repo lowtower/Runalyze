@@ -29,6 +29,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Throwable;
 use TrainingView;
@@ -80,9 +81,9 @@ class ViewController extends AbstractController
      * @throws NotFoundHttpException
      * @throws Throwable if the legacy training view throws
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/activity/{id}', name: 'ActivityShow', requirements: [
+    #[Route(path: '/activity/{id}', name: 'ActivityShow', requirements: [
         'id' => '\d+',
-    ])]
+    ], methods: ['GET'])]
     public function displayAction(Request $request, int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -142,7 +143,7 @@ class ViewController extends AbstractController
     /**
      * @throws NotFoundHttpException
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/activity/{id}/vo2max-info')]
+    #[Route(path: '/activity/{id}/vo2max-info', methods: ['GET'])]
     public function vo2maxInfoAction(int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -169,9 +170,9 @@ class ViewController extends AbstractController
     /**
      * @throws Throwable if the legacy laps window throws
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/activity/{id}/splits-info', requirements: [
+    #[Route(path: '/activity/{id}/splits-info', requirements: [
         'id' => '\d+',
-    ])]
+    ], methods: ['GET'])]
     public function splitsInfoAction(int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -205,9 +206,9 @@ class ViewController extends AbstractController
      * @throws NotFoundHttpException
      * @throws Throwable if the legacy elevation info throws
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/activity/{id}/elevation-info', requirements: [
+    #[Route(path: '/activity/{id}/elevation-info', requirements: [
         'id' => '\d+',
-    ])]
+    ], methods: ['GET'])]
     public function elevationInfoAction(int $id, Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -252,9 +253,9 @@ class ViewController extends AbstractController
         return new Response($legacyContent);
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/activity/{id}/time-series-info', name: 'activity-tool-time-series-info', requirements: [
+    #[Route(path: '/activity/{id}/time-series-info', name: 'activity-tool-time-series-info', requirements: [
         'id' => '\d+',
-    ])]
+    ], methods: ['GET'])]
     public function timeSeriesInfoAction(int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -282,9 +283,9 @@ class ViewController extends AbstractController
         ]);
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/activity/{id}/sub-segments-info', name: 'activity-tool-sub-segments-info', requirements: [
+    #[Route(path: '/activity/{id}/sub-segments-info', name: 'activity-tool-sub-segments-info', requirements: [
         'id' => '\d+',
-    ])]
+    ], methods: ['GET'])]
     public function subSegmentInfoAction(int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -318,9 +319,9 @@ class ViewController extends AbstractController
     /**
      * @throws NotFoundHttpException
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/activity/{id}/climb-score', name: 'activity-tool-climb-score', requirements: [
+    #[Route(path: '/activity/{id}/climb-score', name: 'activity-tool-climb-score', requirements: [
         'id' => '\d+',
-    ])]
+    ], methods: ['GET'])]
     public function climbScoreAction(int $id, ?Account $account = null): Response
     {
         $activity = $this->getTraining($id);

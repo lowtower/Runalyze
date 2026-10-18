@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Throwable;
 
@@ -40,8 +41,8 @@ class CallController extends AbstractController
     /**
      * @throws Throwable if the legacy data browser throws
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/call/call.DataBrowser.display.php')]
-    #[\Symfony\Component\Routing\Attribute\Route(path: 'databrowser', name: 'databrowser')]
+    #[Route(path: '/call/call.DataBrowser.display.php', methods: ['GET'])]
+    #[Route(path: 'databrowser', name: 'databrowser', methods: ['GET'])]
     public function dataBrowserAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -54,8 +55,8 @@ class CallController extends AbstractController
         });
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/call/call.garminCommunicator.php')]
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/upload/garminCommunicator')]
+    #[Route(path: '/call/call.garminCommunicator.php', methods: ['GET'])]
+    #[Route(path: '/upload/garminCommunicator', methods: ['GET'])]
     public function garminCommunicatorAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -68,7 +69,7 @@ class CallController extends AbstractController
     /**
      * @throws BadRequestHttpException
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/call/savePng.php', methods: ['POST'])]
+    #[Route(path: '/call/savePng.php', methods: ['POST'])]
     public function savePngAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -99,7 +100,7 @@ class CallController extends AbstractController
     /**
      * @throws Throwable if the legacy config tabs throw
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/settings', name: 'settings')]
+    #[Route(path: '/settings', name: 'settings', methods: ['GET', 'POST'])]
     public function windowConfigAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -116,7 +117,7 @@ class CallController extends AbstractController
         });
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/call/ajax.change.Config.php', methods: ['GET'])]
+    #[Route(path: '/call/ajax.change.Config.php', methods: ['GET'])]
     public function ajaxChanceConfigAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -147,7 +148,7 @@ class CallController extends AbstractController
     /**
      * @throws Throwable if the legacy search formular or results throw
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/my/search', name: 'my-search')]
+    #[Route(path: '/my/search', name: 'my-search', methods: ['GET'])]
     public function windowSearchAction(): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -209,7 +210,7 @@ class CallController extends AbstractController
     /**
      * @throws Throwable if the legacy plot sum data throws
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/call/window.plotSumData.php')]
+    #[Route(path: '/call/window.plotSumData.php', methods: ['GET'])]
     public function windowsPlotSumDataAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -230,7 +231,7 @@ class CallController extends AbstractController
         return new Response($legacyContent);
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/call/login.php')]
+    #[Route(path: '/call/login.php', methods: ['GET', 'POST'])]
     public function loginAction(): Response
     {
         return $this->render('login/ajax_not_logged_in.html.twig');

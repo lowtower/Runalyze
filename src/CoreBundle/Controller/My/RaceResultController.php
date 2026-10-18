@@ -19,8 +19,9 @@ use Runalyze\Sports\Running\VO2max\Estimation\DanielsGilbertFormula;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 
-#[\Symfony\Component\Routing\Attribute\Route(path: '/my/raceresult')]
+#[Route(path: '/my/raceresult')]
 class RaceResultController extends AbstractController
 {
     use AppServiceSubscriberTrait;
@@ -50,9 +51,9 @@ class RaceResultController extends AbstractController
             ->getRepository(Training::class);
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/{activityId}', name: 'raceresult-form', requirements: [
+    #[Route(path: '/{activityId}', name: 'raceresult-form', requirements: [
         'activityId' => '\d+',
-    ])]
+    ], methods: ['GET', 'POST'])]
     public function raceresultFormAction(int $activityId, ?Account $account = null, ?Request $request = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -97,9 +98,9 @@ class RaceResultController extends AbstractController
         ]);
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/{activityId}/delete', name: 'raceresult-delete', requirements: [
+    #[Route(path: '/{activityId}/delete', name: 'raceresult-delete', requirements: [
         'activityId' => '\d+',
-    ])]
+    ], methods: ['GET', 'POST'])]
     public function raceresultDeleteAction(int $activityId, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -119,7 +120,7 @@ class RaceResultController extends AbstractController
         return $this->render('my/raceresult/deleted.html.twig');
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/performance-chart', name: 'race-results-performance-chart')]
+    #[Route(path: '/performance-chart', name: 'race-results-performance-chart', methods: ['GET'])]
     public function performanceChartAction(?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

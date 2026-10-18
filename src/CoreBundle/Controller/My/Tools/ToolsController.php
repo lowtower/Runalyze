@@ -68,7 +68,7 @@ class ToolsController extends AbstractController
     /**
      * @throws AccessDeniedException if the user is not logged in
      */
-    #[Route(path: '/my/tools/cleanup', name: 'tools-cleanup')]
+    #[Route(path: '/my/tools/cleanup', name: 'tools-cleanup', methods: ['GET', 'POST'])]
     public function cleanupAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -101,7 +101,7 @@ class ToolsController extends AbstractController
     /**
      * @throws AccessDeniedException if the user is not logged in
      */
-    #[Route(path: '/my/tools/tables/vo2max-pace', name: 'tools-tables-vo2max-pace')]
+    #[Route(path: '/my/tools/tables/vo2max-pace', name: 'tools-tables-vo2max-pace', methods: ['GET'])]
     public function tableVo2maxPaceAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -124,7 +124,7 @@ class ToolsController extends AbstractController
     /**
      * @throws AccessDeniedException if the user is not logged in
      */
-    #[Route(path: '/my/tools/tables/general-pace', name: 'tools-tables-general-pace')]
+    #[Route(path: '/my/tools/tables/general-pace', name: 'tools-tables-general-pace', methods: ['GET'])]
     public function tableGeneralPaceAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -137,8 +137,8 @@ class ToolsController extends AbstractController
     /**
      * @throws AccessDeniedException if the user is not logged in
      */
-    #[Route(path: '/my/tools/tables/vo2max', name: 'tools-tables-vo2max')]
-    #[Route(path: '/my/tools/tables', name: 'tools-tables')]
+    #[Route(path: '/my/tools/tables/vo2max', name: 'tools-tables-vo2max', methods: ['GET'])]
+    #[Route(path: '/my/tools/tables', name: 'tools-tables', methods: ['GET'])]
     public function tableVo2maxRaceResultAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -157,7 +157,7 @@ class ToolsController extends AbstractController
     /**
      * @throws AccessDeniedException if the user is not logged in
      */
-    #[Route(path: '/my/tools/vo2max-analysis', name: 'tools-vo2max-analysis')]
+    #[Route(path: '/my/tools/vo2max-analysis', name: 'tools-vo2max-analysis', methods: ['GET'])]
     public function vo2maxAnalysisAction(?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -188,7 +188,7 @@ class ToolsController extends AbstractController
     /**
      * @throws AccessDeniedException if the user is not logged in
      */
-    #[Route(path: '/my/tools/anova', name: 'tools-anova')]
+    #[Route(path: '/my/tools/anova', name: 'tools-anova', methods: ['GET', 'POST'])]
     public function anovaAction(Request $request, ?Account $account = null): JsonResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -238,7 +238,7 @@ class ToolsController extends AbstractController
     /**
      * @throws AccessDeniedException if the user is not logged in
      */
-    #[Route(path: '/my/tools/trend-analysis', name: 'tools-trend-analysis')]
+    #[Route(path: '/my/tools/trend-analysis', name: 'tools-trend-analysis', methods: ['GET', 'POST'])]
     public function trendAnalysisAction(Request $request, ?Account $account = null): JsonResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -284,7 +284,7 @@ class ToolsController extends AbstractController
     /**
      * @throws AccessDeniedException if the user is not logged in
      */
-    #[Route(path: '/my/tools/poster', name: 'poster')]
+    #[Route(path: '/my/tools/poster', name: 'poster', methods: ['GET', 'POST'])]
     public function posterAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -340,7 +340,7 @@ class ToolsController extends AbstractController
      */
     #[Route(path: '/my/tools/poster/{name}', name: 'poster-download', requirements: [
         'name' => Requirement::CATCH_ALL,
-    ])]
+    ], methods: ['GET', 'POST'])]
     public function posterDownloadAction(?Account $account = null, string $name = ''): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -351,7 +351,7 @@ class ToolsController extends AbstractController
     /**
      * @throws AccessDeniedException if the user is not logged in
      */
-    #[Route(path: '/my/tools', name: 'tools')]
+    #[Route(path: '/my/tools', name: 'tools', methods: ['GET'])]
     public function overviewAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * @author Hannes Christiansen <hannes@runalyze.de>
@@ -25,7 +26,7 @@ class UpdateController extends AbstractController
     ) {
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/update', name: 'update', condition: "'%app.update_disabled%' == 'no'")]
+    #[Route(path: '/update', name: 'update', methods: ['GET', 'POST'], condition: "'%app.update_disabled%' == 'no'")]
     public function updateAction($entity_manager = 'default'): Response
     {
         $output = new BufferedOutput();
@@ -62,7 +63,7 @@ class UpdateController extends AbstractController
         ]);
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/update/start', name: 'update_start', condition: "'%app.update_disabled%' == 'no'")]
+    #[Route(path: '/update/start', name: 'update_start', methods: ['GET', 'POST'], condition: "'%app.update_disabled%' == 'no'")]
     public function updateStartAction(): Response
     {
         $output = new BufferedOutput();

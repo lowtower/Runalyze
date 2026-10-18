@@ -11,10 +11,11 @@ use Runalyze\Bundle\CoreBundle\Entity\PluginRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Throwable;
 
-#[\Symfony\Component\Routing\Attribute\Route(path: '/_internal/plugin')]
+#[Route(path: '/_internal/plugin')]
 class PluginController extends AbstractPluginsAwareController
 {
     protected function getPluginRepository(): PluginRepository
@@ -45,7 +46,7 @@ class PluginController extends AbstractPluginsAwareController
     /**
      * @throws AccessDeniedException
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/toggle/{id}', name: 'internal-plugin-toggle')]
+    #[Route(path: '/toggle/{id}', name: 'internal-plugin-toggle', methods: ['GET'])]
     public function togglePanelAction(int $id, ?Account $account = null): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -61,7 +62,7 @@ class PluginController extends AbstractPluginsAwareController
     /**
      * @throws AccessDeniedException
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/move/{id}/up', name: 'internal-plugin-move-up')]
+    #[Route(path: '/move/{id}/up', name: 'internal-plugin-move-up', methods: ['GET'])]
     public function movePanelUpAction(int $id, ?Account $account = null): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -77,7 +78,7 @@ class PluginController extends AbstractPluginsAwareController
     /**
      * @throws AccessDeniedException
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/move/{id}/down', name: 'internal-plugin-move-down')]
+    #[Route(path: '/move/{id}/down', name: 'internal-plugin-move-down', methods: ['GET'])]
     public function movePanelDownAction(int $id, ?Account $account = null): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -94,7 +95,7 @@ class PluginController extends AbstractPluginsAwareController
      * @throws AccessDeniedException
      * @throws Throwable if a legacy plugin throws while building the panels' content
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/all-panels', name: 'internal-plugin-all-panels')]
+    #[Route(path: '/all-panels', name: 'internal-plugin-all-panels', methods: ['GET'])]
     public function contentPanelsAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

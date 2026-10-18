@@ -33,6 +33,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreateController extends AbstractController
@@ -58,7 +59,7 @@ class CreateController extends AbstractController
         return $this->doctrine->getRepository(Training::class);
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/activity/add', name: 'activity-add')]
+    #[Route(path: '/activity/add', name: 'activity-add', methods: ['GET'])]
     public function createAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -79,7 +80,7 @@ class CreateController extends AbstractController
         return $this->getUploadFormResponse();
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/activity/communicator', name: 'activity-communicator')]
+    #[Route(path: '/activity/communicator', name: 'activity-communicator', methods: ['GET'])]
     public function communicatorAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -87,7 +88,7 @@ class CreateController extends AbstractController
         return $this->render('activity/import_garmin_communicator.html.twig');
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/activity/communicator/iframe', name: 'activity-communicator-iframe')]
+    #[Route(path: '/activity/communicator/iframe', name: 'activity-communicator-iframe', methods: ['GET'])]
     public function communicatorIFrameAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -97,7 +98,7 @@ class CreateController extends AbstractController
         ]);
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/activity/upload', name: 'activity-upload')]
+    #[Route(path: '/activity/upload', name: 'activity-upload', methods: ['GET', 'POST'])]
     public function uploadAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -208,7 +209,7 @@ class CreateController extends AbstractController
         ]);
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/activity/multi-import', name: 'activity-multi-importer')]
+    #[Route(path: '/activity/multi-import', name: 'activity-multi-importer', methods: ['GET'])]
     public function multiImporterAction(Request $request, ?Account $account = null): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -262,7 +263,7 @@ class CreateController extends AbstractController
         return $this->redirectToRoute('activity-upload');
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/activity/new', name: 'activity-new')]
+    #[Route(path: '/activity/new', name: 'activity-new', methods: ['GET'])]
     public function newAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

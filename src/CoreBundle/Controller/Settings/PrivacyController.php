@@ -14,6 +14,7 @@ use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PrivacyController extends AbstractController
@@ -34,7 +35,7 @@ class PrivacyController extends AbstractController
             ->getRepository(Conf::class);
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/settings/privacy', name: 'settings-privacy')]
+    #[Route(path: '/settings/privacy', name: 'settings-privacy', methods: ['GET', 'POST'])]
     public function settingsAccountAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

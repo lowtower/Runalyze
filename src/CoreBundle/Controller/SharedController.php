@@ -26,6 +26,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use TrainingView;
@@ -52,18 +53,18 @@ class SharedController extends AbstractController
             ->getRepository(Training::class);
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/shared/{activityHash}&{foo}&{bar}&{baz}', requirements: [
+    #[Route(path: '/shared/{activityHash}&{foo}&{bar}&{baz}', requirements: [
         'activityHash' => '[a-zA-Z0-9]+',
-    ])]
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/shared/{activityHash}&{foo}&{bar}', requirements: [
+    ], methods: ['GET'])]
+    #[Route(path: '/shared/{activityHash}&{foo}&{bar}', requirements: [
         'activityHash' => '[a-zA-Z0-9]+',
-    ])]
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/shared/{activityHash}&{foo}', requirements: [
+    ], methods: ['GET'])]
+    #[Route(path: '/shared/{activityHash}&{foo}', requirements: [
         'activityHash' => '[a-zA-Z0-9]+',
-    ])]
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/shared/{activityHash}', name: 'shared-activity', requirements: [
+    ], methods: ['GET'])]
+    #[Route(path: '/shared/{activityHash}', name: 'shared-activity', requirements: [
         'activityHash' => '[a-zA-Z0-9]+',
-    ])]
+    ], methods: ['GET'])]
     public function sharedTrainingAction(string $activityHash, Request $request): Response
     {
         $activityId = (int) base_convert($activityHash, 35, 10);
@@ -122,7 +123,7 @@ class SharedController extends AbstractController
         ]);
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/shared/{username}/')]
+    #[Route(path: '/shared/{username}/', methods: ['GET'])]
     public function oldSharedUserAction(string $username): Response
     {
         return $this->redirectToRoute('shared-athlete', [
@@ -130,7 +131,7 @@ class SharedController extends AbstractController
         ], 301);
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/athlete/{username}', name: 'shared-athlete')]
+    #[Route(path: '/athlete/{username}', name: 'shared-athlete', methods: ['GET'])]
     public function sharedUserAction(string $username, Request $request): Response
     {
         /** @var AccountRepository $repository */
@@ -180,7 +181,7 @@ class SharedController extends AbstractController
         ]);
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/athlete/{username}/feed', name: 'shared-athlete-feed')]
+    #[Route(path: '/athlete/{username}/feed', name: 'shared-athlete-feed', methods: ['GET'])]
     public function publicUserFeedAction(string $username): Response
     {
         /** @var AccountRepository $repository */

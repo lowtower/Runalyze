@@ -29,7 +29,7 @@ class ActivityMatcherController extends AbstractController
     /**
      * @throws AccessDeniedException if the user is not logged in
      */
-    #[Route(path: '/_internal/activity/matcher', name: 'internal-activity-matcher')]
+    #[Route(path: '/_internal/activity/matcher', name: 'internal-activity-matcher', methods: ['GET', 'POST'])]
     public function ajaxActivityMatcher(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

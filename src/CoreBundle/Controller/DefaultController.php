@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -84,7 +85,7 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @throws Throwable if the included legacy dashboard throws
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/dashboard', name: 'dashboard')]
+    #[Route(path: '/dashboard', name: 'dashboard', methods: ['GET'])]
     public function dashboardAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -111,7 +112,7 @@ class DefaultController extends AbstractPluginsAwareController
         return $response;
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/', name: 'base_url')]
+    #[Route(path: '/', name: 'base_url', methods: ['GET'])]
     public function indexAction(Request $request): RedirectResponse
     {
         if ($this->authorizationChecker->isGranted('IS_AUTHENTICATED_FULLY') || $this->authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
@@ -121,7 +122,7 @@ class DefaultController extends AbstractPluginsAwareController
         return $this->redirectToRoute('login');
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/{_locale}/register', name: 'register')]
+    #[Route(path: '/{_locale}/register', name: 'register', methods: ['GET', 'POST'])]
     public function registerAction(Request $request, UserPasswordHasherInterface $passwordEncoder, Environment $twig, TranslatorInterface $translator): Response
     {
         if (! $this->parameterBag->get('app.user_can_register')) {
@@ -166,7 +167,7 @@ class DefaultController extends AbstractPluginsAwareController
         ]);
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/{_locale}/login', name: 'login')]
+    #[Route(path: '/{_locale}/login', name: 'login', methods: ['GET', 'POST'])]
     public function loginAction(Request $request): RedirectResponse|Response
     {
         if ($this->authorizationChecker->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -185,12 +186,12 @@ class DefaultController extends AbstractPluginsAwareController
         ]);
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/{_locale}/login_check', name: 'login_check')]
+    #[Route(path: '/{_locale}/login_check', name: 'login_check', methods: ['POST'])]
     public function loginCheckAction(): void
     {
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/logout', name: 'logout')]
+    #[Route(path: '/logout', name: 'logout', methods: ['GET'])]
     public function logoutAction(): RedirectResponse
     {
         return $this->redirectToRoute('login');
@@ -219,7 +220,7 @@ class DefaultController extends AbstractPluginsAwareController
      * @throws NotFoundHttpException if $plugin or $file contain a path traversal attempt
      * @throws Throwable if the included legacy plugin file throws
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/plugin/{plugin}/{file}')]
+    #[Route(path: '/plugin/{plugin}/{file}', methods: ['GET'])]
     public function pluginAction(string $plugin, string $file): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -234,7 +235,7 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @throws Throwable if the included legacy dashboard throws
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/index.php')]
+    #[Route(path: '/index.php', methods: ['GET'])]
     public function indexPhpAction(Request $request, ?Account $account = null): Response|RedirectResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -262,13 +263,13 @@ class DefaultController extends AbstractPluginsAwareController
         return $this->redirectToRoute('base_url');
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/login.php')]
+    #[Route(path: '/login.php', methods: ['GET', 'POST'])]
     public function loginPhpAction(): RedirectResponse
     {
         return $this->redirectToRoute('dashboard');
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/unsubscribe/{mail}/{hash}', name: 'unsubscribe-mail')]
+    #[Route(path: '/unsubscribe/{mail}/{hash}', name: 'unsubscribe-mail', methods: ['GET'])]
     public function unsubscribeMailAction(string $mail, string $hash, UnsubscribeHashGenerator $unsubscribeHashGenerator): Response
     {
         $repository = $this->getAccountRepository();
@@ -286,7 +287,7 @@ class DefaultController extends AbstractPluginsAwareController
         return $this->render('account/unsubscribe_failure.html.twig');
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/unsubscribe/{mail}/{hash}/confirm', name: 'unsubscribe-mail-confirm')]
+    #[Route(path: '/unsubscribe/{mail}/{hash}/confirm', name: 'unsubscribe-mail-confirm', methods: ['GET'])]
     public function unsubscribeMailConfirmAction(string $mail, string $hash, UnsubscribeHashGenerator $unsubscribeHashGenerator): Response
     {
         $repository = $this->getAccountRepository();
@@ -307,7 +308,7 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @throws NotFoundHttpException if no feedback recipient is configured
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/feedback', name: 'feedback')]
+    #[Route(path: '/feedback', name: 'feedback', methods: ['GET', 'POST'])]
     public function feedbackAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

@@ -35,7 +35,7 @@ class InstallController extends AbstractController
     ) {
     }
 
-    #[Route(path: '/install', name: 'install', condition: "'%app.update_disabled%' == 'no'")]
+    #[Route(path: '/install', name: 'install', methods: ['GET', 'POST'], condition: "'%app.update_disabled%' == 'no'")]
     public function installAction(Request $request): RedirectResponse|Response
     {
         $session = $request->getSession();
@@ -56,7 +56,7 @@ class InstallController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/install/start', name: 'install_start', condition: "'%app.update_disabled%' == 'no'")]
+    #[Route(path: '/install/start', name: 'install_start', methods: ['GET', 'POST'], condition: "'%app.update_disabled%' == 'no'")]
     public function startAction(Request $request): RedirectResponse|Response
     {
         $session = $request->getSession();
@@ -87,7 +87,7 @@ class InstallController extends AbstractController
         return $this->redirectToRoute('install_finish');
     }
 
-    #[Route(path: '/install/finish', name: 'install_finish', condition: "'%app.update_disabled%' == 'no'")]
+    #[Route(path: '/install/finish', name: 'install_finish', methods: ['GET', 'POST'], condition: "'%app.update_disabled%' == 'no'")]
     public function finishAction(Request $request): RedirectResponse|Response
     {
         $session = $request->getSession();

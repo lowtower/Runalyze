@@ -21,11 +21,12 @@ use Runalyze\Service\WeatherForecast\Strategy\OpenWeatherMap;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Throwable;
 
-#[\Symfony\Component\Routing\Attribute\Route(path: '/_internal/service/weather')]
+#[Route(path: '/_internal/service/weather')]
 class WeatherController extends AbstractController
 {
     use AppServiceSubscriberTrait;
@@ -40,7 +41,7 @@ class WeatherController extends AbstractController
     /**
      * @throws AccessDeniedException
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '', name: 'internal-service-weather')]
+    #[Route(path: '', name: 'internal-service-weather', methods: ['GET'])]
     public function fetchWeatherDataAction(Request $request, ?Account $account = null): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

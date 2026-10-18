@@ -30,6 +30,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -66,7 +67,7 @@ class SettingsController extends AbstractController
     /**
      * @throws AccessDeniedException
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/settings/account', name: 'settings-account')]
+    #[Route(path: '/settings/account', name: 'settings-account', methods: ['GET', 'POST'])]
     public function settingsAccountAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -114,7 +115,7 @@ class SettingsController extends AbstractController
     /**
      * @throws AccessDeniedException
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/settings/password', name: 'settings-password')]
+    #[Route(path: '/settings/password', name: 'settings-password', methods: ['GET', 'POST'])]
     public function settingsPasswordAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -142,7 +143,7 @@ class SettingsController extends AbstractController
     /**
      * @throws AccessDeniedException
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/settings/mail', name: 'settings-mail')]
+    #[Route(path: '/settings/mail', name: 'settings-mail', methods: ['GET', 'POST'])]
     public function settingsMailAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -172,7 +173,7 @@ class SettingsController extends AbstractController
     /**
      * @throws AccessDeniedException
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/settings/account/delete', name: 'settings-account-delete')]
+    #[Route(path: '/settings/account/delete', name: 'settings-account-delete', methods: ['GET', 'POST'])]
     public function windowDeleteAction(?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -189,7 +190,7 @@ class SettingsController extends AbstractController
     /**
      * @throws AccessDeniedException
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/settings/dataset', name: 'settings-dataset-update', methods: ['POST'])]
+    #[Route(path: '/settings/dataset', name: 'settings-dataset-update', methods: ['POST'])]
     public function datasetPostAction(?Account $account = null, ?Request $request = null): RedirectResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -222,7 +223,7 @@ class SettingsController extends AbstractController
     /**
      * @throws AccessDeniedException
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/settings/dataset', name: 'settings-dataset', methods: ['GET'])]
+    #[Route(path: '/settings/dataset', name: 'settings-dataset', methods: ['GET'])]
     public function datasetAction(?Account $account = null, ?Request $request = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

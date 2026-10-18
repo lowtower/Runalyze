@@ -13,6 +13,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Attribute\Route;
 use Throwable;
 
 class PluginController extends AbstractPluginsAwareController
@@ -21,7 +22,7 @@ class PluginController extends AbstractPluginsAwareController
      * @throws NotFoundHttpException if "key" does not match an installable plugin
      * @throws Throwable if the legacy plugin installer throws
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/call/call.Plugin.install.php')]
+    #[Route(path: '/call/call.Plugin.install.php', methods: ['GET', 'POST'])]
     public function pluginInstallAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -77,9 +78,9 @@ class PluginController extends AbstractPluginsAwareController
     /**
      * @throws Throwable if the legacy plugin throws
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/my/plugin/{id}', name: 'plugin-display', requirements: [
+    #[Route(path: '/my/plugin/{id}', name: 'plugin-display', requirements: [
         'id' => '\d+',
-    ])]
+    ], methods: ['GET'])]
     public function pluginDisplayAction(int $id, Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -92,7 +93,7 @@ class PluginController extends AbstractPluginsAwareController
     /**
      * @throws Throwable if the legacy plugin config window throws
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/call/call.Plugin.config.php', name: 'plugin-config')]
+    #[Route(path: '/call/call.Plugin.config.php', name: 'plugin-config', methods: ['GET', 'POST'])]
     public function pluginConfigAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

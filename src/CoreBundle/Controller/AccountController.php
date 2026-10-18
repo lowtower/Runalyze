@@ -37,7 +37,7 @@ class AccountController extends AbstractController
 
     #[Route(path: '/delete/{hash}/confirmed', name: 'account_delete_confirmed', requirements: [
         'hash' => '[[:xdigit:]]{32}',
-    ])]
+    ], methods: ['GET'])]
     public function deleteAccountConfirmedAction(string $hash, Request $request): Response
     {
         $accountToDelete = $this->getAccountRepository()
@@ -66,7 +66,7 @@ class AccountController extends AbstractController
 
     #[Route(path: '/delete/{hash}', name: 'account_delete', requirements: [
         'hash' => '[[:xdigit:]]{32}',
-    ])]
+    ], methods: ['GET'])]
     public function deleteAccountAction(string $hash): Response
     {
         $account = $this->getAccountRepository()
@@ -86,7 +86,7 @@ class AccountController extends AbstractController
 
     #[Route(path: '/recover/{hash}', name: 'account_recover_hash', requirements: [
         'hash' => '[[:xdigit:]]{32}',
-    ])]
+    ], methods: ['GET', 'POST'])]
     public function recoverForHashAction(string $hash, Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
         $account = $this->getAccountRepository()
@@ -121,7 +121,11 @@ class AccountController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/recover', name: 'account_recover')]
+    #[Route(
+        path: '/recover',
+        name: 'account_recover',
+        methods: ['GET', 'POST']
+    )]
     public function recoverAction(Request $request, TranslatorInterface $translator): Response
     {
         $form = $this->createFormBuilder()
@@ -156,12 +160,12 @@ class AccountController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/activate/{hash}', requirements: [
+    #[Route(path: '/activate/{hash}', name: 'account_activate', requirements: [
         'hash' => '[[:xdigit:]]{32}',
-    ])]
-    #[Route(path: '/activate/{hash}/{username}', name: 'account_activate', requirements: [
+    ], methods: ['GET'])]
+    #[Route(path: '/activate/{hash}/{username}', name: 'account_activate_with_username', requirements: [
         'hash' => '[[:xdigit:]]{32}',
-    ])]
+    ], methods: ['GET'])]
     public function activateAccountAction(string $hash, ?string $username = null): Response
     {
         if ($this->getAccountRepository()->activateByHash($hash)) {
