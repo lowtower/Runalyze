@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Runalyze\Bundle\CoreBundle\Command;
+namespace Runalyze\Bundle\CoreBundle\Tests\Command;
 
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;

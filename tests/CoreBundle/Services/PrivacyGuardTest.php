@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\Bundle\CoreBundle\Services;
+namespace Runalyze\Bundle\CoreBundle\Tests\Services;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -12,6 +12,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
+use Runalyze\Bundle\CoreBundle\Services\PrivacyGuard;
 use Runalyze\Parameter\Application\ActivityRoutePrivacy;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Runalyze\Bundle\CoreBundle\Command;
+namespace Runalyze\Bundle\CoreBundle\Tests\Command;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Result;

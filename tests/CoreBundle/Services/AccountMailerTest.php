@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\Bundle\CoreBundle\Services;
+namespace Runalyze\Bundle\CoreBundle\Tests\Services;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Component\Notifications\Message\PosterGeneratedMessage;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Exception\RfcComplianceException;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\Bundle\CoreBundle\Services;
+namespace Runalyze\Bundle\CoreBundle\Tests\Services;
 
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
@@ -13,6 +13,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Route;
 use Runalyze\Bundle\CoreBundle\Entity\Swimdata;
 use Runalyze\Bundle\CoreBundle\Entity\Trackdata;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
+use Runalyze\Bundle\CoreBundle\Services\LegacyCache;
 
 #[Group('default')]
 class LegacyCacheTest extends TestCase

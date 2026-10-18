@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation;
+namespace Runalyze\Bundle\CoreBundle\Tests\Bridge\Activity\Calculation;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\Bundle\CoreBundle\Services;
+namespace Runalyze\Bundle\CoreBundle\Tests\Services;
 
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Services\AccountChecker;
 use Symfony\Component\Security\Core\Exception\DisabledException;
 use Symfony\Component\Security\Core\User\UserInterface;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Runalyze\Bundle\CoreBundle\Command;
+namespace Runalyze\Bundle\CoreBundle\Tests\Command;
 
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
