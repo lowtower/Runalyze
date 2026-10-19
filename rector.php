@@ -8,6 +8,9 @@ use Rector\PHPUnit\PHPUnit120\Rector\CallLike\CreateStubOverCreateMockArgRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Renaming\Rector\String_\RenameStringRector;
 use Rector\Set\ValueObject\LevelSetList;
+use Rector\Symfony\Configs\Rector\Closure\RemoveConstructorAutowireServiceRector;
+use Rector\Symfony\Configs\Rector\Closure\ServiceSettersToSettersAutodiscoveryRector;
+use Rector\Symfony\Set\SymfonySetList;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -26,9 +29,9 @@ return RectorConfig::configure()
         # PHPUnitSetList::PHPUNIT_CODE_QUALITY,
         # DoctrineSetList::TYPED_COLLECTIONS,
     ])
-    ->withTypeCoverageLevel(75)         # max level 75
+    ->withTypeCoverageLevel(76)         # max level 76
     ->withTypeCoverageDocblockLevel(16) # max level 16
-    ->withDeadCodeLevel(74)             # max level 74
+    ->withDeadCodeLevel(75)             # max level 75
     ->withCodeQualityLevel(80)          # max level 80
     ->withCodingStyleLevel(21)          # max level 21
     ->withRules([])
@@ -40,6 +43,12 @@ return RectorConfig::configure()
             __DIR__ . '/tests/CoreBundle/Validator/Constraints/ContainsDisposableMailAddressValidatorTest.php',
             __DIR__ . '/tests/CoreBundle/Validator/Constraints/IsValidTimezoneValidatorTest.php',
         ],
+        RemoveConstructorAutowireServiceRector::class => [
+            __DIR__ . '/config/services.php',
+        ],
+        ServiceSettersToSettersAutodiscoveryRector::class => [
+            __DIR__ . '/config/services.php',
+        ],
     ])
     ->withComposerBased(
         true,   // symfony
@@ -48,4 +57,7 @@ return RectorConfig::configure()
         true,   // twig
     )
     ->withAttributesSets()
+    ->withSets([
+        SymfonySetList::CONFIGS,
+    ])
 ;
