@@ -257,7 +257,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
 
     public function addSport(Sport $sport): self
     {
-        $this->sport[] = $sport;
+        $this->sport->add($sport);
 
         return $this;
     }
@@ -289,7 +289,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
 
     public function addActivity(Training $activity): self
     {
-        $this->activity[] = $activity;
+        $this->activity->add($activity);
 
         return $this;
     }

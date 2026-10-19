@@ -2128,7 +2128,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     public function addEquipment(Equipment $equipment): self
     {
-        $this->equipment[] = $equipment;
+        $this->equipment->add($equipment);
 
         return $this;
     }
@@ -2148,7 +2148,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     public function addTag(Tag $tag): self
     {
-        $this->tag[] = $tag;
+        $this->tag->add($tag);
 
         return $this;
     }

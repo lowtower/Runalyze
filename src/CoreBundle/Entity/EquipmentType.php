@@ -184,7 +184,7 @@ class EquipmentType implements AccountRelatedEntityInterface
 
     public function addSport(Sport $sport): self
     {
-        $this->sport[] = $sport;
+        $this->sport->add($sport);
 
         return $this;
     }

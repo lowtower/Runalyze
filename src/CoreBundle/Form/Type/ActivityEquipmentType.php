@@ -81,7 +81,7 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
         return $categories;
     }
 
-    public function reverseTransform(mixed $value): ArrayCollection
+    public function reverseTransform(mixed $value): Collection
     {
         $equipment = new ArrayCollection();
 
@@ -89,10 +89,10 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
             foreach ($value as $subValue) {
                 if ($subValue instanceof Collection) {
                     foreach ($subValue as $object) {
-                        $equipment[] = $object;
+                        $equipment->add($object);
                     }
                 } elseif ($subValue !== null) {
-                    $equipment[] = $subValue;
+                    $equipment->add($subValue);
                 }
             }
         }

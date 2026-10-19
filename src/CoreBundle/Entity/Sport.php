@@ -430,7 +430,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
 
     public function addEquipmentType(EquipmentType $equipmentType): self
     {
-        $this->equipmentType[] = $equipmentType;
+        $this->equipmentType->add($equipmentType);
 
         return $this;
     }
