@@ -35,15 +35,17 @@ class AnovaData
         $data = new self();
         $data->setSport($sport);
         $data->setType($type);
-        $data->setDateFrom(new \DateTime()->sub(new \DateInterval('P6M')));
-        $data->setDateTo(new \DateTime());
+
+        $utc = new \DateTimeZone('UTC');
+        $data->setDateFrom(new \DateTime('now', $utc)->sub(new \DateInterval('P6M')));
+        $data->setDateTo(new \DateTime('now', $utc));
 
         return $data;
     }
 
-    public function setDateFrom(?DateTime $dateFrom): void
+    public function setDateFrom(?\DateTime $dateFrom): void
     {
-        $this->DateFrom = $dateFrom;
+        $this->DateFrom = $dateFrom?->setTimezone(new \DateTimeZone('UTC'));
     }
 
     public function getDateFrom(): ?DateTime
@@ -65,9 +67,9 @@ class AnovaData
             ->getTimestamp();
     }
 
-    public function setDateTo(?DateTime $dateTo): void
+    public function setDateTo(?\DateTime $dateTo): void
     {
-        $this->DateTo = $dateTo;
+        $this->DateTo = $dateTo?->setTimezone(new \DateTimeZone('UTC'));
     }
 
     public function getDateTo(): ?DateTime
