@@ -6,9 +6,9 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Controller\My;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
-use Runalyze\Bundle\CoreBundle\Entity\RaceresultRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
+use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]

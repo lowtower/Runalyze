@@ -4,6 +4,7 @@ namespace Runalyze\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
+use Runalyze\Bundle\CoreBundle\Repository\ConfRepository;
 
 #[ORM\Table(name: 'conf')]
 #[ORM\Index(name: 'accountid', columns: ['accountid'])]

@@ -6,7 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Services\Import;
 
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
-use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
+use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Import\DuplicateFinder;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]

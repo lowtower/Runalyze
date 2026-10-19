@@ -9,8 +9,8 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryGroup\Type as TypeQuery
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Type;
-use Runalyze\Bundle\CoreBundle\Entity\TypeRepository;
 use Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaData;
+use Runalyze\Bundle\CoreBundle\Repository\TypeRepository;
 
 class TypeQueryGroupTest extends TestCase
 {

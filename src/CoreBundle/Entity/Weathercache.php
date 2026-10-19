@@ -3,6 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Runalyze\Bundle\CoreBundle\Repository\WeathercacheRepository;
 use Runalyze\Parser\Activity\Common\Data\WeatherData;
 use Runalyze\Service\WeatherForecast\Location;
 

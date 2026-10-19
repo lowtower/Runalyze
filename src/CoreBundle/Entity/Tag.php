@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
+use Runalyze\Bundle\CoreBundle\Repository\TagRepository;
 
 #[ORM\Table(name: 'tag')]
 #[ORM\Entity(repositoryClass: TagRepository::class)]

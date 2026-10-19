@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Common\IdentifiableEntityInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Common\NamedEntityInterface;
+use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
 use Runalyze\Calculation\Activity\HrZonesCalculator;
 use Runalyze\Metrics\Velocity\Unit\AbstractPaceUnit;
 use Runalyze\Metrics\Velocity\Unit\PaceEnum;

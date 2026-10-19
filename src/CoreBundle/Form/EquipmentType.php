@@ -6,9 +6,9 @@ namespace Runalyze\Bundle\CoreBundle\Form;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
-use Runalyze\Bundle\CoreBundle\Entity\EquipmentTypeRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Form\Type\DistanceType;
+use Runalyze\Bundle\CoreBundle\Repository\EquipmentTypeRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class EquipmentType extends AbstractType
@@ -33,7 +34,7 @@ class EquipmentType extends AbstractType
      */
     protected function getAccount(): Account
     {
-        $account = $this->TokenStorageInterface->getToken() instanceof \Symfony\Component\Security\Core\Authentication\Token\TokenInterface ? $this->TokenStorageInterface->getToken()
+        $account = $this->TokenStorageInterface->getToken() instanceof TokenInterface ? $this->TokenStorageInterface->getToken()
             ->getUser() : null;
 
         if (! ($account instanceof Account)) {

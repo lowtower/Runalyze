@@ -11,7 +11,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Command\MailingCommand;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
+use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;

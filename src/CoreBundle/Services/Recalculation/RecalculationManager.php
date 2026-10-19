@@ -3,6 +3,10 @@
 namespace Runalyze\Bundle\CoreBundle\Services\Recalculation;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
+use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\Task\MarathonShapeCalculation;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\Task\StartTimeCalculation;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\Task\VO2maxCorrectionFactorCalculation;
@@ -10,7 +14,7 @@ use Runalyze\Bundle\CoreBundle\Services\Recalculation\Task\VO2maxShapeCalculatio
 
 class RecalculationManager
 {
-    protected \Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationTaskCollection $Tasks;
+    protected RecalculationTaskCollection $Tasks;
 
     protected array $AccountRelatedTaskNames = [];
 
@@ -20,10 +24,10 @@ class RecalculationManager
     protected array $CurrentStartTimes = [];
 
     public function __construct(
-        protected \Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager $ConfigurationManager,
-        protected \Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater $ConfigurationUpdater,
-        protected \Runalyze\Bundle\CoreBundle\Entity\TrainingRepository $TrainingRepository,
-        protected \Runalyze\Bundle\CoreBundle\Entity\RaceresultRepository $RaceResultRepository
+        protected ConfigurationManager $ConfigurationManager,
+        protected ConfigurationUpdater $ConfigurationUpdater,
+        protected TrainingRepository $TrainingRepository,
+        protected RaceresultRepository $RaceResultRepository
     ) {
         $this->Tasks = new RecalculationTaskCollection();
     }

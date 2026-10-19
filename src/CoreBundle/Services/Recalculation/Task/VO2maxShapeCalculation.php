@@ -2,6 +2,9 @@
 
 namespace Runalyze\Bundle\CoreBundle\Services\Recalculation\Task;
 
+use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationTaskInterface;
 use Runalyze\Util\LocalTime;
 
@@ -10,9 +13,9 @@ class VO2maxShapeCalculation implements RecalculationTaskInterface
     use AccountAwareTaskTrait;
 
     public function __construct(
-        protected \Runalyze\Bundle\CoreBundle\Entity\TrainingRepository $TrainingRepository,
-        protected \Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager $ConfigurationManager,
-        protected \Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater $ConfigurationUpdater
+        protected TrainingRepository $TrainingRepository,
+        protected ConfigurationManager $ConfigurationManager,
+        protected ConfigurationUpdater $ConfigurationUpdater
     ) {
     }
 

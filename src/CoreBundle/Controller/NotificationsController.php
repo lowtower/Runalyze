@@ -7,7 +7,7 @@ namespace Runalyze\Bundle\CoreBundle\Controller;
 use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Notification;
-use Runalyze\Bundle\CoreBundle\Entity\NotificationRepository;
+use Runalyze\Bundle\CoreBundle\Repository\NotificationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;

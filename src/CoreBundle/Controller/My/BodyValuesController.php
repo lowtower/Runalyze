@@ -4,8 +4,8 @@ namespace Runalyze\Bundle\CoreBundle\Controller\My;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\User;
-use Runalyze\Bundle\CoreBundle\Entity\UserRepository;
 use Runalyze\Bundle\CoreBundle\Form\BodyValuesType;
+use Runalyze\Bundle\CoreBundle\Repository\UserRepository;
 use Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Metrics\HeartRate\Unit\BeatsPerMinute;

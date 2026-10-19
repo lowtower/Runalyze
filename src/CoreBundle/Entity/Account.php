@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 use Runalyze\Bundle\CoreBundle\Entity\Common\IdentifiableEntityInterface;
+use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Validator\Constraints as RunalyzeAssert;
 use Runalyze\Model\Account\UserRole;
 use Runalyze\Parameter\Application\Timezone;

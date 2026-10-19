@@ -6,12 +6,14 @@ namespace Runalyze\Bundle\CoreBundle\EntityListener;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\User;
+use Runalyze\Bundle\CoreBundle\Repository\UserRepository;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
 
 class UserListener
 {
     public function __construct(
-        protected \Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater $ConfigurationUpdater,
-        protected \Runalyze\Bundle\CoreBundle\Entity\UserRepository $UserRepository
+        protected ConfigurationUpdater $ConfigurationUpdater,
+        protected UserRepository $UserRepository
     ) {
     }
 

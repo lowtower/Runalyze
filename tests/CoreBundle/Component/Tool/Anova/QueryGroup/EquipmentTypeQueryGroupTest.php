@@ -8,8 +8,8 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryGroup\EquipmentType as EquipmentTypeQueryGroup;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
-use Runalyze\Bundle\CoreBundle\Entity\EquipmentRepository;
 use Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaData;
+use Runalyze\Bundle\CoreBundle\Repository\EquipmentRepository;
 
 class EquipmentTypeQueryGroupTest extends TestCase
 {

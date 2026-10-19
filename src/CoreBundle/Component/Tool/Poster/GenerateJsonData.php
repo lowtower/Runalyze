@@ -5,6 +5,8 @@ namespace Runalyze\Bundle\CoreBundle\Component\Tool\Poster;
 use Doctrine\ORM\Query;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
+use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
+use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Model;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -19,8 +21,8 @@ class GenerateJsonData
      * @param string $KernelRootDir
      */
     public function __construct(
-        protected \Runalyze\Bundle\CoreBundle\Entity\TrainingRepository $TrainingRepository,
-        protected \Runalyze\Bundle\CoreBundle\Entity\RaceresultRepository $RaceresultRepository,
+        protected TrainingRepository $TrainingRepository,
+        protected RaceresultRepository $RaceresultRepository,
         protected $KernelRootDir
     ) {
     }

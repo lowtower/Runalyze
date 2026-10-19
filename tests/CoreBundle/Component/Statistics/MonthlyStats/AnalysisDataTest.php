@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisData;
 use Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisSelection;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
+use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Selection\Selection;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Twig\DisplayableTime;

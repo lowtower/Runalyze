@@ -17,9 +17,7 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\TrendAnalysis\TrendAnalysisDataQue
 use Runalyze\Bundle\CoreBundle\Component\Tool\VO2maxAnalysis\VO2maxAnalysis;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
-use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
-use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaData;
 use Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaType;
 use Runalyze\Bundle\CoreBundle\Form\Tools\DatabaseCleanupType;
@@ -27,6 +25,8 @@ use Runalyze\Bundle\CoreBundle\Form\Tools\PosterType;
 use Runalyze\Bundle\CoreBundle\Form\Tools\TrendAnalysis\TrendAnalysisData;
 use Runalyze\Bundle\CoreBundle\Form\Tools\TrendAnalysis\TrendAnalysisType;
 use Runalyze\Bundle\CoreBundle\Message\PosterGenerationMessage;
+use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
+use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Configuration\Category as ConfigurationCategory;
 use Runalyze\Configuration\Category\VO2max as VO2maxConfigurationCategory;

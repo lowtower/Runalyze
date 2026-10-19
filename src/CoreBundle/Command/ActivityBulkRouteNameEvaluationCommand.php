@@ -5,9 +5,9 @@ namespace Runalyze\Bundle\CoreBundle\Command;
 use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
-use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
+use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
+use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityContextAdapterFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -74,7 +74,7 @@ class ActivityBulkRouteNameEvaluationCommand extends Command
         do {
             $activity = $this->processActivity($output, $activityId, $user);
 
-            if (! $activity instanceof \Runalyze\Bundle\CoreBundle\Entity\Training) {
+            if (! $activity instanceof Training) {
                 $exitCode = 1;
                 break;
             }
@@ -94,7 +94,7 @@ class ActivityBulkRouteNameEvaluationCommand extends Command
         $activity = $this->getTrainingRepository()
             ->findForAccount($activityId, $user->getId());
 
-        if (! $activity instanceof \Runalyze\Bundle\CoreBundle\Entity\Training) {
+        if (! $activity instanceof Training) {
             $output->writeln('<fg=red>Activity not found: id=' . $activityId . '</>');
 
             return null;

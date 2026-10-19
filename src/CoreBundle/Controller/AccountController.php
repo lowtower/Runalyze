@@ -4,8 +4,8 @@ namespace Runalyze\Bundle\CoreBundle\Controller;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Form\RecoverPasswordType;
+use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

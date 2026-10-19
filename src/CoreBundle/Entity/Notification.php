@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Component\Notifications\Message\MessageInterface;
 use Runalyze\Bundle\CoreBundle\Component\Notifications\MessageFactory;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
+use Runalyze\Bundle\CoreBundle\Repository\NotificationRepository;
 
 #[ORM\Table(name: 'notification')]
 #[ORM\Entity(repositoryClass: NotificationRepository::class)]

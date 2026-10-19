@@ -6,10 +6,10 @@ namespace Runalyze\Bundle\CoreBundle\Tests\MessageHandler;
 
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
-use Runalyze\Bundle\CoreBundle\Entity\NotificationRepository;
 use Runalyze\Bundle\CoreBundle\Message\BackupGenerationMessage;
 use Runalyze\Bundle\CoreBundle\MessageHandler\BackupGenerationMessageHandler;
+use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
+use Runalyze\Bundle\CoreBundle\Repository\NotificationRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 

@@ -9,6 +9,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Adapter\ActivityAdapter;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Common\IdentifiableEntityInterface;
 use Runalyze\Bundle\CoreBundle\EntityListener\ActivityListener;
+use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 use Runalyze\Util\LocalTime;
 use Symfony\Component\Validator\Constraints as Assert;

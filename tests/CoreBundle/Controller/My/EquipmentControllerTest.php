@@ -6,9 +6,9 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Entity;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
-use Runalyze\Bundle\CoreBundle\Entity\EquipmentRepository;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
-use Runalyze\Bundle\CoreBundle\Entity\EquipmentTypeRepository;
+use Runalyze\Bundle\CoreBundle\Repository\EquipmentRepository;
+use Runalyze\Bundle\CoreBundle\Repository\EquipmentTypeRepository;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;

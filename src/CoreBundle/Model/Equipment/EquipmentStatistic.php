@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Model\Equipment;
 
+use Runalyze\Bundle\CoreBundle\Entity\Equipment;
+
 class EquipmentStatistic
 {
     protected ?int $NumberOfActivities = null;
@@ -19,11 +21,11 @@ class EquipmentStatistic
     protected ?float $MaximalDistance = null;
 
     public function __construct(
-        protected \Runalyze\Bundle\CoreBundle\Entity\Equipment $Equipment
+        protected Equipment $Equipment
     ) {
     }
 
-    public function getEquipment(): \Runalyze\Bundle\CoreBundle\Entity\Equipment
+    public function getEquipment(): Equipment
     {
         return $this->Equipment;
     }

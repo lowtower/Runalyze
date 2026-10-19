@@ -2,6 +2,8 @@
 
 namespace Runalyze\Bundle\CoreBundle\Services\Selection;
 
+use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\TokenStorageAwareServiceTrait;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -15,8 +17,8 @@ class SportSelectionFactory
     public const ALL = 'all';
 
     public function __construct(
-        protected \Runalyze\Bundle\CoreBundle\Entity\SportRepository $SportRepository,
-        protected \Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager $ConfigurationManager,
+        protected SportRepository $SportRepository,
+        protected ConfigurationManager $ConfigurationManager,
         TokenStorageInterface $tokenStorage
     ) {
         $this->TokenStorageInterface = $tokenStorage;
@@ -26,7 +28,7 @@ class SportSelectionFactory
      * @param string|null $param
      * @param bool $allIsAvailable
      */
-    public function getSelection($param = null, $allIsAvailable = true): \Runalyze\Bundle\CoreBundle\Services\Selection\Selection
+    public function getSelection($param = null, $allIsAvailable = true): Selection
     {
         if (! $this->knowsUser()) {
             throw new \RuntimeException('Sport selection can only be collected if the user is known.');

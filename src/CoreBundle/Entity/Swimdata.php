@@ -4,6 +4,7 @@ namespace Runalyze\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
+use Runalyze\Bundle\CoreBundle\Repository\SwimdataRepository;
 
 #[ORM\Table(name: 'swimdata')]
 #[ORM\Entity(repositoryClass: SwimdataRepository::class)]

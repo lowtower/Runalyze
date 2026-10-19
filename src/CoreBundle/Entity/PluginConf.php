@@ -3,6 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Runalyze\Bundle\CoreBundle\Repository\PluginConfRepository;
 
 #[ORM\Table(name: 'plugin_conf')]
 #[ORM\Index(name: 'pluginid', columns: ['pluginid'])]

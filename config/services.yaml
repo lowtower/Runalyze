@@ -220,67 +220,67 @@ services:
     Runalyze\Bundle\CoreBundle\Services\AccountChecker: ~
 
     app.repository.account:
-      class: Runalyze\Bundle\CoreBundle\Entity\AccountRepository
+      class: Runalyze\Bundle\CoreBundle\Repository\AccountRepository
       factory: ["@doctrine.orm.entity_manager", getRepository]
       arguments: [Runalyze\Bundle\CoreBundle\Entity\Account]
-    Runalyze\Bundle\CoreBundle\Entity\AccountRepository: '@app.repository.account'
+    Runalyze\Bundle\CoreBundle\Repository\AccountRepository: '@app.repository.account'
     app.repository.conf:
-      class: Runalyze\Bundle\CoreBundle\Entity\ConfRepository
+      class: Runalyze\Bundle\CoreBundle\Repository\ConfRepository
       factory: ["@doctrine.orm.entity_manager", getRepository]
       arguments: [Runalyze\Bundle\CoreBundle\Entity\Conf]
-    Runalyze\Bundle\CoreBundle\Entity\ConfRepository: '@app.repository.conf'
+    Runalyze\Bundle\CoreBundle\Repository\ConfRepository: '@app.repository.conf'
     app.repository.equipment:
-      class: Runalyze\Bundle\CoreBundle\Entity\EquipmentRepository
+      class: Runalyze\Bundle\CoreBundle\Repository\EquipmentRepository
       factory: ["@doctrine.orm.entity_manager", getRepository]
       arguments: [Runalyze\Bundle\CoreBundle\Entity\Equipment]
-    Runalyze\Bundle\CoreBundle\Entity\EquipmentRepository: '@app.repository.equipment'
+    Runalyze\Bundle\CoreBundle\Repository\EquipmentRepository: '@app.repository.equipment'
     app.repository.equipment_type:
-      class: Runalyze\Bundle\CoreBundle\Entity\EquipmentTypeRepository
+      class: Runalyze\Bundle\CoreBundle\Repository\EquipmentTypeRepository
       factory: ["@doctrine.orm.entity_manager", getRepository]
       arguments: [Runalyze\Bundle\CoreBundle\Entity\EquipmentType]
-    Runalyze\Bundle\CoreBundle\Entity\EquipmentTypeRepository: '@app.repository.equipment_type'
+    Runalyze\Bundle\CoreBundle\Repository\EquipmentTypeRepository: '@app.repository.equipment_type'
 
-    Runalyze\Bundle\CoreBundle\Entity\NotificationRepository:
-        class: Runalyze\Bundle\CoreBundle\Entity\NotificationRepository
+    Runalyze\Bundle\CoreBundle\Repository\NotificationRepository:
+        class: Runalyze\Bundle\CoreBundle\Repository\NotificationRepository
         factory: ['@doctrine.orm.entity_manager', 'getRepository']
         arguments: ['Runalyze\Bundle\CoreBundle\Entity\Notification']
 
     app.repository.race_result:
-      class: Runalyze\Bundle\CoreBundle\Entity\RaceresultRepository
+      class: Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository
       factory: ["@doctrine.orm.entity_manager", getRepository]
       arguments: [Runalyze\Bundle\CoreBundle\Entity\Raceresult]
-    Runalyze\Bundle\CoreBundle\Entity\RaceresultRepository: '@app.repository.race_result'
+    Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository: '@app.repository.race_result'
     app.repository.sport:
-      class: Runalyze\Bundle\CoreBundle\Entity\SportRepository
+      class: Runalyze\Bundle\CoreBundle\Repository\SportRepository
       factory: ["@doctrine.orm.entity_manager", getRepository]
       arguments: [Runalyze\Bundle\CoreBundle\Entity\Sport]
-    Runalyze\Bundle\CoreBundle\Entity\SportRepository: '@app.repository.sport'
+    Runalyze\Bundle\CoreBundle\Repository\SportRepository: '@app.repository.sport'
     app.repository.tag:
-      class: Runalyze\Bundle\CoreBundle\Entity\TagRepository
+      class: Runalyze\Bundle\CoreBundle\Repository\TagRepository
       factory: ["@doctrine.orm.entity_manager", getRepository]
       arguments: [Runalyze\Bundle\CoreBundle\Entity\Tag]
-    Runalyze\Bundle\CoreBundle\Entity\TagRepository: '@app.repository.tag'
+    Runalyze\Bundle\CoreBundle\Repository\TagRepository: '@app.repository.tag'
     app.repository.type:
-      class: Runalyze\Bundle\CoreBundle\Entity\TypeRepository
+      class: Runalyze\Bundle\CoreBundle\Repository\TypeRepository
       factory: ["@doctrine.orm.entity_manager", getRepository]
       arguments: [Runalyze\Bundle\CoreBundle\Entity\Type]
-    Runalyze\Bundle\CoreBundle\Entity\TypeRepository: '@app.repository.type'
+    Runalyze\Bundle\CoreBundle\Repository\TypeRepository: '@app.repository.type'
     app.repository.training:
-      class: Runalyze\Bundle\CoreBundle\Entity\TrainingRepository
+      class: Runalyze\Bundle\CoreBundle\Repository\TrainingRepository
       factory: ["@doctrine.orm.entity_manager", getRepository]
       arguments: [Runalyze\Bundle\CoreBundle\Entity\Training]
-    Runalyze\Bundle\CoreBundle\Entity\TrainingRepository: '@app.repository.training'
+    Runalyze\Bundle\CoreBundle\Repository\TrainingRepository: '@app.repository.training'
 
-    Runalyze\Bundle\CoreBundle\Entity\UserRepository:
-      class: Runalyze\Bundle\CoreBundle\Entity\UserRepository
+    Runalyze\Bundle\CoreBundle\Repository\UserRepository:
+      class: Runalyze\Bundle\CoreBundle\Repository\UserRepository
       factory: ["@doctrine.orm.entity_manager", getRepository]
       arguments: [Runalyze\Bundle\CoreBundle\Entity\User]
 
     app.repository.weathercache:
-      class: Runalyze\Bundle\CoreBundle\Entity\WeathercacheRepository
+      class: Runalyze\Bundle\CoreBundle\Repository\WeathercacheRepository
       factory: ["@doctrine.orm.entity_manager", getRepository]
       arguments: [Runalyze\Bundle\CoreBundle\Entity\Weathercache]
-    Runalyze\Bundle\CoreBundle\Entity\WeathercacheRepository: '@app.repository.weathercache'
+    Runalyze\Bundle\CoreBundle\Repository\WeathercacheRepository: '@app.repository.weathercache'
     app.entity_listener.activity:
       class: Runalyze\Bundle\CoreBundle\EntityListener\ActivityListener
       arguments: ["@app.recalculation_manager", "@app.configuration_manager", "@app.repository.sport", "@app.repository.equipment", "@app.timezone_lookup"]
@@ -296,7 +296,7 @@ services:
       class: Runalyze\Bundle\CoreBundle\EntityListener\UserListener
       arguments:
         - '@app.configuration_updater'
-        - '@Runalyze\Bundle\CoreBundle\Entity\UserRepository'
+        - '@Runalyze\Bundle\CoreBundle\Repository\UserRepository'
       tags:
         - { name: doctrine.orm.entity_listener, lazy: true }
     Runalyze\Bundle\CoreBundle\EntityListener\UserListener: '@app.entity_listener.user'
@@ -586,7 +586,7 @@ services:
     Runalyze\Bundle\CoreBundle\MessageHandler\BackupGenerationMessageHandler:
         arguments:
             $accountRepository: '@app.repository.account'
-            $notificationRepository: '@Runalyze\Bundle\CoreBundle\Entity\NotificationRepository'
+            $notificationRepository: '@Runalyze\Bundle\CoreBundle\Repository\NotificationRepository'
             $parameterBag: '@parameter_bag'
             $accountMailer: '@Runalyze\Bundle\CoreBundle\Services\AccountMailer'
             $dataDirectory: '%app.data_directory%'
@@ -600,7 +600,7 @@ services:
             $logger: '@monolog.logger.queue'
             $accountRepository: '@app.repository.account'
             $sportRepository: '@app.repository.sport'
-            $notificationRepository: '@Runalyze\Bundle\CoreBundle\Entity\NotificationRepository'
+            $notificationRepository: '@Runalyze\Bundle\CoreBundle\Repository\NotificationRepository'
             $generateJsonData: '@app.poster.generate_json'
             $generatePoster: '@app.poster.generate_poster'
             $fileHandler: '@app.poster.filehandler'

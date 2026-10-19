@@ -5,6 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Adapter\TrackDataAdapter;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
+use Runalyze\Bundle\CoreBundle\Repository\TrackdataRepository;
 use Runalyze\Model;
 use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 

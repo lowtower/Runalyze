@@ -2,6 +2,9 @@
 
 namespace Runalyze\Bundle\CoreBundle\Services\Recalculation\Task;
 
+use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationTaskInterface;
 
 class VO2maxCorrectionFactorCalculation implements RecalculationTaskInterface
@@ -9,9 +12,9 @@ class VO2maxCorrectionFactorCalculation implements RecalculationTaskInterface
     use AccountAwareTaskTrait;
 
     public function __construct(
-        protected \Runalyze\Bundle\CoreBundle\Entity\RaceresultRepository $RaceResultRepository,
-        protected \Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager $ConfigurationManager,
-        protected \Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater $ConfigurationUpdater
+        protected RaceresultRepository $RaceResultRepository,
+        protected ConfigurationManager $ConfigurationManager,
+        protected ConfigurationUpdater $ConfigurationUpdater
     ) {
     }
 

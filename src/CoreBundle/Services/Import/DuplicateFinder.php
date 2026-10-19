@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Services\Import;
 
 use Runalyze\Bundle\CoreBundle\Entity\Training;
-use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
+use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 
 class DuplicateFinder
 {

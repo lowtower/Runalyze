@@ -5,6 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryGroup;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Sport as SportEntity;
 use Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaData;
 
 class Sport implements QueryGroupInterface
@@ -19,7 +20,7 @@ class Sport implements QueryGroupInterface
         $groups = [];
         $sports = $anovaData->getSport();
 
-        foreach ($entityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Sport::class)->findAllFor($account) as $sport) {
+        foreach ($entityManager->getRepository(SportEntity::class)->findAllFor($account) as $sport) {
             foreach ($sports as $singleSport) {
                 if ($singleSport->getId() == $sport->getId()) {
                     $groups[$sport->getId()] = $sport->getName();

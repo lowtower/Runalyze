@@ -8,8 +8,8 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryGroup\Sport as SportQueryGroup;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
-use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
 use Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaData;
+use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
 
 class SportQueryGroupTest extends TestCase
 {

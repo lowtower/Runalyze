@@ -5,6 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 use Runalyze\Bundle\CoreBundle\EntityListener\RaceResultListener;
+use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
 
 #[ORM\Table(name: 'raceresult')]
 #[ORM\Entity(repositoryClass: RaceresultRepository::class)]

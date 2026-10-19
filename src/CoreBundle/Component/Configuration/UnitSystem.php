@@ -38,7 +38,7 @@ class UnitSystem
 
     public function getPaceUnit(?Sport $sport = null): AbstractPaceUnit
     {
-        if ($sport instanceof \Runalyze\Bundle\CoreBundle\Entity\Sport) {
+        if ($sport instanceof Sport) {
             return $sport->getSpeedUnit();
         }
 

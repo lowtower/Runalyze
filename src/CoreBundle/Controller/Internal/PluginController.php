@@ -7,7 +7,7 @@ use PluginFactory;
 use Runalyze\Bundle\CoreBundle\Controller\AbstractPluginsAwareController;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
-use Runalyze\Bundle\CoreBundle\Entity\PluginRepository;
+use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

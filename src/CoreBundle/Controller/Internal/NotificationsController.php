@@ -4,7 +4,7 @@ namespace Runalyze\Bundle\CoreBundle\Controller\Internal;
 
 use Runalyze\Bundle\CoreBundle\Component\Notifications\MessageFactory;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Entity\NotificationRepository;
+use Runalyze\Bundle\CoreBundle\Repository\NotificationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

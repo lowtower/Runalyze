@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Common\IdentifiableEntityInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Common\NamedEntityInterface;
+use Runalyze\Bundle\CoreBundle\Repository\TypeRepository;
 use Runalyze\Profile\View\DataBrowserRowProfile;
 
 #[ORM\Table(name: 'type')]

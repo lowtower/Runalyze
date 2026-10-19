@@ -3,9 +3,10 @@
 namespace Runalyze\Bundle\CoreBundle\Form\Type;
 
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
-use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
+use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Bundle\CoreBundle\Form\AbstractTokenStorageAwareType;
 use Runalyze\Bundle\CoreBundle\Form\ConfigurationManagerAwareTrait;
+use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -56,7 +57,7 @@ class SportChoiceType extends AbstractTokenStorageAwareType
                     'data-internal' => $sport->getInternalSportId() ?: '',
                     'data-distances' => $sport->getDistances() ? '1' : '0',
                     'data-speed' => $sport->getSpeed(),
-                    'data-activity-type' => $sport->getDefaultType() instanceof \Runalyze\Bundle\CoreBundle\Entity\Type ? $sport->getDefaultType()
+                    'data-activity-type' => $sport->getDefaultType() instanceof Type ? $sport->getDefaultType()
                         ->getId() : '',
                     'data-equipment-types' => json_encode($availableEquipmentTypes),
                     'data-privacy' => $sport->getDefaultPrivacy() ? '1' : '0',

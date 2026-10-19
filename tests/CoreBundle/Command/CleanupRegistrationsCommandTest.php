@@ -7,7 +7,7 @@ use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Command\CleanupRegistrationsCommand;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
+use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
 use Symfony\Component\Console\Tester\CommandTester;
 
 final class CleanupRegistrationsCommandTest extends TestCase

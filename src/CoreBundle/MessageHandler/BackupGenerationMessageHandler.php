@@ -8,10 +8,10 @@ use Runalyze\Bundle\CoreBundle\Component\Notifications\Message\BackupReadyMessag
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\FilenameHandler;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\JsonBackup;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\SqlBackup;
-use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Notification;
-use Runalyze\Bundle\CoreBundle\Entity\NotificationRepository;
 use Runalyze\Bundle\CoreBundle\Message\BackupGenerationMessage;
+use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
+use Runalyze\Bundle\CoreBundle\Repository\NotificationRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 

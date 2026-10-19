@@ -7,7 +7,7 @@ use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Command\DeleteExpiredNotificationsCommand;
 use Runalyze\Bundle\CoreBundle\Entity\Notification;
-use Runalyze\Bundle\CoreBundle\Entity\NotificationRepository;
+use Runalyze\Bundle\CoreBundle\Repository\NotificationRepository;
 use Symfony\Component\Console\Tester\CommandTester;
 
 final class DeleteExpiredNotificationsCommandTest extends TestCase

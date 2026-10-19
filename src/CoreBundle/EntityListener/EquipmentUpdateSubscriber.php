@@ -6,8 +6,8 @@ use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\PersistentCollection;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
-use Runalyze\Bundle\CoreBundle\Entity\EquipmentRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
+use Runalyze\Bundle\CoreBundle\Repository\EquipmentRepository;
 
 #[\Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener(event: 'onFlush')]
 class EquipmentUpdateSubscriber

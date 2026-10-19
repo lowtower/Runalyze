@@ -5,7 +5,6 @@ namespace Runalyze\Bundle\CoreBundle\Form;
 use League\Geotools\Geohash\Geohash;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Tag;
-use Runalyze\Bundle\CoreBundle\Entity\TagRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Form\Type\ActivityEquipmentType;
 use Runalyze\Bundle\CoreBundle\Form\Type\ActivityRoundType;
@@ -26,6 +25,7 @@ use Runalyze\Bundle\CoreBundle\Form\Type\UnitPlaceholderType;
 use Runalyze\Bundle\CoreBundle\Form\Type\WeatherConditionType;
 use Runalyze\Bundle\CoreBundle\Form\Type\WindDirectionType;
 use Runalyze\Bundle\CoreBundle\Form\Type\WindSpeedType;
+use Runalyze\Bundle\CoreBundle\Repository\TagRepository;
 use Runalyze\Bundle\CoreBundle\Services\Activity\DataSeriesRemover;
 use RuntimeException;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -43,6 +43,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class ActivityType extends AbstractType
 {
@@ -57,7 +58,7 @@ class ActivityType extends AbstractType
      */
     protected function getAccount(): Account
     {
-        $account = $this->TokenStorageInterface->getToken() instanceof \Symfony\Component\Security\Core\Authentication\Token\TokenInterface ? $this->TokenStorageInterface->getToken()
+        $account = $this->TokenStorageInterface->getToken() instanceof TokenInterface ? $this->TokenStorageInterface->getToken()
             ->getUser() : null;
 
         if (! ($account instanceof Account)) {

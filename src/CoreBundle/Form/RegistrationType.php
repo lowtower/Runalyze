@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Form;
 
+use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -48,7 +49,7 @@ class RegistrationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Account::class,
+            'data_class' => Account::class,
         ]);
     }
 }

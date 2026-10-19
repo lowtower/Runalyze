@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Form;
 
+use Runalyze\Bundle\CoreBundle\Entity\User;
 use Runalyze\Bundle\CoreBundle\Form\Type\DurationType;
 use Runalyze\Bundle\CoreBundle\Form\Type\HeartRateType;
 use Runalyze\Bundle\CoreBundle\Form\Type\PercentageType;
@@ -93,7 +94,7 @@ class BodyValuesType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\User::class,
+            'data_class' => User::class,
         ]);
     }
 }

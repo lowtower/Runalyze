@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Model\Sport;
 
+use Runalyze\Bundle\CoreBundle\Entity\Sport;
+
 class SportStatistic
 {
     protected ?int $NumberOfActivities = null;
@@ -15,11 +17,11 @@ class SportStatistic
     protected ?float $TotalDuration = null;
 
     public function __construct(
-        protected \Runalyze\Bundle\CoreBundle\Entity\Sport $Sport
+        protected Sport $Sport
     ) {
     }
 
-    public function getSport(): \Runalyze\Bundle\CoreBundle\Entity\Sport
+    public function getSport(): Sport
     {
         return $this->Sport;
     }

@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\GeneratePoster;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
-use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
+use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 
 #[\PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations]
 class GeneratePosterTest extends TestCase

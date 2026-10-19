@@ -4,6 +4,7 @@ namespace Runalyze\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
+use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
 
 #[ORM\Table(name: 'plugin')]
 #[ORM\Entity(repositoryClass: PluginRepository::class)]

@@ -11,7 +11,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\User;
-use Runalyze\Bundle\CoreBundle\Entity\UserRepository;
+use Runalyze\Bundle\CoreBundle\Repository\UserRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityContextAdapterFactory;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityDataContainerFilter;

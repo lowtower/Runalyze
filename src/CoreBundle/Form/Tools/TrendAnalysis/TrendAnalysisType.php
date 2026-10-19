@@ -7,9 +7,9 @@ namespace Runalyze\Bundle\CoreBundle\Form\Tools\TrendAnalysis;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryValue\QueryValues;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
-use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Type;
-use Runalyze\Bundle\CoreBundle\Entity\TypeRepository;
+use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
+use Runalyze\Bundle\CoreBundle\Repository\TypeRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class TrendAnalysisType extends AbstractType
@@ -31,7 +32,7 @@ class TrendAnalysisType extends AbstractType
 
     protected function getAccount(): Account
     {
-        $account = $this->TokenStorageInterface->getToken() instanceof \Symfony\Component\Security\Core\Authentication\Token\TokenInterface ? $this->TokenStorageInterface->getToken()
+        $account = $this->TokenStorageInterface->getToken() instanceof TokenInterface ? $this->TokenStorageInterface->getToken()
             ->getUser() : null;
 
         if (! ($account instanceof Account)) {

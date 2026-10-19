@@ -6,14 +6,14 @@ namespace Runalyze\Bundle\CoreBundle\Form\Settings;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
-use Runalyze\Bundle\CoreBundle\Entity\EquipmentTypeRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
-use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Type;
-use Runalyze\Bundle\CoreBundle\Entity\TypeRepository;
 use Runalyze\Bundle\CoreBundle\Form\Type\EnergyKcalType;
 use Runalyze\Bundle\CoreBundle\Form\Type\HeartRateType;
 use Runalyze\Bundle\CoreBundle\Form\Type\HrZoneBoundType;
+use Runalyze\Bundle\CoreBundle\Repository\EquipmentTypeRepository;
+use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
+use Runalyze\Bundle\CoreBundle\Repository\TypeRepository;
 use Runalyze\Metrics\Velocity\Unit\PaceEnum;
 use Runalyze\Profile\Sport\Icon\SportIconProfile;
 use Runalyze\Profile\Sport\Settings\SportRelevanceProfile;

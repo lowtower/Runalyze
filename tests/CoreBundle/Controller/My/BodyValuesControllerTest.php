@@ -6,7 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Entity;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\User;
-use Runalyze\Bundle\CoreBundle\Entity\UserRepository;
+use Runalyze\Bundle\CoreBundle\Repository\UserRepository;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
