@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Activity\PaceUnit;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class AbstractTimeUnitTest extends TestCase
+final class AbstractTimeUnitTest extends TestCase
 {
     public function testIsTimeFormatIsAlwaysTrue(): void
     {
@@ -41,15 +43,13 @@ class AbstractTimeUnitTest extends TestCase
     }
 
     /**
-     * @return array<string, float[]>
+     * @return \Iterator<string, array<float>>
      */
-    public static function provideFactorsAndSecondsPerKm(): array
+    public static function provideFactorsAndSecondsPerKm(): \Iterator
     {
-        return [
-            'factor of 1, no change' => [1.0, 300.0, 300.0],
-            'factor of 60, converts seconds to minutes' => [1 / 60, 300.0, 5.0],
-            'zero seconds per km' => [1.0, 0.0, 0.0],
-        ];
+        yield 'factor of 1, no change' => [1.0, 300.0, 300.0];
+        yield 'factor of 60, converts seconds to minutes' => [1 / 60, 300.0, 5.0];
+        yield 'zero seconds per km' => [1.0, 0.0, 0.0];
     }
 
     public function testFormatReturnsPlaceholderForZeroSecondsPerKm(): void
@@ -68,18 +68,16 @@ class AbstractTimeUnitTest extends TestCase
     }
 
     /**
-     * @return array<string, float[]|string[]>
+     * @return \Iterator<string, array<(float|string)>>
      */
-    public static function provideFormatCases(): array
+    public static function provideFormatCases(): \Iterator
     {
-        return [
-            'below one minute, no unit conversion' => [1.0, 45.0, '0:45'],
-            'above one hour, no unit conversion' => [1.0, 3661.0, '1:01:01'],
-            'factor halves the value' => [0.5, 200.0, '1:40'],
-            'factor doubles the value' => [2.0, 40.0, '1:20'],
-            'fractional product rounds down before formatting' => [1.0, 125.4, '2:05'],
-            'fractional product rounds up before formatting' => [1.0, 125.6, '2:06'],
-        ];
+        yield 'below one minute, no unit conversion' => [1.0, 45.0, '0:45'];
+        yield 'above one hour, no unit conversion' => [1.0, 3661.0, '1:01:01'];
+        yield 'factor halves the value' => [0.5, 200.0, '1:40'];
+        yield 'factor doubles the value' => [2.0, 40.0, '1:20'];
+        yield 'fractional product rounds down before formatting' => [1.0, 125.4, '2:05'];
+        yield 'fractional product rounds up before formatting' => [1.0, 125.6, '2:06'];
     }
 
     #[DataProvider('provideComparisonCases')]
@@ -91,15 +89,13 @@ class AbstractTimeUnitTest extends TestCase
     }
 
     /**
-     * @return array<string, float[]>
+     * @return \Iterator<string, array<float>>
      */
-    public static function provideComparisonCases(): array
+    public static function provideComparisonCases(): \Iterator
     {
-        return [
-            'first pace is larger, result is positive' => [300.0, 250.0, -50.0],
-            'first pace is smaller, result is negative' => [250.0, 300.0, 50.0],
-            'both paces are equal, result is zero' => [300.0, 300.0, 0.0],
-        ];
+        yield 'first pace is larger, result is positive' => [300.0, 250.0, -50.0];
+        yield 'first pace is smaller, result is negative' => [250.0, 300.0, 50.0];
+        yield 'both paces are equal, result is zero' => [300.0, 300.0, 0.0];
     }
 
     private function createUnitWithFactor(float $factor): AbstractTimeUnit

@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Dataset;
 
-class KeysTest extends \PHPUnit\Framework\TestCase
+final class KeysTest extends \PHPUnit\Framework\TestCase
 {
     public function testAllIDs(): void
     {

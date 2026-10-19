@@ -6,7 +6,7 @@ use Runalyze\Tests\DatabaseTestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]
 #[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
-class HelperDatabaseTest extends DatabaseTestCase
+final class HelperDatabaseTest extends DatabaseTestCase
 {
     /**
      * @throws ReflectionException

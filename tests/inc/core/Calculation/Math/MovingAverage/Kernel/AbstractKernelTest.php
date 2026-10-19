@@ -12,7 +12,7 @@ class AbstractKernelTest_MockTester extends AbstractKernel
     }
 }
 
-class AbstractKernelTest extends \PHPUnit\Framework\TestCase
+final class AbstractKernelTest extends \PHPUnit\Framework\TestCase
 {
     public function testZeroKernelWidth(): void
     {

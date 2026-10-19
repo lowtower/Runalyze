@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Activity;
 
 use PHPUnit\Framework\TestCase;
@@ -14,7 +16,7 @@ use Runalyze\Bundle\CoreBundle\Services\Import\WeatherForecast;
 use Runalyze\Service\RouteNameEvaluation\RouteNameEval;
 use Runalyze\Service\RouteNameEvaluation\RouteNameEvalResult;
 
-class ActivityContextAdapterTest extends TestCase
+final class ActivityContextAdapterTest extends TestCase
 {
     private function createAdapter(
         ActivityContext $context,

@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Sports\ClimbQuantification;
 
 use Runalyze\Sports\ClimbQuantification\FietsIndex;
 
-class FietsIndexTest extends \PHPUnit\Framework\TestCase
+final class FietsIndexTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var FietsIndex
@@ -72,7 +74,7 @@ class FietsIndexTest extends \PHPUnit\Framework\TestCase
 
     public function testThatAltitudeAtTopCantDominateScore(): void
     {
-        $this->assertEquals(1.5, $this->Fiets->getScoreFor(1.0, 100, 5000));
+        $this->assertEqualsWithDelta(1.5, $this->Fiets->getScoreFor(1.0, 100, 5000), PHP_FLOAT_EPSILON);
     }
 
     public function testManuaKea(): void

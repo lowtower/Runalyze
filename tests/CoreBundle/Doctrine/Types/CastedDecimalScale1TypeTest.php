@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Doctrine\Types\CastedDecimalScale1Type;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class CastedDecimalScale1TypeTest extends TestCase
+final class CastedDecimalScale1TypeTest extends TestCase
 {
     private CastedDecimalScale1Type $type;
 

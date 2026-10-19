@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class DistanceTest extends TestCase
+final class DistanceTest extends TestCase
 {
     private string $OriginalDecimalSeparator;
 
@@ -40,7 +40,7 @@ class DistanceTest extends TestCase
 
         $this->assertEquals(10, $Distance->set(10)->kilometer());
         $this->assertEquals(20, $Distance->multiply(2)->kilometer());
-        $this->assertSame(21.1, $Distance->add(new Distance(1.1))->kilometer());
+        $this->assertEqualsWithDelta(21.1, $Distance->add(new Distance(1.1))->kilometer(), PHP_FLOAT_EPSILON);
         $this->assertFalse($Distance->isZero());
 
         $this->assertEqualsWithDelta(-0.9, $Distance->subtract(new Distance(22))->kilometer(), 0.0001);
@@ -81,7 +81,7 @@ class DistanceTest extends TestCase
 
         $Distance->set('12,34');
 
-        $this->assertSame(12.34, $Distance->kilometer());
+        $this->assertEqualsWithDelta(12.34, $Distance->kilometer(), PHP_FLOAT_EPSILON);
     }
 
     public function testSetParsesDotAsDecimalSeparator(): void
@@ -90,7 +90,7 @@ class DistanceTest extends TestCase
 
         $Distance->set('12.34');
 
-        $this->assertSame(12.34, $Distance->kilometer());
+        $this->assertEqualsWithDelta(12.34, $Distance->kilometer(), PHP_FLOAT_EPSILON);
     }
 
     public function testSetAcceptsNumericValueDirectly(): void
@@ -99,7 +99,7 @@ class DistanceTest extends TestCase
 
         $Distance->set(7.5);
 
-        $this->assertSame(7.5, $Distance->kilometer());
+        $this->assertEqualsWithDelta(7.5, $Distance->kilometer(), PHP_FLOAT_EPSILON);
     }
 
     public function testValueIsAliasForKilometer(): void
@@ -118,16 +118,14 @@ class DistanceTest extends TestCase
     }
 
     /**
-     * @return array<string, float[]|int[]>
+     * @return \Iterator<string, array<(float|int)>>
      */
-    public static function provideMeterConversionCases(): array
+    public static function provideMeterConversionCases(): \Iterator
     {
-        return [
-            'simple conversion' => [0.1, 100],
-            'whole number' => [1.5, 1500],
-            'rounds half away from zero, upwards' => [0.1235, 124],
-            'rounds half away from zero, negative value' => [-0.1235, -124],
-        ];
+        yield 'simple conversion' => [0.1, 100];
+        yield 'whole number' => [1.5, 1500];
+        yield 'rounds half away from zero, upwards' => [0.1235, 124];
+        yield 'rounds half away from zero, negative value' => [-0.1235, -124];
     }
 
     public function testMultiplyScalesKilometerAndReturnsSameInstance(): void
@@ -135,7 +133,7 @@ class DistanceTest extends TestCase
         $Distance = new Distance(10.0);
 
         $this->assertSame($Distance, $Distance->multiply(2.0));
-        $this->assertSame(20.0, $Distance->kilometer());
+        $this->assertEqualsWithDelta(20.0, $Distance->kilometer(), PHP_FLOAT_EPSILON);
     }
 
     public function testAddSumsKilometerAndReturnsSameInstance(): void
@@ -143,7 +141,7 @@ class DistanceTest extends TestCase
         $Distance = new Distance(10.0);
 
         $this->assertSame($Distance, $Distance->add(new Distance(5.0)));
-        $this->assertSame(15.0, $Distance->kilometer());
+        $this->assertEqualsWithDelta(15.0, $Distance->kilometer(), PHP_FLOAT_EPSILON);
     }
 
     public function testSubtractReducesKilometerAndReturnsSameInstance(): void
@@ -151,7 +149,7 @@ class DistanceTest extends TestCase
         $Distance = new Distance(10.0);
 
         $this->assertSame($Distance, $Distance->subtract(new Distance(3.0)));
-        $this->assertSame(7.0, $Distance->kilometer());
+        $this->assertEqualsWithDelta(7.0, $Distance->kilometer(), PHP_FLOAT_EPSILON);
     }
 
     public function testIsNegativeIsTrueOnlyForNegativeKilometer(): void
@@ -234,15 +232,13 @@ class DistanceTest extends TestCase
     }
 
     /**
-     * @return array<string, float[]|string[]>
+     * @return \Iterator<string, array<(float|string)>>
      */
-    public static function provideStringAutoBoundaryCases(): array
+    public static function provideStringAutoBoundaryCases(): \Iterator
     {
-        return [
-            'exactly one kilometer uses meter format' => [1.0, '1.000m'],
-            'just below one kilometer uses meter format' => [0.999, '999m'],
-            'negative distance uses meter format' => [-0.5, '-500m'],
-        ];
+        yield 'exactly one kilometer uses meter format' => [1.0, '1.000m'];
+        yield 'just below one kilometer uses meter format' => [0.999, '999m'];
+        yield 'negative distance uses meter format' => [-0.5, '-500m'];
     }
 
     public function testStringAutoUsesDefaultStringJustAboveOneKilometer(): void
@@ -265,17 +261,15 @@ class DistanceTest extends TestCase
     }
 
     /**
-     * @return array<string, float[]>
+     * @return \Iterator<string, array<float>>
      */
-    public static function provideMilesValues(): array
+    public static function provideMilesValues(): \Iterator
     {
-        return [
-            'one mile' => [1.0, 1.0 / DistanceUnitSystem::MILE_MULTIPLIER],
-            'ten miles' => [10.0, 10.0 / DistanceUnitSystem::MILE_MULTIPLIER],
-            'fractional miles' => [3.5, 3.5 / DistanceUnitSystem::MILE_MULTIPLIER],
-            'zero miles' => [0.0, 0.0],
-            'negative miles' => [-2.0, -2.0 / DistanceUnitSystem::MILE_MULTIPLIER],
-        ];
+        yield 'one mile' => [1.0, 1.0 / DistanceUnitSystem::MILE_MULTIPLIER];
+        yield 'ten miles' => [10.0, 10.0 / DistanceUnitSystem::MILE_MULTIPLIER];
+        yield 'fractional miles' => [3.5, 3.5 / DistanceUnitSystem::MILE_MULTIPLIER];
+        yield 'zero miles' => [0.0, 0.0];
+        yield 'negative miles' => [-2.0, -2.0 / DistanceUnitSystem::MILE_MULTIPLIER];
     }
 
     public function testSetMilesReturnsSameInstanceForChaining(): void

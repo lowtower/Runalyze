@@ -20,7 +20,7 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\Event\SwitchUserEvent;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class UserLocaleListenerTest extends TestCase
+final class UserLocaleListenerTest extends TestCase
 {
     private string $previousLanguage;
 

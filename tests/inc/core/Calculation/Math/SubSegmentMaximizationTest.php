@@ -7,7 +7,7 @@ namespace Runalyze\Tests\Calculation\Math;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Calculation\Math\SubSegmentMaximization;
 
-class SubSegmentMaximizationTest extends TestCase
+final class SubSegmentMaximizationTest extends TestCase
 {
     public function testConstructorThrowsWhenDataIsEmpty(): void
     {
@@ -49,7 +49,7 @@ class SubSegmentMaximizationTest extends TestCase
         $instance->maximize();
 
         $this->assertTrue($instance->hasMaximumForLengthIndex(0));
-        $this->assertSame(15.0, $instance->getMaximumForLengthIndex(0));
+        $this->assertEqualsWithDelta(15.0, $instance->getMaximumForLengthIndex(0), PHP_FLOAT_EPSILON);
         $this->assertSame([1, 3], $instance->getIndizesOfMaximumForLengthIndex(0));
     }
 
@@ -68,7 +68,7 @@ class SubSegmentMaximizationTest extends TestCase
         $instance = new SubSegmentMaximization([10, 10, 10], [1, 1, 1], [3]);
         $instance->maximize();
 
-        $this->assertSame(30.0, $instance->getMaximumForLengthIndex(0));
+        $this->assertEqualsWithDelta(30.0, $instance->getMaximumForLengthIndex(0), PHP_FLOAT_EPSILON);
     }
 
     public function testMaximizeInterpolatesValueDownForOverlengthWindowsByDefault(): void
@@ -76,7 +76,7 @@ class SubSegmentMaximizationTest extends TestCase
         $instance = new SubSegmentMaximization([100], [20], [10]);
         $instance->maximize();
 
-        $this->assertSame(50.0, $instance->getMaximumForLengthIndex(0));
+        $this->assertEqualsWithDelta(50.0, $instance->getMaximumForLengthIndex(0), PHP_FLOAT_EPSILON);
     }
 
     public function testMaximizeReturnsRawSumForOverlengthWindowWhenInterpolationIsDisabled(): void
@@ -85,7 +85,7 @@ class SubSegmentMaximizationTest extends TestCase
         $instance->disableInterpolationForOverlength();
         $instance->maximize();
 
-        $this->assertSame(100.0, $instance->getMaximumForLengthIndex(0));
+        $this->assertEqualsWithDelta(100.0, $instance->getMaximumForLengthIndex(0), PHP_FLOAT_EPSILON);
     }
 
     public function testDisableInterpolationForOverlengthCalledWithTrueActuallyReEnablesInterpolation(): void
@@ -94,7 +94,7 @@ class SubSegmentMaximizationTest extends TestCase
         $instance->disableInterpolationForOverlength(true);
         $instance->maximize();
 
-        $this->assertSame(50.0, $instance->getMaximumForLengthIndex(0));
+        $this->assertEqualsWithDelta(50.0, $instance->getMaximumForLengthIndex(0), PHP_FLOAT_EPSILON);
     }
 
     public function testMinimizeFindsExpectedMinimalWindow(): void
@@ -106,7 +106,7 @@ class SubSegmentMaximizationTest extends TestCase
         $instance->minimize();
 
         $this->assertTrue($instance->hasMaximumForLengthIndex(0));
-        $this->assertSame(11.0, $instance->getMaximumForLengthIndex(0));
+        $this->assertEqualsWithDelta(11.0, $instance->getMaximumForLengthIndex(0), PHP_FLOAT_EPSILON);
         $this->assertSame([1, 3], $instance->getIndizesOfMaximumForLengthIndex(0));
     }
 
@@ -126,8 +126,8 @@ class SubSegmentMaximizationTest extends TestCase
         $instance = new SubSegmentMaximization($data, $index, [3, 5]);
         $instance->maximize();
 
-        $this->assertSame(15.0, $instance->getMaximumForLengthIndex(0));
-        $this->assertSame(21.0, $instance->getMaximumForLengthIndex(1));
+        $this->assertEqualsWithDelta(15.0, $instance->getMaximumForLengthIndex(0), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(21.0, $instance->getMaximumForLengthIndex(1), PHP_FLOAT_EPSILON);
         $this->assertSame([3, 5], $instance->getAvailableSegmentLengths());
     }
 

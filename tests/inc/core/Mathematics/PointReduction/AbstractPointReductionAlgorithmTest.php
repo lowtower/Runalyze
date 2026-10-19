@@ -6,7 +6,7 @@ namespace Runalyze\Tests\Mathematics\PointReduction;
 
 use Runalyze\Mathematics\PointReduction\AbstractPointReductionAlgorithm;
 
-class AbstractPointReductionAlgorithmTest extends \PHPUnit\Framework\TestCase
+final class AbstractPointReductionAlgorithmTest extends \PHPUnit\Framework\TestCase
 {
     public function testPerpendicularDistanceForPointsOutsideTheLinesXRegion(): void
     {
@@ -236,7 +236,7 @@ class AbstractPointReductionAlgorithmTest extends \PHPUnit\Framework\TestCase
             10.0   // line end y
         );
 
-        $this->assertSame(2.0, $distance);
+        $this->assertEqualsWithDelta(2.0, $distance, PHP_FLOAT_EPSILON);
     }
 
     public function testPerpendicularDistanceForHorizontalLine(): void

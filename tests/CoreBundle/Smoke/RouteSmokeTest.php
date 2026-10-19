@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Smoke;
 
 use PHPUnit\Framework\Attributes\CoversNothing;
@@ -11,8 +13,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[CoversNothing]
 final class RouteSmokeTest extends WebTestCase
 {
-    public $EntityManager;
-
     public $client;
 
     public $container;

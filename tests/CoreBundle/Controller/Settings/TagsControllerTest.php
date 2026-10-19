@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller\Settings;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -11,7 +13,7 @@ use Symfony\Component\DomCrawler\Form;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
-class TagsControllerTest extends AbstractFixturesAwareWebTestCase
+final class TagsControllerTest extends AbstractFixturesAwareWebTestCase
 {
     protected Account $Account;
 
@@ -188,6 +190,7 @@ class TagsControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertSame('/settings/tags', $this->Client->getResponse()->headers->get('Location'));
 
         $reloaded = $this->reloadTag($tag->getId());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Tag::class, $reloaded);
         $this->assertSame('updated-tag', $reloaded->getTag());
     }
 
@@ -206,6 +209,7 @@ class TagsControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStatusCode(200, $this->Client);
 
         $reloaded = $this->reloadTag($tag->getId());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Tag::class, $reloaded);
         $this->assertSame('original-tag', $reloaded->getTag());
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\Anova;
 
 use Doctrine\ORM\AbstractQuery;
@@ -23,7 +25,7 @@ use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Metrics\Common\UnitInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class AnovaDataQueryTest extends TestCase
+final class AnovaDataQueryTest extends TestCase
 {
     private function createAnovaDataMock(
         string $groupEnum = QueryGroups::MONTH,

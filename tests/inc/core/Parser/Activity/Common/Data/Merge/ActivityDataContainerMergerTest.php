@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\Data\Merge;
 
 use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
@@ -7,7 +9,7 @@ use Runalyze\Parser\Activity\Common\Data\Merge\ActivityDataContainerMerger;
 use Runalyze\Parser\Activity\Common\Data\Pause\Pause;
 use Runalyze\Parser\Activity\Common\Data\Round\Round;
 
-class ActivityDataContainerMergerTest extends \PHPUnit\Framework\TestCase
+final class ActivityDataContainerMergerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ActivityDataContainer

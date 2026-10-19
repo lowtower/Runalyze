@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\EventListener;
 
 use LogicException;
@@ -18,7 +20,7 @@ use Symfony\Component\Security\Http\Firewall\AbstractListener;
 use Symfony\Component\Security\Http\Firewall\FirewallListenerInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class SwitchUserListenerTest extends TestCase
+final class SwitchUserListenerTest extends TestCase
 {
     private function createListener(TokenStorageInterface $tokenStorage): SwitchUserListener
     {

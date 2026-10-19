@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Repository;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -9,7 +11,7 @@ use Runalyze\Bundle\CoreBundle\Repository\ConfRepository;
 use Runalyze\Bundle\CoreBundle\Repository\UserRepository;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
-class UserRepositoryTest extends AbstractRepositoryTestCase
+final class UserRepositoryTest extends AbstractRepositoryTestCase
 {
     protected UserRepository $UserRepository;
 
@@ -68,6 +70,7 @@ class UserRepositoryTest extends AbstractRepositoryTestCase
         $this->assertSame(53, $this->UserRepository->getCurrentRestingHeartRate($this->Account));
 
         $latestEntry = $this->UserRepository->getLatestEntryFor($this->Account);
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\User::class, $latestEntry);
         $this->assertSame(0, $latestEntry->getPulseMax());
         $this->assertSame(0, $latestEntry->getPulseRest());
     }

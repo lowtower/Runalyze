@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Command;
 
 use Doctrine\Persistence\ManagerRegistry;
@@ -48,23 +50,20 @@ final class CleanupRegistrationsCommandTest extends TestCase
     {
         $command = $this->createCommand();
 
-        self::assertSame('runalyze:cleanup:registrations', $command->getName());
-        self::assertSame(
-            'Delete not activated account (default: older than 7 days).',
-            $command->getDescription()
-        );
+        $this->assertSame('runalyze:cleanup:registrations', $command->getName());
+        $this->assertSame('Delete not activated account (default: older than 7 days).', $command->getDescription());
 
         $definition = $command->getDefinition();
 
-        self::assertTrue($definition->hasArgument('days'));
-        self::assertFalse($definition->getArgument('days')->isRequired());
+        $this->assertTrue($definition->hasArgument('days'));
+        $this->assertFalse($definition->getArgument('days')->isRequired());
     }
 
     public function testExecuteUsesDefaultOfSevenDaysWhenArgumentOmitted(): void
     {
         $accountRepository = $this->createMock(AccountRepository::class);
         $accountRepository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('deleteNotActivatedAccounts')
             ->with(7)
             ->willReturn([1, 2, 3]);
@@ -72,17 +71,17 @@ final class CleanupRegistrationsCommandTest extends TestCase
         $tester = new CommandTester($this->createCommand($accountRepository));
         $exitCode = $tester->execute([]);
 
-        self::assertSame(0, $exitCode);
+        $this->assertSame(0, $exitCode);
         $display = $tester->getDisplay();
-        self::assertStringContainsString('Delete all not activated accounts older than 7 days', $display);
-        self::assertStringContainsString('3 deleted accounts', $display);
+        $this->assertStringContainsString('Delete all not activated accounts older than 7 days', $display);
+        $this->assertStringContainsString('3 deleted accounts', $display);
     }
 
     public function testExecuteUsesProvidedDaysArgument(): void
     {
         $accountRepository = $this->createMock(AccountRepository::class);
         $accountRepository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('deleteNotActivatedAccounts')
             ->with(30)
             ->willReturn([1]);
@@ -92,17 +91,17 @@ final class CleanupRegistrationsCommandTest extends TestCase
             'days' => '30',
         ]);
 
-        self::assertSame(0, $exitCode);
+        $this->assertSame(0, $exitCode);
         $display = $tester->getDisplay();
-        self::assertStringContainsString('Delete all not activated accounts older than 30 days', $display);
-        self::assertStringContainsString('1 deleted accounts', $display);
+        $this->assertStringContainsString('Delete all not activated accounts older than 30 days', $display);
+        $this->assertStringContainsString('1 deleted accounts', $display);
     }
 
     public function testExecuteTreatsExplicitZeroDaysAsFalsyAndFallsBackToDefault(): void
     {
         $accountRepository = $this->createMock(AccountRepository::class);
         $accountRepository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('deleteNotActivatedAccounts')
             ->with(7)
             ->willReturn([]);
@@ -112,8 +111,8 @@ final class CleanupRegistrationsCommandTest extends TestCase
             'days' => '0',
         ]);
 
-        self::assertSame(0, $exitCode);
-        self::assertStringContainsString('Delete all not activated accounts older than 7 days', $tester->getDisplay());
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('Delete all not activated accounts older than 7 days', $tester->getDisplay());
     }
 
     public function testExecuteReportsZeroDeletedAccountsWhenNoneMatch(): void
@@ -125,8 +124,8 @@ final class CleanupRegistrationsCommandTest extends TestCase
         $tester = new CommandTester($this->createCommand());
         $exitCode = $tester->execute([]);
 
-        self::assertSame(0, $exitCode);
-        self::assertStringContainsString('0 deleted accounts', $tester->getDisplay());
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('0 deleted accounts', $tester->getDisplay());
     }
 
     public function testExecuteAlwaysReturnsSuccessExitCode(): void
@@ -140,6 +139,6 @@ final class CleanupRegistrationsCommandTest extends TestCase
             'days' => '14',
         ]);
 
-        self::assertSame(0, $exitCode);
+        $this->assertSame(0, $exitCode);
     }
 }

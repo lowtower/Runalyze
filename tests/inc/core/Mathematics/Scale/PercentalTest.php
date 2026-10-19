@@ -6,7 +6,7 @@ namespace Runalyze\Tests\Mathematics\Scale;
 
 use Runalyze\Mathematics\Scale\Percental;
 
-class PercentalTest extends \PHPUnit\Framework\TestCase
+final class PercentalTest extends \PHPUnit\Framework\TestCase
 {
     protected Percental $Scale;
 
@@ -62,8 +62,8 @@ class PercentalTest extends \PHPUnit\Framework\TestCase
         $this->Scale->setMinimum(10);
         $this->Scale->setMaximum(10);
 
-        $this->assertSame(0.0, $this->Scale->transform(10));
-        $this->assertSame(0.0, $this->Scale->transform(20));
-        $this->assertSame(0.0, $this->Scale->transform(-20));
+        $this->assertEqualsWithDelta(0.0, $this->Scale->transform(10), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(0.0, $this->Scale->transform(20), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(0.0, $this->Scale->transform(-20), PHP_FLOAT_EPSILON);
     }
 }

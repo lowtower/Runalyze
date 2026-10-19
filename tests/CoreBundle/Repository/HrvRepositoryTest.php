@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Repository;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -9,7 +11,7 @@ use Runalyze\Bundle\CoreBundle\Repository\HrvRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
-class HrvRepositoryTest extends AbstractRepositoryTestCase
+final class HrvRepositoryTest extends AbstractRepositoryTestCase
 {
     protected HrvRepository $HrvRepository;
 

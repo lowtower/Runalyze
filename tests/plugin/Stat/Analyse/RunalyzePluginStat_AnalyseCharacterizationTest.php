@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  * Characterization test for RunalyzePluginStat_Analyse.
  */
 #[Group('plugin')]
-class RunalyzePluginStat_AnalyseCharacterizationTest extends TestCase
+final class RunalyzePluginStat_AnalyseCharacterizationTest extends TestCase
 {
     private RunalyzePluginStat_Analyse $plugin;
 
@@ -29,15 +29,13 @@ class RunalyzePluginStat_AnalyseCharacterizationTest extends TestCase
     }
 
     /**
-     * @return array<string, float[]|string[]>
+     * @return \Iterator<string, array<(float|string)>>
      */
-    public static function provideBarPercentages(): array
+    public static function provideBarPercentages(): \Iterator
     {
-        return [
-            'zero' => [0.0, '<div class="analysis-bar" style="width:0%;opacity:0;"></div>'],
-            'fifty percent' => [50.0, '<div class="analysis-bar" style="width:50%;opacity:0.5;"></div>'],
-            'exactly at clamp boundary' => [95.0, '<div class="analysis-bar" style="width:95%;opacity:0.95;"></div>'],
-        ];
+        yield 'zero' => [0.0, '<div class="analysis-bar" style="width:0%;opacity:0;"></div>'];
+        yield 'fifty percent' => [50.0, '<div class="analysis-bar" style="width:50%;opacity:0.5;"></div>'];
+        yield 'exactly at clamp boundary' => [95.0, '<div class="analysis-bar" style="width:95%;opacity:0.95;"></div>'];
     }
 
     public function testGetBarForClampsWidthAtNinetyFiveButNotOpacity(): void
@@ -169,12 +167,12 @@ class RunalyzePluginStat_AnalyseCharacterizationTest extends TestCase
 
         $this->callSetSumData($data, $result);
 
-        $this->assertSame(10.0, $data['all_sum_km']);
+        $this->assertEqualsWithDelta(10.0, $data['all_sum_km'], PHP_FLOAT_EPSILON);
         $this->assertSame(1800, $data['all_sum_s']);
-        $this->assertSame(10.0, $data['timer_sum_km'][3]);
+        $this->assertEqualsWithDelta(10.0, $data['timer_sum_km'][3], PHP_FLOAT_EPSILON);
         $this->assertSame(1800, $data['timer_sum_s'][3]);
         $this->assertSame(2, $data['id_sum_num'][5]);
-        $this->assertSame(10.0, $data['id_sum_km'][5]);
+        $this->assertEqualsWithDelta(10.0, $data['id_sum_km'][5], PHP_FLOAT_EPSILON);
         $this->assertSame(1800, $data['id_sum_s'][5]);
     }
 
@@ -206,9 +204,9 @@ class RunalyzePluginStat_AnalyseCharacterizationTest extends TestCase
         $this->callSetSumData($data, $first);
         $this->callSetSumData($data, $second);
 
-        $this->assertSame(14.0, $data['all_sum_km']);
+        $this->assertEqualsWithDelta(14.0, $data['all_sum_km'], PHP_FLOAT_EPSILON);
         $this->assertSame(3, $data['id_sum_num'][5]);
-        $this->assertSame(14.0, $data['id_sum_km'][5]);
+        $this->assertEqualsWithDelta(14.0, $data['id_sum_km'][5], PHP_FLOAT_EPSILON);
     }
 
     public function testInitTimerForSpecificYearGroupsByMonth(): void
@@ -221,8 +219,8 @@ class RunalyzePluginStat_AnalyseCharacterizationTest extends TestCase
         $this->assertSame(1, $this->getProtectedProperty('TimerStart'));
         $this->assertSame(12, $this->getProtectedProperty('TimerEnd'));
         $this->assertSame('MONTH(FROM_UNIXTIME(`time`))', $this->getProtectedProperty('GroupTime'));
-        $this->assertStringContainsString("UNIX_TIMESTAMP('2024-01-01')", $this->getProtectedProperty('WhereTime'));
-        $this->assertStringContainsString("UNIX_TIMESTAMP('2025-01-01')", $this->getProtectedProperty('WhereTime'));
+        $this->assertStringContainsString("UNIX_TIMESTAMP('2024-01-01')", (string) $this->getProtectedProperty('WhereTime'));
+        $this->assertStringContainsString("UNIX_TIMESTAMP('2025-01-01')", (string) $this->getProtectedProperty('WhereTime'));
     }
 
     public function testInitTimerForSpecificYearComputesColspanFromMonthRange(): void
@@ -244,7 +242,7 @@ class RunalyzePluginStat_AnalyseCharacterizationTest extends TestCase
         $this->assertSame('MONTH', $this->getProtectedProperty('Timer'));
         $this->assertSame(1, $this->getProtectedProperty('TimerStart'));
         $this->assertSame(12, $this->getProtectedProperty('TimerEnd'));
-        $this->assertStringContainsString('`time` >', $this->getProtectedProperty('WhereTime'));
+        $this->assertStringContainsString('`time` >', (string) $this->getProtectedProperty('WhereTime'));
     }
 
     public function testInitTimerForLast12MonthsGroupsByMonthWithoutYearRestriction(): void
@@ -254,7 +252,7 @@ class RunalyzePluginStat_AnalyseCharacterizationTest extends TestCase
         $this->callInitTimer();
 
         $this->assertSame('MONTH', $this->getProtectedProperty('Timer'));
-        $this->assertStringContainsString('`time` >', $this->getProtectedProperty('WhereTime'));
+        $this->assertStringContainsString('`time` >', (string) $this->getProtectedProperty('WhereTime'));
     }
 
     public function testInitTimerForAllYearsGroupsByYearFromStartYearToCurrentYear(): void
@@ -289,15 +287,13 @@ class RunalyzePluginStat_AnalyseCharacterizationTest extends TestCase
     }
 
     /**
-     * @return array<string, string[]>
+     * @return \Iterator<string, array<string>>
      */
-    public static function provideKnownDatValues(): array
+    public static function provideKnownDatValues(): \Iterator
     {
-        return [
-            'empty string means in percent' => ['', 'in percent'],
-            'km means by distance' => ['km', 'by distance'],
-            's means by time' => ['s', 'by time'],
-        ];
+        yield 'empty string means in percent' => ['', 'in percent'];
+        yield 'km means by distance' => ['km', 'by distance'];
+        yield 's means by time' => ['s', 'by time'];
     }
 
     public function testGetAnalysisTypeFallsBackToDefaultForUnknownDatValue(): void
@@ -319,14 +315,12 @@ class RunalyzePluginStat_AnalyseCharacterizationTest extends TestCase
     }
 
     /**
-     * @return array<string, int[]>
+     * @return \Iterator<string, array<int>>
      */
-    public static function providePacegroupStepValues(): array
+    public static function providePacegroupStepValues(): \Iterator
     {
-        return [
-            'default step of 15' => [15, 450, 15, 0],
-            'step of 7 with remainder' => [7, 450, 7, 450 % 7],
-        ];
+        yield 'default step of 15' => [15, 450, 15, 0];
+        yield 'step of 7 with remainder' => [7, 450, 7, 450 % 7];
     }
 
     public function testGetPaceStepAndCeilCorrectionClampsZeroStepToOneInsteadOfCrashing(): void

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Runalyze\Parameter;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class SetTest extends \PHPUnit\Framework\TestCase
+final class SetTest extends \PHPUnit\Framework\TestCase
 {
     protected Set $object;
 
@@ -16,30 +16,30 @@ class SetTest extends \PHPUnit\Framework\TestCase
 
     public function testDefaultValueIsEmptyArray(): void
     {
-        self::assertSame([], $this->object->value());
-        self::assertSame('', $this->object->valueAsString());
+        $this->assertSame([], $this->object->value());
+        $this->assertSame('', $this->object->valueAsString());
     }
 
     public function testSetChangesValueAndItsStringRepresentation(): void
     {
         $this->object->set(['a', 'b', 'c']);
 
-        self::assertSame(['a', 'b', 'c'], $this->object->value());
-        self::assertSame('a,b,c', $this->object->valueAsString());
+        $this->assertSame(['a', 'b', 'c'], $this->object->value());
+        $this->assertSame('a,b,c', $this->object->valueAsString());
     }
 
     public function testSetFromStringSplitsCommaSeparatedStringIntoArray(): void
     {
         $this->object->setFromString('1,2,3');
 
-        self::assertSame(['1', '2', '3'], $this->object->value());
+        $this->assertSame(['1', '2', '3'], $this->object->value());
     }
 
     public function testSetFromStringTrimsWhitespaceAroundValues(): void
     {
         $this->object->setFromString('a, b , c');
 
-        self::assertSame(['a', 'b', 'c'], $this->object->value());
+        $this->assertSame(['a', 'b', 'c'], $this->object->value());
     }
 
     public function testSetFromStringWithEmptyStringResultsInEmptyArray(): void
@@ -47,18 +47,18 @@ class SetTest extends \PHPUnit\Framework\TestCase
         $this->object->set(['leftover']);
         $this->object->setFromString('');
 
-        self::assertSame([], $this->object->value());
+        $this->assertSame([], $this->object->value());
     }
 
     public function testAppendAddsValueToTheEnd(): void
     {
         $this->object->append('one');
 
-        self::assertSame(['one'], $this->object->value());
+        $this->assertSame(['one'], $this->object->value());
 
         $this->object->append('two');
 
-        self::assertSame(['one', 'two'], $this->object->value());
+        $this->assertSame(['one', 'two'], $this->object->value());
     }
 
     public function testAppendDropsOldestEntryOnceMaxLengthIsExceeded(): void
@@ -68,21 +68,21 @@ class SetTest extends \PHPUnit\Framework\TestCase
         $this->object->append($maxString);
         $this->object->setFromString($this->object->valueAsString());
 
-        self::assertSame([$maxString], $this->object->value());
+        $this->assertSame([$maxString], $this->object->value());
 
         $this->object->append('foo');
         $this->object->setFromString($this->object->valueAsString());
 
-        self::assertSame(['foo'], $this->object->value());
+        $this->assertSame(['foo'], $this->object->value());
     }
 
     public function testArrayToStringReturnsEmptyStringForEmptyArray(): void
     {
-        self::assertSame('', Set::arrayToString([]));
+        $this->assertSame('', Set::arrayToString([]));
     }
 
     public function testArrayToStringJoinsValuesWithSeparator(): void
     {
-        self::assertSame('a,b,c', Set::arrayToString(['a', 'b', 'c']));
+        $this->assertSame('a,b,c', Set::arrayToString(['a', 'b', 'c']));
     }
 }

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Form\Type;
 
 use Runalyze\Bundle\CoreBundle\Form\Type\DistanceType;
 use Runalyze\Metrics\Distance\Unit\Kilometer;
 
-class DistanceTypeTest extends \PHPUnit\Framework\TestCase
+final class DistanceTypeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var DistanceType
@@ -48,9 +50,9 @@ class DistanceTypeTest extends \PHPUnit\Framework\TestCase
     {
         $precision = $this->Type->getViewPrecision();
 
-        $this->assertSame(1.234, round(1.234, $precision));
-        $this->assertSame(1234.50, round(1234.5, $precision));
-        $this->assertSame(7.69, round(7.69, $precision));
+        $this->assertEqualsWithDelta(1.234, round(1.234, $precision), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(1234.50, round(1234.5, $precision), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(7.69, round(7.69, $precision), PHP_FLOAT_EPSILON);
     }
 
     public function testTransformWithViewPrecision(): void

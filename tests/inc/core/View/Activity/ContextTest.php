@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\Model;
 
 #[Group('default')]
-class ContextTest extends TestCase
+final class ContextTest extends TestCase
 {
     private Context $context;
 

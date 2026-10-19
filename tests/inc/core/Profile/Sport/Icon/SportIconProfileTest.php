@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\Util\InterfaceChoosable;
 
 #[Group('default')]
-class SportIconProfileTest extends TestCase
+final class SportIconProfileTest extends TestCase
 {
     public function testImplementsInterfaceChoosable(): void
     {

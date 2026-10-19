@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Repository;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -10,7 +12,7 @@ use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Profile\Sport\SportProfile;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
-class SportRepositoryTest extends AbstractRepositoryTestCase
+final class SportRepositoryTest extends AbstractRepositoryTestCase
 {
     protected SportRepository $SportRepository;
 
@@ -94,12 +96,12 @@ class SportRepositoryTest extends AbstractRepositoryTestCase
 
         $this->assertSame(2, $allTimeStatistics->getCount());
 
-        $this->assertSame(7000.0, $allTimeStatisticsRunning->getTotalDuration());
-        $this->assertSame(22.0, $allTimeStatisticsRunning->getTotalDistance());
+        $this->assertEqualsWithDelta(7000.0, $allTimeStatisticsRunning->getTotalDuration(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(22.0, $allTimeStatisticsRunning->getTotalDistance(), PHP_FLOAT_EPSILON);
         $this->assertSame(2, $allTimeStatisticsRunning->getNumberOfActivities());
 
-        $this->assertSame(7600.0, $allTimeStatisticsCycling->getTotalDuration());
-        $this->assertSame(63.5, $allTimeStatisticsCycling->getTotalDistance());
+        $this->assertEqualsWithDelta(7600.0, $allTimeStatisticsCycling->getTotalDuration(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(63.5, $allTimeStatisticsCycling->getTotalDistance(), PHP_FLOAT_EPSILON);
         $this->assertSame(1, $allTimeStatisticsCycling->getNumberOfActivities());
     }
 }

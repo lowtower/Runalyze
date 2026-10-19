@@ -108,7 +108,7 @@ class Loop_MockTest extends Loop
     }
 }
 
-class LoopTest extends \PHPUnit\Framework\TestCase
+final class LoopTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @param int[] $values

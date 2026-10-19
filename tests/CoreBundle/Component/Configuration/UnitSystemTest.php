@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Configuration;
 
 use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList;
@@ -9,7 +11,7 @@ use Runalyze\Metrics\Velocity\Unit\PaceEnum;
 use Runalyze\Metrics\Velocity\Unit\SecondsPer500y;
 use Runalyze\Metrics\Velocity\Unit\SecondsPerMile;
 
-class UnitSystemTest extends \PHPUnit\Framework\TestCase
+final class UnitSystemTest extends \PHPUnit\Framework\TestCase
 {
     public function testThatAllUnitsAreAccessible(): void
     {

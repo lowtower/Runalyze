@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\TrendAnalysis;
 
 use Doctrine\ORM\Query;
@@ -16,7 +18,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Bundle\CoreBundle\Form\Tools\TrendAnalysis\TrendAnalysisData;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 
-class TrendAnalysisDataQueryBuildQueryTest extends TestCase
+final class TrendAnalysisDataQueryBuildQueryTest extends TestCase
 {
     private function createQuery(TrendAnalysisData $trendAnalysisData): TrendAnalysisDataQuery
     {

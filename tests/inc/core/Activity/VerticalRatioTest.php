@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Runalyze\Activity;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class VerticalRatioTest extends \PHPUnit\Framework\TestCase
+final class VerticalRatioTest extends \PHPUnit\Framework\TestCase
 {
     public function testStaticFunction(): void
     {
@@ -18,13 +18,13 @@ class VerticalRatioTest extends \PHPUnit\Framework\TestCase
         $Ratio = new VerticalRatio(49);
 
         $this->assertSame(49, $Ratio->value());
-        $this->assertSame(4.9, $Ratio->inPercent());
+        $this->assertEqualsWithDelta(4.9, $Ratio->inPercent(), PHP_FLOAT_EPSILON);
 
         $Ratio->set(50);
-        $this->assertSame(5.0, $Ratio->inPercent());
+        $this->assertEqualsWithDelta(5.0, $Ratio->inPercent(), PHP_FLOAT_EPSILON);
 
         $Ratio->setPercent(5.5);
-        $this->assertSame(5.5, $Ratio->inPercent());
+        $this->assertEqualsWithDelta(5.5, $Ratio->inPercent(), PHP_FLOAT_EPSILON);
         $this->assertSame(55, $Ratio->value());
     }
 
@@ -49,7 +49,7 @@ class VerticalRatioTest extends \PHPUnit\Framework\TestCase
         $Ratio = new VerticalRatio();
 
         $this->assertSame(0, $Ratio->value());
-        $this->assertSame(0.0, $Ratio->inPercent());
+        $this->assertEqualsWithDelta(0.0, $Ratio->inPercent(), PHP_FLOAT_EPSILON);
     }
 
     public function testUnitReturnsPercentSign(): void

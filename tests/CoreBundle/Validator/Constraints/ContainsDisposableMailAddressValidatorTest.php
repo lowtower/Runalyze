@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Validator\Constraints;
 
 use PHPUnit\Framework\MockObject\MockObject;
@@ -11,7 +13,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
-class ContainsDisposableMailAddressValidatorTest extends TestCase
+final class ContainsDisposableMailAddressValidatorTest extends TestCase
 {
     /**
      * For tests that only need a context object to exist (no expectations

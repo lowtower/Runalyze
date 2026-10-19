@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Calculation\Prognosis;
 
 use Runalyze\Calculation\Prognosis\TopResults;
 
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]
 #[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
-class TopResultsTest extends \PHPUnit\Framework\TestCase
+final class TopResultsTest extends \PHPUnit\Framework\TestCase
 {
     protected \PDOforRunalyze $DB;
 
@@ -46,8 +48,8 @@ class TopResultsTest extends \PHPUnit\Framework\TestCase
     {
         $result = new TopResults()->getTopResults();
 
-        $this->assertSame(10.0, (float) $result['distance']);
-        $this->assertSame(60.0, (float) $result['vo2max_by_time']);
+        $this->assertEqualsWithDelta(10.0, (float) $result['distance'], PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(60.0, (float) $result['vo2max_by_time'], PHP_FLOAT_EPSILON);
     }
 
     public function testReturnsMultipleTopResults(): void
@@ -56,8 +58,8 @@ class TopResultsTest extends \PHPUnit\Framework\TestCase
 
         $this->assertCount(2, $results);
 
-        $this->assertSame(10.0, (float) $results[0]['distance']);
-        $this->assertSame(60.0, (float) $results[0]['vo2max_by_time']);
+        $this->assertEqualsWithDelta(10.0, (float) $results[0]['distance'], PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(60.0, (float) $results[0]['vo2max_by_time'], PHP_FLOAT_EPSILON);
     }
 
     public function testMinimalDistanceFilter(): void
@@ -66,7 +68,7 @@ class TopResultsTest extends \PHPUnit\Framework\TestCase
 
         $this->assertCount(1, $results);
 
-        $this->assertSame(21.1, (float) $results[0]['distance']);
+        $this->assertEqualsWithDelta(21.1, (float) $results[0]['distance'], PHP_FLOAT_EPSILON);
     }
 
     public function testResultsAreGroupedByDistance(): void

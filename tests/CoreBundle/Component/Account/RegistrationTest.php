@@ -21,7 +21,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
-class RegistrationTest extends KernelTestCase
+final class RegistrationTest extends KernelTestCase
 {
     private const string PASSWORD = 'Pa$$w0rd';
 
@@ -35,18 +35,18 @@ class RegistrationTest extends KernelTestCase
 
         self::bootKernel();
 
-        static::getContainer()
+        self::getContainer()
             ->get(DatabaseToolCollection::class)
             ->get()
             ->loadFixtures([]);
 
-        $this->EntityManager = static::getContainer()
+        $this->EntityManager = self::getContainer()
             ->get('doctrine')
             ->getManager();
         $this->EntityManager->clear();
 
         $accountRepository = $this->EntityManager->getRepository(Account::class);
-        self::assertInstanceOf(AccountRepository::class, $accountRepository);
+        $this->assertInstanceOf(AccountRepository::class, $accountRepository);
         $this->AccountRepository = $accountRepository;
     }
 
@@ -57,9 +57,9 @@ class RegistrationTest extends KernelTestCase
 
         $storedAccount = $this->registerAndReload($registration);
 
-        self::assertSame('foobar', $storedAccount->getUserIdentifier());
-        self::assertSame('foo@bar.com', $storedAccount->getMail());
-        self::assertNotNull($storedAccount->getActivationHash());
+        $this->assertSame('foobar', $storedAccount->getUserIdentifier());
+        $this->assertSame('foo@bar.com', $storedAccount->getMail());
+        $this->assertNotNull($storedAccount->getActivationHash());
     }
 
     public function testRequireAccountActivationSetsRandomHash(): void
@@ -69,7 +69,7 @@ class RegistrationTest extends KernelTestCase
         $this->createRegistration($account)
             ->requireAccountActivation();
 
-        self::assertMatchesRegularExpression('/^[0-9a-f]{32}$/', (string) $account->getActivationHash());
+        $this->assertMatchesRegularExpression('/^[0-9a-f]{32}$/', (string) $account->getActivationHash());
     }
 
     public function testNewSaltHasThirtyTwoHexCharactersAndDiffersBetweenCalls(): void
@@ -77,8 +77,8 @@ class RegistrationTest extends KernelTestCase
         $firstSalt = Registration::getNewSalt();
         $secondSalt = Registration::getNewSalt();
 
-        self::assertMatchesRegularExpression('/^[0-9a-f]{32}$/', $firstSalt);
-        self::assertNotSame($firstSalt, $secondSalt);
+        $this->assertMatchesRegularExpression('/^[0-9a-f]{32}$/', $firstSalt);
+        $this->assertNotSame($firstSalt, $secondSalt);
     }
 
     public function testSetLocaleChangesLanguageOfAccount(): void
@@ -88,7 +88,7 @@ class RegistrationTest extends KernelTestCase
         $this->createRegistration($account)
             ->setLocale('de');
 
-        self::assertSame('de', $account->getLanguage());
+        $this->assertSame('de', $account->getLanguage());
     }
 
     public function testSetPasswordStoresHashThatMatchesTheGivenPassword(): void
@@ -98,9 +98,9 @@ class RegistrationTest extends KernelTestCase
         $this->createRegistration($account)
             ->setPassword(self::PASSWORD);
 
-        self::assertNotSame(self::PASSWORD, $account->getPassword());
-        self::assertTrue($this->getPasswordHasher()->isPasswordValid($account, self::PASSWORD));
-        self::assertFalse($this->getPasswordHasher()->isPasswordValid($account, 'wrong password'));
+        $this->assertNotSame(self::PASSWORD, $account->getPassword());
+        $this->assertTrue($this->getPasswordHasher()->isPasswordValid($account, self::PASSWORD));
+        $this->assertFalse($this->getPasswordHasher()->isPasswordValid($account, 'wrong password'));
     }
 
     public function testRegisterAccountCreatesAllDefaultSports(): void
@@ -109,17 +109,14 @@ class RegistrationTest extends KernelTestCase
 
         /** @var SportRepository $sportRepository */
         $sportRepository = $this->EntityManager->getRepository(Sport::class);
-        self::assertInstanceOf(SportRepository::class, $sportRepository);
+        $this->assertInstanceOf(SportRepository::class, $sportRepository);
 
         $images = array_map(
             static fn (Sport $sport): string => $sport->getImg(),
             $sportRepository->findAllFor($storedAccount)
         );
 
-        self::assertEqualsCanonicalizing(
-            ['icons8-Running', 'icons8-Swimming', 'icons8-Regular-Biking', 'icons8-Yoga', 'icons8-Sports-Mode'],
-            $images
-        );
+        $this->assertEqualsCanonicalizing(['icons8-Running', 'icons8-Swimming', 'icons8-Regular-Biking', 'icons8-Yoga', 'icons8-Sports-Mode'], $images);
     }
 
     #[DataProvider('equipmentTypeNames')]
@@ -134,7 +131,7 @@ class RegistrationTest extends KernelTestCase
                 'account' => $storedAccount->getId(),
             ]);
 
-        self::assertInstanceOf(EquipmentType::class, $equipmentType);
+        $this->assertInstanceOf(EquipmentType::class, $equipmentType);
     }
 
     public static function equipmentTypeNames(): iterable
@@ -149,9 +146,9 @@ class RegistrationTest extends KernelTestCase
         $registration = $this->createRegistration();
         $this->registerAndReload($registration);
 
-        self::assertSame('icons8-Running', $registration->getRegisteredSportForRunning()->getImg());
-        self::assertSame('icons8-Regular-Biking', $registration->getRegisteredSportForCycling()->getImg());
-        self::assertInstanceOf(EquipmentType::class, $registration->getRegisteredEquipmentTypeClothes());
+        $this->assertSame('icons8-Running', $registration->getRegisteredSportForRunning()->getImg());
+        $this->assertSame('icons8-Regular-Biking', $registration->getRegisteredSportForCycling()->getImg());
+        $this->assertInstanceOf(EquipmentType::class, $registration->getRegisteredEquipmentTypeClothes());
     }
 
     #[DataProvider('registeredDataGetters')]
@@ -242,9 +239,9 @@ class RegistrationTest extends KernelTestCase
 
     private function getPasswordHasher(): UserPasswordHasherInterface
     {
-        $passwordHasher = static::getContainer()
+        $passwordHasher = self::getContainer()
             ->get('security.user_password_hasher');
-        self::assertInstanceOf(UserPasswordHasherInterface::class, $passwordHasher);
+        $this->assertInstanceOf(UserPasswordHasherInterface::class, $passwordHasher);
 
         return $passwordHasher;
     }
@@ -255,7 +252,7 @@ class RegistrationTest extends KernelTestCase
         $registeredAccount = $registration->registerAccount();
 
         $storedAccount = $this->AccountRepository->find($registeredAccount->getId());
-        self::assertInstanceOf(Account::class, $storedAccount);
+        $this->assertInstanceOf(Account::class, $storedAccount);
 
         return $storedAccount;
     }

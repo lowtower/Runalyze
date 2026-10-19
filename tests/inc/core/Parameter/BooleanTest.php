@@ -9,7 +9,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 #[Group('default')]
-class BooleanTest extends TestCase
+final class BooleanTest extends TestCase
 {
     private Boolean $object;
 
@@ -20,21 +20,21 @@ class BooleanTest extends TestCase
 
     public function testConstructorStoresRawBooleanValue(): void
     {
-        self::assertTrue($this->object->value());
-        self::assertIsBool($this->object->value());
+        $this->assertTrue($this->object->value());
+        $this->assertIsBool($this->object->value());
     }
 
     public function testValueAsStringReturnsTrueForTruthyValue(): void
     {
-        self::assertSame('true', $this->object->valueAsString());
+        $this->assertSame('true', $this->object->valueAsString());
     }
 
     public function testSetChangesValueAndItsStringRepresentation(): void
     {
         $this->object->set(false);
 
-        self::assertFalse($this->object->value());
-        self::assertSame('false', $this->object->valueAsString());
+        $this->assertFalse($this->object->value());
+        $this->assertSame('false', $this->object->valueAsString());
     }
 
     public function testSetFromStringParsesLiteralTrue(): void
@@ -42,8 +42,8 @@ class BooleanTest extends TestCase
         $this->object->set(false);
         $this->object->setFromString('true');
 
-        self::assertTrue($this->object->value());
-        self::assertSame('true', $this->object->valueAsString());
+        $this->assertTrue($this->object->value());
+        $this->assertSame('true', $this->object->valueAsString());
     }
 
     #[DataProvider('nonTrueStringProvider')]
@@ -51,19 +51,17 @@ class BooleanTest extends TestCase
     {
         $this->object->setFromString($input);
 
-        self::assertFalse($this->object->value());
+        $this->assertFalse($this->object->value());
     }
 
     /**
-     * @return array<string, string[]>
+     * @return \Iterator<string, array<string>>
      */
-    public static function nonTrueStringProvider(): array
+    public static function nonTrueStringProvider(): \Iterator
     {
-        return [
-            'literal false' => ['false'],
-            'uppercase TRUE is not matched' => ['TRUE'],
-            'numeric one' => ['1'],
-            'empty string' => [''],
-        ];
+        yield 'literal false' => ['false'];
+        yield 'uppercase TRUE is not matched' => ['TRUE'];
+        yield 'numeric one' => ['1'];
+        yield 'empty string' => [''];
     }
 }

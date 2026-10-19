@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Runalyze\Bundle\CoreBundle\Component\Configuration\ConfigurationList;
 
-class ConfigurationListTest extends \PHPUnit\Framework\TestCase
+final class ConfigurationListTest extends \PHPUnit\Framework\TestCase
 {
     public function testSimpleConstructor(): void
     {

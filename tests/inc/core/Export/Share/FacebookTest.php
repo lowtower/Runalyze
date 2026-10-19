@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 #[Group('default')]
-class FacebookTest extends TestCase
+final class FacebookTest extends TestCase
 {
     public function testIconClassReturnsFacebookSpecificCssClasses(): void
     {

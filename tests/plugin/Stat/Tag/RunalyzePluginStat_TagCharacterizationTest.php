@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  */
 #[Group('plugin')]
 #[Group('requiresDoctrine')]
-class RunalyzePluginStat_TagCharacterizationTest extends TestCase
+final class RunalyzePluginStat_TagCharacterizationTest extends TestCase
 {
     private RunalyzePluginStat_Tag $plugin;
 

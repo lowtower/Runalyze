@@ -18,7 +18,7 @@ use Runalyze\Bundle\CoreBundle\Twig\ValueExtension;
 use RuntimeException;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class AnalysisDataTest extends TestCase
+final class AnalysisDataTest extends TestCase
 {
     /**
      * @param array<int, array<string, int|float>> $results
@@ -58,7 +58,7 @@ class AnalysisDataTest extends TestCase
         $data = $this->getAnalysisDataWithEmptySelections();
 
         $this->assertTrue($data->isEmpty());
-        $this->assertSame(0.0, $data->getRawValue(1970, 1));
+        $this->assertEqualsWithDelta(0.0, $data->getRawValue(1970, 1), PHP_FLOAT_EPSILON);
         $this->assertNotEquals(0, $data->getMaximum());
     }
 
@@ -79,10 +79,10 @@ class AnalysisDataTest extends TestCase
 
         $this->assertFalse($data->isEmpty());
         $this->assertEquals([2009, 2008, 2007, 2006], $data->getYears());
-        $this->assertSame(42.0, $data->getRawValue(2006, 7));
-        $this->assertSame(0.0, $data->getRawValue(2007, 7));
-        $this->assertSame(3.14, $data->getRawValue(2009, 1));
-        $this->assertSame(42.0, $data->getMaximum());
+        $this->assertEqualsWithDelta(42.0, $data->getRawValue(2006, 7), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(0.0, $data->getRawValue(2007, 7), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(3.14, $data->getRawValue(2009, 1), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(42.0, $data->getMaximum(), PHP_FLOAT_EPSILON);
     }
 
     /**

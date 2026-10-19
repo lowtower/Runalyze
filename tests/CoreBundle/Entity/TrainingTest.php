@@ -6,7 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Entity;
 
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 
-class TrainingTest extends \PHPUnit\Framework\TestCase
+final class TrainingTest extends \PHPUnit\Framework\TestCase
 {
     protected Training $Activity;
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Twig;
 
 use PHPUnit\Framework\MockObject\Stub;
@@ -8,7 +10,7 @@ use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Twig\ValueExtension;
 use Runalyze\Metrics;
 
-class ValueExtensionTest extends \PHPUnit\Framework\TestCase
+final class ValueExtensionTest extends \PHPUnit\Framework\TestCase
 {
     protected ValueExtension $Extension;
 

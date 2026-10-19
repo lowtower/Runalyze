@@ -19,7 +19,7 @@ use Twig\Error\LoaderError;
 use Twig\Loader\LoaderInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class AccountMailerTest extends TestCase
+final class AccountMailerTest extends TestCase
 {
     private function createAccount(string $username = 'johndoe', string $mail = 'john@example.com', string $language = 'de'): Account
     {
@@ -93,9 +93,9 @@ class AccountMailerTest extends TestCase
         $service->sendMailTo($this->createAccount(), 'Subject', 'mail/test/example.html.twig', []);
 
         /** @var Email $captured */
-        self::assertCount(1, $captured->getFrom());
-        self::assertSame('noreply@runalyze.com', $captured->getFrom()[0]->getAddress());
-        self::assertSame('RUNALYZE', $captured->getFrom()[0]->getName());
+        $this->assertCount(1, $captured->getFrom());
+        $this->assertSame('noreply@runalyze.com', $captured->getFrom()[0]->getAddress());
+        $this->assertSame('RUNALYZE', $captured->getFrom()[0]->getName());
     }
 
     public function testSetFromReplacesSenderPassedToConstructor(): void
@@ -109,8 +109,8 @@ class AccountMailerTest extends TestCase
         $service->sendMailTo($this->createAccount(), 'Subject', 'mail/test/example.html.twig', []);
 
         /** @var Email $captured */
-        self::assertSame('other@runalyze.com', $captured->getFrom()[0]->getAddress());
-        self::assertSame('OTHER', $captured->getFrom()[0]->getName());
+        $this->assertSame('other@runalyze.com', $captured->getFrom()[0]->getAddress());
+        $this->assertSame('OTHER', $captured->getFrom()[0]->getName());
     }
 
     public function testSetFromWithInvalidMailThrowsRfcComplianceException(): void
@@ -169,14 +169,14 @@ class AccountMailerTest extends TestCase
             ]
         );
 
-        self::assertCount(1, $calls, 'render() must be called exactly once now (no more existence-check render)');
-        self::assertSame('mail/test/example.de.html.twig', $calls[0][0]);
-        self::assertSame([
+        $this->assertCount(1, $calls, 'render() must be called exactly once now (no more existence-check render)');
+        $this->assertSame('mail/test/example.de.html.twig', $calls[0][0]);
+        $this->assertSame([
             'foo' => 'bar',
         ], $calls[0][1]);
 
         /** @var Email $captured */
-        self::assertSame('RENDERED_HTML', $captured->getHtmlBody());
+        $this->assertSame('RENDERED_HTML', $captured->getHtmlBody());
     }
 
     public function testSendMailToFallsBackToDefaultTemplateWhenLanguageTemplateDoesNotExist(): void
@@ -196,14 +196,14 @@ class AccountMailerTest extends TestCase
             ]
         );
 
-        self::assertCount(1, $calls);
-        self::assertSame('mail/test/example.html.twig', $calls[0][0]);
-        self::assertSame([
+        $this->assertCount(1, $calls);
+        $this->assertSame('mail/test/example.html.twig', $calls[0][0]);
+        $this->assertSame([
             'foo' => 'bar',
         ], $calls[0][1]);
 
         /** @var Email $captured */
-        self::assertSame('RENDERED_HTML', $captured->getHtmlBody());
+        $this->assertSame('RENDERED_HTML', $captured->getHtmlBody());
     }
 
     public function testSendMailToSetsSubjectAndRecipient(): void
@@ -217,17 +217,17 @@ class AccountMailerTest extends TestCase
         $service->sendMailTo($account, 'My Subject', 'mail/test/example.html.twig', []);
 
         /** @var Email $captured */
-        self::assertSame('My Subject', $captured->getSubject());
-        self::assertCount(1, $captured->getTo());
-        self::assertSame('jane@example.com', $captured->getTo()[0]->getAddress());
-        self::assertSame('janedoe', $captured->getTo()[0]->getName());
+        $this->assertSame('My Subject', $captured->getSubject());
+        $this->assertCount(1, $captured->getTo());
+        $this->assertSame('jane@example.com', $captured->getTo()[0]->getAddress());
+        $this->assertSame('janedoe', $captured->getTo()[0]->getName());
     }
 
     public function testSendMailToWithInvalidRecipientMailThrowsRfcComplianceExceptionAndSendsNothing(): void
     {
         $twig = $this->createTwig(languageTemplateExists: false, html: 'HTML');
         $mailer = $this->createMock(MailerInterface::class);
-        $mailer->expects(self::never())
+        $mailer->expects($this->never())
             ->method('send');
 
         $service = $this->createMailerService($mailer, $twig, $this->createTranslator());
@@ -251,7 +251,7 @@ class AccountMailerTest extends TestCase
             ->willThrowException(new LoaderError('Template not found'));
 
         $mailer = $this->createMock(MailerInterface::class);
-        $mailer->expects(self::never())
+        $mailer->expects($this->never())
             ->method('send');
 
         $service = $this->createMailerService($mailer, $twig, $this->createTranslator());
@@ -272,15 +272,15 @@ class AccountMailerTest extends TestCase
         $service->sendCustomFeedbackToSystem($account, 'support@runalyze.com', 'Something is broken.');
 
         /** @var Email $captured */
-        self::assertSame('RUNALYZE - Customer feedback (translated)', $captured->getSubject());
-        self::assertSame('noreply@runalyze.com', $captured->getFrom()[0]->getAddress());
-        self::assertCount(1, $captured->getTo());
-        self::assertSame('support@runalyze.com', $captured->getTo()[0]->getAddress());
+        $this->assertSame('RUNALYZE - Customer feedback (translated)', $captured->getSubject());
+        $this->assertSame('noreply@runalyze.com', $captured->getFrom()[0]->getAddress());
+        $this->assertCount(1, $captured->getTo());
+        $this->assertSame('support@runalyze.com', $captured->getTo()[0]->getAddress());
 
         $body = $captured->getTextBody();
-        self::assertStringContainsString('Username: janedoe', $body);
-        self::assertStringContainsString('Mail: jane@example.com', $body);
-        self::assertStringContainsString("Message:\nSomething is broken.", $body);
+        $this->assertStringContainsString('Username: janedoe', (string) $body);
+        $this->assertStringContainsString('Mail: jane@example.com', (string) $body);
+        $this->assertStringContainsString("Message:\nSomething is broken.", (string) $body);
     }
 
     public function testSendCustomFeedbackToSystemAddsOneNamedReplyToAddress(): void
@@ -296,16 +296,16 @@ class AccountMailerTest extends TestCase
         /** @var Email $captured */
         $replyTo = $captured->getReplyTo();
 
-        self::assertCount(1, $replyTo);
-        self::assertSame('jane@example.com', $replyTo[0]->getAddress());
-        self::assertSame('janedoe', $replyTo[0]->getName());
+        $this->assertCount(1, $replyTo);
+        $this->assertSame('jane@example.com', $replyTo[0]->getAddress());
+        $this->assertSame('janedoe', $replyTo[0]->getName());
     }
 
     public function testSendCustomFeedbackToSystemWithInvalidRecipientThrowsRfcComplianceExceptionAndSendsNothing(): void
     {
         $twig = $this->createTwig(languageTemplateExists: false, html: 'HTML');
         $mailer = $this->createMock(MailerInterface::class);
-        $mailer->expects(self::never())
+        $mailer->expects($this->never())
             ->method('send');
 
         $service = $this->createMailerService($mailer, $twig, $this->createTranslator());
@@ -329,10 +329,10 @@ class AccountMailerTest extends TestCase
         $service->sendActivationLinkTo($account);
 
         /** @var Email $captured */
-        self::assertSame('Please activate your RUNALYZE account (translated)', $captured->getSubject());
-        self::assertSame('mail/account/registration.en.html.twig', $calls[0][0]);
-        self::assertSame('janedoe', $calls[0][1]['username']);
-        self::assertSame($account->getActivationHash(), $calls[0][1]['activationHash']);
+        $this->assertSame('Please activate your RUNALYZE account (translated)', $captured->getSubject());
+        $this->assertSame('mail/account/registration.en.html.twig', $calls[0][0]);
+        $this->assertSame('janedoe', $calls[0][1]['username']);
+        $this->assertSame($account->getActivationHash(), $calls[0][1]['activationHash']);
     }
 
     public function testSendRecoverPasswordLinkToUsesRecoverPasswordTemplateWithHashAndUsername(): void
@@ -349,10 +349,10 @@ class AccountMailerTest extends TestCase
         $service->sendRecoverPasswordLinkTo($account);
 
         /** @var Email $captured */
-        self::assertSame('Reset your RUNALYZE password (translated)', $captured->getSubject());
-        self::assertSame('mail/account/recoverPassword.en.html.twig', $calls[0][0]);
-        self::assertSame('janedoe', $calls[0][1]['username']);
-        self::assertSame($account->getChangepwHash(), $calls[0][1]['changepw_hash']);
+        $this->assertSame('Reset your RUNALYZE password (translated)', $captured->getSubject());
+        $this->assertSame('mail/account/recoverPassword.en.html.twig', $calls[0][0]);
+        $this->assertSame('janedoe', $calls[0][1]['username']);
+        $this->assertSame($account->getChangepwHash(), $calls[0][1]['changepw_hash']);
     }
 
     public function testSendDeleteLinkToUsesDeleteAccountRequestTemplateWithHashAndUsername(): void
@@ -369,10 +369,10 @@ class AccountMailerTest extends TestCase
         $service->sendDeleteLinkTo($account);
 
         /** @var Email $captured */
-        self::assertSame('Deletion request of your RUNALYZE account (translated)', $captured->getSubject());
-        self::assertSame('mail/account/deleteAccountRequest.en.html.twig', $calls[0][0]);
-        self::assertSame('janedoe', $calls[0][1]['username']);
-        self::assertSame($account->getDeletionHash(), $calls[0][1]['deletion_hash']);
+        $this->assertSame('Deletion request of your RUNALYZE account (translated)', $captured->getSubject());
+        $this->assertSame('mail/account/deleteAccountRequest.en.html.twig', $calls[0][0]);
+        $this->assertSame('janedoe', $calls[0][1]['username']);
+        $this->assertSame($account->getDeletionHash(), $calls[0][1]['deletion_hash']);
     }
 
     public function testSendBackupGeneratedToUsesBackupGeneratedTemplateWithUsername(): void
@@ -387,9 +387,9 @@ class AccountMailerTest extends TestCase
         $service->sendBackupGeneratedTo($account);
 
         /** @var Email $captured */
-        self::assertSame('Your RUNALYZE backup is ready (translated)', $captured->getSubject());
-        self::assertSame('mail/tools/backupGenerated.en.html.twig', $calls[0][0]);
-        self::assertSame([
+        $this->assertSame('Your RUNALYZE backup is ready (translated)', $captured->getSubject());
+        $this->assertSame('mail/tools/backupGenerated.en.html.twig', $calls[0][0]);
+        $this->assertSame([
             'username' => 'janedoe',
         ], $calls[0][1]);
     }
@@ -407,10 +407,10 @@ class AccountMailerTest extends TestCase
         $service->sendPosterGeneratedTo($account, $state);
 
         /** @var Email $captured */
-        self::assertSame('Your RUNALYZE posters are ready (translated)', $captured->getSubject());
-        self::assertSame('mail/tools/posterGenerated.en.html.twig', $calls[0][0]);
-        self::assertSame('janedoe', $calls[0][1]['username']);
-        self::assertSame($expectedPartial, $calls[0][1]['partial']);
+        $this->assertSame('Your RUNALYZE posters are ready (translated)', $captured->getSubject());
+        $this->assertSame('mail/tools/posterGenerated.en.html.twig', $calls[0][0]);
+        $this->assertSame('janedoe', $calls[0][1]['username']);
+        $this->assertSame($expectedPartial, $calls[0][1]['partial']);
     }
 
     public static function posterStates(): iterable

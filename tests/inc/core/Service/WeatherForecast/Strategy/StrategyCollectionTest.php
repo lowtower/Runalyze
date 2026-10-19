@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Service\WeatherForecast\Strategy;
 
 use PHPUnit\Framework\MockObject\Stub;
@@ -8,7 +10,7 @@ use Runalyze\Service\WeatherForecast\Location;
 use Runalyze\Service\WeatherForecast\Strategy\StrategyCollection;
 use Runalyze\Service\WeatherForecast\Strategy\StrategyInterface;
 
-class StrategyCollectionTest extends \PHPUnit\Framework\TestCase
+final class StrategyCollectionTest extends \PHPUnit\Framework\TestCase
 {
     protected StrategyCollection $Collection;
 

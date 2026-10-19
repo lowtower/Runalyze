@@ -16,7 +16,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Services\LegacyCache;
 
 #[Group('default')]
-class LegacyCacheTest extends TestCase
+final class LegacyCacheTest extends TestCase
 {
     private string $cacheDir;
 
@@ -72,30 +72,30 @@ class LegacyCacheTest extends TestCase
 
     public function testDeleteReturnsFalseWhenKeyDoesNotExist(): void
     {
-        self::assertFalse($this->legacyCache->delete('nonexistent-keyword'));
+        $this->assertFalse($this->legacyCache->delete('nonexistent-keyword'));
     }
 
     public function testDeleteReturnsTrueAndRemovesExistingItemWithoutAccountId(): void
     {
         $this->seedCacheItem('training42', false);
 
-        self::assertTrue($this->legacyCache->delete('training42'));
-        self::assertFalse($this->legacyCache->delete('training42'), 'the item must actually be gone after the first delete');
+        $this->assertTrue($this->legacyCache->delete('training42'));
+        $this->assertFalse($this->legacyCache->delete('training42'), 'the item must actually be gone after the first delete');
     }
 
     public function testDeleteReturnsTrueAndRemovesExistingItemWithAccountId(): void
     {
         $this->seedCacheItem('training42', 7);
 
-        self::assertTrue($this->legacyCache->delete('training42', 7));
-        self::assertFalse($this->legacyCache->delete('training42', 7));
+        $this->assertTrue($this->legacyCache->delete('training42', 7));
+        $this->assertFalse($this->legacyCache->delete('training42', 7));
     }
 
     public function testDeleteKeyCollisionBetweenDifferentKeywordAccountIdCombinations(): void
     {
         $this->seedCacheItem('training4', 2); // key becomes "training42"
 
-        self::assertTrue($this->legacyCache->delete('training42', false));
+        $this->assertTrue($this->legacyCache->delete('training42', false));
     }
 
     public function testDeleteWithDifferentAccountIdsAreIndependentKeys(): void
@@ -103,17 +103,17 @@ class LegacyCacheTest extends TestCase
         $this->seedCacheItem('route5', 1);
         $this->seedCacheItem('route5', 2);
 
-        self::assertTrue($this->legacyCache->delete('route5', 1));
+        $this->assertTrue($this->legacyCache->delete('route5', 1));
         // The item scoped to account 2 must still exist independently.
-        self::assertTrue($this->legacyCache->delete('route5', 2));
+        $this->assertTrue($this->legacyCache->delete('route5', 2));
     }
 
     public function testDeleteWithoutAccountIdDoesNotAffectItemScopedToAnAccountId(): void
     {
         $this->seedCacheItem('route5', 3);
 
-        self::assertFalse($this->legacyCache->delete('route5'));
-        self::assertTrue($this->legacyCache->delete('route5', 3), 'the account-scoped item must remain untouched by the previous call');
+        $this->assertFalse($this->legacyCache->delete('route5'));
+        $this->assertTrue($this->legacyCache->delete('route5', 3), 'the account-scoped item must remain untouched by the previous call');
     }
 
     private function setEntityId(object $entity, int $id): void
@@ -156,7 +156,7 @@ class LegacyCacheTest extends TestCase
 
         $this->legacyCache->clearActivityCache($training);
 
-        self::assertFalse($this->legacyCache->delete('training42', 5), 'the training cache item must already be gone');
+        $this->assertFalse($this->legacyCache->delete('training42', 5), 'the training cache item must already be gone');
     }
 
     public function testClearActivityCacheAlsoDeletesRouteKeyWhenRouteIsPresent(): void
@@ -171,8 +171,8 @@ class LegacyCacheTest extends TestCase
 
         $this->legacyCache->clearActivityCache($training);
 
-        self::assertFalse($this->legacyCache->delete('training42', 5), 'the training cache item must already be gone');
-        self::assertFalse($this->legacyCache->delete('route99', 5), 'the route cache item must already be gone');
+        $this->assertFalse($this->legacyCache->delete('training42', 5), 'the training cache item must already be gone');
+        $this->assertFalse($this->legacyCache->delete('route99', 5), 'the route cache item must already be gone');
     }
 
     #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
@@ -219,11 +219,11 @@ class LegacyCacheTest extends TestCase
 
         $this->legacyCache->clearActivityCache($training);
 
-        self::assertFalse($this->legacyCache->delete('training42', 5));
-        self::assertFalse($this->legacyCache->delete('trackdata42', 5));
-        self::assertFalse($this->legacyCache->delete('swimdata42', 5));
-        self::assertFalse($this->legacyCache->delete('hrv42', 5));
-        self::assertFalse($this->legacyCache->delete('raceresult42', 5));
+        $this->assertFalse($this->legacyCache->delete('training42', 5));
+        $this->assertFalse($this->legacyCache->delete('trackdata42', 5));
+        $this->assertFalse($this->legacyCache->delete('swimdata42', 5));
+        $this->assertFalse($this->legacyCache->delete('hrv42', 5));
+        $this->assertFalse($this->legacyCache->delete('raceresult42', 5));
     }
 
     public function testClearActivityCacheDoesNotDeleteTrackdataSwimdataHrvRaceresultKeysWhenAbsent(): void
@@ -240,10 +240,10 @@ class LegacyCacheTest extends TestCase
         $this->legacyCache->clearActivityCache($training);
 
         // None of these were touched, since their instanceof guards never fired.
-        self::assertTrue($this->legacyCache->delete('trackdata42', 5));
-        self::assertTrue($this->legacyCache->delete('swimdata42', 5));
-        self::assertTrue($this->legacyCache->delete('hrv42', 5));
-        self::assertTrue($this->legacyCache->delete('raceresult42', 5));
+        $this->assertTrue($this->legacyCache->delete('trackdata42', 5));
+        $this->assertTrue($this->legacyCache->delete('swimdata42', 5));
+        $this->assertTrue($this->legacyCache->delete('hrv42', 5));
+        $this->assertTrue($this->legacyCache->delete('raceresult42', 5));
     }
 
     public function testClearRaceResultCacheDeletesKeyBasedOnActivityId(): void
@@ -258,7 +258,7 @@ class LegacyCacheTest extends TestCase
 
         $this->legacyCache->clearRaceResultCache($raceresult);
 
-        self::assertFalse($this->legacyCache->delete('raceresult42', 5));
+        $this->assertFalse($this->legacyCache->delete('raceresult42', 5));
     }
 
     #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]

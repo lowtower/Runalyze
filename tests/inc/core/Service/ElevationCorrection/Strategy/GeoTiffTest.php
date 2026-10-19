@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Service\ElevationCorrection\Strategy;
 
 use Runalyze\DEM\Interpolation\BilinearInterpolation;
@@ -9,7 +11,7 @@ use Runalyze\Service\ElevationCorrection\Strategy\GeoTiff;
 
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]
 #[\PHPUnit\Framework\Attributes\Group('dependsOnSRTM')]
-class GeoTiffTest extends \PHPUnit\Framework\TestCase
+final class GeoTiffTest extends \PHPUnit\Framework\TestCase
 {
     protected GeoTiff $GeoTiff;
 

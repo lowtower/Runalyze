@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Metrics\Temperature\Unit;
 
 use Runalyze\Metrics\Temperature\Unit\TemperatureEnum;
 
-class TemperatureEnumTest extends \PHPUnit\Framework\TestCase
+final class TemperatureEnumTest extends \PHPUnit\Framework\TestCase
 {
     public function testThatAllUnitsCanBeConstructed(): void
     {

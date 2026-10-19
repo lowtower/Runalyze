@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Model\Account;
 
-class UserRoleTest extends \PHPUnit\Framework\TestCase
+final class UserRoleTest extends \PHPUnit\Framework\TestCase
 {
     public function testCheckRoleName(): void
     {

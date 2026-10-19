@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Entity;
 
 use PHPUnit\Framework\TestCase;
@@ -8,7 +10,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Swimdata;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class SwimdataTest extends TestCase
+final class SwimdataTest extends TestCase
 {
     private Swimdata $swimdata;
 

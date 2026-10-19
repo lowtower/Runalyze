@@ -6,13 +6,13 @@ namespace Runalyze\Tests\Parser\Activity\Common\Data\Round;
 
 use Runalyze\Parser\Activity\Common\Data\Round\Round;
 
-class RoundTest extends \PHPUnit\Framework\TestCase
+final class RoundTest extends \PHPUnit\Framework\TestCase
 {
     public function testSimpleRound(): void
     {
         $round = new Round(1.0, 265);
 
-        $this->assertSame(1.0, $round->getDistance());
+        $this->assertEqualsWithDelta(1.0, $round->getDistance(), PHP_FLOAT_EPSILON);
         $this->assertEquals(265, $round->getDuration());
         $this->assertTrue($round->isActive());
     }
@@ -31,7 +31,7 @@ class RoundTest extends \PHPUnit\Framework\TestCase
         $round->setDuration(104);
         $round->setActive();
 
-        $this->assertSame(0.5, $round->getDistance());
+        $this->assertEqualsWithDelta(0.5, $round->getDistance(), PHP_FLOAT_EPSILON);
         $this->assertEquals(104, $round->getDuration());
         $this->assertTrue($round->isActive());
     }
@@ -47,15 +47,13 @@ class RoundTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array<int, bool[]|float[]|int[]>
+     * @return \Iterator<int, array<(bool|float|int)>>
      */
-    public static function getProviderForComparison(): array
+    public static function getProviderForComparison(): \Iterator
     {
-        return [
-            [true, 1.0, 265, false, 1.0, 265, false],
-            [false, 1.0, 265, true, 1.0, 265, false],
-            [false, 1.0, 265, false, 1.01, 265, false],
-            [false, 1.0, 264, false, 1.0, 265, false],
-        ];
+        yield [true, 1.0, 265, false, 1.0, 265, false];
+        yield [false, 1.0, 265, true, 1.0, 265, false];
+        yield [false, 1.0, 265, false, 1.01, 265, false];
+        yield [false, 1.0, 264, false, 1.0, 265, false];
     }
 }

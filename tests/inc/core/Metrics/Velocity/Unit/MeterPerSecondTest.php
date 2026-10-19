@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Metrics\Velocity\Unit;
 
 use Runalyze\Metrics\Velocity\Unit\MeterPerSecond;
 
-class MeterPerSecondTest extends \PHPUnit\Framework\TestCase
+final class MeterPerSecondTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues(): void
     {

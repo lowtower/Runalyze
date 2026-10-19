@@ -6,7 +6,7 @@ namespace Runalyze\Tests\Mathematics\Filter;
 
 use Runalyze\Mathematics\Filter\InfiniteImpulseResponseFilter;
 
-class InfiniteImpulseResponseFilterTest extends \PHPUnit\Framework\TestCase
+final class InfiniteImpulseResponseFilterTest extends \PHPUnit\Framework\TestCase
 {
     public function testInvalidCoefficients(): void
     {

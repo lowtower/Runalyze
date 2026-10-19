@@ -9,7 +9,7 @@ use Runalyze\View\Activity\FakeContext;
 use SimpleXMLElement;
 use Symfony\Component\HttpFoundation\Response;
 
-class GpxTest extends TestCase
+final class GpxTest extends TestCase
 {
     public function testFileCreationForOutdoorActivity(): void
     {
@@ -35,7 +35,7 @@ class GpxTest extends TestCase
         $this->assertStringContainsString('<gpx', (string) $response->getContent());
         $this->assertStringContainsString('<trkpt', (string) $response->getContent());
         $this->assertSame('application/gpx+xml', $response->headers->get('Content-Type'));
-        $this->assertStringContainsString('.gpx', $response->headers->get('Content-Disposition'));
+        $this->assertStringContainsString('.gpx', (string) $response->headers->get('Content-Disposition'));
         $this->assertStringStartsWith('attachment', $response->headers->get('Content-Disposition'));
     }
 

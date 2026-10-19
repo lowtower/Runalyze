@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class HelperTest extends \PHPUnit\Framework\TestCase
+final class HelperTest extends \PHPUnit\Framework\TestCase
 {
     #[\PHPUnit\Framework\Attributes\DataProvider('provideValuesConsideredUnknown')]
     public function testUnknownReturnsFallbackStringForValuesConsideredUnknown(mixed $value): void
@@ -12,19 +12,17 @@ class HelperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array<string, null[]|string[]|int[]|0.0[]|array<int, array<int, string>>>
+     * @return \Iterator<string, array<(0.0|array<int, string>|int|string|null)>>
      */
-    public static function provideValuesConsideredUnknown(): array
+    public static function provideValuesConsideredUnknown(): \Iterator
     {
-        return [
-            'null' => [null],
-            'empty string' => [''],
-            'integer zero' => [0],
-            'float zero' => [0.0],
-            'string zero' => ['0'],
-            'string zero point zero' => ['0.0'],
-            'empty array' => [[]],
-        ];
+        yield 'null' => [null];
+        yield 'empty string' => [''];
+        yield 'integer zero' => [0];
+        yield 'float zero' => [0.0];
+        yield 'string zero' => ['0'];
+        yield 'string zero point zero' => ['0.0'];
+        yield 'empty array' => [[]];
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('provideValuesConsideredKnown')]
@@ -34,18 +32,16 @@ class HelperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array<string, string[]|int[]>
+     * @return \Iterator<string, array<(int|string)>>
      */
-    public static function provideValuesConsideredKnown(): array
+    public static function provideValuesConsideredKnown(): \Iterator
     {
-        return [
-            'non-empty non-numeric string' => ['abc', 'abc'],
-            'numeric string' => ['5', '5'],
-            'positive integer is coerced to its string representation' => [5, '5'],
-            'negative integer is coerced to its string representation' => [-5, '-5'],
-            'whitespace-only string is treated as non-numeric and non-empty' => ['  ', '  '],
-            'string containing spaces' => ['test string', 'test string'],
-        ];
+        yield 'non-empty non-numeric string' => ['abc', 'abc'];
+        yield 'numeric string' => ['5', '5'];
+        yield 'positive integer is coerced to its string representation' => [5, '5'];
+        yield 'negative integer is coerced to its string representation' => [-5, '-5'];
+        yield 'whitespace-only string is treated as non-numeric and non-empty' => ['  ', '  '];
+        yield 'string containing spaces' => ['test string', 'test string'];
     }
 
     public function testUnknownReturnsNonEmptyArrayUnchangedInsteadOfCoercingItToAString(): void

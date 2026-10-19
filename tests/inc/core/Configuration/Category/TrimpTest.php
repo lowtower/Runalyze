@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Runalyze\Configuration\Category;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class TrimpTest extends \PHPUnit\Framework\TestCase
+final class TrimpTest extends \PHPUnit\Framework\TestCase
 {
     protected Trimp $object;
 
@@ -16,7 +16,7 @@ class TrimpTest extends \PHPUnit\Framework\TestCase
 
     public function testDaysForATLDefaultsToSeven(): void
     {
-        self::assertSame(7, $this->object->daysForATL());
+        $this->assertSame(7, $this->object->daysForATL());
     }
 
     public function testDaysForATLCanBeChanged(): void
@@ -25,12 +25,12 @@ class TrimpTest extends \PHPUnit\Framework\TestCase
             'ATL_DAYS' => '10',
         ]);
 
-        self::assertSame(10, $this->object->daysForATL());
+        $this->assertSame(10, $this->object->daysForATL());
     }
 
     public function testDaysForCTLDefaultsToFortyTwo(): void
     {
-        self::assertSame(42, $this->object->daysForCTL());
+        $this->assertSame(42, $this->object->daysForCTL());
     }
 
     public function testDaysForCTLCanBeChanged(): void
@@ -39,12 +39,12 @@ class TrimpTest extends \PHPUnit\Framework\TestCase
             'CTL_DAYS' => '28',
         ]);
 
-        self::assertSame(28, $this->object->daysForCTL());
+        $this->assertSame(28, $this->object->daysForCTL());
     }
 
     public function testShowInPercentDefaultsToTrue(): void
     {
-        self::assertTrue($this->object->showInPercent());
+        $this->assertTrue($this->object->showInPercent());
     }
 
     public function testShowInPercentCanBeDisabled(): void
@@ -53,12 +53,12 @@ class TrimpTest extends \PHPUnit\Framework\TestCase
             'TRIMP_MODEL_IN_PERCENT' => 'false',
         ]);
 
-        self::assertFalse($this->object->showInPercent());
+        $this->assertFalse($this->object->showInPercent());
     }
 
     public function testShowTSBinPercentDefaultsToFalse(): void
     {
-        self::assertFalse($this->object->showTSBinPercent());
+        $this->assertFalse($this->object->showTSBinPercent());
     }
 
     public function testShowTSBinPercentCanBeEnabled(): void
@@ -67,12 +67,12 @@ class TrimpTest extends \PHPUnit\Framework\TestCase
             'TSB_IN_PERCENT' => 'true',
         ]);
 
-        self::assertTrue($this->object->showTSBinPercent());
+        $this->assertTrue($this->object->showTSBinPercent());
     }
 
     public function testKeysReturnsAllRegisteredHandlesInDeclarationOrder(): void
     {
-        self::assertSame([
+        $this->assertSame([
             'ATL_DAYS',
             'CTL_DAYS',
             'TRIMP_MODEL_IN_PERCENT',
@@ -90,7 +90,7 @@ class TrimpTest extends \PHPUnit\Framework\TestCase
 
         $this->object->updateFromPost();
 
-        self::assertTrue($this->object->showTSBinPercent());
+        $this->assertTrue($this->object->showTSBinPercent());
 
         $_POST = $backup;
     }

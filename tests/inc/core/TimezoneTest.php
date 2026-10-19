@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Parameter\Application\Timezone as TimezoneEnum;
 
-class TimezoneTest extends TestCase
+final class TimezoneTest extends TestCase
 {
     private function invokeStaticPrivate(string $method, array $args): mixed
     {
@@ -23,18 +25,16 @@ class TimezoneTest extends TestCase
     }
 
     /**
-     * @return array<string, string[]>
+     * @return \Iterator<string, array<string>>
      */
-    public static function provideValidTimezoneIdentifiers(): array
+    public static function provideValidTimezoneIdentifiers(): \Iterator
     {
-        return [
-            'UTC' => ['UTC'],
-            'Europe/Berlin' => ['Europe/Berlin'],
-            'America/New_York' => ['America/New_York'],
-            'Asia/Tokyo' => ['Asia/Tokyo'],
-            'Pacific/Auckland' => ['Pacific/Auckland'],
-            'GMT' => ['GMT'],
-        ];
+        yield 'UTC' => ['UTC'];
+        yield 'Europe/Berlin' => ['Europe/Berlin'];
+        yield 'America/New_York' => ['America/New_York'];
+        yield 'Asia/Tokyo' => ['Asia/Tokyo'];
+        yield 'Pacific/Auckland' => ['Pacific/Auckland'];
+        yield 'GMT' => ['GMT'];
     }
 
     #[DataProvider('provideInvalidTimezoneIdentifiers')]
@@ -44,16 +44,14 @@ class TimezoneTest extends TestCase
     }
 
     /**
-     * @return array<string, string[]>
+     * @return \Iterator<string, array<string>>
      */
-    public static function provideInvalidTimezoneIdentifiers(): array
+    public static function provideInvalidTimezoneIdentifiers(): \Iterator
     {
-        return [
-            'completely made up identifier' => ['Not/AValidZone'],
-            'empty string' => [''],
-            'plain garbage text' => ['this-is-not-a-timezone'],
-            'looks like a city but is not a real IANA zone' => ['Europe/Atlantis'],
-        ];
+        yield 'completely made up identifier' => ['Not/AValidZone'];
+        yield 'empty string' => [''];
+        yield 'plain garbage text' => ['this-is-not-a-timezone'];
+        yield 'looks like a city but is not a real IANA zone' => ['Europe/Atlantis'];
     }
 
     public function testIsValidTimezoneAcceptsLowercaseIdentifierOnThisBuild(): void
@@ -158,9 +156,9 @@ class TimezoneTest extends TestCase
 
         $label = $result[TimezoneEnum::NEW_YORK];
 
-        $this->assertStringContainsString('America/NewYork', $label);
-        $this->assertStringNotContainsString('_', $label);
-        $this->assertStringNotContainsString('New York', $label);
+        $this->assertStringContainsString('America/NewYork', (string) $label);
+        $this->assertStringNotContainsString('_', (string) $label);
+        $this->assertStringNotContainsString('New York', (string) $label);
     }
 
     public function testListPrettyTimezonesHandlesMultipleZonesAtSameOffset(): void

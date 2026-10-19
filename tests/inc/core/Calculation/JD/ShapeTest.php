@@ -27,7 +27,7 @@ class CategoryFake extends Category\VO2max
 }
 
 #[\PHPUnit\Framework\Attributes\Group('requiresSqlite')]
-class ShapeTest extends \PHPUnit\Framework\TestCase
+final class ShapeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var \PDO
@@ -74,7 +74,7 @@ class ShapeTest extends \PHPUnit\Framework\TestCase
         $Shape = new Shape($this->PDO, 1, 1, new CategoryFake());
         $Shape->calculate();
 
-        $this->assertSame(62.5, $Shape->value());
+        $this->assertEqualsWithDelta(62.5, $Shape->value(), PHP_FLOAT_EPSILON);
     }
 
     public function testSimpleCalculationWithElevation(): void

@@ -6,7 +6,7 @@ namespace Runalyze\Tests\Mathematics\DataAnalysis;
 
 use Runalyze\Mathematics\DataAnalysis\ConstantSegmentFinder;
 
-class ConstantSegmentFinderTest extends \PHPUnit\Framework\TestCase
+final class ConstantSegmentFinderTest extends \PHPUnit\Framework\TestCase
 {
     public function testInvalidIndexData(): void
     {

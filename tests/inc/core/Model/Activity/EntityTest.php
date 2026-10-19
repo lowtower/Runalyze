@@ -6,7 +6,7 @@ namespace Runalyze\Model\Activity;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 
-class EntityTest extends \PHPUnit\Framework\TestCase
+final class EntityTest extends \PHPUnit\Framework\TestCase
 {
     public function testEmptyObject(): void
     {
@@ -128,66 +128,64 @@ class EntityTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array<string, string[]|int[]|float[]>
+     * @return \Iterator<string, array<(float|int|string)>>
      */
-    public static function provideNullableNumericGetters(): array
+    public static function provideNullableNumericGetters(): \Iterator
     {
-        return [
-            // int-returning (39)
-            'energy' => ['energy', Entity::ENERGY, '250', 250],
-            'energyInRest' => ['energyInRest', Entity::ENERGY_REST, '50', 50],
-            'hrAvg' => ['hrAvg', Entity::HR_AVG, '140', 140],
-            'hrMax' => ['hrMax', Entity::HR_MAX, '180', 180],
-            'hrAvgActive' => ['hrAvgActive', Entity::HR_AVG_ACTIVE, '145', 145],
-            'maxHrUser' => ['maxHrUser', Entity::MAX_HR_USER, '190', 190],
-            'fitRecoveryTime' => ['fitRecoveryTime', Entity::FIT_RECOVERY_TIME, '30', 30],
-            'fitHRVscore' => ['fitHRVscore', Entity::FIT_HRV_ANALYSIS, '5', 5],
-            'fitTrainingEffectBenefit' => ['fitTrainingEffectBenefit', Entity::FIT_TRAINING_EFFECT_BENEFIT, '3', 3],
-            'fitPerformanceCondition' => ['fitPerformanceCondition', Entity::FIT_PERFORMANCE_CONDITION, '2', 2],
-            'fitPerformanceConditionEnd' => ['fitPerformanceConditionEnd', Entity::FIT_PERFORMANCE_CONDITION_END, '4', 4],
-            'fitLactateThresholdHR' => ['fitLactateThresholdHR', Entity::FIT_LACTATE_THRESHOLD_HR, '165', 165],
-            'fitTotalAscent' => ['fitTotalAscent', Entity::FIT_TOTAL_ASCENT, '500', 500],
-            'fitTotalDescent' => ['fitTotalDescent', Entity::FIT_TOTAL_DESCENT, '480', 480],
-            'fitSelfEvaluationFeeling' => ['fitSelfEvaluationFeeling', Entity::FIT_SELF_ELEVATION_FEELING, '2', 2],
-            'fitSelfEvaluationPerceivedEffort' => ['fitSelfEvaluationPerceivedEffort', Entity::FIT_SELF_ELEVATION_PERCEIVED_EFFORT, '5', 5],
-            'fitLoadPeak' => ['fitLoadPeak', Entity::FIT_LOAD_PEAK, '100', 100],
-            'fitRunTime' => ['fitRunTime', Entity::FIT_RUN_TIME, '3000', 3000],
-            'fitWalkTime' => ['fitWalkTime', Entity::FIT_WALK_TIME, '200', 200],
-            'fitStandTime' => ['fitStandTime', Entity::FIT_STAND_TIME, '60', 60],
-            'fitSweatLoss' => ['fitSweatLoss', Entity::FIT_SWEAT_LOSS, '750', 750],
-            'avgRespirationRate' => ['avgRespirationRate', Entity::AVG_RESPIRATION_RATE, '18', 18],
-            'maxRespirationRate' => ['maxRespirationRate', Entity::MAX_RESPIRATION_RATE, '35', 35],
-            'rpe' => ['rpe', Entity::RPE, '7', 7],
-            'trimp' => ['trimp', Entity::TRIMP, '120', 120],
-            'cadence' => ['cadence', Entity::CADENCE, '180', 180],
-            'power' => ['power', Entity::POWER, '250', 250],
-            'strideLength' => ['strideLength', Entity::STRIDE_LENGTH, '120', 120],
-            'totalStrokes' => ['totalStrokes', Entity::TOTAL_STROKES, '40', 40],
-            'swolf' => ['swolf', Entity::SWOLF, '35', 35],
-            'totalCycles' => ['totalCycles', Entity::TOTAL_CYCLES, '20', 20],
-            'groundcontact' => ['groundcontact', Entity::GROUNDCONTACT, '250', 250],
-            'verticalOscillation' => ['verticalOscillation', Entity::VERTICAL_OSCILLATION, '90', 90],
-            'groundContactBalance' => ['groundContactBalance', Entity::GROUNDCONTACT_BALANCE, '5000', 5000],
-            'groundContactBalanceLeft' => ['groundContactBalanceLeft', Entity::GROUNDCONTACT_BALANCE, '5000', 5000],
-            'verticalRatio' => ['verticalRatio', Entity::VERTICAL_RATIO, '75', 75],
-            'footstrikeTypeLeft' => ['footstrikeTypeLeft', Entity::AVG_FOOTSTRIKE_TYPE_LEFT, '2', 2],
-            'footstrikeTypeRight' => ['footstrikeTypeRight', Entity::AVG_FOOTSTRIKE_TYPE_RIGHT, '3', 3],
-            'typeid' => ['typeid', Entity::TYPEID, '7', 7],
-            // float-returning (13)
-            'vo2maxByHeartRate' => ['vo2maxByHeartRate', Entity::VO2MAX, '45.5', 45.5],
-            'vo2maxByTime' => ['vo2maxByTime', Entity::VO2MAX_BY_TIME, '46.2', 46.2],
-            'vo2maxWithElevation' => ['vo2maxWithElevation', Entity::VO2MAX_WITH_ELEVATION, '47.0', 47.0],
-            'fitVO2maxEstimate' => ['fitVO2maxEstimate', Entity::FIT_VO2MAX_ESTIMATE, '48.3', 48.3],
-            'fitTrainingEffect' => ['fitTrainingEffect', Entity::FIT_TRAINING_EFFECT, '3.5', 3.5],
-            'fitAnaerobicTrainingEffect' => ['fitAnaerobicTrainingEffect', Entity::FIT_ANAEROBIC_TRAINING_EFFECT, '2.1', 2.1],
-            'fitLactateThresholdPace' => ['fitLactateThresholdPace', Entity::FIT_LACTATE_THRESHOLD_PACE, '3.33', 3.33],
-            'impactGsLeft' => ['impactGsLeft', Entity::AVG_IMPACT_GS_LEFT, '1.2', 1.2],
-            'impactGsRight' => ['impactGsRight', Entity::AVG_IMPACT_GS_RIGHT, '1.3', 1.3],
-            'brakingGsLeft' => ['brakingGsLeft', Entity::AVG_BRAKING_GS_LEFT, '0.8', 0.8],
-            'brakingGsRight' => ['brakingGsRight', Entity::AVG_BRAKING_GS_RIGHT, '0.9', 0.9],
-            'pronationExcursionLeft' => ['pronationExcursionLeft', Entity::AVG_PRONATION_EXCURSION_LEFT, '5.5', 5.5],
-            'pronationExcursionRight' => ['pronationExcursionRight', Entity::AVG_PRONATION_EXCURSION_RIGHT, '6.1', 6.1],
-        ];
+        // int-returning (39)
+        yield 'energy' => ['energy', Entity::ENERGY, '250', 250];
+        yield 'energyInRest' => ['energyInRest', Entity::ENERGY_REST, '50', 50];
+        yield 'hrAvg' => ['hrAvg', Entity::HR_AVG, '140', 140];
+        yield 'hrMax' => ['hrMax', Entity::HR_MAX, '180', 180];
+        yield 'hrAvgActive' => ['hrAvgActive', Entity::HR_AVG_ACTIVE, '145', 145];
+        yield 'maxHrUser' => ['maxHrUser', Entity::MAX_HR_USER, '190', 190];
+        yield 'fitRecoveryTime' => ['fitRecoveryTime', Entity::FIT_RECOVERY_TIME, '30', 30];
+        yield 'fitHRVscore' => ['fitHRVscore', Entity::FIT_HRV_ANALYSIS, '5', 5];
+        yield 'fitTrainingEffectBenefit' => ['fitTrainingEffectBenefit', Entity::FIT_TRAINING_EFFECT_BENEFIT, '3', 3];
+        yield 'fitPerformanceCondition' => ['fitPerformanceCondition', Entity::FIT_PERFORMANCE_CONDITION, '2', 2];
+        yield 'fitPerformanceConditionEnd' => ['fitPerformanceConditionEnd', Entity::FIT_PERFORMANCE_CONDITION_END, '4', 4];
+        yield 'fitLactateThresholdHR' => ['fitLactateThresholdHR', Entity::FIT_LACTATE_THRESHOLD_HR, '165', 165];
+        yield 'fitTotalAscent' => ['fitTotalAscent', Entity::FIT_TOTAL_ASCENT, '500', 500];
+        yield 'fitTotalDescent' => ['fitTotalDescent', Entity::FIT_TOTAL_DESCENT, '480', 480];
+        yield 'fitSelfEvaluationFeeling' => ['fitSelfEvaluationFeeling', Entity::FIT_SELF_ELEVATION_FEELING, '2', 2];
+        yield 'fitSelfEvaluationPerceivedEffort' => ['fitSelfEvaluationPerceivedEffort', Entity::FIT_SELF_ELEVATION_PERCEIVED_EFFORT, '5', 5];
+        yield 'fitLoadPeak' => ['fitLoadPeak', Entity::FIT_LOAD_PEAK, '100', 100];
+        yield 'fitRunTime' => ['fitRunTime', Entity::FIT_RUN_TIME, '3000', 3000];
+        yield 'fitWalkTime' => ['fitWalkTime', Entity::FIT_WALK_TIME, '200', 200];
+        yield 'fitStandTime' => ['fitStandTime', Entity::FIT_STAND_TIME, '60', 60];
+        yield 'fitSweatLoss' => ['fitSweatLoss', Entity::FIT_SWEAT_LOSS, '750', 750];
+        yield 'avgRespirationRate' => ['avgRespirationRate', Entity::AVG_RESPIRATION_RATE, '18', 18];
+        yield 'maxRespirationRate' => ['maxRespirationRate', Entity::MAX_RESPIRATION_RATE, '35', 35];
+        yield 'rpe' => ['rpe', Entity::RPE, '7', 7];
+        yield 'trimp' => ['trimp', Entity::TRIMP, '120', 120];
+        yield 'cadence' => ['cadence', Entity::CADENCE, '180', 180];
+        yield 'power' => ['power', Entity::POWER, '250', 250];
+        yield 'strideLength' => ['strideLength', Entity::STRIDE_LENGTH, '120', 120];
+        yield 'totalStrokes' => ['totalStrokes', Entity::TOTAL_STROKES, '40', 40];
+        yield 'swolf' => ['swolf', Entity::SWOLF, '35', 35];
+        yield 'totalCycles' => ['totalCycles', Entity::TOTAL_CYCLES, '20', 20];
+        yield 'groundcontact' => ['groundcontact', Entity::GROUNDCONTACT, '250', 250];
+        yield 'verticalOscillation' => ['verticalOscillation', Entity::VERTICAL_OSCILLATION, '90', 90];
+        yield 'groundContactBalance' => ['groundContactBalance', Entity::GROUNDCONTACT_BALANCE, '5000', 5000];
+        yield 'groundContactBalanceLeft' => ['groundContactBalanceLeft', Entity::GROUNDCONTACT_BALANCE, '5000', 5000];
+        yield 'verticalRatio' => ['verticalRatio', Entity::VERTICAL_RATIO, '75', 75];
+        yield 'footstrikeTypeLeft' => ['footstrikeTypeLeft', Entity::AVG_FOOTSTRIKE_TYPE_LEFT, '2', 2];
+        yield 'footstrikeTypeRight' => ['footstrikeTypeRight', Entity::AVG_FOOTSTRIKE_TYPE_RIGHT, '3', 3];
+        yield 'typeid' => ['typeid', Entity::TYPEID, '7', 7];
+        // float-returning (13)
+        yield 'vo2maxByHeartRate' => ['vo2maxByHeartRate', Entity::VO2MAX, '45.5', 45.5];
+        yield 'vo2maxByTime' => ['vo2maxByTime', Entity::VO2MAX_BY_TIME, '46.2', 46.2];
+        yield 'vo2maxWithElevation' => ['vo2maxWithElevation', Entity::VO2MAX_WITH_ELEVATION, '47.0', 47.0];
+        yield 'fitVO2maxEstimate' => ['fitVO2maxEstimate', Entity::FIT_VO2MAX_ESTIMATE, '48.3', 48.3];
+        yield 'fitTrainingEffect' => ['fitTrainingEffect', Entity::FIT_TRAINING_EFFECT, '3.5', 3.5];
+        yield 'fitAnaerobicTrainingEffect' => ['fitAnaerobicTrainingEffect', Entity::FIT_ANAEROBIC_TRAINING_EFFECT, '2.1', 2.1];
+        yield 'fitLactateThresholdPace' => ['fitLactateThresholdPace', Entity::FIT_LACTATE_THRESHOLD_PACE, '3.33', 3.33];
+        yield 'impactGsLeft' => ['impactGsLeft', Entity::AVG_IMPACT_GS_LEFT, '1.2', 1.2];
+        yield 'impactGsRight' => ['impactGsRight', Entity::AVG_IMPACT_GS_RIGHT, '1.3', 1.3];
+        yield 'brakingGsLeft' => ['brakingGsLeft', Entity::AVG_BRAKING_GS_LEFT, '0.8', 0.8];
+        yield 'brakingGsRight' => ['brakingGsRight', Entity::AVG_BRAKING_GS_RIGHT, '0.9', 0.9];
+        yield 'pronationExcursionLeft' => ['pronationExcursionLeft', Entity::AVG_PRONATION_EXCURSION_LEFT, '5.5', 5.5];
+        yield 'pronationExcursionRight' => ['pronationExcursionRight', Entity::AVG_PRONATION_EXCURSION_RIGHT, '6.1', 6.1];
     }
 
     public function testGroundContactBalanceRightReturnsNullWhenUnderlyingValueIsNull(): void

@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Bridge\Activity\Calculation;
 
 use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\VO2maxCalculator;
 use Runalyze\Bundle\CoreBundle\Entity\Route;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 
-class VO2maxCalculatorTest extends \PHPUnit\Framework\TestCase
+final class VO2maxCalculatorTest extends \PHPUnit\Framework\TestCase
 {
     protected VO2maxCalculator $Calculator;
 
@@ -19,7 +21,7 @@ class VO2maxCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->Activity->setRoute(new Route());
     }
 
-    protected function setDataToActivity(float $duration, ?float $distance, ?int $heartRate)
+    protected function setDataToActivity(float $duration, ?float $distance, ?int $heartRate): void
     {
         $this->Activity->setS($duration);
         $this->Activity->setDistance($distance);
@@ -30,9 +32,9 @@ class VO2maxCalculatorTest extends \PHPUnit\Framework\TestCase
     {
         $this->Calculator->calculateFor($this->Activity, 200, 0, 0);
 
-        $this->assertSame(0.0, $this->Activity->getVO2maxByTime());
-        $this->assertSame(0.0, $this->Activity->getVO2max());
-        $this->assertSame(0.0, $this->Activity->getVO2maxWithElevation());
+        $this->assertEqualsWithDelta(0.0, $this->Activity->getVO2maxByTime(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(0.0, $this->Activity->getVO2max(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(0.0, $this->Activity->getVO2maxWithElevation(), PHP_FLOAT_EPSILON);
     }
 
     public function testCalculationForSimpleActivityAtExpectedHeartRate(): void

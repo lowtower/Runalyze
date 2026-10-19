@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Entity;
 
 use PHPUnit\Framework\TestCase;
@@ -8,7 +10,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class RaceresultTest extends TestCase
+final class RaceresultTest extends TestCase
 {
     private Raceresult $raceresult;
 
@@ -46,14 +48,14 @@ class RaceresultTest extends TestCase
     {
         $this->raceresult->setOfficialDistance(42.195);
 
-        $this->assertSame(42.195, $this->raceresult->getOfficialDistance());
+        $this->assertEqualsWithDelta(42.195, $this->raceresult->getOfficialDistance(), PHP_FLOAT_EPSILON);
     }
 
     public function testSetOfficialTimeGetOfficialTime(): void
     {
         $this->raceresult->setOfficialTime(9045.0);
 
-        $this->assertSame(9045.0, $this->raceresult->getOfficialTime());
+        $this->assertEqualsWithDelta(9045.0, $this->raceresult->getOfficialTime(), PHP_FLOAT_EPSILON);
     }
 
     public function testSetOfficiallyMeasuredGetOfficiallyMeasured(): void
@@ -128,7 +130,7 @@ class RaceresultTest extends TestCase
 
         $this->raceresult->fillFromActivity($activity);
 
-        $this->assertSame(21.1, $this->raceresult->getOfficialDistance());
+        $this->assertEqualsWithDelta(21.1, $this->raceresult->getOfficialDistance(), PHP_FLOAT_EPSILON);
     }
 
     public function testFillFromActivityFallsBackToZeroDistanceWhenActivityHasNoDistance(): void
@@ -138,7 +140,7 @@ class RaceresultTest extends TestCase
 
         $this->raceresult->fillFromActivity($activity);
 
-        $this->assertSame(0.0, $this->raceresult->getOfficialDistance());
+        $this->assertEqualsWithDelta(0.0, $this->raceresult->getOfficialDistance(), PHP_FLOAT_EPSILON);
     }
 
     public function testFillFromActivityUsesActivityDurationAsOfficialTime(): void
@@ -149,7 +151,7 @@ class RaceresultTest extends TestCase
 
         $this->raceresult->fillFromActivity($activity);
 
-        $this->assertSame(9045.0, $this->raceresult->getOfficialTime());
+        $this->assertEqualsWithDelta(9045.0, $this->raceresult->getOfficialTime(), PHP_FLOAT_EPSILON);
     }
 
     public function testFillFromActivityUsesActivityTitleAsName(): void

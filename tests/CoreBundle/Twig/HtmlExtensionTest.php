@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Twig;
 
 use Runalyze\Bundle\CoreBundle\Twig\HtmlExtension;
 
-class HtmlExtensionTest extends \PHPUnit\Framework\TestCase
+final class HtmlExtensionTest extends \PHPUnit\Framework\TestCase
 {
     protected HtmlExtension $Html;
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
@@ -10,7 +12,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
-class RequestIsolationTest extends AbstractFixturesAwareWebTestCase
+final class RequestIsolationTest extends AbstractFixturesAwareWebTestCase
 {
     protected Account $Account;
 

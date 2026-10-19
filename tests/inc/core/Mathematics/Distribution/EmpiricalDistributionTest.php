@@ -6,7 +6,7 @@ namespace Runalyze\Tests\Mathematics\Distribution;
 
 use Runalyze\Mathematics\Distribution\EmpiricalDistribution;
 
-class EmpiricalDistributionTest extends \PHPUnit\Framework\TestCase
+final class EmpiricalDistributionTest extends \PHPUnit\Framework\TestCase
 {
     public function testSimpleArray(): void
     {

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\Common\Data\Round;
 
 use Runalyze\Parser\Activity\Common\Data\Round\Round;
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 
-class RoundCollectionTest extends \PHPUnit\Framework\TestCase
+final class RoundCollectionTest extends \PHPUnit\Framework\TestCase
 {
     protected RoundCollection $Collection;
 
@@ -22,14 +24,14 @@ class RoundCollectionTest extends \PHPUnit\Framework\TestCase
         ]);
 
         $this->assertCount(2, $this->Collection);
-        $this->assertSame(2.0, $this->Collection->getTotalDistance());
+        $this->assertEqualsWithDelta(2.0, $this->Collection->getTotalDistance(), PHP_FLOAT_EPSILON);
         $this->assertEquals(545, $this->Collection->getTotalDuration());
     }
 
     public function testDefaultConstructor(): void
     {
         $this->assertCount(0, $this->Collection);
-        $this->assertSame(0.0, $this->Collection->getTotalDistance());
+        $this->assertEqualsWithDelta(0.0, $this->Collection->getTotalDistance(), PHP_FLOAT_EPSILON);
         $this->assertEquals(0, $this->Collection->getTotalDuration());
         $this->assertTrue($this->Collection->isEmpty());
         $this->assertFalse($this->Collection->offsetExists(0));

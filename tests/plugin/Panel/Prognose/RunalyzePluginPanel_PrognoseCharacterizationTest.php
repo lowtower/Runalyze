@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  */
 #[Group('plugin')]
 #[Group('requiresDoctrine')]
-class RunalyzePluginPanel_PrognoseCharacterizationTest extends TestCase
+final class RunalyzePluginPanel_PrognoseCharacterizationTest extends TestCase
 {
     public $configuration;
 
@@ -61,16 +61,14 @@ class RunalyzePluginPanel_PrognoseCharacterizationTest extends TestCase
     }
 
     /**
-     * @return array<string, int[][]|float[][]|string[][]|null[][]|never[][]>
+     * @return \Iterator<string, array<array<(float|int|string|null)>>>
      */
-    public static function provideDistanceConfigurations(): array
+    public static function provideDistanceConfigurations(): \Iterator
     {
-        return [
-            'all numeric' => [[1, 3, 5, 10, 21.1, 42.2], [1, 3, 5, 10, 21.1, 42.2]],
-            'contains empty string' => [[1, '', 5], [1, 5]],
-            'contains null' => [[1, null, 5], [1, 5]],
-            'empty configuration' => [[], []],
-        ];
+        yield 'all numeric' => [[1, 3, 5, 10, 21.1, 42.2], [1, 3, 5, 10, 21.1, 42.2]];
+        yield 'contains empty string' => [[1, '', 5], [1, 5]];
+        yield 'contains null' => [[1, null, 5], [1, 5]];
+        yield 'empty configuration' => [[], []];
     }
 
     public function testPrepareForPrognosisUsesBockForCppModelWhenTwoTopResultsExist(): void

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller\Activity;
 
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
@@ -25,7 +27,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
-class EditControllerTest extends AbstractFixturesAwareWebTestCase
+final class EditControllerTest extends AbstractFixturesAwareWebTestCase
 {
     protected Account $Account;
 
@@ -222,6 +224,7 @@ class EditControllerTest extends AbstractFixturesAwareWebTestCase
             ->clear();
         $reloadedActivity = $this->getTrainingRepository()
             ->find($activity->getId());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Training::class, $reloadedActivity);
         $this->assertSame('Updated via regression test', $reloadedActivity->getTitle());
         $this->assertSame('Running', $reloadedActivity->getSport()->getName());
     }
@@ -241,6 +244,7 @@ class EditControllerTest extends AbstractFixturesAwareWebTestCase
             ->clear();
         $reloadedActivity = $this->getTrainingRepository()
             ->find($activity->getId());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Training::class, $reloadedActivity);
         $this->assertTrue($reloadedActivity->hasRaceresult());
     }
 
@@ -264,6 +268,7 @@ class EditControllerTest extends AbstractFixturesAwareWebTestCase
             ->clear();
         $reloadedActivity = $this->getTrainingRepository()
             ->find($activity->getId());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Training::class, $reloadedActivity);
         $this->assertFalse($reloadedActivity->hasRaceresult());
     }
 
@@ -364,6 +369,7 @@ class EditControllerTest extends AbstractFixturesAwareWebTestCase
             ->clear();
         $reloadedActivity = $this->getTrainingRepository()
             ->find($activity->getId());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Training::class, $reloadedActivity);
         $this->assertFalse($reloadedActivity->getRoute()->hasCorrectedElevations());
     }
 }

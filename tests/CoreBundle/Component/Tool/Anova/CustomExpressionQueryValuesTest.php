@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\Anova\QueryValue;
 
 use Doctrine\ORM\QueryBuilder;
@@ -8,7 +10,7 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryValue\FlightRatio;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryValue\FlightTime;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryValue\Pace;
 
-class CustomExpressionQueryValuesTest extends TestCase
+final class CustomExpressionQueryValuesTest extends TestCase
 {
     public function testFlightTimeBuildsExpectedExpressionAndBothNotNullChecks(): void
     {

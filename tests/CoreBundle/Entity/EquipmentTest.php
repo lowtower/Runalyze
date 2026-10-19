@@ -12,7 +12,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class EquipmentTest extends TestCase
+final class EquipmentTest extends TestCase
 {
     private Equipment $equipment;
 
@@ -28,7 +28,7 @@ class EquipmentTest extends TestCase
 
     public function testDistanceDefaultsToZero(): void
     {
-        $this->assertSame(0.0, $this->equipment->getDistance());
+        $this->assertEqualsWithDelta(0.0, $this->equipment->getDistance(), PHP_FLOAT_EPSILON);
     }
 
     public function testTimeDefaultsToZero(): void
@@ -59,7 +59,7 @@ class EquipmentTest extends TestCase
     {
         $this->equipment->setDistance(42.0);
 
-        $this->assertSame(42.0, $this->equipment->getDistance());
+        $this->assertEqualsWithDelta(42.0, $this->equipment->getDistance(), PHP_FLOAT_EPSILON);
     }
 
     public function testAddDistanceAccumulatesExistingDistance(): void
@@ -67,7 +67,7 @@ class EquipmentTest extends TestCase
         $this->equipment->setDistance(10.0);
         $this->equipment->addDistance(5.5);
 
-        $this->assertSame(15.5, $this->equipment->getDistance());
+        $this->assertEqualsWithDelta(15.5, $this->equipment->getDistance(), PHP_FLOAT_EPSILON);
     }
 
     public function testAddDistanceWithNullDoesNotChangeDistance(): void
@@ -75,7 +75,7 @@ class EquipmentTest extends TestCase
         $this->equipment->setDistance(10.0);
         $this->equipment->addDistance();
 
-        $this->assertSame(10.0, $this->equipment->getDistance());
+        $this->assertEqualsWithDelta(10.0, $this->equipment->getDistance(), PHP_FLOAT_EPSILON);
     }
 
     public function testSetTimeGetTime(): void
@@ -114,7 +114,7 @@ class EquipmentTest extends TestCase
         $this->equipment->setDistance(10.0);
         $this->equipment->setTime(3000);
 
-        $this->assertSame(300.0, $this->equipment->getPace());
+        $this->assertEqualsWithDelta(300.0, $this->equipment->getPace(), PHP_FLOAT_EPSILON);
     }
 
     public function testSetAdditionalKmNormalizesNullToZero(): void
@@ -130,7 +130,7 @@ class EquipmentTest extends TestCase
         $this->equipment->setDistance(10.0);
         $this->equipment->setAdditionalKm(5);
 
-        $this->assertSame(15.0, $this->equipment->getTotalDistance());
+        $this->assertEqualsWithDelta(15.0, $this->equipment->getTotalDistance(), PHP_FLOAT_EPSILON);
     }
 
     public function testHasStartDateIsFalseByDefault(): void

@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\Mathematics\Distribution\EmpiricalDistribution;
 use Runalyze\Mathematics\Distribution\MultipleTimeSeries;
 
-class MultipleTimeSeriesTest extends TestCase
+final class MultipleTimeSeriesTest extends TestCase
 {
     public function testSimpleExample(): void
     {
@@ -27,8 +27,8 @@ class MultipleTimeSeriesTest extends TestCase
             EmpiricalDistribution::class,
             $object->getDistribution('bar')
         );
-        $this->assertSame(11.0, $object->getDistribution('foo')->mean());
-        $this->assertSame(2.4, $object->getDistribution('bar')->mean());
+        $this->assertEqualsWithDelta(11.0, $object->getDistribution('foo')->mean(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(2.4, $object->getDistribution('bar')->mean(), PHP_FLOAT_EPSILON);
     }
 
     public function testTimeDifferencesAreUsedAsHistogramWeights(): void

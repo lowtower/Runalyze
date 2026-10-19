@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Repository;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -9,7 +11,7 @@ use Runalyze\Bundle\CoreBundle\Repository\SwimdataRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
-class SwimdataRepositoryTest extends AbstractRepositoryTestCase
+final class SwimdataRepositoryTest extends AbstractRepositoryTestCase
 {
     protected SwimdataRepository $SwimdataRepository;
 

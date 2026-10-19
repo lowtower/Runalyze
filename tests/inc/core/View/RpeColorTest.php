@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\View;
 
 use Runalyze\View\RpeColor;
 
-class RpeColorTest extends \PHPUnit\Framework\TestCase
+final class RpeColorTest extends \PHPUnit\Framework\TestCase
 {
     public function testEmptyObject(): void
     {

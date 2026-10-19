@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Doctrine\Hydrator\ColumnHydrator;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresSqlite')]
-class ColumnHydratorTest extends TestCase
+final class ColumnHydratorTest extends TestCase
 {
     private Connection $connection;
 

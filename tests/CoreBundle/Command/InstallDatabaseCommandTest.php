@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Command;
 
 use Doctrine\DBAL\Connection;
@@ -9,7 +11,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
-class InstallDatabaseCommandTest extends KernelTestCase
+final class InstallDatabaseCommandTest extends KernelTestCase
 {
     protected Connection $Connection;
 
@@ -17,12 +19,12 @@ class InstallDatabaseCommandTest extends KernelTestCase
 
     protected function setUp(): void
     {
-        static::bootKernel([
+        self::bootKernel([
             'environment' => 'test_empty',
         ]);
 
-        $this->Connection = static::$kernel->getContainer()->get('doctrine')->getConnection();
-        $this->DatabasePrefix = static::$kernel->getContainer()->getParameter('database_prefix');
+        $this->Connection = self::$kernel->getContainer()->get('doctrine')->getConnection();
+        $this->DatabasePrefix = self::$kernel->getContainer()->getParameter('database_prefix');
 
         $this->dropAllTables();
     }
@@ -57,7 +59,7 @@ class InstallDatabaseCommandTest extends KernelTestCase
 
     public function testExecute(): void
     {
-        $application = new Application(static::$kernel);
+        $application = new Application(self::$kernel);
 
         $command = $application->find('runalyze:install:database');
         $commandTester = new CommandTester($command);

@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Parameter\Application;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class TimezoneTest extends \PHPUnit\Framework\TestCase
+final class TimezoneTest extends \PHPUnit\Framework\TestCase
 {
     public function testInvalidEnum(): void
     {

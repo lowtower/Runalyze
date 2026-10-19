@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class UnsubscribeHashGeneratorTest extends TestCase
+final class UnsubscribeHashGeneratorTest extends TestCase
 {
     public function testGenerateIsDeterministicForTheSameUsernameAndSecret(): void
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\FileType;
 
 use Runalyze\Activity\SelfEvaluationFeeling;
@@ -9,7 +11,7 @@ use Runalyze\Parser\Activity\FileType\Fit;
 use Runalyze\Util\LocalTime;
 
 #[\PHPUnit\Framework\Attributes\Group('import')]
-class FitTest extends AbstractActivityParserTestCase
+final class FitTest extends AbstractActivityParserTestCase
 {
     protected Fit $Parser;
 
@@ -27,7 +29,7 @@ class FitTest extends AbstractActivityParserTestCase
     /**
      * @param string $file file path relative to 'testfiles/'
      */
-    protected function convertAndParse(string $file, bool $completeAfterwards = true, bool $runFilter = true)
+    protected function convertAndParse(string $file, bool $completeAfterwards = true, bool $runFilter = true): void
     {
         $outputFile = $this->Converter->convertFile($this->pathToTestFiles() . $file);
         $this->FilesToClear[] = $outputFile;
@@ -38,7 +40,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->setContainerFrom($this->Parser, $completeAfterwards, $runFilter);
     }
 
-    protected function checkThatTimeIsStrictIncreasing(?ActivityDataContainer $container = null)
+    protected function checkThatTimeIsStrictIncreasing(?ActivityDataContainer $container = null): void
     {
         $container = $container ?: $this->Container;
 
@@ -194,7 +196,7 @@ class FitTest extends AbstractActivityParserTestCase
 
         $this->assertEquals(2116, $this->Container->ActivityData->Duration);
         $this->assertEquals(2354, $this->Container->ActivityData->ElapsedTime);
-        $this->assertEquals(1.95, $this->Container->ActivityData->Distance);
+        $this->assertEqualsWithDelta(1.95, $this->Container->ActivityData->Distance, PHP_FLOAT_EPSILON);
 
         $this->assertEquals('fr910xt', $this->Container->Metadata->getCreator());
         $this->assertEquals(2500, $this->Container->ActivityData->PoolLength);
@@ -219,7 +221,7 @@ class FitTest extends AbstractActivityParserTestCase
 
         $this->assertEquals(3272, $this->Container->ActivityData->Duration);
         $this->assertEquals(3817, $this->Container->ActivityData->ElapsedTime);
-        $this->assertEquals(2.05, $this->Container->ActivityData->Distance);
+        $this->assertEqualsWithDelta(2.05, $this->Container->ActivityData->Distance, PHP_FLOAT_EPSILON);
 
         $this->assertEquals('fenix3', $this->Container->Metadata->getCreator());
         $this->assertEquals(5000, $this->Container->ActivityData->PoolLength);
@@ -298,7 +300,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->Temperature);
         $this->assertNotEmpty($this->Container->ContinuousData->Power);
 
-        $this->assertEquals(47.64, $this->Container->FitDetails->VO2maxEstimate);
+        $this->assertEqualsWithDelta(47.64, $this->Container->FitDetails->VO2maxEstimate, PHP_FLOAT_EPSILON);
     }
 
     public function testMultisportTriathlonFileFromFenix3(): void
@@ -429,7 +431,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->GroundContactBalance);
 
         $this->assertEqualsWithDelta(5199, $this->Container->ActivityData->AvgGroundContactBalance, 0.5);
-        $this->assertEquals(3.6, $this->Container->FitDetails->TrainingEffect);
+        $this->assertEqualsWithDelta(3.6, $this->Container->FitDetails->TrainingEffect, PHP_FLOAT_EPSILON);
     }
 
     public function testDataFromFR70WithCompressedSpeedDistance(): void
@@ -472,9 +474,9 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEquals(819, $this->Container->ActivityData->Duration);
         $this->assertEqualsWithDelta(2.029, $this->Container->ActivityData->Distance, 0.001);
 
-        $this->assertEquals(40.62, $this->Container->FitDetails->VO2maxEstimate);
+        $this->assertEqualsWithDelta(40.62, $this->Container->FitDetails->VO2maxEstimate, PHP_FLOAT_EPSILON);
         $this->assertEquals(1307, $this->Container->FitDetails->RecoveryTime);
-        $this->assertEquals(3.2, $this->Container->FitDetails->TrainingEffect);
+        $this->assertEqualsWithDelta(3.2, $this->Container->FitDetails->TrainingEffect, PHP_FLOAT_EPSILON);
         $this->assertEquals(100, $this->Container->FitDetails->PerformanceCondition);
         $this->assertEquals(98, $this->Container->FitDetails->PerformanceConditionEnd);
 
@@ -528,7 +530,7 @@ class FitTest extends AbstractActivityParserTestCase
 
         $this->assertCount(22, $this->Container->Rounds);
         $this->assertEquals(4961, $this->Container->Rounds->getTotalDuration());
-        $this->assertEquals(15.220, $this->Container->Rounds->getTotalDistance());
+        $this->assertEqualsWithDelta(15.220, $this->Container->Rounds->getTotalDistance(), PHP_FLOAT_EPSILON);
     }
 
     /**
@@ -864,9 +866,9 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEquals(2671, $this->Container->ActivityData->Duration);
         $this->assertEqualsWithDelta(10.194, $this->Container->ActivityData->Distance, 0.001);
 
-        $this->assertEquals(64.02, $this->Container->FitDetails->VO2maxEstimate);
+        $this->assertEqualsWithDelta(64.02, $this->Container->FitDetails->VO2maxEstimate, PHP_FLOAT_EPSILON);
         $this->assertEquals(1842, $this->Container->FitDetails->RecoveryTime);
-        $this->assertEquals(3.6, $this->Container->FitDetails->TrainingEffect);
+        $this->assertEqualsWithDelta(3.6, $this->Container->FitDetails->TrainingEffect, PHP_FLOAT_EPSILON);
         $this->assertEquals(107, $this->Container->FitDetails->PerformanceCondition);
         $this->assertEquals(98, $this->Container->FitDetails->PerformanceConditionEnd);
 

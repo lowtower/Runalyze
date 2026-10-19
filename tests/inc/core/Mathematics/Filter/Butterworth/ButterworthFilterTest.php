@@ -7,7 +7,7 @@ namespace Runalyze\Tests\Mathematics\Filter\Butterworth;
 use Runalyze\Mathematics\Filter\Butterworth\ButterworthFilter;
 use Runalyze\Mathematics\Filter\Butterworth\Lowpass2ndOrderCoefficients;
 
-class ButterworthFilterTest extends \PHPUnit\Framework\TestCase
+final class ButterworthFilterTest extends \PHPUnit\Framework\TestCase
 {
     public function testOneExample(): void
     {

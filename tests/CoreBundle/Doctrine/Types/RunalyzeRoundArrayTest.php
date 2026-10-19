@@ -1,40 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Doctrine\Types;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Runalyze\Bundle\CoreBundle\Doctrine\Types\RunalyzeRoundArray;
 use Runalyze\Parser\Activity\Common\Data\Round\Round;
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 
-class RunalyzeRoundArrayTest extends \PHPUnit\Framework\TestCase
+final class RunalyzeRoundArrayTest extends \PHPUnit\Framework\TestCase
 {
     protected RunalyzeRoundArray $Type;
-
-    /**
-     * @var \PHPUnit\Framework\MockObject\Stub&\Doctrine\DBAL\Platforms\AbstractPlatform
-     */
-    protected \PHPUnit\Framework\MockObject\Stub $PlatformMock;
 
     protected function setUp(): void
     {
         /** @var RunalyzeRoundArray $type */
         $type = RunalyzeRoundArray::getType(RunalyzeRoundArray::RUNALYZE_ROUND_ARRAY);
         $this->Type = $type;
-        $this->PlatformMock = $this->createStub(AbstractPlatform::class);
     }
 
     public function testEmptyData(): void
     {
-        $this->assertNull($this->Type->convertToDatabaseValue(null, $this->PlatformMock));
-        $this->assertNull($this->Type->convertToDatabaseValue('', $this->PlatformMock));
-        $this->assertNull($this->Type->convertToDatabaseValue(new RoundCollection(), $this->PlatformMock));
+        $PlatformMockStub = $this->createStub(\Doctrine\DBAL\Platforms\AbstractPlatform::class);
+        $this->assertNull($this->Type->convertToDatabaseValue(null, $PlatformMockStub));
+        $this->assertNull($this->Type->convertToDatabaseValue('', $PlatformMockStub));
+        $this->assertNull($this->Type->convertToDatabaseValue(new RoundCollection(), $PlatformMockStub));
 
-        $nullResult = $this->Type->convertToPHPValue(null, $this->PlatformMock);
+        $nullResult = $this->Type->convertToPHPValue(null, $PlatformMockStub);
         $this->assertInstanceOf(RoundCollection::class, $nullResult);
         $this->assertTrue($nullResult->isEmpty());
 
-        $emptyResult = $this->Type->convertToPHPValue('', $this->PlatformMock);
+        $emptyResult = $this->Type->convertToPHPValue('', $PlatformMockStub);
         $this->assertInstanceOf(RoundCollection::class, $emptyResult);
         $this->assertTrue($emptyResult->isEmpty());
     }
@@ -46,17 +42,18 @@ class RunalyzeRoundArrayTest extends \PHPUnit\Framework\TestCase
             new Round(1.0, 189, true),
             new Round(1.0, 267, false),
         ]);
+        $PlatformMockStub = $this->createStub(\Doctrine\DBAL\Platforms\AbstractPlatform::class);
 
-        $newCollection = $this->Type->convertToPHPValue($this->Type->convertToDatabaseValue($collection, $this->PlatformMock), $this->PlatformMock);
+        $newCollection = $this->Type->convertToPHPValue($this->Type->convertToDatabaseValue($collection, $PlatformMockStub), $PlatformMockStub);
 
         $this->assertCount(3, $newCollection);
-        $this->assertSame(1.0, $newCollection[0]->getDistance());
+        $this->assertEqualsWithDelta(1.0, $newCollection[0]->getDistance(), PHP_FLOAT_EPSILON);
         $this->assertEquals(311, $newCollection[0]->getDuration());
         $this->assertFalse($newCollection[0]->isActive());
-        $this->assertSame(1.0, $newCollection[1]->getDistance());
+        $this->assertEqualsWithDelta(1.0, $newCollection[1]->getDistance(), PHP_FLOAT_EPSILON);
         $this->assertEquals(189, $newCollection[1]->getDuration());
         $this->assertTrue($newCollection[1]->isActive());
-        $this->assertSame(1.0, $newCollection[2]->getDistance());
+        $this->assertEqualsWithDelta(1.0, $newCollection[2]->getDistance(), PHP_FLOAT_EPSILON);
         $this->assertEquals(267, $newCollection[2]->getDuration());
         $this->assertFalse($newCollection[2]->isActive());
     }
@@ -65,7 +62,7 @@ class RunalyzeRoundArrayTest extends \PHPUnit\Framework\TestCase
     {
         $collection = $this->Type->convertToPHPValue(
             'R1.200|5:20-0.400|1:20-1.000|3:17',
-            $this->PlatformMock
+            $this->createStub(\Doctrine\DBAL\Platforms\AbstractPlatform::class)
         );
 
         $this->assertCount(3, $collection);

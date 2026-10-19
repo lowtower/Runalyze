@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Bridge\Activity\Calculation;
 
 use PHPUnit\Framework\MockObject\MockObject;
@@ -43,11 +45,11 @@ final class ElevationCalculatorTest extends TestCase
     {
         $route = $this->createRoute(false);
 
-        $route->expects(self::once())->method('setElevation')->with(0)->willReturn($route);
-        $route->expects(self::once())->method('setElevationUp')->with(0)->willReturn($route);
-        $route->expects(self::once())->method('setElevationDown')->with(0)->willReturn($route);
+        $route->expects($this->once())->method('setElevation')->with(0)->willReturn($route);
+        $route->expects($this->once())->method('setElevationUp')->with(0)->willReturn($route);
+        $route->expects($this->once())->method('setElevationDown')->with(0)->willReturn($route);
 
-        $route->expects(self::never())->method('getElevations');
+        $route->expects($this->never())->method('getElevations');
 
         $this->calculator->calculateFor($route, new ElevationMethod(), 5);
     }
@@ -56,9 +58,9 @@ final class ElevationCalculatorTest extends TestCase
     {
         $route = $this->createRoute(false);
 
-        $route->expects(self::once())->method('setElevation')->with(0)->willReturn($route);
-        $route->expects(self::once())->method('setElevationUp')->with(0)->willReturn($route);
-        $route->expects(self::once())->method('setElevationDown')->with(0)->willReturn($route);
+        $route->expects($this->once())->method('setElevation')->with(0)->willReturn($route);
+        $route->expects($this->once())->method('setElevationUp')->with(0)->willReturn($route);
+        $route->expects($this->once())->method('setElevationDown')->with(0)->willReturn($route);
 
         $method = new ElevationMethod();
         $method->set(ElevationMethod::DOUGLAS_PEUCKER);
@@ -71,9 +73,9 @@ final class ElevationCalculatorTest extends TestCase
         $elevations = [100, 105, 102, 110, 108];
         $route = $this->createRoute(true, $elevations);
 
-        $route->expects(self::once())->method('setElevation')->with(13)->willReturn($route);
-        $route->expects(self::once())->method('setElevationUp')->with(13)->willReturn($route);
-        $route->expects(self::once())->method('setElevationDown')->with(5)->willReturn($route);
+        $route->expects($this->once())->method('setElevation')->with(13)->willReturn($route);
+        $route->expects($this->once())->method('setElevationUp')->with(13)->willReturn($route);
+        $route->expects($this->once())->method('setElevationDown')->with(5)->willReturn($route);
 
         $this->calculator->calculateFor($route, $this->createNoSmoothingMethod(), 0);
     }
@@ -82,9 +84,9 @@ final class ElevationCalculatorTest extends TestCase
     {
         $route = $this->createRoute(true, []);
 
-        $route->expects(self::once())->method('setElevation')->with(0)->willReturn($route);
-        $route->expects(self::once())->method('setElevationUp')->with(0)->willReturn($route);
-        $route->expects(self::once())->method('setElevationDown')->with(0)->willReturn($route);
+        $route->expects($this->once())->method('setElevation')->with(0)->willReturn($route);
+        $route->expects($this->once())->method('setElevationUp')->with(0)->willReturn($route);
+        $route->expects($this->once())->method('setElevationDown')->with(0)->willReturn($route);
 
         $this->calculator->calculateFor($route, $this->createNoSmoothingMethod(), 0);
     }
@@ -94,9 +96,9 @@ final class ElevationCalculatorTest extends TestCase
         $elevations = [0, 10, 20, 30];
         $route = $this->createRoute(true, $elevations);
 
-        $route->expects(self::once())->method('setElevation')->with(30)->willReturn($route);
-        $route->expects(self::once())->method('setElevationUp')->with(30)->willReturn($route);
-        $route->expects(self::once())->method('setElevationDown')->with(0)->willReturn($route);
+        $route->expects($this->once())->method('setElevation')->with(30)->willReturn($route);
+        $route->expects($this->once())->method('setElevationUp')->with(30)->willReturn($route);
+        $route->expects($this->once())->method('setElevationDown')->with(0)->willReturn($route);
 
         $this->calculator->calculateFor($route, $this->createNoSmoothingMethod(), 0);
     }

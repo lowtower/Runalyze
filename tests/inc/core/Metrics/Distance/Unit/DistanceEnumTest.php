@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Metrics\Distance\Unit;
 
 use Runalyze\Metrics\Common\UnitInterface;
 use Runalyze\Metrics\Distance\Unit\AbstractDistanceUnit;
 use Runalyze\Metrics\Distance\Unit\DistanceEnum;
 
-class DistanceEnumTest extends \PHPUnit\Framework\TestCase
+final class DistanceEnumTest extends \PHPUnit\Framework\TestCase
 {
     public function testThatAllUnitsCanBeConstructed(): void
     {

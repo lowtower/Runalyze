@@ -8,7 +8,7 @@ use Runalyze\Configuration;
 use Runalyze\Parameter\Application\EnergyUnit;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class EnergyTest extends \PHPUnit\Framework\TestCase
+final class EnergyTest extends \PHPUnit\Framework\TestCase
 {
     public function testConstructor(): void
     {

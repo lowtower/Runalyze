@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Entity;
 
 use Runalyze\Bundle\CoreBundle\Entity\Route;
 
-class RouteTest extends \PHPUnit\Framework\TestCase
+final class RouteTest extends \PHPUnit\Framework\TestCase
 {
     protected Route $Route;
 

@@ -7,7 +7,7 @@ namespace Runalyze\Activity;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class StrideLengthTest extends \PHPUnit\Framework\TestCase
+final class StrideLengthTest extends \PHPUnit\Framework\TestCase
 {
     public function testStaticFunction(): void
     {
@@ -20,7 +20,7 @@ class StrideLengthTest extends \PHPUnit\Framework\TestCase
         $StrideLength = new StrideLength();
         $StrideLength->setMeter(1.07);
 
-        $this->assertSame(1.07, $StrideLength->meter());
+        $this->assertEqualsWithDelta(1.07, $StrideLength->meter(), PHP_FLOAT_EPSILON);
         $this->assertSame('1.07&nbsp;' . DistanceUnitSystem::METER, $StrideLength->stringMeter());
     }
 
@@ -38,14 +38,14 @@ class StrideLengthTest extends \PHPUnit\Framework\TestCase
         $StrideLength = new StrideLength();
         $StrideLength->setFeet(3.2);
 
-        $this->assertSame(3.2, $StrideLength->feet());
+        $this->assertEqualsWithDelta(3.2, $StrideLength->feet(), PHP_FLOAT_EPSILON);
         $this->assertSame('3.2&nbsp;' . DistanceUnitSystem::FEET, $StrideLength->stringFeet());
     }
 
     public function testSettingInPreferredUnit(): void
     {
-        $this->assertSame(1.23, new StrideLength(0, new DistanceUnitSystem(DistanceUnitSystem::METRIC))->setInPreferredUnit(1.23)->meter());
-        $this->assertSame(3.2, new StrideLength(0, new DistanceUnitSystem(DistanceUnitSystem::IMPERIAL))->setInPreferredUnit(3.2)->feet());
+        $this->assertEqualsWithDelta(1.23, new StrideLength(0, new DistanceUnitSystem(DistanceUnitSystem::METRIC))->setInPreferredUnit(1.23)->meter(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(3.2, new StrideLength(0, new DistanceUnitSystem(DistanceUnitSystem::IMPERIAL))->setInPreferredUnit(3.2)->feet(), PHP_FLOAT_EPSILON);
     }
 
     public function testSetRoundsInsteadOfTruncatingWhenDerivedFromFeet(): void
@@ -62,7 +62,7 @@ class StrideLengthTest extends \PHPUnit\Framework\TestCase
         $StrideLength->set('87');
 
         $this->assertSame(87, $StrideLength->cm());
-        $this->assertSame(87.0, $StrideLength->value());
+        $this->assertEqualsWithDelta(87.0, $StrideLength->value(), PHP_FLOAT_EPSILON);
     }
 
     public function testValueIsRawUnroundedFloat(): void
@@ -70,7 +70,7 @@ class StrideLengthTest extends \PHPUnit\Framework\TestCase
         $StrideLength = new StrideLength();
         $StrideLength->set(87.6);
 
-        $this->assertSame(87.6, $StrideLength->value());
+        $this->assertEqualsWithDelta(87.6, $StrideLength->value(), PHP_FLOAT_EPSILON);
         $this->assertSame(88, $StrideLength->cm());
     }
 
@@ -99,14 +99,14 @@ class StrideLengthTest extends \PHPUnit\Framework\TestCase
     {
         $StrideLength = new StrideLength(123, new DistanceUnitSystem(DistanceUnitSystem::METRIC));
 
-        $this->assertSame(1.23, $StrideLength->valueInPreferredUnit());
+        $this->assertEqualsWithDelta(1.23, $StrideLength->valueInPreferredUnit(), PHP_FLOAT_EPSILON);
     }
 
     public function testValueInPreferredUnitReturnsFeetForImperialSystem(): void
     {
         $StrideLength = new StrideLength(98, new DistanceUnitSystem(DistanceUnitSystem::IMPERIAL));
 
-        $this->assertSame(3.22, $StrideLength->valueInPreferredUnit());
+        $this->assertEqualsWithDelta(3.22, $StrideLength->valueInPreferredUnit(), PHP_FLOAT_EPSILON);
     }
 
     public function testStringReturnsMeterFormatForMetricSystem(): void

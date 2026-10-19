@@ -6,7 +6,7 @@ namespace Runalyze\Tests\Sports\Running\Prognosis;
 
 use Runalyze\Sports\Running\Prognosis\Bock;
 
-class BockTest extends \PHPUnit\Framework\TestCase
+final class BockTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Bock

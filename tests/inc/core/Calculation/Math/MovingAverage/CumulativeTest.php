@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Calculation\Math\MovingAverage;
 
-class CumulativeTest extends \PHPUnit\Framework\TestCase
+final class CumulativeTest extends \PHPUnit\Framework\TestCase
 {
     public function testSimpleExample(): void
     {

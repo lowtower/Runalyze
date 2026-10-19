@@ -11,7 +11,7 @@ use Runalyze\Parameter\Application\DistanceUnitSystem;
  * Characterization test for Prognose_PrognosisWindow.
  */
 #[Group('plugin')]
-class Prognose_PrognosisWindowCharacterizationTest extends TestCase
+final class Prognose_PrognosisWindowCharacterizationTest extends TestCase
 {
     private Prognose_PrognosisWindow $window;
 
@@ -41,14 +41,12 @@ class Prognose_PrognosisWindowCharacterizationTest extends TestCase
     }
 
     /**
-     * @return array<string, array<int, string[]>|array<int, never[]>>
+     * @return \Iterator<string, array<int, array<string>>>
      */
-    public static function provideMetricDistanceValues(): array
+    public static function provideMetricDistanceValues(): \Iterator
     {
-        return [
-            'numeric strings' => [['1', '3.1', '6.2']],
-            'empty array' => [[]],
-        ];
+        yield 'numeric strings' => [['1', '3.1', '6.2']];
+        yield 'empty array' => [[]];
     }
 
     public function testDistanceValuesToKmConvertsFromMilesForImperialSystem(): void

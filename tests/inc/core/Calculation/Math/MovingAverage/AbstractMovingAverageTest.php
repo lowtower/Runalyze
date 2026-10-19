@@ -17,7 +17,7 @@ class AbstractMovingAverage_MockTester extends AbstractMovingAverage
     }
 }
 
-class AbstractMovingAverageTest extends \PHPUnit\Framework\TestCase
+final class AbstractMovingAverageTest extends \PHPUnit\Framework\TestCase
 {
     public function testWrongConstruction(): void
     {

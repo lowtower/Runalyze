@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Profile\Weather\Source;
 
 use Runalyze\Profile\Weather\Source\MeteostatNet;
 use Runalyze\Profile\Weather\Source\WeatherSourceProfile;
 
-class MeteostatNetSourceTest extends \PHPUnit\Framework\TestCase
+final class MeteostatNetSourceTest extends \PHPUnit\Framework\TestCase
 {
     public function testProfileValues(): void
     {

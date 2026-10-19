@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use Runalyze\Data\Weather\HeatIndexEffect;
 
-class HeatIndexEffectTest extends \PHPUnit\Framework\TestCase
+final class HeatIndexEffectTest extends \PHPUnit\Framework\TestCase
 {
     public function testThatDescriptionCanBeCalledForAllLevels(): void
     {

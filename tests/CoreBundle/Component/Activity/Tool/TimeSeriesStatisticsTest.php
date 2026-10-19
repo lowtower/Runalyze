@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Activity\Tool;
 
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -9,7 +11,7 @@ use Runalyze\Mathematics\Distribution\EmpiricalDistribution;
 use Runalyze\Mathematics\Distribution\MultipleTimeSeries;
 use Runalyze\Model\Trackdata\Entity as TrackdataEntity;
 
-class TimeSeriesStatisticsTest extends TestCase
+final class TimeSeriesStatisticsTest extends TestCase
 {
     /**
      * @param string[] $availableKeys
@@ -19,7 +21,7 @@ class TimeSeriesStatisticsTest extends TestCase
         $stub = $this->createStub(TrackdataEntity::class);
         $stub->method('has')
             ->willReturnCallback(
-                static fn ($key): bool => in_array($key, $availableKeys, true)
+                static fn (string $key): bool => in_array($key, $availableKeys, true)
             );
         $stub->method('get')
             ->willReturn([1.0, 2.0, 3.0]);
@@ -92,33 +94,31 @@ class TimeSeriesStatisticsTest extends TestCase
     }
 
     /**
-     * @return array<string, string[]>
+     * @return \Iterator<string, array<string>>
      */
-    public static function provideSimpleKeyMethodPairs(): array
+    public static function provideSimpleKeyMethodPairs(): \Iterator
     {
-        return [
-            'Pace' => ['hasStatisticsForPace', TrackdataEntity::PACE],
-            'HeartRate' => ['hasStatisticsForHeartRate', TrackdataEntity::HEARTRATE],
-            'Cadence' => ['hasStatisticsForCadence', TrackdataEntity::CADENCE],
-            'StrideLength' => ['hasStatisticsForStrideLength', TrackdataEntity::STRIDE_LENGTH],
-            'Power' => ['hasStatisticsForPower', TrackdataEntity::POWER],
-            'Groundcontact' => ['hasStatisticsForGroundcontact', TrackdataEntity::GROUNDCONTACT],
-            'GroundcontactBalance' => ['hasStatisticsForGroundcontactBalance', TrackdataEntity::GROUNDCONTACT_BALANCE],
-            'VerticalOscillation' => ['hasStatisticsForVerticalOscillation', TrackdataEntity::VERTICAL_OSCILLATION],
-            'VerticalRatio' => ['hasStatisticsForVerticalRatio', TrackdataEntity::VERTICAL_RATIO],
-            'SaturatedHemoglobin' => ['hasStatisticsForSaturatedHemoglobin', TrackdataEntity::SMO2_0],
-            'SaturatedHemoglobin2' => ['hasStatisticsForSaturatedHemoglobin2', TrackdataEntity::SMO2_1],
-            'TotalHemoglobin' => ['hasStatisticsForTotalHemoglobin', TrackdataEntity::THB_0],
-            'TotalHemoglobin2' => ['hasStatisticsForTotalHemoglobin2', TrackdataEntity::THB_1],
-            'ImpactGsLeft' => ['hasStatisticsForImpactGsLeft', TrackdataEntity::IMPACT_GS_LEFT],
-            'ImpactGsRight' => ['hasStatisticsForImpactGsRight', TrackdataEntity::IMPACT_GS_RIGHT],
-            'BrakingGsLeft' => ['hasStatisticsForBrakingGsLeft', TrackdataEntity::BRAKING_GS_LEFT],
-            'BrakingGsRight' => ['hasStatisticsForBrakingGsRight', TrackdataEntity::BRAKING_GS_RIGHT],
-            'FootstrikeTypeLeft' => ['hasStatisticsForFootstrikeTypeLeft', TrackdataEntity::FOOTSTRIKE_TYPE_LEFT],
-            'FootstrikeTypeRight' => ['hasStatisticsForFootstrikeTypeRight', TrackdataEntity::FOOTSTRIKE_TYPE_RIGHT],
-            'PronationExcursionLeft' => ['hasStatisticsForPronationExcursionLeft', TrackdataEntity::PRONATION_EXCURSION_LEFT],
-            'PronationExcursionRight' => ['hasStatisticsForPronationExcursionRight', TrackdataEntity::PRONATION_EXCURSION_RIGHT],
-        ];
+        yield 'Pace' => ['hasStatisticsForPace', TrackdataEntity::PACE];
+        yield 'HeartRate' => ['hasStatisticsForHeartRate', TrackdataEntity::HEARTRATE];
+        yield 'Cadence' => ['hasStatisticsForCadence', TrackdataEntity::CADENCE];
+        yield 'StrideLength' => ['hasStatisticsForStrideLength', TrackdataEntity::STRIDE_LENGTH];
+        yield 'Power' => ['hasStatisticsForPower', TrackdataEntity::POWER];
+        yield 'Groundcontact' => ['hasStatisticsForGroundcontact', TrackdataEntity::GROUNDCONTACT];
+        yield 'GroundcontactBalance' => ['hasStatisticsForGroundcontactBalance', TrackdataEntity::GROUNDCONTACT_BALANCE];
+        yield 'VerticalOscillation' => ['hasStatisticsForVerticalOscillation', TrackdataEntity::VERTICAL_OSCILLATION];
+        yield 'VerticalRatio' => ['hasStatisticsForVerticalRatio', TrackdataEntity::VERTICAL_RATIO];
+        yield 'SaturatedHemoglobin' => ['hasStatisticsForSaturatedHemoglobin', TrackdataEntity::SMO2_0];
+        yield 'SaturatedHemoglobin2' => ['hasStatisticsForSaturatedHemoglobin2', TrackdataEntity::SMO2_1];
+        yield 'TotalHemoglobin' => ['hasStatisticsForTotalHemoglobin', TrackdataEntity::THB_0];
+        yield 'TotalHemoglobin2' => ['hasStatisticsForTotalHemoglobin2', TrackdataEntity::THB_1];
+        yield 'ImpactGsLeft' => ['hasStatisticsForImpactGsLeft', TrackdataEntity::IMPACT_GS_LEFT];
+        yield 'ImpactGsRight' => ['hasStatisticsForImpactGsRight', TrackdataEntity::IMPACT_GS_RIGHT];
+        yield 'BrakingGsLeft' => ['hasStatisticsForBrakingGsLeft', TrackdataEntity::BRAKING_GS_LEFT];
+        yield 'BrakingGsRight' => ['hasStatisticsForBrakingGsRight', TrackdataEntity::BRAKING_GS_RIGHT];
+        yield 'FootstrikeTypeLeft' => ['hasStatisticsForFootstrikeTypeLeft', TrackdataEntity::FOOTSTRIKE_TYPE_LEFT];
+        yield 'FootstrikeTypeRight' => ['hasStatisticsForFootstrikeTypeRight', TrackdataEntity::FOOTSTRIKE_TYPE_RIGHT];
+        yield 'PronationExcursionLeft' => ['hasStatisticsForPronationExcursionLeft', TrackdataEntity::PRONATION_EXCURSION_LEFT];
+        yield 'PronationExcursionRight' => ['hasStatisticsForPronationExcursionRight', TrackdataEntity::PRONATION_EXCURSION_RIGHT];
     }
 
     #[DataProvider('provideGetterKeyPairs')]
@@ -142,31 +142,29 @@ class TimeSeriesStatisticsTest extends TestCase
     }
 
     /**
-     * @return array<string, string[]>
+     * @return \Iterator<string, array<string>>
      */
-    public static function provideGetterKeyPairs(): array
+    public static function provideGetterKeyPairs(): \Iterator
     {
-        return [
-            'Pace' => ['getStatisticsForPace', TrackdataEntity::PACE],
-            'HeartRate' => ['getStatisticsForHeartRate', TrackdataEntity::HEARTRATE],
-            'Cadence' => ['getStatisticsForCadence', TrackdataEntity::CADENCE],
-            'StrideLength' => ['getStatisticsForStrideLength', TrackdataEntity::STRIDE_LENGTH],
-            'Power' => ['getStatisticsForPower', TrackdataEntity::POWER],
-            'Groundcontact' => ['getStatisticsForGroundcontact', TrackdataEntity::GROUNDCONTACT],
-            'GroundcontactBalance' => ['getStatisticsForGroundcontactBalance', TrackdataEntity::GROUNDCONTACT_BALANCE],
-            'VerticalOscillation' => ['getStatisticsForVerticalOscillation', TrackdataEntity::VERTICAL_OSCILLATION],
-            'VerticalRatio' => ['getStatisticsForVerticalRatio', TrackdataEntity::VERTICAL_RATIO],
-            'SaturatedHemoglobin' => ['getStatisticsForSaturatedHemoglobin', TrackdataEntity::SMO2_0],
-            'SaturatedHemoglobin2' => ['getStatisticsForSaturatedHemoglobin2', TrackdataEntity::SMO2_1],
-            'TotalHemoglobin' => ['getStatisticsForTotalHemoglobin', TrackdataEntity::THB_0],
-            'TotalHemoglobin2' => ['getStatisticsForTotalHemoglobin2', TrackdataEntity::THB_1],
-            'ImpactGsLeft' => ['getStatisticsForImpactGsLeft', TrackdataEntity::IMPACT_GS_LEFT],
-            'ImpactGsRight' => ['getStatisticsForImpactGsRight', TrackdataEntity::IMPACT_GS_RIGHT],
-            'BrakingGsLeft' => ['getStatisticsForBrakingGsLeft', TrackdataEntity::BRAKING_GS_LEFT],
-            'BrakingGsRight' => ['getStatisticsForBrakingGsRight', TrackdataEntity::BRAKING_GS_RIGHT],
-            'PronationExcursionLeft' => ['getStatisticsForPronationExcursionLeft', TrackdataEntity::PRONATION_EXCURSION_LEFT],
-            'PronationExcursionRight' => ['getStatisticsForPronationExcursionRight', TrackdataEntity::PRONATION_EXCURSION_RIGHT],
-        ];
+        yield 'Pace' => ['getStatisticsForPace', TrackdataEntity::PACE];
+        yield 'HeartRate' => ['getStatisticsForHeartRate', TrackdataEntity::HEARTRATE];
+        yield 'Cadence' => ['getStatisticsForCadence', TrackdataEntity::CADENCE];
+        yield 'StrideLength' => ['getStatisticsForStrideLength', TrackdataEntity::STRIDE_LENGTH];
+        yield 'Power' => ['getStatisticsForPower', TrackdataEntity::POWER];
+        yield 'Groundcontact' => ['getStatisticsForGroundcontact', TrackdataEntity::GROUNDCONTACT];
+        yield 'GroundcontactBalance' => ['getStatisticsForGroundcontactBalance', TrackdataEntity::GROUNDCONTACT_BALANCE];
+        yield 'VerticalOscillation' => ['getStatisticsForVerticalOscillation', TrackdataEntity::VERTICAL_OSCILLATION];
+        yield 'VerticalRatio' => ['getStatisticsForVerticalRatio', TrackdataEntity::VERTICAL_RATIO];
+        yield 'SaturatedHemoglobin' => ['getStatisticsForSaturatedHemoglobin', TrackdataEntity::SMO2_0];
+        yield 'SaturatedHemoglobin2' => ['getStatisticsForSaturatedHemoglobin2', TrackdataEntity::SMO2_1];
+        yield 'TotalHemoglobin' => ['getStatisticsForTotalHemoglobin', TrackdataEntity::THB_0];
+        yield 'TotalHemoglobin2' => ['getStatisticsForTotalHemoglobin2', TrackdataEntity::THB_1];
+        yield 'ImpactGsLeft' => ['getStatisticsForImpactGsLeft', TrackdataEntity::IMPACT_GS_LEFT];
+        yield 'ImpactGsRight' => ['getStatisticsForImpactGsRight', TrackdataEntity::IMPACT_GS_RIGHT];
+        yield 'BrakingGsLeft' => ['getStatisticsForBrakingGsLeft', TrackdataEntity::BRAKING_GS_LEFT];
+        yield 'BrakingGsRight' => ['getStatisticsForBrakingGsRight', TrackdataEntity::BRAKING_GS_RIGHT];
+        yield 'PronationExcursionLeft' => ['getStatisticsForPronationExcursionLeft', TrackdataEntity::PRONATION_EXCURSION_LEFT];
+        yield 'PronationExcursionRight' => ['getStatisticsForPronationExcursionRight', TrackdataEntity::PRONATION_EXCURSION_RIGHT];
     }
 
     public function testGetStatisticsForFootstrikeTypeLeftRequestsLeftNotRight(): void
@@ -235,17 +233,15 @@ class TimeSeriesStatisticsTest extends TestCase
     }
 
     /**
-     * @return array<string, string[]>
+     * @return \Iterator<string, array<string>>
      */
-    public static function provideNonIntegerKeys(): array
+    public static function provideNonIntegerKeys(): \Iterator
     {
-        return [
-            'ImpactGsLeft' => [TrackdataEntity::IMPACT_GS_LEFT],
-            'ImpactGsRight' => [TrackdataEntity::IMPACT_GS_RIGHT],
-            'BrakingGsLeft' => [TrackdataEntity::BRAKING_GS_LEFT],
-            'BrakingGsRight' => [TrackdataEntity::BRAKING_GS_RIGHT],
-            'PronationExcursionLeft' => [TrackdataEntity::PRONATION_EXCURSION_LEFT],
-            'PronationExcursionRight' => [TrackdataEntity::PRONATION_EXCURSION_RIGHT],
-        ];
+        yield 'ImpactGsLeft' => [TrackdataEntity::IMPACT_GS_LEFT];
+        yield 'ImpactGsRight' => [TrackdataEntity::IMPACT_GS_RIGHT];
+        yield 'BrakingGsLeft' => [TrackdataEntity::BRAKING_GS_LEFT];
+        yield 'BrakingGsRight' => [TrackdataEntity::BRAKING_GS_RIGHT];
+        yield 'PronationExcursionLeft' => [TrackdataEntity::PRONATION_EXCURSION_LEFT];
+        yield 'PronationExcursionRight' => [TrackdataEntity::PRONATION_EXCURSION_RIGHT];
     }
 }

@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  * Characterization test for RunalyzePluginPanel_TagsSummary.
  */
 #[Group('plugin')]
-class RunalyzePluginPanel_TagsSummaryCharacterizationTest extends TestCase
+final class RunalyzePluginPanel_TagsSummaryCharacterizationTest extends TestCase
 {
     private RunalyzePluginPanel_TagsSummary $plugin;
 
@@ -29,16 +29,14 @@ class RunalyzePluginPanel_TagsSummaryCharacterizationTest extends TestCase
     }
 
     /**
-     * @return array<string, float[]|string[]>
+     * @return \Iterator<string, array<(float|string)>>
      */
-    public static function provideUsagePercentages(): array
+    public static function provideUsagePercentages(): \Iterator
     {
-        return [
-            'zero usage' => [0.0, '<span class="tags-usage" style="width:0px;"></span>'],
-            'half usage' => [0.5, '<span class="tags-usage" style="width:165px;"></span>'],
-            'full usage' => [1.0, '<span class="tags-usage" style="width:330px;"></span>'],
-            'one third usage' => [0.333, '<span class="tags-usage" style="width:110px;"></span>'],
-        ];
+        yield 'zero usage' => [0.0, '<span class="tags-usage" style="width:0px;"></span>'];
+        yield 'half usage' => [0.5, '<span class="tags-usage" style="width:165px;"></span>'];
+        yield 'full usage' => [1.0, '<span class="tags-usage" style="width:330px;"></span>'];
+        yield 'one third usage' => [0.333, '<span class="tags-usage" style="width:110px;"></span>'];
     }
 
     public function testUsageImageClampsPercentageAboveOneToMaxWidth(): void

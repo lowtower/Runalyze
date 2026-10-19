@@ -1,15 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\Backup;
 
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\JsonBackupAnalyzer;
 
-class JsonBackupAnalyzerTest extends \PHPUnit\Framework\TestCase
+final class JsonBackupAnalyzerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var string
-     */
-    public const CURRENT_VERSION = '4.3.0';
+    public const string CURRENT_VERSION = '4.3.0';
 
     protected string $Base;
 
@@ -35,7 +34,7 @@ class JsonBackupAnalyzerTest extends \PHPUnit\Framework\TestCase
         ];
 
         foreach ($versions as $string => $version) {
-            $this->assertEquals($version, JsonBackupAnalyzer::extractMajorAndMinorVersion($string));
+            $this->assertEquals($version, JsonBackupAnalyzer::extractMajorAndMinorVersion((string) $string));
         }
     }
 

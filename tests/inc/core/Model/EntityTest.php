@@ -57,17 +57,17 @@ class IgnoringScalarEntityTestDouble extends EntityTestDouble
 }
 
 #[Group('default')]
-class EntityTest extends TestCase
+final class EntityTest extends TestCase
 {
     public function testEmptyConstructorAppliesDefaultsForEachPropertyType(): void
     {
         $entity = new EntityTestDouble();
 
-        self::assertSame('', $entity->get('scalar'));
-        self::assertSame([], $entity->get('arr'));
-        self::assertSame([], $entity->get('arr2'));
-        self::assertNull($entity->get('nullable'));
-        self::assertSame('', $entity->get('readonly'));
+        $this->assertSame('', $entity->get('scalar'));
+        $this->assertSame([], $entity->get('arr'));
+        $this->assertSame([], $entity->get('arr2'));
+        $this->assertNull($entity->get('nullable'));
+        $this->assertSame('', $entity->get('readonly'));
     }
 
     public function testProvidedScalarValueIsUsedAsIs(): void
@@ -76,7 +76,7 @@ class EntityTest extends TestCase
             'scalar' => 'hello',
         ]);
 
-        self::assertSame('hello', $entity->get('scalar'));
+        $this->assertSame('hello', $entity->get('scalar'));
     }
 
     public function testProvidedEmptyStringIsTreatedAsNotSetAndFallsBackToDefault(): void
@@ -85,7 +85,7 @@ class EntityTest extends TestCase
             'scalar' => '',
         ]);
 
-        self::assertSame('', $entity->get('scalar'));
+        $this->assertSame('', $entity->get('scalar'));
     }
 
     public function testExplicitNullForNonNullablePropertyFallsBackToDefaultEmptyString(): void
@@ -94,7 +94,7 @@ class EntityTest extends TestCase
             'scalar' => null,
         ]);
 
-        self::assertSame('', $entity->get('scalar'));
+        $this->assertSame('', $entity->get('scalar'));
     }
 
     public function testExplicitNullForNullablePropertyIsAcceptedAsDefault(): void
@@ -103,7 +103,7 @@ class EntityTest extends TestCase
             'nullable' => null,
         ]);
 
-        self::assertNull($entity->get('nullable'));
+        $this->assertNull($entity->get('nullable'));
     }
 
     public function testArrayValueGivenAsArrayIsUsedDirectly(): void
@@ -112,7 +112,7 @@ class EntityTest extends TestCase
             'arr' => ['a', 'b', 'c'],
         ]);
 
-        self::assertSame(['a', 'b', 'c'], $entity->get('arr'));
+        $this->assertSame(['a', 'b', 'c'], $entity->get('arr'));
     }
 
     public function testArrayValueGivenAsSeparatedStringIsExploded(): void
@@ -121,7 +121,7 @@ class EntityTest extends TestCase
             'arr' => 'a' . Entity::ARRAY_SEPARATOR . 'b' . Entity::ARRAY_SEPARATOR . 'c',
         ]);
 
-        self::assertSame(['a', 'b', 'c'], $entity->get('arr'));
+        $this->assertSame(['a', 'b', 'c'], $entity->get('arr'));
     }
 
     public function testNumReflectsLargestArrayPropertyWhenSizesDiffer(): void
@@ -131,7 +131,7 @@ class EntityTest extends TestCase
             'arr2' => ['x', 'y', 'z'],
         ]);
 
-        self::assertSame(3, $entity->num());
+        $this->assertSame(3, $entity->num());
     }
 
     public function testCheckArraySizesAcceptsEquallySizedArrays(): void
@@ -141,7 +141,7 @@ class EntityTest extends TestCase
             'arr2' => ['x', 'y'],
         ], checkArraySizes: true);
 
-        self::assertSame(2, $entity->num());
+        $this->assertSame(2, $entity->num());
     }
 
     public function testCheckArraySizesIgnoresEmptyArraysWhenComparingSizes(): void
@@ -151,7 +151,7 @@ class EntityTest extends TestCase
             'arr2' => [],
         ], checkArraySizes: true);
 
-        self::assertSame(2, $entity->num());
+        $this->assertSame(2, $entity->num());
     }
 
     public function testCheckArraySizesThrowsForMismatchedArraySizesAndNamesTheOffendingKey(): void
@@ -170,7 +170,7 @@ class EntityTest extends TestCase
         $entity = new EntityTestDouble();
         $entity->set('scalar', 'updated');
 
-        self::assertSame('updated', $entity->get('scalar'));
+        $this->assertSame('updated', $entity->get('scalar'));
     }
 
     public function testSetThrowsForUnknownKey(): void
@@ -214,11 +214,11 @@ class EntityTest extends TestCase
         $entity = new EntityTestDouble([
             'arr' => ['a'],
         ]);
-        self::assertSame(1, $entity->num());
+        $this->assertSame(1, $entity->num());
 
         $entity->set('arr', ['a', 'b', 'c']);
 
-        self::assertSame(3, $entity->num());
+        $this->assertSame(3, $entity->num());
     }
 
     public function testGetThrowsForUnknownKey(): void
@@ -234,9 +234,9 @@ class EntityTest extends TestCase
     {
         $entity = new EntityTestDouble();
 
-        self::assertFalse($entity->has('scalar'));
-        self::assertFalse($entity->has('arr'));
-        self::assertFalse($entity->has('nullable'));
+        $this->assertFalse($entity->has('scalar'));
+        $this->assertFalse($entity->has('arr'));
+        $this->assertFalse($entity->has('nullable'));
     }
 
     public function testHasReturnsTrueForNonEmptyValues(): void
@@ -246,8 +246,8 @@ class EntityTest extends TestCase
             'arr' => ['x'],
         ]);
 
-        self::assertTrue($entity->has('scalar'));
-        self::assertTrue($entity->has('arr'));
+        $this->assertTrue($entity->has('scalar'));
+        $this->assertTrue($entity->has('arr'));
     }
 
     public function testHasThrowsForUnknownKey(): void
@@ -267,16 +267,16 @@ class EntityTest extends TestCase
         ]);
         $entity->clear();
 
-        self::assertSame('', $entity->get('scalar'));
-        self::assertSame([], $entity->get('arr'));
-        self::assertSame(0, $entity->num());
+        $this->assertSame('', $entity->get('scalar'));
+        $this->assertSame([], $entity->get('arr'));
+        $this->assertSame(0, $entity->num());
     }
 
     public function testIsEmptyReturnsTrueForAllDefaultValues(): void
     {
         $entity = new EntityTestDouble();
 
-        self::assertTrue($entity->isEmpty());
+        $this->assertTrue($entity->isEmpty());
     }
 
     public function testIsEmptyReturnsFalseWhenAnyPropertyHasAValue(): void
@@ -285,7 +285,7 @@ class EntityTest extends TestCase
             'scalar' => 'value',
         ]);
 
-        self::assertFalse($entity->isEmpty());
+        $this->assertFalse($entity->isEmpty());
     }
 
     public function testIsEmptyIgnoresPropertiesIdentifiedByIgnoreNonEmptyValue(): void
@@ -294,7 +294,7 @@ class EntityTest extends TestCase
             'scalar' => 'value',
         ]);
 
-        self::assertTrue($entity->isEmpty());
+        $this->assertTrue($entity->isEmpty());
     }
 
     public function testCompleteDataReturnsTheFullInternalDataArray(): void
@@ -304,7 +304,7 @@ class EntityTest extends TestCase
             'arr' => ['a'],
         ]);
 
-        self::assertSame([
+        $this->assertSame([
             'scalar' => 'value',
             'arr' => ['a'],
             'arr2' => [],
@@ -315,12 +315,12 @@ class EntityTest extends TestCase
 
     public function testExplodeSplitsStringBySeparator(): void
     {
-        self::assertSame(['a', 'b', 'c'], Entity::explode('a' . Entity::ARRAY_SEPARATOR . 'b' . Entity::ARRAY_SEPARATOR . 'c'));
+        $this->assertSame(['a', 'b', 'c'], Entity::explode('a' . Entity::ARRAY_SEPARATOR . 'b' . Entity::ARRAY_SEPARATOR . 'c'));
     }
 
     public function testImplodeJoinsArrayWithSeparator(): void
     {
-        self::assertSame('a' . Entity::ARRAY_SEPARATOR . 'b' . Entity::ARRAY_SEPARATOR . 'c', Entity::implode(['a', 'b', 'c']));
+        $this->assertSame('a' . Entity::ARRAY_SEPARATOR . 'b' . Entity::ARRAY_SEPARATOR . 'c', Entity::implode(['a', 'b', 'c']));
     }
 
     #[DataProvider('numericValueProvider')]
@@ -331,20 +331,18 @@ class EntityTest extends TestCase
         ]);
         $entity->callEnsureNumericValue('scalar', $default);
 
-        self::assertSame($expected, $entity->get('scalar'));
+        $this->assertSame($expected, $entity->get('scalar'));
     }
 
     /**
-     * @return array<string, string[]|int[]|float[]|bool[]>
+     * @return \Iterator<string, array<(bool|float|int|string)>>
      */
-    public static function numericValueProvider(): array
+    public static function numericValueProvider(): \Iterator
     {
-        return [
-            'numeric string is cast to float' => ['42', 0, 42.0],
-            'bool true is cast to int 1' => [true, 0, 1],
-            'bool false is cast to int 0' => [false, 5, 0],
-            'non-numeric string falls back to default' => ['abc', 7, 7],
-        ];
+        yield 'numeric string is cast to float' => ['42', 0, 42.0];
+        yield 'bool true is cast to int 1' => [true, 0, 1];
+        yield 'bool false is cast to int 0' => [false, 5, 0];
+        yield 'non-numeric string falls back to default' => ['abc', 7, 7];
     }
 
     public function testEnsureNumericValueSilentlyIgnoresUnknownKeys(): void
@@ -354,7 +352,7 @@ class EntityTest extends TestCase
         // Must not throw, even though "unknown" is not a declared property.
         $entity->callEnsureNumericValue('unknown', 0);
 
-        self::assertTrue(true);
+        $this->assertTrue(true);
     }
 
     public function testEnsureNullIfEmptyConvertsEmptyStringToNull(): void
@@ -364,7 +362,7 @@ class EntityTest extends TestCase
         ]);
         $entity->callEnsureNullIfEmpty('scalar');
 
-        self::assertNull($entity->get('scalar'));
+        $this->assertNull($entity->get('scalar'));
     }
 
     public function testEnsureNullIfEmptyConvertsEmptyArrayToNull(): void
@@ -372,7 +370,7 @@ class EntityTest extends TestCase
         $entity = new EntityTestDouble();
         $entity->callEnsureNullIfEmpty('arr');
 
-        self::assertNull($entity->get('arr'));
+        $this->assertNull($entity->get('arr'));
     }
 
     public function testEnsureNullIfEmptyTreatsZeroAsNullOnlyWhenRequested(): void
@@ -382,7 +380,7 @@ class EntityTest extends TestCase
         ]);
         $entity->callEnsureNullIfEmpty('scalar', treatZeroAsNull: true);
 
-        self::assertNull($entity->get('scalar'));
+        $this->assertNull($entity->get('scalar'));
     }
 
     public function testEnsureNullIfEmptyCastsNonEmptyValueToFloatWhenRequested(): void
@@ -392,7 +390,7 @@ class EntityTest extends TestCase
         ]);
         $entity->callEnsureNullIfEmpty('scalar', ensureNumericIfNotEmpty: true);
 
-        self::assertSame(3.0, $entity->get('scalar'));
+        $this->assertEqualsWithDelta(3.0, $entity->get('scalar'), PHP_FLOAT_EPSILON);
     }
 
     public function testEnsureNullIfEmptyLeavesZeroAsNumericWhenTreatZeroAsNullIsFalse(): void
@@ -402,6 +400,6 @@ class EntityTest extends TestCase
         ]);
         $entity->callEnsureNullIfEmpty('scalar', ensureNumericIfNotEmpty: true, treatZeroAsNull: false);
 
-        self::assertSame(0.0, $entity->get('scalar'));
+        $this->assertEqualsWithDelta(0.0, $entity->get('scalar'), PHP_FLOAT_EPSILON);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Bridge\Activity\Calculation;
 
 use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\FlatOrHillyAnalyzer;
@@ -7,7 +9,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Route;
 use Runalyze\Bundle\CoreBundle\Entity\Trackdata;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 
-class FlatOrHillyAnalyzerTest extends \PHPUnit\Framework\TestCase
+final class FlatOrHillyAnalyzerTest extends \PHPUnit\Framework\TestCase
 {
     protected FlatOrHillyAnalyzer $Analyzer;
 
@@ -56,17 +58,17 @@ class FlatOrHillyAnalyzerTest extends \PHPUnit\Framework\TestCase
         $activity->setTrackdata($trackdata);
         $activity->setRoute($route);
 
-        $this->assertSame(0.30, $this->Analyzer->calculatePercentageHillyFor($activity, 0.01));
-        $this->assertSame(0.58, $this->Analyzer->calculatePercentageHillyFor($activity, 0.02));
-        $this->assertSame(0.78, $this->Analyzer->calculatePercentageHillyFor($activity, 0.03));
+        $this->assertEqualsWithDelta(0.30, $this->Analyzer->calculatePercentageHillyFor($activity, 0.01), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(0.58, $this->Analyzer->calculatePercentageHillyFor($activity, 0.02), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(0.78, $this->Analyzer->calculatePercentageHillyFor($activity, 0.03), PHP_FLOAT_EPSILON);
     }
 
     public function testArrayWithShortPeak(): void
     {
-        $this->assertSame(0.625, $this->Analyzer->calculatePercentageFlatForArrays(
+        $this->assertEqualsWithDelta(0.625, $this->Analyzer->calculatePercentageFlatForArrays(
             [0.00, 0.01, 0.05, 0.10, 0.20, 1.00, 1.60],
             [100, 104, 104, 104, 104, 104, 175],
             0.05
-        ));
+        ), PHP_FLOAT_EPSILON);
     }
 }

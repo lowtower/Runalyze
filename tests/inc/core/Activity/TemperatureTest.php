@@ -8,7 +8,7 @@ use Runalyze\Configuration;
 use Runalyze\Parameter\Application\TemperatureUnit;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class TemperatureTest extends \PHPUnit\Framework\TestCase
+final class TemperatureTest extends \PHPUnit\Framework\TestCase
 {
     private int $OriginalDefaultDecimals;
 
@@ -32,7 +32,7 @@ class TemperatureTest extends \PHPUnit\Framework\TestCase
     {
         $Temperature = new Temperature(15, new TemperatureUnit(TemperatureUnit::FAHRENHEIT));
 
-        $this->assertSame(15.0, $Temperature->celsius());
+        $this->assertEqualsWithDelta(15.0, $Temperature->celsius(), PHP_FLOAT_EPSILON);
     }
 
     public function testSettingInPreferredUnit(): void
@@ -46,7 +46,7 @@ class TemperatureTest extends \PHPUnit\Framework\TestCase
         $Temperature = new Temperature();
         $Temperature->set(15);
 
-        $this->assertSame(15.00, $Temperature->celsius());
+        $this->assertEqualsWithDelta(15.00, $Temperature->celsius(), PHP_FLOAT_EPSILON);
         $this->assertEqualsWithDelta(59.00, $Temperature->fahrenheit(), 0.01);
     }
 
@@ -55,7 +55,7 @@ class TemperatureTest extends \PHPUnit\Framework\TestCase
         $Temperature = new Temperature();
         $Temperature->setFahrenheit(59);
 
-        $this->assertSame(59.00, $Temperature->fahrenheit());
+        $this->assertEqualsWithDelta(59.00, $Temperature->fahrenheit(), PHP_FLOAT_EPSILON);
         $this->assertEqualsWithDelta(15, $Temperature->celsius(), 0.01);
     }
 
@@ -110,7 +110,7 @@ class TemperatureTest extends \PHPUnit\Framework\TestCase
         $Temperature = new Temperature();
         $Temperature->set('15,5');
 
-        $this->assertSame(15.5, $Temperature->celsius());
+        $this->assertEqualsWithDelta(15.5, $Temperature->celsius(), PHP_FLOAT_EPSILON);
     }
 
     public function testSetFahrenheitParsesCommaAsDecimalSeparator(): void
@@ -118,7 +118,7 @@ class TemperatureTest extends \PHPUnit\Framework\TestCase
         $Temperature = new Temperature();
         $Temperature->setFahrenheit('59,5');
 
-        $this->assertSame(15.28, $Temperature->celsius());
+        $this->assertEqualsWithDelta(15.28, $Temperature->celsius(), PHP_FLOAT_EPSILON);
     }
 
     public function testValueIsAliasForCelsius(): void
@@ -146,14 +146,14 @@ class TemperatureTest extends \PHPUnit\Framework\TestCase
     {
         $Temperature = new Temperature(15, new TemperatureUnit(TemperatureUnit::CELSIUS));
 
-        $this->assertSame(15.0, $Temperature->valueInPreferredUnit());
+        $this->assertEqualsWithDelta(15.0, $Temperature->valueInPreferredUnit(), PHP_FLOAT_EPSILON);
     }
 
     public function testValueInPreferredUnitReturnsFahrenheitForFahrenheitSystem(): void
     {
         $Temperature = new Temperature(15, new TemperatureUnit(TemperatureUnit::FAHRENHEIT));
 
-        $this->assertSame(59.0, $Temperature->valueInPreferredUnit());
+        $this->assertEqualsWithDelta(59.0, $Temperature->valueInPreferredUnit(), PHP_FLOAT_EPSILON);
     }
 
     public function testStringCelsiusReturnsEmptyStringWhenEmpty(): void

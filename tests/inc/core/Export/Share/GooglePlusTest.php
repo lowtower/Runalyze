@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 #[Group('default')]
-class GooglePlusTest extends TestCase
+final class GooglePlusTest extends TestCase
 {
     public function testIconClassReturnsGooglePlusSpecificCssClasses(): void
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Repository;
 
 use Runalyze\Bundle\CoreBundle\Entity\Weathercache;
@@ -9,7 +11,7 @@ use Runalyze\Profile\Weather\WeatherConditionProfile;
 use Runalyze\Service\WeatherForecast\Location;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
-class WeathercacheRepositoryTest extends AbstractRepositoryTestCase
+final class WeathercacheRepositoryTest extends AbstractRepositoryTestCase
 {
     protected WeathercacheRepository $Repository;
 
@@ -27,7 +29,7 @@ class WeathercacheRepositoryTest extends AbstractRepositoryTestCase
         $this->Location->setDateTime(new \DateTime()->setTimestamp(1234567890));
     }
 
-    protected function insertExampleWeatherData()
+    protected function insertExampleWeatherData(): void
     {
         $cache = new Weathercache();
         $cache->setGeohash('u1xjn3n74zxv');

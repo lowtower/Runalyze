@@ -8,7 +8,7 @@ use Runalyze\Activity\Pace;
 use Runalyze\Activity\Temperature as ActivityTemperature;
 use Runalyze\Parameter\Application\TemperatureUnit;
 
-class WindChillFactorTest extends \PHPUnit\Framework\TestCase
+final class WindChillFactorTest extends \PHPUnit\Framework\TestCase
 {
     public function testUnknownInputData(): void
     {

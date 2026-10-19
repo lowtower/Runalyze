@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
-class EquipmentControllerTest extends AbstractFixturesAwareWebTestCase
+final class EquipmentControllerTest extends AbstractFixturesAwareWebTestCase
 {
     protected Account $Account;
 
@@ -261,6 +261,7 @@ class EquipmentControllerTest extends AbstractFixturesAwareWebTestCase
         );
 
         $updated = $this->reloadEquipmentType($id);
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\EquipmentType::class, $updated);
 
         $this->assertSame('Updated Category Name', $updated->getName());
         $this->assertSame(2700, $updated->getMaxTime());
@@ -463,6 +464,7 @@ class EquipmentControllerTest extends AbstractFixturesAwareWebTestCase
         );
 
         $updated = $this->reloadEquipment($id);
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Equipment::class, $updated);
 
         $this->assertSame('Updated Shoes', $updated->getName());
         $this->assertGreaterThan(0, $updated->getAdditionalKm());

@@ -6,14 +6,14 @@ namespace Runalyze\Tests\Metrics\Common\Unit;
 
 use Runalyze\Metrics\Common\Unit\Factorial;
 
-class FactorialTest extends \PHPUnit\Framework\TestCase
+final class FactorialTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues(): void
     {
         $unit = new Factorial('foo', 10);
 
-        $this->assertSame(7.9, $unit->fromBaseUnit(0.79));
-        $this->assertSame(4.2, $unit->toBaseUnit(42));
+        $this->assertEqualsWithDelta(7.9, $unit->fromBaseUnit(0.79), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(4.2, $unit->toBaseUnit(42), PHP_FLOAT_EPSILON);
         $this->assertSame('foo', $unit->getAppendix());
     }
 

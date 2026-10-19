@@ -7,7 +7,7 @@ namespace Runalyze\Activity;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class PoolLengthTest extends \PHPUnit\Framework\TestCase
+final class PoolLengthTest extends \PHPUnit\Framework\TestCase
 {
     public function testStaticFunction(): void
     {
@@ -38,14 +38,14 @@ class PoolLengthTest extends \PHPUnit\Framework\TestCase
         $PoolLength = new PoolLength();
         $PoolLength->setYards(27.34);
 
-        $this->assertSame(27.34, $PoolLength->yards());
+        $this->assertEqualsWithDelta(27.34, $PoolLength->yards(), PHP_FLOAT_EPSILON);
         $this->assertSame('27.34&nbsp;' . DistanceUnitSystem::YARDS, $PoolLength->stringYards());
     }
 
     public function testSettingInPreferredUnit(): void
     {
         $this->assertEquals(25, new PoolLength(0, new DistanceUnitSystem(DistanceUnitSystem::METRIC))->setInPreferredUnit(25)->meter());
-        $this->assertSame(54.68, new PoolLength(0, new DistanceUnitSystem(DistanceUnitSystem::IMPERIAL))->setInPreferredUnit(54.68)->yards());
+        $this->assertEqualsWithDelta(54.68, new PoolLength(0, new DistanceUnitSystem(DistanceUnitSystem::IMPERIAL))->setInPreferredUnit(54.68)->yards(), PHP_FLOAT_EPSILON);
     }
 
     public function testSetRoundsInsteadOfTruncatingWhenDerivedFromYards(): void
@@ -62,7 +62,7 @@ class PoolLengthTest extends \PHPUnit\Framework\TestCase
         $PoolLength->set('2500');
 
         $this->assertSame(2500, $PoolLength->cm());
-        $this->assertSame(2500.0, $PoolLength->value());
+        $this->assertEqualsWithDelta(2500.0, $PoolLength->value(), PHP_FLOAT_EPSILON);
     }
 
     public function testValueIsRawUnroundedFloat(): void
@@ -70,7 +70,7 @@ class PoolLengthTest extends \PHPUnit\Framework\TestCase
         $PoolLength = new PoolLength();
         $PoolLength->set(2500.4);
 
-        $this->assertSame(2500.4, $PoolLength->value());
+        $this->assertEqualsWithDelta(2500.4, $PoolLength->value(), PHP_FLOAT_EPSILON);
         $this->assertSame(2500, $PoolLength->cm());
     }
 
@@ -99,14 +99,14 @@ class PoolLengthTest extends \PHPUnit\Framework\TestCase
     {
         $PoolLength = new PoolLength(2500, new DistanceUnitSystem(DistanceUnitSystem::METRIC));
 
-        $this->assertSame(25.0, $PoolLength->valueInPreferredUnit());
+        $this->assertEqualsWithDelta(25.0, $PoolLength->valueInPreferredUnit(), PHP_FLOAT_EPSILON);
     }
 
     public function testValueInPreferredUnitReturnsYardsForImperialSystem(): void
     {
         $PoolLength = new PoolLength(2500, new DistanceUnitSystem(DistanceUnitSystem::IMPERIAL));
 
-        $this->assertSame(27.34, $PoolLength->valueInPreferredUnit());
+        $this->assertEqualsWithDelta(27.34, $PoolLength->valueInPreferredUnit(), PHP_FLOAT_EPSILON);
     }
 
     public function testStringReturnsMeterFormatForMetricSystem(): void

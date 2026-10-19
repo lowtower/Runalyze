@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisSelection;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class AnalysisSelectionTest extends TestCase
+final class AnalysisSelectionTest extends TestCase
 {
     public function testHasNoCurrentKeyByDefault(): void
     {

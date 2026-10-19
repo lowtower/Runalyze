@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Data\Weather;
 
-class CardinalDirectionTest extends \PHPUnit\Framework\TestCase
+final class CardinalDirectionTest extends \PHPUnit\Framework\TestCase
 {
     public function testNonNumericValue(): void
     {
@@ -14,8 +16,8 @@ class CardinalDirectionTest extends \PHPUnit\Framework\TestCase
     {
         $Direction = new CardinalDirection(90.5);
 
-        $this->assertSame(90.5, $Direction->value());
-        $this->assertSame(12.3, $Direction->setDegree(12.3)->value());
+        $this->assertEqualsWithDelta(90.5, $Direction->value(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(12.3, $Direction->setDegree(12.3)->value(), PHP_FLOAT_EPSILON);
     }
 
     public function testDirections(): void

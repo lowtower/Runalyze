@@ -1,22 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Activity;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class AnaerobicTrainingEffectTest extends \PHPUnit\Framework\TestCase
+final class AnaerobicTrainingEffectTest extends \PHPUnit\Framework\TestCase
 {
     public function testLowerBoundary(): void
     {
         $effect = new AnaerobicTrainingEffect(0.0);
 
-        $this->assertSame(0.0, $effect->value());
+        $this->assertEqualsWithDelta(0.0, $effect->value(), PHP_FLOAT_EPSILON);
     }
 
     public function testUpperBoundary(): void
     {
         $effect = new AnaerobicTrainingEffect(5.0);
 
-        $this->assertSame(5.0, $effect->value());
+        $this->assertEqualsWithDelta(5.0, $effect->value(), PHP_FLOAT_EPSILON);
     }
 
     public function testInvalidValueTooSmall(): void
@@ -65,28 +67,28 @@ class AnaerobicTrainingEffectTest extends \PHPUnit\Framework\TestCase
     {
         $effect = new AnaerobicTrainingEffect(0.0);
 
-        $this->assertSame(0.0, $effect->value());
+        $this->assertEqualsWithDelta(0.0, $effect->value(), PHP_FLOAT_EPSILON);
     }
 
     public function testValidCommaValue(): void
     {
         $effect = new AnaerobicTrainingEffect('3,5');
 
-        $this->assertSame(3.5, $effect->value());
+        $this->assertEqualsWithDelta(3.5, $effect->value(), PHP_FLOAT_EPSILON);
     }
 
     public function testValidCommaValueWithSurroundingWhitespace(): void
     {
         $effect = new AnaerobicTrainingEffect(' 3,25 ');
 
-        $this->assertSame(3.25, $effect->value());
+        $this->assertEqualsWithDelta(3.25, $effect->value(), PHP_FLOAT_EPSILON);
     }
 
     public function testIntegerValueIsAcceptedAsFloat(): void
     {
         $effect = new AnaerobicTrainingEffect(3);
 
-        $this->assertSame(3.0, $effect->value());
+        $this->assertEqualsWithDelta(3.0, $effect->value(), PHP_FLOAT_EPSILON);
     }
 
     public function testNanValueIsRejected(): void
@@ -100,10 +102,10 @@ class AnaerobicTrainingEffectTest extends \PHPUnit\Framework\TestCase
         $Effect = new AnaerobicTrainingEffect(3.1);
 
         $this->assertTrue($Effect->isKnown());
-        $this->assertSame(3.1, $Effect->value());
+        $this->assertEqualsWithDelta(3.1, $Effect->value(), PHP_FLOAT_EPSILON);
         $this->assertSame(TrainingEffectLevel::IMPROVING, $Effect->level());
 
-        $this->assertSame(2.9, $Effect->set(2.9)->value());
+        $this->assertEqualsWithDelta(2.9, $Effect->set(2.9)->value(), PHP_FLOAT_EPSILON);
         $this->assertSame(TrainingEffectLevel::MAINTAINING, $Effect->level());
 
         $this->assertFalse($Effect->set(null)->isKnown());
@@ -140,7 +142,7 @@ class AnaerobicTrainingEffectTest extends \PHPUnit\Framework\TestCase
     {
         $effect = new AnaerobicTrainingEffect(2.7);
 
-        $this->assertSame(2.7, $effect->numericValue());
+        $this->assertEqualsWithDelta(2.7, $effect->numericValue(), PHP_FLOAT_EPSILON);
     }
 
     public function testLevelDelegatesToTrainingEffectLevel(): void

@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Metrics\Distance\Unit;
 
 use Runalyze\Metrics\Distance\Unit\Miles;
 
-class MilesTest extends \PHPUnit\Framework\TestCase
+final class MilesTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues(): void
     {

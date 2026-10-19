@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Activity;
 
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]
 #[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
-class DuplicateFinderTest extends \PHPUnit\Framework\TestCase
+final class DuplicateFinderTest extends \PHPUnit\Framework\TestCase
 {
     protected \PDO $PDO;
 
@@ -38,7 +40,7 @@ class DuplicateFinderTest extends \PHPUnit\Framework\TestCase
     public function testInvalidArgument(): void
     {
         $this->expectException(\TypeError::class);
-        $this->Finder->checkForDuplicate('foobar');
+        $this->Finder->checkForDuplicate(0);
     }
 
     public function testSingleNull(): void

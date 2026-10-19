@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\FileType;
 
 use Runalyze\Parser\Activity\FileType\Slf;
 use Runalyze\Util\LocalTime;
 
 #[\PHPUnit\Framework\Attributes\Group('import')]
-class SlfTest extends AbstractActivityParserTestCase
+final class SlfTest extends AbstractActivityParserTestCase
 {
     /**
      * @var Slf

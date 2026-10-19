@@ -15,7 +15,7 @@ use Runalyze\Service\RouteNameEvaluation\RouteNameEval;
 use Runalyze\Service\RouteNameEvaluation\RouteNameEvalFactory;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class ActivityContextAdapterFactoryTest extends TestCase
+final class ActivityContextAdapterFactoryTest extends TestCase
 {
     public function testGetAdapterForReturnsAnActivityContextAdapter(): void
     {

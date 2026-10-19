@@ -7,14 +7,14 @@ namespace Runalyze\Calculation\Activity;
 use Runalyze\Model\Activity;
 use Runalyze\Model\Trackdata;
 
-class VerticalRatioCalculatorTest extends \PHPUnit\Framework\TestCase
+final class VerticalRatioCalculatorTest extends \PHPUnit\Framework\TestCase
 {
     public function testForActivity(): void
     {
-        $this->assertSame(53.0, VerticalRatioCalculator::forActivity(new Activity\Entity([
+        $this->assertEqualsWithDelta(53.0, VerticalRatioCalculator::forActivity(new Activity\Entity([
             Activity\Entity::VERTICAL_OSCILLATION => 53,
             Activity\Entity::STRIDE_LENGTH => 100,
-        ])));
+        ])), PHP_FLOAT_EPSILON);
     }
 
     public function testSingleValue(): void
@@ -40,7 +40,7 @@ class VerticalRatioCalculatorTest extends \PHPUnit\Framework\TestCase
         );
         $Calculator->calculate();
 
-        $this->assertSame(69.0, $Calculator->average());
+        $this->assertEqualsWithDelta(69.0, $Calculator->average(), PHP_FLOAT_EPSILON);
         $this->assertEquals(
             [73, 67, 60, 67, 80],
             $Calculator->verticalRatioData()
@@ -95,10 +95,7 @@ class VerticalRatioCalculatorTest extends \PHPUnit\Framework\TestCase
 
         $calculator->calculate();
 
-        $this->assertSame(
-            75.0,
-            $calculator->average()
-        );
+        $this->assertEqualsWithDelta(75.0, $calculator->average(), PHP_FLOAT_EPSILON);
     }
 
     public function testForActivityReturnsNullForZeroOscillation(): void

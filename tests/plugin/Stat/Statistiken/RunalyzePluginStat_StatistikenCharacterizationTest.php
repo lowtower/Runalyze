@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  * Characterization test for RunalyzePluginStat_Statistiken.
  */
 #[Group('plugin')]
-class RunalyzePluginStat_StatistikenCharacterizationTest extends TestCase
+final class RunalyzePluginStat_StatistikenCharacterizationTest extends TestCase
 {
     private RunalyzePluginStat_Statistiken $plugin;
 
@@ -50,14 +50,12 @@ class RunalyzePluginStat_StatistikenCharacterizationTest extends TestCase
     }
 
     /**
-     * @return array<string, string[]>
+     * @return \Iterator<string, array<string>>
      */
-    public static function provideKnownDatValues(): array
+    public static function provideKnownDatValues(): \Iterator
     {
-        return [
-            'empty string means general overview' => ['', 'General overview'],
-            'allWeeks means all training weeks' => ['allWeeks', 'All training weeks'],
-        ];
+        yield 'empty string means general overview' => ['', 'General overview'];
+        yield 'allWeeks means all training weeks' => ['allWeeks', 'All training weeks'];
     }
 
     public function testGetAnalysisTypeFallsBackToDefaultForUnknownDatValue(): void

@@ -6,7 +6,7 @@ namespace Runalyze\Tests\Mathematics\Numerics;
 
 use Runalyze\Mathematics\Numerics\Bisection;
 
-class BisectionTest extends \PHPUnit\Framework\TestCase
+final class BisectionTest extends \PHPUnit\Framework\TestCase
 {
     public function testPerfectStartPoint(): void
     {
@@ -22,7 +22,7 @@ class BisectionTest extends \PHPUnit\Framework\TestCase
         $Bisection->setIterations(4);
         $Bisection->setEpsilon(0.01);
 
-        $this->assertSame(0.9375, $Bisection->findValue());
+        $this->assertEqualsWithDelta(0.9375, $Bisection->findValue(), PHP_FLOAT_EPSILON);
     }
 
     public function testSimpleApproximation(): void

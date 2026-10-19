@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Sports\Performance\Model;
 
 use Runalyze\Sports\Performance\Model\AbstractModel;
 use Runalyze\Sports\Performance\Model\TsbModel;
 
-class TsbModelTest extends \PHPUnit\Framework\TestCase
+final class TsbModelTest extends \PHPUnit\Framework\TestCase
 {
     public function testSingleWorkout(): void
     {

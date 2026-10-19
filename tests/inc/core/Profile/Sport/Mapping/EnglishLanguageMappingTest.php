@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Profile\Sport\Mapping;
 
 use Runalyze\Profile\Sport\Mapping\EnglishLanguageMapping;
 use Runalyze\Profile\Sport\SportProfile;
 
-class EnglishLanguageMappingTest extends \PHPUnit\Framework\TestCase
+final class EnglishLanguageMappingTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var EnglishLanguageMapping

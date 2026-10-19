@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\User\InMemoryUser;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class AccountValueResolverTest extends TestCase
+final class AccountValueResolverTest extends TestCase
 {
     private TokenStorage $tokenStorage;
 
@@ -47,12 +47,12 @@ class AccountValueResolverTest extends TestCase
 
         $this->tokenStorage->setToken(new UsernamePasswordToken($account, 'default', ['ROLE_USER']));
 
-        self::assertSame([$account], $this->resolve(Account::class));
+        $this->assertSame([$account], $this->resolve(Account::class));
     }
 
     public function testResolvesNothingWhenNobodyIsLoggedIn(): void
     {
-        self::assertSame([], $this->resolve(Account::class));
+        $this->assertSame([], $this->resolve(Account::class));
     }
 
     public function testResolvesNothingWhenLoggedInUserIsNoAccount(): void
@@ -61,7 +61,7 @@ class AccountValueResolverTest extends TestCase
             new UsernamePasswordToken(new InMemoryUser('memory-user', 'password'), 'default', ['ROLE_USER'])
         );
 
-        self::assertSame([], $this->resolve(Account::class));
+        $this->assertSame([], $this->resolve(Account::class));
     }
 
     public function testResolvesNothingForArgumentsOfOtherTypes(): void
@@ -71,7 +71,7 @@ class AccountValueResolverTest extends TestCase
 
         $this->tokenStorage->setToken(new UsernamePasswordToken($account, 'default', ['ROLE_USER']));
 
-        self::assertSame([], $this->resolve(stdClass::class));
+        $this->assertSame([], $this->resolve(stdClass::class));
     }
 
     public function testResolvesNothingForArgumentsWithoutType(): void
@@ -81,6 +81,6 @@ class AccountValueResolverTest extends TestCase
 
         $this->tokenStorage->setToken(new UsernamePasswordToken($account, 'default', ['ROLE_USER']));
 
-        self::assertSame([], $this->resolve(null));
+        $this->assertSame([], $this->resolve(null));
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Bridge\Activity\Calculation;
 
 use PHPUnit\Framework\MockObject\MockObject;
@@ -92,30 +94,30 @@ final class ClimbScoreCalculatorTest extends TestCase
     public function testCalculateForSetsAnUnknownScoreWhenActivityHasNoRoute(): void
     {
         $activity = $this->createTrainingMock(false, true, null, null);
-        $activity->expects(self::once())->method('setClimbScore')->with(null);
+        $activity->expects($this->once())->method('setClimbScore')->with(null);
 
         $climbFinder = $this->createMock(ClimbFinder::class);
-        $climbFinder->expects(self::never())->method('findClimbsFor');
+        $climbFinder->expects($this->never())->method('findClimbsFor');
         $calculator = new ClimbScoreCalculator($this->fietsIndex, $climbFinder);
 
         $score = $calculator->calculateFor($activity);
 
-        self::assertFalse($score->isKnown());
-        self::assertNull($score->getScore());
+        $this->assertFalse($score->isKnown());
+        $this->assertNull($score->getScore());
     }
 
     public function testCalculateForSetsAnUnknownScoreWhenActivityHasNoTrackdata(): void
     {
         $activity = $this->createTrainingMock(true, false, $this->createRoute(10.0), 0.0);
-        $activity->expects(self::once())->method('setClimbScore')->with(null);
+        $activity->expects($this->once())->method('setClimbScore')->with(null);
 
         $climbFinder = $this->createMock(ClimbFinder::class);
-        $climbFinder->expects(self::never())->method('findClimbsFor');
+        $climbFinder->expects($this->never())->method('findClimbsFor');
         $calculator = new ClimbScoreCalculator($this->fietsIndex, $climbFinder);
 
         $score = $calculator->calculateFor($activity);
 
-        self::assertFalse($score->isKnown());
+        $this->assertFalse($score->isKnown());
     }
 
     public function testCalculateForReturnsAKnownButZeroScoreWhenThereAreNoClimbs(): void
@@ -126,12 +128,12 @@ final class ClimbScoreCalculatorTest extends TestCase
         $this->climbFinder->method('findClimbsFor')
             ->willReturn(new ClimbCollection());
 
-        $activity->expects(self::once())->method('setClimbScore')->with(self::isFloat());
+        $activity->expects($this->once())->method('setClimbScore')->with(self::isFloat());
 
         $score = $this->calculator->calculateFor($activity);
 
-        self::assertTrue($score->isKnown());
-        self::assertSame(0.0, $score->getScore());
+        $this->assertTrue($score->isKnown());
+        $this->assertEqualsWithDelta(0.0, $score->getScore(), PHP_FLOAT_EPSILON);
     }
 
     public function testCalculateForIgnoresClimbsBelowTheGradientThreshold(): void
@@ -147,7 +149,7 @@ final class ClimbScoreCalculatorTest extends TestCase
         $score = $this->calculator->calculateFor($activity);
 
         $expected = 2.0 * log(1.5, 2.0);
-        self::assertEqualsWithDelta($expected, $score->getScore(), 0.0001);
+        $this->assertEqualsWithDelta($expected, $score->getScore(), 0.0001);
     }
 
     public function testCalculateForIgnoresClimbsAtOrBelowTheDistanceThreshold(): void
@@ -163,7 +165,7 @@ final class ClimbScoreCalculatorTest extends TestCase
         $score = $this->calculator->calculateFor($activity);
 
         $expected = 2.0 * log(1.5, 2.0);
-        self::assertEqualsWithDelta($expected, $score->getScore(), 0.0001);
+        $this->assertEqualsWithDelta($expected, $score->getScore(), 0.0001);
     }
 
     public function testCalculateForUsesClimbProfileWhenAvailable(): void
@@ -178,19 +180,19 @@ final class ClimbScoreCalculatorTest extends TestCase
 
         $score = $this->calculator->calculateFor($activity);
 
-        self::assertTrue($score->isKnown());
-        self::assertIsFloat($score->getScore());
+        $this->assertTrue($score->isKnown());
+        $this->assertIsFloat($score->getScore());
     }
 
     public function testCalculateForDelegatesToFietsIndexGetScoreForProfileWhenClimbHasAProfile(): void
     {
         $mockedFietsIndex = $this->createMock(FietsIndex::class);
         $mockedFietsIndex
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getScoreForProfile')
             ->with(self::isArray(), 200)
             ->willReturn(3.5);
-        $mockedFietsIndex->expects(self::never())->method('getScoreFor');
+        $mockedFietsIndex->expects($this->never())->method('getScoreFor');
 
         $calculator = new ClimbScoreCalculator($mockedFietsIndex, $this->climbFinder);
 
@@ -211,11 +213,11 @@ final class ClimbScoreCalculatorTest extends TestCase
 
         $mockedFietsIndex = $this->createMock(FietsIndex::class);
         $mockedFietsIndex
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getScoreFor')
             ->with(1.0, 50, 150)
             ->willReturn(2.0);
-        $mockedFietsIndex->expects(self::never())->method('getScoreForProfile');
+        $mockedFietsIndex->expects($this->never())->method('getScoreForProfile');
 
         $calculator = new ClimbScoreCalculator($mockedFietsIndex, $this->climbFinder);
 
@@ -249,7 +251,7 @@ final class ClimbScoreCalculatorTest extends TestCase
         $score = $calculator->calculateFor($activity);
 
         $expected = 2.0 * log(4.5, 2.0);
-        self::assertEqualsWithDelta($expected, $score->getScore(), 0.0001);
+        $this->assertEqualsWithDelta($expected, $score->getScore(), 0.0001);
     }
 
     public function testCalculateForSetsClimbScoreOnTheActivityItself(): void
@@ -262,7 +264,7 @@ final class ClimbScoreCalculatorTest extends TestCase
 
         $capturedScore = null;
         $activity
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setClimbScore')
             ->willReturnCallback(function (?float $score) use (&$capturedScore, $activity): Training {
                 $capturedScore = $score;
@@ -272,6 +274,6 @@ final class ClimbScoreCalculatorTest extends TestCase
 
         $score = $this->calculator->calculateFor($activity);
 
-        self::assertSame($score->getScore(), $capturedScore);
+        $this->assertSame($score->getScore(), $capturedScore);
     }
 }

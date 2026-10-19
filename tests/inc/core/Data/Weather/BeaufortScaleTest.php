@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Data\Weather;
 
-class BeaufortScaleTest extends \PHPUnit\Framework\TestCase
+final class BeaufortScaleTest extends \PHPUnit\Framework\TestCase
 {
     public function testString(): void
     {

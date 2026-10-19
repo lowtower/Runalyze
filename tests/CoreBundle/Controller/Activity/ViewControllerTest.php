@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller\Activity;
 
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
@@ -14,7 +16,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 #[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
-class ViewControllerTest extends AbstractFixturesAwareWebTestCase
+final class ViewControllerTest extends AbstractFixturesAwareWebTestCase
 {
     protected Account $Account;
 
@@ -160,6 +162,7 @@ class ViewControllerTest extends AbstractFixturesAwareWebTestCase
             ->clear();
         $reloadedActivity = $this->getTrainingRepository()
             ->find($activity->getId());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Training::class, $reloadedActivity);
         $this->assertTrue($reloadedActivity->isPublic());
     }
 
@@ -177,6 +180,7 @@ class ViewControllerTest extends AbstractFixturesAwareWebTestCase
             ->clear();
         $reloadedActivity = $this->getTrainingRepository()
             ->find($activity->getId());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Training::class, $reloadedActivity);
         $this->assertTrue($reloadedActivity->isPublic(), "The other account's activity must remain unchanged.");
     }
 

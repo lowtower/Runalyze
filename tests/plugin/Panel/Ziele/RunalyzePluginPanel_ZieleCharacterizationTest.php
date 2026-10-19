@@ -12,7 +12,7 @@ use Runalyze\Parameter\Application\DistanceUnitSystem;
  * Characterization test for RunalyzePluginPanel_Ziele.
  */
 #[Group('plugin')]
-class RunalyzePluginPanel_ZieleCharacterizationTest extends TestCase
+final class RunalyzePluginPanel_ZieleCharacterizationTest extends TestCase
 {
     private RunalyzePluginPanel_Ziele $plugin;
 

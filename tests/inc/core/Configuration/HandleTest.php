@@ -12,7 +12,7 @@ use Runalyze\Parameter\SelectRow;
 use Runalyze\Parameter\Textline;
 
 #[Group('default')]
-class HandleTest extends TestCase
+final class HandleTest extends TestCase
 {
     protected Handle $object;
 
@@ -45,7 +45,7 @@ class HandleTest extends TestCase
     {
         $handle = new Handle('TRAINING_LEAFLET_LAYER', new Textline('OpenStreetMap'));
 
-        self::assertSame('TRAINING_LEAFLET_LAYER', $handle->key());
+        $this->assertSame('TRAINING_LEAFLET_LAYER', $handle->key());
     }
 
     public function testObjectReturnsTheGivenParameterInstance(): void
@@ -53,14 +53,14 @@ class HandleTest extends TestCase
         $parameter = new Textline('OpenStreetMap');
         $handle = new Handle('TRAINING_LEAFLET_LAYER', $parameter);
 
-        self::assertSame($parameter, $handle->object());
+        $this->assertSame($parameter, $handle->object());
     }
 
     public function testValueDelegatesToParameterValue(): void
     {
         $handle = new Handle('TRAINING_MAP_SHOW_FIRST', new Boolean(true));
 
-        self::assertTrue($handle->value());
+        $this->assertTrue($handle->value());
     }
 
     public function testProcessOnchangeEventsInvokesRegisteredCallback(): void
@@ -73,7 +73,7 @@ class HandleTest extends TestCase
         });
         $handle->processOnchangeEvents();
 
-        self::assertTrue($wasCalled);
+        $this->assertTrue($wasCalled);
     }
 
     public function testProcessOnchangeEventsWithoutRegisteredCallbackDoesNothing(): void
@@ -93,7 +93,7 @@ class HandleTest extends TestCase
         ]);
         new Handle('KEY_FOR_TABLE', $parameter);
 
-        self::assertSame([
+        $this->assertSame([
             'KEY_FOR_TABLE' => 'training',
         ], Handle::tableHandles());
     }
@@ -102,6 +102,6 @@ class HandleTest extends TestCase
     {
         new Handle('KEY_FOR_TEXT', new Textline('value'));
 
-        self::assertSame([], Handle::tableHandles());
+        $this->assertSame([], Handle::tableHandles());
     }
 }

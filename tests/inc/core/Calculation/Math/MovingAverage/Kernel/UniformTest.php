@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
-class UniformTest extends \PHPUnit\Framework\TestCase
+final class UniformTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeValuesForWidth2(): void
     {

@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Dataset;
 
-class DefaultConfigurationTest extends \PHPUnit\Framework\TestCase
+final class DefaultConfigurationTest extends \PHPUnit\Framework\TestCase
 {
     public function testThatAllKeysFromEnumAppearInDefaultConfiguration(): void
     {

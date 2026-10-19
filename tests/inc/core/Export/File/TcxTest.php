@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Export\File;
 
 use Runalyze\Model\Activity;
@@ -8,7 +10,7 @@ use Runalyze\Model\Trackdata;
 use Runalyze\Parser\Activity\FileType\Tcx as TcxParser;
 use Runalyze\View\Activity\FakeContext;
 
-class TcxTest extends \PHPUnit\Framework\TestCase
+final class TcxTest extends \PHPUnit\Framework\TestCase
 {
     public function testThatEmptyContextIsNotPossible(): void
     {

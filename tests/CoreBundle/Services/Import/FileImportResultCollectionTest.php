@@ -13,7 +13,7 @@ use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 use stdClass;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class FileImportResultCollectionTest extends TestCase
+final class FileImportResultCollectionTest extends TestCase
 {
     public function testArrayAccessAndIterator(): void
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Calculation;
 
 use DB;
@@ -8,7 +10,7 @@ use Runalyze\Util\LocalTime;
 
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]
 #[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
-class BasicEnduranceTest extends \PHPUnit\Framework\TestCase
+final class BasicEnduranceTest extends \PHPUnit\Framework\TestCase
 {
     protected BasicEndurance $object;
 
@@ -41,12 +43,12 @@ class BasicEnduranceTest extends \PHPUnit\Framework\TestCase
     public function testSetterAndGetterForPercentages(): void
     {
         $this->object->setPercentageForLongjogs(0.4);
-        $this->assertSame(0.4, $this->object->getPercentageForLongjogs());
-        $this->assertSame(0.6, $this->object->getPercentageForWeekKilometer());
+        $this->assertEqualsWithDelta(0.4, $this->object->getPercentageForLongjogs(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(0.6, $this->object->getPercentageForWeekKilometer(), PHP_FLOAT_EPSILON);
 
         $this->object->setPercentageForWeekKilometer(0.1);
-        $this->assertSame(0.9, $this->object->getPercentageForLongjogs());
-        $this->assertSame(0.1, $this->object->getPercentageForWeekKilometer());
+        $this->assertEqualsWithDelta(0.9, $this->object->getPercentageForLongjogs(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(0.1, $this->object->getPercentageForWeekKilometer(), PHP_FLOAT_EPSILON);
 
         $this->object->setPercentageForLongjogs(15);
         $this->assertEquals(1, $this->object->getPercentageForLongjogs());
@@ -279,7 +281,7 @@ class BasicEnduranceTest extends \PHPUnit\Framework\TestCase
         );
 
         $this->assertEquals(50, $result['weekkm-result']);
-        $this->assertEquals(2.0, $result['longjog-result']);
+        $this->assertEqualsWithDelta(2.0, $result['longjog-result'], PHP_FLOAT_EPSILON);
     }
 
     public function testGetQueryForLongJogsContainsPointsCalculation(): void

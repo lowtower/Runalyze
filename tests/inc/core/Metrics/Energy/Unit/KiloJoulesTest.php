@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Metrics\Energy\Unit;
 
 use Runalyze\Metrics\Energy\Unit\Kilojoules;
 
-class KiloJoulesTest extends \PHPUnit\Framework\TestCase
+final class KiloJoulesTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues(): void
     {

@@ -7,7 +7,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Message;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Message\BackupGenerationMessage;
 
-class BackupGenerationMessageTest extends TestCase
+final class BackupGenerationMessageTest extends TestCase
 {
     public function testGettersReturnConstructorValues(): void
     {

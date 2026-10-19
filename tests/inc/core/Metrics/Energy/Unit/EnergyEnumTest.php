@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Metrics\Energy\Unit;
 
 use Runalyze\Metrics\Energy\Unit\EnergyEnum;
 
-class EnergyEnumTest extends \PHPUnit\Framework\TestCase
+final class EnergyEnumTest extends \PHPUnit\Framework\TestCase
 {
     public function testThatAllUnitsCanBeConstructed(): void
     {

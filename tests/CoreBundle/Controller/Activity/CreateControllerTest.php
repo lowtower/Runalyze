@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller\Activity;
 
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
@@ -13,7 +15,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 #[\PHPUnit\Framework\Attributes\Group('import')]
-class CreateControllerTest extends AbstractFixturesAwareWebTestCase
+final class CreateControllerTest extends AbstractFixturesAwareWebTestCase
 {
     private const string FIXTURE_FIT_FILE = 'fit/FR265-with-self-evaluation.fit';
 

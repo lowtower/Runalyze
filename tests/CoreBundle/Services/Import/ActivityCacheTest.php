@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Services\Import;
 
 use PHPUnit\Framework\TestCase;
@@ -14,7 +16,7 @@ use Runalyze\Bundle\CoreBundle\Services\Import\ActivityCache;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class ActivityCacheTest extends TestCase
+final class ActivityCacheTest extends TestCase
 {
     protected ActivityCache $Cache;
 
@@ -115,7 +117,7 @@ class ActivityCacheTest extends TestCase
         $result = $this->Cache->get($this->Cache->save($activityToCache), $activityToMerge);
 
         $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Training::class, $result);
-        $this->assertSame(12.3, $result->getDistance());
+        $this->assertEqualsWithDelta(12.3, $result->getDistance(), PHP_FLOAT_EPSILON);
         $this->assertSame(3625, $result->getElapsedTime());
         $this->assertEquals($mergerAccount, $result->getAccount());
         $this->assertEquals($mergerAccount, $result->getRoute()->getAccount());
@@ -124,7 +126,7 @@ class ActivityCacheTest extends TestCase
         $this->assertEquals($mergerAccount, $result->getHrv()->getAccount());
         $this->assertEquals($mergerAccount, $result->getRaceresult()->getAccount());
 
-        $this->assertSame(10.0, $result->getRoute()->getDistance());
+        $this->assertEqualsWithDelta(10.0, $result->getRoute()->getDistance(), PHP_FLOAT_EPSILON);
         $this->assertEquals([0.0, 5.0, 10.0], $result->getTrackdata()->getDistance());
         $this->assertSame(5000, $result->getSwimdata()->getPoolLength());
         $this->assertEquals([820, 800, 850], $result->getHrv()->getData());
@@ -140,6 +142,7 @@ class ActivityCacheTest extends TestCase
         $activityToMerge = new Training()->setPower(999);
 
         $result = $this->Cache->get($this->Cache->save($activityToCache), $activityToMerge);
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Training::class, $result);
 
         $this->assertSame(250, $result->getPower());
     }
@@ -152,6 +155,7 @@ class ActivityCacheTest extends TestCase
         $activityToMerge = new Training()->setPower(999);
 
         $result = $this->Cache->get($this->Cache->save($activityToCache), $activityToMerge);
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Training::class, $result);
 
         $this->assertSame(999, $result->getPower());
     }

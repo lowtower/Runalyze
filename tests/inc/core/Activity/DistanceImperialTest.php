@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class DistanceImperialTest extends TestCase
+final class DistanceImperialTest extends TestCase
 {
     #[DataProvider('provideMilesConversionCases')]
     public function testMilesConvertsKilometerUsingMileMultiplier(float $kilometer, float $expectedMiles): void
@@ -20,14 +20,12 @@ class DistanceImperialTest extends TestCase
     }
 
     /**
-     * @return array<string, float[]>
+     * @return \Iterator<string, array<float>>
      */
-    public static function provideMilesConversionCases(): array
+    public static function provideMilesConversionCases(): \Iterator
     {
-        return [
-            'one kilometer' => [1.0, 0.621371192],
-            'five kilometers' => [5.0, 3.10685596],
-        ];
+        yield 'one kilometer' => [1.0, 0.621371192];
+        yield 'five kilometers' => [5.0, 3.10685596];
     }
 
     #[DataProvider('provideYardsConversionCases')]
@@ -39,14 +37,12 @@ class DistanceImperialTest extends TestCase
     }
 
     /**
-     * @return array<string, float[]|int[]>
+     * @return \Iterator<string, array<(float|int)>>
      */
-    public static function provideYardsConversionCases(): array
+    public static function provideYardsConversionCases(): \Iterator
     {
-        return [
-            'one kilometer' => [1.0, 1094],
-            'five kilometers' => [5.0, 5468],
-        ];
+        yield 'one kilometer' => [1.0, 1094];
+        yield 'five kilometers' => [5.0, 5468];
     }
 
     #[DataProvider('provideFeetConversionCases')]
@@ -58,14 +54,12 @@ class DistanceImperialTest extends TestCase
     }
 
     /**
-     * @return array<string, float[]|int[]>
+     * @return \Iterator<string, array<(float|int)>>
      */
-    public static function provideFeetConversionCases(): array
+    public static function provideFeetConversionCases(): \Iterator
     {
-        return [
-            'one kilometer' => [1.0, 3281],
-            'five kilometers' => [5.0, 16404],
-        ];
+        yield 'one kilometer' => [1.0, 3281];
+        yield 'five kilometers' => [5.0, 16404];
     }
 
     public function testSetMilesConvertsMilesBackToKilometer(): void
@@ -95,7 +89,7 @@ class DistanceImperialTest extends TestCase
     {
         $Distance = new Distance(10.0, new DistanceUnitSystem(DistanceUnitSystem::METRIC));
 
-        $this->assertSame(10.0, $Distance->valueInPreferredUnit());
+        $this->assertEqualsWithDelta(10.0, $Distance->valueInPreferredUnit(), PHP_FLOAT_EPSILON);
     }
 
     public function testValueInPreferredUnitReturnsMilesForImperialSystem(): void
@@ -111,7 +105,7 @@ class DistanceImperialTest extends TestCase
 
         $Distance->setInPreferredUnit(10.0);
 
-        $this->assertSame(10.0, $Distance->kilometer());
+        $this->assertEqualsWithDelta(10.0, $Distance->kilometer(), PHP_FLOAT_EPSILON);
     }
 
     public function testSetInPreferredUnitInterpretsValueAsMilesForImperialSystem(): void

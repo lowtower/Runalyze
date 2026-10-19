@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Runalyze\Parameter\Application;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class ElevationMethodTest extends \PHPUnit\Framework\TestCase
+final class ElevationMethodTest extends \PHPUnit\Framework\TestCase
 {
     protected ElevationMethod $object;
 
@@ -16,41 +16,41 @@ class ElevationMethodTest extends \PHPUnit\Framework\TestCase
 
     public function testDefaultValueIsThreshold(): void
     {
-        self::assertSame(ElevationMethod::THRESHOLD, $this->object->value());
-        self::assertTrue($this->object->usesThreshold());
-        self::assertFalse($this->object->usesNone());
-        self::assertFalse($this->object->usesDouglasPeucker());
-        self::assertFalse($this->object->usesReumannWitkam());
+        $this->assertSame(ElevationMethod::THRESHOLD, $this->object->value());
+        $this->assertTrue($this->object->usesThreshold());
+        $this->assertFalse($this->object->usesNone());
+        $this->assertFalse($this->object->usesDouglasPeucker());
+        $this->assertFalse($this->object->usesReumannWitkam());
     }
 
     public function testNoneMethod(): void
     {
         $this->object->set(ElevationMethod::NONE);
 
-        self::assertSame(ElevationMethod::NONE, $this->object->value());
-        self::assertTrue($this->object->usesNone());
-        self::assertFalse($this->object->usesThreshold());
-        self::assertFalse($this->object->usesDouglasPeucker());
+        $this->assertSame(ElevationMethod::NONE, $this->object->value());
+        $this->assertTrue($this->object->usesNone());
+        $this->assertFalse($this->object->usesThreshold());
+        $this->assertFalse($this->object->usesDouglasPeucker());
     }
 
     public function testThresholdMethod(): void
     {
         $this->object->set(ElevationMethod::THRESHOLD);
 
-        self::assertSame(ElevationMethod::THRESHOLD, $this->object->value());
-        self::assertFalse($this->object->usesNone());
-        self::assertTrue($this->object->usesThreshold());
-        self::assertFalse($this->object->usesDouglasPeucker());
+        $this->assertSame(ElevationMethod::THRESHOLD, $this->object->value());
+        $this->assertFalse($this->object->usesNone());
+        $this->assertTrue($this->object->usesThreshold());
+        $this->assertFalse($this->object->usesDouglasPeucker());
     }
 
     public function testDouglasPeuckerMethod(): void
     {
         $this->object->set(ElevationMethod::DOUGLAS_PEUCKER);
 
-        self::assertSame(ElevationMethod::DOUGLAS_PEUCKER, $this->object->value());
-        self::assertFalse($this->object->usesNone());
-        self::assertFalse($this->object->usesThreshold());
-        self::assertTrue($this->object->usesDouglasPeucker());
+        $this->assertSame(ElevationMethod::DOUGLAS_PEUCKER, $this->object->value());
+        $this->assertFalse($this->object->usesNone());
+        $this->assertFalse($this->object->usesThreshold());
+        $this->assertTrue($this->object->usesDouglasPeucker());
     }
 
     /**
@@ -67,7 +67,7 @@ class ElevationMethodTest extends \PHPUnit\Framework\TestCase
     {
         $this->object->set(ElevationMethod::REUMANN_WITKAM);
 
-        self::assertSame(ElevationMethod::THRESHOLD, $this->object->value());
-        self::assertFalse($this->object->usesReumannWitkam());
+        $this->assertSame(ElevationMethod::THRESHOLD, $this->object->value());
+        $this->assertFalse($this->object->usesReumannWitkam());
     }
 }

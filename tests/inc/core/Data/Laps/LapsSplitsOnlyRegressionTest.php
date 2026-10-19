@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Data\Laps;
 
 use Runalyze\Model\Activity\Splits;
@@ -8,7 +10,7 @@ use Runalyze\Model\Activity\Splits;
  * Regression test for Lap objects created from splits-only data
  * (i.e. without any Trackdata\Entity)
  */
-class LapsSplitsOnlyRegressionTest extends \PHPUnit\Framework\TestCase
+final class LapsSplitsOnlyRegressionTest extends \PHPUnit\Framework\TestCase
 {
     protected Laps $Laps;
 
@@ -87,9 +89,9 @@ class LapsSplitsOnlyRegressionTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($Lap->hasTrackValues());
         $this->assertTrue($Lap->hasHR());
 
-        $this->assertSame(305.0, $Lap->trackDuration()->seconds());
-        $this->assertSame(1.02, $Lap->trackDistance()->kilometer());
-        $this->assertEquals(140.0, $Lap->HRavg()->inBPM());
-        $this->assertEquals(165.0, $Lap->HRmax()->inBPM());
+        $this->assertEqualsWithDelta(305.0, $Lap->trackDuration()->seconds(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(1.02, $Lap->trackDistance()->kilometer(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(140.0, $Lap->HRavg()->inBPM(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(165.0, $Lap->HRmax()->inBPM(), PHP_FLOAT_EPSILON);
     }
 }

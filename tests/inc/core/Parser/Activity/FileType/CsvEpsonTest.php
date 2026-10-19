@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\FileType;
 
 use Runalyze\Parser\Activity\FileType\CsvEpson;
 
 #[\PHPUnit\Framework\Attributes\Group('import')]
-class CsvEpsonTest extends AbstractActivityParserTestCase
+final class CsvEpsonTest extends AbstractActivityParserTestCase
 {
     /**
      * @var CsvEpson

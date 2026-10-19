@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]
 #[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
-class PDOforRunalyzeTest extends \PHPUnit\Framework\TestCase
+final class PDOforRunalyzeTest extends \PHPUnit\Framework\TestCase
 {
     protected PDOforRunalyze $object;
 
@@ -51,8 +53,6 @@ class PDOforRunalyzeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(3, $this->object->query('SELECT COUNT(*) FROM `runalyze_training`')->fetchColumn());
 
         $this->object->exec('DELETE FROM `runalyze_training`');
-
-        $this->object->setAccountID(false);
     }
 
     public function testFetchByID(): void
@@ -149,11 +149,11 @@ class PDOforRunalyzeTest extends \PHPUnit\Framework\TestCase
         $id = 2;
         $RequestDistance->bindValue('id', $id);
         $RequestDistance->execute();
-        $this->assertEquals(2.1, $RequestDistance->fetchColumn());
+        $this->assertEqualsWithDelta(2.1, $RequestDistance->fetchColumn(), PHP_FLOAT_EPSILON);
         $id = 3;
         $RequestDistance->bindValue('id', $id);
         $RequestDistance->execute();
-        $this->assertEquals(11.23, $RequestDistance->fetchColumn());
+        $this->assertEqualsWithDelta(11.23, $RequestDistance->fetchColumn(), PHP_FLOAT_EPSILON);
 
         $this->object->exec('DELETE FROM `runalyze_training`');
     }

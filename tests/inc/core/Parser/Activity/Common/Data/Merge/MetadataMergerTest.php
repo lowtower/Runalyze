@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\Data\Merge;
 
 use Runalyze\Parser\Activity\Common\Data\Merge\MetadataMerger;
 use Runalyze\Parser\Activity\Common\Data\Metadata;
 
-class MetadataMergerTest extends \PHPUnit\Framework\TestCase
+final class MetadataMergerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Metadata

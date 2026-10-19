@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\FileType;
 
 use Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookup;

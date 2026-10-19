@@ -11,7 +11,7 @@ use ReflectionProperty;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityDataContainerFilter;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class ActivityDataContainerFilterTest extends TestCase
+final class ActivityDataContainerFilterTest extends TestCase
 {
     private function getLogger(ActivityDataContainerFilter $filter): LoggerInterface
     {

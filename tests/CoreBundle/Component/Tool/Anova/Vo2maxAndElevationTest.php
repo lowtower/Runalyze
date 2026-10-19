@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\Anova\QueryValue;
 
 use Doctrine\ORM\QueryBuilder;
@@ -7,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryValue\Vo2max;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryValue\Vo2maxWithElevation;
 
-class Vo2maxAndElevationTest extends TestCase
+final class Vo2maxAndElevationTest extends TestCase
 {
     public function testVo2maxAddsSelectAndBothWhereClauses(): void
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Command;
 
 use Doctrine\Persistence\ManagerRegistry;
@@ -62,36 +64,33 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
     public function testCommandConfiguration(): void
     {
-        self::assertSame('runalyze:activity:bulk-routeval', $this->command->getName());
-        self::assertSame(
-            'Bulk update of trainings route-name evaluation',
-            $this->command->getDescription()
-        );
+        $this->assertSame('runalyze:activity:bulk-routeval', $this->command->getName());
+        $this->assertSame('Bulk update of trainings route-name evaluation', $this->command->getDescription());
 
         $definition = $this->command->getDefinition();
 
-        self::assertTrue($definition->hasArgument('username'));
-        self::assertTrue($definition->getArgument('username')->isRequired());
+        $this->assertTrue($definition->hasArgument('username'));
+        $this->assertTrue($definition->getArgument('username')->isRequired());
 
-        self::assertTrue($definition->hasArgument('id'));
-        self::assertTrue($definition->getArgument('id')->isRequired());
+        $this->assertTrue($definition->hasArgument('id'));
+        $this->assertTrue($definition->getArgument('id')->isRequired());
 
-        self::assertTrue($definition->hasOption('nexted'));
-        self::assertTrue($definition->hasOption('override'));
+        $this->assertTrue($definition->hasOption('nexted'));
+        $this->assertTrue($definition->hasOption('override'));
     }
 
     public function testExecuteFailsForUnknownUser(): void
     {
         $accountRepository = $this->createMock(AccountRepository::class);
         $accountRepository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadUserByUsername')
             ->with('ghost')
             ->willReturn(null);
 
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('findForAccount');
 
         $command = $this->createCommand(accountRepository: $accountRepository, trainingRepository: $trainingRepository);
@@ -102,8 +101,8 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
             'id' => '123',
         ]);
 
-        self::assertSame(1, $exitCode);
-        self::assertStringContainsString('Unknown User', $tester->getDisplay());
+        $this->assertSame(1, $exitCode);
+        $this->assertStringContainsString('Unknown User', $tester->getDisplay());
     }
 
     public function testExecuteFailsWhenOsmOverpassUrlIsNotConfigured(): void
@@ -114,14 +113,14 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
         $parameterBag = $this->createMock(ParameterBagInterface::class);
         $parameterBag
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('get')
             ->with('osm_overpass_url')
             ->willReturn('');
 
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('findForAccount');
 
         $command = $this->createCommand(parameterBag: $parameterBag, trainingRepository: $trainingRepository);
@@ -132,8 +131,8 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
             'id' => '123',
         ]);
 
-        self::assertSame(1, $exitCode);
-        self::assertStringContainsString('Set parameter osm_overpass_url', $tester->getDisplay());
+        $this->assertSame(1, $exitCode);
+        $this->assertStringContainsString('Set parameter osm_overpass_url', $tester->getDisplay());
     }
 
     public function testExecuteSkipsSilentlyWhenActivityHasNoRoute(): void
@@ -155,19 +154,19 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('findForAccount')
             ->with(123, 42)
             ->willReturn($activity);
         $trainingRepository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getIdOfNextActivity')
             ->with($activity)
             ->willReturn(null);
 
         $activityContextAdapterFactory = $this->createMock(ActivityContextAdapterFactory::class);
         $activityContextAdapterFactory
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('getAdapterFor');
 
         $command = $this->createCommand(
@@ -181,12 +180,12 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
             'id' => '123',
         ]);
 
-        self::assertSame(0, $exitCode);
+        $this->assertSame(0, $exitCode);
         $display = $tester->getDisplay();
-        self::assertStringContainsString('Start route-name evaluation', $display);
-        self::assertStringContainsString('Done.', $display);
-        self::assertStringNotContainsString('skip id=', $display);
-        self::assertStringNotContainsString('successfully updated', $display);
+        $this->assertStringContainsString('Start route-name evaluation', $display);
+        $this->assertStringContainsString('Done.', $display);
+        $this->assertStringNotContainsString('skip id=', $display);
+        $this->assertStringNotContainsString('successfully updated', $display);
     }
 
     public function testExecuteSkipsActivityThatAlreadyHasARouteNameWithoutOverride(): void
@@ -214,12 +213,12 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
         $trainingRepository->method('getIdOfNextActivity')
             ->willReturn(null);
         $trainingRepository
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('save');
 
         $activityContextAdapterFactory = $this->createMock(ActivityContextAdapterFactory::class);
         $activityContextAdapterFactory
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('getAdapterFor');
 
         $command = $this->createCommand(
@@ -233,8 +232,8 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
             'id' => '123',
         ]);
 
-        self::assertSame(0, $exitCode);
-        self::assertStringContainsString('skip id=123 / Morning Run', $tester->getDisplay());
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('skip id=123 / Morning Run', $tester->getDisplay());
     }
 
     public function testExecuteWithNextedOptionProcessesUntilNoNextActivityExists(): void
@@ -258,14 +257,14 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('findForAccount')
             ->willReturnMap([
                 [100, 42, $firstActivity],
                 [200, 42, $secondActivity],
             ]);
         $trainingRepository
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('getIdOfNextActivity')
             ->willReturnMap([
                 [$firstActivity, 200],
@@ -281,8 +280,8 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
             '--nexted' => true,
         ]);
 
-        self::assertSame(0, $exitCode);
-        self::assertStringContainsString('nexted=1', $tester->getDisplay());
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('nexted=1', $tester->getDisplay());
     }
 
     public function testExecuteWithoutNextedOptionProcessesOnlyOneActivityEvenIfANextOneExists(): void
@@ -302,12 +301,12 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('findForAccount')
             ->with(100, 42)
             ->willReturn($activity);
         $trainingRepository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getIdOfNextActivity')
             ->with($activity)
             ->willReturn(200);
@@ -320,8 +319,8 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
             'id' => '100',
         ]);
 
-        self::assertSame(0, $exitCode);
-        self::assertStringContainsString('nexted=0', $tester->getDisplay());
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('nexted=0', $tester->getDisplay());
     }
 
     public function testExecuteHandlesMissingActivityGracefully(): void
@@ -337,12 +336,12 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('findForAccount')
             ->with(999, 42)
             ->willReturn(null);
         $trainingRepository
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('getIdOfNextActivity');
 
         $command = $this->createCommand(trainingRepository: $trainingRepository);
@@ -353,10 +352,10 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
             'id' => '999',
         ]);
 
-        self::assertSame(1, $exitCode);
+        $this->assertSame(1, $exitCode);
         $display = $tester->getDisplay();
-        self::assertStringContainsString('Activity not found: id=999', $display);
-        self::assertStringContainsString('Done.', $display);
+        $this->assertStringContainsString('Activity not found: id=999', $display);
+        $this->assertStringContainsString('Done.', $display);
     }
 
     public function testExecuteWithNextedOptionStopsWhenAnIntermediateActivityIsMissing(): void
@@ -376,14 +375,14 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('findForAccount')
             ->willReturnMap([
                 [100, 42, $firstActivity],
                 [200, 42, null],
             ]);
         $trainingRepository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getIdOfNextActivity')
             ->with($firstActivity)
             ->willReturn(200);
@@ -397,10 +396,10 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
             '--nexted' => true,
         ]);
 
-        self::assertSame(1, $exitCode);
+        $this->assertSame(1, $exitCode);
         $display = $tester->getDisplay();
-        self::assertStringContainsString('Activity not found: id=200', $display);
-        self::assertStringContainsString('Done.', $display);
+        $this->assertStringContainsString('Activity not found: id=200', $display);
+        $this->assertStringContainsString('Done.', $display);
     }
 
     public function testExecuteSuccessfullyUpdatesRouteNameWhenNoneExistsYet(): void
@@ -432,20 +431,20 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
         $trainingRepository->method('getIdOfNextActivity')
             ->willReturn(null);
         $trainingRepository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('save')
             ->with($activity);
 
         // Stays a mock: it has an expectation (once)
         $adapter = $this->createMock(ActivityContextAdapter::class);
         $adapter
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('guessRouteDetails')
             ->willReturn(true);
 
         $activityContextAdapterFactory = $this->createMock(ActivityContextAdapterFactory::class);
         $activityContextAdapterFactory
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getAdapterFor')
             ->with(self::callback(
                 static fn (ActivityContext $context): bool => $context->getActivity() === $activity
@@ -464,11 +463,8 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
             'id' => '123',
         ]);
 
-        self::assertSame(0, $exitCode);
-        self::assertStringContainsString(
-            'successfully updated id=123 / Morning Run / Nice Loop Trail',
-            $tester->getDisplay()
-        );
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('successfully updated id=123 / Morning Run / Nice Loop Trail', $tester->getDisplay());
     }
 
     public function testExecuteSkipsWhenGuessRouteDetailsFindsNothing(): void
@@ -500,19 +496,19 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
         $trainingRepository->method('getIdOfNextActivity')
             ->willReturn(null);
         $trainingRepository
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('save');
 
         // Stays a mock: it has an expectation (once)
         $adapter = $this->createMock(ActivityContextAdapter::class);
         $adapter
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('guessRouteDetails')
             ->willReturn(false);
 
         $activityContextAdapterFactory = $this->createMock(ActivityContextAdapterFactory::class);
         $activityContextAdapterFactory
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getAdapterFor')
             ->willReturn($adapter);
 
@@ -527,9 +523,9 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
             'id' => '123',
         ]);
 
-        self::assertSame(0, $exitCode);
-        self::assertStringContainsString('skip id=123 / Morning Run', $tester->getDisplay());
-        self::assertStringNotContainsString('successfully updated', $tester->getDisplay());
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('skip id=123 / Morning Run', $tester->getDisplay());
+        $this->assertStringNotContainsString('successfully updated', $tester->getDisplay());
     }
 
     public function testExecuteWithOverrideOptionReEvaluatesExistingRouteName(): void
@@ -561,20 +557,20 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
         $trainingRepository->method('getIdOfNextActivity')
             ->willReturn(null);
         $trainingRepository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('save')
             ->with($activity);
 
         // Stays a mock: it has an expectation (once)
         $adapter = $this->createMock(ActivityContextAdapter::class);
         $adapter
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('guessRouteDetails')
             ->willReturn(true);
 
         $activityContextAdapterFactory = $this->createMock(ActivityContextAdapterFactory::class);
         $activityContextAdapterFactory
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getAdapterFor')
             ->willReturn($adapter);
 
@@ -590,10 +586,7 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
             '--override' => true,
         ]);
 
-        self::assertSame(0, $exitCode);
-        self::assertStringContainsString(
-            'successfully updated id=123 / Evening Run / Updated Trail Name',
-            $tester->getDisplay()
-        );
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('successfully updated id=123 / Evening Run / Updated Trail Name', $tester->getDisplay());
     }
 }

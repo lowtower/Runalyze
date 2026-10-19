@@ -10,7 +10,7 @@ use Runalyze\Activity\Distance;
  * Characterization test for RunalyzePluginStat_Hoehenmeter.
  */
 #[Group('plugin')]
-class RunalyzePluginStat_HoehenmeterCharacterizationTest extends TestCase
+final class RunalyzePluginStat_HoehenmeterCharacterizationTest extends TestCase
 {
     private RunalyzePluginStat_Hoehenmeter $plugin;
 

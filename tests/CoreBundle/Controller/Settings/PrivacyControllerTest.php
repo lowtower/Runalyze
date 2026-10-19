@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller\Settings;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -12,7 +14,7 @@ use Symfony\Component\DomCrawler\Form;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
-class PrivacyControllerTest extends AbstractFixturesAwareWebTestCase
+final class PrivacyControllerTest extends AbstractFixturesAwareWebTestCase
 {
     protected Account $Account;
 

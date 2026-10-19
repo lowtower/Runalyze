@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller\Settings;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -13,7 +15,7 @@ use Symfony\Component\DomCrawler\Form;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
-class SportControllerTest extends AbstractFixturesAwareWebTestCase
+final class SportControllerTest extends AbstractFixturesAwareWebTestCase
 {
     protected Account $Account;
 
@@ -277,6 +279,7 @@ class SportControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStatusCode(302, $this->Client);
 
         $reloaded = $this->reloadType($type->getId());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Type::class, $reloaded);
         $this->assertSame('Updated Name', $reloaded->getName());
     }
 
@@ -297,6 +300,7 @@ class SportControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStatusCode(200, $this->Client);
 
         $reloaded = $this->reloadType($type->getId());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Type::class, $reloaded);
         $this->assertSame($originalAbbr, $reloaded->getAbbr(), 'A rejected, invalid submission must not have persisted the blank value.');
     }
 

@@ -7,7 +7,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Model\Trackdata\Climb;
 use Runalyze\Bundle\CoreBundle\Model\Trackdata\Climb\Climb;
 use Runalyze\Bundle\CoreBundle\Model\Trackdata\Climb\ClimbProfile;
 
-class ClimbTest extends \PHPUnit\Framework\TestCase
+final class ClimbTest extends \PHPUnit\Framework\TestCase
 {
     protected function getDefaultClimb(): \Runalyze\Bundle\CoreBundle\Model\Trackdata\Climb\Climb
     {
@@ -18,7 +18,7 @@ class ClimbTest extends \PHPUnit\Framework\TestCase
     {
         $climb = new Climb(1.0, 50);
 
-        $this->assertSame(1.0, $climb->getDistance());
+        $this->assertEqualsWithDelta(1.0, $climb->getDistance(), PHP_FLOAT_EPSILON);
         $this->assertSame(50, $climb->getElevation());
         $this->assertFalse($climb->knowsAltitudeAtTop());
         $this->assertFalse($climb->knowsClimbProfile());
@@ -50,9 +50,9 @@ class ClimbTest extends \PHPUnit\Framework\TestCase
 
     public function testGradient(): void
     {
-        $this->assertSame(0.05, new Climb(1.0, 50)->getGradient());
-        $this->assertSame(0.16, new Climb(0.2, 32)->getGradient());
-        $this->assertSame(0.06, new Climb(0.5, 30)->getGradient());
+        $this->assertEqualsWithDelta(0.05, new Climb(1.0, 50)->getGradient(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(0.16, new Climb(0.2, 32)->getGradient(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(0.06, new Climb(0.5, 30)->getGradient(), PHP_FLOAT_EPSILON);
         $this->assertEqualsWithDelta(0.033, new Climb(3.0, 100)->getGradient(), 0.001);
     }
 

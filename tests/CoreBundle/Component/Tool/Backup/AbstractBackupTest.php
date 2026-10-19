@@ -9,12 +9,9 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\AbstractBackup;
 
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]
 #[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
-class AbstractBackupTest extends \PHPUnit\Framework\TestCase
+final class AbstractBackupTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var string
-     */
-    public const TESTFILE = '/../../../../../data/backup-tool/backup/test.json.gz';
+    public const string TESTFILE = '/../../../../../data/backup-tool/backup/test.json.gz';
 
     protected AbstractBackup $Backup;
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Service\WeatherForecast\Strategy;
 
 use Psr\Log\LoggerInterface;
@@ -7,7 +9,7 @@ use Runalyze\Profile\Weather\WeatherConditionProfile;
 use Runalyze\Service\WeatherForecast\Location;
 use Runalyze\Service\WeatherForecast\Strategy\MeteostatNet;
 
-class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
+final class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
 {
     protected \ReflectionMethod $GetUrlForMethod;
 
@@ -37,11 +39,11 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
 
         $url = $this->GetUrlForMethod->invokeArgs($this->Strategy, [$location]);
 
-        $this->assertStringContainsString('lat=52.4', $url);
-        $this->assertStringContainsString('lon=10.7', $url);
-        $this->assertStringContainsString('start=2020-10-01', $url);
-        $this->assertStringContainsString('end=2020-10-01', $url);
-        $this->assertStringContainsString('tz=Europe/Berlin', $url);
+        $this->assertStringContainsString('lat=52.4', (string) $url);
+        $this->assertStringContainsString('lon=10.7', (string) $url);
+        $this->assertStringContainsString('start=2020-10-01', (string) $url);
+        $this->assertStringContainsString('end=2020-10-01', (string) $url);
+        $this->assertStringContainsString('tz=Europe/Berlin', (string) $url);
     }
 
     public function testSelectsCorrectHour(): void
@@ -98,9 +100,9 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
         $url = $this->GetUrlForMethod->invokeArgs($this->Strategy, [$location]);
         $dateAfter = new \DateTime('now', $timezone);
 
-        $this->assertStringContainsString('lat=52.4', $url);
-        $this->assertStringContainsString('lon=10.7', $url);
-        $this->assertStringContainsString('tz=Europe/Berlin', $url);
+        $this->assertStringContainsString('lat=52.4', (string) $url);
+        $this->assertStringContainsString('lon=10.7', (string) $url);
+        $this->assertStringContainsString('tz=Europe/Berlin', (string) $url);
 
         $hasExpectedStartDate = str_contains($url, 'start=' . $dateBefore->format('Y-m-d')) || str_contains($url, 'start=' . $dateAfter->format('Y-m-d'));
         $hasExpectedEndDate = str_contains($url, 'end=' . $dateBefore->format('Y-m-d')) || str_contains($url, 'end=' . $dateAfter->format('Y-m-d'));

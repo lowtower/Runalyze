@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
-class EpanechnikovTest extends \PHPUnit\Framework\TestCase
+final class EpanechnikovTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeValuesForWidth2(): void
     {

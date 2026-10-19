@@ -12,7 +12,7 @@ use Symfony\Component\PasswordHasher\Exception\InvalidPasswordException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class Sha256SaltedEncoderTest extends TestCase
+final class Sha256SaltedEncoderTest extends TestCase
 {
     private const string SHA256_OF_ABC = 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad';
 

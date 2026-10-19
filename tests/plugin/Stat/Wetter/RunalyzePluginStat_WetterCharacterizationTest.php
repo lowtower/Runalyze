@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  * Characterization test for RunalyzePluginStat_Wetter.
  */
 #[Group('plugin')]
-class RunalyzePluginStat_WetterCharacterizationTest extends TestCase
+final class RunalyzePluginStat_WetterCharacterizationTest extends TestCase
 {
     private RunalyzePluginStat_Wetter $plugin;
 
@@ -170,18 +170,16 @@ class RunalyzePluginStat_WetterCharacterizationTest extends TestCase
     }
 
     /**
-     * @return array<string, int[]|bool[]|string[]>
+     * @return \Iterator<string, array<(bool|int|string)>>
      */
-    public static function provideTimerOrderingCases(): array
+    public static function provideTimerOrderingCases(): \Iterator
     {
-        return [
-            'all years, no table name' => [-1, false, 'MONTH(FROM_UNIXTIME(`time`))'],
-            'all years, with table name' => [-1, true, 'MONTH(FROM_UNIXTIME(`runalyze_training`.`time`))'],
-            'last 6 months delegates to parent DATE_FORMAT' => [6, false, 'DATE_FORMAT(FROM_UNIXTIME(`time`), "%Y-%m")'],
-            'last 12 months delegates to parent DATE_FORMAT' => [12, false, 'DATE_FORMAT(FROM_UNIXTIME(`time`), "%Y-%m")'],
-            'specific year delegates to parent MONTH' => [2024, false, 'MONTH(FROM_UNIXTIME(`time`))'],
-            'specific year with table name delegates to parent MONTH' => [2024, true, 'MONTH(FROM_UNIXTIME(`runalyze_training`.`time`))'],
-        ];
+        yield 'all years, no table name' => [-1, false, 'MONTH(FROM_UNIXTIME(`time`))'];
+        yield 'all years, with table name' => [-1, true, 'MONTH(FROM_UNIXTIME(`runalyze_training`.`time`))'];
+        yield 'last 6 months delegates to parent DATE_FORMAT' => [6, false, 'DATE_FORMAT(FROM_UNIXTIME(`time`), "%Y-%m")'];
+        yield 'last 12 months delegates to parent DATE_FORMAT' => [12, false, 'DATE_FORMAT(FROM_UNIXTIME(`time`), "%Y-%m")'];
+        yield 'specific year delegates to parent MONTH' => [2024, false, 'MONTH(FROM_UNIXTIME(`time`))'];
+        yield 'specific year with table name delegates to parent MONTH' => [2024, true, 'MONTH(FROM_UNIXTIME(`runalyze_training`.`time`))'];
     }
 
     private function setEquipmentTypeId(int $id): void

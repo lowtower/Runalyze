@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
@@ -13,7 +15,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
-class SharedControllerTest extends AbstractFixturesAwareWebTestCase
+final class SharedControllerTest extends AbstractFixturesAwareWebTestCase
 {
     protected Account $Account;
 

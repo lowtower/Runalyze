@@ -12,7 +12,7 @@ use Runalyze\Parameter\Application\WeightUnit;
  * Characterization test for RunalyzePluginPanel_Sportler
  */
 #[Group('plugin')]
-class RunalyzePluginPanel_SportlerCharacterizationTest extends TestCase
+final class RunalyzePluginPanel_SportlerCharacterizationTest extends TestCase
 {
     private RunalyzePluginPanel_Sportler $plugin;
 

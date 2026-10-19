@@ -1,18 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\View\Activity;
 
 use Runalyze\Model\Activity;
 
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]
 #[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
-class LinkerTest extends \PHPUnit\Framework\TestCase
+final class LinkerTest extends \PHPUnit\Framework\TestCase
 {
     protected \PDOforRunalyze $PDO;
-
-    protected int $ThisAccountID;
-
-    protected int $OtherAccountID;
 
     /**
      * @var string[]|bool[]
@@ -35,25 +33,25 @@ class LinkerTest extends \PHPUnit\Framework\TestCase
         $this->PDO->exec('DELETE FROM `runalyze_training`');
         $this->PDO->exec('DELETE FROM `runalyze_account` WHERE `username` = "LinkerOther"');
 
-        $this->ThisAccountID = \SessionAccountHandler::getId();
+        $ThisAccountID = \SessionAccountHandler::getId();
         $this->PDO->exec('INSERT INTO `runalyze_account` (`username`, `name`, `mail`) VALUES ("LinkerOther", "LinkerOther", "linker@other.com")');
-        $this->OtherAccountID = (int) $this->PDO->lastInsertId();
+        $OtherAccountID = (int) $this->PDO->lastInsertId();
 
         $activities = [
-            [0, $this->OtherAccountID],
-            [1, $this->ThisAccountID],
-            [2, $this->OtherAccountID],
-            [3, $this->ThisAccountID],
-            [3, $this->ThisAccountID],
-            [4, $this->OtherAccountID],
-            [5, $this->ThisAccountID],
-            [6, $this->OtherAccountID],
+            [0, $OtherAccountID],
+            [1, $ThisAccountID],
+            [2, $OtherAccountID],
+            [3, $ThisAccountID],
+            [3, $ThisAccountID],
+            [4, $OtherAccountID],
+            [5, $ThisAccountID],
+            [6, $OtherAccountID],
         ];
         foreach ($activities as $data) {
             $this->PDO->exec('INSERT INTO `runalyze_training` (`time`, `accountid`, `sportid`, `s`) VALUES (' . $data[0] . ', ' . $data[1] . ', 0, 2)');
 
-            if ($data[1] == $this->ThisAccountID) {
-                $this->ThisIDs[] = $this->PDO->lastInsertId();
+            if ($data[1] == $ThisAccountID) {
+                $this->ThisIDs[] = (int) $this->PDO->lastInsertId();
             }
         }
     }

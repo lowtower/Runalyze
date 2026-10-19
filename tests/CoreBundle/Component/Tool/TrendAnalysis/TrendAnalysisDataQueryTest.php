@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\TrendAnalysis;
 
 use Doctrine\ORM\Query;
@@ -17,7 +19,7 @@ use Runalyze\Bundle\CoreBundle\Form\Tools\TrendAnalysis\TrendAnalysisData;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Metrics\Common\UnitInterface;
 
-class TrendAnalysisDataQueryTest extends TestCase
+final class TrendAnalysisDataQueryTest extends TestCase
 {
     private function createTrendAnalysisDataMock(string $valueEnum = QueryValues::PACE): Stub&TrendAnalysisData
     {

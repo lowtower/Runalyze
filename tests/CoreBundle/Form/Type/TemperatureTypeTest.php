@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Form\Type;
 
 use Runalyze\Bundle\CoreBundle\Form\Type\TemperatureType;
 use Runalyze\Metrics\Temperature\Unit\Fahrenheit;
 
-class TemperatureTypeTest extends \PHPUnit\Framework\TestCase
+final class TemperatureTypeTest extends \PHPUnit\Framework\TestCase
 {
     public function testReverseTransformWithFahrenheit(): void
     {

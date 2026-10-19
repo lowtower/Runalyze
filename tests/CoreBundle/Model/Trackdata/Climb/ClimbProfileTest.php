@@ -6,7 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Model\Trackdata\Climb;
 
 use Runalyze\Bundle\CoreBundle\Model\Trackdata\Climb\ClimbProfile;
 
-class ClimbProfileTest extends \PHPUnit\Framework\TestCase
+final class ClimbProfileTest extends \PHPUnit\Framework\TestCase
 {
     public function testEmptyConstructor(): void
     {

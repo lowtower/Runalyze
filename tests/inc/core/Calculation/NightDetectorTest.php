@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Calculation;
 
 use League\Geotools\Coordinate\Coordinate;
@@ -11,7 +13,7 @@ use Runalyze\Util\LocalTime;
 use Runalyze\View\Activity\FakeContext;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class NightDetectorTest extends \PHPUnit\Framework\TestCase
+final class NightDetectorTest extends \PHPUnit\Framework\TestCase
 {
     public function testEmptyDetector(): void
     {
@@ -26,7 +28,7 @@ class NightDetectorTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(\TypeError::class);
         $Detector = new NightDetector();
-        $Detector->setFrom('foobar', new Coordinate([0.0, 0.0]));
+        $Detector->setFrom(0, new Coordinate([0.0, 0.0]));
     }
 
     public function testSetFromThrowsInvalidArgumentExceptionForNullTimestamp(): void
@@ -69,7 +71,7 @@ class NightDetectorTest extends \PHPUnit\Framework\TestCase
     /**
      * @param array<int, array<int, float[]>>|array<int, string[]>|array<int, bool[]> $testData [['time string', [lat, lng], true|false], ...]
      */
-    protected function checkData(array $testData)
+    protected function checkData(array $testData): void
     {
         foreach ($testData as $data) {
             $this->assertEquals(

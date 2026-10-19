@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\DatabaseCleanup;
 
 use Runalyze\Bundle\CoreBundle\Component\Tool\DatabaseCleanup\ElevationsRecalculator;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresSqlite')]
-class ElevationsRecalculatorTest extends \PHPUnit\Framework\TestCase
+final class ElevationsRecalculatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var \PDO

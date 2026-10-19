@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Data\Cadence;
 
-class GeneralTest extends \PHPUnit\Framework\TestCase
+final class GeneralTest extends \PHPUnit\Framework\TestCase
 {
     public function testValue(): void
     {

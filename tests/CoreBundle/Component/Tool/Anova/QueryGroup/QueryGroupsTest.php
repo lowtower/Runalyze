@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\Anova\QueryGroup;
 
 use PHPUnit\Framework\TestCase;
@@ -11,7 +13,7 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryGroup\Type as TypeQuery
 use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryGroup\Year;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
 
-class QueryGroupsTest extends TestCase
+final class QueryGroupsTest extends TestCase
 {
     public function testGetEnumForEquipmentTypeBuildsExpectedString(): void
     {

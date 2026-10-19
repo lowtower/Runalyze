@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Command;
 
 use PHPUnit\Framework\TestCase;
@@ -60,12 +62,12 @@ final class InstallCommandTest extends TestCase
     {
         $command = new InstallCommand();
 
-        self::assertSame('runalyze:install', $command->getName());
-        self::assertSame('Install RUNALYZE and setup database.', $command->getDescription());
+        $this->assertSame('runalyze:install', $command->getName());
+        $this->assertSame('Install RUNALYZE and setup database.', $command->getDescription());
 
         $definition = $command->getDefinition();
-        self::assertTrue($definition->hasOption('skip'));
-        self::assertSame([''], $definition->getOption('skip')->getDefault());
+        $this->assertTrue($definition->hasOption('skip'));
+        $this->assertSame([''], $definition->getOption('skip')->getDefault());
     }
 
     public function testExecuteRunsAllThreeStepsInOrderAndSucceeds(): void
@@ -78,21 +80,18 @@ final class InstallCommandTest extends TestCase
 
         $exitCode = $tester->execute([]);
 
-        self::assertSame(0, $exitCode);
-        self::assertSame(
-            ['runalyze:install:check', 'runalyze:install:database', 'runalyze:install:filesystem'],
-            $this->recorder->invocations
-        );
+        $this->assertSame(0, $exitCode);
+        $this->assertSame(['runalyze:install:check', 'runalyze:install:database', 'runalyze:install:filesystem'], $this->recorder->invocations);
 
         $display = $tester->getDisplay();
-        self::assertStringContainsString('Installing RUNALYZE...', $display);
-        self::assertStringContainsString('Step 1 of 3.', $display);
-        self::assertStringContainsString('Check requirements', $display);
-        self::assertStringContainsString('Step 2 of 3.', $display);
-        self::assertStringContainsString('Setting up the database', $display);
-        self::assertStringContainsString('Step 3 of 3.', $display);
-        self::assertStringContainsString('Setting up the file system', $display);
-        self::assertStringContainsString('RUNALYZE has been successfully installed.', $display);
+        $this->assertStringContainsString('Installing RUNALYZE...', $display);
+        $this->assertStringContainsString('Step 1 of 3.', $display);
+        $this->assertStringContainsString('Check requirements', $display);
+        $this->assertStringContainsString('Step 2 of 3.', $display);
+        $this->assertStringContainsString('Setting up the database', $display);
+        $this->assertStringContainsString('Step 3 of 3.', $display);
+        $this->assertStringContainsString('Setting up the file system', $display);
+        $this->assertStringContainsString('RUNALYZE has been successfully installed.', $display);
     }
 
     public function testExecuteSucceedsEvenWhenShellVerbosityWasLeftQuietByAnEarlierCommand(): void
@@ -107,16 +106,13 @@ final class InstallCommandTest extends TestCase
 
         $exitCode = $tester->execute([]);
 
-        self::assertSame(0, $exitCode);
-        self::assertSame(
-            ['runalyze:install:check', 'runalyze:install:database', 'runalyze:install:filesystem'],
-            $this->recorder->invocations
-        );
+        $this->assertSame(0, $exitCode);
+        $this->assertSame(['runalyze:install:check', 'runalyze:install:database', 'runalyze:install:filesystem'], $this->recorder->invocations);
 
         $display = $tester->getDisplay();
-        self::assertStringContainsString('Step 2 of 3.', $display);
-        self::assertStringContainsString('Step 3 of 3.', $display);
-        self::assertStringContainsString('RUNALYZE has been successfully installed.', $display);
+        $this->assertStringContainsString('Step 2 of 3.', $display);
+        $this->assertStringContainsString('Step 3 of 3.', $display);
+        $this->assertStringContainsString('RUNALYZE has been successfully installed.', $display);
     }
 
     public function testExecuteStopsAtFailingStepAndReturnsItsExitCode(): void
@@ -129,16 +125,9 @@ final class InstallCommandTest extends TestCase
 
         $exitCode = $tester->execute([]);
 
-        self::assertSame(3, $exitCode);
-        self::assertSame(
-            ['runalyze:install:check', 'runalyze:install:database'],
-            $this->recorder->invocations,
-            'The filesystem step must not run after the database step failed.'
-        );
-        self::assertStringNotContainsString(
-            'RUNALYZE has been successfully installed.',
-            $tester->getDisplay()
-        );
+        $this->assertSame(3, $exitCode);
+        $this->assertSame(['runalyze:install:check', 'runalyze:install:database'], $this->recorder->invocations, 'The filesystem step must not run after the database step failed.');
+        $this->assertStringNotContainsString('RUNALYZE has been successfully installed.', $tester->getDisplay());
     }
 
     public function testExecuteSkipsStepsListedInSkipOption(): void
@@ -153,14 +142,10 @@ final class InstallCommandTest extends TestCase
             '--skip' => ['database'],
         ]);
 
-        self::assertSame(0, $exitCode);
-        self::assertSame(
-            ['runalyze:install:check', 'runalyze:install:filesystem'],
-            $this->recorder->invocations,
-            'The database step must be skipped, but check and filesystem must still run.'
-        );
-        self::assertStringContainsString('skipped', $tester->getDisplay());
-        self::assertStringContainsString('RUNALYZE has been successfully installed.', $tester->getDisplay());
+        $this->assertSame(0, $exitCode);
+        $this->assertSame(['runalyze:install:check', 'runalyze:install:filesystem'], $this->recorder->invocations, 'The database step must be skipped, but check and filesystem must still run.');
+        $this->assertStringContainsString('skipped', $tester->getDisplay());
+        $this->assertStringContainsString('RUNALYZE has been successfully installed.', $tester->getDisplay());
     }
 
     public function testExecutePropagatesExceptionsFromSubcommandsInsteadOfCatchingThem(): void

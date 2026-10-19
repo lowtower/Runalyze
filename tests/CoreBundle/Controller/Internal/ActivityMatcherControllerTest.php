@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
-class ActivityMatcherControllerTest extends AbstractFixturesAwareWebTestCase
+final class ActivityMatcherControllerTest extends AbstractFixturesAwareWebTestCase
 {
     private const string MATCHER_URL = '/_internal/activity/matcher';
 
@@ -53,14 +53,14 @@ class ActivityMatcherControllerTest extends AbstractFixturesAwareWebTestCase
             ->getManager();
 
         $account = $entityManager->getRepository(Account::class)->find($accountId);
-        self::assertInstanceOf(Account::class, $account, 'Account ' . $accountId . ' must exist.');
+        $this->assertInstanceOf(Account::class, $account, 'Account ' . $accountId . ' must exist.');
 
         /** @var SportRepository $sportRepository */
         $sportRepository = $entityManager->getRepository(Sport::class);
         $runningSport = $sportRepository->findOneBy([
             'account' => $sportOwnerAccountId ?? $accountId,
         ]);
-        self::assertInstanceOf(Sport::class, $runningSport, 'Account ' . ($sportOwnerAccountId ?? $accountId) . ' must own a sport.');
+        $this->assertInstanceOf(Sport::class, $runningSport, 'Account ' . ($sportOwnerAccountId ?? $accountId) . ' must own a sport.');
 
         $activity = new Training()
             ->setAccount($account)

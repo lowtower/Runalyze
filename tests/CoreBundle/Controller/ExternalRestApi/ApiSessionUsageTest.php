@@ -21,7 +21,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
-class ApiSessionUsageTest extends AbstractFixturesAwareWebTestCase
+final class ApiSessionUsageTest extends AbstractFixturesAwareWebTestCase
 {
     private const string IMPORT_URL = '/api/import/activity';
 
@@ -80,8 +80,8 @@ class ApiSessionUsageTest extends AbstractFixturesAwareWebTestCase
 
     private function nameOfSessionCookie(): string
     {
-        $sessionFactory = static::getContainer()->get('session.factory');
-        self::assertInstanceOf(SessionFactoryInterface::class, $sessionFactory);
+        $sessionFactory = self::getContainer()->get('session.factory');
+        $this->assertInstanceOf(SessionFactoryInterface::class, $sessionFactory);
 
         return $sessionFactory->createSession()
             ->getName();

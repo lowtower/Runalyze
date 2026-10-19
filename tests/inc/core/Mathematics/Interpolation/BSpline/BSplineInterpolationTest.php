@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Mathematics\Interpolation\BSpline;
 
 use Runalyze\Mathematics\Interpolation\BSpline\BSplineInterpolation;
 
-class BSplineInterpolationTest extends \PHPUnit\Framework\TestCase
+final class BSplineInterpolationTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @param int[]|float[]|array<int, float[]> $expected
      * @param array<int, mixed> $given
      */
-    protected function assertArraysAreSimilar(array $expected, array $given, float $precision)
+    protected function assertArraysAreSimilar(array $expected, array $given, float $precision): void
     {
         $this->assertSameSize($expected, $given);
 
@@ -30,7 +32,7 @@ class BSplineInterpolationTest extends \PHPUnit\Framework\TestCase
     public function testNonNumericDegree(): void
     {
         $this->expectException(\TypeError::class);
-        new BSplineInterpolation('foo');
+        new BSplineInterpolation(0);
     }
 
     public function testEvaluationOnEmptyCurve(): void

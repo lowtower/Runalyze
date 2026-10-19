@@ -8,7 +8,7 @@ use Runalyze\Profile\FitSdk;
 use Runalyze\Profile\Sport\Mapping\FitSdkMapping;
 use Runalyze\Profile\Sport\SportProfile;
 
-class FitSdkMappingTest extends \PHPUnit\Framework\TestCase
+final class FitSdkMappingTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var FitSdkMapping

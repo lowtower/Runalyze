@@ -11,7 +11,7 @@ use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCa
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
-class BodyValuesControllerTest extends AbstractFixturesAwareWebTestCase
+final class BodyValuesControllerTest extends AbstractFixturesAwareWebTestCase
 {
     protected Account $Account;
 
@@ -90,9 +90,9 @@ class BodyValuesControllerTest extends AbstractFixturesAwareWebTestCase
 
         $this->assertCount(1, $newUsers);
         $this->assertNull($newUsers[0]->getWeight());
-        $this->assertSame(20.0, $newUsers[0]->getFat());
-        $this->assertSame(55.0, $newUsers[0]->getWater());
-        $this->assertSame(40.0, $newUsers[0]->getMuscles());
+        $this->assertEqualsWithDelta(20.0, $newUsers[0]->getFat(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(55.0, $newUsers[0]->getWater(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(40.0, $newUsers[0]->getMuscles(), PHP_FLOAT_EPSILON);
         $this->assertSame(50, $newUsers[0]->getPulseRest());
         $this->assertSame(180, $newUsers[0]->getPulseMax());
         $this->assertSame(480, $newUsers[0]->getSleepDuration());
@@ -157,11 +157,12 @@ class BodyValuesControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStatusCode(302, $client);
 
         $updated = $this->reloadUser($id);
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\User::class, $updated);
 
         $this->assertNotNull($updated->getWeight());
-        $this->assertSame(18.0, $updated->getFat());
-        $this->assertSame(58.0, $updated->getWater());
-        $this->assertSame(42.0, $updated->getMuscles());
+        $this->assertEqualsWithDelta(18.0, $updated->getFat(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(58.0, $updated->getWater(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(42.0, $updated->getMuscles(), PHP_FLOAT_EPSILON);
         $this->assertSame(48, $updated->getPulseRest());
         $this->assertSame(175, $updated->getPulseMax());
         $this->assertSame(420, $updated->getSleepDuration());

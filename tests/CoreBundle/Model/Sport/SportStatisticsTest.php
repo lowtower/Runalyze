@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Model\Sport;
 
 use PHPUnit\Framework\MockObject\Stub;
@@ -8,7 +10,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Model\Sport\SportStatistic;
 use Runalyze\Bundle\CoreBundle\Model\Sport\SportStatistics;
 
-class SportStatisticsTest extends TestCase
+final class SportStatisticsTest extends TestCase
 {
     private function createSport(int $id): Sport&Stub
     {
@@ -62,8 +64,8 @@ class SportStatisticsTest extends TestCase
         $this->assertArrayHasKey('3', $result);
         $this->assertSame($sport, $result['3']->getSport());
         $this->assertSame(12, $result['3']->getNumberOfActivities());
-        $this->assertSame(55.5, $result['3']->getTotalDistance());
-        $this->assertSame(7200.0, $result['3']->getTotalDuration());
+        $this->assertEqualsWithDelta(55.5, $result['3']->getTotalDistance(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(7200.0, $result['3']->getTotalDuration(), PHP_FLOAT_EPSILON);
     }
 
     public function testGetCountMatchesNumberOfRows(): void

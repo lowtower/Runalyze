@@ -40,7 +40,7 @@ class Gamma
 }
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class AbstractEnumFactoryTraitTest extends TestCase
+final class AbstractEnumFactoryTraitTest extends TestCase
 {
     public function testGetReturnsInstanceOfClassMatchingSingleWordConstant(): void
     {
@@ -72,11 +72,11 @@ class AbstractEnumFactoryTraitTest extends TestCase
         $firstCache = $this->readClassNamesCacheOf(FactoryTraitEnumFixture::class);
         $secondCache = $this->readClassNamesCacheOf(SecondFactoryTraitEnumFixture::class);
 
-        self::assertSame([
+        $this->assertSame([
             'alpha' => 'Alpha',
             'beta_gamma' => 'BetaGamma',
         ], $firstCache);
-        self::assertSame([
+        $this->assertSame([
             'gamma' => 'Gamma',
         ], $secondCache);
     }

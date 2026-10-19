@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -7,7 +9,7 @@ use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCa
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
-class StaticControllerTest extends AbstractFixturesAwareWebTestCase
+final class StaticControllerTest extends AbstractFixturesAwareWebTestCase
 {
     protected Account $Account;
 

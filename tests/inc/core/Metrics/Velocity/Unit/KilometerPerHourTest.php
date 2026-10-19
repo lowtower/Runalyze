@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Metrics\Velocity\Unit;
 
 use Runalyze\Metrics\Velocity\Unit\KilometerPerHour;
 
-class KilometerPerHourTest extends \PHPUnit\Framework\TestCase
+final class KilometerPerHourTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues(): void
     {

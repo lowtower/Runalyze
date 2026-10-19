@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Command;
 
 use Doctrine\Persistence\ManagerRegistry;
@@ -57,9 +59,9 @@ final class MaxZoneHRTest extends TestCase
     {
         $maxZoneHR = $this->createMaxZoneHRWithImportFlag(true);
 
-        self::assertFalse($maxZoneHR->isCollected());
-        self::assertSame(0, $maxZoneHR->MaxHR);
-        self::assertNull($maxZoneHR->Time);
+        $this->assertFalse($maxZoneHR->isCollected());
+        $this->assertSame(0, $maxZoneHR->MaxHR);
+        $this->assertNull($maxZoneHR->Time);
     }
 
     public function testCollectDoesNothingWhenImportIsDisabled(): void
@@ -71,8 +73,8 @@ final class MaxZoneHRTest extends TestCase
 
         $maxZoneHR->collect($activity, $container);
 
-        self::assertFalse($maxZoneHR->isCollected());
-        self::assertSame(0, $maxZoneHR->MaxHR);
+        $this->assertFalse($maxZoneHR->isCollected());
+        $this->assertSame(0, $maxZoneHR->MaxHR);
     }
 
     public function testCollectDoesNothingWhenActivityHasNoGetSportMethod(): void
@@ -84,7 +86,7 @@ final class MaxZoneHRTest extends TestCase
 
         $maxZoneHR->collect($activity, $container);
 
-        self::assertFalse($maxZoneHR->isCollected());
+        $this->assertFalse($maxZoneHR->isCollected());
     }
 
     public function testCollectDoesNothingWhenSportIsNotMain(): void
@@ -96,7 +98,7 @@ final class MaxZoneHRTest extends TestCase
 
         $maxZoneHR->collect($activity, $container);
 
-        self::assertFalse($maxZoneHR->isCollected());
+        $this->assertFalse($maxZoneHR->isCollected());
     }
 
     public function testCollectDoesNothingWhenMaxHeartRateUserIsNotSet(): void
@@ -108,7 +110,7 @@ final class MaxZoneHRTest extends TestCase
 
         $maxZoneHR->collect($activity, $container);
 
-        self::assertFalse($maxZoneHR->isCollected());
+        $this->assertFalse($maxZoneHR->isCollected());
     }
 
     public function testCollectStoresHeartRateAndTimestampWhenAllConditionsAreMet(): void
@@ -120,9 +122,9 @@ final class MaxZoneHRTest extends TestCase
 
         $maxZoneHR->collect($activity, $container);
 
-        self::assertTrue($maxZoneHR->isCollected());
-        self::assertSame(195, $maxZoneHR->MaxHR);
-        self::assertSame(1_700_000_000, $maxZoneHR->Time);
+        $this->assertTrue($maxZoneHR->isCollected());
+        $this->assertSame(195, $maxZoneHR->MaxHR);
+        $this->assertSame(1_700_000_000, $maxZoneHR->Time);
     }
 
     public function testCollectKeepsOnlyTheHighestHeartRateAcrossMultipleCalls(): void
@@ -134,8 +136,8 @@ final class MaxZoneHRTest extends TestCase
         $maxZoneHR->collect($activity, $this->createContainer(200, 1_700_100_000));
         $maxZoneHR->collect($activity, $this->createContainer(190, 1_700_200_000));
 
-        self::assertSame(200, $maxZoneHR->MaxHR);
-        self::assertSame(1_700_100_000, $maxZoneHR->Time);
+        $this->assertSame(200, $maxZoneHR->MaxHR);
+        $this->assertSame(1_700_100_000, $maxZoneHR->Time);
     }
 
     /**
@@ -152,8 +154,8 @@ final class MaxZoneHRTest extends TestCase
         $maxZoneHR->collect($activity, $this->createContainer(200, 1_700_000_000));
         $maxZoneHR->collect($activity, $this->createContainer(200, 1_700_999_999));
 
-        self::assertSame(200, $maxZoneHR->MaxHR);
-        self::assertSame(1_700_000_000, $maxZoneHR->Time);
+        $this->assertSame(200, $maxZoneHR->MaxHR);
+        $this->assertSame(1_700_000_000, $maxZoneHR->Time);
     }
 }
 
@@ -274,7 +276,7 @@ final class ActivityBulkImportCommandAdditionalTest extends TestCase
         $userRepository = $this->createMock(UserRepository::class);
         $userRepository->method('getLatestEntryFor')
             ->willReturn(null);
-        $userRepository->expects(self::never())->method('save');
+        $userRepository->expects($this->never())->method('save');
 
         $command = $this->createCommand($this->createDoctrineReturning($userRepository));
 
@@ -290,12 +292,12 @@ final class ActivityBulkImportCommandAdditionalTest extends TestCase
         $oldUser = $this->createMock(User::class);
         $oldUser->method('getPulseMax')
             ->willReturn(190);
-        $oldUser->expects(self::never())->method('cloneObjectForForm');
+        $oldUser->expects($this->never())->method('cloneObjectForForm');
 
         $userRepository = $this->createMock(UserRepository::class);
         $userRepository->method('getLatestEntryFor')
             ->willReturn($oldUser);
-        $userRepository->expects(self::never())->method('save');
+        $userRepository->expects($this->never())->method('save');
 
         $command = $this->createCommand($this->createDoctrineReturning($userRepository));
 
@@ -308,9 +310,9 @@ final class ActivityBulkImportCommandAdditionalTest extends TestCase
     public function testCheckStoreMaxZoneHRClonesAndSavesNewUserWhenPulseDiffers(): void
     {
         $newUser = $this->createMock(User::class);
-        $newUser->expects(self::once())->method('setTime')->with(1_700_000_000);
-        $newUser->expects(self::once())->method('setPulseMax')->with(200);
-        $newUser->expects(self::once())->method('setNotes')->with(
+        $newUser->expects($this->once())->method('setTime')->with(1_700_000_000);
+        $newUser->expects($this->once())->method('setPulseMax')->with(200);
+        $newUser->expects($this->once())->method('setNotes')->with(
             'New max pulse is set while importing main-sports activity.'
         );
 
@@ -326,7 +328,7 @@ final class ActivityBulkImportCommandAdditionalTest extends TestCase
         $userRepository = $this->createMock(UserRepository::class);
         $userRepository->method('getLatestEntryFor')
             ->willReturn($oldUser);
-        $userRepository->expects(self::once())->method('save')->with($newUser, $account);
+        $userRepository->expects($this->once())->method('save')->with($newUser, $account);
 
         $command = $this->createCommand($this->createDoctrineReturning($userRepository));
 
@@ -335,7 +337,7 @@ final class ActivityBulkImportCommandAdditionalTest extends TestCase
         $output = new BufferedOutput();
         $this->invokeCheckStoreMaxZoneHR($command, $account, $output, $maxZoneHR);
 
-        self::assertStringContainsString('Max heart-rate of user is changed from 190 to 200', $output->fetch());
+        $this->assertStringContainsString('Max heart-rate of user is changed from 190 to 200', $output->fetch());
     }
 
     private function setMoveFolderOn(ActivityBulkImportCommand $command, ?string $moveFolder): void
@@ -368,7 +370,7 @@ final class ActivityBulkImportCommandAdditionalTest extends TestCase
 
             $this->invokeMoveFile($command, $tempDirectory, 'activity.fit', new BufferedOutput());
 
-            self::assertFileExists($filePath, 'File must remain in place when --move was not used.');
+            $this->assertFileExists($filePath, 'File must remain in place when --move was not used.');
         } finally {
             new Filesystem()->remove($tempDirectory);
         }
@@ -389,9 +391,9 @@ final class ActivityBulkImportCommandAdditionalTest extends TestCase
 
             $this->invokeMoveFile($command, $tempDirectory, 'activity.fit', new BufferedOutput());
 
-            self::assertFileDoesNotExist($filePath);
-            self::assertFileExists($tempDirectory . '/imported/activity.fit');
-            self::assertSame('dummy content', file_get_contents($tempDirectory . '/imported/activity.fit'));
+            $this->assertFileDoesNotExist($filePath);
+            $this->assertFileExists($tempDirectory . '/imported/activity.fit');
+            $this->assertSame('dummy content', file_get_contents($tempDirectory . '/imported/activity.fit'));
         } finally {
             new Filesystem()->remove($tempDirectory);
         }
@@ -419,11 +421,8 @@ final class ActivityBulkImportCommandAdditionalTest extends TestCase
                 restore_error_handler();
             }
 
-            self::assertFileExists(
-                $filePath,
-                'The file must remain at its original location since the move failed.'
-            );
-            self::assertStringContainsString('Cant move to', $output->fetch());
+            $this->assertFileExists($filePath, 'The file must remain at its original location since the move failed.');
+            $this->assertStringContainsString('Cant move to', $output->fetch());
         } finally {
             new Filesystem()->remove($tempDirectory);
         }

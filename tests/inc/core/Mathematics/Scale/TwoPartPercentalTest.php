@@ -6,7 +6,7 @@ namespace Runalyze\Tests\Mathematics\Scale;
 
 use Runalyze\Mathematics\Scale\TwoPartPercental;
 
-class TwoPartPercentalTest extends \PHPUnit\Framework\TestCase
+final class TwoPartPercentalTest extends \PHPUnit\Framework\TestCase
 {
     protected TwoPartPercental $Scale;
 
@@ -48,7 +48,7 @@ class TwoPartPercentalTest extends \PHPUnit\Framework\TestCase
         $this->Scale->setInflectionPoint(20);
         $this->Scale->setMaximum(100);
 
-        $this->assertSame(0.0, $this->Scale->transform(5));
+        $this->assertEqualsWithDelta(0.0, $this->Scale->transform(5), PHP_FLOAT_EPSILON);
     }
 
     public function testValueAboveMaximumIsClampedToHundred(): void
@@ -57,6 +57,6 @@ class TwoPartPercentalTest extends \PHPUnit\Framework\TestCase
         $this->Scale->setInflectionPoint(20);
         $this->Scale->setMaximum(100);
 
-        $this->assertSame(100.0, $this->Scale->transform(150));
+        $this->assertEqualsWithDelta(100.0, $this->Scale->transform(150), PHP_FLOAT_EPSILON);
     }
 }

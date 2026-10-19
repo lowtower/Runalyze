@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\FileType;
 
 use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
@@ -7,7 +9,7 @@ use Runalyze\Parser\Activity\FileType\Gpx;
 use Runalyze\Util\LocalTime;
 
 #[\PHPUnit\Framework\Attributes\Group('import')]
-class GpxTest extends AbstractActivityParserTestCase
+final class GpxTest extends AbstractActivityParserTestCase
 {
     /**
      * @var Gpx

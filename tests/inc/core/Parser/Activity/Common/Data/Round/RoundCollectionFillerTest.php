@@ -8,7 +8,7 @@ use Runalyze\Parser\Activity\Common\Data\Round\Round;
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollectionFiller;
 
-class RoundCollectionFillerTest extends \PHPUnit\Framework\TestCase
+final class RoundCollectionFillerTest extends \PHPUnit\Framework\TestCase
 {
     public function testEasyCompletionByDistanceArray(): void
     {
@@ -23,9 +23,9 @@ class RoundCollectionFillerTest extends \PHPUnit\Framework\TestCase
             [0.0, 0.2, 0.4, 0.6, 0.8, 0.9]
         );
 
-        $this->assertSame(0.9, $collection->getTotalDistance());
-        $this->assertSame(0.4, $collection[0]->getDistance());
-        $this->assertSame(0.5, $collection[1]->getDistance());
+        $this->assertEqualsWithDelta(0.9, $collection->getTotalDistance(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(0.4, $collection[0]->getDistance(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(0.5, $collection[1]->getDistance(), PHP_FLOAT_EPSILON);
     }
 
     public function testEasyCompletionByTimeArray(): void

@@ -7,7 +7,7 @@ namespace Runalyze\Parameter\Application;
 use PHPUnit\Framework\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class ActivityCreationModeTest extends TestCase
+final class ActivityCreationModeTest extends TestCase
 {
     protected ActivityCreationMode $object;
 

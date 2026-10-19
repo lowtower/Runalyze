@@ -6,7 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Component\Notifications\Message;
 
 use Runalyze\Bundle\CoreBundle\Component\Notifications\Message\TemplateBasedMessage;
 
-class TemplateBasedMessageTest extends \PHPUnit\Framework\TestCase
+final class TemplateBasedMessageTest extends \PHPUnit\Framework\TestCase
 {
     public function testNonExistantTemplate(): void
     {

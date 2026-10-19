@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 
-class AutomaticReloadFlagSetterTest extends \PHPUnit\Framework\TestCase
+final class AutomaticReloadFlagSetterTest extends \PHPUnit\Framework\TestCase
 {
     protected FlashBag $FlashBag;
 

@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class PrivacyGuardTest extends TestCase
+final class PrivacyGuardTest extends TestCase
 {
     private function setEntityId(object $entity, int $id): void
     {
@@ -95,7 +95,7 @@ class PrivacyGuardTest extends TestCase
 
         $guard = $this->createPrivacyGuard($tokenStorage, $configurationManager);
 
-        self::assertTrue($guard->isMapVisible($training));
+        $this->assertTrue($guard->isMapVisible($training));
     }
 
     public function testIsMapVisibleForOwnerNeverConsultsConfigurationManager(): void
@@ -105,7 +105,7 @@ class PrivacyGuardTest extends TestCase
 
         $tokenStorage = $this->createTokenStorage($owner);
         $configurationManager = $this->createMock(ConfigurationManager::class);
-        $configurationManager->expects(self::never())->method('getList');
+        $configurationManager->expects($this->never())->method('getList');
 
         $guard = $this->createPrivacyGuard($tokenStorage, $configurationManager);
 
@@ -113,18 +113,16 @@ class PrivacyGuardTest extends TestCase
     }
 
     /**
-     * @return array<string, array<int, bool|string>>
+     * @return \Iterator<string, array<int, (bool|string)>>
      */
-    public static function routePrivacyProvider(): array
+    public static function routePrivacyProvider(): \Iterator
     {
-        return [
-            'never, no raceresult' => [ActivityRoutePrivacy::NEVER, false, false],
-            'never, with raceresult' => [ActivityRoutePrivacy::NEVER, true, false],
-            'race, no raceresult' => [ActivityRoutePrivacy::RACE, false, false],
-            'race, with raceresult' => [ActivityRoutePrivacy::RACE, true, true],
-            'always, no raceresult' => [ActivityRoutePrivacy::ALWAYS, false, true],
-            'always, with raceresult' => [ActivityRoutePrivacy::ALWAYS, true, true],
-        ];
+        yield 'never, no raceresult' => [ActivityRoutePrivacy::NEVER, false, false];
+        yield 'never, with raceresult' => [ActivityRoutePrivacy::NEVER, true, false];
+        yield 'race, no raceresult' => [ActivityRoutePrivacy::RACE, false, false];
+        yield 'race, with raceresult' => [ActivityRoutePrivacy::RACE, true, true];
+        yield 'always, no raceresult' => [ActivityRoutePrivacy::ALWAYS, false, true];
+        yield 'always, with raceresult' => [ActivityRoutePrivacy::ALWAYS, true, true];
     }
 
     #[DataProvider('routePrivacyProvider')]
@@ -146,7 +144,7 @@ class PrivacyGuardTest extends TestCase
 
         $guard = $this->createPrivacyGuard($tokenStorage, $configurationManager);
 
-        self::assertSame($expectedVisible, $guard->isMapVisible($training, $raceresult));
+        $this->assertSame($expectedVisible, $guard->isMapVisible($training, $raceresult));
     }
 
     public function testIsMapVisibleForAnonymousVisitorFollowsRoutePrivacyMode(): void
@@ -159,7 +157,7 @@ class PrivacyGuardTest extends TestCase
 
         $guard = $this->createPrivacyGuard($tokenStorage, $configurationManager);
 
-        self::assertTrue($guard->isMapVisible($training));
+        $this->assertTrue($guard->isMapVisible($training));
     }
 
     public function testIsMapVisibleForAnonymousVisitorWithRestrictivePrivacyReturnsFalse(): void
@@ -172,6 +170,6 @@ class PrivacyGuardTest extends TestCase
 
         $guard = $this->createPrivacyGuard($tokenStorage, $configurationManager);
 
-        self::assertFalse($guard->isMapVisible($training));
+        $this->assertFalse($guard->isMapVisible($training));
     }
 }

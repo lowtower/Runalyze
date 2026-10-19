@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  * Characterization test for RunalyzePluginStat_Wettkampf.
  */
 #[Group('plugin')]
-class RunalyzePluginStat_WettkampfCharacterizationTest extends TestCase
+final class RunalyzePluginStat_WettkampfCharacterizationTest extends TestCase
 {
     private RunalyzePluginStat_Wettkampf $plugin;
 
@@ -50,16 +50,14 @@ class RunalyzePluginStat_WettkampfCharacterizationTest extends TestCase
     }
 
     /**
-     * @return array<string, int[]|bool[]|never[][]|string[][]>
+     * @return \Iterator<string, array<(array<string>|bool|int)>>
      */
-    public static function provideFunIdScenarios(): array
+    public static function provideFunIdScenarios(): \Iterator
     {
-        return [
-            'empty fun_ids' => [[], 5, false],
-            'id present as string (loose comparison bridges int vs string)' => [['5'], 5, true],
-            'id not present' => [['5', '7'], 6, false],
-            'id present among multiple' => [['5', '7', '9'], 7, true],
-        ];
+        yield 'empty fun_ids' => [[], 5, false];
+        yield 'id present as string (loose comparison bridges int vs string)' => [['5'], 5, true];
+        yield 'id not present' => [['5', '7'], 6, false];
+        yield 'id present among multiple' => [['5', '7', '9'], 7, true];
     }
 
     public function testApplyFunTagToIdsAddsIdWhenTaggedAsFun(): void

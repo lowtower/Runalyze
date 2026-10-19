@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\Anova\QueryGroup;
 
 use Doctrine\ORM\EntityManager;
@@ -9,7 +11,7 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryGroup\Year;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaData;
 
-class YearTest extends TestCase
+final class YearTest extends TestCase
 {
     public function testAddSelectionToQueryAddsYearExtraction(): void
     {

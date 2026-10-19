@@ -38,7 +38,7 @@ final class ConcreteFileExporterForTest extends AbstractFileExporter
 }
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class AbstractFileExporterTest extends TestCase
+final class AbstractFileExporterTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -83,7 +83,7 @@ class AbstractFileExporterTest extends TestCase
 
         $contentDisposition = $response->headers->get('Content-Disposition');
         $this->assertStringStartsWith('attachment', $contentDisposition);
-        $this->assertStringContainsString('undefined.txt', $contentDisposition);
+        $this->assertStringContainsString('undefined.txt', (string) $contentDisposition);
     }
 
     public function testToResponseCallsCreateFileExactlyOnce(): void

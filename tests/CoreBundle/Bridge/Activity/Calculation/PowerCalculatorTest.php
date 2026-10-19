@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Bridge\Activity\Calculation;
 
 use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\PowerCalculator;
@@ -9,7 +11,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Trackdata;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Profile\Sport\SportProfile;
 
-class PowerCalculatorTest extends \PHPUnit\Framework\TestCase
+final class PowerCalculatorTest extends \PHPUnit\Framework\TestCase
 {
     protected PowerCalculator $Calculator;
 
@@ -23,7 +25,7 @@ class PowerCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->Calculator = new PowerCalculator();
     }
 
-    protected function setDataToActivity(?array $distance = null, ?array $elevation = null)
+    protected function setDataToActivity(?array $distance = null, ?array $elevation = null): void
     {
         $this->Activity->getSport()
             ->setInternalSportId(SportProfile::CYCLING);

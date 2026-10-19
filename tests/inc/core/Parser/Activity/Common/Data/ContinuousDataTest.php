@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\Data;
 
 use Runalyze\Parser\Activity\Common\Data\ContinuousData;
 
-class ContinuousDataTest extends \PHPUnit\Framework\TestCase
+final class ContinuousDataTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ContinuousData
@@ -29,7 +31,7 @@ class ContinuousDataTest extends \PHPUnit\Framework\TestCase
         $this->Data->Distance = [0.005, 0.011, 0.016, 0.020, 0.024, 0.026];
 
         $this->assertEquals(6, $this->Data->getTotalDuration());
-        $this->assertEquals(0.026, $this->Data->getTotalDistance());
+        $this->assertEqualsWithDelta(0.026, $this->Data->getTotalDistance(), PHP_FLOAT_EPSILON);
     }
 
     public function testTotalDurationAndDistanceIfNotPresent(): void

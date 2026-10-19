@@ -26,7 +26,7 @@ class TestableOneColumnValue extends AbstractOneColumnValue
     }
 }
 
-class AbstractOneColumnValueTest extends TestCase
+final class AbstractOneColumnValueTest extends TestCase
 {
     public function testAddSelectionToQueryAddsSelectWithAliasColumnAndAsName(): void
     {

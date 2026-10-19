@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 #[Group('default')]
-class SteffnyTest extends TestCase
+final class SteffnyTest extends TestCase
 {
     protected Steffny $Steffny;
 

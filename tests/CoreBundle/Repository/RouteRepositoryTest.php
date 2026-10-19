@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Repository;
 
 use Runalyze\Bundle\CoreBundle\Entity\Route;
 use Runalyze\Bundle\CoreBundle\Repository\RouteRepository;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
-class RouteRepositoryTest extends AbstractRepositoryTestCase
+final class RouteRepositoryTest extends AbstractRepositoryTestCase
 {
     protected RouteRepository $RouteRepository;
 

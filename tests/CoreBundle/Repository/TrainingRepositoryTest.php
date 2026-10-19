@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Repository;
 
 use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\BasicEndurance;
@@ -20,7 +22,7 @@ use Runalyze\Bundle\CoreBundle\Services\Recalculation\Task\VO2maxShapeCalculatio
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
-class TrainingRepositoryTest extends AbstractRepositoryTestCase
+final class TrainingRepositoryTest extends AbstractRepositoryTestCase
 {
     protected TrainingRepository $TrainingRepository;
 
@@ -152,8 +154,8 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $statistics = $this->TrainingRepository->getAccountStatistics($this->Account);
 
         $this->assertSame(0, $statistics->getNumberOfActivities());
-        $this->assertSame(0.0, $statistics->getTotalDuration());
-        $this->assertSame(0.0, $statistics->getTotalDistance());
+        $this->assertEqualsWithDelta(0.0, $statistics->getTotalDuration(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(0.0, $statistics->getTotalDistance(), PHP_FLOAT_EPSILON);
     }
 
     public function testAccountStatisticsWithData(): void
@@ -165,8 +167,8 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $statistics = $this->TrainingRepository->getAccountStatistics($this->Account);
 
         $this->assertSame(3, $statistics->getNumberOfActivities());
-        $this->assertSame(14400.0, $statistics->getTotalDuration());
-        $this->assertSame(85.5, $statistics->getTotalDistance());
+        $this->assertEqualsWithDelta(14400.0, $statistics->getTotalDuration(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(85.5, $statistics->getTotalDistance(), PHP_FLOAT_EPSILON);
     }
 
     public function testPosterStats(): void
@@ -280,6 +282,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->TrainingRepository->save($activity);
 
         $result = $this->TrainingRepository->findForAccount($activity->getId(), $this->getDefaultAccount()->getId());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Training::class, $result);
 
         $this->assertTrue($result->hasRoute());
         $this->assertTrue($result->hasTrackdata());
@@ -316,8 +319,10 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->TrainingRepository->save($activity);
 
         $result = $this->TrainingRepository->findForAccount($activity->getId(), $this->getDefaultAccount()->getId());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Training::class, $result);
 
         $this->assertSame(141, $result->getPower());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Training::class, $result);
         $this->assertFalse($result->isPowerCalculated());
 
         $activity->setEdited(time());
@@ -325,8 +330,10 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->TrainingRepository->save($activity);
 
         $result = $this->TrainingRepository->findForAccount($activity->getId(), $this->getDefaultAccount()->getId());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Training::class, $result);
 
         $this->assertSame(141, $result->getPower());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Training::class, $result);
         $this->assertFalse($result->isPowerCalculated());
     }
 
@@ -347,9 +354,10 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->TrainingRepository->save($activity);
 
         $result = $this->TrainingRepository->findForAccount($activity->getId(), $this->getDefaultAccount()->getId());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Training::class, $result);
 
         $this->assertTrue($result->hasRaceresult());
-        $this->assertSame(3.0, $result->getRaceresult()->getOfficialDistance());
+        $this->assertEqualsWithDelta(3.0, $result->getRaceresult()->getOfficialDistance(), PHP_FLOAT_EPSILON);
 
         $activityId = $activity->getId();
 
@@ -374,6 +382,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->TrainingRepository->save($activity);
 
         $result = $this->TrainingRepository->findForAccount($activity->getId(), $this->getDefaultAccount()->getId());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Training::class, $result);
 
         $this->assertTrue($result->hasSwimdata());
         $this->assertSame(125, $result->getTotalStrokes());
@@ -473,13 +482,13 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
 
     public function testVO2maxShapeCalculationForEmptyAccount(): void
     {
-        $this->assertSame(0.0, $this->TrainingRepository->calculateVO2maxShape(
+        $this->assertEqualsWithDelta(0.0, $this->TrainingRepository->calculateVO2maxShape(
             $this->getDefaultAccount(),
             new VO2max(),
             $this->getDefaultAccountsRunningSport()
                 ->getId(),
             time()
-        ));
+        ), PHP_FLOAT_EPSILON);
     }
 
     public function testVO2maxShapeCalculationForASingleActivity(): void
@@ -527,14 +536,14 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
 
     public function testMarathonShapeCalculationForEmptyAccount(): void
     {
-        $this->assertEquals(0.0, $this->TrainingRepository->calculateMarathonShape(
+        $this->assertEqualsWithDelta(0.0, $this->TrainingRepository->calculateMarathonShape(
             $this->getDefaultAccount(),
             new BasicEndurance(),
             50.0,
             $this->getDefaultAccountsRunningSport()
                 ->getId(),
             time()
-        ));
+        ), PHP_FLOAT_EPSILON);
     }
 
     public function testMarathonShapeCalculationForOnlyLongJog(): void
@@ -547,14 +556,14 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
 
         $this->insertActivityForDefaultAccount($date - 5 * 86400, 10800, 32.5);
 
-        $this->assertEquals(70.0, $this->TrainingRepository->calculateMarathonShape(
+        $this->assertEqualsWithDelta(70.0, $this->TrainingRepository->calculateMarathonShape(
             $this->getDefaultAccount(),
             $config,
             60.0,
             $this->getDefaultAccountsRunningSport()
                 ->getId(),
             $date
-        ));
+        ), PHP_FLOAT_EPSILON);
     }
 
     public function testMarathonShapeCalculationForWithRespectingFirstActivityData(): void
@@ -568,15 +577,15 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
 
         $this->insertActivityForDefaultAccount($date - 7 * 86400, 10800, 32.5);
 
-        $this->assertEquals(16.0, $this->TrainingRepository->calculateMarathonShape(
+        $this->assertEqualsWithDelta(16.0, $this->TrainingRepository->calculateMarathonShape(
             $this->getDefaultAccount(),
             $config,
             60.0,
             $this->getDefaultAccountsRunningSport()
                 ->getId(),
             $date
-        ));
-        $this->assertEquals(31.0, $this->TrainingRepository->calculateMarathonShape(
+        ), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(31.0, $this->TrainingRepository->calculateMarathonShape(
             $this->getDefaultAccount(),
             $config,
             60.0,
@@ -584,7 +593,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
                 ->getId(),
             $date,
             $date - 7 * 86400
-        ));
+        ), PHP_FLOAT_EPSILON);
     }
 
     public function testMarathonShapeCalculationTreatsUnknownFirstActivityAsFullyEstablished(): void
@@ -616,7 +625,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
             $date - 200 * 86400
         );
 
-        $this->assertEquals(16.0, $resultWithoutFirstActivityTimestamp);
+        $this->assertEqualsWithDelta(16.0, $resultWithoutFirstActivityTimestamp, PHP_FLOAT_EPSILON);
         $this->assertSame(
             $resultWithoutFirstActivityTimestamp,
             $resultWithLongEstablishedFirstActivity,
@@ -668,11 +677,11 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
             $this->TrainingRepository->save($activity);
 
             $this->assertSame(3600, $someEquipment[0]->getTime());
-            $this->assertSame(10.0, $someEquipment[0]->getDistance());
+            $this->assertEqualsWithDelta(10.0, $someEquipment[0]->getDistance(), PHP_FLOAT_EPSILON);
             $this->assertSame(0, $someEquipment[1]->getTime());
-            $this->assertSame(0.0, $someEquipment[1]->getDistance());
+            $this->assertEqualsWithDelta(0.0, $someEquipment[1]->getDistance(), PHP_FLOAT_EPSILON);
             $this->assertSame(0, $someEquipment[2]->getTime());
-            $this->assertSame(0.0, $someEquipment[2]->getDistance());
+            $this->assertEqualsWithDelta(0.0, $someEquipment[2]->getDistance(), PHP_FLOAT_EPSILON);
 
             $activity->addEquipment($someEquipment[1]);
             $activity->setDistance(12.0);
@@ -682,11 +691,11 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
             $this->refreshEquipment($someEquipment);
 
             $this->assertSame(3580, $someEquipment[0]->getTime());
-            $this->assertSame(12.0, $someEquipment[0]->getDistance());
+            $this->assertEqualsWithDelta(12.0, $someEquipment[0]->getDistance(), PHP_FLOAT_EPSILON);
             $this->assertSame(3580, $someEquipment[1]->getTime());
-            $this->assertSame(12.0, $someEquipment[1]->getDistance());
+            $this->assertEqualsWithDelta(12.0, $someEquipment[1]->getDistance(), PHP_FLOAT_EPSILON);
             $this->assertSame(0, $someEquipment[2]->getTime());
-            $this->assertSame(0.0, $someEquipment[2]->getDistance());
+            $this->assertEqualsWithDelta(0.0, $someEquipment[2]->getDistance(), PHP_FLOAT_EPSILON);
 
             $activity->removeEquipment($someEquipment[0]);
             $activity->addEquipment($someEquipment[2]);
@@ -695,28 +704,28 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
             $this->refreshEquipment($someEquipment);
 
             $this->assertSame(0, $someEquipment[0]->getTime());
-            $this->assertSame(0.0, $someEquipment[0]->getDistance());
+            $this->assertEqualsWithDelta(0.0, $someEquipment[0]->getDistance(), PHP_FLOAT_EPSILON);
             $this->assertSame(3580, $someEquipment[1]->getTime());
-            $this->assertSame(12.0, $someEquipment[1]->getDistance());
+            $this->assertEqualsWithDelta(12.0, $someEquipment[1]->getDistance(), PHP_FLOAT_EPSILON);
             $this->assertSame(3580, $someEquipment[2]->getTime());
-            $this->assertSame(12.0, $someEquipment[2]->getDistance());
+            $this->assertEqualsWithDelta(12.0, $someEquipment[2]->getDistance(), PHP_FLOAT_EPSILON);
 
             $this->TrainingRepository->remove($activity);
             $this->refreshEquipment($someEquipment);
 
             $this->assertSame(0, $someEquipment[0]->getTime());
-            $this->assertSame(0.0, $someEquipment[0]->getDistance());
+            $this->assertEqualsWithDelta(0.0, $someEquipment[0]->getDistance(), PHP_FLOAT_EPSILON);
             $this->assertSame(0, $someEquipment[1]->getTime());
-            $this->assertSame(0.0, $someEquipment[1]->getDistance());
+            $this->assertEqualsWithDelta(0.0, $someEquipment[1]->getDistance(), PHP_FLOAT_EPSILON);
             $this->assertSame(0, $someEquipment[2]->getTime());
-            $this->assertSame(0.0, $someEquipment[2]->getDistance());
+            $this->assertEqualsWithDelta(0.0, $someEquipment[2]->getDistance(), PHP_FLOAT_EPSILON);
         }
     }
 
     /**
      * @param Equipment[] $entities
      */
-    protected function refreshEquipment(array $entities)
+    protected function refreshEquipment(array $entities): void
     {
         foreach ($entities as $entity) {
             $this->getEntityManager()
@@ -732,7 +741,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->insertActivityForDefaultAccount(null, 3600, 10.0);
         $this->insertActivityForDefaultAccount(null, 3600, 15.5);
 
-        $this->assertSame(25.5, (float) $this->TrainingRepository->getAmountOfLoggedKilometers(false));
+        $this->assertEqualsWithDelta(25.5, (float) $this->TrainingRepository->getAmountOfLoggedKilometers(false), PHP_FLOAT_EPSILON);
     }
 
     public function testActiveYearsFor(): void
@@ -855,8 +864,8 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
             $this->TrainingRepository->getMonthlyStatsFor($this->Account, 'distance')
         );
 
-        $this->assertSame(15.0, (float) $distanceByMonth[2016][3]['value']);
-        $this->assertSame(20.0, (float) $distanceByMonth[2016][4]['value']);
+        $this->assertEqualsWithDelta(15.0, (float) $distanceByMonth[2016][3]['value'], PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(20.0, (float) $distanceByMonth[2016][4]['value'], PHP_FLOAT_EPSILON);
 
         $cyclingDistanceByMonth = $this->indexMonthlyStatsByYearAndMonth(
             $this->TrainingRepository->getMonthlyStatsFor(
@@ -868,7 +877,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         );
 
         $this->assertArrayNotHasKey(3, $cyclingDistanceByMonth[2016] ?? []);
-        $this->assertSame(12.0, (float) $cyclingDistanceByMonth[2016][4]['value']);
+        $this->assertEqualsWithDelta(12.0, (float) $cyclingDistanceByMonth[2016][4]['value'], PHP_FLOAT_EPSILON);
     }
 
     /**
@@ -1055,6 +1064,6 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
             ->getArrayResult();
 
         $this->assertCount(1, $results);
-        $this->assertSame(10.0, (float) $results[0]['distance']);
+        $this->assertEqualsWithDelta(10.0, (float) $results[0]['distance'], PHP_FLOAT_EPSILON);
     }
 }

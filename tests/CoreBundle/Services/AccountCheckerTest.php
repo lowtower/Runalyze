@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\Exception\DisabledException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[Group('default')]
-class AccountCheckerTest extends TestCase
+final class AccountCheckerTest extends TestCase
 {
     private AccountChecker $checker;
 

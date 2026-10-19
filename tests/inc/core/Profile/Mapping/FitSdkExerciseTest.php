@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Profile\Mapping;
 
 use Runalyze\Profile\Mapping\FitSdkExercise;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class FitSdkExerciseTest extends \PHPUnit\Framework\TestCase
+final class FitSdkExerciseTest extends \PHPUnit\Framework\TestCase
 {
     protected FitSdkExercise $underTest;
 

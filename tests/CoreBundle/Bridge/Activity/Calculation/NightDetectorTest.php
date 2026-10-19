@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Bridge\Activity\Calculation;
 
 use League\Geotools\Coordinate\Coordinate;
@@ -9,7 +11,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Route;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Util\LocalTime;
 
-class NightDetectorTest extends \PHPUnit\Framework\TestCase
+final class NightDetectorTest extends \PHPUnit\Framework\TestCase
 {
     protected NightDetector $Detector;
 
@@ -60,7 +62,7 @@ class NightDetectorTest extends \PHPUnit\Framework\TestCase
     /**
      * @param array<int, array<int, float[]>>|array<int, string[]>|array<int, bool[]> $testData [['time string', [lat, lng], true|false], ...]
      */
-    protected function checkData(array $testData)
+    protected function checkData(array $testData): void
     {
         $this->Activity->getRoute()
             ->setGeohashes([]);

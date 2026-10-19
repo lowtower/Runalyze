@@ -7,7 +7,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Component\Configuration;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class RunalyzeConfigurationListTest extends \PHPUnit\Framework\TestCase
+final class RunalyzeConfigurationListTest extends \PHPUnit\Framework\TestCase
 {
     public function testConstructor(): void
     {
@@ -44,12 +44,12 @@ class RunalyzeConfigurationListTest extends \PHPUnit\Framework\TestCase
         $config = new RunalyzeConfigurationList();
 
         $privacy = $config->getPrivacy();
-        self::assertFalse($privacy->isListPublic(), 'default value must be false before the update');
+        $this->assertFalse($privacy->isListPublic(), 'default value must be false before the update');
 
         $config->set('privacy.TRAINING_LIST_PUBLIC', 'true');
 
-        self::assertTrue($privacy->isListPublic(), 'the previously-cached Privacy instance must reflect the update in place');
-        self::assertSame($privacy, $config->getPrivacy(), 'getPrivacy() must still return the very same cached instance');
+        $this->assertTrue($privacy->isListPublic(), 'the previously-cached Privacy instance must reflect the update in place');
+        $this->assertSame($privacy, $config->getPrivacy(), 'getPrivacy() must still return the very same cached instance');
     }
 
     public function testSetDoesNotAffectDifferentCachedCategory(): void
@@ -57,10 +57,10 @@ class RunalyzeConfigurationListTest extends \PHPUnit\Framework\TestCase
         $config = new RunalyzeConfigurationList();
 
         $privacy = $config->getPrivacy();
-        self::assertFalse($privacy->isListPublic());
+        $this->assertFalse($privacy->isListPublic());
 
         $config->set('not-a-real-category.SOME_KEY', 'irrelevant');
 
-        self::assertFalse($privacy->isListPublic(), 'an update to an unrelated/uncached category prefix must not leak into Privacy');
+        $this->assertFalse($privacy->isListPublic(), 'an update to an unrelated/uncached category prefix must not leak into Privacy');
     }
 }

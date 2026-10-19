@@ -11,7 +11,7 @@ use Runalyze\Bundle\CoreBundle\Doctrine\Types\PipeDelimitedArray;
 use Runalyze\Bundle\CoreBundle\Doctrine\Types\PipeDelimitedArrayString;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class PipeDelimitedArrayStringTest extends TestCase
+final class PipeDelimitedArrayStringTest extends TestCase
 {
     private PipeDelimitedArrayString $type;
 

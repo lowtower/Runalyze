@@ -6,7 +6,7 @@ namespace Runalyze\Tests\Metrics\Common\Unit;
 
 use Runalyze\Metrics\Common\Unit\Linear;
 
-class LinearTest extends \PHPUnit\Framework\TestCase
+final class LinearTest extends \PHPUnit\Framework\TestCase
 {
     public function testSimpleFunction(): void
     {
@@ -17,8 +17,8 @@ class LinearTest extends \PHPUnit\Framework\TestCase
             1
         );
 
-        $this->assertEquals(7.0, $unit->fromBaseUnit(1.0));
-        $this->assertEquals(1.0, $unit->toBaseUnit(7.0));
+        $this->assertEqualsWithDelta(7.0, $unit->fromBaseUnit(1.0), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(1.0, $unit->toBaseUnit(7.0), PHP_FLOAT_EPSILON);
         $this->assertSame('foo', $unit->getAppendix());
     }
 }

@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity;
 
 use Runalyze\Activity\LapIntensity;
 use Runalyze\Parser\Activity\FileType\FitWorkoutStep;
 
 // #TSC
-class FitWorkoutStepTest extends \PHPUnit\Framework\TestCase
+final class FitWorkoutStepTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var FitWorkoutStep

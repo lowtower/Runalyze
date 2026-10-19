@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\FileType;
 
 use Runalyze\Import\Exception\UnsupportedFileException;
@@ -7,7 +9,7 @@ use Runalyze\Parser\Activity\FileType\Fitlog;
 use Runalyze\Util\LocalTime;
 
 #[\PHPUnit\Framework\Attributes\Group('import')]
-class FitlogTest extends AbstractActivityParserTestCase
+final class FitlogTest extends AbstractActivityParserTestCase
 {
     /**
      * @var Fitlog
@@ -49,7 +51,7 @@ class FitlogTest extends AbstractActivityParserTestCase
         $this->assertEquals('Laufen', $this->Container->Metadata->getSportName());
 
         $this->assertEquals(2420, $this->Container->ActivityData->Duration);
-        $this->assertEquals(10.0, $this->Container->ActivityData->Distance);
+        $this->assertEqualsWithDelta(10.0, $this->Container->ActivityData->Distance, PHP_FLOAT_EPSILON);
         $this->assertEquals(565, $this->Container->ActivityData->EnergyConsumption);
     }
 
@@ -84,7 +86,7 @@ class FitlogTest extends AbstractActivityParserTestCase
         $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(1803, $this->Container->ActivityData->Duration);
-        $this->assertEquals(0.0, $this->Container->ActivityData->Distance);
+        $this->assertEqualsWithDelta(0.0, $this->Container->ActivityData->Distance, PHP_FLOAT_EPSILON);
         $this->assertEqualsWithDelta(108, $this->Container->ActivityData->AvgHeartRate, 0.5);
         $this->assertEquals(144, $this->Container->ActivityData->MaxHeartRate);
 
@@ -108,7 +110,7 @@ class FitlogTest extends AbstractActivityParserTestCase
         $this->assertEquals(4384, $this->Container->ActivityData->Duration);
         $this->assertEquals(4384, end($this->Container->ContinuousData->Time));
         $this->assertEquals(4645, $this->Container->ActivityData->ElapsedTime);
-        $this->assertEquals(14.67, $this->Container->ActivityData->Distance);
+        $this->assertEqualsWithDelta(14.67, $this->Container->ActivityData->Distance, PHP_FLOAT_EPSILON);
 
         $this->checkExpectedPauseData([
             [1408, 33, 150, 112],

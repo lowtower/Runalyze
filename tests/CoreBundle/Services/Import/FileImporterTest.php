@@ -10,7 +10,7 @@ use Runalyze\Bundle\CoreBundle\Services\Import\FileImporter;
 use Runalyze\Parser\Activity\Converter\FitConverter;
 use Runalyze\Parser\Activity\Converter\TtbinConverter;
 
-class FileImporterTest extends \PHPUnit\Framework\TestCase
+final class FileImporterTest extends \PHPUnit\Framework\TestCase
 {
     protected FileImporter $Importer;
 

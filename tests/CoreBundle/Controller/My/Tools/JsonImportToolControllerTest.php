@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller\My\Tools;
 
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\JsonBackupAnalyzer;
-use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\Filesystem\Filesystem;
@@ -13,15 +12,13 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
-class JsonImportToolControllerTest extends AbstractFixturesAwareWebTestCase
+final class JsonImportToolControllerTest extends AbstractFixturesAwareWebTestCase
 {
-    protected Account $Account;
-
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->Account = $this->getDefaultAccount();
+        $this->getDefaultAccount();
     }
 
     protected function getImportFilePath(): string
@@ -347,7 +344,7 @@ class JsonImportToolControllerTest extends AbstractFixturesAwareWebTestCase
             $client->request('POST', '/my/tools/backup-import/import/do');
 
             $this->assertStatusCode(200, $client);
-            $this->assertStringContainsString('Nothing changed.', $client->getResponse()->getContent());
+            $this->assertStringContainsString('Nothing changed.', (string) $client->getResponse()->getContent());
         } finally {
             $filesystem->remove($importPath . $originalFilename);
         }

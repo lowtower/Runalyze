@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Activity\PaceUnit;
 
 use PHPUnit\Framework\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class KmPerHourTest extends TestCase
+final class KmPerHourTest extends TestCase
 {
     private string $OriginalDecimalSeparator;
 

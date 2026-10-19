@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\Anova\QueryGroup;
 
 use Doctrine\ORM\EntityManager;
@@ -12,7 +14,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaData;
 use Runalyze\Bundle\CoreBundle\Repository\TypeRepository;
 
-class TypeQueryGroupTest extends TestCase
+final class TypeQueryGroupTest extends TestCase
 {
     public function testAddSelectionToQueryJoinsTypeAndSelectsItsId(): void
     {

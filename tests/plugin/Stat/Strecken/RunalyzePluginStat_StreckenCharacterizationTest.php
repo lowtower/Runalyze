@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
  * Characterization test for RunalyzePluginStat_Strecken.
  */
 #[Group('plugin')]
-class RunalyzePluginStat_StreckenCharacterizationTest extends TestCase
+final class RunalyzePluginStat_StreckenCharacterizationTest extends TestCase
 {
     private RunalyzePluginStat_Strecken $plugin;
 

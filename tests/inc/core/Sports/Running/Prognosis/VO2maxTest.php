@@ -6,7 +6,7 @@ namespace Runalyze\Tests\Sports\Running\Prognosis;
 
 use Runalyze\Sports\Running\Prognosis\VO2max;
 
-class VO2maxTest extends \PHPUnit\Framework\TestCase
+final class VO2maxTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var VO2max
@@ -66,8 +66,8 @@ class VO2maxTest extends \PHPUnit\Framework\TestCase
 
         $this->VO2max->adjustForMarathonShape(false);
 
-        $this->assertEquals(30.0, $this->VO2max->getAdjustedVO2maxForDistanceIfWanted(0.0));
-        $this->assertEquals(30.0, $this->VO2max->getAdjustedVO2maxForDistanceIfWanted(50.0));
+        $this->assertEqualsWithDelta(30.0, $this->VO2max->getAdjustedVO2maxForDistanceIfWanted(0.0), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(30.0, $this->VO2max->getAdjustedVO2maxForDistanceIfWanted(50.0), PHP_FLOAT_EPSILON);
     }
 
     public function testGetAdjustedVO2maxForDistance(): void

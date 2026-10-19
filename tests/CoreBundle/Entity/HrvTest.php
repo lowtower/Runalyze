@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Entity;
 
 use PHPUnit\Framework\TestCase;
@@ -8,7 +10,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Hrv;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class HrvTest extends TestCase
+final class HrvTest extends TestCase
 {
     private Hrv $hrv;
 

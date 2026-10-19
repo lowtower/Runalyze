@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Repository;
 
 use Runalyze\Bundle\CoreBundle\Component\Notifications\Message\TemplateBasedMessage;
@@ -8,7 +10,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Notification;
 use Runalyze\Bundle\CoreBundle\Repository\NotificationRepository;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
-class NotificationRepositoryTest extends AbstractRepositoryTestCase
+final class NotificationRepositoryTest extends AbstractRepositoryTestCase
 {
     protected NotificationRepository $NotificationRepository;
 

@@ -9,7 +9,7 @@ use Runalyze\Parameter\Application\ActivityCreationMode;
 use Runalyze\Parameter\Application\DatabaseOrder;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class ActivityFormTest extends \PHPUnit\Framework\TestCase
+final class ActivityFormTest extends \PHPUnit\Framework\TestCase
 {
     protected ActivityForm $object;
 
@@ -21,55 +21,51 @@ class ActivityFormTest extends \PHPUnit\Framework\TestCase
     #[DataProvider('legendsDefaultingToTrueProvider')]
     public function testLegendDefaultsToVisible(string $key): void
     {
-        self::assertTrue($this->object->show($key));
+        $this->assertTrue($this->object->show($key));
     }
 
     /**
-     * @return array<string, string[]>
+     * @return \Iterator<string, array<string>>
      */
-    public static function legendsDefaultingToTrueProvider(): array
+    public static function legendsDefaultingToTrueProvider(): \Iterator
     {
-        return [
-            'SPORT' => ['SPORT'],
-            'GENERAL' => ['GENERAL'],
-            'DISTANCE' => ['DISTANCE'],
-            'SPLITS' => ['SPLITS'],
-            'WEATHER' => ['WEATHER'],
-            'OTHER' => ['OTHER'],
-        ];
+        yield 'SPORT' => ['SPORT'];
+        yield 'GENERAL' => ['GENERAL'];
+        yield 'DISTANCE' => ['DISTANCE'];
+        yield 'SPLITS' => ['SPLITS'];
+        yield 'WEATHER' => ['WEATHER'];
+        yield 'OTHER' => ['OTHER'];
     }
 
     #[DataProvider('legendsDefaultingToFalseProvider')]
     public function testLegendDefaultsToHidden(string $key): void
     {
-        self::assertFalse($this->object->show($key));
+        $this->assertFalse($this->object->show($key));
     }
 
     /**
-     * @return array<string, string[]>
+     * @return \Iterator<string, array<string>>
      */
-    public static function legendsDefaultingToFalseProvider(): array
+    public static function legendsDefaultingToFalseProvider(): \Iterator
     {
-        return [
-            'NOTES' => ['NOTES'],
-            'PUBLIC' => ['PUBLIC'],
-            'ELEVATION' => ['ELEVATION'],
-            'GPS' => ['GPS'],
-        ];
+        yield 'NOTES' => ['NOTES'];
+        yield 'PUBLIC' => ['PUBLIC'];
+        yield 'ELEVATION' => ['ELEVATION'];
+        yield 'GPS' => ['GPS'];
     }
 
     public function testUpdateChangesLegendVisibility(): void
     {
         $this->object->update('NOTES', 'true');
 
-        self::assertTrue($this->object->show('NOTES'));
+        $this->assertTrue($this->object->show('NOTES'));
     }
 
     public function testUpdateCanHideAnInitiallyVisibleLegend(): void
     {
         $this->object->update('SPORT', 'false');
 
-        self::assertFalse($this->object->show('SPORT'));
+        $this->assertFalse($this->object->show('SPORT'));
     }
 
     public function testShowThrowsExceptionForUnknownLegendKey(): void
@@ -88,64 +84,64 @@ class ActivityFormTest extends \PHPUnit\Framework\TestCase
 
     public function testCreationModeReturnsConfiguredParameterWithDefaultValue(): void
     {
-        self::assertInstanceOf(ActivityCreationMode::class, $this->object->creationMode());
-        self::assertSame(ActivityCreationMode::UPLOAD, $this->object->creationMode()->value());
-        self::assertTrue($this->object->creationMode()->usesUpload());
+        $this->assertInstanceOf(ActivityCreationMode::class, $this->object->creationMode());
+        $this->assertSame(ActivityCreationMode::UPLOAD, $this->object->creationMode()->value());
+        $this->assertTrue($this->object->creationMode()->usesUpload());
     }
 
     public function testCorrectElevationDefaultsToTrue(): void
     {
-        self::assertTrue($this->object->correctElevation());
+        $this->assertTrue($this->object->correctElevation());
     }
 
     public function testLoadWeatherDefaultsToTrue(): void
     {
-        self::assertTrue($this->object->loadWeather());
+        $this->assertTrue($this->object->loadWeather());
     }
 
     public function testWeatherLocationDefaultsToEmptyString(): void
     {
-        self::assertSame('', $this->object->weatherLocation());
+        $this->assertSame('', $this->object->weatherLocation());
     }
 
     public function testComputeCaloriesDefaultsToTrue(): void
     {
-        self::assertTrue($this->object->computeCalories());
+        $this->assertTrue($this->object->computeCalories());
     }
 
     public function testDetectPausesDefaultsToTrue(): void
     {
-        self::assertTrue($this->object->detectPauses());
+        $this->assertTrue($this->object->detectPauses());
     }
 
     public function testOrderSportsReturnsConfiguredParameterWithDefaultValue(): void
     {
-        self::assertInstanceOf(DatabaseOrder::class, $this->object->orderSports());
-        self::assertSame(DatabaseOrder::ASC, $this->object->orderSports()->value());
+        $this->assertInstanceOf(DatabaseOrder::class, $this->object->orderSports());
+        $this->assertSame(DatabaseOrder::ASC, $this->object->orderSports()->value());
     }
 
     public function testOrderTypesReturnsConfiguredParameterWithDefaultValue(): void
     {
-        self::assertInstanceOf(DatabaseOrder::class, $this->object->orderTypes());
-        self::assertSame(DatabaseOrder::ASC, $this->object->orderTypes()->value());
+        $this->assertInstanceOf(DatabaseOrder::class, $this->object->orderTypes());
+        $this->assertSame(DatabaseOrder::ASC, $this->object->orderTypes()->value());
     }
 
     public function testOrderEquipmentReturnsConfiguredParameterWithDefaultValue(): void
     {
-        self::assertInstanceOf(DatabaseOrder::class, $this->object->orderEquipment());
-        self::assertSame(DatabaseOrder::ASC, $this->object->orderEquipment()->value());
+        $this->assertInstanceOf(DatabaseOrder::class, $this->object->orderEquipment());
+        $this->assertSame(DatabaseOrder::ASC, $this->object->orderEquipment()->value());
     }
 
     public function testIgnoredActivityIDsDefaultsToEmptyArray(): void
     {
-        self::assertSame([], $this->object->ignoredActivityIDs());
+        $this->assertSame([], $this->object->ignoredActivityIDs());
     }
 
     public function testIgnoreActivityIDAppendsToTheList(): void
     {
         $this->object->ignoreActivityID('12345');
 
-        self::assertSame(['12345'], $this->object->ignoredActivityIDs());
+        $this->assertSame(['12345'], $this->object->ignoredActivityIDs());
     }
 
     public function testIgnoreActivityIDCanBeCalledMultipleTimesPreservingOrder(): void
@@ -154,12 +150,12 @@ class ActivityFormTest extends \PHPUnit\Framework\TestCase
         $this->object->ignoreActivityID('222');
         $this->object->ignoreActivityID('333');
 
-        self::assertSame(['111', '222', '333'], $this->object->ignoredActivityIDs());
+        $this->assertSame(['111', '222', '333'], $this->object->ignoredActivityIDs());
     }
 
     public function testKeysReturnsAllRegisteredHandlesInDeclarationOrder(): void
     {
-        self::assertSame([
+        $this->assertSame([
             'FORMULAR_SHOW_SPORT',
             'FORMULAR_SHOW_GENERAL',
             'FORMULAR_SHOW_DISTANCE',

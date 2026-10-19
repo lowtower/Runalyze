@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Calculation\Math\MovingAverage;
 
-class WithKernelTest extends \PHPUnit\Framework\TestCase
+final class WithKernelTest extends \PHPUnit\Framework\TestCase
 {
     public function testWithoutKernel(): void
     {

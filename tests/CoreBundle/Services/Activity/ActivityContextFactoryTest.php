@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Services\Activity;
 
 use InvalidArgumentException;
@@ -14,7 +16,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
-class ActivityContextFactoryTest extends AbstractFixturesAwareWebTestCase
+final class ActivityContextFactoryTest extends AbstractFixturesAwareWebTestCase
 {
     protected Account $Account;
 

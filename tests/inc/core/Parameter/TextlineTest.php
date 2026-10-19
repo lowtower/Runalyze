@@ -8,13 +8,13 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 #[Group('default')]
-class TextlineTest extends TestCase
+final class TextlineTest extends TestCase
 {
     public function testConstructorStoresInitialValue(): void
     {
         $parameter = new Textline('OpenStreetMap');
 
-        self::assertSame('OpenStreetMap', $parameter->value());
+        $this->assertSame('OpenStreetMap', $parameter->value());
     }
 
     public function testSetOverwritesValue(): void
@@ -22,7 +22,7 @@ class TextlineTest extends TestCase
         $parameter = new Textline('initial');
         $parameter->set('updated');
 
-        self::assertSame('updated', $parameter->value());
+        $this->assertSame('updated', $parameter->value());
     }
 
     public function testSetFromStringDelegatesToSet(): void
@@ -30,14 +30,14 @@ class TextlineTest extends TestCase
         $parameter = new Textline('initial');
         $parameter->setFromString('from string');
 
-        self::assertSame('from string', $parameter->value());
+        $this->assertSame('from string', $parameter->value());
     }
 
     public function testValueAsStringReturnsStringValueUnchanged(): void
     {
         $parameter = new Textline('OpenStreetMap');
 
-        self::assertSame('OpenStreetMap', $parameter->valueAsString());
+        $this->assertSame('OpenStreetMap', $parameter->valueAsString());
     }
 
     public function testValueAsStringCastsNonStringValueToString(): void
@@ -45,6 +45,6 @@ class TextlineTest extends TestCase
         $parameter = new Textline('irrelevant');
         $parameter->set(42);
 
-        self::assertSame('42', $parameter->valueAsString());
+        $this->assertSame('42', $parameter->valueAsString());
     }
 }

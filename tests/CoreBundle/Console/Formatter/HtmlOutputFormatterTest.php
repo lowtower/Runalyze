@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Console\Formatter;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Console\Formatter\HtmlOutputFormatter;
 
-class HtmlOutputFormatterTest extends TestCase
+final class HtmlOutputFormatterTest extends TestCase
 {
     private function esc(string $codes): string
     {
@@ -147,25 +149,23 @@ class HtmlOutputFormatterTest extends TestCase
     }
 
     /**
-     * @return array<string, string[]>
+     * @return \Iterator<string, array<string>>
      */
-    public static function provideSingleCodeMappings(): array
+    public static function provideSingleCodeMappings(): \Iterator
     {
-        return [
-            'black foreground (30)' => ['30', 'color:rgba(0,0,0,1)'],
-            'red foreground (31)' => ['31', 'color:rgba(230,50,50,1)'],
-            'green foreground (32)' => ['32', 'color:rgba(50,230,50,1)'],
-            'yellow foreground (33)' => ['33', 'color:rgba(230,230,50,1)'],
-            'blue foreground (34)' => ['34', 'color:rgba(50,50,230,1)'],
-            'magenta foreground (35)' => ['35', 'color:rgba(230,50,150,1)'],
-            'cyan foreground (36)' => ['36', 'color:rgba(50,230,230,1)'],
-            'white foreground (37)' => ['37', 'color:rgba(250,250,250,1)'],
-            'black background (40)' => ['40', 'color:rgba(0,0,0,1)'],
-            'red background (41)' => ['41', 'background-color:rgba(230,50,50,1)'],
-            'bold (1)' => ['1', 'font-weight:bold'],
-            'underline (4)' => ['4', 'text-decoration:underline'],
-            'conceal (8)' => ['8', 'visibility:hidden'],
-        ];
+        yield 'black foreground (30)' => ['30', 'color:rgba(0,0,0,1)'];
+        yield 'red foreground (31)' => ['31', 'color:rgba(230,50,50,1)'];
+        yield 'green foreground (32)' => ['32', 'color:rgba(50,230,50,1)'];
+        yield 'yellow foreground (33)' => ['33', 'color:rgba(230,230,50,1)'];
+        yield 'blue foreground (34)' => ['34', 'color:rgba(50,50,230,1)'];
+        yield 'magenta foreground (35)' => ['35', 'color:rgba(230,50,150,1)'];
+        yield 'cyan foreground (36)' => ['36', 'color:rgba(50,230,230,1)'];
+        yield 'white foreground (37)' => ['37', 'color:rgba(250,250,250,1)'];
+        yield 'black background (40)' => ['40', 'color:rgba(0,0,0,1)'];
+        yield 'red background (41)' => ['41', 'background-color:rgba(230,50,50,1)'];
+        yield 'bold (1)' => ['1', 'font-weight:bold'];
+        yield 'underline (4)' => ['4', 'text-decoration:underline'];
+        yield 'conceal (8)' => ['8', 'visibility:hidden'];
     }
 
     public function testReplaceFormatReturnsEmptyStyleAttributeForUnknownCode(): void

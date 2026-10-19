@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\Anova\QueryValue;
 
 use PHPUnit\Framework\TestCase;
@@ -7,7 +9,7 @@ use Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryValue\Cadence;
 use Runalyze\Metrics\Cadence\Unit\RoundsPerMinute;
 
-class CadenceTest extends TestCase
+final class CadenceTest extends TestCase
 {
     public function testGetColumnReturnsCadence(): void
     {

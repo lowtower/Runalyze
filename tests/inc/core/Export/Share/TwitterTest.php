@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 #[Group('default')]
-class TwitterTest extends TestCase
+final class TwitterTest extends TestCase
 {
     public function testIconClassReturnsTwitterSpecificCssClasses(): void
     {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Model\Route;
 
-class EntityTest extends \PHPUnit\Framework\TestCase
+final class EntityTest extends \PHPUnit\Framework\TestCase
 {
     protected function simpleObject(): \Runalyze\Model\Route\Entity
     {
@@ -39,7 +39,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
 
         $this->assertSame('Test route', $T->name());
         $this->assertEquals(['City A', 'City B'], $T->citiesAsArray());
-        $this->assertSame(3.14, $T->distance());
+        $this->assertEqualsWithDelta(3.14, $T->distance(), PHP_FLOAT_EPSILON);
         $this->assertSame(20, $T->elevation());
         $this->assertSame(20, $T->elevationUp());
         $this->assertSame(15, $T->elevationDown());

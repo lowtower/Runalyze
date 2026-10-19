@@ -10,7 +10,7 @@ use Runalyze\Tests\DatabaseTestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]
 #[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
-class JsonImporterTest extends DatabaseTestCase
+final class JsonImporterTest extends DatabaseTestCase
 {
     protected string $Base;
 

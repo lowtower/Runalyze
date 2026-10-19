@@ -6,7 +6,7 @@ namespace Runalyze\Tests\Sports\Performance\Model;
 
 use Runalyze\Sports\Performance\Model\BanisterModel;
 
-class BanisterModelTest extends \PHPUnit\Framework\TestCase
+final class BanisterModelTest extends \PHPUnit\Framework\TestCase
 {
     public function testSingleWorkout(): void
     {

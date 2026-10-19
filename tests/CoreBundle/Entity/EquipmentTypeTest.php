@@ -9,7 +9,7 @@ use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class EquipmentTypeTest extends \PHPUnit\Framework\TestCase
+final class EquipmentTypeTest extends \PHPUnit\Framework\TestCase
 {
     protected EquipmentType $EquipmentType;
 

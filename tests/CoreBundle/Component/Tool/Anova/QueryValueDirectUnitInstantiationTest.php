@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\Anova\QueryValue;
 
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -40,7 +42,7 @@ use Runalyze\Metrics\GroundContactBalance\Unit\PercentLeft;
 use Runalyze\Metrics\Power\Unit\Watts;
 use Runalyze\Metrics\Time\Unit\Hours;
 
-class QueryValueDirectUnitInstantiationTest extends TestCase
+final class QueryValueDirectUnitInstantiationTest extends TestCase
 {
     #[DataProvider('provideClassesAndExpectedUnitTypes')]
     public function testGetValueUnitReturnsExpectedUnitType(string $className, string $expectedUnitClass): void
@@ -54,38 +56,36 @@ class QueryValueDirectUnitInstantiationTest extends TestCase
     }
 
     /**
-     * @return array<string, mixed[]>
+     * @return \Iterator<string, array<mixed>>
      */
-    public static function provideClassesAndExpectedUnitTypes(): array
+    public static function provideClassesAndExpectedUnitTypes(): \Iterator
     {
-        return [
-            'FitVo2maxEstimate -> None' => [FitVo2maxEstimate::class, None::class],
-            'FootstrikeTypeLeft -> None' => [FootstrikeTypeLeft::class, None::class],
-            'FootstrikeTypeRight -> None' => [FootstrikeTypeRight::class, None::class],
-            'GroundContactTime -> Simple' => [GroundContactTime::class, Simple::class],
-            'ImpactGsLeft -> Simple' => [ImpactGsLeft::class, Simple::class],
-            'ImpactGsRight -> Simple' => [ImpactGsRight::class, Simple::class],
-            'PercentageHilly -> Factorial' => [PercentageHilly::class, Factorial::class],
-            'Power -> Watts' => [Power::class, Watts::class],
-            'PronationExcursionLeft -> Simple' => [PronationExcursionLeft::class, Simple::class],
-            'PronationExcursionRight -> Simple' => [PronationExcursionRight::class, Simple::class],
-            'Rpe -> None' => [Rpe::class, None::class],
-            'VerticalOscillation -> Factorial' => [VerticalOscillation::class, Factorial::class],
-            'BrakingGsLeft -> Simple' => [BrakingGsLeft::class, Simple::class],
-            'BrakingGsRight -> Simple' => [BrakingGsRight::class, Simple::class],
-            'FitRecoveryTime -> Factorial' => [FitRecoveryTime::class, Factorial::class],
-            'Trimp -> None' => [Trimp::class, None::class],
-            'WeatherPressure -> Simple' => [WeatherPressure::class, Simple::class],
-            'GroundContactBalance -> PercentLeft' => [GroundContactBalance::class, PercentLeft::class],
-            'ClimbScore -> None' => [ClimbScore::class, None::class],
-            'FitHrvAnalysis -> None' => [FitHrvAnalysis::class, None::class],
-            'FitTrainingEffect -> None' => [FitTrainingEffect::class, None::class],
-            'WeatherHumidity -> Simple' => [WeatherHumidity::class, Simple::class],
-            'Duration -> Hours' => [Duration::class, Hours::class],
-            'FitPerformanceConditionStart -> Linear' => [FitPerformanceConditionStart::class, Linear::class],
-            'FitPerformanceConditionEnd -> Linear' => [FitPerformanceConditionEnd::class, Linear::class],
-            'FlightTime -> Simple' => [FlightTime::class, Simple::class],
-            'FlightRatio -> Factorial' => [FlightRatio::class, Factorial::class],
-        ];
+        yield 'FitVo2maxEstimate -> None' => [FitVo2maxEstimate::class, None::class];
+        yield 'FootstrikeTypeLeft -> None' => [FootstrikeTypeLeft::class, None::class];
+        yield 'FootstrikeTypeRight -> None' => [FootstrikeTypeRight::class, None::class];
+        yield 'GroundContactTime -> Simple' => [GroundContactTime::class, Simple::class];
+        yield 'ImpactGsLeft -> Simple' => [ImpactGsLeft::class, Simple::class];
+        yield 'ImpactGsRight -> Simple' => [ImpactGsRight::class, Simple::class];
+        yield 'PercentageHilly -> Factorial' => [PercentageHilly::class, Factorial::class];
+        yield 'Power -> Watts' => [Power::class, Watts::class];
+        yield 'PronationExcursionLeft -> Simple' => [PronationExcursionLeft::class, Simple::class];
+        yield 'PronationExcursionRight -> Simple' => [PronationExcursionRight::class, Simple::class];
+        yield 'Rpe -> None' => [Rpe::class, None::class];
+        yield 'VerticalOscillation -> Factorial' => [VerticalOscillation::class, Factorial::class];
+        yield 'BrakingGsLeft -> Simple' => [BrakingGsLeft::class, Simple::class];
+        yield 'BrakingGsRight -> Simple' => [BrakingGsRight::class, Simple::class];
+        yield 'FitRecoveryTime -> Factorial' => [FitRecoveryTime::class, Factorial::class];
+        yield 'Trimp -> None' => [Trimp::class, None::class];
+        yield 'WeatherPressure -> Simple' => [WeatherPressure::class, Simple::class];
+        yield 'GroundContactBalance -> PercentLeft' => [GroundContactBalance::class, PercentLeft::class];
+        yield 'ClimbScore -> None' => [ClimbScore::class, None::class];
+        yield 'FitHrvAnalysis -> None' => [FitHrvAnalysis::class, None::class];
+        yield 'FitTrainingEffect -> None' => [FitTrainingEffect::class, None::class];
+        yield 'WeatherHumidity -> Simple' => [WeatherHumidity::class, Simple::class];
+        yield 'Duration -> Hours' => [Duration::class, Hours::class];
+        yield 'FitPerformanceConditionStart -> Linear' => [FitPerformanceConditionStart::class, Linear::class];
+        yield 'FitPerformanceConditionEnd -> Linear' => [FitPerformanceConditionEnd::class, Linear::class];
+        yield 'FlightTime -> Simple' => [FlightTime::class, Simple::class];
+        yield 'FlightRatio -> Factorial' => [FlightRatio::class, Factorial::class];
     }
 }

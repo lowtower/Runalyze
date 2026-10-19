@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Model\Equipment;
 
 use PHPUnit\Framework\MockObject\Stub;
@@ -8,7 +10,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Equipment;
 use Runalyze\Bundle\CoreBundle\Model\Equipment\EquipmentStatistic;
 use Runalyze\Bundle\CoreBundle\Model\Equipment\EquipmentStatistics;
 
-class EquipmentStatisticsTest extends TestCase
+final class EquipmentStatisticsTest extends TestCase
 {
     private \SplObjectStorage $labels;
 
@@ -58,8 +60,8 @@ class EquipmentStatisticsTest extends TestCase
         $this->assertCount(1, $result);
         $this->assertSame($row[0], $result[0]->getEquipment());
         $this->assertSame(5, $result[0]->getNumberOfActivities());
-        $this->assertSame(280.0, $result[0]->getMaximalPace());
-        $this->assertSame(42.5, $result[0]->getMaximalDistance());
+        $this->assertEqualsWithDelta(280.0, $result[0]->getMaximalPace(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(42.5, $result[0]->getMaximalDistance(), PHP_FLOAT_EPSILON);
     }
 
     public function testSingleInactiveEquipmentIsIncluded(): void

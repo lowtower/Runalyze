@@ -52,7 +52,7 @@ class Category_MockTester extends Category
 }
 
 #[Group('default')]
-class CategoryTest extends TestCase
+final class CategoryTest extends TestCase
 {
     private Category_MockTester $object;
 
@@ -72,18 +72,18 @@ class CategoryTest extends TestCase
 
     public function testAccessReturnsDefaultValuesAndAllowsUpdatingThem(): void
     {
-        self::assertSame(42, $this->object->test());
-        self::assertSame('foobar', $this->object->Second()->value());
+        $this->assertSame(42, $this->object->test());
+        $this->assertSame('foobar', $this->object->Second()->value());
 
         $this->object->Second()
             ->set('test');
 
-        self::assertSame('test', $this->object->Second()->value());
+        $this->assertSame('test', $this->object->Second()->value());
     }
 
     public function testKeysReturnsAllRegisteredHandleKeysInDeclarationOrder(): void
     {
-        self::assertSame(['TEST', 'SECOND', 'FLAG'], $this->object->keys());
+        $this->assertSame(['TEST', 'SECOND', 'FLAG'], $this->object->keys());
     }
 
     public function testObjectThrowsExceptionForUnknownKey(): void
@@ -102,7 +102,7 @@ class CategoryTest extends TestCase
 
     public function testDefaultFieldsetImplementationReturnsNull(): void
     {
-        self::assertNull($this->object->Fieldset());
+        $this->assertNull($this->object->Fieldset());
     }
 
     public function testSetValuesUpdatesRegisteredHandleFromString(): void
@@ -111,7 +111,7 @@ class CategoryTest extends TestCase
             'SECOND' => 'updated value',
         ]);
 
-        self::assertSame('updated value', $this->object->Second()->value());
+        $this->assertSame('updated value', $this->object->Second()->value());
     }
 
     public function testSetValuesIgnoresUnknownKeys(): void
@@ -120,7 +120,7 @@ class CategoryTest extends TestCase
             'UNKNOWN_KEY' => 'irrelevant',
         ]);
 
-        self::assertSame('foobar', $this->object->Second()->value());
+        $this->assertSame('foobar', $this->object->Second()->value());
     }
 
     public function testUpdateFromPostSetsBooleanToTrueWhenCheckboxIsPresent(): void
@@ -132,7 +132,7 @@ class CategoryTest extends TestCase
 
         $this->object->updateFromPost();
 
-        self::assertTrue($this->object->flag());
+        $this->assertTrue($this->object->flag());
     }
 
     public function testUpdateFromPostSetsBooleanToFalseWhenCheckboxIsAbsentButFormWasSent(): void
@@ -143,7 +143,7 @@ class CategoryTest extends TestCase
 
         $this->object->updateFromPost();
 
-        self::assertFalse($this->object->flag());
+        $this->assertFalse($this->object->flag());
     }
 
     public function testUpdateFromPostUpdatesTextValueWhenKeyIsPresent(): void
@@ -154,7 +154,7 @@ class CategoryTest extends TestCase
 
         $this->object->updateFromPost();
 
-        self::assertSame('from post', $this->object->Second()->value());
+        $this->assertSame('from post', $this->object->Second()->value());
     }
 
     public function testUpdateFromPostLeavesValuesUnchangedWhenKeyIsMissing(): void
@@ -163,8 +163,8 @@ class CategoryTest extends TestCase
 
         $this->object->updateFromPost();
 
-        self::assertSame(42, $this->object->test());
-        self::assertSame('foobar', $this->object->Second()->value());
+        $this->assertSame(42, $this->object->test());
+        $this->assertSame('foobar', $this->object->Second()->value());
     }
 
     public function testUpdateFromPostFallsBackToEmptyStringWhenOnlySentMarkerIsPresent(): void
@@ -175,6 +175,6 @@ class CategoryTest extends TestCase
 
         $this->object->updateFromPost();
 
-        self::assertSame('', $this->object->Second()->value());
+        $this->assertSame('', $this->object->Second()->value());
     }
 }

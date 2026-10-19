@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Command;
 
 use PHPUnit\Framework\MockObject\Stub;
@@ -73,23 +75,20 @@ final class CleanupBackupCommandTest extends TestCase
     {
         $command = $this->createCommand();
 
-        self::assertSame('runalyze:cleanup:backups', $command->getName());
-        self::assertSame(
-            'Cleanup user backups older than parameter: backup_storage_period',
-            $command->getDescription()
-        );
+        $this->assertSame('runalyze:cleanup:backups', $command->getName());
+        $this->assertSame('Cleanup user backups older than parameter: backup_storage_period', $command->getDescription());
 
         $definition = $command->getDefinition();
 
-        self::assertTrue($definition->hasArgument('days'));
-        self::assertFalse($definition->getArgument('days')->isRequired());
+        $this->assertTrue($definition->hasArgument('days'));
+        $this->assertFalse($definition->getArgument('days')->isRequired());
     }
 
     public function testExecuteUsesProvidedDaysArgumentInsteadOfConfiguredPeriod(): void
     {
         $parameterBag = $this->createMock(ParameterBagInterface::class);
         $parameterBag
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('get')
             ->with('app.data_directory')
             ->willReturn($this->tempDataDirectory);
@@ -99,11 +98,8 @@ final class CleanupBackupCommandTest extends TestCase
             'days' => '30',
         ]);
 
-        self::assertSame(0, $exitCode);
-        self::assertStringContainsString(
-            'Delete all backups older than 30 days',
-            $tester->getDisplay()
-        );
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('Delete all backups older than 30 days', $tester->getDisplay());
     }
 
     public function testExecuteFallsBackToConfiguredBackupStoragePeriodWhenDaysArgumentOmitted(): void
@@ -118,11 +114,8 @@ final class CleanupBackupCommandTest extends TestCase
         $tester = new CommandTester($this->createCommand());
         $exitCode = $tester->execute([]);
 
-        self::assertSame(0, $exitCode);
-        self::assertStringContainsString(
-            'Delete all backups older than 15 days',
-            $tester->getDisplay()
-        );
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('Delete all backups older than 15 days', $tester->getDisplay());
     }
 
     public function testExecuteReportsZeroDeletedBackupsForEmptyDirectory(): void
@@ -138,8 +131,8 @@ final class CleanupBackupCommandTest extends TestCase
             'days' => '30',
         ]);
 
-        self::assertSame(0, $exitCode);
-        self::assertStringContainsString('0 deleted backups', $tester->getDisplay());
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('0 deleted backups', $tester->getDisplay());
     }
 
     public function testExecuteDeletesOnlyGzFilesOlderThanGivenDays(): void
@@ -159,12 +152,12 @@ final class CleanupBackupCommandTest extends TestCase
             'days' => '30',
         ]);
 
-        self::assertSame(0, $exitCode);
-        self::assertStringContainsString('1 deleted backups', $tester->getDisplay());
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('1 deleted backups', $tester->getDisplay());
 
-        self::assertFileDoesNotExist($oldBackup, 'The old .gz backup should have been deleted.');
-        self::assertFileExists($recentBackup, 'The recent .gz backup must not be deleted.');
-        self::assertFileExists($oldNonGzFile, 'Non-.gz files must never be touched, regardless of age.');
+        $this->assertFileDoesNotExist($oldBackup, 'The old .gz backup should have been deleted.');
+        $this->assertFileExists($recentBackup, 'The recent .gz backup must not be deleted.');
+        $this->assertFileExists($oldNonGzFile, 'Non-.gz files must never be touched, regardless of age.');
     }
 
     public function testExecuteDeletesMultipleMatchingBackupsAndReportsCorrectCount(): void
@@ -184,19 +177,19 @@ final class CleanupBackupCommandTest extends TestCase
             'days' => '30',
         ]);
 
-        self::assertSame(0, $exitCode);
-        self::assertStringContainsString('2 deleted backups', $tester->getDisplay());
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('2 deleted backups', $tester->getDisplay());
 
-        self::assertFileDoesNotExist($oldBackup1);
-        self::assertFileDoesNotExist($oldBackup2);
-        self::assertFileExists($recentBackup);
+        $this->assertFileDoesNotExist($oldBackup1);
+        $this->assertFileDoesNotExist($oldBackup2);
+        $this->assertFileExists($recentBackup);
     }
 
     public function testExecuteRequestsExactlyOneFinderFromTheFactory(): void
     {
         $finderFactory = $this->createMock(FinderFactoryInterface::class);
         $finderFactory
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('create')
             ->willReturn(new Finder());
 

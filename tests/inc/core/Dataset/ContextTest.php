@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Dataset;
 
 use Runalyze\Model\Activity;
 
-class ContextTest extends \PHPUnit\Framework\TestCase
+final class ContextTest extends \PHPUnit\Framework\TestCase
 {
     public function testThatAllStringMethodsWork(): void
     {
@@ -37,7 +39,7 @@ class ContextTest extends \PHPUnit\Framework\TestCase
 
         $this->assertSame('30.10.2015', date('d.m.Y', $Context->activity()->timestamp()));
         $this->assertSame(3600, $Context->activity()->duration());
-        $this->assertSame(12.3, $Context->activity()->distance());
+        $this->assertEqualsWithDelta(12.3, $Context->activity()->distance(), PHP_FLOAT_EPSILON);
         $this->assertEquals(42, $Context->data('more-data'));
         $this->assertFalse($Context->hasSport());
         $this->assertFalse($Context->hasType());

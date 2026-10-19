@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
@@ -12,7 +14,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
-class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
+final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
 {
     private const string KNOWN_PASSWORD = 'irrelevant-for-this-test';
 
@@ -479,6 +481,7 @@ class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             ->clear();
         $reloadedAccount = $this->getEntityManager()
             ->getRepository(Account::class)->find($this->Account->getId());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Account::class, $reloadedAccount);
         $this->assertFalse($reloadedAccount->getAllowMails());
     }
 
@@ -494,6 +497,7 @@ class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             ->clear();
         $reloadedAccount = $this->getEntityManager()
             ->getRepository(Account::class)->find($this->Account->getId());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Account::class, $reloadedAccount);
         $this->assertTrue($reloadedAccount->getAllowMails());
     }
 

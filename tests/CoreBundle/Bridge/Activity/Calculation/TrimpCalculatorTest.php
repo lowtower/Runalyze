@@ -9,7 +9,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Profile\Athlete\Gender;
 
-class TrimpCalculatorTest extends \PHPUnit\Framework\TestCase
+final class TrimpCalculatorTest extends \PHPUnit\Framework\TestCase
 {
     protected TrimpCalculator $Calculator;
 

@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Metrics\Weight\Unit;
 
 use Runalyze\Metrics\Weight\Unit\Stones;
 
-class StonesTest extends \PHPUnit\Framework\TestCase
+final class StonesTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues(): void
     {

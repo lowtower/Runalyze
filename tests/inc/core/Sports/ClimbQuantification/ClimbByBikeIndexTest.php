@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Sports\ClimbQuantification;
 
 use Runalyze\Sports\ClimbQuantification\ClimbByBikeIndex;
 
-class ClimbByBikeIndexTest extends \PHPUnit\Framework\TestCase
+final class ClimbByBikeIndexTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ClimbByBikeIndex

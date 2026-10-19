@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Services\Activity;
 
 use Doctrine\ORM\EntityManager;
@@ -13,7 +15,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Services\Activity\DataSeriesRemover;
 
 #[\PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations]
-class DataSeriesRemoverTest extends TestCase
+final class DataSeriesRemoverTest extends TestCase
 {
     private EntityManager&MockObject $EntityManagerMock;
 
@@ -43,17 +45,15 @@ class DataSeriesRemoverTest extends TestCase
     }
 
     /**
-     * @return array<string, null[]|string[]|int[]|true[]|\stdClass[]>
+     * @return \Iterator<string, array<(int|\stdClass|string|true|null)>>
      */
-    public static function provideNonArrayFormData(): array
+    public static function provideNonArrayFormData(): \Iterator
     {
-        return [
-            'null' => [null],
-            'string' => ['time'],
-            'int' => [42],
-            'bool' => [true],
-            'object' => [new \stdClass()],
-        ];
+        yield 'null' => [null];
+        yield 'string' => ['time'];
+        yield 'int' => [42];
+        yield 'bool' => [true];
+        yield 'object' => [new \stdClass()];
     }
 
     /**
@@ -241,24 +241,22 @@ class DataSeriesRemoverTest extends TestCase
     }
 
     /**
-     * @return array<string, string[]>
+     * @return \Iterator<string, array<string>>
      */
-    public static function provideSimpleTrackDataFields(): array
+    public static function provideSimpleTrackDataFields(): \Iterator
     {
-        return [
-            'time' => [DataSeriesRemover::KEY_TRACKDATA_TIME, 'hasTime', 'setTime'],
-            'distance' => [DataSeriesRemover::KEY_TRACKDATA_DISTANCE, 'hasDistance', 'setDistance'],
-            'heartRate' => [DataSeriesRemover::KEY_TRACKDATA_HEART_RATE, 'hasHeartrate', 'setHeartrate'],
-            'cadence' => [DataSeriesRemover::KEY_TRACKDATA_CADENCE, 'hasCadence', 'setCadence'],
-            'power' => [DataSeriesRemover::KEY_TRACKDATA_POWER, 'hasPower', 'setPower'],
-            'smo2' => [DataSeriesRemover::KEY_TRACKDATA_MUSCLE_OXYGENATION, 'hasSmo20', 'setSmo20'],
-            'smo2_2' => [DataSeriesRemover::KEY_TRACKDATA_MUSCLE_OXYGENATION_2, 'hasSmo21', 'setSmo21'],
-            'thb' => [DataSeriesRemover::KEY_TRACKDATA_TOTAL_HAEMOGLOBIN, 'hasThb0', 'setThb0'],
-            'thb_2' => [DataSeriesRemover::KEY_TRACKDATA_TOTAL_HAEMOGLOBIN_2, 'hasThb1', 'setThb1'],
-            'temperature' => [DataSeriesRemover::KEY_TRACKDATA_TEMPERATURE, 'hasTemperature', 'setTemperature'],
-            'performance_condition' => [DataSeriesRemover::KEY_TRACKDATA_PERFOMANCE_CONDITION, 'hasPerformanceCondition', 'setPerformanceCondition'],
-            'respiration_rate' => [DataSeriesRemover::KEY_TRACKDATA_RESPIRATION_RATE, 'hasRespirationRate', 'setRespirationRate'],
-        ];
+        yield 'time' => [DataSeriesRemover::KEY_TRACKDATA_TIME, 'hasTime', 'setTime'];
+        yield 'distance' => [DataSeriesRemover::KEY_TRACKDATA_DISTANCE, 'hasDistance', 'setDistance'];
+        yield 'heartRate' => [DataSeriesRemover::KEY_TRACKDATA_HEART_RATE, 'hasHeartrate', 'setHeartrate'];
+        yield 'cadence' => [DataSeriesRemover::KEY_TRACKDATA_CADENCE, 'hasCadence', 'setCadence'];
+        yield 'power' => [DataSeriesRemover::KEY_TRACKDATA_POWER, 'hasPower', 'setPower'];
+        yield 'smo2' => [DataSeriesRemover::KEY_TRACKDATA_MUSCLE_OXYGENATION, 'hasSmo20', 'setSmo20'];
+        yield 'smo2_2' => [DataSeriesRemover::KEY_TRACKDATA_MUSCLE_OXYGENATION_2, 'hasSmo21', 'setSmo21'];
+        yield 'thb' => [DataSeriesRemover::KEY_TRACKDATA_TOTAL_HAEMOGLOBIN, 'hasThb0', 'setThb0'];
+        yield 'thb_2' => [DataSeriesRemover::KEY_TRACKDATA_TOTAL_HAEMOGLOBIN_2, 'hasThb1', 'setThb1'];
+        yield 'temperature' => [DataSeriesRemover::KEY_TRACKDATA_TEMPERATURE, 'hasTemperature', 'setTemperature'];
+        yield 'performance_condition' => [DataSeriesRemover::KEY_TRACKDATA_PERFOMANCE_CONDITION, 'hasPerformanceCondition', 'setPerformanceCondition'];
+        yield 'respiration_rate' => [DataSeriesRemover::KEY_TRACKDATA_RESPIRATION_RATE, 'hasRespirationRate', 'setRespirationRate'];
     }
 
     #[DataProvider('provideCascadingTrackDataFields')]
@@ -294,55 +292,53 @@ class DataSeriesRemoverTest extends TestCase
     }
 
     /**
-     * @return array<string, string[]>
+     * @return \Iterator<string, array<string>>
      */
-    public static function provideCascadingTrackDataFields(): array
+    public static function provideCascadingTrackDataFields(): \Iterator
     {
-        return [
-            'verticalOscillation' => [
-                DataSeriesRemover::KEY_TRACKDATA_VERTICAL_OSCILLATION,
-                'hasVerticalOscillation', 'setVerticalOscillation', 'setVerticalOscillation',
-            ],
-            'groundContactTime' => [
-                DataSeriesRemover::KEY_TRACKDATA_GROUND_CONTACT_TIME,
-                'hasGroundcontact', 'setGroundcontact', 'setGroundcontact',
-            ],
-            'groundContactBalance' => [
-                DataSeriesRemover::KEY_TRACKDATA_GROUND_CONTACT_BALANCE,
-                'hasGroundcontactBalance', 'setGroundcontactBalance', 'setGroundcontactBalance',
-            ],
-            'impact_gs_left' => [
-                DataSeriesRemover::KEY_TRACKDATA_IMPACT_GS_LEFT,
-                'hasImpactGsLeft', 'setImpactGsLeft', 'setAvgImpactGsLeft',
-            ],
-            'impact_gs_right' => [
-                DataSeriesRemover::KEY_TRACKDATA_IMPACT_GS_RIGHT,
-                'hasImpactGsRight', 'setImpactGsRight', 'setAvgImpactGsRight',
-            ],
-            'braking_gs_left' => [
-                DataSeriesRemover::KEY_TRACKDATA_BRAKING_GS_LEFT,
-                'hasBrakingGsLeft', 'setBrakingGsLeft', 'setAvgBrakingGsLeft',
-            ],
-            'braking_gs_right' => [
-                DataSeriesRemover::KEY_TRACKDATA_BRAKING_GS_RIGHT,
-                'hasBrakingGsRight', 'setBrakingGsRight', 'setAvgBrakingGsRight',
-            ],
-            'footstrike_type_left' => [
-                DataSeriesRemover::KEY_TRACKDATA_FOOTSTRIKE_TYPE_LEFT,
-                'hasFootstrikeTypeLeft', 'setFootstrikeTypeLeft', 'setAvgFootstrikeTypeLeft',
-            ],
-            'footstrike_type_right' => [
-                DataSeriesRemover::KEY_TRACKDATA_FOOTSTRIKE_TYPE_RIGHT,
-                'hasFootstrikeTypeRight', 'setFootstrikeTypeRight', 'setAvgFootstrikeTypeRight',
-            ],
-            'pronation_excursion_left' => [
-                DataSeriesRemover::KEY_TRACKDATA_PRONATION_EXCURSION_LEFT,
-                'hasPronationExcursionLeft', 'setPronationExcursionLeft', 'setAvgPronationExcursionLeft',
-            ],
-            'pronation_excursion_right' => [
-                DataSeriesRemover::KEY_TRACKDATA_PRONATION_EXCURSION_RIGHT,
-                'hasPronationExcursionRight', 'setPronationExcursionRight', 'setAvgPronationExcursionRight',
-            ],
+        yield 'verticalOscillation' => [
+            DataSeriesRemover::KEY_TRACKDATA_VERTICAL_OSCILLATION,
+            'hasVerticalOscillation', 'setVerticalOscillation', 'setVerticalOscillation',
+        ];
+        yield 'groundContactTime' => [
+            DataSeriesRemover::KEY_TRACKDATA_GROUND_CONTACT_TIME,
+            'hasGroundcontact', 'setGroundcontact', 'setGroundcontact',
+        ];
+        yield 'groundContactBalance' => [
+            DataSeriesRemover::KEY_TRACKDATA_GROUND_CONTACT_BALANCE,
+            'hasGroundcontactBalance', 'setGroundcontactBalance', 'setGroundcontactBalance',
+        ];
+        yield 'impact_gs_left' => [
+            DataSeriesRemover::KEY_TRACKDATA_IMPACT_GS_LEFT,
+            'hasImpactGsLeft', 'setImpactGsLeft', 'setAvgImpactGsLeft',
+        ];
+        yield 'impact_gs_right' => [
+            DataSeriesRemover::KEY_TRACKDATA_IMPACT_GS_RIGHT,
+            'hasImpactGsRight', 'setImpactGsRight', 'setAvgImpactGsRight',
+        ];
+        yield 'braking_gs_left' => [
+            DataSeriesRemover::KEY_TRACKDATA_BRAKING_GS_LEFT,
+            'hasBrakingGsLeft', 'setBrakingGsLeft', 'setAvgBrakingGsLeft',
+        ];
+        yield 'braking_gs_right' => [
+            DataSeriesRemover::KEY_TRACKDATA_BRAKING_GS_RIGHT,
+            'hasBrakingGsRight', 'setBrakingGsRight', 'setAvgBrakingGsRight',
+        ];
+        yield 'footstrike_type_left' => [
+            DataSeriesRemover::KEY_TRACKDATA_FOOTSTRIKE_TYPE_LEFT,
+            'hasFootstrikeTypeLeft', 'setFootstrikeTypeLeft', 'setAvgFootstrikeTypeLeft',
+        ];
+        yield 'footstrike_type_right' => [
+            DataSeriesRemover::KEY_TRACKDATA_FOOTSTRIKE_TYPE_RIGHT,
+            'hasFootstrikeTypeRight', 'setFootstrikeTypeRight', 'setAvgFootstrikeTypeRight',
+        ];
+        yield 'pronation_excursion_left' => [
+            DataSeriesRemover::KEY_TRACKDATA_PRONATION_EXCURSION_LEFT,
+            'hasPronationExcursionLeft', 'setPronationExcursionLeft', 'setAvgPronationExcursionLeft',
+        ];
+        yield 'pronation_excursion_right' => [
+            DataSeriesRemover::KEY_TRACKDATA_PRONATION_EXCURSION_RIGHT,
+            'hasPronationExcursionRight', 'setPronationExcursionRight', 'setAvgPronationExcursionRight',
         ];
     }
 
@@ -432,15 +428,13 @@ class DataSeriesRemoverTest extends TestCase
     }
 
     /**
-     * @return array<string, string[]>
+     * @return \Iterator<string, array<string>>
      */
-    public static function provideRouteFields(): array
+    public static function provideRouteFields(): \Iterator
     {
-        return [
-            'geohashes' => [DataSeriesRemover::KEY_ROUTE_GEOHASHES, 'hasGeohashes', 'setGeohashes'],
-            'elevationOriginal' => [DataSeriesRemover::KEY_ROUTE_ELEVATION_ORIGINAL, 'hasOriginalElevations', 'setElevationsOriginal'],
-            'elevationCorrected' => [DataSeriesRemover::KEY_ROUTE_ELEVATION_CORRECTED, 'hasCorrectedElevations', 'setElevationsCorrected'],
-        ];
+        yield 'geohashes' => [DataSeriesRemover::KEY_ROUTE_GEOHASHES, 'hasGeohashes', 'setGeohashes'];
+        yield 'elevationOriginal' => [DataSeriesRemover::KEY_ROUTE_ELEVATION_ORIGINAL, 'hasOriginalElevations', 'setElevationsOriginal'];
+        yield 'elevationCorrected' => [DataSeriesRemover::KEY_ROUTE_ELEVATION_CORRECTED, 'hasCorrectedElevations', 'setElevationsCorrected'];
     }
 
     public function testRouteIsRemovedAndActivityElevationClearedWhenEmpty(): void

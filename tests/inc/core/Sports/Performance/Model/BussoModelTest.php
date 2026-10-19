@@ -7,7 +7,7 @@ namespace Runalyze\Tests\Sports\Performance\Model;
 use Runalyze\Sports\Performance\Model\BanisterModel;
 use Runalyze\Sports\Performance\Model\BussoModel;
 
-class BussoModelTest extends \PHPUnit\Framework\TestCase
+final class BussoModelTest extends \PHPUnit\Framework\TestCase
 {
     public function testEquivalenceWithBanister(): void
     {

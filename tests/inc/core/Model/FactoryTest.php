@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]
 #[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
-class FactoryTest extends TestCase
+final class FactoryTest extends TestCase
 {
     protected Factory $object;
 

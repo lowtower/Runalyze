@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Form\Type;
 
 use Runalyze\Bundle\CoreBundle\Form\Type\AbstractUnitBasedType;
 use Runalyze\Metrics\Common\Unit\None;
 
-class AbstractUnitBasedTypeTest extends \PHPUnit\Framework\TestCase
+final class AbstractUnitBasedTypeTest extends \PHPUnit\Framework\TestCase
 {
     protected AbstractUnitBasedType $Type;
 
@@ -26,7 +28,7 @@ class AbstractUnitBasedTypeTest extends \PHPUnit\Framework\TestCase
     public function testReverseTransform(): void
     {
         $this->assertEquals(null, $this->Type->reverseTransform(null));
-        $this->assertEquals(1.23, $this->Type->reverseTransform('1.23'));
-        $this->assertEquals(7.69, $this->Type->reverseTransform('7,69'));
+        $this->assertEqualsWithDelta(1.23, $this->Type->reverseTransform('1.23'), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(7.69, $this->Type->reverseTransform('7,69'), PHP_FLOAT_EPSILON);
     }
 }

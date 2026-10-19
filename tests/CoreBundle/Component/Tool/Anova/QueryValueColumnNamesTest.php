@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\Anova\QueryValue;
 
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -36,7 +38,7 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryValue\WeatherPressure;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryValue\WeatherTemperature;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryValue\WeatherWindSpeed;
 
-class QueryValueColumnNamesTest extends TestCase
+final class QueryValueColumnNamesTest extends TestCase
 {
     #[DataProvider('provideClassesAndExpectedColumns')]
     public function testGetColumnReturnsExpectedColumnName(string $className, string $expectedColumn): void
@@ -49,42 +51,40 @@ class QueryValueColumnNamesTest extends TestCase
         $this->assertSame($expectedColumn, $method->invoke($instance));
     }
 
-    public static function provideClassesAndExpectedColumns(): array
+    public static function provideClassesAndExpectedColumns(): \Iterator
     {
-        return [
-            'FitVo2maxEstimate' => [FitVo2maxEstimate::class, 'fitVO2maxEstimate'],
-            'FootstrikeTypeLeft' => [FootstrikeTypeLeft::class, 'avgFootstrikeTypeLeft'],
-            'FootstrikeTypeRight' => [FootstrikeTypeRight::class, 'avgFootstrikeTypeRight'],
-            'GroundContactTime' => [GroundContactTime::class, 'groundcontact'],
-            'ImpactGsLeft' => [ImpactGsLeft::class, 'avgImpactGsLeft'],
-            'ImpactGsRight' => [ImpactGsRight::class, 'avgImpactGsRight'],
-            'PercentageHilly' => [PercentageHilly::class, 'percentageHilly'],
-            'Power' => [Power::class, 'power'],
-            'PronationExcursionLeft' => [PronationExcursionLeft::class, 'avgPronationExcursionLeft'],
-            'PronationExcursionRight' => [PronationExcursionRight::class, 'avgPronationExcursionRight'],
-            'Rpe' => [Rpe::class, 'rpe'],
-            'VerticalOscillation' => [VerticalOscillation::class, 'verticalOscillation'],
-            'WeatherWindSpeed' => [WeatherWindSpeed::class, 'windSpeed'],
-            'BrakingGsLeft' => [BrakingGsLeft::class, 'avgBrakingGsLeft'],
-            'BrakingGsRight' => [BrakingGsRight::class, 'avgBrakingGsRight'],
-            'FitRecoveryTime' => [FitRecoveryTime::class, 'fitRecoveryTime'],
-            'Trimp' => [Trimp::class, 'trimp'],
-            'WeatherPressure' => [WeatherPressure::class, 'pressure'],
-            'GroundContactBalance' => [GroundContactBalance::class, 'groundcontactBalance'],
-            'HeartRateMaximum' => [HeartRateMaximum::class, 'pulseMax'],
-            'ClimbScore' => [ClimbScore::class, 'climbScore'],
-            'FitHrvAnalysis' => [FitHrvAnalysis::class, 'fitHrvAnalysis'],
-            'FitTrainingEffect' => [FitTrainingEffect::class, 'fitTrainingEffect'],
-            'HeartRateAverage' => [HeartRateAverage::class, 'pulseAvg'],
-            'WeatherHumidity' => [WeatherHumidity::class, 'humidity'],
-            'WeatherTemperature' => [WeatherTemperature::class, 'temperature'],
-            'Duration' => [Duration::class, 's'],
-            'FitPerformanceConditionStart' => [FitPerformanceConditionStart::class, 'fitPerformanceCondition'],
-            'FitPerformanceConditionEnd' => [FitPerformanceConditionEnd::class, 'fitPerformanceConditionEnd'],
-            'Vo2max' => [Vo2max::class, 'vo2max'],
-            // Vo2maxWithElevation is the ONLY thing it overrides from Vo2max
-            //    its addSelectionToQuery()/getValueUnit() are inherited unchanged (see Vo2maxAndElevationTest).
-            'Vo2maxWithElevation' => [Vo2maxWithElevation::class, 'vo2maxWithElevation'],
-        ];
+        yield 'FitVo2maxEstimate' => [FitVo2maxEstimate::class, 'fitVO2maxEstimate'];
+        yield 'FootstrikeTypeLeft' => [FootstrikeTypeLeft::class, 'avgFootstrikeTypeLeft'];
+        yield 'FootstrikeTypeRight' => [FootstrikeTypeRight::class, 'avgFootstrikeTypeRight'];
+        yield 'GroundContactTime' => [GroundContactTime::class, 'groundcontact'];
+        yield 'ImpactGsLeft' => [ImpactGsLeft::class, 'avgImpactGsLeft'];
+        yield 'ImpactGsRight' => [ImpactGsRight::class, 'avgImpactGsRight'];
+        yield 'PercentageHilly' => [PercentageHilly::class, 'percentageHilly'];
+        yield 'Power' => [Power::class, 'power'];
+        yield 'PronationExcursionLeft' => [PronationExcursionLeft::class, 'avgPronationExcursionLeft'];
+        yield 'PronationExcursionRight' => [PronationExcursionRight::class, 'avgPronationExcursionRight'];
+        yield 'Rpe' => [Rpe::class, 'rpe'];
+        yield 'VerticalOscillation' => [VerticalOscillation::class, 'verticalOscillation'];
+        yield 'WeatherWindSpeed' => [WeatherWindSpeed::class, 'windSpeed'];
+        yield 'BrakingGsLeft' => [BrakingGsLeft::class, 'avgBrakingGsLeft'];
+        yield 'BrakingGsRight' => [BrakingGsRight::class, 'avgBrakingGsRight'];
+        yield 'FitRecoveryTime' => [FitRecoveryTime::class, 'fitRecoveryTime'];
+        yield 'Trimp' => [Trimp::class, 'trimp'];
+        yield 'WeatherPressure' => [WeatherPressure::class, 'pressure'];
+        yield 'GroundContactBalance' => [GroundContactBalance::class, 'groundcontactBalance'];
+        yield 'HeartRateMaximum' => [HeartRateMaximum::class, 'pulseMax'];
+        yield 'ClimbScore' => [ClimbScore::class, 'climbScore'];
+        yield 'FitHrvAnalysis' => [FitHrvAnalysis::class, 'fitHrvAnalysis'];
+        yield 'FitTrainingEffect' => [FitTrainingEffect::class, 'fitTrainingEffect'];
+        yield 'HeartRateAverage' => [HeartRateAverage::class, 'pulseAvg'];
+        yield 'WeatherHumidity' => [WeatherHumidity::class, 'humidity'];
+        yield 'WeatherTemperature' => [WeatherTemperature::class, 'temperature'];
+        yield 'Duration' => [Duration::class, 's'];
+        yield 'FitPerformanceConditionStart' => [FitPerformanceConditionStart::class, 'fitPerformanceCondition'];
+        yield 'FitPerformanceConditionEnd' => [FitPerformanceConditionEnd::class, 'fitPerformanceConditionEnd'];
+        yield 'Vo2max' => [Vo2max::class, 'vo2max'];
+        // Vo2maxWithElevation is the ONLY thing it overrides from Vo2max
+        //    its addSelectionToQuery()/getValueUnit() are inherited unchanged (see Vo2maxAndElevationTest).
+        yield 'Vo2maxWithElevation' => [Vo2maxWithElevation::class, 'vo2maxWithElevation'];
     }
 }

@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Metrics\Temperature\Unit;
 
 use Runalyze\Metrics\Temperature\Unit\Fahrenheit;
 
-class FahrenheitTest extends \PHPUnit\Framework\TestCase
+final class FahrenheitTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues(): void
     {

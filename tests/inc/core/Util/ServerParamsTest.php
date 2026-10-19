@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\Util\ServerParams;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class ServerParamsTest extends TestCase
+final class ServerParamsTest extends TestCase
 {
     private ServerParams $ServerParams;
 

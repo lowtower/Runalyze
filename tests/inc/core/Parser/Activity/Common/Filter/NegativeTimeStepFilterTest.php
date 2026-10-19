@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\Common\Filter;
 
 use Monolog\Handler\TestHandler;
@@ -8,7 +10,7 @@ use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 use Runalyze\Parser\Activity\Common\Exception\InvalidDataException;
 use Runalyze\Parser\Activity\Common\Filter\NegativeTimeStepFilter;
 
-class NegativeTimeStepFilterTest extends \PHPUnit\Framework\TestCase
+final class NegativeTimeStepFilterTest extends \PHPUnit\Framework\TestCase
 {
     protected NegativeTimeStepFilter $Filter;
 

@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Sports\ClimbQuantification;
 
 use Runalyze\Sports\ClimbQuantification\SaliteIndex;
 
-class SaliteIndexTest extends \PHPUnit\Framework\TestCase
+final class SaliteIndexTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var SaliteIndex

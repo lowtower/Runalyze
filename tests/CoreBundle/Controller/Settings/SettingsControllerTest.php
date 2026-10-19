@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
-class SettingsControllerTest extends AbstractFixturesAwareWebTestCase
+final class SettingsControllerTest extends AbstractFixturesAwareWebTestCase
 {
     protected Account $Account;
 
@@ -70,7 +70,7 @@ class SettingsControllerTest extends AbstractFixturesAwareWebTestCase
 
     public function testLoadedAccountHasNoValidationViolations(): void
     {
-        $validator = static::getContainer()->get('validator');
+        $validator = self::getContainer()->get('validator');
         $this->assertInstanceOf(ValidatorInterface::class, $validator);
 
         $violations = [];
@@ -170,6 +170,7 @@ class SettingsControllerTest extends AbstractFixturesAwareWebTestCase
             ->clear();
         $reloadedAccount = $this->getEntityManager()
             ->getRepository(Account::class)->find($this->Account->getId());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Account::class, $reloadedAccount);
 
         $this->assertSame($originalPasswordHash, $reloadedAccount->getPassword());
     }
@@ -195,6 +196,7 @@ class SettingsControllerTest extends AbstractFixturesAwareWebTestCase
             ->clear();
         $reloadedAccount = $this->getEntityManager()
             ->getRepository(Account::class)->find($this->Account->getId());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Account::class, $reloadedAccount);
 
         $this->assertSame($originalPasswordHash, $reloadedAccount->getPassword());
     }
@@ -222,6 +224,7 @@ class SettingsControllerTest extends AbstractFixturesAwareWebTestCase
             ->clear();
         $reloadedAccount = $this->getEntityManager()
             ->getRepository(Account::class)->find($this->Account->getId());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Account::class, $reloadedAccount);
 
         $this->assertNotSame($originalPasswordHash, $reloadedAccount->getPassword());
     }
@@ -259,6 +262,7 @@ class SettingsControllerTest extends AbstractFixturesAwareWebTestCase
             ->clear();
         $reloadedAccount = $this->getEntityManager()
             ->getRepository(Account::class)->find($this->Account->getId());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Account::class, $reloadedAccount);
 
         $this->assertSame($originalMail, $reloadedAccount->getMail());
     }
@@ -282,6 +286,7 @@ class SettingsControllerTest extends AbstractFixturesAwareWebTestCase
             ->clear();
         $reloadedAccount = $this->getEntityManager()
             ->getRepository(Account::class)->find($this->Account->getId());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Account::class, $reloadedAccount);
 
         $this->assertSame('new-address@example.test', $reloadedAccount->getMail());
     }
@@ -306,6 +311,7 @@ class SettingsControllerTest extends AbstractFixturesAwareWebTestCase
             ->clear();
         $reloadedAccount = $this->getEntityManager()
             ->getRepository(Account::class)->find($this->Account->getId());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Account::class, $reloadedAccount);
 
         $this->assertNotNull($reloadedAccount->getDeletionHash());
     }

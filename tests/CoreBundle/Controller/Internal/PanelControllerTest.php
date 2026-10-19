@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller\Internal;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -7,7 +9,7 @@ use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCa
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
-class PanelControllerTest extends AbstractFixturesAwareWebTestCase
+final class PanelControllerTest extends AbstractFixturesAwareWebTestCase
 {
     protected Account $Account;
 
@@ -61,7 +63,7 @@ class PanelControllerTest extends AbstractFixturesAwareWebTestCase
         foreach (['weekStatistics', 'monthStatistics', 'yearStatistics', 'totalStatistics'] as $key) {
             $this->assertCount(1, $statistics[$key], $key . ' must contain exactly one sport group.');
             $this->assertSame(1, (int) $statistics[$key][0]['num'], $key . ' must count exactly one training.');
-            $this->assertSame(5.0, (float) $statistics[$key][0]['distance'], $key . ' must sum up to the training distance.');
+            $this->assertEqualsWithDelta(5.0, (float) $statistics[$key][0]['distance'], PHP_FLOAT_EPSILON, $key . ' must sum up to the training distance.');
         }
     }
 
@@ -74,11 +76,11 @@ class PanelControllerTest extends AbstractFixturesAwareWebTestCase
 
         foreach (['weekStatistics', 'monthStatistics', 'yearStatistics'] as $key) {
             $this->assertSame(1, (int) $statistics[$key][0]['num'], $key . ' must only include the recent training.');
-            $this->assertSame(5.0, (float) $statistics[$key][0]['distance'], $key . ' must only include the recent training.');
+            $this->assertEqualsWithDelta(5.0, (float) $statistics[$key][0]['distance'], PHP_FLOAT_EPSILON, $key . ' must only include the recent training.');
         }
 
         $this->assertSame(2, (int) $statistics['totalStatistics'][0]['num']);
-        $this->assertSame(15.0, (float) $statistics['totalStatistics'][0]['distance']);
+        $this->assertEqualsWithDelta(15.0, (float) $statistics['totalStatistics'][0]['distance'], PHP_FLOAT_EPSILON);
     }
 
     public function testThatSportStatActionKeepsStatisticsOfDifferentAccountsSeparate(): void

@@ -7,7 +7,7 @@ namespace Runalyze\Parameter\Application;
 use PHPUnit\Framework\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class DistanceUnitSystemTest extends TestCase
+final class DistanceUnitSystemTest extends TestCase
 {
     public function testDefaultConstructorResultsInMetric(): void
     {
@@ -59,7 +59,7 @@ class DistanceUnitSystemTest extends TestCase
     {
         $UnitSystem = new DistanceUnitSystem(DistanceUnitSystem::METRIC);
 
-        $this->assertSame(1.0, $UnitSystem->distanceToKmFactor());
+        $this->assertEqualsWithDelta(1.0, $UnitSystem->distanceToKmFactor(), PHP_FLOAT_EPSILON);
     }
 
     public function testDistanceToKmFactorIsInverseMileMultiplierForImperial(): void
@@ -73,7 +73,7 @@ class DistanceUnitSystemTest extends TestCase
     {
         $UnitSystem = new DistanceUnitSystem(DistanceUnitSystem::METRIC);
 
-        $this->assertSame(1.0, $UnitSystem->distanceToPreferredUnitFactor());
+        $this->assertEqualsWithDelta(1.0, $UnitSystem->distanceToPreferredUnitFactor(), PHP_FLOAT_EPSILON);
     }
 
     public function testDistanceToPreferredUnitFactorIsMileMultiplierForImperial(): void

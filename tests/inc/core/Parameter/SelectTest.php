@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 #[Group('default')]
-class SelectTest extends TestCase
+final class SelectTest extends TestCase
 {
     private Select $object;
 
@@ -25,30 +25,30 @@ class SelectTest extends TestCase
 
     public function testDefaultValueIsSetFromConstructor(): void
     {
-        self::assertSame('a', $this->object->value());
-        self::assertSame('a', $this->object->valueAsString());
+        $this->assertSame('a', $this->object->value());
+        $this->assertSame('a', $this->object->valueAsString());
     }
 
     public function testSetChangesValueToAllowedOption(): void
     {
         $this->object->set('c');
 
-        self::assertSame('c', $this->object->value());
-        self::assertSame('c', $this->object->valueAsString());
+        $this->assertSame('c', $this->object->value());
+        $this->assertSame('c', $this->object->valueAsString());
     }
 
     public function testValueAsLongStringReturnsLabelForCurrentValue(): void
     {
-        self::assertSame('one', $this->object->valueAsLongString());
+        $this->assertSame('one', $this->object->valueAsLongString());
 
         $this->object->set('c');
 
-        self::assertSame('three', $this->object->valueAsLongString());
+        $this->assertSame('three', $this->object->valueAsLongString());
     }
 
     public function testOptionsReturnsConfiguredOptionsList(): void
     {
-        self::assertSame([
+        $this->assertSame([
             'a' => 'one',
             'b' => 'two',
             'c' => 'three',
@@ -59,15 +59,15 @@ class SelectTest extends TestCase
     {
         $this->object->set('foobar');
 
-        self::assertSame('a', $this->object->value());
+        $this->assertSame('a', $this->object->value());
     }
 
     public function testSelectWithoutOptionsKeepsDefaultValue(): void
     {
         $object = new Select('');
 
-        self::assertSame('', $object->value());
-        self::assertSame('', $object->valueAsString());
+        $this->assertSame('', $object->value());
+        $this->assertSame('', $object->valueAsString());
     }
 
     public function testSelectWithoutOptionsCannotBeChanged(): void
@@ -75,7 +75,7 @@ class SelectTest extends TestCase
         $object = new Select('default-value');
         $object->set('anything-else');
 
-        self::assertSame('default-value', $object->value());
+        $this->assertSame('default-value', $object->value());
     }
 
     public function testSetThrowsExceptionWhenFallbackIsDisabledAndOptionIsUnknown(): void

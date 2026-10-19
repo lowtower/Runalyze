@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Entity\Adapter;
 
 use Runalyze\Bundle\CoreBundle\Entity\Adapter\ActivityAdapter;
@@ -12,7 +14,7 @@ use Runalyze\Profile\Athlete\Gender;
 use Runalyze\Profile\FitSdk\StrokeTypeProfile;
 use Runalyze\Util\LocalTime;
 
-class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
+final class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
 {
     protected Training $Activity;
 
@@ -188,7 +190,7 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
 
         $this->Adapter->calculateClimbScore();
 
-        $this->assertSame(0.4, $this->Activity->getPercentageHilly());
+        $this->assertEqualsWithDelta(0.4, $this->Activity->getPercentageHilly(), PHP_FLOAT_EPSILON);
         $this->assertGreaterThan(0.0, $this->Activity->getClimbScore());
         $this->assertLessThan(10.0, $this->Activity->getClimbScore());
 

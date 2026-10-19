@@ -8,7 +8,7 @@ use Runalyze\Model\Trackdata\Entity;
 use Runalyze\Model\Trackdata\Pause;
 use Runalyze\View\Activity\FakeContext;
 
-class ActivityTest extends \PHPUnit\Framework\TestCase
+final class ActivityTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1805

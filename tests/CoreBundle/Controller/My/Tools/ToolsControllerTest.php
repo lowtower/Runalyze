@@ -17,7 +17,7 @@ use Symfony\Component\Messenger\Transport\InMemory\InMemoryTransport;
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
-class ToolsControllerTest extends AbstractFixturesAwareWebTestCase
+final class ToolsControllerTest extends AbstractFixturesAwareWebTestCase
 {
     protected Account $Account;
 
@@ -43,7 +43,7 @@ class ToolsControllerTest extends AbstractFixturesAwareWebTestCase
         }
 
         $transport = $container->get('messenger.transport.async');
-        self::assertInstanceOf(InMemoryTransport::class, $transport);
+        $this->assertInstanceOf(InMemoryTransport::class, $transport);
 
         return $transport;
     }

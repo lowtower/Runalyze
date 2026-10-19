@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Calculation\Activity;
 
-class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
+final class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
 {
     public function testValidateInput(): void
     {

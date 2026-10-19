@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Activity;
 
 use PHPUnit\Framework\TestCase;
@@ -10,7 +12,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 use Runalyze\Util\LocalTime;
 
-class ActivityPreviewTest extends TestCase
+final class ActivityPreviewTest extends TestCase
 {
     private function createRoundCollection(bool $isEmpty): RoundCollection
     {
@@ -94,8 +96,8 @@ class ActivityPreviewTest extends TestCase
         $preview = new ActivityPreview($activity, false, $this->createDecoratorMock('x', 0));
 
         $this->assertSame(7, $preview->getActivityId());
-        $this->assertSame(1800.0, $preview->getDuration());
-        $this->assertSame(5.0, $preview->getDistance());
+        $this->assertEqualsWithDelta(1800.0, $preview->getDuration(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(5.0, $preview->getDistance(), PHP_FLOAT_EPSILON);
         $this->assertTrue($preview->hasDistance());
     }
 

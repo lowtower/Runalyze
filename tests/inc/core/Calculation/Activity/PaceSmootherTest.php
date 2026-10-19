@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Calculation\Activity;
 
 use Runalyze\Model\Trackdata\Entity;
 use Runalyze\Model\Trackdata\Loop;
 
-class PaceSmootherTest extends \PHPUnit\Framework\TestCase
+final class PaceSmootherTest extends \PHPUnit\Framework\TestCase
 {
     public function testSimpleStepSmoothing(): void
     {
@@ -86,9 +88,9 @@ class PaceSmootherTest extends \PHPUnit\Framework\TestCase
 
         $loop = new Loop($trackdata);
 
-        self::assertSame(0.1, $loop->current(
+        $this->assertEqualsWithDelta(0.1, $loop->current(
             Entity::DISTANCE
-        ));
+        ), PHP_FLOAT_EPSILON);
     }
 
     public function testMoveByFractionalDistanceAdvancesLoop(): void
@@ -108,15 +110,15 @@ class PaceSmootherTest extends \PHPUnit\Framework\TestCase
 
         $loop = new Loop($trackdata);
 
-        self::assertSame(0, $loop->index());
+        $this->assertSame(0, $loop->index());
 
         $loop->move(
             Entity::DISTANCE,
             0.001
         );
 
-        self::assertSame(1, $loop->index());
-        self::assertSame(0, $loop->lastIndex());
+        $this->assertSame(1, $loop->index());
+        $this->assertSame(0, $loop->lastIndex());
     }
 
     public function testStepSizeMustBeGreaterThanZero(): void

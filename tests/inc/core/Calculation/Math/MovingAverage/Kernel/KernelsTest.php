@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
-class KernelsTest extends \PHPUnit\Framework\TestCase
+final class KernelsTest extends \PHPUnit\Framework\TestCase
 {
     public function testInvalidKernel(): void
     {

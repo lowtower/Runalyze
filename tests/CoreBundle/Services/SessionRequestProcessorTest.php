@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class SessionRequestProcessorTest extends TestCase
+final class SessionRequestProcessorTest extends TestCase
 {
     private RequestStack $requestStack;
 
@@ -64,7 +64,7 @@ class SessionRequestProcessorTest extends TestCase
     {
         $processedRecord = $this->processor->processRecord($this->createRecord());
 
-        self::assertSame([
+        $this->assertSame([
             'existing' => 'value',
         ], $processedRecord->extra);
     }
@@ -75,7 +75,7 @@ class SessionRequestProcessorTest extends TestCase
 
         $processedRecord = $this->processor->processRecord($this->createRecord());
 
-        self::assertSame([
+        $this->assertSame([
             'existing' => 'value',
         ], $processedRecord->extra);
     }
@@ -86,7 +86,7 @@ class SessionRequestProcessorTest extends TestCase
 
         $processedRecord = $this->processor->processRecord($this->createRecord());
 
-        self::assertSame([
+        $this->assertSame([
             'existing' => 'value',
         ], $processedRecord->extra);
     }
@@ -97,8 +97,8 @@ class SessionRequestProcessorTest extends TestCase
 
         $processedRecord = $this->processor->processRecord($this->createRecord());
 
-        self::assertSame(substr($session->getId(), 0, 8), $processedRecord->extra['token']);
-        self::assertSame(8, strlen($processedRecord->extra['token']));
+        $this->assertSame(substr($session->getId(), 0, 8), $processedRecord->extra['token']);
+        $this->assertSame(8, strlen($processedRecord->extra['token']));
     }
 
     public function testExistingExtraValuesAndOtherRecordFieldsAreKept(): void
@@ -107,9 +107,9 @@ class SessionRequestProcessorTest extends TestCase
 
         $processedRecord = $this->processor->processRecord($this->createRecord());
 
-        self::assertSame('value', $processedRecord->extra['existing']);
-        self::assertSame('A message', $processedRecord->message);
-        self::assertSame('app', $processedRecord->channel);
+        $this->assertSame('value', $processedRecord->extra['existing']);
+        $this->assertSame('A message', $processedRecord->message);
+        $this->assertSame('app', $processedRecord->channel);
     }
 
     public function testRecordWithoutExtraGetsExtraWithToken(): void
@@ -118,7 +118,7 @@ class SessionRequestProcessorTest extends TestCase
 
         $processedRecord = $this->processor->processRecord($this->createRecord(extra: []));
 
-        self::assertArrayHasKey('token', $processedRecord->extra);
+        $this->assertArrayHasKey('token', $processedRecord->extra);
     }
 
     public function testTokenIsKeptWhenSessionIdChangesAfterFirstUse(): void
@@ -131,7 +131,7 @@ class SessionRequestProcessorTest extends TestCase
         $secondToken = $this->processor->processRecord($this->createRecord())
             ->extra['token'];
 
-        self::assertSame($firstToken, $secondToken);
+        $this->assertSame($firstToken, $secondToken);
     }
 
     public function testSubRequestsUseSessionOfMainRequest(): void
@@ -141,6 +141,6 @@ class SessionRequestProcessorTest extends TestCase
 
         $processedRecord = $this->processor->processRecord($this->createRecord());
 
-        self::assertSame(substr($session->getId(), 0, 8), $processedRecord->extra['token']);
+        $this->assertSame(substr($session->getId(), 0, 8), $processedRecord->extra['token']);
     }
 }

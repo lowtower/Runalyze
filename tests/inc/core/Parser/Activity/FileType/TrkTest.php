@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\FileType;
 
 use Runalyze\Parser\Activity\FileType\Trk;
 use Runalyze\Util\LocalTime;
 
 #[\PHPUnit\Framework\Attributes\Group('import')]
-class TrkTest extends AbstractActivityParserTestCase
+final class TrkTest extends AbstractActivityParserTestCase
 {
     /**
      * @var Trk

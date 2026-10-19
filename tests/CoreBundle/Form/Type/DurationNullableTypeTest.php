@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Form\Type;
 
 use Runalyze\Bundle\CoreBundle\Form\Type\DurationNullableType;
 
-class DurationNullableTypeTest extends \PHPUnit\Framework\TestCase
+final class DurationNullableTypeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var DurationNullableType

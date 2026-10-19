@@ -6,13 +6,13 @@ namespace Runalyze\Tests\Metrics\Common\Unit;
 
 use Runalyze\Metrics\Common\Unit\Simple;
 
-class SimpleTest extends \PHPUnit\Framework\TestCase
+final class SimpleTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues(): void
     {
         $unit = new Simple('foo');
 
-        $this->assertEquals(0.79, $unit->fromBaseUnit(0.79));
+        $this->assertEqualsWithDelta(0.79, $unit->fromBaseUnit(0.79), PHP_FLOAT_EPSILON);
         $this->assertEquals(42, $unit->toBaseUnit(42));
         $this->assertSame('foo', $unit->getAppendix());
     }

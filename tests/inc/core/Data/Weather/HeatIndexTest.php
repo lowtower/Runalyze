@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 use Runalyze\Activity\Temperature;
 use Runalyze\Data\Weather\HeatIndex;
 use Runalyze\Data\Weather\Humidity;
 use Runalyze\Parameter\Application\TemperatureUnit;
 
-class HeatIndexTest extends \PHPUnit\Framework\TestCase
+final class HeatIndexTest extends \PHPUnit\Framework\TestCase
 {
     public function testUnknownHeatIndex(): void
     {

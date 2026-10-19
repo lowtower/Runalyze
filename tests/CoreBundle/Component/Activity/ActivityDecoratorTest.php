@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Activity;
 
 use PHPUnit\Framework\TestCase;
@@ -12,7 +14,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Util\LocalTime;
 
-class ActivityDecoratorTest extends TestCase
+final class ActivityDecoratorTest extends TestCase
 {
     private function createDecorator(Training $activity, ?Route $route = null): ActivityDecorator
     {
@@ -179,7 +181,7 @@ class ActivityDecoratorTest extends TestCase
 
         $decorator = $this->createDecorator($activity);
 
-        $this->assertSame(55.5, $decorator->getUncorrectedVO2max($config));
+        $this->assertEqualsWithDelta(55.5, $decorator->getUncorrectedVO2max($config), PHP_FLOAT_EPSILON);
     }
 
     public function testUncorrectedVO2maxFallsBackToPlainVO2maxWhenCorrectionDisabled(): void
@@ -196,7 +198,7 @@ class ActivityDecoratorTest extends TestCase
 
         $decorator = $this->createDecorator($activity);
 
-        $this->assertSame(50.0, $decorator->getUncorrectedVO2max($config));
+        $this->assertEqualsWithDelta(50.0, $decorator->getUncorrectedVO2max($config), PHP_FLOAT_EPSILON);
     }
 
     public function testUncorrectedVO2maxFallsBackToPlainVO2maxWhenElevationValueIsNotPositive(): void
@@ -213,7 +215,7 @@ class ActivityDecoratorTest extends TestCase
 
         $decorator = $this->createDecorator($activity);
 
-        $this->assertSame(50.0, $decorator->getUncorrectedVO2max($config));
+        $this->assertEqualsWithDelta(50.0, $decorator->getUncorrectedVO2max($config), PHP_FLOAT_EPSILON);
     }
 
     public function testEffectiveVO2maxMultipliesUncorrectedValueByCorrectionFactor(): void

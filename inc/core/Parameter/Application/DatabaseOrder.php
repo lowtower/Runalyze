@@ -83,7 +83,7 @@ class DatabaseOrder extends \Runalyze\Parameter\Select
         });
     }
 
-    public function sortCollection(Collection $collection): \Doctrine\Common\Collections\ArrayCollection
+    public function sortCollection(Collection $collection): Collection
     {
         $key = ($this->value() == self::ALPHA) ? 'name' : 'id';
         $desc = ($this->value() == self::DESC) ? -1 : 1;

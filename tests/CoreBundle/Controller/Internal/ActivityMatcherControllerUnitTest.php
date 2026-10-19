@@ -20,7 +20,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class ActivityMatcherControllerUnitTest extends TestCase
+final class ActivityMatcherControllerUnitTest extends TestCase
 {
     private const string MATCHING_ID = '2020-06-15T10:00:00Z';
 
@@ -31,8 +31,6 @@ class ActivityMatcherControllerUnitTest extends TestCase
     private ConfigurationManager&Stub $configurationManager;
 
     private RunalyzeConfigurationList $configurationList;
-
-    private AuthorizationCheckerInterface&Stub $authorizationChecker;
 
     private Container $defaultContainer;
 
@@ -46,14 +44,14 @@ class ActivityMatcherControllerUnitTest extends TestCase
         $this->configurationManager->method('getList')
             ->willReturn($this->configurationList);
 
-        $this->authorizationChecker = $this->createStub(AuthorizationCheckerInterface::class);
-        $this->authorizationChecker->method('isGranted')
+        $authorizationChecker = $this->createStub(AuthorizationCheckerInterface::class);
+        $authorizationChecker->method('isGranted')
             ->willReturn(true);
         $tokenStorage = new TokenStorage();
         $tokenStorage->setToken(new UsernamePasswordToken($this->createStub(Account::class), 'default', ['ROLE_USER']));
 
         $this->defaultContainer = new Container();
-        $this->defaultContainer->set('security.authorization_checker', $this->authorizationChecker);
+        $this->defaultContainer->set('security.authorization_checker', $authorizationChecker);
         $this->defaultContainer->set('security.token_storage', $tokenStorage);
 
         $this->controller = $this->createController($this->duplicateFinder);
@@ -102,7 +100,7 @@ class ActivityMatcherControllerUnitTest extends TestCase
         $container->set('security.token_storage', new TokenStorage());
 
         $duplicateFinder = $this->createMock(DuplicateFinder::class);
-        $duplicateFinder->expects(self::never())
+        $duplicateFinder->expects($this->never())
             ->method('isPossibleDuplicate');
 
         $this->controller = $this->createController($duplicateFinder, $container);
@@ -117,14 +115,11 @@ class ActivityMatcherControllerUnitTest extends TestCase
         $this->duplicateFinder->method('isPossibleDuplicate')
             ->willReturn(false);
 
-        self::assertSame(
-            [
-                self::MATCHING_ID => [
-                    'match' => false,
-                ],
+        $this->assertSame([
+            self::MATCHING_ID => [
+                'match' => false,
             ],
-            $this->requestMatchesFor([self::MATCHING_ID])
-        );
+        ], $this->requestMatchesFor([self::MATCHING_ID]));
     }
 
     public function testActivityIsMatchWhenDuplicateFinderFindsDuplicate(): void
@@ -132,13 +127,13 @@ class ActivityMatcherControllerUnitTest extends TestCase
         $this->duplicateFinder->method('isPossibleDuplicate')
             ->willReturn(true);
 
-        self::assertTrue($this->requestMatchesFor([self::MATCHING_ID])[self::MATCHING_ID]['match']);
+        $this->assertTrue($this->requestMatchesFor([self::MATCHING_ID])[self::MATCHING_ID]['match']);
     }
 
     public function testDuplicateFinderReceivesTrainingOfLoggedInAccountAtParsedTime(): void
     {
         $duplicateFinder = $this->createMock(DuplicateFinder::class);
-        $duplicateFinder->expects(self::once())
+        $duplicateFinder->expects($this->once())
             ->method('isPossibleDuplicate')
             ->with(self::callback(
                 static fn (Training $training): bool => $training->getAccount() instanceof Account
@@ -157,7 +152,7 @@ class ActivityMatcherControllerUnitTest extends TestCase
             ->willReturn(false);
         $this->ignoreActivities(self::MATCHING_ID . ',2013-02-28T08:29:54Z');
 
-        self::assertTrue($this->requestMatchesFor([self::MATCHING_ID])[self::MATCHING_ID]['match']);
+        $this->assertTrue($this->requestMatchesFor([self::MATCHING_ID])[self::MATCHING_ID]['match']);
     }
 
     public function testActivityWithinTheSameMinuteAsIgnoredActivityIsMatch(): void
@@ -166,7 +161,7 @@ class ActivityMatcherControllerUnitTest extends TestCase
             ->willReturn(false);
         $this->ignoreActivities(self::MATCHING_ID);
 
-        self::assertTrue($this->requestMatchesFor(['2020-06-15T10:00:45Z'])['2020-06-15T10:00:45Z']['match']);
+        $this->assertTrue($this->requestMatchesFor(['2020-06-15T10:00:45Z'])['2020-06-15T10:00:45Z']['match']);
     }
 
     public function testActivityInDifferentMinuteThanIgnoredActivityIsNoMatch(): void
@@ -175,7 +170,7 @@ class ActivityMatcherControllerUnitTest extends TestCase
             ->willReturn(false);
         $this->ignoreActivities(self::MATCHING_ID);
 
-        self::assertFalse($this->requestMatchesFor(['2020-06-15T10:01:00Z'])['2020-06-15T10:01:00Z']['match']);
+        $this->assertFalse($this->requestMatchesFor(['2020-06-15T10:01:00Z'])['2020-06-15T10:01:00Z']['match']);
     }
 
     public function testUnparseableEntriesOnTheIgnoreListAreSkipped(): void
@@ -184,29 +179,29 @@ class ActivityMatcherControllerUnitTest extends TestCase
             ->willReturn(false);
         $this->ignoreActivities('not-a-valid-date,' . self::MATCHING_ID);
 
-        self::assertTrue($this->requestMatchesFor([self::MATCHING_ID])[self::MATCHING_ID]['match']);
+        $this->assertTrue($this->requestMatchesFor([self::MATCHING_ID])[self::MATCHING_ID]['match']);
     }
 
     public function testUnparseableExternalIdIsNoMatchAndDoesNotAskDuplicateFinder(): void
     {
         $duplicateFinder = $this->createMock(DuplicateFinder::class);
-        $duplicateFinder->expects(self::never())
+        $duplicateFinder->expects($this->never())
             ->method('isPossibleDuplicate');
         $this->controller = $this->createController($duplicateFinder);
 
         $this->ignoreActivities('not-a-valid-date');
 
-        self::assertFalse($this->requestMatchesFor(['not-a-valid-date'])['not-a-valid-date']['match']);
+        $this->assertFalse($this->requestMatchesFor(['not-a-valid-date'])['not-a-valid-date']['match']);
     }
 
     public function testRequestWithoutExternalIdsReturnsNoMatches(): void
     {
         $duplicateFinder = $this->createMock(DuplicateFinder::class);
-        $duplicateFinder->expects(self::never())
+        $duplicateFinder->expects($this->never())
             ->method('isPossibleDuplicate');
         $this->controller = $this->createController($duplicateFinder);
 
-        self::assertSame([], $this->requestMatchesFor([]));
+        $this->assertSame([], $this->requestMatchesFor([]));
     }
 
     public function testEveryExternalIdIsEvaluatedIndependently(): void
@@ -217,7 +212,7 @@ class ActivityMatcherControllerUnitTest extends TestCase
 
         $matches = $this->requestMatchesFor([self::MATCHING_ID, '2021-01-01T00:00:00Z']);
 
-        self::assertTrue($matches[self::MATCHING_ID]['match']);
-        self::assertFalse($matches['2021-01-01T00:00:00Z']['match']);
+        $this->assertTrue($matches[self::MATCHING_ID]['match']);
+        $this->assertFalse($matches['2021-01-01T00:00:00Z']['match']);
     }
 }

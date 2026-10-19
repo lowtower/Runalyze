@@ -10,7 +10,7 @@ use Runalyze\Bundle\CoreBundle\Component\Notifications\Message\PosterGeneratedMe
 use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\PosterGenerationStateResolver;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class PosterGenerationStateResolverTest extends TestCase
+final class PosterGenerationStateResolverTest extends TestCase
 {
     private PosterGenerationStateResolver $resolver;
 
@@ -26,18 +26,16 @@ class PosterGenerationStateResolverTest extends TestCase
     }
 
     /**
-     * @return array<string, int[]>
+     * @return \Iterator<string, array<int>>
      */
-    public static function provideScenarios(): array
+    public static function provideScenarios(): \Iterator
     {
-        return [
-            'no files generated' => [0, 5, PosterGeneratedMessage::STATE_FAILED],
-            'nothing requested and nothing generated' => [0, 0, PosterGeneratedMessage::STATE_FAILED],
-            'fewer files generated than requested' => [3, 5, PosterGeneratedMessage::STATE_PARTIAL],
-            'more files generated than requested' => [7, 5, PosterGeneratedMessage::STATE_PARTIAL],
-            'all requested files generated' => [5, 5, PosterGeneratedMessage::STATE_SUCCESS],
-            'single file, requested and generated' => [1, 1, PosterGeneratedMessage::STATE_SUCCESS],
-            'single file generated out of many requested' => [1, 10, PosterGeneratedMessage::STATE_PARTIAL],
-        ];
+        yield 'no files generated' => [0, 5, PosterGeneratedMessage::STATE_FAILED];
+        yield 'nothing requested and nothing generated' => [0, 0, PosterGeneratedMessage::STATE_FAILED];
+        yield 'fewer files generated than requested' => [3, 5, PosterGeneratedMessage::STATE_PARTIAL];
+        yield 'more files generated than requested' => [7, 5, PosterGeneratedMessage::STATE_PARTIAL];
+        yield 'all requested files generated' => [5, 5, PosterGeneratedMessage::STATE_SUCCESS];
+        yield 'single file, requested and generated' => [1, 1, PosterGeneratedMessage::STATE_SUCCESS];
+        yield 'single file generated out of many requested' => [1, 10, PosterGeneratedMessage::STATE_PARTIAL];
     }
 }

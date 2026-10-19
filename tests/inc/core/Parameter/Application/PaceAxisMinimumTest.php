@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Runalyze\Parameter\Application;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class PaceAxisMinimumTest extends \PHPUnit\Framework\TestCase
+final class PaceAxisMinimumTest extends \PHPUnit\Framework\TestCase
 {
     protected PaceAxisMinimum $object;
 
@@ -16,24 +16,24 @@ class PaceAxisMinimumTest extends \PHPUnit\Framework\TestCase
 
     public function testDefaultValueIsAutomatic(): void
     {
-        self::assertSame(PaceAxisLimit::AUTO, $this->object->value());
-        self::assertTrue($this->object->automatic());
+        $this->assertSame(PaceAxisLimit::AUTO, $this->object->value());
+        $this->assertTrue($this->object->automatic());
     }
 
     public function testSettingAStringValueDisablesAutomatic(): void
     {
         $this->object->set('60');
 
-        self::assertSame('60', $this->object->value());
-        self::assertFalse($this->object->automatic());
+        $this->assertSame('60', $this->object->value());
+        $this->assertFalse($this->object->automatic());
     }
 
     public function testSettingAnIntegerValueIsSilentlyCoercedInsteadOfThrowing(): void
     {
         $this->object->set(60);
 
-        self::assertSame(60, $this->object->value());
-        self::assertFalse($this->object->automatic());
+        $this->assertSame(60, $this->object->value());
+        $this->assertFalse($this->object->automatic());
     }
 
     public function testUnknownValueFallsBackToDefault(): void
@@ -41,7 +41,7 @@ class PaceAxisMinimumTest extends \PHPUnit\Framework\TestCase
         $this->object->set('60');
         $this->object->set('not-a-valid-pace');
 
-        self::assertSame(PaceAxisLimit::AUTO, $this->object->value());
-        self::assertTrue($this->object->automatic());
+        $this->assertSame(PaceAxisLimit::AUTO, $this->object->value());
+        $this->assertTrue($this->object->automatic());
     }
 }

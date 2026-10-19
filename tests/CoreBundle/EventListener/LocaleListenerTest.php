@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class LocaleListenerTest extends TestCase
+final class LocaleListenerTest extends TestCase
 {
     private string $previousLanguage;
 

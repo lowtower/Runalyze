@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Repository;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -9,7 +11,7 @@ use Runalyze\Bundle\CoreBundle\Repository\EquipmentRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
-class EquipmentRepositoryTest extends AbstractRepositoryTestCase
+final class EquipmentRepositoryTest extends AbstractRepositoryTestCase
 {
     protected EquipmentRepository $EquipmentRepository;
 
@@ -56,10 +58,10 @@ class EquipmentRepositoryTest extends AbstractRepositoryTestCase
 
         $this->assertSame(2, $statistics->getCount());
         $this->assertEquals(2, $statistics->getStatistics()[0]->getNumberOfActivities());
-        $this->assertEquals(10.0, $statistics->getStatistics()[0]->getMaximalDistance());
+        $this->assertEqualsWithDelta(10.0, $statistics->getStatistics()[0]->getMaximalDistance(), PHP_FLOAT_EPSILON);
         $this->assertEquals(240, $statistics->getStatistics()[0]->getMaximalPace());
         $this->assertEquals(1, $statistics->getStatistics()[1]->getNumberOfActivities());
-        $this->assertEquals(12.0, $statistics->getStatistics()[1]->getMaximalDistance());
+        $this->assertEqualsWithDelta(12.0, $statistics->getStatistics()[1]->getMaximalDistance(), PHP_FLOAT_EPSILON);
         $this->assertEquals(300, $statistics->getStatistics()[1]->getMaximalPace());
     }
 }

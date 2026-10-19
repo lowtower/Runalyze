@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Bridge\Activity\Calculation;
 
 use PHPUnit\Framework\MockObject\Stub;
@@ -64,8 +66,8 @@ final class ClimbFinderTest extends TestCase
 
         $result = $this->climbFinder->findClimbsFor($training);
 
-        self::assertInstanceOf(ClimbCollection::class, $result);
-        self::assertTrue($result->isEmpty());
+        $this->assertInstanceOf(ClimbCollection::class, $result);
+        $this->assertTrue($result->isEmpty());
     }
 
     public function testReturnsEmptyCollectionWhenRouteHasNoElevations(): void
@@ -75,7 +77,7 @@ final class ClimbFinderTest extends TestCase
 
         $result = $this->climbFinder->findClimbsFor($training);
 
-        self::assertTrue($result->isEmpty());
+        $this->assertTrue($result->isEmpty());
     }
 
     public function testReturnsEmptyCollectionWhenActivityHasNoTrackdata(): void
@@ -85,7 +87,7 @@ final class ClimbFinderTest extends TestCase
 
         $result = $this->climbFinder->findClimbsFor($training);
 
-        self::assertTrue($result->isEmpty());
+        $this->assertTrue($result->isEmpty());
     }
 
     public function testReturnsEmptyCollectionWhenTrackdataDistanceIsNull(): void
@@ -96,7 +98,7 @@ final class ClimbFinderTest extends TestCase
 
         $result = $this->climbFinder->findClimbsFor($training);
 
-        self::assertTrue($result->isEmpty());
+        $this->assertTrue($result->isEmpty());
     }
 
     public function testFindClimbsForDetectsASingleClimbOnCollinearAscendingData(): void
@@ -110,20 +112,20 @@ final class ClimbFinderTest extends TestCase
 
         $result = $this->climbFinder->findClimbsFor($training);
 
-        self::assertCount(1, $result);
+        $this->assertCount(1, $result);
 
         $climb = $result->getElements()[0];
-        self::assertSame(4.0, $climb->getDistance());
-        self::assertSame(40, $climb->getElevation());
-        self::assertSame(140, $climb->getAltitudeAtTop());
-        self::assertSame(0, $climb->getTrackdataStartIndex());
-        self::assertSame(4, $climb->getTrackdataEndIndex());
+        $this->assertEqualsWithDelta(4.0, $climb->getDistance(), PHP_FLOAT_EPSILON);
+        $this->assertSame(40, $climb->getElevation());
+        $this->assertSame(140, $climb->getAltitudeAtTop());
+        $this->assertSame(0, $climb->getTrackdataStartIndex());
+        $this->assertSame(4, $climb->getTrackdataEndIndex());
 
         $profile = $climb->getClimbProfile();
-        self::assertNotNull($profile);
-        self::assertCount(4, $profile);
-        self::assertSame([1.0, 1.0, 1.0, 1.0], $profile->getDistances());
-        self::assertSame([10, 10, 10, 10], $profile->getElevations());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Model\Trackdata\Climb\ClimbProfile::class, $profile);
+        $this->assertCount(4, $profile);
+        $this->assertSame([1.0, 1.0, 1.0, 1.0], $profile->getDistances());
+        $this->assertSame([10, 10, 10, 10], $profile->getElevations());
     }
 
     public function testFindClimbsForReturnsEmptyCollectionOnCollinearDescendingData(): void
@@ -137,7 +139,7 @@ final class ClimbFinderTest extends TestCase
 
         $result = $this->climbFinder->findClimbsFor($training);
 
-        self::assertTrue($result->isEmpty());
+        $this->assertTrue($result->isEmpty());
     }
 
     public function testFindClimbsForReturnsEmptyCollectionOnFlatCollinearData(): void
@@ -151,7 +153,7 @@ final class ClimbFinderTest extends TestCase
 
         $result = $this->climbFinder->findClimbsFor($training);
 
-        self::assertTrue($result->isEmpty());
+        $this->assertTrue($result->isEmpty());
     }
 
     public function testFindClimbsForOnNonCollinearZigzagDataWithDefaultEpsilon(): void
@@ -165,19 +167,19 @@ final class ClimbFinderTest extends TestCase
 
         $result = $this->climbFinder->findClimbsFor($training);
 
-        self::assertCount(2, $result);
+        $this->assertCount(2, $result);
 
         $firstClimb = $result->getElements()[0];
-        self::assertSame(1.0, $firstClimb->getDistance());
-        self::assertSame(10, $firstClimb->getElevation());
-        self::assertSame(0, $firstClimb->getTrackdataStartIndex());
-        self::assertSame(1, $firstClimb->getTrackdataEndIndex());
+        $this->assertEqualsWithDelta(1.0, $firstClimb->getDistance(), PHP_FLOAT_EPSILON);
+        $this->assertSame(10, $firstClimb->getElevation());
+        $this->assertSame(0, $firstClimb->getTrackdataStartIndex());
+        $this->assertSame(1, $firstClimb->getTrackdataEndIndex());
 
         $secondClimb = $result->getElements()[1];
-        self::assertSame(1.0, $secondClimb->getDistance());
-        self::assertSame(10, $secondClimb->getElevation());
-        self::assertSame(2, $secondClimb->getTrackdataStartIndex());
-        self::assertSame(3, $secondClimb->getTrackdataEndIndex());
+        $this->assertEqualsWithDelta(1.0, $secondClimb->getDistance(), PHP_FLOAT_EPSILON);
+        $this->assertSame(10, $secondClimb->getElevation());
+        $this->assertSame(2, $secondClimb->getTrackdataStartIndex());
+        $this->assertSame(3, $secondClimb->getTrackdataEndIndex());
     }
 
     public function testFindClimbsForActuallyChangesResultWhenACustomEpsilonIsProvided(): void
@@ -191,13 +193,13 @@ final class ClimbFinderTest extends TestCase
 
         $result = $this->climbFinder->findClimbsFor($training, 5.0);
 
-        self::assertCount(1, $result);
+        $this->assertCount(1, $result);
 
         $climb = $result->getElements()[0];
-        self::assertSame(1.0, $climb->getDistance());
-        self::assertSame(10, $climb->getElevation());
-        self::assertSame(0, $climb->getTrackdataStartIndex());
-        self::assertSame(1, $climb->getTrackdataEndIndex());
+        $this->assertEqualsWithDelta(1.0, $climb->getDistance(), PHP_FLOAT_EPSILON);
+        $this->assertSame(10, $climb->getElevation());
+        $this->assertSame(0, $climb->getTrackdataStartIndex());
+        $this->assertSame(1, $climb->getTrackdataEndIndex());
     }
 
     /**
@@ -220,31 +222,33 @@ final class ClimbFinderTest extends TestCase
 
         $result = $this->invokeCreateClimbsForIndices($indices, $distances, $elevations);
 
-        self::assertCount(2, $result);
+        $this->assertCount(2, $result);
 
         $firstClimb = $result->getElements()[0];
-        self::assertSame(1.0, $firstClimb->getDistance());
-        self::assertSame(10, $firstClimb->getElevation());
-        self::assertSame(110, $firstClimb->getAltitudeAtTop());
-        self::assertSame(0, $firstClimb->getTrackdataStartIndex());
-        self::assertSame(2, $firstClimb->getTrackdataEndIndex());
+        $this->assertEqualsWithDelta(1.0, $firstClimb->getDistance(), PHP_FLOAT_EPSILON);
+        $this->assertSame(10, $firstClimb->getElevation());
+        $this->assertSame(110, $firstClimb->getAltitudeAtTop());
+        $this->assertSame(0, $firstClimb->getTrackdataStartIndex());
+        $this->assertSame(2, $firstClimb->getTrackdataEndIndex());
 
         $firstProfile = $firstClimb->getClimbProfile();
-        self::assertSame(2, $firstProfile->count());
-        self::assertSame([0.5, 0.5], $firstProfile->getDistances());
-        self::assertSame([5, 5], $firstProfile->getElevations());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Model\Trackdata\Climb\ClimbProfile::class, $firstProfile);
+        $this->assertCount(2, $firstProfile);
+        $this->assertSame([0.5, 0.5], $firstProfile->getDistances());
+        $this->assertSame([5, 5], $firstProfile->getElevations());
 
         $secondClimb = $result->getElements()[1];
-        self::assertSame(1.5, $secondClimb->getDistance());
-        self::assertSame(20, $secondClimb->getElevation());
-        self::assertSame(130, $secondClimb->getAltitudeAtTop());
-        self::assertSame(2, $secondClimb->getTrackdataStartIndex());
-        self::assertSame(5, $secondClimb->getTrackdataEndIndex());
+        $this->assertEqualsWithDelta(1.5, $secondClimb->getDistance(), PHP_FLOAT_EPSILON);
+        $this->assertSame(20, $secondClimb->getElevation());
+        $this->assertSame(130, $secondClimb->getAltitudeAtTop());
+        $this->assertSame(2, $secondClimb->getTrackdataStartIndex());
+        $this->assertSame(5, $secondClimb->getTrackdataEndIndex());
 
         $secondProfile = $secondClimb->getClimbProfile();
-        self::assertSame(3, $secondProfile->count());
-        self::assertSame([0.5, 0.5, 0.5], $secondProfile->getDistances());
-        self::assertSame([-2, -2, 24], $secondProfile->getElevations());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Model\Trackdata\Climb\ClimbProfile::class, $secondProfile);
+        $this->assertCount(3, $secondProfile);
+        $this->assertSame([0.5, 0.5, 0.5], $secondProfile->getDistances());
+        $this->assertSame([-2, -2, 24], $secondProfile->getElevations());
     }
 
     public function testCreateClimbsForIndicesSkipsSegmentWhereDistanceDoesNotIncrease(): void
@@ -255,13 +259,13 @@ final class ClimbFinderTest extends TestCase
 
         $result = $this->invokeCreateClimbsForIndices($indices, $distances, $elevations);
 
-        self::assertTrue($result->isEmpty());
+        $this->assertTrue($result->isEmpty());
     }
 
     public function testCreateClimbsForIndicesReturnsEmptyCollectionForSingleIndex(): void
     {
         $result = $this->invokeCreateClimbsForIndices([0], [0.0], [100]);
 
-        self::assertTrue($result->isEmpty());
+        $this->assertTrue($result->isEmpty());
     }
 }

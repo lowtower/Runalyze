@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\Anova\QueryValue;
 
 use PHPUnit\Framework\TestCase;
@@ -17,7 +19,7 @@ use Runalyze\Metrics\Temperature\Unit\AbstractTemperatureUnit;
 use Runalyze\Metrics\Velocity\Unit\AbstractPaceInDecimalFormatUnit;
 use Runalyze\Metrics\Velocity\Unit\AbstractPaceUnit;
 
-class QueryValueUnitDelegationTest extends TestCase
+final class QueryValueUnitDelegationTest extends TestCase
 {
     public function testWeatherWindSpeedDelegatesToUnitSystemsWindSpeedUnit(): void
     {

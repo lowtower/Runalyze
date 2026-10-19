@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller\My\Tools;
 
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\FilenameHandler;
@@ -13,7 +15,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
-class BackupToolControllerTest extends AbstractFixturesAwareWebTestCase
+final class BackupToolControllerTest extends AbstractFixturesAwareWebTestCase
 {
     protected Account $Account;
 

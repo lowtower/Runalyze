@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\Data;
 
 use Runalyze\Parser\Activity\Common\Data\ActiveRoundCalculator;
@@ -7,7 +9,7 @@ use Runalyze\Parser\Activity\Common\Data\ContinuousData;
 use Runalyze\Parser\Activity\Common\Data\Round\Round;
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 
-class ActiveRoundCalculatorTest extends \PHPUnit\Framework\TestCase
+final class ActiveRoundCalculatorTest extends \PHPUnit\Framework\TestCase
 {
     protected ContinuousData $ContinuousData;
 

@@ -6,7 +6,7 @@ namespace Runalyze\Tests\Mathematics\Filter\Butterworth;
 
 use Runalyze\Mathematics\Filter\Butterworth\Lowpass2ndOrderCoefficients;
 
-class Lowpass2ndOrderCoefficientsTest extends \PHPUnit\Framework\TestCase
+final class Lowpass2ndOrderCoefficientsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Values are compared to the following: (but we use different signs for ai and they don't normalize the frequency)
@@ -22,7 +22,7 @@ class Lowpass2ndOrderCoefficientsTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(0.13491, $inputCoefficients[1], 0.00001);
         $this->assertEqualsWithDelta(0.06745, $inputCoefficients[2], 0.00001);
 
-        $this->assertEquals(1.0, $outputCoefficients[0]);
+        $this->assertEqualsWithDelta(1.0, $outputCoefficients[0], PHP_FLOAT_EPSILON);
         $this->assertEqualsWithDelta(-1.14298, $outputCoefficients[1], 0.00001);
         $this->assertEqualsWithDelta(0.41280, $outputCoefficients[2], 0.00001);
     }

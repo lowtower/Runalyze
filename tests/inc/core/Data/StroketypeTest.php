@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\Profile\FitSdk\StrokeTypeProfile;
 
 #[Group('default')]
-class StroketypeTest extends TestCase
+final class StroketypeTest extends TestCase
 {
     public function testSetAcceptsValidIdentifierFromCompleteList(): void
     {

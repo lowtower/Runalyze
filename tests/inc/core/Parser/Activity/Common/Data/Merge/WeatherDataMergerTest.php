@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\Data\Merge;
 
 use Runalyze\Parser\Activity\Common\Data\Merge\WeatherDataMerger;
 use Runalyze\Parser\Activity\Common\Data\WeatherData;
 
-class WeatherDataMergerTest extends \PHPUnit\Framework\TestCase
+final class WeatherDataMergerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var WeatherData

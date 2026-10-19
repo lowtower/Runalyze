@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Sports\ClimbCategory;
 
 use Runalyze\Sports\ClimbCategory\ClimbCategory;
 
-class ClimbCategoryTest extends \PHPUnit\Framework\TestCase
+final class ClimbCategoryTest extends \PHPUnit\Framework\TestCase
 {
     public function testThatAllCategoriesCanBeConvertedToString(): void
     {

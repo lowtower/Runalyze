@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Entity;
 
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 
-class PluginTest extends \PHPUnit\Framework\TestCase
+final class PluginTest extends \PHPUnit\Framework\TestCase
 {
     protected Plugin $Plugin;
 

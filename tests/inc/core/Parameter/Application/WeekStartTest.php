@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Parameter\Application;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresSqlite')]
-class WeekStartTest extends \PHPUnit\Framework\TestCase
+final class WeekStartTest extends \PHPUnit\Framework\TestCase
 {
     protected WeekStart $Object;
 
@@ -70,7 +72,7 @@ class WeekStartTest extends \PHPUnit\Framework\TestCase
         $this->runTestsForTestData(1);
     }
 
-    protected function runTestsForTestData($expectedWeekIndex)
+    protected function runTestsForTestData($expectedWeekIndex): void
     {
         foreach ($this->TestDates as $dateString => $week) {
             $this->assertEquals(

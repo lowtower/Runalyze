@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Activity;
 
-class TrainingEffectLevelTest extends \PHPUnit\Framework\TestCase
+final class TrainingEffectLevelTest extends \PHPUnit\Framework\TestCase
 {
     public function testInvalidLevelTooSmall(): void
     {

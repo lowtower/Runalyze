@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Service\WeatherForecast\Strategy;
 
 use GuzzleHttp\Psr7\Response;
@@ -9,7 +11,7 @@ use Runalyze\Service\WeatherForecast\Location;
 use Runalyze\Service\WeatherForecast\Strategy\OpenWeatherMap;
 use Runalyze\Tests\Service\HttpClientAwareTestCaseTrait;
 
-class OpenWeatherMapTest extends \PHPUnit\Framework\TestCase
+final class OpenWeatherMapTest extends \PHPUnit\Framework\TestCase
 {
     use HttpClientAwareTestCaseTrait;
 

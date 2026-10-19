@@ -8,7 +8,7 @@ use DB;
 
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]
 #[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
-class ConfigurationTest extends \PHPUnit\Framework\TestCase
+final class ConfigurationTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var \PDO

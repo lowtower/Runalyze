@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Runalyze\Parameter;
 
-class FloatingPointTest extends \PHPUnit\Framework\TestCase
+final class FloatingPointTest extends \PHPUnit\Framework\TestCase
 {
     public function testSetFromString(): void
     {
         $object = new FloatingPoint(3.14);
 
-        $this->assertEquals(3.14, $object->value());
+        $this->assertEqualsWithDelta(3.14, $object->value(), PHP_FLOAT_EPSILON);
         $this->assertEquals('3.14', $object->valueAsString());
 
         $object->set(5);
@@ -27,13 +27,13 @@ class FloatingPointTest extends \PHPUnit\Framework\TestCase
             'min' => 1.0,
             'max' => 2.0,
         ]);
-        $this->assertEquals(1.23, $object->value());
+        $this->assertEqualsWithDelta(1.23, $object->value(), PHP_FLOAT_EPSILON);
 
         $object->set(0.12);
-        $this->assertEquals(1.0, $object->value());
+        $this->assertEqualsWithDelta(1.0, $object->value(), PHP_FLOAT_EPSILON);
 
         $object->set(2.34);
-        $this->assertEquals(2.0, $object->value());
+        $this->assertEqualsWithDelta(2.0, $object->value(), PHP_FLOAT_EPSILON);
     }
 
     public function testEmptyStringForNotNull(): void
@@ -78,7 +78,7 @@ class FloatingPointTest extends \PHPUnit\Framework\TestCase
 
         $object->set(null);
 
-        self::assertSame(1.0, $object->value());
-        self::assertFalse($object->isEmpty());
+        $this->assertEqualsWithDelta(1.0, $object->value(), PHP_FLOAT_EPSILON);
+        $this->assertFalse($object->isEmpty());
     }
 }

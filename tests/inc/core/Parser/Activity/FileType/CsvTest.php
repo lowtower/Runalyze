@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\FileType;
 
 use Runalyze\Parser\Activity\Common\Data\Round\Round;
@@ -7,7 +9,7 @@ use Runalyze\Parser\Activity\FileType\Csv;
 use Runalyze\Util\LocalTime;
 
 #[\PHPUnit\Framework\Attributes\Group('import')]
-class CsvTest extends AbstractActivityParserTestCase
+final class CsvTest extends AbstractActivityParserTestCase
 {
     protected Csv $Parser;
 
@@ -44,8 +46,8 @@ class CsvTest extends AbstractActivityParserTestCase
         $this->assertEquals(82, $this->Container->ContinuousData->HeartRate[0]);
         $this->assertEquals(61, $this->Container->ContinuousData->Cadence[0]);
         $this->assertEquals(238, $this->Container->ContinuousData->Altitude[0]);
-        $this->assertEquals(49.878523, $this->Container->ContinuousData->Latitude[0]);
-        $this->assertEquals(10.906175, $this->Container->ContinuousData->Longitude[0]);
+        $this->assertEqualsWithDelta(49.878523, $this->Container->ContinuousData->Latitude[0], PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(10.906175, $this->Container->ContinuousData->Longitude[0], PHP_FLOAT_EPSILON);
 
         $this->assertEquals(
             [327, 314, 308, 311, 306, 316, 331, 397, 339, 351, 374, 332, 327, 305],

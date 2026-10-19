@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
  * Characterization test for RunalyzePluginPanel_Rechenspiele.
  */
 #[Group('plugin')]
-class RunalyzePluginPanel_RechenspieleCharacterizationTest extends TestCase
+final class RunalyzePluginPanel_RechenspieleCharacterizationTest extends TestCase
 {
     private RunalyzePluginPanel_Rechenspiele $plugin;
 

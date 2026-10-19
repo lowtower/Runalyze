@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\Data;
 
 use Runalyze\Parser\Activity\Common\Data\ContinuousData;
 use Runalyze\Parser\Activity\Common\Data\ContinuousDataAdapter;
 
-class ContinuousDataAdapterTest extends \PHPUnit\Framework\TestCase
+final class ContinuousDataAdapterTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ContinuousData

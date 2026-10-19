@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Repository;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -7,7 +9,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
-class PluginRepositoryTest extends AbstractRepositoryTestCase
+final class PluginRepositoryTest extends AbstractRepositoryTestCase
 {
     protected PluginRepository $PluginRepository;
 

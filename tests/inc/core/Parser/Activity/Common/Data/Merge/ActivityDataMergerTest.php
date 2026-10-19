@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\Data\Merge;
 
 use Runalyze\Parser\Activity\Common\Data\ActivityData;
 use Runalyze\Parser\Activity\Common\Data\Merge\ActivityDataMerger;
 
-class ActivityDataMergerTest extends \PHPUnit\Framework\TestCase
+final class ActivityDataMergerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ActivityData

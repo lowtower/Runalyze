@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Activity\PaceUnit;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class AbstractUnitTest extends TestCase
+final class AbstractUnitTest extends TestCase
 {
     #[DataProvider('provideTimeFormatValues')]
     public function testIsDecimalFormatIsInverseOfIsTimeFormat(bool $isTimeFormat, bool $expectedIsDecimalFormat): void
@@ -17,14 +19,12 @@ class AbstractUnitTest extends TestCase
     }
 
     /**
-     * @return array<string, bool[]>
+     * @return \Iterator<string, array<bool>>
      */
-    public static function provideTimeFormatValues(): array
+    public static function provideTimeFormatValues(): \Iterator
     {
-        return [
-            'time format is true, decimal format must be false' => [true, false],
-            'time format is false, decimal format must be true' => [false, true],
-        ];
+        yield 'time format is true, decimal format must be false' => [true, false];
+        yield 'time format is false, decimal format must be true' => [false, true];
     }
 
     private function createUnitWithTimeFormat(bool $isTimeFormat): AbstractUnit

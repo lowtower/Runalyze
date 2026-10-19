@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Bridge\Activity\Calculation;
 
 use PHPUnit\Framework\MockObject\MockObject;
@@ -31,10 +33,10 @@ final class PaceCalculatorTest extends TestCase
     {
         $trackData = $this->createTrackdata(false, true);
 
-        $trackData->expects(self::once())->method('setPace')->with(null);
+        $trackData->expects($this->once())->method('setPace')->with(null);
 
-        $trackData->expects(self::never())->method('getTime');
-        $trackData->expects(self::never())->method('getDistance');
+        $trackData->expects($this->never())->method('getTime');
+        $trackData->expects($this->never())->method('getDistance');
 
         $this->calculator->calculateFor($trackData);
     }
@@ -43,10 +45,10 @@ final class PaceCalculatorTest extends TestCase
     {
         $trackData = $this->createTrackdata(true, false);
 
-        $trackData->expects(self::once())->method('setPace')->with(null);
+        $trackData->expects($this->once())->method('setPace')->with(null);
 
-        $trackData->expects(self::never())->method('getTime');
-        $trackData->expects(self::never())->method('getDistance');
+        $trackData->expects($this->never())->method('getTime');
+        $trackData->expects($this->never())->method('getDistance');
 
         $this->calculator->calculateFor($trackData);
     }
@@ -55,7 +57,7 @@ final class PaceCalculatorTest extends TestCase
     {
         $trackData = $this->createTrackdata(false, false);
 
-        $trackData->expects(self::once())->method('setPace')->with(null);
+        $trackData->expects($this->once())->method('setPace')->with(null);
 
         $this->calculator->calculateFor($trackData);
     }

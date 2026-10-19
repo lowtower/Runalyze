@@ -6,7 +6,7 @@ namespace Runalyze\Tests\Sports\ClimbScore;
 
 use Runalyze\Sports\ClimbScore\ClimbScore;
 
-class ClimbScoreTest extends \PHPUnit\Framework\TestCase
+final class ClimbScoreTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ClimbScore
@@ -28,8 +28,8 @@ class ClimbScoreTest extends \PHPUnit\Framework\TestCase
 
     public function testManualScore(): void
     {
-        $this->assertSame(3.1, new ClimbScore(3.1)->getScore());
-        $this->assertSame(4.2, new ClimbScore()->setScore(4.2)->getScore());
+        $this->assertEqualsWithDelta(3.1, new ClimbScore(3.1)->getScore(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(4.2, new ClimbScore()->setScore(4.2)->getScore(), PHP_FLOAT_EPSILON);
     }
 
     public function testExampleForCyclingTourInSwitzerland(): void
@@ -45,27 +45,27 @@ class ClimbScoreTest extends \PHPUnit\Framework\TestCase
 
     public function testSumOfFietsIndices(): void
     {
-        $this->assertEquals(6.0, $this->Score->getSumOfScoresForClassifiedClimbs([1.0, 2.0, 3.0], 20.0));
-        $this->assertEquals(3.0, $this->Score->getSumOfScoresForClassifiedClimbs([1.0, 2.0, 3.0], 80.0));
+        $this->assertEqualsWithDelta(6.0, $this->Score->getSumOfScoresForClassifiedClimbs([1.0, 2.0, 3.0], 20.0), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(3.0, $this->Score->getSumOfScoresForClassifiedClimbs([1.0, 2.0, 3.0], 80.0), PHP_FLOAT_EPSILON);
     }
 
     public function testThatVeryShortDistancesDoNotDisturbTheScore(): void
     {
-        $this->assertEquals(2.7, $this->Score->getSumOfScoresForClassifiedClimbs([2.7], 0.01));
-        $this->assertEquals(3.0, $this->Score->getSumOfScoresForClassifiedClimbs([3.0], 3.0));
-        $this->assertEquals(4.2, $this->Score->getSumOfScoresForClassifiedClimbs([4.2], 20.0));
+        $this->assertEqualsWithDelta(2.7, $this->Score->getSumOfScoresForClassifiedClimbs([2.7], 0.01), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(3.0, $this->Score->getSumOfScoresForClassifiedClimbs([3.0], 3.0), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(4.2, $this->Score->getSumOfScoresForClassifiedClimbs([4.2], 20.0), PHP_FLOAT_EPSILON);
     }
 
     public function testScaleForSumOfScores(): void
     {
         $this->assertEqualsWithDelta(1.17, $this->Score->getScoreForSumOfSingleScores(0.0), 0.01);
-        $this->assertEquals(2.0, $this->Score->getScoreForSumOfSingleScores(0.5));
-        $this->assertEquals(4.0, $this->Score->getScoreForSumOfSingleScores(2.5));
+        $this->assertEqualsWithDelta(2.0, $this->Score->getScoreForSumOfSingleScores(0.5), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(4.0, $this->Score->getScoreForSumOfSingleScores(2.5), PHP_FLOAT_EPSILON);
         $this->assertEqualsWithDelta(5.17, $this->Score->getScoreForSumOfSingleScores(4.5), 0.01);
-        $this->assertEquals(6.0, $this->Score->getScoreForSumOfSingleScores(6.5));
-        $this->assertEquals(8.0, $this->Score->getScoreForSumOfSingleScores(14.5));
-        $this->assertEquals(10.0, $this->Score->getScoreForSumOfSingleScores(30.5));
-        $this->assertEquals(10.0, $this->Score->getScoreForSumOfSingleScores(100.0));
+        $this->assertEqualsWithDelta(6.0, $this->Score->getScoreForSumOfSingleScores(6.5), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(8.0, $this->Score->getScoreForSumOfSingleScores(14.5), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(10.0, $this->Score->getScoreForSumOfSingleScores(30.5), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(10.0, $this->Score->getScoreForSumOfSingleScores(100.0), PHP_FLOAT_EPSILON);
     }
 
     public function testCompensationFactorForFlatParts(): void

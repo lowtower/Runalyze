@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Entity;
 
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -11,7 +13,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Model\Trackdata\Entity as EntityModel;
 use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 
-class TrackdataTest extends \PHPUnit\Framework\TestCase
+final class TrackdataTest extends \PHPUnit\Framework\TestCase
 {
     protected Trackdata $Data;
 
@@ -141,31 +143,29 @@ class TrackdataTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array<string, string[]>
+     * @return \Iterator<string, array<string>>
      */
-    public static function provideSimpleFieldAccessors(): array
+    public static function provideSimpleFieldAccessors(): \Iterator
     {
-        return [
-            'heartrate' => ['hasHeartrate', 'getHeartrate', 'setHeartrate'],
-            'power' => ['hasPower', 'getPower', 'setPower'],
-            'temperature' => ['hasTemperature', 'getTemperature', 'setTemperature'],
-            'groundcontact' => ['hasGroundcontact', 'getGroundcontact', 'setGroundcontact'],
-            'groundcontactBalance' => ['hasGroundcontactBalance', 'getGroundcontactBalance', 'setGroundcontactBalance'],
-            'smo20' => ['hasSmo20', 'getSmo20', 'setSmo20'],
-            'smo21' => ['hasSmo21', 'getSmo21', 'setSmo21'],
-            'thb0' => ['hasThb0', 'getThb0', 'setThb0'],
-            'thb1' => ['hasThb1', 'getThb1', 'setThb1'],
-            'impactGsLeft' => ['hasImpactGsLeft', 'getImpactGsLeft', 'setImpactGsLeft'],
-            'impactGsRight' => ['hasImpactGsRight', 'getImpactGsRight', 'setImpactGsRight'],
-            'brakingGsLeft' => ['hasBrakingGsLeft', 'getBrakingGsLeft', 'setBrakingGsLeft'],
-            'brakingGsRight' => ['hasBrakingGsRight', 'getBrakingGsRight', 'setBrakingGsRight'],
-            'footstrikeTypeLeft' => ['hasFootstrikeTypeLeft', 'getFootstrikeTypeLeft', 'setFootstrikeTypeLeft'],
-            'footstrikeTypeRight' => ['hasFootstrikeTypeRight', 'getFootstrikeTypeRight', 'setFootstrikeTypeRight'],
-            'pronationExcursionLeft' => ['hasPronationExcursionLeft', 'getPronationExcursionLeft', 'setPronationExcursionLeft'],
-            'pronationExcursionRight' => ['hasPronationExcursionRight', 'getPronationExcursionRight', 'setPronationExcursionRight'],
-            'performanceCondition' => ['hasPerformanceCondition', 'getPerformanceCondition', 'setPerformanceCondition'],
-            'respirationRate' => ['hasRespirationRate', 'getRespirationRate', 'setRespirationRate'],
-        ];
+        yield 'heartrate' => ['hasHeartrate', 'getHeartrate', 'setHeartrate'];
+        yield 'power' => ['hasPower', 'getPower', 'setPower'];
+        yield 'temperature' => ['hasTemperature', 'getTemperature', 'setTemperature'];
+        yield 'groundcontact' => ['hasGroundcontact', 'getGroundcontact', 'setGroundcontact'];
+        yield 'groundcontactBalance' => ['hasGroundcontactBalance', 'getGroundcontactBalance', 'setGroundcontactBalance'];
+        yield 'smo20' => ['hasSmo20', 'getSmo20', 'setSmo20'];
+        yield 'smo21' => ['hasSmo21', 'getSmo21', 'setSmo21'];
+        yield 'thb0' => ['hasThb0', 'getThb0', 'setThb0'];
+        yield 'thb1' => ['hasThb1', 'getThb1', 'setThb1'];
+        yield 'impactGsLeft' => ['hasImpactGsLeft', 'getImpactGsLeft', 'setImpactGsLeft'];
+        yield 'impactGsRight' => ['hasImpactGsRight', 'getImpactGsRight', 'setImpactGsRight'];
+        yield 'brakingGsLeft' => ['hasBrakingGsLeft', 'getBrakingGsLeft', 'setBrakingGsLeft'];
+        yield 'brakingGsRight' => ['hasBrakingGsRight', 'getBrakingGsRight', 'setBrakingGsRight'];
+        yield 'footstrikeTypeLeft' => ['hasFootstrikeTypeLeft', 'getFootstrikeTypeLeft', 'setFootstrikeTypeLeft'];
+        yield 'footstrikeTypeRight' => ['hasFootstrikeTypeRight', 'getFootstrikeTypeRight', 'setFootstrikeTypeRight'];
+        yield 'pronationExcursionLeft' => ['hasPronationExcursionLeft', 'getPronationExcursionLeft', 'setPronationExcursionLeft'];
+        yield 'pronationExcursionRight' => ['hasPronationExcursionRight', 'getPronationExcursionRight', 'setPronationExcursionRight'];
+        yield 'performanceCondition' => ['hasPerformanceCondition', 'getPerformanceCondition', 'setPerformanceCondition'];
+        yield 'respirationRate' => ['hasRespirationRate', 'getRespirationRate', 'setRespirationRate'];
     }
 
     public function testSetCadenceInvalidatesCachedStrideLength(): void
@@ -234,14 +234,14 @@ class TrackdataTest extends \PHPUnit\Framework\TestCase
 
     public function testGetTotalDistanceReturnsZeroWhenDistanceIsNotSet(): void
     {
-        $this->assertSame(0.0, $this->Data->getTotalDistance());
+        $this->assertEqualsWithDelta(0.0, $this->Data->getTotalDistance(), PHP_FLOAT_EPSILON);
     }
 
     public function testGetTotalDistanceReturnsLastDistanceValue(): void
     {
         $this->Data->setDistance([0.0, 1.5, 3.0]);
 
-        $this->assertSame(3.0, $this->Data->getTotalDistance());
+        $this->assertEqualsWithDelta(3.0, $this->Data->getTotalDistance(), PHP_FLOAT_EPSILON);
     }
 
     public function testHasTimeReturnsFalseForExplicitlyEmptyArray(): void

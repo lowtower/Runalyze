@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Twig;
 
 use Runalyze\Bundle\CoreBundle\Twig\UtilityExtension;
 
-class UtilityExtensionTest extends \PHPUnit\Framework\TestCase
+final class UtilityExtensionTest extends \PHPUnit\Framework\TestCase
 {
     protected UtilityExtension $Utility;
 
@@ -52,51 +54,47 @@ class UtilityExtensionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array<string, float[]>
+     * @return \Iterator<string, array<float>>
      */
-    public static function provideZeroOrNearZeroValues(): array
+    public static function provideZeroOrNearZeroValues(): \Iterator
     {
-        return [
-            'exactly 0' => [0.0],
-            'negative close to 0' => [-0.5],
-            'positive, below 1 Byte' => [0.99],
-        ];
+        yield 'exactly 0' => [0.0];
+        yield 'negative close to 0' => [-0.5];
+        yield 'positive, below 1 Byte' => [0.99];
     }
 
     /**
-     * @return array<string, float[]|string[]>
+     * @return \Iterator<string, array<(float|string)>>
      */
-    public static function provideValuesAroundIntMax(): array
+    public static function provideValuesAroundIntMax(): \Iterator
     {
-        return [
-            'close below PHP_INT_MAX (~8 EB)' => [
-                (float) PHP_INT_MAX - 1024 ** 6,
-                '7.00 EB',
-            ],
-            'exactly PHP_INT_MAX (~8 EB)' => [
-                (float) PHP_INT_MAX,
-                '8.00 EB',
-            ],
-            'close above PHP_INT_MAX (~8 EB)' => [
-                (float) PHP_INT_MAX + 1024 ** 5,
-                '8.00 EB',
-            ],
-            '5.90 ZB (faar above PHP_INT_MAX)' => [
-                5.90 * 1024 ** 7,
-                '5.90 ZB',
-            ],
-            '1.00 YB' => [
-                1.00 * 1024 ** 8,
-                '1.00 YB',
-            ],
-            '9.99 YB (extremely large value)' => [
-                9.99 * 1024 ** 8,
-                '9.99 YB',
-            ],
-            'Value above YB (array limit)' => [
-                1024.0 * 1024 ** 8,
-                '1024.00 YB',
-            ],
+        yield 'close below PHP_INT_MAX (~8 EB)' => [
+            (float) PHP_INT_MAX - 1024 ** 6,
+            '7.00 EB',
+        ];
+        yield 'exactly PHP_INT_MAX (~8 EB)' => [
+            (float) PHP_INT_MAX,
+            '8.00 EB',
+        ];
+        yield 'close above PHP_INT_MAX (~8 EB)' => [
+            (float) PHP_INT_MAX + 1024 ** 5,
+            '8.00 EB',
+        ];
+        yield '5.90 ZB (faar above PHP_INT_MAX)' => [
+            5.90 * 1024 ** 7,
+            '5.90 ZB',
+        ];
+        yield '1.00 YB' => [
+            1.00 * 1024 ** 8,
+            '1.00 YB',
+        ];
+        yield '9.99 YB (extremely large value)' => [
+            9.99 * 1024 ** 8,
+            '9.99 YB',
+        ];
+        yield 'Value above YB (array limit)' => [
+            1024.0 * 1024 ** 8,
+            '1024.00 YB',
         ];
     }
 }

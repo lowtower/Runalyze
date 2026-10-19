@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
 use Runalyze\Bundle\CoreBundle\Model\Equipment\EquipmentStatistic;
 
-class EquipmentStatisticTest extends TestCase
+final class EquipmentStatisticTest extends TestCase
 {
     public function testGetEquipmentReturnsConstructorValue(): void
     {
@@ -58,7 +58,7 @@ class EquipmentStatisticTest extends TestCase
 
         $statistic->setMaximalPace(305.5);
 
-        $this->assertSame(305.5, $statistic->getMaximalPace());
+        $this->assertEqualsWithDelta(305.5, $statistic->getMaximalPace(), PHP_FLOAT_EPSILON);
     }
 
     public function testMaximalPaceCanBeSetBackToNull(): void
@@ -84,7 +84,7 @@ class EquipmentStatisticTest extends TestCase
 
         $statistic->setMaximalDistance(21.1);
 
-        $this->assertSame(21.1, $statistic->getMaximalDistance());
+        $this->assertEqualsWithDelta(21.1, $statistic->getMaximalDistance(), PHP_FLOAT_EPSILON);
     }
 
     public function testMaximalDistanceCanBeSetBackToNull(): void

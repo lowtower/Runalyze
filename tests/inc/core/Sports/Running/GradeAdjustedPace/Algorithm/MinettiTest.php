@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Sports\Running\GradeAdjustedPace\Algorithm;
 
 use Runalyze\Sports\Running\GradeAdjustedPace\Algorithm\Minetti;
 
-class MinettiTest extends \PHPUnit\Framework\TestCase
+final class MinettiTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Minetti

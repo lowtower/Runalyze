@@ -18,7 +18,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Throwable;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class WeatherControllerClassifyExceptionTest extends TestCase
+final class WeatherControllerClassifyExceptionTest extends TestCase
 {
     private function classify(Throwable $exception): string
     {

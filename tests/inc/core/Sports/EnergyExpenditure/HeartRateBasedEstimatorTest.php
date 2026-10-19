@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Sports\EnergyExpenditure;
 
 use Runalyze\Athlete;
 use Runalyze\Profile\Athlete\Gender;
 use Runalyze\Sports\EnergyExpenditure\HeartRateBasedEstimator;
 
-class HeartRateBasedEstimatorTest extends \PHPUnit\Framework\TestCase
+final class HeartRateBasedEstimatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @see http://fitnowtraining.com/2012/01/formula-for-calories-burned/

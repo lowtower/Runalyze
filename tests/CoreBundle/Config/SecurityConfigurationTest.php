@@ -11,7 +11,7 @@ use Runalyze\Bundle\CoreBundle\Services\AccountChecker;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class SecurityConfigurationTest extends TestCase
+final class SecurityConfigurationTest extends TestCase
 {
     private const string ACCOUNT_CHECKER = AccountChecker::class;
 

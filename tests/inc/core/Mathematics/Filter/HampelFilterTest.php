@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Mathematics\Filter;
 
 use Runalyze\Mathematics\Filter\HampelFilter;
 
-class HampelFilterTest extends \PHPUnit\Framework\TestCase
+final class HampelFilterTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var HampelFilter

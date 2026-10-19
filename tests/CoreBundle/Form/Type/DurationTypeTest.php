@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Form\Type;
 
 use Runalyze\Bundle\CoreBundle\Form\Type\DurationType;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
-class DurationTypeTest extends \PHPUnit\Framework\TestCase
+final class DurationTypeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var DurationType

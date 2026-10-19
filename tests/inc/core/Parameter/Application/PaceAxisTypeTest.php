@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 #[Group('default')]
-class PaceAxisTypeTest extends TestCase
+final class PaceAxisTypeTest extends TestCase
 {
     private PaceAxisType $type;
 
@@ -19,7 +19,7 @@ class PaceAxisTypeTest extends TestCase
 
     public function testDefaultValueIsAsSpeed(): void
     {
-        self::assertSame(PaceAxisType::AS_SPEED, $this->type->value());
+        $this->assertSame(PaceAxisType::AS_SPEED, $this->type->value());
     }
 
     public function testAllDocumentedOptionsAreAccepted(): void
@@ -27,16 +27,13 @@ class PaceAxisTypeTest extends TestCase
         foreach ([PaceAxisType::LINEAR, PaceAxisType::REVERSE, PaceAxisType::AS_SPEED] as $option) {
             $this->type->set($option);
 
-            self::assertSame($option, $this->type->value());
+            $this->assertSame($option, $this->type->value());
         }
     }
 
     public function testOptionsContainAllThreeChoices(): void
     {
-        self::assertSame(
-            [PaceAxisType::LINEAR, PaceAxisType::REVERSE, PaceAxisType::AS_SPEED],
-            array_keys($this->type->options())
-        );
+        $this->assertSame([PaceAxisType::LINEAR, PaceAxisType::REVERSE, PaceAxisType::AS_SPEED], array_keys($this->type->options()));
     }
 
     public function testUnknownValueFallsBackToDefault(): void
@@ -44,6 +41,6 @@ class PaceAxisTypeTest extends TestCase
         $this->type->set(PaceAxisType::LINEAR);
         $this->type->set('unknown');
 
-        self::assertSame(PaceAxisType::AS_SPEED, $this->type->value());
+        $this->assertSame(PaceAxisType::AS_SPEED, $this->type->value());
     }
 }

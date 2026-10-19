@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Services\Selection\Selection;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class SelectionTest extends TestCase
+final class SelectionTest extends TestCase
 {
     public function testEmptySelection(): void
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Command;
 
 use PHPUnit\Framework\MockObject\Stub;
@@ -46,8 +48,8 @@ final class InstallFilesystemCommandTest extends TestCase
     {
         $command = $this->createCommand();
 
-        self::assertSame('runalyze:install:filesystem', $command->getName());
-        self::assertSame('Setup RUNALYZE file system.', $command->getDescription());
+        $this->assertSame('runalyze:install:filesystem', $command->getName());
+        $this->assertSame('Setup RUNALYZE file system.', $command->getDescription());
     }
 
     public function testExecuteCopiesHtaccessDistToHtaccessSuccessfully(): void
@@ -57,26 +59,22 @@ final class InstallFilesystemCommandTest extends TestCase
 
         file_put_contents($distPath, "Options -Indexes\nRewriteEngine On\n");
 
-        self::assertFileDoesNotExist($targetPath);
+        $this->assertFileDoesNotExist($targetPath);
 
         $tester = new CommandTester($this->createCommand());
         $exitCode = $tester->execute([]);
 
-        self::assertSame(0, $exitCode);
+        $this->assertSame(0, $exitCode);
 
-        self::assertFileExists($targetPath, '.htaccess must be created from .htaccess.dist.');
-        self::assertSame(
-            file_get_contents($distPath),
-            file_get_contents($targetPath),
-            'The copied .htaccess must have identical content to .htaccess.dist.'
-        );
+        $this->assertFileExists($targetPath, '.htaccess must be created from .htaccess.dist.');
+        $this->assertSame(file_get_contents($distPath), file_get_contents($targetPath), 'The copied .htaccess must have identical content to .htaccess.dist.');
 
-        self::assertFileExists($distPath);
+        $this->assertFileExists($distPath);
 
         $display = $tester->getDisplay();
-        self::assertStringContainsString('Setup RUNALYZE file system...', $display);
-        self::assertStringContainsString('Copying .htaccess.dist to .htaccess', $display);
-        self::assertStringContainsString('... done.', $display);
+        $this->assertStringContainsString('Setup RUNALYZE file system...', $display);
+        $this->assertStringContainsString('Copying .htaccess.dist to .htaccess', $display);
+        $this->assertStringContainsString('... done.', $display);
     }
 
     public function testExecuteCatchesIOExceptionAndStillReturnsSuccessWhenSourceFileIsMissing(): void
@@ -86,14 +84,14 @@ final class InstallFilesystemCommandTest extends TestCase
         $tester = new CommandTester($this->createCommand());
         $exitCode = $tester->execute([]);
 
-        self::assertSame(0, $exitCode);
+        $this->assertSame(0, $exitCode);
 
-        self::assertFileDoesNotExist($targetPath);
+        $this->assertFileDoesNotExist($targetPath);
 
         $display = $tester->getDisplay();
-        self::assertStringContainsString('Setup RUNALYZE file system...', $display);
-        self::assertStringContainsString('Copying .htaccess.dist to .htaccess', $display);
-        self::assertStringContainsString('... done.', $display);
+        $this->assertStringContainsString('Setup RUNALYZE file system...', $display);
+        $this->assertStringContainsString('Copying .htaccess.dist to .htaccess', $display);
+        $this->assertStringContainsString('... done.', $display);
     }
 
     public function testExecuteDoesNotOverwriteAnAlreadyNewerExistingHtaccess(): void
@@ -110,11 +108,7 @@ final class InstallFilesystemCommandTest extends TestCase
         $tester = new CommandTester($this->createCommand());
         $exitCode = $tester->execute([]);
 
-        self::assertSame(0, $exitCode);
-        self::assertSame(
-            'pre-existing content',
-            file_get_contents($targetPath),
-            'An existing .htaccess that is newer than .htaccess.dist must not be overwritten.'
-        );
+        $this->assertSame(0, $exitCode);
+        $this->assertSame('pre-existing content', file_get_contents($targetPath), 'An existing .htaccess that is newer than .htaccess.dist must not be overwritten.');
     }
 }

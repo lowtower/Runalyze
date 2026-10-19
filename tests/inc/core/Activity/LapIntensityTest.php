@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Activity;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class LapIntensityTest extends TestCase
+final class LapIntensityTest extends TestCase
 {
     #[DataProvider('provideValidFitValues')]
     public function testFromFitToEnumMapsValidValuesToExpectedLabel(float $fitValue, string $expectedLabel): void
@@ -18,20 +20,18 @@ class LapIntensityTest extends TestCase
     }
 
     /**
-     * @return array<string, float[]|string[]>
+     * @return \Iterator<string, array<(float|string)>>
      */
-    public static function provideValidFitValues(): array
+    public static function provideValidFitValues(): \Iterator
     {
-        return [
-            'active' => [0.0, 'Active'],
-            'active, fractional value truncates towards zero' => [0.9, 'Active'],
-            'rest' => [1.0, 'Rest'],
-            'warmup' => [2.0, 'Warmup'],
-            'cooldown' => [3.0, 'Cooldown'],
-            'recovery' => [4.0, 'Recovery'],
-            'interval' => [5.0, 'Interval'],
-            'other' => [6.0, 'Other'],
-        ];
+        yield 'active' => [0.0, 'Active'];
+        yield 'active, fractional value truncates towards zero' => [0.9, 'Active'];
+        yield 'rest' => [1.0, 'Rest'];
+        yield 'warmup' => [2.0, 'Warmup'];
+        yield 'cooldown' => [3.0, 'Cooldown'];
+        yield 'recovery' => [4.0, 'Recovery'];
+        yield 'interval' => [5.0, 'Interval'];
+        yield 'other' => [6.0, 'Other'];
     }
 
     #[DataProvider('provideOutOfRangeFitValues')]
@@ -44,17 +44,15 @@ class LapIntensityTest extends TestCase
     }
 
     /**
-     * @return array<string, float[]>
+     * @return \Iterator<string, array<float>>
      */
-    public static function provideOutOfRangeFitValues(): array
+    public static function provideOutOfRangeFitValues(): \Iterator
     {
-        return [
-            'clearly negative' => [-1.0],
-            'far below range' => [-100.0],
-            'fractional value just below zero' => [-0.5],
-            'just above max' => [7.0],
-            'far above range' => [42.0],
-        ];
+        yield 'clearly negative' => [-1.0];
+        yield 'far below range' => [-100.0];
+        yield 'fractional value just below zero' => [-0.5];
+        yield 'just above max' => [7.0];
+        yield 'far above range' => [42.0];
     }
 
     public function testFromFitToEnumReturnsSingletonForActive(): void
@@ -142,19 +140,17 @@ class LapIntensityTest extends TestCase
     }
 
     /**
-     * @return array<string, string[]>
+     * @return \Iterator<string, array<string>>
      */
-    public static function provideValidValueStrings(): array
+    public static function provideValidValueStrings(): \Iterator
     {
-        return [
-            'active' => ['', 'Active'],
-            'rest' => ['R', 'Rest'],
-            'warmup' => ['W', 'Warmup'],
-            'cooldown' => ['C', 'Cooldown'],
-            'recovery' => ['Y', 'Recovery'],
-            'interval' => ['I', 'Interval'],
-            'other' => ['O', 'Other'],
-        ];
+        yield 'active' => ['', 'Active'];
+        yield 'rest' => ['R', 'Rest'];
+        yield 'warmup' => ['W', 'Warmup'];
+        yield 'cooldown' => ['C', 'Cooldown'];
+        yield 'recovery' => ['Y', 'Recovery'];
+        yield 'interval' => ['I', 'Interval'];
+        yield 'other' => ['O', 'Other'];
     }
 
     public function testFromValueReturnsNullForInvalidValue(): void

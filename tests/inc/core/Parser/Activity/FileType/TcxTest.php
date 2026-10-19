@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\FileType;
 
 use Runalyze\Parser\Activity\FileType\Tcx;
 use Runalyze\Util\LocalTime;
 
 #[\PHPUnit\Framework\Attributes\Group('import')]
-class TcxTest extends AbstractActivityParserTestCase
+final class TcxTest extends AbstractActivityParserTestCase
 {
     protected Tcx $Parser;
 
@@ -209,7 +211,7 @@ class TcxTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'tcx/First-point-empty.tcx');
 
-        $this->assertEquals(142.0, $this->Container->ActivityData->Duration);
+        $this->assertEqualsWithDelta(142.0, $this->Container->ActivityData->Duration, PHP_FLOAT_EPSILON);
         $this->assertEqualsWithDelta(0.601, $this->Container->ActivityData->Distance, 0.001);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Latitude);
@@ -255,7 +257,7 @@ class TcxTest extends AbstractActivityParserTestCase
             '2015-07-09 10:38:33',
             LocalTime::date('Y-m-d H:i:s', $this->Container->Metadata->getTimestamp())
         );
-        $this->assertEquals(142.0, $this->Container->ActivityData->Duration);
+        $this->assertEqualsWithDelta(142.0, $this->Container->ActivityData->Duration, PHP_FLOAT_EPSILON);
     }
 
     /**

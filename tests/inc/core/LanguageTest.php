@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-class LanguageTest extends TestCase
+final class LanguageTest extends TestCase
 {
     private const array LOCALE_CATEGORIES = [
         'LC_COLLATE' => LC_COLLATE,
@@ -113,38 +115,36 @@ class LanguageTest extends TestCase
     }
 
     /**
-     * @return array<string, mixed[]>
+     * @return \Iterator<string, array<mixed>>
      */
-    public static function provideSortAcceptScenarios(): array
+    public static function provideSortAcceptScenarios(): \Iterator
     {
-        return [
-            'single unweighted value' => [
-                'de',
-                [
-                    'de' => 1000,
-                ],
+        yield 'single unweighted value' => [
+            'de',
+            [
+                'de' => 1000,
             ],
-            'regional variant gets an implicit generic fallback entry' => [
-                'de-DE',
-                [
-                    'de-de' => 1000,
-                    'de' => 999.999,
-                ],
+        ];
+        yield 'regional variant gets an implicit generic fallback entry' => [
+            'de-DE',
+            [
+                'de-de' => 1000,
+                'de' => 999.999,
             ],
-            'explicit generic entry takes precedence over implicit fallback' => [
-                'de-DE,de;q=0.9,en;q=0.8',
-                [
-                    'de-de' => 1000,
-                    'de' => 0.9,
-                    'en' => 0.8,
-                ],
+        ];
+        yield 'explicit generic entry takes precedence over implicit fallback' => [
+            'de-DE,de;q=0.9,en;q=0.8',
+            [
+                'de-de' => 1000,
+                'de' => 0.9,
+                'en' => 0.8,
             ],
-            'explicitly weighted values are sorted purely by their q value' => [
-                'en;q=0.5,de;q=0.8',
-                [
-                    'de' => 0.8,
-                    'en' => 0.5,
-                ],
+        ];
+        yield 'explicitly weighted values are sorted purely by their q value' => [
+            'en;q=0.5,de;q=0.8',
+            [
+                'de' => 0.8,
+                'en' => 0.5,
             ],
         ];
     }

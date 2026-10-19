@@ -8,7 +8,7 @@ use Runalyze\Model;
 
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]
 #[\PHPUnit\Framework\Attributes\Group('dependsOnOldFactory')]
-class CalculatorTest extends \PHPUnit\Framework\TestCase
+final class CalculatorTest extends \PHPUnit\Framework\TestCase
 {
     public function testGeneralFunctionality(): void
     {

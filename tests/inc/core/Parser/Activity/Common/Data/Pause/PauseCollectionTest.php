@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\Common\Data\Pause;
 
 use Runalyze\Parser\Activity\Common\Data\Pause\Pause;
 use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 
-class PauseCollectionTest extends \PHPUnit\Framework\TestCase
+final class PauseCollectionTest extends \PHPUnit\Framework\TestCase
 {
     protected PauseCollection $Collection;
 

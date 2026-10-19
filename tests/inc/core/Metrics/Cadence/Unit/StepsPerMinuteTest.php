@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Metrics\Cadence\Unit;
 
 use Runalyze\Metrics\Cadence\Unit\StepsPerMinute;
 
-class StepsPerMinuteTest extends \PHPUnit\Framework\TestCase
+final class StepsPerMinuteTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues(): void
     {

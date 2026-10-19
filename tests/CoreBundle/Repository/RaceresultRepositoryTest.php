@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Repository;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -10,7 +12,7 @@ use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\Task\VO2maxCorrectionFactorCalculation;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
-class RaceresultRepositoryTest extends AbstractRepositoryTestCase
+final class RaceresultRepositoryTest extends AbstractRepositoryTestCase
 {
     protected RaceresultRepository $RaceresultRepository;
 
@@ -33,11 +35,11 @@ class RaceresultRepositoryTest extends AbstractRepositoryTestCase
     {
         $this->assertNull($this->RaceresultRepository->findForActivity(1));
         $this->assertNull($this->RaceresultRepository->findForAccount(1, 1));
-        $this->assertSame(1.0, $this->RaceresultRepository->getEffectiveVO2maxCorrectionFactor(
+        $this->assertEqualsWithDelta(1.0, $this->RaceresultRepository->getEffectiveVO2maxCorrectionFactor(
             $this->Account,
             $this->getDefaultAccountsRunningSport()
                 ->getId()
-        ));
+        ), PHP_FLOAT_EPSILON);
     }
 
     public function testSingleRace(): void

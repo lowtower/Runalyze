@@ -12,7 +12,7 @@ use Runalyze\Import\Exception\ParserException;
 use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class FileImportResultTest extends TestCase
+final class FileImportResultTest extends TestCase
 {
     public function testFailedResult(): void
     {

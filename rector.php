@@ -26,7 +26,7 @@ return RectorConfig::configure()
     ])
     ->withSets([
         LevelSetList::UP_TO_PHP_84,
-        # PHPUnitSetList::PHPUNIT_CODE_QUALITY,
+        PHPUnitSetList::PHPUNIT_CODE_QUALITY,
         # DoctrineSetList::TYPED_COLLECTIONS,
     ])
     ->withTypeCoverageLevel(76)         # max level 76

@@ -18,7 +18,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
-class DeleteWithCsrfTokenTest extends AbstractFixturesAwareWebTestCase
+final class DeleteWithCsrfTokenTest extends AbstractFixturesAwareWebTestCase
 {
     private const string PASSWORD = 'irrelevant-for-this-test';
 

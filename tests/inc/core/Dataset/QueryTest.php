@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Dataset;
 
 use DB;
@@ -7,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]
 #[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
-class QueryTest extends TestCase
+final class QueryTest extends TestCase
 {
     protected \PDO $PDO;
 

@@ -8,7 +8,7 @@ use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCa
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
-class UpdateControllerTest extends AbstractFixturesAwareWebTestCase
+final class UpdateControllerTest extends AbstractFixturesAwareWebTestCase
 {
     protected function setUp(): void
     {

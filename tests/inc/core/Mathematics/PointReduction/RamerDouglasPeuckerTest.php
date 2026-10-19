@@ -6,7 +6,7 @@ namespace Runalyze\Tests\Mathematics\PointReduction;
 
 use Runalyze\Mathematics\PointReduction\RamerDouglasPeucker;
 
-class RamerDouglasPeuckerTest extends \PHPUnit\Framework\TestCase
+final class RamerDouglasPeuckerTest extends \PHPUnit\Framework\TestCase
 {
     public function testSimpleArrayWithEpsilonEqualsZero(): void
     {

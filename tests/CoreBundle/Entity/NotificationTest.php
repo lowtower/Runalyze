@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Entity;
 
 use DateTime;
@@ -7,7 +9,7 @@ use DateTimeZone;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Runalyze\Bundle\CoreBundle\Entity\Notification;
 
-class NotificationTest extends \PHPUnit\Framework\TestCase
+final class NotificationTest extends \PHPUnit\Framework\TestCase
 {
     protected Notification $Notification;
 
@@ -50,15 +52,13 @@ class NotificationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array<string, string[]>
+     * @return \Iterator<string, array<string>>
      */
-    public static function dstTransitionProvider(): array
+    public static function dstTransitionProvider(): \Iterator
     {
-        return [
-            'Start summertime (28.-30.03.2026)' => ['2026-03-28 10:00:00'],
-            'End summertime (23.-25.10.2026)' => ['2026-10-23 10:00:00'],
-            'Without time change' => ['2026-06-15 10:00:00'],
-        ];
+        yield 'Start summertime (28.-30.03.2026)' => ['2026-03-28 10:00:00'];
+        yield 'End summertime (23.-25.10.2026)' => ['2026-10-23 10:00:00'];
+        yield 'Without time change' => ['2026-06-15 10:00:00'];
     }
 
     public function testSetExpirationAtWithZeroIsNotTreatedAsNoExpiration(): void

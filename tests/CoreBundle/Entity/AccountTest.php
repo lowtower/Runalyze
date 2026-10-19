@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class AccountTest extends TestCase
+final class AccountTest extends TestCase
 {
     protected Account $Account;
 

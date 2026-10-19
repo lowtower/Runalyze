@@ -12,7 +12,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
-class ExportControllerTest extends AbstractFixturesAwareWebTestCase
+final class ExportControllerTest extends AbstractFixturesAwareWebTestCase
 {
     protected Account $Account;
 

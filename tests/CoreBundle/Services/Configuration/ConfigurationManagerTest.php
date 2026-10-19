@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class ConfigurationManagerTest extends TestCase
+final class ConfigurationManagerTest extends TestCase
 {
     private function setAccountId(Account $account, int $id): void
     {
@@ -79,7 +79,7 @@ class ConfigurationManagerTest extends TestCase
         $firstCall = $manager->getList($user);
         $secondCall = $manager->getList();
 
-        self::assertSame($firstCall, $secondCall, 'both calls must resolve to the identical cached instance');
+        $this->assertSame($firstCall, $secondCall, 'both calls must resolve to the identical cached instance');
     }
 
     public function testGetListForDifferentAccountIsNeverCachedAndAlwaysQueriesRepository(): void
@@ -97,7 +97,7 @@ class ConfigurationManagerTest extends TestCase
         $firstCall = $manager->getList($otherAccount);
         $secondCall = $manager->getList($otherAccount);
 
-        self::assertNotSame($firstCall, $secondCall, 'each call for a non-current-user account must construct a fresh instance');
+        $this->assertNotSame($firstCall, $secondCall, 'each call for a non-current-user account must construct a fresh instance');
     }
 
     /**

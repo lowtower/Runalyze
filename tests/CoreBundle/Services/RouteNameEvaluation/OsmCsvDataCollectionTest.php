@@ -8,7 +8,7 @@ use Runalyze\Service\RouteNameEvaluation\OsmCsvData;
 use Runalyze\Service\RouteNameEvaluation\OsmCsvDataCollection;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class OsmCsvDataCollectionTest extends \PHPUnit\Framework\TestCase
+final class OsmCsvDataCollectionTest extends \PHPUnit\Framework\TestCase
 {
     public function testCsvCollectionEmpty(): void
     {

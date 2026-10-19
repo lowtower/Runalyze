@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Mathematics\Distribution;
 
 use Runalyze\Mathematics\Distribution\AbstractDistribution;
 
-class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
+final class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Creates a distribution with a predefined histogram.
@@ -43,7 +45,7 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(15, $dist->median());
         $this->assertEquals(15, $dist->mode());
         $this->assertEquals(20, $dist->max());
-        $this->assertSame(12.5, $dist->variance());
+        $this->assertEqualsWithDelta(12.5, $dist->variance(), PHP_FLOAT_EPSILON);
         $this->assertEqualsWithDelta(3.5, $dist->stdDev(), 0.1);
         $this->assertEqualsWithDelta(3.5 / 15, $dist->coefficientOfVariation(), 0.1);
     }
@@ -63,7 +65,7 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(85, $dist->median());
         $this->assertEquals(90, $dist->mode());
         $this->assertEquals(90, $dist->max());
-        $this->assertSame(818.75, $dist->variance());
+        $this->assertEqualsWithDelta(818.75, $dist->variance(), PHP_FLOAT_EPSILON);
         $this->assertEqualsWithDelta(28.6, $dist->stdDev(), 0.1);
         $this->assertEqualsWithDelta(28.6 / 75, $dist->coefficientOfVariation(), 0.1);
     }

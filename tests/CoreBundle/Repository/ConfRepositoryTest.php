@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Repository;
 
 use Runalyze\Bundle\CoreBundle\Entity\Conf;
 use Runalyze\Bundle\CoreBundle\Repository\ConfRepository;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
-class ConfRepositoryTest extends AbstractRepositoryTestCase
+final class ConfRepositoryTest extends AbstractRepositoryTestCase
 {
     protected ConfRepository $ConfRepository;
 

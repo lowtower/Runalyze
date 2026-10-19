@@ -7,7 +7,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\System;
 use PHPUnit\Framework\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class DBTest extends TestCase
+final class DBTest extends TestCase
 {
     public function testConnectDoesNotReplaceAnAlreadyEstablishedConnection(): void
     {

@@ -49,7 +49,7 @@ class RouteNameEvalOsmRecordingLogger extends AbstractLogger
 }
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class RouteNameEvalOsmTest extends TestCase
+final class RouteNameEvalOsmTest extends TestCase
 {
     private const string API_URL = 'http://example.test/api';
 
@@ -177,6 +177,7 @@ class RouteNameEvalOsmTest extends TestCase
         $this->arrangeCategoryNames($peaks, $places, $huts, $ways, $infos);
 
         $result = $this->underTest->createResult($this->getSportRunning(), $this->coll);
+        $this->assertInstanceOf(\Runalyze\Service\RouteNameEvaluation\RouteNameEvalResult::class, $result);
 
         $this->assertSame($expectedNames, $result->getNames());
         $this->assertSame($expectedNotes, $result->getNotes());
@@ -233,11 +234,13 @@ class RouteNameEvalOsmTest extends TestCase
         $this->arrangeCategoryNames([], ['aplace'], ['ahut'], [], []);
 
         $runningResult = $this->underTest->createResult($this->getSportRunning(), $this->coll);
+        $this->assertInstanceOf(\Runalyze\Service\RouteNameEvaluation\RouteNameEvalResult::class, $runningResult);
 
         $this->assertSame('aplace', $runningResult->getNames());
         $this->assertSame("Verpflegung: ahut\n", $runningResult->getNotes());
 
         $mountainResult = $this->underTest->createResult($this->getSportMountain(), $this->coll);
+        $this->assertInstanceOf(\Runalyze\Service\RouteNameEvaluation\RouteNameEvalResult::class, $mountainResult);
 
         $this->assertSame('aplace - ahut', $mountainResult->getNames());
         $this->assertSame('', $mountainResult->getNotes());
@@ -263,7 +266,7 @@ class RouteNameEvalOsmTest extends TestCase
 
         $result = $service->evaluate($this->getSportRunning(), $this->createRouteWithCoordinates(5), 5.0);
 
-        self::assertNull($result);
+        $this->assertNull($result);
     }
 
     public function testEvaluateReturnsNullWhenHttpResponseBodyIsEmpty(): void
@@ -273,8 +276,8 @@ class RouteNameEvalOsmTest extends TestCase
 
         $result = $service->evaluate($this->getSportRunning(), $this->createRouteWithCoordinates(20), 5.0);
 
-        self::assertNull($result);
-        self::assertCount(1, $history, 'exactly one HTTP request should have been made');
+        $this->assertNull($result);
+        $this->assertCount(1, $history, 'exactly one HTTP request should have been made');
     }
 
     public function testEvaluateThrowsAndLogsErrorForNonSuccessStatusCode(): void
@@ -286,12 +289,12 @@ class RouteNameEvalOsmTest extends TestCase
             $service->evaluate($this->getSportRunning(), $this->createRouteWithCoordinates(20), 5.0);
             self::fail('Expected exception was not thrown.');
         } catch (Exception $exception) {
-            self::assertStringContainsString('Route evaluation result in error', $exception->getMessage());
+            $this->assertStringContainsString('Route evaluation result in error', $exception->getMessage());
         }
 
         $errors = array_values(array_filter($logger->records, static fn (array $r): bool => $r['level'] === 'error'));
-        self::assertCount(1, $errors);
-        self::assertStringContainsString('Overpass-API request failed.', $errors[0]['message']);
+        $this->assertCount(1, $errors);
+        $this->assertStringContainsString('Overpass-API request failed.', $errors[0]['message']);
     }
 
     public function testEvaluateThrowsAndLogsErrorWhenHttpClientThrowsRequestException(): void
@@ -307,13 +310,13 @@ class RouteNameEvalOsmTest extends TestCase
             $service->evaluate($this->getSportRunning(), $this->createRouteWithCoordinates(20), 5.0);
             self::fail('Expected exception was not thrown.');
         } catch (Exception $exception) {
-            self::assertStringContainsString('Route evaluation result in error', $exception->getMessage());
+            $this->assertStringContainsString('Route evaluation result in error', $exception->getMessage());
         }
 
         $errors = array_values(array_filter($logger->records, static fn (array $r): bool => $r['level'] === 'error'));
-        self::assertCount(1, $errors);
-        self::assertStringContainsString('Overpass-API request failed.', $errors[0]['message']);
-        self::assertSame($requestException, $errors[0]['context']['exception']);
+        $this->assertCount(1, $errors);
+        $this->assertStringContainsString('Overpass-API request failed.', $errors[0]['message']);
+        $this->assertSame($requestException, $errors[0]['context']['exception']);
     }
 
     public function testEvaluateReturnsCombinedNameAndNotesOnSuccessfulResponse(): void
@@ -334,19 +337,16 @@ class RouteNameEvalOsmTest extends TestCase
 
         $result = $service->evaluate($this->getSportRunning(), $this->createRouteWithCoordinates(20), 5.0);
 
-        self::assertInstanceOf(RouteNameEvalResult::class, $result);
-        self::assertSame('Kramerspitz - Königsstand - Garmisch - See', $result->getNames());
-        self::assertSame(
-            "Wege: Kellerleitensteig, Kramerplateauweg, Kramersteig\nInfo: Wandergebiet Kramer\n",
-            $result->getNotes()
-        );
+        $this->assertInstanceOf(RouteNameEvalResult::class, $result);
+        $this->assertSame('Kramerspitz - Königsstand - Garmisch - See', $result->getNames());
+        $this->assertSame("Wege: Kellerleitensteig, Kramerplateauweg, Kramersteig\nInfo: Wandergebiet Kramer\n", $result->getNotes());
     }
 
     public function testRequestReplacesExistingPipesThenConvertsTabsToPipes(): void
     {
         $service = $this->createServiceWithResponses([new Response(200, [], "a|b\tc\td")]);
 
-        self::assertSame('a/b|c|d', $this->invokeRequest($service, 1, 'payload'));
+        $this->assertSame('a/b|c|d', $this->invokeRequest($service, 1, 'payload'));
     }
 
     public function testRequestSendsPayloadAsRawBodyWithDataPrefix(): void
@@ -356,7 +356,7 @@ class RouteNameEvalOsmTest extends TestCase
 
         $this->invokeRequest($service, 1, 'my-payload-content');
 
-        self::assertSame('data=my-payload-content', (string) $history[0]['request']->getBody());
+        $this->assertSame('data=my-payload-content', (string) $history[0]['request']->getBody());
     }
 
     public function testRequestSendsUserAgentHeader(): void
@@ -366,7 +366,7 @@ class RouteNameEvalOsmTest extends TestCase
 
         $this->invokeRequest($service, 1, 'payload');
 
-        self::assertStringStartsWith('Runalyze/4.3.0 host-', $history[0]['request']->getHeaderLine('User-Agent'));
+        $this->assertStringStartsWith('Runalyze/4.3.0 host-', $history[0]['request']->getHeaderLine('User-Agent'));
     }
 
     public function testRequestIncludesProxyOptionWhenProxyIsConfigured(): void
@@ -376,7 +376,7 @@ class RouteNameEvalOsmTest extends TestCase
 
         $this->invokeRequest($service, 1, 'payload');
 
-        self::assertSame('127.0.0.1:8080', $history[0]['options']['proxy']);
+        $this->assertSame('127.0.0.1:8080', $history[0]['options']['proxy']);
     }
 
     public function testRequestOmitsProxyOptionWhenProxyIsEmpty(): void
@@ -386,7 +386,7 @@ class RouteNameEvalOsmTest extends TestCase
 
         $this->invokeRequest($service, 1, 'payload');
 
-        self::assertSame('', $history[0]['options']['proxy']);
+        $this->assertSame('', $history[0]['options']['proxy']);
     }
 
     public function testCreateOsmPayloadContainsTimeoutAndCsvHeader(): void
@@ -395,8 +395,8 @@ class RouteNameEvalOsmTest extends TestCase
 
         $payload = $this->invokeCreateOsmPayload($service, $this->createRouteWithCoordinates(20), 5.0);
 
-        self::assertStringStartsWith('[out:csv(', $payload);
-        self::assertStringContainsString('[timeout:180]', $payload);
+        $this->assertStringStartsWith('[out:csv(', $payload);
+        $this->assertStringContainsString('[timeout:180]', $payload);
     }
 
     public function testCreateOsmPayloadContainsWellFormedBoundingBox(): void
@@ -405,10 +405,7 @@ class RouteNameEvalOsmTest extends TestCase
 
         $payload = $this->invokeCreateOsmPayload($service, $this->createRouteWithCoordinates(20), 5.0);
 
-        self::assertMatchesRegularExpression(
-            '/\[bbox:-?\d+\.\d{6},-?\d+\.\d{6},-?\d+\.\d{6},-?\d+\.\d{6}\];/',
-            $payload
-        );
+        $this->assertMatchesRegularExpression('/\[bbox:-?\d+\.\d{6},-?\d+\.\d{6},-?\d+\.\d{6},-?\d+\.\d{6}\];/', $payload);
     }
 
     public function testCreateOsmPayloadUsesDefaultRadiusWhenWithinLimits(): void
@@ -417,7 +414,7 @@ class RouteNameEvalOsmTest extends TestCase
 
         $payload = $this->invokeCreateOsmPayload($service, $this->createRouteWithCoordinates(20), 5.0);
 
-        self::assertStringContainsString('around:20.00,', $payload);
+        $this->assertStringContainsString('around:20.00,', $payload);
     }
 
     public function testCreateOsmPayloadRecalculatesRadiusFromDistanceForLongRoutes(): void
@@ -426,7 +423,7 @@ class RouteNameEvalOsmTest extends TestCase
 
         $payload = $this->invokeCreateOsmPayload($service, $this->createRouteWithCoordinates(20), 15.0);
 
-        self::assertStringContainsString('around:25.00,', $payload);
+        $this->assertStringContainsString('around:25.00,', $payload);
     }
 
     public function testCreateOsmPayloadClampsRadiusToRadiusLimitForVeryLongRoutes(): void
@@ -435,7 +432,7 @@ class RouteNameEvalOsmTest extends TestCase
 
         $payload = $this->invokeCreateOsmPayload($service, $this->createRouteWithCoordinates(20), 30.0);
 
-        self::assertStringContainsString('around:40.00,', $payload);
+        $this->assertStringContainsString('around:40.00,', $payload);
     }
 
     public function testCreateOsmPayloadVisitsEachCoordinateExactlyOnceForDenseRoutes(): void
@@ -445,11 +442,11 @@ class RouteNameEvalOsmTest extends TestCase
 
         $payload = $this->invokeCreateOsmPayload($service, $this->createRouteWithCoordinates($pointCount), 5.0);
 
-        self::assertMatchesRegularExpression('/around:20\.00,([\d.,-]+)\)\["name"\]->\.named_node;/', $payload, $payload);
+        $this->assertMatchesRegularExpression('/around:20\.00,([\d.,-]+)\)\["name"\]->\.named_node;/', $payload, $payload);
         preg_match('/around:20\.00,([\d.,-]+)\)\["name"\]->\.named_node;/', $payload, $matches);
         $numbers = explode(',', $matches[1]);
 
-        self::assertCount(($pointCount + 2) * 2, $numbers);
-        self::assertCount($pointCount * 2, array_unique($numbers), 'no index other than the first/last should ever be duplicated');
+        $this->assertCount(($pointCount + 2) * 2, $numbers);
+        $this->assertCount($pointCount * 2, array_unique($numbers), 'no index other than the first/last should ever be duplicated');
     }
 }

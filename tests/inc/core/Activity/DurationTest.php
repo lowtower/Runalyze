@@ -7,13 +7,13 @@ namespace Runalyze\Activity;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class DurationTest extends \PHPUnit\Framework\TestCase
+final class DurationTest extends \PHPUnit\Framework\TestCase
 {
     public function testFromSeconds(): void
     {
         $Time = new Duration(17.23);
 
-        $this->assertSame(17.23, $Time->seconds());
+        $this->assertEqualsWithDelta(17.23, $Time->seconds(), PHP_FLOAT_EPSILON);
         $this->assertEquals(127, $Time->fromSeconds(127)->seconds());
     }
 
@@ -25,7 +25,7 @@ class DurationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(17 * 60 + 21, $Time->fromString('17:21')->seconds());
         $this->assertSame(3 * 60 + 54.2, $Time->fromString('3:54,2')->seconds());
         $this->assertEquals(12, $Time->fromString('0:12')->seconds());
-        $this->assertSame(10.05, $Time->fromString('10.05')->seconds());
+        $this->assertEqualsWithDelta(10.05, $Time->fromString('10.05')->seconds(), PHP_FLOAT_EPSILON);
     }
 
     public function testAddAndSubtract(): void
@@ -153,19 +153,17 @@ class DurationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array<string, float[]|bool[]|string[]>
+     * @return \Iterator<string, array<(bool|float|string)>>
      */
-    public static function provideCompareToCases(): array
+    public static function provideCompareToCases(): \Iterator
     {
-        return [
-            'this larger, no invert' => [130.0, 100.0, false, '+0:30'],
-            'this smaller, no invert' => [100.0, 130.0, false, '-0:30'],
-            'this larger, inverted' => [130.0, 100.0, true, '-0:30'],
-            'this smaller, inverted' => [100.0, 130.0, true, '+0:30'],
-            'equal durations, no invert' => [100.0, 100.0, false, '-0:00'],
-            'equal durations, inverted' => [100.0, 100.0, true, '+0:00'],
-            'fractional difference rounds half away from zero' => [100.5, 100.0, false, '+0:01'],
-        ];
+        yield 'this larger, no invert' => [130.0, 100.0, false, '+0:30'];
+        yield 'this smaller, no invert' => [100.0, 130.0, false, '-0:30'];
+        yield 'this larger, inverted' => [130.0, 100.0, true, '-0:30'];
+        yield 'this smaller, inverted' => [100.0, 130.0, true, '+0:30'];
+        yield 'equal durations, no invert' => [100.0, 100.0, false, '-0:00'];
+        yield 'equal durations, inverted' => [100.0, 100.0, true, '+0:00'];
+        yield 'fractional difference rounds half away from zero' => [100.5, 100.0, false, '+0:01'];
     }
 
     public function testConstructorRejectsNonScalarInput(): void
@@ -196,15 +194,13 @@ class DurationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array<string, 90.5[]|string[]|int[]|float[]>
+     * @return \Iterator<string, array<(float|int|string)>>
      */
-    public static function provideScalarInputTypes(): array
+    public static function provideScalarInputTypes(): \Iterator
     {
-        return [
-            'int seconds' => [90, 90.0],
-            'float seconds' => [90.5, 90.5],
-            'numeric string seconds' => ['90', 90.0],
-            'colon-formatted string' => ['1:30', 90.0],
-        ];
+        yield 'int seconds' => [90, 90.0];
+        yield 'float seconds' => [90.5, 90.5];
+        yield 'numeric string seconds' => ['90', 90.0];
+        yield 'colon-formatted string' => ['1:30', 90.0];
     }
 }

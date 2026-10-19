@@ -8,7 +8,7 @@ use Runalyze\View\Activity\FakeContext;
 
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]
 #[\PHPUnit\Framework\Attributes\Group('dependsOnOldFactory')]
-class KmlTest extends \PHPUnit\Framework\TestCase
+final class KmlTest extends \PHPUnit\Framework\TestCase
 {
     public function testFileCreationForOutdoorActivity(): void
     {

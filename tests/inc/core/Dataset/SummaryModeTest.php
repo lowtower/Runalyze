@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Dataset;
 
 use PDO;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresSqlite')]
-class SummaryModeTest extends \PHPUnit\Framework\TestCase
+final class SummaryModeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var \PDO
@@ -32,7 +34,7 @@ class SummaryModeTest extends \PHPUnit\Framework\TestCase
     /**
      * @param array<int, int[]> $dataArrays
      */
-    protected function insertData(array $dataArrays)
+    protected function insertData(array $dataArrays): void
     {
         foreach ($dataArrays as $data) {
             $this->PDO->exec('INSERT INTO `testtable` VALUES (' . $data[0] . ', ' . $data[1] . ')');

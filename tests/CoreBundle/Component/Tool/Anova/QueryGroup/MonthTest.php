@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\Anova\QueryGroup;
 
 use Doctrine\ORM\EntityManager;
@@ -8,7 +10,7 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryGroup\Month;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaData;
 
-class MonthTest extends TestCase
+final class MonthTest extends TestCase
 {
     protected function setUp(): void
     {

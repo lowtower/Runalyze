@@ -6,7 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Component\Configuration\Category;
 
 use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\ActivityForm;
 
-class ActivityFormTest extends \PHPUnit\Framework\TestCase
+final class ActivityFormTest extends \PHPUnit\Framework\TestCase
 {
     public function testIgnoredActivityIds(): void
     {

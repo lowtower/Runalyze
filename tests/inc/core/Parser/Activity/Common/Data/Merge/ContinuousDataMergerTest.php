@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\Data\Merge;
 
 use Runalyze\Parser\Activity\Common\Data\ContinuousData;
 use Runalyze\Parser\Activity\Common\Data\Merge\ContinuousDataMerger;
 
-class ContinuousDataMergerTest extends \PHPUnit\Framework\TestCase
+final class ContinuousDataMergerTest extends \PHPUnit\Framework\TestCase
 {
     protected ContinuousData $FirstData;
 

@@ -9,7 +9,7 @@ use Runalyze\Configuration;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class ElevationTest extends \PHPUnit\Framework\TestCase
+final class ElevationTest extends \PHPUnit\Framework\TestCase
 {
     public function testConstructor(): void
     {
@@ -71,18 +71,16 @@ class ElevationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array<string, float[]|int[]>
+     * @return \Iterator<string, array<(float|int)>>
      */
-    public static function provideRoundingCases(): array
+    public static function provideRoundingCases(): \Iterator
     {
-        return [
-            'positive value rounds up' => [30.7, 31],
-            'negative value rounds away from zero' => [-30.7, -31],
-            'positive half rounds up' => [99.5, 100],
-            'negative half rounds away from zero' => [-99.5, -100],
-            'positive value rounds down to zero' => [0.4, 0],
-            'negative value rounds up to zero' => [-0.4, 0],
-        ];
+        yield 'positive value rounds up' => [30.7, 31];
+        yield 'negative value rounds away from zero' => [-30.7, -31];
+        yield 'positive half rounds up' => [99.5, 100];
+        yield 'negative half rounds away from zero' => [-99.5, -100];
+        yield 'positive value rounds down to zero' => [0.4, 0];
+        yield 'negative value rounds up to zero' => [-0.4, 0];
     }
 
     /**
@@ -96,7 +94,7 @@ class ElevationTest extends \PHPUnit\Framework\TestCase
         $Elevation = new Elevation();
         $Elevation->set('100');
 
-        $this->assertSame(100.0, $Elevation->value());
+        $this->assertEqualsWithDelta(100.0, $Elevation->value(), PHP_FLOAT_EPSILON);
         $this->assertSame(100, $Elevation->meter());
     }
 
@@ -105,7 +103,7 @@ class ElevationTest extends \PHPUnit\Framework\TestCase
         $Elevation = new Elevation();
         $Elevation->set(30.7);
 
-        $this->assertSame(30.7, $Elevation->value());
+        $this->assertEqualsWithDelta(30.7, $Elevation->value(), PHP_FLOAT_EPSILON);
     }
 
     public function testUnitReturnsMeterForMetricSystem(): void

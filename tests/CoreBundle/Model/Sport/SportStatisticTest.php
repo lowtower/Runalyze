@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Model\Sport\SportStatistic;
 
-class SportStatisticTest extends TestCase
+final class SportStatisticTest extends TestCase
 {
     private function createStatistic(): SportStatistic
     {
@@ -64,7 +64,7 @@ class SportStatisticTest extends TestCase
 
         $statistic->setTotalDistance(42.5);
 
-        $this->assertSame(42.5, $statistic->getTotalDistance());
+        $this->assertEqualsWithDelta(42.5, $statistic->getTotalDistance(), PHP_FLOAT_EPSILON);
         $this->assertTrue($statistic->isTotalDistanceKnown());
     }
 
@@ -93,7 +93,7 @@ class SportStatisticTest extends TestCase
 
         $statistic->setTotalDuration(3600.0);
 
-        $this->assertSame(3600.0, $statistic->getTotalDuration());
+        $this->assertEqualsWithDelta(3600.0, $statistic->getTotalDuration(), PHP_FLOAT_EPSILON);
         $this->assertTrue($statistic->isTotalDurationKnown());
     }
 
@@ -165,18 +165,16 @@ class SportStatisticTest extends TestCase
     }
 
     /**
-     * @return array<string, int[]|bool[]>
+     * @return \Iterator<string, array<(bool|int)>>
      */
-    public static function provideNumberOfActivitiesWithDistanceScenarios(): array
+    public static function provideNumberOfActivitiesWithDistanceScenarios(): \Iterator
     {
-        return [
-            'exactly half counts as "most" (>=)' => [10, 5, true],
-            'more than half' => [10, 8, true],
-            'less than half' => [10, 3, false],
-            'all activities have distance' => [10, 10, true],
-            'none of the activities have distance' => [10, 0, false],
-            'single activity, with distance' => [1, 1, true],
-            'single activity, without distance' => [1, 0, false],
-        ];
+        yield 'exactly half counts as "most" (>=)' => [10, 5, true];
+        yield 'more than half' => [10, 8, true];
+        yield 'less than half' => [10, 3, false];
+        yield 'all activities have distance' => [10, 10, true];
+        yield 'none of the activities have distance' => [10, 0, false];
+        yield 'single activity, with distance' => [1, 1, true];
+        yield 'single activity, without distance' => [1, 0, false];
     }
 }

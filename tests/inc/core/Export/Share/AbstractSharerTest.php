@@ -41,7 +41,7 @@ class AbstractSharerTestFixture extends AbstractSharer
 }
 
 #[Group('default')]
-class AbstractSharerTest extends TestCase
+final class AbstractSharerTest extends TestCase
 {
     private AbstractSharerTestFixture $sharer;
 

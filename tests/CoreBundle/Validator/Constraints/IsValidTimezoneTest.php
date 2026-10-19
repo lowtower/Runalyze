@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Validator\Constraints;
 
 use PHPUnit\Framework\TestCase;
@@ -7,7 +9,7 @@ use Runalyze\Bundle\CoreBundle\Validator\Constraints\IsValidTimezone;
 use Runalyze\Bundle\CoreBundle\Validator\Constraints\IsValidTimezoneValidator;
 use Symfony\Component\Validator\Constraint;
 
-class IsValidTimezoneTest extends TestCase
+final class IsValidTimezoneTest extends TestCase
 {
     public function testDefaultMessageContainsValuePlaceholder(): void
     {

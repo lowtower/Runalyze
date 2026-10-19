@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity;
 
 use Runalyze\Parser\Activity\Common\ParserInterface;
 use Runalyze\Parser\Activity\FileExtensionToParserMapping;
 use Runalyze\Parser\Activity\FileType\Tcx;
 
-class FileExtensionToParserMappingTest extends \PHPUnit\Framework\TestCase
+final class FileExtensionToParserMappingTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var FileExtensionToParserMapping

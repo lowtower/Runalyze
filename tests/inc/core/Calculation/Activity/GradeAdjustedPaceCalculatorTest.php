@@ -9,7 +9,7 @@ use Runalyze\Model\Route;
 use Runalyze\Model\Trackdata;
 use Runalyze\View\Activity\Context;
 
-class GradeAdjustedPaceCalculatorTest extends \PHPUnit\Framework\TestCase
+final class GradeAdjustedPaceCalculatorTest extends \PHPUnit\Framework\TestCase
 {
     public function testAdjustedTimeEqualsElapsedTimeForFlatCourse(): void
     {
@@ -93,10 +93,7 @@ class GradeAdjustedPaceCalculatorTest extends \PHPUnit\Framework\TestCase
             [0]
         );
 
-        $this->assertSame(
-            0.0,
-            $calculator->getAdjustedTime()
-        );
+        $this->assertEqualsWithDelta(0.0, $calculator->getAdjustedTime(), PHP_FLOAT_EPSILON);
     }
 
     public function testAdjustedTimeIsCalculatedOnlyOnce(): void

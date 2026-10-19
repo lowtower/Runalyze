@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Bundle\CoreBundle\Services\Import;
 
 use GuzzleHttp\Psr7\Response;
@@ -11,7 +13,7 @@ use Runalyze\Service\WeatherForecast\Strategy\MeteostatNet;
 use Runalyze\Service\WeatherForecast\Strategy\OpenWeatherMap;
 use Runalyze\Tests\Service\HttpClientAwareTestCaseTrait;
 
-class WeatherForecastTest extends \PHPUnit\Framework\TestCase
+final class WeatherForecastTest extends \PHPUnit\Framework\TestCase
 {
     use HttpClientAwareTestCaseTrait;
 

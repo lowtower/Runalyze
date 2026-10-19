@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -11,7 +13,7 @@ use Symfony\Component\DomCrawler\Form;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
-class AccountControllerTest extends AbstractFixturesAwareWebTestCase
+final class AccountControllerTest extends AbstractFixturesAwareWebTestCase
 {
     protected Account $Account;
 
@@ -167,6 +169,7 @@ class AccountControllerTest extends AbstractFixturesAwareWebTestCase
 
         $this->assertStatusCode(200, $this->Client);
         $reloaded = $this->reloadAccount($accountId);
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Account::class, $reloaded);
         $this->assertNull($reloaded->getActivationHash());
     }
 
@@ -221,6 +224,7 @@ class AccountControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStatusCode(200, $this->Client);
 
         $reloaded = $this->reloadAccount($this->Account->getId());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Account::class, $reloaded);
         $this->assertNotNull($reloaded->getChangepwHash());
     }
 
@@ -267,6 +271,7 @@ class AccountControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStatusCode(200, $this->Client);
 
         $reloaded = $this->reloadAccount($this->Account->getId());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Account::class, $reloaded);
         $this->assertNotSame($originalPasswordHash, $reloaded->getPassword());
         $this->assertNull($reloaded->getChangepwHash());
 
@@ -296,6 +301,7 @@ class AccountControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStatusCode(200, $this->Client);
 
         $reloaded = $this->reloadAccount($this->Account->getId());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Account::class, $reloaded);
         $this->assertSame($originalPasswordHash, $reloaded->getPassword());
         $this->assertNotNull($reloaded->getChangepwHash());
     }

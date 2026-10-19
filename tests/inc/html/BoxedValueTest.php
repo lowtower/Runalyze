@@ -6,7 +6,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 #[Group('plugin')]
-class BoxedValueTest extends TestCase
+final class BoxedValueTest extends TestCase
 {
     public function testGetCodeForEmptyValueHasNoIconUnitOrInfo(): void
     {

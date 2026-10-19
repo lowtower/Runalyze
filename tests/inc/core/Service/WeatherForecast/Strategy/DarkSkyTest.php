@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Service\WeatherForecast\Strategy;
 
 use GuzzleHttp\Exception\RequestException;
@@ -13,7 +15,7 @@ use Runalyze\Service\WeatherForecast\Location;
 use Runalyze\Service\WeatherForecast\Strategy\DarkSky;
 use Runalyze\Tests\Service\HttpClientAwareTestCaseTrait;
 
-class DarkSkyTest extends \PHPUnit\Framework\TestCase
+final class DarkSkyTest extends \PHPUnit\Framework\TestCase
 {
     use HttpClientAwareTestCaseTrait;
 

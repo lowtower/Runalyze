@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\FileType;
 
 use Runalyze\Import\Exception\UnsupportedFileException;
@@ -7,7 +9,7 @@ use Runalyze\Parser\Activity\FileType\XmlSuunto;
 use Runalyze\Util\LocalTime;
 
 #[\PHPUnit\Framework\Attributes\Group('import')]
-class XmlSuuntoTest extends AbstractActivityParserTestCase
+final class XmlSuuntoTest extends AbstractActivityParserTestCase
 {
     protected XmlSuunto $Parser;
 

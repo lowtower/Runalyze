@@ -21,7 +21,7 @@ class AnotherSampleEnumFixture extends AbstractEnum
 }
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class AbstractEnumTest extends TestCase
+final class AbstractEnumTest extends TestCase
 {
     public function testGetEnumReturnsAllConstantsAsNameValueMap(): void
     {

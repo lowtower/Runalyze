@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Activity\Tool;
 
 use PHPUnit\Framework\TestCase;
@@ -7,7 +9,7 @@ use Runalyze\Bundle\CoreBundle\Component\Activity\Tool\BestSubSegmentsStatistics
 use Runalyze\Calculation\Math\SubSegmentMaximization;
 use Runalyze\Model\Trackdata\Entity as TrackdataEntity;
 
-class BestSubSegmentsStatisticsTest extends TestCase
+final class BestSubSegmentsStatisticsTest extends TestCase
 {
     /**
      * @param int[] $time
@@ -18,7 +20,7 @@ class BestSubSegmentsStatisticsTest extends TestCase
         $mock = $this->createStub(TrackdataEntity::class);
         $mock->method('has')
             ->willReturnCallback(
-                static fn ($key): bool => in_array($key, [TrackdataEntity::TIME, TrackdataEntity::DISTANCE], true)
+                static fn (string $key): bool => in_array($key, [TrackdataEntity::TIME, TrackdataEntity::DISTANCE], true)
             );
         $mock->method('num')
             ->willReturn(count($time));
@@ -35,7 +37,7 @@ class BestSubSegmentsStatisticsTest extends TestCase
         $trackdata = $this->createStub(TrackdataEntity::class);
         $trackdata->method('has')
             ->willReturnCallback(
-                static fn ($key): bool => $key === TrackdataEntity::DISTANCE
+                static fn (string $key): bool => $key === TrackdataEntity::DISTANCE
             );
 
         $this->expectException(\InvalidArgumentException::class);
@@ -49,7 +51,7 @@ class BestSubSegmentsStatisticsTest extends TestCase
         $trackdata = $this->createStub(TrackdataEntity::class);
         $trackdata->method('has')
             ->willReturnCallback(
-                static fn ($key): bool => $key === TrackdataEntity::TIME
+                static fn (string $key): bool => $key === TrackdataEntity::TIME
             );
 
         $this->expectException(\InvalidArgumentException::class);
@@ -127,7 +129,7 @@ class BestSubSegmentsStatisticsTest extends TestCase
         $distanceSegments = $stats->getDistanceSegments();
         $this->assertInstanceOf(SubSegmentMaximization::class, $distanceSegments);
         $this->assertTrue($distanceSegments->hasMaximumForLengthIndex(0));
-        $this->assertSame(5.0, $distanceSegments->getMaximumForLengthIndex(0));
+        $this->assertEqualsWithDelta(5.0, $distanceSegments->getMaximumForLengthIndex(0), PHP_FLOAT_EPSILON);
     }
 
     public function testFindSegmentsComputesDeltasAndMaximizesDistanceForTimeSegments(): void
@@ -144,7 +146,7 @@ class BestSubSegmentsStatisticsTest extends TestCase
         $timeSegments = $stats->getTimeSegments();
         $this->assertInstanceOf(SubSegmentMaximization::class, $timeSegments);
         $this->assertTrue($timeSegments->hasMaximumForLengthIndex(0));
-        $this->assertSame(200.0, $timeSegments->getMaximumForLengthIndex(0));
+        $this->assertEqualsWithDelta(200.0, $timeSegments->getMaximumForLengthIndex(0), PHP_FLOAT_EPSILON);
     }
 
     public function testFindSegmentsLeavesFirstDeltaAsRawStartingValue(): void
@@ -159,6 +161,7 @@ class BestSubSegmentsStatisticsTest extends TestCase
         $stats->findTimeSegments();
 
         $timeSegments = $stats->getTimeSegments();
+        $this->assertInstanceOf(\Runalyze\Calculation\Math\SubSegmentMaximization::class, $timeSegments);
         $this->assertEqualsWithDelta(999.9, $timeSegments->getMaximumForLengthIndex(0), 0.0001);
     }
 }

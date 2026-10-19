@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\Data\Merge;
 
 use Runalyze\Parser\Activity\Common\Data\FitDetails;
 use Runalyze\Parser\Activity\Common\Data\Merge\FitDetailsMerger;
 
-class FitDetailsMergerTest extends \PHPUnit\Framework\TestCase
+final class FitDetailsMergerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var FitDetails

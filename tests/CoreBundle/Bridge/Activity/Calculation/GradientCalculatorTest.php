@@ -93,10 +93,10 @@ final class GradientCalculatorTest extends TestCase
         $trackData = $this->createTrackdataMock(false);
         $route = $this->createRouteMock(true);
 
-        $trackData->expects(self::once())->method('setGradient')->with(null);
+        $trackData->expects($this->once())->method('setGradient')->with(null);
 
-        $route->expects(self::never())->method('getElevations');
-        $trackData->expects(self::never())->method('getDistance');
+        $route->expects($this->never())->method('getElevations');
+        $trackData->expects($this->never())->method('getDistance');
 
         $this->calculator->calculateFor($trackData, $route, $this->createKernel());
     }
@@ -106,10 +106,10 @@ final class GradientCalculatorTest extends TestCase
         $trackData = $this->createTrackdataMock(true);
         $route = $this->createRouteMock(false);
 
-        $trackData->expects(self::once())->method('setGradient')->with(null);
+        $trackData->expects($this->once())->method('setGradient')->with(null);
 
-        $route->expects(self::never())->method('getElevations');
-        $trackData->expects(self::never())->method('getDistance');
+        $route->expects($this->never())->method('getElevations');
+        $trackData->expects($this->never())->method('getDistance');
 
         $this->calculator->calculateFor($trackData, $route, $this->createKernel());
     }
@@ -119,7 +119,7 @@ final class GradientCalculatorTest extends TestCase
         $trackData = $this->createTrackdataMock(false);
         $route = $this->createRoute(false);
 
-        $trackData->expects(self::once())->method('setGradient')->with(null);
+        $trackData->expects($this->once())->method('setGradient')->with(null);
 
         $this->calculator->calculateFor($trackData, $route, $this->createKernel());
     }
@@ -147,7 +147,7 @@ final class GradientCalculatorTest extends TestCase
 
         $capturedSeries = null;
         $trackData
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setGradient')
             ->willReturnCallback(function (?array $series) use (&$capturedSeries): Trackdata {
                 $capturedSeries = $series;
@@ -157,16 +157,11 @@ final class GradientCalculatorTest extends TestCase
 
         $this->calculator->calculateFor($trackData, $route, new UniformTestKernel(2.0));
 
-        self::assertIsArray($capturedSeries);
-        self::assertCount(count($expectedSeries), $capturedSeries);
+        $this->assertIsArray($capturedSeries);
+        $this->assertCount(count($expectedSeries), $capturedSeries);
 
         foreach ($expectedSeries as $index => $expectedValue) {
-            self::assertEqualsWithDelta(
-                $expectedValue,
-                $capturedSeries[$index],
-                0.0001,
-                "Gradient value at index {$index} did not match the independently verified expected value."
-            );
+            $this->assertEqualsWithDelta($expectedValue, $capturedSeries[$index], 0.0001, "Gradient value at index {$index} did not match the independently verified expected value.");
         }
     }
 
@@ -199,10 +194,6 @@ final class GradientCalculatorTest extends TestCase
         $this->calculator->calculateFor($trackData, $route, new UniformTestKernel(4.0));
         $seriesWithWideKernel = $capturedSeries;
 
-        self::assertNotEquals(
-            $seriesWithNarrowKernel,
-            $seriesWithWideKernel,
-            'A materially different kernel width must produce a different gradient series, proving the kernel is actually used.'
-        );
+        $this->assertNotEquals($seriesWithNarrowKernel, $seriesWithWideKernel, 'A materially different kernel width must produce a different gradient series, proving the kernel is actually used.');
     }
 }

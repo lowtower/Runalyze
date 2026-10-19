@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\FileType;
 
 use Runalyze\Parser\Activity\FileType\Pwx;
 use Runalyze\Util\LocalTime;
 
 #[\PHPUnit\Framework\Attributes\Group('import')]
-class PwxTest extends AbstractActivityParserTestCase
+final class PwxTest extends AbstractActivityParserTestCase
 {
     /**
      * @var Pwx

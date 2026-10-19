@@ -6,7 +6,7 @@ namespace Runalyze\Tests\Mathematics\Distribution;
 
 use Runalyze\Mathematics\Distribution\TimeSeries;
 
-class TimeSeriesTest extends \PHPUnit\Framework\TestCase
+final class TimeSeriesTest extends \PHPUnit\Framework\TestCase
 {
     public function testSimpleArray(): void
     {

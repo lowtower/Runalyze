@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Command;
 
 use Doctrine\DBAL\Configuration;
@@ -14,18 +16,14 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 final class CreateNotificationCommandTest extends TestCase
 {
-    private ParameterBagInterface&Stub $parameterBag;
-
-    private ManagerRegistry&Stub $doctrine;
-
     private \Doctrine\DBAL\Connection $connection;
 
     private TestableCreateNotificationCommand $command;
 
     protected function setUp(): void
     {
-        $this->parameterBag = $this->createStub(ParameterBagInterface::class);
-        $this->parameterBag
+        $parameterBag = $this->createStub(ParameterBagInterface::class);
+        $parameterBag
             ->method('get')
             ->willReturn('runalyze_');
 
@@ -39,12 +37,12 @@ final class CreateNotificationCommandTest extends TestCase
 
         $this->createSchema();
 
-        $this->doctrine = $this->createStub(ManagerRegistry::class);
-        $this->doctrine
+        $doctrine = $this->createStub(ManagerRegistry::class);
+        $doctrine
             ->method('getConnection')
             ->willReturn($this->connection);
 
-        $this->command = new TestableCreateNotificationCommand($this->parameterBag, $this->doctrine);
+        $this->command = new TestableCreateNotificationCommand($parameterBag, $doctrine);
     }
 
     private function createSchema(): void
@@ -113,21 +111,21 @@ final class CreateNotificationCommandTest extends TestCase
             null
         );
 
-        self::assertSame(3, $affectedRows);
+        $this->assertSame(3, $affectedRows);
 
         $insertedRows = $this->connection->fetchAllAssociative('SELECT * FROM `runalyze_notification`');
-        self::assertCount(3, $insertedRows);
+        $this->assertCount(3, $insertedRows);
 
         foreach ($insertedRows as $row) {
-            self::assertSame(1, (int) $row['messageType']);
-            self::assertSame(1_700_000_000, (int) $row['createdAt']);
-            self::assertSame(1_700_100_000, (int) $row['expirationAt']);
-            self::assertSame('{"foo":"bar"}', $row['data']);
+            $this->assertSame(1, (int) $row['messageType']);
+            $this->assertSame(1_700_000_000, (int) $row['createdAt']);
+            $this->assertSame(1_700_100_000, (int) $row['expirationAt']);
+            $this->assertSame('{"foo":"bar"}', $row['data']);
         }
 
         $notifiedAccountIds = array_map(static fn (array $row): int => (int) $row['account_id'], $insertedRows);
         sort($notifiedAccountIds);
-        self::assertSame([1, 2, 3], $notifiedAccountIds);
+        $this->assertSame([1, 2, 3], $notifiedAccountIds);
     }
 
     public function testInsertsOnlyForAccountsMatchingLanguageFilter(): void
@@ -146,11 +144,11 @@ final class CreateNotificationCommandTest extends TestCase
             null
         );
 
-        self::assertSame(1, $affectedRows);
+        $this->assertSame(1, $affectedRows);
 
         $insertedRows = $this->connection->fetchAllAssociative('SELECT * FROM `runalyze_notification`');
-        self::assertCount(1, $insertedRows);
-        self::assertSame($germanAccountId, (int) $insertedRows[0]['account_id']);
+        $this->assertCount(1, $insertedRows);
+        $this->assertSame($germanAccountId, (int) $insertedRows[0]['account_id']);
     }
 
     public function testExcludeLangTakesPrecedenceOverLang(): void
@@ -169,11 +167,11 @@ final class CreateNotificationCommandTest extends TestCase
             null
         );
 
-        self::assertSame(1, $affectedRows);
+        $this->assertSame(1, $affectedRows);
 
         $insertedRows = $this->connection->fetchAllAssociative('SELECT * FROM `runalyze_notification`');
-        self::assertCount(1, $insertedRows);
-        self::assertSame($englishAccountId, (int) $insertedRows[0]['account_id']);
+        $this->assertCount(1, $insertedRows);
+        $this->assertSame($englishAccountId, (int) $insertedRows[0]['account_id']);
     }
 
     public function testFiltersByLastActionAndRegistrationDateRange(): void
@@ -195,11 +193,11 @@ final class CreateNotificationCommandTest extends TestCase
             1_500_000_000  // registrationAfter
         );
 
-        self::assertSame(1, $affectedRows);
+        $this->assertSame(1, $affectedRows);
 
         $insertedRows = $this->connection->fetchAllAssociative('SELECT * FROM `runalyze_notification`');
-        self::assertCount(1, $insertedRows);
-        self::assertSame($matchingId, (int) $insertedRows[0]['account_id']);
+        $this->assertCount(1, $insertedRows);
+        $this->assertSame($matchingId, (int) $insertedRows[0]['account_id']);
     }
 
     public function testReturnsZeroWhenNoAccountsMatch(): void
@@ -216,8 +214,8 @@ final class CreateNotificationCommandTest extends TestCase
             null
         );
 
-        self::assertSame(0, $affectedRows);
-        self::assertCount(0, $this->connection->fetchAllAssociative('SELECT * FROM `runalyze_notification`'));
+        $this->assertSame(0, $affectedRows);
+        $this->assertCount(0, $this->connection->fetchAllAssociative('SELECT * FROM `runalyze_notification`'));
     }
 }
 

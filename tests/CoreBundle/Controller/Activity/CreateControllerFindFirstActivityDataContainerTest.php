@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller\Activity;
 
 use LogicException;
@@ -13,7 +15,7 @@ use Runalyze\Import\Exception\ParserException;
 use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class CreateControllerFindFirstActivityDataContainerTest extends TestCase
+final class CreateControllerFindFirstActivityDataContainerTest extends TestCase
 {
     private function invokeFindFirstActivityDataContainer(FileImportResultCollection $results): ActivityDataContainer
     {

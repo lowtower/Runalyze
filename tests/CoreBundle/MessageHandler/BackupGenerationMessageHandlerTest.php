@@ -13,7 +13,7 @@ use Runalyze\Bundle\CoreBundle\Repository\NotificationRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-class BackupGenerationMessageHandlerTest extends TestCase
+final class BackupGenerationMessageHandlerTest extends TestCase
 {
     // Stubs by default. The one test that needs expects() builds its own
     // mocks and passes them to createHandler().

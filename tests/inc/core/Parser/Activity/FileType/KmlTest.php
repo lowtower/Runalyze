@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\FileType;
 
 use Runalyze\Import\Exception\UnsupportedFileException;
@@ -8,7 +10,7 @@ use Runalyze\Parser\Activity\FileType\Kml;
 use Runalyze\Util\LocalTime;
 
 #[\PHPUnit\Framework\Attributes\Group('import')]
-class KmlTest extends AbstractActivityParserTestCase
+final class KmlTest extends AbstractActivityParserTestCase
 {
     /**
      * @var Kml

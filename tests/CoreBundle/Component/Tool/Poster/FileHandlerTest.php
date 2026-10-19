@@ -14,7 +14,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class FileHandlerTest extends TestCase
+final class FileHandlerTest extends TestCase
 {
     private const int ACCOUNT_ID = 7;
 
@@ -68,14 +68,14 @@ class FileHandlerTest extends TestCase
 
     public function testGetFileListReturnsEmptyListWhenPosterDirectoryDoesNotExist(): void
     {
-        self::assertSame([], $this->fileHandler->getFileList($this->createAccount()));
+        $this->assertSame([], $this->fileHandler->getFileList($this->createAccount()));
     }
 
     public function testGetFileListReturnsEmptyListWhenAccountHasNoPosters(): void
     {
         $this->createPosterFile('8-other.png');
 
-        self::assertSame([], $this->fileHandler->getFileList($this->createAccount()));
+        $this->assertSame([], $this->fileHandler->getFileList($this->createAccount()));
     }
 
     public function testGetFileListContainsFileSizesByNameWithoutAccountPrefix(): void
@@ -83,13 +83,10 @@ class FileHandlerTest extends TestCase
         $this->createPosterFile('7-first.png', 'abc');
         $this->createPosterFile('7-second.png', 'abcde');
 
-        self::assertEquals(
-            [
-                'first.png' => 3,
-                'second.png' => 5,
-            ],
-            $this->fileHandler->getFileList($this->createAccount())
-        );
+        $this->assertEquals([
+            'first.png' => 3,
+            'second.png' => 5,
+        ], $this->fileHandler->getFileList($this->createAccount()));
     }
 
     public function testGetFileListSortsNewestFileFirst(): void
@@ -98,10 +95,7 @@ class FileHandlerTest extends TestCase
         $this->createPosterFile('7-newest.png', modifiedAt: 3_000_000);
         $this->createPosterFile('7-middle.png', modifiedAt: 2_000_000);
 
-        self::assertSame(
-            ['newest.png', 'middle.png', 'oldest.png'],
-            array_keys($this->fileHandler->getFileList($this->createAccount()))
-        );
+        $this->assertSame(['newest.png', 'middle.png', 'oldest.png'], array_keys($this->fileHandler->getFileList($this->createAccount())));
     }
 
     public function testGetFileListIgnoresFilesOfOtherAccounts(): void
@@ -111,10 +105,7 @@ class FileHandlerTest extends TestCase
         $this->createPosterFile('17-other.png');
         $this->createPosterFile('77-other.png');
 
-        self::assertSame(
-            ['own.png'],
-            array_keys($this->fileHandler->getFileList($this->createAccount()))
-        );
+        $this->assertSame(['own.png'], array_keys($this->fileHandler->getFileList($this->createAccount())));
     }
 
     public function testGetPosterDownloadResponseReturnsPngWithContentAndHeaders(): void
@@ -123,10 +114,10 @@ class FileHandlerTest extends TestCase
 
         $response = $this->fileHandler->getPosterDownloadResponse($this->createAccount(), 'poster.png');
 
-        self::assertSame('png content', $response->getContent());
-        self::assertSame('image/png', $response->headers->get('Content-type'));
-        self::assertSame('11', $response->headers->get('Content-length'));
-        self::assertSame('attachment; filename="7-poster.png";', $response->headers->get('Content-Disposition'));
+        $this->assertSame('png content', $response->getContent());
+        $this->assertSame('image/png', $response->headers->get('Content-type'));
+        $this->assertSame('11', $response->headers->get('Content-length'));
+        $this->assertSame('attachment; filename="7-poster.png";', $response->headers->get('Content-Disposition'));
     }
 
     public function testGetPosterDownloadResponseThrowsNotFoundForMissingFile(): void
@@ -191,7 +182,7 @@ class FileHandlerTest extends TestCase
             4000
         );
 
-        self::assertMatchesRegularExpression('/^7-Running-2024-heatmap-4000-\d{8}-\d{4}\.png$/', $fileName);
+        $this->assertMatchesRegularExpression('/^7-Running-2024-heatmap-4000-\d{8}-\d{4}\.png$/', $fileName);
     }
 
     public function testBuildFinalFileNameAcceptsYearAndSizeAsStrings(): void
@@ -204,7 +195,7 @@ class FileHandlerTest extends TestCase
             '4000'
         );
 
-        self::assertMatchesRegularExpression('/^7-Running-2024-circular-4000-\d{8}-\d{4}\.png$/', $fileName);
+        $this->assertMatchesRegularExpression('/^7-Running-2024-circular-4000-\d{8}-\d{4}\.png$/', $fileName);
     }
 
     #[DataProvider('sportNames')]
@@ -218,7 +209,7 @@ class FileHandlerTest extends TestCase
             4000
         );
 
-        self::assertStringStartsWith('7-' . $expectedPart . '-2024-heatmap-4000-', $fileName);
+        $this->assertStringStartsWith('7-' . $expectedPart . '-2024-heatmap-4000-', $fileName);
     }
 
     public static function sportNames(): iterable

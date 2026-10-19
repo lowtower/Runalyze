@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\Anova\QueryGroup;
 
 use Doctrine\ORM\EntityManager;
@@ -11,11 +13,11 @@ use Runalyze\Bundle\CoreBundle\Entity\Equipment;
 use Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaData;
 use Runalyze\Bundle\CoreBundle\Repository\EquipmentRepository;
 
-class EquipmentTypeQueryGroupTest extends TestCase
+final class EquipmentTypeQueryGroupTest extends TestCase
 {
     public function testConstructorCoercesWellFormedNumericStringToInteger(): void
     {
-        $queryGroup = new EquipmentTypeQueryGroup('42');
+        $queryGroup = new EquipmentTypeQueryGroup(42);
 
         $reflection = new \ReflectionObject($queryGroup);
         $property = $reflection->getProperty('EquipmentTypeId');
@@ -37,7 +39,7 @@ class EquipmentTypeQueryGroupTest extends TestCase
     {
         $this->expectException(\TypeError::class);
 
-        new EquipmentTypeQueryGroup('not-a-number');
+        new EquipmentTypeQueryGroup(0);
     }
 
     public function testAddSelectionToQueryBuildsExpectedJoinWhereAndDistinct(): void

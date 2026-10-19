@@ -13,7 +13,7 @@ use Runalyze\Profile\Athlete\Gender;
  * @see http://fellrnr.com/wiki/TRIMP#Worked_Example
  */
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class InverseCalculatorTest extends TestCase
+final class InverseCalculatorTest extends TestCase
 {
     public function testReferenceExample(): void
     {
@@ -56,16 +56,14 @@ class InverseCalculatorTest extends TestCase
         $this->assertEqualsWithDelta($seconds, $Inverse->value(), 1);
     }
 
-    public static function provideRoundTripCases(): array
+    public static function provideRoundTripCases(): \Iterator
     {
-        return [
-            'male, mid heart rate, short interval' => [new Athlete(Gender::MALE, 190, 50), 150, 90],
-            'male, heart rate close to max, short interval' => [new Athlete(Gender::MALE, 200, 60), 199, 45],
-            'female, mid heart rate, long session' => [new Athlete(Gender::FEMALE, 195, 55), 160, 1200],
-            'female, low heart rate above rest' => [new Athlete(Gender::FEMALE, 195, 55), 100, 600],
-            'unknown gender, mid heart rate' => [new Athlete(null, 205, 45), 178, 75],
-            'unknown gender, athlete without known HR bounds uses defaults' => [new Athlete(), 130, 300],
-        ];
+        yield 'male, mid heart rate, short interval' => [new Athlete(Gender::MALE, 190, 50), 150, 90];
+        yield 'male, heart rate close to max, short interval' => [new Athlete(Gender::MALE, 200, 60), 199, 45];
+        yield 'female, mid heart rate, long session' => [new Athlete(Gender::FEMALE, 195, 55), 160, 1200];
+        yield 'female, low heart rate above rest' => [new Athlete(Gender::FEMALE, 195, 55), 100, 600];
+        yield 'unknown gender, mid heart rate' => [new Athlete(null, 205, 45), 178, 75];
+        yield 'unknown gender, athlete without known HR bounds uses defaults' => [new Athlete(), 130, 300];
     }
 
     #[DataProvider('provideInvalidConstructorArguments')]
@@ -78,18 +76,16 @@ class InverseCalculatorTest extends TestCase
     }
 
     /**
-     * @return array<string, array<int, int|float>>
+     * @return \Iterator<string, array<int, (float|int)>>
      */
-    public static function provideInvalidConstructorArguments(): array
+    public static function provideInvalidConstructorArguments(): \Iterator
     {
-        return [
-            'heart rate is zero' => [0, 30.0],
-            'heart rate is negative' => [-10, 30.0],
-            'trimp is zero' => [150, 0.0],
-            'trimp is negative' => [150, -5.0],
-            'both heart rate and trimp are zero' => [0, 0.0],
-            'both heart rate and trimp are negative' => [-10, -5.0],
-        ];
+        yield 'heart rate is zero' => [0, 30.0];
+        yield 'heart rate is negative' => [-10, 30.0];
+        yield 'trimp is zero' => [150, 0.0];
+        yield 'trimp is negative' => [150, -5.0];
+        yield 'both heart rate and trimp are zero' => [0, 0.0];
+        yield 'both heart rate and trimp are negative' => [-10, -5.0];
     }
 
     #[DataProvider('provideHeartRatesNotExceedingRestingHeartRate')]
@@ -101,13 +97,11 @@ class InverseCalculatorTest extends TestCase
         new InverseCalculator($Athlete, $heartRate, 10.0);
     }
 
-    public static function provideHeartRatesNotExceedingRestingHeartRate(): array
+    public static function provideHeartRatesNotExceedingRestingHeartRate(): \Iterator
     {
-        return [
-            'heart rate equals known resting heart rate' => [new Athlete(null, 200, 60), 60],
-            'heart rate is below known resting heart rate' => [new Athlete(null, 200, 60), 50],
-            'heart rate equals default resting heart rate' => [new Athlete(null, 200), Calculator::DEFAULT_HR_REST],
-            'heart rate is below default resting heart rate' => [new Athlete(null, 200), Calculator::DEFAULT_HR_REST - 5],
-        ];
+        yield 'heart rate equals known resting heart rate' => [new Athlete(null, 200, 60), 60];
+        yield 'heart rate is below known resting heart rate' => [new Athlete(null, 200, 60), 50];
+        yield 'heart rate equals default resting heart rate' => [new Athlete(null, 200), Calculator::DEFAULT_HR_REST];
+        yield 'heart rate is below default resting heart rate' => [new Athlete(null, 200), Calculator::DEFAULT_HR_REST - 5];
     }
 }

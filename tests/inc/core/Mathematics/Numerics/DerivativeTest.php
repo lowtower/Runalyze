@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Mathematics\Numerics;
 
 use Runalyze\Mathematics\Numerics\Derivative;
 
-class DerivativeTest extends \PHPUnit\Framework\TestCase
+final class DerivativeTest extends \PHPUnit\Framework\TestCase
 {
     public function testEmptyArrays(): void
     {

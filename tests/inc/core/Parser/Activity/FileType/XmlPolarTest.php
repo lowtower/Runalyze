@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\FileType;
 
 use Runalyze\Parser\Activity\FileType\XmlPolar;
 use Runalyze\Util\LocalTime;
 
 #[\PHPUnit\Framework\Attributes\Group('import')]
-class XmlPolarTest extends AbstractActivityParserTestCase
+final class XmlPolarTest extends AbstractActivityParserTestCase
 {
     /**
      * @var XmlPolar
@@ -74,25 +76,25 @@ class XmlPolarTest extends AbstractActivityParserTestCase
             LocalTime::mktime(7, 9, 34, 5, 11, 2011),
             $this->Container[0]->Metadata->getTimestamp()
         );
-        $this->assertEquals(17.1, $this->Container[0]->ActivityData->Distance);
+        $this->assertEqualsWithDelta(17.1, $this->Container[0]->ActivityData->Distance, PHP_FLOAT_EPSILON);
 
         $this->assertEquals(
             LocalTime::mktime(17, 31, 19, 5, 11, 2011),
             $this->Container[1]->Metadata->getTimestamp()
         );
-        $this->assertEquals(16.7, $this->Container[1]->ActivityData->Distance);
+        $this->assertEqualsWithDelta(16.7, $this->Container[1]->ActivityData->Distance, PHP_FLOAT_EPSILON);
 
         $this->assertEquals(
             LocalTime::mktime(7, 14, 49, 5, 12, 2011),
             $this->Container[2]->Metadata->getTimestamp()
         );
-        $this->assertEquals(17.0, $this->Container[2]->ActivityData->Distance);
+        $this->assertEqualsWithDelta(17.0, $this->Container[2]->ActivityData->Distance, PHP_FLOAT_EPSILON);
 
         $this->assertEquals(
             LocalTime::mktime(17, 35, 32, 5, 12, 2011),
             $this->Container[3]->Metadata->getTimestamp()
         );
-        $this->assertEquals(16.5, $this->Container[3]->ActivityData->Distance);
+        $this->assertEqualsWithDelta(16.5, $this->Container[3]->ActivityData->Distance, PHP_FLOAT_EPSILON);
 
         $this->assertEquals(
             LocalTime::mktime(7, 12, 15, 5, 13, 2011),

@@ -21,7 +21,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class MailingCommandTest extends TestCase
+final class MailingCommandTest extends TestCase
 {
     // Stubs by default. Tests that need expects() build their own mocks
     // and create the command again with createCommand() or createCommandWithSuccessfulValidation().
@@ -62,26 +62,23 @@ class MailingCommandTest extends TestCase
     {
         $command = new MailingCommand($this->dataDirectory, $this->mailer, $this->accountRepository);
 
-        self::assertSame('runalyze:mails:send', $command->getName());
-        self::assertSame(
-            'Send out a mails to users with custom templates in data/views/mail/custom',
-            $command->getDescription()
-        );
+        $this->assertSame('runalyze:mails:send', $command->getName());
+        $this->assertSame('Send out a mails to users with custom templates in data/views/mail/custom', $command->getDescription());
 
         $definition = $command->getDefinition();
 
-        self::assertTrue($definition->hasArgument('template'));
-        self::assertTrue($definition->getArgument('template')->isRequired());
+        $this->assertTrue($definition->hasArgument('template'));
+        $this->assertTrue($definition->getArgument('template')->isRequired());
 
-        self::assertTrue($definition->hasOption('subject'));
-        self::assertTrue($definition->hasOption('lang'));
-        self::assertTrue($definition->hasOption('exclude-lang'));
-        self::assertTrue($definition->hasOption('account'));
-        self::assertTrue($definition->hasOption('force'));
-        self::assertTrue($definition->hasOption('last-action-before'));
-        self::assertTrue($definition->hasOption('last-action-after'));
-        self::assertTrue($definition->hasOption('registration-before'));
-        self::assertTrue($definition->hasOption('registration-after'));
+        $this->assertTrue($definition->hasOption('subject'));
+        $this->assertTrue($definition->hasOption('lang'));
+        $this->assertTrue($definition->hasOption('exclude-lang'));
+        $this->assertTrue($definition->hasOption('account'));
+        $this->assertTrue($definition->hasOption('force'));
+        $this->assertTrue($definition->hasOption('last-action-before'));
+        $this->assertTrue($definition->hasOption('last-action-after'));
+        $this->assertTrue($definition->hasOption('registration-before'));
+        $this->assertTrue($definition->hasOption('registration-after'));
     }
 
     /**
@@ -90,7 +87,7 @@ class MailingCommandTest extends TestCase
     #[DataProvider('validLanguages')]
     public function testValidateLanguageAcceptsValidValues(array $languages): void
     {
-        self::assertTrue($this->command->validateLanguagePublic($languages));
+        $this->assertTrue($this->command->validateLanguagePublic($languages));
     }
 
     public static function validLanguages(): iterable
@@ -107,7 +104,7 @@ class MailingCommandTest extends TestCase
     #[DataProvider('invalidLanguages')]
     public function testValidateLanguageRejectsInvalidValues(array $languages): void
     {
-        self::assertFalse($this->command->validateLanguagePublic($languages));
+        $this->assertFalse($this->command->validateLanguagePublic($languages));
     }
 
     public static function invalidLanguages(): iterable
@@ -125,7 +122,7 @@ class MailingCommandTest extends TestCase
     #[DataProvider('validAccountIds')]
     public function testValidateAccountIdsAcceptsValidValues(array $accountIds): void
     {
-        self::assertTrue($this->command->validateAccountIdsPublic($accountIds));
+        $this->assertTrue($this->command->validateAccountIdsPublic($accountIds));
     }
 
     public static function validAccountIds(): iterable
@@ -142,7 +139,7 @@ class MailingCommandTest extends TestCase
     #[DataProvider('invalidAccountIds')]
     public function testValidateAccountIdsRejectsInvalidValues(array $accountIds): void
     {
-        self::assertFalse($this->command->validateAccountIdsPublic($accountIds));
+        $this->assertFalse($this->command->validateAccountIdsPublic($accountIds));
     }
 
     public static function invalidAccountIds(): iterable
@@ -157,10 +154,7 @@ class MailingCommandTest extends TestCase
     #[DataProvider('lifetimeValues')]
     public function testValidateLifetime(?string $value, bool $expected): void
     {
-        self::assertSame(
-            $expected,
-            $this->command->validateLifetimePublic($value)
-        );
+        $this->assertSame($expected, $this->command->validateLifetimePublic($value));
     }
 
     public static function lifetimeValues(): iterable
@@ -177,7 +171,7 @@ class MailingCommandTest extends TestCase
     #[DataProvider('validSubjects')]
     public function testValidateSubjectAcceptsNonEmptyStrings(string $subject): void
     {
-        self::assertTrue($this->command->validateSubjectPublic($subject));
+        $this->assertTrue($this->command->validateSubjectPublic($subject));
     }
 
     public static function validSubjects(): iterable
@@ -190,7 +184,7 @@ class MailingCommandTest extends TestCase
     #[DataProvider('invalidSubjects')]
     public function testValidateSubjectRejectsMissingOrBlankValues(mixed $subject): void
     {
-        self::assertFalse($this->command->validateSubjectPublic($subject));
+        $this->assertFalse($this->command->validateSubjectPublic($subject));
     }
 
     public static function invalidSubjects(): iterable
@@ -206,24 +200,24 @@ class MailingCommandTest extends TestCase
     {
         $this->createTemplate('newsletter.html.twig');
 
-        self::assertTrue($this->command->validateTemplatePublic('newsletter.html.twig'));
+        $this->assertTrue($this->command->validateTemplatePublic('newsletter.html.twig'));
     }
 
     public function testValidateTemplateReturnsFalseForMissingTemplate(): void
     {
-        self::assertFalse($this->command->validateTemplatePublic('missing.html.twig'));
+        $this->assertFalse($this->command->validateTemplatePublic('missing.html.twig'));
     }
 
     public function testValidateTemplateReturnsFalseForEmptyTemplateName(): void
     {
-        self::assertFalse($this->command->validateTemplatePublic(''));
+        $this->assertFalse($this->command->validateTemplatePublic(''));
     }
 
     public function testValidateTemplateReturnsFalseForDirectory(): void
     {
         mkdir($this->dataDirectory . '/views/mail/custom/subdirectory');
 
-        self::assertFalse($this->command->validateTemplatePublic('subdirectory'));
+        $this->assertFalse($this->command->validateTemplatePublic('subdirectory'));
     }
 
     public function testCheckValidationWritesErrorMessage(): void
@@ -236,11 +230,8 @@ class MailingCommandTest extends TestCase
             'Account IDs must be integers.'
         );
 
-        self::assertFalse($result);
-        self::assertStringContainsString(
-            'Invalid input: Account IDs must be integers.',
-            $output->fetch()
-        );
+        $this->assertFalse($result);
+        $this->assertStringContainsString('Invalid input: Account IDs must be integers.', $output->fetch());
     }
 
     public function testCheckValidationDoesNotWriteOnSuccess(): void
@@ -253,8 +244,8 @@ class MailingCommandTest extends TestCase
             'This message must not be shown.'
         );
 
-        self::assertTrue($result);
-        self::assertSame('', $output->fetch());
+        $this->assertTrue($result);
+        $this->assertSame('', $output->fetch());
     }
 
     public function testExecuteSendsMailToEveryMatchingAccountWhenForced(): void
@@ -263,7 +254,7 @@ class MailingCommandTest extends TestCase
 
         $mailer = $this->createMock(AccountMailer::class);
         $mailer
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('sendMailTo')
             ->with(
                 self::isInstanceOf(Account::class),
@@ -285,11 +276,8 @@ class MailingCommandTest extends TestCase
             '--force' => true,
         ]);
 
-        self::assertSame(Command::SUCCESS, $exitCode);
-        self::assertStringContainsString(
-            '2 mail(s) have been sent.',
-            $tester->getDisplay()
-        );
+        $this->assertSame(Command::SUCCESS, $exitCode);
+        $this->assertStringContainsString('2 mail(s) have been sent.', $tester->getDisplay());
     }
 
     public function testExecuteSendsMailWhenUserConfirms(): void
@@ -298,7 +286,7 @@ class MailingCommandTest extends TestCase
 
         $mailer = $this->createMock(AccountMailer::class);
         $mailer
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('sendMailTo');
 
         $command = $this->createCommandWithSuccessfulValidation($mailer, $accountRepository);
@@ -312,9 +300,9 @@ class MailingCommandTest extends TestCase
             '--subject' => 'Maintenance information',
         ]);
 
-        self::assertSame(Command::SUCCESS, $exitCode);
-        self::assertStringContainsString('1 mail(s) will be sent.', $tester->getDisplay());
-        self::assertStringContainsString('1 mail(s) have been sent.', $tester->getDisplay());
+        $this->assertSame(Command::SUCCESS, $exitCode);
+        $this->assertStringContainsString('1 mail(s) will be sent.', $tester->getDisplay());
+        $this->assertStringContainsString('1 mail(s) have been sent.', $tester->getDisplay());
     }
 
     public function testExecuteDoesNotSendMailWhenUserDeclinesConfirmation(): void
@@ -323,7 +311,7 @@ class MailingCommandTest extends TestCase
 
         $mailer = $this->createMock(AccountMailer::class);
         $mailer
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('sendMailTo');
 
         $command = $this->createCommandWithSuccessfulValidation($mailer, $accountRepository);
@@ -337,27 +325,21 @@ class MailingCommandTest extends TestCase
             '--subject' => 'Maintenance information',
         ]);
 
-        self::assertSame(Command::SUCCESS, $exitCode);
-        self::assertStringContainsString(
-            '1 mail(s) will be sent.',
-            $tester->getDisplay()
-        );
-        self::assertStringNotContainsString(
-            '1 mail(s) have been sent.',
-            $tester->getDisplay()
-        );
+        $this->assertSame(Command::SUCCESS, $exitCode);
+        $this->assertStringContainsString('1 mail(s) will be sent.', $tester->getDisplay());
+        $this->assertStringNotContainsString('1 mail(s) have been sent.', $tester->getDisplay());
     }
 
     public function testExecuteReturnsFailureWhenValidationFails(): void
     {
         $accountRepository = $this->createMock(AccountRepository::class);
         $accountRepository
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('createQueryBuilder');
 
         $mailer = $this->createMock(AccountMailer::class);
         $mailer
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('sendMailTo');
 
         $command = $this->getMockBuilder(TestableMailingCommand::class)
@@ -370,7 +352,7 @@ class MailingCommandTest extends TestCase
             ->getMock();
 
         $command
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('validateInput')
             ->willReturn(false);
 
@@ -382,7 +364,7 @@ class MailingCommandTest extends TestCase
             '--force' => true,
         ]);
 
-        self::assertSame(Command::FAILURE, $exitCode);
+        $this->assertSame(Command::FAILURE, $exitCode);
     }
 
     /**
@@ -395,12 +377,12 @@ class MailingCommandTest extends TestCase
 
         $accountRepository = $this->createMock(AccountRepository::class);
         $accountRepository
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('createQueryBuilder');
 
         $mailer = $this->createMock(AccountMailer::class);
         $mailer
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('sendMailTo');
 
         $tester = new CommandTester($this->createCommand($mailer, $accountRepository));
@@ -410,8 +392,8 @@ class MailingCommandTest extends TestCase
             '--force' => true,
         ] + $options);
 
-        self::assertSame(Command::FAILURE, $exitCode);
-        self::assertStringContainsString('Invalid input: ' . $expectedMessage, $tester->getDisplay());
+        $this->assertSame(Command::FAILURE, $exitCode);
+        $this->assertStringContainsString('Invalid input: ' . $expectedMessage, $tester->getDisplay());
     }
 
     public static function invalidInputs(): iterable
@@ -482,9 +464,9 @@ class MailingCommandTest extends TestCase
             ] + $options
         );
 
-        self::assertSame(Command::SUCCESS, $exitCode);
-        self::assertSame($expectedConditions, $conditions);
-        self::assertSame($expectedParameters, $parameters);
+        $this->assertSame(Command::SUCCESS, $exitCode);
+        $this->assertSame($expectedConditions, $conditions);
+        $this->assertSame($expectedParameters, $parameters);
     }
 
     public static function queryFilterOptions(): iterable
@@ -586,7 +568,7 @@ class MailingCommandTest extends TestCase
             ->getMock();
 
         $command
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('validateInput')
             ->willReturn(true);
 
@@ -614,13 +596,13 @@ class MailingCommandTest extends TestCase
 
         $accountRepository = $this->createMock(AccountRepository::class);
         $accountRepository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('createQueryBuilder')
             ->with('a')
             ->willReturn($queryBuilder);
 
         $queryBuilder
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('andWhere')
             ->willReturnCallback(
                 static function (string $condition) use (&$conditions, $queryBuilder): QueryBuilder {
@@ -641,12 +623,12 @@ class MailingCommandTest extends TestCase
             );
 
         $queryBuilder
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getQuery')
             ->willReturn($query);
 
         $query
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getResult')
             ->willReturn($accounts);
 

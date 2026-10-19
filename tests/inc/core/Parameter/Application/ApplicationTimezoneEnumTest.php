@@ -7,7 +7,7 @@ namespace Runalyze\Parameter\Application;
 use PHPUnit\Framework\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class ApplicationTimezoneEnumTest extends TestCase
+final class ApplicationTimezoneEnumTest extends TestCase
 {
     public function testGetMappingReturnsNonEmptyArray(): void
     {
@@ -75,19 +75,17 @@ class ApplicationTimezoneEnumTest extends TestCase
     }
 
     /**
-     * @return array<string, int[]>
+     * @return \Iterator<string, array<int>>
      */
-    public static function provideWellKnownZones(): array
+    public static function provideWellKnownZones(): \Iterator
     {
-        return [
-            'UTC' => [Timezone::UTC],
-            'Berlin' => [Timezone::BERLIN],
-            'New York' => [Timezone::NEW_YORK],
-            'Tokyo' => [Timezone::TOKYO],
-            'London' => [Timezone::LONDON],
-            'Paris' => [Timezone::PARIS],
-            'Sydney' => [Timezone::SYDNEY],
-        ];
+        yield 'UTC' => [Timezone::UTC];
+        yield 'Berlin' => [Timezone::BERLIN];
+        yield 'New York' => [Timezone::NEW_YORK];
+        yield 'Tokyo' => [Timezone::TOKYO];
+        yield 'London' => [Timezone::LONDON];
+        yield 'Paris' => [Timezone::PARIS];
+        yield 'Sydney' => [Timezone::SYDNEY];
     }
 
     public function testEveryDefinedEnumConstantResolvesToACurrentlyValidIanaIdentifier(): void

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Profile\Weather\Source;
 
 use Runalyze\Profile\Weather\Source\SourceInterface;
 use Runalyze\Profile\Weather\Source\WeatherSourceProfile;
 
-class WeatherSourceProfileTest extends \PHPUnit\Framework\TestCase
+final class WeatherSourceProfileTest extends \PHPUnit\Framework\TestCase
 {
     public function testThatAllClassesExist(): void
     {

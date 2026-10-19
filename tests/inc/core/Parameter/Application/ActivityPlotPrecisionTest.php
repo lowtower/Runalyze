@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Runalyze\Parameter\Application;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class ActivityPlotPrecisionTest extends \PHPUnit\Framework\TestCase
+final class ActivityPlotPrecisionTest extends \PHPUnit\Framework\TestCase
 {
     protected ActivityPlotPrecision $object;
 
@@ -16,28 +16,28 @@ class ActivityPlotPrecisionTest extends \PHPUnit\Framework\TestCase
 
     public function testDefaultValueIsTwoHundredPoints(): void
     {
-        self::assertSame('200points', $this->object->value());
-        self::assertTrue($this->object->byPoints());
-        self::assertFalse($this->object->byDistance());
-        self::assertSame(200, $this->object->numberOfPoints());
+        $this->assertSame('200points', $this->object->value());
+        $this->assertTrue($this->object->byPoints());
+        $this->assertFalse($this->object->byDistance());
+        $this->assertSame(200, $this->object->numberOfPoints());
     }
 
     public function testAssignsDistanceBasedOption(): void
     {
         $this->object->set('100m');
 
-        self::assertTrue($this->object->byDistance());
-        self::assertFalse($this->object->byPoints());
-        self::assertSame(100, $this->object->distanceStep());
+        $this->assertTrue($this->object->byDistance());
+        $this->assertFalse($this->object->byPoints());
+        $this->assertSame(100, $this->object->distanceStep());
     }
 
     public function testAssignsPointsBasedOption(): void
     {
         $this->object->set('200points');
 
-        self::assertFalse($this->object->byDistance());
-        self::assertTrue($this->object->byPoints());
-        self::assertSame(200, $this->object->numberOfPoints());
+        $this->assertFalse($this->object->byDistance());
+        $this->assertTrue($this->object->byPoints());
+        $this->assertSame(200, $this->object->numberOfPoints());
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('distanceOptionProvider')]
@@ -45,21 +45,19 @@ class ActivityPlotPrecisionTest extends \PHPUnit\Framework\TestCase
     {
         $this->object->set($option);
 
-        self::assertTrue($this->object->byDistance());
-        self::assertSame($expectedStep, $this->object->distanceStep());
+        $this->assertTrue($this->object->byDistance());
+        $this->assertSame($expectedStep, $this->object->distanceStep());
     }
 
     /**
-     * @return array<string, string[]|int[]>
+     * @return \Iterator<string, array<(int|string)>>
      */
-    public static function distanceOptionProvider(): array
+    public static function distanceOptionProvider(): \Iterator
     {
-        return [
-            '50m' => ['50m', 50],
-            '100m' => ['100m', 100],
-            '200m' => ['200m', 200],
-            '500m' => ['500m', 500],
-        ];
+        yield '50m' => ['50m', 50];
+        yield '100m' => ['100m', 100];
+        yield '200m' => ['200m', 200];
+        yield '500m' => ['500m', 500];
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('pointsOptionProvider')]
@@ -67,20 +65,18 @@ class ActivityPlotPrecisionTest extends \PHPUnit\Framework\TestCase
     {
         $this->object->set($option);
 
-        self::assertTrue($this->object->byPoints());
-        self::assertSame($expectedCount, $this->object->numberOfPoints());
+        $this->assertTrue($this->object->byPoints());
+        $this->assertSame($expectedCount, $this->object->numberOfPoints());
     }
 
     /**
-     * @return array<string, string[]|int[]>
+     * @return \Iterator<string, array<(int|string)>>
      */
-    public static function pointsOptionProvider(): array
+    public static function pointsOptionProvider(): \Iterator
     {
-        return [
-            '50points' => ['50points', 50],
-            '100points' => ['100points', 100],
-            '1000points' => ['1000points', 1000],
-        ];
+        yield '50points' => ['50points', 50];
+        yield '100points' => ['100points', 100];
+        yield '1000points' => ['1000points', 1000];
     }
 
     public function testUnknownValueFallsBackToDefault(): void
@@ -88,6 +84,6 @@ class ActivityPlotPrecisionTest extends \PHPUnit\Framework\TestCase
         $this->object->set('50m');
         $this->object->set('unknown');
 
-        self::assertSame('200points', $this->object->value());
+        $this->assertSame('200points', $this->object->value());
     }
 }

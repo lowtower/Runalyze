@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Parameter;
 
-class ParameterSelectFileTest extends \PHPUnit\Framework\TestCase
+final class ParameterSelectFileTest extends \PHPUnit\Framework\TestCase
 {
     protected \Runalyze\Parameter\SelectFile $object;
 

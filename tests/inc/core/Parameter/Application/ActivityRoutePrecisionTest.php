@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Runalyze\Parameter\Application;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class ActivityRoutePrecisionTest extends \PHPUnit\Framework\TestCase
+final class ActivityRoutePrecisionTest extends \PHPUnit\Framework\TestCase
 {
     protected ActivityRoutePrecision $object;
 
@@ -16,7 +16,7 @@ class ActivityRoutePrecisionTest extends \PHPUnit\Framework\TestCase
 
     public function testDefaultValueIsFive(): void
     {
-        self::assertSame('5', $this->object->value());
+        $this->assertSame('5', $this->object->value());
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('validOptionProvider')]
@@ -24,21 +24,19 @@ class ActivityRoutePrecisionTest extends \PHPUnit\Framework\TestCase
     {
         $this->object->set($option);
 
-        self::assertSame($option, $this->object->value());
+        $this->assertSame($option, $this->object->value());
     }
 
     /**
-     * @return array<string, string[]>
+     * @return \Iterator<string, array<string>>
      */
-    public static function validOptionProvider(): array
+    public static function validOptionProvider(): \Iterator
     {
-        return [
-            'every data point' => ['1'],
-            'every second data point' => ['2'],
-            'every fifth data point' => ['5'],
-            'every tenth data point' => ['10'],
-            'every twentieth data point' => ['20'],
-        ];
+        yield 'every data point' => ['1'];
+        yield 'every second data point' => ['2'];
+        yield 'every fifth data point' => ['5'];
+        yield 'every tenth data point' => ['10'];
+        yield 'every twentieth data point' => ['20'];
     }
 
     public function testUnknownValueFallsBackToDefault(): void
@@ -46,6 +44,6 @@ class ActivityRoutePrecisionTest extends \PHPUnit\Framework\TestCase
         $this->object->set('10');
         $this->object->set('unknown');
 
-        self::assertSame('5', $this->object->value());
+        $this->assertSame('5', $this->object->value());
     }
 }

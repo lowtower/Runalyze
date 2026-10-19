@@ -30,7 +30,7 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class PosterGenerationMessageHandlerTest extends TestCase
+final class PosterGenerationMessageHandlerTest extends TestCase
 {
     // These are stubs by default. A test that needs expects() replaces the
     // affected property with a local mock before calling createHandler().
@@ -405,15 +405,13 @@ class PosterGenerationMessageHandlerTest extends TestCase
     }
 
     /**
-     * @return array<string, string[]>
+     * @return \Iterator<string, array<string>>
      */
-    public static function provideNonCircularPosterTypes(): array
+    public static function provideNonCircularPosterTypes(): \Iterator
     {
-        return [
-            'linear' => ['linear'],
-            'unknown/unrecognized type' => ['some-future-type'],
-            'empty string' => [''],
-        ];
+        yield 'linear' => ['linear'];
+        yield 'unknown/unrecognized type' => ['some-future-type'];
+        yield 'empty string' => [''];
     }
 
     public function testExportDirectoryAppendsExpectedSubdirectory(): void

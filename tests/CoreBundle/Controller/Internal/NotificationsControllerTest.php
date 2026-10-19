@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Entity;
 
 use Runalyze\Bundle\CoreBundle\Component\Notifications\Message\TemplateBasedMessage;
@@ -10,7 +12,7 @@ use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCa
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
-class NotificationsControllerTest extends AbstractFixturesAwareWebTestCase
+final class NotificationsControllerTest extends AbstractFixturesAwareWebTestCase
 {
     protected NotificationRepository $NotificationRepository;
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller\Internal\Service;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -8,7 +10,7 @@ use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCa
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
-class WeatherControllerTest extends AbstractFixturesAwareWebTestCase
+final class WeatherControllerTest extends AbstractFixturesAwareWebTestCase
 {
     protected Account $Account;
 
@@ -99,8 +101,8 @@ class WeatherControllerTest extends AbstractFixturesAwareWebTestCase
 
         $this->assertTrue($data['empty']);
         $this->assertSame('Berlin', $data['location']['name']);
-        $this->assertSame(52.5, $data['location']['lat']);
-        $this->assertSame(13.4, $data['location']['lng']);
+        $this->assertEqualsWithDelta(52.5, $data['location']['lat'], PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(13.4, $data['location']['lng'], PHP_FLOAT_EPSILON);
 
         $this->assertArrayHasKey('sources', $data);
         $this->assertSame(

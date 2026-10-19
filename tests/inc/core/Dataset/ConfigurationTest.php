@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Dataset;
 
 use PDO;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresSqlite')]
-class ConfigurationTest extends \PHPUnit\Framework\TestCase
+final class ConfigurationTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var \PDO

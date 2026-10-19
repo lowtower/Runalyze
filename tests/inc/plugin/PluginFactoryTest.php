@@ -23,7 +23,7 @@ class PluginFactoryTestFixture extends PluginPanel
 }
 
 #[Group('plugin')]
-class PluginFactoryTest extends TestCase
+final class PluginFactoryTest extends TestCase
 {
     private ?array $originalPlugins;
 

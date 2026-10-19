@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Sports\ClimbQuantification;
 
 use Runalyze\Sports\ClimbQuantification\CodifavaIndex;
 
-class CodifavaIndexTest extends \PHPUnit\Framework\TestCase
+final class CodifavaIndexTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var CodifavaIndex

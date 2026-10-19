@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 #[Group('default')]
-class SelectRowTest extends TestCase
+final class SelectRowTest extends TestCase
 {
     protected SelectRow $object;
 
@@ -41,16 +41,16 @@ class SelectRowTest extends TestCase
             'column' => 'id',
         ]);
 
-        self::assertSame('training', $selectRow->table());
-        self::assertSame('id', $selectRow->column());
+        $this->assertSame('training', $selectRow->table());
+        $this->assertSame('id', $selectRow->column());
     }
 
     public function testTableAndColumnDefaultToEmptyStringWhenNotConfigured(): void
     {
         $selectRow = new SelectRow('1');
 
-        self::assertSame('', $selectRow->table());
-        self::assertSame('', $selectRow->column());
+        $this->assertSame('', $selectRow->table());
+        $this->assertSame('', $selectRow->column());
     }
 
     public function testAnyValueIsAcceptedRegardlessOfOptions(): void
@@ -62,6 +62,6 @@ class SelectRowTest extends TestCase
 
         $selectRow->set('999');
 
-        self::assertSame('999', $selectRow->value());
+        $this->assertSame('999', $selectRow->value());
     }
 }

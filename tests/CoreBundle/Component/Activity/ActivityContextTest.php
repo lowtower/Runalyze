@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Activity;
 
 use PHPUnit\Framework\TestCase;
@@ -14,7 +16,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Swimdata;
 use Runalyze\Bundle\CoreBundle\Entity\Trackdata;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 
-class ActivityContextTest extends TestCase
+final class ActivityContextTest extends TestCase
 {
     private function createTraining(): Training
     {

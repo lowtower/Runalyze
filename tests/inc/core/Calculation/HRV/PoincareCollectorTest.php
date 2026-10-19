@@ -6,7 +6,7 @@ namespace Runalyze\Calculation\HRV;
 
 use Runalyze\Model\HRV\Entity;
 
-class PoincareCollectorTest extends \PHPUnit\Framework\TestCase
+final class PoincareCollectorTest extends \PHPUnit\Framework\TestCase
 {
     public function testPairsWithinFilterAreCollected(): void
     {

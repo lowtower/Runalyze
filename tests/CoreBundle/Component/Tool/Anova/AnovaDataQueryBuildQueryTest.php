@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\Anova;
 
 use Doctrine\ORM\Query;
@@ -19,7 +21,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaData;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 
-class AnovaDataQueryBuildQueryTest extends TestCase
+final class AnovaDataQueryBuildQueryTest extends TestCase
 {
     private function createAnovaDataQuery(AnovaData $anovaData): AnovaDataQuery
     {

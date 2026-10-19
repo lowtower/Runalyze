@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Calculation\Route;
 
-class GeohashLineTest extends \PHPUnit\Framework\TestCase
+final class GeohashLineTest extends \PHPUnit\Framework\TestCase
 {
     public function testShortenAndExtend(): void
     {

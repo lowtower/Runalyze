@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\FileType;
 
 use Runalyze\Parser\Activity\FileType\Hrm;
 use Runalyze\Util\LocalTime;
 
 #[\PHPUnit\Framework\Attributes\Group('import')]
-class HrmTest extends AbstractActivityParserTestCase
+final class HrmTest extends AbstractActivityParserTestCase
 {
     protected Hrm $Parser;
 
@@ -51,7 +53,7 @@ class HrmTest extends AbstractActivityParserTestCase
         $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(61 * 60 + 29.1, $this->Container->ActivityData->Duration);
-        $this->assertEquals(0.0, $this->Container->ActivityData->Distance);
+        $this->assertEqualsWithDelta(0.0, $this->Container->ActivityData->Distance, PHP_FLOAT_EPSILON);
 
         $this->assertNotEmpty($this->Container->ContinuousData->HeartRate);
     }
@@ -64,7 +66,7 @@ class HrmTest extends AbstractActivityParserTestCase
         $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(63 * 60 + 34.8, $this->Container->ActivityData->Duration);
-        $this->assertEquals(0.0, $this->Container->ActivityData->Distance);
+        $this->assertEqualsWithDelta(0.0, $this->Container->ActivityData->Distance, PHP_FLOAT_EPSILON);
 
         $this->assertNotEmpty($this->Container->ContinuousData->HeartRate);
     }

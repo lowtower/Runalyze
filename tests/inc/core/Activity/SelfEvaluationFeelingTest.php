@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Activity;
 
-class SelfEvaluationFeelingTest extends \PHPUnit\Framework\TestCase
+final class SelfEvaluationFeelingTest extends \PHPUnit\Framework\TestCase
 {
     #[\PHPUnit\Framework\Attributes\DataProvider('fitValuesProvider')]
     public function testConversionFromFit(int $fitValue, int $expected): void
@@ -23,16 +23,14 @@ class SelfEvaluationFeelingTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array<int, int[]>
+     * @return \Iterator<int, array<int>>
      */
-    public static function fitValuesProvider(): array
+    public static function fitValuesProvider(): \Iterator
     {
-        return [
-            [0,   SelfEvaluationFeeling::VERY_WEAK],
-            [25,  SelfEvaluationFeeling::WEAK],
-            [50,  SelfEvaluationFeeling::NORMAL],
-            [75,  SelfEvaluationFeeling::STRONG],
-            [100, SelfEvaluationFeeling::VERY_STRONG],
-        ];
+        yield [0,   SelfEvaluationFeeling::VERY_WEAK];
+        yield [25,  SelfEvaluationFeeling::WEAK];
+        yield [50,  SelfEvaluationFeeling::NORMAL];
+        yield [75,  SelfEvaluationFeeling::STRONG];
+        yield [100, SelfEvaluationFeeling::VERY_STRONG];
     }
 }

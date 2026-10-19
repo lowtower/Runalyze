@@ -1,40 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Doctrine\Types;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Runalyze\Bundle\CoreBundle\Doctrine\Types\RunalyzePauseArray;
 use Runalyze\Parser\Activity\Common\Data\Pause\Pause;
 use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 
-class RunalyzePauseArrayTest extends \PHPUnit\Framework\TestCase
+final class RunalyzePauseArrayTest extends \PHPUnit\Framework\TestCase
 {
     protected RunalyzePauseArray $Type;
-
-    /**
-     * @var \PHPUnit\Framework\MockObject\Stub&\Doctrine\DBAL\Platforms\AbstractPlatform
-     */
-    protected \PHPUnit\Framework\MockObject\Stub $PlatformMock;
 
     protected function setUp(): void
     {
         /** @var RunalyzePauseArray $type */
         $type = RunalyzePauseArray::getType(RunalyzePauseArray::RUNALYZE_PAUSE_ARRAY);
         $this->Type = $type;
-        $this->PlatformMock = $this->createStub(AbstractPlatform::class);
     }
 
     public function testEmptyData(): void
     {
-        $this->assertNull($this->Type->convertToDatabaseValue(null, $this->PlatformMock));
-        $this->assertNull($this->Type->convertToDatabaseValue('', $this->PlatformMock));
-        $this->assertNull($this->Type->convertToDatabaseValue(new PauseCollection(), $this->PlatformMock));
+        $PlatformMockStub = $this->createStub(\Doctrine\DBAL\Platforms\AbstractPlatform::class);
+        $this->assertNull($this->Type->convertToDatabaseValue(null, $PlatformMockStub));
+        $this->assertNull($this->Type->convertToDatabaseValue('', $PlatformMockStub));
+        $this->assertNull($this->Type->convertToDatabaseValue(new PauseCollection(), $PlatformMockStub));
 
-        $nullResult = $this->Type->convertToPHPValue(null, $this->PlatformMock);
+        $nullResult = $this->Type->convertToPHPValue(null, $PlatformMockStub);
         $this->assertInstanceOf(PauseCollection::class, $nullResult);
         $this->assertTrue($nullResult->isEmpty());
 
-        $emptyResult = $this->Type->convertToPHPValue('', $this->PlatformMock);
+        $emptyResult = $this->Type->convertToPHPValue('', $PlatformMockStub);
         $this->assertInstanceOf(PauseCollection::class, $emptyResult);
         $this->assertTrue($emptyResult->isEmpty());
     }
@@ -47,8 +43,9 @@ class RunalyzePauseArrayTest extends \PHPUnit\Framework\TestCase
             new Pause(345, 120)->setRecoveryDetails(120, 90),
             new Pause(456, 63)->setPerformanceCondition(-4),
         ]);
+        $PlatformMockStub = $this->createStub(\Doctrine\DBAL\Platforms\AbstractPlatform::class);
 
-        $newCollection = $this->Type->convertToPHPValue($this->Type->convertToDatabaseValue($collection, $this->PlatformMock), $this->PlatformMock);
+        $newCollection = $this->Type->convertToPHPValue($this->Type->convertToDatabaseValue($collection, $PlatformMockStub), $PlatformMockStub);
 
         $this->assertCount(4, $newCollection);
         $this->assertEquals(123, $newCollection[0]->getTimeIndex());
@@ -66,7 +63,7 @@ class RunalyzePauseArrayTest extends \PHPUnit\Framework\TestCase
             '[{"time":93,"duration":46,"hr-start":136,"hr-end":91},' .
             '{"time":339,"duration":49,"hr-start":150,"hr-end":109},' .
             '{"time":621,"duration":9,"hr-start":142,"hr-end":140}]',
-            $this->PlatformMock
+            $this->createStub(\Doctrine\DBAL\Platforms\AbstractPlatform::class)
         );
 
         $this->assertCount(3, $collection);
@@ -81,7 +78,7 @@ class RunalyzePauseArrayTest extends \PHPUnit\Framework\TestCase
             '[{"time":93,"duration":46,"hr-start":136,"hr-end":91},' .
             '{"time":339,"duration":49,"hr-start":150,"hr-end":109},' .
             '{"time":621,"duration":9,"hr-sta',
-            $this->PlatformMock
+            $this->createStub(\Doctrine\DBAL\Platforms\AbstractPlatform::class)
         );
 
         $this->assertTrue($collection->isEmpty());

@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component;
 
 use Runalyze\Bundle\CoreBundle\Component\VariablesContainerTrait;
 
-class VariablesContainerTraitTest extends \PHPUnit\Framework\TestCase
+final class VariablesContainerTraitTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var object

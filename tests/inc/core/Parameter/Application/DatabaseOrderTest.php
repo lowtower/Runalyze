@@ -35,7 +35,7 @@ class DatabaseOrderTestIdentifiableFixture implements IdentifiableEntityInterfac
 }
 
 #[\PHPUnit\Framework\Attributes\Group('requiresSqlite')]
-class DatabaseOrderTest extends \PHPUnit\Framework\TestCase
+final class DatabaseOrderTest extends \PHPUnit\Framework\TestCase
 {
     protected DatabaseOrder $object;
 
@@ -61,7 +61,7 @@ class DatabaseOrderTest extends \PHPUnit\Framework\TestCase
         $this->object->set(DatabaseOrder::DESC);
         $this->object->set('unknown');
 
-        self::assertSame(DatabaseOrder::ASC, $this->object->value());
+        $this->assertSame(DatabaseOrder::ASC, $this->object->value());
     }
 
     public function testAscendingOrdering(): void
@@ -201,10 +201,7 @@ class DatabaseOrderTest extends \PHPUnit\Framework\TestCase
         $this->object->set(DatabaseOrder::ALPHA);
         $sorted = $this->object->sortCollection($collection);
 
-        self::assertSame(
-            ['Alice', 'Bob', 'Charlie'],
-            array_values(array_map(static fn (NamedEntityInterface $entity): string => $entity->getName(), $sorted->toArray()))
-        );
+        $this->assertSame(['Alice', 'Bob', 'Charlie'], array_values(array_map(static fn (NamedEntityInterface $entity): string => $entity->getName(), $sorted->toArray())));
     }
 
     public function testSortCollectionOrdersByIdAscending(): void
@@ -218,10 +215,7 @@ class DatabaseOrderTest extends \PHPUnit\Framework\TestCase
         $this->object->set(DatabaseOrder::ASC);
         $sorted = $this->object->sortCollection($collection);
 
-        self::assertSame(
-            [1, 2, 3],
-            array_values(array_map(static fn (IdentifiableEntityInterface $entity): ?int => $entity->getId(), $sorted->toArray()))
-        );
+        $this->assertSame([1, 2, 3], array_values(array_map(static fn (IdentifiableEntityInterface $entity): ?int => $entity->getId(), $sorted->toArray())));
     }
 
     public function testSortCollectionOrdersByIdDescending(): void
@@ -235,10 +229,7 @@ class DatabaseOrderTest extends \PHPUnit\Framework\TestCase
         $this->object->set(DatabaseOrder::DESC);
         $sorted = $this->object->sortCollection($collection);
 
-        self::assertSame(
-            [3, 2, 1],
-            array_values(array_map(static fn (IdentifiableEntityInterface $entity): ?int => $entity->getId(), $sorted->toArray()))
-        );
+        $this->assertSame([3, 2, 1], array_values(array_map(static fn (IdentifiableEntityInterface $entity): ?int => $entity->getId(), $sorted->toArray())));
     }
 
     public function testSortCollectionLeavesOrderUnchangedWhenEntitiesDoNotImplementRequiredInterface(): void
@@ -253,9 +244,6 @@ class DatabaseOrderTest extends \PHPUnit\Framework\TestCase
         $this->object->set(DatabaseOrder::ASC);
         $sorted = $this->object->sortCollection($collection);
 
-        self::assertSame(
-            ['Charlie', 'Alice', 'Bob'],
-            array_values(array_map(static fn (NamedEntityInterface $entity): string => $entity->getName(), $sorted->toArray()))
-        );
+        $this->assertSame(['Charlie', 'Alice', 'Bob'], array_values(array_map(static fn (NamedEntityInterface $entity): string => $entity->getName(), $sorted->toArray())));
     }
 }

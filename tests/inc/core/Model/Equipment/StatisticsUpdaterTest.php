@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Model\Equipment;
 
 use DB;
@@ -8,11 +10,9 @@ use PHPUnit\Framework\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]
 #[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
-class StatisticsUpdaterTest extends TestCase
+final class StatisticsUpdaterTest extends TestCase
 {
     protected \PDO $PDO;
-
-    protected int $Typeid;
 
     /**
      * @var string[]|bool[]
@@ -25,12 +25,12 @@ class StatisticsUpdaterTest extends TestCase
         $this->PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->PDO->exec('INSERT INTO `' . PREFIX . 'equipment_type` (`name`, `accountid`) VALUES ("Test", 1)');
 
-        $this->Typeid = (int) $this->PDO->lastInsertId();
-        $this->PDO->exec('INSERT INTO `' . PREFIX . 'equipment` (`name`, `typeid`, `notes`, `distance`, `time`, `accountid`) VALUES ("Test A", ' . $this->Typeid . ', "", 10, 100, 1)');
+        $Typeid = (int) $this->PDO->lastInsertId();
+        $this->PDO->exec('INSERT INTO `' . PREFIX . 'equipment` (`name`, `typeid`, `notes`, `distance`, `time`, `accountid`) VALUES ("Test A", ' . $Typeid . ', "", 10, 100, 1)');
         $this->EquipmentIDs[] = $this->PDO->lastInsertId();
-        $this->PDO->exec('INSERT INTO `' . PREFIX . 'equipment` (`name`, `typeid`, `notes`, `distance`, `time`, `accountid`) VALUES ("Test B", ' . $this->Typeid . ', "", 10, 100, 1)');
+        $this->PDO->exec('INSERT INTO `' . PREFIX . 'equipment` (`name`, `typeid`, `notes`, `distance`, `time`, `accountid`) VALUES ("Test B", ' . $Typeid . ', "", 10, 100, 1)');
         $this->EquipmentIDs[] = $this->PDO->lastInsertId();
-        $this->PDO->exec('INSERT INTO `' . PREFIX . 'equipment` (`name`, `typeid`, `notes`, `distance`, `time`, `accountid`) VALUES ("Test C", ' . $this->Typeid . ', "", 10, 100, 1)');
+        $this->PDO->exec('INSERT INTO `' . PREFIX . 'equipment` (`name`, `typeid`, `notes`, `distance`, `time`, `accountid`) VALUES ("Test C", ' . $Typeid . ', "", 10, 100, 1)');
         $this->EquipmentIDs[] = $this->PDO->lastInsertId();
     }
 

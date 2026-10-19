@@ -21,7 +21,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class ImportActivityControllerUnitTest extends TestCase
+final class ImportActivityControllerUnitTest extends TestCase
 {
     private const string USERNAME = 'unit_test_user';
 
@@ -123,7 +123,7 @@ class ImportActivityControllerUnitTest extends TestCase
     public function testAccessIsDeniedWhenNoAccountIsAvailable(): void
     {
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->expects(self::never())
+        $logger->expects($this->never())
             ->method('error');
 
         $controller = $this->createController(logger: $logger);
@@ -136,7 +136,7 @@ class ImportActivityControllerUnitTest extends TestCase
     public function testDuplicateFileNamesAreReportedWithTheirNameAsPlainText(): void
     {
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->expects(self::never())
+        $logger->expects($this->never())
             ->method('error');
 
         $controller = $this->createController(logger: $logger);
@@ -149,10 +149,10 @@ class ImportActivityControllerUnitTest extends TestCase
             $this->createAccount()
         );
 
-        self::assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
-        self::assertStringStartsWith('text/plain', (string) $response->headers->get('Content-Type'));
-        self::assertStringContainsString('Multiple uploaded files share the file name "same-name.fit"', (string) $response->getContent());
-        self::assertStringNotContainsString(ImportActivityController::GENERIC_ERROR_MSG, (string) $response->getContent());
+        $this->assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
+        $this->assertStringStartsWith('text/plain', (string) $response->headers->get('Content-Type'));
+        $this->assertStringContainsString('Multiple uploaded files share the file name "same-name.fit"', (string) $response->getContent());
+        $this->assertStringNotContainsString(ImportActivityController::GENERIC_ERROR_MSG, (string) $response->getContent());
     }
 
     public function testTemporaryUploadDirectoryIsRemovedAfterDuplicateFileNames(): void
@@ -165,7 +165,7 @@ class ImportActivityControllerUnitTest extends TestCase
             $this->createAccount()
         );
 
-        self::assertSame([], $this->findTemporaryUploadDirectories(self::USERNAME));
+        $this->assertSame([], $this->findTemporaryUploadDirectories(self::USERNAME));
     }
 
     #[DataProvider('uploadErrors')]
@@ -178,16 +178,16 @@ class ImportActivityControllerUnitTest extends TestCase
             $this->createAccount()
         );
 
-        self::assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
-        self::assertStringContainsString(ImportActivityController::GENERIC_ERROR_MSG, (string) $response->getContent());
-        self::assertStringNotContainsString('private-name.fit', (string) $response->getContent());
+        $this->assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
+        $this->assertStringContainsString(ImportActivityController::GENERIC_ERROR_MSG, (string) $response->getContent());
+        $this->assertStringNotContainsString('private-name.fit', (string) $response->getContent());
     }
 
     #[DataProvider('uploadErrors')]
     public function testFileThatCannotBeMovedIsLoggedWithUsernameAndException(int $uploadError): void
     {
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->expects(self::once())
+        $logger->expects($this->once())
             ->method('error')
             ->with(
                 'Activity import via REST API failed.',
@@ -225,13 +225,13 @@ class ImportActivityControllerUnitTest extends TestCase
             $this->createAccount()
         );
 
-        self::assertSame([], $this->findTemporaryUploadDirectories(self::USERNAME));
+        $this->assertSame([], $this->findTemporaryUploadDirectories(self::USERNAME));
     }
 
     public function testImportFailsWithTempFolderMessageWhenUploadDirectoryCannotBeCreated(): void
     {
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->expects(self::once())
+        $logger->expects($this->once())
             ->method('error')
             ->with(
                 'Temporary upload directory could not be created.',
@@ -247,7 +247,7 @@ class ImportActivityControllerUnitTest extends TestCase
             $this->createAccount(str_repeat('a', 300))
         );
 
-        self::assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
-        self::assertStringContainsString(ImportActivityController::TEMP_FOLDER_ERROR_MSG, (string) $response->getContent());
+        $this->assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
+        $this->assertStringContainsString(ImportActivityController::TEMP_FOLDER_ERROR_MSG, (string) $response->getContent());
     }
 }

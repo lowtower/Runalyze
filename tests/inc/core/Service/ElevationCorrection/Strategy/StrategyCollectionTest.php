@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Service\ElevationCorrection\Strategy;
 
 use PHPUnit\Framework\MockObject\Stub;
 use Runalyze\Service\ElevationCorrection\Strategy\StrategyCollection;
 use Runalyze\Service\ElevationCorrection\Strategy\StrategyInterface;
 
-class StrategyCollectionTest extends \PHPUnit\Framework\TestCase
+final class StrategyCollectionTest extends \PHPUnit\Framework\TestCase
 {
     protected StrategyCollection $Collection;
 

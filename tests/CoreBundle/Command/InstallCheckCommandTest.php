@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Command;
 
 use Doctrine\DBAL\Connection;
@@ -127,8 +129,8 @@ final class InstallCheckCommandTest extends TestCase
     {
         $command = $this->createCommand();
 
-        self::assertSame('runalyze:install:check', $command->getName());
-        self::assertSame('Check requirements for installing RUNALYZE.', $command->getDescription());
+        $this->assertSame('runalyze:install:check', $command->getName());
+        $this->assertSame('Check requirements for installing RUNALYZE.', $command->getDescription());
     }
 
     public function testExecuteAllChecksPassProducesSuccessMessageAndZeroExitCode(): void
@@ -140,12 +142,12 @@ final class InstallCheckCommandTest extends TestCase
         $tester = new CommandTester($this->createCommand());
         $exitCode = $tester->execute([]);
 
-        self::assertSame(0, $exitCode);
+        $this->assertSame(0, $exitCode);
         $display = $tester->getDisplay();
-        self::assertStringContainsString('Check PHP version', $display);
-        self::assertStringContainsString('Check that database prefix is not used', $display);
-        self::assertStringContainsString('Check that directories for cache, log and import are writable', $display);
-        self::assertStringContainsString('All requirements are fulfilled.', $display);
+        $this->assertStringContainsString('Check PHP version', $display);
+        $this->assertStringContainsString('Check that database prefix is not used', $display);
+        $this->assertStringContainsString('Check that directories for cache, log and import are writable', $display);
+        $this->assertStringContainsString('All requirements are fulfilled.', $display);
     }
 
     public function testExecuteReturnsFailureExitCodeWhenPrefixIsAlreadyUsed(): void
@@ -157,10 +159,10 @@ final class InstallCheckCommandTest extends TestCase
         $tester = new CommandTester($this->createCommand());
         $exitCode = $tester->execute([]);
 
-        self::assertSame(InstallCheckCommand::CHECK_FAILED, $exitCode);
+        $this->assertSame(InstallCheckCommand::CHECK_FAILED, $exitCode);
         $display = $tester->getDisplay();
-        self::assertStringContainsString('Maybe RUNALYZE is already installed.', $display);
-        self::assertStringContainsString('Not all requirements are fulfilled, installation not possible.', $display);
+        $this->assertStringContainsString('Maybe RUNALYZE is already installed.', $display);
+        $this->assertStringContainsString('Not all requirements are fulfilled, installation not possible.', $display);
     }
 
     public function testExecuteReportsWarningButStillSucceedsWhenADirectoryIsMissing(): void
@@ -175,10 +177,10 @@ final class InstallCheckCommandTest extends TestCase
         $tester = new CommandTester($this->createCommand());
         $exitCode = $tester->execute([]);
 
-        self::assertSame(0, $exitCode);
+        $this->assertSame(0, $exitCode);
         $display = $tester->getDisplay();
-        self::assertStringContainsString('Respective directories in data/ and var/ must be writable.', $display);
-        self::assertStringContainsString('There were some warnings, installation may still be possible.', $display);
+        $this->assertStringContainsString('Respective directories in data/ and var/ must be writable.', $display);
+        $this->assertStringContainsString('There were some warnings, installation may still be possible.', $display);
     }
 
     public function testExecutePrioritisesErrorMessageOverWarningWhenBothOccur(): void
@@ -193,10 +195,10 @@ final class InstallCheckCommandTest extends TestCase
         $tester = new CommandTester($this->createCommand());
         $exitCode = $tester->execute([]);
 
-        self::assertSame(InstallCheckCommand::CHECK_FAILED, $exitCode);
+        $this->assertSame(InstallCheckCommand::CHECK_FAILED, $exitCode);
         $display = $tester->getDisplay();
-        self::assertStringContainsString('Not all requirements are fulfilled, installation not possible.', $display);
-        self::assertStringNotContainsString('There were some warnings, installation may still be possible.', $display);
+        $this->assertStringContainsString('Not all requirements are fulfilled, installation not possible.', $display);
+        $this->assertStringNotContainsString('There were some warnings, installation may still be possible.', $display);
     }
 
     public function testExecuteQueriesForTablesMatchingConfiguredDatabasePrefix(): void
@@ -216,7 +218,7 @@ final class InstallCheckCommandTest extends TestCase
         // Stays a mock: it has expectations (once, with)
         $connection = $this->createMock(Connection::class);
         $connection
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('executeQuery')
             ->with(self::stringContains('custom_prefix_%'))
             ->willReturn($result);
@@ -234,14 +236,8 @@ final class InstallCheckCommandTest extends TestCase
     {
         $command = new TestableInstallCheckCommand($this->parameterBag, $this->doctrine);
 
-        self::assertSame(
-            InstallCheckCommand::OKAY,
-            $command->evaluatePhpVersionPublic(InstallCheckCommand::REQUIRED_PHP_VERSION)
-        );
-        self::assertSame(
-            InstallCheckCommand::OKAY,
-            $command->evaluatePhpVersionPublic('8.4.0')
-        );
+        $this->assertSame(InstallCheckCommand::OKAY, $command->evaluatePhpVersionPublic(InstallCheckCommand::REQUIRED_PHP_VERSION));
+        $this->assertSame(InstallCheckCommand::OKAY, $command->evaluatePhpVersionPublic('8.4.0'));
     }
 
     public function testEvaluatePhpVersionReturnsErrorWhenRunningVersionIsTooOld(): void
@@ -252,21 +248,15 @@ final class InstallCheckCommandTest extends TestCase
         $belowRequiredMajor = max(0, ((int) $requiredMajor) - 1);
         $versionOneMajorBelowRequired = $belowRequiredMajor . '.0.0';
 
-        self::assertSame(
-            InstallCheckCommand::ERROR,
-            $command->evaluatePhpVersionPublic($versionOneMajorBelowRequired)
-        );
-        self::assertSame(
-            InstallCheckCommand::ERROR,
-            $command->evaluatePhpVersionPublic('0.1.0')
-        );
+        $this->assertSame(InstallCheckCommand::ERROR, $command->evaluatePhpVersionPublic($versionOneMajorBelowRequired));
+        $this->assertSame(InstallCheckCommand::ERROR, $command->evaluatePhpVersionPublic('0.1.0'));
     }
 
     public function testCheckPhpVersionUsesTheActualRunningPhpVersion(): void
     {
         $command = new TestableInstallCheckCommand($this->parameterBag, $this->doctrine);
 
-        self::assertSame(InstallCheckCommand::OKAY, $command->checkPhpVersionPublic());
+        $this->assertSame(InstallCheckCommand::OKAY, $command->checkPhpVersionPublic());
     }
 
     public function testExecuteFailsOverallWhenPhpVersionCheckReturnsError(): void
@@ -280,11 +270,8 @@ final class InstallCheckCommandTest extends TestCase
         $tester = new CommandTester($command);
         $exitCode = $tester->execute([]);
 
-        self::assertSame(InstallCheckCommand::CHECK_FAILED, $exitCode);
-        self::assertStringContainsString(
-            'Not all requirements are fulfilled, installation not possible.',
-            $tester->getDisplay()
-        );
+        $this->assertSame(InstallCheckCommand::CHECK_FAILED, $exitCode);
+        $this->assertStringContainsString('Not all requirements are fulfilled, installation not possible.', $tester->getDisplay());
     }
 }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Entity;
 
 use PHPUnit\Framework\TestCase;
@@ -10,7 +12,7 @@ use Runalyze\Profile\Weather\WeatherConditionProfile;
 use Runalyze\Service\WeatherForecast\Location;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class WeathercacheTest extends TestCase
+final class WeathercacheTest extends TestCase
 {
     private Weathercache $weathercache;
 

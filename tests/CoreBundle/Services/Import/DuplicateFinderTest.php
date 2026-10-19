@@ -10,7 +10,7 @@ use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Import\DuplicateFinder;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class DuplicateFinderTest extends TestCase
+final class DuplicateFinderTest extends TestCase
 {
     public function testIsPossibleDuplicateDelegatesToTrainingRepository(): void
     {

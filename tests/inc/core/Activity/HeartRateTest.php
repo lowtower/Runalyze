@@ -9,7 +9,7 @@ use Runalyze\Configuration;
 use Runalyze\Parameter\Application\HeartRateUnit;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class HeartRateTest extends \PHPUnit\Framework\TestCase
+final class HeartRateTest extends \PHPUnit\Framework\TestCase
 {
     public function testWithoutAthlete(): void
     {
@@ -248,7 +248,7 @@ class HeartRateTest extends \PHPUnit\Framework\TestCase
 
         $HR = new HeartRate(160, new Athlete(null, 200, 40));
 
-        $this->assertSame(80.0, $HR->inPercent());
+        $this->assertEqualsWithDelta(80.0, $HR->inPercent(), PHP_FLOAT_EPSILON);
     }
 
     public function testInPercentReturnsHRrestValueWhenPreferredUnitIsHRreserve(): void
@@ -257,7 +257,7 @@ class HeartRateTest extends \PHPUnit\Framework\TestCase
 
         $HR = new HeartRate(160, new Athlete(null, 200, 40));
 
-        $this->assertSame(75.0, $HR->inPercent());
+        $this->assertEqualsWithDelta(75.0, $HR->inPercent(), PHP_FLOAT_EPSILON);
     }
 
     /**

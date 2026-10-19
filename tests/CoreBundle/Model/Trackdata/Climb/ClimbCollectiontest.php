@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Model\Trackdata\Climb\Climb;
 use Runalyze\Bundle\CoreBundle\Model\Trackdata\Climb\ClimbCollection;
 
-class ClimbCollectionTest extends TestCase
+final class ClimbCollectionTest extends TestCase
 {
     private function createClimb(): Climb
     {

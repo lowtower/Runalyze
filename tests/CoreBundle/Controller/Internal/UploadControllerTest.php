@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller\Internal;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -9,7 +11,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
-class UploadControllerTest extends AbstractFixturesAwareWebTestCase
+final class UploadControllerTest extends AbstractFixturesAwareWebTestCase
 {
     protected Account $Account;
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\Poster;
 
 use Doctrine\ORM\Query;
@@ -12,7 +14,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 
 #[\PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations]
-class GeneratePosterTest extends TestCase
+final class GeneratePosterTest extends TestCase
 {
     private TrainingRepository&MockObject $trainingRepositoryMock;
 
@@ -243,15 +245,13 @@ class GeneratePosterTest extends TestCase
     }
 
     /**
-     * @return array<string, string[]>
+     * @return \Iterator<string, array<string>>
      */
-    public static function providePosterTypes(): array
+    public static function providePosterTypes(): \Iterator
     {
-        return [
-            'grid' => ['grid'],
-            'calendar' => ['calendar'],
-            'circular' => ['circular'],
-            'heatmap' => ['heatmap'],
-        ];
+        yield 'grid' => ['grid'];
+        yield 'calendar' => ['calendar'];
+        yield 'circular' => ['circular'];
+        yield 'heatmap' => ['heatmap'];
     }
 }

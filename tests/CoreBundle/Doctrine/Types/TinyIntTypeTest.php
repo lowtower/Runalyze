@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Doctrine\Types\TinyIntType;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class TinyIntTypeTest extends TestCase
+final class TinyIntTypeTest extends TestCase
 {
     protected TinyIntType $Type;
 
@@ -36,7 +36,7 @@ class TinyIntTypeTest extends TestCase
 
     public function testSimpleData(): void
     {
-        $this->assertEquals(17, $this->Type->convertToPHPValue('17', $this->PlatformMock));
+        $this->assertSame(17, $this->Type->convertToPHPValue('17', $this->PlatformMock));
     }
 
     public static function mysqlFamilyPlatforms(): iterable

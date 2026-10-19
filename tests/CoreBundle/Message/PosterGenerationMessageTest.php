@@ -7,7 +7,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Message;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Message\PosterGenerationMessage;
 
-class PosterGenerationMessageTest extends TestCase
+final class PosterGenerationMessageTest extends TestCase
 {
     public function testGettersReturnConstructorValues(): void
     {

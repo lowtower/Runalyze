@@ -35,7 +35,7 @@ class AbstractSnippetSharerTestFixture extends AbstractSnippetSharer
 }
 
 #[Group('default')]
-class AbstractSnippetSharerTest extends TestCase
+final class AbstractSnippetSharerTest extends TestCase
 {
     public function testIconClassReturnsFaCode(): void
     {

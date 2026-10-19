@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Util;
 
 use Runalyze\Configuration;
 use Runalyze\Parameter\Application\WeekStart;
 
-class LocalTimeTest extends \PHPUnit\Framework\TestCase
+final class LocalTimeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var string
@@ -33,7 +35,7 @@ class LocalTimeTest extends \PHPUnit\Framework\TestCase
     public function testInvalidParameterForConstructor(): void
     {
         $this->expectException(\TypeError::class);
-        new LocalTime('today');
+        new LocalTime(0);
     }
 
     public function testInvalidParameterForServerTime(): void

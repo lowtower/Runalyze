@@ -16,7 +16,7 @@ class FakeAbstractModel extends AbstractModel
     }
 }
 
-class MaximumCalculatorTest extends \PHPUnit\Framework\TestCase
+final class MaximumCalculatorTest extends \PHPUnit\Framework\TestCase
 {
     public function testWrongClosure(): void
     {

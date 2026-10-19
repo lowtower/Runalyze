@@ -6,7 +6,7 @@ namespace Runalyze\Export\File;
 
 use Runalyze\View\Activity\FakeContext;
 
-class FitlogTest extends \PHPUnit\Framework\TestCase
+final class FitlogTest extends \PHPUnit\Framework\TestCase
 {
     public function testFileCreationForEmptyContext(): void
     {

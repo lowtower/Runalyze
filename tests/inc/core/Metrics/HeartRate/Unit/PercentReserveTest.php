@@ -6,7 +6,7 @@ namespace Runalyze\Tests\Metrics\HeartRate\Unit;
 
 use Runalyze\Metrics\HeartRate\Unit\PercentReserve;
 
-class PercentReserveTest extends \PHPUnit\Framework\TestCase
+final class PercentReserveTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues(): void
     {
@@ -29,10 +29,10 @@ class PercentReserveTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(175, $unit->getMaximalHeartRate());
         $this->assertSame(75, $unit->getRestingHeartRate());
 
-        $this->assertSame(0.45, $unit->fromBaseUnit(120));
+        $this->assertEqualsWithDelta(0.45, $unit->fromBaseUnit(120), PHP_FLOAT_EPSILON);
         $this->assertEquals(120, $unit->toBaseUnit(0.45));
 
-        $this->assertSame(0.75, $unit->fromBaseUnit(150));
+        $this->assertEqualsWithDelta(0.75, $unit->fromBaseUnit(150), PHP_FLOAT_EPSILON);
         $this->assertEquals(150, $unit->toBaseUnit(0.75));
     }
 }

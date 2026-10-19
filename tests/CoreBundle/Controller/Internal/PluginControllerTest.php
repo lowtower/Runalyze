@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller\Internal;
 
 use DB;
@@ -10,7 +12,7 @@ use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCa
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
-class PluginControllerTest extends AbstractFixturesAwareWebTestCase
+final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
 {
     protected Account $Account;
 
@@ -240,7 +242,7 @@ class PluginControllerTest extends AbstractFixturesAwareWebTestCase
             ob_end_clean();
 
             $this->isSuccessful($this->Client->getResponse());
-            $this->assertStringNotContainsString('id="panel-' . $id . '"', $this->Client->getResponse()->getContent());
+            $this->assertStringNotContainsString('id="panel-' . $id . '"', (string) $this->Client->getResponse()->getContent());
         } finally {
             $this->deleteLegacyPluginsForAccount($accountId);
         }
@@ -265,7 +267,7 @@ class PluginControllerTest extends AbstractFixturesAwareWebTestCase
             $this->isSuccessful($this->Client->getResponse());
             $this->assertStringContainsString(
                 '<div class="panel-content" style="display:none;">',
-                $this->Client->getResponse()
+                (string) $this->Client->getResponse()
                     ->getContent()
             );
         } finally {
@@ -292,9 +294,9 @@ class PluginControllerTest extends AbstractFixturesAwareWebTestCase
                 ->getContent();
 
             $this->isSuccessful($this->Client->getResponse());
-            $this->assertStringContainsString('id="panel-' . $id . '"', $content);
-            $this->assertStringContainsString('<div class="panel-content">', $content);
-            $this->assertStringNotContainsString('style="display:none;"', $content);
+            $this->assertStringContainsString('id="panel-' . $id . '"', (string) $content);
+            $this->assertStringContainsString('<div class="panel-content">', (string) $content);
+            $this->assertStringNotContainsString('style="display:none;"', (string) $content);
         } finally {
             $this->deleteLegacyPluginsForAccount($accountId);
         }

@@ -7,7 +7,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 #[Group('plugin')]
-class PluginConfigurationValueIntTest extends TestCase
+final class PluginConfigurationValueIntTest extends TestCase
 {
     #[DataProvider('provideStringValues')]
     public function testSetValueFromStringCastsToInt(string $input, int $expected): void
@@ -19,18 +19,16 @@ class PluginConfigurationValueIntTest extends TestCase
     }
 
     /**
-     * @return array<string, string[]|int[]>
+     * @return \Iterator<string, array<(int|string)>>
      */
-    public static function provideStringValues(): array
+    public static function provideStringValues(): \Iterator
     {
-        return [
-            'plain integer string' => ['12', 12],
-            'decimal string truncates towards zero' => ['12.9', 12],
-            'negative decimal string truncates towards zero' => ['-5.7', -5],
-            'leading zeros are stripped' => ['007', 7],
-            'non-numeric string becomes zero' => ['abc', 0],
-            'empty string becomes zero' => ['', 0],
-        ];
+        yield 'plain integer string' => ['12', 12];
+        yield 'decimal string truncates towards zero' => ['12.9', 12];
+        yield 'negative decimal string truncates towards zero' => ['-5.7', -5];
+        yield 'leading zeros are stripped' => ['007', 7];
+        yield 'non-numeric string becomes zero' => ['abc', 0];
+        yield 'empty string becomes zero' => ['', 0];
     }
 
     public function testValueAsStringReturnsCastValueAsString(): void

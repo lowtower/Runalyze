@@ -7,7 +7,7 @@ namespace Runalyze\Export\Share;
 use Runalyze\Model\Activity;
 use Runalyze\View\Activity\FakeContext;
 
-class IFrameTest extends \PHPUnit\Framework\TestCase
+final class IFrameTest extends \PHPUnit\Framework\TestCase
 {
     public function checkFeasibility(): void
     {
@@ -34,6 +34,6 @@ class IFrameTest extends \PHPUnit\Framework\TestCase
         $output = ob_get_clean();
 
         $this->assertNotEmpty($output, 'Output should not be empty after displaying the IFrame.');
-        $this->assertStringContainsString('<iframe', $output, 'Output should contain an iframe tag.');
+        $this->assertStringContainsString('<iframe', (string) $output, 'Output should contain an iframe tag.');
     }
 }

@@ -11,7 +11,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Profile\View\DataBrowserRowProfile;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class TypeTest extends TestCase
+final class TypeTest extends TestCase
 {
     private Type $type;
 

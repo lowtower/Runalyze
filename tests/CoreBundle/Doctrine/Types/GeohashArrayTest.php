@@ -1,40 +1,37 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Doctrine\Types;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Runalyze\Bundle\CoreBundle\Doctrine\Types\GeohashArray;
 
-class GeohashArrayTest extends \PHPUnit\Framework\TestCase
+final class GeohashArrayTest extends \PHPUnit\Framework\TestCase
 {
     protected GeohashArray $Type;
-
-    /**
-     * @var \PHPUnit\Framework\MockObject\Stub&\Doctrine\DBAL\Platforms\AbstractPlatform
-     */
-    protected \PHPUnit\Framework\MockObject\Stub $PlatformMock;
 
     protected function setUp(): void
     {
         /** @var GeohashArray $type */
         $type = GeohashArray::getType(GeohashArray::GEOHASH_ARRAY);
         $this->Type = $type;
-        $this->PlatformMock = $this->createStub(AbstractPlatform::class);
     }
 
     public function testEmptyData(): void
     {
-        $this->assertNull($this->Type->convertToPHPValue(null, $this->PlatformMock));
-        $this->assertNull($this->Type->convertToPHPValue('', $this->PlatformMock));
-        $this->assertNull($this->Type->convertToDatabaseValue([], $this->PlatformMock));
+        $PlatformMockStub = $this->createStub(\Doctrine\DBAL\Platforms\AbstractPlatform::class);
+        $this->assertNull($this->Type->convertToPHPValue(null, $PlatformMockStub));
+        $this->assertNull($this->Type->convertToPHPValue('', $PlatformMockStub));
+        $this->assertNull($this->Type->convertToDatabaseValue([], $PlatformMockStub));
     }
 
     public function testSimpleData(): void
     {
         $longHashes = ['7zzzzzzzzzzz', 'u1xjnxhj49qr', 'u1xjnxhj49qr', 'u1xjnxhjr7wb', '7zzzzzzzzzzz', 'u1xjnxhmqqg2', 'u1xjnxhm6zkm'];
         $shortHashes = implode('|', ['7zzzzzzzzzzz', 'u1xjnxhj49qr', '', 'r7wb', '7zzzzzzzzzzz', 'u1xjnxhmqqg2', '6zkm']);
+        $PlatformMockStub = $this->createStub(\Doctrine\DBAL\Platforms\AbstractPlatform::class);
 
-        $this->assertEquals($longHashes, $this->Type->convertToPHPValue($shortHashes, $this->PlatformMock));
-        $this->assertSame($shortHashes, $this->Type->convertToDatabaseValue($longHashes, $this->PlatformMock));
+        $this->assertEquals($longHashes, $this->Type->convertToPHPValue($shortHashes, $PlatformMockStub));
+        $this->assertSame($shortHashes, $this->Type->convertToDatabaseValue($longHashes, $PlatformMockStub));
     }
 }

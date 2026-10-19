@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Calculation\JD;
 
-class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
+final class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
 {
     protected function setUp(): void
     {
@@ -20,8 +20,8 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
     {
         $Value = new LegacyEffectiveVO2max(50.1234);
 
-        $this->assertEquals(50.12, $Value->value());
-        $this->assertSame(50.1234, $Value->exactValue());
+        $this->assertEqualsWithDelta(50.12, $Value->value(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(50.1234, $Value->exactValue(), PHP_FLOAT_EPSILON);
     }
 
     public function testWithCorrector(): void

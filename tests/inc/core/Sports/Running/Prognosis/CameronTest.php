@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 #[Group('default')]
-class CameronTest extends TestCase
+final class CameronTest extends TestCase
 {
     protected Cameron $Cameron;
 

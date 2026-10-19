@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  * Characterization test for RunalyzePluginStat_Trainingszeiten.
  */
 #[Group('plugin')]
-class RunalyzePluginStat_TrainingszeitenCharacterizationTest extends TestCase
+final class RunalyzePluginStat_TrainingszeitenCharacterizationTest extends TestCase
 {
     private RunalyzePluginStat_Trainingszeiten $plugin;
 
@@ -27,15 +27,13 @@ class RunalyzePluginStat_TrainingszeitenCharacterizationTest extends TestCase
     }
 
     /**
-     * @return array<string, int[]>
+     * @return \Iterator<string, array<int>>
      */
-    public static function provideEvenIndices(): array
+    public static function provideEvenIndices(): \Iterator
     {
-        return [
-            'index 0' => [0],
-            'index 2' => [2],
-            'index 18' => [18],
-        ];
+        yield 'index 0' => [0];
+        yield 'index 2' => [2];
+        yield 'index 18' => [18];
     }
 
     #[DataProvider('provideOddIndices')]
@@ -45,15 +43,13 @@ class RunalyzePluginStat_TrainingszeitenCharacterizationTest extends TestCase
     }
 
     /**
-     * @return array<string, int[]>
+     * @return \Iterator<string, array<int>>
      */
-    public static function provideOddIndices(): array
+    public static function provideOddIndices(): \Iterator
     {
-        return [
-            'index 1' => [1],
-            'index 3' => [3],
-            'index 19' => [19],
-        ];
+        yield 'index 1' => [1];
+        yield 'index 3' => [3];
+        yield 'index 19' => [19];
     }
 
     public function testShouldCloseRowIsTrueForOddIndexRegardlessOfTotalCount(): void

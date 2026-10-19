@@ -1,19 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Activity;
 
 use DB;
 
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]
 #[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
-class PersonalBestTest extends \PHPUnit\Framework\TestCase
+final class PersonalBestTest extends \PHPUnit\Framework\TestCase
 {
     protected \PDOforRunalyze $PDO;
 
-    /**
-     * @var int
-     */
-    public const SPORTID = 5;
+    public const int SPORTID = 5;
 
     protected function setUp(): void
     {
@@ -108,7 +107,7 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(3, PersonalBest::lookupDistances([1, 3.1, 5], self::SPORTID, $this->PDO));
 
         $PB1k = new PersonalBest(1, self::SPORTID, $this->PDO, true);
-        $PB3k = new PersonalBest('3.1', self::SPORTID, $this->PDO, true);
+        $PB3k = new PersonalBest(3.1, self::SPORTID, $this->PDO, true);
         $PB5k = new PersonalBest(5, self::SPORTID, $this->PDO, true);
 
         $this->assertEquals(180, $PB1k->seconds());
@@ -131,7 +130,7 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(3, PersonalBest::lookupDistances([1, 3.1, 5], self::SPORTID, $this->PDO, true));
 
         $PB1k = new PersonalBest(1, self::SPORTID, $this->PDO, true, true);
-        $PB3k = new PersonalBest('3.1', self::SPORTID, $this->PDO, true, true);
+        $PB3k = new PersonalBest(3.1, self::SPORTID, $this->PDO, true, true);
         $PB5k = new PersonalBest(5, self::SPORTID, $this->PDO, true);
         $PB5k->lookupWithDetails();
 

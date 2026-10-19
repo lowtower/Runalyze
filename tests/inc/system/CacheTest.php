@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class CacheTest extends TestCase
+final class CacheTest extends TestCase
 {
     public function testCachePathDoesNotRepeatTheFrontendPathSegment(): void
     {

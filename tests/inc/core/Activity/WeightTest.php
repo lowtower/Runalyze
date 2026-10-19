@@ -8,7 +8,7 @@ use Runalyze\Configuration;
 use Runalyze\Parameter\Application\WeightUnit;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class WeightTest extends \PHPUnit\Framework\TestCase
+final class WeightTest extends \PHPUnit\Framework\TestCase
 {
     private int $OriginalDefaultDecimals;
 
@@ -41,7 +41,7 @@ class WeightTest extends \PHPUnit\Framework\TestCase
         $Weight = new Weight();
         $Weight->set(10);
 
-        $this->assertSame(10.00, $Weight->kg());
+        $this->assertEqualsWithDelta(10.00, $Weight->kg(), PHP_FLOAT_EPSILON);
         $this->assertEqualsWithDelta(22.04, $Weight->pounds(), 0.01);
         $this->assertEqualsWithDelta(1.57, $Weight->stones(), 0.01);
     }
@@ -51,7 +51,7 @@ class WeightTest extends \PHPUnit\Framework\TestCase
         $Weight = new Weight();
         $Weight->setPounds(10);
 
-        $this->assertSame(10.00, $Weight->pounds());
+        $this->assertEqualsWithDelta(10.00, $Weight->pounds(), PHP_FLOAT_EPSILON);
         $this->assertEqualsWithDelta(4.54, $Weight->kg(), 0.01);
         $this->assertEqualsWithDelta(0.71, $Weight->stones(), 0.01);
     }
@@ -61,7 +61,7 @@ class WeightTest extends \PHPUnit\Framework\TestCase
         $Weight = new Weight();
         $Weight->setStones(10);
 
-        $this->assertSame(10.00, $Weight->stones());
+        $this->assertEqualsWithDelta(10.00, $Weight->stones(), PHP_FLOAT_EPSILON);
         $this->assertEqualsWithDelta(63.50, $Weight->kg(), 0.01);
         $this->assertEqualsWithDelta(140.0, $Weight->pounds(), 0.01);
     }
@@ -81,7 +81,7 @@ class WeightTest extends \PHPUnit\Framework\TestCase
         $Weight = new Weight();
         $Weight->set('75,5');
 
-        $this->assertSame(75.5, $Weight->kg());
+        $this->assertEqualsWithDelta(75.5, $Weight->kg(), PHP_FLOAT_EPSILON);
     }
 
     public function testSetAcceptsPlainFloat(): void
@@ -89,7 +89,7 @@ class WeightTest extends \PHPUnit\Framework\TestCase
         $Weight = new Weight();
         $Weight->set(75.5);
 
-        $this->assertSame(75.5, $Weight->kg());
+        $this->assertEqualsWithDelta(75.5, $Weight->kg(), PHP_FLOAT_EPSILON);
     }
 
     public function testValueIsAliasForKg(): void
@@ -124,7 +124,7 @@ class WeightTest extends \PHPUnit\Framework\TestCase
     {
         $Weight = new Weight(75, new WeightUnit(WeightUnit::KG));
 
-        $this->assertSame(75.0, $Weight->valueInPreferredUnit());
+        $this->assertEqualsWithDelta(75.0, $Weight->valueInPreferredUnit(), PHP_FLOAT_EPSILON);
     }
 
     public function testValueInPreferredUnitReturnsPoundsForPoundsSystem(): void

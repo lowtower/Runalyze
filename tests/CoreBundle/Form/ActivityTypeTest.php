@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Form;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -11,7 +13,7 @@ use Symfony\Component\Form\FormInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
-class ActivityTypeTest extends AbstractFixturesAwareWebTestCase
+final class ActivityTypeTest extends AbstractFixturesAwareWebTestCase
 {
     protected Account $Account;
 

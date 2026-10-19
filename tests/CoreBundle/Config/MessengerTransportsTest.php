@@ -14,7 +14,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Transport\InMemory\InMemoryTransport;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
-class MessengerTransportsTest extends KernelTestCase
+final class MessengerTransportsTest extends KernelTestCase
 {
     protected function setUp(): void
     {
@@ -23,8 +23,8 @@ class MessengerTransportsTest extends KernelTestCase
 
     private function transport(string $name): InMemoryTransport
     {
-        $transport = static::getContainer()->get('messenger.transport.' . $name);
-        self::assertInstanceOf(InMemoryTransport::class, $transport);
+        $transport = self::getContainer()->get('messenger.transport.' . $name);
+        $this->assertInstanceOf(InMemoryTransport::class, $transport);
 
         return $transport;
     }
@@ -59,8 +59,8 @@ class MessengerTransportsTest extends KernelTestCase
 
     public function testListenerThatMovesFailedMessagesToTheFailureTransportIsRegistered(): void
     {
-        $dispatcher = static::getContainer()->get('event_dispatcher');
-        self::assertInstanceOf(EventDispatcherInterface::class, $dispatcher);
+        $dispatcher = self::getContainer()->get('event_dispatcher');
+        $this->assertInstanceOf(EventDispatcherInterface::class, $dispatcher);
 
         $listenerClasses = array_map(
             static fn (mixed $listener): string => is_array($listener) && is_object($listener[0]) ? $listener[0]::class : get_debug_type($listener),
@@ -77,8 +77,8 @@ class MessengerTransportsTest extends KernelTestCase
         $async->reset();
         $failed->reset();
 
-        $bus = static::getContainer()->get(MessageBusInterface::class);
-        self::assertInstanceOf(MessageBusInterface::class, $bus);
+        $bus = self::getContainer()->get(MessageBusInterface::class);
+        $this->assertInstanceOf(MessageBusInterface::class, $bus);
 
         $bus->dispatch($this->createPosterMessage());
 

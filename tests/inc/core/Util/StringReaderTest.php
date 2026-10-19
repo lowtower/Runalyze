@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Util;
 
-class StringReaderTest extends \PHPUnit\Framework\TestCase
+final class StringReaderTest extends \PHPUnit\Framework\TestCase
 {
     public function testFindDemandedPace(): void
     {

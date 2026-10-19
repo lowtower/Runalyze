@@ -8,7 +8,7 @@ use Runalyze\Activity\PaceUnit\MinPerKilometer;
 use Runalyze\Parameter\Application\PaceUnit;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class PaceTest extends \PHPUnit\Framework\TestCase
+final class PaceTest extends \PHPUnit\Framework\TestCase
 {
     public function testDefaultConstructor(): void
     {

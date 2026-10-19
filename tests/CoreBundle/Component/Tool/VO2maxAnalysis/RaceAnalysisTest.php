@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\VO2maxAnalysis;
 
 use PHPUnit\Framework\TestCase;
@@ -7,7 +9,7 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\VO2maxAnalysis\RaceAnalysis;
 use Runalyze\Model\Activity\Entity as ActivityEntity;
 
 #[\PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations]
-class RaceAnalysisTest extends TestCase
+final class RaceAnalysisTest extends TestCase
 {
     private function createActivityMock(): ActivityEntity&\PHPUnit\Framework\MockObject\MockObject
     {
@@ -33,7 +35,7 @@ class RaceAnalysisTest extends TestCase
 
         $race = new RaceAnalysis($activity, 1.0, 50.0);
 
-        $this->assertSame(55.5, $race->getVO2maxByTime());
+        $this->assertEqualsWithDelta(55.5, $race->getVO2maxByTime(), PHP_FLOAT_EPSILON);
     }
 
     public function testGetHeartRateInBpmDelegatesToActivity(): void
@@ -55,14 +57,14 @@ class RaceAnalysisTest extends TestCase
 
         $race = new RaceAnalysis($activity, 1.0, 50.0);
 
-        $this->assertSame(48.2, $race->getVO2maxByHeartRate());
+        $this->assertEqualsWithDelta(48.2, $race->getVO2maxByHeartRate(), PHP_FLOAT_EPSILON);
     }
 
     public function testGetVO2maxByShapeReturnsConstructorValue(): void
     {
         $race = new RaceAnalysis($this->createActivityMock(), 1.0, 52.3);
 
-        $this->assertSame(52.3, $race->getVO2maxByShape());
+        $this->assertEqualsWithDelta(52.3, $race->getVO2maxByShape(), PHP_FLOAT_EPSILON);
     }
 
     public function testGetVO2maxByHeartRateAfterCorrectionMultipliesFactorWithActivityValue(): void
@@ -84,7 +86,7 @@ class RaceAnalysisTest extends TestCase
 
         $race = new RaceAnalysis($activity, 1.0, 50.0);
 
-        $this->assertSame(50.0, $race->getVO2maxByHeartRateAfterCorrection());
+        $this->assertEqualsWithDelta(50.0, $race->getVO2maxByHeartRateAfterCorrection(), PHP_FLOAT_EPSILON);
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('provideDurationsAndExpectedStrings')]
@@ -100,17 +102,15 @@ class RaceAnalysisTest extends TestCase
     }
 
     /**
-     * @return array<string, int[]|string[]>
+     * @return \Iterator<string, array<(int|string)>>
      */
-    public static function provideDurationsAndExpectedStrings(): array
+    public static function provideDurationsAndExpectedStrings(): \Iterator
     {
-        return [
-            '1h 1m 1s' => [3661, '1:01:01'],
-            'under a minute' => [59, '0:00:59'],
-            'exactly one hour' => [3600, '1:00:00'],
-            'zero' => [0, '0:00:00'],
-            'long duration never wraps to days format' => [90185, '25:03:05'],
-        ];
+        yield '1h 1m 1s' => [3661, '1:01:01'];
+        yield 'under a minute' => [59, '0:00:59'];
+        yield 'exactly one hour' => [3600, '1:00:00'];
+        yield 'zero' => [0, '0:00:00'];
+        yield 'long duration never wraps to days format' => [90185, '25:03:05'];
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('provideOutOfRangeVO2maxShapeValues')]
@@ -126,16 +126,14 @@ class RaceAnalysisTest extends TestCase
     }
 
     /**
-     * @return array<string, float[]>
+     * @return \Iterator<string, array<float>>
      */
-    public static function provideOutOfRangeVO2maxShapeValues(): array
+    public static function provideOutOfRangeVO2maxShapeValues(): \Iterator
     {
-        return [
-            'zero (default/unset)' => [0.0],
-            'just below minimum (15)' => [14.9],
-            'just above maximum (90)' => [90.1],
-            'far below minimum' => [-10.0],
-        ];
+        yield 'zero (default/unset)' => [0.0];
+        yield 'just below minimum (15)' => [14.9];
+        yield 'just above maximum (90)' => [90.1];
+        yield 'far below minimum' => [-10.0];
     }
 
     public function testGetShapeDeviationReturnsFallbackForOutOfRangeVO2maxShape(): void

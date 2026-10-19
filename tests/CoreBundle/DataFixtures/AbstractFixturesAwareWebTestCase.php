@@ -184,7 +184,7 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
     protected function createSessionWithAttributes(array $attributes): void
     {
         $sessionFactory = static::getContainer()->get('session.factory');
-        self::assertInstanceOf(SessionFactoryInterface::class, $sessionFactory);
+        $this->assertInstanceOf(SessionFactoryInterface::class, $sessionFactory);
 
         $session = $sessionFactory->createSession();
 

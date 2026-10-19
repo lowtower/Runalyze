@@ -10,7 +10,7 @@ use Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookupException;
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]
 #[\PHPUnit\Framework\Attributes\Group('dependsOnTimezoneDatabase')]
 #[\PHPUnit\Framework\Attributes\Group('requiresSqlite')]
-class TimezoneLookupTest extends \PHPUnit\Framework\TestCase
+final class TimezoneLookupTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var TimezoneLookup

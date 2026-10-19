@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Services\Import;
 
 use Runalyze\Bundle\CoreBundle\Entity\Conf;
@@ -14,7 +16,7 @@ use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
-class ActivityDataContainerToActivityContextConverterTest extends AbstractFixturesAwareWebTestCase
+final class ActivityDataContainerToActivityContextConverterTest extends AbstractFixturesAwareWebTestCase
 {
     protected ActivityDataContainerToActivityContextConverter $Converter;
 
@@ -93,6 +95,7 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
         $this->assertEquals($this->getDefaultAccountsRunningSport(), $activityContext->getSport());
         $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Type::class, $activityContext->getActivity()->getType());
         $this->assertSame('Fartlek', $activityContext->getActivity()->getType()->getName());
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Type::class, $backupDefaultType);
 
         $this->getDefaultAccountsRunningSport()
             ->setDefaultType($backupDefaultType);

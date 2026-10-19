@@ -9,7 +9,7 @@ use Runalyze\Model\Activity;
 
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]
 #[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
-class LegacyEffectiveVO2maxCorrectorTest extends \PHPUnit\Framework\TestCase
+final class LegacyEffectiveVO2maxCorrectorTest extends \PHPUnit\Framework\TestCase
 {
     protected \PDOforRunalyze $DB;
 
@@ -44,7 +44,7 @@ class LegacyEffectiveVO2maxCorrectorTest extends \PHPUnit\Framework\TestCase
     {
         $corrector = new LegacyEffectiveVO2maxCorrector();
 
-        $this->assertSame(1.0, $corrector->factor());
+        $this->assertEqualsWithDelta(1.0, $corrector->factor(), PHP_FLOAT_EPSILON);
     }
 
     public function testConstructorUsesConfiguredGlobalFactor(): void
@@ -53,7 +53,7 @@ class LegacyEffectiveVO2maxCorrectorTest extends \PHPUnit\Framework\TestCase
 
         $corrector = new LegacyEffectiveVO2maxCorrector();
 
-        $this->assertSame(1.25, $corrector->factor());
+        $this->assertEqualsWithDelta(1.25, $corrector->factor(), PHP_FLOAT_EPSILON);
     }
 
     public function testConstructorUsesExplicitFactorInsteadOfGlobalFactor(): void
@@ -62,7 +62,7 @@ class LegacyEffectiveVO2maxCorrectorTest extends \PHPUnit\Framework\TestCase
 
         $corrector = new LegacyEffectiveVO2maxCorrector(1.5);
 
-        $this->assertSame(1.5, $corrector->factor());
+        $this->assertEqualsWithDelta(1.5, $corrector->factor(), PHP_FLOAT_EPSILON);
     }
 
     public function testFactorIsCalculatedFromActivity(): void
@@ -96,12 +96,9 @@ class LegacyEffectiveVO2maxCorrectorTest extends \PHPUnit\Framework\TestCase
 
         $corrector = new LegacyEffectiveVO2maxCorrector(1.5);
 
-        $this->assertSame(
-            1.0,
-            $corrector->fromActivity($activity)
-        );
+        $this->assertEqualsWithDelta(1.0, $corrector->fromActivity($activity), PHP_FLOAT_EPSILON);
 
-        $this->assertSame(1.0, $corrector->factor());
+        $this->assertEqualsWithDelta(1.0, $corrector->factor(), PHP_FLOAT_EPSILON);
     }
 
     public function testFactorIsCalculatedFromDatabase(): void
@@ -226,8 +223,8 @@ class LegacyEffectiveVO2maxCorrectorTest extends \PHPUnit\Framework\TestCase
             \Runalyze\Configuration::General()->runningSport()
         );
 
-        $this->assertSame(1.0, $result);
-        $this->assertSame(1.0, $corrector->factor());
+        $this->assertEqualsWithDelta(1.0, $result, PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(1.0, $corrector->factor(), PHP_FLOAT_EPSILON);
     }
 
     private function insertActivity(

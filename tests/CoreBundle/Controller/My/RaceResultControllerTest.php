@@ -13,7 +13,7 @@ use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCa
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
-class RaceResultControllerTest extends AbstractFixturesAwareWebTestCase
+final class RaceResultControllerTest extends AbstractFixturesAwareWebTestCase
 {
     protected Account $Account;
 

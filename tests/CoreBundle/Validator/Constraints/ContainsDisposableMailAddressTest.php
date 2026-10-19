@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Validator\Constraints;
 
 use PHPUnit\Framework\TestCase;
@@ -7,7 +9,7 @@ use Runalyze\Bundle\CoreBundle\Validator\Constraints\ContainsDisposableMailAddre
 use Runalyze\Bundle\CoreBundle\Validator\Constraints\ContainsDisposableMailAddressValidator;
 use Symfony\Component\Validator\Constraint;
 
-class ContainsDisposableMailAddressTest extends TestCase
+final class ContainsDisposableMailAddressTest extends TestCase
 {
     public function testDefaultMessageContainsValuePlaceholder(): void
     {

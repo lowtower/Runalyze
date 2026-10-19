@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
-class InstallControllerTest extends AbstractFixturesAwareWebTestCase
+final class InstallControllerTest extends AbstractFixturesAwareWebTestCase
 {
     public function testInstallRoutesAreReachableInTheTestEnvironment(): void
     {

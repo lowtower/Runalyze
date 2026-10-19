@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 #[Group('default')]
-class ActivityPlotModeTest extends TestCase
+final class ActivityPlotModeTest extends TestCase
 {
     private ActivityPlotMode $mode;
 
@@ -19,30 +19,30 @@ class ActivityPlotModeTest extends TestCase
 
     public function testDefaultModeIsSeperated(): void
     {
-        self::assertSame(ActivityPlotMode::SEPERATED, $this->mode->value());
-        self::assertTrue($this->mode->showSeperated());
-        self::assertFalse($this->mode->showPaceAndHR());
-        self::assertFalse($this->mode->showCollection());
+        $this->assertSame(ActivityPlotMode::SEPERATED, $this->mode->value());
+        $this->assertTrue($this->mode->showSeperated());
+        $this->assertFalse($this->mode->showPaceAndHR());
+        $this->assertFalse($this->mode->showCollection());
     }
 
     public function testPaceAndHeartRateMode(): void
     {
         $this->mode->set(ActivityPlotMode::PACE_HR);
 
-        self::assertSame(ActivityPlotMode::PACE_HR, $this->mode->value());
-        self::assertFalse($this->mode->showSeperated());
-        self::assertTrue($this->mode->showPaceAndHR());
-        self::assertFalse($this->mode->showCollection());
+        $this->assertSame(ActivityPlotMode::PACE_HR, $this->mode->value());
+        $this->assertFalse($this->mode->showSeperated());
+        $this->assertTrue($this->mode->showPaceAndHR());
+        $this->assertFalse($this->mode->showCollection());
     }
 
     public function testPaceHeartRateAndElevationMode(): void
     {
         $this->mode->set(ActivityPlotMode::PACE_HR_ELEVATION);
 
-        self::assertSame(ActivityPlotMode::PACE_HR_ELEVATION, $this->mode->value());
-        self::assertFalse($this->mode->showSeperated());
-        self::assertFalse($this->mode->showPaceAndHR());
-        self::assertTrue($this->mode->showCollection());
+        $this->assertSame(ActivityPlotMode::PACE_HR_ELEVATION, $this->mode->value());
+        $this->assertFalse($this->mode->showSeperated());
+        $this->assertFalse($this->mode->showPaceAndHR());
+        $this->assertTrue($this->mode->showCollection());
     }
 
     public function testUnknownModeFallsBackToDefault(): void
@@ -50,6 +50,6 @@ class ActivityPlotModeTest extends TestCase
         $this->mode->set(ActivityPlotMode::PACE_HR);
         $this->mode->set('not-a-real-mode');
 
-        self::assertSame(ActivityPlotMode::SEPERATED, $this->mode->value());
+        $this->assertSame(ActivityPlotMode::SEPERATED, $this->mode->value());
     }
 }

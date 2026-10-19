@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Command;
 
 use PHPUnit\Framework\MockObject\Stub;
@@ -76,16 +78,13 @@ final class CleanupPostersCommandTest extends TestCase
     {
         $command = $this->createCommand();
 
-        self::assertSame('runalyze:cleanup:posters', $command->getName());
-        self::assertSame(
-            'Cleanup posters older than parameter: poster_storage_period',
-            $command->getDescription()
-        );
+        $this->assertSame('runalyze:cleanup:posters', $command->getName());
+        $this->assertSame('Cleanup posters older than parameter: poster_storage_period', $command->getDescription());
 
         $definition = $command->getDefinition();
 
-        self::assertTrue($definition->hasArgument('days'));
-        self::assertFalse($definition->getArgument('days')->isRequired());
+        $this->assertTrue($definition->hasArgument('days'));
+        $this->assertFalse($definition->getArgument('days')->isRequired());
     }
 
     public function testExecuteUsesProvidedDaysArgumentInsteadOfConfiguredPeriod(): void
@@ -97,11 +96,8 @@ final class CleanupPostersCommandTest extends TestCase
             'days' => '30',
         ]);
 
-        self::assertSame(0, $exitCode);
-        self::assertStringContainsString(
-            'Delete all posters older than 30 days',
-            $tester->getDisplay()
-        );
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('Delete all posters older than 30 days', $tester->getDisplay());
     }
 
     public function testExecuteFallsBackToConfiguredPosterStoragePeriodWhenDaysArgumentOmitted(): void
@@ -116,11 +112,8 @@ final class CleanupPostersCommandTest extends TestCase
         $tester = new CommandTester($this->createCommand());
         $exitCode = $tester->execute([]);
 
-        self::assertSame(0, $exitCode);
-        self::assertStringContainsString(
-            'Delete all posters older than 20 days',
-            $tester->getDisplay()
-        );
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('Delete all posters older than 20 days', $tester->getDisplay());
     }
 
     public function testExecuteReportsZeroDeletedPostersForEmptyDirectory(): void
@@ -132,8 +125,8 @@ final class CleanupPostersCommandTest extends TestCase
             'days' => '30',
         ]);
 
-        self::assertSame(0, $exitCode);
-        self::assertStringContainsString('0 deleted posters', $tester->getDisplay());
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('0 deleted posters', $tester->getDisplay());
     }
 
     public function testExecuteDeletesOnlyPngFilesOlderThanGivenDays(): void
@@ -149,12 +142,12 @@ final class CleanupPostersCommandTest extends TestCase
             'days' => '30',
         ]);
 
-        self::assertSame(0, $exitCode);
-        self::assertStringContainsString('1 deleted posters', $tester->getDisplay());
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('1 deleted posters', $tester->getDisplay());
 
-        self::assertFileDoesNotExist($oldPoster, 'The old .png poster should have been deleted.');
-        self::assertFileExists($recentPoster, 'The recent .png poster must not be deleted.');
-        self::assertFileExists($oldNonPngFile, 'Non-.png files must never be touched, regardless of age.');
+        $this->assertFileDoesNotExist($oldPoster, 'The old .png poster should have been deleted.');
+        $this->assertFileExists($recentPoster, 'The recent .png poster must not be deleted.');
+        $this->assertFileExists($oldNonPngFile, 'Non-.png files must never be touched, regardless of age.');
     }
 
     public function testExecuteDeletesMultipleMatchingPostersAndReportsCorrectCount(): void
@@ -170,19 +163,19 @@ final class CleanupPostersCommandTest extends TestCase
             'days' => '30',
         ]);
 
-        self::assertSame(0, $exitCode);
-        self::assertStringContainsString('2 deleted posters', $tester->getDisplay());
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('2 deleted posters', $tester->getDisplay());
 
-        self::assertFileDoesNotExist($oldPoster1);
-        self::assertFileDoesNotExist($oldPoster2);
-        self::assertFileExists($recentPoster);
+        $this->assertFileDoesNotExist($oldPoster1);
+        $this->assertFileDoesNotExist($oldPoster2);
+        $this->assertFileExists($recentPoster);
     }
 
     public function testExecuteRequestsExactlyOneFinderFromTheFactory(): void
     {
         $finderFactory = $this->createMock(FinderFactoryInterface::class);
         $finderFactory
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('create')
             ->willReturn(new Finder());
 

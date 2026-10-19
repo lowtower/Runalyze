@@ -41,7 +41,7 @@ class FormularFieldWithoutUnitOrSizeFixture extends \FormularField
  * Characterization test for FieldFactory.
  */
 #[Group('default')]
-class FieldFactoryTest extends TestCase
+final class FieldFactoryTest extends TestCase
 {
     private FieldFactory $factory;
 

@@ -10,7 +10,7 @@ use Runalyze\Bundle\CoreBundle\Message\BackupGenerationMessage;
 use Runalyze\Bundle\CoreBundle\Message\PosterGenerationMessage;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class MessengerConfigurationTest extends TestCase
+final class MessengerConfigurationTest extends TestCase
 {
     /**
      * @var array<string, mixed>

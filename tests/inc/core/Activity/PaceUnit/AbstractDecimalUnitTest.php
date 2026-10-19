@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Activity\PaceUnit;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class AbstractDecimalUnitTest extends TestCase
+final class AbstractDecimalUnitTest extends TestCase
 {
     private string $OriginalDecimalSeparator;
 
@@ -57,22 +59,20 @@ class AbstractDecimalUnitTest extends TestCase
     }
 
     /**
-     * @return array<string, float[]>
+     * @return \Iterator<string, array<float>>
      */
-    public static function provideRawValueCases(): array
+    public static function provideRawValueCases(): \Iterator
     {
-        return [
-            'km/h style dividend, 360 s/km' => [3600.0, 360.0, 10.0],
-            'km/h style dividend, 300 s/km' => [3600.0, 300.0, 12.0],
-            'non-integer result' => [10.0, 4.0, 2.5],
-        ];
+        yield 'km/h style dividend, 360 s/km' => [3600.0, 360.0, 10.0];
+        yield 'km/h style dividend, 300 s/km' => [3600.0, 300.0, 12.0];
+        yield 'non-integer result' => [10.0, 4.0, 2.5];
     }
 
     public function testRawValueReturnsZeroForZeroSecondsPerKmRegardlessOfDividend(): void
     {
         $Unit = $this->createUnitWithDividend(3600.0);
 
-        $this->assertSame(0.0, $Unit->rawValue(0.0));
+        $this->assertEqualsWithDelta(0.0, $Unit->rawValue(0.0), PHP_FLOAT_EPSILON);
     }
 
     #[DataProvider('provideFormatCases')]
@@ -87,16 +87,14 @@ class AbstractDecimalUnitTest extends TestCase
     }
 
     /**
-     * @return array<string, int[]|string[]|float[]>
+     * @return \Iterator<string, array<(float|int|string)>>
      */
-    public static function provideFormatCases(): array
+    public static function provideFormatCases(): \Iterator
     {
-        return [
-            'one decimal, comma separator' => [1, ',', 3600.0, 300.0, '12,0'],
-            'one decimal, comma separator, rounds up' => [1, ',', 3600.0, 224.0, '16,1'],
-            'two decimals, dot separator' => [2, '.', 10.0, 4.0, '2.50'],
-            'zero decimals, comma separator' => [0, ',', 3600.0, 300.0, '12'],
-        ];
+        yield 'one decimal, comma separator' => [1, ',', 3600.0, 300.0, '12,0'];
+        yield 'one decimal, comma separator, rounds up' => [1, ',', 3600.0, 224.0, '16,1'];
+        yield 'two decimals, dot separator' => [2, '.', 10.0, 4.0, '2.50'];
+        yield 'zero decimals, comma separator' => [0, ',', 3600.0, 300.0, '12'];
     }
 
     public function testFormatReturnsHardcodedZeroWithConfiguredSeparatorForZeroSecondsPerKm(): void
@@ -118,21 +116,19 @@ class AbstractDecimalUnitTest extends TestCase
     }
 
     /**
-     * @return array<string, float[]>
+     * @return \Iterator<string, array<float>>
      */
-    public static function provideCompareCases(): array
+    public static function provideCompareCases(): \Iterator
     {
-        return [
-            'first pace smaller than second' => [200.0, 300.0, 600.0],
-            'first pace larger than second' => [300.0, 200.0, -600.0],
-        ];
+        yield 'first pace smaller than second' => [200.0, 300.0, 600.0];
+        yield 'first pace larger than second' => [300.0, 200.0, -600.0];
     }
 
     public function testCompareReturnsZeroForIdenticalPaces(): void
     {
         $Unit = $this->createUnitWithDividend(1.0);
 
-        $this->assertSame(0.0, $Unit->compare(150.0, 150.0));
+        $this->assertEqualsWithDelta(0.0, $Unit->compare(150.0, 150.0), PHP_FLOAT_EPSILON);
     }
 
     private function createUnitWithDividend(float $dividend): AbstractDecimalUnit

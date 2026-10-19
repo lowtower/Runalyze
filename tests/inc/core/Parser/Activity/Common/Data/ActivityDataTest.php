@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\Data;
 
 use Runalyze\Parser\Activity\Common\Data\ActivityData;
@@ -9,7 +11,7 @@ use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 use Runalyze\Parser\Activity\Common\Data\Round\Round;
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 
-class ActivityDataTest extends \PHPUnit\Framework\TestCase
+final class ActivityDataTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ActivityData
@@ -76,7 +78,7 @@ class ActivityDataTest extends \PHPUnit\Framework\TestCase
         $this->Data->completeFromContinuousData($this->getExampleForFilledContinuousData(), new RoundCollection());
 
         $this->assertEquals(10, $this->Data->Duration);
-        $this->assertEquals(0.05, $this->Data->Distance);
+        $this->assertEqualsWithDelta(0.05, $this->Data->Distance, PHP_FLOAT_EPSILON);
         $this->assertEquals(100, $this->Data->AvgPower);
         $this->assertEquals(150, $this->Data->MaxPower);
         $this->assertEquals(120, $this->Data->AvgHeartRate);
@@ -103,7 +105,7 @@ class ActivityDataTest extends \PHPUnit\Framework\TestCase
         $this->Data->completeFromContinuousData($this->getExampleForFilledContinuousData(), new RoundCollection());
 
         $this->assertEquals(120, $this->Data->Duration);
-        $this->assertEquals(0.5, $this->Data->Distance);
+        $this->assertEqualsWithDelta(0.5, $this->Data->Distance, PHP_FLOAT_EPSILON);
         $this->assertEquals(320, $this->Data->AvgPower);
         $this->assertEquals(475, $this->Data->MaxPower);
         $this->assertEquals(169, $this->Data->AvgHeartRate);
@@ -168,7 +170,7 @@ class ActivityDataTest extends \PHPUnit\Framework\TestCase
         ]));
 
         $this->assertEquals(161, $this->Data->Duration);
-        $this->assertEquals(1.0, $this->Data->Distance);
+        $this->assertEqualsWithDelta(1.0, $this->Data->Distance, PHP_FLOAT_EPSILON);
     }
 
     public function testThatRoundsCanNotOverwrite(): void
@@ -180,6 +182,6 @@ class ActivityDataTest extends \PHPUnit\Framework\TestCase
         ]));
 
         $this->assertEquals(127, $this->Data->Duration);
-        $this->assertEquals(0.8, $this->Data->Distance);
+        $this->assertEqualsWithDelta(0.8, $this->Data->Distance, PHP_FLOAT_EPSILON);
     }
 }

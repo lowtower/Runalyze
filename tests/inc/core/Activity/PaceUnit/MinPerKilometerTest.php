@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Activity\PaceUnit;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class MinPerKilometerTest extends \PHPUnit\Framework\TestCase
+final class MinPerKilometerTest extends \PHPUnit\Framework\TestCase
 {
     private string $OriginalDecimalSeparator;
 

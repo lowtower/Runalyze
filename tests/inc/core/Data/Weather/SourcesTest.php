@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Data\Weather;
 
-class SourcesTest extends \PHPUnit\Framework\TestCase
+final class SourcesTest extends \PHPUnit\Framework\TestCase
 {
     public function testThatStringsAreDefined(): void
     {

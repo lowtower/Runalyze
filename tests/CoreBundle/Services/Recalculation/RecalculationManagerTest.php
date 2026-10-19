@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Services\Recalculation;
 
 use PHPUnit\Framework\MockObject\MockObject;
@@ -14,7 +16,7 @@ use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
+final class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
 {
     protected RecalculationManager $Manager;
 

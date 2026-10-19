@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Export\Share;
 
 use Runalyze\View\Activity\Context;
 
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]
 #[\PHPUnit\Framework\Attributes\Group('dependsOnOldFactory')]
-class TypesTest extends \PHPUnit\Framework\TestCase
+final class TypesTest extends \PHPUnit\Framework\TestCase
 {
     public function testAllConstructors(): void
     {

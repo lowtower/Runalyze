@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
@@ -10,7 +12,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
-class CallControllerTest extends AbstractFixturesAwareWebTestCase
+final class CallControllerTest extends AbstractFixturesAwareWebTestCase
 {
     protected Account $Account;
 
@@ -126,8 +128,8 @@ class CallControllerTest extends AbstractFixturesAwareWebTestCase
 
         $response = $this->Client->getResponse();
         $this->assertSame('image/png', $response->headers->get('Content-Type'));
-        $this->assertStringContainsString('attachment', $response->headers->get('Content-Disposition'));
-        $this->assertStringContainsString('my_export.png', $response->headers->get('Content-Disposition'));
+        $this->assertStringContainsString('attachment', (string) $response->headers->get('Content-Disposition'));
+        $this->assertStringContainsString('my_export.png', (string) $response->headers->get('Content-Disposition'));
         $this->assertSame(
             base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII='),
             $response->getContent()

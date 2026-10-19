@@ -7,7 +7,7 @@ namespace Runalyze\Tests\Sports\Running;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\BasicEndurance;
 use Runalyze\Sports\Running\MarathonShape;
 
-class MarathonShapeTest extends \PHPUnit\Framework\TestCase
+final class MarathonShapeTest extends \PHPUnit\Framework\TestCase
 {
     protected function getDefaultConfiguration(): \Runalyze\Bundle\CoreBundle\Component\Configuration\Category\BasicEndurance
     {
@@ -38,10 +38,10 @@ class MarathonShapeTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEqualsWithDelta(32.5, $shape->getTargetForLongJogEachWeek(), 1.0);
         $this->assertEqualsWithDelta(104.0, $shape->getTargetForWeeklyMileage(), 1.0);
-        $this->assertEquals(75.0, $shape->getShapeFor(52.0, 1.0));
-        $this->assertEquals(75.0, $shape->getShapeFor(104.0, 0.5));
-        $this->assertEquals(100.0, $shape->getShapeFor(104.0, 1.0));
-        $this->assertEquals(125.0, $shape->getShapeFor(52.0, 2.0));
-        $this->assertEquals(100.0, $shape->getShapeFor(0.0, 2.0));
+        $this->assertEqualsWithDelta(75.0, $shape->getShapeFor(52.0, 1.0), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(75.0, $shape->getShapeFor(104.0, 0.5), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(100.0, $shape->getShapeFor(104.0, 1.0), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(125.0, $shape->getShapeFor(52.0, 2.0), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(100.0, $shape->getShapeFor(0.0, 2.0), PHP_FLOAT_EPSILON);
     }
 }

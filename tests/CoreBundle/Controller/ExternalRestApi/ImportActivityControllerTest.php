@@ -15,7 +15,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
 #[\PHPUnit\Framework\Attributes\Group('import')]
-class ImportActivityControllerTest extends AbstractFixturesAwareWebTestCase
+final class ImportActivityControllerTest extends AbstractFixturesAwareWebTestCase
 {
     private const string FIXTURE_FIT_FILE = 'fit/FR265-with-self-evaluation.fit';
 
@@ -153,7 +153,7 @@ class ImportActivityControllerTest extends AbstractFixturesAwareWebTestCase
         ]);
 
         $this->assertStatusCode(200, $this->Client);
-        $this->assertStringContainsString('successfully imported', $this->Client->getResponse()->getContent());
+        $this->assertStringContainsString('successfully imported', (string) $this->Client->getResponse()->getContent());
     }
 
     public function testPostImportActivityLeavesNoTemporaryUploadDirectoryBehindAfterSuccess(): void
@@ -175,7 +175,7 @@ class ImportActivityControllerTest extends AbstractFixturesAwareWebTestCase
         ]);
 
         $this->assertStatusCode(200, $this->Client);
-        $this->assertStringContainsString('successfully imported', $this->Client->getResponse()->getContent());
+        $this->assertStringContainsString('successfully imported', (string) $this->Client->getResponse()->getContent());
     }
 
     public function testPostImportActivityReturns202WhenTheSameFileIsImportedTwice(): void
@@ -193,8 +193,8 @@ class ImportActivityControllerTest extends AbstractFixturesAwareWebTestCase
         ]);
 
         $this->assertStatusCode(202, $this->Client);
-        $this->assertStringContainsString('is a duplicate', $this->Client->getResponse()->getContent());
-        $this->assertStringContainsString('NOT imported successfully', $this->Client->getResponse()->getContent());
+        $this->assertStringContainsString('is a duplicate', (string) $this->Client->getResponse()->getContent());
+        $this->assertStringContainsString('NOT imported successfully', (string) $this->Client->getResponse()->getContent());
     }
 
     public function testPostImportActivityReturns500ForTwoFilesWithTheSameClientFileName(): void
@@ -202,7 +202,7 @@ class ImportActivityControllerTest extends AbstractFixturesAwareWebTestCase
         $this->requestImportOfTwoFilesWithTheSameName();
 
         $this->assertStatusCode(500, $this->Client);
-        $this->assertStringContainsString('same-name.fit', $this->Client->getResponse()->getContent());
+        $this->assertStringContainsString('same-name.fit', (string) $this->Client->getResponse()->getContent());
     }
 
     public function testPostImportActivityDoesNotExposeStackTraceInErrorResponse(): void
@@ -210,8 +210,8 @@ class ImportActivityControllerTest extends AbstractFixturesAwareWebTestCase
         $this->requestImportOfTwoFilesWithTheSameName();
 
         $this->assertStatusCode(500, $this->Client);
-        $this->assertStringNotContainsString('#0', $this->Client->getResponse()->getContent());
-        $this->assertStringNotContainsString('.php', $this->Client->getResponse()->getContent());
+        $this->assertStringNotContainsString('#0', (string) $this->Client->getResponse()->getContent());
+        $this->assertStringNotContainsString('.php', (string) $this->Client->getResponse()->getContent());
     }
 
     public function testPostImportActivityRemovesTemporaryUploadDirectoryAfterError(): void

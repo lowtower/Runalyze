@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Command;
 
 use Doctrine\Persistence\ManagerRegistry;
@@ -50,26 +52,23 @@ final class DeleteExpiredNotificationsCommandTest extends TestCase
     {
         $command = $this->createCommand();
 
-        self::assertSame('runalyze:notifications:clear', $command->getName());
-        self::assertSame('Delete all expired notifications', $command->getDescription());
+        $this->assertSame('runalyze:notifications:clear', $command->getName());
+        $this->assertSame('Delete all expired notifications', $command->getDescription());
     }
 
     public function testExecuteReportsNumberOfRemovedNotifications(): void
     {
         $notificationRepository = $this->createMock(NotificationRepository::class);
         $notificationRepository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('removeExpiredNotifications')
             ->willReturn(3);
 
         $tester = new CommandTester($this->createCommand($notificationRepository));
         $exitCode = $tester->execute([]);
 
-        self::assertSame(0, $exitCode);
-        self::assertStringContainsString(
-            '3 notifications have been removed.',
-            $tester->getDisplay()
-        );
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('3 notifications have been removed.', $tester->getDisplay());
     }
 
     public function testExecuteReportsZeroWhenNothingWasExpired(): void
@@ -81,11 +80,8 @@ final class DeleteExpiredNotificationsCommandTest extends TestCase
         $tester = new CommandTester($this->createCommand());
         $exitCode = $tester->execute([]);
 
-        self::assertSame(0, $exitCode);
-        self::assertStringContainsString(
-            '0 notifications have been removed.',
-            $tester->getDisplay()
-        );
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('0 notifications have been removed.', $tester->getDisplay());
     }
 
     public function testExecuteFetchesRepositoryForNotificationEntity(): void
@@ -96,7 +92,7 @@ final class DeleteExpiredNotificationsCommandTest extends TestCase
 
         $doctrine = $this->createMock(ManagerRegistry::class);
         $doctrine
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getRepository')
             ->with(Notification::class)
             ->willReturn($this->notificationRepository);

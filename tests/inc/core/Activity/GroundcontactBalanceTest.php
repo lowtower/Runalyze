@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Activity;
 
-class GroundcontactBalanceTest extends \PHPUnit\Framework\TestCase
+final class GroundcontactBalanceTest extends \PHPUnit\Framework\TestCase
 {
     public function testStaticFunction(): void
     {
@@ -16,14 +16,14 @@ class GroundcontactBalanceTest extends \PHPUnit\Framework\TestCase
     {
         $Balance = new GroundcontactBalance(4950);
 
-        $this->assertEquals(49.5, $Balance->leftInPercent());
-        $this->assertEquals(50.5, $Balance->rightInPercent());
+        $this->assertEqualsWithDelta(49.5, $Balance->leftInPercent(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(50.5, $Balance->rightInPercent(), PHP_FLOAT_EPSILON);
 
         $Balance->set(5000);
-        $this->assertEquals(50.0, $Balance->leftInPercent());
+        $this->assertEqualsWithDelta(50.0, $Balance->leftInPercent(), PHP_FLOAT_EPSILON);
 
         $Balance->setPercent(50.5);
-        $this->assertEquals(50.5, $Balance->leftInPercent());
+        $this->assertEqualsWithDelta(50.5, $Balance->leftInPercent(), PHP_FLOAT_EPSILON);
         $this->assertSame(5050, $Balance->value());
     }
 
