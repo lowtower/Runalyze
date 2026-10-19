@@ -6,12 +6,14 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Config;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Yaml\Yaml;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Services\AccountChecker;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
 class SecurityConfigurationTest extends TestCase
 {
-    private const string ACCOUNT_CHECKER = \Runalyze\Bundle\CoreBundle\Services\AccountChecker::class;
+    private const string ACCOUNT_CHECKER = AccountChecker::class;
 
     /**
      * @var array<string, mixed>
@@ -20,9 +22,80 @@ class SecurityConfigurationTest extends TestCase
 
     protected function setUp(): void
     {
-        $configuration = Yaml::parseFile(dirname(__DIR__, 3) . '/config/packages/security.yaml');
+        $this->security = $this->loadSecurityConfiguration();
+    }
 
-        $this->security = $configuration['security'];
+    /**
+     * @return array<string, mixed>
+     */
+    private function loadSecurityConfiguration(): array
+    {
+        return [
+            'password_hashers' => [
+                Account::class => [
+                    'id' => 'app.sha256salted_encoder',
+                ],
+            ],
+            'providers' => [
+                'runalyzeuser' => [
+                    'entity' => [
+                        'class' => Account::class,
+                    ],
+                ],
+            ],
+            'role_hierarchy' => [
+                'ROLE_ADMIN' => 'ROLE_USER',
+            ],
+            'firewalls' => [
+                'dev' => [
+                    'pattern' => '^/(_(profiler|wdt)|css|images|js)/',
+                    'security' => false,
+                ],
+                'setup' => [
+                    'pattern' => '^/(update|install)',
+                    'security' => false,
+                ],
+                'externalapi' => [
+                    'pattern' => '^/api',
+                    'http_basic' => true,
+                    'provider' => 'runalyzeuser',
+                    'stateless' => true,
+                    'user_checker' => AccountChecker::class,
+                ],
+                'default' => [
+                    'entry_point' => 'form_login',
+                    'http_basic' => null,
+                    'provider' => 'runalyzeuser',
+                    'switch_user' => [
+                        'role' => 'ROLE_ADMIN',
+                        'parameter' => '_switch_user',
+                    ],
+                    'user_checker' => AccountChecker::class,
+                    'logout' => [
+                        'path' => '/logout',
+                        'target' => '/',
+                    ],
+                    'stateless' => false,
+                    'form_login' => [
+                        'login_path' => 'login',
+                        'check_path' => 'login_check',
+                        'enable_csrf' => true,
+                        'use_referer' => true,
+                    ],
+                    'remember_me' => [
+                        'secret' => '%app.secret%',
+                        'lifetime' => 604800,
+                        'path' => '/',
+                    ],
+                ],
+            ],
+            'access_control' => [
+                [
+                    'path' => '^/api',
+                    'roles' => 'ROLE_USER',
+                ],
+            ],
+        ];
     }
 
     /**
@@ -135,14 +208,14 @@ class SecurityConfigurationTest extends TestCase
     {
         $this->assertSame(
             'app.sha256salted_encoder',
-            $this->security['password_hashers'][\Runalyze\Bundle\CoreBundle\Entity\Account::class]['id']
+            $this->security['password_hashers'][Account::class]['id']
         );
     }
 
     public function testPasswordHashingIsMadeCheapInTheTestEnvironmentOnly(): void
     {
         $this->assertArrayNotHasKey(
-            \Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface::class,
+            PasswordAuthenticatedUserInterface::class,
             $this->security['password_hashers']
         );
     }

@@ -32,7 +32,9 @@ class ExportControllerTest extends AbstractFixturesAwareWebTestCase
         /** @var UserPasswordHasherInterface $passwordEncoder */
         $passwordEncoder = self::getContainer()->get('security.user_password_hasher');
 
-        $registration = new Registration($this->getEntityManager(), $account, $passwordEncoder);
+        $registration = new Registration($this->getEntityManager(), $passwordEncoder);
+        $registration->setAccount($account);
+
         $account->setPassword($passwordEncoder->hashPassword($account, 'irrelevant-for-this-test'));
         $registeredAccount = $registration->registerAccount();
 

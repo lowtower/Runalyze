@@ -55,7 +55,8 @@ class LoadAccountData extends AbstractFixture implements OrderedFixtureInterface
 
     protected function registerAccount(ObjectManager $manager, Account $account, string $password): Registration
     {
-        $registration = new Registration($manager, $account, $this->passwordHasher);
+        $registration = new Registration($manager, $this->passwordHasher);
+        $registration->setAccount($account);
 
         if ($this->passwordHasher instanceof UserPasswordHasherInterface) {
             $account->setPassword($this->passwordHasher->hashPassword($account, $password));

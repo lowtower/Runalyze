@@ -30,12 +30,12 @@ class Kernel extends BaseKernel
 
     public function getCacheDir(): string
     {
-        return __DIR__ . '/../var/cache/' . $this->environment;
+        return $this->getProjectDir() . '/var/cache/' . $this->environment;
     }
 
     public function getLogDir(): string
     {
-        return __DIR__ . '/../var/log';
+        return $this->getProjectDir() . '/var/log';
     }
 
     public function registerBundles(): iterable
@@ -52,12 +52,17 @@ class Kernel extends BaseKernel
     {
         $confDir = $this->getProjectDir() . '/config';
 
-        $loader->load($confDir . '/{packages}/*.yaml', 'glob');
-        $loader->load($confDir . '/{packages}/' . $this->environment . '/*.yaml', 'glob');
+        // load php config
+        $loader->load($confDir . '/{packages}/*.php', 'glob');
+        $loader->load($confDir . '/{packages}/' . $this->environment . '/*.php', 'glob');
 
-        if (file_exists($confDir . '/services.yaml')) {
-            $loader->load($confDir . '/services.yaml');
-            $loader->load($confDir . '/{services}_' . $this->environment . '.yaml', 'glob');
+        // load services
+        if (file_exists($confDir . '/services.php')) {
+            $loader->load($confDir . '/services.php');
+        }
+
+        if (file_exists($confDir . '/services_' . $this->environment . '.php')) {
+            $loader->load($confDir . '/services_' . $this->environment . '.php');
         }
     }
 
@@ -65,18 +70,17 @@ class Kernel extends BaseKernel
     {
         $confDir = $this->getProjectDir() . '/config';
 
-        $routes->import($confDir . '/{routes}/' . $this->environment . '/*.yaml');
-        $routes->import($confDir . '/{routes}/*.yaml');
+        $routes->import($confDir . '/{routes}/' . $this->environment . '/*.php');
+        $routes->import($confDir . '/{routes}/*.php');
 
-        if (is_file($confDir . '/routes.yaml')) {
-            $routes->import($confDir . '/routes.yaml');
+        if (is_file($confDir . '/routes.php')) {
+            $routes->import($confDir . '/routes.php');
         }
     }
 
     protected function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new PublicTranslatorPass());
-
         $container->addCompilerPass(
             new RestoreMigrationDatabasePrefixBindingPass(),
             PassConfig::TYPE_BEFORE_OPTIMIZATION,

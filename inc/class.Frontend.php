@@ -31,8 +31,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class Frontend
 {
-    protected array $yamlConfig = [];
-
     protected bool $HideFooter = false;
 
     /**
@@ -97,53 +95,32 @@ class Frontend
 
     private function initConfig(): void
     {
-        // Get parameters from the parameter bag
-        $this->yamlConfig = [
-            'RUNALYZE_VERSION' => $this->parameterBag->get('RUNALYZE_VERSION'),
-            'RUNALYZE_DATE' => $this->parameterBag->get('RUNALYZE_DATE'),
-            'weather_proxy' => $this->parameterBag->get('app.weather_proxy'),
-            'darksky_api_key' => $this->parameterBag->get('app.darksky_api_key'),
-            'openweathermap_api_key' => $this->parameterBag->get('app.openweathermap_api_key'),
-            'meteostatnet_api_key' => $this->parameterBag->get('app.meteostatnet_api_key'),
-            'nokia_here_appid' => $this->parameterBag->get('app.nokia_here_appid'),
-            'nokia_here_token' => $this->parameterBag->get('app.nokia_here_token'),
-            'thunderforest_api_key' => $this->parameterBag->get('app.thunderforest_api_key'),
-            'mapbox_api_key' => $this->parameterBag->get('app.mapbox_api_key'),
-            'perl_path' => $this->parameterBag->get('app.perl_path'),
-            'ttbin_path' => $this->parameterBag->get('app.ttbin_path'),
-            'geonames_username' => $this->parameterBag->get('app.geonames_username'),
-            'user_disable_account_activation' => $this->parameterBag->get('app.user_disable_account_activation'),
-            'sqlite_mod_spatialite' => $this->parameterBag->get('app.sqlite_mod_spatialite'),
-            'data_directory' => $this->parameterBag->get('app.data_directory'),
-            'osm_overpass_url' => $this->parameterBag->get('app.osm_overpass_url'),
-            'osm_overpass_proxy' => $this->parameterBag->get('app.osm_overpass_proxy'),
-            'database_prefix' => $this->parameterBag->get('app.database_prefix'),
-            'database_host' => $this->parameterBag->get('app.database_host'),
-            'database_port' => $this->parameterBag->get('app.database_port'),
-            'database_user' => $this->parameterBag->get('app.database_user'),
-            'database_password' => $this->parameterBag->get('app.database_password'),
-            'database_name' => $this->parameterBag->get('app.database_name'),
-        ];
+        // Define constants directly from parameter bag
+        $this->defineConstantIfMissing('RUNALYZE_VERSION', $this->parameterBag->get('RUNALYZE_VERSION'));
+        $this->defineConstantIfMissing('RUNALYZE_DATE', $this->parameterBag->get('RUNALYZE_DATE'));
 
-        // Define constants
-        $this->defineConstantIfMissing('WEATHER_PROXY', $this->yamlConfig['weather_proxy']);
-        $this->defineConstantIfMissing('DARKSKY_API_KEY', $this->yamlConfig['darksky_api_key']);
-        $this->defineConstantIfMissing('OPENWEATHERMAP_API_KEY', $this->yamlConfig['openweathermap_api_key']);
-        $this->defineConstantIfMissing('METEOSTATNET_API_KEY', $this->yamlConfig['meteostatnet_api_key']);
-        $this->defineConstantIfMissing('NOKIA_HERE_APPID', $this->yamlConfig['nokia_here_appid']);
-        $this->defineConstantIfMissing('NOKIA_HERE_TOKEN', $this->yamlConfig['nokia_here_token']);
-        $this->defineConstantIfMissing('THUNDERFOREST_API_KEY', $this->yamlConfig['thunderforest_api_key']);
-        $this->defineConstantIfMissing('MAPBOX_API_KEY', $this->yamlConfig['mapbox_api_key']);
-        $this->defineConstantIfMissing('PERL_PATH', $this->yamlConfig['perl_path']);
-        $this->defineConstantIfMissing('TTBIN_PATH', $this->yamlConfig['ttbin_path']);
-        $this->defineConstantIfMissing('GEONAMES_USERNAME', $this->yamlConfig['geonames_username']);
-        $this->defineConstantIfMissing('USER_DISABLE_ACCOUNT_ACTIVATION', $this->yamlConfig['user_disable_account_activation']);
-        $this->defineConstantIfMissing('SQLITE_MOD_SPATIALITE', $this->yamlConfig['sqlite_mod_spatialite']);
-        $this->defineConstantIfMissing('RUNALYZE_VERSION', $this->yamlConfig['RUNALYZE_VERSION']);
-        $this->defineConstantIfMissing('RUNALYZE_DATE', $this->yamlConfig['RUNALYZE_DATE']);
-        $this->defineConstantIfMissing('DATA_DIRECTORY', str_replace('%kernel.project_dir%', FRONTEND_PATH, $this->yamlConfig['data_directory']));
-        $this->defineConstantIfMissing('OSM_OVERPASS_URL', $this->yamlConfig['osm_overpass_url']);
-        $this->defineConstantIfMissing('OSM_OVERPASS_PROXY', $this->yamlConfig['osm_overpass_proxy']);
+        $this->defineConstantIfMissing('WEATHER_PROXY', $this->parameterBag->get('app.weather_proxy'));
+        $this->defineConstantIfMissing('DARKSKY_API_KEY', $this->parameterBag->get('app.darksky_api_key'));
+        $this->defineConstantIfMissing('OPENWEATHERMAP_API_KEY', $this->parameterBag->get('app.openweathermap_api_key'));
+        $this->defineConstantIfMissing('METEOSTATNET_API_KEY', $this->parameterBag->get('app.meteostatnet_api_key'));
+        $this->defineConstantIfMissing('NOKIA_HERE_APPID', $this->parameterBag->get('app.nokia_here_appid'));
+        $this->defineConstantIfMissing('NOKIA_HERE_TOKEN', $this->parameterBag->get('app.nokia_here_token'));
+        $this->defineConstantIfMissing('THUNDERFOREST_API_KEY', $this->parameterBag->get('app.thunderforest_api_key'));
+        $this->defineConstantIfMissing('MAPBOX_API_KEY', $this->parameterBag->get('app.mapbox_api_key'));
+        $this->defineConstantIfMissing('PERL_PATH', $this->parameterBag->get('app.perl_path'));
+        $this->defineConstantIfMissing('TTBIN_PATH', $this->parameterBag->get('app.ttbin_path'));
+        $this->defineConstantIfMissing('GEONAMES_USERNAME', $this->parameterBag->get('app.geonames_username'));
+        $this->defineConstantIfMissing('USER_DISABLE_ACCOUNT_ACTIVATION', $this->parameterBag->get('app.user_disable_account_activation'));
+        $this->defineConstantIfMissing('SQLITE_MOD_SPATIALITE', $this->parameterBag->get('app.sqlite_mod_spatialite'));
+        $this->defineConstantIfMissing('DATA_DIRECTORY', $this->parameterBag->get('app.data_directory'));
+        $this->defineConstantIfMissing('OSM_OVERPASS_URL', $this->parameterBag->get('app.osm_overpass_url'));
+        $this->defineConstantIfMissing('OSM_OVERPASS_PROXY', $this->parameterBag->get('app.osm_overpass_proxy'));
+        $this->defineConstantIfMissing('DATABASE_PREFIX', $this->parameterBag->get('app.database_prefix'));
+        $this->defineConstantIfMissing('DATABASE_HOST', $this->parameterBag->get('app.database_host'));
+        $this->defineConstantIfMissing('DATABASE_PORT', $this->parameterBag->get('app.database_port'));
+        $this->defineConstantIfMissing('DATABASE_USER', $this->parameterBag->get('app.database_user'));
+        $this->defineConstantIfMissing('DATABASE_PASSWORD', $this->parameterBag->get('app.database_password'));
+        $this->defineConstantIfMissing('DATABASE_NAME', $this->parameterBag->get('app.database_name'));
     }
 
     private function initTimezone(): void
@@ -183,9 +160,15 @@ class Frontend
 
     private function initDatabase(): void
     {
-        $this->defineConstantIfMissing('PREFIX', $this->yamlConfig['database_prefix']);
+        $this->defineConstantIfMissing('PREFIX', $this->parameterBag->get('app.database_prefix'));
 
-        DB::connect($this->yamlConfig['database_host'], $this->yamlConfig['database_port'], $this->yamlConfig['database_user'], $this->yamlConfig['database_password'], $this->yamlConfig['database_name']);
+        DB::connect(
+            $this->parameterBag->get('app.database_host'),
+            (string) $this->parameterBag->get('app.database_port'),
+            $this->parameterBag->get('app.database_user'),
+            $this->parameterBag->get('app.database_password'),
+            $this->parameterBag->get('app.database_name')
+        );
     }
 
     private function initRequestBridge(): void

@@ -22,6 +22,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class Registration
 {
+    public $Account;
+
     private ?Sport $runningSport = null;
 
     private ?Sport $bikeSport = null;
@@ -34,9 +36,13 @@ class Registration
 
     public function __construct(
         protected ObjectManager $em,
-        protected Account $Account,
         protected UserPasswordHasherInterface $passwordHasher
     ) {
+    }
+
+    public function setAccount(Account $Account): void
+    {
+        $this->Account = $Account;
     }
 
     /**

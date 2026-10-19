@@ -58,7 +58,9 @@ class ApiSessionUsageTest extends AbstractFixturesAwareWebTestCase
         /** @var UserPasswordHasherInterface $passwordHasher */
         $passwordHasher = self::getContainer()->get('security.user_password_hasher');
 
-        $registration = new Registration($this->getEntityManager(), $account, $passwordHasher);
+        $registration = new Registration($this->getEntityManager(), $passwordHasher);
+        $registration->setAccount($account);
+
         $account->setPassword($passwordHasher->hashPassword($account, self::PASSWORD));
         $registeredAccount = $registration->registerAccount();
 

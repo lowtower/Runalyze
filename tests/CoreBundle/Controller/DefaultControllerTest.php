@@ -34,7 +34,9 @@ class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         /** @var UserPasswordHasherInterface $passwordEncoder */
         $passwordEncoder = self::getContainer()->get('security.user_password_hasher');
 
-        $registration = new Registration($this->getEntityManager(), $account, $passwordEncoder);
+        $registration = new Registration($this->getEntityManager(), $passwordEncoder);
+        $registration->setAccount($account);
+
         $account->setPassword($passwordEncoder->hashPassword($account, self::KNOWN_PASSWORD));
         $registeredAccount = $registration->registerAccount();
 
@@ -51,7 +53,8 @@ class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         /** @var UserPasswordHasherInterface $passwordEncoder */
         $passwordEncoder = self::getContainer()->get('security.user_password_hasher');
 
-        $registration = new Registration($this->getEntityManager(), $account, $passwordEncoder);
+        $registration = new Registration($this->getEntityManager(), $passwordEncoder);
+        $registration->setAccount($account);
         $registration->requireAccountActivation();
 
         $account->setPassword($passwordEncoder->hashPassword($account, self::KNOWN_PASSWORD));
@@ -71,7 +74,9 @@ class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         /** @var UserPasswordHasherInterface $passwordEncoder */
         $passwordEncoder = self::getContainer()->get('security.user_password_hasher');
 
-        $registration = new Registration($this->getEntityManager(), $account, $passwordEncoder);
+        $registration = new Registration($this->getEntityManager(), $passwordEncoder);
+        $registration->setAccount($account);
+
         $account->setPassword($passwordEncoder->hashPassword($account, self::KNOWN_PASSWORD));
         $registeredAccount = $registration->registerAccount();
 

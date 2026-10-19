@@ -8,7 +8,6 @@
 namespace Runalyze;
 
 use Runalyze\Util\InterfaceChoosable;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Language class
@@ -105,11 +104,15 @@ class Language implements InterfaceChoosable
     private static function readAvailableLanguages(): void
     {
         $languages = [];
-        $config = Yaml::parse(file_get_contents(__DIR__ . '/../../config/packages/languages.yaml'));
+        $configFile = __DIR__ . '/../../config/locales.php';
 
-        if (is_array($config) && isset($config['parameters']) && isset($config['parameters']['locales'])) {
-            foreach ($config['parameters']['locales'] as $short => $lang) {
-                $languages[$short] = [$lang['name'], $lang['locale']];
+        if (file_exists($configFile)) {
+            $config = require $configFile;
+
+            if (is_array($config)) {
+                foreach ($config as $short => $lang) {
+                    $languages[$short] = [$lang['name'], $lang['locale']];
+                }
             }
         }
 

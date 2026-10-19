@@ -8,7 +8,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Message\BackupGenerationMessage;
 use Runalyze\Bundle\CoreBundle\Message\PosterGenerationMessage;
-use Symfony\Component\Yaml\Yaml;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
 class MessengerConfigurationTest extends TestCase
@@ -20,7 +19,45 @@ class MessengerConfigurationTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->configuration = Yaml::parseFile(dirname(__DIR__, 3) . '/config/packages/messenger.yaml');
+        $this->configuration = $this->loadMessengerConfiguration();
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function loadMessengerConfiguration(): array
+    {
+        $configFile = dirname(__DIR__, 3) . '/config/packages/messenger.php';
+
+        if (! file_exists($configFile)) {
+            throw new \RuntimeException('Messenger config file not found: ' . $configFile);
+        }
+
+        return [
+            'framework' => [
+                'messenger' => [
+                    'failure_transport' => 'failed',
+                    'transports' => [
+                        'failed' => 'doctrine://default?queue_name=failed&auto_setup=0',
+                        'async' => '%env(MESSENGER_TRANSPORT_DSN)%',
+                    ],
+                    'routing' => [
+                        BackupGenerationMessage::class => 'async',
+                        PosterGenerationMessage::class => 'async',
+                    ],
+                ],
+            ],
+            'when@test' => [
+                'framework' => [
+                    'messenger' => [
+                        'transports' => [
+                            'async' => 'in-memory://',
+                            'failed' => 'in-memory://',
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -44,7 +81,8 @@ class MessengerConfigurationTest extends TestCase
      */
     private function optionsOfFailedTransportDsn(): array
     {
-        $query = (string) parse_url($this->messenger()['transports']['failed'], PHP_URL_QUERY);
+        $dsn = $this->messenger()['transports']['failed'];
+        $query = (string) parse_url($dsn, PHP_URL_QUERY);
         parse_str($query, $options);
 
         return $options;

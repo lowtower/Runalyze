@@ -345,7 +345,7 @@ class LanguageTest extends TestCase
 
         $result = Language::availableLanguages();
 
-        $this->assertNotEmpty($result, 'Expected config/packages/languages.yaml to define at least one language.');
+        $this->assertNotEmpty($result, 'Expected config/locales.php to define at least one language.');
 
         foreach ($result as $shortCode => $definition) {
             $this->assertIsString($shortCode);

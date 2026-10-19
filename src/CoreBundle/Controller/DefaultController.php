@@ -134,7 +134,8 @@ class DefaultController extends AbstractPluginsAwareController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $registration = new Registration($this->doctrine->getManager(), $account, $passwordEncoder);
+            $registration = new Registration($this->doctrine->getManager(), $passwordEncoder);
+            $registration->setAccount($account);
             $formdata = $request->request->all($form->getName());
 
             $registration->setLocale($request->getLocale());

@@ -231,11 +231,13 @@ class RegistrationTest extends KernelTestCase
 
     private function createRegistration(?Account $account = null, ?ObjectManager $entityManager = null): Registration
     {
-        return new Registration(
+        $registration = new Registration(
             $entityManager ?? $this->EntityManager,
-            $account ?? $this->createAccount(),
             $this->getPasswordHasher()
         );
+        $registration->setAccount($account ?? $this->createAccount());
+
+        return $registration;
     }
 
     private function getPasswordHasher(): UserPasswordHasherInterface
