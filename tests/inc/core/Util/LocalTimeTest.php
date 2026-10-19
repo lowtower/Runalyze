@@ -35,7 +35,7 @@ final class LocalTimeTest extends \PHPUnit\Framework\TestCase
     public function testInvalidParameterForConstructor(): void
     {
         $this->expectException(\TypeError::class);
-        new LocalTime(0);
+        new LocalTime('invalid');
     }
 
     public function testInvalidParameterForServerTime(): void

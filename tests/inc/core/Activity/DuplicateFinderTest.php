@@ -40,7 +40,7 @@ final class DuplicateFinderTest extends \PHPUnit\Framework\TestCase
     public function testInvalidArgument(): void
     {
         $this->expectException(\TypeError::class);
-        $this->Finder->checkForDuplicate(0);
+        $this->Finder->checkForDuplicate('invalid');
     }
 
     public function testSingleNull(): void

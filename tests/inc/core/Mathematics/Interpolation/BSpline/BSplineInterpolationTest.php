@@ -31,7 +31,7 @@ final class BSplineInterpolationTest extends \PHPUnit\Framework\TestCase
 
     public function testNonNumericDegree(): void
     {
-        $this->expectException(\TypeError::class);
+        $this->expectException(\InvalidArgumentException::class);
         new BSplineInterpolation(0);
     }
 

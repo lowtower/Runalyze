@@ -28,7 +28,7 @@ final class NightDetectorTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(\TypeError::class);
         $Detector = new NightDetector();
-        $Detector->setFrom(0, new Coordinate([0.0, 0.0]));
+        $Detector->setFrom('invalid', new Coordinate([0.0, 0.0]));
     }
 
     public function testSetFromThrowsInvalidArgumentExceptionForNullTimestamp(): void

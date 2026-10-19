@@ -35,11 +35,14 @@ final class EquipmentTypeQueryGroupTest extends TestCase
         $this->assertSame(7, $property->getValue($queryGroup));
     }
 
-    public function testConstructorThrowsTypeErrorForNonNumericStringId(): void
+    public function testConstructorThrowsTypeErrorForNonIntegerId(): void
     {
         $this->expectException(\TypeError::class);
 
-        new EquipmentTypeQueryGroup(0);
+        new EquipmentTypeQueryGroup('invalid');
+        new EquipmentTypeQueryGroup(null);
+        new EquipmentTypeQueryGroup(1.0);
+        new EquipmentTypeQueryGroup(false);
     }
 
     public function testAddSelectionToQueryBuildsExpectedJoinWhereAndDistinct(): void

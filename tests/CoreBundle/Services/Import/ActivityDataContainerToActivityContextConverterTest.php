@@ -6,6 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Services\Import;
 
 use Runalyze\Bundle\CoreBundle\Entity\Conf;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
+use Runalyze\Bundle\CoreBundle\Entity\Route;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
@@ -71,7 +72,7 @@ final class ActivityDataContainerToActivityContextConverterTest extends Abstract
         $activityContext = $this->Converter->getContextFor($this->Container);
 
         $this->assertEquals($this->getDefaultAccountsRunningSport(), $activityContext->getSport());
-        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Type::class, $activityContext->getActivity()->getType());
+        $this->assertInstanceOf(Type::class, $activityContext->getActivity()->getType());
         $this->assertSame('Fartlek', $activityContext->getActivity()->getType()->getName());
         $this->assertCount(1, $activityContext->getActivity()->getEquipment());
         $this->assertEquals('singlet', $activityContext->getActivity()->getEquipment()[0]->getName());
@@ -81,24 +82,19 @@ final class ActivityDataContainerToActivityContextConverterTest extends Abstract
     {
         $this->Container->Metadata->setSportName('Running');
 
-        $backupDefaultType = $this->getDefaultAccountsRunningSport()
-            ->getDefaultType();
         $defaultType = $this->EntityManager->getRepository(Type::class)
-            ->findBy([
+            ->findOneBy([
                 'name' => 'Fartlek',
-            ])[0];
-        $this->getDefaultAccountsRunningSport()
-            ->setDefaultType($defaultType);
+            ]);
+        $this->assertInstanceOf(Type::class, $defaultType);
+
+        $this->getDefaultAccountsRunningSport()->setDefaultType($defaultType);
 
         $activityContext = $this->Converter->getContextFor($this->Container);
 
         $this->assertEquals($this->getDefaultAccountsRunningSport(), $activityContext->getSport());
-        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Type::class, $activityContext->getActivity()->getType());
+        $this->assertInstanceOf(Type::class, $activityContext->getActivity()->getType());
         $this->assertSame('Fartlek', $activityContext->getActivity()->getType()->getName());
-        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Type::class, $backupDefaultType);
-
-        $this->getDefaultAccountsRunningSport()
-            ->setDefaultType($backupDefaultType);
     }
 
     public function testThatSwimmingCanBeGuessedByName(): void
@@ -123,7 +119,7 @@ final class ActivityDataContainerToActivityContextConverterTest extends Abstract
 
         $activityContext = $this->Converter->getContextFor($this->Container);
 
-        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Route::class, $activityContext->getRoute());
+        $this->assertInstanceOf(Route::class, $activityContext->getRoute());
         $this->assertNotEmpty($activityContext->getRoute()->getGeohashes());
         $this->assertEquals($this->Container->ContinuousData->Latitude, $activityContext->getRoute()->getLatitudes());
         $this->assertEquals($this->Container->ContinuousData->Longitude, $activityContext->getRoute()->getLongitudes());
@@ -136,7 +132,7 @@ final class ActivityDataContainerToActivityContextConverterTest extends Abstract
 
         $activityContext = $this->Converter->getContextFor($this->Container);
 
-        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Route::class, $activityContext->getRoute());
+        $this->assertInstanceOf(Route::class, $activityContext->getRoute());
         $this->assertEquals($this->Container->ContinuousData->Altitude, $activityContext->getRoute()->getElevationsOriginal());
         $this->assertNull($activityContext->getRoute()->getElevationsCorrected());
         $this->assertTrue($activityContext->getRoute()->getAltitudeBarometric());

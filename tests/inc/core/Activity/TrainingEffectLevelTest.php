@@ -20,7 +20,7 @@ final class TrainingEffectLevelTest extends \PHPUnit\Framework\TestCase
 
     public function testInvalidLevelNonNumeric(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\TypeError::class);
         TrainingEffectLevel::levelFor(false);
     }
 
