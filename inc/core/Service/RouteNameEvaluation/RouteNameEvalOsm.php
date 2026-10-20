@@ -3,7 +3,6 @@
 namespace Runalyze\Service\RouteNameEvaluation;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
 use League\Geotools\Geohash\Geohash;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -98,30 +97,50 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
             'headers' => [
                 'User-Agent' => 'Runalyze/4.3.0 host-' . gethostname(),
             ],
-            // , 'debug' => True
         ];
         if (! empty($this->Proxy)) {
             $param['proxy'] = $this->Proxy;
         }
 
-        try {
-            $response = $this->HttpClient->request('POST', $this->Url, $param);
+        $maxRetries = 3;
+        for ($attempt = 1; $attempt <= $maxRetries; $attempt++) {
+            $retryDelay = min(5 * (2 ** ($attempt - 1)), 30); // 5s, 10s, 20s, max 30s
+            try {
+                $response = $this->HttpClient->request('POST', $this->Url, $param);
 
-            $repCont = $response->getBody()
-                ->getContents();
-            // convert TAB from Overpass to | used here; i want to use | it's better to handle ;-)
-            $repCont = str_replace('|', '/', $repCont);
-            // replace existing | (in f.e. names) to /
-            $repCont = str_replace("\t", '|', $repCont);
-            // now replace all TAB to |
-            $this->logger->debug(sprintf('RouteNameEvalOsm: osm-result for routeId=%d: %s', $routeId, $repCont));
-            return $repCont;
-        } catch (RequestException $requestException) {
-            $this->logger->error('RouteNameEvalOsm: Overpass-API request failed.', [
-                'exception' => $requestException,
-            ]);
-            throw new \Exception('Route evaluation result in error: ' . $requestException, $requestException->getCode(), $requestException);
+                $repCont = $response->getBody()->getContents();
+                $repCont = str_replace('|', '/', $repCont);
+                $repCont = str_replace("\t", '|', $repCont);
+                $this->logger->debug(sprintf('RouteNameEvalOsm: osm-result for routeId=%d: %s', $routeId, $repCont));
+
+                return $repCont;
+            } catch (\GuzzleHttp\Exception\GuzzleException $guzzleException) {
+                $statusCode = 'unknown';
+                if (method_exists($guzzleException, 'getResponse') && $guzzleException->getResponse()) {
+                    $statusCode = $guzzleException->getResponse()->getStatusCode();
+                }
+
+                // retry only on 502/503/504
+                if ($attempt < $maxRetries && in_array($statusCode, [502, 503, 504], true)) {
+                    $this->logger->warning(sprintf(
+                        'RouteNameEvalOsm: Overpass API %s, retry %d/%d in %ds',
+                        $statusCode,
+                        $attempt,
+                        $maxRetries,
+                        $retryDelay
+                    ));
+                    sleep($retryDelay);
+                    continue;
+                }
+
+                $this->logger->error('RouteNameEvalOsm: Overpass-API request failed.', [
+                    'exception' => $guzzleException,
+                ]);
+                throw new \Exception('Route evaluation result in error: ' . $guzzleException, $guzzleException->getCode(), $guzzleException);
+            }
         }
+
+        throw new \Exception('Route evaluation result in error: Max retries exceeded.');
     }
 
     private function createOsmPayload(Route $route, float $distance): string

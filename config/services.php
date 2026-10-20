@@ -7,6 +7,7 @@ use Doctrine\Persistence\ObjectManager;
 use GuzzleHttp\Client;
 use Monolog\Formatter\LineFormatter;
 use Runalyze\Bundle\CoreBundle\ArgumentResolver\AccountValueResolver;
+use Runalyze\Bundle\CoreBundle\Command\ActivityBulkRouteNameEvaluationCommand;
 use Runalyze\Bundle\CoreBundle\Command\CleanupBackupCommand;
 use Runalyze\Bundle\CoreBundle\Command\InstallDatabaseCommand;
 use Runalyze\Bundle\CoreBundle\Command\InstallFilesystemCommand;
@@ -270,6 +271,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(InstallFilesystemCommand::class)
         ->arg('$filesystem', service('filesystem'))
         ->arg('$kernel', service('kernel'));
+
+    $services->set(ActivityBulkRouteNameEvaluationCommand::class)
+        ->arg('$osmOverpassUrl', '%app.osm_overpass_url%');
 
     $services->set(FinderFactory::class);
 
@@ -950,7 +954,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set('app.activity_context_adapter_factory', ActivityContextAdapterFactory::class)
         ->arg('$WeatherForecast', service('app.weather_forecast'))
         ->arg('$DuplicateFinder', service('app.activity_duplicate_finder'))
-        ->arg('$routeNameEvalFactory', service('app.routename_elevation.routename_elevation_factory'));
+        ->arg('$routeNameEvalFactory', service('app.routename_evaluation.routename_evaluation_factory'));
 
     $services->alias(ActivityContextAdapterFactory::class, 'app.activity_context_adapter_factory');
 
@@ -1046,15 +1050,15 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(ElevationCorrection::class, 'app.elevation_correction');
 
-    $services->set('app.routename_elevation.routename_elevation_factory', RouteNameEvalFactory::class)
-        ->arg('$RouteNameEval', service('app.routename_elevation.routename_elevation_osm'))
+    $services->set('app.routename_evaluation.routename_evaluation_factory', RouteNameEvalFactory::class)
+        ->arg('$RouteNameEval', service('app.routename_evaluation.routename_evaluation_osm'))
         ->tag('monolog.logger', [
             'channel' => 'external_services',
         ]);
 
-    $services->alias(RouteNameEvalFactory::class, 'app.routename_elevation.routename_elevation_factory');
+    $services->alias(RouteNameEvalFactory::class, 'app.routename_evaluation.routename_evaluation_factory');
 
-    $services->set('app.routename_elevation.routename_elevation_osm', RouteNameEvalOsm::class)
+    $services->set('app.routename_evaluation.routename_evaluation_osm', RouteNameEvalOsm::class)
         ->arg('$Url', '%app.osm_overpass_url%')
         ->arg('$Proxy', '%app.osm_overpass_proxy%')
         ->arg('$HttpClient', service('app.http_client'))
@@ -1063,7 +1067,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'channel' => 'external_services',
         ]);
 
-    $services->alias(RouteNameEvalOsm::class, 'app.routename_elevation.routename_elevation_osm');
+    $services->alias(RouteNameEvalOsm::class, 'app.routename_evaluation.routename_evaluation_osm');
 
     $services->set('app.timezone_lookup', TimezoneLookup::class)
         ->arg('$PathToTimeZoneDatabase', '%app.data_directory%/timezone.sqlite')
