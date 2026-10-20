@@ -210,7 +210,7 @@ final class CreateControllerTest extends AbstractFixturesAwareWebTestCase
     {
         $this->loginClient($this->Client, $this->Account, 'default');
 
-        $this->Client->request('GET', '/activity/new');
+        $this->Client->request('POST', '/activity/new');
 
         $this->assertStatusCode(200, $this->Client);
         $this->assertStringContainsString('id="activity"', $this->responseContent());
@@ -224,7 +224,7 @@ final class CreateControllerTest extends AbstractFixturesAwareWebTestCase
     {
         $this->loginClient($this->Client, $this->Account, 'default');
 
-        $this->Client->request('GET', '/activity/new?date=2024-01-15 08:00:00');
+        $this->Client->request('POST', '/activity/new?date=2024-01-15 08:00:00');
 
         $this->assertStatusCode(200, $this->Client);
         $this->assertStringContainsString('id="activity"', $this->responseContent());

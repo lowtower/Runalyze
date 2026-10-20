@@ -263,7 +263,7 @@ class CreateController extends AbstractController
         return $this->redirectToRoute('activity-upload');
     }
 
-    #[Route(path: '/activity/new', name: 'activity-new', methods: ['GET'])]
+    #[Route(path: '/activity/new', name: 'activity-new', methods: ['POST'])]
     public function newAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
