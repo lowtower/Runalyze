@@ -88,6 +88,7 @@ use Runalyze\Bundle\CoreBundle\Services\Activity\DataSeriesRemover;
 use Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
+use Runalyze\Bundle\CoreBundle\Services\DisposableDomainProvider;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityCache;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityContextAdapterFactory;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityDataContainerFilter;
@@ -112,6 +113,7 @@ use Runalyze\Bundle\CoreBundle\Twig\ConfigurationExtension;
 use Runalyze\Bundle\CoreBundle\Twig\HtmlExtension;
 use Runalyze\Bundle\CoreBundle\Twig\UtilityExtension;
 use Runalyze\Bundle\CoreBundle\Twig\ValueExtension;
+use Runalyze\Bundle\CoreBundle\Validator\Constraints\ContainsDisposableMailAddressValidator;
 use Runalyze\Metrics\Distance\Unit\AbstractDistanceUnit;
 use Runalyze\Metrics\Energy\Unit\AbstractEnergyUnit;
 use Runalyze\Metrics\Temperature\Unit\AbstractTemperatureUnit;
@@ -1077,11 +1079,18 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ]);
 
     $services->set('monolog.formatter.session_request', LineFormatter::class)
-        ->arg('$format', '[%%datetime%%] [%%extra.token%%] %%channel%%.%%level_name%%: %%message%% %%context%% %%extra%%
-');
+        ->arg('$format', '[%%datetime%%] [%%extra.token%%] %%channel%%.%%level_name%%: %%message%% %%context%% %%extra%%');
 
     $services->set('app.frontend', Frontend::class)
         ->arg('$parameterBag', service('parameter_bag'));
 
     # $services->load('Runalyze\Bundle\CoreBundle\\Component\\Tool\Backup\\', __DIR__ . '/../src/CoreBundle/Component/Tool/Backup/');
+
+    $services->set('app.disposable_domain_provider', DisposableDomainProvider::class)
+        ->arg('$projectDir', '%kernel.project_dir%');
+
+    $services->set(ContainsDisposableMailAddressValidator::class)
+        ->autowire(true)
+        ->arg('$provider', service('app.disposable_domain_provider'))
+        ->tag('validator.constraint_validator');
 };

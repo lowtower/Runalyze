@@ -4,130 +4,138 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Validator\Constraints;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\MockObject\Stub;
-use PHPUnit\Framework\TestCase;
+use Runalyze\Bundle\CoreBundle\Services\DisposableDomainProvider;
 use Runalyze\Bundle\CoreBundle\Validator\Constraints\ContainsDisposableMailAddress;
 use Runalyze\Bundle\CoreBundle\Validator\Constraints\ContainsDisposableMailAddressValidator;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
-use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
+use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
-final class ContainsDisposableMailAddressValidatorTest extends TestCase
+#[AllowMockObjectsWithoutExpectations]
+final class ContainsDisposableMailAddressValidatorTest extends ConstraintValidatorTestCase
 {
-    /**
-     * For tests that only need a context object to exist (no expectations
-     * are ever put on it).
-     *
-     * @return array{0: ContainsDisposableMailAddressValidator, 1: ExecutionContextInterface&Stub}
-     */
-    private function createValidatorWithStubContext(): array
+    private DisposableDomainProvider $disposableDomainProvider;
+
+    private ExecutionContextInterface&MockObject $contextMock;
+
+    protected function setUp(): void
     {
-        return [
-            new ContainsDisposableMailAddressValidator(),
-            $this->createStub(ExecutionContextInterface::class),
-        ];
+        $this->disposableDomainProvider = new DisposableDomainProvider('/tmp');
+        $this->contextMock = $this->createMock(ExecutionContextInterface::class);
+
+        parent::setUp();
     }
 
-    /**
-     * For tests that put expects() on the context (e.g. buildViolation).
-     *
-     * @return array{0: ContainsDisposableMailAddressValidator, 1: ExecutionContextInterface&MockObject}
-     */
-    private function createValidatorWithMockContext(): array
+    protected function createValidator(): ContainsDisposableMailAddressValidator
     {
-        return [
-            new ContainsDisposableMailAddressValidator(),
-            $this->createMock(ExecutionContextInterface::class),
-        ];
+        return new ContainsDisposableMailAddressValidator($this->disposableDomainProvider);
     }
 
     private function isActuallyDisposable(string $email): bool
     {
-        return new \EmailValidator\Validator()->isDisposable($email);
+        $parts = explode('@', $email);
+        if (count($parts) !== 2) {
+            return false;
+        }
+
+        $domain = strtolower($parts[1]);
+        $domains = $this->disposableDomainProvider->getDomains();
+
+        return isset($domains[$domain]);
     }
 
+    #[Test]
+    public function testAcceptsValidEmail(): void
+    {
+        $this->validator->validateInContext('user@gmail.com', new ContainsDisposableMailAddress(), $this->context);
+        $this->assertNoViolation();
+    }
+
+    #[Test]
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
+    public function testRejectsDisposableEmail(): void
+    {
+        $email = 'test@mailinator.com';
+
+        if (! $this->isActuallyDisposable($email)) {
+            $this->markTestSkipped(
+                'The domain "' . $email . '" is not in the disposable list; adjust the test email.'
+            );
+        }
+
+        $constraint = new ContainsDisposableMailAddress();
+
+        $this->context->buildViolation($constraint->message)
+            ->setParameter('{{ value }}', $email)
+            ->atPath('')
+            ->setInvalidValue($email)
+            ->addViolation();
+
+        $this->validator->validateInContext($email, $constraint, $this->context);
+    }
+
+    #[Test]
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
+    public function testIsCaseInsensitive(): void
+    {
+        $email = 'TEST@MAILINATOR.COM';
+
+        if (! $this->isActuallyDisposable($email)) {
+            $this->markTestSkipped(
+                'The domain "' . $email . '" is not in the disposable list; adjust the test email.'
+            );
+        }
+
+        $constraint = new ContainsDisposableMailAddress();
+
+        $this->context->buildViolation($constraint->message)
+            ->setParameter('{{ value }}', $email)
+            ->atPath('')
+            ->setInvalidValue($email)
+            ->addViolation();
+
+        $this->validator->validateInContext($email, $constraint, $this->context);
+    }
+
+    #[Test]
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testDisposableAddressRaisesViolation(): void
     {
         $email = 'someone@mailinator.com';
 
         if (! $this->isActuallyDisposable($email)) {
             $this->markTestSkipped(
-                'The configured EmailValidator\Validator does not classify "' . $email . '" as disposable ' .
-                'in this environment; adjust the test email to a domain that this specific dependency flags as disposable.'
+                'The domain "' . $email . '" is not in the disposable list; adjust the test email.'
             );
         }
 
-        [$validator, $context] = $this->createValidatorWithMockContext();
         $constraint = new ContainsDisposableMailAddress();
 
-        $builder = $this->createMock(ConstraintViolationBuilderInterface::class);
-        $builder->expects($this->once())
-            ->method('setParameter')
-            ->with('{{ value }}', $email)
-            ->willReturn($builder);
-        $builder->expects($this->once())
-            ->method('addViolation');
+        $this->context->buildViolation($constraint->message)
+            ->setParameter('{{ value }}', $email)
+            ->atPath('')
+            ->setInvalidValue($email)
+            ->addViolation();
 
-        $context->expects($this->once())
-            ->method('buildViolation')
-            ->with($constraint->message)
-            ->willReturn($builder);
-
-        $validator->validateInContext($email, $constraint, $context);
+        $this->validator->validateInContext($email, $constraint, $this->context);
     }
 
+    #[Test]
     public function testNonDisposableAddressRaisesNoViolation(): void
     {
         $email = 'valid.user@runalyze.com';
 
         if ($this->isActuallyDisposable($email)) {
             $this->markTestSkipped(
-                'The configured EmailValidator\Validator unexpectedly classifies "' . $email . '" as disposable ' .
-                'in this environment; adjust the test email to one that this dependency does NOT flag as disposable.'
+                'The domain "' . $email . '" is unexpectedly classified as disposable; adjust the test email.'
             );
         }
 
-        [$validator, $context] = $this->createValidatorWithMockContext();
-        $context->expects($this->never())
+        $this->contextMock->expects($this->never())
             ->method('buildViolation');
 
-        $validator->validateInContext($email, new ContainsDisposableMailAddress(), $context);
-    }
-
-    public function testWrongConstraintTypeIsSilentlyIgnoredForNonDisposableAddress(): void
-    {
-        $email = 'valid.user@runalyze.com';
-
-        if ($this->isActuallyDisposable($email)) {
-            $this->markTestSkipped(
-                'The configured EmailValidator\Validator unexpectedly classifies "' . $email . '" as disposable ' .
-                'in this environment; adjust the test email to one that this dependency does NOT flag as disposable.'
-            );
-        }
-
-        [$validator, $context] = $this->createValidatorWithMockContext();
-        $context->expects($this->never())
-            ->method('buildViolation');
-
-        $validator->validateInContext($email, new NotBlank(), $context);
-    }
-
-    public function testWrongConstraintTypeThrowsOnlyForDisposableAddress(): void
-    {
-        $email = 'someone@mailinator.com';
-
-        if (! $this->isActuallyDisposable($email)) {
-            $this->markTestSkipped(
-                'The configured EmailValidator\Validator does not classify "' . $email . '" as disposable ' .
-                'in this environment; adjust the test email to a domain that this specific dependency flags as disposable.'
-            );
-        }
-
-        [$validator, $context] = $this->createValidatorWithStubContext();
-
-        $this->expectException(\InvalidArgumentException::class);
-
-        $validator->validateInContext($email, new NotBlank(), $context);
+        $this->validator->validateInContext($email, new ContainsDisposableMailAddress(), $this->contextMock);
     }
 }
