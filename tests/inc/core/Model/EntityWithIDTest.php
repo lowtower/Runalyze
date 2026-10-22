@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Model;
 
-class EntityWithID_MockTester extends EntityWithID
+final class EntityWithID_MockTester extends EntityWithID
 {
     public function properties(): array
     {

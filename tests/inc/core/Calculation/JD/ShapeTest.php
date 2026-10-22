@@ -5,7 +5,7 @@ namespace Runalyze\Calculation\JD;
 use PDO;
 use Runalyze\Configuration\Category;
 
-class ShapeFake extends Shape
+final class ShapeFake extends Shape
 {
     public function calculate(): void
     {
@@ -13,7 +13,7 @@ class ShapeFake extends Shape
     }
 }
 
-class CategoryFake extends Category\VO2max
+final class CategoryFake extends Category\VO2max
 {
     public function __construct($vo2maxDays = 30, $elevationCorrector = false)
     {

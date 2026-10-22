@@ -6,17 +6,17 @@ namespace Runalyze\Tests\Sports\Performance\Model;
 
 use Runalyze\Sports\Performance\Model\AbstractModel;
 
-class AbstractModel_MockTesterFilled extends AbstractModel
+final class AbstractModel_MockTesterFilled extends AbstractModel
 {
-    protected function prepareArrays()
+    protected function prepareArrays(): void
     {
     }
 
-    protected function finishArrays()
+    protected function finishArrays(): void
     {
     }
 
-    protected function calculateArrays()
+    protected function calculateArrays(): void
     {
         $this->Fitness = [
             -1 => 10,
@@ -36,9 +36,9 @@ class AbstractModel_MockTesterFilled extends AbstractModel
     }
 }
 
-class AbstractModel_MockTesterEmpty extends AbstractModel
+final class AbstractModel_MockTesterEmpty extends AbstractModel
 {
-    protected function calculateArrays()
+    protected function calculateArrays(): void
     {
         for ($i = $this->Range['from']; $i <= $this->Range['to']; ++$i) {
             $this->Fitness[$i] = 0;

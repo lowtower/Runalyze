@@ -7,7 +7,7 @@ use Doctrine\ORM\Query\AST\Node;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 
-class SqliteMonth extends FunctionNode
+final class SqliteMonth extends FunctionNode
 {
     private Node $expression;
 

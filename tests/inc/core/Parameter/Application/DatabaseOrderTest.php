@@ -8,10 +8,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Runalyze\Bundle\CoreBundle\Entity\Common\IdentifiableEntityInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Common\NamedEntityInterface;
 
-class DatabaseOrderTestNamedFixture implements NamedEntityInterface
+final readonly class DatabaseOrderTestNamedFixture implements NamedEntityInterface
 {
     public function __construct(
-        private readonly string $name
+        private string $name
     ) {
     }
 
@@ -21,10 +21,10 @@ class DatabaseOrderTestNamedFixture implements NamedEntityInterface
     }
 }
 
-class DatabaseOrderTestIdentifiableFixture implements IdentifiableEntityInterface
+final readonly class DatabaseOrderTestIdentifiableFixture implements IdentifiableEntityInterface
 {
     public function __construct(
-        private readonly int $id
+        private int $id
     ) {
     }
 

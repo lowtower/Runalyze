@@ -4,20 +4,20 @@ namespace Runalyze\Common\Enum;
 
 use PHPUnit\Framework\TestCase;
 
-class SampleEnumFixture extends AbstractEnum
+final class SampleEnumFixture extends AbstractEnum
 {
-    public const SUNDAY = 0;
+    public const int SUNDAY = 0;
 
-    public const MONDAY = 1;
+    public const int MONDAY = 1;
 
-    public const TUESDAY = 2;
+    public const int TUESDAY = 2;
 }
 
-class AnotherSampleEnumFixture extends AbstractEnum
+final class AnotherSampleEnumFixture extends AbstractEnum
 {
-    public const RED = 10;
+    public const int RED = 10;
 
-    public const GREEN = 20;
+    public const int GREEN = 20;
 }
 
 #[\PHPUnit\Framework\Attributes\Group('default')]

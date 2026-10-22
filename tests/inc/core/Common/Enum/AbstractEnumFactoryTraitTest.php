@@ -6,36 +6,36 @@ namespace Runalyze\Common\Enum;
 
 use PHPUnit\Framework\TestCase;
 
-class FactoryTraitEnumFixture extends AbstractEnum
+final class FactoryTraitEnumFixture extends AbstractEnum
 {
     use AbstractEnumFactoryTrait;
 
-    public const ALPHA = 'alpha';
+    public const string ALPHA = 'alpha';
 
-    public const BETA_GAMMA = 'beta_gamma';
+    public const string BETA_GAMMA = 'beta_gamma';
 }
 
-class SecondFactoryTraitEnumFixture extends AbstractEnum
+final class SecondFactoryTraitEnumFixture extends AbstractEnum
 {
     use AbstractEnumFactoryTrait;
 
-    public const GAMMA = 'gamma';
+    public const string GAMMA = 'gamma';
 }
 
-class EnumWithoutGetEnumFixture
+final class EnumWithoutGetEnumFixture
 {
     use AbstractEnumFactoryTrait;
 }
 
-class Alpha
+final class Alpha
 {
 }
 
-class BetaGamma
+final class BetaGamma
 {
 }
 
-class Gamma
+final class Gamma
 {
 }
 

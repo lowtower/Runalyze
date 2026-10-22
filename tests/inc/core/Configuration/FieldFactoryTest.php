@@ -7,7 +7,7 @@ namespace Runalyze\Configuration;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
-class FormularFieldWithUnitAndSizeFixture extends \FormularField
+final class FormularFieldWithUnitAndSizeFixture extends \FormularField
 {
     public ?string $capturedUnit = null;
 
@@ -29,7 +29,7 @@ class FormularFieldWithUnitAndSizeFixture extends \FormularField
     }
 }
 
-class FormularFieldWithoutUnitOrSizeFixture extends \FormularField
+final class FormularFieldWithoutUnitOrSizeFixture extends \FormularField
 {
     protected function getFieldCode(): string
     {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Calculation\Math\MovingAverage;
 
-class AbstractMovingAverage_MockTester extends AbstractMovingAverage
+final class AbstractMovingAverage_MockTester extends AbstractMovingAverage
 {
     public function calculateWithIndexData(): void
     {

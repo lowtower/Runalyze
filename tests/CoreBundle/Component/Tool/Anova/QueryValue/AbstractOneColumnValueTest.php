@@ -8,7 +8,7 @@ use Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryValue\AbstractOneColumnValue;
 use Runalyze\Metrics\Common\UnitInterface;
 
-class TestableOneColumnValue extends AbstractOneColumnValue
+final class TestableOneColumnValue extends AbstractOneColumnValue
 {
     public function __construct(
         private readonly string $Column
