@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Model;
 
-class StringObject_MockTester extends StringObject
+final class StringObject_MockTester extends StringObject
 {
     protected string $String;
 

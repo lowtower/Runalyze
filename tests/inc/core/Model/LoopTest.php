@@ -2,7 +2,7 @@
 
 namespace Runalyze\Model;
 
-class Loopable_MockTester extends Entity implements Loopable
+final class Loopable_MockTester extends Entity implements Loopable
 {
     /**
      * @param array|false $data
@@ -70,7 +70,7 @@ class Loopable_MockTester extends Entity implements Loopable
     }
 }
 
-class Loop_MockTest extends Loop
+final class Loop_MockTest extends Loop
 {
     protected function createNewObject(array $data): \Runalyze\Model\Loopable_MockTester
     {

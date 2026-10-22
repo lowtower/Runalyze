@@ -17,13 +17,10 @@ use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityContextAdapterFactory;
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 {
     private AccountRepository&Stub $accountRepository;
-
-    private ParameterBagInterface&Stub $parameterBag;
 
     private TrainingRepository&Stub $trainingRepository;
 
@@ -34,16 +31,15 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
     protected function setUp(): void
     {
         $this->accountRepository = $this->createStub(AccountRepository::class);
-        $this->parameterBag = $this->createStub(ParameterBagInterface::class);
         $this->trainingRepository = $this->createStub(TrainingRepository::class);
         $this->activityContextAdapterFactory = $this->createStub(ActivityContextAdapterFactory::class);
 
-        $this->command = $this->createCommand();
+        $this->command = $this->createCommand(osmOverpassUrl: 'https://overpass.example.org');
     }
 
     private function createCommand(
         ?AccountRepository $accountRepository = null,
-        ?ParameterBagInterface $parameterBag = null,
+        string $osmOverpassUrl = 'https://overpass.example.org',
         ?TrainingRepository $trainingRepository = null,
         ?ActivityContextAdapterFactory $activityContextAdapterFactory = null
     ): ActivityBulkRouteNameEvaluationCommand {
@@ -56,7 +52,7 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
         return new ActivityBulkRouteNameEvaluationCommand(
             $doctrine,
-            $parameterBag ?? $this->parameterBag,
+            $osmOverpassUrl,
             $trainingRepository ?? $this->trainingRepository,
             $activityContextAdapterFactory ?? $this->activityContextAdapterFactory
         );
@@ -93,7 +89,10 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
             ->expects($this->never())
             ->method('findForAccount');
 
-        $command = $this->createCommand(accountRepository: $accountRepository, trainingRepository: $trainingRepository);
+        $command = $this->createCommand(
+            accountRepository: $accountRepository,
+            trainingRepository: $trainingRepository
+        );
 
         $tester = new CommandTester($command);
         $exitCode = $tester->execute([
@@ -111,19 +110,15 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
         $this->accountRepository->method('loadUserByUsername')
             ->willReturn($account);
 
-        $parameterBag = $this->createMock(ParameterBagInterface::class);
-        $parameterBag
-            ->expects($this->once())
-            ->method('get')
-            ->with('osm_overpass_url')
-            ->willReturn('');
-
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository
             ->expects($this->never())
             ->method('findForAccount');
 
-        $command = $this->createCommand(parameterBag: $parameterBag, trainingRepository: $trainingRepository);
+        $command = $this->createCommand(
+            osmOverpassUrl: '',
+            trainingRepository: $trainingRepository
+        );
 
         $tester = new CommandTester($command);
         $exitCode = $tester->execute([
@@ -132,7 +127,7 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
         ]);
 
         $this->assertSame(1, $exitCode);
-        $this->assertStringContainsString('Set parameter osm_overpass_url', $tester->getDisplay());
+        $this->assertStringContainsString('Set environment variable OSM_OVERPASS_URL', $tester->getDisplay());
     }
 
     public function testExecuteSkipsSilentlyWhenActivityHasNoRoute(): void
@@ -147,10 +142,6 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
         $this->accountRepository->method('loadUserByUsername')
             ->willReturn($account);
-        // $this->parameterBag is a stub: with() has no effect on stubs (and is
-        // deprecated). Only 'osm_overpass_url' is ever queried in this test.
-        $this->parameterBag->method('get')
-            ->willReturn('https://overpass.example.org');
 
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository
@@ -204,8 +195,6 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
         $this->accountRepository->method('loadUserByUsername')
             ->willReturn($account);
-        $this->parameterBag->method('get')
-            ->willReturn('https://overpass.example.org');
 
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository->method('findForAccount')
@@ -252,8 +241,6 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
         $this->accountRepository->method('loadUserByUsername')
             ->willReturn($account);
-        $this->parameterBag->method('get')
-            ->willReturn('https://overpass.example.org');
 
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository
@@ -296,8 +283,6 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
         $this->accountRepository->method('loadUserByUsername')
             ->willReturn($account);
-        $this->parameterBag->method('get')
-            ->willReturn('https://overpass.example.org');
 
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository
@@ -331,8 +316,6 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
         $this->accountRepository->method('loadUserByUsername')
             ->willReturn($account);
-        $this->parameterBag->method('get')
-            ->willReturn('https://overpass.example.org');
 
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository
@@ -370,8 +353,6 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
         $this->accountRepository->method('loadUserByUsername')
             ->willReturn($account);
-        $this->parameterBag->method('get')
-            ->willReturn('https://overpass.example.org');
 
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository
@@ -422,8 +403,6 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
         $this->accountRepository->method('loadUserByUsername')
             ->willReturn($account);
-        $this->parameterBag->method('get')
-            ->willReturn('https://overpass.example.org');
 
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository->method('findForAccount')
@@ -487,8 +466,6 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
         $this->accountRepository->method('loadUserByUsername')
             ->willReturn($account);
-        $this->parameterBag->method('get')
-            ->willReturn('https://overpass.example.org');
 
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository->method('findForAccount')
@@ -548,8 +525,6 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
 
         $this->accountRepository->method('loadUserByUsername')
             ->willReturn($account);
-        $this->parameterBag->method('get')
-            ->willReturn('https://overpass.example.org');
 
         $trainingRepository = $this->createMock(TrainingRepository::class);
         $trainingRepository->method('findForAccount')

@@ -44,6 +44,7 @@ setup() {
       data/views \
       var/cache \
       var/cache/legacy/cache \
+      var/email \
       var/log \
       var/poster \
       var/queue \
@@ -73,23 +74,6 @@ setup() {
     setfacl -R -m   g:www-data:rwx data var public
     setfacl -R -m d:g:www-data:rwx data var public
 
-    # The old Travis CI setup did exactly this:
-    if [ ! -f data/config.yaml ] && [ -f config/default_config.yaml ]; then
-        log "Creating data/config.yaml from config/default_config.yaml ..."
-        cp config/default_config.yaml data/config.yaml
-    fi
-
-    # Adjust RUNALYZE legacy config for the container network.
-    if [ -f data/config.yaml ]; then
-        log "Updating data/config.yaml for container services ..."
-
-        sed -i "s/database_host:.*/database_host:         ${DB_HOST}/"           data/config.yaml || true
-        sed -i "s/database_port:.*/database_port:         ${DB_PORT}/"           data/config.yaml || true
-        sed -i "s/database_name:.*/database_name:         ${DB_NAME}/"           data/config.yaml || true
-        sed -i "s/database_user:.*/database_user:         ${DB_USER}/"           data/config.yaml || true
-        sed -i "s/database_password:.*/database_password: ${DB_PASSWORD}/"       data/config.yaml || true
-    fi
-
     if [ ! -d vendor ]; then
         log "Installing PHP dependencies with Composer ..."
         composer install --prefer-source --no-interaction --ignore-platform-reqs
@@ -115,6 +99,15 @@ setup() {
 
     touch "${READY_FILE}"
     log "Cache marked as ready (${READY_FILE})."
+
+    # Startup Scripts
+    if [ -f "/var/www/html/bin/download-timezone-sqlite.sh" ]; then
+        bash /var/www/html/bin/download-timezone-sqlite.sh
+    fi
+
+    if [ -f "/var/www/html/bin/download-disposable-email-domains.sh" ]; then
+        bash /var/www/html/bin/download-disposable-email-domains.sh
+    fi
 }
 
 # -----------------------------------------------------------------------------

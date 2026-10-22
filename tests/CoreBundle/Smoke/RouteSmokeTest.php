@@ -7,15 +7,17 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Smoke;
 use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[CoversNothing]
 final class RouteSmokeTest extends WebTestCase
 {
-    public $client;
+    public KernelBrowser $client;
 
-    public $container;
+    public Container $container;
 
     private ?UserInterface $user = null;
 

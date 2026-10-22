@@ -28,7 +28,7 @@ use Runalyze\Service\RouteNameEvaluation\RouteNameEvalResult;
 use Stringable;
 use Throwable;
 
-class RouteNameEvalOsmRecordingLogger extends AbstractLogger
+final class RouteNameEvalOsmRecordingLogger extends AbstractLogger
 {
     /**
      * @var array<int, array{level: mixed, message: string, context: array<mixed>}>

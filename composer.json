@@ -6,7 +6,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "~8.4",
+        "php": ">=8.4.27",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "beberlei/doctrineextensions": "^1.5",
@@ -14,10 +14,10 @@
         "doctrine/doctrine-bundle": "^3.3",
         "doctrine/doctrine-migrations-bundle": "^4.0",
         "doctrine/orm": "^3.7",
+        "egulias/email-validator": "^4.0",
         "guzzlehttp/guzzle": "^8.3",
         "league/geotools": "v2.x-dev",
         "monolog/monolog": "^3.12",
-        "nojacko/email-validator": "^1.1",
         "p3k/picofeed": "^0.1.40",
         "phpfastcache/phpfastcache": "^9.2",
         "predis/predis": "^3.7",
@@ -287,6 +287,9 @@
             "@test:setup",
             "@test:coverage-html"
         ],
+        "download:tif-testfiles": "bash bin/download-tif-testfiles.sh",
+        "download:timezone-databse": "bash bin/download-timezone-sqlite.sh",
+        "download:disposable-domains-list": "bash bin/download-disposable-email-domains.sh",
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"

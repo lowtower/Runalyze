@@ -48,7 +48,7 @@ class EntityTestDouble extends Entity
     }
 }
 
-class IgnoringScalarEntityTestDouble extends EntityTestDouble
+final class IgnoringScalarEntityTestDouble extends EntityTestDouble
 {
     protected function ignoreNonEmptyValue(string $key): bool
     {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
-class PluginFactoryTestFixture extends PluginPanel
+final class PluginFactoryTestFixture extends PluginPanel
 {
     final public function name(): string
     {

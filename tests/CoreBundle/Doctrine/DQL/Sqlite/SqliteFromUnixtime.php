@@ -7,7 +7,7 @@ use Doctrine\ORM\Query\AST\Node;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 
-class SqliteFromUnixtime extends FunctionNode
+final class SqliteFromUnixtime extends FunctionNode
 {
     private Node $timestamp;
 

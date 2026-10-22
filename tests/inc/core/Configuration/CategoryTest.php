@@ -11,14 +11,14 @@ use Runalyze\Parameter\Boolean;
 use Runalyze\Parameter\Integer;
 use Runalyze\Parameter\Textline;
 
-class Category_MockTester extends Category
+final class Category_MockTester extends Category
 {
     protected function key(): string
     {
         return 'key';
     }
 
-    protected function createHandles()
+    protected function createHandles(): void
     {
         $this->addHandle(new Handle('TEST', new Integer(42)));
         $this->addHandle(new Handle('SECOND', new Textline('foobar')));

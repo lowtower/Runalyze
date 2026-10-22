@@ -14,7 +14,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * Command to update activities with details of a route.
@@ -26,7 +25,7 @@ class ActivityBulkRouteNameEvaluationCommand extends Command
 
     public function __construct(
         private readonly ManagerRegistry $doctrine,
-        private readonly ParameterBagInterface $parameterBag,
+        private readonly string $osmOverpassUrl,
         private readonly TrainingRepository $trainingRepository,
         private readonly ActivityContextAdapterFactory $activityContextAdapterFactory
     ) {
@@ -59,12 +58,13 @@ class ActivityBulkRouteNameEvaluationCommand extends Command
         if ($user === null) {
             $output->writeln('<fg=red>Unknown User</>');
 
-            return \Symfony\Component\Console\Command\Command::FAILURE;
+            return Command::FAILURE;
         }
 
-        if (empty($this->parameterBag->get('osm_overpass_url'))) {
-            $output->writeln('<fg=red>Set parameter osm_overpass_url</>');
-            return \Symfony\Component\Console\Command\Command::FAILURE;
+        if (empty($this->osmOverpassUrl)) {
+            $output->writeln('<fg=red>Set environment variable OSM_OVERPASS_URL</>');
+
+            return Command::FAILURE;
         }
 
         $output->writeln('Start route-name evaluation with id=' . $activityId . ' and nexted=' . $nexted . ', override=' . $this->override);

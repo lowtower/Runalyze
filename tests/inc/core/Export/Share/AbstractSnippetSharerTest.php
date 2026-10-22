@@ -7,7 +7,7 @@ namespace Runalyze\Export\Share;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
-class AbstractSnippetSharerTestFixture extends AbstractSnippetSharer
+final class AbstractSnippetSharerTestFixture extends AbstractSnippetSharer
 {
     public function name(): string
     {

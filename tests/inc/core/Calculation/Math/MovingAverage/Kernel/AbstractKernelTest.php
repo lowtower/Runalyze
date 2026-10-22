@@ -2,7 +2,7 @@
 
 namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
-class AbstractKernelTest_MockTester extends AbstractKernel
+final class AbstractKernelTest_MockTester extends AbstractKernel
 {
     protected float $DefaultWidth = 1.0;
 

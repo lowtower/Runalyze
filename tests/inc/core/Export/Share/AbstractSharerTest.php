@@ -7,7 +7,7 @@ namespace Runalyze\Export\Share;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
-class AbstractSharerTestFixture extends AbstractSharer
+final class AbstractSharerTestFixture extends AbstractSharer
 {
     public function isExternalLink(): bool
     {

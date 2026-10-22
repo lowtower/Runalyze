@@ -9,7 +9,7 @@ use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class LoadAccountData extends AbstractFixture implements OrderedFixtureInterface
+final class LoadAccountData extends AbstractFixture implements OrderedFixtureInterface
 {
     public function __construct(
         private readonly ?UserPasswordHasherInterface $passwordHasher = null
@@ -22,7 +22,7 @@ class LoadAccountData extends AbstractFixture implements OrderedFixtureInterface
         $this->registerDefaultAccount($manager);
     }
 
-    protected function addEmptyAccount(ObjectManager $manager)
+    protected function addEmptyAccount(ObjectManager $manager): void
     {
         $emptyAccount = new Account();
         $emptyAccount->setUsername('empty');
@@ -38,7 +38,7 @@ class LoadAccountData extends AbstractFixture implements OrderedFixtureInterface
         $this->addReference('account-empty', $emptyAccount);
     }
 
-    protected function registerDefaultAccount(ObjectManager $manager)
+    protected function registerDefaultAccount(ObjectManager $manager): void
     {
         $defaultAccount = new Account();
         $defaultAccount->setUsername('default');

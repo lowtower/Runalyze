@@ -5,9 +5,9 @@ namespace Runalyze\Calculation\Performance;
 use Runalyze\Sports\Performance\Model\AbstractModel;
 use Runalyze\Sports\Performance\Model\TsbModel;
 
-class FakeAbstractModel extends AbstractModel
+final class FakeAbstractModel extends AbstractModel
 {
-    protected function calculateArrays()
+    protected function calculateArrays(): void
     {
         foreach ($this->Trimp as $i => $Trimp) {
             $this->Fitness[$i] = 2 * $Trimp;

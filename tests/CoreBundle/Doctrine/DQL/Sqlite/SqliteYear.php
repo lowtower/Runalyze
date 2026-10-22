@@ -7,7 +7,7 @@ use Doctrine\ORM\Query\AST\Node;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 
-class SqliteYear extends FunctionNode
+final class SqliteYear extends FunctionNode
 {
     private Node $expression;
 

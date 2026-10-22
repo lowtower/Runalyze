@@ -43,7 +43,7 @@ class RouteNameEvalResult
     public function appendNotes(?string $existingNote): string
     {
         if (empty($this->notes)) {
-            return $existingNote;
+            return $existingNote ?? '';
         }
 
         $taggedNote = self::NOTES_START . PHP_EOL . $this->notes . ($this->endsWith($this->notes, PHP_EOL) ? '' : PHP_EOL) . self::NOTES_END;
@@ -58,7 +58,10 @@ class RouteNameEvalResult
         }
 
         // replace between the tags the existing text
-        return preg_replace(self::NOTES_PATTERN, '$1' . $taggedNote . '$3', $existingNote);
+        $result = preg_replace(self::NOTES_PATTERN, '$1' . $taggedNote . '$3', $existingNote);
+
+        // preg_replace returns null on error or no match - fallback to original
+        return $result ?? $existingNote;
     }
 
     protected function endsWith(string $haystack, string $needle): bool

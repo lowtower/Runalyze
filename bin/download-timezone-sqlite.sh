@@ -14,7 +14,7 @@ for i in {1..3}; do
             echo "⚠ Attempt $i failed, retrying in 5 seconds..."
             sleep 5
         else
-            echo "⚠ Could download timezone database, using existing version"
+            echo "⚠ Could not download timezone database, using existing version"
         fi
     fi
 done

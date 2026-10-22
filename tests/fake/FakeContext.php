@@ -16,7 +16,7 @@ use Runalyze\Parameter\Application\PaceUnit;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity
  */
-class FakeContext extends Context
+final class FakeContext extends Context
 {
     public function __construct(
         Activity\Entity $activity,
