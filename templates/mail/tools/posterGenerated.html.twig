@@ -1,4 +1,5 @@
 {% extends "mail/transactionBase.html.twig" %}
+{% set base_url = app.request is defined and app.request ? app.request.getSchemeAndHttpHost() : (base_url ?? 'https://runalyze.local') %}
 
 {% if partial %}
     {% set title = 'Your RUNALYZE posters are ready'|trans %}
@@ -7,8 +8,10 @@
 {% endif %}
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
-            <meta itemprop="name" content="Poster generation" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" /><table width="100%" cellpadding="0" cellspacing="0" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"><tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"><td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-                                    <img src="{{ app.request.getSchemeAndHttpHost ~ asset('assets/images/runalyze-start.png') }}">
+        <meta itemprop="name" content="Poster generation" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" />
+        <table width="100%" cellpadding="0" cellspacing="0" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+            <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"><td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
+                <img src="{{ base_url ~ asset('assets/images/runalyze-start.png') }}">
             </td></tr>
             <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"><td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
                 {% trans with {'%s': username} %}Hi %s{% endtrans %},
@@ -23,14 +26,15 @@
             </td></tr>
             {% endif %}
             <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"><td class="content-block" itemprop="handler" itemscope itemtype="http://schema.org/HttpActionHandler" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-                <a href="{{ app.request.getSchemeAndHttpHost ~ path('poster') }}" class="btn-primary" itemprop="url" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; color: #FFF; text-decoration: none; line-height: 2em; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: capitalize; background-color: #348eda; margin: 0; border-color: #348eda; border-style: solid; border-width: 10px 20px;">{% trans %}Download your posters{% endtrans %}</a>
+                <a href="{{ base_url ~ path('poster') }}" class="btn-primary" itemprop="url" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; color: #FFF; text-decoration: none; line-height: 2em; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: capitalize; background-color: #348eda; margin: 0; border-color: #348eda; border-style: solid; border-width: 10px 20px;">{% trans %}Download your posters{% endtrans %}</a>
             </td></tr>
             <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"><td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-                    {% trans %}If the link does not work, please copy the following URL into the address field of your web browser{% endtrans %}: <br /><code>{{ app.request.getSchemeAndHttpHost ~ path('poster') }}</code>
+                    {% trans %}If the link does not work, please copy the following URL into the address field of your web browser{% endtrans %}: <br /><code>{{ base_url ~ path('poster') }}</code>
             </td></tr>
             <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"><td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
                 &mdash; {% trans %}Your RUNALYZE-Team{% endtrans %}
             </td>
-            </tr></table>
+            </tr>
+        </table>
 
 {% endblock %}

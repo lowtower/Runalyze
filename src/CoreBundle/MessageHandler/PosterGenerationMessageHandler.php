@@ -9,7 +9,6 @@ use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Runalyze\Bundle\CoreBundle\Component\Notifications\Message\PosterGeneratedMessage;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\Converter\AbstractSvgToPngConverter;
-use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\Converter\InkscapeConverter;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\Converter\RsvgConverter;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\FileHandler;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\GenerateJsonData;
@@ -48,8 +47,7 @@ class PosterGenerationMessageHandler
         private readonly AccountMailer $accountMailer,
         private readonly PosterGenerationStateResolver $stateResolver,
         string $dataDirectory,
-        private readonly string $rsvgPath,
-        private readonly string $inkscapePath
+        private readonly string $rsvgPath
     ) {
         $realDataDirectory = realpath($dataDirectory);
 
@@ -116,9 +114,15 @@ class PosterGenerationMessageHandler
 
                 $finalName = $this->fileHandler->buildFinalFileName($account, $sport, $message->getYear(), $type, $message->getSize());
                 $finalFile = $this->exportDirectory() . $finalName;
-                $converter = $this->getConverter($type);
+                $converter = $this->getConverter();
                 $converter->setHeight($message->getSize());
+                $svgFile = $this->generatePoster->generate();
                 $hashFinalFile = $this->exportDirectory() . md5($finalName) . '.png';
+
+                if (! file_exists($svgFile)) {
+                    throw new RuntimeException('Generated SVG file does not exist: ' . $svgFile);
+                }
+
                 $exitCode = $converter->callConverter($this->generatePoster->generate(), $hashFinalFile);
 
                 if ($exitCode > 0) {
@@ -126,6 +130,10 @@ class PosterGenerationMessageHandler
                 }
 
                 $filesystem = new Filesystem();
+                if ($filesystem->exists($finalFile)) {
+                    $filesystem->remove($finalFile);
+                }
+
                 $filesystem->rename($hashFinalFile, $finalFile);
 
                 if ($filesystem->exists($finalFile)) {
@@ -150,12 +158,8 @@ class PosterGenerationMessageHandler
         return $generatedFiles;
     }
 
-    private function getConverter(string $posterType): AbstractSvgToPngConverter
+    private function getConverter(): AbstractSvgToPngConverter
     {
-        if ($posterType === 'circular') {
-            return new InkscapeConverter($this->inkscapePath);
-        }
-
         return new RsvgConverter($this->rsvgPath);
     }
 

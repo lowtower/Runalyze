@@ -19,7 +19,7 @@ class GeneratePoster
     protected string $Filename;
 
     public function __construct(
-        protected string $KernelRootDir,
+        protected string $projectDir,
         protected string $Python3Path,
         protected TrainingRepository $TrainingRepository
     ) {
@@ -27,12 +27,12 @@ class GeneratePoster
 
     protected function pathToRepository(): string
     {
-        return $this->KernelRootDir . '/../vendor/runalyze/gpxtrackposter/';
+        return $this->projectDir . '/vendor/runalyze/gpxtrackposter/';
     }
 
     protected function pathToSvgDirectory(): string
     {
-        return $this->KernelRootDir . '/../var/poster/';
+        return $this->projectDir . '/var/poster/';
     }
 
     protected function generateRandomFileName(string $athlete, string $year)
@@ -64,23 +64,25 @@ class GeneratePoster
     {
         $this->generateRandomFileName($account->getUsername(), (string) $year);
 
-        $this->Parameter[] = '--json-dir ' . $jsonDir;
-        $this->Parameter[] = '--athlete ' . $account->getUsername();
-        $this->Parameter[] = '--year ' . $year;
-        $this->Parameter[] = '--output ' . $this->pathToSvgDirectory() . $this->Filename;
-        $this->Parameter[] = '--type ' . $type;
-        $this->Parameter[] = '--title ' . escapeshellarg($title ?? '');
-        $this->Parameter[] = '--background-color  ' . escapeshellarg($backgroundColor);
-        $this->Parameter[] = '--track-color ' . escapeshellarg($trackColor);
-        $this->Parameter[] = '--text-color ' . escapeshellarg($textColor);
-        $this->Parameter[] = '--special-color ' . escapeshellarg($raceColor);
+        $this->Parameter = [
+            '--json-dir', $jsonDir,
+            '--athlete', $account->getUsername(),
+            '--year', (string) $year,
+            '--output', $this->pathToSvgDirectory() . $this->Filename,
+            '--type', $type,
+            '--title', $title ?? '',
+            '--background-color', $backgroundColor,
+            '--track-color', $trackColor,
+            '--text-color', $textColor,
+            '--special-color', $raceColor,
+        ];
 
         $this->addStatsParameter($account, $sport, $year);
 
         if (new Filesystem()->exists($jsonDir . '/special.params')) {
             $specialParams = file_get_contents($jsonDir . '/special.params');
             if ($specialParams !== false) {
-                $this->Parameter[] = $specialParams;
+                $this->Parameter = array_merge($this->Parameter, explode(' ', trim($specialParams)));
             }
         }
     }
@@ -91,10 +93,14 @@ class GeneratePoster
             ->getArrayResult();
         $data = $stats[0];
 
-        $this->Parameter[] = '--stat-num ' . (int) $data['num'];
-        $this->Parameter[] = '--stat-total ' . (float) $data['total_distance'];
-        $this->Parameter[] = '--stat-min ' . (float) $data['min_distance'];
-        $this->Parameter[] = '--stat-max ' . (float) $data['max_distance'];
+        $this->Parameter[] = '--stat-num';
+        $this->Parameter[] = (string) (int) $data['num'];
+        $this->Parameter[] = '--stat-total';
+        $this->Parameter[] = (string) (float) $data['total_distance'];
+        $this->Parameter[] = '--stat-min';
+        $this->Parameter[] = (string) (float) $data['min_distance'];
+        $this->Parameter[] = '--stat-max';
+        $this->Parameter[] = (string) (float) $data['max_distance'];
     }
 
     /**

@@ -370,6 +370,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(MaintenanceListener::class, 'app.listener.maintenance');
 
     $services->set(AccountMailer::class)
+        ->arg('$parameterBag', service('parameter_bag'))
         ->arg('$mailer', service('mailer'))
         ->arg('$twig', service('twig'))
         ->arg('$translator', service('translator'))
@@ -851,12 +852,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set('app.poster.generate_json', GenerateJsonData::class)
         ->arg('$TrainingRepository', service('app.repository.training'))
         ->arg('$RaceresultRepository', service('app.repository.race_result'))
-        ->arg('$KernelRootDir', '%kernel.project_dir%/..');
+        ->arg('$projectDir', '%kernel.project_dir%');
 
     $services->alias(GenerateJsonData::class, 'app.poster.generate_json');
 
     $services->set('app.poster.generate_poster', GeneratePoster::class)
-        ->arg('$KernelRootDir', '%kernel.project_dir%/..')
+        ->arg('$projectDir', '%kernel.project_dir%')
         ->arg('$Python3Path', '%app.python3_path%')
         ->arg('$TrainingRepository', service('app.repository.training'));
 
@@ -892,8 +893,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$fileHandler', service('app.poster.filehandler'))
         ->arg('$stateResolver', service(PosterGenerationStateResolver::class))
         ->arg('$dataDirectory', '%app.data_directory%')
-        ->arg('$rsvgPath', '%app.rsvg_path%')
-        ->arg('$inkscapePath', '%app.inkscape_path%');
+        ->arg('$rsvgPath', '%app.rsvg_path%');
 
     $services->set('app.activity.feed', Feed::class);
 

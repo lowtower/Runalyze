@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Component\Notifications\Message\PosterGeneratedMessage;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Exception\RfcComplianceException;
@@ -56,7 +57,7 @@ final class AccountMailerTest extends TestCase
 
     private function createMailerService(MailerInterface $mailer, Environment $twig, TranslatorInterface $translator): AccountMailer
     {
-        return new AccountMailer($mailer, $twig, $translator, 'noreply@runalyze.com', 'RUNALYZE');
+        return new AccountMailer($this->createStub(ParameterBagInterface::class), $mailer, $twig, $translator, 'noreply@runalyze.com', 'RUNALYZE');
     }
 
     /**
@@ -131,6 +132,7 @@ final class AccountMailerTest extends TestCase
         $this->expectException(RfcComplianceException::class);
 
         new AccountMailer(
+            $this->createStub(ParameterBagInterface::class),
             $this->createStub(MailerInterface::class),
             $this->createTwig(languageTemplateExists: false, html: 'HTML'),
             $this->createTranslator(),
@@ -144,6 +146,7 @@ final class AccountMailerTest extends TestCase
         $this->expectException(RfcComplianceException::class);
 
         new AccountMailer(
+            $this->createStub(ParameterBagInterface::class),
             $this->createStub(MailerInterface::class),
             $this->createTwig(languageTemplateExists: false, html: 'HTML'),
             $this->createTranslator(),
@@ -391,6 +394,7 @@ final class AccountMailerTest extends TestCase
         $this->assertSame('mail/tools/backupGenerated.en.html.twig', $calls[0][0]);
         $this->assertSame([
             'username' => 'janedoe',
+            'base_url' => null,
         ], $calls[0][1]);
     }
 

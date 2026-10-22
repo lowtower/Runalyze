@@ -7,6 +7,7 @@ namespace Runalyze\Bundle\CoreBundle\Services;
 use Runalyze\Bundle\CoreBundle\Component\Notifications\Message\PosterGeneratedMessage;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
@@ -26,6 +27,7 @@ class AccountMailer
      * @throws RfcComplianceException if the sender mail address is invalid
      */
     public function __construct(
+        protected ParameterBagInterface $parameterBag,
         protected MailerInterface $mailer,
         protected Environment $twig,
         protected TranslatorInterface $translator,
@@ -178,6 +180,7 @@ class AccountMailer
             [
                 'username' => $account->getUsername(),
                 'partial' => $state === PosterGeneratedMessage::STATE_PARTIAL,
+                'base_url' => $this->parameterBag->get('app.mail_localdomain'),
             ]
         );
     }
@@ -197,6 +200,7 @@ class AccountMailer
             'mail/tools/backupGenerated.html.twig',
             [
                 'username' => $account->getUsername(),
+                'base_url' => $this->parameterBag->get('app.mail_localdomain'),
             ]
         );
     }

@@ -53,7 +53,7 @@ final class GeneratePosterTest extends TestCase
 
         $result = $this->invokePrivate($generator, 'pathToRepository');
 
-        $this->assertSame('/app/../vendor/runalyze/gpxtrackposter/', $result);
+        $this->assertSame('/app/vendor/runalyze/gpxtrackposter/', $result);
     }
 
     public function testPathToSvgDirectoryAppendsExpectedRelativePath(): void
@@ -62,7 +62,7 @@ final class GeneratePosterTest extends TestCase
 
         $result = $this->invokePrivate($generator, 'pathToSvgDirectory');
 
-        $this->assertSame('/app/../var/poster/', $result);
+        $this->assertSame('/app/var/poster/', $result);
     }
 
     public function testAvailablePosterTypesReturnsExpectedFixedList(): void
@@ -154,19 +154,32 @@ final class GeneratePosterTest extends TestCase
 
         $parameters = $this->getPrivateProperty($generator, 'Parameter');
 
-        $this->assertContains('--json-dir /tmp/json', $parameters);
-        $this->assertContains('--athlete johndoe', $parameters);
-        $this->assertContains('--year 2024', $parameters);
-        $this->assertContains('--type grid', $parameters);
-        $this->assertContains("--title 'My Title'", $parameters);
-        $this->assertContains("--background-color  '#000000'", $parameters);
-        $this->assertContains("--track-color '#FF0000'", $parameters);
-        $this->assertContains("--text-color '#FFFFFF'", $parameters);
-        $this->assertContains("--special-color '#00FF00'", $parameters);
-        $this->assertContains('--stat-num 12', $parameters);
-        $this->assertContains('--stat-total 150.5', $parameters);
-        $this->assertContains('--stat-min 3.2', $parameters);
-        $this->assertContains('--stat-max 21.1', $parameters);
+        $this->assertContains('--json-dir', $parameters);
+        $this->assertContains('/tmp/json', $parameters);
+        $this->assertContains('--athlete', $parameters);
+        $this->assertContains('johndoe', $parameters);
+        $this->assertContains('--year', $parameters);
+        $this->assertContains('2024', $parameters);
+        $this->assertContains('--type', $parameters);
+        $this->assertContains('grid', $parameters);
+        $this->assertContains('--title', $parameters);
+        $this->assertContains('My Title', $parameters);
+        $this->assertContains('--background-color', $parameters);
+        $this->assertContains('#000000', $parameters);
+        $this->assertContains('--track-color', $parameters);
+        $this->assertContains('#FF0000', $parameters);
+        $this->assertContains('--text-color', $parameters);
+        $this->assertContains('#FFFFFF', $parameters);
+        $this->assertContains('--special-color', $parameters);
+        $this->assertContains('#00FF00', $parameters);
+        $this->assertContains('--stat-num', $parameters);
+        $this->assertContains('12', $parameters);
+        $this->assertContains('--stat-total', $parameters);
+        $this->assertContains('150.5', $parameters);
+        $this->assertContains('--stat-min', $parameters);
+        $this->assertContains('3.2', $parameters);
+        $this->assertContains('--stat-max', $parameters);
+        $this->assertContains('21.1', $parameters);
     }
 
     public function testBuildCommandTreatsNullTitleAsEmptyString(): void
@@ -194,7 +207,9 @@ final class GeneratePosterTest extends TestCase
 
         $parameters = $this->getPrivateProperty($generator, 'Parameter');
 
-        $this->assertContains("--title ''", $parameters);
+        $titleIndex = array_search('--title', $parameters, true);
+        $this->assertNotFalse($titleIndex);
+        $this->assertSame('', $parameters[$titleIndex + 1]);
     }
 
     public function testBuildCommandEscapesShellMetacharactersInTitle(): void
@@ -221,9 +236,12 @@ final class GeneratePosterTest extends TestCase
         );
 
         $parameters = $this->getPrivateProperty($generator, 'Parameter');
-        $titleParameter = current(array_filter($parameters, static fn ($p): bool => str_starts_with((string) $p, '--title ')));
 
-        $this->assertSame('--title ' . escapeshellarg("'; rm -rf /; echo '"), $titleParameter);
+        $titleIndex = array_search('--title', $parameters, true);
+        $this->assertNotFalse($titleIndex, '--title parameter not found');
+        $titleValue = $parameters[$titleIndex + 1] ?? null;
+
+        $this->assertSame("'; rm -rf /; echo '", $titleValue);
     }
 
     #[DataProvider('providePosterTypes')]
@@ -241,7 +259,9 @@ final class GeneratePosterTest extends TestCase
 
         $parameters = $this->getPrivateProperty($generator, 'Parameter');
 
-        $this->assertContains('--type ' . $type, $parameters);
+        $typeIndex = array_search('--type', $parameters, true);
+        $this->assertNotFalse($typeIndex);
+        $this->assertSame($type, $parameters[$typeIndex + 1]);
     }
 
     /**

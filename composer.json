@@ -297,7 +297,10 @@
     },
     "config": {
         "process-timeout": 1800,
-        "preferred-install": "dist",
+        "preferred-install": {
+            "runalyze/*": "source",
+            "*": "dist"
+        },
         "allow-plugins": {
             "php-http/discovery": true,
             "phpstan/extension-installer": true,

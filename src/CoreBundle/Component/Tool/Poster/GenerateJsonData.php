@@ -12,24 +12,18 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class GenerateJsonData
 {
-    /**
-     * @var string
-     */
-    protected $Directory;
+    protected string $Directory;
 
-    /**
-     * @param string $KernelRootDir
-     */
     public function __construct(
         protected TrainingRepository $TrainingRepository,
         protected RaceresultRepository $RaceresultRepository,
-        protected $KernelRootDir
+        protected string $projectDir
     ) {
     }
 
     public function getPathToJsonFiles(): string
     {
-        return $this->KernelRootDir . '/../var/tmp/' . $this->Directory;
+        return $this->projectDir . '/var/tmp/' . $this->Directory;
     }
 
     public function createJsonFilesFor(Account $account, Sport $sport, int $year): void
@@ -58,16 +52,12 @@ class GenerateJsonData
         $this->listSpecialFiles($account, $sport, $year);
     }
 
-    /**
-     * @param string $geohashLine
-     * @param float $distance
-     */
-    protected function getSegmentsFor($geohashLine, $distance): array
+    protected function getSegmentsFor(string $geohashLine, float $distance): array
     {
         $segments = [];
         $segments[] = [];
 
-        if ($geohashLine === null || $geohashLine == '') {
+        if ($geohashLine === '') {
             return $segments;
         }
 

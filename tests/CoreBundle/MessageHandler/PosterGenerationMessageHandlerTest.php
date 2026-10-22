@@ -85,8 +85,7 @@ final class PosterGenerationMessageHandlerTest extends TestCase
             $this->accountMailerMock,
             new PosterGenerationStateResolver(),
             $dataDirectory ?? sys_get_temp_dir(),
-            '/usr/bin/rsvg-convert',
-            '/usr/bin/inkscape'
+            '/usr/bin/rsvg-convert'
         );
     }
 
@@ -390,7 +389,8 @@ final class PosterGenerationMessageHandlerTest extends TestCase
         $reflection = new ReflectionObject($handler);
         $method = $reflection->getMethod('getConverter');
 
-        $this->assertInstanceOf(InkscapeConverter::class, $method->invoke($handler, 'circular'));
+        # $this->assertInstanceOf(InkscapeConverter::class, $method->invoke($handler, 'circular'));
+        $this->assertInstanceOf(RsvgConverter::class, $method->invoke($handler, 'circular'));
     }
 
     #[DataProvider('provideNonCircularPosterTypes')]

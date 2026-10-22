@@ -59,6 +59,7 @@ RUN set -eux; \
       libonig-dev \
       python3 \
       python3-pip \
+      python3-venv \
       librsvg2-bin \
       inkscape \
     ; \
@@ -116,8 +117,9 @@ COPY composer.* ./
 RUN composer install --no-progress || true; \
     composer --version;
 
-# Python dependencies for gpxtrackposter
-#RUN pip3 install --no-cache-dir -r vendor/runalyze/gpxtrackposter/requirements.txt
+# Python virtual environment for gpxtrackposter
+RUN python3 -m venv /var/lib/python/venv
+RUN /var/lib/python/venv/bin/pip3 install --no-cache-dir    vendor/runalyze/gpxtrackposter/.
 
 # Apache
 COPY docker/php/runalyze.ini /usr/local/etc/php/conf.d/99-runalyze.ini
