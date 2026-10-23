@@ -109,6 +109,7 @@ final class RouteSmokeTest extends WebTestCase
         yield ['activity-communicator-iframe', '/activity/communicator/iframe', 'GET', 302, false];
         yield ['activity-upload', '/activity/upload', 'GET', 302, false];
         yield ['activity-multi-importer', '/activity/multi-import', 'POST', 302, false];
+        yield ['activity-new', '/activity/new', 'GET', 302, false];
         yield ['activity-new', '/activity/new', 'POST', 302, false];
         yield ['activity-edit', '/activity/{id}/edit', 'GET', 302, true];
         yield ['multi-editor', '/activity/multi-editor', 'GET', 302, true];
