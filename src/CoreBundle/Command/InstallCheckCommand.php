@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 #[\Symfony\Component\Console\Attribute\AsCommand(name: 'runalyze:install:check', description: 'Check requirements for installing RUNALYZE.')]
 class InstallCheckCommand extends Command
 {
-    public const string REQUIRED_PHP_VERSION = '8.4.0';
+    public const string REQUIRED_PHP_VERSION = '8.5.12';
 
     /**
      * @var int exit code

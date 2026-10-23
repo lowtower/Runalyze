@@ -22,6 +22,7 @@ class HRV extends ActivityPlot
     /**
      * Use standard x-axis?
      */
+    #[\Override]
     protected bool $useStandardXaxis = false;
 
     protected function setKey()

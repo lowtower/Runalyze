@@ -68,11 +68,11 @@ final class DuplicateFinderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testDuplicatesWithNull(): void
+    public function testDuplicatesWithEmptyString(): void
     {
         $this->assertEquals(
             [
-                null => false,
+                '' => false,
                 '1234567890' => false,
                 '1448797800' => true,
             ],
@@ -85,11 +85,11 @@ final class DuplicateFinderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testDuplicatesWithOnlyNull(): void
+    public function testDuplicatesWithOnlyEmptyString(): void
     {
         $this->assertEquals(
             [
-                null => false,
+                '' => false,
             ],
             $this->Finder->checkForDuplicates([
                 null,

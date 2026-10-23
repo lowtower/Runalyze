@@ -21,6 +21,7 @@ class FloatingPoint extends \Runalyze\Parameter
     /**
      * @var array<string, false>
      */
+    #[\Override]
     protected array $Options = [
         'min' => false,
         'max' => false,

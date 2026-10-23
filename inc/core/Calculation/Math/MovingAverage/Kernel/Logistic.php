@@ -19,8 +19,10 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
  */
 class Logistic extends AbstractKernel
 {
+    #[\Override]
     protected float $DefaultWidth = 10.0;
 
+    #[\Override]
     protected float $NormalizationFactor = 10.0;
 
     protected function atTransformed(float $u): float

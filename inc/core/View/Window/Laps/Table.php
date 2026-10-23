@@ -277,7 +277,7 @@ class Table
             ->HRavg();
 
         foreach ($this->splitsAdditional['keys'] as $key) {
-            if (array_key_exists($key, $obj)) {
+            if (array_key_exists((string) $key, $obj)) {
                 if (str_contains($key, FitWorkoutStep::ADD_TARGET_SPEED)) {
                     // if additional is a pace-unit
                     $pace->setDistance($obj[$key] / 1000); // unit is m/s: set km in this one second

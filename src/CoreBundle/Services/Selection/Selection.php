@@ -38,7 +38,7 @@ class Selection
 
     public function hasCurrentKey(): bool
     {
-        return isset($this->List[$this->CurrentKey]);
+        return isset($this->List[$this->CurrentKey ?? '']);
     }
 
     public function getCurrentLabel(): ?string

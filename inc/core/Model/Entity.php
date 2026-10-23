@@ -145,7 +145,7 @@ abstract class Entity
         }
 
         foreach ($keyOrKeys as $key) {
-            if (array_key_exists($key, $this->Data)) {
+            if (array_key_exists((string) $key, $this->Data)) {
                 if (! is_numeric($this->Data[$key])) {
                     if (is_bool($this->Data[$key])) {
                         $this->Data[$key] = (int) $this->Data[$key];
@@ -170,7 +170,7 @@ abstract class Entity
         }
 
         foreach ($keyOrKeys as $key) {
-            if (array_key_exists($key, $this->Data)) {
+            if (array_key_exists((string) $key, $this->Data)) {
                 if ($this->Data[$key] === '' || $this->Data[$key] === null || ($treatZeroAsNull && $this->Data[$key] == 0) || $this->Data[$key] === []) {
                     $this->Data[$key] = null;
                 } elseif ($ensureNumericIfNotEmpty) {

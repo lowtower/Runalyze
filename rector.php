@@ -31,7 +31,7 @@ return RectorConfig::configure()
         __DIR__ . '/var/cache/dev/App_KernelDevDebugContainer.xml'
     )
     ->withSets([
-        LevelSetList::UP_TO_PHP_84,
+        LevelSetList::UP_TO_PHP_85,
         PHPUnitSetList::PHPUNIT_CODE_QUALITY,
         # DoctrineSetList::TYPED_COLLECTIONS,
     ])

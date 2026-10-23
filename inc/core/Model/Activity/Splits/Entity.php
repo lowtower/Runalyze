@@ -26,6 +26,7 @@ class Entity extends StringArrayObject
      * Single objects
      * @var Split[]
      */
+    #[\Override]
     protected $Elements = [];
 
     /**

@@ -342,7 +342,7 @@ class ActivityBulkImportCommand extends Command
                     $equipments[$eqp->getId()] = $eqp;
 
                     // store if this type already selected (to avoid multiple mappings of the same category)
-                    if (! array_key_exists($eqp->getType()->getId(), $typeUnique)) {
+                    if (! array_key_exists((string) $eqp->getType()->getId(), $typeUnique)) {
                         $typeUnique[$eqp->getType()->getId()] = true;
                     } else {
                         $typeUnique[$eqp->getType()->getId()] = false;

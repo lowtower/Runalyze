@@ -20,6 +20,7 @@ class Running extends AbstractCadence
     /**
      * Factor for manipulating value
      */
+    #[\Override]
     protected float $Factor = 2.0;
 
     /**

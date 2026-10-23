@@ -19,6 +19,7 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
  */
 class Triangular extends AbstractKernel
 {
+    #[\Override]
     protected float $NormalizationFactor = 2.0;
 
     protected function atTransformed(float $u): float

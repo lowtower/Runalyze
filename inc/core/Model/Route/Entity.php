@@ -124,6 +124,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
     /**
      * Flag: ensure arrays to be equally sized
      */
+    #[\Override]
     protected bool $checkArraySizes = true;
 
     /**

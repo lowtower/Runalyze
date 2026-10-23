@@ -20,6 +20,7 @@ class HRV extends ActivityPointSeries
 {
     public const string COLOR = 'rgb(0,0,0)';
 
+    #[\Override]
     protected int $PointSize = 1;
 
     protected array $XAxisData = [];

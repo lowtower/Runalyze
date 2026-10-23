@@ -4,6 +4,7 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
 final class AbstractKernelTest_MockTester extends AbstractKernel
 {
+    #[\Override]
     protected float $DefaultWidth = 1.0;
 
     protected function atTransformed(float $difference): float

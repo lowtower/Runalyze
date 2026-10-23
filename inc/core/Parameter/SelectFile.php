@@ -14,6 +14,7 @@ namespace Runalyze\Parameter;
  */
 class SelectFile extends Select
 {
+    #[\Override]
     protected bool $UseFallback = false;
 
     /**

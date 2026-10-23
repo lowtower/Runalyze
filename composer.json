@@ -6,7 +6,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.4.27",
+        "php": ">=8.5.12",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "beberlei/doctrineextensions": "^1.5",
@@ -103,6 +103,7 @@
         "paragonie/random_compat": "2.*",
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php85": "*",
         "symfony/polyfill-php84": "*",
         "symfony/polyfill-php83": "*",
         "symfony/polyfill-php82": "*",
