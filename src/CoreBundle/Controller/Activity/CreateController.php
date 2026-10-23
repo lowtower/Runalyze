@@ -208,7 +208,7 @@ class CreateController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/activity/multi-import', name: 'activity-multi-importer', methods: ['GET'])]
+    #[Route(path: '/activity/multi-import', name: 'activity-multi-importer', methods: ['POST'])]
     public function multiImporterAction(Request $request, ?Account $account = null): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
