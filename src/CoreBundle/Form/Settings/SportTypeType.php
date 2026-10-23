@@ -22,8 +22,7 @@ class SportTypeType extends AbstractType
 {
     public function __construct(
         protected TokenStorageInterface $TokenStorageInterface
-    ) {
-    }
+    ) {}
 
     /**
      * @throws RuntimeException if no account is associated with the current security token

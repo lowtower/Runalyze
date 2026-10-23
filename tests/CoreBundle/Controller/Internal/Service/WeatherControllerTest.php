@@ -119,8 +119,8 @@ final class WeatherControllerTest extends AbstractFixturesAwareWebTestCase
                 ],
             ],
             $data['sources'],
-            'With empty API keys in the test environment, both external strategies must report ' .
-            '"not_possible" and the cache strategy must be filtered out entirely.'
+            'With empty API keys in the test environment, both external strategies must report '
+            . '"not_possible" and the cache strategy must be filtered out entirely.'
         );
     }
 

@@ -13,8 +13,7 @@ class ContainsDisposableMailAddressValidator extends ConstraintValidator
 {
     public function __construct(
         private readonly DisposableDomainProvider $provider
-    ) {
-    }
+    ) {}
 
     public function validate(mixed $value, Constraint $constraint): void
     {

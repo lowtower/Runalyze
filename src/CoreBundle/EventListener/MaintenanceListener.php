@@ -16,8 +16,7 @@ class MaintenanceListener
         private readonly ParameterBagInterface $parameterBag,
         private readonly KernelInterface $kernel,
         private readonly Environment $twig
-    ) {
-    }
+    ) {}
 
     public function onKernelRequest(RequestEvent $event): void
     {

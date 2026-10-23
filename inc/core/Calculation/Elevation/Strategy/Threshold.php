@@ -51,10 +51,10 @@ class Threshold extends AbstractStrategy
 
             // Due to performance reasons this is not clean code
             if (
-                (abs($lastPoint - $this->ElevationData[$i]) > $this->Epsilon) &&
-                (
-                    ($this->ElevationData[$i] > $lastPoint && $this->ElevationData[$i + 1] <= $this->ElevationData[$i]) ||
-                    ($this->ElevationData[$i] < $lastPoint && $this->ElevationData[$i + 1] >= $this->ElevationData[$i])
+                (abs($lastPoint - $this->ElevationData[$i]) > $this->Epsilon)
+                && (
+                    ($this->ElevationData[$i] > $lastPoint && $this->ElevationData[$i + 1] <= $this->ElevationData[$i])
+                    || ($this->ElevationData[$i] < $lastPoint && $this->ElevationData[$i + 1] >= $this->ElevationData[$i])
                 )
             ) {
                 $this->SmoothingIndices[] = $i;

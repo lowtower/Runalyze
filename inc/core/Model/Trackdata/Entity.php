@@ -209,8 +209,8 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
             if ($this->isArray($key)) {
                 try {
                     // #TSC temp & perf-cond can have only 0 values in the array, so exclude it
-                    if ($key != self::TEMPERATURE && $key != self::PERFORMANCE_CONDITION &&
-                        ! empty($this->Data[$key]) && max($this->Data[$key]) == 0) {
+                    if ($key != self::TEMPERATURE && $key != self::PERFORMANCE_CONDITION
+                        && ! empty($this->Data[$key]) && max($this->Data[$key]) == 0) {
                         $this->Data[$key] = [];
                     }
 
@@ -652,14 +652,14 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 
     public function hasRunScribeData(): bool
     {
-        return ! empty($this->Data[self::IMPACT_GS_LEFT]) ||
-            ! empty($this->Data[self::IMPACT_GS_RIGHT]) ||
-            ! empty($this->Data[self::BRAKING_GS_LEFT]) ||
-            ! empty($this->Data[self::BRAKING_GS_RIGHT]) ||
-            ! empty($this->Data[self::FOOTSTRIKE_TYPE_LEFT]) ||
-            ! empty($this->Data[self::FOOTSTRIKE_TYPE_RIGHT]) ||
-            ! empty($this->Data[self::PRONATION_EXCURSION_LEFT]) ||
-            ! empty($this->Data[self::PRONATION_EXCURSION_RIGHT]);
+        return ! empty($this->Data[self::IMPACT_GS_LEFT])
+            || ! empty($this->Data[self::IMPACT_GS_RIGHT])
+            || ! empty($this->Data[self::BRAKING_GS_LEFT])
+            || ! empty($this->Data[self::BRAKING_GS_RIGHT])
+            || ! empty($this->Data[self::FOOTSTRIKE_TYPE_LEFT])
+            || ! empty($this->Data[self::FOOTSTRIKE_TYPE_RIGHT])
+            || ! empty($this->Data[self::PRONATION_EXCURSION_LEFT])
+            || ! empty($this->Data[self::PRONATION_EXCURSION_RIGHT]);
     }
 
     /**

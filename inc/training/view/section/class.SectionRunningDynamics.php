@@ -29,10 +29,10 @@ class SectionRunningDynamics extends TrainingViewSectionTabbedPlot
     {
         return
             $this->Context->trackdata()
-                ->has(Trackdata\Entity::CADENCE) ||
-            $this->Context->trackdata()
-                ->has(Trackdata\Entity::VERTICAL_OSCILLATION) ||
-            $this->Context->trackdata()
+                ->has(Trackdata\Entity::CADENCE)
+            || $this->Context->trackdata()
+                ->has(Trackdata\Entity::VERTICAL_OSCILLATION)
+            || $this->Context->trackdata()
                 ->has(Trackdata\Entity::GROUNDCONTACT)
         ;
     }

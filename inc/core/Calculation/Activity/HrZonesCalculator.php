@@ -37,8 +37,7 @@ class HrZonesCalculator
     public function __construct(
         protected ?array $activityZoneBounds,
         protected ?array $sportZoneBounds
-    ) {
-    }
+    ) {}
 
     /**
      * array with the lower bound bpm of the zones (and some additional infos like text and color)

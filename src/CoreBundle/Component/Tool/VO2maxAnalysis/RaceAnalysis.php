@@ -15,8 +15,7 @@ class RaceAnalysis
         protected Entity $Activity,
         protected float $VO2maxFactor,
         protected float $VO2maxShape
-    ) {
-    }
+    ) {}
 
     /**
      * @TODO use Twig extension for LocalTime

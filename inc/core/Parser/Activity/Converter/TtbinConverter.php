@@ -13,8 +13,7 @@ class TtbinConverter extends AbstractShellBasedFileTypeConverter
      */
     public function __construct(
         protected $PathToConverter
-    ) {
-    }
+    ) {}
 
     public function getConvertibleFileExtension(): string
     {

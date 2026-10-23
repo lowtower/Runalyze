@@ -14,8 +14,7 @@ class SessionRequestProcessor
 
     public function __construct(
         private readonly RequestStack $requestStack
-    ) {
-    }
+    ) {}
 
     public function processRecord(LogRecord $record): LogRecord
     {

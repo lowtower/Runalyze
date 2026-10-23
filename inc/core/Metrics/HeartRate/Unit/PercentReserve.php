@@ -13,8 +13,7 @@ class PercentReserve extends AbstractHeartRateUnitInPercent
     public function __construct(
         protected $MaximalHeartRate,
         protected $RestingHeartRate
-    ) {
-    }
+    ) {}
 
     /**
      * @codeCoverageIgnore

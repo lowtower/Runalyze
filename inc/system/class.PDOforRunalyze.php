@@ -129,8 +129,8 @@ class PDOforRunalyze extends PDO
             $set = '`' . $column . '`=' . self::escape($value, true, ($column == 'clothes')) . ', ';
         } else {
             throw new \RuntimeException(
-                "catched PDOException: error with SQL:\n\n'PDOforRunalyze->updateWhere()' needs to have equivalent parameters {$column} and {$value} -" .
-                ' either both scalars or both arrays with same number of items!',
+                "catched PDOException: error with SQL:\n\n'PDOforRunalyze->updateWhere()' needs to have equivalent parameters {$column} and {$value} -"
+                . ' either both scalars or both arrays with same number of items!',
                 0
             );
         }

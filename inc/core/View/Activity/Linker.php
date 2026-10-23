@@ -28,8 +28,7 @@ class Linker
 {
     public function __construct(
         protected Activity\Entity $Activity
-    ) {
-    }
+    ) {}
 
     public function publicUrl(): string
     {

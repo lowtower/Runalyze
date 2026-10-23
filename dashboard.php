@@ -9,7 +9,7 @@
 use Runalyze\View\Activity\Context;
 
 if (! isset($request) || ! $request->isXmlHttpRequest()) {
-    include 'inc/tpl/tpl.Frontend.header.php';
+    include __DIR__ . '/inc/tpl/tpl.Frontend.header.php';
 }
 ?>
 
@@ -35,9 +35,7 @@ $Stats = $Factory->activePlugins(PluginType::STAT);
 foreach ($Stats as $i => $key) {
     $Plugin = $Factory->newInstance($key);
 
-    if ($Plugin !== false) {
-        echo '<li' . ($i == 0 ? ' class="active"' : '') . '>' . $Plugin->getLink() . '</li>';
-    }
+    echo '<li' . ($i == 0 ? ' class="active"' : '') . '>' . $Plugin->getLink() . '</li>';
 }
 
 if (PluginStat::hasVariousStats()) {
@@ -49,9 +47,7 @@ if (PluginStat::hasVariousStats()) {
     foreach ($VariousStats as $key) {
         $Plugin = $Factory->newInstance($key);
 
-        if ($Plugin !== false) {
-            echo '<li>' . $Plugin->getLink() . '</li>';
-        }
+        echo '<li>' . $Plugin->getLink() . '</li>';
     }
 
     echo '</ul>';
@@ -78,7 +74,7 @@ if (isset($_GET['id'])) {
     }
 
     if ($showFirstPlugin) {
-        if (empty($Stats)) {
+        if ($Stats === []) {
             echo __('<em>There are no statistics available. Activate a plugin in your configuration.</em>');
         } else {
             $Factory->newInstance($Stats[0])->display();
@@ -97,6 +93,6 @@ if (isset($_GET['id'])) {
 </div>
 <?php
 if (! isset($request) || ! $request->isXmlHttpRequest()) {
-    include 'inc/tpl/tpl.Frontend.footer.php';
+    include __DIR__ . '/inc/tpl/tpl.Frontend.footer.php';
 }
 ?>

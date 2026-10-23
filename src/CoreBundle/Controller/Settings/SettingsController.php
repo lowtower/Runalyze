@@ -49,8 +49,7 @@ class SettingsController extends AbstractController
         private RequestStack $requestStack,
         private AccountMailer $accountMailer,
         private ConfigurationManager $configurationManager
-    ) {
-    }
+    ) {}
 
     protected function getAccountRepository(): AccountRepository
     {

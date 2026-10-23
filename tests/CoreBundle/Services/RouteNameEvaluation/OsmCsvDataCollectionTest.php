@@ -23,19 +23,19 @@ final class OsmCsvDataCollectionTest extends \PHPUnit\Framework\TestCase
 
     public function testRunningCsvCollection(): void
     {
-        $in = '@type|name|name:de|place|traffic_sign|tourism|landuse|natural|ele|hiking|sac_scale|amenity' . PHP_EOL .
-              'node|Heimathatten|||city_limit|||||||' . PHP_EOL .
-              'node|Shoe|Schuh||city_limit|||||||' . PHP_EOL .
-              'node|Rind Routengabelung||||information||||||' . PHP_EOL .
-              'node|Wallfahrtsstätten und Pilgerwege||||information||||||' . PHP_EOL .
-              'node|Rattenhof||hamlet||||||||' . PHP_EOL .
-              'node|Rattenhof|||city_limit|||||||' . PHP_EOL .
-              'node|Freidenried||town||||||||' . PHP_EOL .
-              'way|Wäldchen||||||wood||||' . PHP_EOL .
-              'way|Pfingstenholz|||||forest|||||' . PHP_EOL .
-              'node|Aachen|AachenDe|town||||||||' . PHP_EOL .
-              'relation|See||||||water||||' . PHP_EOL .
-              'way|Schuher Holz|||||forest|||||' . PHP_EOL;
+        $in = '@type|name|name:de|place|traffic_sign|tourism|landuse|natural|ele|hiking|sac_scale|amenity' . PHP_EOL
+              . 'node|Heimathatten|||city_limit|||||||' . PHP_EOL
+              . 'node|Shoe|Schuh||city_limit|||||||' . PHP_EOL
+              . 'node|Rind Routengabelung||||information||||||' . PHP_EOL
+              . 'node|Wallfahrtsstätten und Pilgerwege||||information||||||' . PHP_EOL
+              . 'node|Rattenhof||hamlet||||||||' . PHP_EOL
+              . 'node|Rattenhof|||city_limit|||||||' . PHP_EOL
+              . 'node|Freidenried||town||||||||' . PHP_EOL
+              . 'way|Wäldchen||||||wood||||' . PHP_EOL
+              . 'way|Pfingstenholz|||||forest|||||' . PHP_EOL
+              . 'node|Aachen|AachenDe|town||||||||' . PHP_EOL
+              . 'relation|See||||||water||||' . PHP_EOL
+              . 'way|Schuher Holz|||||forest|||||' . PHP_EOL;
         $eval = new OsmCsvDataCollection($in);
         $this->assertTrue($eval->hasNames());
 
@@ -53,21 +53,21 @@ final class OsmCsvDataCollectionTest extends \PHPUnit\Framework\TestCase
 
     public function testHikingCsvCollectionSpieser(): void
     {
-        $in = '@type|name|name:de|place|traffic_sign|tourism|landuse|natural|ele|hiking|sac_scale|amenity' . PHP_EOL .
-                'node|Spieser||||||peak|1651|||' . PHP_EOL .
-                'node|Spieser||||information|||1645|yes||' . PHP_EOL .
-                'node|Später Gund||||information|||1503|yes||' . PHP_EOL .
-                'node|Steinpaßsattl||||information|||1556|yes||' . PHP_EOL .
-                'node|Steinpaßsattl||locality||||||||' . PHP_EOL .
-                'node|Im Steinbest||||information|||1505|yes||' . PHP_EOL .
-                'node|Buchel-Alpe||||information|||1276|yes||' . PHP_EOL .
-                'node|Obergschwend||hamlet||||||||' . PHP_EOL .
-                'node|Obergschwend||||information|||1053|yes||' . PHP_EOL .
-                'node|Wertacher Hörnle||||||peak|1695|||' . PHP_EOL .
-                'node|Wertacher Hörnle||||information|||1692|yes||' . PHP_EOL .
-                'node|Wertacher Hörnle||||information|||1680|yes||' . PHP_EOL .
-                'way|Wanderweg 43|||||||||mountain_hiking|' . PHP_EOL .
-                'way|Wanderweg 43|||||||||demanding_mountain_hiking|' . PHP_EOL;
+        $in = '@type|name|name:de|place|traffic_sign|tourism|landuse|natural|ele|hiking|sac_scale|amenity' . PHP_EOL
+                . 'node|Spieser||||||peak|1651|||' . PHP_EOL
+                . 'node|Spieser||||information|||1645|yes||' . PHP_EOL
+                . 'node|Später Gund||||information|||1503|yes||' . PHP_EOL
+                . 'node|Steinpaßsattl||||information|||1556|yes||' . PHP_EOL
+                . 'node|Steinpaßsattl||locality||||||||' . PHP_EOL
+                . 'node|Im Steinbest||||information|||1505|yes||' . PHP_EOL
+                . 'node|Buchel-Alpe||||information|||1276|yes||' . PHP_EOL
+                . 'node|Obergschwend||hamlet||||||||' . PHP_EOL
+                . 'node|Obergschwend||||information|||1053|yes||' . PHP_EOL
+                . 'node|Wertacher Hörnle||||||peak|1695|||' . PHP_EOL
+                . 'node|Wertacher Hörnle||||information|||1692|yes||' . PHP_EOL
+                . 'node|Wertacher Hörnle||||information|||1680|yes||' . PHP_EOL
+                . 'way|Wanderweg 43|||||||||mountain_hiking|' . PHP_EOL
+                . 'way|Wanderweg 43|||||||||demanding_mountain_hiking|' . PHP_EOL;
 
         $eval = new OsmCsvDataCollection($in);
         $this->assertTrue($eval->hasNames());
@@ -81,9 +81,9 @@ final class OsmCsvDataCollectionTest extends \PHPUnit\Framework\TestCase
 
     public function testRunningCsvCollectionOnlyInfo(): void
     {
-        $in = '@type|name|name:de|place|traffic_sign|tourism|landuse|natural|ele|hiking|sac_scale|amenity' . PHP_EOL .
-              'node|Bbbb||||information||||||' . PHP_EOL .
-              'node|Aaaa||||information||||||' . PHP_EOL;
+        $in = '@type|name|name:de|place|traffic_sign|tourism|landuse|natural|ele|hiking|sac_scale|amenity' . PHP_EOL
+              . 'node|Bbbb||||information||||||' . PHP_EOL
+              . 'node|Aaaa||||information||||||' . PHP_EOL;
         $eval = new OsmCsvDataCollection($in);
 
         $this->assertEquals([], $eval->getNames(OsmCsvData::$CAT_PEAK));
@@ -97,15 +97,15 @@ final class OsmCsvDataCollectionTest extends \PHPUnit\Framework\TestCase
 
     public function testHikingCsvCollection(): void
     {
-        $in = '@type|name|name:de|place|traffic_sign|tourism|landuse|natural|ele|hiking|sac_scale|amenity' . PHP_EOL .
-              'node|Grubistein-Vor-gipfel||||||peak||||' . PHP_EOL .
-              'node|Grubigstein||||||peak|2230|||' . PHP_EOL .
-              'node|Stepbergalm||||||||||restaurant' . PHP_EOL .
-              'node|Gartner Wand||locality||||peak|2377|||' . PHP_EOL .
-              'node|Sommerbergjöchle||||information||saddle||||' . PHP_EOL .
-              'way|Wolfratshauser Hütte||||alpine_hut|||1751|||' . PHP_EOL .
-              'way|Wolfratshauser Trail|||||||||demanding_mountain_hiking|' . PHP_EOL .
-              'way|Wolfratshauser Trail|||||||||mountain_hiking|' . PHP_EOL;
+        $in = '@type|name|name:de|place|traffic_sign|tourism|landuse|natural|ele|hiking|sac_scale|amenity' . PHP_EOL
+              . 'node|Grubistein-Vor-gipfel||||||peak||||' . PHP_EOL
+              . 'node|Grubigstein||||||peak|2230|||' . PHP_EOL
+              . 'node|Stepbergalm||||||||||restaurant' . PHP_EOL
+              . 'node|Gartner Wand||locality||||peak|2377|||' . PHP_EOL
+              . 'node|Sommerbergjöchle||||information||saddle||||' . PHP_EOL
+              . 'way|Wolfratshauser Hütte||||alpine_hut|||1751|||' . PHP_EOL
+              . 'way|Wolfratshauser Trail|||||||||demanding_mountain_hiking|' . PHP_EOL
+              . 'way|Wolfratshauser Trail|||||||||mountain_hiking|' . PHP_EOL;
         $eval = new OsmCsvDataCollection($in);
 
         $this->assertEquals(
@@ -120,16 +120,16 @@ final class OsmCsvDataCollectionTest extends \PHPUnit\Framework\TestCase
 
     public function testHikingCsvCollectionKramer(): void
     {
-        $in = '@type|name|name:de|place|traffic_sign|tourism|landuse|natural|ele|hiking|sac_scale|amenity' . PHP_EOL .
-              'node|Kramerspitz||||||peak|1985|||' . PHP_EOL .
-              'node|Königsstand||||||peak|1453|||' . PHP_EOL .
-              'node|Wandergebiet Kramer||||information||||||' . PHP_EOL .
-              'way|Kramersteig||||||||yes|hiking|' . PHP_EOL .
-              'relation|See||||||water||||' . PHP_EOL .
-              'way|Kellerleitensteig||||||||yes|hiking|' . PHP_EOL .
-              'node|Garmisch||town||||||||' . PHP_EOL .
-              'way|Kramersteig||||||||yes|hiking|' . PHP_EOL .
-              'way|Kramerplateauweg||||||||yes|hiking|';
+        $in = '@type|name|name:de|place|traffic_sign|tourism|landuse|natural|ele|hiking|sac_scale|amenity' . PHP_EOL
+              . 'node|Kramerspitz||||||peak|1985|||' . PHP_EOL
+              . 'node|Königsstand||||||peak|1453|||' . PHP_EOL
+              . 'node|Wandergebiet Kramer||||information||||||' . PHP_EOL
+              . 'way|Kramersteig||||||||yes|hiking|' . PHP_EOL
+              . 'relation|See||||||water||||' . PHP_EOL
+              . 'way|Kellerleitensteig||||||||yes|hiking|' . PHP_EOL
+              . 'node|Garmisch||town||||||||' . PHP_EOL
+              . 'way|Kramersteig||||||||yes|hiking|' . PHP_EOL
+              . 'way|Kramerplateauweg||||||||yes|hiking|';
         $eval = new OsmCsvDataCollection($in);
 
         $this->assertEquals(['Kramerspitz', 'Königsstand'], $eval->getNames(OsmCsvData::$CAT_PEAK));

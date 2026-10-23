@@ -13,8 +13,7 @@ class RouteNameEvalFactory
 {
     public function __construct(
         protected RouteNameEvalOsm $RouteNameEval
-    ) {
-    }
+    ) {}
 
     public function getInstance(): RouteNameEval
     {

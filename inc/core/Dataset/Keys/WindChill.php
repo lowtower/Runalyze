@@ -60,12 +60,12 @@ class WindChill extends AbstractKey
             ! $context->activity()
                 ->weather()
                 ->temperature()
-                ->isUnknown() &&
-            ! $context->activity()
+                ->isUnknown()
+            && ! $context->activity()
                 ->weather()
                 ->windSpeed()
-                ->isUnknown() &&
-            (! $context->hasSport() || $context->sport()->isOutside())
+                ->isUnknown()
+            && (! $context->hasSport() || $context->sport()->isOutside())
         ) {
             return $context->dataview()
                 ->windChillFactor()

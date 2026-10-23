@@ -17,8 +17,7 @@ final readonly class PosterGenerationMessage
         private string $trackColor,
         private string $textColor,
         private string $raceColor
-    ) {
-    }
+    ) {}
 
     public function getAccountId(): int
     {

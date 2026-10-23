@@ -17,9 +17,7 @@ final class PluginFactoryTestFixture extends PluginPanel
         return 'Fixture plugin for PluginFactoryTest.';
     }
 
-    protected function displayContent(): void
-    {
-    }
+    protected function displayContent(): void {}
 }
 
 #[Group('plugin')]

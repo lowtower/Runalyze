@@ -19,8 +19,7 @@ class ActivityContextAdapter
         protected WeatherForecast $WeatherForecast,
         protected DuplicateFinder $DuplicateFinder,
         protected RouteNameEval $RouteNameEval
-    ) {
-    }
+    ) {}
 
     /**
      * @param object $object

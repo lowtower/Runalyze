@@ -13,8 +13,7 @@ class ConfigurationExtension
 {
     public function __construct(
         protected ConfigurationManager $ConfigurationManager
-    ) {
-    }
+    ) {}
 
     #[\Twig\Attribute\AsTwigFunction(name: 'configVar')]
     public function configVar(string $key): mixed

@@ -31,8 +31,7 @@ class Factor
      */
     public function __construct(
         protected int $Gender
-    ) {
-    }
+    ) {}
 
     /**
      * Base factor

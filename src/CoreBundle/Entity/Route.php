@@ -528,11 +528,11 @@ class Route implements AccountRelatedEntityInterface
     public function isEmpty(): bool
     {
         return
-            $this->name === '' &&
-            $this->cities === '' &&
-            ($this->geohashes === null || empty($this->geohashes)) &&
-            ($this->elevationsOriginal === null || empty($this->elevationsOriginal)) &&
-            ($this->elevationsCorrected === null || empty($this->elevationsCorrected))
+            $this->name === ''
+            && $this->cities === ''
+            && ($this->geohashes === null || empty($this->geohashes))
+            && ($this->elevationsOriginal === null || empty($this->elevationsOriginal))
+            && ($this->elevationsCorrected === null || empty($this->elevationsCorrected))
         ;
     }
 

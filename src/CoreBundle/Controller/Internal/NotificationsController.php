@@ -19,8 +19,7 @@ class NotificationsController extends AbstractController
         private readonly TranslatorInterface $translator,
         private readonly RouterInterface $router,
         private readonly NotificationRepository $notificationRepository
-    ) {
-    }
+    ) {}
 
     #[Route(path: '/read/all', name: 'internal-notifications-read-all', methods: ['GET'])]
     public function readAllNotificationsAction(?Account $account = null): JsonResponse

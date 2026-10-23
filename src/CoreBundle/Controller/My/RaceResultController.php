@@ -30,8 +30,7 @@ class RaceResultController extends AbstractController
         protected ManagerRegistry $doctrine,
         private LegacyCache $legacyCache,
         private AgeGradeLookup $ageGradeLookup
-    ) {
-    }
+    ) {}
 
     protected function getRaceresultRepository(): RaceresultRepository
     {

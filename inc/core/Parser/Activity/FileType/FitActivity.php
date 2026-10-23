@@ -312,9 +312,9 @@ class FitActivity extends AbstractSingleParser
         $fieldName = preg_replace_callback('/(\W)/i', fn (array $char): string => sprintf('_%02x_', ord($char[0])), preg_replace('/(\s+)/i', '_', $fieldName));
 
         if (
-            isset($this->Values['native_field_num']) &&
-            isset($nativeFieldMapping[$this->Values['native_field_num'][0]]) &&
-            ! empty($nativeFieldMapping[$this->Values['native_field_num'][0]][0])
+            isset($this->Values['native_field_num'])
+            && isset($nativeFieldMapping[$this->Values['native_field_num'][0]])
+            && ! empty($nativeFieldMapping[$this->Values['native_field_num'][0]][0])
         ) {
             $nativeFieldNum = $this->Values['native_field_num'][0];
             $unitDefinition = str_replace('"', '', $this->Values['units'][0]);
@@ -844,31 +844,31 @@ class FitActivity extends AbstractSingleParser
      */
     protected function hasPerformanceCondition(string $creator): bool
     {
-        return str_starts_with($creator, 'fr630') || $creator === '2156' || $creator === '2310' || $creator === '2311' ||                             // GARMIN_FORERUNNER_630
-            str_starts_with($creator, 'fr645') || $creator === '2886' || $creator === '3003' || $creator === '2888' || $creator === '3004' ||       // GARMIN_FORERUNNER_645
-            str_starts_with($creator, 'fr935') || $creator === '2691' || $creator === '2833' ||                                                   // GARMIN_FORERUNNER_935
-            $creator === '3113' || $creator === '3441' ||                                                                                         // GARMIN_FORERUNNER_945
-            str_starts_with($creator, 'fr735xt') || $creator === '2158' || $creator === '2533' || $creator === '2534' || $creator === '2158' ||     // GARMIN_FORERUNNER_735_X_T
-                $creator === '2533' || $creator === '2534' ||
-            str_starts_with($creator, 'fenix3') ||                                                                                              // GARMIN_FENIX 3...
-            $creator === '2050' || $creator === '2188' || $creator === '2293' || $creator === '2407' || $creator === '2408' || $creator === '2189' ||
-            $creator === '2375' || $creator === '2432' || $creator === '2413' || $creator === '2473' || $creator === '2474' || $creator === '2475' ||
-            $creator === '2476' || $creator === '2477' ||
-            str_starts_with($creator, 'fenix5') ||                                                                                              // GARMIN FENIX 5...
-            $creator === '2697' || $creator === '3110' || $creator === '2796' || $creator === '2797' || $creator === '2544' || $creator === '2604' ||
-            $creator === '2798' || $creator === '3089' || $creator === '3135' || $creator === '2900' || $creator === '3134' || $creator === '3111' ||
-            $creator === '2798' || $creator === '3089' || $creator === '3135' || $creator === '2900' || $creator === '3134' || $creator === '3111' ||
-            str_starts_with($creator, 'fenix6') ||                                                                                              // GARMIN_FENIX 6...
-            $creator === '3287' || $creator === '3288' || $creator === '3289' || $creator === '3290' || $creator === '3291' || $creator === '3512' ||
-            $creator === '3513' || $creator === '3514' || $creator === '3515' || $creator === '3516';
+        return str_starts_with($creator, 'fr630') || $creator === '2156' || $creator === '2310' || $creator === '2311'                             // GARMIN_FORERUNNER_630
+            || str_starts_with($creator, 'fr645') || $creator === '2886' || $creator === '3003' || $creator === '2888' || $creator === '3004'       // GARMIN_FORERUNNER_645
+            || str_starts_with($creator, 'fr935') || $creator === '2691' || $creator === '2833'                                                   // GARMIN_FORERUNNER_935
+            || $creator === '3113' || $creator === '3441'                                                                                         // GARMIN_FORERUNNER_945
+            || str_starts_with($creator, 'fr735xt') || $creator === '2158' || $creator === '2533' || $creator === '2534' || $creator === '2158'     // GARMIN_FORERUNNER_735_X_T
+                || $creator === '2533' || $creator === '2534'
+            || str_starts_with($creator, 'fenix3')                                                                                              // GARMIN_FENIX 3...
+            || $creator === '2050' || $creator === '2188' || $creator === '2293' || $creator === '2407' || $creator === '2408' || $creator === '2189'
+            || $creator === '2375' || $creator === '2432' || $creator === '2413' || $creator === '2473' || $creator === '2474' || $creator === '2475'
+            || $creator === '2476' || $creator === '2477'
+            || str_starts_with($creator, 'fenix5')                                                                                              // GARMIN FENIX 5...
+            || $creator === '2697' || $creator === '3110' || $creator === '2796' || $creator === '2797' || $creator === '2544' || $creator === '2604'
+            || $creator === '2798' || $creator === '3089' || $creator === '3135' || $creator === '2900' || $creator === '3134' || $creator === '3111'
+            || $creator === '2798' || $creator === '3089' || $creator === '3135' || $creator === '2900' || $creator === '3134' || $creator === '3111'
+            || str_starts_with($creator, 'fenix6')                                                                                              // GARMIN_FENIX 6...
+            || $creator === '3287' || $creator === '3288' || $creator === '3289' || $creator === '3290' || $creator === '3291' || $creator === '3512'
+            || $creator === '3513' || $creator === '3514' || $creator === '3515' || $creator === '3516';
     }
 
     protected function readRecord()
     {
         if (
-            $this->IsPaused || // Should not happen?
-            count($this->Values) === 1 ||
-            (! isset($this->Values['compressed_speed_distance']) && ! isset($this->Values['timestamp']))
+            $this->IsPaused // Should not happen?
+            || count($this->Values) === 1
+            || (! isset($this->Values['compressed_speed_distance']) && ! isset($this->Values['timestamp']))
         ) {
             return;
         }
@@ -1289,8 +1289,8 @@ class FitActivity extends AbstractSingleParser
         }
 
         // initialize the values for run/walk/stand
-        if ($this->Container->FitDetails->RunTime === null &&
-            (in_array($split_type, [17, 18, 22]))) {
+        if ($this->Container->FitDetails->RunTime === null
+            && (in_array($split_type, [17, 18, 22]))) {
             $this->Container->FitDetails->RunTime = 0;
             $this->Container->FitDetails->WalkTime = 0;
             $this->Container->FitDetails->StandTime = 0;

@@ -16,8 +16,7 @@ class MarathonShapeCalculation implements RecalculationTaskInterface
         protected TrainingRepository $TrainingRepository,
         protected ConfigurationManager $ConfigurationManager,
         protected ConfigurationUpdater $ConfigurationUpdater
-    ) {
-    }
+    ) {}
 
     public function run(): void
     {

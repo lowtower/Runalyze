@@ -15,8 +15,7 @@ class FilterCollection
 
     public function __construct(
         protected ?LoggerInterface $Logger = null
-    ) {
-    }
+    ) {}
 
     public function add(FilterInterface $filter): void
     {

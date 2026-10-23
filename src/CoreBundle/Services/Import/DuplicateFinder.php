@@ -11,8 +11,7 @@ class DuplicateFinder
 {
     public function __construct(
         protected TrainingRepository $TrainingRepository
-    ) {
-    }
+    ) {}
 
     public function isPossibleDuplicate(Training $activity): bool
     {

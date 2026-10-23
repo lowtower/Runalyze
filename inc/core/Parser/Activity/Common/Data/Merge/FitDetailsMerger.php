@@ -11,8 +11,7 @@ class FitDetailsMerger implements MergerInterface
     public function __construct(
         protected FitDetails $ResultingDetails,
         protected FitDetails $DetailsToMerge
-    ) {
-    }
+    ) {}
 
     public function merge(): void
     {

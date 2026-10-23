@@ -17,8 +17,7 @@ class UserLocaleListener
 
     public function __construct(
         private readonly RequestStack $requestStack
-    ) {
-    }
+    ) {}
 
     /**
      * @throws SessionNotFoundException if the user has a language but the request has no session

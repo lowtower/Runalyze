@@ -21,8 +21,7 @@ final class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
              */
             public function __construct(
                 private readonly array $fixedHistogram
-            ) {
-            }
+            ) {}
 
             public function histogram(): array
             {

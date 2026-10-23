@@ -65,8 +65,7 @@ class DataSeriesRemover
 
     public function __construct(
         protected \Doctrine\ORM\EntityManager $EntityManager
-    ) {
-    }
+    ) {}
 
     /**
      * @param mixed $formData

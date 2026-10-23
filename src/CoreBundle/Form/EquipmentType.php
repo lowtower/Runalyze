@@ -26,8 +26,7 @@ class EquipmentType extends AbstractType
     public function __construct(
         protected EquipmentTypeRepository $EquipmentRepository,
         protected TokenStorageInterface $TokenStorageInterface
-    ) {
-    }
+    ) {}
 
     /**
      * @throws \RuntimeException

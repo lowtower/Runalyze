@@ -155,10 +155,10 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
         ));
 
         $this->IsWithoutDistance = (
-            ((int) $lap->DistanceMeters === 0 && (int) $lap->TotalTimeSeconds > 10) ||
-            (
-                isset($lap->Track[0]) && count($lap->Track[0]->Trackpoint) > 5 &&
-                (float) $lap->Track[0]->Trackpoint[0]->DistanceMeters === (float) $lap->Track[0]->Trackpoint[count($lap->Track[0]->Trackpoint) - 2]->DistanceMeters
+            ((int) $lap->DistanceMeters === 0 && (int) $lap->TotalTimeSeconds > 10)
+            || (
+                isset($lap->Track[0]) && count($lap->Track[0]->Trackpoint) > 5
+                && (float) $lap->Track[0]->Trackpoint[0]->DistanceMeters === (float) $lap->Track[0]->Trackpoint[count($lap->Track[0]->Trackpoint) - 2]->DistanceMeters
             )
         );
     }

@@ -16,8 +16,7 @@ class AccountLastActionListener
     public function __construct(
         protected UsageTrackingTokenStorage $token,
         protected EntityManager $em
-    ) {
-    }
+    ) {}
 
     /**
      * Update the user "lastaction" on each request

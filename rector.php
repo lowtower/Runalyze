@@ -15,7 +15,6 @@ use Rector\Symfony\Set\SymfonySetList;
 
 return RectorConfig::configure()
     ->withPaths([
-        # __DIR__ . '/dashboard.php',
         __DIR__ . '/bin',
         __DIR__ . '/config',
         __DIR__ . '/inc',
@@ -25,6 +24,12 @@ return RectorConfig::configure()
         __DIR__ . '/src',
         __DIR__ . '/tests',
     ])
+    ->withRootFiles()
+    ->withIndent(indentChar: ' ', indentSize: 4)
+    ->withTreatClassesAsFinal()
+    ->withSymfonyContainerXml(
+        __DIR__ . '/var/cache/dev/App_KernelDevDebugContainer.xml'
+    )
     ->withSets([
         LevelSetList::UP_TO_PHP_84,
         PHPUnitSetList::PHPUNIT_CODE_QUALITY,

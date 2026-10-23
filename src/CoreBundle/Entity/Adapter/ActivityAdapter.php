@@ -26,8 +26,7 @@ class ActivityAdapter
 {
     public function __construct(
         protected Training $Activity
-    ) {
-    }
+    ) {}
 
     public function setAccountToRelatedEntities(): void
     {
@@ -159,18 +158,18 @@ class ActivityAdapter
     public function isRelevantForCurrentMarathonShape(int $numberOfDaysToConsiderForShape): bool
     {
         return
-            $this->isRunning() &&
-            $this->isNotOlderThanXDays($numberOfDaysToConsiderForShape)
+            $this->isRunning()
+            && $this->isNotOlderThanXDays($numberOfDaysToConsiderForShape)
         ;
     }
 
     public function isRelevantForCurrentEffectiveVO2maxShape(int $numberOfDaysToConsiderForShape): bool
     {
         return
-            $this->isRunning() &&
-            $this->Activity->getUseVO2max() &&
-            $this->Activity->getVO2max() > 0.0 &&
-            $this->isNotOlderThanXDays($numberOfDaysToConsiderForShape)
+            $this->isRunning()
+            && $this->Activity->getUseVO2max()
+            && $this->Activity->getVO2max() > 0.0
+            && $this->isNotOlderThanXDays($numberOfDaysToConsiderForShape)
         ;
     }
 
@@ -277,8 +276,8 @@ class ActivityAdapter
              * Preferred calculation:
              * Use the actual swimming time and ignore break/rest lanes.
              */
-            if ($this->Activity->getSwimdata() instanceof Swimdata &&
-                $this->Activity->getSwimdata()
+            if ($this->Activity->getSwimdata() instanceof Swimdata
+                && $this->Activity->getSwimdata()
                     ->hasStrokeTypes()
             ) {
                 $totalTime = $this->Activity->getS();
@@ -331,11 +330,11 @@ class ActivityAdapter
     protected function canCalculateClimbScore(): bool
     {
         return
-            $this->Activity->getRoute() instanceof Route &&
-            $this->Activity->getRoute()
-                ->hasElevations() &&
-            $this->Activity->getTrackdata() instanceof Trackdata &&
-            $this->Activity->getTrackdata()
+            $this->Activity->getRoute() instanceof Route
+            && $this->Activity->getRoute()
+                ->hasElevations()
+            && $this->Activity->getTrackdata() instanceof Trackdata
+            && $this->Activity->getTrackdata()
                 ->hasDistance()
         ;
     }
@@ -373,11 +372,11 @@ class ActivityAdapter
     public function guessTimezoneBasedOnCoordinates(TimezoneLookup $timezoneLookup): void
     {
         if (
-            $this->Activity->getTimezoneOffset() === null &&
-            $this->Activity->hasRoute() &&
-            $this->Activity->getRoute()
-                ->hasGeohashes() &&
-            $timezoneLookup->isPossible()
+            $this->Activity->getTimezoneOffset() === null
+            && $this->Activity->hasRoute()
+            && $this->Activity->getRoute()
+                ->hasGeohashes()
+            && $timezoneLookup->isPossible()
         ) {
             $this->Activity->getRoute()
                 ->setStartEndGeohashes();

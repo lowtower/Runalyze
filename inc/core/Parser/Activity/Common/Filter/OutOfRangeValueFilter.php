@@ -74,8 +74,8 @@ class OutOfRangeValueFilter extends AbstractFilter
     {
         if (
             $default !== $value && (
-                ($maximum !== null && $value > $maximum) ||
-                ($minimum !== null && $value < $minimum)
+                ($maximum !== null && $value > $maximum)
+                || ($minimum !== null && $value < $minimum)
             )
         ) {
             if ($this->Strict) {

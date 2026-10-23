@@ -14,6 +14,10 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
 {
     use StrtotimeWithLocalTimezoneOffsetTrait;
 
+    use XmlParserTrait {
+        setFileContent as protected setFileContentInTrait;
+    }
+
     /**
      * @var SimpleXMLElement
      */
@@ -69,10 +73,6 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
      */
     protected $NumRRIntervals = 0;
 
-    use XmlParserTrait {
-        setFileContent as protected setFileContentInTrait;
-    }
-
     /**
      * @param string $content
      */
@@ -105,8 +105,8 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
     protected function checkThatXmlIsValid()
     {
         if (
-            (! property_exists($this->Xml, 'header') && ! property_exists($this->Xml, 'Header')) ||
-            (! property_exists($this->Xml, 'Samples') && ! property_exists($this->Xml, 'samples'))
+            (! property_exists($this->Xml, 'header') && ! property_exists($this->Xml, 'Header'))
+            || (! property_exists($this->Xml, 'Samples') && ! property_exists($this->Xml, 'samples'))
         ) {
             throw new UnsupportedFileException('Given XML object is not from Suunto. &lt;header&gt;- or &lt;Samples&gt;-tag could not be located.');
         }

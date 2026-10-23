@@ -19,8 +19,7 @@ class SplitsReader
 {
     public function __construct(
         protected Laps $Laps
-    ) {
-    }
+    ) {}
 
     public function readFrom(Splits\Entity $Splits): void
     {

@@ -10,8 +10,7 @@ class ActivityDecorator
 {
     public function __construct(
         protected ActivityContext $Context
-    ) {
-    }
+    ) {}
 
     public function getTitle(bool $typeWithSport = false): string
     {

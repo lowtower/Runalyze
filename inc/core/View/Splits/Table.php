@@ -183,8 +183,8 @@ class Table
     private function tdForPaceDifference(Pace $Pace, bool $compareOnlyToDemanded = false): string
     {
         if (
-            ($compareOnlyToDemanded && ($this->demandedPace->isEmpty())) ||
-            ($this->achievedPaceActive->isEmpty()) && ($this->achievedPace->isEmpty())
+            ($compareOnlyToDemanded && ($this->demandedPace->isEmpty()))
+            || ($this->achievedPaceActive->isEmpty()) && ($this->achievedPace->isEmpty())
         ) {
             return '';
         }

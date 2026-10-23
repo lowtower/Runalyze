@@ -321,16 +321,16 @@ final class RouteNameEvalOsmTest extends TestCase
 
     public function testEvaluateReturnsCombinedNameAndNotesOnSuccessfulResponse(): void
     {
-        $pipeSeparatedCsv = '@type|name|name:de|place|traffic_sign|tourism|landuse|natural|ele|hiking|sac_scale|amenity' . PHP_EOL .
-              'node|Kramerspitz||||||peak|1985|||' . PHP_EOL .
-              'node|Königsstand||||||peak|1453|||' . PHP_EOL .
-              'node|Wandergebiet Kramer||||information||||||' . PHP_EOL .
-              'way|Kramersteig||||||||yes|hiking|' . PHP_EOL .
-              'relation|See||||||water||||' . PHP_EOL .
-              'way|Kellerleitensteig||||||||yes|hiking|' . PHP_EOL .
-              'node|Garmisch||town||||||||' . PHP_EOL .
-              'way|Kramersteig||||||||yes|hiking|' . PHP_EOL .
-              'way|Kramerplateauweg||||||||yes|hiking|';
+        $pipeSeparatedCsv = '@type|name|name:de|place|traffic_sign|tourism|landuse|natural|ele|hiking|sac_scale|amenity' . PHP_EOL
+              . 'node|Kramerspitz||||||peak|1985|||' . PHP_EOL
+              . 'node|Königsstand||||||peak|1453|||' . PHP_EOL
+              . 'node|Wandergebiet Kramer||||information||||||' . PHP_EOL
+              . 'way|Kramersteig||||||||yes|hiking|' . PHP_EOL
+              . 'relation|See||||||water||||' . PHP_EOL
+              . 'way|Kellerleitensteig||||||||yes|hiking|' . PHP_EOL
+              . 'node|Garmisch||town||||||||' . PHP_EOL
+              . 'way|Kramersteig||||||||yes|hiking|' . PHP_EOL
+              . 'way|Kramerplateauweg||||||||yes|hiking|';
 
         $rawTabSeparatedCsv = str_replace('|', "\t", $pipeSeparatedCsv);
         $service = $this->createServiceWithResponses([new Response(200, [], $rawTabSeparatedCsv)]);

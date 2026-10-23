@@ -27,17 +27,11 @@ final class EnumWithoutGetEnumFixture
     use AbstractEnumFactoryTrait;
 }
 
-final class Alpha
-{
-}
+final class Alpha {}
 
-final class BetaGamma
-{
-}
+final class BetaGamma {}
 
-final class Gamma
-{
-}
+final class Gamma {}
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
 final class AbstractEnumFactoryTraitTest extends TestCase

@@ -356,9 +356,9 @@ class ActivityBulkImportCommand extends Command
             if ($typeUnique[$v->getType()->getId()]) {
                 $activity->addEquipment($v);
             } else {
-                $output->writeln('<fg=yellow>more than one active equipment found for activity-date=' . $actDate->format('Y-m-d H:i') .
-                    ': category=' . $v->getType()->getName() . ' and equipment=' . $v->getId() . '/' . $v->getName() .
-                    '; mapping canceled for this category!</>');
+                $output->writeln('<fg=yellow>more than one active equipment found for activity-date=' . $actDate->format('Y-m-d H:i')
+                    . ': category=' . $v->getType()->getName() . ' and equipment=' . $v->getId() . '/' . $v->getName()
+                    . '; mapping canceled for this category!</>');
             }
         }
     }

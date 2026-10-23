@@ -24,9 +24,7 @@ final class AbstractSnippetSharerTestFixture extends AbstractSnippetSharer
         return 1;
     }
 
-    public function display(): void
-    {
-    }
+    public function display(): void {}
 
     protected function codeSnippet(): string
     {

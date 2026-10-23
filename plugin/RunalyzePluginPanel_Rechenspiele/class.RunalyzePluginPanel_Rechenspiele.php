@@ -387,8 +387,8 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel
 			</table>';
 
         $Fieldset = new FormularFieldset('ATL/CTL/TSB');
-        $Fieldset->addBlock(__('ATL/CTL are based on the TRIMP-concept, which adresses an impulse value to every activity. ' .
-                                'ATL and CTL are averaged values over a given time range.'));
+        $Fieldset->addBlock(__('ATL/CTL are based on the TRIMP-concept, which adresses an impulse value to every activity. '
+                                . 'ATL and CTL are averaged values over a given time range.'));
         $Fieldset->addBlock($Table);
         $Fieldset->addInfo(__('see <a href="http://www.netzathleten.de/fitness/richtig-trainieren/item/1481-trainingstagebuch-sinnvoll-oder-nicht" title="Das TRIMP-Konzept">The TRIMP-concept</a> (german, netzathleten.de)'));
         $Fieldset->addInfo(__('see <a href="http://fellrnr.com/wiki/TRIMP">TRIMP</a> and <a href="http://fellrnr.com/wiki/Modeling_Human_Performance#The_TSB_Formulas">Modeling Human Performance</a> on fellrnr.com'));
@@ -440,9 +440,9 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel
         $Fieldset->addBlock(sprintf(__('The VO<sub>2</sub>max shape is calculated as the average, weighted by time, of estimated VO<sub>2</sub>max values of your activities in the last %s days.'), Configuration::VO2max()->days()));
         $Fieldset->addBlock(sprintf(__('Your current VO<sub>2</sub>max shape: <strong>%s</strong><br>&nbsp;'), Configuration::Data()->vo2max()));
         $Fieldset->addBlock($Table);
-        $Fieldset->addInfo(__('VO<sub>2</sub>max itself is a scientific metric for the maximal oxygen consumption that can be measured in the laboratory.<br>' .
-                                'Two runners with equal VO<sub>2</sub>max values do not need to perform equally, as running efficiency plays an additional role. ' .
-                                'To overcome the issue of specifying running efficiency, one can ignore the efficiency and therefore call it effective VO<sub>2</sub>max.'));
+        $Fieldset->addInfo(__('VO<sub>2</sub>max itself is a scientific metric for the maximal oxygen consumption that can be measured in the laboratory.<br>'
+                                . 'Two runners with equal VO<sub>2</sub>max values do not need to perform equally, as running efficiency plays an additional role. '
+                                . 'To overcome the issue of specifying running efficiency, one can ignore the efficiency and therefore call it effective VO<sub>2</sub>max.'));
 
         return $Fieldset;
     }
@@ -519,35 +519,35 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel
 					</tr>
 				</tbody>
 			</table>';
-        $LongjogTable .= '<p class="small">' . sprintf(__('* %s &quot;long&quot; jogs do not show up, ' .
-                                                        'because they have less than 0.2 points.'), $IgnoredLongjogs) . '</p>';
+        $LongjogTable .= '<p class="small">' . sprintf(__('* %s &quot;long&quot; jogs do not show up, '
+                                                        . 'because they have less than 0.2 points.'), $IgnoredLongjogs) . '</p>';
         $LongjogTable .= '<p class="small">' . sprintf(
             __('* In general, all runs with more than %s are being considered.'),
             Distance::format($BasicEndurance->getMinimalDistanceForLongjogs())
         ) . '</p>';
 
         $Fieldset = new FormularFieldset(__('Marathon shape'));
-        $Fieldset->addBlock(__('Your marathon shape is based on your weekly kilometers and your long jogs.<br>' .
-                                'The target is derived from the possible marathon time based on your current shape.') . '<br>&nbsp;');
+        $Fieldset->addBlock(__('Your marathon shape is based on your weekly kilometers and your long jogs.<br>'
+                                . 'The target is derived from the possible marathon time based on your current shape.') . '<br>&nbsp;');
 
         if (Configuration::Data()->vo2max() == 0) {
             $Fieldset->addBlock('<p class="error">' . $this->getNoEffectiveVO2maxDataError() . '</p><br>&nbsp;');
         }
 
         $Fieldset->addBlock($GeneralTable);
-        $Fieldset->addBlock(__('The points for your long runs are weighted by time and quadratic in distance. ' .
-                                'That means, a long jog yesterday gives more points than a long jog two weeks ago ' .
-                                'and a 30k-jog gives more points than two 20k-jogs.') . '<br>&nbsp;');
+        $Fieldset->addBlock(__('The points for your long runs are weighted by time and quadratic in distance. '
+                                . 'That means, a long jog yesterday gives more points than a long jog two weeks ago '
+                                . 'and a 30k-jog gives more points than two 20k-jogs.') . '<br>&nbsp;');
         $Fieldset->addBlock($LongjogTable);
-        $Fieldset->addBlock(__('The marathon shape is <strong>not</strong> scientifically based.<br>' .
-                                "It's our own attempt to adjust the prognosis for long distances based on your current endurance."));
+        $Fieldset->addBlock(__('The marathon shape is <strong>not</strong> scientifically based.<br>'
+                                . "It's our own attempt to adjust the prognosis for long distances based on your current endurance."));
 
         return $Fieldset;
     }
 
     public function getNoEffectiveVO2maxDataError(): string
     {
-        return __('There are no current activities with an estimated VO<sub>2</sub>max value.') . '<br>' .
-            __('VO<sub>2</sub>max can only be estimated for runs with heart rate data.');
+        return __('There are no current activities with an estimated VO<sub>2</sub>max value.') . '<br>'
+            . __('VO<sub>2</sub>max can only be estimated for runs with heart rate data.');
     }
 }

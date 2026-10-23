@@ -188,9 +188,7 @@ class DefaultController extends AbstractPluginsAwareController
     }
 
     #[Route(path: '/{_locale}/login_check', name: 'login_check', methods: ['POST'])]
-    public function loginCheckAction(): void
-    {
-    }
+    public function loginCheckAction(): void {}
 
     #[Route(path: '/logout', name: 'logout', methods: ['GET'])]
     public function logoutAction(): RedirectResponse

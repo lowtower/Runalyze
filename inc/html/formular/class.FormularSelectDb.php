@@ -24,10 +24,10 @@ class FormularSelectDb extends FormularSelectBox
     public function loadOptionsFrom($Table, $Label): void
     {
         self::$OptionsCache[$Table . '.' . $Label] ??= DB::getInstance()->query(
-            'SELECT `id`, `' . $Label . '` as `value` ' .
-            'FROM `' . PREFIX . $Table . '` ' .
-            'WHERE `accountid`=' . \SessionAccountHandler::getId() . ' ' .
-            'ORDER BY `id` ASC'
+            'SELECT `id`, `' . $Label . '` as `value` '
+            . 'FROM `' . PREFIX . $Table . '` '
+            . 'WHERE `accountid`=' . \SessionAccountHandler::getId() . ' '
+            . 'ORDER BY `id` ASC'
         )->fetchAll();
 
         foreach (self::$OptionsCache[$Table . '.' . $Label] as $Option) {

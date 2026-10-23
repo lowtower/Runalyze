@@ -13,8 +13,7 @@ class Selection
     public function __construct(
         protected array $List,
         protected $CurrentKey = null
-    ) {
-    }
+    ) {}
 
     /**
      * @return string[]

@@ -13,8 +13,7 @@ class Simple implements UnitInterface
 
     public function __construct(
         protected string $Appendix
-    ) {
-    }
+    ) {}
 
     /**
      * @codeCoverageIgnore

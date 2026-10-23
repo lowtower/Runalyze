@@ -46,8 +46,8 @@ class RunalyzePluginStat_Strecken extends PluginStat
     final protected function displayLongDescription(): void
     {
         echo HTML::p(
-            __("The input field 'route' expects different places separted by a '-', e.g. 'City A - City B'" .
-                'This way the plugin will be able to count how often you visit each city or place.')
+            __("The input field 'route' expects different places separted by a '-', e.g. 'City A - City B'"
+                . 'This way the plugin will be able to count how often you visit each city or place.')
         );
     }
 

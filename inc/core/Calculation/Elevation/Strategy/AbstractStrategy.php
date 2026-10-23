@@ -37,8 +37,7 @@ abstract class AbstractStrategy
          * Original elevation data
          */
         protected array $ElevationData
-    ) {
-    }
+    ) {}
 
     /**
      * Smooth data

@@ -43,8 +43,7 @@ class AutomaticReloadFlagSetter
 
     public function __construct(
         protected RequestStack $RequestStack
-    ) {
-    }
+    ) {}
 
     /**
      * @throws SessionNotFoundException if there is no active request with a session

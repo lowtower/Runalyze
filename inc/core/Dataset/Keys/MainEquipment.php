@@ -48,8 +48,8 @@ class MainEquipment extends AbstractEquipment
      */
     public function description(): string
     {
-        return __('You can choose a main equipment type for each sport in your sport configuration. ' .
-                'Equipment objects of this type will be shown with their names.');
+        return __('You can choose a main equipment type for each sport in your sport configuration. '
+                . 'Equipment objects of this type will be shown with their names.');
     }
 
     /**

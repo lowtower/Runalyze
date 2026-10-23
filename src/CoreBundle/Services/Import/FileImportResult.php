@@ -16,8 +16,7 @@ class FileImportResult
         protected string $FileName,
         protected string $OriginalFileName,
         protected ?Exception $Exception = null
-    ) {
-    }
+    ) {}
 
     /**
      * @return ActivityDataContainer|ActivityDataContainer[]

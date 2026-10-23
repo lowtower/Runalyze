@@ -26,8 +26,7 @@ class PluginConfiguration
 
     public function __construct(
         protected int $PluginID
-    ) {
-    }
+    ) {}
 
     /**
      * Catch values if not done yet
@@ -50,9 +49,9 @@ class PluginConfiguration
 
         if ($ResultFromDB === null) {
             $ResultFromDB = DB::getInstance()->query(
-                'SELECT `pluginid`,`config`,`value` ' .
-                'FROM `' . PREFIX . 'plugin_conf` ' .
-                'WHERE `pluginid` IN (' . implode(',', PluginFactory::allIDs()) . ')'
+                'SELECT `pluginid`,`config`,`value` '
+                . 'FROM `' . PREFIX . 'plugin_conf` '
+                . 'WHERE `pluginid` IN (' . implode(',', PluginFactory::allIDs()) . ')'
             )->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_ASSOC);
 
             Cache::set(self::CACHE_KEY, $ResultFromDB, 60);

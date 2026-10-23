@@ -17,8 +17,7 @@ class DatabaseCache implements StrategyInterface
 
     public function __construct(
         protected DatabaseCacheInterface $Cache
-    ) {
-    }
+    ) {}
 
     public function isPossible(): bool
     {

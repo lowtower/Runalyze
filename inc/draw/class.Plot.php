@@ -48,8 +48,7 @@ class Plot
         private readonly string $cssID,
         private $width = 480,
         private $height = 190
-    ) {
-    }
+    ) {}
 
     public function raiseError(string $string): void
     {
@@ -118,11 +117,11 @@ class Plot
             return $this->getJSForError();
         }
 
-        return 'RunalyzePlot.addPlot("' . $this->cssID . '", ' .
-                $encodedData . ', ' .
-                Ajax::json_encode_jsfunc($this->Options) . ', ' .
-                json_encode($this->PlotOptions) . ', ' .
-                json_encode($this->Annotations) . ');';
+        return 'RunalyzePlot.addPlot("' . $this->cssID . '", '
+                . $encodedData . ', '
+                . Ajax::json_encode_jsfunc($this->Options) . ', '
+                . json_encode($this->PlotOptions) . ', '
+                . json_encode($this->Annotations) . ');';
     }
 
     /**

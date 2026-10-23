@@ -169,19 +169,19 @@ class Form
     protected function getJScode(): string
     {
         return Ajax::wrapJS(
-            'var buttonCalc = $("#rounds-configurator input[name=submit-calculated-laps]");' .
-            'var buttonManual = $("#rounds-configurator input[name=submit-manual-laps]");' .
-            'function updateButtonVisibility() {' .
-                'if ($("#rounds-configurator input:text").filter(function() { return this.value != ""; }).length == 0) {' .
-                    'buttonCalc.addClass("hide");' .
-                    'buttonManual.removeClass("hide");' .
-                '} else {' .
-                    'buttonCalc.removeClass("hide");' .
-                    'buttonManual.addClass("hide");' .
-                '}' .
-            '}' .
-            '$("#rounds-configurator input[type=text]").change(updateButtonVisibility);' .
-            'updateButtonVisibility();'
+            'var buttonCalc = $("#rounds-configurator input[name=submit-calculated-laps]");'
+            . 'var buttonManual = $("#rounds-configurator input[name=submit-manual-laps]");'
+            . 'function updateButtonVisibility() {'
+                . 'if ($("#rounds-configurator input:text").filter(function() { return this.value != ""; }).length == 0) {'
+                    . 'buttonCalc.addClass("hide");'
+                    . 'buttonManual.removeClass("hide");'
+                . '} else {'
+                    . 'buttonCalc.removeClass("hide");'
+                    . 'buttonManual.addClass("hide");'
+                . '}'
+            . '}'
+            . '$("#rounds-configurator input[type=text]").change(updateButtonVisibility);'
+            . 'updateButtonVisibility();'
         );
     }
 }

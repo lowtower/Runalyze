@@ -62,8 +62,7 @@ class ToolsController extends AbstractController
         private readonly string $databasePrefix,
         #[Autowire(param: 'app.poster_storage_period')]
         private readonly int $posterStoragePeriod
-    ) {
-    }
+    ) {}
 
     /**
      * @throws AccessDeniedException if the user is not logged in

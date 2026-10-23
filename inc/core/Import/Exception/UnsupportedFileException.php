@@ -10,6 +10,4 @@ namespace Runalyze\Import\Exception;
  * @author Hannes Christiansen
  * @package Runalyze\Import\Exception
  */
-class UnsupportedFileException extends ParserException
-{
-}
+class UnsupportedFileException extends ParserException {}

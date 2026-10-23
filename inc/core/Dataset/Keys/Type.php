@@ -57,8 +57,8 @@ class Type extends AbstractKey
     public function description(): string
     {
         return __(
-            'The activity type is shown with its abbreviation. ' .
-            'It is bold if the type is marked as quality session.'
+            'The activity type is shown with its abbreviation. '
+            . 'It is bold if the type is marked as quality session.'
         );
     }
 

@@ -22,8 +22,7 @@ class ClimbScoreCalculator
     public function __construct(
         private readonly FietsIndex $fietsIndex,
         private readonly ClimbFinder $climbFinder
-    ) {
-    }
+    ) {}
 
     public function calculateFor(Training $activity): ClimbScore
     {

@@ -23,8 +23,7 @@ class ClimbCategory implements \Stringable
      */
     public function __construct(
         public $Category = self::CATEGORY_NONE
-    ) {
-    }
+    ) {}
 
     /**
      * @param int $category

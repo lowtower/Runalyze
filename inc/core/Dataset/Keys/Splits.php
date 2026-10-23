@@ -50,9 +50,9 @@ class Splits extends AbstractKey
     public function description(): string
     {
         return __(
-            'Splits are shown as clock icon with all lap times as tooltip. ' .
-            'They are shown only if there are handmade laps, ' .
-            'i.e. there are active and inactive laps, or if it was a race. '
+            'Splits are shown as clock icon with all lap times as tooltip. '
+            . 'They are shown only if there are handmade laps, '
+            . 'i.e. there are active and inactive laps, or if it was a race. '
         );
     }
 
@@ -65,8 +65,8 @@ class Splits extends AbstractKey
             if (
                 $context->activity()
                     ->splits()
-                    ->hasActiveAndInactiveLaps() ||
-                round($context->activity()->splits()->totalDistance()) !== round($context->activity()->distance())
+                    ->hasActiveAndInactiveLaps()
+                || round($context->activity()->splits()->totalDistance()) !== round($context->activity()->distance())
             ) {
                 $Icon = new Icon(Icon::CLOCK);
                 $Icon->setTooltip($this->stringForActiveLaps($context->activity()->splits()));

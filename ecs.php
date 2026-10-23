@@ -11,7 +11,6 @@ use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
 return ECSConfig::configure()
     ->withPaths([
-        __DIR__ . '/dashboard.php',
         __DIR__ . '/bin',
         __DIR__ . '/config',
         __DIR__ . '/inc',
@@ -31,12 +30,13 @@ return ECSConfig::configure()
 
     ->withPreparedSets(
         common: true,
-        psr12: true
+        psr12: true,
+        perCs: true,
+        cleanCode: true
     )
 
     ->withSets([
         SetList::PSR_12,
-        SetList::CLEAN_CODE,
         SetList::DOCTRINE_ANNOTATIONS,
     ])
 

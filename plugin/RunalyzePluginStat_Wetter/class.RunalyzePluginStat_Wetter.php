@@ -46,8 +46,8 @@ class RunalyzePluginStat_Wetter extends PluginStat
     final protected function displayLongDescription(): void
     {
         echo HTML::p(__('There is no bad weather, there is only bad clothing.'));
-        echo HTML::p(__('Are you a wimp or a tough runner? ' .
-                        'Have a look at these statistics about the weather conditions.'));
+        echo HTML::p(__('Are you a wimp or a tough runner? '
+                        . 'Have a look at these statistics about the weather conditions.'));
     }
 
     protected function initConfiguration()

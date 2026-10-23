@@ -187,16 +187,14 @@ final class StubActivityDataForZoneHR
 {
     public function __construct(
         public ?int $MaxHeartRateUser
-    ) {
-    }
+    ) {}
 }
 
 final readonly class StubMetadataForZoneHR
 {
     public function __construct(
         private int $timestamp
-    ) {
-    }
+    ) {}
 
     public function getTimestamp(): int
     {

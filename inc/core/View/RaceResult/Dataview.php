@@ -24,8 +24,7 @@ class Dataview
 {
     public function __construct(
         protected \Runalyze\Model\RaceResult\Entity $RaceResult
-    ) {
-    }
+    ) {}
 
     /**
      * Get official distance

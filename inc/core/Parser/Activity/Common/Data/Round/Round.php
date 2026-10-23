@@ -95,9 +95,9 @@ class Round
     public function isEqualTo(self $other): bool
     {
         return
-            $this->getDuration() === $other->getDuration() &&
-            $this->getDistance() === $other->getDistance() &&
-            $this->getIntensity()
+            $this->getDuration() === $other->getDuration()
+            && $this->getDistance() === $other->getDistance()
+            && $this->getIntensity()
                 ->isEqualTo($other->getIntensity())
         ;
     }

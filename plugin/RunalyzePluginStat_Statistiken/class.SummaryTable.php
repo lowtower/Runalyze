@@ -84,9 +84,7 @@ abstract class SummaryTable
      */
     abstract protected function rowHead(int $index): string;
 
-    protected function displayAdditionalColumns(array $data)
-    {
-    }
+    protected function displayAdditionalColumns(array $data) {}
 
     /**
      * @throws Exception

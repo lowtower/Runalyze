@@ -260,15 +260,15 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
         $addPercentage = $Bar['add'] ? 100 * $Bar['add'] / $Bar['max'] : 0;
         $sumPercentage = $percentage + $addPercentage;
 
-        echo '<div style="padding-left:5px; padding-right:7px; padding-bottom:2px">' .
-            '<div style="border: 1px solid black; padding: 1px; background-color: transparent; width: 100%; height: 15px">' .
-            '<span style="position: absolute; right: 15px">' . round($sumPercentage, 1) . '%&nbsp;</span>' .
-            '<span style="position: absolute; left: 15px">' . $Bar['name'] . '</span>' .
-            '<div class="progress_bar" style="float: left; background-color:' . $Bar['color'] . '; width:' . round($percentage) . '%;">&nbsp;</div>' .
+        echo '<div style="padding-left:5px; padding-right:7px; padding-bottom:2px">'
+            . '<div style="border: 1px solid black; padding: 1px; background-color: transparent; width: 100%; height: 15px">'
+            . '<span style="position: absolute; right: 15px">' . round($sumPercentage, 1) . '%&nbsp;</span>'
+            . '<span style="position: absolute; left: 15px">' . $Bar['name'] . '</span>'
+            . '<div class="progress_bar" style="float: left; background-color:' . $Bar['color'] . '; width:' . round($percentage) . '%;">&nbsp;</div>'
 
-            ($Bar['add'] ? '<div id="progress_bar_add" style="float: left; background-color:' . $Bar['addcolor'] . '; width:' . round($addPercentage) . '%;">&nbsp;</div>' : '') .
-            '</div>' .
-            '</div>';
+            . ($Bar['add'] ? '<div id="progress_bar_add" style="float: left; background-color:' . $Bar['addcolor'] . '; width:' . round($addPercentage) . '%;">&nbsp;</div>' : '')
+            . '</div>'
+            . '</div>';
     }
 
     /**
@@ -291,12 +291,12 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
         // This previously produced a double space, e.g. '<span  style="...">'.
         $Distance = isset($Line['km']) && $Line['km'] > 0 ? '<span' . ($Line['lvl'] == 1 ? $span_format : '') . '>' . Distance::format($Line['km'], true, 1) . '</span>' : '';
 
-        echo '<p' . $p_format . '>' .
-            '<span class="right">' .
-            $NumberOfActivities . ' ' . $Distance .
-            '</span>' .
-            '<span' . $span_format . '>' . $Line['name'] . '</span>' .
-            '</p>';
+        echo '<p' . $p_format . '>'
+            . '<span class="right">'
+            . $NumberOfActivities . ' ' . $Distance
+            . '</span>'
+            . '<span' . $span_format . '>' . $Line['name'] . '</span>'
+            . '</p>';
     }
 
     private function getLevelStyle(int $level): string

@@ -9,8 +9,7 @@ class WeatherDataMerger implements MergerInterface
     public function __construct(
         protected WeatherData $ResultingData,
         protected WeatherData $DataToMerge
-    ) {
-    }
+    ) {}
 
     public function merge(): void
     {

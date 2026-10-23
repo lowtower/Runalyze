@@ -17,8 +17,7 @@ class ElevationsRecalculator
         protected \PDO $PDO,
         protected int $AccountID,
         protected string $DatabasePrefix
-    ) {
-    }
+    ) {}
 
     public function run(): void
     {

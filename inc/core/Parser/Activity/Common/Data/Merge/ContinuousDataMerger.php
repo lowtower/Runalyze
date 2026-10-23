@@ -9,8 +9,7 @@ class ContinuousDataMerger implements MergerInterface
     public function __construct(
         protected ContinuousData $ResultingData,
         protected ContinuousData $DataToMerge
-    ) {
-    }
+    ) {}
 
     /**
      * @param bool $checkForEqualSizes if set an exception is thrown if data are of different length

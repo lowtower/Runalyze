@@ -32,8 +32,7 @@ class BackupToolController extends AbstractController
         protected ManagerRegistry $doctrine,
         private readonly MessageBusInterface $messageBus,
         private readonly RequestStack $requestStack
-    ) {
-    }
+    ) {}
 
     protected function getPathToBackupFiles(): string
     {

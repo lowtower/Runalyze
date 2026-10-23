@@ -136,8 +136,7 @@ final class AbstractDecimalUnitTest extends TestCase
         return new class($dividend) extends AbstractDecimalUnit {
             public function __construct(
                 private readonly float $dividend
-            ) {
-            }
+            ) {}
 
             public function unit(): int
             {

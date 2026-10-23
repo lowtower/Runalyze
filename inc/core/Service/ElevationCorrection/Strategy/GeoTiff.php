@@ -12,8 +12,7 @@ class GeoTiff extends AbstractStrategy implements StrategyInterface
 
     public function __construct(
         protected Reader $Reader
-    ) {
-    }
+    ) {}
 
     public function setUseSmoothing(bool $flag): void
     {

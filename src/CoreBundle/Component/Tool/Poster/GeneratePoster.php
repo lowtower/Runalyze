@@ -22,8 +22,7 @@ class GeneratePoster
         protected string $projectDir,
         protected string $Python3Path,
         protected TrainingRepository $TrainingRepository
-    ) {
-    }
+    ) {}
 
     protected function pathToRepository(): string
     {

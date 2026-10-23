@@ -69,12 +69,12 @@ class HeatIndex extends AbstractKey
             ! $context->activity()
                 ->weather()
                 ->temperature()
-                ->isUnknown() &&
-            ! $context->activity()
+                ->isUnknown()
+            && ! $context->activity()
                 ->weather()
                 ->humidity()
-                ->isUnknown() &&
-            (! $context->hasSport() || $context->sport()->isOutside())
+                ->isUnknown()
+            && (! $context->hasSport() || $context->sport()->isOutside())
         ) {
             return $context->dataview()
                 ->heatIndex()

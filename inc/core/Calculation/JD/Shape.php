@@ -19,8 +19,7 @@ class Shape
         protected int $AccountID,
         protected int $RunningID,
         protected VO2max $Configuration
-    ) {
-    }
+    ) {}
 
     public function setCorrector(LegacyEffectiveVO2maxCorrector $corrector): void
     {

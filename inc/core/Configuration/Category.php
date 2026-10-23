@@ -96,9 +96,7 @@ abstract class Category
      */
     abstract protected function createHandles();
 
-    protected function registerOnchangeEvents()
-    {
-    }
+    protected function registerOnchangeEvents() {}
 
     public function Fieldset(): ?\Runalyze\Configuration\Fieldset
     {

@@ -23,8 +23,7 @@ class ActivityMatcherController extends AbstractController
     public function __construct(
         private readonly DuplicateFinder $duplicateFinder,
         private readonly ConfigurationManager $configurationManager
-    ) {
-    }
+    ) {}
 
     /**
      * @throws AccessDeniedException if the user is not logged in

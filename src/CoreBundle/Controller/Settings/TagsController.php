@@ -20,8 +20,7 @@ class TagsController extends AbstractController
 {
     public function __construct(
         protected ManagerRegistry $doctrine
-    ) {
-    }
+    ) {}
 
     protected function getTagRepository(): TagRepository
     {

@@ -11,8 +11,7 @@ class ActivityContextFactory
 {
     public function __construct(
         protected EntityManager $EntityManager
-    ) {
-    }
+    ) {}
 
     public function getContext(Training $activity): ActivityContext
     {

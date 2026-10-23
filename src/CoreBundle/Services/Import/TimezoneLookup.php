@@ -18,8 +18,7 @@ class TimezoneLookup
         protected string $PathToTimeZoneDatabase,
         protected string $SpatialiteExtensionName,
         protected bool $SilentExceptions = false
-    ) {
-    }
+    ) {}
 
     public function silentExceptions(bool $flag = true): void
     {

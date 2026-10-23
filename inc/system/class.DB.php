@@ -19,13 +19,9 @@ class DB
 {
     private static ?\PDOforRunalyze $PDO = null;
 
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
-    private function __clone()
-    {
-    }
+    private function __clone() {}
 
     /**
      * Create connection

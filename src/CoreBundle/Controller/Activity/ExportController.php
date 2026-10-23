@@ -26,8 +26,7 @@ class ExportController extends AbstractController
         private readonly TokenStorageInterface $tokenStorage,
         private readonly ParameterBagInterface $parameterBag,
         private readonly RequestStack $requestStack
-    ) {
-    }
+    ) {}
 
     /**
      * @throws Throwable if the legacy exporter throws

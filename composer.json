@@ -201,8 +201,8 @@
             }
         }],
     "scripts": {
-        "lint": "vendor/bin/ecs check",
-        "lint:fix": "vendor/bin/ecs check --fix",
+        "lint": "vendor/bin/ecs check --ansi",
+        "lint:fix": "vendor/bin/ecs check --fix --ansi",
         "rector": "vendor/bin/rector process --dry-run",
         "rector:fix": "vendor/bin/rector process",
         "analyse": [

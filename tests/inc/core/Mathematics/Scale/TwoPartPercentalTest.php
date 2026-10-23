@@ -15,9 +15,7 @@ final class TwoPartPercentalTest extends \PHPUnit\Framework\TestCase
         $this->Scale = new TwoPartPercental();
     }
 
-    protected function tearDown(): void
-    {
-    }
+    protected function tearDown(): void {}
 
     public function testNoTransformation(): void
     {

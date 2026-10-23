@@ -103,8 +103,7 @@ final class AbstractTimeUnitTest extends TestCase
         return new class($factor) extends AbstractTimeUnit {
             public function __construct(
                 private readonly float $factor
-            ) {
-            }
+            ) {}
 
             public function unit(): int
             {

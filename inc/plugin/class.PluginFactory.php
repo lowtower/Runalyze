@@ -38,9 +38,9 @@ class PluginFactory
     private static function fetchAllPluginsFrom(PDO $PDO, int $accountID): array
     {
         return $PDO->query(
-            'SELECT * FROM `' . PREFIX . 'plugin` ' .
-            'WHERE `accountid`=' . $accountID . ' ' .
-            'ORDER BY `order` ASC'
+            'SELECT * FROM `' . PREFIX . 'plugin` '
+            . 'WHERE `accountid`=' . $accountID . ' '
+            . 'ORDER BY `order` ASC'
         )->fetchAll();
     }
 

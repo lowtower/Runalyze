@@ -234,17 +234,17 @@ class SearchResults
 				`t`.`id`,
 				`t`.`time`
 				' . (
-                $this->multiEditorRequested() ? '' :
-                    ', ' . $this->DatasetQuery->queryToSelectAllKeys() . ' ' .
-                    $this->DatasetQuery->queryToSelectJoinedFields()
+                $this->multiEditorRequested() ? ''
+                    : ', ' . $this->DatasetQuery->queryToSelectAllKeys() . ' '
+                    . $this->DatasetQuery->queryToSelectJoinedFields()
             ) . '
 				' . $this->columnFromRaceResultIfRequired() . '
 			FROM `' . PREFIX . 'training` AS `t`
 			' . $this->joinRaceResultIfRequired() . '
 			' . $this->DatasetQuery->queryToJoinTables() . '
-			' . $where . ' ' .
-            $this->DatasetQuery->queryToGroupByActivity() .
-            $this->getOrder() . $this->getLimit()
+			' . $where . ' '
+            . $this->DatasetQuery->queryToGroupByActivity()
+            . $this->getOrder() . $this->getLimit()
         )->fetchAll();
     }
 
@@ -473,9 +473,9 @@ class SearchResults
     protected function addTimeRangeCondition(array &$conditions)
     {
         if (
-            FormularValueParser::validatePost('date-from', FormularValueParser::$PARSER_DATE) &&
-            FormularValueParser::validatePost('date-to', FormularValueParser::$PARSER_DATE) &&
-            $_POST['date-to'] > 0
+            FormularValueParser::validatePost('date-from', FormularValueParser::$PARSER_DATE)
+            && FormularValueParser::validatePost('date-to', FormularValueParser::$PARSER_DATE)
+            && $_POST['date-to'] > 0
         ) {
             $conditions[] = '`t`.`time` BETWEEN ' . LocalTime::fromServerTime($_POST['date-from'])->getTimestamp() . ' AND ' . (LocalTime::fromServerTime($_POST['date-to'])->getTimestamp() + DAY_IN_S);
         }
@@ -671,16 +671,16 @@ class SearchResults
     protected function connectPagination()
     {
         echo Ajax::wrapJSforDocumentReady(
-            '$("#search-back").click(function(){' .
-                'var $i = $("#search input[name=\'page\']");' .
-                '$i.val( parseInt($i.val()) - 1 );' .
-                '$("#search").submit();' .
-            '});' .
-            '$("#search-next").click(function(){' .
-                'var $i = $("#search input[name=\'page\']");' .
-                '$i.val( parseInt($i.val()) + 1 );' .
-                '$("#search").submit();' .
-            '});'
+            '$("#search-back").click(function(){'
+                . 'var $i = $("#search input[name=\'page\']");'
+                . '$i.val( parseInt($i.val()) - 1 );'
+                . '$("#search").submit();'
+            . '});'
+            . '$("#search-next").click(function(){'
+                . 'var $i = $("#search input[name=\'page\']");'
+                . '$i.val( parseInt($i.val()) + 1 );'
+                . '$("#search").submit();'
+            . '});'
         );
     }
 

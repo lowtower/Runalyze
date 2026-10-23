@@ -11,8 +11,7 @@ class ActivityDataMerger implements MergerInterface
     public function __construct(
         protected ActivityData $ResultingData,
         protected ActivityData $DataToMerge
-    ) {
-    }
+    ) {}
 
     public function merge(): void
     {

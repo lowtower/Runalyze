@@ -326,13 +326,13 @@ class JsonImporter
                     $this->Results->addInserts($tableName, 1);
                 }
             } elseif (
-                $tableName === 'runalyze_equipment_sport' &&
-                $this->equipmentSportRelationDoesExist($row['sportid'], $row['equipment_typeid'])
+                $tableName === 'runalyze_equipment_sport'
+                && $this->equipmentSportRelationDoesExist($row['sportid'], $row['equipment_typeid'])
             ) {
                 // Hint: Don't insert this relation, it does exist already!
             } elseif (
-                $tableName === 'runalyze_equipment_to_sport' &&
-                $this->equipmentToSportRelationDoesExist($row['sportid'], $row['equipment_id'])
+                $tableName === 'runalyze_equipment_to_sport'
+                && $this->equipmentToSportRelationDoesExist($row['sportid'], $row['equipment_id'])
             ) {
                 // Hint: Don't insert this relation, it does exist already!
             } else {
@@ -353,9 +353,9 @@ class JsonImporter
 
     protected function equipmentSportRelationDoesExist(int $sportid, int $equipmentTypeid): bool
     {
-        return isset($this->ReplaceIDs['runalyze_sport'][$sportid]) &&
-            isset($this->ReplaceIDs['runalyze_equipment_type'][$equipmentTypeid]) &&
-            in_array(
+        return isset($this->ReplaceIDs['runalyze_sport'][$sportid])
+            && isset($this->ReplaceIDs['runalyze_equipment_type'][$equipmentTypeid])
+            && in_array(
                 $this->ReplaceIDs['runalyze_sport'][$sportid] . '-' . $this->ReplaceIDs['runalyze_equipment_type'][$equipmentTypeid],
                 $this->ExistingData['runalyze_equipment_sport']
             );
@@ -363,9 +363,9 @@ class JsonImporter
 
     protected function equipmentToSportRelationDoesExist(int $sportid, int $equipmentId): bool
     {
-        return isset($this->ReplaceIDs['runalyze_sport'][$sportid]) &&
-            isset($this->ReplaceIDs['runalyze_equipment'][$equipmentId]) &&
-            in_array(
+        return isset($this->ReplaceIDs['runalyze_sport'][$sportid])
+            && isset($this->ReplaceIDs['runalyze_equipment'][$equipmentId])
+            && in_array(
                 $this->ReplaceIDs['runalyze_sport'][$sportid] . '-' . $this->ReplaceIDs['runalyze_equipment'][$equipmentId],
                 $this->ExistingData['runalyze_equipment_to_sport']
             );

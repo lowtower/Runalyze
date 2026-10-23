@@ -11,8 +11,7 @@ class ConsoleExceptionListener
 {
     public function __construct(
         protected LoggerInterface $Logger
-    ) {
-    }
+    ) {}
 
     public function onConsoleError(ConsoleErrorEvent $event): void
     {

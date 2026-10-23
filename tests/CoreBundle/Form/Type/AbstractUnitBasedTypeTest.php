@@ -13,8 +13,7 @@ final class AbstractUnitBasedTypeTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
-        $this->Type = new class(new None()) extends AbstractUnitBasedType {
-        };
+        $this->Type = new class(new None()) extends AbstractUnitBasedType {};
     }
 
     public function testTransform(): void

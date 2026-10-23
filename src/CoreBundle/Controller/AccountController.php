@@ -26,8 +26,7 @@ class AccountController extends AbstractController
         protected ManagerRegistry $doctrine,
         private readonly TokenStorageInterface $tokenStorage,
         private readonly AccountMailer $accountMailer
-    ) {
-    }
+    ) {}
 
     protected function getAccountRepository(): AccountRepository
     {

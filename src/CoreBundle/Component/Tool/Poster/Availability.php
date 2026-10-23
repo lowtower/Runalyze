@@ -15,8 +15,7 @@ class Availability
         protected string $RsvgPath,
         protected string $InkscapePath,
         protected string $Python3Path
-    ) {
-    }
+    ) {}
 
     public function isAvailable(): bool
     {

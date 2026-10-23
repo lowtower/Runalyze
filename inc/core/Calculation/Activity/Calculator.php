@@ -15,8 +15,7 @@ class Calculator
         protected Model\Activity\Entity $Activity,
         protected ?Model\Trackdata\Entity $Trackdata = null,
         protected ?Model\Route\Entity $Route = null
-    ) {
-    }
+    ) {}
 
     protected function knowsTrackdata(): bool
     {

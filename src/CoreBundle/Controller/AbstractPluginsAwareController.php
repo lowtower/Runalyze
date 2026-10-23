@@ -42,8 +42,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
         protected TokenStorageInterface $tokenStorage,
         protected ParameterBagInterface $parameterBag,
         protected RequestStack $requestStack
-    ) {
-    }
+    ) {}
 
     /**
      * @throws Throwable if a legacy plugin throws

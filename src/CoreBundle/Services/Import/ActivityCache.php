@@ -12,8 +12,7 @@ class ActivityCache
 {
     public function __construct(
         protected AdapterInterface $Cache
-    ) {
-    }
+    ) {}
 
     public function save(Training $activity): string
     {

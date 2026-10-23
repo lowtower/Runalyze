@@ -18,8 +18,7 @@ class SportStatistic
 
     public function __construct(
         protected Sport $Sport
-    ) {
-    }
+    ) {}
 
     public function getSport(): Sport
     {

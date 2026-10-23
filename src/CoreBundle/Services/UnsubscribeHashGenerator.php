@@ -8,8 +8,7 @@ class UnsubscribeHashGenerator
 {
     public function __construct(
         private readonly string $appSecret
-    ) {
-    }
+    ) {}
 
     public function generate(string $username): string
     {

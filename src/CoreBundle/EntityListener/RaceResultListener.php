@@ -9,8 +9,7 @@ class RaceResultListener
 {
     public function __construct(
         protected RecalculationManager $RecalculationManager
-    ) {
-    }
+    ) {}
 
     public function postPersist(Raceresult $race): void
     {
@@ -34,9 +33,9 @@ class RaceResultListener
         if (
             $activity->getSport()
                 ->getInternalSport()
-                ->isRunning() &&
-            $activity->getUseVO2max() &&
-            $activity->getVO2max() > 0
+                ->isRunning()
+            && $activity->getUseVO2max()
+            && $activity->getVO2max() > 0
         ) {
             $this->RecalculationManager->scheduleEffectiveVO2maxCorrectionFactorCalculation($race->getAccount());
         }

@@ -11,8 +11,7 @@ class PercentMaximum extends AbstractHeartRateUnitInPercent
      */
     public function __construct(
         protected $MaximalHeartRate
-    ) {
-    }
+    ) {}
 
     /**
      * @codeCoverageIgnore

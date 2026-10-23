@@ -819,30 +819,30 @@ class Trackdata implements AccountRelatedEntityInterface
     public function isEmpty(): bool
     {
         return
-            ! $this->hasTime() &&
-            ! $this->hasDistance() &&
-            ! $this->hasHeartrate() &&
-            ! $this->hasCadence() &&
-            ! $this->hasPower() &&
-            ! $this->hasTemperature() &&
-            ! $this->hasGroundcontact() &&
-            ! $this->hasGroundcontactBalance() &&
-            ! $this->hasVerticalOscillation() &&
-            ! $this->hasSmo20() &&
-            ! $this->hasSmo21() &&
-            ! $this->hasThb0() &&
-            ! $this->hasThb1() &&
-            ! $this->hasImpactGsLeft() &&
-            ! $this->hasImpactGsRight() &&
-            ! $this->hasBrakingGsLeft() &&
-            ! $this->hasBrakingGsRight() &&
-            ! $this->hasFootstrikeTypeLeft() &&
-            ! $this->hasFootstrikeTypeRight() &&
-            ! $this->hasPronationExcursionLeft() &&
-            ! $this->hasPronationExcursionRight() &&
-            ! $this->hasPerformanceCondition() &&
-            ! $this->hasRespirationRate() &&
-            $this->pauses->isEmpty()
+            ! $this->hasTime()
+            && ! $this->hasDistance()
+            && ! $this->hasHeartrate()
+            && ! $this->hasCadence()
+            && ! $this->hasPower()
+            && ! $this->hasTemperature()
+            && ! $this->hasGroundcontact()
+            && ! $this->hasGroundcontactBalance()
+            && ! $this->hasVerticalOscillation()
+            && ! $this->hasSmo20()
+            && ! $this->hasSmo21()
+            && ! $this->hasThb0()
+            && ! $this->hasThb1()
+            && ! $this->hasImpactGsLeft()
+            && ! $this->hasImpactGsRight()
+            && ! $this->hasBrakingGsLeft()
+            && ! $this->hasBrakingGsRight()
+            && ! $this->hasFootstrikeTypeLeft()
+            && ! $this->hasFootstrikeTypeRight()
+            && ! $this->hasPronationExcursionLeft()
+            && ! $this->hasPronationExcursionRight()
+            && ! $this->hasPerformanceCondition()
+            && ! $this->hasRespirationRate()
+            && $this->pauses->isEmpty()
         ;
     }
 

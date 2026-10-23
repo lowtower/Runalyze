@@ -372,9 +372,9 @@ class ActivityView extends \Runalyze\Configuration\Category
     {
         $Fieldset->addHandle($this->handle('GMAP_PATH_BREAK'), [
             'label' => __('Map: interrupt route'),
-            'tooltip' => __('The gps path can be interrupted in case of <em>interruptions</em> (e.g. by car/train/...).' .
-                'Finding these interruptions is not easy. You can define up to which distance (in seconds by average pace)' .
-                'between two data points can be interpolated.'),
+            'tooltip' => __('The gps path can be interrupted in case of <em>interruptions</em> (e.g. by car/train/...).'
+                . 'Finding these interruptions is not easy. You can define up to which distance (in seconds by average pace)'
+                . 'between two data points can be interpolated.'),
         ]);
 
         $Fieldset->addHandle($this->handle('GMAP_PATH_PRECISION'), [

@@ -9,8 +9,7 @@ class ConsoleErrorStatusListener
 {
     public function __construct(
         protected LoggerInterface $Logger
-    ) {
-    }
+    ) {}
 
     public function onConsoleTerminate(ConsoleTerminateEvent $event): void
     {

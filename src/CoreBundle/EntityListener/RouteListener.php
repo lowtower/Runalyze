@@ -15,8 +15,7 @@ class RouteListener
     public function __construct(
         protected ConfigurationManager $ConfigurationManager,
         protected ElevationCorrection $ElevationCorrection
-    ) {
-    }
+    ) {}
 
     public function prePersist(Route $route): void
     {
@@ -45,8 +44,8 @@ class RouteListener
 
         return
             $args->hasChangedField('elevationsCorrected') || (
-                $args->hasChangedField('elevationsOriginal') &&
-                $route->getElevationsCorrected() === null
+                $args->hasChangedField('elevationsOriginal')
+                && $route->getElevationsCorrected() === null
             )
         ;
     }

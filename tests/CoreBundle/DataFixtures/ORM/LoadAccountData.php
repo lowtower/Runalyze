@@ -13,8 +13,7 @@ final class LoadAccountData extends AbstractFixture implements OrderedFixtureInt
 {
     public function __construct(
         private readonly ?UserPasswordHasherInterface $passwordHasher = null
-    ) {
-    }
+    ) {}
 
     public function load(ObjectManager $manager): void
     {

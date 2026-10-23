@@ -174,9 +174,9 @@ class Window
         $this->Laps->enableCalculationOfAdditionalValues();
 
         if (
-            $this->ManualDistances === [] && $this->LapDistance == 0 &&
-            $this->ManualTimes === [] && $this->LapTime == 0 &&
-            ! $this->Context->activity()
+            $this->ManualDistances === [] && $this->LapDistance == 0
+            && $this->ManualTimes === [] && $this->LapTime == 0
+            && ! $this->Context->activity()
                 ->splits()
                 ->isEmpty()
         ) {

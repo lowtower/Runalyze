@@ -50,22 +50,22 @@ class RunalyzePluginPanel_Prognose extends PluginPanel
     final protected function displayLongDescription(): void
     {
         echo HTML::p(__('There are different models that can be used to predict your race performances:'));
-        echo HTML::fileBlock('<strong>VO2max</strong><br>' .
-                    __('Your current effective VO2max is estimated based on the ratio of heart rate and pace. ' .
-                        'This value is equivalent to specific performances.'));
-        echo HTML::fileBlock("<strong>Robert Bock (CPP, 'Competitive Performance Predictor')</strong><br>" .
-                    __('Robert Bock uses an individual coefficient for your fatigue over time/distance. ' .
-                        'This model uses your two best results.') . '<br>' .
-                        '<small>see <a href="http://www.robert-bock.de/Sport_0/lauf_7/cpp/cpp.html">http://www.robert-bock.de/Sport_0/lauf_7/cpp/cpp.html</a></small>');
-        echo HTML::fileBlock("<strong>Herbert Steffny ('Das gro&szlig;e Laufbuch')</strong><br>" .
-                    __('Herbert Steffny uses fixed factors to transform performances from one distance to another. ' .
-                        'This model uses your best result.'));
-        echo HTML::fileBlock('<strong>David Cameron</strong><br>' .
-                    __('David Cameron uses a fixed coefficient for the fatigue over time/distance and slightly different formulas than Robert Bock. ' .
-                        'This model uses your best result.') . '<br>' .
-                        '<small>see <a href="http://www.infobarrel.com/Runners_Math_How_to_Predict_Your_Race_Time">http://www.infobarrel.com/Runners_Math_How_to_Predict_Your_Race_Time</a></small>');
-        echo HTML::info(__('The VO2max model is the only one which considers your current shape. ' .
-                            'The other models are based on your previous race results.'));
+        echo HTML::fileBlock('<strong>VO2max</strong><br>'
+                    . __('Your current effective VO2max is estimated based on the ratio of heart rate and pace. '
+                        . 'This value is equivalent to specific performances.'));
+        echo HTML::fileBlock("<strong>Robert Bock (CPP, 'Competitive Performance Predictor')</strong><br>"
+                    . __('Robert Bock uses an individual coefficient for your fatigue over time/distance. '
+                        . 'This model uses your two best results.') . '<br>'
+                        . '<small>see <a href="http://www.robert-bock.de/Sport_0/lauf_7/cpp/cpp.html">http://www.robert-bock.de/Sport_0/lauf_7/cpp/cpp.html</a></small>');
+        echo HTML::fileBlock("<strong>Herbert Steffny ('Das gro&szlig;e Laufbuch')</strong><br>"
+                    . __('Herbert Steffny uses fixed factors to transform performances from one distance to another. '
+                        . 'This model uses your best result.'));
+        echo HTML::fileBlock('<strong>David Cameron</strong><br>'
+                    . __('David Cameron uses a fixed coefficient for the fatigue over time/distance and slightly different formulas than Robert Bock. '
+                        . 'This model uses your best result.') . '<br>'
+                        . '<small>see <a href="http://www.infobarrel.com/Runners_Math_How_to_Predict_Your_Race_Time">http://www.infobarrel.com/Runners_Math_How_to_Predict_Your_Race_Time</a></small>');
+        echo HTML::info(__('The VO2max model is the only one which considers your current shape. '
+                            . 'The other models are based on your previous race results.'));
     }
 
     protected function initConfiguration()

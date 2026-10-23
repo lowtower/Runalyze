@@ -96,8 +96,8 @@ class InfiniteImpulseResponseFilter
             $outputData[$n] = $this->InputCoefficients[0] * $inputData[$n];
 
             for ($i = 1; $i <= $this->Order; ++$i) {
-                $outputData[$n] +=
-                    $this->InputCoefficients[$i] * $inputData[$n - $i]
+                $outputData[$n]
+                    += $this->InputCoefficients[$i] * $inputData[$n - $i]
                     - $this->OutputCoefficients[$i] * $outputData[$n - $i];
             }
 

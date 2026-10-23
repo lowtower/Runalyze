@@ -10,8 +10,7 @@ class UserTimezoneListener
 {
     public function __construct(
         private readonly UsageTrackingTokenStorage $token
-    ) {
-    }
+    ) {}
 
     public function onKernelRequest(): void
     {

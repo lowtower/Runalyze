@@ -35,8 +35,7 @@ class WeatherController extends AbstractController
         private TranslatorInterface $translator,
         private WeatherForecast $weatherForecast,
         private ConfigurationManager $configurationManager
-    ) {
-    }
+    ) {}
 
     /**
      * @throws AccessDeniedException

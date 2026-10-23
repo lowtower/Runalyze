@@ -48,8 +48,8 @@ class Month implements QueryGroupInterface
         $endMonth = (int) $dateTo->format('m');
 
         if ($startYear === $endYear - 1) {
-            return array_slice($months, $startMonth - 1, 13 - $startMonth, true) +
-                array_slice($months, 0, $endMonth, true);
+            return array_slice($months, $startMonth - 1, 13 - $startMonth, true)
+                + array_slice($months, 0, $endMonth, true);
         }
 
         return array_slice($months, $startMonth - 1, $endMonth - $startMonth + 1, true);

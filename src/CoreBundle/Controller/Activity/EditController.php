@@ -49,8 +49,7 @@ class EditController extends AbstractController
         private GeoTiff $elevationCorrectionGeoTiff,
         private Geonames $elevationCorrectionGeonames,
         private GoogleMaps $elevationCorrectionGoogleMaps
-    ) {
-    }
+    ) {}
 
     protected function getTrainingRepository(): TrainingRepository
     {

@@ -11,8 +11,7 @@ abstract class AbstractSport implements ProfileInterface
      */
     public function __construct(
         private readonly int $Enum
-    ) {
-    }
+    ) {}
 
     public function getInternalProfileEnum(): int
     {

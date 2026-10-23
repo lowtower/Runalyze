@@ -75,13 +75,9 @@ abstract class AbstractBackup
         $fs->rename(md5($this->Filename), $this->Filename);
     }
 
-    protected function startBackup()
-    {
-    }
+    protected function startBackup() {}
 
-    protected function finishBackup()
-    {
-    }
+    protected function finishBackup() {}
 
     private function saveTableRows(string $tableName)
     {
@@ -128,13 +124,9 @@ abstract class AbstractBackup
         return $ids;
     }
 
-    protected function startTableRows(string $tableName)
-    {
-    }
+    protected function startTableRows(string $tableName) {}
 
-    protected function finishTableRows()
-    {
-    }
+    protected function finishTableRows() {}
 
     private function fetchPluginIDs(): array
     {

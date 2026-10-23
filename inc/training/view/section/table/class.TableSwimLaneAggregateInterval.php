@@ -103,8 +103,8 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract
 
                 // if 100m exceeded or the lap is finished write the table row
                 if ($distance100->stringMeter(false) === '100' || $lapFinished) {
-                    $this->Code .= '<tr class="r"' .
-                        ($beginLap ? ' style="border-color: #666; border-style: dashed dashed dashed dashed; border-width: 1px 0px 1px 0px;"' : '')
+                    $this->Code .= '<tr class="r"'
+                        . ($beginLap ? ' style="border-color: #666; border-style: dashed dashed dashed dashed; border-width: 1px 0px 1px 0px;"' : '')
                         . '>';
 
                     // round/lap
@@ -119,8 +119,8 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract
                     $pace->setDistance($distance100->value());
                     $this->Code .= '<td>' . $pace->valueWithAppendix() . '</td>';
                     // make it very easy: the pace seconds define the bar-width
-                    $this->Code .= '<td style="text-align: left; padding-left: 2%;">' .
-                        '<span class="bar-chart-value" style="width:' . ($pace->secondsPerKm() / 10) . 'px; top: 0px;"></span></td>';
+                    $this->Code .= '<td style="text-align: left; padding-left: 2%;">'
+                        . '<span class="bar-chart-value" style="width:' . ($pace->secondsPerKm() / 10) . 'px; top: 0px;"></span></td>';
                     if ($beginLap && $lap === 1) {
                         $this->Code .= '<td></td>';
                     } else {

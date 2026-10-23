@@ -141,11 +141,11 @@ class MailingCommand extends Command
 
     protected function validateInput(InputInterface $input, OutputInterface $output): bool
     {
-        return $this->checkValidation($this->validateTemplate((string) $input->getArgument('template')), $output, 'Template must exist in /data/views/mail/custom.') &&
-               $this->checkValidation($this->validateSubject($input->getOption('subject')), $output, 'Subject must not be empty.') &&
-               $this->checkValidation($this->validateLanguage($input->getOption('lang')), $output, 'Language keys must be alphabetic strings.') &&
-               $this->checkValidation($this->validateLanguage($input->getOption('exclude-lang')), $output, 'Language keys to exclude must be alphabetic strings.') &&
-               $this->checkValidation($this->validateAccountIds($input->getOption('account')), $output, 'Account IDs must be integers.')
+        return $this->checkValidation($this->validateTemplate((string) $input->getArgument('template')), $output, 'Template must exist in /data/views/mail/custom.')
+               && $this->checkValidation($this->validateSubject($input->getOption('subject')), $output, 'Subject must not be empty.')
+               && $this->checkValidation($this->validateLanguage($input->getOption('lang')), $output, 'Language keys must be alphabetic strings.')
+               && $this->checkValidation($this->validateLanguage($input->getOption('exclude-lang')), $output, 'Language keys to exclude must be alphabetic strings.')
+               && $this->checkValidation($this->validateAccountIds($input->getOption('account')), $output, 'Account IDs must be integers.')
         ;
     }
 

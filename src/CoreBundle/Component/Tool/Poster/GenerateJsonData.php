@@ -18,8 +18,7 @@ class GenerateJsonData
         protected TrainingRepository $TrainingRepository,
         protected RaceresultRepository $RaceresultRepository,
         protected string $projectDir
-    ) {
-    }
+    ) {}
 
     public function getPathToJsonFiles(): string
     {

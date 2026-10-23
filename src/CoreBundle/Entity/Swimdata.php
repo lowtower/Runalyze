@@ -115,8 +115,8 @@ class Swimdata implements AccountRelatedEntityInterface
     public function isEmpty(): bool
     {
         return
-            ($this->stroke === null || empty($this->stroke)) &&
-            ($this->stroketype === null || empty($this->stroketype))
+            ($this->stroke === null || empty($this->stroke))
+            && ($this->stroketype === null || empty($this->stroketype))
         ;
     }
 }

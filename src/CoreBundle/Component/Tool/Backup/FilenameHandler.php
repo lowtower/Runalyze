@@ -19,8 +19,7 @@ class FilenameHandler
      */
     public function __construct(
         protected int $AccountId
-    ) {
-    }
+    ) {}
 
     public function setRunalyzeVersion(string $version): void
     {
@@ -65,8 +64,8 @@ class FilenameHandler
     public static function validateFileExtension(string $completeFilename): bool
     {
         return
-            str_ends_with($completeFilename, self::JSON_FORMAT) ||
-            str_ends_with($completeFilename, self::SQL_FORMAT)
+            str_ends_with($completeFilename, self::JSON_FORMAT)
+            || str_ends_with($completeFilename, self::SQL_FORMAT)
         ;
     }
 

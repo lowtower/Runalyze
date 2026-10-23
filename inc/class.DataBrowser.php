@@ -179,8 +179,8 @@ class DataBrowser
             $w = (int) Time::diffInDays($Training['time'], $this->TimestampStart);
 
             if (
-                in_array($Training['typeid'], $this->TypesShort) ||
-                (! in_array($Training['typeid'], $this->TypesNotShort) && in_array($Training['sportid'], $this->SportsShort))
+                in_array($Training['typeid'], $this->TypesShort)
+                || (! in_array($Training['typeid'], $this->TypesNotShort) && in_array($Training['sportid'], $this->SportsShort))
             ) {
                 $this->Days[$w]['shorts'][] = $Training;
             } else {
@@ -435,8 +435,8 @@ class DataBrowser
             }
 
             $year = $t->format('Y');
-            echo '<td' . ($year == $selectedYear ? ' style="background-color: #ff6"' : '') . '>' .
-                DataBrowserLinker::yearLink($year, $t->getTimestamp(), $this->SportId) . '</td>';
+            echo '<td' . ($year == $selectedYear ? ' style="background-color: #ff6"' : '') . '>'
+                . DataBrowserLinker::yearLink($year, $t->getTimestamp(), $this->SportId) . '</td>';
             if ($i % 4 === 3) {
                 echo '</tr>';
             }

@@ -38,8 +38,7 @@ class SportType extends AbstractType
         protected SportRepository $SportRepository,
         protected EquipmentTypeRepository $EquipmentTypeRepository,
         protected TokenStorageInterface $TokenStorageInterface
-    ) {
-    }
+    ) {}
 
     /**
      * @throws RuntimeException if no account is associated with the current security token

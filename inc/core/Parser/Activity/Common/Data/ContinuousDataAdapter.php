@@ -10,8 +10,7 @@ class ContinuousDataAdapter
 
     public function __construct(
         protected ContinuousData $ContinuousData
-    ) {
-    }
+    ) {}
 
     public function calculateDistancesIfRequired(): void
     {
@@ -23,9 +22,9 @@ class ContinuousDataAdapter
     protected function distancesShouldBeCalculated(): bool
     {
         return
-            $this->ContinuousData->Distance === [] &&
-            $this->ContinuousData->Latitude !== [] &&
-            $this->ContinuousData->Longitude !== []
+            $this->ContinuousData->Distance === []
+            && $this->ContinuousData->Latitude !== []
+            && $this->ContinuousData->Longitude !== []
         ;
     }
 

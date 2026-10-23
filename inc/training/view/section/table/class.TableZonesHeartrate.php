@@ -108,8 +108,8 @@ class TableZonesHeartrate extends TableZonesAbstract
         }
 
         if ($hrMax <= 0) {
-            $this->footerHint =
-                'Heart-rate zones cannot be calculated because no valid '
+            $this->footerHint
+                = 'Heart-rate zones cannot be calculated because no valid '
                 . 'maximum heart rate is available.';
 
             return [];
@@ -130,8 +130,8 @@ class TableZonesHeartrate extends TableZonesAbstract
         $histogram = $distribution->histogram();
 
         if ($histogram === []) {
-            $this->footerHint =
-                'Heart-rate zones cannot be calculated because no '
+            $this->footerHint
+                = 'Heart-rate zones cannot be calculated because no '
                 . 'heart-rate data is available.';
 
             return [];
@@ -143,16 +143,16 @@ class TableZonesHeartrate extends TableZonesAbstract
         $maxHr = array_key_last($histogram);
 
         if (! is_int($minHr) && ! ctype_digit((string) $minHr)) {
-            $this->footerHint =
-                'Heart-rate zones cannot be calculated because the '
+            $this->footerHint
+                = 'Heart-rate zones cannot be calculated because the '
                 . 'heart-rate data contains invalid values.';
 
             return [];
         }
 
         if (! is_int($maxHr) && ! ctype_digit((string) $maxHr)) {
-            $this->footerHint =
-                'Heart-rate zones cannot be calculated because the '
+            $this->footerHint
+                = 'Heart-rate zones cannot be calculated because the '
                 . 'heart-rate data contains invalid values.';
 
             return [];
@@ -173,8 +173,8 @@ class TableZonesHeartrate extends TableZonesAbstract
             }
 
             if (
-                ! isset($defaultZones[$zoneIndex]) ||
-                ! isset($defaultZones[$zoneIndex + 1])
+                ! isset($defaultZones[$zoneIndex])
+                || ! isset($defaultZones[$zoneIndex + 1])
             ) {
                 continue;
             }

@@ -188,9 +188,9 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
         $longitude = null;
         foreach ($container->ContinuousData->Latitude as $index => $value) {
             if (
-                is_numeric($value) &&
-                isset($container->ContinuousData->Longitude[$index]) &&
-                is_numeric($container->ContinuousData->Longitude[$index])
+                is_numeric($value)
+                && isset($container->ContinuousData->Longitude[$index])
+                && is_numeric($container->ContinuousData->Longitude[$index])
             ) {
                 $latitude = (float) $value;
                 $longitude = (float) $container->ContinuousData->Longitude[$index];

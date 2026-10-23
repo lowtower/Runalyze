@@ -33,8 +33,7 @@ class SportController extends AbstractController
     public function __construct(
         protected ManagerRegistry $doctrine,
         private AutomaticReloadFlagSetter $automaticReloadFlagSetter
-    ) {
-    }
+    ) {}
 
     protected function getSportRepository(): SportRepository
     {

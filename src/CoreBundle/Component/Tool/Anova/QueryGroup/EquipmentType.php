@@ -12,8 +12,7 @@ class EquipmentType implements QueryGroupInterface
 {
     public function __construct(
         protected int $EquipmentTypeId
-    ) {
-    }
+    ) {}
 
     public function addSelectionToQuery(QueryBuilder $queryBuilder, string $alias, string $as, string $sportAlias): void
     {

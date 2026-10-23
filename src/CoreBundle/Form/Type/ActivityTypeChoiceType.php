@@ -25,7 +25,7 @@ class ActivityTypeChoiceType extends AbstractTokenStorageAwareType
                         ->getActivityTypes()
                 ),
             'choice_label' => fn (Type $type, $key, $index): string => $type->getName(),
-            'choice_value' => fn (?Type $type = null): int|null|string => $type instanceof Type ? $type->getId() : '',
+            'choice_value' => fn (?Type $type = null): int|string|null => $type instanceof Type ? $type->getId() : '',
             'choice_attr' => fn (Type $type, $key, $index): array => [
                 'data-sport' => $type->getSport()
                     ->getId(),

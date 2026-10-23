@@ -58,8 +58,8 @@ class AirPressure extends AbstractKey
             ! $context->activity()
                 ->weather()
                 ->pressure()
-                ->isUnknown() &&
-            (! $context->hasSport() || $context->sport()->isOutside())
+                ->isUnknown()
+            && (! $context->hasSport() || $context->sport()->isOutside())
         ) {
             return $context->activity()
                 ->weather()

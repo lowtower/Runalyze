@@ -96,10 +96,10 @@ class TrainingView
         $toolsLinks = [];
 
         if (
-            $this->Context->hasTrackdata() &&
-            $this->Context->trackdata()
-                ->has(Model\Trackdata\Entity::DISTANCE) &&
-            $this->Context->trackdata()
+            $this->Context->hasTrackdata()
+            && $this->Context->trackdata()
+                ->has(Model\Trackdata\Entity::DISTANCE)
+            && $this->Context->trackdata()
                 ->has(Model\Trackdata\Entity::TIME)
         ) {
             $toolsLinks[] = '<li><a class="window link" data-size="big" href="activity/' . $this->Context->activity()->id() . '/splits-info"><i class="fa far fa-fw fa-chart-bar"></i> ' . __('Analyze splits') . '</a></li>';
@@ -208,13 +208,13 @@ class TrainingView
         if (
             (
                 $this->Context->trackdata()
-                    ->has(\Runalyze\Model\Trackdata\Entity::CADENCE) &&
-                $this->Context->sport()
+                    ->has(\Runalyze\Model\Trackdata\Entity::CADENCE)
+                && $this->Context->sport()
                     ->getInternalProfileEnum() === \Runalyze\Profile\Sport\SportProfile::RUNNING
-            ) ||
-            $this->Context->trackdata()
-                ->has(\Runalyze\Model\Trackdata\Entity::GROUNDCONTACT) ||
-            $this->Context->trackdata()
+            )
+            || $this->Context->trackdata()
+                ->has(\Runalyze\Model\Trackdata\Entity::GROUNDCONTACT)
+            || $this->Context->trackdata()
                 ->has(\Runalyze\Model\Trackdata\Entity::VERTICAL_OSCILLATION)
         ) {
             $this->Sections[] = new SectionRunningDynamics($this->Context);

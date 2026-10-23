@@ -356,9 +356,9 @@ abstract class PlotSumData extends Plot
     private function initData()
     {
         if (time() != START_TIME && (
-            ($this->Year >= START_YEAR && $this->Year <= date('Y') && time() != START_TIME) ||
-            $this->Year === self::LAST_6_MONTHS ||
-            $this->Year === self::LAST_12_MONTHS
+            ($this->Year >= START_YEAR && $this->Year <= date('Y') && time() != START_TIME)
+            || $this->Year === self::LAST_6_MONTHS
+            || $this->Year === self::LAST_12_MONTHS
         )) {
             $this->defineAnalysis();
             $this->loadData();

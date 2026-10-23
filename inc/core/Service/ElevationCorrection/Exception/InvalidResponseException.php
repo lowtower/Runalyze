@@ -4,6 +4,4 @@ declare(strict_types=1);
 
 namespace Runalyze\Service\ElevationCorrection\Exception;
 
-class InvalidResponseException extends StrategyException
-{
-}
+class InvalidResponseException extends StrategyException {}

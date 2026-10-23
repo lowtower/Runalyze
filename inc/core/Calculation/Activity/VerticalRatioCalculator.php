@@ -25,8 +25,7 @@ class VerticalRatioCalculator
      */
     public function __construct(
         protected \Runalyze\Model\Trackdata\Entity $Trackdata
-    ) {
-    }
+    ) {}
 
     /**
      * Calculate vertical ratio array
@@ -35,8 +34,8 @@ class VerticalRatioCalculator
     public function calculate(): array
     {
         if (
-            ! $this->Trackdata->has(Trackdata\Entity::VERTICAL_OSCILLATION) ||
-            ! $this->Trackdata->has(Trackdata\Entity::STRIDE_LENGTH)
+            ! $this->Trackdata->has(Trackdata\Entity::VERTICAL_OSCILLATION)
+            || ! $this->Trackdata->has(Trackdata\Entity::STRIDE_LENGTH)
         ) {
             return [];
         }

@@ -74,8 +74,8 @@ abstract class AbstractSharer extends AbstractExporter
     {
         if (System::isAtLocalhost()) {
             return HTML::error(
-                __('Runalyze is running on a local server.') . ' ' .
-                __('Linking your activity in a social network does not make sense - nobody will be able to see your activity.')
+                __('Runalyze is running on a local server.') . ' '
+                . __('Linking your activity in a social network does not make sense - nobody will be able to see your activity.')
             );
         }
 

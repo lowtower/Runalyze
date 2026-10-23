@@ -49,8 +49,7 @@ class MonthwiseTable
         protected \PDO $PDO,
         protected $AccountID,
         protected $EquipmentTypeID = 0
-    ) {
-    }
+    ) {}
 
     /**
      * @param string $query

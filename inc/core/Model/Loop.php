@@ -169,8 +169,8 @@ abstract class Loop
         $this->LastIndex = $this->Index;
 
         while (
-            ! $this->isAtEnd() &&
-            $this->Object->at($this->Index, $key) < $target
+            ! $this->isAtEnd()
+            && $this->Object->at($this->Index, $key) < $target
         ) {
             $this->Index++;
         }
@@ -206,8 +206,8 @@ abstract class Loop
         }
 
         if (
-            $boundaryMode === self::BOUNDARY_NEAREST &&
-            $current - $target > $target - $previous
+            $boundaryMode === self::BOUNDARY_NEAREST
+            && $current - $target > $target - $previous
         ) {
             $this->Index--;
         }

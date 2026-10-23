@@ -17,8 +17,7 @@ class MarathonShape
     public function __construct(
         protected $EffectiveVO2max,
         protected BasicEndurance $Configuration
-    ) {
-    }
+    ) {}
 
     /**
      * @param float $effectiveVO2max [ml/kg/min]
@@ -41,8 +40,8 @@ class MarathonShape
         $percentageLongJogs = $totalWeightedRelativeLongJogPoints * 7.0 / $this->Configuration->getDaysToConsiderForLongJogs();
 
         return (int) round(100.0 * (
-            $percentageWeekly * $this->Configuration->getPercentageForWeeklyMileage() +
-            $percentageLongJogs * $this->Configuration->getPercentageForLongJogs()
+            $percentageWeekly * $this->Configuration->getPercentageForWeeklyMileage()
+            + $percentageLongJogs * $this->Configuration->getPercentageForLongJogs()
         ));
     }
 

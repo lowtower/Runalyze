@@ -26,8 +26,7 @@ class PrivacyController extends AbstractController
         private ConfigurationUpdater $configurationUpdater,
         private TranslatorInterface $translator,
         private ConfigurationManager $configurationManager
-    ) {
-    }
+    ) {}
 
     protected function getConfRepository(): ConfRepository
     {

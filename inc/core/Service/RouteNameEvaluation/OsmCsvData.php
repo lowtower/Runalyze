@@ -190,8 +190,8 @@ class OsmCsvData
     {
         if (! empty($this->natural) && ($this->natural === 'peak' || $this->natural === 'saddle')) {
             $this->category = self::$CAT_PEAK;
-        } elseif (! empty($this->place) || ! empty($this->trafficSign) ||
-            ! empty($this->landuse) || $this->natural === 'wood' || $this->natural === 'water') {
+        } elseif (! empty($this->place) || ! empty($this->trafficSign)
+            || ! empty($this->landuse) || $this->natural === 'wood' || $this->natural === 'water') {
             $this->category = self::$CAT_PLACE;
         } elseif ($this->tourism === 'alpine_hut' || $this->tourism === 'wilderness_hut' || $this->amenity === 'restaurant') {
             $this->category = self::$CAT_HUT;

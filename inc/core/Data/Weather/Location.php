@@ -117,9 +117,9 @@ class Location
     public function hasPosition(): bool
     {
         return
-            $this->Latitude !== null &&
-            $this->Longitude !== null &&
-            ($this->Latitude != 0 || $this->Longitude != 0)
+            $this->Latitude !== null
+            && $this->Longitude !== null
+            && ($this->Latitude != 0 || $this->Longitude != 0)
         ;
     }
 

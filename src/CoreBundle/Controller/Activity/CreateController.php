@@ -51,8 +51,7 @@ class CreateController extends AbstractController
         private TranslatorInterface $translator,
         private ActivityContextAdapterFactory $activityContextAdapterFactory,
         private AutomaticReloadFlagSetter $automaticReloadFlagSetter
-    ) {
-    }
+    ) {}
 
     protected function getTrainingRepository(): TrainingRepository
     {

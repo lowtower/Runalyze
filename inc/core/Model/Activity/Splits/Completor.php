@@ -36,8 +36,7 @@ abstract class Completor
         protected Entity $Splits,
         protected array $Time,
         protected array $Distance
-    ) {
-    }
+    ) {}
 
     abstract public function mode(): string;
 

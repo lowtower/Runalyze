@@ -14,8 +14,7 @@ class UserListener
     public function __construct(
         protected ConfigurationUpdater $ConfigurationUpdater,
         protected UserRepository $UserRepository
-    ) {
-    }
+    ) {}
 
     public function postPersist(User $user, \Doctrine\ORM\Event\PostPersistEventArgs $args): void
     {

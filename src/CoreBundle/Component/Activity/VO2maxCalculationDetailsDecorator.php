@@ -13,8 +13,7 @@ class VO2maxCalculationDetailsDecorator
     public function __construct(
         protected ActivityContext $Context,
         protected RunalyzeConfigurationList $ConfigurationList
-    ) {
-    }
+    ) {}
 
     /**
      * @return int [%]

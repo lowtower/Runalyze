@@ -12,6 +12,4 @@ use Exception;
  * @author Hannes Christiansen
  * @package Runalyze\Import\Exception
  */
-class ParserException extends Exception
-{
-}
+class ParserException extends Exception {}

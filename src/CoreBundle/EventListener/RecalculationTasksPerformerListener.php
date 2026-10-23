@@ -9,8 +9,7 @@ class RecalculationTasksPerformerListener
 {
     public function __construct(
         protected RecalculationManager $Manager
-    ) {
-    }
+    ) {}
 
     public function onTerminate(): void
     {

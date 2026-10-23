@@ -34,8 +34,7 @@ class Query
         protected Configuration $Configuration,
         protected \PDO $PDO,
         protected int $AccountID
-    ) {
-    }
+    ) {}
 
     public function showOnlyPublicActivities(bool $flag = true): void
     {

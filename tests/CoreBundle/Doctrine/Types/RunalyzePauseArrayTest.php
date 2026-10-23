@@ -60,9 +60,9 @@ final class RunalyzePauseArrayTest extends \PHPUnit\Framework\TestCase
     public function testLegacyExample(): void
     {
         $collection = $this->Type->convertToPHPValue(
-            '[{"time":93,"duration":46,"hr-start":136,"hr-end":91},' .
-            '{"time":339,"duration":49,"hr-start":150,"hr-end":109},' .
-            '{"time":621,"duration":9,"hr-start":142,"hr-end":140}]',
+            '[{"time":93,"duration":46,"hr-start":136,"hr-end":91},'
+            . '{"time":339,"duration":49,"hr-start":150,"hr-end":109},'
+            . '{"time":621,"duration":9,"hr-start":142,"hr-end":140}]',
             $this->createStub(\Doctrine\DBAL\Platforms\AbstractPlatform::class)
         );
 
@@ -75,9 +75,9 @@ final class RunalyzePauseArrayTest extends \PHPUnit\Framework\TestCase
     public function testBrokenExample(): void
     {
         $collection = $this->Type->convertToPHPValue(
-            '[{"time":93,"duration":46,"hr-start":136,"hr-end":91},' .
-            '{"time":339,"duration":49,"hr-start":150,"hr-end":109},' .
-            '{"time":621,"duration":9,"hr-sta',
+            '[{"time":93,"duration":46,"hr-start":136,"hr-end":91},'
+            . '{"time":339,"duration":49,"hr-start":150,"hr-end":109},'
+            . '{"time":621,"duration":9,"hr-sta',
             $this->createStub(\Doctrine\DBAL\Platforms\AbstractPlatform::class)
         );
 

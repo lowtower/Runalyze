@@ -9,6 +9,7 @@ declare(strict_types=1);
 if (! defined('RUNALYZE_VERSION')) {
     define('RUNALYZE_VERSION', '0.0.0');
 }
+
 if (! defined('RUNALYZE_DATE')) {
     define('RUNALYZE_DATE', '1970-01-01');
 }
@@ -21,6 +22,7 @@ if (! defined('RUNALYZE_DATE')) {
 if (! defined('FRONTEND_PATH')) {
     define('FRONTEND_PATH', __DIR__ . '/inc/');
 }
+
 if (! defined('PREFIX')) {
     define('PREFIX', 'runalyze_');
 }

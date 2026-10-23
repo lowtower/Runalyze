@@ -18,6 +18,4 @@ namespace Runalyze\Import\Exception;
  * @author Hannes Christiansen
  * @package Runalyze\Import\Exception
  */
-class InstallationSpecificException extends ParserException
-{
-}
+class InstallationSpecificException extends ParserException {}

@@ -30,9 +30,7 @@ class WithKernel extends AbstractMovingAverage
      * Check that kernel is set
      * @throws \RuntimeException
      */
-    protected function checkThatKernelExists()
-    {
-    }
+    protected function checkThatKernelExists() {}
 
     /**
      * Calculate if index data is there
@@ -77,16 +75,16 @@ class WithKernel extends AbstractMovingAverage
 
         $delta = -1;
         while (
-            $currentIndex + $delta >= 0 &&
-            $x - $this->IndexData[$currentIndex + $delta] <= $maxDiff
+            $currentIndex + $delta >= 0
+            && $x - $this->IndexData[$currentIndex + $delta] <= $maxDiff
         ) {
             $deltas[$delta--] = $this->IndexData[$currentIndex + $delta + 1] - $x;
         }
 
         $delta = +1;
         while (
-            $currentIndex + $delta < $this->Length &&
-            $maxDiff >= $this->IndexData[$currentIndex + $delta] - $x
+            $currentIndex + $delta < $this->Length
+            && $maxDiff >= $this->IndexData[$currentIndex + $delta] - $x
         ) {
             $deltas[$delta++] = $this->IndexData[$currentIndex + $delta - 1] - $x;
         }

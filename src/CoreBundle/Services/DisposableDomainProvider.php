@@ -10,8 +10,7 @@ class DisposableDomainProvider
 
     public function __construct(
         private readonly string $projectDir
-    ) {
-    }
+    ) {}
 
     public function getDomains(): array
     {

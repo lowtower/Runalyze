@@ -23,9 +23,9 @@ class NegativeDistanceStepFilter extends AbstractFilter
         for ($i = 1; $i < $numberOfPoints; ++$i) {
             if ($container->ContinuousData->Distance[$i] < $container->ContinuousData->Distance[$i - 1]) {
                 if (! $strict && (
-                    $container->ContinuousData->Distance[$i] == 0 ||
-                    $this->LimitForDistanceDifferenceToFix >= $container->ContinuousData->Distance[$i - 1] - $container->ContinuousData->Distance[$i] ||
-                    ($i < $numberOfPoints - 1 && $container->ContinuousData->Distance[$i - 1] < $container->ContinuousData->Distance[$i + 1])
+                    $container->ContinuousData->Distance[$i] == 0
+                    || $this->LimitForDistanceDifferenceToFix >= $container->ContinuousData->Distance[$i - 1] - $container->ContinuousData->Distance[$i]
+                    || ($i < $numberOfPoints - 1 && $container->ContinuousData->Distance[$i - 1] < $container->ContinuousData->Distance[$i + 1])
                 )) {
                     $container->ContinuousData->Distance[$i] = $container->ContinuousData->Distance[$i - 1];
 

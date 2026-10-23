@@ -18,8 +18,7 @@ class FitConverter extends AbstractShellBasedFileTypeConverter
     public function __construct(
         protected string $PathToPerl,
         protected string $PathToFitPerlScript
-    ) {
-    }
+    ) {}
 
     public function getConvertibleFileExtension(): string
     {

@@ -23,8 +23,7 @@ class VerticalRatio implements ValueInterface
      */
     public function __construct(
         protected int $Permille = 0
-    ) {
-    }
+    ) {}
 
     /**
      * @codeCoverageIgnore

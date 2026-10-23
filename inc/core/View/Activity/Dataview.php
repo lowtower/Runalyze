@@ -67,13 +67,12 @@ class Dataview
 
     public function __construct(
         protected Activity\Entity $Activity
-    ) {
-    }
+    ) {}
 
     /**
      * @return mixed
      */
-    protected function object(\Runalyze\Activity\Duration|null|\Runalyze\Activity\Pace|\Runalyze\Data\Cadence\AbstractCadence|\Runalyze\Activity\StrideLength|\Runalyze\Activity\Energy|\Runalyze\Activity\HeartRate|\Runalyze\Activity\Elevation|\Runalyze\Data\Weather\WindChillFactor|\Runalyze\Data\Weather\HeatIndex|\Runalyze\Calculation\JD\LegacyEffectiveVO2max &$value, \Closure $constructor)
+    protected function object(\Runalyze\Activity\Duration|\Runalyze\Activity\Pace|\Runalyze\Data\Cadence\AbstractCadence|\Runalyze\Activity\StrideLength|\Runalyze\Activity\Energy|\Runalyze\Activity\HeartRate|\Runalyze\Activity\Elevation|\Runalyze\Data\Weather\WindChillFactor|\Runalyze\Data\Weather\HeatIndex|\Runalyze\Calculation\JD\LegacyEffectiveVO2max|null &$value, \Closure $constructor)
     {
         $value ??= $constructor($this->Activity);
 
@@ -223,7 +222,7 @@ class Dataview
         return $Stress->string();
     }
 
-    public function rpe(bool $valueOnly = false): int|null|string
+    public function rpe(bool $valueOnly = false): int|string|null
     {
         if ($valueOnly) {
             return $this->Activity->rpe();
@@ -414,7 +413,7 @@ class Dataview
         return $this->formatRunScribeValues($this->Activity->pronationExcursionLeft(), $this->Activity->pronationExcursionRight());
     }
 
-    protected function formatRunScribeValues(float|null|int $left, float|null|int $right, int $precision = 1): string
+    protected function formatRunScribeValues(float|int|null $left, float|int|null $right, int $precision = 1): string
     {
         return $this->formatTwoPartValue(
             $left !== null ? number_format($left, $precision) : '-',

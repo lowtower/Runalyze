@@ -260,18 +260,18 @@ class ActivityListener
 
         return (
             (
-                $args->hasChangedField('useVO2max') ||
-                $args->hasChangedField('vo2max') ||
-                $args->hasChangedField('vo2maxWithElevation')
+                $args->hasChangedField('useVO2max')
+                || $args->hasChangedField('vo2max')
+                || $args->hasChangedField('vo2maxWithElevation')
             ) && (
                 $activity->getAdapter()
-                    ->isNotOlderThanXDays($days) ||
-                $this->timestampEnteredOrLeftPeriodOfLastXDays($days, $args)
+                    ->isNotOlderThanXDays($days)
+                || $this->timestampEnteredOrLeftPeriodOfLastXDays($days, $args)
             )
         ) || (
             $this->timestampEnteredOrLeftPeriodOfLastXDays($days, $args) && (
-                $activity->getUseVO2max() &&
-                $activity->getVO2max() > 0.0
+                $activity->getUseVO2max()
+                && $activity->getVO2max() > 0.0
             )
         );
     }
@@ -283,12 +283,12 @@ class ActivityListener
         return (
             $activity->getAdapter()
                 ->isRunning() && (
-                    $args->hasChangedField('distance') ||
-                $this->timestampEnteredOrLeftPeriodOfLastXDays($daysToConsider, $args)
+                    $args->hasChangedField('distance')
+                || $this->timestampEnteredOrLeftPeriodOfLastXDays($daysToConsider, $args)
                 )
         ) || (
-            $args->hasChangedField('sport') &&
-            $activity->getAdapter()
+            $args->hasChangedField('sport')
+            && $activity->getAdapter()
                 ->isNotOlderThanXDays($daysToConsider)
         );
     }
@@ -296,9 +296,9 @@ class ActivityListener
     protected function updateRequiresEffectiveVO2maxCorrectionFactorCalculation(Training $activity, PreUpdateEventArgs $args): bool
     {
         return
-            $activity->hasRaceresult() &&
-            $args->hasChangedField('vo2max') ||
-            $args->hasChangedField('vo2maxByTime')
+            $activity->hasRaceresult()
+            && $args->hasChangedField('vo2max')
+            || $args->hasChangedField('vo2maxByTime')
         ;
     }
 
@@ -306,12 +306,12 @@ class ActivityListener
     {
         return
             (! $activity->hasTrackdata() || ! $activity->getTrackdata()->hasHeartrate()) && (
-                $args->hasChangedField('pulseAvg') ||
-                $args->hasChangedField('s') ||
-                (
+                $args->hasChangedField('pulseAvg')
+                || $args->hasChangedField('s')
+                || (
                     $activity->getPulseAvg() === null && (
-                        $args->hasChangedField('sport') ||
-                        $args->hasChangedField('type')
+                        $args->hasChangedField('sport')
+                        || $args->hasChangedField('type')
                     )
                 )
             )
@@ -323,9 +323,9 @@ class ActivityListener
         return (
             $activity->getAdapter()
                 ->isRunning() && (
-                    $args->hasChangedField('pulseAvg') ||
-                $args->hasChangedField('s') ||
-                $args->hasChangedField('distance')
+                    $args->hasChangedField('pulseAvg')
+                || $args->hasChangedField('s')
+                || $args->hasChangedField('distance')
                 )
         ) || (
             $args->hasChangedField('sport')
@@ -345,8 +345,8 @@ class ActivityListener
             ->days;
 
         return
-            ($ageOfOldDate <= $numberOfDays && $ageOfNewDate > $numberOfDays) ||
-            ($ageOfOldDate > $numberOfDays && $ageOfNewDate <= $numberOfDays)
+            ($ageOfOldDate <= $numberOfDays && $ageOfNewDate > $numberOfDays)
+            || ($ageOfOldDate > $numberOfDays && $ageOfNewDate <= $numberOfDays)
         ;
     }
 

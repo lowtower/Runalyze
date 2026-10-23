@@ -61,12 +61,12 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
     final protected function displayLongDescription(): void
     {
         echo HTML::p(
-            __('This plugin lists all your competitions. It shows you a summary of all race results and ' .
-                'of your personal bests (over all distances with at least two results).')
+            __('This plugin lists all your competitions. It shows you a summary of all race results and '
+                . 'of your personal bests (over all distances with at least two results).')
         );
         echo HTML::p(
-            __('In addition, it plots the trend of your results over a specific distance.' .
-                "If you do a race just for fun, you can mark it as a 'fun race' to ignore it in the plot.")
+            __('In addition, it plots the trend of your results over a specific distance.'
+                . "If you do a race just for fun, you can mark it as a 'fun race' to ignore it in the plot.")
         );
     }
 
@@ -190,8 +190,8 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
     private function displayHintForPersonalBests(): void
     {
         echo HTML::info(
-            __('This list shows all distances selected for yearly comparison or with at least two results.') . '<br>' .
-            __('Distances have to match exactly, especially 21.10 km and 42.20 km for (half-)marathons.')
+            __('This list shows all distances selected for yearly comparison or with at least two results.') . '<br>'
+            . __('Distances have to match exactly, especially 21.10 km and 42.20 km for (half-)marathons.')
         );
     }
 
@@ -423,9 +423,9 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
                 date('Y') - date('Y', $Activity->timestamp())
             );
             $ageGradeString = number_format(100 * $ageGrade->getPerformance(), 2) . ' %';
-            $ageGradeTooltip = __('Age standard') . ': ' . Duration::format($ageGrade->getAgeStandard()) . ', ' .
-                __('Open standard') . ': ' . Duration::format($ageGrade->getOpenStandard()) . '<br>' .
-                '<small><em>' . sprintf(__('via tables by %s'), 'Alan Jones / WMA / USATF') . '</em></small>';
+            $ageGradeTooltip = __('Age standard') . ': ' . Duration::format($ageGrade->getAgeStandard()) . ', '
+                . __('Open standard') . ': ' . Duration::format($ageGrade->getOpenStandard()) . '<br>'
+                . '<small><em>' . sprintf(__('via tables by %s'), 'Alan Jones / WMA / USATF') . '</em></small>';
         } else {
             $ageGradeString = '-';
             $ageGradeTooltip = '';

@@ -23,8 +23,7 @@ class UpdateController extends AbstractController
 
     public function __construct(
         private readonly KernelInterface $kernel
-    ) {
-    }
+    ) {}
 
     #[Route(path: '/update', name: 'update', methods: ['GET', 'POST'], condition: "'%app.update_disabled%' == 'no'")]
     public function updateAction($entity_manager = 'default'): Response

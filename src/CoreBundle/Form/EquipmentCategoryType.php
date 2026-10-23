@@ -24,8 +24,7 @@ class EquipmentCategoryType extends AbstractType
     public function __construct(
         protected SportRepository $SportRepository,
         protected TokenStorageInterface $TokenStorage
-    ) {
-    }
+    ) {}
 
     /**
      * @throws \RuntimeException

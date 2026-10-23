@@ -12,8 +12,7 @@ class TrimpCalculator
     public function __construct(
         protected int $MaximalTrimp = 10000,
         protected int $MaximalTrimpPerHour = 400
-    ) {
-    }
+    ) {}
 
     /**
      * @param int $gender enum, see \Runalyze\Profile\Athlete\Gender

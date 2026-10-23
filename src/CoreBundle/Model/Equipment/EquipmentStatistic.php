@@ -22,8 +22,7 @@ class EquipmentStatistic
 
     public function __construct(
         protected Equipment $Equipment
-    ) {
-    }
+    ) {}
 
     public function getEquipment(): Equipment
     {

@@ -49,8 +49,7 @@ class ImportActivityController extends AbstractController
     public function __construct(
         private readonly KernelInterface $kernel,
         private readonly LoggerInterface $logger
-    ) {
-    }
+    ) {}
 
     /**
      * import as REST api.

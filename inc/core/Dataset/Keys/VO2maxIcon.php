@@ -45,9 +45,9 @@ class VO2maxIcon extends AbstractKey
     public function description(): string
     {
         $text = __(
-            'Each VO<sub>2</sub>max value of an activity is marked with an arrow ' .
-                'to show if the value is (much) higher than your current shape, ' .
-                'equal to it or (much) lower:'
+            'Each VO<sub>2</sub>max value of an activity is marked with an arrow '
+                . 'to show if the value is (much) higher than your current shape, '
+                . 'equal to it or (much) lower:'
         ) . ' ';
 
         $Icon = new \Runalyze\View\Icon\EffectiveVO2maxIcon();

@@ -37,8 +37,7 @@ class Registration
     public function __construct(
         protected ObjectManager $em,
         protected UserPasswordHasherInterface $passwordHasher
-    ) {
-    }
+    ) {}
 
     public function setAccount(Account $Account): void
     {

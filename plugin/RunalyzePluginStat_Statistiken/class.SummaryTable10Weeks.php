@@ -36,7 +36,7 @@ class SummaryTable10Weeks extends SummaryTable
         $end = new LocalTime($time)->weekend(true);
         $week = Icon::$CALENDAR . ' ' . __('Week') . ' ' . $start->week();
 
-        return DataBrowserLinker::link($week, $start->getTimestamp(), $end->getTimestamp(), '', '', $this->Sportid > 0 ? $this->Sportid : null) .
-                '</span>&nbsp;&nbsp;&nbsp;<span class="small">' . $start->format('d.m') . ' - ' . $end->format('d.m');
+        return DataBrowserLinker::link($week, $start->getTimestamp(), $end->getTimestamp(), '', '', $this->Sportid > 0 ? $this->Sportid : null)
+                . '</span>&nbsp;&nbsp;&nbsp;<span class="small">' . $start->format('d.m') . ' - ' . $end->format('d.m');
     }
 }

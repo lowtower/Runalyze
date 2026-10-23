@@ -71,10 +71,10 @@ final class FilenameHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(
             $internalFilename,
             $reconstructed,
-            'generatePublicFilename() followed by transformPublicToInternalFilename() ' .
-            'must reconstruct the EXACT original internal filename, since ' .
-            'BackupToolController relies on this for an exact Filesystem::exists() ' .
-            'check.'
+            'generatePublicFilename() followed by transformPublicToInternalFilename() '
+            . 'must reconstruct the EXACT original internal filename, since '
+            . 'BackupToolController relies on this for an exact Filesystem::exists() '
+            . 'check.'
         );
     }
 

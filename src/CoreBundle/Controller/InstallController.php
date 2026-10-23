@@ -32,8 +32,7 @@ class InstallController extends AbstractController
 
     public function __construct(
         private readonly KernelInterface $kernel
-    ) {
-    }
+    ) {}
 
     #[Route(path: '/install', name: 'install', methods: ['GET', 'POST'], condition: "'%app.update_disabled%' == 'no'")]
     public function installAction(Request $request): RedirectResponse|Response

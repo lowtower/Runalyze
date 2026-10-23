@@ -29,12 +29,12 @@ class SectionRunningDynamicsRow extends TrainingViewSectionRowTabbedPlot
 
         if (
             $this->Context->activity()
-                ->sportid() === Runalyze\Configuration::General()->runningSport() &&
-            $this->Context->trackdata()
-                ->has(Trackdata\Entity::TIME) &&
-            $this->Context->trackdata()
-                ->has(Trackdata\Entity::DISTANCE) &&
-            $this->Context->trackdata()
+                ->sportid() === Runalyze\Configuration::General()->runningSport()
+            && $this->Context->trackdata()
+                ->has(Trackdata\Entity::TIME)
+            && $this->Context->trackdata()
+                ->has(Trackdata\Entity::DISTANCE)
+            && $this->Context->trackdata()
                 ->has(Trackdata\Entity::CADENCE)
         ) {
             $this->addRightContent('stridelength', __('Stride length'), new Activity\Plot\StrideLength($this->Context));

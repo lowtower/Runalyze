@@ -27,8 +27,7 @@ class TrendAnalysisType extends AbstractType
         protected TypeRepository $TypeRepository,
         protected TokenStorageInterface $TokenStorageInterface,
         protected ConfigurationManager $ConfigurationManager
-    ) {
-    }
+    ) {}
 
     protected function getAccount(): Account
     {

@@ -46,8 +46,7 @@ class Icon
          * @see http://fontawesome.io/icons/
          */
         protected $FontAwesomeName
-    ) {
-    }
+    ) {}
 
     /**
      * @param string $tooltip

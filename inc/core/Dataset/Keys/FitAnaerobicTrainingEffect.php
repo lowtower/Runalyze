@@ -61,8 +61,8 @@ class FitAnaerobicTrainingEffect extends AbstractKey
     public function description(): string
     {
         return __(
-            'Anaerobic Training Effect is an indicator between 0.0 (none) and 5.0 (overreaching) ' .
-            'to rate the impact of anaerobic exercise on your body.'
+            'Anaerobic Training Effect is an indicator between 0.0 (none) and 5.0 (overreaching) '
+            . 'to rate the impact of anaerobic exercise on your body.'
         );
     }
 

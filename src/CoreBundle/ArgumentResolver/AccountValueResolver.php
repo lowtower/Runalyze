@@ -15,8 +15,7 @@ class AccountValueResolver implements ValueResolverInterface
 {
     public function __construct(
         private readonly TokenStorageInterface $tokenStorage
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<int, Account|null> the logged in account, null for a nullable argument without login, otherwise an empty list

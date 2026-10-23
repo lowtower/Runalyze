@@ -46,8 +46,7 @@ class Tooltip
          * Text for tooltip
          */
         protected $text
-    ) {
-    }
+    ) {}
 
     /**
      * @param string $text

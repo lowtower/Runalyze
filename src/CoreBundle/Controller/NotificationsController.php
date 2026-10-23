@@ -24,8 +24,7 @@ class NotificationsController extends AbstractController
         protected ManagerRegistry $doctrine,
         private TranslatorInterface $translator,
         private UrlGeneratorInterface $urlGenerator
-    ) {
-    }
+    ) {}
 
     protected function getNotificationsRepository(): NotificationRepository
     {

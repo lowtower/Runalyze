@@ -20,8 +20,7 @@ class DuplicateFinder
     public function __construct(
         protected \PDO $PDO,
         protected int $AccountId
-    ) {
-    }
+    ) {}
 
     /**
      * Find duplicate by original activityID (Timestamp)

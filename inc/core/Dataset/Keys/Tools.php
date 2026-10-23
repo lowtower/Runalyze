@@ -87,10 +87,10 @@ class Tools extends AbstractKey
      */
     protected function getCodeForDropdown($menu): string
     {
-        return '<div class="inline-menu"><ul><li class="with-submenu">' .
-            '<span class="link"><i class="fa fa-fw fa-magic"></i></span>' .
-            '<ul class="submenu">' . $menu . '</ul>' .
-            '</li></ul></div>';
+        return '<div class="inline-menu"><ul><li class="with-submenu">'
+            . '<span class="link"><i class="fa fa-fw fa-magic"></i></span>'
+            . '<ul class="submenu">' . $menu . '</ul>'
+            . '</li></ul></div>';
     }
 
     /**

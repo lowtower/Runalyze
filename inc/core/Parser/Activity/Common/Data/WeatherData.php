@@ -46,25 +46,25 @@ class WeatherData
     public function isEmpty(): bool
     {
         return
-            $this->Condition === '' &&
-            $this->InternalConditionId === null &&
-            $this->Temperature === null &&
-            $this->WindSpeed === null &&
-            $this->WindDirection === null &&
-            $this->Humidity === null &&
-            $this->AirPressure === null
+            $this->Condition === ''
+            && $this->InternalConditionId === null
+            && $this->Temperature === null
+            && $this->WindSpeed === null
+            && $this->WindDirection === null
+            && $this->Humidity === null
+            && $this->AirPressure === null
         ;
     }
 
     public function hasNoUsableData(): bool
     {
         return
-            ($this->InternalConditionId === null || $this->InternalConditionId === WeatherConditionProfile::UNKNOWN) &&
-            $this->Temperature === null &&
-            $this->WindSpeed === null &&
-            $this->WindDirection === null &&
-            $this->Humidity === null &&
-            $this->AirPressure === null
+            ($this->InternalConditionId === null || $this->InternalConditionId === WeatherConditionProfile::UNKNOWN)
+            && $this->Temperature === null
+            && $this->WindSpeed === null
+            && $this->WindDirection === null
+            && $this->Humidity === null
+            && $this->AirPressure === null
         ;
     }
 }

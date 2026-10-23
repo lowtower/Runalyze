@@ -53,9 +53,9 @@ class PowerCalculator
     protected function canCalculatePower(): bool
     {
         return
-            $this->Activity->hasSport() &&
-            $this->canCalculatePowerForSport($this->Activity->getSport()->getInternalSport()) &&
-            $this->canCalculatePowerForActivity($this->Activity)
+            $this->Activity->hasSport()
+            && $this->canCalculatePowerForSport($this->Activity->getSport()->getInternalSport())
+            && $this->canCalculatePowerForActivity($this->Activity)
         ;
     }
 
@@ -67,13 +67,13 @@ class PowerCalculator
     protected function canCalculatePowerForActivity(Training $activity): bool
     {
         return
-            $activity->hasRoute() &&
-            $activity->getRoute()
-                ->hasElevations() &&
-            $activity->hasTrackdata() &&
-            $activity->getTrackdata()
-                ->hasTime() &&
-            $activity->getTrackdata()
+            $activity->hasRoute()
+            && $activity->getRoute()
+                ->hasElevations()
+            && $activity->hasTrackdata()
+            && $activity->getTrackdata()
+                ->hasTime()
+            && $activity->getTrackdata()
                 ->hasDistance()
         ;
     }

@@ -12,8 +12,7 @@ final class TestableOneColumnValue extends AbstractOneColumnValue
 {
     public function __construct(
         private readonly string $Column
-    ) {
-    }
+    ) {}
 
     protected function getColumn(): string
     {

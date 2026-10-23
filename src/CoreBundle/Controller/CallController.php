@@ -35,8 +35,7 @@ class CallController extends AbstractController
         private TokenStorageInterface $tokenStorage,
         private ParameterBagInterface $parameterBag,
         private RequestStack $requestStack
-    ) {
-    }
+    ) {}
 
     /**
      * @throws Throwable if the legacy data browser throws

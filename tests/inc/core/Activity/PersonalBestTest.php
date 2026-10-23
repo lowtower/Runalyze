@@ -38,13 +38,13 @@ final class PersonalBestTest extends \PHPUnit\Framework\TestCase
     protected function insert(float $dist, int $s, int $time = 0)
     {
         $this->PDO->exec(
-            'INSERT INTO `' . PREFIX . 'training` (`distance`, `s`, `time`, `sportid`, `accountid`) ' .
-            'VALUES (' . $dist . ', ' . $s . ', ' . $time . ', ' . self::SPORTID . ', 0)'
+            'INSERT INTO `' . PREFIX . 'training` (`distance`, `s`, `time`, `sportid`, `accountid`) '
+            . 'VALUES (' . $dist . ', ' . $s . ', ' . $time . ', ' . self::SPORTID . ', 0)'
         );
         $activityId = $this->PDO->lastInsertId();
         $this->PDO->exec(
-            'INSERT INTO `' . PREFIX . 'raceresult` (`official_distance`, `official_time`, `accountid`, `activity_id`) ' .
-            'VALUES (' . $dist . ', ' . $s . ', 0, ' . $activityId . ')'
+            'INSERT INTO `' . PREFIX . 'raceresult` (`official_distance`, `official_time`, `accountid`, `activity_id`) '
+            . 'VALUES (' . $dist . ', ' . $s . ', 0, ' . $activityId . ')'
         );
         return $activityId;
     }

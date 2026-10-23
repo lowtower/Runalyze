@@ -12,8 +12,7 @@ final readonly class DatabaseOrderTestNamedFixture implements NamedEntityInterfa
 {
     public function __construct(
         private string $name
-    ) {
-    }
+    ) {}
 
     public function getName(): string
     {
@@ -25,8 +24,7 @@ final readonly class DatabaseOrderTestIdentifiableFixture implements Identifiabl
 {
     public function __construct(
         private int $id
-    ) {
-    }
+    ) {}
 
     public function getId(): int
     {

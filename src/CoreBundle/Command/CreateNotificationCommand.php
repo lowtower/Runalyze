@@ -84,11 +84,11 @@ class CreateNotificationCommand extends Command
     protected function validateInput(InputInterface $input, OutputInterface $output): bool
     {
         return
-            $this->checkValidation($this->validateTemplate($input->getArgument('template')), $output, 'Template must exist in /data/views/notifications/.') &&
-            $this->checkValidation($this->validateLanguage($input->getOption('lang')), $output, 'Language keys must be alphabetic strings.') &&
-            $this->checkValidation($this->validateLanguage($input->getOption('exclude-lang')), $output, 'Language keys to exclude must be alphabetic strings.') &&
-            $this->checkValidation($this->validateAccountIds($input->getOption('account')), $output, 'Account IDs must be integers.') &&
-            $this->checkValidation($this->validateLifetime($input->getOption('lifetime')), $output, 'Lifetime must be an integer.')
+            $this->checkValidation($this->validateTemplate($input->getArgument('template')), $output, 'Template must exist in /data/views/notifications/.')
+            && $this->checkValidation($this->validateLanguage($input->getOption('lang')), $output, 'Language keys must be alphabetic strings.')
+            && $this->checkValidation($this->validateLanguage($input->getOption('exclude-lang')), $output, 'Language keys to exclude must be alphabetic strings.')
+            && $this->checkValidation($this->validateAccountIds($input->getOption('account')), $output, 'Account IDs must be integers.')
+            && $this->checkValidation($this->validateLifetime($input->getOption('lifetime')), $output, 'Lifetime must be an integer.')
         ;
     }
 
@@ -191,8 +191,8 @@ class CreateNotificationCommand extends Command
 
         return $this->doctrine->getConnection()
             ->executeStatement(
-                'INSERT INTO `' . $prefix . 'notification` (`messageType`, `createdAt`, `expirationAt`, `data`, `account_id`) ' .
-                            'SELECT ?, ?, ?, ?, `a`.`id` FROM `' . $prefix . 'account` AS `a` WHERE ' . $accountWhere,
+                'INSERT INTO `' . $prefix . 'notification` (`messageType`, `createdAt`, `expirationAt`, `data`, `account_id`) '
+                            . 'SELECT ?, ?, ?, ?, `a`.`id` FROM `' . $prefix . 'account` AS `a` WHERE ' . $accountWhere,
                 [
                     $notification->getMessageType(),
                     $notification->getCreatedAt(),

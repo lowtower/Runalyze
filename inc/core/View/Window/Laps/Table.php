@@ -108,25 +108,25 @@ class Table
     protected function tableHeader(): string
     {
         // #TSC make width as possible with 100%
-        return '<table class="fullwidth zebra-style zebra-blue" id="' . self::CSS_ID . '" style="width: 100%">' .
-                '<thead>' .
-                    '<tr>' .
-                        '<th class="{sorter: \'order\'}">#</th>' .
-                        ($this->showIntensity ? '<th class="{sorter: \'type\'}">' . __('Type') . '</th>' : '') .
-                        '<th class="{sorter: \'distance\'}">' . __('Distance') . '</th>' .
-                        '<th class="{sorter: \'resulttime\'}">' . __('Time') . '</th>' .
-                        '<th class="{sorter: \'distance\'}">' . __('Lap') . '</th>' .
-                        '<th class="{sorter: \'resulttime\'}">' . __('Duration') . '</th>' .
-                        ($this->DemandedTime->isZero() ? '' : '<th>' . __('Diff.') . '</th>') .
-                        '<th>' . ($this->DemandedPace->unit()->isTimeFormat() ? __('Pace') : __('Speed')) . '</th>' .
-                        ($this->DemandedPace->isEmpty() ? '' : '<th>' . __('Diff.') . '</th>') .
-                        '<th>' . __('avg.') . ' ' . __('HR') . '</th>' .
-                        '<th>' . __('max.') . ' ' . __('HR') . '</th>' .
-                        '<th class="{sorter: false}">' . __('elevation') . '</th>' .
-                        $this->tableHeaderForAdditionalKeys() .
-                        $this->tableHeaderForSplitsAdditional() .
-                    '</tr>' .
-                '</thead>';
+        return '<table class="fullwidth zebra-style zebra-blue" id="' . self::CSS_ID . '" style="width: 100%">'
+                . '<thead>'
+                    . '<tr>'
+                        . '<th class="{sorter: \'order\'}">#</th>'
+                        . ($this->showIntensity ? '<th class="{sorter: \'type\'}">' . __('Type') . '</th>' : '')
+                        . '<th class="{sorter: \'distance\'}">' . __('Distance') . '</th>'
+                        . '<th class="{sorter: \'resulttime\'}">' . __('Time') . '</th>'
+                        . '<th class="{sorter: \'distance\'}">' . __('Lap') . '</th>'
+                        . '<th class="{sorter: \'resulttime\'}">' . __('Duration') . '</th>'
+                        . ($this->DemandedTime->isZero() ? '' : '<th>' . __('Diff.') . '</th>')
+                        . '<th>' . ($this->DemandedPace->unit()->isTimeFormat() ? __('Pace') : __('Speed')) . '</th>'
+                        . ($this->DemandedPace->isEmpty() ? '' : '<th>' . __('Diff.') . '</th>')
+                        . '<th>' . __('avg.') . ' ' . __('HR') . '</th>'
+                        . '<th>' . __('max.') . ' ' . __('HR') . '</th>'
+                        . '<th class="{sorter: false}">' . __('elevation') . '</th>'
+                        . $this->tableHeaderForAdditionalKeys()
+                        . $this->tableHeaderForSplitsAdditional()
+                    . '</tr>'
+                . '</thead>';
     }
 
     protected function tableHeaderForAdditionalKeys(): string
@@ -178,22 +178,22 @@ class Table
                 ->setUnit($this->DemandedPace->unit());
         }
 
-        return '<tr class="c ' . ($Lap->isActive() ? '' : 'unimportant') . '">' .
-                '<td class="small">' . ($Lap->isActive() ? ($this->IndexActive++) . '.' : '(' . ($this->IndexResting++) . '.)') . '</td>' .
-                ($this->showIntensity ? '<td>' . __($Lap->getMode()->getLabel()) . '</td>' : '') .
-                '<td>' . ($Lap->hasTrackValues() ? $Lap->trackDistance()->string() : '-') . '</td>' .
-                '<td>' . ($Lap->hasTrackValues() ? $Lap->trackDuration()->string() : '-') . '</td>' .
-                '<td>' . $Lap->distance()->string() . '</td>' .
-                '<td>' . $Lap->duration()->string() . '</td>' .
-                ($this->DemandedTime->isZero() ? '' : '<td>' . $Lap->duration()->compareTo($this->DemandedTime, true) . '</td>') .
-                '<td>' . ($Lap->pace() instanceof \Runalyze\Activity\Pace ? $Lap->pace()->valueWithAppendix() : '-') . '</td>' .
-                ($this->DemandedPace->isEmpty() ? '' : '<td>' . ($Lap->pace() instanceof \Runalyze\Activity\Pace ? $Lap->pace()->compareTo($this->DemandedPace) : '-') . '</td>') .
-                '<td>' . ($Lap->hasHR() ? Helper::Unknown($Lap->HRavg()->string(), '-') : '-') . '</td>' .
-                '<td>' . ($Lap->hasHR() ? Helper::Unknown($Lap->HRmax()->string(), '-') : '-') . '</td>' .
-                '<td>' . ($Lap->hasElevation() ? '+' . Elevation::format($Lap->elevationUp(), false) . '/-' . Elevation::format($Lap->elevationDown(), false) : '-') . '</td>' .
-                $this->additionalTableCellsFor($Lap) .
-                $this->splitsAdditionalCells($i) .
-            '</tr>';
+        return '<tr class="c ' . ($Lap->isActive() ? '' : 'unimportant') . '">'
+                . '<td class="small">' . ($Lap->isActive() ? ($this->IndexActive++) . '.' : '(' . ($this->IndexResting++) . '.)') . '</td>'
+                . ($this->showIntensity ? '<td>' . __($Lap->getMode()->getLabel()) . '</td>' : '')
+                . '<td>' . ($Lap->hasTrackValues() ? $Lap->trackDistance()->string() : '-') . '</td>'
+                . '<td>' . ($Lap->hasTrackValues() ? $Lap->trackDuration()->string() : '-') . '</td>'
+                . '<td>' . $Lap->distance()->string() . '</td>'
+                . '<td>' . $Lap->duration()->string() . '</td>'
+                . ($this->DemandedTime->isZero() ? '' : '<td>' . $Lap->duration()->compareTo($this->DemandedTime, true) . '</td>')
+                . '<td>' . ($Lap->pace() instanceof \Runalyze\Activity\Pace ? $Lap->pace()->valueWithAppendix() : '-') . '</td>'
+                . ($this->DemandedPace->isEmpty() ? '' : '<td>' . ($Lap->pace() instanceof \Runalyze\Activity\Pace ? $Lap->pace()->compareTo($this->DemandedPace) : '-') . '</td>')
+                . '<td>' . ($Lap->hasHR() ? Helper::Unknown($Lap->HRavg()->string(), '-') : '-') . '</td>'
+                . '<td>' . ($Lap->hasHR() ? Helper::Unknown($Lap->HRmax()->string(), '-') : '-') . '</td>'
+                . '<td>' . ($Lap->hasElevation() ? '+' . Elevation::format($Lap->elevationUp(), false) . '/-' . Elevation::format($Lap->elevationDown(), false) : '-') . '</td>'
+                . $this->additionalTableCellsFor($Lap)
+                . $this->splitsAdditionalCells($i)
+            . '</tr>';
     }
 
     protected function additionalTableCellsFor(\Runalyze\Data\Laps\Lap $Lap): string
@@ -327,9 +327,9 @@ class Table
         $Code .= '</p>';
 
         return $Code . Ajax::wrapJS(
-            '$("#toggle-active-splits").click(function(){' .
-                '$("#' . self::CSS_ID . ' tr.unimportant").toggle();' .
-            '});'
+            '$("#toggle-active-splits").click(function(){'
+                . '$("#' . self::CSS_ID . ' tr.unimportant").toggle();'
+            . '});'
         );
     }
 }

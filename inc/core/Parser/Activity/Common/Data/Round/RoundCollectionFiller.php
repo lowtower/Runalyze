@@ -8,8 +8,7 @@ class RoundCollectionFiller
 {
     public function __construct(
         protected RoundCollection &$Rounds
-    ) {
-    }
+    ) {}
 
     public function fillTimesFromArray(array $time, array $distance): void
     {

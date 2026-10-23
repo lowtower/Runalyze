@@ -17,8 +17,7 @@ class PanelController extends AbstractController
 {
     public function __construct(
         protected ManagerRegistry $doctrine
-    ) {
-    }
+    ) {}
 
     /**
      * @throws AccessDeniedException

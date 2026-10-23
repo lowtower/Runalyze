@@ -32,8 +32,7 @@ final class AbstractUnitTest extends TestCase
         return new class($isTimeFormat) extends AbstractUnit {
             public function __construct(
                 private readonly bool $isTimeFormat
-            ) {
-            }
+            ) {}
 
             public function unit(): int
             {

@@ -44,8 +44,7 @@ class ActivityDataContainerToActivityContextConverter
         protected EquipmentRepository $EquipmentRepository,
         protected ConfigurationManager $ConfigurationManager,
         protected ?Account $Account = null
-    ) {
-    }
+    ) {}
 
     public function setAccount(Account $account): void
     {
@@ -243,7 +242,7 @@ class ActivityDataContainerToActivityContextConverter
         $activity->setWithGoal($activityData->WithGoal);
     }
 
-    protected function getRoundedValue(mixed $value, int $precision = 0): null|int|float
+    protected function getRoundedValue(mixed $value, int $precision = 0): int|float|null
     {
         if ($value === null) {
             return null;

@@ -23,8 +23,7 @@ class MinMaxTableForEquipment
         protected \PDO $PDO,
         protected int $AccountID,
         protected int $EquipmentTypeID
-    ) {
-    }
+    ) {}
 
     public function setDependency(string $query): void
     {
@@ -68,18 +67,18 @@ class MinMaxTableForEquipment
      */
     protected function displayHead()
     {
-        echo '<table class="fullwidth zebra-style">' .
-            '<thead><tr>' .
-                '<th></th>' .
-                '<th>' . __('Temperatures') . '</th>' .
-                '<th>' . __('avg.') . '</th>' .
-                '<th colspan="2"></th>' .
-                '<th>' . __('Temperatures') . '</th>' .
-                '<th>' . __('avg.') . '</th>' .
-                '<th colspan="2"></th>' .
-                '<th>' . __('Temperatures') . '</th>' .
-                '<th>' . __('avg.') . '</th>' .
-            '</tr></thead>';
+        echo '<table class="fullwidth zebra-style">'
+            . '<thead><tr>'
+                . '<th></th>'
+                . '<th>' . __('Temperatures') . '</th>'
+                . '<th>' . __('avg.') . '</th>'
+                . '<th colspan="2"></th>'
+                . '<th>' . __('Temperatures') . '</th>'
+                . '<th>' . __('avg.') . '</th>'
+                . '<th colspan="2"></th>'
+                . '<th>' . __('Temperatures') . '</th>'
+                . '<th>' . __('avg.') . '</th>'
+            . '</tr></thead>';
     }
 
     /**

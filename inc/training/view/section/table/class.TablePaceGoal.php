@@ -144,9 +144,9 @@ class TablePaceGoal
         $diffTime = round(abs(100 / $sum_t_s * $activityTimeS - 100), 1);
         $diffDist = round(abs(100 / $sum_dist_m * $activityDistanceM - 100), 1);
         if ($diffTime >= $this->TolerancePercent || $diffDist >= $this->TolerancePercent) {
-            $this->Code .= HTML::warning('Your activity distance (' . $this->formatDistance((int) $activityDistanceM) . ', ' . $diffDist . '%) and/or ' .
-                'duration (' . Duration::format($activityTimeS) . ', ' . $diffTime . '%) differ more than ' . $this->TolerancePercent . '% from your goal values. ' .
-                'Maybe you have changed your activity data after the import and the Pace-Goal values are out-dated.');
+            $this->Code .= HTML::warning('Your activity distance (' . $this->formatDistance((int) $activityDistanceM) . ', ' . $diffDist . '%) and/or '
+                . 'duration (' . Duration::format($activityTimeS) . ', ' . $diffTime . '%) differ more than ' . $this->TolerancePercent . '% from your goal values. '
+                . 'Maybe you have changed your activity data after the import and the Pace-Goal values are out-dated.');
         }
 
         $this->Code .= '</div>';

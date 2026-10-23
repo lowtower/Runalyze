@@ -48,9 +48,7 @@ abstract class TrainingViewSectionRowTabbedPlot extends TrainingViewSectionRow
         $this->cssID = $cssID;
     }
 
-    final protected function setPlot()
-    {
-    }
+    final protected function setPlot() {}
 
     abstract protected function setRightContent();
 

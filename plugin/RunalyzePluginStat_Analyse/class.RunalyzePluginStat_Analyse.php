@@ -465,10 +465,9 @@ class RunalyzePluginStat_Analyse extends PluginStat
 				COUNT(*) AS `num`,
 				SUM(`distance`) AS `distance`,
 				SUM(`s`) AS `s`,
-				' . (Configuration::General()->heartRateUnit()->isHRreserve() ?
-                    'CEIL( (100 * (`pulse_avg` - ' . $ceil_corr . ' - ' . $hrRest . ') / (' . $hrMax . ' - ' . $hrRest . ')) /' . $pulse_step . ')*' . $pulse_step . ' + ' . $ceil_corr . ' AS `group`'
-                :
-                    'CEIL( (100 * (`pulse_avg` - ' . $ceil_corr . ') / ' . $hrMax . ') /' . $pulse_step . ')*' . $pulse_step . ' + ' . $ceil_corr . ' AS `group`') . '
+				' . (Configuration::General()->heartRateUnit()->isHRreserve()
+                    ? 'CEIL( (100 * (`pulse_avg` - ' . $ceil_corr . ' - ' . $hrRest . ') / (' . $hrMax . ' - ' . $hrRest . ')) /' . $pulse_step . ')*' . $pulse_step . ' + ' . $ceil_corr . ' AS `group`'
+                    : 'CEIL( (100 * (`pulse_avg` - ' . $ceil_corr . ') / ' . $hrMax . ') /' . $pulse_step . ')*' . $pulse_step . ' + ' . $ceil_corr . ' AS `group`') . '
 			FROM `' . PREFIX . 'training`
 			WHERE `sportid`=' . $this->sportid . ' AND ' . PREFIX . 'training.accountid="' . SessionAccountHandler::getId() . '" ' . $this->WhereTime . ' && `pulse_avg`!=0
 			GROUP BY `group`, ' . $this->GroupTime . '

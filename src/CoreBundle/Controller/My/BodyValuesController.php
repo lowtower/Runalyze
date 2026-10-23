@@ -22,8 +22,7 @@ class BodyValuesController extends AbstractController
         private readonly ConfigurationManager $configurationManager,
         public AutomaticReloadFlagSetter $reloadFlagSetter,
         private readonly UserRepository $userRepository
-    ) {
-    }
+    ) {}
 
     #[Route(path: '/add', name: 'body-values-add', methods: ['GET', 'POST'])]
     public function addAction(Request $request, ?Account $account = null): Response

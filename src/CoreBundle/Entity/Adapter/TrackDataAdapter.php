@@ -13,8 +13,7 @@ class TrackDataAdapter
 {
     public function __construct(
         protected Trackdata $TrackData
-    ) {
-    }
+    ) {}
 
     public function calculatePace(): void
     {

@@ -21,8 +21,7 @@ class PosterType extends AbstractType
         protected SportRepository $SportRepository,
         protected TrainingRepository $TrainingRepository,
         protected TokenStorageInterface $TokenStorageInterface
-    ) {
-    }
+    ) {}
 
     protected function getAccount(): Account
     {

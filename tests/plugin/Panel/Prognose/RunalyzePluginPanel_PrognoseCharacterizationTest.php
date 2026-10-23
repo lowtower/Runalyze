@@ -26,8 +26,7 @@ final class RunalyzePluginPanel_PrognoseCharacterizationTest extends TestCase
         $this->plugin = new class($this->topResult) extends RunalyzePluginPanel_Prognose {
             public function __construct(
                 private readonly \ArrayObject $topResultHolder
-            ) {
-            }
+            ) {}
 
             public function getTopResult(mixed ...$arguments): array
             {

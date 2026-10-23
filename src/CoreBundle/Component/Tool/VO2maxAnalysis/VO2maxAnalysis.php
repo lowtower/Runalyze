@@ -16,8 +16,7 @@ class VO2maxAnalysis
 
     public function __construct(
         protected Configuration\Category\VO2max $VO2maxConfig
-    ) {
-    }
+    ) {}
 
     /**
      * @return RaceAnalysis[]

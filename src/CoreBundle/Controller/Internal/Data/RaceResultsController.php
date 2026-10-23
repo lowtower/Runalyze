@@ -23,8 +23,7 @@ class RaceResultsController extends AbstractController
     public function __construct(
         protected ManagerRegistry $doctrine,
         private AgeGradeLookup $ageGradeLookup
-    ) {
-    }
+    ) {}
 
     protected function getRaceResultRepository(): RaceresultRepository
     {

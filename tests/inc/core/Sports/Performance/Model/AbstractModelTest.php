@@ -8,13 +8,9 @@ use Runalyze\Sports\Performance\Model\AbstractModel;
 
 final class AbstractModel_MockTesterFilled extends AbstractModel
 {
-    protected function prepareArrays(): void
-    {
-    }
+    protected function prepareArrays(): void {}
 
-    protected function finishArrays(): void
-    {
-    }
+    protected function finishArrays(): void {}
 
     protected function calculateArrays(): void
     {

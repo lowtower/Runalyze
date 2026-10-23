@@ -16,8 +16,7 @@ class VO2maxShapeCalculation implements RecalculationTaskInterface
         protected TrainingRepository $TrainingRepository,
         protected ConfigurationManager $ConfigurationManager,
         protected ConfigurationUpdater $ConfigurationUpdater
-    ) {
-    }
+    ) {}
 
     public function run(): void
     {

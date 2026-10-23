@@ -10,8 +10,7 @@ class StatisticsUpdater
         protected \PDO $PDO,
         protected int $AccountId,
         protected string $DatabasePrefix
-    ) {
-    }
+    ) {}
 
     /**
      * Update statistics

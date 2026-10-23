@@ -15,8 +15,7 @@ class FileHandler
 {
     public function __construct(
         protected string $DataDir
-    ) {
-    }
+    ) {}
 
     protected function pathToImages(): string
     {

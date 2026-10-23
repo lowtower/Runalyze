@@ -39,8 +39,7 @@ class Map
         protected string $id,
         protected int $height = 0,
         protected int $width = 0
-    ) {
-    }
+    ) {}
 
     public function addRoute(Route $route): void
     {
@@ -114,10 +113,10 @@ class Map
 
         $Code = '(function(RL,R){' . str_replace('RunalyzeLeaflet', 'RL', str_replace('RunalyzeLeaflet.Routes', 'R', $Code)) . '})(RunalyzeLeaflet, RunalyzeLeaflet.Routes);';
 
-        return '<script>Runalyze.try(' .
-            'function(){' . $Code . '}, ' .
-            'function(){$("#' . $this->id . '").css("height","auto").html(' . json_encode('<p><em>' . __('There was a problem trying to show the map.') . '</em></p>') . ');' .
-        '});</script>';
+        return '<script>Runalyze.try('
+            . 'function(){' . $Code . '}, '
+            . 'function(){$("#' . $this->id . '").css("height","auto").html(' . json_encode('<p><em>' . __('There was a problem trying to show the map.') . '</em></p>') . ');'
+        . '});</script>';
     }
 
     protected function getJavaScriptForNoRoutes(): string

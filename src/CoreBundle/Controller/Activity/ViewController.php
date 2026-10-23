@@ -46,8 +46,7 @@ class ViewController extends AbstractController
         private ConfigurationManager $configurationManager,
         private LegacyCache $legacyCache,
         private RequestStack $requestStack
-    ) {
-    }
+    ) {}
 
     protected function getTrainingRepository(): TrainingRepository
     {
@@ -346,8 +345,8 @@ class ViewController extends AbstractController
 
         if (
             $activity->hasRoute() && $activity->getRoute()
-                ->getElevationsCorrected() !== null &&
-            $activity->hasTrackdata() && $activity->getTrackdata()
+                ->getElevationsCorrected() !== null
+            && $activity->hasTrackdata() && $activity->getTrackdata()
                 ->getDistance() !== null
         ) {
             $numDistance = count($activity->getTrackdata()->getDistance());

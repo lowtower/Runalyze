@@ -9,8 +9,7 @@ class ZipConverter implements FileTypeConverterInterface
 {
     public function __construct(
         protected ?array $AcceptedFileExtensions = null
-    ) {
-    }
+    ) {}
 
     public function getConvertibleFileExtension(): string
     {
@@ -76,9 +75,9 @@ class ZipConverter implements FileTypeConverterInterface
             $pathinfo = pathinfo($currentFile);
 
             if (
-                is_array($pathinfo) && isset($pathinfo['dirname']) && isset($pathinfo['extension']) &&
-                $pathinfo['dirname'] == '.' && ! str_starts_with($currentFile, '.') &&
-                $this->isFileExtensionAllowed($pathinfo['extension'])
+                is_array($pathinfo) && isset($pathinfo['dirname']) && isset($pathinfo['extension'])
+                && $pathinfo['dirname'] == '.' && ! str_starts_with($currentFile, '.')
+                && $this->isFileExtensionAllowed($pathinfo['extension'])
             ) {
                 $files[] = $currentFile;
             }

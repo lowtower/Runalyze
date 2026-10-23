@@ -40,8 +40,7 @@ class ElevationInfo
 
     public function __construct(
         protected \Runalyze\View\Activity\Context $Context
-    ) {
-    }
+    ) {}
 
     public function display(): void
     {
@@ -126,8 +125,8 @@ class ElevationInfo
             </div>
             <div class="w50">
                 <label>' . __('Up/Down') . ' (FIT original)</label>
-                <span class="as-input">+' . Elevation::format($this->Context->activity()->fitTotalAscent()) .
-                                    ' / -' . Elevation::format($this->Context->activity()->fitTotalDescent()) . '</span>
+                <span class="as-input">+' . Elevation::format($this->Context->activity()->fitTotalAscent())
+                                    . ' / -' . Elevation::format($this->Context->activity()->fitTotalDescent()) . '</span>
             </div>';
         }
 
@@ -277,10 +276,10 @@ class ElevationInfo
         $Fieldset->setId('general-information');
         $Fieldset->setCollapsed();
         $Fieldset->addInfo(
-            __('The calculation of elevation data is very difficult - there is not one single solution. ' .
-                    'Bad gps data can be corrected via srtm-data but these are only available in a 90x90m grid and not always perfectly accurate. ' .
-                    'In addition, every platform uses another algorithm to determine the elevation value (for up-/downwards). ' .
-                    'We give you therefore the possibility to choose algorithm and threshold such that the values fit your experience.')
+            __('The calculation of elevation data is very difficult - there is not one single solution. '
+                    . 'Bad gps data can be corrected via srtm-data but these are only available in a 90x90m grid and not always perfectly accurate. '
+                    . 'In addition, every platform uses another algorithm to determine the elevation value (for up-/downwards). '
+                    . 'We give you therefore the possibility to choose algorithm and threshold such that the values fit your experience.')
         );
 
         $Fieldset->display();

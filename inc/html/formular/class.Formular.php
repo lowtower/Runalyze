@@ -160,9 +160,7 @@ class Formular extends HtmlTag
     /**
      * Additional preparation for subclasses
      */
-    protected function prepareForDisplayInSublcass()
-    {
-    }
+    protected function prepareForDisplayInSublcass() {}
 
     /**
      * Display this formular

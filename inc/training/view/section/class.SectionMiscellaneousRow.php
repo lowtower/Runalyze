@@ -83,8 +83,8 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
             $this->addRightContent('performancecondition', __('Leistungszustand'), $Plot);
         }
 
-        if ($this->Context->trackdata()->has(Trackdata\Entity::SMO2_0) ||
-            $this->Context->trackdata()
+        if ($this->Context->trackdata()->has(Trackdata\Entity::SMO2_0)
+            || $this->Context->trackdata()
                 ->has(Trackdata\Entity::THB_0)) {
             $Plot = new Activity\Plot\Smo2AndThb($this->Context);
             $this->addRightContent('smo2AndThb', __('SmO2') . ' / ' . __('THb'), $Plot);
@@ -410,8 +410,8 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
         $this->addToTable($details, $this->getGlossaryLink('Anaerob training effect:', 'training-effect'), ($this->Context->activity()->fitAnaerobicTrainingEffect() != null ? $this->Context->activity()->fitAnaerobicTrainingEffect() : '-'), $c);
         $this->addToTable($details, 'Creator:', ($this->Context->activity()->creator() != null ? $this->Context->activity()->creator() : '-'), $c);
         $this->addToTable($details, 'Creator details:', ($this->Context->activity()->creatorDetails() != null ? $this->Context->activity()->creatorDetails() : '-'), $c);
-        $this->addToTable($details, 'Avg / max respiration rate (brpm):', ($this->Context->activity()->avgRespirationRate() != null ?
-            $this->Context->activity()
+        $this->addToTable($details, 'Avg / max respiration rate (brpm):', ($this->Context->activity()->avgRespirationRate() != null
+            ? $this->Context->activity()
                 ->avgRespirationRate() . ' / ' . $this->Context->activity()->maxRespirationRate() : '- / -'), $c);
         $this->addToTable($details, $this->getGlossaryLink('Anstrengung (1-10):', 'self-evaluation'), ($this->Context->activity()->fitSelfEvaluationPerceivedEffort() != null ? $this->Context->activity()->fitSelfEvaluationPerceivedEffort() : '-'), $c);
         $this->addToTable($details, $this->getGlossaryLink('Gefühl (1-5):', 'self-evaluation'), ($this->Context->activity()->fitSelfEvaluationFeeling() != null ? runActivity\SelfEvaluationFeeling::descriptionFromNum($this->Context->activity()->fitSelfEvaluationFeeling()) : '-'), $c);
@@ -458,9 +458,9 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
                     $ageGrade = $lookup->getAgeGrade($raceResult->officialDistance(), (int) $raceResult->officialTime(), date('Y') - date('Y', $this->Context->activity()->timestamp()));
                     $ageGradeIcon = new View\Icon('fa-info-circle');
                     $ageGradeIcon->setTooltip(
-                        __('Age standard') . ': ' . Duration::format($ageGrade->getAgeStandard()) . ', ' .
-                        __('Open standard') . ': ' . Duration::format($ageGrade->getOpenStandard()) . '<br>' .
-                        '<small><em>' . sprintf(__('via tables by %s'), 'Alan Jones / WMA / USATF') . '</em></small>'
+                        __('Age standard') . ': ' . Duration::format($ageGrade->getAgeStandard()) . ', '
+                        . __('Open standard') . ': ' . Duration::format($ageGrade->getOpenStandard()) . '<br>'
+                        . '<small><em>' . sprintf(__('via tables by %s'), 'Alan Jones / WMA / USATF') . '</em></small>'
                     );
                 }
             }
@@ -468,13 +468,13 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
             $RaceResultView = new View\RaceResult\Dataview($raceResult);
 
             $this->NotesContent .= HTML::info('<strong>' . __('Race Result') . ':</strong>');
-            $this->NotesContent .= '<ul>' .
-                ($raceResult->officialDistance() ? '<li><strong>' . __('Official distance') . '</strong>: ' . $RaceResultView->officialDistance() . '</li>' : '') .
-                ($raceResult->officialTime() ? '<li><strong>' . __('Official time') . '</strong>: ' . $RaceResultView->officialTime()->string(Duration::FORMAT_COMPETITION) . '</li>' : '') .
-                ($ageGrade !== null ? '<li><strong>' . __('Age grade') . '</strong>: ' . number_format(100 * $ageGrade->getPerformance(), 2) . ' &#37; ' . $ageGradeIcon->code() . '</li>' : '') .
-                ($raceResult->placeTotal() ? '<li><strong>' . __('Place overall') . '</strong>: ' . $RaceResultView->placementTotalWithParticipants() . '</li>' : '') .
-                ($raceResult->placeAgeclass() ? '<li><strong>' . __('Place age group') . '</strong>: ' . $RaceResultView->placementAgeClassWithParticipants() . '</li>' : '') .
-                ($raceResult->placeGender() ? '<li><strong>' . __('Place gender') . '</strong>: ' . $RaceResultView->placementGenderWithParticipants() . '</li>' : '') . '</ul>';
+            $this->NotesContent .= '<ul>'
+                . ($raceResult->officialDistance() ? '<li><strong>' . __('Official distance') . '</strong>: ' . $RaceResultView->officialDistance() . '</li>' : '')
+                . ($raceResult->officialTime() ? '<li><strong>' . __('Official time') . '</strong>: ' . $RaceResultView->officialTime()->string(Duration::FORMAT_COMPETITION) . '</li>' : '')
+                . ($ageGrade !== null ? '<li><strong>' . __('Age grade') . '</strong>: ' . number_format(100 * $ageGrade->getPerformance(), 2) . ' &#37; ' . $ageGradeIcon->code() . '</li>' : '')
+                . ($raceResult->placeTotal() ? '<li><strong>' . __('Place overall') . '</strong>: ' . $RaceResultView->placementTotalWithParticipants() . '</li>' : '')
+                . ($raceResult->placeAgeclass() ? '<li><strong>' . __('Place age group') . '</strong>: ' . $RaceResultView->placementAgeClassWithParticipants() . '</li>' : '')
+                . ($raceResult->placeGender() ? '<li><strong>' . __('Place gender') . '</strong>: ' . $RaceResultView->placementGenderWithParticipants() . '</li>' : '') . '</ul>';
         }
     }
 

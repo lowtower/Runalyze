@@ -10,8 +10,7 @@ class ConfigurationUpdater
     public function __construct(
         protected ConfRepository $Repository,
         protected ?ConfigurationManager $Manager = null
-    ) {
-    }
+    ) {}
 
     protected function updateInDataConfiguration(Account $account, string $configName, string $value): void
     {

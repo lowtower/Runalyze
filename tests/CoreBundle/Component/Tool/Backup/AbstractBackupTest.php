@@ -20,9 +20,7 @@ final class AbstractBackupTest extends \PHPUnit\Framework\TestCase
         // AbstractBackup::run() is final and has to run for real. Only the one abstract method is implemented, and
         // it does nothing: the test is about the queries of run(), not about how the rows are written.
         $this->Backup = new class(__DIR__ . self::TESTFILE, 1, \DB::getInstance(), 'runalyze_', '3.2.0') extends AbstractBackup {
-            protected function saveRowsFromStatement(string $tableName, array $columnInfo, PDOStatement $statement): void
-            {
-            }
+            protected function saveRowsFromStatement(string $tableName, array $columnInfo, PDOStatement $statement): void {}
         };
     }
 

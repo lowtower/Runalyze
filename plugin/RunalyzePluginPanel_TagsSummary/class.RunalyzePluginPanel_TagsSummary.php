@@ -164,13 +164,13 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel
     {
         $max = 0;
         $countTagsForSport = DB::getInstance()
-            ->query('SELECT activity_tag.tagid, tag.tag, COUNT(tagid) as `count`' .
-                ' FROM ' . PREFIX . 'activity_tag activity_tag' .
-                ' LEFT JOIN ' . PREFIX . 'training training ON training.sportid = ' . (int) $Sport->id() .
-                ' LEFT JOIN ' . PREFIX . 'tag tag ON tag.id = activity_tag.tagid' .
-                ' WHERE training.id = activity_tag.activityid' .
-                ' AND FROM_UNIXTIME(training.time) >= NOW()-INTERVAL ' . (int) $timescale . ' MONTH' .
-                ' GROUP BY tagid ORDER BY count DESC');
+            ->query('SELECT activity_tag.tagid, tag.tag, COUNT(tagid) as `count`'
+                . ' FROM ' . PREFIX . 'activity_tag activity_tag'
+                . ' LEFT JOIN ' . PREFIX . 'training training ON training.sportid = ' . (int) $Sport->id()
+                . ' LEFT JOIN ' . PREFIX . 'tag tag ON tag.id = activity_tag.tagid'
+                . ' WHERE training.id = activity_tag.activityid'
+                . ' AND FROM_UNIXTIME(training.time) >= NOW()-INTERVAL ' . (int) $timescale . ' MONTH'
+                . ' GROUP BY tagid ORDER BY count DESC');
 
         foreach ($countTagsForSport as $data) {
             if ($max === 0) {

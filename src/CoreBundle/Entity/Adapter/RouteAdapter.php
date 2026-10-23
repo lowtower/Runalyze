@@ -12,8 +12,7 @@ class RouteAdapter
 {
     public function __construct(
         protected Route $Route
-    ) {
-    }
+    ) {}
 
     public function correctElevation(ElevationCorrection $elevationCorrection, ?StrategyInterface $strategy = null): bool
     {

@@ -27,8 +27,7 @@ class JsonImportToolController extends AbstractController
         private readonly TokenStorageInterface $tokenStorage,
         private readonly ParameterBagInterface $parameterBag,
         private readonly RequestStack $requestStack
-    ) {
-    }
+    ) {}
 
     protected function getImportFilePath(): string
     {

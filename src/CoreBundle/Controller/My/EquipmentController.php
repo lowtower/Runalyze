@@ -28,8 +28,7 @@ class EquipmentController extends AbstractController
         protected ManagerRegistry $doctrine,
         private ConfigurationManager $configurationManager,
         private AutomaticReloadFlagSetter $automaticReloadFlagSetter
-    ) {
-    }
+    ) {}
 
     protected function getEquipmentRepository(): EquipmentRepository
     {

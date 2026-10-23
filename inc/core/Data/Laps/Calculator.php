@@ -39,8 +39,7 @@ class Calculator
 
     public function __construct(
         protected Laps $Laps
-    ) {
-    }
+    ) {}
 
     public function calculateAdditionalValues(bool $flag = true): void
     {

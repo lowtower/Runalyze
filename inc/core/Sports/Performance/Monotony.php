@@ -46,8 +46,7 @@ class Monotony
     public function __construct(
         protected array $Trimp,
         protected ?float $MaximumPerDay = null
-    ) {
-    }
+    ) {}
 
     public function calculate(): void
     {

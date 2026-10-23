@@ -14,6 +14,4 @@ namespace Runalyze\Configuration;
  * @author Hannes Christiansen
  * @package Runalyze\Configuration
  */
-class Form extends \Formular
-{
-}
+class Form extends \Formular {}

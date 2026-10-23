@@ -26,8 +26,8 @@ class SectionPaceRow extends TrainingViewSectionRowTabbedPlot
 
         if (
             $this->Context->trackdata()
-                ->has(\Runalyze\Model\Trackdata\Entity::PACE) &&
-            $this->Context->trackdata()
+                ->has(\Runalyze\Model\Trackdata\Entity::PACE)
+            && $this->Context->trackdata()
                 ->has(\Runalyze\Model\Trackdata\Entity::TIME)
         ) {
             $Table = new TableZonesPace($this->Context);

@@ -20,8 +20,7 @@ abstract class AbstractUnitBasedType extends AbstractType implements DataTransfo
 
     public function __construct(
         protected UnitInterface $Unit
-    ) {
-    }
+    ) {}
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

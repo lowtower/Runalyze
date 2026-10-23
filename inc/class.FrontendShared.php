@@ -29,11 +29,7 @@ class FrontendShared extends Frontend
         self::$IS_SHOWN = true;
     }
 
-    public function displayFooter(): void
-    {
-    }
+    public function displayFooter(): void {}
 
-    protected function initSessionAccountHandler(): void
-    {
-    }
+    protected function initSessionAccountHandler(): void {}
 }

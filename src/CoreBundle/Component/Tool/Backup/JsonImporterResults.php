@@ -54,9 +54,9 @@ class JsonImporterResults
     {
         if (isset($this->Results[$tableName])) {
             return
-                $this->Results[$tableName]['delete'] > 0 ||
-                $this->Results[$tableName]['update'] > 0 ||
-                $this->Results[$tableName]['insert'] > 0
+                $this->Results[$tableName]['delete'] > 0
+                || $this->Results[$tableName]['update'] > 0
+                || $this->Results[$tableName]['insert'] > 0
             ;
         }
 

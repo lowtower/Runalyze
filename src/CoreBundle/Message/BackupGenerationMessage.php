@@ -9,8 +9,7 @@ final readonly class BackupGenerationMessage
     public function __construct(
         private int $accountId,
         private string $exportType
-    ) {
-    }
+    ) {}
 
     public function getAccountId(): int
     {

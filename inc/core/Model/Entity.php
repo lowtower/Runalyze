@@ -132,9 +132,7 @@ abstract class Entity
     /**
      * Synchronize internal models
      */
-    public function synchronize(): void
-    {
-    }
+    public function synchronize(): void {}
 
     /**
      * Ensure numeric values

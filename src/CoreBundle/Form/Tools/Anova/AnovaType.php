@@ -27,8 +27,7 @@ class AnovaType extends AbstractType
         protected EquipmentTypeRepository $EquipmentTypeRepository,
         protected TokenStorageInterface $TokenStorageInterface,
         protected ConfigurationManager $ConfigurationManager
-    ) {
-    }
+    ) {}
 
     protected function getAccount(): Account
     {

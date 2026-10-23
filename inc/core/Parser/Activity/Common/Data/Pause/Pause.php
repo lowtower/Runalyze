@@ -38,8 +38,7 @@ class Pause
          * @var float [s]
          */
         protected float $Duration
-    ) {
-    }
+    ) {}
 
     /**
      * @return int [s]

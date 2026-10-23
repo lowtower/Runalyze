@@ -111,8 +111,8 @@ class ActivityBulkRouteNameEvaluationCommand extends Command
                     $this->getTrainingRepository()
                         ->save($activity);
 
-                    $output->writeln('<fg=green>successfully updated id=' . $activityId . ' / ' . $activity->getTitle() .
-                        ' / ' . $activity->getRouteName() . '</>');
+                    $output->writeln('<fg=green>successfully updated id=' . $activityId . ' / ' . $activity->getTitle()
+                        . ' / ' . $activity->getRouteName() . '</>');
                 } else {
                     $output->writeln('<fg=yellow>skip id=' . $activityId . ' / ' . $activity->getTitle() . '</>');
                 }

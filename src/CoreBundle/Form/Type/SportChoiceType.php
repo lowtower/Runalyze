@@ -40,7 +40,7 @@ class SportChoiceType extends AbstractTokenStorageAwareType
         $resolver->setDefaults([
             'choices' => $allSports,
             'choice_label' => fn (Sport $sport, $key, $index): string => $sport->getName(),
-            'choice_value' => fn (?Sport $sport = null): int|null|string => $sport instanceof Sport ? $sport->getId() : '',
+            'choice_value' => fn (?Sport $sport = null): int|string|null => $sport instanceof Sport ? $sport->getId() : '',
             'choice_attr' => function (Sport $sport, $key, $index) use ($sportToEquipmentCategoryRelations): array {
                 $sportId = $sport->getId();
                 $availableEquipmentTypes = [];

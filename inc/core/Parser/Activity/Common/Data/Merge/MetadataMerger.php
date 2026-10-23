@@ -9,8 +9,7 @@ class MetadataMerger implements MergerInterface
     public function __construct(
         protected Metadata $ResultingMetadata,
         protected Metadata $MetadataToMerge
-    ) {
-    }
+    ) {}
 
     public function merge(): void
     {

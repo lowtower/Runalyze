@@ -44,8 +44,8 @@ class EquipmentUpdateSubscriber
             /** @var PersistentCollection $collection */
             if (
                 $collection->isDirty() && $collection->getTypeClass()
-                    ->getName() == Equipment::class &&
-                $collection->getOwner() instanceof Training && $collection->getOwner()
+                    ->getName() == Equipment::class
+                && $collection->getOwner() instanceof Training && $collection->getOwner()
                     ->getId() == $activity->getId()
             ) {
                 $newEquipment = $collection->getInsertDiff();

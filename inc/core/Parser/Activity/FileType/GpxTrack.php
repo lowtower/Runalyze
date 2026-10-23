@@ -267,9 +267,9 @@ class GpxTrack extends AbstractSingleParser
         foreach (['gpxtpx', 'ns3', 'ns2'] as $namespace) {
             if (
                 $parentNode->children($namespace, true)
-                    ->count() > 0 &&
-                isset($parentNode->children($namespace, true)->TrackPointExtension) &&
-                count($parentNode->children($namespace, true)->TrackPointExtension) > 0
+                    ->count() > 0
+                && isset($parentNode->children($namespace, true)->TrackPointExtension)
+                && count($parentNode->children($namespace, true)->TrackPointExtension) > 0
             ) {
                 $childNodes[] = $parentNode->children($namespace, true)->TrackPointExtension->children($namespace, true);
             }

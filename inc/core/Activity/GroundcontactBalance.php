@@ -28,8 +28,7 @@ class GroundcontactBalance implements ValueInterface
      */
     public function __construct(
         protected int $BasisPoint = 0
-    ) {
-    }
+    ) {}
 
     /**
      * @codeCoverageIgnore

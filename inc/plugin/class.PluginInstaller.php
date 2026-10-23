@@ -13,8 +13,7 @@ class PluginInstaller
 
     public function __construct(
         protected string $Key
-    ) {
-    }
+    ) {}
 
     /**
      * To install a new plugin, it is only needed to insert it into the database.

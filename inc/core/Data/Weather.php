@@ -53,8 +53,7 @@ class Weather
          * Pressure
          */
         protected Pressure $Pressure
-    ) {
-    }
+    ) {}
 
     /**
      * Clone object
@@ -157,12 +156,12 @@ class Weather
     public function isEmpty(): bool
     {
         return
-            $this->Temperature->isUnknown() &&
-            $this->Condition->isUnknown() &&
-            $this->WindSpeed->isUnknown() &&
-            $this->WindDegree->isUnknown() &&
-            $this->Humidity->isUnknown() &&
-            $this->Pressure->isUnknown()
+            $this->Temperature->isUnknown()
+            && $this->Condition->isUnknown()
+            && $this->WindSpeed->isUnknown()
+            && $this->WindDegree->isUnknown()
+            && $this->Humidity->isUnknown()
+            && $this->Pressure->isUnknown()
         ;
     }
 

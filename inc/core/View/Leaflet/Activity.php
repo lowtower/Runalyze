@@ -274,8 +274,8 @@ class Activity extends LeafletRoute
         if ($this->Trackdata instanceof \Runalyze\Model\Trackdata\Entity && $this->Trackdata->hasPauses() && $this->hasTrackdataLoop()) {
             if (
                 $this->PauseIndex < $this->Trackdata->pauses()
-                    ->num() &&
-                $this->Trackdata->pauses()
+                    ->num()
+                && $this->Trackdata->pauses()
                     ->at($this->PauseIndex)
                     ->time() <= $this->Trackdata->at($this->TrackdataLoop->index(), Trackdata\Entity::TIME)
             ) {

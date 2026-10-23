@@ -21,8 +21,7 @@ abstract class AbstractExporter
 {
     public function __construct(
         protected ?Context $Context
-    ) {
-    }
+    ) {}
 
     abstract public function iconClass(): string;
 

@@ -29,8 +29,7 @@ class Calculator
      */
     public function __construct(
         protected Trackdata\Entity $Trackdata
-    ) {
-    }
+    ) {}
 
     /**
      * Calculate strides array
@@ -38,9 +37,9 @@ class Calculator
     public function calculate(): array
     {
         if (
-            ! $this->Trackdata->has(Trackdata\Entity::TIME) ||
-            ! $this->Trackdata->has(Trackdata\Entity::DISTANCE) ||
-            ! $this->Trackdata->has(Trackdata\Entity::CADENCE)
+            ! $this->Trackdata->has(Trackdata\Entity::TIME)
+            || ! $this->Trackdata->has(Trackdata\Entity::DISTANCE)
+            || ! $this->Trackdata->has(Trackdata\Entity::CADENCE)
         ) {
             return [];
         }

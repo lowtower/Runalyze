@@ -11,8 +11,7 @@ class ClimbCollection implements \Countable, \ArrayAccess
      */
     public function __construct(
         protected array $Elements = []
-    ) {
-    }
+    ) {}
 
     public function add(Climb $climb): void
     {

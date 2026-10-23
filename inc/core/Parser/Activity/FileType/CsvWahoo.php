@@ -116,12 +116,12 @@ class CsvWahoo extends AbstractSingleParser implements FileContentAwareParserInt
     protected function parseDeviceLine()
     {
         if (
-            $this->Row[0] == 'Year' &&
-            $this->Row[2] == 'Month' &&
-            $this->Row[4] == 'Day' &&
-            $this->Row[6] == 'Hour' &&
-            $this->Row[8] == 'Minute' &&
-            $this->Row[10] == 'Second'
+            $this->Row[0] == 'Year'
+            && $this->Row[2] == 'Month'
+            && $this->Row[4] == 'Day'
+            && $this->Row[6] == 'Hour'
+            && $this->Row[8] == 'Minute'
+            && $this->Row[10] == 'Second'
         ) {
             $this->Container->Metadata->interpretTimestampAsServerTime(
                 mktime(

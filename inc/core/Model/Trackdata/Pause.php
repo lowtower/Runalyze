@@ -55,8 +55,7 @@ class Pause
          * HR end
          */
         protected ?int $HRend = null
-    ) {
-    }
+    ) {}
 
     /**
      * Set data from array

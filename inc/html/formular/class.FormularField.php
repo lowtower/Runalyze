@@ -164,9 +164,7 @@ abstract class FormularField extends HtmlTag
     /**
      * Prepare for beeing display, may be overwritten
      */
-    protected function prepareForDisplay()
-    {
-    }
+    protected function prepareForDisplay() {}
 
     /**
      * Parse value for display

@@ -17,9 +17,7 @@ final class RunalyzePluginStat_TagCharacterizationTest extends TestCase
     protected function setUp(): void
     {
         $this->plugin = new class() extends RunalyzePluginStat_Tag {
-            public function __construct()
-            {
-            }
+            public function __construct() {}
 
             public function getInnerLink(string $name, int $sport = 0, int $year = 0, string $dat = ''): string
             {

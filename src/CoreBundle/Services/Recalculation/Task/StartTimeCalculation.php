@@ -17,8 +17,7 @@ class StartTimeCalculation implements RecalculationTaskInterface
     public function __construct(
         protected TrainingRepository $TrainingRepository,
         protected ConfigurationUpdater $ConfigurationUpdater
-    ) {
-    }
+    ) {}
 
     public function forceRecalculation(): void
     {

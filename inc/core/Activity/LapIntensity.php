@@ -44,8 +44,7 @@ class LapIntensity extends AbstractEnum
 
     public function __construct(
         private readonly string $Value
-    ) {
-    }
+    ) {}
 
     public function getValue(): string
     {

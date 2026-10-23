@@ -161,18 +161,14 @@ abstract class Plugin
     /**
      * Method for initializing everything (implemented in each plugin)
      */
-    protected function initPlugin()
-    {
-    }
+    protected function initPlugin() {}
 
     abstract public function display(): void;
 
     /**
      * Inits all data (implemented in each plugin)
      */
-    protected function prepareForDisplay()
-    {
-    }
+    protected function prepareForDisplay() {}
 
     abstract protected function displayContent(): void;
 

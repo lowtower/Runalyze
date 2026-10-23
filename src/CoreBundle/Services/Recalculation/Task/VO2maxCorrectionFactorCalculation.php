@@ -15,8 +15,7 @@ class VO2maxCorrectionFactorCalculation implements RecalculationTaskInterface
         protected RaceresultRepository $RaceResultRepository,
         protected ConfigurationManager $ConfigurationManager,
         protected ConfigurationUpdater $ConfigurationUpdater
-    ) {
-    }
+    ) {}
 
     public function run(): void
     {

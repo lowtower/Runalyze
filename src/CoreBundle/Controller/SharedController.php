@@ -44,8 +44,7 @@ class SharedController extends AbstractController
         private PrivacyGuard $privacyGuard,
         private Feed $activityFeed,
         private RequestStack $requestStack
-    ) {
-    }
+    ) {}
 
     protected function getTrainingRepository(): TrainingRepository
     {

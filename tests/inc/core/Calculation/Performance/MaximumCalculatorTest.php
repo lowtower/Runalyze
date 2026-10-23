@@ -21,8 +21,7 @@ final class MaximumCalculatorTest extends \PHPUnit\Framework\TestCase
     public function testWrongClosure(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        new MaximumCalculator(function (): void {
-        }, []);
+        new MaximumCalculator(function (): void {}, []);
     }
 
     public function testNoModelInClosure(): void
