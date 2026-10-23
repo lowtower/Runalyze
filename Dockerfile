@@ -118,8 +118,9 @@ RUN composer install --no-progress || true; \
     composer --version;
 
 # Python virtual environment for gpxtrackposter
-RUN python3 -m venv /var/lib/python/venv
-RUN /var/lib/python/venv/bin/pip3 install --no-cache-dir    vendor/runalyze/gpxtrackposter/.
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+RUN pip install --no-cache-dir vendor/runalyze/gpxtrackposter/.
 
 # Apache
 COPY docker/php/runalyze.ini /usr/local/etc/php/conf.d/99-runalyze.ini
