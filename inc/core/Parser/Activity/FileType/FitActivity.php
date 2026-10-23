@@ -1007,7 +1007,7 @@ class FitActivity extends AbstractSingleParser
         $i = array_key_last($this->Container->ContinuousData->Time);
 
         foreach ($this->Container->ContinuousData->getPropertyNamesOfArrays() as $key) {
-            if (array_key_exists($i, $this->Container->ContinuousData->{$key})) {
+            if (array_key_exists((string) $i, $this->Container->ContinuousData->{$key})) {
                 $last = $this->Container->ContinuousData->{$key}[$i - 1];
                 $current = array_pop($this->Container->ContinuousData->{$key});
 

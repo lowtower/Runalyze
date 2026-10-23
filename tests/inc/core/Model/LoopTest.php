@@ -62,7 +62,7 @@ final class Loopable_MockTester extends Entity implements Loopable
      */
     public function at($index, $key): mixed
     {
-        if (! $this->has($key) || ! array_key_exists($index, $this->Data[$key])) {
+        if (! $this->has($key) || ! array_key_exists((string) $index, $this->Data[$key])) {
             throw new \InvalidArgumentException(sprintf('Unknown data index "%s" at position %d.', $key, $index));
         }
 

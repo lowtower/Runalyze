@@ -9,6 +9,7 @@ class Factorial extends Simple implements FormattableUnitInterface
 {
     use UnitConversionByFactorTrait;
 
+    #[\Override]
     protected string $Appendix;
 
     protected int $Decimals;

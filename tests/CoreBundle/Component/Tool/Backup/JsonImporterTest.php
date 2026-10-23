@@ -14,6 +14,7 @@ final class JsonImporterTest extends DatabaseTestCase
 {
     protected string $Base;
 
+    #[\Override]
     protected \PDOforRunalyze $DB;
 
     protected int $AccountID;

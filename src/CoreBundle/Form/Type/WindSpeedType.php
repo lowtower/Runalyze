@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormView;
 
 class WindSpeedType extends AbstractUnitBasedType
 {
+    #[\Override]
     protected int $ViewPrecision = 0;
 
     protected KilometerPerHour $ModelUnit;

@@ -17,10 +17,7 @@ class JobLoop extends Job
 
     public const string TRIMP = 'activityTrimp';
 
-    /**
-     * @var array
-     */
-    protected $ElevationResults = [];
+    protected array $ElevationResults = [];
 
     public function run(): void
     {
@@ -111,8 +108,9 @@ class JobLoop extends Job
      */
     protected function elevationsFor(array $data): array
     {
-        if (isset($this->ElevationResults[$data['routeid']])) {
-            return $this->ElevationResults[$data['routeid']];
+        $routeId = $data['routeid'] ?? '';
+        if (isset($this->ElevationResults[$routeId])) {
+            return $this->ElevationResults[$routeId];
         }
 
         if (isset($data['elevation']) && isset($data['elevation_up']) && isset($data['elevation_down'])) {

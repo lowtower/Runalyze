@@ -175,6 +175,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
     /**
      * Flag: ensure arrays to be equally sized
      */
+    #[\Override]
     protected bool $checkArraySizes = true;
 
     protected bool $hasTheoreticalPace = false;

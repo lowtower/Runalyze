@@ -23,6 +23,7 @@ class HRVPoincare extends ActivityPlot
     /**
      * Use standard x-axis?
      */
+    #[\Override]
     protected bool $useStandardXaxis = false;
 
     protected int $PointSize = 1;

@@ -16,6 +16,7 @@ namespace Runalyze\Parameter;
  */
 class SelectRow extends Select
 {
+    #[\Override]
     protected bool $UseFallback = false;
 
     public function __construct(string $default, array $options = [])

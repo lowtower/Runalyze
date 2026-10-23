@@ -20,6 +20,7 @@ class PaceCumulativeAverage extends Pace
 {
     public const string COLOR = 'rgb(200,200,255)';
 
+    #[\Override]
     protected bool $adjustAxis = false;
 
     /**

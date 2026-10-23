@@ -352,7 +352,7 @@ final class ToolsControllerTest extends AbstractFixturesAwareWebTestCase
 
         $this->assertNotEmpty($envelopes, 'Expected a poster generation message to have been dispatched.');
 
-        $message = $envelopes[array_key_last($envelopes)]->getMessage();
+        $message = array_last($envelopes)->getMessage();
         $this->assertInstanceOf(PosterGenerationMessage::class, $message);
         $this->assertSame($this->Account->getId(), $message->getAccountId());
         $this->assertSame($year, $message->getYear());

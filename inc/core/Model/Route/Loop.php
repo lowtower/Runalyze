@@ -19,6 +19,7 @@ use Runalyze\Model\Loopable;
  */
 class Loop extends \Runalyze\Model\Loop
 {
+    #[\Override]
     protected ?Loopable $Object = null;
 
     public function __construct(?Entity $object)

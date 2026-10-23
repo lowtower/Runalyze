@@ -307,7 +307,7 @@ class JsonImporter
                 true
             )) {
                 if ($tableName === 'runalyze_sport' && isset($columnIds['internal_sport_id'])) {
-                    $internalId = $values[$columnIds['internal_sport_id']];
+                    $internalId = $values[$columnIds['internal_sport_id']] ?? '';
 
                     if (isset($this->InternalSportIds[$internalId])) {
                         $this->ReplaceIDs[$tableName][$id] = $this->InternalSportIds[$internalId];

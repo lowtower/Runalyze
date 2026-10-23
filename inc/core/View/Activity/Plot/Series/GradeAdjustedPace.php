@@ -12,6 +12,7 @@ class GradeAdjustedPace extends Pace
 {
     public const string COLOR = 'rgb(100,184,100)';
 
+    #[\Override]
     protected bool $adjustAxis = false;
 
     protected int $KernelWidth = 20;

@@ -234,7 +234,7 @@ final class InstallCheckCommandTest extends TestCase
         $command = new TestableInstallCheckCommand($this->parameterBag, $this->doctrine);
 
         $this->assertSame(InstallCheckCommand::OKAY, $command->evaluatePhpVersionPublic(InstallCheckCommand::REQUIRED_PHP_VERSION));
-        $this->assertSame(InstallCheckCommand::OKAY, $command->evaluatePhpVersionPublic('8.4.0'));
+        $this->assertSame(InstallCheckCommand::OKAY, $command->evaluatePhpVersionPublic('8.5.12'));
     }
 
     public function testEvaluatePhpVersionReturnsErrorWhenRunningVersionIsTooOld(): void

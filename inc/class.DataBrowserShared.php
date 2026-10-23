@@ -19,6 +19,7 @@ class DataBrowserShared extends DataBrowser
     /**
      * Number of additional columns
      */
+    #[\Override]
     protected int $AdditionalColumns = 3;
 
     /**

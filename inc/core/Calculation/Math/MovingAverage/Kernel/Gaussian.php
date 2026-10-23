@@ -19,6 +19,7 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
  */
 class Gaussian extends AbstractKernel
 {
+    #[\Override]
     protected float $DefaultWidth = 6.0;
 
     public function __construct(float $width)

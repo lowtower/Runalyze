@@ -34,11 +34,12 @@ class RecalculationManager
 
     public function getNumberOfScheduledTasksFor(Account $account): int
     {
-        if (! isset($this->AccountRelatedTaskNames[$account->getId()])) {
+        $accountId = $account->getId() ?? '';
+        if (! isset($this->AccountRelatedTaskNames[$accountId])) {
             return 0;
         }
 
-        return count($this->AccountRelatedTaskNames[$account->getId()]);
+        return count($this->AccountRelatedTaskNames[$accountId]);
     }
 
     public function addStartTimeCheck(Account $account, int $timestamp, bool $isRemoved): void
@@ -59,15 +60,16 @@ class RecalculationManager
 
     protected function getCurrentStartTime(Account $account): int
     {
-        if (! isset($this->CurrentStartTimes[$account->getId()])) {
-            $this->CurrentStartTimes[$account->getId()] = $this->ConfigurationManager->getList($account)->getData()->getStartTime();
+        $accountId = $account->getId() ?? '';
+        if (! isset($this->CurrentStartTimes[$accountId])) {
+            $this->CurrentStartTimes[$accountId] = $this->ConfigurationManager->getList($account)->getData()->getStartTime();
 
-            if ($this->CurrentStartTimes[$account->getId()] == 0) {
-                $this->CurrentStartTimes[$account->getId()] = PHP_INT_MAX;
+            if ($this->CurrentStartTimes[$accountId] == 0) {
+                $this->CurrentStartTimes[$accountId] = PHP_INT_MAX;
             }
         }
 
-        return $this->CurrentStartTimes[$account->getId()];
+        return $this->CurrentStartTimes[$accountId];
     }
 
     public function scheduleStartTimeCalculation(Account $account, bool $forceRecalculation = true): StartTimeCalculation
@@ -77,7 +79,7 @@ class RecalculationManager
             $this->scheduleTaskForAccount($account, $task);
         } else {
             /** @var StartTimeCalculation $task */
-            $task = $this->Tasks->offsetGet($this->AccountRelatedTaskNames[$account->getId()][StartTimeCalculation::class]);
+            $task = $this->Tasks->offsetGet($this->AccountRelatedTaskNames[$account->getId() ?? ''][StartTimeCalculation::class]);
         }
 
         if ($forceRecalculation) {
@@ -121,7 +123,7 @@ class RecalculationManager
 
     public function isTaskScheduled(Account $account, string $taskName): bool
     {
-        $accountId = $account->getId();
+        $accountId = $account->getId() ?? '';
 
         $this->AccountRelatedTaskNames[$accountId] ??= [];
 
@@ -130,7 +132,7 @@ class RecalculationManager
 
     protected function scheduleTaskForAccount(Account $account, RecalculationTaskInterface $task)
     {
-        $accountId = $account->getId();
+        $accountId = $account->getId() ?? '';
         $taskName = $task::class;
 
         $task->setAccount($account);

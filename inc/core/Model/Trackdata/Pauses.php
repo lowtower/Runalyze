@@ -18,6 +18,7 @@ class Pauses extends StringArrayObject
      * Single objects
      * @var \Runalyze\Model\Trackdata\Pause[]
      */
+    #[\Override]
     protected $Elements = [];
 
     /**
