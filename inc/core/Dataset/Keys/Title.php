@@ -19,10 +19,7 @@ use Runalyze\Dataset\Context;
  */
 class Title extends AbstractKey
 {
-    /**
-     * @var int
-     */
-    public const DEFAULT_CUT = 20;
+    public const int DEFAULT_CUT = 20;
 
     /**
      * Enum id

@@ -65,7 +65,6 @@ final class SportQueryGroupTest extends TestCase
         $sportRepository->method('findAllFor')
             ->willReturnCallback(function (Account $requestedAccount) use ($account, $running, $cycling, $swimming): array {
                 $this->assertSame($account, $requestedAccount);
-
                 return [$running, $cycling, $swimming];
             });
 
@@ -73,7 +72,6 @@ final class SportQueryGroupTest extends TestCase
         $entityManager->method('getRepository')
             ->willReturnCallback(function (string $className) use ($sportRepository): SportRepository {
                 $this->assertSame(Sport::class, $className);
-
                 return $sportRepository;
             });
 

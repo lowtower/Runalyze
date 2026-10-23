@@ -8,10 +8,7 @@ use Runalyze\View\Activity;
 
 class Gradient extends ActivitySeries
 {
-    /**
-     * @var string
-     */
-    public const COLOR = 'rgb(127,127,127)';
+    public const string COLOR = 'rgb(127,127,127)';
 
     /**
      * @param int $KernelWidth

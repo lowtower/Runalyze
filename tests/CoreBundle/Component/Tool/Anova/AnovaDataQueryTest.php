@@ -194,10 +194,7 @@ final class AnovaDataQueryTest extends TestCase
     {
         $anovaData = $this->createAnovaDataMock();
         $anovaData->method('getSport')
-            ->willReturn([
-                $this->createStub(Sport::class),
-                $this->createStub(Sport::class),
-            ]);
+            ->willReturn([$this->createStub(Sport::class), $this->createStub(Sport::class)]);
         $query = new AnovaDataQuery($anovaData);
 
         $queryValueStub = $this->createStub(QueryValueInterface::class);
@@ -324,20 +321,16 @@ final class AnovaDataQueryTest extends TestCase
         $doctrineQueryMock->expects($this->once())
             ->method('toIterable')
             ->with([], AbstractQuery::HYDRATE_ARRAY)
-            ->willReturn([
-                [
-                    'grouping' => '1',
-                    'value' => 5.0,
-                ],
-                [
-                    'grouping' => 1,
-                    'value' => 7.0,
-                ],
-                [
-                    'grouping' => 2,
-                    'value' => 10.0,
-                ],
-            ]);
+            ->willReturn([[
+                'grouping' => '1',
+                'value' => 5.0,
+            ], [
+                'grouping' => 1,
+                'value' => 7.0,
+            ], [
+                'grouping' => 2,
+                'value' => 10.0,
+            ]]);
 
         $query->expects($this->once())
             ->method('buildQuery')
@@ -395,12 +388,10 @@ final class AnovaDataQueryTest extends TestCase
 
         $doctrineQueryStub = $this->createStub(Query::class);
         $doctrineQueryStub->method('toIterable')
-            ->willReturn([
-                [
-                    'grouping' => 1,
-                    'value' => 3.0,
-                ],
-            ]);
+            ->willReturn([[
+                'grouping' => 1,
+                'value' => 3.0,
+            ]]);
 
         $query->expects($this->once())
             ->method('buildQuery')

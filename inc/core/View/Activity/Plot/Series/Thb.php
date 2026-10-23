@@ -21,10 +21,7 @@ use Runalyze\View\Activity;
  */
 class Thb extends ActivitySeries
 {
-    /**
-     * @var string
-     */
-    public const COLOR = '#ffa500';
+    public const string COLOR = '#ffa500';
 
     /**
      * Create series

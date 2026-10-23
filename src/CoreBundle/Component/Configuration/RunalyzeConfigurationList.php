@@ -11,7 +11,7 @@ class RunalyzeConfigurationList extends ConfigurationList
     /**
      * @var array ['key' => 'className']
      */
-    protected array $CategoryMap = [];
+    protected array $CategoryMap;
 
     /**
      * @var AbstractCategory[]

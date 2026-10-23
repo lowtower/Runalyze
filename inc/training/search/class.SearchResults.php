@@ -24,19 +24,16 @@ use Runalyze\Util\LocalTime;
  */
 class SearchResults
 {
-    /**
-     * @var int
-     */
-    public const MAX_LIMIT_FOR_MULTI_EDITOR = 100;
+    public const int MAX_LIMIT_FOR_MULTI_EDITOR = 100;
 
     /**
      * Allowed keys to search for
      */
-    protected array $AllowedKeys = [];
+    protected array $AllowedKeys;
 
-    protected array $KeysThatShouldIgnoreNull = [];
+    protected array $KeysThatShouldIgnoreNull;
 
-    protected array $KeysThatShouldIgnoreZero = [];
+    protected array $KeysThatShouldIgnoreZero;
 
     /**
      * Colspan
@@ -443,10 +440,7 @@ class SearchResults
         return $value;
     }
 
-    /**
-     * @param string $key
-     */
-    protected function signForKey($key): string
+    protected function signForKey(string $key): string
     {
         if (isset($_POST['opt'][$key])) {
             return $this->signFor($_POST['opt'][$key]);

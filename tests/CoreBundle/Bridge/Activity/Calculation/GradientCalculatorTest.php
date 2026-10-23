@@ -151,7 +151,6 @@ final class GradientCalculatorTest extends TestCase
             ->method('setGradient')
             ->willReturnCallback(function (?array $series) use (&$capturedSeries): Trackdata {
                 $capturedSeries = $series;
-
                 return $this->createStub(Trackdata::class);
             });
 
@@ -183,7 +182,6 @@ final class GradientCalculatorTest extends TestCase
             ->method('setGradient')
             ->willReturnCallback(function (?array $series) use (&$capturedSeries): Trackdata {
                 $capturedSeries = $series;
-
                 return $this->createStub(Trackdata::class);
             });
 

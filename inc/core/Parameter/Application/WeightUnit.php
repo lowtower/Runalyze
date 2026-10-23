@@ -18,21 +18,18 @@ class WeightUnit extends \Runalyze\Parameter\Select
 {
     /**
      * KG
-     * @var string
      */
-    public const KG = 'kg';
+    public const string KG = 'kg';
 
     /**
      * Pound
-     * @var string
      */
-    public const POUNDS = 'lbs';
+    public const string POUNDS = 'lbs';
 
     /**
      * Stone
-     * @var string
      */
-    public const STONES = 'st';
+    public const string STONES = 'st';
 
     /**
      * Construct

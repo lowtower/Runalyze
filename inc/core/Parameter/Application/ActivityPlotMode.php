@@ -18,21 +18,18 @@ class ActivityPlotMode extends \Runalyze\Parameter\Select
 {
     /**
      * All seperated
-     * @var string
      */
-    public const SEPERATED = 'all';
+    public const string SEPERATED = 'all';
 
     /**
      * Pace + Heart rate
-     * @var string
      */
-    public const PACE_HR = 'pacepulse';
+    public const string PACE_HR = 'pacepulse';
 
     /**
      * Pace + Heart rate + Elevation
-     * @var string
      */
-    public const PACE_HR_ELEVATION = 'collection';
+    public const string PACE_HR_ELEVATION = 'collection';
 
     /**
      * Construct

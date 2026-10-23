@@ -17,15 +17,9 @@ use Runalyze\Util\LocalTime;
  */
 class Query
 {
-    /**
-     * @var int
-     */
-    public const YEAR_TIMERANGE = 31622400; // 366 * 86400
+    public const int YEAR_TIMERANGE = 31622400; // 366 * 86400
 
-    /**
-     * @var int
-     */
-    public const MONTH_TIMERANGE = 2678400; // 31 * 86400
+    public const int MONTH_TIMERANGE = 2678400; // 31 * 86400
 
     protected bool $ShowOnlyPublicActivites = false;
 

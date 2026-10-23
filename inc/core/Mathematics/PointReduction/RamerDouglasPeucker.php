@@ -64,7 +64,7 @@ class RamerDouglasPeucker extends AbstractPointReductionAlgorithm
         $num = count($x);
 
         for ($i = 1; $i < $num - 1; $i++) {
-            $dist = static::shortestDistance($x[$i], $y[$i], $x[0], $y[0], $x[$num - 1], $y[$num - 1]);
+            $dist = self::shortestDistance($x[$i], $y[$i], $x[0], $y[0], $x[$num - 1], $y[$num - 1]);
 
             if ($dist > $maxDist) {
                 $index = $i;

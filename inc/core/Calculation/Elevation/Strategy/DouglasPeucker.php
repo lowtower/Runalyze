@@ -18,9 +18,8 @@ class DouglasPeucker extends AbstractStrategy
 {
     /**
      * Distance (in x direction) between two points
-     * @var int
      */
-    public const DISTANCE_BETWEEN_POINTS = 50;
+    public const int DISTANCE_BETWEEN_POINTS = 50;
 
     /**
      * Epsilon

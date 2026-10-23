@@ -18,21 +18,18 @@ class HeartRateUnit extends \Runalyze\Parameter\Select
 {
     /**
      * BPM
-     * @var string
      */
-    public const BPM = 'bpm';
+    public const string BPM = 'bpm';
 
     /**
      * % HRmax
-     * @var string
      */
-    public const HRMAX = 'hfmax';
+    public const string HRMAX = 'hfmax';
 
     /**
      * % HRreserve
-     * @var string
      */
-    public const HRRESERVE = 'hfres';
+    public const string HRRESERVE = 'hfres';
 
     /**
      * Construct

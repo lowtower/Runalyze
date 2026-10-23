@@ -21,10 +21,7 @@ use Runalyze\Parameter\Application\DistanceUnitSystem;
  */
 class PluginConfigurationValueDistances extends PluginConfigurationValueArray
 {
-    /**
-     * @var int
-     */
-    public const PRECISION = 2;
+    public const int PRECISION = 2;
 
     protected ?DistanceUnitSystem $UnitSystem = null;
 

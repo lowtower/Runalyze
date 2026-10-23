@@ -18,9 +18,8 @@ class Set extends \Runalyze\Parameter
 {
     /**
      * Separator
-     * @var string
      */
-    public const SEPARATOR = ',';
+    public const string SEPARATOR = ',';
 
     public static function arrayToString(array $array): string
     {

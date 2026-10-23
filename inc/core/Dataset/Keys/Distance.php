@@ -19,10 +19,7 @@ use Runalyze\View\Stresscolor;
  */
 class Distance extends AbstractKey
 {
-    /**
-     * @var string
-     */
-    public const KEY_DISTANCE_COMPARISON = 'distance_to_compare_to';
+    public const string KEY_DISTANCE_COMPARISON = 'distance_to_compare_to';
 
     /**
      * Enum id

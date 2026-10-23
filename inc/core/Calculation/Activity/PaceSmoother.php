@@ -19,20 +19,11 @@ use Runalyze\Model\Trackdata;
  */
 class PaceSmoother
 {
-    /**
-     * @var int
-     */
-    public const MODE_STEP = 0;
+    public const int MODE_STEP = 0;
 
-    /**
-     * @var int
-     */
-    public const MODE_TIME = 1;
+    public const int MODE_TIME = 1;
 
-    /**
-     * @var int
-     */
-    public const MODE_DISTANCE = 2;
+    public const int MODE_DISTANCE = 2;
 
     protected Trackdata\Loop $Loop;
 

@@ -17,22 +17,22 @@ class Pause
     /**
      * Key: time
      */
-    public const TIME = 'time';
+    public const string TIME = 'time';
 
     /**
      * Key: duration
      */
-    public const DURATION = 'duration';
+    public const string DURATION = 'duration';
 
     /**
      * Key: heart rate start
      */
-    public const HR_START = 'hr-start';
+    public const string HR_START = 'hr-start';
 
     /**
      * Key: heart rate end
      */
-    public const HR_END = 'hr-end';
+    public const string HR_END = 'hr-end';
 
     /**
      * Construct

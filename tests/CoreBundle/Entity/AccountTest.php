@@ -531,7 +531,7 @@ final class AccountTest extends TestCase
         $original = $this->createAccount();
         $changed = $this->createAccount();
         $changed->setName('Other Name')
-            ->setLastAction(1_700_000_000)
+            ->setLastAction(1700000000)
             ->setAllowMails(false);
 
         $this->assertTrue($original->isEqualTo($changed));

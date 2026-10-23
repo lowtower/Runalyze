@@ -17,57 +17,48 @@ class PaceUnit extends AbstractEnum
 {
     /**
      * Speed unit km/h
-     * @var int
      */
-    public const KM_PER_H = 0;
+    public const int KM_PER_H = 0;
 
     /**
      * Speed unit mph
-     * @var int
      */
-    public const MILES_PER_H = 1;
+    public const int MILES_PER_H = 1;
 
     /**
      * Speed unit min/km
-     * @var int
      */
-    public const MIN_PER_KM = 2;
+    public const int MIN_PER_KM = 2;
 
     /**
      * Speed unit min/mile
-     * @var int
      */
-    public const MIN_PER_MILE = 3;
+    public const int MIN_PER_MILE = 3;
 
     /**
      * Speed unit m/s
-     * @var int
      */
-    public const M_PER_S = 4;
+    public const int M_PER_S = 4;
 
     /**
      * Speed unit min/100m
-     * @var int
      */
-    public const MIN_PER_100M = 5;
+    public const int MIN_PER_100M = 5;
 
     /**
      * Speed unit min/100y
-     * @var int
      */
-    public const MIN_PER_100Y = 6;
+    public const int MIN_PER_100Y = 6;
 
     /**
      * Speed unit min/500m
-     * @var int
      */
-    public const MIN_PER_500M = 7;
+    public const int MIN_PER_500M = 7;
 
     /**
      * Speed unit min/500y
-     * @var int
      */
-    public const MIN_PER_500Y = 8;
+    public const int MIN_PER_500Y = 8;
 
     protected PaceUnitObject\AbstractUnit $UnitObject;
 

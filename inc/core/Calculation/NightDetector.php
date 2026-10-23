@@ -10,10 +10,7 @@ use Runalyze\Util\LocalTime;
 
 class NightDetector
 {
-    /**
-     * @var float
-     */
-    public const ZENITH = 90.833333333333;
+    public const float ZENITH = 90.833333333333;
 
     /**
      * @var ?int null: unknown, 0: at sunlight, 1: at night

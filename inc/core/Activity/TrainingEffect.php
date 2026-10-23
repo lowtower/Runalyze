@@ -15,20 +15,11 @@ namespace Runalyze\Activity;
  */
 class TrainingEffect implements ValueInterface
 {
-    /**
-     * @var float
-     */
-    public const LOWER_LIMIT = 0.0;
+    public const float LOWER_LIMIT = 0.0;
 
-    /**
-     * @var float
-     */
-    public const UPPER_LIMIT = 5.0;
+    public const float UPPER_LIMIT = 5.0;
 
-    /**
-     * @var int
-     */
-    public const DECIMALS = 1;
+    public const int DECIMALS = 1;
 
     protected ?float $Value = null;
 

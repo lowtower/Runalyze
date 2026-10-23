@@ -18,15 +18,13 @@ class DataBrowserMode extends \Runalyze\Parameter\Select
 {
     /**
      * Month
-     * @var string
      */
-    public const WEEK = 'week';
+    public const string WEEK = 'week';
 
     /**
      * Week
-     * @var string
      */
-    public const MONTH = 'month';
+    public const string MONTH = 'month';
 
     /**
      * Construct

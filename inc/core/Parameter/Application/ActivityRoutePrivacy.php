@@ -18,21 +18,18 @@ class ActivityRoutePrivacy extends \Runalyze\Parameter\Select
 {
     /**
      * Show route: never
-     * @var string
      */
-    public const NEVER = 'never';
+    public const string NEVER = 'never';
 
     /**
      * Show route: for races
-     * @var string
      */
-    public const RACE = 'race';
+    public const string RACE = 'race';
 
     /**
      * Show route: always
-     * @var string
      */
-    public const ALWAYS = 'always';
+    public const string ALWAYS = 'always';
 
     /**
      * Construct

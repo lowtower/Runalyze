@@ -30,25 +30,25 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    public const TIMEOUT = 180;
+    public const int TIMEOUT = 180;
 
-    public const EARTH = 6378.137;
+    public const float EARTH = 6378.137;
 
-    public const PI = 3.1415926535898;
+    public const float PI = 3.1415926535898;
 
     public const METER_IN_DEGREE = (1 / ((2 * self::PI / 360) * self::EARTH)) / 1000;
 
     // size of lat/lng elements in the around for node,way,relation
     // with 600 the request tooks longer and do not run in timeouts
-    public const AROUND_POS_LIMIT = 600;
+    public const int AROUND_POS_LIMIT = 600;
 
     // extend the bounding-box of the min/max of the geohashes
-    public const BOX_CORR = 30.0;
+    public const float BOX_CORR = 30.0;
 
     // configuration for the around-radius
-    public const RADIUS_LIMIT = 40.0;
+    public const float RADIUS_LIMIT = 40.0;
 
-    public const RADIUS_DEFAULT = 20.0;
+    public const float RADIUS_DEFAULT = 20.0;
 
     public function __construct(
         protected string $Url,

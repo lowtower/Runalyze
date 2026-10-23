@@ -9,20 +9,11 @@ use Runalyze\Util\InterfaceChoosable;
 
 class Gender extends AbstractEnum implements InterfaceChoosable
 {
-    /**
-     * @var int
-     */
-    public const NONE = 0;
+    public const int NONE = 0;
 
-    /**
-     * @var int
-     */
-    public const MALE = 1;
+    public const int MALE = 1;
 
-    /**
-     * @var int
-     */
-    public const FEMALE = 2;
+    public const int FEMALE = 2;
 
     /**
      * @param int $id id from internal enum

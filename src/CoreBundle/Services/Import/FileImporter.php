@@ -29,7 +29,7 @@ class FileImporter implements LoggerAwareInterface
     /**
      * @var FileTypeConverterInterface[]
      */
-    protected array $Converter = [];
+    protected array $Converter;
 
     protected ZipConverter $ZipConverter;
 

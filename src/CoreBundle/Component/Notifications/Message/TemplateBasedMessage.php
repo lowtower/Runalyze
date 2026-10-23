@@ -11,7 +11,7 @@ class TemplateBasedMessage implements MessageInterface
     /**
      * @var string base path relative to root
      */
-    public const BASE_PATH = '../../../../../data/views/notifications/';
+    public const string BASE_PATH = '../../../../../data/views/notifications/';
 
     protected string $TemplateName;
 

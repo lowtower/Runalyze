@@ -16,15 +16,9 @@ use Runalyze\Util\InterfaceChoosable;
  */
 class Language implements InterfaceChoosable
 {
-    /**
-     * @var string
-     */
-    public const GET_KEY = 'lang';
+    public const string GET_KEY = 'lang';
 
-    /**
-     * @var string
-     */
-    public const COOKIE_KEY = 'lang';
+    public const string COOKIE_KEY = 'lang';
 
     private static string $LOCALE_DIR = './vendor/runalyze/translations/gettext';
 

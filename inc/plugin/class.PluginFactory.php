@@ -6,7 +6,7 @@
  */
 class PluginFactory
 {
-    public const CACHE_KEY = 'plugins';
+    public const string CACHE_KEY = 'plugins';
 
     private static ?array $Plugins = null;
 

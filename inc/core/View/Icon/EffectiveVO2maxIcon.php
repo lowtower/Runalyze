@@ -6,35 +6,17 @@ use Runalyze\Configuration;
 
 class EffectiveVO2maxIcon extends \Runalyze\View\Icon
 {
-    /**
-     * @var string
-     */
-    public const BASE_CLASS = 'vo2max-icon small';
+    public const string BASE_CLASS = 'vo2max-icon small';
 
-    /**
-     * @var string
-     */
-    public const DIRECTION_UP = 'fa-arrow-up';
+    public const string DIRECTION_UP = 'fa-arrow-up';
 
-    /**
-     * @var string
-     */
-    public const DIRECTION_UP_HALF = 'fa-arrow-up  fa-rotate-45';
+    public const string DIRECTION_UP_HALF = 'fa-arrow-up  fa-rotate-45';
 
-    /**
-     * @var string
-     */
-    public const DIRECTION_RIGHT = 'fa-arrow-right';
+    public const string DIRECTION_RIGHT = 'fa-arrow-right';
 
-    /**
-     * @var string
-     */
-    public const DIRECTION_DOWN_HALF = 'fa-arrow-right  fa-rotate-45';
+    public const string DIRECTION_DOWN_HALF = 'fa-arrow-right  fa-rotate-45';
 
-    /**
-     * @var string
-     */
-    public const DIRECTION_DOWN = 'fa-arrow-down';
+    public const string DIRECTION_DOWN = 'fa-arrow-down';
 
     /**
      * @var bool

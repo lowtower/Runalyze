@@ -8,35 +8,17 @@ use Runalyze\Bundle\CoreBundle\Services\Selection\Selection;
 
 class AnalysisSelection extends Selection
 {
-    /**
-     * @var string
-     */
-    public const DISTANCE = 'km';
+    public const string DISTANCE = 'km';
 
-    /**
-     * @var string
-     */
-    public const TIME = 's';
+    public const string TIME = 's';
 
-    /**
-     * @var string
-     */
-    public const ELEVATION = 'em';
+    public const string ELEVATION = 'em';
 
-    /**
-     * @var string
-     */
-    public const ENERGY = 'kcal';
+    public const string ENERGY = 'kcal';
 
-    /**
-     * @var string
-     */
-    public const TRIMP = 'trimp';
+    public const string TRIMP = 'trimp';
 
-    /**
-     * @var string
-     */
-    public const NUMBER = 'n';
+    public const string NUMBER = 'n';
 
     public function __construct(mixed $currentKey = null)
     {

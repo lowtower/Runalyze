@@ -27,20 +27,14 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface, LastExc
 {
     use LoggerAwareTrait;
 
-    /**
-     * @var string
-     */
-    public const URL = 'http://api.openweathermap.org/data/2.5/weather';
+    public const string URL = 'http://api.openweathermap.org/data/2.5/weather';
 
-    /**
-     * @var string
-     */
-    public const URL_HISTORICAL = 'http://api.openweathermap.org/data/2.5/history';
+    public const string URL_HISTORICAL = 'http://api.openweathermap.org/data/2.5/history';
 
     /**
      * @var int [s]
      */
-    public const DEFAULT_MAX_AGE_IN_SECONDS = 7200;
+    public const int DEFAULT_MAX_AGE_IN_SECONDS = 7200;
 
     protected ?\Throwable $LastException = null;
 

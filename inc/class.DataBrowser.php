@@ -20,15 +20,13 @@ class DataBrowser
 {
     /**
      * CSS-ID for calendar-widget
-     * @var string
      */
-    public const CALENDAR_ID = 'data-browser-calendar';
+    public const string CALENDAR_ID = 'data-browser-calendar';
 
     /**
      * CSS-ID for refresh button
-     * @var string
      */
-    public const REFRESH_BUTTON_ID = 'refreshDataBrowser';
+    public const string REFRESH_BUTTON_ID = 'refreshDataBrowser';
 
     /**
      * Timestamp for first day to be displayed
@@ -514,7 +512,7 @@ class DataBrowser
      * Additional columns that are shown next to date columns
      * @return string html string that must contain `$this->AdditionalColumns - 2` columns
      */
-    public function codeForAdditionalColumnsForActivity(View\Dataset\Table $table, Dataset\Context $context): string
+    public function codeForAdditionalColumnsForActivity(): string
     {
         return '';
     }

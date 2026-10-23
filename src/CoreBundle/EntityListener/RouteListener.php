@@ -18,7 +18,7 @@ class RouteListener
     ) {
     }
 
-    public function prePersist(Route $route, \Doctrine\ORM\Event\PrePersistEventArgs $args): void
+    public function prePersist(Route $route): void
     {
         // #TSC if we have barometric data, no correction will be done (although the user wants it)
         if ($route->getElevationsCorrected() === null

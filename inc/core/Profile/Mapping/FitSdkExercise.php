@@ -9,9 +9,9 @@ namespace Runalyze\Profile\Mapping;
  */
 class FitSdkExercise
 {
-    public const CAT_UNKNOWN = 65534;
+    public const int CAT_UNKNOWN = 65534;
 
-    public const UNUSED = 65535;
+    public const int UNUSED = 65535;
 
     /**
      * Retrieve all mappings (can be 3).

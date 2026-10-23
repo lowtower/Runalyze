@@ -12,7 +12,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Sport;
  */
 class RaceresultRepository extends EntityRepository
 {
-    public const NUMBER_OF_RACES_TO_CONSIDER_FOR_CORRECTION_FACTOR = 3;
+    public const int NUMBER_OF_RACES_TO_CONSIDER_FOR_CORRECTION_FACTOR = 3;
 
     public function findForActivity(int $activityId): ?Raceresult
     {

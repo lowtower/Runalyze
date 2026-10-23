@@ -28,10 +28,7 @@ use Runalyze\View\Activity\Dataview;
  */
 class Table
 {
-    /**
-     * @var string
-     */
-    public const CSS_ID = 'rounds-info-window';
+    public const string CSS_ID = 'rounds-info-window';
 
     protected Pace $AveragePace;
 
@@ -41,7 +38,7 @@ class Table
 
     protected int $IndexResting = 1;
 
-    protected array $AdditionalKeys = [];
+    protected array $AdditionalKeys;
 
     /**
      * contains the decoded splits-additional infos as a object array.

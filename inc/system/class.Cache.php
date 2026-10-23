@@ -16,9 +16,8 @@ class Cache
 {
     /**
      * Absolute path for the cache directory
-     * @var string
      */
-    public const PATH = FRONTEND_PATH . '../var/cache/legacy';
+    public const string PATH = FRONTEND_PATH . '../var/cache/legacy';
 
     /**
      * Last cache clean date

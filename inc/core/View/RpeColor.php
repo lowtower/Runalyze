@@ -4,10 +4,7 @@ namespace Runalyze\View;
 
 class RpeColor
 {
-    /**
-     * @var array
-     */
-    public const LEVEL_COLORS = [
+    public const array LEVEL_COLORS = [
         '#225ea8', // 1
         '#41b6c4', // 2
         '#41b6c4', // 3

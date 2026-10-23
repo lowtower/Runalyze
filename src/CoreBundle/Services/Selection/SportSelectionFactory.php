@@ -11,10 +11,7 @@ class SportSelectionFactory
 {
     use TokenStorageAwareServiceTrait;
 
-    /**
-     * @var string
-     */
-    public const ALL = 'all';
+    public const string ALL = 'all';
 
     public function __construct(
         protected SportRepository $SportRepository,

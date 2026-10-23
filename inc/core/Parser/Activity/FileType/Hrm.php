@@ -15,7 +15,7 @@ class Hrm extends AbstractSingleParser implements FileContentAwareParserInterfac
     /**
      * @var int data of 'Interval' for rr-data
      */
-    public const RR_DATA_INTERVAL = 238;
+    public const int RR_DATA_INTERVAL = 238;
 
     /**
      * @var string|bool

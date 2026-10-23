@@ -11,7 +11,7 @@ namespace Runalyze\Mathematics\Scale;
  */
 class TwoPartPercental extends Percental
 {
-    protected float $InflectionPoint = 50.0;
+    protected float $InflectionPoint;
 
     public function __construct(float $min = 0.0, float $inflectionPoint = 50.0, float $max = 100.0)
     {

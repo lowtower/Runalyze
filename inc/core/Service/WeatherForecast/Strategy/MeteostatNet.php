@@ -26,10 +26,7 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface, LastExcep
 {
     use LoggerAwareTrait;
 
-    /**
-     * @var string
-     */
-    public const URL = 'https://meteostat.p.rapidapi.com/point/hourly';
+    public const string URL = 'https://meteostat.p.rapidapi.com/point/hourly';
 
     protected ?\Throwable $LastException = null;
 

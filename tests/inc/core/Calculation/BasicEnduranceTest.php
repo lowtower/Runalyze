@@ -141,12 +141,7 @@ final class BasicEnduranceTest extends \PHPUnit\Framework\TestCase
         DB::getInstance()->insert(
             'training',
             ['sportid', 'time', 'distance', 's'],
-            [
-                Configuration::General()->runningSport(),
-                time() - DAY_IN_S,
-                50,
-                2,
-            ]
+            [Configuration::General()->runningSport(), time() - DAY_IN_S, 50, 2]
         );
 
         $this->assertGreaterThan(100, $this->object->value());

@@ -22,9 +22,8 @@ class Entity extends Model\EntityWithID
 {
     /**
      * Key: tag
-     * @var string
      */
-    public const TAG = 'tag';
+    public const string TAG = 'tag';
 
     /**
      * All properties
@@ -42,7 +41,7 @@ class Entity extends Model\EntityWithID
      */
     public function properties(): array
     {
-        return static::allDatabaseProperties();
+        return self::allDatabaseProperties();
     }
 
     public function tag(): string

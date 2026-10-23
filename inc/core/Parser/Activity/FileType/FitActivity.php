@@ -21,17 +21,11 @@ class FitActivity extends AbstractSingleParser
     /**
      * @var int [s]
      */
-    public const TIME_LIMIT_FOR_TIME_JUMP = 3600;
+    public const int TIME_LIMIT_FOR_TIME_JUMP = 3600;
 
-    /**
-     * @var string
-     */
-    public const APP_ID_RUNSCRIBE_LIGHT = '80,32,146,179,176,221,69,173,137,179,71,42,178,6,10,182';
+    public const string APP_ID_RUNSCRIBE_LIGHT = '80,32,146,179,176,221,69,173,137,179,71,42,178,6,10,182';
 
-    /**
-     * @var string
-     */
-    public const APP_ID_RUNSCRIBE_PLUS = '193,245,200,10,90,5,78,138,151,179,253,163,78,149,112,53';
+    public const string APP_ID_RUNSCRIBE_PLUS = '193,245,200,10,90,5,78,138,151,179,253,163,78,149,112,53';
 
     protected array $Header = [];
 

@@ -135,10 +135,8 @@ final class ActivityMatcherControllerUnitTest extends TestCase
         $duplicateFinder = $this->createMock(DuplicateFinder::class);
         $duplicateFinder->expects($this->once())
             ->method('isPossibleDuplicate')
-            ->with(self::callback(
-                static fn (Training $training): bool => $training->getAccount() instanceof Account
-                    && is_int($training->getTime())
-            ))
+            ->with(self::callback(static fn (Training $training): bool => $training->getAccount() instanceof Account
+                && is_int($training->getTime())))
             ->willReturn(false);
 
         $this->controller = $this->createController($duplicateFinder);

@@ -20,10 +20,7 @@ use Runalyze\View\Activity;
  */
 class TimeSeries extends ActivitySeries
 {
-    /**
-     * @var string
-     */
-    public const COLOR = 'rgba(255,255,255,0)';
+    public const string COLOR = 'rgba(255,255,255,0)';
 
     /**
      * Create series

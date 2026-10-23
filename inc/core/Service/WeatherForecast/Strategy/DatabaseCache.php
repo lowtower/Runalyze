@@ -13,7 +13,7 @@ class DatabaseCache implements StrategyInterface
     /**
      * @var int [s] time range for cache lookup (in seconds) (+/- 30 min)
      */
-    public const TIME_PRECISION = 1800;
+    public const int TIME_PRECISION = 1800;
 
     public function __construct(
         protected DatabaseCacheInterface $Cache

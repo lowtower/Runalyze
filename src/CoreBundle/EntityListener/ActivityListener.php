@@ -2,9 +2,6 @@
 
 namespace Runalyze\Bundle\CoreBundle\EntityListener;
 
-use Doctrine\ORM\Event\PostPersistEventArgs;
-use Doctrine\ORM\Event\PostRemoveEventArgs;
-use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
@@ -43,7 +40,7 @@ class ActivityListener
             ->getDaysToConsider();
     }
 
-    public function prePersist(Training $activity, PrePersistEventArgs $args): void
+    public function prePersist(Training $activity): void
     {
         $this->setActivityIdIfEmpty($activity);
         $this->checkRelatedEntitiesForConsistency($activity);
@@ -58,7 +55,7 @@ class ActivityListener
         $this->guessTimezoneBasedOnCoordinates($activity);
     }
 
-    public function postPersist(Training $activity, PostPersistEventArgs $args): void
+    public function postPersist(Training $activity): void
     {
         $this->addStatisticsToEquipment($activity);
         $this->scheduleRunningRelatedRecalculationsIfRequired($activity);
@@ -98,7 +95,7 @@ class ActivityListener
         }
     }
 
-    public function postRemove(Training $activity, PostRemoveEventArgs $args): void
+    public function postRemove(Training $activity): void
     {
         $this->removeStatisticsFromEquipment($activity);
 

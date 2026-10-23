@@ -19,9 +19,8 @@ class Partner extends StringArrayObject
 {
     /**
      * Separator
-     * @var string
      */
-    public const SEPARATOR = ',';
+    public const string SEPARATOR = ',';
 
     public function fromString(string $string): void
     {

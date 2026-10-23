@@ -25,7 +25,7 @@ class ActivityDataContainer
 
     public PauseCollection $PausesToApply;
 
-    public ?FitDetails $FitDetails = null;
+    public ?FitDetails $FitDetails;
 
     public WeatherData $WeatherData;
 

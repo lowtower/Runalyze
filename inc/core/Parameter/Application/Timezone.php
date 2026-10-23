@@ -22,2060 +22,827 @@ namespace Runalyze\Parameter\Application;
  */
 class Timezone extends \Runalyze\Common\Enum\AbstractEnum
 {
-    /**
-     * @var int
-     */
-    public const UTC = 0;
-
-    /**
-     * @var int
-     */
-    public const ABIDJAN = 1;
-
-    /**
-     * @var int
-     */
-    public const ACCRA = 2;
-
-    /**
-     * @var int
-     */
-    public const ADAK = 3;
-
-    /**
-     * @var int
-     */
-    public const ADDIS_ABABA = 4;
-
-    /**
-     * @var int
-     */
-    public const ADELAIDE = 5;
-
-    /**
-     * @var int
-     */
-    public const ADEN = 6;
-
-    /**
-     * @var int
-     */
-    public const ALGIERS = 7;
-
-    /**
-     * @var int
-     */
-    public const ALMATY = 8;
-
-    /**
-     * @var int
-     */
-    public const AMMAN = 9;
-
-    /**
-     * @var int
-     */
-    public const AMSTERDAM = 10;
-
-    /**
-     * @var int
-     */
-    public const ANADYR = 11;
-
-    /**
-     * @var int
-     */
-    public const ANCHORAGE = 12;
-
-    /**
-     * @var int
-     */
-    public const ANDORRA = 13;
-
-    /**
-     * @var int
-     */
-    public const ANGUILLA = 14;
-
-    /**
-     * @var int
-     */
-    public const ANTANANARIVO = 15;
-
-    /**
-     * @var int
-     */
-    public const ANTIGUA = 16;
-
-    /**
-     * @var int
-     */
-    public const APIA = 17;
-
-    /**
-     * @var int
-     */
-    public const AQTAU = 18;
-
-    /**
-     * @var int
-     */
-    public const AQTOBE = 19;
-
-    /**
-     * @var int
-     */
-    public const ARAGUAINA = 20;
-
-    /**
-     * @var int
-     */
-    public const ARUBA = 21;
-
-    /**
-     * @var int
-     */
-    public const ASHGABAT = 22;
-
-    /**
-     * @var int
-     */
-    public const ASMARA = 23;
-
-    /**
-     * @var int
-     */
-    public const ASUNCION = 24;
-
-    /**
-     * @var int
-     */
-    public const ATHENS = 25;
-
-    /**
-     * @var int
-     */
-    public const ATIKOKAN = 26;
-
-    /**
-     * @var int
-     */
-    public const AUCKLAND = 27;
-
-    /**
-     * @var int
-     */
-    public const AZORES = 28;
-
-    /**
-     * @var int
-     */
-    public const BAGHDAD = 29;
-
-    /**
-     * @var int
-     */
-    public const BAHIA = 30;
-
-    /**
-     * @var int
-     */
-    public const BAHIA_BANDERAS = 31;
-
-    /**
-     * @var int
-     */
-    public const BAHRAIN = 32;
-
-    /**
-     * @var int
-     */
-    public const BAKU = 33;
-
-    /**
-     * @var int
-     */
-    public const BAMAKO = 34;
-
-    /**
-     * @var int
-     */
-    public const BANGKOK = 35;
-
-    /**
-     * @var int
-     */
-    public const BANGUI = 36;
-
-    /**
-     * @var int
-     */
-    public const BANJUL = 37;
-
-    /**
-     * @var int
-     */
-    public const BARBADOS = 38;
-
-    /**
-     * @var int
-     */
-    public const BEIRUT = 39;
-
-    /**
-     * @var int
-     */
-    public const BELEM = 40;
-
-    /**
-     * @var int
-     */
-    public const BELGRADE = 41;
-
-    /**
-     * @var int
-     */
-    public const BELIZE = 42;
-
-    /**
-     * @var int
-     */
-    public const BERLIN = 43;
-
-    /**
-     * @var int
-     */
-    public const BERMUDA = 44;
-
-    /**
-     * @var int
-     */
-    public const BEULAH = 45;
-
-    /**
-     * @var int
-     */
-    public const BISHKEK = 46;
-
-    /**
-     * @var int
-     */
-    public const BISSAU = 47;
-
-    /**
-     * @var int
-     */
-    public const BLANC_SABLON = 48;
-
-    /**
-     * @var int
-     */
-    public const BLANTYRE = 49;
-
-    /**
-     * @var int
-     */
-    public const BOA_VISTA = 50;
-
-    /**
-     * @var int
-     */
-    public const BOGOTA = 51;
-
-    /**
-     * @var int
-     */
-    public const BOISE = 52;
-
-    /**
-     * @var int
-     */
-    public const BOUGAINVILLE = 53;
-
-    /**
-     * @var int
-     */
-    public const BRATISLAVA = 54;
-
-    /**
-     * @var int
-     */
-    public const BRAZZAVILLE = 55;
-
-    /**
-     * @var int
-     */
-    public const BRISBANE = 56;
-
-    /**
-     * @var int
-     */
-    public const BROKEN_HILL = 57;
-
-    /**
-     * @var int
-     */
-    public const BRUNEI = 58;
-
-    /**
-     * @var int
-     */
-    public const BRUSSELS = 59;
-
-    /**
-     * @var int
-     */
-    public const BUCHAREST = 60;
-
-    /**
-     * @var int
-     */
-    public const BUDAPEST = 61;
-
-    /**
-     * @var int
-     */
-    public const BUENOS_AIRES = 62;
-
-    /**
-     * @var int
-     */
-    public const BUJUMBURA = 63;
-
-    /**
-     * @var int
-     */
-    public const BUSINGEN = 64;
-
-    /**
-     * @var int
-     */
-    public const CAIRO = 65;
-
-    /**
-     * @var int
-     */
-    public const CAMBRIDGE_BAY = 66;
-
-    /**
-     * @var int
-     */
-    public const CAMPO_GRANDE = 67;
-
-    /**
-     * @var int
-     */
-    public const CANARY = 68;
-
-    /**
-     * @var int
-     */
-    public const CANCUN = 69;
-
-    /**
-     * @var int
-     */
-    public const CAPE_VERDE = 70;
-
-    /**
-     * @var int
-     */
-    public const CARACAS = 71;
-
-    /**
-     * @var int
-     */
-    public const CASABLANCA = 72;
-
-    /**
-     * @var int
-     */
-    public const CASEY = 73;
-
-    /**
-     * @var int
-     */
-    public const CATAMARCA = 74;
-
-    /**
-     * @var int
-     */
-    public const CAYENNE = 75;
-
-    /**
-     * @var int
-     */
-    public const CAYMAN = 76;
-
-    /**
-     * @var int
-     */
-    public const CENTER = 77;
-
-    /**
-     * @var int
-     */
-    public const CEUTA = 78;
-
-    /**
-     * @var int
-     */
-    public const CHAGOS = 79;
-
-    /**
-     * @var int
-     */
-    public const CHATHAM = 80;
-
-    /**
-     * @var int
-     */
-    public const CHICAGO = 81;
-
-    /**
-     * @var int
-     */
-    public const CHIHUAHUA = 82;
-
-    /**
-     * @var int
-     */
-    public const CHISINAU = 83;
-
-    /**
-     * @var int
-     */
-    public const CHITA = 84;
-
-    /**
-     * @var int
-     */
-    public const CHRISTMAS = 86;
-
-    /**
-     * @var int
-     */
-    public const CHUUK = 87;
-
-    /**
-     * @var int
-     */
-    public const COCOS = 88;
-
-    /**
-     * @var int
-     */
-    public const COLOMBO = 89;
-
-    /**
-     * @var int
-     */
-    public const COMORO = 90;
-
-    /**
-     * @var int
-     */
-    public const CONAKRY = 91;
-
-    /**
-     * @var int
-     */
-    public const COPENHAGEN = 92;
-
-    /**
-     * @var int
-     */
-    public const CORDOBA = 93;
-
-    /**
-     * @var int
-     */
-    public const COSTA_RICA = 94;
-
-    /**
-     * @var int
-     */
-    public const CRESTON = 95;
-
-    /**
-     * @var int
-     */
-    public const CUIABA = 96;
-
-    /**
-     * @var int
-     */
-    public const CURACAO = 97;
-
-    /**
-     * @var int
-     */
-    public const CURRIE = 98;
-
-    /**
-     * @var int
-     */
-    public const DAKAR = 99;
-
-    /**
-     * @var int
-     */
-    public const DAMASCUS = 100;
-
-    /**
-     * @var int
-     */
-    public const DANMARKSHAVN = 101;
-
-    /**
-     * @var int
-     */
-    public const DAR_ES_SALAAM = 102;
-
-    /**
-     * @var int
-     */
-    public const DARWIN = 103;
-
-    /**
-     * @var int
-     */
-    public const DAVIS = 104;
-
-    /**
-     * @var int
-     */
-    public const DAWSON = 105;
-
-    /**
-     * @var int
-     */
-    public const DAWSON_CREEK = 106;
-
-    /**
-     * @var int
-     */
-    public const DENVER = 107;
-
-    /**
-     * @var int
-     */
-    public const DETROIT = 108;
-
-    /**
-     * @var int
-     */
-    public const DHAKA = 109;
-
-    /**
-     * @var int
-     */
-    public const DILI = 110;
-
-    /**
-     * @var int
-     */
-    public const DJIBOUTI = 111;
-
-    /**
-     * @var int
-     */
-    public const DOMINICA = 112;
-
-    /**
-     * @var int
-     */
-    public const DOUALA = 113;
-
-    /**
-     * @var int
-     */
-    public const DUBAI = 114;
-
-    /**
-     * @var int
-     */
-    public const DUBLIN = 115;
-
-    /**
-     * @var int
-     */
-    public const DUMONTDURVILLE = 116;
-
-    /**
-     * @var int
-     */
-    public const DUSHANBE = 117;
-
-    /**
-     * @var int
-     */
-    public const EASTER = 118;
-
-    /**
-     * @var int
-     */
-    public const EDMONTON = 119;
-
-    /**
-     * @var int
-     */
-    public const EFATE = 120;
-
-    /**
-     * @var int
-     */
-    public const EIRUNEPE = 121;
-
-    /**
-     * @var int
-     */
-    public const EL_AAIUN = 122;
-
-    /**
-     * @var int
-     */
-    public const EL_SALVADOR = 123;
-
-    /**
-     * @var int
-     */
-    public const EUCLA = 125;
-
-    /**
-     * @var int
-     */
-    public const FAKAOFO = 126;
-
-    /**
-     * @var int
-     */
-    public const FAROE = 127;
-
-    /**
-     * @var int
-     */
-    public const FIJI = 128;
-
-    /**
-     * @var int
-     */
-    public const FORT_NELSON = 129;
-
-    /**
-     * @var int
-     */
-    public const FORTALEZA = 130;
-
-    /**
-     * @var int
-     */
-    public const FREETOWN = 131;
-
-    /**
-     * @var int
-     */
-    public const FUNAFUTI = 132;
-
-    /**
-     * @var int
-     */
-    public const GABORONE = 133;
-
-    /**
-     * @var int
-     */
-    public const GALAPAGOS = 134;
-
-    /**
-     * @var int
-     */
-    public const GAMBIER = 135;
-
-    /**
-     * @var int
-     */
-    public const GAZA = 136;
-
-    /**
-     * @var int
-     */
-    public const GIBRALTAR = 137;
-
-    /**
-     * @var int
-     */
-    public const GLACE_BAY = 138;
-
-    /**
-     * @var int
-     */
-    public const GOOSE_BAY = 140;
-
-    /**
-     * @var int
-     */
-    public const GRAND_TURK = 141;
-
-    /**
-     * @var int
-     */
-    public const GRENADA = 142;
-
-    /**
-     * @var int
-     */
-    public const GUADALCANAL = 143;
-
-    /**
-     * @var int
-     */
-    public const GUADELOUPE = 144;
-
-    /**
-     * @var int
-     */
-    public const GUAM = 145;
-
-    /**
-     * @var int
-     */
-    public const GUATEMALA = 146;
-
-    /**
-     * @var int
-     */
-    public const GUAYAQUIL = 147;
-
-    /**
-     * @var int
-     */
-    public const GUERNSEY = 148;
-
-    /**
-     * @var int
-     */
-    public const GUYANA = 149;
-
-    /**
-     * @var int
-     */
-    public const HALIFAX = 150;
-
-    /**
-     * @var int
-     */
-    public const HARARE = 151;
-
-    /**
-     * @var int
-     */
-    public const HAVANA = 152;
-
-    /**
-     * @var int
-     */
-    public const HEBRON = 153;
-
-    /**
-     * @var int
-     */
-    public const HELSINKI = 154;
-
-    /**
-     * @var int
-     */
-    public const HERMOSILLO = 155;
-
-    /**
-     * @var int
-     */
-    public const HO_CHI_MINH = 156;
-
-    /**
-     * @var int
-     */
-    public const HOBART = 157;
-
-    /**
-     * @var int
-     */
-    public const HONG_KONG = 158;
-
-    /**
-     * @var int
-     */
-    public const HONOLULU = 159;
-
-    /**
-     * @var int
-     */
-    public const HOVD = 160;
-
-    /**
-     * @var int
-     */
-    public const INDIANAPOLIS = 161;
-
-    /**
-     * @var int
-     */
-    public const INUVIK = 162;
-
-    /**
-     * @var int
-     */
-    public const IQALUIT = 163;
-
-    /**
-     * @var int
-     */
-    public const IRKUTSK = 164;
-
-    /**
-     * @var int
-     */
-    public const ISLE_OF_MAN = 165;
-
-    /**
-     * @var int
-     */
-    public const ISTANBUL = 166;
-
-    /**
-     * @var int
-     */
-    public const JAKARTA = 167;
-
-    /**
-     * @var int
-     */
-    public const JAMAICA = 168;
-
-    /**
-     * @var int
-     */
-    public const JAYAPURA = 169;
-
-    /**
-     * @var int
-     */
-    public const JERSEY = 170;
-
-    /**
-     * @var int
-     */
-    public const JERUSALEM = 171;
-
-    /**
-     * @var int
-     */
-    public const JOHANNESBURG = 172;
-
-    /**
-     * @var int
-     */
-    public const JOHNSTON = 173;
-
-    /**
-     * @var int
-     */
-    public const JUBA = 174;
-
-    /**
-     * @var int
-     */
-    public const JUJUY = 175;
-
-    /**
-     * @var int
-     */
-    public const JUNEAU = 176;
-
-    /**
-     * @var int
-     */
-    public const KABUL = 177;
-
-    /**
-     * @var int
-     */
-    public const KALININGRAD = 178;
-
-    /**
-     * @var int
-     */
-    public const KAMCHATKA = 179;
-
-    /**
-     * @var int
-     */
-    public const KAMPALA = 180;
-
-    /**
-     * @var int
-     */
-    public const KARACHI = 181;
-
-    /**
-     * @var int
-     */
-    public const KATHMANDU = 182;
-
-    /**
-     * @var int
-     */
-    public const KERGUELEN = 183;
-
-    /**
-     * @var int
-     */
-    public const KHANDYGA = 184;
-
-    /**
-     * @var int
-     */
-    public const KHARTOUM = 185;
-
-    /**
-     * @var int
-     */
-    public const KIGALI = 187;
-
-    /**
-     * @var int
-     */
-    public const KINSHASA = 188;
-
-    /**
-     * @var int
-     */
-    public const KIRITIMATI = 189;
-
-    /**
-     * @var int
-     */
-    public const KNOX = 190;
-
-    /**
-     * @var int
-     */
-    public const KOLKATA = 191;
-
-    /**
-     * @var int
-     */
-    public const KOSRAE = 192;
-
-    /**
-     * @var int
-     */
-    public const KRALENDIJK = 193;
-
-    /**
-     * @var int
-     */
-    public const KRASNOYARSK = 194;
-
-    /**
-     * @var int
-     */
-    public const KUALA_LUMPUR = 195;
-
-    /**
-     * @var int
-     */
-    public const KUCHING = 196;
-
-    /**
-     * @var int
-     */
-    public const KUWAIT = 197;
-
-    /**
-     * @var int
-     */
-    public const KWAJALEIN = 198;
-
-    /**
-     * @var int
-     */
-    public const LA_PAZ = 199;
-
-    /**
-     * @var int
-     */
-    public const LA_RIOJA = 200;
-
-    /**
-     * @var int
-     */
-    public const LAGOS = 201;
-
-    /**
-     * @var int
-     */
-    public const LIBREVILLE = 202;
-
-    /**
-     * @var int
-     */
-    public const LIMA = 203;
-
-    /**
-     * @var int
-     */
-    public const LINDEMAN = 204;
-
-    /**
-     * @var int
-     */
-    public const LISBON = 205;
-
-    /**
-     * @var int
-     */
-    public const LJUBLJANA = 206;
-
-    /**
-     * @var int
-     */
-    public const LOME = 207;
-
-    /**
-     * @var int
-     */
-    public const LONDON = 208;
-
-    /**
-     * @var int
-     */
-    public const LONGYEARBYEN = 209;
-
-    /**
-     * @var int
-     */
-    public const LORD_HOWE = 210;
-
-    /**
-     * @var int
-     */
-    public const LOS_ANGELES = 211;
-
-    /**
-     * @var int
-     */
-    public const LOUISVILLE = 212;
-
-    /**
-     * @var int
-     */
-    public const LOWER_PRINCES = 213;
-
-    /**
-     * @var int
-     */
-    public const LUANDA = 214;
-
-    /**
-     * @var int
-     */
-    public const LUBUMBASHI = 215;
-
-    /**
-     * @var int
-     */
-    public const LUSAKA = 216;
-
-    /**
-     * @var int
-     */
-    public const LUXEMBOURG = 217;
-
-    /**
-     * @var int
-     */
-    public const MACAU = 218;
-
-    /**
-     * @var int
-     */
-    public const MACEIO = 219;
-
-    /**
-     * @var int
-     */
-    public const MACQUARIE = 220;
-
-    /**
-     * @var int
-     */
-    public const MADEIRA = 221;
-
-    /**
-     * @var int
-     */
-    public const MADRID = 222;
-
-    /**
-     * @var int
-     */
-    public const MAGADAN = 223;
-
-    /**
-     * @var int
-     */
-    public const MAHE = 224;
-
-    /**
-     * @var int
-     */
-    public const MAJURO = 225;
-
-    /**
-     * @var int
-     */
-    public const MAKASSAR = 226;
-
-    /**
-     * @var int
-     */
-    public const MALABO = 227;
-
-    /**
-     * @var int
-     */
-    public const MALDIVES = 228;
-
-    /**
-     * @var int
-     */
-    public const MALTA = 229;
-
-    /**
-     * @var int
-     */
-    public const MANAGUA = 230;
-
-    /**
-     * @var int
-     */
-    public const MANAUS = 231;
-
-    /**
-     * @var int
-     */
-    public const MANILA = 232;
-
-    /**
-     * @var int
-     */
-    public const MAPUTO = 233;
-
-    /**
-     * @var int
-     */
-    public const MARENGO = 234;
-
-    /**
-     * @var int
-     */
-    public const MARIEHAMN = 235;
-
-    /**
-     * @var int
-     */
-    public const MARIGOT = 236;
-
-    /**
-     * @var int
-     */
-    public const MARQUESAS = 237;
-
-    /**
-     * @var int
-     */
-    public const MARTINIQUE = 238;
-
-    /**
-     * @var int
-     */
-    public const MASERU = 239;
-
-    /**
-     * @var int
-     */
-    public const MATAMOROS = 240;
-
-    /**
-     * @var int
-     */
-    public const MAURITIUS = 241;
-
-    /**
-     * @var int
-     */
-    public const MAWSON = 242;
-
-    /**
-     * @var int
-     */
-    public const MAYOTTE = 243;
-
-    /**
-     * @var int
-     */
-    public const MAZATLAN = 244;
-
-    /**
-     * @var int
-     */
-    public const MBABANE = 245;
-
-    /**
-     * @var int
-     */
-    public const MCMURDO = 246;
-
-    /**
-     * @var int
-     */
-    public const MELBOURNE = 247;
-
-    /**
-     * @var int
-     */
-    public const MENDOZA = 248;
-
-    /**
-     * @var int
-     */
-    public const MENOMINEE = 249;
-
-    /**
-     * @var int
-     */
-    public const MERIDA = 250;
-
-    /**
-     * @var int
-     */
-    public const METLAKATLA = 251;
-
-    /**
-     * @var int
-     */
-    public const MEXICO_CITY = 252;
-
-    /**
-     * @var int
-     */
-    public const MIDWAY = 253;
-
-    /**
-     * @var int
-     */
-    public const MINSK = 254;
-
-    /**
-     * @var int
-     */
-    public const MIQUELON = 255;
-
-    /**
-     * @var int
-     */
-    public const MOGADISHU = 256;
-
-    /**
-     * @var int
-     */
-    public const MONACO = 257;
-
-    /**
-     * @var int
-     */
-    public const MONCTON = 258;
-
-    /**
-     * @var int
-     */
-    public const MONROVIA = 259;
-
-    /**
-     * @var int
-     */
-    public const MONTERREY = 260;
-
-    /**
-     * @var int
-     */
-    public const MONTEVIDEO = 261;
-
-    /**
-     * @var int
-     */
-    public const MONTICELLO = 262;
-
-    /**
-     * @var int
-     */
-    public const MONTSERRAT = 263;
-
-    /**
-     * @var int
-     */
-    public const MOSCOW = 264;
-
-    /**
-     * @var int
-     */
-    public const MUSCAT = 265;
-
-    /**
-     * @var int
-     */
-    public const NAIROBI = 266;
-
-    /**
-     * @var int
-     */
-    public const NASSAU = 267;
-
-    /**
-     * @var int
-     */
-    public const NAURU = 268;
-
-    /**
-     * @var int
-     */
-    public const NDJAMENA = 269;
-
-    /**
-     * @var int
-     */
-    public const NEW_SALEM = 270;
-
-    /**
-     * @var int
-     */
-    public const NEW_YORK = 271;
-
-    /**
-     * @var int
-     */
-    public const NIAMEY = 272;
-
-    /**
-     * @var int
-     */
-    public const NICOSIA = 273;
-
-    /**
-     * @var int
-     */
-    public const NIPIGON = 274;
-
-    /**
-     * @var int
-     */
-    public const NIUE = 275;
-
-    /**
-     * @var int
-     */
-    public const NOME = 276;
-
-    /**
-     * @var int
-     */
-    public const NORFOLK = 277;
-
-    /**
-     * @var int
-     */
-    public const NORONHA = 278;
-
-    /**
-     * @var int
-     */
-    public const NOUAKCHOTT = 279;
-
-    /**
-     * @var int
-     */
-    public const NOUMEA = 280;
-
-    /**
-     * @var int
-     */
-    public const NOVOKUZNETSK = 281;
-
-    /**
-     * @var int
-     */
-    public const NOVOSIBIRSK = 282;
-
-    /**
-     * @var int
-     */
-    public const OJINAGA = 283;
-
-    /**
-     * @var int
-     */
-    public const OMSK = 284;
-
-    /**
-     * @var int
-     */
-    public const ORAL = 285;
-
-    /**
-     * @var int
-     */
-    public const OSLO = 286;
-
-    /**
-     * @var int
-     */
-    public const OUAGADOUGOU = 287;
-
-    /**
-     * @var int
-     */
-    public const PAGO_PAGO = 288;
-
-    /**
-     * @var int
-     */
-    public const PALAU = 289;
-
-    /**
-     * @var int
-     */
-    public const PALMER = 290;
-
-    /**
-     * @var int
-     */
-    public const PANAMA = 291;
-
-    /**
-     * @var int
-     */
-    public const PANGNIRTUNG = 292;
-
-    /**
-     * @var int
-     */
-    public const PARAMARIBO = 293;
-
-    /**
-     * @var int
-     */
-    public const PARIS = 294;
-
-    /**
-     * @var int
-     */
-    public const PERTH = 295;
-
-    /**
-     * @var int
-     */
-    public const PETERSBURG = 296;
-
-    /**
-     * @var int
-     */
-    public const PHNOM_PENH = 297;
-
-    /**
-     * @var int
-     */
-    public const PHOENIX = 298;
-
-    /**
-     * @var int
-     */
-    public const PITCAIRN = 299;
-
-    /**
-     * @var int
-     */
-    public const PODGORICA = 300;
-
-    /**
-     * @var int
-     */
-    public const POHNPEI = 301;
-
-    /**
-     * @var int
-     */
-    public const PONTIANAK = 302;
-
-    /**
-     * @var int
-     */
-    public const PORT_AU_PRINCE = 303;
-
-    /**
-     * @var int
-     */
-    public const PORT_MORESBY = 304;
-
-    /**
-     * @var int
-     */
-    public const PORT_OF_SPAIN = 305;
-
-    /**
-     * @var int
-     */
-    public const PORTO_NOVO = 306;
-
-    /**
-     * @var int
-     */
-    public const PORTO_VELHO = 307;
-
-    /**
-     * @var int
-     */
-    public const PRAGUE = 308;
-
-    /**
-     * @var int
-     */
-    public const PUERTO_RICO = 309;
-
-    /**
-     * @var int
-     */
-    public const PYONGYANG = 310;
-
-    /**
-     * @var int
-     */
-    public const QATAR = 311;
-
-    /**
-     * @var int
-     */
-    public const QYZYLORDA = 312;
-
-    /**
-     * @var int
-     */
-    public const RAINY_RIVER = 313;
-
-    /**
-     * @var int
-     */
-    public const RANKIN_INLET = 315;
-
-    /**
-     * @var int
-     */
-    public const RAROTONGA = 316;
-
-    /**
-     * @var int
-     */
-    public const RECIFE = 317;
-
-    /**
-     * @var int
-     */
-    public const REGINA = 318;
-
-    /**
-     * @var int
-     */
-    public const RESOLUTE = 319;
-
-    /**
-     * @var int
-     */
-    public const REUNION = 320;
-
-    /**
-     * @var int
-     */
-    public const REYKJAVIK = 321;
-
-    /**
-     * @var int
-     */
-    public const RIGA = 322;
-
-    /**
-     * @var int
-     */
-    public const RIO_BRANCO = 323;
-
-    /**
-     * @var int
-     */
-    public const RIO_GALLEGOS = 324;
-
-    /**
-     * @var int
-     */
-    public const RIYADH = 325;
-
-    /**
-     * @var int
-     */
-    public const ROME = 326;
-
-    /**
-     * @var int
-     */
-    public const ROTHERA = 327;
-
-    /**
-     * @var int
-     */
-    public const SAIPAN = 328;
-
-    /**
-     * @var int
-     */
-    public const SAKHALIN = 329;
-
-    /**
-     * @var int
-     */
-    public const SALTA = 330;
-
-    /**
-     * @var int
-     */
-    public const SAMARA = 331;
-
-    /**
-     * @var int
-     */
-    public const SAMARKAND = 332;
-
-    /**
-     * @var int
-     */
-    public const SAN_JUAN = 333;
-
-    /**
-     * @var int
-     */
-    public const SAN_LUIS = 334;
-
-    /**
-     * @var int
-     */
-    public const SAN_MARINO = 335;
-
-    /**
-     * @var int
-     */
-    public const SANTA_ISABEL = 336;
-
-    /**
-     * @var int
-     */
-    public const SANTAREM = 337;
-
-    /**
-     * @var int
-     */
-    public const SANTIAGO = 338;
-
-    /**
-     * @var int
-     */
-    public const SANTO_DOMINGO = 339;
-
-    /**
-     * @var int
-     */
-    public const SAO_PAULO = 340;
-
-    /**
-     * @var int
-     */
-    public const SAO_TOME = 341;
-
-    /**
-     * @var int
-     */
-    public const SARAJEVO = 342;
-
-    /**
-     * @var int
-     */
-    public const SCORESBYSUND = 343;
-
-    /**
-     * @var int
-     */
-    public const SEOUL = 344;
-
-    /**
-     * @var int
-     */
-    public const SHANGHAI = 345;
-
-    /**
-     * @var int
-     */
-    public const SIMFEROPOL = 346;
-
-    /**
-     * @var int
-     */
-    public const SINGAPORE = 347;
-
-    /**
-     * @var int
-     */
-    public const SITKA = 348;
-
-    /**
-     * @var int
-     */
-    public const SKOPJE = 349;
-
-    /**
-     * @var int
-     */
-    public const SOFIA = 350;
-
-    /**
-     * @var int
-     */
-    public const SOUTH_GEORGIA = 351;
-
-    /**
-     * @var int
-     */
-    public const SREDNEKOLYMSK = 352;
-
-    /**
-     * @var int
-     */
-    public const ST_BARTHELEMY = 353;
-
-    /**
-     * @var int
-     */
-    public const ST_HELENA = 354;
-
-    /**
-     * @var int
-     */
-    public const ST_JOHNS = 355;
-
-    /**
-     * @var int
-     */
-    public const ST_KITTS = 356;
-
-    /**
-     * @var int
-     */
-    public const ST_LUCIA = 357;
-
-    /**
-     * @var int
-     */
-    public const ST_THOMAS = 358;
-
-    /**
-     * @var int
-     */
-    public const ST_VINCENT = 359;
-
-    /**
-     * @var int
-     */
-    public const STANLEY = 360;
-
-    /**
-     * @var int
-     */
-    public const STOCKHOLM = 361;
-
-    /**
-     * @var int
-     */
-    public const SWIFT_CURRENT = 362;
-
-    /**
-     * @var int
-     */
-    public const SYDNEY = 363;
-
-    /**
-     * @var int
-     */
-    public const SYOWA = 364;
-
-    /**
-     * @var int
-     */
-    public const TAHITI = 365;
-
-    /**
-     * @var int
-     */
-    public const TAIPEI = 366;
-
-    /**
-     * @var int
-     */
-    public const TALLINN = 367;
-
-    /**
-     * @var int
-     */
-    public const TARAWA = 368;
-
-    /**
-     * @var int
-     */
-    public const TASHKENT = 369;
-
-    /**
-     * @var int
-     */
-    public const TBILISI = 370;
-
-    /**
-     * @var int
-     */
-    public const TEGUCIGALPA = 371;
-
-    /**
-     * @var int
-     */
-    public const TEHRAN = 372;
-
-    /**
-     * @var int
-     */
-    public const TELL_CITY = 373;
-
-    /**
-     * @var int
-     */
-    public const THIMPHU = 374;
-
-    /**
-     * @var int
-     */
-    public const THULE = 375;
-
-    /**
-     * @var int
-     */
-    public const THUNDER_BAY = 376;
-
-    /**
-     * @var int
-     */
-    public const TIJUANA = 377;
-
-    /**
-     * @var int
-     */
-    public const TIRANE = 378;
-
-    /**
-     * @var int
-     */
-    public const TOKYO = 379;
-
-    /**
-     * @var int
-     */
-    public const TONGATAPU = 380;
-
-    /**
-     * @var int
-     */
-    public const TORONTO = 381;
-
-    /**
-     * @var int
-     */
-    public const TORTOLA = 382;
-
-    /**
-     * @var int
-     */
-    public const TRIPOLI = 383;
-
-    /**
-     * @var int
-     */
-    public const TROLL = 384;
-
-    /**
-     * @var int
-     */
-    public const TUCUMAN = 385;
-
-    /**
-     * @var int
-     */
-    public const TUNIS = 386;
-
-    /**
-     * @var int
-     */
-    public const ULAANBAATAR = 387;
-
-    /**
-     * @var int
-     */
-    public const URUMQI = 388;
-
-    /**
-     * @var int
-     */
-    public const USHUAIA = 389;
-
-    /**
-     * @var int
-     */
-    public const UST_NERA = 390;
-
-    /**
-     * @var int
-     */
-    public const VADUZ = 392;
-
-    /**
-     * @var int
-     */
-    public const VANCOUVER = 393;
-
-    /**
-     * @var int
-     */
-    public const VATICAN = 394;
-
-    /**
-     * @var int
-     */
-    public const VEVAY = 395;
-
-    /**
-     * @var int
-     */
-    public const VIENNA = 396;
-
-    /**
-     * @var int
-     */
-    public const VIENTIANE = 397;
-
-    /**
-     * @var int
-     */
-    public const VILNIUS = 398;
-
-    /**
-     * @var int
-     */
-    public const VINCENNES = 399;
-
-    /**
-     * @var int
-     */
-    public const VLADIVOSTOK = 400;
-
-    /**
-     * @var int
-     */
-    public const VOLGOGRAD = 401;
-
-    /**
-     * @var int
-     */
-    public const VOSTOK = 402;
-
-    /**
-     * @var int
-     */
-    public const WAKE = 403;
-
-    /**
-     * @var int
-     */
-    public const WALLIS = 404;
-
-    /**
-     * @var int
-     */
-    public const WARSAW = 405;
-
-    /**
-     * @var int
-     */
-    public const WHITEHORSE = 406;
-
-    /**
-     * @var int
-     */
-    public const WINAMAC = 407;
-
-    /**
-     * @var int
-     */
-    public const WINDHOEK = 408;
-
-    /**
-     * @var int
-     */
-    public const WINNIPEG = 409;
-
-    /**
-     * @var int
-     */
-    public const YAKUTAT = 410;
-
-    /**
-     * @var int
-     */
-    public const YAKUTSK = 411;
-
-    /**
-     * @var int
-     */
-    public const YEKATERINBURG = 412;
-
-    /**
-     * @var int
-     */
-    public const YELLOWKNIFE = 413;
-
-    /**
-     * @var int
-     */
-    public const YEREVAN = 414;
-
-    /**
-     * @var int
-     */
-    public const ZAGREB = 415;
-
-    /**
-     * @var int
-     */
-    public const ZURICH = 417;
+    public const int UTC = 0;
+
+    public const int ABIDJAN = 1;
+
+    public const int ACCRA = 2;
+
+    public const int ADAK = 3;
+
+    public const int ADDIS_ABABA = 4;
+
+    public const int ADELAIDE = 5;
+
+    public const int ADEN = 6;
+
+    public const int ALGIERS = 7;
+
+    public const int ALMATY = 8;
+
+    public const int AMMAN = 9;
+
+    public const int AMSTERDAM = 10;
+
+    public const int ANADYR = 11;
+
+    public const int ANCHORAGE = 12;
+
+    public const int ANDORRA = 13;
+
+    public const int ANGUILLA = 14;
+
+    public const int ANTANANARIVO = 15;
+
+    public const int ANTIGUA = 16;
+
+    public const int APIA = 17;
+
+    public const int AQTAU = 18;
+
+    public const int AQTOBE = 19;
+
+    public const int ARAGUAINA = 20;
+
+    public const int ARUBA = 21;
+
+    public const int ASHGABAT = 22;
+
+    public const int ASMARA = 23;
+
+    public const int ASUNCION = 24;
+
+    public const int ATHENS = 25;
+
+    public const int ATIKOKAN = 26;
+
+    public const int AUCKLAND = 27;
+
+    public const int AZORES = 28;
+
+    public const int BAGHDAD = 29;
+
+    public const int BAHIA = 30;
+
+    public const int BAHIA_BANDERAS = 31;
+
+    public const int BAHRAIN = 32;
+
+    public const int BAKU = 33;
+
+    public const int BAMAKO = 34;
+
+    public const int BANGKOK = 35;
+
+    public const int BANGUI = 36;
+
+    public const int BANJUL = 37;
+
+    public const int BARBADOS = 38;
+
+    public const int BEIRUT = 39;
+
+    public const int BELEM = 40;
+
+    public const int BELGRADE = 41;
+
+    public const int BELIZE = 42;
+
+    public const int BERLIN = 43;
+
+    public const int BERMUDA = 44;
+
+    public const int BEULAH = 45;
+
+    public const int BISHKEK = 46;
+
+    public const int BISSAU = 47;
+
+    public const int BLANC_SABLON = 48;
+
+    public const int BLANTYRE = 49;
+
+    public const int BOA_VISTA = 50;
+
+    public const int BOGOTA = 51;
+
+    public const int BOISE = 52;
+
+    public const int BOUGAINVILLE = 53;
+
+    public const int BRATISLAVA = 54;
+
+    public const int BRAZZAVILLE = 55;
+
+    public const int BRISBANE = 56;
+
+    public const int BROKEN_HILL = 57;
+
+    public const int BRUNEI = 58;
+
+    public const int BRUSSELS = 59;
+
+    public const int BUCHAREST = 60;
+
+    public const int BUDAPEST = 61;
+
+    public const int BUENOS_AIRES = 62;
+
+    public const int BUJUMBURA = 63;
+
+    public const int BUSINGEN = 64;
+
+    public const int CAIRO = 65;
+
+    public const int CAMBRIDGE_BAY = 66;
+
+    public const int CAMPO_GRANDE = 67;
+
+    public const int CANARY = 68;
+
+    public const int CANCUN = 69;
+
+    public const int CAPE_VERDE = 70;
+
+    public const int CARACAS = 71;
+
+    public const int CASABLANCA = 72;
+
+    public const int CASEY = 73;
+
+    public const int CATAMARCA = 74;
+
+    public const int CAYENNE = 75;
+
+    public const int CAYMAN = 76;
+
+    public const int CENTER = 77;
+
+    public const int CEUTA = 78;
+
+    public const int CHAGOS = 79;
+
+    public const int CHATHAM = 80;
+
+    public const int CHICAGO = 81;
+
+    public const int CHIHUAHUA = 82;
+
+    public const int CHISINAU = 83;
+
+    public const int CHITA = 84;
+
+    public const int CHRISTMAS = 86;
+
+    public const int CHUUK = 87;
+
+    public const int COCOS = 88;
+
+    public const int COLOMBO = 89;
+
+    public const int COMORO = 90;
+
+    public const int CONAKRY = 91;
+
+    public const int COPENHAGEN = 92;
+
+    public const int CORDOBA = 93;
+
+    public const int COSTA_RICA = 94;
+
+    public const int CRESTON = 95;
+
+    public const int CUIABA = 96;
+
+    public const int CURACAO = 97;
+
+    public const int CURRIE = 98;
+
+    public const int DAKAR = 99;
+
+    public const int DAMASCUS = 100;
+
+    public const int DANMARKSHAVN = 101;
+
+    public const int DAR_ES_SALAAM = 102;
+
+    public const int DARWIN = 103;
+
+    public const int DAVIS = 104;
+
+    public const int DAWSON = 105;
+
+    public const int DAWSON_CREEK = 106;
+
+    public const int DENVER = 107;
+
+    public const int DETROIT = 108;
+
+    public const int DHAKA = 109;
+
+    public const int DILI = 110;
+
+    public const int DJIBOUTI = 111;
+
+    public const int DOMINICA = 112;
+
+    public const int DOUALA = 113;
+
+    public const int DUBAI = 114;
+
+    public const int DUBLIN = 115;
+
+    public const int DUMONTDURVILLE = 116;
+
+    public const int DUSHANBE = 117;
+
+    public const int EASTER = 118;
+
+    public const int EDMONTON = 119;
+
+    public const int EFATE = 120;
+
+    public const int EIRUNEPE = 121;
+
+    public const int EL_AAIUN = 122;
+
+    public const int EL_SALVADOR = 123;
+
+    public const int EUCLA = 125;
+
+    public const int FAKAOFO = 126;
+
+    public const int FAROE = 127;
+
+    public const int FIJI = 128;
+
+    public const int FORT_NELSON = 129;
+
+    public const int FORTALEZA = 130;
+
+    public const int FREETOWN = 131;
+
+    public const int FUNAFUTI = 132;
+
+    public const int GABORONE = 133;
+
+    public const int GALAPAGOS = 134;
+
+    public const int GAMBIER = 135;
+
+    public const int GAZA = 136;
+
+    public const int GIBRALTAR = 137;
+
+    public const int GLACE_BAY = 138;
+
+    public const int GOOSE_BAY = 140;
+
+    public const int GRAND_TURK = 141;
+
+    public const int GRENADA = 142;
+
+    public const int GUADALCANAL = 143;
+
+    public const int GUADELOUPE = 144;
+
+    public const int GUAM = 145;
+
+    public const int GUATEMALA = 146;
+
+    public const int GUAYAQUIL = 147;
+
+    public const int GUERNSEY = 148;
+
+    public const int GUYANA = 149;
+
+    public const int HALIFAX = 150;
+
+    public const int HARARE = 151;
+
+    public const int HAVANA = 152;
+
+    public const int HEBRON = 153;
+
+    public const int HELSINKI = 154;
+
+    public const int HERMOSILLO = 155;
+
+    public const int HO_CHI_MINH = 156;
+
+    public const int HOBART = 157;
+
+    public const int HONG_KONG = 158;
+
+    public const int HONOLULU = 159;
+
+    public const int HOVD = 160;
+
+    public const int INDIANAPOLIS = 161;
+
+    public const int INUVIK = 162;
+
+    public const int IQALUIT = 163;
+
+    public const int IRKUTSK = 164;
+
+    public const int ISLE_OF_MAN = 165;
+
+    public const int ISTANBUL = 166;
+
+    public const int JAKARTA = 167;
+
+    public const int JAMAICA = 168;
+
+    public const int JAYAPURA = 169;
+
+    public const int JERSEY = 170;
+
+    public const int JERUSALEM = 171;
+
+    public const int JOHANNESBURG = 172;
+
+    public const int JOHNSTON = 173;
+
+    public const int JUBA = 174;
+
+    public const int JUJUY = 175;
+
+    public const int JUNEAU = 176;
+
+    public const int KABUL = 177;
+
+    public const int KALININGRAD = 178;
+
+    public const int KAMCHATKA = 179;
+
+    public const int KAMPALA = 180;
+
+    public const int KARACHI = 181;
+
+    public const int KATHMANDU = 182;
+
+    public const int KERGUELEN = 183;
+
+    public const int KHANDYGA = 184;
+
+    public const int KHARTOUM = 185;
+
+    public const int KIGALI = 187;
+
+    public const int KINSHASA = 188;
+
+    public const int KIRITIMATI = 189;
+
+    public const int KNOX = 190;
+
+    public const int KOLKATA = 191;
+
+    public const int KOSRAE = 192;
+
+    public const int KRALENDIJK = 193;
+
+    public const int KRASNOYARSK = 194;
+
+    public const int KUALA_LUMPUR = 195;
+
+    public const int KUCHING = 196;
+
+    public const int KUWAIT = 197;
+
+    public const int KWAJALEIN = 198;
+
+    public const int LA_PAZ = 199;
+
+    public const int LA_RIOJA = 200;
+
+    public const int LAGOS = 201;
+
+    public const int LIBREVILLE = 202;
+
+    public const int LIMA = 203;
+
+    public const int LINDEMAN = 204;
+
+    public const int LISBON = 205;
+
+    public const int LJUBLJANA = 206;
+
+    public const int LOME = 207;
+
+    public const int LONDON = 208;
+
+    public const int LONGYEARBYEN = 209;
+
+    public const int LORD_HOWE = 210;
+
+    public const int LOS_ANGELES = 211;
+
+    public const int LOUISVILLE = 212;
+
+    public const int LOWER_PRINCES = 213;
+
+    public const int LUANDA = 214;
+
+    public const int LUBUMBASHI = 215;
+
+    public const int LUSAKA = 216;
+
+    public const int LUXEMBOURG = 217;
+
+    public const int MACAU = 218;
+
+    public const int MACEIO = 219;
+
+    public const int MACQUARIE = 220;
+
+    public const int MADEIRA = 221;
+
+    public const int MADRID = 222;
+
+    public const int MAGADAN = 223;
+
+    public const int MAHE = 224;
+
+    public const int MAJURO = 225;
+
+    public const int MAKASSAR = 226;
+
+    public const int MALABO = 227;
+
+    public const int MALDIVES = 228;
+
+    public const int MALTA = 229;
+
+    public const int MANAGUA = 230;
+
+    public const int MANAUS = 231;
+
+    public const int MANILA = 232;
+
+    public const int MAPUTO = 233;
+
+    public const int MARENGO = 234;
+
+    public const int MARIEHAMN = 235;
+
+    public const int MARIGOT = 236;
+
+    public const int MARQUESAS = 237;
+
+    public const int MARTINIQUE = 238;
+
+    public const int MASERU = 239;
+
+    public const int MATAMOROS = 240;
+
+    public const int MAURITIUS = 241;
+
+    public const int MAWSON = 242;
+
+    public const int MAYOTTE = 243;
+
+    public const int MAZATLAN = 244;
+
+    public const int MBABANE = 245;
+
+    public const int MCMURDO = 246;
+
+    public const int MELBOURNE = 247;
+
+    public const int MENDOZA = 248;
+
+    public const int MENOMINEE = 249;
+
+    public const int MERIDA = 250;
+
+    public const int METLAKATLA = 251;
+
+    public const int MEXICO_CITY = 252;
+
+    public const int MIDWAY = 253;
+
+    public const int MINSK = 254;
+
+    public const int MIQUELON = 255;
+
+    public const int MOGADISHU = 256;
+
+    public const int MONACO = 257;
+
+    public const int MONCTON = 258;
+
+    public const int MONROVIA = 259;
+
+    public const int MONTERREY = 260;
+
+    public const int MONTEVIDEO = 261;
+
+    public const int MONTICELLO = 262;
+
+    public const int MONTSERRAT = 263;
+
+    public const int MOSCOW = 264;
+
+    public const int MUSCAT = 265;
+
+    public const int NAIROBI = 266;
+
+    public const int NASSAU = 267;
+
+    public const int NAURU = 268;
+
+    public const int NDJAMENA = 269;
+
+    public const int NEW_SALEM = 270;
+
+    public const int NEW_YORK = 271;
+
+    public const int NIAMEY = 272;
+
+    public const int NICOSIA = 273;
+
+    public const int NIPIGON = 274;
+
+    public const int NIUE = 275;
+
+    public const int NOME = 276;
+
+    public const int NORFOLK = 277;
+
+    public const int NORONHA = 278;
+
+    public const int NOUAKCHOTT = 279;
+
+    public const int NOUMEA = 280;
+
+    public const int NOVOKUZNETSK = 281;
+
+    public const int NOVOSIBIRSK = 282;
+
+    public const int OJINAGA = 283;
+
+    public const int OMSK = 284;
+
+    public const int ORAL = 285;
+
+    public const int OSLO = 286;
+
+    public const int OUAGADOUGOU = 287;
+
+    public const int PAGO_PAGO = 288;
+
+    public const int PALAU = 289;
+
+    public const int PALMER = 290;
+
+    public const int PANAMA = 291;
+
+    public const int PANGNIRTUNG = 292;
+
+    public const int PARAMARIBO = 293;
+
+    public const int PARIS = 294;
+
+    public const int PERTH = 295;
+
+    public const int PETERSBURG = 296;
+
+    public const int PHNOM_PENH = 297;
+
+    public const int PHOENIX = 298;
+
+    public const int PITCAIRN = 299;
+
+    public const int PODGORICA = 300;
+
+    public const int POHNPEI = 301;
+
+    public const int PONTIANAK = 302;
+
+    public const int PORT_AU_PRINCE = 303;
+
+    public const int PORT_MORESBY = 304;
+
+    public const int PORT_OF_SPAIN = 305;
+
+    public const int PORTO_NOVO = 306;
+
+    public const int PORTO_VELHO = 307;
+
+    public const int PRAGUE = 308;
+
+    public const int PUERTO_RICO = 309;
+
+    public const int PYONGYANG = 310;
+
+    public const int QATAR = 311;
+
+    public const int QYZYLORDA = 312;
+
+    public const int RAINY_RIVER = 313;
+
+    public const int RANKIN_INLET = 315;
+
+    public const int RAROTONGA = 316;
+
+    public const int RECIFE = 317;
+
+    public const int REGINA = 318;
+
+    public const int RESOLUTE = 319;
+
+    public const int REUNION = 320;
+
+    public const int REYKJAVIK = 321;
+
+    public const int RIGA = 322;
+
+    public const int RIO_BRANCO = 323;
+
+    public const int RIO_GALLEGOS = 324;
+
+    public const int RIYADH = 325;
+
+    public const int ROME = 326;
+
+    public const int ROTHERA = 327;
+
+    public const int SAIPAN = 328;
+
+    public const int SAKHALIN = 329;
+
+    public const int SALTA = 330;
+
+    public const int SAMARA = 331;
+
+    public const int SAMARKAND = 332;
+
+    public const int SAN_JUAN = 333;
+
+    public const int SAN_LUIS = 334;
+
+    public const int SAN_MARINO = 335;
+
+    public const int SANTA_ISABEL = 336;
+
+    public const int SANTAREM = 337;
+
+    public const int SANTIAGO = 338;
+
+    public const int SANTO_DOMINGO = 339;
+
+    public const int SAO_PAULO = 340;
+
+    public const int SAO_TOME = 341;
+
+    public const int SARAJEVO = 342;
+
+    public const int SCORESBYSUND = 343;
+
+    public const int SEOUL = 344;
+
+    public const int SHANGHAI = 345;
+
+    public const int SIMFEROPOL = 346;
+
+    public const int SINGAPORE = 347;
+
+    public const int SITKA = 348;
+
+    public const int SKOPJE = 349;
+
+    public const int SOFIA = 350;
+
+    public const int SOUTH_GEORGIA = 351;
+
+    public const int SREDNEKOLYMSK = 352;
+
+    public const int ST_BARTHELEMY = 353;
+
+    public const int ST_HELENA = 354;
+
+    public const int ST_JOHNS = 355;
+
+    public const int ST_KITTS = 356;
+
+    public const int ST_LUCIA = 357;
+
+    public const int ST_THOMAS = 358;
+
+    public const int ST_VINCENT = 359;
+
+    public const int STANLEY = 360;
+
+    public const int STOCKHOLM = 361;
+
+    public const int SWIFT_CURRENT = 362;
+
+    public const int SYDNEY = 363;
+
+    public const int SYOWA = 364;
+
+    public const int TAHITI = 365;
+
+    public const int TAIPEI = 366;
+
+    public const int TALLINN = 367;
+
+    public const int TARAWA = 368;
+
+    public const int TASHKENT = 369;
+
+    public const int TBILISI = 370;
+
+    public const int TEGUCIGALPA = 371;
+
+    public const int TEHRAN = 372;
+
+    public const int TELL_CITY = 373;
+
+    public const int THIMPHU = 374;
+
+    public const int THULE = 375;
+
+    public const int THUNDER_BAY = 376;
+
+    public const int TIJUANA = 377;
+
+    public const int TIRANE = 378;
+
+    public const int TOKYO = 379;
+
+    public const int TONGATAPU = 380;
+
+    public const int TORONTO = 381;
+
+    public const int TORTOLA = 382;
+
+    public const int TRIPOLI = 383;
+
+    public const int TROLL = 384;
+
+    public const int TUCUMAN = 385;
+
+    public const int TUNIS = 386;
+
+    public const int ULAANBAATAR = 387;
+
+    public const int URUMQI = 388;
+
+    public const int USHUAIA = 389;
+
+    public const int UST_NERA = 390;
+
+    public const int VADUZ = 392;
+
+    public const int VANCOUVER = 393;
+
+    public const int VATICAN = 394;
+
+    public const int VEVAY = 395;
+
+    public const int VIENNA = 396;
+
+    public const int VIENTIANE = 397;
+
+    public const int VILNIUS = 398;
+
+    public const int VINCENNES = 399;
+
+    public const int VLADIVOSTOK = 400;
+
+    public const int VOLGOGRAD = 401;
+
+    public const int VOSTOK = 402;
+
+    public const int WAKE = 403;
+
+    public const int WALLIS = 404;
+
+    public const int WARSAW = 405;
+
+    public const int WHITEHORSE = 406;
+
+    public const int WINAMAC = 407;
+
+    public const int WINDHOEK = 408;
+
+    public const int WINNIPEG = 409;
+
+    public const int YAKUTAT = 410;
+
+    public const int YAKUTSK = 411;
+
+    public const int YEKATERINBURG = 412;
+
+    public const int YELLOWKNIFE = 413;
+
+    public const int YEREVAN = 414;
+
+    public const int ZAGREB = 415;
+
+    public const int ZURICH = 417;
 
     /**
      * @var string[]

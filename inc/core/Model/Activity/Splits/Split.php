@@ -23,15 +23,13 @@ class Split extends StringObject
 {
     /**
      * Separator
-     * @var string
      */
-    public const SEPARATOR = '|';
+    public const string SEPARATOR = '|';
 
     /**
      * Resting flag
-     * @var string
      */
-    public const RESTING = 'R';
+    public const string RESTING = 'R';
 
     /**
      * Distance [km]

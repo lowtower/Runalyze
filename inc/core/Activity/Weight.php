@@ -17,15 +17,9 @@ use Runalyze\Parameter\Application\WeightUnit;
  */
 class Weight implements ValueInterface
 {
-    /**
-     * @var float
-     */
-    public const POUNDS_MULTIPLIER = 2.204622;
+    public const float POUNDS_MULTIPLIER = 2.204622;
 
-    /**
-     * @var float
-     */
-    public const STONES_MULTIPLIER = 0.157473;
+    public const float STONES_MULTIPLIER = 0.157473;
 
     public static int $DefaultDecimals = 1;
 

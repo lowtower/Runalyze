@@ -29,15 +29,15 @@ class BoxedValue
      */
     public static $VALUE_INFO_DIV = 'boxed-value-info';
 
-    protected string $Value = '';
+    protected string $Value;
 
-    protected string $Icon = '';
+    protected string $Icon;
 
-    protected string $Unit = '';
+    protected string $Unit;
 
-    protected string $Info = '';
+    protected string $Info;
 
-    protected string $Glossary = '';
+    protected string $Glossary;
 
     protected string $AdditionalClasses = '';
 

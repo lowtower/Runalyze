@@ -268,7 +268,6 @@ final class ClimbScoreCalculatorTest extends TestCase
             ->method('setClimbScore')
             ->willReturnCallback(function (?float $score) use (&$capturedScore, $activity): Training {
                 $capturedScore = $score;
-
                 return $activity;
             });
 

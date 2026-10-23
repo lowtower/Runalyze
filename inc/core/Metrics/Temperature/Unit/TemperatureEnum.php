@@ -11,13 +11,7 @@ class TemperatureEnum extends AbstractEnum
 {
     use AbstractEnumFactoryTrait;
 
-    /**
-     * @var int
-     */
-    public const CELSIUS = 0;
+    public const int CELSIUS = 0;
 
-    /**
-     * @var int
-     */
-    public const FAHRENHEIT = 1;
+    public const int FAHRENHEIT = 1;
 }

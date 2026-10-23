@@ -10,30 +10,15 @@ use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
 #[ORM\Entity(repositoryClass: PluginRepository::class)]
 class Plugin implements AccountRelatedEntityInterface
 {
-    /**
-     * @var int
-     */
-    public const STATE_INACTIVE = 0;
+    public const int STATE_INACTIVE = 0;
 
-    /**
-     * @var int
-     */
-    public const STATE_ACTIVE = 1;
+    public const int STATE_ACTIVE = 1;
 
-    /**
-     * @var int
-     */
-    public const STATE_HIDDEN = 2;
+    public const int STATE_HIDDEN = 2;
 
-    /**
-     * @var string
-     */
-    public const TYPE_STAT = 'stat';
+    public const string TYPE_STAT = 'stat';
 
-    /**
-     * @var string
-     */
-    public const TYPE_PANEL = 'panel';
+    public const string TYPE_PANEL = 'panel';
 
     #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER, options: [
         'unsigned' => true,

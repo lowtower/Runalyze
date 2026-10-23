@@ -310,7 +310,7 @@ final class ActivityBulkImportCommandAdditionalTest extends TestCase
     public function testCheckStoreMaxZoneHRClonesAndSavesNewUserWhenPulseDiffers(): void
     {
         $newUser = $this->createMock(User::class);
-        $newUser->expects($this->once())->method('setTime')->with(1_700_000_000);
+        $newUser->expects($this->once())->method('setTime')->with(1700000000);
         $newUser->expects($this->once())->method('setPulseMax')->with(200);
         $newUser->expects($this->once())->method('setNotes')->with(
             'New max pulse is set while importing main-sports activity.'

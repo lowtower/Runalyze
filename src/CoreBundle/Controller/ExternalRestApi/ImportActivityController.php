@@ -38,13 +38,13 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class ImportActivityController extends AbstractController
 {
-    public const IMPORT_CMD = 'runalyze:activity:bulk-import';
+    public const string IMPORT_CMD = 'runalyze:activity:bulk-import';
 
-    public const SUCCESS_MSG = 'successfully imported';
+    public const string SUCCESS_MSG = 'successfully imported';
 
-    public const GENERIC_ERROR_MSG = 'ERROR: The import failed. Details have been written to the server log.';
+    public const string GENERIC_ERROR_MSG = 'ERROR: The import failed. Details have been written to the server log.';
 
-    public const TEMP_FOLDER_ERROR_MSG = 'ERROR: Error while creating temp folder!';
+    public const string TEMP_FOLDER_ERROR_MSG = 'ERROR: Error while creating temp folder!';
 
     public function __construct(
         private readonly KernelInterface $kernel,

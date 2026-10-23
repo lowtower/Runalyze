@@ -13,30 +13,15 @@ namespace Runalyze\Sports\Running\Prognosis;
  */
 class Bock implements PrognosisInterface
 {
-    /**
-     * @var float
-     */
-    public const MINIMAL_DISTANCE_FOR_REFERENCE_RESULT = 3.0;
+    public const float MINIMAL_DISTANCE_FOR_REFERENCE_RESULT = 3.0;
 
-    /**
-     * @var float
-     */
-    public const K_LOWER_BOUND = 132.0;
+    public const float K_LOWER_BOUND = 132.0;
 
-    /**
-     * @var float
-     */
-    public const K_UPPER_BOUND = 1800.0;
+    public const float K_UPPER_BOUND = 1800.0;
 
-    /**
-     * @var float
-     */
-    public const E_LOWER_BOUND = 1.0;
+    public const float E_LOWER_BOUND = 1.0;
 
-    /**
-     * @var float
-     */
-    public const E_UPPER_BOUND = 2.0;
+    public const float E_UPPER_BOUND = 2.0;
 
     protected float $K = 0.0;
 

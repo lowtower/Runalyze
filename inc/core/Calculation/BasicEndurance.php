@@ -27,7 +27,7 @@ class BasicEndurance
     /**
      * @var float [ml/kg/min]
      */
-    public const MINIMAL_EFFECTIVE_VO2MAX = 25.0;
+    public const float MINIMAL_EFFECTIVE_VO2MAX = 25.0;
 
     /**
      * @var float [ml/kg/min]

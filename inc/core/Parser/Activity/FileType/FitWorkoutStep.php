@@ -12,13 +12,13 @@ use Runalyze\Activity\LapIntensity;
  */
 class FitWorkoutStep
 {
-    public const ADD_TARGET_SPEED = 'FIT target speed';
+    public const string ADD_TARGET_SPEED = 'FIT target speed';
 
-    public const ADD_TARGET_HR = 'FIT target HR';
+    public const string ADD_TARGET_HR = 'FIT target HR';
 
-    public const ADD_TARGET_CADENCE = 'FIT target cadence';
+    public const string ADD_TARGET_CADENCE = 'FIT target cadence';
 
-    public const ADD_TARGET_POWER = 'FIT target power';
+    public const string ADD_TARGET_POWER = 'FIT target power';
 
     /**
      * @var array array of LapIntensity|null can contain null values

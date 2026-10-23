@@ -19,10 +19,7 @@ use Runalyze\View\Activity;
  */
 class Heartrate extends ActivitySeries
 {
-    /**
-     * @var string
-     */
-    public const COLOR = 'rgb(136,0,0)';
+    public const string COLOR = 'rgb(136,0,0)';
 
     /**
      * @var mixed

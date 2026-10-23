@@ -29,121 +29,97 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 
     /**
      * Cities separator
-     * @var string
      */
-    public const CITIES_SEPARATOR = ' - ';
+    public const string CITIES_SEPARATOR = ' - ';
 
-    /**
-     * @var int
-     */
-    public const PATH_GEOHASH_PRECISION = 12;
+    public const int PATH_GEOHASH_PRECISION = 12;
 
-    /**
-     * @var int
-     */
-    public const BOUNDARIES_GEOHASH_PRECISION = 10;
+    public const int BOUNDARIES_GEOHASH_PRECISION = 10;
 
     /**
      * Key: name
-     * @var string
      */
-    public const NAME = 'name';
+    public const string NAME = 'name';
 
     /**
      * Key: cities
-     * @var string
      */
-    public const CITIES = 'cities';
+    public const string CITIES = 'cities';
 
     /**
      * Key: distance
-     * @var string
      */
-    public const DISTANCE = 'distance';
+    public const string DISTANCE = 'distance';
 
     /**
      * Key: elevation
-     * @var string
      */
-    public const ELEVATION = 'elevation';
+    public const string ELEVATION = 'elevation';
 
     /**
      * Key: elevation up
-     * @var string
      */
-    public const ELEVATION_UP = 'elevation_up';
+    public const string ELEVATION_UP = 'elevation_up';
 
     /**
      * Key: elevation down
-     * @var string
      */
-    public const ELEVATION_DOWN = 'elevation_down';
+    public const string ELEVATION_DOWN = 'elevation_down';
 
     /**
      * Key: geohash
-     * @var string
      */
-    public const GEOHASHES = 'geohashes';
+    public const string GEOHASHES = 'geohashes';
 
     /**
      * Key: elevations original
-     * @var string
      */
-    public const ELEVATIONS_ORIGINAL = 'elevations_original';
+    public const string ELEVATIONS_ORIGINAL = 'elevations_original';
 
     /**
      * Key: elevations corrected
-     * @var string
      */
-    public const ELEVATIONS_CORRECTED = 'elevations_corrected';
+    public const string ELEVATIONS_CORRECTED = 'elevations_corrected';
 
     /**
      * Key: elevations source
-     * @var string
      */
-    public const ELEVATIONS_SOURCE = 'elevations_source';
+    public const string ELEVATIONS_SOURCE = 'elevations_source';
 
     /**
      * Key: elevations source
-     * @var string
      */
-    public const ALTITUDE_BAROMETRIC = 'altitude_barometric';
+    public const string ALTITUDE_BAROMETRIC = 'altitude_barometric';
 
     /**
      * Key: startpoint in geohash
-     * @var string
      */
-    public const STARTPOINT = 'startpoint';
+    public const string STARTPOINT = 'startpoint';
 
     /**
      * Key: endpoint in geohash
-     * @var string
      */
-    public const ENDPOINT = 'endpoint';
+    public const string ENDPOINT = 'endpoint';
 
     /**
      * Key: minimal longitude & latitude in geohash
-     * @var string
      */
-    public const MIN = 'min';
+    public const string MIN = 'min';
 
     /**
      * Key: maximal longitude & latitude in geohash
-     * @var string
      */
-    public const MAX = 'max';
+    public const string MAX = 'max';
 
     /**
      * Key: in routenet
-     * @var string
      */
-    public const IN_ROUTENET = 'in_routenet';
+    public const string IN_ROUTENET = 'in_routenet';
 
     /**
      * Key: lock
-     * @var string
      */
-    public const LOCK = 'lock';
+    public const string LOCK = 'lock';
 
     /**
      * Flag: ensure arrays to be equally sized
@@ -271,7 +247,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
      */
     public function properties(): array
     {
-        return static::allProperties();
+        return self::allProperties();
     }
 
     /**

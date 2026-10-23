@@ -9,25 +9,13 @@ use Runalyze\Model\Trackdata;
 
 class JobLoop extends Job
 {
-    /**
-     * @var string
-     */
-    public const ELEVATION = 'activityElevation';
+    public const string ELEVATION = 'activityElevation';
 
-    /**
-     * @var string
-     */
-    public const ELEVATION_OVERWRITE = 'activityElevationOverwrite';
+    public const string ELEVATION_OVERWRITE = 'activityElevationOverwrite';
 
-    /**
-     * @var string
-     */
-    public const VO2MAX = 'activityVO2max';
+    public const string VO2MAX = 'activityVO2max';
 
-    /**
-     * @var string
-     */
-    public const TRIMP = 'activityTrimp';
+    public const string TRIMP = 'activityTrimp';
 
     /**
      * @var array

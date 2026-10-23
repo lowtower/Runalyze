@@ -23,9 +23,8 @@ class TableZonesPace extends TableZonesAbstract
 {
     /**
      * Step size to smooth pace date
-     * @var int
      */
-    public const STEP_SIZE = 10;
+    public const int STEP_SIZE = 10;
 
     protected \Runalyze\Activity\PaceUnit\AbstractUnit $PaceUnit;
 

@@ -86,10 +86,7 @@ final class TrackdataTest extends \PHPUnit\Framework\TestCase
         $this->Data->getActivity()
             ->getRoute()
             ->setElevationsCorrected(
-                array_fill(0, 10, 0) +
-                        array_fill(10, 20, 50) +
-                        array_fill(30, 20, 100) +
-                        array_fill(50, 11, 50)
+                array_fill(0, 10, 0) + array_fill(10, 20, 50) + array_fill(30, 20, 100) + array_fill(50, 11, 50)
             );
 
         $gradeAdjustedPace = $this->Data->getGradeAdjustedPace();

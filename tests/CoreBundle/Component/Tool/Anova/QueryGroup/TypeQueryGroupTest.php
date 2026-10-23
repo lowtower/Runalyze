@@ -80,7 +80,6 @@ final class TypeQueryGroupTest extends TestCase
         $typeRepository->method('findAllFor')
             ->willReturnCallback(function (Account $requestedAccount) use ($account, $easyRun, $intervalRun, $roadRide): array {
                 $this->assertSame($account, $requestedAccount);
-
                 return [$easyRun, $intervalRun, $roadRide];
             });
 
@@ -88,7 +87,6 @@ final class TypeQueryGroupTest extends TestCase
         $entityManager->method('getRepository')
             ->willReturnCallback(function (string $className) use ($typeRepository): TypeRepository {
                 $this->assertSame(Type::class, $className);
-
                 return $typeRepository;
             });
 

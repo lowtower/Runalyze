@@ -7,7 +7,7 @@ class ClimbProfile implements \Countable
     /**
      * @var float [m]
      */
-    public const DEFAULT_SEGMENT_LENGTH = 0.2;
+    public const float DEFAULT_SEGMENT_LENGTH = 0.2;
 
     /**
      * @var float[] [km]

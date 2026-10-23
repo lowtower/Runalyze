@@ -22,75 +22,63 @@ class Entity extends Model\Entity
 {
     /**
      * Key: official_distance
-     * @var string
      */
-    public const OFFICIAL_DISTANCE = 'official_distance';
+    public const string OFFICIAL_DISTANCE = 'official_distance';
 
     /**
      * Key: official_time
-     * @var string
      */
-    public const OFFICIAL_TIME = 'official_time';
+    public const string OFFICIAL_TIME = 'official_time';
 
     /**
      * Key: offically_measured
-     * @var string
      */
-    public const OFFICIALLY_MEASURED = 'officially_measured';
+    public const string OFFICIALLY_MEASURED = 'officially_measured';
 
     /**
      * Key: name
-     * @var string
      */
-    public const NAME = 'name';
+    public const string NAME = 'name';
 
     /**
      * Key: place_total
-     * @var string
      */
-    public const PLACE_TOTAL = 'place_total';
+    public const string PLACE_TOTAL = 'place_total';
 
     /**
      * Key: place_gender
-     * @var string
      */
-    public const PLACE_GENDER = 'place_gender';
+    public const string PLACE_GENDER = 'place_gender';
 
     /**
      * Key: place_ageclass
-     * @var string
      */
-    public const PLACE_AGECLASS = 'place_ageclass';
+    public const string PLACE_AGECLASS = 'place_ageclass';
 
     /**
      * Key: participants_total
-     * @var string
      */
-    public const PARTICIPANTS_TOTAL = 'participants_total';
+    public const string PARTICIPANTS_TOTAL = 'participants_total';
 
     /**
      * Key: participants_gender
-     * @var string
      */
-    public const PARTICIPANTS_GENDER = 'participants_gender';
+    public const string PARTICIPANTS_GENDER = 'participants_gender';
 
     /**
      * Key: participants_ageclass
-     * @var string
      */
-    public const PARTICIPANTS_AGECLASS = 'participants_ageclass';
+    public const string PARTICIPANTS_AGECLASS = 'participants_ageclass';
 
     /**
      * Key: activity id
-     * @var string
      */
-    public const ACTIVITY_ID = 'activity_id';
+    public const string ACTIVITY_ID = 'activity_id';
 
     /**
      * Key: account id
-     * @var string
      */
-    public const ACCOUNTID = 'accountid';
+    public const string ACCOUNTID = 'accountid';
 
     /**
      * All properties
@@ -118,7 +106,7 @@ class Entity extends Model\Entity
      */
     public function properties(): array
     {
-        return static::allDatabaseProperties();
+        return self::allDatabaseProperties();
     }
 
     /**

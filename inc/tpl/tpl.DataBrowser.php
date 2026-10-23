@@ -145,7 +145,7 @@ foreach ($this->getDays() as $i => $day) {
 
             $Context->setActivityData($Training);
 
-            echo $this->codeForAdditionalColumnsForActivity($Table, $Context);
+            echo $this->codeForAdditionalColumnsForActivity();
             echo $Table->codeForColumns($Context);
 
             echo '</tr>';

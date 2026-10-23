@@ -14,20 +14,11 @@ namespace Runalyze\Data\Weather;
  */
 class Temperature
 {
-    /**
-     * @var int
-     */
-    public const CELSIUS = 0;
+    public const int CELSIUS = 0;
 
-    /**
-     * @var int
-     */
-    public const FAHRENHEIT = 1;
+    public const int FAHRENHEIT = 1;
 
-    /**
-     * @var int
-     */
-    public const KELVIN = 2;
+    public const int KELVIN = 2;
 
     /**
      * Unit
@@ -37,7 +28,7 @@ class Temperature
     /**
      * Temperature in celsius
      */
-    protected ?float $inCelsius = null;
+    protected ?float $inCelsius;
 
     public function __construct(?float $value = null, ?int $unit = self::CELSIUS)
     {

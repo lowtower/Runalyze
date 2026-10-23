@@ -6,20 +6,11 @@ namespace Runalyze\Bundle\CoreBundle\Component\Tool\Backup;
 
 class FilenameHandler
 {
-    /**
-     * @var string
-     */
-    public const FILENAME_PREFIX = 'runalyze-backup';
+    public const string FILENAME_PREFIX = 'runalyze-backup';
 
-    /**
-     * @var string
-     */
-    public const JSON_FORMAT = 'json.gz';
+    public const string JSON_FORMAT = 'json.gz';
 
-    /**
-     * @var string
-     */
-    public const SQL_FORMAT = 'sql.gz';
+    public const string SQL_FORMAT = 'sql.gz';
 
     protected string $RunalyzeVersion = 'x';
 

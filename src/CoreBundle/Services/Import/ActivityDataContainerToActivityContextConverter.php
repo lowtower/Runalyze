@@ -31,12 +31,12 @@ class ActivityDataContainerToActivityContextConverter
      * @var int number of decimals
      */
     // #TSC change to a precision of 3 not meaninful, because the database has only 2
-    public const DISTANCE_PRECISION_FOR_ACTIVITY_DATA = 2;
+    public const int DISTANCE_PRECISION_FOR_ACTIVITY_DATA = 2;
 
     /**
      * @var int number of decimals
      */
-    public const DISTANCE_PRECISION_FOR_TRACK_DATA = 5;
+    public const int DISTANCE_PRECISION_FOR_TRACK_DATA = 5;
 
     public function __construct(
         protected SportRepository $SportRepository,

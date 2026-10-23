@@ -15,17 +15,14 @@ class HeartRateBasedEstimator
     /**
      * @var float [kg]
      */
-    public const DEFAULT_WEIGHT_MALE = 75.0;
+    public const float DEFAULT_WEIGHT_MALE = 75.0;
 
     /**
      * @var float [kg]
      */
-    public const DEFAULT_WEIGHT_FEMALE = 65.0;
+    public const float DEFAULT_WEIGHT_FEMALE = 65.0;
 
-    /**
-     * @var int
-     */
-    public const DEFAULT_AGE = 35;
+    public const int DEFAULT_AGE = 35;
 
     protected Energy $Energy;
 

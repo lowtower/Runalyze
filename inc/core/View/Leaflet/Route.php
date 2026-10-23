@@ -18,7 +18,7 @@ use League\Geotools\Geotools;
  */
 class Route
 {
-    protected ?int $id = null;
+    protected ?int $id;
 
     /**
      * JS-marker

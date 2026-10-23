@@ -18,26 +18,24 @@ class Calculator
      * Acceleration due to gravity
      * @var float [m/s^2]
      */
-    public const GRAVITY = 9.81;
+    public const float GRAVITY = 9.81;
 
     /**
      * Coefficient of rolling resistance
      * Typically 0.004 but can be as high as 0.008 for bad asphalt or as low as 0.001 for a wooden track
-     * @var float
      */
-    public const CRR = 0.004;
+    public const float CRR = 0.004;
 
     /**
      * Drag coefficient
-     * @var float
      */
-    public const CW = 0.5;
+    public const float CW = 0.5;
 
     /**
      * Effective frontal area of the rider and bicycle
      * @var float [m^2]
      */
-    public const AREA = 0.5;
+    public const float AREA = 0.5;
 
     protected int $Size;
 

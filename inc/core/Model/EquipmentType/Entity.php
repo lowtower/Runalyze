@@ -22,36 +22,32 @@ class Entity extends Model\EntityWithID
     /**
      * @var int enum
      */
-    public const CHOICE_SINGLE = 0;
+    public const int CHOICE_SINGLE = 0;
 
     /**
      * @var int enum
      */
-    public const CHOICE_MULTIPLE = 1;
+    public const int CHOICE_MULTIPLE = 1;
 
     /**
      * Key: name
-     * @var string
      */
-    public const NAME = 'name';
+    public const string NAME = 'name';
 
     /**
      * Key: input
-     * @var string
      */
-    public const INPUT = 'input';
+    public const string INPUT = 'input';
 
     /**
      * Key: max distance
-     * @var string
      */
-    public const MAX_KM = 'max_km';
+    public const string MAX_KM = 'max_km';
 
     /**
      * Key: max duration
-     * @var string
      */
-    public const MAX_TIME = 'max_time';
+    public const string MAX_TIME = 'max_time';
 
     /**
      * All properties
@@ -72,7 +68,7 @@ class Entity extends Model\EntityWithID
      */
     public function properties(): array
     {
-        return static::allDatabaseProperties();
+        return self::allDatabaseProperties();
     }
 
     public function synchronize(): void

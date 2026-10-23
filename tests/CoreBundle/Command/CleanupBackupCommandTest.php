@@ -106,10 +106,7 @@ final class CleanupBackupCommandTest extends TestCase
     {
         $this->parameterBag
             ->method('get')
-            ->willReturnMap([
-                ['app.data_directory', $this->tempDataDirectory],
-                ['app.backup_storage_period', 15],
-            ]);
+            ->willReturnMap([['app.data_directory', $this->tempDataDirectory], ['app.backup_storage_period', 15]]);
 
         $tester = new CommandTester($this->createCommand());
         $exitCode = $tester->execute([]);
@@ -122,9 +119,7 @@ final class CleanupBackupCommandTest extends TestCase
     {
         $this->parameterBag
             ->method('get')
-            ->willReturnMap([
-                ['app.data_directory', $this->tempDataDirectory],
-            ]);
+            ->willReturnMap([['app.data_directory', $this->tempDataDirectory]]);
 
         $tester = new CommandTester($this->createCommand());
         $exitCode = $tester->execute([
@@ -143,9 +138,7 @@ final class CleanupBackupCommandTest extends TestCase
 
         $this->parameterBag
             ->method('get')
-            ->willReturnMap([
-                ['app.data_directory', $this->tempDataDirectory],
-            ]);
+            ->willReturnMap([['app.data_directory', $this->tempDataDirectory]]);
 
         $tester = new CommandTester($this->createCommand());
         $exitCode = $tester->execute([
@@ -168,9 +161,7 @@ final class CleanupBackupCommandTest extends TestCase
 
         $this->parameterBag
             ->method('get')
-            ->willReturnMap([
-                ['app.data_directory', $this->tempDataDirectory],
-            ]);
+            ->willReturnMap([['app.data_directory', $this->tempDataDirectory]]);
 
         $tester = new CommandTester($this->createCommand());
         $exitCode = $tester->execute([
@@ -195,9 +186,7 @@ final class CleanupBackupCommandTest extends TestCase
 
         $this->parameterBag
             ->method('get')
-            ->willReturnMap([
-                ['app.data_directory', $this->tempDataDirectory],
-            ]);
+            ->willReturnMap([['app.data_directory', $this->tempDataDirectory]]);
 
         $tester = new CommandTester($this->createCommand(null, $finderFactory));
         $tester->execute([

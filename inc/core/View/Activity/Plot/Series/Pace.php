@@ -28,10 +28,7 @@ class Pace extends ActivitySeries
      */
     private static int $CUT_OUTLIER_PERCENTAGE = 10;
 
-    /**
-     * @var string
-     */
-    public const COLOR = 'rgb(0,0,136)';
+    public const string COLOR = 'rgb(0,0,136)';
 
     protected bool $isRunning;
 

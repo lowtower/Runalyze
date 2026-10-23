@@ -10,20 +10,11 @@ use Runalyze\Util\InterfaceChoosable;
 
 class DataBrowserRowProfile extends AbstractEnum implements InterfaceChoosable
 {
-    /**
-     * @var int
-     */
-    public const COMPLETE_ROW = 0;
+    public const int COMPLETE_ROW = 0;
 
-    /**
-     * @var int
-     */
-    public const ONLY_ICON = 1;
+    public const int ONLY_ICON = 1;
 
-    /**
-     * @var int
-     */
-    public const INHERIT_FROM_PARENT = 2;
+    public const int INHERIT_FROM_PARENT = 2;
 
     /**
      * @throws InvalidArgumentException if $id does not match a known enum value

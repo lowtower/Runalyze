@@ -20,30 +20,15 @@ namespace Runalyze\View;
  */
 class Icon
 {
-    /**
-     * @var string
-     */
-    public const INFO = 'fa-info-circle';
+    public const string INFO = 'fa-info-circle';
 
-    /**
-     * @var string
-     */
-    public const CLOCK = 'far fa-clock';
+    public const string CLOCK = 'far fa-clock';
 
-    /**
-     * @var string
-     */
-    public const CLOCK_GRAY = 'far fa-clock unimportant';
+    public const string CLOCK_GRAY = 'far fa-clock unimportant';
 
-    /**
-     * @var string
-     */
-    public const HEART = 'fa-heart';
+    public const string HEART = 'fa-heart';
 
-    /**
-     * @var string
-     */
-    public const MAP_ARROW = 'fa-location-arrow';
+    public const string MAP_ARROW = 'fa-location-arrow';
 
     /**
      * Text for tooltip

@@ -10,10 +10,7 @@ use Runalyze\View\Activity;
 
 class GradeAdjustedPace extends Pace
 {
-    /**
-     * @var string
-     */
-    public const COLOR = 'rgb(100,184,100)';
+    public const string COLOR = 'rgb(100,184,100)';
 
     protected bool $adjustAxis = false;
 

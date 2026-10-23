@@ -8,7 +8,7 @@ use Runalyze\Profile\Athlete\Gender;
 
 class Athlete
 {
-    protected ?int $Gender = null;
+    protected ?int $Gender;
 
     /**
      * @param null|int $Gender see \Runalyze\Profile\Athlete\Gender

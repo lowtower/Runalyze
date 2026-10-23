@@ -18,10 +18,7 @@ use Runalyze\View\Activity;
  */
 class HRV extends ActivityPointSeries
 {
-    /**
-     * @var string
-     */
-    public const COLOR = 'rgb(0,0,0)';
+    public const string COLOR = 'rgb(0,0,0)';
 
     protected int $PointSize = 1;
 

@@ -24,21 +24,18 @@ class WeekStart extends \Runalyze\Parameter\Select
 {
     /**
      * Monday
-     * @var int
      */
-    public const MONDAY = 1;
+    public const int MONDAY = 1;
 
     /**
      * Saturday
-     * @var int
      */
-    public const SATURDAY = 6;
+    public const int SATURDAY = 6;
 
     /**
      * Sunday
-     * @var int
      */
-    public const SUNDAY = 0;
+    public const int SUNDAY = 0;
 
     public function __construct(int|string $default = self::MONDAY)
     {

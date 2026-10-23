@@ -33,15 +33,13 @@ class Calculator
 {
     /**
      * Default HR max
-     * @var int
      */
-    public const DEFAULT_HR_MAX = 200;
+    public const int DEFAULT_HR_MAX = 200;
 
     /**
      * Default HR rest
-     * @var int
      */
-    public const DEFAULT_HR_REST = 60;
+    public const int DEFAULT_HR_REST = 60;
 
     protected float $value;
 

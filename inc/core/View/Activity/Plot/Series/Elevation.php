@@ -20,10 +20,7 @@ use Runalyze\View\Activity;
  */
 class Elevation extends ActivitySeries
 {
-    /**
-     * @var string
-     */
-    public const COLOR = 'rgb(227,217,187)';
+    public const string COLOR = 'rgb(227,217,187)';
 
     /**
      * @var bool

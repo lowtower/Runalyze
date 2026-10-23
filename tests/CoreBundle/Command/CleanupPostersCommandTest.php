@@ -104,10 +104,7 @@ final class CleanupPostersCommandTest extends TestCase
     {
         $this->parameterBag
             ->method('get')
-            ->willReturnMap([
-                ['app.data_directory', $this->tempDataDirectory],
-                ['app.poster_storage_period', 20],
-            ]);
+            ->willReturnMap([['app.data_directory', $this->tempDataDirectory], ['app.poster_storage_period', 20]]);
 
         $tester = new CommandTester($this->createCommand());
         $exitCode = $tester->execute([]);

@@ -14,27 +14,27 @@ class Monotony
     /**
      * @var float Maximum
      */
-    public const MAX = 10.0;
+    public const float MAX = 10.0;
 
     /**
      * @var float Minimum
      */
-    public const MIN = 0.0;
+    public const float MIN = 0.0;
 
     /**
      * @var float Warning
      */
-    public const WARNING = 1.5;
+    public const float WARNING = 1.5;
 
     /**
      * @var float Critical value
      */
-    public const CRITICAL = 2.0;
+    public const float CRITICAL = 2.0;
 
     /**
      * @var int Number of days
      */
-    public const DAYS = 7;
+    public const int DAYS = 7;
 
     protected float $Avg = 0.0;
 
@@ -57,16 +57,16 @@ class Monotony
             return;
         }
 
-        $this->Avg = array_sum($this->Trimp) / static::DAYS;
+        $this->Avg = array_sum($this->Trimp) / self::DAYS;
         $var = 0;
 
         foreach ($this->Trimp as $trimp) {
             $var += ($trimp - $this->Avg) * ($trimp - $this->Avg);
         }
 
-        $var += (static::DAYS - count($this->Trimp)) * $this->Avg * $this->Avg;
+        $var += (self::DAYS - count($this->Trimp)) * $this->Avg * $this->Avg;
 
-        $var /= static::DAYS;
+        $var /= self::DAYS;
 
         $this->Value = ($var == 0) ? self::MAX : $this->Avg / sqrt($var);
     }
@@ -88,7 +88,7 @@ class Monotony
      */
     public function trainingStrain(): float
     {
-        return $this->Avg * static::DAYS * $this->value();
+        return $this->Avg * self::DAYS * $this->value();
     }
 
     public function valueAsPercentage(): float
@@ -105,6 +105,6 @@ class Monotony
             throw new \RuntimeException('Maximum per day needs to be set to get a percentage.');
         }
 
-        return new Scale\Percental(0.0, $this->MaximumPerDay * static::DAYS)->transform($this->trainingStrain());
+        return new Scale\Percental(0.0, $this->MaximumPerDay * self::DAYS)->transform($this->trainingStrain());
     }
 }

@@ -21,15 +21,13 @@ class Entity extends Model\EntityWithID implements Model\Loopable
 {
     /**
      * Key: acitivityid
-     * @var string
      */
-    public const ACTIVITYID = 'activityid';
+    public const string ACTIVITYID = 'activityid';
 
     /**
      * Key: data
-     * @var string
      */
-    public const DATA = 'data';
+    public const string DATA = 'data';
 
     /**
      * @return array<int, string>
@@ -47,7 +45,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable
      */
     public function properties(): array
     {
-        return static::allProperties();
+        return self::allProperties();
     }
 
     /**

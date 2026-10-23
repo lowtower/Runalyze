@@ -11,33 +11,15 @@ class DistanceEnum extends AbstractEnum
 {
     use AbstractEnumFactoryTrait;
 
-    /**
-     * @var int
-     */
-    public const KILOMETER = 0;
+    public const int KILOMETER = 0;
 
-    /**
-     * @var int
-     */
-    public const MILES = 1;
+    public const int MILES = 1;
 
-    /**
-     * @var int
-     */
-    public const METER = 2;
+    public const int METER = 2;
 
-    /**
-     * @var int
-     */
-    public const YARDS = 3;
+    public const int YARDS = 3;
 
-    /**
-     * @var int
-     */
-    public const CENTIMETER = 4;
+    public const int CENTIMETER = 4;
 
-    /**
-     * @var int
-     */
-    public const FEET = 5;
+    public const int FEET = 5;
 }

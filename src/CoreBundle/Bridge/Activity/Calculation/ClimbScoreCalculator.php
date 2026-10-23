@@ -12,12 +12,12 @@ class ClimbScoreCalculator
     /**
      * @var float [m/m]
      */
-    public const CLIMB_GRADIENT_THRESHOLD = 0.02;
+    public const float CLIMB_GRADIENT_THRESHOLD = 0.02;
 
     /**
      * @var float [km]
      */
-    public const CLIMB_DISTANCE_THRESHOLD = 0.1;
+    public const float CLIMB_DISTANCE_THRESHOLD = 0.1;
 
     public function __construct(
         private readonly FietsIndex $fietsIndex,

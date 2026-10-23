@@ -6,10 +6,7 @@ use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 
 class ContinuousDataAdapter
 {
-    /**
-     * @var int
-     */
-    public const RPM_LIMIT_FOR_CORRECTION = 130;
+    public const int RPM_LIMIT_FOR_CORRECTION = 130;
 
     public function __construct(
         protected ContinuousData $ContinuousData

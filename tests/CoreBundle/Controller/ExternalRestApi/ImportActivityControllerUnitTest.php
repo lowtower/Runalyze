@@ -191,10 +191,8 @@ final class ImportActivityControllerUnitTest extends TestCase
             ->method('error')
             ->with(
                 'Activity import via REST API failed.',
-                self::callback(
-                    static fn (array $context): bool => $context['username'] === self::USERNAME
-                        && $context['exception'] instanceof FileException
-                )
+                self::callback(static fn (array $context): bool => $context['username'] === self::USERNAME
+                    && $context['exception'] instanceof FileException)
             );
 
         $controller = $this->createController(logger: $logger);

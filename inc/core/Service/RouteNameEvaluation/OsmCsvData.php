@@ -10,7 +10,7 @@ namespace Runalyze\Service\RouteNameEvaluation;
 class OsmCsvData
 {
     // seperator for the fields in a line
-    public const SEPERATOR = '|';
+    public const string SEPERATOR = '|';
 
     // internal categories
     public static string $CAT_PEAK = 'peak';

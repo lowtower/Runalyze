@@ -24,13 +24,13 @@ class HrZonesCalculator
 {
     // followings formats are allowed: [text:]bpm[:color]
     // examples: 165, 165:#ff0000, Anarob:165:#ff0000 or Anarob:165
-    public const PATTERN = "/^(.{1,25}:)?(\d{2,3})(:#[0-9a-fA-F]{6})?$/";
+    public const string PATTERN = "/^(.{1,25}:)?(\d{2,3})(:#[0-9a-fA-F]{6})?$/";
 
-    public const PATTERN_GRP_TEXT = 1;
+    public const int PATTERN_GRP_TEXT = 1;
 
-    public const PATTERN_GRP_HR = 2;
+    public const int PATTERN_GRP_HR = 2;
 
-    public const PATTERN_GRP_COLOR = 3;
+    public const int PATTERN_GRP_COLOR = 3;
 
     private string $sourceHint = '';
 

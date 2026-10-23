@@ -20,9 +20,9 @@ use Runalyze\Dataset\SummaryMode;
 class HeartrateAverage extends AbstractKey
 {
     // default bound for heart-rate if no user/Athlete configuration exists
-    public const HR_MIN = 40;
+    public const int HR_MIN = 40;
 
-    public const HR_MAX = 220;
+    public const int HR_MAX = 220;
 
     /**
      * Enum id

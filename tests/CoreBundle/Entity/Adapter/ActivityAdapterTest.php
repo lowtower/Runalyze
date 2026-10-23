@@ -77,12 +77,7 @@ final class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
         $this->Activity->getSwimdata()
             ->setStroke([32, 27, 28, 25]);
         $this->Activity->getSwimdata()
-            ->setStroketype([
-                StrokeTypeProfile::FREESTYLE,
-                StrokeTypeProfile::FREESTYLE,
-                StrokeTypeProfile::FREESTYLE,
-                StrokeTypeProfile::FREESTYLE,
-            ]);
+            ->setStroketype([StrokeTypeProfile::FREESTYLE, StrokeTypeProfile::FREESTYLE, StrokeTypeProfile::FREESTYLE, StrokeTypeProfile::FREESTYLE]);
 
         $this->Adapter->calculateValuesForSwimming();
 
@@ -98,13 +93,7 @@ final class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
         $this->Activity->getSwimdata()
             ->setStroke([32, 0, 27, 28, 25]);
         $this->Activity->getSwimdata()
-            ->setStroketype([
-                StrokeTypeProfile::FREESTYLE,
-                StrokeTypeProfile::BREAK,
-                StrokeTypeProfile::FREESTYLE,
-                StrokeTypeProfile::FREESTYLE,
-                StrokeTypeProfile::FREESTYLE,
-            ]);
+            ->setStroketype([StrokeTypeProfile::FREESTYLE, StrokeTypeProfile::BREAK, StrokeTypeProfile::FREESTYLE, StrokeTypeProfile::FREESTYLE, StrokeTypeProfile::FREESTYLE]);
 
         $this->Adapter->calculateValuesForSwimming();
 
@@ -120,11 +109,7 @@ final class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
         $this->Activity->getSwimdata()
             ->setStroke([0, 0, 0]);
         $this->Activity->getSwimdata()
-            ->setStroketype([
-                StrokeTypeProfile::BREAK,
-                StrokeTypeProfile::BREAK,
-                StrokeTypeProfile::BREAK,
-            ]);
+            ->setStroketype([StrokeTypeProfile::BREAK, StrokeTypeProfile::BREAK, StrokeTypeProfile::BREAK]);
 
         $this->Adapter->calculateSwolf();
 
@@ -206,9 +191,7 @@ final class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
         $this->Activity->setRoute(new Route());
         $this->Activity->getRoute()
             ->setElevationsCorrected(
-                array_fill(0, 10, 0) +
-                        array_fill(10, 10, 500) +
-                        array_fill(20, 10, 0)
+                array_fill(0, 10, 0) + array_fill(10, 10, 500) + array_fill(20, 10, 0)
             );
 
         $backupElevations = $this->Activity->getRoute()

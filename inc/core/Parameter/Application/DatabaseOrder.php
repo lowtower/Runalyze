@@ -20,21 +20,18 @@ class DatabaseOrder extends \Runalyze\Parameter\Select
 {
     /**
      * ID: ascending
-     * @var string
      */
-    public const ASC = 'id-asc';
+    public const string ASC = 'id-asc';
 
     /**
      * ID: descending
-     * @var string
      */
-    public const DESC = 'id-desc';
+    public const string DESC = 'id-desc';
 
     /**
      * Alphabetical
-     * @var string
      */
-    public const ALPHA = 'alpha';
+    public const string ALPHA = 'alpha';
 
     /**
      * Construct

@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 #[\Symfony\Component\Console\Attribute\AsCommand(name: 'runalyze:install:database', description: 'Setup RUNALYZE database.')]
 class InstallDatabaseCommand extends Command
 {
-    public const DATABASE_STRUCTURE_FILE = 'inc/install/structure.sql';
+    public const string DATABASE_STRUCTURE_FILE = 'inc/install/structure.sql';
 
     public function __construct(
         private readonly ParameterBagInterface $parameterBag,

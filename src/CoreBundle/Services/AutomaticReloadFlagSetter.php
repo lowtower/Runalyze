@@ -9,40 +9,37 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 class AutomaticReloadFlagSetter
 {
-    /**
-     * @var string
-     */
-    public const FLASH_BAG_KEY = 'ajax.reload.command';
+    public const string FLASH_BAG_KEY = 'ajax.reload.command';
 
     /**
      * @var int enum
      */
-    public const FLAG_DATA_BROWSER = 1;
+    public const int FLAG_DATA_BROWSER = 1;
 
     /**
      * @var int enum
      */
-    public const FLAG_TRAINING = 2;
+    public const int FLAG_TRAINING = 2;
 
     /**
      * @var int enum
      */
-    public const FLAG_TRAINING_AND_DATA_BROWSER = 3;
+    public const int FLAG_TRAINING_AND_DATA_BROWSER = 3;
 
     /**
      * @var int enum
      */
-    public const FLAG_PLUGINS = 4;
+    public const int FLAG_PLUGINS = 4;
 
     /**
      * @var int enum
      */
-    public const FLAG_ALL = 5;
+    public const int FLAG_ALL = 5;
 
     /**
      * @var int enum
      */
-    public const FLAG_PAGE = 6;
+    public const int FLAG_PAGE = 6;
 
     public function __construct(
         protected RequestStack $RequestStack

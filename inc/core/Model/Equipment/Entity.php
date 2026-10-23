@@ -21,51 +21,43 @@ class Entity extends Model\EntityWithID
 {
     /**
      * Key: name
-     * @var string
      */
-    public const NAME = 'name';
+    public const string NAME = 'name';
 
     /**
      * Key: typeid
-     * @var string
      */
-    public const TYPEID = 'typeid';
+    public const string TYPEID = 'typeid';
 
     /**
      * Key: notes
-     * @var string
      */
-    public const NOTES = 'notes';
+    public const string NOTES = 'notes';
 
     /**
      * Key: distance
-     * @var string
      */
-    public const DISTANCE = 'distance';
+    public const string DISTANCE = 'distance';
 
     /**
      * Key: duration
-     * @var string
      */
-    public const TIME = 'time';
+    public const string TIME = 'time';
 
     /**
      * Key: additional distance
-     * @var string
      */
-    public const ADDITIONAL_KM = 'additional_km';
+    public const string ADDITIONAL_KM = 'additional_km';
 
     /**
      * Key: start date
-     * @var string
      */
-    public const DATE_START = 'date_start';
+    public const string DATE_START = 'date_start';
 
     /**
      * Key: end date
-     * @var string
      */
-    public const DATE_END = 'date_end';
+    public const string DATE_END = 'date_end';
 
     /**
      * All properties
@@ -90,7 +82,7 @@ class Entity extends Model\EntityWithID
      */
     public function properties(): array
     {
-        return static::allDatabaseProperties();
+        return self::allDatabaseProperties();
     }
 
     /**

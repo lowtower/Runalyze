@@ -126,7 +126,6 @@ final class AnovaDataQueryBuildQueryTest extends TestCase
             ->willReturnCallback(
                 function (string $name, $value) use (&$setParameterCalls, $queryBuilder): QueryBuilder {
                     $setParameterCalls[$name] = $value;
-
                     return $queryBuilder;
                 }
             );
@@ -169,7 +168,6 @@ final class AnovaDataQueryBuildQueryTest extends TestCase
             ->willReturnCallback(
                 function (string $name, $value) use (&$setParameterCalls, $queryBuilder): QueryBuilder {
                     $setParameterCalls[$name] = $value;
-
                     return $queryBuilder;
                 }
             );
@@ -199,7 +197,6 @@ final class AnovaDataQueryBuildQueryTest extends TestCase
             ->willReturnCallback(
                 function (string $name, $value) use (&$setParameterCalls, $queryBuilder): QueryBuilder {
                     $setParameterCalls[$name] = $value;
-
                     return $queryBuilder;
                 }
             );
@@ -236,7 +233,6 @@ final class AnovaDataQueryBuildQueryTest extends TestCase
             ->willReturnCallback(
                 function (string $name, $value) use (&$setParameterCalls, $queryBuilder): QueryBuilder {
                     $setParameterCalls[$name] = $value;
-
                     return $queryBuilder;
                 }
             );

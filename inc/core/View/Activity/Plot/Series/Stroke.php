@@ -20,10 +20,7 @@ use Runalyze\View\Activity;
  */
 class Stroke extends ActivityPointSeries
 {
-    /**
-     * @var string
-     */
-    public const COLOR = 'rgb(41,128,185)';
+    public const string COLOR = 'rgb(41,128,185)';
 
     /**
      * Create series

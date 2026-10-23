@@ -19,46 +19,21 @@ use Runalyze\Common\Enum\AbstractEnum;
 class FitTrainingEffectBenefit extends AbstractEnum
 {
     // respect the order by number!
+    public const int RECOVERY = 1; // Erholung
 
-    /**
-     * @var int
-     */
-    public const RECOVERY = 1; // Erholung
+    public const int BASE = 2; // Basis
 
-    /**
-     * @var int
-     */
-    public const BASE = 2; // Basis
+    public const int PACE = 3; // Tempo
 
-    /**
-     * @var int
-     */
-    public const PACE = 3; // Tempo
+    public const int THRESHOLD = 4; // Schwelle
 
-    /**
-     * @var int
-     */
-    public const THRESHOLD = 4; // Schwelle
+    public const int VO2MAX = 5; // VO2Max
 
-    /**
-     * @var int
-     */
-    public const VO2MAX = 5; // VO2Max
+    public const int ANAEROBIC = 6; // Anaerobic
 
-    /**
-     * @var int
-     */
-    public const ANAEROBIC = 6; // Anaerobic
+    public const int SPRINT = 7; // Sprint
 
-    /**
-     * @var int
-     */
-    public const SPRINT = 7; // Sprint
-
-    /**
-     * @var array
-     */
-    public const COLORS = [
+    public const array COLORS = [
         '#0aa476', // 1 green
         '#0aa476', // 2
         '#f27019', // 3 orange

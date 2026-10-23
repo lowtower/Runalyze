@@ -9,7 +9,7 @@ class MarathonShape
     /**
      * @var float [ml/kg/min]
      */
-    public const MINIMAL_EFFECTIVE_VO2MAX = 25.0;
+    public const float MINIMAL_EFFECTIVE_VO2MAX = 25.0;
 
     /**
      * @param float $EffectiveVO2max [ml/kg/min]

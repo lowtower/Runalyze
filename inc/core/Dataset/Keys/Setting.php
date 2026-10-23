@@ -23,7 +23,7 @@ class Setting extends AbstractKey
     /**
      * if true, this Settings also include the links from Tools.
      */
-    public const INCLUDE_TOOLS = true;
+    public const bool INCLUDE_TOOLS = true;
 
     /**
      * Enum id

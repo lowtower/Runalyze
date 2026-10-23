@@ -9,7 +9,7 @@ class FileExtensionToParserMapping
     /**
      * @var string[]
      */
-    public const MAPPING = [
+    public const array MAPPING = [
         'csv' => FileType\Csv::class,
         'fitlog' => FileType\Fitlog::class,
         'fittemp' => FileType\Fit::class,

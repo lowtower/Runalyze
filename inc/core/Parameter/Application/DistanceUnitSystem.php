@@ -22,69 +22,58 @@ class DistanceUnitSystem extends \Runalyze\Parameter\Select
 {
     /**
      * Metric system (km, m, cm)
-     * @var string
      */
-    public const METRIC = 'metric';
+    public const string METRIC = 'metric';
 
     /**
      * Imperial system (miles, feet, yards)
-     * @var string
      */
-    public const IMPERIAL = 'imperial';
+    public const string IMPERIAL = 'imperial';
 
     /**
      * Factor: km => miles
-     * @var float
      */
-    public const MILE_MULTIPLIER = 0.621371192;
+    public const float MILE_MULTIPLIER = 0.621371192;
 
     /**
      * Factor: km => yards
-     * @var float
      */
-    public const YARD_MULTIPLIER = 1093.6133;
+    public const float YARD_MULTIPLIER = 1093.6133;
 
     /**
      * Factor: km => feet
-     * @var float
      */
-    public const FEET_MULTIPLIER = 3280.84;
+    public const float FEET_MULTIPLIER = 3280.84;
 
     /**
      * Unit: km
-     * @var string
      */
-    public const KM = 'km';
+    public const string KM = 'km';
 
     /**
      * Unit: meter
-     * @var string
      */
-    public const METER = 'm';
+    public const string METER = 'm';
 
     /**
      * Unit: cm
-     * @var string
      */
-    public const CM = 'cm';
+    public const string CM = 'cm';
 
     /**
      * Unit: miles
-     * @var string
      */
-    public const MILES = 'mi';
+    public const string MILES = 'mi';
 
     /**
      * Unit: yards
-     * @var string
      */
-    public const YARDS = 'yd';
+    public const string YARDS = 'yd';
 
     /**
      * Unit: feet
-     * @var string
      */
-    public const FEET = 'ft';
+    public const string FEET = 'ft';
 
     /**
      * Construct

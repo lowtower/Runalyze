@@ -7,9 +7,9 @@
  */
 class PluginInstaller
 {
-    public const ID = -1;
+    public const int ID = -1;
 
-    public const INSTALL_URL = 'call/call.Plugin.install.php';
+    public const string INSTALL_URL = 'call/call.Plugin.install.php';
 
     public function __construct(
         protected string $Key

@@ -15,7 +15,7 @@ class LegacyEffectiveVO2max
     /**
      * @var ?float [ml/kg/min]
      */
-    protected ?float $Value = null;
+    protected ?float $Value;
 
     protected ?LegacyEffectiveVO2maxCorrector $Corrector = null;
 

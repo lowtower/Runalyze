@@ -20,26 +20,16 @@ namespace Runalyze\View;
  */
 class Tooltip
 {
-    /**
-     * @var string
-     */
-    public const POSITION_LEFT = 'atLeft';
+    public const string POSITION_LEFT = 'atLeft';
 
-    /**
-     * @var string
-     */
-    public const POSITION_RIGHT = 'atRight';
+    public const string POSITION_RIGHT = 'atRight';
 
-    /**
-     * @var string
-     */
-    public const ATTRIBUTE_REL = 'tooltip';
+    public const string ATTRIBUTE_REL = 'tooltip';
 
     /**
      * Attribute to be used for the content
-     * @var string
      */
-    public const ATTRIBUTE = 'title';
+    public const string ATTRIBUTE = 'title';
 
     /**
      * Position

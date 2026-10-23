@@ -15,10 +15,7 @@ use PDO;
  */
 class DuplicateFinder
 {
-    /**
-     * @var string
-     */
-    public const COLUMN_WITH_ID = 'activity_id';
+    public const string COLUMN_WITH_ID = 'activity_id';
 
     public function __construct(
         protected \PDO $PDO,

@@ -9,15 +9,9 @@ use Runalyze\Util\InterfaceChoosable;
 
 class SportRelevanceProfile extends AbstractEnum implements InterfaceChoosable
 {
-    /**
-     * @var int
-     */
-    public const ALTERNATIVE_SPORT = 0;
+    public const int ALTERNATIVE_SPORT = 0;
 
-    /**
-     * @var int
-     */
-    public const MAIN_SPORT = 1;
+    public const int MAIN_SPORT = 1;
 
     /**
      * @param int $id id from internal enum

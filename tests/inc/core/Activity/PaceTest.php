@@ -183,7 +183,7 @@ final class PaceTest extends \PHPUnit\Framework\TestCase
     {
         $Pace = new Pace(300, 1, PaceUnit::KM_PER_H);
 
-        $Pace->setUnitEnum(PaceUnit::MIN_PER_KM);
+        $Pace->setUnitEnum();
 
         $this->assertSame(PaceUnit::KM_PER_H, $Pace->unitEnum());
     }

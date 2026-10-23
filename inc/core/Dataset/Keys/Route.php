@@ -17,15 +17,9 @@ use Runalyze\Dataset\Context;
  */
 class Route extends AbstractKey
 {
-    /**
-     * @var int
-     */
-    public const DEFAULT_CUT = 20;
+    public const int DEFAULT_CUT = 20;
 
-    /**
-     * @var string
-     */
-    public const ROUTE_NAME_KEY = 'route_name';
+    public const string ROUTE_NAME_KEY = 'route_name';
 
     /**
      * Enum id

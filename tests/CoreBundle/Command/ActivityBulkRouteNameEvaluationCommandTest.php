@@ -246,17 +246,11 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
         $trainingRepository
             ->expects($this->exactly(2))
             ->method('findForAccount')
-            ->willReturnMap([
-                [100, 42, $firstActivity],
-                [200, 42, $secondActivity],
-            ]);
+            ->willReturnMap([[100, 42, $firstActivity], [200, 42, $secondActivity]]);
         $trainingRepository
             ->expects($this->exactly(2))
             ->method('getIdOfNextActivity')
-            ->willReturnMap([
-                [$firstActivity, 200],
-                [$secondActivity, null],
-            ]);
+            ->willReturnMap([[$firstActivity, 200], [$secondActivity, null]]);
 
         $command = $this->createCommand(trainingRepository: $trainingRepository);
 
@@ -358,10 +352,7 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
         $trainingRepository
             ->expects($this->exactly(2))
             ->method('findForAccount')
-            ->willReturnMap([
-                [100, 42, $firstActivity],
-                [200, 42, null],
-            ]);
+            ->willReturnMap([[100, 42, $firstActivity], [200, 42, null]]);
         $trainingRepository
             ->expects($this->once())
             ->method('getIdOfNextActivity')
@@ -425,10 +416,8 @@ final class ActivityBulkRouteNameEvaluationCommandTest extends TestCase
         $activityContextAdapterFactory
             ->expects($this->once())
             ->method('getAdapterFor')
-            ->with(self::callback(
-                static fn (ActivityContext $context): bool => $context->getActivity() === $activity
-                    && $context->getRoute() === $route
-            ))
+            ->with(self::callback(static fn (ActivityContext $context): bool => $context->getActivity() === $activity
+                && $context->getRoute() === $route))
             ->willReturn($adapter);
 
         $command = $this->createCommand(

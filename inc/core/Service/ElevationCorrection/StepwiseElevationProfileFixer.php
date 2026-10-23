@@ -4,15 +4,9 @@ namespace Runalyze\Service\ElevationCorrection;
 
 class StepwiseElevationProfileFixer
 {
-    /**
-     * @var int
-     */
-    public const METHOD_FIXED_GROUP_SIZE = 0;
+    public const int METHOD_FIXED_GROUP_SIZE = 0;
 
-    /**
-     * @var int
-     */
-    public const METHOD_VARIABLE_GROUP_SIZE = 1;
+    public const int METHOD_VARIABLE_GROUP_SIZE = 1;
 
     protected int $MidpointIndexOfConstantGroup;
 

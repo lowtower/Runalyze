@@ -8,40 +8,19 @@ use Runalyze\Model\Equipment;
 
 class JobGeneral extends Job
 {
-    /**
-     * @var string
-     */
-    public const INTERNALS = 'internals';
+    public const string INTERNALS = 'internals';
 
-    /**
-     * @var string
-     */
-    public const EQUIPMENT = 'equipment';
+    public const string EQUIPMENT = 'equipment';
 
-    /**
-     * @var string
-     */
-    public const VO2MAX = 'vo2max';
+    public const string VO2MAX = 'vo2max';
 
-    /**
-     * @var string
-     */
-    public const VO2MAX_CORRECTOR = 'vo2maxCorrector';
+    public const string VO2MAX_CORRECTOR = 'vo2maxCorrector';
 
-    /**
-     * @var string
-     */
-    public const ENDURANCE = 'endurance';
+    public const string ENDURANCE = 'endurance';
 
-    /**
-     * @var string
-     */
-    public const MAX_TRIMP = 'trimp';
+    public const string MAX_TRIMP = 'trimp';
 
-    /**
-     * @var string
-     */
-    public const CACHECLEAN = 'cacheclean';
+    public const string CACHECLEAN = 'cacheclean';
 
     public function run(): void
     {

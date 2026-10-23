@@ -18,9 +18,9 @@ use Runalyze\Calculation\Route\GeohashLine;
 #[ORM\HasLifecycleCallbacks]
 class Route implements AccountRelatedEntityInterface
 {
-    public const PATH_GEOHASH_PRECISION = 12;
+    public const int PATH_GEOHASH_PRECISION = 12;
 
-    public const BOUNDARIES_GEOHASH_PRECISION = 10;
+    public const int BOUNDARIES_GEOHASH_PRECISION = 10;
 
     #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER, precision: 10, nullable: false, options: [
         'unsigned' => true,

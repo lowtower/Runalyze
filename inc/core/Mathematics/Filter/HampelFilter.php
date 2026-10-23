@@ -20,10 +20,7 @@ namespace Runalyze\Mathematics\Filter;
  */
 class HampelFilter
 {
-    /**
-     * @var float
-     */
-    public const STD_ESTIMATE_FACTOR = 1.4826;
+    public const float STD_ESTIMATE_FACTOR = 1.4826;
 
     /**
      * @var int

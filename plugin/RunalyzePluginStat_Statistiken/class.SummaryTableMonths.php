@@ -17,32 +17,27 @@ use Runalyze\Util\Time;
 class SummaryTableMonths extends SummaryTable
 {
     /**
-     * @var int
-     * enum
+     * @var int - enum
      */
-    public const MODE_LAST_6 = 0;
+    public const int MODE_LAST_6 = 0;
 
     /**
-     * @var int
-     * enum
+     * @var int - enum
      */
-    public const MODE_LAST_12 = 1;
+    public const int MODE_LAST_12 = 1;
 
     /**
-     * @var int
-     * enum
+     * @var int - enum
      */
-    public const MODE_ALL = 2;
+    public const int MODE_ALL = 2;
 
     /**
-     * @var int
-     * enum
+     * @var int - enum
      */
-    public const MODE_YEAR = 3;
+    public const int MODE_YEAR = 3;
 
     /**
-     * @var int
-     * enum
+     * @var int - enum
      */
     protected int $Mode = 0;
 

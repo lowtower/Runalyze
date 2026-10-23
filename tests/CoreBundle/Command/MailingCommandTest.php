@@ -260,10 +260,8 @@ final class MailingCommandTest extends TestCase
                 self::isInstanceOf(Account::class),
                 'Maintenance information',
                 '/mail/custom/newsletter.html.twig',
-                self::callback(
-                    static fn (array $data): bool => isset($data['account'])
-                        && $data['account'] instanceof Account
-                )
+                self::callback(static fn (array $data): bool => isset($data['account'])
+                    && $data['account'] instanceof Account)
             );
 
         $command = $this->createCommandWithSuccessfulValidation($mailer, $accountRepository);
@@ -343,11 +341,7 @@ final class MailingCommandTest extends TestCase
             ->method('sendMailTo');
 
         $command = $this->getMockBuilder(TestableMailingCommand::class)
-            ->setConstructorArgs([
-                $this->dataDirectory,
-                $mailer,
-                $accountRepository,
-            ])
+            ->setConstructorArgs([$this->dataDirectory, $mailer, $accountRepository])
             ->onlyMethods(['validateInput'])
             ->getMock();
 

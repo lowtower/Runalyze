@@ -24,85 +24,67 @@ class Entity extends Model\EntityWithID implements ProfileInterface
 {
     /**
      * Key: name
-     * @var string
      */
-    public const NAME = 'name';
+    public const string NAME = 'name';
 
     /**
      * Key: img
-     * @var string
      */
-    public const IMAGE = 'img';
+    public const string IMAGE = 'img';
 
     /**
      * Key: short display
-     * @var string
      */
-    public const SHORT = 'short';
+    public const string SHORT = 'short';
 
     /**
      * Key: kcal/h
-     * @var string
      */
-    public const CALORIES_PER_HOUR = 'kcal';
+    public const string CALORIES_PER_HOUR = 'kcal';
 
     /**
      * Key: average heart rate
-     * @var string
      */
-    public const HR_AVG = 'HFavg';
+    public const string HR_AVG = 'HFavg';
 
     /**
      * Key: pace unit
-     * @var string
      */
-    public const PACE_UNIT = 'speed';
+    public const string PACE_UNIT = 'speed';
 
     /**
      * Key: has distances
-     * @var string
      */
-    public const HAS_DISTANCES = 'distances';
+    public const string HAS_DISTANCES = 'distances';
 
     /**
      * Key: has power
-     * @var string
      */
-    public const HAS_POWER = 'power';
+    public const string HAS_POWER = 'power';
 
     /**
      * Key: is outside
-     * @var string
      */
-    public const IS_OUTSIDE = 'outside';
+    public const string IS_OUTSIDE = 'outside';
 
     /**
      * Key: lower bounds of the hr zones while the activity is done
-     * @var string
      */
-    public const HR_ZONE_BOUNDS = 'hr_zone_bounds';
+    public const string HR_ZONE_BOUNDS = 'hr_zone_bounds';
 
     /**
      * Key: id of main equipment (used for dataset)
-     * @var string
      */
-    public const MAIN_EQUIPMENTTYPEID = 'main_equipmenttypeid';
+    public const string MAIN_EQUIPMENTTYPEID = 'main_equipmenttypeid';
 
     /**
      * Key: id of default sport type (used for multi import/automatic upload)
-     * @var string
      */
-    public const DEFAULT_TYPEID = 'default_typeid';
+    public const string DEFAULT_TYPEID = 'default_typeid';
 
-    /**
-     * @var string
-     */
-    public const IS_MAIN = 'is_main';
+    public const string IS_MAIN = 'is_main';
 
-    /**
-     * @var string
-     */
-    public const INTERNAL_SPORT_ID = 'internal_sport_id';
+    public const string INTERNAL_SPORT_ID = 'internal_sport_id';
 
     /**
      * @return array<int, string>
@@ -129,7 +111,7 @@ class Entity extends Model\EntityWithID implements ProfileInterface
 
     public function properties(): array
     {
-        return static::allDatabaseProperties();
+        return self::allDatabaseProperties();
     }
 
     public function isArray(string $key): bool

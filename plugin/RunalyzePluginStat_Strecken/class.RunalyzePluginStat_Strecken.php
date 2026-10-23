@@ -14,14 +14,13 @@ use Runalyze\Activity\Distance;
  */
 class RunalyzePluginStat_Strecken extends PluginStat
 {
-    public const CITY_SEPERATOR = ' - ';
+    public const string CITY_SEPERATOR = ' - ';
 
     /**
      * Maximum number of routes on routenet.
      * #TSC set the max value from 50 to 250; must set to your preference regarding concurrent user, memory...
-     * @var int
      */
-    public const MAX_ROUTES_ON_NET = 250;
+    public const int MAX_ROUTES_ON_NET = 250;
 
     protected array $Cities = [];
 
@@ -123,24 +122,24 @@ class RunalyzePluginStat_Strecken extends PluginStat
         $i = 0;
         $statement = DB::getInstance()->query(
             '
-			SELECT
-				`' . PREFIX . 'route`.`name`,
-				SUM(`' . PREFIX . 'training`.`distance`) as `km`,
-				SUM(1) as `num`
-			FROM `' . PREFIX . 'training`
-			LEFT JOIN `' . PREFIX . 'route` ON `' . PREFIX . 'training`.`routeid`=`' . PREFIX . 'route`.`id`
-			WHERE 1 ' . $this->getSportAndYearDependenceForQuery() . ' AND `' . PREFIX . 'training`.`accountid`=' . SessionAccountHandler::getId() . ' AND `routeid`!=0 AND `name`!=""
-			GROUP BY `name`
-			ORDER BY `num` DESC
-			LIMIT 10'
+            SELECT
+                `' . PREFIX . 'route`.`name`,
+                SUM(`' . PREFIX . 'training`.`distance`) as `km`,
+                SUM(1) as `num`
+            FROM `' . PREFIX . 'training`
+            LEFT JOIN `' . PREFIX . 'route` ON `' . PREFIX . 'training`.`routeid`=`' . PREFIX . 'route`.`id`
+            WHERE 1 ' . $this->getSportAndYearDependenceForQuery() . ' AND `' . PREFIX . 'training`.`accountid`=' . SessionAccountHandler::getId() . ' AND `routeid`!=0 AND `name`!=""
+            GROUP BY `name`
+            ORDER BY `num` DESC
+            LIMIT 10'
         );
 
         while ($data = $statement->fetch()) {
             echo '<tr>
-					<td>' . $data['num'] . 'x</td>
-					<td class="l">' . SearchLink::to('route', $data['name'], Helper::Cut($data['name'], 100)) . '</td>
-					<td>' . Distance::format($data['km']) . '</td>
-				</tr>';
+                    <td>' . $data['num'] . 'x</td>
+                    <td class="l">' . SearchLink::to('route', $data['name'], Helper::Cut($data['name'], 100)) . '</td>
+                    <td>' . Distance::format($data['km']) . '</td>
+                </tr>';
 
             $i++;
         }
@@ -164,9 +163,9 @@ class RunalyzePluginStat_Strecken extends PluginStat
         foreach ($this->Cities as $city => $num) {
             $i++;
             echo '<tr class="a' . ($i % 2 + 1) . '">
-					<td>' . $num . 'x</td>
-					<td>' . SearchLink::to('route', $city, $city, 'like') . '</td>
-				</tr>';
+                    <td>' . $num . 'x</td>
+                    <td>' . SearchLink::to('route', $city, $city, 'like') . '</td>
+                </tr>';
 
             if ($i === 11) {
                 break;
@@ -186,15 +185,15 @@ class RunalyzePluginStat_Strecken extends PluginStat
         echo $this->renderLonelyCitiesRows($this->Cities);
 
         echo '
-			<tr class="no-zebra">
-				<td colspan="2" class="c">
-					' . sprintf(__('You have visited %s different places.'), count($this->Cities)) . '
-				</td>
-			</tr>
-		</tbody>
-		</table>
+            <tr class="no-zebra">
+                <td colspan="2" class="c">
+                    ' . sprintf(__('You have visited %s different places.'), count($this->Cities)) . '
+                </td>
+            </tr>
+        </tbody>
+        </table>
 
-		<p class="c"><em>' . __("Everything seperated by a ' - ' is considered as an individual place.") . '</em></p>';
+        <p class="c"><em>' . __("Everything seperated by a ' - ' is considered as an individual place.") . '</em></p>';
     }
 
     /**

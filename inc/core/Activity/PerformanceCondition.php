@@ -20,20 +20,11 @@ namespace Runalyze\Activity;
  */
 class PerformanceCondition implements ValueInterface
 {
-    /**
-     * @var int
-     */
-    public const BASELINE = 100;
+    public const int BASELINE = 100;
 
-    /**
-     * @var int
-     */
-    public const LOWER_LIMIT = 80;
+    public const int LOWER_LIMIT = 80;
 
-    /**
-     * @var int
-     */
-    public const UPPER_LIMIT = 120;
+    public const int UPPER_LIMIT = 120;
 
     protected ?int $Value = null;
 

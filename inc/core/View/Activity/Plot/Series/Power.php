@@ -18,10 +18,7 @@ use Runalyze\View\Activity;
  */
 class Power extends ActivitySeries
 {
-    /**
-     * @var string
-     */
-    public const COLOR = 'rgb(0,136,0)';
+    public const string COLOR = 'rgb(0,136,0)';
 
     /**
      * Create series

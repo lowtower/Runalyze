@@ -205,10 +205,7 @@ final class InstallCheckCommandTest extends TestCase
     {
         $this->parameterBag
             ->method('get')
-            ->willReturnMap([
-                ['kernel.project_dir', $this->tempRootDirectory . '/app'],
-                ['app.database_prefix', 'custom_prefix_'],
-            ]);
+            ->willReturnMap([['kernel.project_dir', $this->tempRootDirectory . '/app'], ['app.database_prefix', 'custom_prefix_']]);
         $this->createRequiredDirectories(self::REQUIRED_WRITABLE_DIRECTORIES);
 
         $result = $this->createStub(Result::class);

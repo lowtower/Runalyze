@@ -11,10 +11,7 @@
  */
 class PluginConfigurationValue
 {
-    /**
-     * @var int
-     */
-    public const MAXLENGTH = 255;
+    public const int MAXLENGTH = 255;
 
     protected mixed $Value;
 

@@ -18,9 +18,8 @@ class ActivityRouteBreak extends \Runalyze\Parameter\Select
 {
     /**
      * No break
-     * @var string
      */
-    public const NO_BREAK = 'no';
+    public const string NO_BREAK = 'no';
 
     public function __construct()
     {

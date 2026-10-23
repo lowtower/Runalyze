@@ -7,10 +7,7 @@ use Runalyze\Bundle\CoreBundle\Model\Trackdata\Climb\ClimbProfile;
 
 class FlatOrHillyAnalyzer
 {
-    /**
-     * @var float
-     */
-    public const DEFAULT_GRADIENT_THRESHOLD = 0.02;
+    public const float DEFAULT_GRADIENT_THRESHOLD = 0.02;
 
     public function calculatePercentageHillyFor(Training $activity, float $threshold = self::DEFAULT_GRADIENT_THRESHOLD): ?float
     {

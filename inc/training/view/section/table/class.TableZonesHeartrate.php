@@ -22,9 +22,9 @@ class TableZonesHeartrate extends TableZonesAbstract
     /**
      * @var int [bpm]
      */
-    public const MINIMUM_TIME_IN_ZONE_MIN_HR = 60;
+    public const int MINIMUM_TIME_IN_ZONE_MIN_HR = 60;
 
-    public const DEFAULT_COLOR = '#c6c5c5';
+    public const string DEFAULT_COLOR = '#c6c5c5';
 
     private string $footerHint = '';
 

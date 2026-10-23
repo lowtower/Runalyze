@@ -19,10 +19,7 @@ use Runalyze\View\Activity;
  */
 class Temperature extends ActivitySeries
 {
-    /**
-     * @var string
-     */
-    public const COLOR = 'rgb(100,0,200)';
+    public const string COLOR = 'rgb(100,0,200)';
 
     /**
      * Create series

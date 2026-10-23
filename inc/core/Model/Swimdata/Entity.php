@@ -21,39 +21,33 @@ class Entity extends Model\Entity implements Model\Loopable
 {
     /**
      * Key: activity id
-     * @var string
      */
-    public const ACTIVITYID = 'activityid';
+    public const string ACTIVITYID = 'activityid';
 
     /**
      * Key: stroke
-     * @var string
      */
-    public const STROKE = 'stroke';
+    public const string STROKE = 'stroke';
 
     /**
      * Key: pool length
-     * @var string
      */
-    public const POOL_LENGTH = 'pool_length';
+    public const string POOL_LENGTH = 'pool_length';
 
     /**
      * Key: stroketype
-     * @var string
      */
-    public const STROKETYPE = 'stroketype';
+    public const string STROKETYPE = 'stroketype';
 
     /**
      * Key: swolf
-     * @var string
      */
-    public const SWOLF = 'swolf';
+    public const string SWOLF = 'swolf';
 
     /**
      * Key: SWOLFCYCLES
-     * @var string
      */
-    public const SWOLFCYCLES = 'swolfcycles';
+    public const string SWOLFCYCLES = 'swolfcycles';
 
     /**
      * Construct
@@ -103,7 +97,7 @@ class Entity extends Model\Entity implements Model\Loopable
      */
     public function properties(): array
     {
-        return static::allProperties();
+        return self::allProperties();
     }
 
     public function synchronize(): void

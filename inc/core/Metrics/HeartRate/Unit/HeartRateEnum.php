@@ -6,20 +6,11 @@ use Runalyze\Common\Enum\AbstractEnum;
 
 class HeartRateEnum extends AbstractEnum
 {
-    /**
-     * @var int
-     */
-    public const BEATS_PER_MINUTE = 0;
+    public const int BEATS_PER_MINUTE = 0;
 
-    /**
-     * @var int
-     */
-    public const PERCENT_MAXIMUM = 1;
+    public const int PERCENT_MAXIMUM = 1;
 
-    /**
-     * @var int
-     */
-    public const PERCENT_RESERVE = 2;
+    public const int PERCENT_RESERVE = 2;
 
     /**
      * @param int $enum from internal enum

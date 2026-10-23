@@ -13,30 +13,15 @@ use Runalyze\Common\Enum\AbstractEnum;
  */
 class HeatIndexEffect extends AbstractEnum
 {
-    /**
-     * @var int
-     */
-    public const NO_EFFECT = 0;
+    public const int NO_EFFECT = 0;
 
-    /**
-     * @var int
-     */
-    public const CAUTION = 1;
+    public const int CAUTION = 1;
 
-    /**
-     * @var int
-     */
-    public const EXTREME_CAUTION = 2;
+    public const int EXTREME_CAUTION = 2;
 
-    /**
-     * @var int
-     */
-    public const DANGER = 3;
+    public const int DANGER = 3;
 
-    /**
-     * @var int
-     */
-    public const EXTREME_DANGER = 4;
+    public const int EXTREME_DANGER = 4;
 
     /**
      * @param float $value value (in Fahrenheit)

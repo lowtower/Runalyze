@@ -6,18 +6,9 @@ namespace Runalyze\Bundle\CoreBundle\Services\Import;
 
 class TimezoneLookupException extends \Exception
 {
-    /**
-     * @var string
-     */
-    public const TIMEZONE_DB_NOT_AVAILABLE = 'Timezone database is missing.';
+    public const string TIMEZONE_DB_NOT_AVAILABLE = 'Timezone database is missing.';
 
-    /**
-     * @var string
-     */
-    public const SQLITE3_NOT_AVAILABLE = 'SQLite3 is not available.';
+    public const string SQLITE3_NOT_AVAILABLE = 'SQLite3 is not available.';
 
-    /**
-     * @var string
-     */
-    public const SPATIALITE_NOT_AVAILABLE = "SQLite3 extension 'spatialite' can't be loaded.";
+    public const string SPATIALITE_NOT_AVAILABLE = "SQLite3 extension 'spatialite' can't be loaded.";
 }

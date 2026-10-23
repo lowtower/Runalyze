@@ -11,15 +11,9 @@ use Runalyze\Service\WeatherForecast\Location;
 #[ORM\Entity(repositoryClass: WeathercacheRepository::class)]
 class Weathercache
 {
-    /**
-     * @var int
-     */
-    public const GEOHASH_PRECISION_DATABASE = 5;
+    public const int GEOHASH_PRECISION_DATABASE = 5;
 
-    /**
-     * @var int
-     */
-    public const GEOHASH_PRECISION_LOOKUP = 4;
+    public const int GEOHASH_PRECISION_LOOKUP = 4;
 
     #[ORM\Column(name: 'geohash', type: \Doctrine\DBAL\Types\Types::STRING, length: 5, nullable: false, options: [
         'fixed' => true,

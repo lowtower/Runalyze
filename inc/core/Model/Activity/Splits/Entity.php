@@ -19,9 +19,8 @@ class Entity extends StringArrayObject
 {
     /**
      * Separator
-     * @var string
      */
-    public const SEPARATOR = '-';
+    public const string SEPARATOR = '-';
 
     /**
      * Single objects

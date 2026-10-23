@@ -8,10 +8,7 @@ use Runalyze\Parser\Activity\Common\Exception\InvalidDataException;
 
 class NonMatchingArraySizeFilter extends AbstractFilter
 {
-    /**
-     * @var int
-     */
-    public const MIN_MAX_TOLERANCE = 2;
+    public const int MIN_MAX_TOLERANCE = 2;
 
     public function filter(ActivityDataContainer $container, bool $strict = false): void
     {

@@ -18,21 +18,18 @@ class ActivityCreationMode extends \Runalyze\Parameter\Select
 {
     /**
      * Upload form
-     * @var string
      */
-    public const UPLOAD = 'upload';
+    public const string UPLOAD = 'upload';
 
     /**
      * Garmin Communicator
-     * @var string
      */
-    public const GARMIN = 'garmin';
+    public const string GARMIN = 'garmin';
 
     /**
      * Standard form
-     * @var string
      */
-    public const FORM = 'form';
+    public const string FORM = 'form';
 
     /**
      * Construct

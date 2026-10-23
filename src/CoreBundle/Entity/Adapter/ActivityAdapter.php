@@ -213,11 +213,7 @@ class ActivityAdapter
         $this->Activity->setVO2maxWithElevation(null);
     }
 
-    /**
-     * @param ?float $athleteWeight [kg]
-     * @param ?float $bikeWeight [kg]
-     */
-    public function calculatePower(?float $athleteWeight = null, ?float $bikeWeight = null): void
+    public function calculatePower(): void
     {
         $calculator = new PowerCalculator();
         $calculator->calculateFor($this->Activity);
@@ -399,10 +395,7 @@ class ActivityAdapter
         }
     }
 
-    /**
-     * @param string|null $timezone
-     */
-    protected function updateTimezoneForActivity($timezone)
+    protected function updateTimezoneForActivity(?string $timezone)
     {
         if ($timezone === null) {
             return;

@@ -25,15 +25,9 @@ use System;
  */
 class IFrame extends AbstractSnippetSharer
 {
-    /**
-     * @var int
-     */
-    public const DEFAULT_WIDTH = 500;
+    public const int DEFAULT_WIDTH = 500;
 
-    /**
-     * @var int
-     */
-    public const DEFAULT_HEIGHT = 500;
+    public const int DEFAULT_HEIGHT = 500;
 
     public function enum(): int
     {

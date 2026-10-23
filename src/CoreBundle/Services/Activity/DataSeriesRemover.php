@@ -9,140 +9,59 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 
 class DataSeriesRemover
 {
-    /**
-     * @var string
-     */
-    public const KEY_TRACKDATA_TIME = 'time';
+    public const string KEY_TRACKDATA_TIME = 'time';
 
-    /**
-     * @var string
-     */
-    public const KEY_TRACKDATA_DISTANCE = 'distance';
+    public const string KEY_TRACKDATA_DISTANCE = 'distance';
 
-    /**
-     * @var string
-     */
-    public const KEY_TRACKDATA_HEART_RATE = 'heartRate';
+    public const string KEY_TRACKDATA_HEART_RATE = 'heartRate';
 
-    /**
-     * @var string
-     */
-    public const KEY_TRACKDATA_CADENCE = 'cadence';
+    public const string KEY_TRACKDATA_CADENCE = 'cadence';
 
-    /**
-     * @var string
-     */
-    public const KEY_TRACKDATA_POWER = 'power';
+    public const string KEY_TRACKDATA_POWER = 'power';
 
-    /**
-     * @var string
-     */
-    public const KEY_TRACKDATA_VERTICAL_OSCILLATION = 'verticalOscillation';
+    public const string KEY_TRACKDATA_VERTICAL_OSCILLATION = 'verticalOscillation';
 
-    /**
-     * @var string
-     */
-    public const KEY_TRACKDATA_GROUND_CONTACT_TIME = 'groundContactTime';
+    public const string KEY_TRACKDATA_GROUND_CONTACT_TIME = 'groundContactTime';
 
-    /**
-     * @var string
-     */
-    public const KEY_TRACKDATA_GROUND_CONTACT_BALANCE = 'groundContactBalance';
+    public const string KEY_TRACKDATA_GROUND_CONTACT_BALANCE = 'groundContactBalance';
 
-    /**
-     * @var string
-     */
-    public const KEY_TRACKDATA_IMPACT_GS_LEFT = 'impact_gs_left';
+    public const string KEY_TRACKDATA_IMPACT_GS_LEFT = 'impact_gs_left';
 
-    /**
-     * @var string
-     */
-    public const KEY_TRACKDATA_IMPACT_GS_RIGHT = 'impact_gs_right';
+    public const string KEY_TRACKDATA_IMPACT_GS_RIGHT = 'impact_gs_right';
 
-    /**
-     * @var string
-     */
-    public const KEY_TRACKDATA_BRAKING_GS_LEFT = 'braking_gs_left';
+    public const string KEY_TRACKDATA_BRAKING_GS_LEFT = 'braking_gs_left';
 
-    /**
-     * @var string
-     */
-    public const KEY_TRACKDATA_BRAKING_GS_RIGHT = 'braking_gs_right';
+    public const string KEY_TRACKDATA_BRAKING_GS_RIGHT = 'braking_gs_right';
 
-    /**
-     * @var string
-     */
-    public const KEY_TRACKDATA_FOOTSTRIKE_TYPE_LEFT = 'footstrike_type_left';
+    public const string KEY_TRACKDATA_FOOTSTRIKE_TYPE_LEFT = 'footstrike_type_left';
 
-    /**
-     * @var string
-     */
-    public const KEY_TRACKDATA_FOOTSTRIKE_TYPE_RIGHT = 'footstrike_type_right';
+    public const string KEY_TRACKDATA_FOOTSTRIKE_TYPE_RIGHT = 'footstrike_type_right';
 
-    /**
-     * @var string
-     */
-    public const KEY_TRACKDATA_PRONATION_EXCURSION_LEFT = 'pronation_excursion_left';
+    public const string KEY_TRACKDATA_PRONATION_EXCURSION_LEFT = 'pronation_excursion_left';
 
-    /**
-     * @var string
-     */
-    public const KEY_TRACKDATA_PRONATION_EXCURSION_RIGHT = 'pronation_excursion_right';
+    public const string KEY_TRACKDATA_PRONATION_EXCURSION_RIGHT = 'pronation_excursion_right';
 
-    /**
-     * @var string
-     */
-    public const KEY_TRACKDATA_PERFOMANCE_CONDITION = 'performance_condition';
+    public const string KEY_TRACKDATA_PERFOMANCE_CONDITION = 'performance_condition';
 
-    /**
-     * @var string
-     */
-    public const KEY_TRACKDATA_RESPIRATION_RATE = 'respiration_rate';
+    public const string KEY_TRACKDATA_RESPIRATION_RATE = 'respiration_rate';
 
-    /**
-     * @var string
-     */
-    public const KEY_TRACKDATA_MUSCLE_OXYGENATION = 'smo2';
+    public const string KEY_TRACKDATA_MUSCLE_OXYGENATION = 'smo2';
 
-    /**
-     * @var string
-     */
-    public const KEY_TRACKDATA_MUSCLE_OXYGENATION_2 = 'smo2_2';
+    public const string KEY_TRACKDATA_MUSCLE_OXYGENATION_2 = 'smo2_2';
 
-    /**
-     * @var string
-     */
-    public const KEY_TRACKDATA_TOTAL_HAEMOGLOBIN = 'thb';
+    public const string KEY_TRACKDATA_TOTAL_HAEMOGLOBIN = 'thb';
 
-    /**
-     * @var string
-     */
-    public const KEY_TRACKDATA_TOTAL_HAEMOGLOBIN_2 = 'thb_2';
+    public const string KEY_TRACKDATA_TOTAL_HAEMOGLOBIN_2 = 'thb_2';
 
-    /**
-     * @var string
-     */
-    public const KEY_TRACKDATA_TEMPERATURE = 'temperature';
+    public const string KEY_TRACKDATA_TEMPERATURE = 'temperature';
 
-    /**
-     * @var string
-     */
-    public const KEY_ROUTE_GEOHASHES = 'geohashes';
+    public const string KEY_ROUTE_GEOHASHES = 'geohashes';
 
-    /**
-     * @var string
-     */
-    public const KEY_ROUTE_ELEVATION_ORIGINAL = 'elevationOriginal';
+    public const string KEY_ROUTE_ELEVATION_ORIGINAL = 'elevationOriginal';
 
-    /**
-     * @var string
-     */
-    public const KEY_ROUTE_ELEVATION_CORRECTED = 'elevationCorrected';
+    public const string KEY_ROUTE_ELEVATION_CORRECTED = 'elevationCorrected';
 
-    /**
-     * @var string
-     */
-    public const KEY_HRV = 'hrv';
+    public const string KEY_HRV = 'hrv';
 
     public function __construct(
         protected \Doctrine\ORM\EntityManager $EntityManager

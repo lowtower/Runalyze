@@ -15,12 +15,12 @@ class EquipmentType implements AccountRelatedEntityInterface
     /**
      * @var int only one equipment object can be used at once
      */
-    public const CHOICE_SINGLE = 0;
+    public const int CHOICE_SINGLE = 0;
 
     /**
      * @var int multiple equipment objects can be used at once
      */
-    public const CHOICE_MULTIPLE = 1;
+    public const int CHOICE_MULTIPLE = 1;
 
     #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER, precision: 10, nullable: false, options: [
         'unsigned' => true,

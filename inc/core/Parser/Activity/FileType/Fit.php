@@ -13,15 +13,9 @@ class Fit extends AbstractMultipleParserWithSubParser implements FileNameAwarePa
 {
     use LineByLineParserTrait;
 
-    /**
-     * @var string
-     */
-    public const PERL_FIT_ERROR_MESSAGE_START = 'main::Garmin::FIT';
+    public const string PERL_FIT_ERROR_MESSAGE_START = 'main::Garmin::FIT';
 
-    /**
-     * @var string
-     */
-    public const PERL_GENERAL_MESSAGE_START = 'perl: warning:';
+    public const string PERL_GENERAL_MESSAGE_START = 'perl: warning:';
 
     protected bool $ParsingStarted = false;
 

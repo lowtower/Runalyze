@@ -22,9 +22,8 @@ class Pace
 {
     /**
      * Default speed (km/h)
-     * @var int
      */
-    public const STANDARD = PaceUnitOption::KM_PER_H;
+    public const int STANDARD = PaceUnitOption::KM_PER_H;
 
     protected AbstractUnit $UnitObject;
 
@@ -104,7 +103,7 @@ class Pace
         $this->UnitObject = new LegacyUnitConverter()->getLegacyPaceUnit($unitEnum);
     }
 
-    public function setUnitEnum(int $unitEnum): void
+    public function setUnitEnum(): void
     {
         // TODO: remove
     }

@@ -8,13 +8,13 @@ namespace Runalyze\Service\RouteNameEvaluation;
  */
 class RouteNameEvalResult
 {
-    public const NOTES_START = 'Strecken-Info>>';
+    public const string NOTES_START = 'Strecken-Info>>';
 
-    public const NOTES_END = '<<Strecken-Info';
+    public const string NOTES_END = '<<Strecken-Info';
 
-    public const NOTES_PATTERN = '/(.*)(' . self::NOTES_START . '.*' . self::NOTES_END . ')(.*)/is';
+    public const string NOTES_PATTERN = '/(.*)(' . self::NOTES_START . '.*' . self::NOTES_END . ')(.*)/is';
 
-    protected string $names = '';
+    protected string $names;
 
     public function __construct(
         string $names,

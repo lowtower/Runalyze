@@ -24,7 +24,6 @@ final class Vo2maxAndElevationTest extends TestCase
             ->willReturnCallback(
                 function (string $condition) use (&$andWhereCalls, $queryBuilder): QueryBuilder {
                     $andWhereCalls[] = $condition;
-
                     return $queryBuilder;
                 }
             );
@@ -50,7 +49,6 @@ final class Vo2maxAndElevationTest extends TestCase
             ->willReturnCallback(
                 function (string $condition) use (&$andWhereCalls, $queryBuilder): QueryBuilder {
                     $andWhereCalls[] = $condition;
-
                     return $queryBuilder;
                 }
             );

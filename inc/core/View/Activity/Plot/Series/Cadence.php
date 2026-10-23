@@ -21,10 +21,7 @@ use Runalyze\View\Activity;
  */
 class Cadence extends ActivityPointSeries
 {
-    /**
-     * @var string
-     */
-    public const COLOR = 'rgb(41,128,185)';
+    public const string COLOR = 'rgb(41,128,185)';
 
     protected bool $isRunning;
 

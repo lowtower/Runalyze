@@ -26,15 +26,9 @@ use Runalyze\View\Activity\Context;
  */
 class Window
 {
-    /**
-     * @var float
-     */
-    public const HANDMADE_LIMIT_TIME = 10.0;
+    public const float HANDMADE_LIMIT_TIME = 10.0;
 
-    /**
-     * @var float
-     */
-    public const HANDMADE_LIMIT_DISTANCE = 0.2;
+    public const float HANDMADE_LIMIT_DISTANCE = 0.2;
 
     protected Laps $Laps;
 

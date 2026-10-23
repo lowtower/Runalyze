@@ -71,10 +71,9 @@ class Dataview
     }
 
     /**
-     * @param mixed $value
      * @return mixed
      */
-    protected function object(&$value, \Closure $constructor)
+    protected function object(\Runalyze\Activity\Duration|null|\Runalyze\Activity\Pace|\Runalyze\Data\Cadence\AbstractCadence|\Runalyze\Activity\StrideLength|\Runalyze\Activity\Energy|\Runalyze\Activity\HeartRate|\Runalyze\Activity\Elevation|\Runalyze\Data\Weather\WindChillFactor|\Runalyze\Data\Weather\HeatIndex|\Runalyze\Calculation\JD\LegacyEffectiveVO2max &$value, \Closure $constructor)
     {
         $value ??= $constructor($this->Activity);
 
@@ -415,12 +414,7 @@ class Dataview
         return $this->formatRunScribeValues($this->Activity->pronationExcursionLeft(), $this->Activity->pronationExcursionRight());
     }
 
-    /**
-     * @param null|float|int $left
-     * @param null|float|int $right
-     * @param int $precision
-     */
-    protected function formatRunScribeValues($left, $right, $precision = 1): string
+    protected function formatRunScribeValues(float|null|int $left, float|null|int $right, int $precision = 1): string
     {
         return $this->formatTwoPartValue(
             $left !== null ? number_format($left, $precision) : '-',

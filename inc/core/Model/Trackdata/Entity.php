@@ -27,171 +27,143 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 
     /**
      * Key: activity id
-     * @var string
      */
-    public const ACTIVITYID = 'activityid';
+    public const string ACTIVITYID = 'activityid';
 
     /**
      * Key: time
-     * @var string
      */
-    public const TIME = 'time';
+    public const string TIME = 'time';
 
     /**
      * Key: distance
-     * @var string
      */
-    public const DISTANCE = 'distance';
+    public const string DISTANCE = 'distance';
 
     /**
      * Key: pace - must be calculated (not in db!)
-     * @var string
      */
-    public const PACE = 'pace';
+    public const string PACE = 'pace';
 
     /**
      * Key: heart rate
-     * @var string
      */
-    public const HEARTRATE = 'heartrate';
+    public const string HEARTRATE = 'heartrate';
 
     /**
      * Key: cadence
-     * @var string
      */
-    public const CADENCE = 'cadence';
+    public const string CADENCE = 'cadence';
 
     /**
      * Key: stridelength - must be calculated (not in db!)
-     * @var string
      */
-    public const STRIDE_LENGTH = 'stridelength';
+    public const string STRIDE_LENGTH = 'stridelength';
 
     /**
      * Key: power
-     * @var string
      */
-    public const POWER = 'power';
+    public const string POWER = 'power';
 
     /**
      * Key: temperature
-     * @var string
      */
-    public const TEMPERATURE = 'temperature';
+    public const string TEMPERATURE = 'temperature';
 
     /**
      * Key: ground contact time
-     * @var string
      */
-    public const GROUNDCONTACT = 'groundcontact';
+    public const string GROUNDCONTACT = 'groundcontact';
 
     /**
      * Key: vertical oscillation
-     * @var string
      */
-    public const VERTICAL_OSCILLATION = 'vertical_oscillation';
+    public const string VERTICAL_OSCILLATION = 'vertical_oscillation';
 
     /**
      * Key: vertical ratio - must be calculated (not in db!)
-     * @var string
      */
-    public const VERTICAL_RATIO = 'vertical_ratio';
+    public const string VERTICAL_RATIO = 'vertical_ratio';
 
     /**
      * Key: ground contact time balance
-     * @var string
      */
-    public const GROUNDCONTACT_BALANCE = 'groundcontact_balance';
+    public const string GROUNDCONTACT_BALANCE = 'groundcontact_balance';
 
     /**
      * Key: smo2 (0)
-     * @var string
      */
-    public const SMO2_0 = 'smo2_0';
+    public const string SMO2_0 = 'smo2_0';
 
     /**
      * Key: smo2 (1)
-     * @var string
      */
-    public const SMO2_1 = 'smo2_1';
+    public const string SMO2_1 = 'smo2_1';
 
     /**
      * Key: thb (0)
-     * @var string
      */
-    public const THB_0 = 'thb_0';
+    public const string THB_0 = 'thb_0';
 
     /**
      * Key: thb (1)
-     * @var string
      */
-    public const THB_1 = 'thb_1';
+    public const string THB_1 = 'thb_1';
 
     /**
      * Key: impact GS left
-     * @var string
      */
-    public const IMPACT_GS_LEFT = 'impact_gs_left';
+    public const string IMPACT_GS_LEFT = 'impact_gs_left';
 
     /**
      * Key: impact GS right
-     * @var string
      */
-    public const IMPACT_GS_RIGHT = 'impact_gs_right';
+    public const string IMPACT_GS_RIGHT = 'impact_gs_right';
 
     /**
      * Key: braking GS left
-     * @var string
      */
-    public const BRAKING_GS_LEFT = 'braking_gs_left';
+    public const string BRAKING_GS_LEFT = 'braking_gs_left';
 
     /**
      * Key: braking GS right
-     * @var string
      */
-    public const BRAKING_GS_RIGHT = 'braking_gs_right';
+    public const string BRAKING_GS_RIGHT = 'braking_gs_right';
 
     /**
      * Key: footstrike type left
-     * @var string
      */
-    public const FOOTSTRIKE_TYPE_LEFT = 'footstrike_type_left';
+    public const string FOOTSTRIKE_TYPE_LEFT = 'footstrike_type_left';
 
     /**
      * Key: footstrike type right
-     * @var string
      */
-    public const FOOTSTRIKE_TYPE_RIGHT = 'footstrike_type_right';
+    public const string FOOTSTRIKE_TYPE_RIGHT = 'footstrike_type_right';
 
     /**
      * Key: pronation excursion left
-     * @var string
      */
-    public const PRONATION_EXCURSION_LEFT = 'pronation_excursion_left';
+    public const string PRONATION_EXCURSION_LEFT = 'pronation_excursion_left';
 
     /**
      * Key: pronation excursion right
-     * @var string
      */
-    public const PRONATION_EXCURSION_RIGHT = 'pronation_excursion_right';
+    public const string PRONATION_EXCURSION_RIGHT = 'pronation_excursion_right';
 
     /**
      * Key: performance condition
-     * @var string
      */
-    public const PERFORMANCE_CONDITION = 'performance_condition';
+    public const string PERFORMANCE_CONDITION = 'performance_condition';
 
     /**
      * Key: respiration rate
-     * @var string
      */
-    public const RESPIRATION_RATE = 'respiration_rate';
+    public const string RESPIRATION_RATE = 'respiration_rate';
 
     /**
      * Key: pauses
-     * @var string
      */
-    public const PAUSES = 'pauses';
+    public const string PAUSES = 'pauses';
 
     /**
      * Pauses
@@ -338,7 +310,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
                 self::STRIDE_LENGTH,
                 self::VERTICAL_RATIO,
             ],
-            static::allDatabaseProperties()
+            self::allDatabaseProperties()
         );
     }
 

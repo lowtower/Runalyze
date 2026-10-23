@@ -19,31 +19,15 @@ use Runalyze\Common\Enum\AbstractEnum;
 class SelfEvaluationFeeling extends AbstractEnum
 {
     // respect the order by number!
+    public const int VERY_WEAK = 1; // sehr schwach
 
-    /**
-     * @var int
-     */
-    public const VERY_WEAK = 1; // sehr schwach
+    public const int WEAK = 2; // schwach
 
-    /**
-     * @var int
-     */
-    public const WEAK = 2; // schwach
+    public const int NORMAL = 3; // normal
 
-    /**
-     * @var int
-     */
-    public const NORMAL = 3; // normal
+    public const int STRONG = 4; // stark
 
-    /**
-     * @var int
-     */
-    public const STRONG = 4; // stark
-
-    /**
-     * @var int
-     */
-    public const VERY_STRONG = 5; // sehr stark
+    public const int VERY_STRONG = 5; // sehr stark
 
     /**
      * Converts the value from the FIT file to an enum.

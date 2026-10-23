@@ -11,24 +11,12 @@ class WeatherSourceProfile extends AbstractEnum
 {
     use AbstractEnumFactoryTrait;
 
-    /**
-     * @var int
-     */
-    public const OPEN_WEATHER_MAP = 1;
+    public const int OPEN_WEATHER_MAP = 1;
 
-    /**
-     * @var int
-     */
-    public const DATABASE_CACHE = 2;
+    public const int DATABASE_CACHE = 2;
 
-    /**
-     * @var int
-     */
-    public const DARK_SKY = 3;
+    public const int DARK_SKY = 3;
 
     // #TSC
-    /**
-     * @var int
-     */
-    public const METEOSTAT_NET = 4;
+    public const int METEOSTAT_NET = 4;
 }

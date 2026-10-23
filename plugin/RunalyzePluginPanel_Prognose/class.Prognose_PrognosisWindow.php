@@ -30,7 +30,7 @@ use Runalyze\Util\LocalTime;
  */
 class Prognose_PrognosisWindow
 {
-    public const DISTANCE_PRECISION = 2;
+    public const int DISTANCE_PRECISION = 2;
 
     protected Formular $Formular;
 
@@ -252,33 +252,33 @@ class Prognose_PrognosisWindow
     protected function startResultTable()
     {
         $this->ResultTable = '<table class="fullwidth zebra-style"><thead><tr>
-					<th>' . __('Distance') . '</th>
-					<th>' . __('Prognosis') . '</th>
-					<th class="small">' . __('Pace') . '</th>
-					<th class="small">VO2max</th>
-					<th>' . __('Difference') . '</th>
-					<th>' . __('Personal best') . '</th>
-					<th class="small">' . __('Pace') . '</th>
-					<th class="small">VO2max</th>
-					<th class="small">' . __('Date') . '</th>
-				</tr></thead><tbody>';
+                    <th>' . __('Distance') . '</th>
+                    <th>' . __('Prognosis') . '</th>
+                    <th class="small">' . __('Pace') . '</th>
+                    <th class="small">VO2max</th>
+                    <th>' . __('Difference') . '</th>
+                    <th>' . __('Personal best') . '</th>
+                    <th class="small">' . __('Pace') . '</th>
+                    <th class="small">VO2max</th>
+                    <th class="small">' . __('Date') . '</th>
+                </tr></thead><tbody>';
     }
 
     protected function fillResultTableWithResults()
     {
         foreach ($this->Prognoses as $Prognosis) {
             $this->ResultTable .= '
-				<tr class="r">
-					<td class="c">' . $Prognosis['distance'] . '</td>
-					<td class="b">' . $Prognosis['prognosis'] . '</td>
-					<td class="small">' . $Prognosis['prognosis-pace'] . '</td>
-					<td class="small">' . $Prognosis['prognosis-vo2max'] . '</td>
-					<td class="small ' . $Prognosis['diff-class'] . '">' . $Prognosis['diff'] . '</td>
-					<td class="b">' . $Prognosis['pb'] . '</td>
-					<td class="small">' . $Prognosis['pb-pace'] . '</td>
-					<td class="small">' . $Prognosis['pb-vo2max'] . '</td>
-					<td class="small">' . $Prognosis['pb-date'] . '</td>
-				</tr>';
+                <tr class="r">
+                    <td class="c">' . $Prognosis['distance'] . '</td>
+                    <td class="b">' . $Prognosis['prognosis'] . '</td>
+                    <td class="small">' . $Prognosis['prognosis-pace'] . '</td>
+                    <td class="small">' . $Prognosis['prognosis-vo2max'] . '</td>
+                    <td class="small ' . $Prognosis['diff-class'] . '">' . $Prognosis['diff'] . '</td>
+                    <td class="b">' . $Prognosis['pb'] . '</td>
+                    <td class="small">' . $Prognosis['pb-pace'] . '</td>
+                    <td class="small">' . $Prognosis['pb-vo2max'] . '</td>
+                    <td class="small">' . $Prognosis['pb-date'] . '</td>
+                </tr>';
         }
     }
 

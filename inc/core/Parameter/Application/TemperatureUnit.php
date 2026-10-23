@@ -19,15 +19,13 @@ class TemperatureUnit extends \Runalyze\Parameter\Select
 {
     /**
      * Celsius
-     * @var string
      */
-    public const CELSIUS = '°C';
+    public const string CELSIUS = '°C';
 
     /**
      * Fahrenheit
-     * @var string
      */
-    public const FAHRENHEIT = '°F';
+    public const string FAHRENHEIT = '°F';
 
     /**
      * Construct

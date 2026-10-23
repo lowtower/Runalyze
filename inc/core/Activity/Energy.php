@@ -17,10 +17,7 @@ use Runalyze\Parameter\Application\EnergyUnit;
  */
 class Energy implements ValueInterface
 {
-    /**
-     * @var float
-     */
-    public const KJ_MULTIPLIER = 4.1868;
+    public const float KJ_MULTIPLIER = 4.1868;
 
     /**
      * Energy [kcal]

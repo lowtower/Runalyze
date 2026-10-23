@@ -17,15 +17,9 @@ namespace Runalyze\Data\Cadence;
  */
 class Unit
 {
-    /**
-     * @var int
-     */
-    public const GENERAL = 1;
+    public const int GENERAL = 1;
 
-    /**
-     * @var int
-     */
-    public const RUNNING = 2;
+    public const int RUNNING = 2;
 
     /**
      * @return array<int, int>

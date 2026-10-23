@@ -20,15 +20,9 @@ use Runalyze\Data\Weather\WindSpeed;
  */
 class WindIcon extends \Runalyze\View\Icon
 {
-    /**
-     * @var string
-     */
-    public const BASE_CLASS = 'windicon';
+    public const string BASE_CLASS = 'windicon';
 
-    /**
-     * @var string
-     */
-    public const DIRECTION_CLASS = 'windicon-direction';
+    public const string DIRECTION_CLASS = 'windicon-direction';
 
     protected BeaufortScale $BeaufortScale;
 

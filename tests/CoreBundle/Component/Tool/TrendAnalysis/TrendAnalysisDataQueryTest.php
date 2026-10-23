@@ -107,10 +107,7 @@ final class TrendAnalysisDataQueryTest extends TestCase
     {
         $trendAnalysisData = $this->createTrendAnalysisDataMock();
         $trendAnalysisData->method('getSport')
-            ->willReturn([
-                $this->createStub(Sport::class),
-                $this->createStub(Sport::class),
-            ]);
+            ->willReturn([$this->createStub(Sport::class), $this->createStub(Sport::class)]);
         $query = new TrendAnalysisDataQuery($trendAnalysisData);
 
         $queryValueMock = $this->createStub(QueryValueInterface::class);
@@ -199,20 +196,16 @@ final class TrendAnalysisDataQueryTest extends TestCase
 
         $firstDoctrineQuery = $this->createStub(Query::class);
         $firstDoctrineQuery->method('toIterable')
-            ->willReturn([
-                [
-                    'time' => 100,
-                    'value' => 1.0,
-                ],
-            ]);
+            ->willReturn([[
+                'time' => 100,
+                'value' => 1.0,
+            ]]);
         $secondDoctrineQuery = $this->createStub(Query::class);
         $secondDoctrineQuery->method('toIterable')
-            ->willReturn([
-                [
-                    'time' => 200,
-                    'value' => 2.0,
-                ],
-            ]);
+            ->willReturn([[
+                'time' => 200,
+                'value' => 2.0,
+            ]]);
 
         // Was method() only. expects(exactly(2)) makes it a real expectation.
         $query->expects($this->exactly(2))

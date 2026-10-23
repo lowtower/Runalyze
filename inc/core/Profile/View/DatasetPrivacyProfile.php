@@ -9,15 +9,9 @@ use Runalyze\Util\InterfaceChoosable;
 
 class DatasetPrivacyProfile extends AbstractEnum implements InterfaceChoosable
 {
-    /**
-     * @var int
-     */
-    public const PRIVATE_KEY = 0;
+    public const int PRIVATE_KEY = 0;
 
-    /**
-     * @var int
-     */
-    public const PUBLIC_KEY = 1;
+    public const int PUBLIC_KEY = 1;
 
     /**
      * @param int $id id from internal enum

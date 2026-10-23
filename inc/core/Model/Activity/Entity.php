@@ -20,524 +20,420 @@ class Entity extends Model\EntityWithID
 {
     /**
      * Key: timestamp
-     * @var string
      */
-    public const TIMESTAMP = 'time';
+    public const string TIMESTAMP = 'time';
 
     /**
      * Key: timezone offset [minutes]
-     * @var string
      */
-    public const TIMEZONE_OFFSET = 'timezone_offset';
+    public const string TIMEZONE_OFFSET = 'timezone_offset';
 
     /**
      * Key: timestamp created
-     * @var string
      */
-    public const TIMESTAMP_CREATED = 'created';
+    public const string TIMESTAMP_CREATED = 'created';
 
     /**
      * Key: timestamp last edit
-     * @var string
      */
-    public const TIMESTAMP_EDITED = 'edited';
+    public const string TIMESTAMP_EDITED = 'edited';
 
     /**
      * Key: sportid
-     * @var string
      */
-    public const SPORTID = 'sportid';
+    public const string SPORTID = 'sportid';
 
     /**
      * Key: typeid
-     * @var string
      */
-    public const TYPEID = 'typeid';
+    public const string TYPEID = 'typeid';
 
     /**
      * Key: is public
-     * @var string
      */
-    public const IS_PUBLIC = 'is_public';
+    public const string IS_PUBLIC = 'is_public';
 
     /**
      * Key: is track
-     * @var string
      */
-    public const IS_TRACK = 'is_track';
+    public const string IS_TRACK = 'is_track';
 
     /**
      * Key: has training goal
-     * @var string
      */
-    public const WITH_GOAL = 'with_goal';
+    public const string WITH_GOAL = 'with_goal';
 
     /**
      * Key: distance
-     * @var string
      */
-    public const DISTANCE = 'distance';
+    public const string DISTANCE = 'distance';
 
     /**
      * Key: time in seconds
-     * @var string
      */
-    public const TIME_IN_SECONDS = 's';
+    public const string TIME_IN_SECONDS = 's';
 
     /**
      * Key: elapsed time
-     * @var string
      */
-    public const ELAPSED_TIME = 'elapsed_time';
+    public const string ELAPSED_TIME = 'elapsed_time';
 
     /**
      * Key: elevation
-     * @var string
      */
-    public const ELEVATION = 'elevation';
+    public const string ELEVATION = 'elevation';
 
     /**
      * Key: climb score
-     * @var string
      */
-    public const CLIMB_SCORE = 'climb_score';
+    public const string CLIMB_SCORE = 'climb_score';
 
     /**
      * Key: percentage hilly
-     * @var string
      */
-    public const PERCENTAGE_HILLY = 'percentage_hilly';
+    public const string PERCENTAGE_HILLY = 'percentage_hilly';
 
     /**
      * Key: energy
-     * @var string
      */
-    public const ENERGY = 'kcal';
+    public const string ENERGY = 'kcal';
 
     /**
      * Key: energy in rest
-     * @var string
      */
-    public const ENERGY_REST = 'kcal_rest';
+    public const string ENERGY_REST = 'kcal_rest';
 
     /**
      * Key: average heart rate
-     * @var string
      */
-    public const HR_AVG = 'pulse_avg';
+    public const string HR_AVG = 'pulse_avg';
 
     /**
      * Key: maximal heart rate
-     * @var string
      */
-    public const HR_MAX = 'pulse_max';
+    public const string HR_MAX = 'pulse_max';
 
     /**
      * Key: average heart rate active rounds
-     * @var string
      */
-    public const HR_AVG_ACTIVE = 'pulse_avg_active';
+    public const string HR_AVG_ACTIVE = 'pulse_avg_active';
 
     /**
      * Key: max heart rate for the user while the activity is done (the general max HR, not the activity one)
-     * @var string
      */
-    public const MAX_HR_USER = 'max_hr_user';
+    public const string MAX_HR_USER = 'max_hr_user';
 
     /**
      * Key: lower bounds of the hr zones while the activity is done
-     * @var string
      */
-    public const HR_ZONE_BOUNDS = 'hr_zone_bounds';
+    public const string HR_ZONE_BOUNDS = 'hr_zone_bounds';
 
     /**
      * Key: vo2max
-     * @var string
      */
-    public const VO2MAX = 'vo2max';
+    public const string VO2MAX = 'vo2max';
 
     /**
      * Key: vo2max by time
-     * @var string
      */
-    public const VO2MAX_BY_TIME = 'vo2max_by_time';
+    public const string VO2MAX_BY_TIME = 'vo2max_by_time';
 
     /**
      * Key: vo2max with elevation
-     * @var string
      */
-    public const VO2MAX_WITH_ELEVATION = 'vo2max_with_elevation';
+    public const string VO2MAX_WITH_ELEVATION = 'vo2max_with_elevation';
 
     /**
      * Key: use vo2max
-     * @var string
      */
-    public const USE_VO2MAX = 'use_vo2max';
+    public const string USE_VO2MAX = 'use_vo2max';
 
     /**
      * Key: vo2max estimate from fit file
-     * @var string
      */
-    public const FIT_VO2MAX_ESTIMATE = 'fit_vo2max_estimate';
+    public const string FIT_VO2MAX_ESTIMATE = 'fit_vo2max_estimate';
 
     /**
      * Key: recovery time from fit file
-     * @var string
      */
-    public const FIT_RECOVERY_TIME = 'fit_recovery_time';
+    public const string FIT_RECOVERY_TIME = 'fit_recovery_time';
 
     /**
      * Key: hrv analysis score from fit file
-     * @var string
      */
-    public const FIT_HRV_ANALYSIS = 'fit_hrv_analysis';
+    public const string FIT_HRV_ANALYSIS = 'fit_hrv_analysis';
 
     /**
      * Key: total training effect benefit from fit file
-     * @var string
      */
-    public const FIT_TRAINING_EFFECT_BENEFIT = 'fit_training_effect_benefit';
+    public const string FIT_TRAINING_EFFECT_BENEFIT = 'fit_training_effect_benefit';
 
     /**
      * Key: total training effect from fit file
-     * @var string
      */
-    public const FIT_TRAINING_EFFECT = 'fit_training_effect';
+    public const string FIT_TRAINING_EFFECT = 'fit_training_effect';
 
     /**
      * Key: total anaerobic training effect from fit file
-     * @var string
      */
-    public const FIT_ANAEROBIC_TRAINING_EFFECT = 'fit_anaerobic_training_effect';
+    public const string FIT_ANAEROBIC_TRAINING_EFFECT = 'fit_anaerobic_training_effect';
 
     /**
      * Key: performance condition from fit file
-     * @var string
      */
-    public const FIT_PERFORMANCE_CONDITION = 'fit_performance_condition';
+    public const string FIT_PERFORMANCE_CONDITION = 'fit_performance_condition';
 
     /**
      * Key: performance condition from fit file
-     * @var string
      */
-    public const FIT_PERFORMANCE_CONDITION_END = 'fit_performance_condition_end';
+    public const string FIT_PERFORMANCE_CONDITION_END = 'fit_performance_condition_end';
 
     /**
      * Key: lactate threshold heart rate file
-     * @var string
      */
-    public const FIT_LACTATE_THRESHOLD_HR = 'fit_lactate_threshold_hr';
+    public const string FIT_LACTATE_THRESHOLD_HR = 'fit_lactate_threshold_hr';
 
     /**
      * Key: lactate threshold pace (in m/s) file
-     * @var string
      */
-    public const FIT_LACTATE_THRESHOLD_PACE = 'fit_lactate_threshold_pace_ms';
+    public const string FIT_LACTATE_THRESHOLD_PACE = 'fit_lactate_threshold_pace_ms';
 
     /**
      * Key: fit total ascent
-     * @var string
      */
-    public const FIT_TOTAL_ASCENT = 'fit_total_ascent';
+    public const string FIT_TOTAL_ASCENT = 'fit_total_ascent';
 
     /**
      * Key: fit total descent
-     * @var string
      */
-    public const FIT_TOTAL_DESCENT = 'fit_total_descent';
+    public const string FIT_TOTAL_DESCENT = 'fit_total_descent';
 
     /**
      * Key: fit_self_evaluation_feeling
-     * @var string
      */
-    public const FIT_SELF_ELEVATION_FEELING = 'fit_self_evaluation_feeling';
+    public const string FIT_SELF_ELEVATION_FEELING = 'fit_self_evaluation_feeling';
 
     /**
      * Key: fit_self_evaluation_perceived_effort
-     * @var string
      */
-    public const FIT_SELF_ELEVATION_PERCEIVED_EFFORT = 'fit_self_evaluation_perceived_effort';
+    public const string FIT_SELF_ELEVATION_PERCEIVED_EFFORT = 'fit_self_evaluation_perceived_effort';
 
     /**
      * Key: fit_load_peak
-     * @var string
      */
-    public const FIT_LOAD_PEAK = 'fit_load_peak';
+    public const string FIT_LOAD_PEAK = 'fit_load_peak';
 
     /**
      * Key: fit_run_time
-     * @var string
      */
-    public const FIT_RUN_TIME = 'fit_run_time';
+    public const string FIT_RUN_TIME = 'fit_run_time';
 
     /**
      * Key: fit_walk_time
-     * @var string
      */
-    public const FIT_WALK_TIME = 'fit_walk_time';
+    public const string FIT_WALK_TIME = 'fit_walk_time';
 
     /**
      * Key: fit_stand_time
-     * @var string
      */
-    public const FIT_STAND_TIME = 'fit_stand_time';
+    public const string FIT_STAND_TIME = 'fit_stand_time';
 
     /**
      * Key: for every HR_ZONE_BOUNDS the times in seconds
-     * @var string
      */
-    public const FIT_SECONDS_HR_ZONES = 'fit_seconds_hr_zones';
+    public const string FIT_SECONDS_HR_ZONES = 'fit_seconds_hr_zones';
 
     /**
      * Key: sweat loss in ml
-     * @var string
      */
-    public const FIT_SWEAT_LOSS = 'fit_sweat_loss';
+    public const string FIT_SWEAT_LOSS = 'fit_sweat_loss';
 
     /**
      * Key: avg_respiration_rate
-     * @var string
      */
-    public const AVG_RESPIRATION_RATE = 'avg_respiration_rate';
+    public const string AVG_RESPIRATION_RATE = 'avg_respiration_rate';
 
     /**
      * Key: max_respiration_rate
-     * @var string
      */
-    public const MAX_RESPIRATION_RATE = 'max_respiration_rate';
+    public const string MAX_RESPIRATION_RATE = 'max_respiration_rate';
 
     /**
      * Key: RPE
-     * @var string
      */
-    public const RPE = 'rpe';
+    public const string RPE = 'rpe';
 
     /**
      * Key: trimp
-     * @var string
      */
-    public const TRIMP = 'trimp';
+    public const string TRIMP = 'trimp';
 
     /**
      * Key: cadence
-     * @var string
      */
-    public const CADENCE = 'cadence';
+    public const string CADENCE = 'cadence';
 
     /**
      * Key: power
-     * @var string
      */
-    public const POWER = 'power';
+    public const string POWER = 'power';
 
     /**
      * Key: power
-     * @var string
      */
-    public const IS_POWER_CALCULATED = 'is_power_calculated';
+    public const string IS_POWER_CALCULATED = 'is_power_calculated';
 
     /**
      * Key: stride length
-     * @var string
      */
-    public const STRIDE_LENGTH = 'stride_length';
+    public const string STRIDE_LENGTH = 'stride_length';
 
     /**
      * Key: total_strokes
-     * @var string
      */
-    public const TOTAL_STROKES = 'total_strokes';
+    public const string TOTAL_STROKES = 'total_strokes';
 
     /**
      * Key: SWOLF
-     * @var string
      */
-    public const SWOLF = 'swolf';
+    public const string SWOLF = 'swolf';
 
     /**
      * Key: total_cycles
-     * @var string
      */
-    public const TOTAL_CYCLES = 'total_cycles';
+    public const string TOTAL_CYCLES = 'total_cycles';
 
     /**
      * Key: ground contact time
-     * @var string
      */
-    public const GROUNDCONTACT = 'groundcontact';
+    public const string GROUNDCONTACT = 'groundcontact';
 
     /**
      * Key: vertical oscillation
-     * @var string
      */
-    public const VERTICAL_OSCILLATION = 'vertical_oscillation';
+    public const string VERTICAL_OSCILLATION = 'vertical_oscillation';
 
     /**
      * Key: ground contact time balance
-     * @var string
      */
-    public const GROUNDCONTACT_BALANCE = 'groundcontact_balance';
+    public const string GROUNDCONTACT_BALANCE = 'groundcontact_balance';
 
     /**
      * Key: vertical ratio
-     * @var string
      */
-    public const VERTICAL_RATIO = 'vertical_ratio';
+    public const string VERTICAL_RATIO = 'vertical_ratio';
 
-    /**
-     * @var string
-     */
-    public const AVG_IMPACT_GS_LEFT = 'avg_impact_gs_left';
+    public const string AVG_IMPACT_GS_LEFT = 'avg_impact_gs_left';
 
-    /**
-     * @var string
-     */
-    public const AVG_IMPACT_GS_RIGHT = 'avg_impact_gs_right';
+    public const string AVG_IMPACT_GS_RIGHT = 'avg_impact_gs_right';
 
-    /**
-     * @var string
-     */
-    public const AVG_BRAKING_GS_LEFT = 'avg_braking_gs_left';
+    public const string AVG_BRAKING_GS_LEFT = 'avg_braking_gs_left';
 
-    /**
-     * @var string
-     */
-    public const AVG_BRAKING_GS_RIGHT = 'avg_braking_gs_right';
+    public const string AVG_BRAKING_GS_RIGHT = 'avg_braking_gs_right';
 
-    /**
-     * @var string
-     */
-    public const AVG_FOOTSTRIKE_TYPE_LEFT = 'avg_footstrike_type_left';
+    public const string AVG_FOOTSTRIKE_TYPE_LEFT = 'avg_footstrike_type_left';
 
-    /**
-     * @var string
-     */
-    public const AVG_FOOTSTRIKE_TYPE_RIGHT = 'avg_footstrike_type_right';
+    public const string AVG_FOOTSTRIKE_TYPE_RIGHT = 'avg_footstrike_type_right';
 
-    /**
-     * @var string
-     */
-    public const AVG_PRONATION_EXCURSION_LEFT = 'avg_pronation_excursion_left';
+    public const string AVG_PRONATION_EXCURSION_LEFT = 'avg_pronation_excursion_left';
 
-    /**
-     * @var string
-     */
-    public const AVG_PRONATION_EXCURSION_RIGHT = 'avg_pronation_excursion_right';
+    public const string AVG_PRONATION_EXCURSION_RIGHT = 'avg_pronation_excursion_right';
 
     /**
      * Key: temperature
-     * @var string
      */
-    public const TEMPERATURE = 'temperature';
+    public const string TEMPERATURE = 'temperature';
 
     /**
      * Key: wind speed
-     * @var string
      */
-    public const WINDSPEED = 'wind_speed';
+    public const string WINDSPEED = 'wind_speed';
 
     /**
      * Key: wind degree
-     * @var string
      */
-    public const WINDDEG = 'wind_deg';
+    public const string WINDDEG = 'wind_deg';
 
     /**
      * Key: humidity
-     * @var string
      */
-    public const HUMIDITY = 'humidity';
+    public const string HUMIDITY = 'humidity';
 
     /**
      * Key: pressure
-     * @var string
      */
-    public const PRESSURE = 'pressure';
+    public const string PRESSURE = 'pressure';
 
     /**
      * Key: weather id
-     * @var string
      */
-    public const WEATHERID = 'weatherid';
+    public const string WEATHERID = 'weatherid';
 
     /**
      * Key: weather source
-     * @var string
      */
-    public const WEATHER_SOURCE = 'weather_source';
+    public const string WEATHER_SOURCE = 'weather_source';
 
     /**
      * Key: is night
-     * @var string
      */
-    public const IS_NIGHT = 'is_night';
+    public const string IS_NIGHT = 'is_night';
 
     /**
      * Key: route id
-     * @var string
      */
-    public const ROUTEID = 'routeid';
+    public const string ROUTEID = 'routeid';
 
     /**
      * Key: route
-     * @var string
      * @deprecated
      */
-    public const ROUTE = 'route';
+    public const string ROUTE = 'route';
 
     /**
      * Key: splits
-     * @var string
      */
-    public const SPLITS = 'splits';
+    public const string SPLITS = 'splits';
 
     /**
      * Key: splits_additional
-     * @var string
      */
-    public const SPLITS_ADDITIONAL = 'splits_additional';
+    public const string SPLITS_ADDITIONAL = 'splits_additional';
 
     /**
      * Key: pace_goal
-     * @var string
      */
-    public const PACE_GOAL = 'pace_goal';
+    public const string PACE_GOAL = 'pace_goal';
 
     /**
      * Key: title
-     * @var string
      */
-    public const TITLE = 'title';
+    public const string TITLE = 'title';
 
     /**
      * Key: partner
-     * @var string
      */
-    public const PARTNER = 'partner';
+    public const string PARTNER = 'partner';
 
     /**
      * Key: notes
-     * @var string
      */
-    public const NOTES = 'notes';
+    public const string NOTES = 'notes';
 
     /**
      * Key: creator
-     * @var string
      */
-    public const CREATOR = 'creator';
+    public const string CREATOR = 'creator';
 
     /**
      * Key: creator details
-     * @var string
      */
-    public const CREATOR_DETAILS = 'creator_details';
+    public const string CREATOR_DETAILS = 'creator_details';
 
     /**
      * Key: activity id
-     * @var string
      */
-    public const ACTIVITY_ID = 'activity_id';
+    public const string ACTIVITY_ID = 'activity_id';
 
     protected ?\Runalyze\Data\Weather $Weather = null;
 
@@ -654,7 +550,7 @@ class Entity extends Model\EntityWithID
 
     public function properties(): array
     {
-        return static::allDatabaseProperties();
+        return self::allDatabaseProperties();
     }
 
     public function isArray(string $key): bool

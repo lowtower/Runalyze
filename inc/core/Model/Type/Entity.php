@@ -21,39 +21,33 @@ class Entity extends Model\EntityWithID
 {
     /**
      * Key: name
-     * @var string
      */
-    public const NAME = 'name';
+    public const string NAME = 'name';
 
     /**
      * Key: short display
-     * @var string
      */
-    public const ABBREVIATION = 'abbr';
+    public const string ABBREVIATION = 'abbr';
 
     /**
      * Key: sport id
-     * @var string
      */
-    public const SPORTID = 'sportid';
+    public const string SPORTID = 'sportid';
 
     /**
      * Key: short mode
-     * @var string
      */
-    public const SHORT = 'short';
+    public const string SHORT = 'short';
 
     /**
      * Key: avg. heart rate
-     * @var string
      */
-    public const HR_AVG = 'hr_avg';
+    public const string HR_AVG = 'hr_avg';
 
     /**
      * Key: quality session
-     * @var string
      */
-    public const QUALITY_SESSION = 'quality_session';
+    public const string QUALITY_SESSION = 'quality_session';
 
     /**
      * All properties
@@ -76,7 +70,7 @@ class Entity extends Model\EntityWithID
      */
     public function properties(): array
     {
-        return static::allDatabaseProperties();
+        return self::allDatabaseProperties();
     }
 
     public function name(): string

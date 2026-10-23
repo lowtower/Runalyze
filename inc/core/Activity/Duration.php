@@ -16,25 +16,13 @@ use DateTimeZone;
  */
 class Duration
 {
-    /**
-     * @var string
-     */
-    public const FORMAT_AUTO = 'auto';
+    public const string FORMAT_AUTO = 'auto';
 
-    /**
-     * @var string
-     */
-    public const FORMAT_COMPETITION = 'auto-competition';
+    public const string FORMAT_COMPETITION = 'auto-competition';
 
-    /**
-     * @var string
-     */
-    public const FORMAT_WITH_DAYS = 'z\d H:i:s';
+    public const string FORMAT_WITH_DAYS = 'z\d H:i:s';
 
-    /**
-     * @var string
-     */
-    public const FORMAT_WITH_HOURS = 'G:i:s';
+    public const string FORMAT_WITH_HOURS = 'G:i:s';
 
     public static string $DECIMAL_POINT = ',';
 

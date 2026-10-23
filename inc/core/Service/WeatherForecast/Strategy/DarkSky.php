@@ -27,10 +27,7 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface, LastExceptionA
 {
     use LoggerAwareTrait;
 
-    /**
-     * @var string
-     */
-    public const URL = 'https://api.darksky.net/forecast/';
+    public const string URL = 'https://api.darksky.net/forecast/';
 
     /**
      * NOTE: newly added - see MeteostatNet.php / OpenWeatherMap.php for the

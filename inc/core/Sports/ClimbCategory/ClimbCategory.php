@@ -4,40 +4,19 @@ namespace Runalyze\Sports\ClimbCategory;
 
 class ClimbCategory implements \Stringable
 {
-    /**
-     * @var int
-     */
-    public const CATEGORY_HC = 0;
+    public const int CATEGORY_HC = 0;
 
-    /**
-     * @var int
-     */
-    public const CATEGORY_1 = 1;
+    public const int CATEGORY_1 = 1;
 
-    /**
-     * @var int
-     */
-    public const CATEGORY_2 = 2;
+    public const int CATEGORY_2 = 2;
 
-    /**
-     * @var int
-     */
-    public const CATEGORY_3 = 3;
+    public const int CATEGORY_3 = 3;
 
-    /**
-     * @var int
-     */
-    public const CATEGORY_4 = 4;
+    public const int CATEGORY_4 = 4;
 
-    /**
-     * @var int
-     */
-    public const CATEGORY_5 = 5;
+    public const int CATEGORY_5 = 5;
 
-    /**
-     * @var int
-     */
-    public const CATEGORY_NONE = 6;
+    public const int CATEGORY_NONE = 6;
 
     /**
      * @param int $Category

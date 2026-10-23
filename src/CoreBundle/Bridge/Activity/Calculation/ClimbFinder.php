@@ -13,12 +13,12 @@ class ClimbFinder
     /**
      * @var float [-]
      */
-    public const EPSILON_DEFAULT = 1.1;
+    public const float EPSILON_DEFAULT = 1.1;
 
     /**
      * @var float [m]
      */
-    public const EPSILON_FOR_CLIMB_PROFILE = 0.1;
+    public const float EPSILON_FOR_CLIMB_PROFILE = 0.1;
 
     public function findClimbsFor(Training $activity, float $epsilon = self::EPSILON_DEFAULT): ClimbCollection
     {

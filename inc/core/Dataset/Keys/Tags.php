@@ -17,10 +17,7 @@ use Runalyze\Dataset\Context;
  */
 class Tags extends AbstractKey
 {
-    /**
-     * @var string
-     */
-    public const CONCAT_TAGIDS_KEY = 'concat_tags';
+    public const string CONCAT_TAGIDS_KEY = 'concat_tags';
 
     /**
      * Enum id

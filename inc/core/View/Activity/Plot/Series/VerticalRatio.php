@@ -22,10 +22,7 @@ use Runalyze\View\Activity;
  */
 class VerticalRatio extends ActivityPointSeries
 {
-    /**
-     * @var string
-     */
-    public const COLOR = 'rgb(200,100,0)';
+    public const string COLOR = 'rgb(200,100,0)';
 
     /**
      * Create series

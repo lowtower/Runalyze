@@ -11,30 +11,27 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 #[\Symfony\Component\Console\Attribute\AsCommand(name: 'runalyze:install:check', description: 'Check requirements for installing RUNALYZE.')]
 class InstallCheckCommand extends Command
 {
-    /**
-     * @var string
-     */
-    public const REQUIRED_PHP_VERSION = '8.4.0';
+    public const string REQUIRED_PHP_VERSION = '8.4.0';
 
     /**
      * @var int exit code
      */
-    public const CHECK_FAILED = 1;
+    public const int CHECK_FAILED = 1;
 
     /**
      * @var int bit flag for return code
      */
-    public const OKAY = 0x00;
+    public const int OKAY = 0x00;
 
     /**
      * @var int bit flag for return code
      */
-    public const WARNING = 0x01;
+    public const int WARNING = 0x01;
 
     /**
      * @var int bit flag for return code
      */
-    public const ERROR = 0x10;
+    public const int ERROR = 0x10;
 
     /**
      * @var int current return code

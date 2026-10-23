@@ -25,7 +25,6 @@ final class CustomExpressionQueryValuesTest extends TestCase
             ->willReturnCallback(
                 function (string $condition) use (&$andWhereCalls, $queryBuilder): QueryBuilder {
                     $andWhereCalls[] = $condition;
-
                     return $queryBuilder;
                 }
             );
@@ -51,7 +50,6 @@ final class CustomExpressionQueryValuesTest extends TestCase
             ->willReturnCallback(
                 function (string $condition) use (&$andWhereCalls, $queryBuilder): QueryBuilder {
                     $andWhereCalls[] = $condition;
-
                     return $queryBuilder;
                 }
             );

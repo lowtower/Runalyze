@@ -18,27 +18,23 @@ class ElevationMethod extends \Runalyze\Parameter\Select
 {
     /**
      * None
-     * @var string
      */
-    public const NONE = 'none';
+    public const string NONE = 'none';
 
     /**
      * Threshold
-     * @var string
      */
-    public const THRESHOLD = 'treshold';
+    public const string THRESHOLD = 'treshold';
 
     /**
      * Douglas-Peucker
-     * @var string
      */
-    public const DOUGLAS_PEUCKER = 'douglas-peucker';
+    public const string DOUGLAS_PEUCKER = 'douglas-peucker';
 
     /**
      * Reumann-Witkam
-     * @var string
      */
-    public const REUMANN_WITKAM = 'reumann-witkamm';
+    public const string REUMANN_WITKAM = 'reumann-witkamm';
 
     public function __construct()
     {

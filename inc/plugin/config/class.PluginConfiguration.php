@@ -11,10 +11,7 @@
  */
 class PluginConfiguration
 {
-    /**
-     * @var string
-     */
-    public const CACHE_KEY = 'PluginConf';
+    public const string CACHE_KEY = 'PluginConf';
 
     /**
      * Values

@@ -32,7 +32,7 @@ class Lap
      * #TSC Mode is the "old" name and i dont want to change it.
      * @var LapIntensity enum
      */
-    protected ?LapIntensity $Mode = null;
+    protected ?LapIntensity $Mode;
 
     protected ?Duration $TrackDurationAtEnd = null;
 

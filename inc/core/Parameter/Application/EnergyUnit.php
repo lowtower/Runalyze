@@ -21,15 +21,13 @@ class EnergyUnit extends \Runalyze\Parameter\Select
 {
     /**
      * Kilocalories
-     * @var string
      */
-    public const KCAL = 'kcal';
+    public const string KCAL = 'kcal';
 
     /**
      * Kilojoule
-     * @var string
      */
-    public const KJ = 'kJ';
+    public const string KJ = 'kJ';
 
     /**
      * Construct

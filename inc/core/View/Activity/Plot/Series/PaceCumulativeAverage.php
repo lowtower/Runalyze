@@ -18,10 +18,7 @@ use Runalyze\View\Activity;
  */
 class PaceCumulativeAverage extends Pace
 {
-    /**
-     * @var string
-     */
-    public const COLOR = 'rgb(200,200,255)';
+    public const string COLOR = 'rgb(200,200,255)';
 
     protected bool $adjustAxis = false;
 

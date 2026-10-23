@@ -16,7 +16,7 @@ namespace Runalyze\Mathematics\Filter;
  */
 class InfiniteImpulseResponseFilter
 {
-    protected int $Order = 0;
+    protected int $Order;
 
     public function __construct(
         protected array $InputCoefficients,
@@ -70,7 +70,7 @@ class InfiniteImpulseResponseFilter
      * @param-out array<int, mixed> $outputData
      * @param int $currentSize must equal size of $inputData and $outputData
      */
-    protected function enlargeData(array &$inputData, array &$outputData, $currentSize)
+    protected function enlargeData(array &$inputData, array &$outputData, int $currentSize)
     {
         $firstElement = $inputData[0];
         $lastElement = $inputData[$currentSize - 1];
@@ -88,7 +88,7 @@ class InfiniteImpulseResponseFilter
      * @param array<int, mixed> $outputData numerical array, must be of size [order + $length]
      * @param int $length number of points to filter (in general [signalLength + order])
      */
-    protected function applyFilter(array &$inputData, array &$outputData, $length)
+    protected function applyFilter(array &$inputData, array &$outputData, int $length)
     {
         $length += $this->Order;
 

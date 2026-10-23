@@ -11,9 +11,9 @@ namespace Runalyze\Mathematics\Scale;
  */
 class Percental implements ScaleInterface
 {
-    protected float $Min = 0.0;
+    protected float $Min;
 
-    protected float $Max = 100.0;
+    protected float $Max;
 
     public function __construct(float $min = 0.0, float $max = 100.0)
     {

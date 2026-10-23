@@ -21,20 +21,11 @@ use Runalyze\Model\Trackdata\Loop;
  */
 class DataCollector
 {
-    /**
-     * @var int
-     */
-    public const X_AXIS_INDEX = 0;
+    public const int X_AXIS_INDEX = 0;
 
-    /**
-     * @var int
-     */
-    public const X_AXIS_TIME = 1;
+    public const int X_AXIS_TIME = 1;
 
-    /**
-     * @var int
-     */
-    public const X_AXIS_DISTANCE = 2;
+    public const int X_AXIS_DISTANCE = 2;
 
     protected string $Key;
 

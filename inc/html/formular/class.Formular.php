@@ -36,7 +36,7 @@ class Formular extends HtmlTag
     /**
      * Formular action
      */
-    protected string $action = '';
+    protected string $action;
 
     /**
      * H1-header

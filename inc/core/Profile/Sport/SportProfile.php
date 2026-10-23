@@ -10,75 +10,33 @@ class SportProfile extends AbstractEnum implements InterfaceChoosable
 {
     use AbstractEnumFactoryTrait;
 
-    /**
-     * @var int
-     */
-    public const GENERIC = 0;
+    public const int GENERIC = 0;
 
-    /**
-     * @var int
-     */
-    public const RUNNING = 1;
+    public const int RUNNING = 1;
 
-    /**
-     * @var int
-     */
-    public const CYCLING = 2;
+    public const int CYCLING = 2;
 
-    /**
-     * @var int
-     */
-    public const SWIMMING = 3;
+    public const int SWIMMING = 3;
 
-    /**
-     * @var int
-     */
-    public const ROWING = 4;
+    public const int ROWING = 4;
 
-    /**
-     * @var int
-     */
-    public const HIKING = 5;
+    public const int HIKING = 5;
 
-    /**
-     * @var int
-     */
-    public const MOUNTAINEERING = 6;
+    public const int MOUNTAINEERING = 6;
 
-    /**
-     * @var int
-     */
-    public const SNOW_SHOEING = 7;
+    public const int SNOW_SHOEING = 7;
 
-    /**
-     * @var int
-     */
-    public const CROSS_COUNTRY_SKIING = 8;
+    public const int CROSS_COUNTRY_SKIING = 8;
 
-    /**
-     * @var int
-     */
-    public const BOULDERING = 9;
+    public const int BOULDERING = 9;
 
-    /**
-     * @var int
-     */
-    public const CLIMBING_INDOOR = 10;
+    public const int CLIMBING_INDOOR = 10;
 
-    /**
-     * @var int
-     */
-    public const STRENGTH_TRAINING = 11;
+    public const int STRENGTH_TRAINING = 11;
 
-    /**
-     * @var int
-     */
-    public const E_MTB_MOUNTAIN = 12;
+    public const int E_MTB_MOUNTAIN = 12;
 
-    /**
-     * @var int
-     */
-    public const HIIT_CARDIO = 13;
+    public const int HIIT_CARDIO = 13;
 
     public static function getChoices(): array
     {

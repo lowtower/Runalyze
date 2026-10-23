@@ -162,10 +162,7 @@ class ElevationInfo
         $Fieldset->display();
     }
 
-    /**
-     * @param array $array
-     */
-    protected function getDifferentAlgorithmsFor($array): string
+    protected function getDifferentAlgorithmsFor(array $array): string
     {
         $Method = new ElevationMethod();
         $Calculator = new Calculation\Elevation\Calculator($array);

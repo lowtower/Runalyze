@@ -13,7 +13,7 @@ class LegacyEffectiveVO2maxCorrector
     /**
      * @var int Number of (best) races to look at
      */
-    public const DB_LOOKUP_LIMIT = 3;
+    public const int DB_LOOKUP_LIMIT = 3;
 
     private static float $GlobalFactor = 1.0;
 

@@ -10,50 +10,23 @@ class PaceEnum extends AbstractEnum implements InterfaceChoosable
 {
     use AbstractEnumFactoryTrait;
 
-    /**
-     * @var int
-     */
-    public const SECONDS_PER_KILOMETER = 0;
+    public const int SECONDS_PER_KILOMETER = 0;
 
-    /**
-     * @var int
-     */
-    public const SECONDS_PER_MILE = 1;
+    public const int SECONDS_PER_MILE = 1;
 
-    /**
-     * @var int
-     */
-    public const SECONDS_PER_500M = 2;
+    public const int SECONDS_PER_500M = 2;
 
-    /**
-     * @var int
-     */
-    public const SECONDS_PER_500Y = 3;
+    public const int SECONDS_PER_500Y = 3;
 
-    /**
-     * @var int
-     */
-    public const SECONDS_PER_100M = 4;
+    public const int SECONDS_PER_100M = 4;
 
-    /**
-     * @var int
-     */
-    public const SECONDS_PER_100Y = 5;
+    public const int SECONDS_PER_100Y = 5;
 
-    /**
-     * @var int
-     */
-    public const KILOMETER_PER_HOUR = 6;
+    public const int KILOMETER_PER_HOUR = 6;
 
-    /**
-     * @var int
-     */
-    public const MILES_PER_HOUR = 7;
+    public const int MILES_PER_HOUR = 7;
 
-    /**
-     * @var int
-     */
-    public const METER_PER_SECOND = 8;
+    public const int METER_PER_SECOND = 8;
 
     /**
      * @return mixed[]

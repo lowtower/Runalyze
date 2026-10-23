@@ -20,7 +20,7 @@ class HeartRate
     /**
      * Value [bpm]
      */
-    protected ?float $value = null;
+    protected ?float $value;
 
     protected HeartRateUnit $PreferredUnit;
 

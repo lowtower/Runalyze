@@ -11,15 +11,9 @@ use Runalyze\Parser\Common\AbstractShellBasedFileTypeConverter;
 
 class FitConverter extends AbstractShellBasedFileTypeConverter
 {
-    /**
-     * @var string
-     */
-    public const PERL_FIT_ERROR_MESSAGE_START = 'main::Garmin::FIT';
+    public const string PERL_FIT_ERROR_MESSAGE_START = 'main::Garmin::FIT';
 
-    /**
-     * @var string
-     */
-    public const PERL_GENERAL_MESSAGE_START = 'perl: warning:';
+    public const string PERL_GENERAL_MESSAGE_START = 'perl: warning:';
 
     public function __construct(
         protected string $PathToPerl,

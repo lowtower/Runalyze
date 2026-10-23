@@ -21,7 +21,7 @@ use Runalyze\Profile\Sport\SportProfile;
 class Pace extends AbstractKey
 {
     // #TSC minimum- and maximum-values in "km/h" to bound the pace bar
-    public const P_MIN_MAX = [
+    public const array P_MIN_MAX = [
         // km/h values means: pace between 12min/km - 3:20min/km
         SportProfile::RUNNING => [
             'min' => 5,
@@ -39,10 +39,7 @@ class Pace extends AbstractKey
         ],
     ];
 
-    /**
-     * @var string
-     */
-    public const DURATION_SUM_WITH_DISTANCE_KEY = 's_sum_with_distance';
+    public const string DURATION_SUM_WITH_DISTANCE_KEY = 's_sum_with_distance';
 
     /**
      * Enum id

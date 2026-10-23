@@ -19,30 +19,15 @@ use Runalyze\Common\Enum\AbstractEnum;
  */
 class TrainingEffectLevel extends AbstractEnum
 {
-    /**
-     * @var int
-     */
-    public const EASY = 1;
+    public const int EASY = 1;
 
-    /**
-     * @var int
-     */
-    public const MAINTAINING = 2;
+    public const int MAINTAINING = 2;
 
-    /**
-     * @var int
-     */
-    public const IMPROVING = 3;
+    public const int IMPROVING = 3;
 
-    /**
-     * @var int
-     */
-    public const HIGHLY_IMPROVING = 4;
+    public const int HIGHLY_IMPROVING = 4;
 
-    /**
-     * @var int
-     */
-    public const OVERREACHING = 5;
+    public const int OVERREACHING = 5;
 
     /**
      * @param float $value value between 1.0 and 5.0

@@ -23,9 +23,9 @@ class Context
 
     protected Model\Trackdata\Entity $Trackdata;
 
-    protected ?Model\Swimdata\Entity $Swimdata = null;
+    protected ?Model\Swimdata\Entity $Swimdata;
 
-    protected ?Model\Route\Entity $Route = null;
+    protected ?Model\Route\Entity $Route;
 
     protected Model\HRV\Entity $HRV;
 

@@ -23,7 +23,7 @@ class Factory
     /**
      * Array with tablenames that should be cached statically
      */
-    protected array $UseStaticCacheAndFullFetch = [];
+    protected array $UseStaticCacheAndFullFetch;
 
     /**
      * Static cache to not read file-cache every time

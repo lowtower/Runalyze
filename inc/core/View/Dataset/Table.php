@@ -20,7 +20,7 @@ use Runalyze\View\Tooltip;
  */
 class Table
 {
-    protected array $ActiveKeys = [];
+    protected array $ActiveKeys;
 
     /**
      * Boolean flag to automatically set distance comparison

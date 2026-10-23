@@ -18,7 +18,7 @@ class Threshold extends AbstractStrategy
     /**
      * Epsilon
      */
-    protected float $Epsilon = 0.0;
+    protected float $Epsilon;
 
     /**
      * Construct

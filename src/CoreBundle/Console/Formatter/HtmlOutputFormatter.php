@@ -6,10 +6,7 @@ use Symfony\Component\Console\Formatter\OutputFormatter;
 
 class HtmlOutputFormatter extends OutputFormatter
 {
-    /**
-     * @var string
-     */
-    public const CLI_COLORS_PATTERN = '/\033\[(([\d+];?)*)m(.*?)\033\[(([\d+];?)*)m/i';
+    public const string CLI_COLORS_PATTERN = '/\033\[(([\d+];?)*)m(.*?)\033\[(([\d+];?)*)m/i';
 
     /**
      * @var string[]
