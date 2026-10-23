@@ -24,7 +24,7 @@
     "gulp-cli": "2.3.0",
     "gulp-concat": "~2.6.1",
     "gulp-less": "~3.3.0",
-    "gulp-phpunit": "~0.15.2",
+    "gulp-phpunit": "~0.26.0",
     "gulp-rename": "~1.2.2",
     "gulp-shell": "~0.5.2",
     "gulp-sourcemaps": "~1.12.0",
