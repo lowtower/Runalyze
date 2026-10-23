@@ -21,7 +21,12 @@ services:
     volumes:
       - ./:/var/www/html
       - node-modules:/var/www/html/node_modules
-    command: ["bash", "-lc", "set -e && npm install --ignore-scripts && npm run bower:install && npm run build"]
+    mem_limit: 2g
+    mem_reservation: 1g
+    stop_grace_period: 60s
+    command: ["bash", "-lc", "set -e && npm install && npm run bower:install && npm run build && echo 'Build complete'"]
+    stdin_open: true
+    tty: true
 
 ###> symfony/mailer ###
   mailhog:

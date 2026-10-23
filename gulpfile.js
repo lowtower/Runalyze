@@ -7,16 +7,16 @@ var concat = require('gulp-concat');
 var less = require('gulp-less');
 var rename = require('gulp-rename');
 var sourcemaps = require('gulp-sourcemaps');
-var uglify = require('gulp-uglify');
+var terser = require('gulp-terser');
 var shell = require('gulp-shell');
 var phpunit = require('gulp-phpunit');
 var config = require('./resources.json');
 
-function clean(done) {
+async function clean() {
     return del([
         config.less.dest + "*.css",
         config.js.dest + "*.js"
-    ], done);
+    ]);
 }
 clean.description = 'Clean output files.';
 
@@ -45,7 +45,7 @@ function scripts() {
         .pipe(sourcemaps.init())
         .pipe(concat('scripts.min.js'))
         .pipe(gulp.dest(config.js.dest))
-        .pipe(uglify())
+        .pipe(terser())
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(config.js.dest));
 }
@@ -58,19 +58,19 @@ function tests() {
 tests.description = 'Run phpunit.';
 
 function translate() {
-  return gulp.src('./vendor/runalyze/translations/gettext/*/*/*.po', {read: false})
-    .pipe(shell([
-        'cp <%= file.path %> ./vendor/runalyze/translations/gettext', // Needed for symfony
-    ]))
-    .pipe(shell([
-        'msgfmt -v <%= file.path %> -o <%= target(file.path) %>'
-    ], {
-        templateData: {
-            target: function (f) {
-		return f.replace(/messages\.(.*)\.po$/, 'runalyze.mo')
+    return gulp.src('./vendor/runalyze/translations/gettext/*/*/*.po', {read: false})
+        .pipe(shell([
+            'cp <%= file.path %> ./vendor/runalyze/translations/gettext',
+        ]))
+        .pipe(shell([
+            'msgfmt -v <%= file.path %> -o <%= target(file.path) %>'
+        ], {
+            templateData: {
+                target: function (f) {
+                    return f.replace(/messages\.(.*)\.po$/, 'runalyze.mo')
+                }
             }
-        }
-    }))
+        }))
 }
 translate.description = 'Compile translation files.';
 

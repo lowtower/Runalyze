@@ -5,7 +5,7 @@
   "homepage": "https://runalyze.com/",
   "repository": {
     "type": "git",
-    "url": "git://github.com/Runalyze/Runalyze.git"
+    "url": "git://github.com/lowtower/Runalyze.git"
   },
   "main": "gulpfile.js",
   "scripts": {
@@ -18,17 +18,18 @@
   },
   "devDependencies": {
     "bower": "1.8.8",
-    "del": "~2.2.2",
-    "gulp": "4.0.2",
-    "gulp-clean-css": "~3.4.0",
-    "gulp-cli": "2.3.0",
-    "gulp-concat": "~2.6.1",
-    "gulp-less": "~3.3.0",
-    "gulp-phpunit": "~0.26.0",
-    "gulp-rename": "~1.2.2",
-    "gulp-shell": "~0.5.2",
-    "gulp-sourcemaps": "~1.12.0",
-    "gulp-uglify": "~1.5.4",
+    "del": "^6.1.1",
+    "gulp": "^5.0.1",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-cli": "^2.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-less": "^5.0.0",
+    "gulp-phpunit": "^0.26.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-shell": "0.8.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-terser": "^2.1.0",
+    "shelljs": "^0.8.4",
     "d3-scale-chromatic": "^1.2.0"
   }
 }
