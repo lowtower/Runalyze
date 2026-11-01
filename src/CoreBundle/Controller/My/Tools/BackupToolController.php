@@ -65,12 +65,12 @@ class BackupToolController extends AbstractController
         $filePath = $this->getPathToBackupFiles();
         $internalFilename = $fileHandler->transformPublicToInternalFilename($filename);
 
-        if (! $fileSystem->exists($filePath . $internalFilename)) {
-            throw $this->createNotFoundException();
-        }
-
         if (! $fileHandler->validateInternalFilename($internalFilename)) {
             throw $this->createAccessDeniedException();
+        }
+
+        if (! $fileSystem->exists($filePath . $internalFilename)) {
+            throw $this->createNotFoundException();
         }
 
         $response = new BinaryFileResponse($filePath . $internalFilename);

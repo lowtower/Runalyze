@@ -109,6 +109,31 @@ final class UploadControllerTest extends AbstractFixturesAwareWebTestCase
         }
     }
 
+    public function testUploadActionStoresFilesInsideImportDirectoryWhenClientFileNameContainsPath(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $sourcePath = $this->createTempFileWithContent('data');
+        $targetPath = $this->getPathToImportedFiles() . 'escaped-upload.gpx';
+        $outsidePath = $this->getPathToImportedFiles() . '../escaped-upload.gpx';
+        $uploadedFile = new UploadedFile($sourcePath, '../escaped-upload.gpx', null, null, true);
+
+        try {
+            $this->Client->request('POST', '/_internal/upload', [], [
+                'qqfile' => $uploadedFile,
+            ]);
+
+            $this->isSuccessful($this->Client->getResponse());
+            $this->assertFileExists($targetPath);
+            $this->assertFileDoesNotExist($outsidePath);
+        } finally {
+            new Filesystem()->remove([$targetPath, $outsidePath]);
+            if (file_exists($sourcePath)) {
+                unlink($sourcePath);
+            }
+        }
+    }
+
     public function testUploadActionReturnsErrorForFileNameThatIsNotValidUtf8(): void
     {
         if (! class_exists('Normalizer')) {
@@ -250,17 +275,12 @@ final class UploadControllerTest extends AbstractFixturesAwareWebTestCase
         );
     }
 
-    public function testAjaxSaveTcxActionReturnsErrorWhenTargetDirectoryCannotBeCreated(): void
+    public function testAjaxSaveTcxActionRejectsActivityIdWithPathSeparator(): void
     {
         $this->loginClient($this->Client, $this->Account, 'default');
 
-        $blockingFileName = 'blocker-' . uniqid('', true);
-        $blockingFilePath = $this->getPathToImportedFiles() . $blockingFileName;
-        $activityId = $blockingFileName . '/nested-activity';
-
-        $filesystem = new Filesystem();
-        $filesystem->mkdir($this->getPathToImportedFiles());
-        $filesystem->dumpFile($blockingFilePath, 'this is a file, not a directory');
+        $activityId = '../escaped-activity-' . uniqid('', true);
+        $escapedPath = $this->getPathToImportedFiles() . $activityId . '.tcx';
 
         try {
             $this->Client->request('POST', '/_internal/upload/tcx', [
@@ -269,16 +289,33 @@ final class UploadControllerTest extends AbstractFixturesAwareWebTestCase
             ]);
 
             $this->isSuccessful($this->Client->getResponse());
-            $responseData = json_decode($this->Client->getResponse()->getContent(), true);
-
-            $this->assertArrayHasKey('error', $responseData);
-            $this->assertNotSame('No data given.', $responseData['error']);
-            $this->assertNotSame(
-                'The given file name is not valid UTF-8 and could not be normalized.',
-                $responseData['error']
+            $this->assertSame(
+                [
+                    'error' => 'The given activity id is not valid.',
+                ],
+                json_decode($this->Client->getResponse()->getContent(), true)
             );
+            $this->assertFileDoesNotExist($escapedPath);
         } finally {
-            $filesystem->remove($blockingFilePath);
+            new Filesystem()->remove($escapedPath);
         }
+    }
+
+    public function testAjaxSaveTcxActionRejectsActivityIdWithBackslash(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $this->Client->request('POST', '/_internal/upload/tcx', [
+            'activityId' => '..\\escaped-activity',
+            'data' => 'irrelevant',
+        ]);
+
+        $this->isSuccessful($this->Client->getResponse());
+        $this->assertSame(
+            [
+                'error' => 'The given activity id is not valid.',
+            ],
+            json_decode($this->Client->getResponse()->getContent(), true)
+        );
     }
 }

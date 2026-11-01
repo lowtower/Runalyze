@@ -56,9 +56,15 @@ class FilenameHandler
 
     protected function validateInternalPrefix(string $internalFilename): bool
     {
-        $expectedPrefix = $this->AccountId . '-' . self::FILENAME_PREFIX;
+        $expectedPrefix = $this->AccountId . '-' . self::FILENAME_PREFIX . '-';
 
-        return str_starts_with($internalFilename, $expectedPrefix);
+        return
+            $internalFilename !== ''
+            && $internalFilename === basename($internalFilename)
+            && ! str_contains($internalFilename, '\\')
+            && ! str_contains($internalFilename, "\0")
+            && str_starts_with($internalFilename, $expectedPrefix)
+        ;
     }
 
     public static function validateFileExtension(string $completeFilename): bool

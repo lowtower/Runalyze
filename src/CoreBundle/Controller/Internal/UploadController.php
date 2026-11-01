@@ -29,7 +29,13 @@ class UploadController extends AbstractController
         if ($request->files->has('qqfile')) {
             /** @var UploadedFile $file */
             $file = $request->files->get('qqfile');
-            $newFileName = str_replace(';', '_-_', $file->getClientOriginalName());
+            $newFileName = basename(str_replace('\\', '/', str_replace(';', '_-_', $file->getClientOriginalName())));
+
+            if (! $this->isValidFileName($newFileName)) {
+                return new JsonResponse([
+                    'error' => 'The given file name is not valid.',
+                ]);
+            }
 
             if (class_exists('Normalizer')) {
                 $normalizedFileName = Normalizer::normalize($newFileName);
@@ -72,14 +78,23 @@ class UploadController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        if (! $request->request->has('activityId') || ! $request->request->has('data')) {
+        $activityId = $request->request->get('activityId');
+        $data = $request->request->get('data');
+
+        if (! is_string($activityId) || ! is_string($data) || $activityId === '' || $data === '') {
             return new JsonResponse([
                 'error' => 'No data given.',
             ]);
         }
 
+        if (! $this->isValidFileName($activityId)) {
+            return new JsonResponse([
+                'error' => 'The given activity id is not valid.',
+            ]);
+        }
+
         $filesystem = new Filesystem();
-        $fileName = $request->request->get('activityId') . '.tcx';
+        $fileName = $activityId . '.tcx';
 
         if (class_exists('Normalizer')) {
             $normalizedFileName = Normalizer::normalize($fileName);
@@ -96,7 +111,7 @@ class UploadController extends AbstractController
         try {
             $filesystem->appendToFile(
                 $this->getParameter('app.data_directory') . '/import/' . $fileName,
-                $request->request->get('data')
+                $data
             );
 
             return new JsonResponse([
@@ -107,5 +122,16 @@ class UploadController extends AbstractController
                 'error' => $ioException->getMessage(),
             ]);
         }
+    }
+
+    private function isValidFileName(string $fileName): bool
+    {
+        return
+            $fileName !== ''
+            && ! in_array($fileName, ['.', '..'], true)
+            && $fileName === basename($fileName)
+            && ! str_contains($fileName, '\\')
+            && ! str_contains($fileName, "\0")
+        ;
     }
 }

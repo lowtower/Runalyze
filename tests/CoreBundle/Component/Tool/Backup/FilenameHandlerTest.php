@@ -86,4 +86,14 @@ final class FilenameHandlerTest extends \PHPUnit\Framework\TestCase
 
         $this->assertStringStartsNotWith('-', $publicFilename);
     }
+
+    public function testRejectsPathTraversalInInternalFilename(): void
+    {
+        $handler = new FilenameHandler(42);
+        $prefix = '42-' . FilenameHandler::FILENAME_PREFIX . '-';
+
+        $this->assertFalse($handler->validateInternalFilename($prefix . '../../other.sql.gz'));
+        $this->assertFalse($handler->validateInternalFilename($prefix . '..\\..\\other.sql.gz'));
+        $this->assertFalse($handler->validateInternalFilename($prefix . 'nested/other.sql.gz'));
+    }
 }
