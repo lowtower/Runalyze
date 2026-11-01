@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Tests\Config;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use Runalyze\Bundle\CoreBundle\Message\BackupGenerationMessage;
 use Runalyze\Bundle\CoreBundle\Message\PosterGenerationMessage;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -45,6 +46,11 @@ final class MessengerTransportsTest extends KernelTestCase
         );
     }
 
+    private function createBackupMessage(): BackupGenerationMessage
+    {
+        return new BackupGenerationMessage(1, 'json');
+    }
+
     #[DataProvider('transportNames')]
     public function testTransportDoesNotTouchADatabaseInTheTestEnvironment(string $name): void
     {
@@ -53,7 +59,9 @@ final class MessengerTransportsTest extends KernelTestCase
 
     public static function transportNames(): iterable
     {
-        yield 'async' => ['async'];
+        yield 'backup' => ['backup'];
+        yield 'poster' => ['poster'];
+        yield 'garmin' => ['garmin'];
         yield 'failed' => ['failed'];
     }
 
@@ -70,11 +78,13 @@ final class MessengerTransportsTest extends KernelTestCase
         $this->assertContains(SendFailedMessageToFailureTransportListener::class, $listenerClasses);
     }
 
-    public function testPosterMessageIsSentToTheAsyncTransportAndNotToTheFailureTransport(): void
+    public function testPosterMessageIsSentToThePosterTransportAndNowhereElse(): void
     {
-        $async = $this->transport('async');
+        $poster = $this->transport('poster');
+        $backup = $this->transport('backup');
         $failed = $this->transport('failed');
-        $async->reset();
+        $poster->reset();
+        $backup->reset();
         $failed->reset();
 
         $bus = self::getContainer()->get(MessageBusInterface::class);
@@ -82,9 +92,31 @@ final class MessengerTransportsTest extends KernelTestCase
 
         $bus->dispatch($this->createPosterMessage());
 
-        $sent = $async->getSent();
+        $sent = $poster->getSent();
         $this->assertCount(1, $sent);
         $this->assertInstanceOf(PosterGenerationMessage::class, $sent[0]->getMessage());
+        $this->assertSame([], $backup->getSent());
+        $this->assertSame([], $failed->getSent());
+    }
+
+    public function testBackupMessageIsSentToTheBackupTransportAndNowhereElse(): void
+    {
+        $poster = $this->transport('poster');
+        $backup = $this->transport('backup');
+        $failed = $this->transport('failed');
+        $poster->reset();
+        $backup->reset();
+        $failed->reset();
+
+        $bus = self::getContainer()->get(MessageBusInterface::class);
+        $this->assertInstanceOf(MessageBusInterface::class, $bus);
+
+        $bus->dispatch($this->createBackupMessage());
+
+        $sent = $backup->getSent();
+        $this->assertCount(1, $sent);
+        $this->assertInstanceOf(BackupGenerationMessage::class, $sent[0]->getMessage());
+        $this->assertSame([], $poster->getSent());
         $this->assertSame([], $failed->getSent());
     }
 }

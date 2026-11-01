@@ -11,7 +11,7 @@ FROM docker.io/composer/composer:2 AS composer
 FROM docker.io/mlocati/php-extension-installer:latest AS php_extension_installer
 
 ###############################################################################
-# Shared CLI Base (worker)
+# Shared CLI Base (workers)
 ###############################################################################
 FROM docker.io/php:${PHP_VERSION}-cli AS base
 
@@ -25,7 +25,7 @@ ENV APP_ENV=${APP_ENV} \
     LC_ALL=C.UTF-8 \
     COMPOSER_CACHE_DIR=/tmp/composer-cache
 
-# Install only what the worker needs at runtime.
+# Install only what the workers need at runtime.
 RUN set -eux; \
     apt-get update; \
     apt-get install -y --no-install-recommends \
@@ -36,7 +36,6 @@ RUN set -eux; \
       unzip \
       hostname \
       tzdata \
-      librsvg2-bin \
       python3 \
       python3-venv \
     ; \
@@ -67,10 +66,9 @@ RUN if [ "$APP_ENV" = "dev" ]; then \
     fi; \
     composer --version
 
-# Python virtual environment for gpxtrackposter
+# Python virtual environment shared by the poster and Garmin workers
 RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
-RUN pip install --no-cache-dir vendor/runalyze/gpxtrackposter/.
 
 COPY docker/php/runalyze.ini /usr/local/etc/php/conf.d/99-runalyze.ini
 
@@ -79,13 +77,36 @@ COPY docker/runalyze-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/runalyze-entrypoint.sh
 
 ###############################################################################
-# Worker (CLI only)
+# Workers (CLI only, one queue per target)
 ###############################################################################
 FROM base AS worker
 
 ENTRYPOINT ["/usr/local/bin/runalyze-entrypoint.sh"]
 
-CMD ["php", "bin/console", "messenger:consume", "async", "--time-limit=3600", "--memory-limit=256M", "--no-interaction"]
+CMD ["php", "bin/console", "messenger:consume", "backup", "--time-limit=3600", "--memory-limit=256M", "--no-interaction"]
+
+###############################################################################
+# Poster worker (Python gpxtrackposter + librsvg)
+###############################################################################
+FROM worker AS worker-poster
+
+RUN set -eux; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends librsvg2-bin; \
+    rm -rf /var/lib/apt/lists/*
+
+RUN pip install --no-cache-dir vendor/runalyze/gpxtrackposter/.
+
+CMD ["php", "bin/console", "messenger:consume", "poster", "--time-limit=3600", "--memory-limit=256M", "--no-interaction"]
+
+###############################################################################
+# Garmin worker (Python garminconnect, prepared for future sync handlers)
+###############################################################################
+FROM worker AS worker-garmin
+
+RUN pip install --no-cache-dir garminconnect
+
+CMD ["php", "bin/console", "messenger:consume", "garmin", "--time-limit=3600", "--memory-limit=256M", "--no-interaction"]
 
 ###############################################################################
 # Web Server

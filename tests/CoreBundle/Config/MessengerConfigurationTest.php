@@ -38,12 +38,14 @@ final class MessengerConfigurationTest extends TestCase
                 'messenger' => [
                     'failure_transport' => 'failed',
                     'transports' => [
+                        'backup' => '%env(MESSENGER_BACKUP_TRANSPORT_DSN)%',
+                        'poster' => '%env(MESSENGER_POSTER_TRANSPORT_DSN)%',
+                        'garmin' => '%env(MESSENGER_GARMIN_TRANSPORT_DSN)%',
                         'failed' => 'doctrine://default?queue_name=failed&auto_setup=0',
-                        'async' => '%env(MESSENGER_TRANSPORT_DSN)%',
                     ],
                     'routing' => [
-                        BackupGenerationMessage::class => 'async',
-                        PosterGenerationMessage::class => 'async',
+                        BackupGenerationMessage::class => 'backup',
+                        PosterGenerationMessage::class => 'poster',
                     ],
                 ],
             ],
@@ -51,7 +53,9 @@ final class MessengerConfigurationTest extends TestCase
                 'framework' => [
                     'messenger' => [
                         'transports' => [
-                            'async' => 'in-memory://',
+                            'backup' => 'in-memory://',
+                            'poster' => 'in-memory://',
+                            'garmin' => 'in-memory://',
                             'failed' => 'in-memory://',
                         ],
                     ],
@@ -102,7 +106,7 @@ final class MessengerConfigurationTest extends TestCase
         $this->assertSame('default', parse_url($dsn, PHP_URL_HOST));
     }
 
-    public function testFailureTransportHasItsOwnQueueSoThatTheWorkerDoesNotConsumeIt(): void
+    public function testFailureTransportHasItsOwnQueueSoThatTheWorkersDoNotConsumeIt(): void
     {
         $this->assertSame('failed', $this->optionsOfFailedTransportDsn()['queue_name']);
     }
@@ -112,24 +116,26 @@ final class MessengerConfigurationTest extends TestCase
         $this->assertSame('0', $this->optionsOfFailedTransportDsn()['auto_setup']);
     }
 
-    public function testAsyncTransportReadsItsDsnFromTheEnvironment(): void
+    public function testQueueTransportsReadTheirDsnsFromTheEnvironment(): void
     {
-        $this->assertSame('%env(MESSENGER_TRANSPORT_DSN)%', $this->messenger()['transports']['async']);
+        $this->assertSame('%env(MESSENGER_BACKUP_TRANSPORT_DSN)%', $this->messenger()['transports']['backup']);
+        $this->assertSame('%env(MESSENGER_POSTER_TRANSPORT_DSN)%', $this->messenger()['transports']['poster']);
+        $this->assertSame('%env(MESSENGER_GARMIN_TRANSPORT_DSN)%', $this->messenger()['transports']['garmin']);
     }
 
     /**
      * @param class-string $messageClass
      */
-    #[DataProvider('messagesForTheWorker')]
-    public function testMessageIsRoutedToTheAsyncTransport(string $messageClass): void
+    #[DataProvider('routedMessages')]
+    public function testMessageIsRoutedToItsOwnQueue(string $messageClass, string $transport): void
     {
-        $this->assertSame('async', $this->messenger()['routing'][$messageClass]);
+        $this->assertSame($transport, $this->messenger()['routing'][$messageClass]);
     }
 
-    public static function messagesForTheWorker(): iterable
+    public static function routedMessages(): iterable
     {
-        yield 'backup' => [BackupGenerationMessage::class];
-        yield 'poster' => [PosterGenerationMessage::class];
+        yield 'backup' => [BackupGenerationMessage::class, 'backup'];
+        yield 'poster' => [PosterGenerationMessage::class, 'poster'];
     }
 
     public function testEveryRoutedTransportExists(): void
@@ -144,11 +150,13 @@ final class MessengerConfigurationTest extends TestCase
         $this->assertNotContains('failed', $this->messenger()['routing']);
     }
 
-    public function testKernelTestsUseInMemoryTransportsForBothTransports(): void
+    public function testKernelTestsUseInMemoryTransportsForEveryQueue(): void
     {
         $this->assertSame(
             [
-                'async' => 'in-memory://',
+                'backup' => 'in-memory://',
+                'poster' => 'in-memory://',
+                'garmin' => 'in-memory://',
                 'failed' => 'in-memory://',
             ],
             $this->messengerOfTestEnvironment()['transports']

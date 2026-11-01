@@ -1,3 +1,34 @@
+x-worker-build-args: &worker-build-args
+  APP_ENV: ${APP_ENV:-dev}
+
+x-worker-environment: &worker-environment
+  LANG: C.UTF-8
+  LANGUAGE: C.UTF-8
+  LC_ALL: C.UTF-8
+  TZ: ${TZ:-Europe/Berlin}
+  APP_ENV: ${APP_ENV:-dev}
+  DB_HOST: db
+  DB_PORT: 3306
+  DB_NAME: ${DB_NAME:-runalyze}
+  DB_USER: ${DB_USER:-runalyze}
+  DB_PASSWORD: ${DB_PASSWORD:-runalyze}
+  SQLITE_MOD_SPATIALITE: mod_spatialite.so
+  MAILER_HOST: mailhog
+  MAILER_PORT: 1025
+  XDEBUG_MODE: "off"
+  ENTRYPOINT_ROLE: worker
+
+x-worker-depends-on: &worker-depends-on
+  db:
+    condition: service_healthy
+  redis:
+    condition: service_healthy
+
+x-worker-volumes: &worker-volumes
+  - .:/var/www/html
+  - vendor:/var/www/html/vendor
+  - composer-cache:/tmp/composer-cache
+
 services:
 
   redis:
@@ -68,42 +99,50 @@ services:
       start_period: 60s
     restart: unless-stopped
 
-  worker:
-    image: runalyze43-worker:${APP_ENV:-dev}
+  worker-backup:
+    image: runalyze43-worker-backup:${APP_ENV:-dev}
     build:
       context: .
       dockerfile: Dockerfile
       target: worker
-      args:
-        APP_ENV: ${APP_ENV:-dev}
-    container_name: runalyze43-worker
+      args: *worker-build-args
+    container_name: runalyze43-worker-backup
     entrypoint: ["/usr/local/bin/runalyze-entrypoint.sh"]
-    command: ["php", "bin/console", "messenger:consume", "async", "--time-limit=3600", "--memory-limit=256M", "--no-interaction"]
-    environment:
-      LANG: C.UTF-8
-      LANGUAGE: C.UTF-8
-      LC_ALL: C.UTF-8
-      TZ: ${TZ:-Europe/Berlin}
-      APP_ENV: ${APP_ENV:-dev}
-      DB_HOST: db
-      DB_PORT: 3306
-      DB_NAME: ${DB_NAME:-runalyze}
-      DB_USER: ${DB_USER:-runalyze}
-      DB_PASSWORD: ${DB_PASSWORD:-runalyze}
-      SQLITE_MOD_SPATIALITE: mod_spatialite.so
-      MAILER_HOST: mailhog
-      MAILER_PORT: 1025
-      XDEBUG_MODE: "off"
-      ENTRYPOINT_ROLE: worker
-    depends_on:
-      db:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    volumes:
-      - .:/var/www/html
-      - vendor:/var/www/html/vendor
-      - composer-cache:/tmp/composer-cache
+    command: ["php", "bin/console", "messenger:consume", "backup", "--time-limit=3600", "--memory-limit=256M", "--no-interaction"]
+    environment: *worker-environment
+    depends_on: *worker-depends-on
+    volumes: *worker-volumes
+    restart: unless-stopped
+
+  worker-poster:
+    image: runalyze43-worker-poster:${APP_ENV:-dev}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: worker-poster
+      args: *worker-build-args
+    container_name: runalyze43-worker-poster
+    entrypoint: ["/usr/local/bin/runalyze-entrypoint.sh"]
+    command: ["php", "bin/console", "messenger:consume", "poster", "--time-limit=3600", "--memory-limit=256M", "--no-interaction"]
+    environment: *worker-environment
+    depends_on: *worker-depends-on
+    volumes: *worker-volumes
+    restart: unless-stopped
+
+  worker-garmin:
+    image: runalyze43-worker-garmin:${APP_ENV:-dev}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: worker-garmin
+      args: *worker-build-args
+    container_name: runalyze43-worker-garmin
+    entrypoint: ["/usr/local/bin/runalyze-entrypoint.sh"]
+    command: ["php", "bin/console", "messenger:consume", "garmin", "--time-limit=3600", "--memory-limit=256M", "--no-interaction"]
+    environment: *worker-environment
+    depends_on: *worker-depends-on
+    volumes: *worker-volumes
+    profiles: ["garmin"]
     restart: unless-stopped
 
 ###> doctrine/doctrine-bundle ###
