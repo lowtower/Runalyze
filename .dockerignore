@@ -1,0 +1,13 @@
+.git
+.github
+.vscode
+node_modules
+vendor
+var
+data/cache
+data/sessions
+public/uploads
+.env.local
+.env.*.local
+package-lock.json
+*.md

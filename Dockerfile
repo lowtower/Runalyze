@@ -11,9 +11,86 @@ FROM docker.io/composer/composer:2 AS composer
 FROM docker.io/mlocati/php-extension-installer:latest AS php_extension_installer
 
 ###############################################################################
+# Shared CLI Base (worker)
+###############################################################################
+FROM docker.io/php:${PHP_VERSION}-cli AS base
+
+ARG DEBIAN_FRONTEND
+ARG APP_ENV
+
+ENV APP_ENV=${APP_ENV} \
+    TZ=Europe/Berlin \
+    LANG=C.UTF-8 \
+    LANGUAGE=C.UTF-8 \
+    LC_ALL=C.UTF-8 \
+    COMPOSER_CACHE_DIR=/tmp/composer-cache
+
+# Install only what the worker needs at runtime.
+RUN set -eux; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends \
+      ca-certificates \
+      curl \
+      git \
+      openssh-client \
+      unzip \
+      hostname \
+      tzdata \
+      librsvg2-bin \
+      python3 \
+      python3-venv \
+    ; \
+    rm -rf /var/lib/apt/lists/*
+
+RUN ln -snf /usr/share/zoneinfo/Europe/Berlin /etc/localtime; \
+    echo "Europe/Berlin" > /etc/timezone
+
+# Install only the PHP extensions the message handlers need.
+COPY --from=php_extension_installer /usr/bin/install-php-extensions /usr/local/bin/
+RUN install-php-extensions \
+    bcmath \
+    intl \
+    pdo_mysql \
+    opcache
+
+WORKDIR /var/www/html
+
+# Copy/link sources
+COPY --link . ./
+
+# Composer
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+RUN if [ "$APP_ENV" = "dev" ]; then \
+      composer install --no-interaction --no-progress --prefer-dist --no-scripts; \
+    else \
+      composer install --no-dev --no-interaction --no-progress --prefer-dist --no-scripts; \
+    fi; \
+    composer --version
+
+# Python virtual environment for gpxtrackposter
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+RUN pip install --no-cache-dir vendor/runalyze/gpxtrackposter/.
+
+COPY docker/php/runalyze.ini /usr/local/etc/php/conf.d/99-runalyze.ini
+
+# Entrypoint
+COPY docker/runalyze-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/runalyze-entrypoint.sh
+
+###############################################################################
+# Worker (CLI only)
+###############################################################################
+FROM base AS worker
+
+ENTRYPOINT ["/usr/local/bin/runalyze-entrypoint.sh"]
+
+CMD ["php", "bin/console", "messenger:consume", "async", "--time-limit=3600", "--memory-limit=256M", "--no-interaction"]
+
+###############################################################################
 # Web Server
 ###############################################################################
-FROM docker.io/php:${PHP_VERSION}-apache
+FROM docker.io/php:${PHP_VERSION}-apache AS app
 
 ARG DEBIAN_FRONTEND
 ARG APP_ENV
@@ -132,4 +209,3 @@ RUN chmod +x /usr/local/bin/runalyze-entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/runalyze-entrypoint.sh"]
 
 CMD ["apache2-foreground"]
-

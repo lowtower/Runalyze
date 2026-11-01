@@ -14,9 +14,13 @@ services:
     restart: unless-stopped
 
   app:
+    image: runalyze43-app:${APP_ENV:-dev}
     build:
       context: .
       dockerfile: Dockerfile
+      target: app
+      args:
+        APP_ENV: ${APP_ENV:-dev}
     container_name: runalyze43-app
     env_file:
       - .env.local
@@ -54,7 +58,8 @@ services:
       - "${APP_PORT:-8080}:80"
     volumes:
       - .:/var/www/html
-      - composer-cache:/tmp/composer/cache
+      - vendor:/var/www/html/vendor
+      - composer-cache:/tmp/composer-cache
     healthcheck:
       test: ["CMD-SHELL", "curl -fsS http://127.0.0.1/ >/dev/null || exit 1"]
       interval: 15s
@@ -64,9 +69,13 @@ services:
     restart: unless-stopped
 
   worker:
+    image: runalyze43-worker:${APP_ENV:-dev}
     build:
       context: .
       dockerfile: Dockerfile
+      target: worker
+      args:
+        APP_ENV: ${APP_ENV:-dev}
     container_name: runalyze43-worker
     entrypoint: ["/usr/local/bin/runalyze-entrypoint.sh"]
     command: ["php", "bin/console", "messenger:consume", "async", "--time-limit=3600", "--memory-limit=256M", "--no-interaction"]
@@ -84,17 +93,17 @@ services:
       SQLITE_MOD_SPATIALITE: mod_spatialite.so
       MAILER_HOST: mailhog
       MAILER_PORT: 1025
+      XDEBUG_MODE: "off"
       ENTRYPOINT_ROLE: worker
     depends_on:
       db:
         condition: service_healthy
       redis:
         condition: service_healthy
-      app:
-        condition: service_healthy
     volumes:
       - .:/var/www/html
-      - composer-cache:/tmp/composer/cache
+      - vendor:/var/www/html/vendor
+      - composer-cache:/tmp/composer-cache
     restart: unless-stopped
 
 ###> doctrine/doctrine-bundle ###
@@ -161,6 +170,8 @@ services:
 volumes:
   redis-data:
   composer-cache:
+  vendor:
+    name: runalyze43-vendor-${APP_ENV:-dev}
 
 ###> doctrine/doctrine-bundle ###
   database_data:
