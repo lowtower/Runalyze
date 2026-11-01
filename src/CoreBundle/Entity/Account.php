@@ -88,7 +88,7 @@ class Account implements UserInterface, LegacyPasswordAuthenticatedUserInterface
     #[Assert\Type('int')]
     private ?int $birthyear = null;
 
-    #[ORM\Column(name: 'password', type: \Doctrine\DBAL\Types\Types::STRING, length: 64, nullable: false, options: [
+    #[ORM\Column(name: 'password', type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: false, options: [
         'default' => '',
     ])]
     private string $password = '';
