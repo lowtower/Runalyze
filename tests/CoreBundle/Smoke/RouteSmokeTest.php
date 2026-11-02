@@ -148,7 +148,9 @@ final class RouteSmokeTest extends WebTestCase
         yield ['unsubscribe-mail-confirm', '/unsubscribe/{mail}/{hash}/confirm', 'GET', 200, false];
         yield ['feedback', '/feedback', 'GET', 302, false];
         yield ['runalyze_core_externalrestapi_importactivity_postimportactivity', '/api/import/activity', 'POST', 401, true];
-        yield ['install', '/install', 'GET', 200, false];
+        // the installer is one-shot: on an instance that already has accounts,
+        // /install answers with 404 (see InstallController)
+        yield ['install', '/install', 'GET', 404, false];
         yield ['install_start', '/install/start', 'GET', 302, false];
         yield ['install_finish', '/install/finish', 'GET', 302, false];
         yield ['internal-activity-matcher', '/_internal/activity/matcher', 'GET', 302, true];

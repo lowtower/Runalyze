@@ -12,6 +12,15 @@ use Symfony\Component\HttpFoundation\Response;
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
 final class InstallControllerTest extends AbstractFixturesAwareWebTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        if (self::getContainer()->getParameter('app.update_disabled') !== 'no') {
+            self::markTestSkipped('The /install routes are disabled (app.update_disabled != "no") in this environment.');
+        }
+    }
+
     public function testInstallRoutesAreReachableInTheTestEnvironment(): void
     {
         $this->Client->request('GET', '/install/finish');
@@ -29,6 +38,13 @@ final class InstallControllerTest extends AbstractFixturesAwareWebTestCase
 
         $this->assertStatusCode(302, $this->Client);
         $this->assertSame('/install/finish', $this->Client->getResponse()->headers->get('Location'));
+    }
+
+    public function testInstallActionIsNotReachableWhenApplicationIsAlreadyInstalled(): void
+    {
+        $this->Client->request('GET', '/install');
+
+        $this->assertStatusCode(404, $this->Client);
     }
 
     public function testStartActionRedirectsToInstallWhenInstallationIsNotYetKnownToBePossible(): void
@@ -74,6 +90,17 @@ final class InstallControllerTest extends AbstractFixturesAwareWebTestCase
 
         $this->assertStatusCode(302, $this->Client);
         $this->assertSame('/install/finish', $this->Client->getResponse()->headers->get('Location'));
+    }
+
+    public function testStartActionIsNotReachableWhenApplicationIsAlreadyInstalled(): void
+    {
+        $this->createSessionWithAttributes([
+            'installer/possible' => true,
+        ]);
+
+        $this->Client->request('GET', '/install/start');
+
+        $this->assertStatusCode(404, $this->Client);
     }
 
     public function testFinishActionRedirectsToInstallWhenInstallationWasNotYetSuccessful(): void
