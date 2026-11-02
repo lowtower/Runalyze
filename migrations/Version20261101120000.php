@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\\Migrations;
+namespace Runalyze\Migrations;
 
-use Doctrine\\DBAL\\Connection;
-use Doctrine\\DBAL\\Schema\\Schema;
-use Doctrine\\Migrations\\AbstractMigration;
-use Doctrine\\Migrations\\Exception\\IrreversibleMigration;
-use Psr\\Log\\LoggerInterface;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
+use Doctrine\Migrations\Exception\IrreversibleMigration;
+use Psr\Log\LoggerInterface;
 
 final class Version20261101120000 extends AbstractMigration
 {
