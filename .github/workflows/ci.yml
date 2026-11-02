@@ -132,7 +132,7 @@ jobs:
         uses: ramsey/composer-install@v3
 
       - name: Download timezone database
-        run: composer download:timezone-databse
+        run: composer download:timezone-database
 
       - name: Download disposable domains list
         run: composer download:disposable-domains-list
