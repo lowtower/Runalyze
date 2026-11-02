@@ -1,6 +1,6 @@
 'use strict';
 
-var del = require('del');
+var del = require('del').deleteAsync;
 var gulp = require('gulp');
 var cleanCSS = require('gulp-clean-css');
 var concat = require('gulp-concat');
