@@ -204,8 +204,14 @@
     "scripts": {
         "lint": "vendor/bin/ecs check --ansi",
         "lint:fix": "vendor/bin/ecs check --fix --ansi",
-        "rector": "vendor/bin/rector process --dry-run",
-        "rector:fix": "vendor/bin/rector process",
+        "rector": [
+            "@cache:dev:warmup",
+            "vendor/bin/rector process --dry-run"
+        ],
+        "rector:fix": [
+            "@cache:dev:warmup",
+            "vendor/bin/rector process"
+        ],
         "analyse": [
             "@cache:dev:warmup",
             "vendor/bin/phpstan analyse"
