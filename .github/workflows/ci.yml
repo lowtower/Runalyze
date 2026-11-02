@@ -32,7 +32,7 @@ jobs:
           coverage: none
 
       - name: Install Composer dependencies
-        uses: ramsey/composer-install@v3
+        uses: ramsey/composer-install@v4
 
       - name: Rector (dry-run)
         run: composer rector
@@ -56,7 +56,7 @@ jobs:
 
       - name: Upload logs on failure
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: qa-logs
           path: ci-logs/
@@ -129,7 +129,7 @@ jobs:
           fi
 
       - name: Install Composer dependencies
-        uses: ramsey/composer-install@v3
+        uses: ramsey/composer-install@v4
 
       - name: Download timezone database
         run: composer download:timezone-database
@@ -159,7 +159,7 @@ jobs:
 
       - name: Upload PHPUnit results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: phpunit-junit-${{ matrix.php-version }}
           path: var/log/phpunit-junit.xml
@@ -167,7 +167,7 @@ jobs:
 
       - name: Upload logs on failure
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: test-logs
           path: var/log/ci/
