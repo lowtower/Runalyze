@@ -2,6 +2,10 @@
 
 namespace Runalyze\Bundle\CoreBundle\Component\Activity;
 
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Services\Import\DuplicateFinder;
 use Runalyze\Bundle\CoreBundle\Services\Import\WeatherDataToActivityConverter;
@@ -12,14 +16,19 @@ use Runalyze\Service\RouteNameEvaluation\RouteNameEval;
 use Runalyze\Service\WeatherForecast\Location;
 use Runalyze\Util\LocalTime;
 
-class ActivityContextAdapter
+class ActivityContextAdapter implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     public function __construct(
         protected ActivityContext $Context,
         protected WeatherForecast $WeatherForecast,
         protected DuplicateFinder $DuplicateFinder,
-        protected RouteNameEval $RouteNameEval
-    ) {}
+        protected RouteNameEval $RouteNameEval,
+        ?LoggerInterface $logger = null
+    ) {
+        $this->logger = $logger ?? new NullLogger();
+    }
 
     /**
      * @param object $object
@@ -80,7 +89,17 @@ class ActivityContextAdapter
     {
         $activity = $this->Context->getActivity();
         if ($activity->hasRoute() && $activity->getRoute()->hasGeohashes()) {
-            $result = $this->RouteNameEval->evaluate($activity->getSport(), $activity->getRoute(), $activity->getDistance());
+            try {
+                $result = $this->RouteNameEval->evaluate($activity->getSport(), $activity->getRoute(), $activity->getDistance());
+            } catch (\Throwable $exception) {
+                // The route name evaluation is a nice-to-have enrichment: a failing external service
+                // (f.e. a throttling Overpass API) must not abort the whole activity import.
+                $this->logger->warning('Route name evaluation failed.', [
+                    'exception' => $exception,
+                ]);
+
+                return false;
+            }
 
             if ($result != null) {
                 // set the name not directly on route, because on Training there is also a "route(name)" attribute

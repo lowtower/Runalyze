@@ -120,8 +120,8 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
                     $statusCode = $guzzleException->getResponse()->getStatusCode();
                 }
 
-                // retry only on 502/503/504
-                if ($attempt < $maxRetries && in_array($statusCode, [502, 503, 504], true)) {
+                // retry on rate limit (429) and gateway errors
+                if ($attempt < $maxRetries && in_array($statusCode, [429, 502, 503, 504], true)) {
                     $this->logger->warning(sprintf(
                         'RouteNameEvalOsm: Overpass API %s, retry %d/%d in %ds',
                         $statusCode,
