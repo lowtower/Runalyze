@@ -1,0 +1,39 @@
+# Dependabot version updates.
+# Docs: https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+
+updates:
+  # GitHub Actions used by the CI workflows. Keeps the action versions
+  # on supported runtimes (f.e. Node.js 24) without manual tracking.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  # PHP dependencies.
+  - package-ecosystem: composer
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    groups:
+      composer:
+        patterns:
+          - "*"
+
+  # JavaScript dependencies.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    groups:
+      npm_and_yarn:
+        patterns:
+          - "*"
