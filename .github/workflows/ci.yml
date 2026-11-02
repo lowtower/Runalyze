@@ -92,6 +92,7 @@ jobs:
           --health-timeout=3s
           --health-retries=20
     env:
+      TZ: Europe/Berlin
       TEST_TIMEZONE: Europe/Berlin
       DATABASE_PREFIX: runalyze_
       DB_TEST_HOST: 127.0.0.1
