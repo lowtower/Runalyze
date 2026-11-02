@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Services\Import;
 
+use Psr\Log\LoggerInterface;
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext;
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContextAdapter;
 use Runalyze\Service\RouteNameEvaluation\RouteNameEval;
@@ -16,7 +17,8 @@ class ActivityContextAdapterFactory
     public function __construct(
         protected WeatherForecast $WeatherForecast,
         protected DuplicateFinder $DuplicateFinder,
-        RouteNameEvalFactory $routeNameEvalFactory
+        RouteNameEvalFactory $routeNameEvalFactory,
+        protected ?LoggerInterface $logger = null
     ) {
         $this->RouteNameEval = $routeNameEvalFactory->getInstance();
     }
@@ -27,7 +29,8 @@ class ActivityContextAdapterFactory
             $context,
             $this->WeatherForecast,
             $this->DuplicateFinder,
-            $this->RouteNameEval
+            $this->RouteNameEval,
+            $this->logger
         );
     }
 }
