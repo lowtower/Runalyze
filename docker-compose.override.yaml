@@ -15,7 +15,7 @@ services:
       - "${PMA_UI_PORT:-8081}:80"
 
   frontend:
-    image: docker.io/library/node:18
+    image: docker.io/library/node:22
     container_name: runalyze43-frontend
     working_dir: /var/www/html
     volumes:
