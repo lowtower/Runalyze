@@ -29,7 +29,7 @@ final class NotificationTest extends \PHPUnit\Framework\TestCase
         $created = new DateTime('@' . $createdAt)->setTimezone($timezone);
         $expiration = new DateTime('@' . $this->Notification->getExpirationAt())->setTimezone($timezone);
 
-        $this->assertEquals('+2 days', $created->diff($expiration)->format('%R%a days'));
+        $this->assertSame('+2 days', $created->diff($expiration)->format('%R%a days'));
         // Uhrzeit muss trotz evtl. Zeitumstellung erhalten bleiben
         $this->assertSame($created->format('H:i:s'), $expiration->format('H:i:s'));
     }
@@ -46,7 +46,7 @@ final class NotificationTest extends \PHPUnit\Framework\TestCase
         $created = new DateTime('@' . $createdAt)->setTimezone($timezone);
         $expiration = new DateTime('@' . $this->Notification->getExpirationAt())->setTimezone($timezone);
 
-        $this->assertEquals('+2 days', $created->diff($expiration)->format('%R%a days'));
+        $this->assertSame('+2 days', $created->diff($expiration)->format('%R%a days'));
 
         $this->assertSame($created->format('H:i:s'), $expiration->format('H:i:s'));
     }

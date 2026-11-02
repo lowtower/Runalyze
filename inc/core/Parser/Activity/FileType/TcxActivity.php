@@ -214,7 +214,7 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
         if ((! $hasDistance && ! $this->IsWithoutDistance) || $noMove || $tooSlow) {
             $ignored = false;
 
-            if ($trackPoint->children()->count() == 1 || $noMove || $tooSlow) {
+            if ($trackPoint->children()->count() === 1 || $noMove || $tooSlow) {
                 if ($noMove && $thisBreakInSeconds <= self::$IGNORE_NO_MOVE_UNTIL) {
                     $ignored = true;
                 } else {

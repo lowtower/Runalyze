@@ -35,7 +35,7 @@ final class RestoreMigrationDatabasePrefixBindingPass implements CompilerPassInt
     {
         $constructor = new ReflectionClass($class)->getConstructor();
 
-        if ($constructor === null) {
+        if (! $constructor instanceof \ReflectionMethod) {
             return false;
         }
 

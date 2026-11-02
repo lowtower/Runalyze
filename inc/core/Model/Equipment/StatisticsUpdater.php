@@ -14,9 +14,9 @@ class StatisticsUpdater
 
     /**
      * Update statistics
-     * @return mixed false on failure, number of affected rows otherwise
+     * @return int|false false on failure, number of affected rows otherwise
      */
-    public function run()
+    public function run(): int|false
     {
         $result = $this->PDO->exec(
             'UPDATE `' . $this->DatabasePrefix . 'equipment`

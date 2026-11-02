@@ -52,17 +52,17 @@ final class LocalTimeTest extends \PHPUnit\Framework\TestCase
 
     public function testThatServerTimezoneIsIgnored(): void
     {
-        $this->assertEquals(date('d.m.Y H:i'), LocalTime::fromServerTime(time())->format('d.m.Y H:i'));
-        $this->assertEquals('01.03.2016 12:34', LocalTime::fromServerTime(mktime(12, 34, 0, 3, 1, 2016))->format('d.m.Y H:i'));
-        $this->assertEquals('01.04.2016 12:34', LocalTime::fromServerTime(mktime(12, 34, 0, 4, 1, 2016))->format('d.m.Y H:i'));
+        $this->assertSame(date('d.m.Y H:i'), LocalTime::fromServerTime(time())->format('d.m.Y H:i'));
+        $this->assertSame('01.03.2016 12:34', LocalTime::fromServerTime(mktime(12, 34, 0, 3, 1, 2016))->format('d.m.Y H:i'));
+        $this->assertSame('01.04.2016 12:34', LocalTime::fromServerTime(mktime(12, 34, 0, 4, 1, 2016))->format('d.m.Y H:i'));
     }
 
     public function testThatCurrentHourKeepsCurrentHourWithDSTchange(): void
     {
         date_default_timezone_set('Europe/Berlin');
 
-        $this->assertEquals('01.03.2016 12:34', LocalTime::fromServerTime(mktime(12, 34, 0, 3, 1, 2016))->format('d.m.Y H:i'));
-        $this->assertEquals('01.04.2016 12:34', LocalTime::fromServerTime(mktime(12, 34, 0, 4, 1, 2016))->format('d.m.Y H:i'));
+        $this->assertSame('01.03.2016 12:34', LocalTime::fromServerTime(mktime(12, 34, 0, 3, 1, 2016))->format('d.m.Y H:i'));
+        $this->assertSame('01.04.2016 12:34', LocalTime::fromServerTime(mktime(12, 34, 0, 4, 1, 2016))->format('d.m.Y H:i'));
     }
 
     public function testThatObjectHasUTCTimezone(): void
@@ -75,18 +75,18 @@ final class LocalTimeTest extends \PHPUnit\Framework\TestCase
 
     public function testThatGivenTimezoneWillBeIgnored(): void
     {
-        $this->assertEquals('13:54:17', LocalTime::fromString('13:54:17GMT-07:30')->format('H:i:s'));
-        $this->assertEquals('13:54:17', LocalTime::fromString('13:54:17+0400')->format('H:i:s'));
+        $this->assertSame('13:54:17', LocalTime::fromString('13:54:17GMT-07:30')->format('H:i:s'));
+        $this->assertSame('13:54:17', LocalTime::fromString('13:54:17+0400')->format('H:i:s'));
     }
 
     public function testConversionToServerTime(): void
     {
         $Object = LocalTime::fromString('2016-01-31 12:34:56');
 
-        $this->assertEquals('12:34:56 +00:00', $Object->format('H:i:s P'));
+        $this->assertSame('12:34:56 +00:00', $Object->format('H:i:s P'));
         $this->assertSame('12:34:56 +03:00', $Object->toServerTime()->format('H:i:s P'));
-        $this->assertNotEquals($Object->getTimestamp(), $Object->toServerTimestamp());
-        $this->assertEquals($Object->getTimestamp() - 3 * 3600, $Object->toServerTimestamp());
+        $this->assertNotSame($Object->getTimestamp(), $Object->toServerTimestamp());
+        $this->assertSame($Object->getTimestamp() - 3 * 3600, $Object->toServerTimestamp());
     }
 
     public function testMonthStartAndEnd(): void
@@ -152,8 +152,8 @@ final class LocalTimeTest extends \PHPUnit\Framework\TestCase
 
         $today = mktime(10, 22, 20, 9, 17, 2015);
 
-        $this->assertEquals('14.09.2015 00:00:00', LocalTime::fromServerTime($today)->weekstart(true)->format('d.m.Y H:i:s'));
-        $this->assertEquals('20.09.2015 23:59:50', LocalTime::fromServerTime($today)->weekend(true)->format('d.m.Y H:i:s'));
+        $this->assertSame('14.09.2015 00:00:00', LocalTime::fromServerTime($today)->weekstart(true)->format('d.m.Y H:i:s'));
+        $this->assertSame('20.09.2015 23:59:50', LocalTime::fromServerTime($today)->weekend(true)->format('d.m.Y H:i:s'));
     }
 
     public function testWeekstartAndWeekendForSunday(): void
@@ -162,8 +162,8 @@ final class LocalTimeTest extends \PHPUnit\Framework\TestCase
 
         $today = mktime(10, 22, 20, 9, 17, 2015);
 
-        $this->assertEquals('13.09.2015 00:00:00', LocalTime::fromServerTime($today)->weekstart(true)->format('d.m.Y H:i:s'));
-        $this->assertEquals('19.09.2015 23:59:50', LocalTime::fromServerTime($today)->weekend(true)->format('d.m.Y H:i:s'));
+        $this->assertSame('13.09.2015 00:00:00', LocalTime::fromServerTime($today)->weekstart(true)->format('d.m.Y H:i:s'));
+        $this->assertSame('19.09.2015 23:59:50', LocalTime::fromServerTime($today)->weekend(true)->format('d.m.Y H:i:s'));
     }
 
     public function testWeekstartAndWeekendForSundayThatWasABug(): void
@@ -173,10 +173,10 @@ final class LocalTimeTest extends \PHPUnit\Framework\TestCase
         $today = mktime(0, 0, 0, 10, 25, 2015);
         $end = mktime(23, 59, 50, 10, 31, 2015);
 
-        $this->assertEquals('25.10.2015 00:00:00', LocalTime::fromServerTime($today)->weekstart(true)->format('d.m.Y H:i:s'));
-        $this->assertEquals('25.10.2015 00:00:00', LocalTime::fromServerTime($end)->weekstart(true)->format('d.m.Y H:i:s'));
-        $this->assertEquals('31.10.2015 23:59:50', LocalTime::fromServerTime($today)->weekend(true)->format('d.m.Y H:i:s'));
-        $this->assertEquals('31.10.2015 23:59:50', LocalTime::fromServerTime($end)->weekend(true)->format('d.m.Y H:i:s'));
+        $this->assertSame('25.10.2015 00:00:00', LocalTime::fromServerTime($today)->weekstart(true)->format('d.m.Y H:i:s'));
+        $this->assertSame('25.10.2015 00:00:00', LocalTime::fromServerTime($end)->weekstart(true)->format('d.m.Y H:i:s'));
+        $this->assertSame('31.10.2015 23:59:50', LocalTime::fromServerTime($today)->weekend(true)->format('d.m.Y H:i:s'));
+        $this->assertSame('31.10.2015 23:59:50', LocalTime::fromServerTime($end)->weekend(true)->format('d.m.Y H:i:s'));
     }
 
     public function testToday(): void

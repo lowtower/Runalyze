@@ -122,7 +122,7 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat
             (`H`+12)%24 ASC,
             `MIN` ASC')->fetchAll();
 
-        if (empty($nights)) {
+        if ($nights === []) {
             $this->dataIsMissing = true;
             return;
         }

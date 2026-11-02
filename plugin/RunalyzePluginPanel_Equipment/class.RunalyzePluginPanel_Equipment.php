@@ -149,7 +149,7 @@ class RunalyzePluginPanel_Equipment extends PluginPanel
 			</p>';
         }
 
-        if (empty($allEquipment)) {
+        if ($allEquipment === []) {
             echo HTML::em(__("You don't have any equipment"));
         }
 

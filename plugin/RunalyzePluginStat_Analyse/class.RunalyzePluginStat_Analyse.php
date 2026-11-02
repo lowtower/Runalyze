@@ -332,7 +332,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
 
         $type_foreach = [];
 
-        if (! empty($result)) {
+        if ($result !== []) {
             if (isset($type_data['id_sum_num'][0])) {
                 $type_foreach[] = [
                     'name' => '<span style="font-weight:normal;">' . __('without') . '</span>',
@@ -422,7 +422,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
 
         $speed_foreach = [];
 
-        if (! empty($result)) {
+        if ($result !== []) {
             $Pace = new Pace(0, 1, SportFactory::getSpeedUnitFor($this->sportid));
 
             for ($speed = $speed_min; $speed > ($speed_max - $speed_step); $speed -= $speed_step) {
@@ -487,7 +487,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
 
         $pulse_foreach = [];
 
-        if (! empty($result)) {
+        if ($result !== []) {
             $absoluteValues = Configuration::General()->heartRateUnit()->isBPM();
 
             for ($pulse = $pulse_min; $pulse < (100 + $pulse_step); $pulse += $pulse_step) {

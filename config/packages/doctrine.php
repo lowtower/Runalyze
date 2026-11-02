@@ -62,7 +62,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                     'is_bundle' => false,
                     'dir' => '%kernel.project_dir%/src/CoreBundle/Entity',
                     'prefix' => 'Runalyze\Bundle\CoreBundle\Entity',
-                    'alias' => 'CoreBundle',
                 ],
             ],
             'resolve_target_entities' => null,
