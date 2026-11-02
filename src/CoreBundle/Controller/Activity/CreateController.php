@@ -112,7 +112,7 @@ class CreateController extends AbstractController
         } elseif ($request->query->has('files')) {
             $importer = $this->fileImporter;
             $importResult = $importer->importFiles(
-                array_map(fn (string $file): string => $this->getImportFilePath($file), explode(';', $request->query->get('files')))
+                array_map($this->getImportFilePath(...), explode(';', $request->query->get('files')))
             );
         }
 
