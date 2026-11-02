@@ -1,7 +1,7 @@
 {
     "name": "runalyze/runalyze",
     "description": "RUNALYZE - training analysis for athletes",
-    "homepage": "https://runalyze.com",
+    "homepage": "https://runalyze.com/",
     "version": "4.3.0",
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -204,8 +204,14 @@
     "scripts": {
         "lint": "vendor/bin/ecs check --ansi",
         "lint:fix": "vendor/bin/ecs check --fix --ansi",
-        "rector": "vendor/bin/rector process --dry-run",
-        "rector:fix": "vendor/bin/rector process",
+        "rector": [
+            "@cache:dev:warmup",
+            "vendor/bin/rector process --dry-run"
+        ],
+        "rector:fix": [
+            "@cache:dev:warmup",
+            "vendor/bin/rector process"
+        ],
         "analyse": [
             "@cache:dev:warmup",
             "vendor/bin/phpstan analyse"
@@ -278,15 +284,6 @@
             "@cache:test_empty:clear",
             "@test:setup",
             "XDEBUG_MODE=off php vendor/bin/phpunit -c phpunit.xml.dist --display-all"
-        ],
-        "test:coverage-html": "XDEBUG_MODE=coverage php vendor/bin/phpunit -c phpunit.xml.dist --coverage-html var/coverage",
-        "test:coverage-clover": "XDEBUG_MODE=coverage php vendor/bin/phpunit -c phpunit.xml.dist --coverage-clover var/coverage/clover.xml",
-        "test:coverage-text": "XDEBUG_MODE=coverage php vendor/bin/phpunit -c phpunit.xml.dist --coverage-text",
-        "test:coverage": [
-            "@cache:test:clear",
-            "@cache:test_empty:clear",
-            "@test:setup",
-            "@test:coverage-html"
         ],
         "download:tif-testfiles": "bash bin/download-tif-testfiles.sh",
         "download:timezone-database": "bash bin/download-timezone-sqlite.sh",
