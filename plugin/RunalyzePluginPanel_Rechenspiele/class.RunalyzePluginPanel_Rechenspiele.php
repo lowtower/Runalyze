@@ -403,7 +403,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel
         $vo2maxColumn = Configuration::VO2max()->useElevationCorrection() ? 'IF(`vo2max_with_elevation`>0,`vo2max_with_elevation`,`vo2max`) as `vo2max`' : '`vo2max`';
         $EffectiveVO2maxValues = DB::getInstance()->query('SELECT `id`,`time`,`distance`,' . $vo2maxColumn . ' FROM `' . PREFIX . 'training` WHERE time>=' . (time() - Configuration::VO2max()->days() * DAY_IN_S) . ' AND `vo2max`>0 AND `use_vo2max`=1 AND accountid = ' . SessionAccountHandler::getId() . ' ORDER BY time ASC')->fetchAll();
 
-        if (empty($EffectiveVO2maxValues)) {
+        if ($EffectiveVO2maxValues === []) {
             $Table = '<p class="error">' . $this->getNoEffectiveVO2maxDataError() . '</p>';
         } else {
             $Table = '<table class="fullwidth zebra-style">

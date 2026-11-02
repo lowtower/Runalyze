@@ -35,7 +35,7 @@ final class PersonalBestTest extends \PHPUnit\Framework\TestCase
         $this->PDO->exec('DELETE FROM `' . PREFIX . 'training`');
     }
 
-    protected function insert(float $dist, int $s, int $time = 0)
+    protected function insert(float $dist, int $s, int $time = 0): string|false
     {
         $this->PDO->exec(
             'INSERT INTO `' . PREFIX . 'training` (`distance`, `s`, `time`, `sportid`, `accountid`) '

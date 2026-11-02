@@ -9,7 +9,9 @@ use Rector\PHPUnit\PHPUnit120\Rector\CallLike\CreateStubOverCreateMockArgRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Renaming\Rector\String_\RenameStringRector;
 use Rector\Set\ValueObject\LevelSetList;
+use Rector\Symfony\CodeQuality\Rector\Class_\EventSubscriberToAttributeRector;
 use Rector\Symfony\Configs\Rector\Closure\RemoveConstructorAutowireServiceRector;
+use Rector\Symfony\Configs\Rector\Closure\ServiceSetStringNameToClassNameRector;
 use Rector\Symfony\Configs\Rector\Closure\ServiceSettersToSettersAutodiscoveryRector;
 use Rector\Symfony\Set\SymfonySetList;
 
@@ -35,10 +37,10 @@ return RectorConfig::configure()
         PHPUnitSetList::PHPUNIT_CODE_QUALITY,
         # DoctrineSetList::TYPED_COLLECTIONS,
     ])
-    ->withTypeCoverageLevel(76)         # max level 76
-    ->withTypeCoverageDocblockLevel(16) # max level 16
-    ->withDeadCodeLevel(75)             # max level 75
-    ->withCodeQualityLevel(80)          # max level 80
+    ->withTypeCoverageLevel(67)         # max level 67
+    ->withTypeCoverageDocblockLevel(17) # max level 17
+    ->withDeadCodeLevel(72)             # max level 72
+    ->withCodeQualityLevel(67)          # max level 67
     ->withCodingStyleLevel(21)          # max level 21
     ->withRules([])
     ->withSkip([
@@ -60,6 +62,14 @@ return RectorConfig::configure()
             __DIR__ . '/tests/inc/core/Calculation/NightDetectorTest.php',
             __DIR__ . '/tests/inc/core/Util/LocalTimeTest.php',
             __DIR__ . '/tests/CoreBundle/Component/Tool/Anova/QueryGroup/EquipmentTypeQueryGroupTest.php',
+        ],
+        ServiceSetStringNameToClassNameRector::class => [
+            __DIR__ . '/config/packages/framework.php',
+            __DIR__ . '/config/packages/monolog.php',
+            __DIR__ . '/config/services.php',
+        ],
+        EventSubscriberToAttributeRector::class => [
+            __DIR__ . '/src/CoreBundle/EventListener/LocaleListener.php',
         ],
     ])
     ->withComposerBased(

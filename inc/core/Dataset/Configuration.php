@@ -39,7 +39,7 @@ class Configuration
         if ($this->Data === null) {
             $completeData = $pdo->query('SELECT `keyid`, `active`, `style`, `privacy` FROM `' . PREFIX . 'dataset` WHERE `accountid`="' . $accountID . '" ORDER BY `position` ASC')->fetchAll();
 
-            if (empty($completeData) && $fallbackToDefault) {
+            if ($completeData === [] && $fallbackToDefault) {
                 $this->Data = new DefaultConfiguration()->data();
             } else {
                 foreach ($completeData as $data) {

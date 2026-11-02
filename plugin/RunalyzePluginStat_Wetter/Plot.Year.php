@@ -50,7 +50,7 @@ $Plot->addMarkingArea('y', -99, 0);
 $Plot->showPoints(2);
 $Plot->smoothing(false);
 
-if (empty($Data)) {
+if ($Data === []) {
     $Plot->raiseError(__('No data available.'));
 }
 

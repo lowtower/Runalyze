@@ -399,7 +399,7 @@ final class TrainingRepositoryTest extends AbstractRepositoryTestCase
     public function testThatVO2maxUpdateInListenerRecalculatesMarathonShape(): void
     {
         $recalculationManager = $this->getContainer()
-            ->get('app.recalculation_manager');
+            ->get(\Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager::class);
 
         $activity = $this->getActivityForDefaultAccount(time(), 2700, 10.0, $this->getDefaultAccountsRunningSport());
         $activity->setPulseAvg(140);
@@ -444,11 +444,11 @@ final class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $firstActivity = $this->insertActivityForDefaultAccount(123456789);
 
         $this->getContainer()
-            ->get('app.recalculation_manager')
+            ->get(\Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager::class)
             ->runScheduledTasks();
 
         $configList = $this->getContainer()
-            ->get('app.configuration_manager')
+            ->get(\Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager::class)
             ->getList($this->getDefaultAccount());
 
         $this->assertEquals(123456789, $configList->get('data.START_TIME'));
@@ -458,11 +458,11 @@ final class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->TrainingRepository->save($firstActivity);
 
         $this->getContainer()
-            ->get('app.recalculation_manager')
+            ->get(\Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager::class)
             ->runScheduledTasks();
 
         $configList = $this->getContainer()
-            ->get('app.configuration_manager')
+            ->get(\Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager::class)
             ->getList($this->getDefaultAccount());
 
         $this->assertEquals(100000000, $configList->get('data.START_TIME'));
@@ -470,11 +470,11 @@ final class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->TrainingRepository->remove($firstActivity);
 
         $this->getContainer()
-            ->get('app.recalculation_manager')
+            ->get(\Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager::class)
             ->runScheduledTasks();
 
         $configList = $this->getContainer()
-            ->get('app.configuration_manager')
+            ->get(\Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager::class)
             ->getList($this->getDefaultAccount());
 
         $this->assertEquals(987654321, $configList->get('data.START_TIME'));

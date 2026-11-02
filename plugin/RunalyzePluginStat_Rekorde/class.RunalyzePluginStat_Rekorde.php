@@ -100,7 +100,7 @@ class RunalyzePluginStat_Rekorde extends PluginStat
                 $Request->execute();
                 $data = $Request->fetchAll();
 
-                if (! empty($data)) {
+                if ($data !== []) {
                     $Sport = new Sport\Entity($sportData);
                     $output = true;
                     echo '<tr class="r">';

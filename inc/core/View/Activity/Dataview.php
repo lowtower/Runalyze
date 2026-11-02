@@ -113,7 +113,7 @@ class Dataview
     {
         $time = new LocalTime($this->Activity->timestamp())->format('H:i');
 
-        if ($time != '00:00') {
+        if ($time !== '00:00') {
             return $time;
         }
 

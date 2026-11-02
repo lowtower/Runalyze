@@ -435,7 +435,7 @@ class DataBrowser
             }
 
             $year = $t->format('Y');
-            echo '<td' . ($year == $selectedYear ? ' style="background-color: #ff6"' : '') . '>'
+            echo '<td' . ($year === $selectedYear ? ' style="background-color: #ff6"' : '') . '>'
                 . DataBrowserLinker::yearLink($year, $t->getTimestamp(), $this->SportId) . '</td>';
             if ($i % 4 === 3) {
                 echo '</tr>';

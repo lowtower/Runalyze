@@ -131,7 +131,7 @@ class RunalyzePluginStat_Trainingspartner extends PluginStat
         $this->TrainingsWithPartner = count($trainings);
         $this->TrainingsTotal = DB::getInstance()->query('SELECT COUNT(*) FROM `' . PREFIX . 'training` WHERE 1' . $this->getSportAndYearDependenceForQuery() . ' AND accountid = ' . SessionAccountHandler::getId())->fetchColumn();
 
-        if (empty($trainings)) {
+        if ($trainings === []) {
             return;
         }
 

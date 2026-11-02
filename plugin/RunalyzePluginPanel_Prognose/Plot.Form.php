@@ -51,7 +51,7 @@ if (time() != START_TIME) {
             `sportid`=' . Configuration::General()->runningSport() . '
         ORDER BY `date` ASC')->fetchAll();
 
-    if (! empty($Data)) {
+    if ($Data !== []) {
         $currentFirstIndexForVO2max = 0;
         $currentFirstIndexForKm = 0;
         $currentFirstIndexForLongJogs = 0;
