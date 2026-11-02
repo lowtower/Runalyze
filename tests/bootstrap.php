@@ -14,6 +14,14 @@ use Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookupException;
 use Symfony\Component\Dotenv\Dotenv;
 
 error_reporting(E_ALL);
+
+// The test timezone must be set before anything else is booted, so that the whole
+// application (including the kernel and the compiled container) uses a well defined timezone.
+$testTimezone = getenv('TEST_TIMEZONE') ?: 'Europe/Berlin';
+ini_set('date.timezone', $testTimezone);
+putenv('TZ=' . $testTimezone);
+date_default_timezone_set($testTimezone);
+
 if (method_exists(Dotenv::class, 'bootEnv')) {
     new Dotenv()->bootEnv(__DIR__ . '/../.env');
 }
@@ -43,10 +51,6 @@ $kernel->boot();
 $container = $kernel->getContainer();
 
 require_once FRONTEND_PATH . 'system/define.consts.php';
-
-$testTimezone = getenv('TEST_TIMEZONE') ?: 'Europe/Berlin';
-putenv('TZ=' . $testTimezone);
-date_default_timezone_set($testTimezone);
 
 if (! defined('NL')) {
     define('NL', "\n");
