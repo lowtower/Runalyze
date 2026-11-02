@@ -8,6 +8,7 @@ use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Services\Sha256SaltedEncoder;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -30,6 +31,8 @@ final class LoginPasswordMigrationTest extends AbstractFixturesAwareWebTestCase
     /**
      * Simulates a pre-argon2id account: the password is stored as sha256(password . salt)
      * together with the per-account salt, exactly as the former Sha256SaltedEncoder did.
+     *
+     * @throws RuntimeException if the account could not be reloaded after registration
      */
     private function registerAccountWithLegacyHash(): Account
     {
@@ -42,16 +45,24 @@ final class LoginPasswordMigrationTest extends AbstractFixturesAwareWebTestCase
 
         $registration = new Registration($this->getEntityManager(), $passwordHasher);
         $registration->setAccount($account);
+        $registration->registerAccount();
 
-        $registeredAccount = $registration->registerAccount();
+        // Registration::registerAccount() ends with em->clear(), so the account object
+        // is detached from the entity manager: it has to be re-fetched before the stored
+        // password can be replaced with a legacy hash.
+        $managedAccount = $this->getEntityManager()->find(Account::class, $account->getId());
+
+        if (! $managedAccount instanceof Account) {
+            throw new RuntimeException('The account could not be reloaded after registration.');
+        }
 
         $legacyHasher = new Sha256SaltedEncoder();
-        $account->setPassword($legacyHasher->hash(self::LEGACY_PASSWORD, $account->getSalt()));
+        $managedAccount->setPassword($legacyHasher->hash(self::LEGACY_PASSWORD, $managedAccount->getSalt()));
 
         $this->getEntityManager()
             ->flush();
 
-        return $registeredAccount;
+        return $managedAccount;
     }
 
     private function reloadAccount(int $id): ?Account
@@ -78,8 +89,12 @@ final class LoginPasswordMigrationTest extends AbstractFixturesAwareWebTestCase
 
     public function testLoginWithLegacySha256SaltedHashMigratesStoredHash(): void
     {
-        $legacyHash = $this->Account->getPassword();
+        $legacyAccount = $this->reloadAccount($this->Account->getId());
+        $this->assertInstanceOf(Account::class, $legacyAccount);
 
+        // assert against the persisted hash: the database, not the in-memory object,
+        // decides whether the login can succeed
+        $legacyHash = $legacyAccount->getPassword();
         $this->assertMatchesRegularExpression('/^[a-f0-9]{64}$/', $legacyHash);
 
         $this->submitLoginForm($this->Client);
