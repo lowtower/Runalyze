@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -18,7 +19,7 @@ concurrency:
 jobs:
   qa:
     name: Static analysis & code style
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -26,23 +27,48 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.5'
+          php-version: '8.5.12'
           extensions: ctype, iconv
           coverage: none
 
       - name: Install Composer dependencies
         uses: ramsey/composer-install@v3
 
-      - name: Run QA suite (Rector, ECS, PHPStan, TwigCS)
-        run: composer qa
+      - name: Rector (dry-run)
+        run: composer rector
+
+      - name: EasyCodingStandard
+        run: composer lint
+
+      - name: PHPStan
+        run: composer analyse
+
+      - name: TwigCS
+        run: composer twig:lint
+
+      - name: Dump run logs on failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p ci-logs
+          gh run view "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --log > ci-logs/run.log || true
+
+      - name: Upload logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-logs
+          path: ci-logs/
+          if-no-files-found: ignore
 
   tests:
     name: PHPUnit (PHP ${{ matrix.php-version }})
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['8.5']
+        php-version: ['8.5.12']
     services:
       mariadb:
         image: mariadb:12.3
@@ -122,10 +148,26 @@ jobs:
           mkdir -p var/log
           composer test
 
+      - name: Dump run logs on failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p var/log/ci
+          gh run view "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --log > var/log/ci/run.log || true
+
       - name: Upload PHPUnit results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: phpunit-junit-${{ matrix.php-version }}
           path: var/log/phpunit-junit.xml
+          if-no-files-found: ignore
+
+      - name: Upload logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-logs
+          path: var/log/ci/
           if-no-files-found: ignore
