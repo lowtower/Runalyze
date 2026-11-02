@@ -146,9 +146,17 @@ final class BackupToolControllerTest extends AbstractFixturesAwareWebTestCase
     public function testDownloadBackupActionReturns404ForMissingFile(): void
     {
         $client = $this->makeAuthenticatedClient();
-        $client->request('GET', '/my/tools/backup/download/does-not-exist.zip');
+        $client->request('GET', '/my/tools/backup/download/does-not-exist.sql.gz');
 
         $this->assertStatusCode(404, $client);
+    }
+
+    public function testDownloadBackupActionRejectsPathTraversal(): void
+    {
+        $client = $this->makeAuthenticatedClient();
+        $client->request('GET', '/my/tools/backup/download/' . rawurlencode('../../other.sql.gz'));
+
+        $this->assertStatusCode(403, $client);
     }
 
     public function testDownloadBackupActionReturns403ForFileWithInvalidExtension(): void

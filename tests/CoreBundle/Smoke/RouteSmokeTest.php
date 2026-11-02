@@ -120,6 +120,7 @@ final class RouteSmokeTest extends WebTestCase
         yield ['ActivityShow', '/activity/{id}', 'GET', 302, true];
         yield ['runalyze_core_activity_view_vo2maxinfo', '/activity/{id}/vo2max-info', 'GET', 302, true];
         yield ['runalyze_core_activity_view_splitsinfo', '/activity/{id}/splits-info', 'GET', 302, true];
+        yield ['runalyze_core_activity_view_splitsinfo', '/activity/{id}/splits-info', 'POST', 302, true];
         yield ['runalyze_core_activity_view_elevationinfo', '/activity/{id}/elevation-info', 'GET', 302, true];
         yield ['activity-tool-time-series-info', '/activity/{id}/time-series-info', 'GET', 302, true];
         yield ['activity-tool-sub-segments-info', '/activity/{id}/sub-segments-info', 'GET', 302, true];

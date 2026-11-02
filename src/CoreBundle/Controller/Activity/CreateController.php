@@ -33,6 +33,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -103,16 +104,15 @@ class CreateController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $importResult = null;
-        $importDir = $this->getParameter('app.data_directory') . '/import/';
 
         if ($request->query->has('file')) {
             $importer = $this->fileImporter;
 
-            $importResult = $importer->importSingleFile($importDir . $request->query->get('file'));
+            $importResult = $importer->importSingleFile($this->getImportFilePath($request->query->get('file')));
         } elseif ($request->query->has('files')) {
             $importer = $this->fileImporter;
             $importResult = $importer->importFiles(
-                array_map(fn ($file): string => $importDir . $file, explode(';', $request->query->get('files')))
+                array_map($this->getImportFilePath(...), explode(';', $request->query->get('files')))
             );
         }
 
@@ -121,6 +121,21 @@ class CreateController extends AbstractController
         }
 
         return $this->getUploadFormResponse();
+    }
+
+    private function getImportFilePath(string $fileName): string
+    {
+        if (
+            $fileName === ''
+            || in_array($fileName, ['.', '..'], true)
+            || $fileName !== basename($fileName)
+            || str_contains($fileName, '\\')
+            || str_contains($fileName, "\0")
+        ) {
+            throw new BadRequestHttpException('Invalid import file name.');
+        }
+
+        return $this->getParameter('app.data_directory') . '/import/' . $fileName;
     }
 
     protected function getResponseForImportResults(FileImportResultCollection $results, ?Account $account = null, ?Request $request = null): Response

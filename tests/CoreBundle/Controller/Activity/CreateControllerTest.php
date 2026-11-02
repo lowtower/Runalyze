@@ -206,6 +206,26 @@ final class CreateControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStringContainsString('isNew: true', $this->responseContent());
     }
 
+    public function testUploadActionRejectsFileNamesWithPathTraversal(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $this->Client->request('GET', '/activity/upload?file=' . urlencode('../composer.json'));
+
+        $this->assertStatusCode(400, $this->Client);
+    }
+
+    public function testUploadActionRejectsAnyFileWithPathTraversalInMultipleFileUpload(): void
+    {
+        $fileName = $this->copyFixtureIntoImportDirectory('create_test_' . uniqid('', true) . '.fit');
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $this->Client->request('GET', '/activity/upload?files=' . urlencode($fileName . ';../composer.json'));
+
+        $this->assertStatusCode(400, $this->Client);
+        $this->assertFileExists($this->importDirectory() . $fileName);
+    }
+
     public function testNewActionRendersTheActivityFormForANewActivity(): void
     {
         $this->loginClient($this->Client, $this->Account, 'default');

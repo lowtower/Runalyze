@@ -128,16 +128,26 @@ class CallController extends AbstractController
 
         switch ($key) {
             case 'garmin-ignore':
-                Configuration::ActivityForm()->ignoreActivityID($value);
+                if (is_string($value) && $value !== '') {
+                    Configuration::ActivityForm()->ignoreActivityID($value);
+                }
+
                 break;
 
             case 'leaflet-layer':
+                if (! is_string($value) || preg_match('/\A[A-Za-z0-9 ()_-]{1,64}\z/D', $value) !== 1) {
+                    throw new BadRequestHttpException('Invalid map layer.');
+                }
+
                 Configuration::ActivityView()->updateLayer($value);
+
                 break;
 
             default:
-                if (str_starts_with($key, 'show-')) {
-                    Configuration::ActivityForm()->update(substr($key, 5), $value);
+                $legendKey = str_starts_with($key, 'show-') ? substr($key, 5) : '';
+
+                if (in_array($legendKey, ['SPORT', 'GENERAL', 'DISTANCE', 'SPLITS', 'WEATHER', 'OTHER', 'NOTES', 'PUBLIC', 'ELEVATION', 'GPS'], true) && is_string($value)) {
+                    Configuration::ActivityForm()->update($legendKey, $value);
                 }
         }
 

@@ -98,7 +98,11 @@ class Map
         }
 
         $scrollOnZoom = Configuration::ActivityView()->mapZoomOnScroll();
-        $Code = 'RunalyzeLeaflet.setDefaultLayer("' . Configuration::ActivityView()->mapLayer() . '");';
+        $encodedLayer = (string) json_encode(
+            Configuration::ActivityView()->mapLayer(),
+            JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_INVALID_UTF8_SUBSTITUTE
+        );
+        $Code = 'RunalyzeLeaflet.setDefaultLayer(' . $encodedLayer . ');';
         $Code .= "RunalyzeLeaflet.init('" . $this->id . "', { scrollWheelZoom: " . ($scrollOnZoom ? 'true' : 'false') . '} );';
 
         foreach ($this->Routes as $Route) {

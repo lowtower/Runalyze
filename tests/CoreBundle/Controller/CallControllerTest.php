@@ -182,6 +182,33 @@ final class CallControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStatusCode(200, $this->Client);
     }
 
+    public function testAjaxChangeConfigActionAcceptsAValidLeafletLayer(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $this->Client->request('GET', '/call/ajax.change.Config.php?key=leaflet-layer&value=' . urlencode('OpenStreetMap (de)'));
+
+        $this->assertStatusCode(200, $this->Client);
+    }
+
+    public function testAjaxChangeConfigActionRejectsAnUnsafeLeafletLayer(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $this->Client->request('GET', '/call/ajax.change.Config.php?key=leaflet-layer&value=' . urlencode('x");alert(1);//'));
+
+        $this->assertStatusCode(400, $this->Client);
+    }
+
+    public function testAjaxChangeConfigActionNoOpsForAnUnknownLegendKey(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $this->Client->request('GET', '/call/ajax.change.Config.php?key=show-UNKNOWN&value=1');
+
+        $this->assertStatusCode(200, $this->Client);
+    }
+
     public function testWindowSearchActionRequiresAuthentication(): void
     {
         $this->Client->request('GET', '/my/search');
