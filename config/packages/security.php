@@ -4,14 +4,22 @@ declare(strict_types=1);
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Services\AccountChecker;
+use Runalyze\Bundle\CoreBundle\Services\Sha256SaltedEncoder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->extension('security', [
         'password_hashers' => [
+            // legacy hasher (sha256 + per-account salt): only used to verify
+            // old hashes during login until each account has been migrated
+            'legacy_sha256salted' => [
+                'id' => Sha256SaltedEncoder::class,
+            ],
             Account::class => [
-                'id' => 'app.sha256salted_encoder',
+                'algorithm' => 'auto',
+                'migrate_from' => [
+                    'legacy_sha256salted',
+                ],
             ],
         ],
         'providers' => [
@@ -77,11 +85,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     if ($containerConfigurator->env() === 'test') {
         $containerConfigurator->extension('security', [
             'password_hashers' => [
-                PasswordAuthenticatedUserInterface::class => [
+                Account::class => [
                     'algorithm' => 'auto',
                     'cost' => 4,
                     'time_cost' => 3,
                     'memory_cost' => 10,
+                    'migrate_from' => [
+                        'legacy_sha256salted',
+                    ],
                 ],
             ],
         ]);

@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `runalyze_account` (
   `mail` varchar(100) NOT NULL,
   `language` varchar(5) NOT NULL DEFAULT '',
   `timezone` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `password` varchar(64) NOT NULL DEFAULT '',
+  `password` varchar(255) NOT NULL DEFAULT '',
   `salt` char(64) NOT NULL DEFAULT '',
   `registerdate` int(10) unsigned DEFAULT NULL,
   `lastaction` int(10) unsigned DEFAULT NULL,

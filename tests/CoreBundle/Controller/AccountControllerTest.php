@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Services\Sha256SaltedEncoder;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
 use RuntimeException;
 use Symfony\Component\DomCrawler\Crawler;
@@ -275,8 +274,7 @@ final class AccountControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertNotSame($originalPasswordHash, $reloaded->getPassword());
         $this->assertNull($reloaded->getChangepwHash());
 
-        $encoder = new Sha256SaltedEncoder();
-        $this->assertTrue($encoder->verify($reloaded->getPassword(), 'brand-new-password-123', $reloaded->getSalt()));
+        $this->assertTrue(password_verify('brand-new-password-123', $reloaded->getPassword()));
     }
 
     public function testSubmittingRecoverForHashFormWithMismatchedPasswordsDoesNotChangePassword(): void

@@ -8,12 +8,24 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 /**
  * @extends EntityRepository<Account>
  */
-class AccountRepository extends EntityRepository implements UserLoaderInterface
+class AccountRepository extends EntityRepository implements UserLoaderInterface, PasswordUpgraderInterface
 {
+    public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
+    {
+        if (! $user instanceof Account) {
+            return;
+        }
+
+        $user->setPassword($newHashedPassword);
+        $this->getEntityManager()->flush();
+    }
+
     public function findForUsername(string $username): ?Account
     {
         return $this->createQueryBuilder('u')
