@@ -39,6 +39,23 @@ class FilenameHandler
         );
     }
 
+    /**
+     * Server-generated filename for uploaded import files. The client-supplied
+     * original filename must never be used as a storage path: it is fully
+     * user-controlled (including path components) and would collide between
+     * accounts in the shared import directory.
+     */
+    public function generateImportFilename(): string
+    {
+        return sprintf(
+            '%s-import-%s-%s.%s',
+            $this->AccountId,
+            date('Ymd-Hi'),
+            bin2hex(random_bytes(4)),
+            self::JSON_FORMAT
+        );
+    }
+
     public function isValidImportExtension(string $extension): bool
     {
         return $extension === self::JSON_FORMAT;

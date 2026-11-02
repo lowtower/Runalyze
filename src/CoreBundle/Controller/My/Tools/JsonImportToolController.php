@@ -58,9 +58,13 @@ class JsonImportToolController extends AbstractController
     }
 
     #[Route(path: '/upload', name: 'tools-backup-json-upload', methods: ['GET', 'POST'])]
-    public function backupUploadAction(Request $request): JsonResponse
+    public function backupUploadAction(Request $request, ?Account $account = null): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
+
+        if ($account === null) {
+            throw $this->createAccessDeniedException();
+        }
 
         $backupFile = $request->files->get('qqfile');
 
@@ -83,6 +87,13 @@ class JsonImportToolController extends AbstractController
                 'error' => 'Wrong file extension.',
             ]);
         }
+
+        // The original client filename must never be used as a storage path:
+        // it is fully user-controlled (including path components) and could
+        // collide with another account's pending import in the shared import
+        // directory. Uploads are stored under a server-generated,
+        // account-prefixed filename instead.
+        $filename = (new FilenameHandler($account->getId()))->generateImportFilename();
 
         try {
             $backupFile->move($this->getImportFilePath(), $filename);
