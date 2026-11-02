@@ -35,6 +35,12 @@
         <server name="SYMFONY_PHPUNIT_VERSION" value="13.5"/>
 
         <env name="MAILER_DSN" value="null://null" force="true" />
+
+        <!-- Tests must never call live external APIs. Route name evaluation would
+             otherwise POST to the Overpass API during activity imports and abort
+             them with a 500 whenever overpass-api.de throttles or times out.
+             An empty URL makes RouteNameEvalOsm skip the request entirely. -->
+        <env name="OSM_OVERPASS_URL" value="" force="true" />
     </php>
 
     <testsuites>
