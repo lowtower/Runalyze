@@ -171,7 +171,7 @@ class ViewController extends AbstractController
      */
     #[Route(path: '/activity/{id}/splits-info', requirements: [
         'id' => '\d+',
-    ], methods: ['GET'])]
+    ], methods: ['GET', 'POST'])]
     public function splitsInfoAction(int $id, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
