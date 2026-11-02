@@ -27,7 +27,12 @@ class TtbinConverter extends AbstractShellBasedFileTypeConverter
 
     protected function buildCommand($inputFile, $outputFile): string
     {
-        return sprintf('%s -t -E < "%s" > "%s"', $this->PathToConverter, $inputFile, $outputFile);
+        return sprintf(
+            '%s -t -E < %s > %s',
+            escapeshellarg($this->PathToConverter),
+            escapeshellarg($inputFile),
+            escapeshellarg($outputFile)
+        );
     }
 
     protected function checkFirstLineOfOutput($firstLine)

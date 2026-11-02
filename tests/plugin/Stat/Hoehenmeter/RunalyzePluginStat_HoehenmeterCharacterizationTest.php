@@ -73,6 +73,14 @@ final class RunalyzePluginStat_HoehenmeterCharacterizationTest extends TestCase
         );
     }
 
+    public function testLabelForEscapesHtmlInRouteAndTitle(): void
+    {
+        $this->assertSame(
+            '&lt;script&gt;alert(1)&lt;/script&gt; (<em>&lt;img src=x onerror=alert(1)&gt;</em>)',
+            $this->callLabelFor('<script>alert(1)</script>', '<img src=x onerror=alert(1)>')
+        );
+    }
+
     public function testFormatMostElevationCellComputesGradeFromElevationAndDistance(): void
     {
         $html = $this->callFormatMostElevationCell([

@@ -32,7 +32,13 @@ class FitConverter extends AbstractShellBasedFileTypeConverter
 
     protected function buildCommand(string $inputFile, string $outputFile): string
     {
-        return sprintf('%s %s "%s" 1>"%s"', $this->PathToPerl, $this->PathToFitPerlScript, $inputFile, $outputFile);
+        return sprintf(
+            '%s %s %s 1>%s',
+            escapeshellarg($this->PathToPerl),
+            escapeshellarg($this->PathToFitPerlScript),
+            escapeshellarg($inputFile),
+            escapeshellarg($outputFile)
+        );
     }
 
     protected function checkFirstLineOfOutput(string $firstLine)
