@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\\Bundle\\CoreBundle\\Tests\\Controller;
+namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
-use Runalyze\\Bundle\\CoreBundle\\Component\\Account\\Registration;
-use Runalyze\\Bundle\\CoreBundle\\Entity\\Account;
-use Runalyze\\Bundle\\CoreBundle\\Services\\Sha256SaltedEncoder;
-use Runalyze\\Bundle\\CoreBundle\\Tests\\DataFixtures\\AbstractFixturesAwareWebTestCase;
-use Symfony\\Bundle\\FrameworkBundle\\KernelBrowser;
-use Symfony\\Component\\PasswordHasher\\Hasher\\UserPasswordHasherInterface;
+use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Services\Sha256SaltedEncoder;
+use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-#[\\PHPUnit\\Framework\\Attributes\\Group('requiresKernel')]
-#[\\PHPUnit\\Framework\\Attributes\\Group('requiresClient')]
-#[\\PHPUnit\\Framework\\Attributes\\Group('requiresDoctrine')]
+#[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
+#[\PHPUnit\Framework\Attributes\Group('requiresClient')]
+#[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 final class LoginPasswordMigrationTest extends AbstractFixturesAwareWebTestCase
 {
     private const string LEGACY_PASSWORD = 'legacy-hash-migration-test-password';
