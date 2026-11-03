@@ -32,6 +32,24 @@ final class JsonImportToolControllerTest extends AbstractFixturesAwareWebTestCas
     }
 
     /**
+     * Uploads are stored under a server-generated, account-prefixed filename,
+     * so the stored file can be found by matching that pattern.
+     */
+    protected function findGeneratedImportFile(string $importPath, int $accountId): ?string
+    {
+        $matches = glob($importPath . $accountId . '-import-*.json.gz');
+
+        return ($matches !== false && $matches !== []) ? $matches[0] : null;
+    }
+
+    protected function removeGeneratedImportFiles(string $importPath, int $accountId): void
+    {
+        foreach (glob($importPath . $accountId . '-import-*.json.gz') ?: [] as $generatedFile) {
+            new Filesystem()->remove($generatedFile);
+        }
+    }
+
+    /**
      * @return string[]
      */
     protected function allExpectedBackupTables(): array
@@ -167,6 +185,8 @@ final class JsonImportToolControllerTest extends AbstractFixturesAwareWebTestCas
         $filesystem = new Filesystem();
         $filesystem->mkdir($importPath);
 
+        $accountId = $this->getDefaultAccount()->getId();
+
         $localPath = sys_get_temp_dir() . '/' . uniqid('backup-test-', true) . '.json.gz';
         file_put_contents($localPath, 'dummy content, only the extension is validated at upload time');
 
@@ -184,9 +204,62 @@ final class JsonImportToolControllerTest extends AbstractFixturesAwareWebTestCas
                 $client->getResponse()
                     ->getContent()
             );
-            $this->assertFileExists($importPath . $originalFilename);
+
+            $generatedFile = $this->findGeneratedImportFile($importPath, $accountId);
+            $this->assertNotNull($generatedFile, 'Expected the upload to be stored under a server-generated, account-prefixed filename.');
+            $this->assertMatchesRegularExpression(
+                '/^\d+-import-\d{8}-\d{4}-[0-9a-f]{8}\.json\.gz$/',
+                basename($generatedFile)
+            );
+
+            // the client-supplied filename must never be used as the storage name
+            $this->assertFileDoesNotExist($importPath . $originalFilename);
         } finally {
             $filesystem->remove($importPath . $originalFilename);
+            $this->removeGeneratedImportFiles($importPath, $accountId);
+        }
+    }
+
+    /**
+     * Regression test: the client-supplied original filename is fully
+     * user-controlled. Before the fix it was used directly as the storage
+     * path, so path components in the original filename could write the
+     * upload outside the import directory.
+     */
+    public function testBackupUploadActionIgnoresPathComponentsInTheClientFilename(): void
+    {
+        $importPath = $this->getImportFilePath();
+        $filesystem = new Filesystem();
+        $filesystem->mkdir($importPath);
+
+        $accountId = $this->getDefaultAccount()->getId();
+
+        $localPath = sys_get_temp_dir() . '/' . uniqid('backup-test-', true) . '.json.gz';
+        file_put_contents($localPath, 'dummy content, only the extension is validated at upload time');
+
+        $maliciousFilename = '../../../client-escape-attempt.json.gz';
+
+        try {
+            $client = $this->makeAuthenticatedClient();
+            $this->uploadBackupFile($client, $localPath, $maliciousFilename);
+
+            $this->assertStatusCode(200, $client);
+            $this->assertJsonStringEqualsJsonString(
+                json_encode([
+                    'success' => true,
+                ]),
+                $client->getResponse()
+                    ->getContent()
+            );
+
+            // the upload must not escape the import directory
+            $this->assertFileDoesNotExist($importPath . $maliciousFilename);
+
+            // ... and must land under the server-generated, account-prefixed name
+            $this->assertNotNull($this->findGeneratedImportFile($importPath, $accountId));
+        } finally {
+            $filesystem->remove($importPath . $maliciousFilename);
+            $this->removeGeneratedImportFiles($importPath, $accountId);
         }
     }
 
@@ -247,6 +320,8 @@ final class JsonImportToolControllerTest extends AbstractFixturesAwareWebTestCas
         $filesystem = new Filesystem();
         $filesystem->mkdir($importPath);
 
+        $accountId = $this->getDefaultAccount()->getId();
+
         $matchingVersion = JsonBackupAnalyzer::extractMajorAndMinorVersion($this->getRunalyzeVersion());
         [$major, $minor] = array_map(intval(...), explode('.', $matchingVersion !== '' ? $matchingVersion : '1.0'));
         $wrongVersion = ($major + 1) . '.' . $minor;
@@ -263,9 +338,10 @@ final class JsonImportToolControllerTest extends AbstractFixturesAwareWebTestCas
             $client->request('GET', '/my/tools/backup-import/import');
 
             $this->assertStatusCode(200, $client);
-            $this->assertFileDoesNotExist($importPath . $originalFilename);
+            $this->assertNull($this->findGeneratedImportFile($importPath, $accountId), 'Expected the uploaded file to be removed.');
         } finally {
             $filesystem->remove($importPath . $originalFilename);
+            $this->removeGeneratedImportFiles($importPath, $accountId);
         }
     }
 
@@ -280,6 +356,8 @@ final class JsonImportToolControllerTest extends AbstractFixturesAwareWebTestCas
         $importPath = $this->getImportFilePath();
         $filesystem = new Filesystem();
         $filesystem->mkdir($importPath);
+
+        $accountId = $this->getDefaultAccount()->getId();
 
         $tables = $this->allExpectedBackupTables();
         array_pop($tables);
@@ -298,9 +376,10 @@ final class JsonImportToolControllerTest extends AbstractFixturesAwareWebTestCas
             $client->request('GET', '/my/tools/backup-import/import');
 
             $this->assertStatusCode(200, $client);
-            $this->assertFileDoesNotExist($importPath . $originalFilename);
+            $this->assertNull($this->findGeneratedImportFile($importPath, $accountId), 'Expected the uploaded file to be removed.');
         } finally {
             $filesystem->remove($importPath . $originalFilename);
+            $this->removeGeneratedImportFiles($importPath, $accountId);
         }
     }
 
@@ -309,6 +388,8 @@ final class JsonImportToolControllerTest extends AbstractFixturesAwareWebTestCas
         $importPath = $this->getImportFilePath();
         $filesystem = new Filesystem();
         $filesystem->mkdir($importPath);
+
+        $accountId = $this->getDefaultAccount()->getId();
 
         $matchingVersion = JsonBackupAnalyzer::extractMajorAndMinorVersion($this->getRunalyzeVersion());
 
@@ -324,9 +405,10 @@ final class JsonImportToolControllerTest extends AbstractFixturesAwareWebTestCas
             $client->request('GET', '/my/tools/backup-import/import');
 
             $this->assertStatusCode(200, $client);
-            $this->assertFileExists($importPath . $originalFilename);
+            $this->assertNotNull($this->findGeneratedImportFile($importPath, $accountId), 'Expected the uploaded file to be kept.');
         } finally {
             $filesystem->remove($importPath . $originalFilename);
+            $this->removeGeneratedImportFiles($importPath, $accountId);
         }
     }
 
@@ -357,6 +439,8 @@ final class JsonImportToolControllerTest extends AbstractFixturesAwareWebTestCas
         $filesystem = new Filesystem();
         $filesystem->mkdir($importPath);
 
+        $accountId = $this->getDefaultAccount()->getId();
+
         $matchingVersion = JsonBackupAnalyzer::extractMajorAndMinorVersion($this->getRunalyzeVersion());
 
         $localPath = sys_get_temp_dir() . '/' . uniqid('backup-test-', true) . '.json.gz';
@@ -377,6 +461,7 @@ final class JsonImportToolControllerTest extends AbstractFixturesAwareWebTestCas
             $this->assertStringContainsString('Nothing changed.', (string) $client->getResponse()->getContent());
         } finally {
             $filesystem->remove($importPath . $originalFilename);
+            $this->removeGeneratedImportFiles($importPath, $accountId);
         }
     }
 }
