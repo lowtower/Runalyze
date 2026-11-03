@@ -61,6 +61,7 @@ WORKDIR /var/www/html
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY --link composer.* ./
 RUN set -eux; \
+    mkdir -p inc plugin; \
     if [ "$APP_ENV" = "dev" ]; then \
       composer install --no-interaction --no-progress --prefer-dist --no-scripts --no-autoloader; \
     else \
@@ -231,6 +232,7 @@ WORKDIR /var/www/html
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY --link composer.* ./
 RUN set -eux; \
+    mkdir -p inc plugin; \
     if [ "$APP_ENV" = "dev" ]; then \
       composer install --no-interaction --no-progress --prefer-dist --no-scripts --no-autoloader; \
     else \
