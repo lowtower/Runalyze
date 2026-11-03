@@ -13,31 +13,31 @@ FROM docker.io/mlocati/php-extension-installer:latest AS php_extension_installer
 ###############################################################################
 # Shared CLI Base (workers)
 ###############################################################################
-FROM docker.io/php:${PHP_VERSION}-cli AS base
+FROM docker.io/php:$PHP_VERSION-cli AS base
 
 ARG DEBIAN_FRONTEND
 ARG APP_ENV
 
-ENV APP_ENV=${APP_ENV} \
+ENV APP_ENV=$APP_ENV \
     TZ=Europe/Berlin \
     LANG=C.UTF-8 \
     LANGUAGE=C.UTF-8 \
     LC_ALL=C.UTF-8 \
     COMPOSER_CACHE_DIR=/tmp/composer-cache
 
-# Install only what the workers need at runtime.
+# Install only what the workers need: git/unzip for composer's fallback
+# install (runalyze/* are installed from source, see composer.json). Python
+# is deliberately NOT part of the base: only the poster and garmin workers
+# need it, the backup worker stays a plain PHP-CLI image.
 RUN set -eux; \
     apt-get update; \
     apt-get install -y --no-install-recommends \
       ca-certificates \
       curl \
       git \
-      openssh-client \
       unzip \
       hostname \
       tzdata \
-      python3 \
-      python3-venv \
     ; \
     rm -rf /var/lib/apt/lists/*
 
@@ -54,11 +54,10 @@ RUN install-php-extensions \
 
 WORKDIR /var/www/html
 
-# Copy/link sources
-COPY --link . ./
-
-# Composer
+# Composer: dependencies are installed before the sources are copied, so the
+# expensive vendor layer stays cached when only the sources change.
 COPY --from=composer /usr/bin/composer /usr/bin/composer
+COPY --link composer.* ./
 RUN if [ "$APP_ENV" = "dev" ]; then \
       composer install --no-interaction --no-progress --prefer-dist --no-scripts; \
     else \
@@ -66,9 +65,8 @@ RUN if [ "$APP_ENV" = "dev" ]; then \
     fi; \
     composer --version
 
-# Python virtual environment shared by the poster and Garmin workers
-RUN python3 -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
+# Copy/link sources
+COPY --link . ./
 
 COPY docker/php/runalyze.ini /usr/local/etc/php/conf.d/99-runalyze.ini
 
@@ -86,9 +84,26 @@ ENTRYPOINT ["/usr/local/bin/runalyze-entrypoint.sh"]
 CMD ["php", "bin/console", "messenger:consume", "backup", "--time-limit=3600", "--memory-limit=256M", "--no-interaction"]
 
 ###############################################################################
+# Python base for all workers that shell out to Python tools
+###############################################################################
+FROM worker AS worker-python
+
+RUN set -eux; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends \
+      python3 \
+      python3-venv \
+    ; \
+    rm -rf /var/lib/apt/lists/*
+
+# Python virtual environment shared by the poster and Garmin workers
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+###############################################################################
 # Poster worker (Python gpxtrackposter + librsvg)
 ###############################################################################
-FROM worker AS worker-poster
+FROM worker-python AS worker-poster
 
 RUN set -eux; \
     apt-get update; \
@@ -102,7 +117,7 @@ CMD ["php", "bin/console", "messenger:consume", "poster", "--time-limit=3600", "
 ###############################################################################
 # Garmin worker (Python garminconnect, prepared for future sync handlers)
 ###############################################################################
-FROM worker AS worker-garmin
+FROM worker-python AS worker-garmin
 
 RUN pip install --no-cache-dir garminconnect
 
@@ -111,12 +126,12 @@ CMD ["php", "bin/console", "messenger:consume", "garmin", "--time-limit=3600", "
 ###############################################################################
 # Web Server
 ###############################################################################
-FROM docker.io/php:${PHP_VERSION}-apache AS app
+FROM docker.io/php:$PHP_VERSION-apache AS app
 
 ARG DEBIAN_FRONTEND
 ARG APP_ENV
 
-ENV APP_ENV=${APP_ENV} \
+ENV APP_ENV=$APP_ENV \
     TZ=Europe/Berlin \
     LANG=C.UTF-8 \
     LANGUAGE=C.UTF-8 \
@@ -124,15 +139,21 @@ ENV APP_ENV=${APP_ENV} \
     COMPOSER_CACHE_DIR=/tmp/composer-cache \
     APACHE_DOCUMENT_ROOT=/var/www/html/public
 
-# Install Packages
+# Install packages. Lean notes:
+# - no *-dev headers: install-php-extensions manages its own build
+#   dependencies and keeps only the runtime libraries
+# - no python3-venv/-pip and no gpxtrackposter: poster rendering happens in
+#   worker-poster; python3 and rsvg-convert stay only for the poster tool's
+#   availability check (Component\Tool\Poster\Availability)
+# - no inkscape: SVG-to-PNG conversion always uses rsvg-convert
+#   (PosterGenerationMessageHandler::getConverter())
+# - no openssh-client and no wget: composer clones via https, downloads use curl
 RUN set -eux; \
     apt-get update; \
     apt-get install -y --no-install-recommends \
       acl \
-      wget \
       locales \
       git \
-      openssh-client \
       unzip \
       zip \
       tzdata \
@@ -142,24 +163,10 @@ RUN set -eux; \
       curl \
       mariadb-client \
       sqlite3 \
-      libsqlite3-dev \
       libsqlite3-mod-spatialite \
       spatialite-bin \
-      libicu-dev \
-      libzip-dev \
-      zlib1g-dev \
-      libpng-dev \
-      libjpeg-dev \
-      libfreetype6-dev \
-      libxml2-dev \
-      libmcrypt-dev \
-      libcurl4-openssl-dev \
-      libonig-dev \
       python3 \
-      python3-pip \
-      python3-venv \
       librsvg2-bin \
-      inkscape \
     ; \
     a2enmod rewrite headers expires; \
     rm -rf /var/lib/apt/lists/*
@@ -182,7 +189,6 @@ RUN printf '%s\n' "PS1='\n\[\e[1;33m\]\t\[\e[0m\] -\[\e[1;32m\] \h\[\e[0m\] - \[
 # Install PHP Extensions
 COPY --from=php_extension_installer /usr/bin/install-php-extensions /usr/local/bin/
 RUN install-php-extensions \
-    ast \
     bcmath \
     gettext \
     intl \
@@ -191,9 +197,9 @@ RUN install-php-extensions \
     zip \
     mysqli \
     gd
-# Dev only
+# Dev only: xdebug for debugging, ast for static analysis
 RUN if [ "$APP_ENV" = "dev" ]; then \
-      install-php-extensions xdebug; \
+      install-php-extensions xdebug ast; \
       echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
       echo "xdebug.mode=develop,coverage"  >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
       echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
@@ -206,19 +212,19 @@ RUN if [ "$APP_ENV" = "prod" ]; then \
 
 WORKDIR /var/www/html
 
+# Composer: dependencies before the sources (layer caching), --no-dev for
+# prod, and no swallowed failures (the previous "|| true" hid broken builds).
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+COPY --link composer.* ./
+RUN if [ "$APP_ENV" = "dev" ]; then \
+      composer install --no-interaction --no-progress --prefer-dist --no-scripts; \
+    else \
+      composer install --no-dev --no-interaction --no-progress --prefer-dist --no-scripts; \
+    fi; \
+    composer --version
+
 # Copy/link sources
 COPY --link . ./
-
-# Composer
-COPY --from=composer /usr/bin/composer /usr/bin/composer
-COPY composer.* ./
-RUN composer install --no-progress || true; \
-    composer --version;
-
-# Python virtual environment for gpxtrackposter
-RUN python3 -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
-RUN pip install --no-cache-dir vendor/runalyze/gpxtrackposter/.
 
 # Apache
 COPY docker/php/runalyze.ini /usr/local/etc/php/conf.d/99-runalyze.ini

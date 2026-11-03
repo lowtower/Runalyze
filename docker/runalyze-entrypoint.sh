@@ -76,7 +76,7 @@ setup() {
 
     if [ ! -f vendor/autoload.php ]; then
         log "Installing PHP dependencies with Composer ..."
-        composer install --prefer-source --no-interaction --ignore-platform-reqs
+        composer install --prefer-dist --no-interaction --ignore-platform-reqs
     fi
 
     # Show useful debugging info on startup.
