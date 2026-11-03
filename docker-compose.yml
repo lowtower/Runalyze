@@ -45,11 +45,15 @@ services:
     restart: unless-stopped
 
   app:
-    image: runalyze43-app:${APP_ENV:-dev}
+    # All runalyze services share one full image (app + python stack): one
+    # build, one artifact, every role served via ENTRYPOINT_ROLE and compose
+    # command overrides. The lean split targets (app, worker, worker-poster,
+    # worker-garmin) remain available for production deployments.
+    image: runalyze43-full:${APP_ENV:-dev}
     build:
       context: .
       dockerfile: Dockerfile
-      target: app
+      target: full
       args:
         APP_ENV: ${APP_ENV:-dev}
     container_name: runalyze43-app
@@ -105,11 +109,11 @@ services:
     restart: unless-stopped
 
   worker-backup:
-    image: runalyze43-worker-backup:${APP_ENV:-dev}
+    image: runalyze43-full:${APP_ENV:-dev}
     build:
       context: .
       dockerfile: Dockerfile
-      target: worker
+      target: full
       args: *worker-build-args
     container_name: runalyze43-worker-backup
     entrypoint: ["/usr/local/bin/runalyze-entrypoint.sh"]
@@ -120,11 +124,11 @@ services:
     restart: unless-stopped
 
   worker-poster:
-    image: runalyze43-worker-poster:${APP_ENV:-dev}
+    image: runalyze43-full:${APP_ENV:-dev}
     build:
       context: .
       dockerfile: Dockerfile
-      target: worker-poster
+      target: full
       args: *worker-build-args
     container_name: runalyze43-worker-poster
     entrypoint: ["/usr/local/bin/runalyze-entrypoint.sh"]
@@ -138,11 +142,11 @@ services:
     restart: unless-stopped
 
   worker-garmin:
-    image: runalyze43-worker-garmin:${APP_ENV:-dev}
+    image: runalyze43-full:${APP_ENV:-dev}
     build:
       context: .
       dockerfile: Dockerfile
-      target: worker-garmin
+      target: full
       args: *worker-build-args
     container_name: runalyze43-worker-garmin
     entrypoint: ["/usr/local/bin/runalyze-entrypoint.sh"]

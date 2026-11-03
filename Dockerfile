@@ -236,3 +236,16 @@ RUN chmod +x /usr/local/bin/runalyze-entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/runalyze-entrypoint.sh"]
 
 CMD ["apache2-foreground"]
+
+###############################################################################
+# Full image (dev): app + Python stack in one artifact, so a single image
+# can serve every role (web, backup, poster, garmin) via ENTRYPOINT_ROLE and
+# compose command overrides. Production keeps the lean split targets.
+###############################################################################
+FROM app AS full
+
+# Reuse the gpxtrackposter venv from the worker-python stage: it is
+# self-contained and its python3 symlink resolves against the system
+# python3 that the app stage already ships for the availability check.
+COPY --from=worker-python /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
