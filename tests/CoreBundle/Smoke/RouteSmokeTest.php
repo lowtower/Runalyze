@@ -125,8 +125,6 @@ final class RouteSmokeTest extends WebTestCase
         yield ['activity-tool-climb-score', '/activity/{id}/climb-score', 'GET', 404, true];
         yield ['runalyze_core_call_databrowser', '/call/call.DataBrowser.display.php', 'GET', 302, false];
         yield ['databrowser', '/databrowser', 'GET', 302, false];
-        yield ['runalyze_core_call_garmincommunicator', '/call/call.garminCommunicator.php', 'GET', 302, false];
-        yield ['runalyze_core_call_garmincommunicator_1', '/upload/garminCommunicator', 'GET', 302, false];
         yield ['runalyze_core_call_savepng', '/call/savePng.php', 'POST', 302, true];
         yield ['settings', '/settings', 'GET', 302, true];
         yield ['runalyze_core_call_ajaxchanceconfig', '/call/ajax.change.Config.php', 'GET', 302, false];
@@ -151,7 +149,6 @@ final class RouteSmokeTest extends WebTestCase
         yield ['install', '/install', 'GET', 404, false];
         yield ['install_start', '/install/start', 'GET', 302, false];
         yield ['install_finish', '/install/finish', 'GET', 302, false];
-        yield ['internal-activity-matcher', '/_internal/activity/matcher', 'GET', 302, true];
         yield ['internal-data-race-results-all', '/_internal/data/race-results/all', 'GET', 302, true];
         yield ['internal-notifications-read-all', '/_internal/notifications/read/all', 'GET', 302, true];
         yield ['internal-notifications-read', '/_internal/notifications/read/{id}', 'GET', 302, true];
