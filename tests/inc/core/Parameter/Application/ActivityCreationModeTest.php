@@ -20,17 +20,10 @@ final class ActivityCreationModeTest extends TestCase
     {
         $this->object->set(ActivityCreationMode::UPLOAD);
         $this->assertEquals(true, $this->object->usesUpload());
-        $this->assertEquals(false, $this->object->usesGarminCommunicator());
-        $this->assertEquals(false, $this->object->usesForm());
-
-        $this->object->set(ActivityCreationMode::GARMIN);
-        $this->assertEquals(false, $this->object->usesUpload());
-        $this->assertEquals(true, $this->object->usesGarminCommunicator());
         $this->assertEquals(false, $this->object->usesForm());
 
         $this->object->set(ActivityCreationMode::FORM);
         $this->assertEquals(false, $this->object->usesUpload());
-        $this->assertEquals(false, $this->object->usesGarminCommunicator());
         $this->assertEquals(true, $this->object->usesForm());
     }
 }

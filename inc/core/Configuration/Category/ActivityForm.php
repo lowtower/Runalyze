@@ -12,6 +12,7 @@ use Runalyze\Configuration\Fieldset;
 use Runalyze\Parameter\Application\ActivityCreationMode;
 use Runalyze\Parameter\Application\DatabaseOrder;
 use Runalyze\Parameter\Boolean;
+use Runalyze\Parameter\Set;
 use Runalyze\Parameter\Textline;
 
 /**
@@ -76,6 +77,7 @@ class ActivityForm extends \Runalyze\Configuration\Category
         $this->createHandle('TRAINING_SORT_SPORTS', new DatabaseOrder());
         $this->createHandle('TRAINING_SORT_TYPES', new DatabaseOrder());
         $this->createHandle('TRAINING_SORT_SHOES', new DatabaseOrder());
+        $this->createHandle('GARMIN_IGNORE_IDS', new Set([]));
         $this->createHandle('DETECT_PAUSES', new Boolean(true));
         $this->createHandle('IMPORT_MAX_HR_USER', new Boolean(false)); // #TSC
     }
@@ -144,6 +146,26 @@ class ActivityForm extends \Runalyze\Configuration\Category
         /** @var DatabaseOrder $parameter */
         $parameter = $this->object('TRAINING_SORT_SHOES');
         return $parameter;
+    }
+
+    /**
+     * Ignored activity IDs from Garmin
+     */
+    public function ignoredActivityIDs(): array
+    {
+        return $this->get('GARMIN_IGNORE_IDS');
+    }
+
+    /**
+     * Add new ID to ignored ones
+     */
+    public function ignoreActivityID(string $ID): void
+    {
+        /** @var Set $parameter */
+        $parameter = $this->object('GARMIN_IGNORE_IDS');
+        $parameter->append($ID);
+
+        $this->updateValue($this->handle('GARMIN_IGNORE_IDS'));
     }
 
     /**

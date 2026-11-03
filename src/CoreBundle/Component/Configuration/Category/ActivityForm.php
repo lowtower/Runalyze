@@ -18,6 +18,7 @@ class ActivityForm extends AbstractCategory
             'TRAINING_SORT_SPORTS' => 'id-asc',
             'TRAINING_SORT_TYPES' => 'id-asc',
             'TRAINING_SORT_SHOES' => 'id-asc',
+            'GARMIN_IGNORE_IDS' => '',
             'DETECT_PAUSES' => 'true',
             'IMPORT_MAX_HR_USER' => 'false',
             'FORMULAR_SHOW_SPORT' => 'true',
@@ -84,6 +85,13 @@ class ActivityForm extends AbstractCategory
         $order->set($this->Variables[$key]);
 
         return $order;
+    }
+
+    public function getIgnoredActivityIds(): array
+    {
+        return array_filter(
+            explode(',', $this->Variables['GARMIN_IGNORE_IDS'])
+        );
     }
 
     protected function getLegacyCategoryName(): string

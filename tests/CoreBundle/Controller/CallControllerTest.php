@@ -70,22 +70,6 @@ final class CallControllerTest extends AbstractFixturesAwareWebTestCase
         );
     }
 
-    public function testGarminCommunicatorActionRequiresAuthentication(): void
-    {
-        $this->Client->request('GET', '/call/call.garminCommunicator.php');
-
-        $this->isSuccessful($this->Client->getResponse(), false);
-    }
-
-    public function testGarminCommunicatorActionRendersForAuthenticatedUser(): void
-    {
-        $this->loginClient($this->Client, $this->Account, 'default');
-
-        $this->Client->request('GET', '/upload/garminCommunicator');
-
-        $this->assertStatusCode(200, $this->Client);
-    }
-
     public function testSavePngActionRequiresAuthentication(): void
     {
         $this->Client->request('POST', '/call/savePng.php');

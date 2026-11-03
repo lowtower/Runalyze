@@ -116,6 +116,13 @@ class CallController extends AbstractController
         $value = $request->query->get('value');
 
         switch ($key) {
+            case 'garmin-ignore':
+                if (is_string($value) && $value !== '') {
+                    Configuration::ActivityForm()->ignoreActivityID($value);
+                }
+
+                break;
+
             case 'leaflet-layer':
                 if (! is_string($value) || preg_match('/\A[A-Za-z0-9 ()_-]{1,64}\z/D', $value) !== 1) {
                     throw new BadRequestHttpException('Invalid map layer.');

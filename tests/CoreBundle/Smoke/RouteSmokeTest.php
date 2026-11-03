@@ -149,6 +149,7 @@ final class RouteSmokeTest extends WebTestCase
         yield ['install', '/install', 'GET', 404, false];
         yield ['install_start', '/install/start', 'GET', 302, false];
         yield ['install_finish', '/install/finish', 'GET', 302, false];
+        yield ['internal-activity-matcher', '/_internal/activity/matcher', 'GET', 302, true];
         yield ['internal-data-race-results-all', '/_internal/data/race-results/all', 'GET', 302, true];
         yield ['internal-notifications-read-all', '/_internal/notifications/read/all', 'GET', 302, true];
         yield ['internal-notifications-read', '/_internal/notifications/read/{id}', 'GET', 302, true];
