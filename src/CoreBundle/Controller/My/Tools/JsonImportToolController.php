@@ -62,7 +62,7 @@ class JsonImportToolController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        if ($account === null) {
+        if (! $account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account) {
             throw $this->createAccessDeniedException();
         }
 
@@ -93,7 +93,7 @@ class JsonImportToolController extends AbstractController
         // collide with another account's pending import in the shared import
         // directory. Uploads are stored under a server-generated,
         // account-prefixed filename instead.
-        $filename = (new FilenameHandler($account->getId()))->generateImportFilename();
+        $filename = new FilenameHandler($account->getId())->generateImportFilename();
 
         try {
             $backupFile->move($this->getImportFilePath(), $filename);

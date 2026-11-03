@@ -45,7 +45,7 @@ final class JsonImportToolControllerTest extends AbstractFixturesAwareWebTestCas
     protected function removeGeneratedImportFiles(string $importPath, int $accountId): void
     {
         foreach (glob($importPath . $accountId . '-import-*.json.gz') ?: [] as $generatedFile) {
-            (new Filesystem())->remove($generatedFile);
+            new Filesystem()->remove($generatedFile);
         }
     }
 
@@ -209,7 +209,7 @@ final class JsonImportToolControllerTest extends AbstractFixturesAwareWebTestCas
             $this->assertNotNull($generatedFile, 'Expected the upload to be stored under a server-generated, account-prefixed filename.');
             $this->assertMatchesRegularExpression(
                 '/^\d+-import-\d{8}-\d{4}-[0-9a-f]{8}\.json\.gz$/',
-                (string) basename((string) $generatedFile)
+                basename($generatedFile)
             );
 
             // the client-supplied filename must never be used as the storage name
