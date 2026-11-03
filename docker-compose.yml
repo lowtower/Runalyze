@@ -1,3 +1,34 @@
+x-worker-build-args: &worker-build-args
+  APP_ENV: ${APP_ENV:-dev}
+
+x-worker-environment: &worker-environment
+  LANG: C.UTF-8
+  LANGUAGE: C.UTF-8
+  LC_ALL: C.UTF-8
+  TZ: ${TZ:-Europe/Berlin}
+  APP_ENV: ${APP_ENV:-dev}
+  DB_HOST: db
+  DB_PORT: 3306
+  DB_NAME: ${DB_NAME:-runalyze}
+  DB_USER: ${DB_USER:-runalyze}
+  DB_PASSWORD: ${DB_PASSWORD:-runalyze}
+  SQLITE_MOD_SPATIALITE: mod_spatialite.so
+  MAILER_HOST: mailhog
+  MAILER_PORT: 1025
+  XDEBUG_MODE: "off"
+  ENTRYPOINT_ROLE: worker
+
+x-worker-depends-on: &worker-depends-on
+  db:
+    condition: service_healthy
+  redis:
+    condition: service_healthy
+
+x-worker-volumes: &worker-volumes
+  - .:/var/www/html
+  - vendor:/var/www/html/vendor
+  - composer-cache:/tmp/composer-cache
+
 services:
 
   redis:
@@ -14,9 +45,17 @@ services:
     restart: unless-stopped
 
   app:
+    # All runalyze services share one full image (app + python stack): one
+    # build, one artifact, every role served via ENTRYPOINT_ROLE and compose
+    # command overrides. The lean split targets (app, worker, worker-poster,
+    # worker-garmin) remain available for production deployments.
+    image: runalyze43-full:${APP_ENV:-dev}
     build:
       context: .
       dockerfile: Dockerfile
+      target: full
+      args:
+        APP_ENV: ${APP_ENV:-dev}
     container_name: runalyze43-app
     env_file:
       - .env.local
@@ -42,6 +81,11 @@ services:
       MAILER_HOST: mailhog
       MAILER_PORT: 1025
       TEST_TIMEZONE: Europe/Berlin
+      # The lean app image keeps only the system python3 and rsvg-convert for the
+      # poster availability check (Component/Tool/Poster/Availability); the
+      # gpxtrackposter venv at /opt/venv lives in worker-poster only, so do not
+      # use the venv path from .env here.
+      PYTHON3_PATH: /usr/bin/python3
       ENTRYPOINT_ROLE: app
     depends_on:
       db:
@@ -54,7 +98,8 @@ services:
       - "${APP_PORT:-8080}:80"
     volumes:
       - .:/var/www/html
-      - composer-cache:/tmp/composer/cache
+      - vendor:/var/www/html/vendor
+      - composer-cache:/tmp/composer-cache
     healthcheck:
       test: ["CMD-SHELL", "curl -fsS http://127.0.0.1/ >/dev/null || exit 1"]
       interval: 15s
@@ -63,38 +108,53 @@ services:
       start_period: 60s
     restart: unless-stopped
 
-  worker:
+  worker-backup:
+    image: runalyze43-full:${APP_ENV:-dev}
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: runalyze43-worker
+      target: full
+      args: *worker-build-args
+    container_name: runalyze43-worker-backup
     entrypoint: ["/usr/local/bin/runalyze-entrypoint.sh"]
-    command: ["php", "bin/console", "messenger:consume", "async", "--time-limit=3600", "--memory-limit=256M", "--no-interaction"]
+    command: ["php", "bin/console", "messenger:consume", "backup", "--time-limit=3600", "--memory-limit=256M", "--no-interaction"]
+    environment: *worker-environment
+    depends_on: *worker-depends-on
+    volumes: *worker-volumes
+    restart: unless-stopped
+
+  worker-poster:
+    image: runalyze43-full:${APP_ENV:-dev}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: full
+      args: *worker-build-args
+    container_name: runalyze43-worker-poster
+    entrypoint: ["/usr/local/bin/runalyze-entrypoint.sh"]
+    command: ["php", "bin/console", "messenger:consume", "poster", "--time-limit=3600", "--memory-limit=256M", "--no-interaction"]
     environment:
-      LANG: C.UTF-8
-      LANGUAGE: C.UTF-8
-      LC_ALL: C.UTF-8
-      TZ: ${TZ:-Europe/Berlin}
-      APP_ENV: ${APP_ENV:-dev}
-      DB_HOST: db
-      DB_PORT: 3306
-      DB_NAME: ${DB_NAME:-runalyze}
-      DB_USER: ${DB_USER:-runalyze}
-      DB_PASSWORD: ${DB_PASSWORD:-runalyze}
-      SQLITE_MOD_SPATIALITE: mod_spatialite.so
-      MAILER_HOST: mailhog
-      MAILER_PORT: 1025
-      ENTRYPOINT_ROLE: worker
-    depends_on:
-      db:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-      app:
-        condition: service_healthy
-    volumes:
-      - .:/var/www/html
-      - composer-cache:/tmp/composer/cache
+      <<: *worker-environment
+      # gpxtrackposter is pip-installed into /opt/venv in this image (see Dockerfile)
+      PYTHON3_PATH: /opt/venv/bin/python3
+    depends_on: *worker-depends-on
+    volumes: *worker-volumes
+    restart: unless-stopped
+
+  worker-garmin:
+    image: runalyze43-full:${APP_ENV:-dev}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: full
+      args: *worker-build-args
+    container_name: runalyze43-worker-garmin
+    entrypoint: ["/usr/local/bin/runalyze-entrypoint.sh"]
+    command: ["php", "bin/console", "messenger:consume", "garmin", "--time-limit=3600", "--memory-limit=256M", "--no-interaction"]
+    environment: *worker-environment
+    depends_on: *worker-depends-on
+    volumes: *worker-volumes
+    profiles: ["garmin"]
     restart: unless-stopped
 
 ###> doctrine/doctrine-bundle ###
@@ -161,6 +221,8 @@ services:
 volumes:
   redis-data:
   composer-cache:
+  vendor:
+    name: runalyze43-vendor-${APP_ENV:-dev}
 
 ###> doctrine/doctrine-bundle ###
   database_data:

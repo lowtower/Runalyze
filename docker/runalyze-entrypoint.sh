@@ -74,9 +74,9 @@ setup() {
     setfacl -R -m   g:www-data:rwx data var public
     setfacl -R -m d:g:www-data:rwx data var public
 
-    if [ ! -d vendor ]; then
+    if [ ! -f vendor/autoload.php ]; then
         log "Installing PHP dependencies with Composer ..."
-        composer install --prefer-source --no-interaction --ignore-platform-reqs
+        composer install --no-interaction --ignore-platform-reqs
     fi
 
     # Show useful debugging info on startup.

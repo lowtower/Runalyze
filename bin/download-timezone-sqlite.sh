@@ -6,7 +6,7 @@ echo "Downloading timezone database ..."
 for i in {1..3}; do
     tmp="./data/timezone.sqlite"
     domain="https://cdn.runalyze.com/update/timezone.sqlite"
-    if wget --progress=bar:force -O "$tmp" "$domain"; then
+    if curl -fSL --progress-bar -o "$tmp" "$domain"; then
         echo "✓ Downloaded timezone database successfully"
         break
     else

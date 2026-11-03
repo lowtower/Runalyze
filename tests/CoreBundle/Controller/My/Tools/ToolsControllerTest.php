@@ -42,7 +42,7 @@ final class ToolsControllerTest extends AbstractFixturesAwareWebTestCase
             $container = $container->get('test.service_container');
         }
 
-        $transport = $container->get('messenger.transport.async');
+        $transport = $container->get('messenger.transport.poster');
         $this->assertInstanceOf(InMemoryTransport::class, $transport);
 
         return $transport;

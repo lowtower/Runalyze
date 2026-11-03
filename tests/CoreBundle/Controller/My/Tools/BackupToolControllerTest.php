@@ -108,7 +108,7 @@ final class BackupToolControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStatusCode(302, $this->Client);
 
         /** @var \Symfony\Component\Messenger\Transport\InMemory\InMemoryTransport $transport */
-        $transport = self::getContainer()->get('messenger.transport.async');
+        $transport = self::getContainer()->get('messenger.transport.backup');
         $envelopes = $transport->getSent();
 
         $this->assertNotEmpty($envelopes, 'Expected a message to have been dispatched to the message bus.');

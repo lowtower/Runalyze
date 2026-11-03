@@ -11,12 +11,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'messenger' => [
             'failure_transport' => 'failed',
             'transports' => [
-                'async' => '%env(MESSENGER_TRANSPORT_DSN)%',
+                'backup' => '%env(MESSENGER_BACKUP_TRANSPORT_DSN)%',
+                'poster' => '%env(MESSENGER_POSTER_TRANSPORT_DSN)%',
+                'garmin' => '%env(MESSENGER_GARMIN_TRANSPORT_DSN)%',
                 'failed' => 'doctrine://default?queue_name=failed&auto_setup=0',
             ],
             'routing' => [
-                BackupGenerationMessage::class => 'async',
-                PosterGenerationMessage::class => 'async',
+                BackupGenerationMessage::class => 'backup',
+                PosterGenerationMessage::class => 'poster',
             ],
         ],
     ]);
@@ -24,7 +26,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         $containerConfigurator->extension('framework', [
             'messenger' => [
                 'transports' => [
-                    'async' => 'in-memory://',
+                    'backup' => 'in-memory://',
+                    'poster' => 'in-memory://',
+                    'garmin' => 'in-memory://',
                     'failed' => 'in-memory://',
                 ],
             ],

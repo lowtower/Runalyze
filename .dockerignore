@@ -1,0 +1,38 @@
+.git
+.github
+.vscode
+node_modules
+vendor
+var
+data/cache
+data/sessions
+public/uploads
+.env.local
+.env.*.local
+
+# frontend build tooling is not used inside the images
+package.json
+package-lock.json
+gulpfile.js
+bower.json
+.bowerrc
+.npmrc
+
+# documentation
+*.md
+
+# test suite and QA tooling are not needed inside any image
+tests/
+phpunit.xml.dist
+phpunit-baseline.xml
+phpstan.dist.neon
+phpstan-baseline.neon
+phpstan-bootstrap-constants.php
+rector.php
+ecs.php
+
+# local/CI orchestration
+docker-compose.yml
+docker-compose.override.yaml
+.scrutinizer.yml
+.travis.yml
