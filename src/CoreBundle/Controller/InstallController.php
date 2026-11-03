@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Controller;
 
+use Doctrine\DBAL\Exception as DBALException;
+use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Console\Formatter\HtmlOutputFormatter;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Console\Input\StringInput;
@@ -31,7 +34,8 @@ class InstallController extends AbstractController
     private const string SESSION_OUTPUT = 'installer/output';
 
     public function __construct(
-        private readonly KernelInterface $kernel
+        private readonly KernelInterface $kernel,
+        private readonly ManagerRegistry $doctrine
     ) {}
 
     #[Route(path: '/install', name: 'install', methods: ['GET', 'POST'], condition: "'%app.update_disabled%' == 'no'")]
@@ -41,6 +45,10 @@ class InstallController extends AbstractController
 
         if ($session->has(self::SESSION_SUCCESSFUL)) {
             return $this->redirectToRoute('install_finish');
+        }
+
+        if ($this->isApplicationAlreadyInstalled()) {
+            throw $this->createNotFoundException('This Runalyze instance has already been installed.');
         }
 
         $output = new BufferedOutput(BufferedOutput::VERBOSITY_NORMAL, true, new HtmlOutputFormatter(true));
@@ -66,6 +74,10 @@ class InstallController extends AbstractController
 
         if ($session->has(self::SESSION_SUCCESSFUL)) {
             return $this->redirectToRoute('install_finish');
+        }
+
+        if ($this->isApplicationAlreadyInstalled()) {
+            throw $this->createNotFoundException('This Runalyze instance has already been installed.');
         }
 
         $output = new BufferedOutput(BufferedOutput::VERBOSITY_NORMAL, true, new HtmlOutputFormatter(true));
@@ -116,6 +128,21 @@ class InstallController extends AbstractController
             return $app->run($input, $output);
         } finally {
             putenv($previousShellVerbosity === false ? 'SHELL_VERBOSITY' : 'SHELL_VERBOSITY=' . $previousShellVerbosity);
+        }
+    }
+
+    /**
+     * An installation is considered done as soon as any account exists. A missing
+     * or unusable schema (fresh database) is treated as "not installed", so the
+     * installer stays reachable for a fresh setup but can never be re-run against
+     * an existing installation through the unauthenticated /install routes.
+     */
+    private function isApplicationAlreadyInstalled(): bool
+    {
+        try {
+            return $this->doctrine->getRepository(Account::class)->count([]) > 0;
+        } catch (DBALException) {
+            return false;
         }
     }
 }
