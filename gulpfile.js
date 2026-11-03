@@ -9,7 +9,6 @@ var rename = require('gulp-rename');
 var sourcemaps = require('gulp-sourcemaps');
 var terser = require('gulp-terser');
 var shell = require('gulp-shell');
-var phpunit = require('gulp-phpunit');
 var config = require('./resources.json');
 
 async function clean() {
@@ -52,8 +51,10 @@ function scripts() {
 scripts.description = 'Combine and minify javascript files.';
 
 function tests() {
-    return gulp.src('./phpunit.xml.dist')
-        .pipe(phpunit('./vendor/bin/phpunit', { bootstrap: './tests/bootstrap.php', statusLine: false }));
+    return gulp.src('./phpunit.xml.dist', { read: false })
+        .pipe(shell([
+            './vendor/bin/phpunit --bootstrap ./tests/bootstrap.php'
+        ]));
 }
 tests.description = 'Run phpunit.';
 
