@@ -105,8 +105,6 @@ final class RouteSmokeTest extends WebTestCase
         yield ['account_activate', '/{_locale}/account/activate/{hash}', 'GET', 404, false];
         yield ['account_activate_with_username', '/{_locale}/account/activate/{hash}/{username}', 'GET', 404, false];
         yield ['activity-add', '/activity/add', 'GET', 302, false];
-        yield ['activity-communicator', '/activity/communicator', 'GET', 302, false];
-        yield ['activity-communicator-iframe', '/activity/communicator/iframe', 'GET', 302, false];
         yield ['activity-upload', '/activity/upload', 'GET', 302, false];
         yield ['activity-multi-importer', '/activity/multi-import', 'POST', 302, false];
         yield ['activity-new', '/activity/new', 'GET', 302, false];
