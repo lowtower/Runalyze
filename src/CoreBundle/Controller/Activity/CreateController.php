@@ -69,33 +69,11 @@ class CreateController extends AbstractController
             ->getActivityForm()
             ->get('TRAINING_CREATE_MODE');
 
-        if ($defaultUploadMode == 'garmin') {
-            return $this->forward(self::class . '::communicatorAction');
-        }
-
         if ($defaultUploadMode == 'form') {
             return $this->forward(self::class . '::newAction');
         }
 
         return $this->getUploadFormResponse();
-    }
-
-    #[Route(path: '/activity/communicator', name: 'activity-communicator', methods: ['GET'])]
-    public function communicatorAction(): Response
-    {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-
-        return $this->render('activity/import_garmin_communicator.html.twig');
-    }
-
-    #[Route(path: '/activity/communicator/iframe', name: 'activity-communicator-iframe', methods: ['GET'])]
-    public function communicatorIFrameAction(): Response
-    {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-
-        return $this->render('import/garmin_communicator.html.twig', [
-            'garminAPIKey' => $this->getParameter('app.garmin_api_key'),
-        ]);
     }
 
     #[Route(path: '/activity/upload', name: 'activity-upload', methods: ['GET', 'POST'])]

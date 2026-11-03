@@ -124,7 +124,7 @@ final class CreateControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStringContainsString('FineUploaderBasic', $this->responseContent());
     }
 
-    public function testCreateActionForwardsToCommunicatorActionWhenModeIsGarmin(): void
+    public function testCreateActionFallsBackToUploadFormWhenModeIsGarmin(): void
     {
         $this->setTrainingCreateMode('garmin');
         $this->loginClient($this->Client, $this->Account, 'default');
@@ -132,6 +132,8 @@ final class CreateControllerTest extends AbstractFixturesAwareWebTestCase
         $this->Client->request('GET', '/activity/add');
 
         $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('id="upload-container"', $this->responseContent());
+        $this->assertStringContainsString('FineUploaderBasic', $this->responseContent());
     }
 
     public function testCreateActionForwardsToNewActionWhenModeIsForm(): void
@@ -144,24 +146,6 @@ final class CreateControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStatusCode(200, $this->Client);
         $this->assertStringContainsString('id="activity"', $this->responseContent());
         $this->assertStringContainsString('Runalyze.ActivityForm.init', $this->responseContent());
-    }
-
-    public function testCommunicatorActionIsReachableDirectly(): void
-    {
-        $this->loginClient($this->Client, $this->Account, 'default');
-
-        $this->Client->request('GET', '/activity/communicator');
-
-        $this->assertStatusCode(200, $this->Client);
-    }
-
-    public function testCommunicatorIFrameActionIsReachableDirectly(): void
-    {
-        $this->loginClient($this->Client, $this->Account, 'default');
-
-        $this->Client->request('GET', '/activity/communicator/iframe');
-
-        $this->assertStatusCode(200, $this->Client);
     }
 
     public function testUploadActionWithoutFileOrFilesParameterShowsTheUploadForm(): void
@@ -186,7 +170,6 @@ final class CreateControllerTest extends AbstractFixturesAwareWebTestCase
 
         $this->assertStatusCode(200, $this->Client);
         $this->assertStringContainsString('id="activity"', $this->responseContent());
-        $this->assertStringContainsString('Garmin Communicator', $this->responseContent());
         $this->assertStringContainsString('>Form</a>', $this->responseContent());
         $this->assertStringContainsString('isNew: true', $this->responseContent());
         $this->assertStringContainsString('id="fieldset-sports"', $this->responseContent());

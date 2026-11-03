@@ -105,8 +105,6 @@ final class RouteSmokeTest extends WebTestCase
         yield ['account_activate', '/{_locale}/account/activate/{hash}', 'GET', 404, false];
         yield ['account_activate_with_username', '/{_locale}/account/activate/{hash}/{username}', 'GET', 404, false];
         yield ['activity-add', '/activity/add', 'GET', 302, false];
-        yield ['activity-communicator', '/activity/communicator', 'GET', 302, false];
-        yield ['activity-communicator-iframe', '/activity/communicator/iframe', 'GET', 302, false];
         yield ['activity-upload', '/activity/upload', 'GET', 302, false];
         yield ['activity-multi-importer', '/activity/multi-import', 'POST', 302, false];
         yield ['activity-new', '/activity/new', 'GET', 302, false];
@@ -127,8 +125,6 @@ final class RouteSmokeTest extends WebTestCase
         yield ['activity-tool-climb-score', '/activity/{id}/climb-score', 'GET', 404, true];
         yield ['runalyze_core_call_databrowser', '/call/call.DataBrowser.display.php', 'GET', 302, false];
         yield ['databrowser', '/databrowser', 'GET', 302, false];
-        yield ['runalyze_core_call_garmincommunicator', '/call/call.garminCommunicator.php', 'GET', 302, false];
-        yield ['runalyze_core_call_garmincommunicator_1', '/upload/garminCommunicator', 'GET', 302, false];
         yield ['runalyze_core_call_savepng', '/call/savePng.php', 'POST', 302, true];
         yield ['settings', '/settings', 'GET', 302, true];
         yield ['runalyze_core_call_ajaxchanceconfig', '/call/ajax.change.Config.php', 'GET', 302, false];

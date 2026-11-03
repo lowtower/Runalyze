@@ -54,17 +54,6 @@ class CallController extends AbstractController
         });
     }
 
-    #[Route(path: '/call/call.garminCommunicator.php', methods: ['GET'])]
-    #[Route(path: '/upload/garminCommunicator', methods: ['GET'])]
-    public function garminCommunicatorAction(): Response
-    {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-
-        return $this->render('import/garmin_communicator.html.twig', [
-            'garminAPIKey' => $this->parameterBag->get('app.garmin_api_key'),
-        ]);
-    }
-
     /**
      * @throws BadRequestHttpException
      */

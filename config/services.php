@@ -196,8 +196,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters->set('app.smtp_password', '%env(string:SMTP_PASSWORD)%');
 
-    $parameters->set('app.garmin_api_key', '%env(string:GARMIN_API_KEY)%');
-
     $parameters->set('app.weather_max_age_for_current_conditions', '%env(int:WEATHER_MAX_AGE_FOR_CURRENT_CONDITIONS)%');
 
     $parameters->set('app.weather_proxy', '%env(string:WEATHER_PROXY)%');
