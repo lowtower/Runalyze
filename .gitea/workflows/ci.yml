@@ -1,0 +1,174 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  qa:
+    name: Static analysis & code style
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: https://gitea.com/actions/checkout@v4
+
+      - name: Setup PHP
+        uses: https://gitea.com/actions/setup-php@v2
+        with:
+          php-version: '8.5.12'
+          extensions: ctype, iconv
+          coverage: none
+
+      - name: Install Composer dependencies
+        uses: https://gitea.com/actions/composer-install@v4
+
+      - name: Rector (dry-run)
+        run: composer rector
+
+      - name: EasyCodingStandard
+        run: composer lint
+
+      - name: PHPStan
+        run: composer analyse
+
+      - name: TwigCS
+        run: composer twig:lint
+
+      - name: Dump run logs on failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p ci-logs
+          gh run view "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORIES" --log > ci-logs/run.log || true
+
+      - name: Upload logs on failure
+        if: failure()
+        uses: https://gitea.com/actions/upload-artifact@v4
+        with:
+          name: qa-logs
+          path: ci-logs/
+          if-no-files-found: ignore
+
+  tests:
+    name: PHPUnit (PHP ${{ matrix.php-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['8.5.12']
+    services:
+      mariadb:
+        image: mariadb:12.3
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          TZ: Europe/Berlin
+        ports:
+          - 3306:3306
+        options: >
+          --health-cmd="mariadb-admin ping -h 127.0.0.1 -uroot -proot --silent"
+          --health-interval=5s
+          --health-timeout=3s
+          --health-retries=30
+      redis:
+        image: redis:6.2-alpine
+        ports:
+          - 6379:6379
+        options: >
+          --health-cmd="redis-cli ping"
+          --health-interval=5s
+          --health-timeout=3s
+          --health-retries=20
+    env:
+      TZ: Europe/Berlin
+      TEST_TIMEZONE: Europe/Berlin
+      DATABASE_PREFIX: runalyze_
+      DB_TEST_HOST: 127.0.0.1
+      DB_TEST_PORT: '3306'
+      DB_TEST_USER: root
+      DB_TEST_PASSWORD: root
+      DB_UNITTEST_NAME: runalyze_unittest
+      DB_TEST_EMPTY_NAME: runalyze_test_empty
+      TEST_SQLITE_PATH: /dev/shm/runalyze-test.db
+      SQLITE_MOD_SPATIALITE: mod_spatialite.so
+      REDIS_URL: redis://127.0.0.1
+      MAILER_DSN: null://null
+    steps:
+      - name: Checkout
+        uses: https://gitea.com/actions/checkout@v4
+
+      - name: Setup PHP
+        uses: https://gitea.com/actions/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: ctype, iconv, pdo_mysql, pdo_sqlite, sqlite3
+          coverage: none
+
+      - name: Install system dependencies (mariadb-client, spatialite)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mariadb-client libsqlite3-mod-spatialite
+
+      - name: Resolve spatialite module path
+        run: |
+          MODULE_PATH="$(dpkg -L libsqlite3-mod-spatialite | grep -m1 'mod_spatialite.so$')"
+          if [ -n "$MODULE_PATH" ]; then
+            echo "SQLITE_MOD_SPATIALITE=${MODULE_PATH}" >> "$GITHUB_ENV"
+          fi
+
+      - name: Install Composer dependencies
+        uses: https://gitea.com/actions/composer-install@v4
+
+      - name: Download timezone database
+        run: composer download:timezone-database
+
+      - name: Download disposable domains list
+        run: composer download:disposable-domains-list
+
+      - name: Download TIF test files (optional)
+        run: composer download:tif-testfiles
+        continue-on-error: true
+
+      - name: Prepare test databases
+        run: composer test:setup
+
+      - name: Run PHPUnit
+        run: |
+          mkdir -p var/log
+          composer test
+
+      - name: Dump run logs on failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p var/log/ci
+          gh run view "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORIES" --log > var/log/ci/run.log || true
+
+      - name: Upload PHPUnit results
+        if: always()
+        uses: https://gitea.com/actions/upload-artifact@v4
+        with:
+          name: phpunit-junit-${{ matrix.php-version }}
+          path: var/log/phpunit-junit.xml
+          if-no-files-found: ignore
+
+      - name: Upload logs on failure
+        if: failure()
+        uses: https://gitea.com/actions/upload-artifact@v4
+        with:
+          name: test-logs
+          path: var/log/ci/
+          if-no-files-found: ignore
