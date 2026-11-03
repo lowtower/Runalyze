@@ -6330,6 +6330,81 @@
             "published-time": "2026-10-28T18:24:51+00:00"
         },
         {
+            "name": "symfony/rate-limiter",
+            "version": "v8.1.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/rate-limiter.git",
+                "reference": "1ab50f33936db4568354d9dc172f65f186a45ccc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/rate-limiter/zipball/1ab50f33936db4568354d9dc172f65f186a45ccc",
+                "reference": "1ab50f33936db4568354d9dc172f65f186a45ccc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.4.1",
+                "symfony/options-resolver": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "psr/cache": "^1.0|^2.0|^3.0",
+                "symfony/lock": "^7.4|^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\RateLimiter\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Wouter de Jong",
+                    "email": "wouter@wouterj.nl"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides a Token Bucket implementation to rate limit input and output in your application",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "limiter",
+                "rate-limiter"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/rate-limiter/tree/v8.1.10"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2026-10-20T19:26:02+00:00",
+            "published-time": "2026-10-28T18:25:09+00:00"
+        },
+        {
             "name": "symfony/routing",
             "version": "v8.1.10",
             "source": {
@@ -6409,77 +6484,6 @@
             ],
             "time": "2026-10-26T21:55:04+00:00",
             "published-time": "2026-10-28T18:25:31+00:00"
-        },
-        {
-            "name": "symfony/rate-limiter",
-            "version": "v8.1.10",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/rate-limiter.git",
-                "reference": "1ab50f33936db4568354d9dc172f65f186a45ccc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/rate-limiter/zipball/1ab50f33936db4568354d9dc172f65f186a45ccc",
-                "reference": "1ab50f33936db4568354d9dc172f65f186a45ccc",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.4.1",
-                "symfony/options-resolver": "^7.4|^8.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\RateLimiter\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Wouter de Jong",
-                    "email": "wouter@wouterj.nl"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Provides a Token Bucket implementation to rate limit input and output in your application",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "limiter",
-                "rate-limiter"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/rate-limiter/tree/v8.1.10"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/nicolas-grekas",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2026-10-20T19:26:02+00:00",
-            "published-time": "2026-10-28T18:25:09+00:00"
         },
         {
             "name": "symfony/runtime",
@@ -10868,12 +10872,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/security-advisories.git",
-                "reference": "abb6e8bd6cff2a95153bfcc97d818dba6edd1ff3"
+                "reference": "8ecdc4ced65a0e1393ef44f9fda011a1cbceb7e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/security-advisories/zipball/abb6e8bd6cff2a95153bfcc97d818dba6edd1ff3",
-                "reference": "abb6e8bd6cff2a95153bfcc97d818dba6edd1ff3",
+                "url": "https://api.github.com/repos/FriendsOfPHP/security-advisories/zipball/8ecdc4ced65a0e1393ef44f9fda011a1cbceb7e9",
+                "reference": "8ecdc4ced65a0e1393ef44f9fda011a1cbceb7e9",
                 "shasum": ""
             },
             "require-dev": {
@@ -10899,8 +10903,8 @@
                 "issues": "https://github.com/FriendsOfPHP/security-advisories/issues",
                 "source": "https://github.com/FriendsOfPHP/security-advisories/tree/master"
             },
-            "time": "2026-10-30T08:37:54+00:00",
-            "published-time": "2026-10-30T08:37:59+00:00"
+            "time": "2026-11-03T08:25:46+00:00",
+            "published-time": "2026-11-03T08:25:51+00:00"
         },
         {
             "name": "staabm/side-effects-detector",
@@ -11478,16 +11482,16 @@
         },
         {
             "name": "symplify/easy-coding-standard",
-            "version": "13.3.12",
+            "version": "13.3.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ecsphp/ecs.git",
-                "reference": "712df94dba55ddda2a8f360a65c13fa3160f24b2"
+                "reference": "ceb2ac9fd79dc30841dbecb4e259f88ceb9d5600"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ecsphp/ecs/zipball/712df94dba55ddda2a8f360a65c13fa3160f24b2",
-                "reference": "712df94dba55ddda2a8f360a65c13fa3160f24b2",
+                "url": "https://api.github.com/repos/ecsphp/ecs/zipball/ceb2ac9fd79dc30841dbecb4e259f88ceb9d5600",
+                "reference": "ceb2ac9fd79dc30841dbecb4e259f88ceb9d5600",
                 "shasum": ""
             },
             "require": {
@@ -11520,10 +11524,10 @@
             ],
             "support": {
                 "issues": "https://github.com/ecsphp/ecs/issues",
-                "source": "https://github.com/ecsphp/ecs/tree/13.3.12"
+                "source": "https://github.com/ecsphp/ecs/tree/13.3.13"
             },
-            "time": "2026-10-29T14:53:28+00:00",
-            "published-time": "2026-10-29T14:53:58+00:00"
+            "time": "2026-11-02T22:11:38+00:00",
+            "published-time": "2026-11-02T22:31:00+00:00"
         },
         {
             "name": "tomasvotruba/type-coverage",
