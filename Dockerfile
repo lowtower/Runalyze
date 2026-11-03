@@ -55,18 +55,30 @@ RUN install-php-extensions \
 WORKDIR /var/www/html
 
 # Composer: dependencies are installed before the sources are copied, so the
-# expensive vendor layer stays cached when only the sources change.
+# expensive vendor layer stays cached when only the sources change. Autoload
+# generation is skipped here: the classmap needs inc/ and plugin/, which only
+# exist once the sources are copied (see the dump-autoload step below).
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY --link composer.* ./
-RUN if [ "$APP_ENV" = "dev" ]; then \
-      composer install --no-interaction --no-progress --prefer-dist --no-scripts; \
+RUN set -eux; \
+    if [ "$APP_ENV" = "dev" ]; then \
+      composer install --no-interaction --no-progress --prefer-dist --no-scripts --no-autoloader; \
     else \
-      composer install --no-dev --no-interaction --no-progress --prefer-dist --no-scripts; \
+      composer install --no-dev --no-interaction --no-progress --prefer-dist --no-scripts --no-autoloader; \
     fi; \
     composer --version
 
 # Copy/link sources
 COPY --link . ./
+
+# The autoloader can only be dumped now that the classmap directories
+# (inc/, plugin/) exist in the image.
+RUN set -eux; \
+    if [ "$APP_ENV" = "prod" ]; then \
+      composer dump-autoload --no-dev --no-interaction; \
+    else \
+      composer dump-autoload --no-interaction; \
+    fi
 
 COPY docker/php/runalyze.ini /usr/local/etc/php/conf.d/99-runalyze.ini
 
@@ -213,18 +225,30 @@ RUN if [ "$APP_ENV" = "prod" ]; then \
 WORKDIR /var/www/html
 
 # Composer: dependencies before the sources (layer caching), --no-dev for
-# prod, and no swallowed failures (the previous "|| true" hid broken builds).
+# prod, and no swallowed failures (set -eux). Autoload generation is
+# skipped here: the classmap needs inc/ and plugin/, which only exist
+# once the sources are copied (see the dump-autoload step below).
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY --link composer.* ./
-RUN if [ "$APP_ENV" = "dev" ]; then \
-      composer install --no-interaction --no-progress --prefer-dist --no-scripts; \
+RUN set -eux; \
+    if [ "$APP_ENV" = "dev" ]; then \
+      composer install --no-interaction --no-progress --prefer-dist --no-scripts --no-autoloader; \
     else \
-      composer install --no-dev --no-interaction --no-progress --prefer-dist --no-scripts; \
+      composer install --no-dev --no-interaction --no-progress --prefer-dist --no-scripts --no-autoloader; \
     fi; \
     composer --version
 
 # Copy/link sources
 COPY --link . ./
+
+# The autoloader can only be dumped now that the classmap directories
+# (inc/, plugin/) exist in the image.
+RUN set -eux; \
+    if [ "$APP_ENV" = "prod" ]; then \
+      composer dump-autoload --no-dev --no-interaction; \
+    else \
+      composer dump-autoload --no-interaction; \
+    fi
 
 # Apache
 COPY docker/php/runalyze.ini /usr/local/etc/php/conf.d/99-runalyze.ini
