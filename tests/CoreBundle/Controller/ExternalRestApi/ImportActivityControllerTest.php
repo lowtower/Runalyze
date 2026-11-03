@@ -218,7 +218,7 @@ final class ImportActivityControllerTest extends AbstractFixturesAwareWebTestCas
     {
         $fixtureFitFile = TESTS_ROOT . '/testfiles/' . self::FIXTURE_FIT_FILE;
         $victim = sys_get_temp_dir() . '/' . uniqid('import-victim-', true) . '.fit';
-        (new Filesystem())->copy($fixtureFitFile, $victim, true);
+        new Filesystem()->copy($fixtureFitFile, $victim, true);
 
         try {
             $this->requestImport([
