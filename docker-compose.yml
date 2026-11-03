@@ -77,6 +77,11 @@ services:
       MAILER_HOST: mailhog
       MAILER_PORT: 1025
       TEST_TIMEZONE: Europe/Berlin
+      # The lean app image keeps only the system python3 and rsvg-convert for the
+      # poster availability check (Component/Tool/Poster/Availability); the
+      # gpxtrackposter venv at /opt/venv lives in worker-poster only, so do not
+      # use the venv path from .env here.
+      PYTHON3_PATH: /usr/bin/python3
       ENTRYPOINT_ROLE: app
     depends_on:
       db:
@@ -124,7 +129,10 @@ services:
     container_name: runalyze43-worker-poster
     entrypoint: ["/usr/local/bin/runalyze-entrypoint.sh"]
     command: ["php", "bin/console", "messenger:consume", "poster", "--time-limit=3600", "--memory-limit=256M", "--no-interaction"]
-    environment: *worker-environment
+    environment:
+      <<: *worker-environment
+      # gpxtrackposter is pip-installed into /opt/venv in this image (see Dockerfile)
+      PYTHON3_PATH: /opt/venv/bin/python3
     depends_on: *worker-depends-on
     volumes: *worker-volumes
     restart: unless-stopped
