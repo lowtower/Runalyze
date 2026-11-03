@@ -6,6 +6,7 @@ use LogicException;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\FilenameHandler;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\JsonBackupAnalyzer;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\JsonImporter;
+use Runalyze\Bundle\CoreBundle\Component\Tool\UploadFilename;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -48,6 +49,14 @@ class JsonImportToolController extends AbstractController
         return $session;
     }
 
+    private function getStoredImportFilename(Session $session): ?string
+    {
+        $storedFilename = $session->getFlashBag()
+            ->get('json-import.file')[0] ?? null;
+
+        return is_string($storedFilename) ? UploadFilename::fromClientOriginalName($storedFilename) : null;
+    }
+
     #[Route(path: '/upload', name: 'tools-backup-json-upload', methods: ['GET', 'POST'])]
     public function backupUploadAction(Request $request): JsonResponse
     {
@@ -61,14 +70,22 @@ class JsonImportToolController extends AbstractController
             ]);
         }
 
-        if (! FilenameHandler::validateImportFileExtension($backupFile->getClientOriginalName())) {
+        $filename = UploadFilename::fromClientOriginalName($backupFile->getClientOriginalName());
+
+        if ($filename === null) {
+            return $this->json([
+                'error' => 'Invalid file name.',
+            ]);
+        }
+
+        if (! FilenameHandler::validateImportFileExtension($filename)) {
             return $this->json([
                 'error' => 'Wrong file extension.',
             ]);
         }
 
         try {
-            $backupFile->move($this->getImportFilePath(), $backupFile->getClientOriginalName());
+            $backupFile->move($this->getImportFilePath(), $filename);
         } catch (FileException $fileException) {
             return $this->json([
                 'error' => 'Moving file did not work. Set chmod 777 for data/backup-tool/import/ ' . $fileException->getMessage(),
@@ -77,7 +94,7 @@ class JsonImportToolController extends AbstractController
 
         $this->getFlashBagAwareSession()
             ->getFlashBag()
-            ->set('json-import.file', $backupFile->getClientOriginalName());
+            ->set('json-import.file', $filename);
 
         return $this->json([
             'success' => true,
@@ -89,15 +106,20 @@ class JsonImportToolController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $sessionFlashBag = $this->getFlashBagAwareSession()
-            ->getFlashBag();
+        $session = $this->getFlashBagAwareSession();
+        $sessionFlashBag = $session->getFlashBag();
 
         if (! $sessionFlashBag->has('json-import.file')) {
             return $this->redirectToRoute('tools-backup-json');
         }
 
+        $filename = $this->getStoredImportFilename($session);
+
+        if ($filename === null) {
+            return $this->redirectToRoute('tools-backup-json');
+        }
+
         $filePath = $this->getImportFilePath();
-        $filename = $sessionFlashBag->get('json-import.file')[0];
         $fileInfo = new \SplFileInfo($filePath . $filename);
         $analyzer = new JsonBackupAnalyzer($filePath . $filename, $this->parameterBag->get('RUNALYZE_VERSION'));
 
@@ -126,17 +148,21 @@ class JsonImportToolController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $sessionFlashBag = $this->getFlashBagAwareSession()
-            ->getFlashBag();
+        $session = $this->getFlashBagAwareSession();
 
-        if (! $sessionFlashBag->has('json-import.file')) {
+        if (! $session->getFlashBag()->has('json-import.file')) {
+            return $this->redirectToRoute('tools-backup-json');
+        }
+
+        $filename = $this->getStoredImportFilename($session);
+
+        if ($filename === null) {
             return $this->redirectToRoute('tools-backup-json');
         }
 
         $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
 
         $filePath = $this->getImportFilePath();
-        $filename = $sessionFlashBag->get('json-import.file')[0];
 
         $importer = new JsonImporter(
             $filePath . $filename,

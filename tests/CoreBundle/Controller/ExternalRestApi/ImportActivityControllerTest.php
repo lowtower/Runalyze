@@ -214,6 +214,36 @@ final class ImportActivityControllerTest extends AbstractFixturesAwareWebTestCas
         $this->assertStringNotContainsString('.php', (string) $this->Client->getResponse()->getContent());
     }
 
+    public function testPostImportActivityDoesNotRemoveFileOutsideTemporaryUploadDirectory(): void
+    {
+        $fixtureFitFile = TESTS_ROOT . '/testfiles/' . self::FIXTURE_FIT_FILE;
+        $victim = sys_get_temp_dir() . '/' . uniqid('import-victim-', true) . '.fit';
+        new Filesystem()->copy($fixtureFitFile, $victim, true);
+
+        try {
+            $this->requestImport([
+                'file1' => $this->makeUploadedFitFile('../' . basename($victim)),
+            ]);
+
+            $this->assertStatusCode(200, $this->Client);
+            $this->assertFileExists($victim);
+        } finally {
+            if (file_exists($victim)) {
+                unlink($victim);
+            }
+        }
+    }
+
+    public function testPostImportActivityRejectsInvalidClientFileName(): void
+    {
+        $this->requestImport([
+            'file1' => $this->makeUploadedFitFile('..'),
+        ]);
+
+        $this->assertStatusCode(400, $this->Client);
+        $this->assertStringContainsString('invalid file name', (string) $this->Client->getResponse()->getContent());
+    }
+
     public function testPostImportActivityRemovesTemporaryUploadDirectoryAfterError(): void
     {
         $this->requestImportOfTwoFilesWithTheSameName();

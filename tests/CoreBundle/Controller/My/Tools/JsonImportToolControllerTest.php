@@ -190,6 +190,36 @@ final class JsonImportToolControllerTest extends AbstractFixturesAwareWebTestCas
         }
     }
 
+    public function testBackupImportActionDoesNotReadOrRemoveFileOutsideImportDirectory(): void
+    {
+        $importPath = $this->getImportFilePath();
+        $filesystem = new Filesystem();
+        $filesystem->mkdir($importPath);
+
+        $outsideFilename = 'outside-' . uniqid('', true) . '.json.gz';
+        $outsidePath = dirname(rtrim($importPath, '/')) . '/' . $outsideFilename;
+        $matchingVersion = JsonBackupAnalyzer::extractMajorAndMinorVersion($this->getRunalyzeVersion());
+        $matchingVersion = $matchingVersion !== '' ? $matchingVersion : '1.0';
+
+        $this->createBackupGzipFile($outsidePath, [], $matchingVersion);
+
+        $localPath = sys_get_temp_dir() . '/' . uniqid('backup-test-', true) . '.json.gz';
+        $this->createBackupGzipFile($localPath, [], $matchingVersion);
+
+        try {
+            $client = $this->makeAuthenticatedClient();
+            $this->uploadBackupFile($client, $localPath, '../' . $outsideFilename);
+
+            $client->request('GET', '/my/tools/backup-import/import');
+
+            $this->assertStatusCode(200, $client);
+            $this->assertFileExists($outsidePath);
+            $this->assertFileDoesNotExist($importPath . $outsideFilename);
+        } finally {
+            $filesystem->remove([$localPath, $outsidePath, $importPath . $outsideFilename]);
+        }
+    }
+
     public function testBackupImportActionRequiresAuthentication(): void
     {
         $client = $this->makeClient();

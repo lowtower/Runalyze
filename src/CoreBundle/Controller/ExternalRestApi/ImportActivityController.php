@@ -6,8 +6,10 @@ namespace Runalyze\Bundle\CoreBundle\Controller\ExternalRestApi;
 
 use Exception;
 use Psr\Log\LoggerInterface;
+use Runalyze\Bundle\CoreBundle\Component\Tool\UploadFilename;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Exception\DuplicateUploadFileNameException;
+use Runalyze\Bundle\CoreBundle\Exception\InvalidUploadFileNameException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -108,6 +110,9 @@ class ImportActivityController extends AbstractController
                     $result = $result . 'WARNING: ' . $notSuccessful . ' of ' . $allfilesCount . ' files are NOT imported successfully - please check the above protocol.' . PHP_EOL;
                     $resultCode = Response::HTTP_ACCEPTED; // 202
                 }
+            } catch (InvalidUploadFileNameException $exception) {
+                $result = $result . 'ERROR: ' . $exception->getMessage() . PHP_EOL;
+                $resultCode = Response::HTTP_BAD_REQUEST; // 400
             } catch (DuplicateUploadFileNameException $exception) {
                 $result = $result . 'ERROR: ' . $exception->getMessage() . PHP_EOL;
                 $resultCode = Response::HTTP_INTERNAL_SERVER_ERROR; // 500
@@ -135,14 +140,22 @@ class ImportActivityController extends AbstractController
     /**
      * @param UploadedFile[] $allfiles
      *
+     * @return array<array-key, string>
+     *
+     * @throws InvalidUploadFileNameException if an uploaded file has an unusable client file name
      * @throws DuplicateUploadFileNameException if two uploaded files share the same client file name
      */
-    private function assertNoDuplicateFileNames(array $allfiles): void
+    private function getSafeFileNames(array $allfiles): array
     {
+        $fileNames = [];
         $seenFileNames = [];
 
-        foreach ($allfiles as $file) {
-            $fileName = $file->getClientOriginalName();
+        foreach ($allfiles as $key => $file) {
+            $fileName = UploadFilename::fromClientOriginalName($file->getClientOriginalName());
+
+            if ($fileName === null) {
+                throw new InvalidUploadFileNameException('One uploaded file has an invalid file name.');
+            }
 
             if (isset($seenFileNames[$fileName])) {
                 throw new DuplicateUploadFileNameException(sprintf(
@@ -152,7 +165,10 @@ class ImportActivityController extends AbstractController
             }
 
             $seenFileNames[$fileName] = true;
+            $fileNames[$key] = $fileName;
         }
+
+        return $fileNames;
     }
 
     private function createUploadDir(string $username): ?string
@@ -188,6 +204,7 @@ class ImportActivityController extends AbstractController
     /**
      * @param UploadedFile[] $allfiles
      *
+     * @throws InvalidUploadFileNameException if an uploaded file has an unusable client file name
      * @throws DuplicateUploadFileNameException if two uploaded files share the same client file name
      * @throws FileException if an uploaded file cannot be moved to the upload directory
      */
@@ -195,11 +212,11 @@ class ImportActivityController extends AbstractController
     {
         $result = '';
 
-        $this->assertNoDuplicateFileNames($allfiles);
+        $fileNames = $this->getSafeFileNames($allfiles);
 
         // move from tmp-name (/tmp/phpOZLwMG) to the tmp-upload-folder (in error case an exception is thrown)
-        foreach ($allfiles as $v) {
-            $v->move($uploadDir, $v->getClientOriginalName());
+        foreach ($allfiles as $key => $v) {
+            $v->move($uploadDir, $fileNames[$key]);
         }
 
         // process import as command call
@@ -210,8 +227,8 @@ class ImportActivityController extends AbstractController
 
         // cleanup: remove uploaded files
         $result = $result . 'Cleanup temp folder and uploaded files.' . PHP_EOL;
-        foreach ($allfiles as $v) {
-            $f = $uploadDir . DIRECTORY_SEPARATOR . $v->getClientOriginalName();
+        foreach ($allfiles as $key => $v) {
+            $f = $uploadDir . DIRECTORY_SEPARATOR . $fileNames[$key];
             if (! unlink($f)) {
                 $result = $result . 'WARNING: Can not remove file ' . $f . PHP_EOL;
             }

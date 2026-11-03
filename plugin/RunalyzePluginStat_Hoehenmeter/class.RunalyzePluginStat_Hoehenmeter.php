@@ -206,6 +206,9 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat
 
     private function labelFor(string $route, string $title): string
     {
+        $route = htmlspecialchars($route, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
+        $title = htmlspecialchars($title, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
+
         if ($route !== '') {
             if ($title !== '') {
                 return $route . ' (<em>' . $title . '</em>)';
