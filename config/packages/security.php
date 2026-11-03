@@ -65,6 +65,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                     'enable_csrf' => true,
                     'use_referer' => true,
                 ],
+                'login_throttling' => [
+                    'max_attempts' => 5,
+                ],
                 'remember_me' => [
                     'secret' => '%app.secret%',
                     'lifetime' => 604800,

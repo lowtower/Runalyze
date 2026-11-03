@@ -43,6 +43,7 @@
         "symfony/messenger": "^8.1",
         "symfony/monolog-bundle": "^4.1",
         "symfony/process": "^8.1",
+        "symfony/rate-limiter": "^8.1",
         "symfony/runtime": "^8.1",
         "symfony/security-bundle": "^8.1",
         "symfony/security-core": "^8.1",
