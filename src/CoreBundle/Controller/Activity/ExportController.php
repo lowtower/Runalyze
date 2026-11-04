@@ -38,7 +38,7 @@ class ExportController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        new Frontend(true, $this->tokenStorage, $this->parameterBag, $this->requestStack);
+        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
         if (! Share\Types::isValidValue($typeid)) {
             return new Response();
@@ -63,7 +63,7 @@ class ExportController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        new Frontend(true, $this->tokenStorage, $this->parameterBag, $this->requestStack);
+        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
         if (File\Types::isValidValue($typeid)) {
             $context = new Context($id, $account->getId());

@@ -10,6 +10,7 @@ use Runalyze\Bundle\CoreBundle\Component\Activity\Tool\BestSubSegmentsStatistics
 use Runalyze\Bundle\CoreBundle\Component\Activity\Tool\TimeSeriesStatistics;
 use Runalyze\Bundle\CoreBundle\Component\Activity\VO2maxCalculationDetailsDecorator;
 use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
+use Runalyze\Bundle\CoreBundle\Controller\LegacyOutputCaptureTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Trackdata;
@@ -37,6 +38,7 @@ use TrainingView;
 class ViewController extends AbstractController
 {
     use AppServiceSubscriberTrait;
+    use LegacyOutputCaptureTrait;
 
     public function __construct(
         protected ManagerRegistry $doctrine,
@@ -117,7 +119,7 @@ class ViewController extends AbstractController
         }
 
         if (! $request->query->get('silent')) {
-            new Frontend(true, $this->tokenStorage, $this->parameterBag, $this->requestStack);
+            new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
             ob_start();
 
@@ -133,7 +135,7 @@ class ViewController extends AbstractController
                 throw $throwable;
             }
 
-            return new Response($legacyContent);
+            return $this->wrapLegacyContent($legacyContent, $request);
         }
 
         return new Response();
@@ -179,7 +181,7 @@ class ViewController extends AbstractController
         ob_start();
 
         try {
-            $frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag, $this->requestStack);
+            new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
             $context = new Context($id, $account->getId());
 
             if (! $context->hasTrackdata()) {
@@ -198,7 +200,7 @@ class ViewController extends AbstractController
             throw $throwable;
         }
 
-        return new Response($legacyContent);
+        return $this->wrapLegacyContent($legacyContent, $this->requestStack->getCurrentRequest());
     }
 
     /**
@@ -230,7 +232,7 @@ class ViewController extends AbstractController
         ob_start();
 
         try {
-            $frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag, $this->requestStack);
+            new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
             $context = new Context($id, $account->getId());
 
             if (! $context->hasRoute()) {
@@ -249,7 +251,7 @@ class ViewController extends AbstractController
             throw $throwable;
         }
 
-        return new Response($legacyContent);
+        return $this->wrapLegacyContent($legacyContent, $this->requestStack->getCurrentRequest());
     }
 
     #[Route(path: '/activity/{id}/time-series-info', name: 'activity-tool-time-series-info', requirements: [
