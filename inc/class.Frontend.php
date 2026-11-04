@@ -18,7 +18,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  *
  * The frontend initializes everything for Runalyze.
  * It sets the autoloader, constants and mysql-connection.
- * By default, constructing a new frontend will print a html-header.
  *
  * Standard initialization of Runalyze:
  * <code>
@@ -31,36 +30,20 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class Frontend
 {
-    protected bool $HideFooter = false;
-
     /**
-     * Constructing a new Frontend includes all files and sets the correct header.
-     * Runalyze is not usable without setting up the environment with this class.
+     * Constructing a new Frontend sets up the legacy environment: constants,
+     * database connection, session and cache. It does not produce any output;
+     * page shells and chrome come from twig (templates/legacy_window.html.twig).
      *
-     * @param bool $hideHeaderAndFooter By default a html-header is directly shown
      * @throws \RuntimeException if the legacy cache directory cannot be initialized
      */
     public function __construct(
-        bool $hideHeaderAndFooter = false,
         protected ?TokenStorageInterface $symfonyToken = null,
         protected ?ParameterBagInterface $parameterBag = null,
         protected ?RequestStack $requestStack = null
     ) {
         $this->initSystem();
         $this->defineConsts();
-
-        if (! $hideHeaderAndFooter) {
-            $this->displayHeader();
-        } else {
-            $this->HideFooter = true;
-        }
-    }
-
-    public function __destruct()
-    {
-        if (! $this->HideFooter) {
-            $this->displayFooter();
-        }
     }
 
     private function defineConstantIfMissing(string $name, mixed $value): void
@@ -202,19 +185,5 @@ class Frontend
     protected function forwardAccountIDtoDatabaseWrapper(): void
     {
         DB::getInstance()->setAccountID(SessionAccountHandler::getId());
-    }
-
-    public function displayHeader(): void
-    {
-        if (! Request::isAjax() && ! isset($_GET['hideHtmlHeader'])) {
-            include __DIR__ . '/tpl/tpl.Frontend.header.php';
-        }
-    }
-
-    public function displayFooter(): void
-    {
-        if (! Request::isAjax() && ! isset($_GET['hideHtmlHeader'])) {
-            include __DIR__ . '/tpl/tpl.Frontend.footer.php';
-        }
     }
 }

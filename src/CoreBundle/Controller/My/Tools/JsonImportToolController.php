@@ -171,7 +171,7 @@ class JsonImportToolController extends AbstractController
             return $this->redirectToRoute('tools-backup-json');
         }
 
-        $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
+        new \Frontend($this->tokenStorage, $this->parameterBag);
 
         $filePath = $this->getImportFilePath();
 

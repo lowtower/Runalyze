@@ -65,7 +65,7 @@ class DefaultController extends AbstractPluginsAwareController
 
         try {
             if ($initFrontend) {
-                new Frontend(false, $this->tokenStorage, $this->parameterBag, $this->requestStack);
+                new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
             }
 
             include $file;
@@ -76,10 +76,7 @@ class DefaultController extends AbstractPluginsAwareController
             throw $throwable;
         }
 
-        $response = $this->render('legacy_end.html.twig');
-        $response->setContent($legacyContent . $response->getContent());
-
-        return $response;
+        return $this->wrapLegacyContent($legacyContent, $this->requestStack->getCurrentRequest());
     }
 
     /**
@@ -90,7 +87,7 @@ class DefaultController extends AbstractPluginsAwareController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        new Frontend(true, $this->tokenStorage, $this->parameterBag, $this->requestStack);
+        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
         $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
             ->getContent();
@@ -106,13 +103,7 @@ class DefaultController extends AbstractPluginsAwareController
             throw $throwable;
         }
 
-        if ($request->isXmlHttpRequest()) {
-            return new Response($legacyContent);
-        }
-
-        return $this->render('dashboard.html.twig', [
-            'legacyContainer' => $legacyContent,
-        ]);
+        return $this->wrapLegacyContent($legacyContent, $request);
     }
 
     #[Route(path: '/', name: 'base_url', methods: ['GET'])]
@@ -243,7 +234,7 @@ class DefaultController extends AbstractPluginsAwareController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         if ($request->isXmlHttpRequest()) {
-            new Frontend(true, $this->tokenStorage, $this->parameterBag, $this->requestStack);
+            new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
             $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
                 ->getContent();

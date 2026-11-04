@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Throwable;
 
 #[Route(path: '/_internal/plugin')]
 class PluginController extends AbstractPluginsAwareController
@@ -37,7 +36,7 @@ class PluginController extends AbstractPluginsAwareController
         }
 
         // Only as long as PluginFactory's cache is in use
-        new Frontend(true, $this->tokenStorage, $this->parameterBag, $this->requestStack);
+        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
         PluginFactory::clearCache();
 
         return $plugin;
@@ -93,24 +92,14 @@ class PluginController extends AbstractPluginsAwareController
 
     /**
      * @throws AccessDeniedException
-     * @throws Throwable if a legacy plugin throws while building the panels' content
+     * @throws \Throwable if a legacy plugin throws while building the panels' content
      */
     #[Route(path: '/all-panels', name: 'internal-plugin-all-panels', methods: ['GET'])]
     public function contentPanelsAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        ob_start();
-
-        try {
-            $frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag, $this->requestStack);
-        } catch (Throwable $throwable) {
-            ob_end_clean();
-
-            throw $throwable;
-        }
-
-        ob_end_clean();
+        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
         return $this->getResponseForAllEnabledPanels($request, $account);
     }

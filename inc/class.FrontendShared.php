@@ -14,22 +14,14 @@ class FrontendShared extends Frontend
     public static bool $IS_SHOWN = false;
 
     public function __construct(
-        bool $hideHeaderAndFooter = false,
         ?TokenStorageInterface $symfonyToken = null,
         ?ParameterBagInterface $parameterBag = null,
         ?RequestStack $requestStack = null
     ) {
         self::$IS_SHOWN = true;
 
-        parent::__construct($hideHeaderAndFooter, $symfonyToken, $parameterBag, $requestStack);
+        parent::__construct($symfonyToken, $parameterBag, $requestStack);
     }
-
-    public function displayHeader(): void
-    {
-        self::$IS_SHOWN = true;
-    }
-
-    public function displayFooter(): void {}
 
     protected function initSessionAccountHandler(): void {}
 }

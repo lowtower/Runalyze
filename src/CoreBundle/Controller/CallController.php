@@ -46,12 +46,14 @@ class CallController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        new Frontend(true, $this->tokenStorage, $this->parameterBag, $this->requestStack);
+        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
-        return $this->captureLegacyOutput(function (): void {
+        $legacyContent = $this->captureLegacyOutput(function (): void {
             $DataBrowser = new DataBrowser();
             $DataBrowser->display();
-        });
+        })->getContent();
+
+        return $this->wrapLegacyContent($legacyContent, $this->requestStack->getCurrentRequest());
     }
 
     /**
@@ -93,16 +95,18 @@ class CallController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        new Frontend(true, $this->tokenStorage, $this->parameterBag, $this->requestStack);
+        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
-        return $this->captureLegacyOutput(function (): void {
+        $legacyContent = $this->captureLegacyOutput(function (): void {
             $ConfigTabs = new ConfigTabs();
             $ConfigTabs->addDefaultTab(new ConfigTabGeneral());
             $ConfigTabs->addTab(new ConfigTabPlugins());
             $ConfigTabs->display();
 
             echo Ajax::wrapJSforDocumentReady('Runalyze.Overlay.removeClasses();');
-        });
+        })->getContent();
+
+        return $this->wrapLegacyContent($legacyContent, $this->requestStack->getCurrentRequest());
     }
 
     #[Route(path: '/call/ajax.change.Config.php', methods: ['GET'])]
@@ -110,7 +114,7 @@ class CallController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        new Frontend(true, $this->tokenStorage, $this->parameterBag, $this->requestStack);
+        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
         $key = $request->query->get('key', '');
         $value = $request->query->get('value');
@@ -154,7 +158,7 @@ class CallController extends AbstractController
         ob_start();
 
         try {
-            $Frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag, $this->requestStack);
+            new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
             $showResults = ! empty($_POST);
 
             if (isset($_GET['get']) && $_GET['get'] == 'true') {
@@ -191,7 +195,7 @@ class CallController extends AbstractController
             throw $throwable;
         }
 
-        return new Response($legacyContent);
+        return $this->wrapLegacyContent($legacyContent, $this->requestStack->getCurrentRequest());
     }
 
     protected function getPlotSumData(): PlotSumData
@@ -216,7 +220,7 @@ class CallController extends AbstractController
         ob_start();
 
         try {
-            $Frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag, $this->requestStack);
+            new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
             $this->getPlotSumData()
                 ->display();
             $legacyContent = ob_get_clean();
@@ -226,7 +230,7 @@ class CallController extends AbstractController
             throw $throwable;
         }
 
-        return new Response($legacyContent);
+        return $this->wrapLegacyContent($legacyContent, $this->requestStack->getCurrentRequest());
     }
 
     #[Route(path: '/call/login.php', methods: ['GET', 'POST'])]
