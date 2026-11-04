@@ -8,7 +8,8 @@
  * source in sloppy mode, so top-level `var` declarations and implicit
  * global assignments behave exactly as they did in the old bundle.
  *
- * The npm: prefix resolves a package from node_modules instead of the repo.
+ * The npm: prefix resolves a package from node_modules via its entry point
+ * (for d3 packages that is the UMD dist build, which assigns to window.d3).
  */
 
 const fs = require('fs');
@@ -67,7 +68,7 @@ const jsFiles = [
   'lib/leaflet/runalyze.leaflet.routes.js',
   'public/vendor/d3/d3.js',
   'public/vendor/d3-tip/index.js',
-  'npm:d3-scale-chromatic/dist/d3-scale-chromatic.min.js',
+  'npm:d3-scale-chromatic',
   'assets/js/d3js-runalyzeplot.js',
   'assets/js/d3js-boxplot.js',
   'assets/js/climb-score.js',
@@ -85,7 +86,21 @@ const jsFiles = [
 
 function resolveFile(file) {
   if (file.startsWith('npm:')) {
-    return require.resolve(file.slice(4));
+    const spec = file.slice(4);
+    const slash = spec.indexOf('/');
+    const pkg = slash === -1 ? spec : spec.slice(0, slash);
+    const sub = slash === -1 ? null : spec.slice(slash + 1);
+    try {
+      // Package entry point ("require"/"main" target): for d3 packages
+      // this is the UMD dist build. Subpaths like ./dist/... may be
+      // blocked by the package "exports" field (d3 v3+), hence this path.
+      return require.resolve(spec);
+    } catch (e) {
+      // Fallback: resolve the package root via its package.json (always
+      // resolvable) and append the subpath manually.
+      const root = path.dirname(require.resolve(pkg + '/package.json'));
+      return sub ? path.join(root, sub) : root;
+    }
   }
   return path.resolve(file);
 }
