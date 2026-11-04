@@ -134,11 +134,11 @@ final class CallControllerTest extends AbstractFixturesAwareWebTestCase
         $this->Client->request('GET', '/settings');
 
         $this->assertStatusCode(200, $this->Client);
-        $this->assertStringContainsString(
-            'Runalyze.Overlay.removeClasses();',
-            (string) $this->Client->getResponse()
-                ->getContent()
-        );
+
+        $content = (string) $this->Client->getResponse()->getContent();
+
+        $this->assertStringContainsString('Runalyze.Overlay.removeClasses();', $content);
+        $this->assertStringContainsString('id="headline"', $content);
     }
 
     public function testAjaxChangeConfigActionRequiresAuthentication(): void

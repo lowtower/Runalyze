@@ -30,7 +30,7 @@ class PluginController extends AbstractPluginsAwareController
         ob_start();
 
         try {
-            $frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag, $this->requestStack);
+            new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
             $Pluginkey = $request->query->get('key');
 
@@ -72,7 +72,7 @@ class PluginController extends AbstractPluginsAwareController
             throw $throwable;
         }
 
-        return new Response($legacyContent);
+        return $this->wrapLegacyContent($legacyContent, $this->requestStack->getCurrentRequest());
     }
 
     /**
@@ -85,9 +85,12 @@ class PluginController extends AbstractPluginsAwareController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        new Frontend(false, $this->tokenStorage, $this->parameterBag, $this->requestStack);
+        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
-        return $this->getResponseFor($id, $request, $account);
+        return $this->wrapLegacyContent(
+            $this->getResponseFor($id, $request, $account)->getContent(),
+            $request
+        );
     }
 
     /**
@@ -103,7 +106,7 @@ class PluginController extends AbstractPluginsAwareController
         ob_start();
 
         try {
-            $frontend = new Frontend(false, $this->tokenStorage, $this->parameterBag, $this->requestStack);
+            new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
             $Factory = new PluginFactory();
 
             if ($id !== null && is_numeric($id)) {
@@ -120,6 +123,6 @@ class PluginController extends AbstractPluginsAwareController
             throw $throwable;
         }
 
-        return new Response($legacyContent);
+        return $this->wrapLegacyContent($legacyContent, $this->requestStack->getCurrentRequest());
     }
 }

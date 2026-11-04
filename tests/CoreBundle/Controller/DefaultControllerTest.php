@@ -383,8 +383,13 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $this->Client->request('GET', '/dashboard');
 
         $this->assertStatusCode(200, $this->Client);
-        $this->assertStringContainsString('id="data-browser"', (string) $this->Client->getResponse()->getContent());
-        $this->assertStringContainsString('id="statistics"', (string) $this->Client->getResponse()->getContent());
+
+        $content = (string) $this->Client->getResponse()->getContent();
+
+        $this->assertStringContainsString('id="data-browser"', $content);
+        $this->assertStringContainsString('id="statistics"', $content);
+        $this->assertStringContainsString('<!DOCTYPE html>', $content);
+        $this->assertStringContainsString('id="headline"', $content);
     }
 
     public function testPluginActionRequiresAuthentication(): void

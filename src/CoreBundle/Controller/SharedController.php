@@ -88,7 +88,7 @@ class SharedController extends AbstractController
             ->getPrivacy()
             ->isListPublic();
 
-        new FrontendShared(true, $this->tokenStorage, $this->parameterBag, $this->requestStack);
+        new FrontendShared($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
         $activityContext = $this->activityContextFactory
             ->getContext($activity);
@@ -147,7 +147,7 @@ class SharedController extends AbstractController
 
         $request->query->set('user', $username);
 
-        new FrontendShared(true, $this->tokenStorage, $this->parameterBag, $this->requestStack);
+        new FrontendShared($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
         if ($request->query->has('type')) {
             return $this->render('shared/athlete/base_plot_sum_data.html.twig', [
