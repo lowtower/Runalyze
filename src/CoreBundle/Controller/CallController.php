@@ -12,11 +12,8 @@ use PlotMonthSumData;
 use PlotSumData;
 use PlotWeekSumData;
 use Runalyze\Configuration;
-use SearchFormular;
-use SearchResults;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -145,57 +142,6 @@ class CallController extends AbstractController
         }
 
         return new Response();
-    }
-
-    /**
-     * @throws Throwable if the legacy search formular or results throw
-     */
-    #[Route(path: '/my/search', name: 'my-search', methods: ['GET', 'POST'])]
-    public function windowSearchAction(): RedirectResponse|Response
-    {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-
-        ob_start();
-
-        try {
-            new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
-            $showResults = ! empty($_POST);
-
-            if (isset($_GET['get']) && $_GET['get'] == 'true') {
-                $_POST = array_merge($_POST, $_GET);
-                $showResults = true;
-
-                SearchFormular::transformOldParamsToNewParams();
-            }
-
-            $Results = new SearchResults($showResults);
-
-            if ($showResults && $Results->multiEditorRequested()) {
-                ob_end_clean();
-
-                return $this->redirectToRoute('multi-editor', [
-                    'ids' => implode(',', $Results->getIdsForMultiEditor()),
-                ]);
-            }
-
-            if (empty($_POST) || Request::createFromGlobals()->query->get('get') == 'true') {
-                echo '<div class="panel-heading">';
-                echo '<h1>' . __('Search for activities') . '</h1>';
-                echo '</div>';
-
-                $Formular = new SearchFormular($this->generateUrl('my-search'));
-                $Formular->display();
-            }
-
-            $Results->display();
-            $legacyContent = ob_get_clean();
-        } catch (Throwable $throwable) {
-            ob_end_clean();
-
-            throw $throwable;
-        }
-
-        return $this->wrapLegacyContent($legacyContent, $this->requestStack->getCurrentRequest());
     }
 
     protected function getPlotSumData(): PlotSumData
