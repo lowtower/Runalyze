@@ -107,9 +107,8 @@ class BSplineInterpolation
 
     /**
      * @param float|array $t
-     * @return array|float|int
      */
-    public function evaluateAt($t)
+    public function evaluateAt($t): array|int|float
     {
         if ($this->Points === []) {
             throw new \RuntimeException('Points must be set first.');

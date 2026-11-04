@@ -146,7 +146,7 @@ class CallController extends AbstractController
     /**
      * @throws Throwable if the legacy search formular or results throw
      */
-    #[Route(path: '/my/search', name: 'my-search', methods: ['GET'])]
+    #[Route(path: '/my/search', name: 'my-search', methods: ['GET', 'POST'])]
     public function windowSearchAction(): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
