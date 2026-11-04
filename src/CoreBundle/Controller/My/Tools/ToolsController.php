@@ -77,7 +77,7 @@ class ToolsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid() && $form->getData()['mode'] !== null) {
-            $Frontend = new Frontend(true, $this->tokenStorage, $this->parameterBag);
+            new Frontend($this->tokenStorage, $this->parameterBag);
 
             if ($form->getData()['mode'] === 'general') {
                 $job = new JobGeneral($form->getData(), DB::getInstance(), $account->getId(), $this->databasePrefix);
@@ -161,7 +161,7 @@ class ToolsController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $Frontend = new Frontend(true, $this->tokenStorage, $this->parameterBag);
+        new Frontend($this->tokenStorage, $this->parameterBag);
 
         $configuration = $this->configurationManager
             ->getList();
