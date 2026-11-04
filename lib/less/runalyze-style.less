@@ -98,4 +98,13 @@ body {
 @import "../../public/vendor/font-awesome/css/all.css";
 .fa-rotate-45{-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);-ms-transform:rotate(45deg);-o-transform:rotate(45deg);transform:rotate(45deg)}
 
+// Font Awesome 5: some templates combine "fa" with "fab", but all.css defines
+// the ".fa"/".fas" solid alias AFTER ".fab", so for such elements the brands
+// font rule loses the cascade and brand glyphs render as blank. This higher
+// specificity rule wins regardless of the rule order.
+.fa.fab {
+	font-family: 'Font Awesome 5 Brands';
+	font-weight: 400;
+}
+
 @import "../../public/assets/v2.x/vendor/iconvault-forecast/iconvault-forecast.css";

@@ -24,7 +24,10 @@ services:
     mem_limit: 2g
     mem_reservation: 1g
     stop_grace_period: 60s
-    command: ["bash", "-lc", "set -e && npm install && npm run bower:install && npm run build && echo 'Build complete'"]
+    # Frontend build: plain npm + esbuild (see scripts/build-js.js and
+    # scripts/build-styles.js). Bower is gone; the vendor files in
+    # public/vendor are committed to the repository now.
+    command: ["bash", "-lc", "set -e && npm install && npm run build && echo 'Build complete'"]
     stdin_open: true
     tty: true
 

@@ -1,0 +1,154 @@
+'use strict';
+
+/*
+ * Runalyze JS bundle build (phase 1 of the frontend build modernization).
+ *
+ * Replaces the old gulp concat+terser pipeline. The file order below mirrors
+ * the former resources.json exactly. esbuild then minifies the concatenated
+ * source in sloppy mode, so top-level `var` declarations and implicit
+ * global assignments behave exactly as they did in the old bundle.
+ *
+ * The npm: prefix resolves a package from node_modules. Note: d3 packages
+ * (v3+) map their entry point to ESM (.mjs, the "default" exports
+ * condition). The legacy bundle must not contain any import/export
+ * statements, so the UMD dist build is picked explicitly (it assigns to
+ * window.d3, exactly like the former node_modules copy did).
+ */
+
+const fs = require('fs');
+const path = require('path');
+const esbuild = require('esbuild');
+
+const OUT_FILE = path.resolve('public/assets/js/scripts.min.js');
+
+const jsFiles = [
+  'assets/js/polyfill.js',
+  'public/vendor/jquery/dist/jquery.js',
+  'lib/jquery.metadata.js',
+  'public/vendor/tablesorter/js/jquery.tablesorter.js',
+  'public/vendor/tablesorter/addons/pager/jquery.tablesorter.pager.js',
+  'lib/bootstrap-tooltip.js',
+  'lib/fineuploader-3.5.0.min.js',
+  'lib/jquery.datepicker.js',
+  'lib/jquery.chosen.min.js',
+  'lib/runalyze.lib.js',
+  'lib/runalyze.lib.common.js',
+  'lib/runalyze.lib.formatter.js',
+  'lib/runalyze.lib.plot.js',
+  'lib/runalyze.lib.plot.options.js',
+  'lib/runalyze.lib.plot.saver.js',
+  'lib/runalyze.lib.plot.events.js',
+  'lib/runalyze.lib.tablesorter.js',
+  'lib/runalyze.lib.options.js',
+  'lib/runalyze.lib.config.js',
+  'lib/runalyze.lib.overlay.js',
+  'lib/runalyze.lib.panels.js',
+  'lib/runalyze.lib.databrowser.js',
+  'lib/runalyze.lib.statistics.js',
+  'lib/runalyze.lib.training.js',
+  'lib/runalyze.lib.activity.form.js',
+  'lib/runalyze.lib.feature.js',
+  'lib/runalyze.lib.notifications.js',
+  'lib/runalyze.lib.sport.js',
+  'lib/flot-0.8.3/base64.js',
+  'lib/flot-0.8.3/jquery.flot.min.js',
+  'lib/flot-0.8.3/jquery.flot.resize.min.js',
+  'lib/flot-0.8.3/jquery.flot.selection.js',
+  'lib/flot-0.8.3/jquery.flot.crosshair.js',
+  'lib/flot-0.8.3/jquery.flot.navigate.min.js',
+  'lib/flot-0.8.3/jquery.flot.hiddengraphs.js',
+  'lib/flot-0.8.3/jquery.flot.stack.js',
+  'lib/flot-0.8.3/jquery.flot.textLegend.js',
+  'lib/flot-0.8.3/jquery.flot.orderBars.js',
+  'lib/flot-0.8.3/jquery.flot.canvas.js',
+  'lib/flot-0.8.3/jquery.flot.time.min.js',
+  'lib/flot-0.8.3/jquery.flot.curvedLines.js',
+  'lib/runalyze.lib.plot.flot.js',
+  'lib/geohash.js',
+  'public/vendor/leaflet/dist/leaflet.js',
+  'lib/leaflet/runalyze.leaflet.js',
+  'lib/leaflet/runalyze.leaflet.layers.js',
+  'lib/leaflet/runalyze.leaflet.routes.js',
+  'public/vendor/d3/d3.js',
+  'public/vendor/d3-tip/index.js',
+  'npm:d3-scale-chromatic',
+  'assets/js/d3js-runalyzeplot.js',
+  'assets/js/d3js-boxplot.js',
+  'assets/js/climb-score.js',
+  'assets/js/views/climb-score-view.js',
+  'assets/js/views/race-performance-chart-view.js',
+  'assets/js/vendor/d3-annotation.js',
+  'public/vendor/fontIconPicker/jquery.fonticonpicker.js',
+  'public/vendor/moment/moment.js',
+  'public/vendor/moment-timezone/builds/moment-timezone-with-data-1970-2030.min.js',
+  'public/vendor/moment-duration-format/lib/moment-duration-format.js',
+  'public/vendor/ifvisible.js/src/ifvisible.js',
+  'public/vendor/jquery-timeago/jquery.timeago.js',
+  'public/vendor/regression-js/build/regression.min.js'
+];
+
+function packageRoot(pkg) {
+  // Prefer the package.json subpath (fast, exact), but note that modern
+  // packages with a restrictive "exports" map (e.g. d3-scale-chromatic v3)
+  // block every subpath except the main entry, so this can throw
+  // ERR_PACKAGE_PATH_NOT_EXPORTED.
+  try {
+    return path.dirname(require.resolve(pkg + '/package.json'));
+  } catch (e) {
+    // The main entry always resolves; from the resolved file, walk up
+    // to the nearest directory containing a package.json.
+    const entry = require.resolve(pkg);
+    let dir = path.dirname(entry);
+    while (!fs.existsSync(path.join(dir, 'package.json'))) {
+      const parent = path.dirname(dir);
+      if (parent === dir) {
+        throw new Error('Could not locate package root of ' + pkg + ' (resolved entry: ' + entry + ')');
+      }
+      dir = parent;
+    }
+    return dir;
+  }
+}
+
+function resolveFile(file) {
+  if (file.startsWith('npm:')) {
+    const pkg = file.slice(4);
+    const root = packageRoot(pkg);
+    // d3 packages (v3+) expose their entry point as ESM; the classic-script
+    // bundle needs the UMD dist build instead (assigns to window.d3).
+    const umd = path.join(root, 'dist', pkg + '.min.js');
+    if (!fs.existsSync(umd)) {
+      throw new Error('UMD build not found for ' + pkg + ' (expected ' + umd + ')');
+    }
+    return umd;
+  }
+  return path.resolve(file);
+}
+
+try {
+  const chunks = jsFiles.map((file) => {
+    const resolved = resolveFile(file);
+    if (!fs.existsSync(resolved)) {
+      throw new Error('Missing file: ' + file + ' (resolved: ' + resolved + '). Did you forget "npm install" or "git add public/vendor"?');
+    }
+    return '// ---- ' + file + ' ----\n' + fs.readFileSync(resolved, 'utf8');
+  });
+
+  const concatenated = chunks.join('\n;\n');
+
+  const result = esbuild.transformSync(concatenated, {
+    loader: 'js',
+    minify: true,
+    target: 'es2017',
+    sourcemap: 'external',
+    sourcefile: 'scripts.min.js'
+  });
+
+  fs.mkdirSync(path.dirname(OUT_FILE), { recursive: true });
+  fs.writeFileSync(OUT_FILE, result.code + '\n//# sourceMappingURL=scripts.min.js.map\n');
+  fs.writeFileSync(OUT_FILE + '.map', result.map);
+  console.log('built ' + OUT_FILE + ' (' + jsFiles.length + ' files)');
+} catch (e) {
+  console.error(e && e.message ? e.message : e);
+  process.exit(1);
+}
