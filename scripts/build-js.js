@@ -13,6 +13,13 @@
  * condition). The legacy bundle must not contain any import/export
  * statements, so the UMD dist build is picked explicitly (it assigns to
  * window.d3, exactly like the former node_modules copy did).
+ *
+ * Since templates load this bundle with `defer`, it is wrapped in a
+ * prelude and an epilogue for the inline-script shim (see
+ * templates/_include/js_queue_shim.html.twig): the prelude removes the
+ * shim's stub globals so that the sloppy-mode `var Runalyze` declaration
+ * below sees the same undefined as before, the epilogue flushes the
+ * inline calls that were recorded while the document was parsed.
  */
 
 const fs = require('fs');
@@ -134,7 +141,10 @@ try {
     return '// ---- ' + file + ' ----\n' + fs.readFileSync(resolved, 'utf8');
   });
 
-  const concatenated = chunks.join('\n;\n');
+  const SHIM_PRELUDE = "/* Reset the inline-script shim (templates/_include/js_queue_shim.html.twig):\n * the bundle defines its globals via top-level `var` in sloppy mode, so the\n * stubs have to go first - a `var` declaration must not see the shim as the\n * previous value of the global. jQuery overwrites its stubs itself below. */\ntry { delete window.Runalyze; } catch (e) { /* ignore */ }\ntry { delete window.RunalyzePlot; } catch (e) { /* ignore */ }";
+const SHIM_EPILOGUE = "/* Replay all Runalyze/RunalyzePlot calls and jQuery ready callbacks that\n * inline scripts recorded before this (deferred) bundle was loaded. */\nif (typeof window.__runalyzeQueueFlush === 'function') {\n    window.__runalyzeQueueFlush();\n}";
+
+const concatenated = SHIM_PRELUDE + '\n;\n' + chunks.join('\n;\n') + '\n;\n' + SHIM_EPILOGUE + '\n';
 
   const result = esbuild.transformSync(concatenated, {
     loader: 'js',

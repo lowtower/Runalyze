@@ -1,0 +1,222 @@
+{#
+    Queue shim between inline scripts and the (now deferred) legacy bundle.
+
+    scripts.min.js is loaded with `defer`, so it runs only after the document
+    has been parsed - but the many inline <script> blocks in the templates
+    run while parsing, long before `Runalyze`, `RunalyzePlot` or jQuery
+    exist. This shim installs minimal, queueing stand-ins:
+
+    * `Runalyze` / `RunalyzePlot`: recording proxies. Every function call on
+      them (at any nesting depth) is recorded and replayed against the real
+      objects once the bundle has loaded.
+    * `$` / `jQuery`: callbacks passed to `$(fn)` or `$(document).ready(fn)`
+      are recorded and handed to the real jQuery afterwards; all other jQuery
+      usage is a chainable no-op.
+
+    The bundle starts with a chunk that deletes these stubs (so the sloppy
+    `var Runalyze = ...` sees the same undefined as before) and ends with a
+    call to window.__runalyzeQueueFlush() - see scripts/build-js.js.
+
+    Known limitations:
+    * jQuery DOM operations in inline scripts outside ready callbacks are
+      silently dropped (the current templates do not use that pattern).
+    * Return values of queued calls are stand-ins until the replay.
+    * Inline scripts touching other bundle globals (d3, moment, L, ...) are
+      still a Phase 2 migration topic.
+#}
+<script>
+(function () {
+    'use strict';
+
+    if (window.__runalyzeQueueFlush) {
+        return;
+    }
+
+    var recordedCalls = [];
+    var readyCallbacks = [];
+    var allStubs = new WeakSet();
+
+    function isStub(value) {
+        return typeof value === 'function' && allStubs.has(value);
+    }
+
+    /* Does the value contain a stub somewhere (for the replay below)? */
+    function containsStub(value, seen) {
+        if (isStub(value)) {
+            return true;
+        }
+        if (!value || typeof value !== 'object' || seen.indexOf(value) !== -1) {
+            return false;
+        }
+        seen.push(value);
+        if (Array.isArray(value)) {
+            for (var i = 0; i < value.length; ++i) {
+                if (containsStub(value[i], seen)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        var proto = Object.getPrototypeOf(value);
+        if (proto !== Object.prototype && proto !== null) {
+            return false;
+        }
+        for (var key in value) {
+            if (Object.prototype.hasOwnProperty.call(value, key) && containsStub(value[key], seen)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /* Replace stub values (e.g. the result of `$('#foo')` before the flush) by undefined. */
+    function sanitize(value, seen) {
+        if (isStub(value)) {
+            return undefined;
+        }
+        if (!value || typeof value !== 'object' || seen.indexOf(value) !== -1 || !containsStub(value, seen.slice())) {
+            return value;
+        }
+        seen.push(value);
+        if (Array.isArray(value)) {
+            var copy = [];
+            for (var i = 0; i < value.length; ++i) {
+                copy.push(sanitize(value[i], seen));
+            }
+            return copy;
+        }
+        var plain = {};
+        for (var key in value) {
+            if (Object.prototype.hasOwnProperty.call(value, key)) {
+                plain[key] = sanitize(value[key], seen);
+            }
+        }
+        return plain;
+    }
+
+    /* Chainable no-op standing in for jQuery collections. */
+    var chain;
+    var chainNoop = function () { return chain; };
+    var chainReady = function (callback) {
+        if (typeof callback === 'function') {
+            readyCallbacks.push(callback);
+        }
+        return chain;
+    };
+    chain = new Proxy(function () { return chain; }, {
+        get: function (target, prop) {
+            if (prop === 'ready') {
+                return chainReady;
+            }
+            if (prop === 'length') {
+                return 0;
+            }
+            if (prop === Symbol.toPrimitive) {
+                return function () { return ''; };
+            }
+            if (prop === 'then') {
+                return undefined;
+            }
+            return chainNoop;
+        }
+    });
+    allStubs.add(chain);
+    allStubs.add(chainNoop);
+    allStubs.add(chainReady);
+
+    /* jQuery stand-in: `$(fn)` and `$(document).ready(fn)` are recorded,
+       everything else ($.ajax, $('#x').method, ...) is a no-op. */
+    var jquery = new Proxy(function (selector) {
+        if (typeof selector === 'function') {
+            readyCallbacks.push(selector);
+        }
+        return chain;
+    }, {
+        get: function (target, prop) {
+            if (prop === 'ready') {
+                return chainReady;
+            }
+            if (prop === Symbol.toPrimitive) {
+                return function () { return ''; };
+            }
+            if (prop === 'then') {
+                return undefined;
+            }
+            return chainNoop;
+        }
+    });
+    allStubs.add(jquery);
+    window.$ = window.jQuery = jquery;
+
+    /* Recording stand-ins for the two top-level legacy globals. All other
+       namespaces (Runalyze.Common, RunalyzePlot.Events, ...) are properties
+       of these two and are covered by the nested proxies. */
+    function makeStub(root, path) {
+        var stub = new Proxy(function () {}, {
+            get: function (target, prop) {
+                if (prop === Symbol.toPrimitive) {
+                    return function () { return ''; };
+                }
+                if (prop === 'then') {
+                    return undefined;
+                }
+                if (prop === 'length') {
+                    return 0;
+                }
+                return makeStub(root, path.concat(prop));
+            },
+            apply: function (target, thisArg, args) {
+                recordedCalls.push({ root: root, path: path, args: args });
+                return chain;
+            },
+            has: function (target, prop) {
+                return typeof prop !== 'symbol';
+            }
+        });
+        allStubs.add(stub);
+        return stub;
+    }
+    window.Runalyze = makeStub('Runalyze', []);
+    window.RunalyzePlot = makeStub('RunalyzePlot', []);
+
+    /* Called at the very end of the legacy bundle. */
+    window.__runalyzeQueueFlush = function () {
+        if (window.__runalyzeShimFlushed) {
+            return;
+        }
+        window.__runalyzeShimFlushed = true;
+
+        var calls = recordedCalls;
+        recordedCalls = [];
+        var callbacks = readyCallbacks;
+        readyCallbacks = [];
+
+        for (var i = 0; i < calls.length; ++i) {
+            var call = calls[i];
+            try {
+                var owner = window[call.root];
+                for (var j = 0; j < call.path.length - 1; ++j) {
+                    owner = owner[call.path[j]];
+                }
+                if (call.path.length > 0) {
+                    var method = owner[call.path[call.path.length - 1]];
+                    method.apply(owner, sanitize(call.args, []));
+                }
+            } catch (e) {
+                if (window.console && window.console.warn) {
+                    window.console.warn('[Runalyze] replaying queued call failed: ' + call.root + '.' + call.path.join('.'), e);
+                }
+            }
+        }
+
+        /* Hand the recorded ready callbacks to the real jQuery: it fires
+           them at DOMContentLoaded, i.e. exactly when they used to run
+           while the bundle was a synchronous <head> script. */
+        if (window.jQuery && !isStub(window.jQuery)) {
+            for (var k = 0; k < callbacks.length; ++k) {
+                window.jQuery(callbacks[k]);
+            }
+        }
+    };
+})();
+</script>
