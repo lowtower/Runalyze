@@ -30,6 +30,26 @@
                             <li><a class="window" href="{{ url('settings-account') }}"><i class="fa fa-fw fa-cogs"></i>&nbsp;{% trans %}Account settings{% endtrans %}</a></li>
                             <li><a class="window" href="{{ url('settings-privacy') }}"><i class="fa fa-fw fa-unlock-alt"></i>&nbsp;{% trans %}Privacy settings{% endtrans %}</a></li>
                             <li><a class="window" href="{{ url('logout') }}"><i class="fa far fa-fw fa-sign-out-alt"></i>&nbsp;{% trans %}Logout{% endtrans %}</a></li>
+                            <li class="separator"></li>
+                            <li style="text-align: center;">v{{ RUNALYZE_VERSION }}#{{ RUNALYZE_DATE }}</li>
+                        </ul>
+                    </div>
+
+                    <div class="headline-menu right">
+                        <div class="submenu-label only-icon">
+                            <i class="fa fa-fw fa-lg fa-book"></i>
+                        </div>
+                        <ul class="submenu right-oriented">
+                            <li><a class="window" href="{{ url('glossary-index') }}"><i class="fa fa-fw fa-book"></i>&nbsp;{% trans %}Glossary{% endtrans %}</a></li>
+                            <li><a href="https://help.runalyze.com"><i class="fa fa-fw fa-book"></i>&nbsp;{% trans %}Documentation{% endtrans %}</a></li>
+                            <li class="separator"></li>
+                            {% if feedback_mail is not empty %}
+                            <li><a class="window" href="{{ url('feedback') }}"><i class="fa fa-fw fa-cogs"></i>&nbsp;{% trans %}Feedback{% endtrans %}</a></li>
+                            {% endif %}
+                            <li><a href="https://forum.runalyze.com"><i class="fa fa-fw fa-comments"></i>&nbsp;{% trans %}Forum{% endtrans %}</a></li>
+                            <li><a href="https://blog.runalyze.com"><i class="fa fa-fw fa-rss"></i>&nbsp;{% trans %}Blog{% endtrans %}</a></li>
+                            <li class="separator"></li>
+                            <li><a class="window" href="{{ url('help') }}"><i class="fa fa-fw fa-building"></i>&nbsp;{% trans %}About us{% endtrans %}</a></li>
                         </ul>
                     </div>
 
@@ -90,6 +110,7 @@
                         </ul>
                     </div>
 
+                    <a class="window tab left b" data-size="big" href="{{ url('my-search') }}"><i class="fa fa-fw fa-lg fa-search"></i>&nbsp;{% trans %}Search{% endtrans %}</a>
                     <a class="window tab left b" href="{{ url('help') }}"><i class="fa fa-fw fa-lg fa-question-circle"></i>&nbsp;{% trans %}Help{% endtrans %}</a>
                 {% endif %}
             {% endblock %}

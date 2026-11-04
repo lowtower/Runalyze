@@ -1,0 +1,15 @@
+{% extends "base_logged_in.twig" %}
+
+{#
+    Full-page shell for the legacy dashboard. The container markup is still
+    produced by dashboard.php (included from DefaultController::dashboardAction)
+    and injected as 'legacyContainer'. XHR requests never use this template:
+    they receive the bare container.
+#}
+{% block content %}
+    {% if is_granted('IS_IMPERSONATOR') %}
+        <b><a href="{{ path('dashboard', {'_switch_user': '_exit'}) }}">Exit impersonation</a></b>
+    {% endif %}
+
+    {{ legacyContainer|raw }}
+{% endblock %}
