@@ -71,7 +71,7 @@ class SettingsController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        new Frontend(true, $this->tokenStorage, $this->parameterBag, $this->requestStack);
+        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
         $currentLanguage = $account->getLanguage();
         $form = $this->createForm(AccountType::class, $account, [
@@ -227,7 +227,7 @@ class SettingsController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        new Frontend(true, $this->tokenStorage, $this->parameterBag, $this->requestStack);
+        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
         $dataset = $this->getDatasetRepository()
             ->findAllFor($account);
