@@ -20,8 +20,9 @@ class Elevation implements ValueInterface
 
     protected DistanceUnitSystem $UnitSystem;
 
-    public static function format(int $meter, bool $withUnit = true): string
+    public static function format(?int $meter, bool $withUnit = true): string
     {
+        $meter ??= 0;
         return new self($meter)->string($withUnit);
     }
 
