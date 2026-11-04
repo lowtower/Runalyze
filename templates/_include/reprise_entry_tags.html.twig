@@ -1,0 +1,11 @@
+{#
+    Reprise entry tags for the module entry "app".
+
+    Included by templates/base.html.twig (symfony-templated pages) and
+    rendered by the legacy frontend header
+    (inc/tpl/tpl.Frontend.header.php) via the controller, so that every
+    full page load loads the ES-module entry.
+#}
+{% if reprise_entry_exists('app') %}
+    {{ reprise_entry_script_tags('app') }}
+{% endif %}
