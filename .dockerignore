@@ -10,13 +10,13 @@ public/uploads
 .env.local
 .env.*.local
 
-# frontend build tooling is not used inside the images
+# frontend build tooling is not used inside the images (the PHP images serve
+# the committed build outputs in public/assets; the npm/esbuild build runs in
+# the dedicated frontend container)
 package.json
 package-lock.json
-gulpfile.js
-bower.json
-.bowerrc
 .npmrc
+scripts
 
 # documentation
 *.md
