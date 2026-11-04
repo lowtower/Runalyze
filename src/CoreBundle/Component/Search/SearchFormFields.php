@@ -173,10 +173,10 @@ class SearchFormFields
         $options = [];
 
         $result = DB::getInstance()->query(
-            'SELECT `%id`, `%' . $key . '` as `%value` '
-            . 'FROM `%' . PREFIX . $table . '` '
-            . 'WHERE `%accountid`=' . SessionAccountHandler::getId() . ' '
-            . 'ORDER BY `%id` ASC'
+            'SELECT `id`, `' . $key . '` as `value` '
+            . 'FROM `' . PREFIX . $table . '` '
+            . 'WHERE `accountid`=' . SessionAccountHandler::getId() . ' '
+            . 'ORDER BY `id` ASC'
         )->fetchAll();
 
         foreach ($result as $option) {
