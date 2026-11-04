@@ -1,8 +1,0 @@
-{% if is_granted('IS_IMPERSONATOR') %}
-    <b><a href="{{ path('dashboard', {'_switch_user': '_exit'}) }}">Exit impersonation</a></b>
-{% endif %}
-
-{% include 'analytics.html.twig' %}
-
-</body>
-</html>
