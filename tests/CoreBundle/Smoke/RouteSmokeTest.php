@@ -108,7 +108,7 @@ final class RouteSmokeTest extends WebTestCase
         yield ['activity-upload', '/activity/upload', 'GET', 302, false];
         yield ['activity-multi-importer', '/activity/multi-import', 'POST', 302, false];
         yield ['activity-new', '/activity/new', 'GET', 302, false];
-        yield ['activity-new', '/activity/new', 'POST', 302, false];
+        yield ['activity-new_post', '/activity/new', 'POST', 302, false];
         yield ['activity-edit', '/activity/{id}/edit', 'GET', 302, true];
         yield ['multi-editor', '/activity/multi-editor', 'GET', 302, true];
         yield ['activity-delete', '/activity/{id}/delete', 'GET', 302, true];
@@ -118,7 +118,7 @@ final class RouteSmokeTest extends WebTestCase
         yield ['ActivityShow', '/activity/{id}', 'GET', 302, true];
         yield ['runalyze_core_activity_view_vo2maxinfo', '/activity/{id}/vo2max-info', 'GET', 302, true];
         yield ['runalyze_core_activity_view_splitsinfo', '/activity/{id}/splits-info', 'GET', 302, true];
-        yield ['runalyze_core_activity_view_splitsinfo', '/activity/{id}/splits-info', 'POST', 302, true];
+        yield ['runalyze_core_activity_view_splitsinfo_post', '/activity/{id}/splits-info', 'POST', 302, true];
         yield ['runalyze_core_activity_view_elevationinfo', '/activity/{id}/elevation-info', 'GET', 302, true];
         yield ['activity-tool-time-series-info', '/activity/{id}/time-series-info', 'GET', 302, true];
         yield ['activity-tool-sub-segments-info', '/activity/{id}/sub-segments-info', 'GET', 302, true];
@@ -129,6 +129,7 @@ final class RouteSmokeTest extends WebTestCase
         yield ['settings', '/settings', 'GET', 302, true];
         yield ['runalyze_core_call_ajaxchanceconfig', '/call/ajax.change.Config.php', 'GET', 302, false];
         yield ['my-search', '/my/search', 'GET', 302, true];
+        yield ['my-search_post', '/my/search', 'POST', 302, true];
         yield ['runalyze_core_call_windowsplotsumdata', '/call/window.plotSumData.php', 'GET', 302, false];
         yield ['runalyze_core_call_login', '/call/login.php', 'GET', 200, false];
         yield ['dashboard', '/dashboard', 'GET', 302, false];
