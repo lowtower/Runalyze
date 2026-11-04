@@ -46,9 +46,7 @@
         {% block html_head_scripts %}
             <script>document.addEventListener("touchstart", function(){}, true);</script>
             <script defer src="{{ asset('assets/js/scripts.min.js') }}?v={{ RUNALYZE_VERSION }}"></script>
-            {% if reprise_entry_exists('app') %}
-                {{ reprise_entry_script_tags('app') }}
-            {% endif %}
+            {% include '_include/reprise_entry_tags.html.twig' %}
         {% endblock %}
 
     </head>

@@ -28,7 +28,21 @@
 	<title>RUNALYZE</title>
 
     <script>document.addEventListener("touchstart", function(){}, true);</script>
-    <script src="assets/js/scripts.min.js?v=<?php echo RUNALYZE_VERSION; ?>"></script>
+<?php
+    // Symfony-templated pages load the legacy bundle with `defer`, guarded by
+    // the inline-script shim, plus the Reprise entry (see
+    // templates/base.html.twig). Do the same here when a controller is at hand
+    // that can render those twig includes. Plain legacy contexts (Frontend
+    // instances without twig) keep the synchronous load: the bundle runs
+    // before any inline script, so they never need the shim.
+    if (method_exists($this, 'renderView')) {
+        echo $this->renderView('_include/js_queue_shim.html.twig');
+        echo '<script defer src="assets/js/scripts.min.js?v=' . RUNALYZE_VERSION . '"></script>';
+        echo $this->renderView('_include/reprise_entry_tags.html.twig');
+    } else {
+        echo '<script src="assets/js/scripts.min.js?v=' . RUNALYZE_VERSION . '"></script>';
+    }
+?>
 </head>
 
 <body id="home" style="background-image:url(<?php echo \Runalyze\Configuration::Design()->backgroundImage(); ?>);">
