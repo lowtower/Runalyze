@@ -38,7 +38,7 @@ trait LegacyOutputCaptureTrait
      */
     protected function wrapLegacyContent(string $legacyContent, ?Request $request): Response
     {
-        if ($request === null || $request->isXmlHttpRequest()) {
+        if (! $request instanceof \Symfony\Component\HttpFoundation\Request || $request->isXmlHttpRequest()) {
             return new Response($legacyContent);
         }
 

@@ -186,5 +186,4 @@ class Frontend
     {
         DB::getInstance()->setAccountID(SessionAccountHandler::getId());
     }
-
 }
