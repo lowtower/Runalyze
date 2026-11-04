@@ -8,7 +8,11 @@
 #}
 {% block content %}
     {% if is_granted('IS_IMPERSONATOR') %}
-        <b><a href="{{ path('dashboard', {'_switch_user': '_exit'}) }}">Exit impersonation</a></b>
+        <div style="margin: 10px 0 0 10px;">
+            <a href="{{ path('dashboard', {'_switch_user': '_exit'}) }}" style="display: inline-block; padding: 5px 10px; background-color: #c9302c; color: #ffffff; border-radius: 3px; font-weight: bold; text-decoration: none;">
+                <i class="fa fa-fw fa-sign-out-alt"></i>&nbsp;{% trans %}Exit impersonation{% endtrans %}
+            </a>
+        </div>
     {% endif %}
 
     {{ legacyContainer|raw }}
