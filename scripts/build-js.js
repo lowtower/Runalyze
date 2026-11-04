@@ -87,12 +87,35 @@ const jsFiles = [
   'public/vendor/regression-js/build/regression.min.js'
 ];
 
+function packageRoot(pkg) {
+  // Prefer the package.json subpath (fast, exact), but note that modern
+  // packages with a restrictive "exports" map (e.g. d3-scale-chromatic v3)
+  // block every subpath except the main entry, so this can throw
+  // ERR_PACKAGE_PATH_NOT_EXPORTED.
+  try {
+    return path.dirname(require.resolve(pkg + '/package.json'));
+  } catch (e) {
+    // The main entry always resolves; from the resolved file, walk up
+    // to the nearest directory containing a package.json.
+    const entry = require.resolve(pkg);
+    let dir = path.dirname(entry);
+    while (!fs.existsSync(path.join(dir, 'package.json'))) {
+      const parent = path.dirname(dir);
+      if (parent === dir) {
+        throw new Error('Could not locate package root of ' + pkg + ' (resolved entry: ' + entry + ')');
+      }
+      dir = parent;
+    }
+    return dir;
+  }
+}
+
 function resolveFile(file) {
   if (file.startsWith('npm:')) {
     const pkg = file.slice(4);
-    // Resolve the package root via its package.json (the package.json
-    // subpath is always resolvable, even with a restrictive "exports" map).
-    const root = path.dirname(require.resolve(pkg + '/package.json'));
+    const root = packageRoot(pkg);
+    // d3 packages (v3+) expose their entry point as ESM; the classic-script
+    // bundle needs the UMD dist build instead (assigns to window.d3).
     const umd = path.join(root, 'dist', pkg + '.min.js');
     if (!fs.existsSync(umd)) {
       throw new Error('UMD build not found for ' + pkg + ' (expected ' + umd + ')');
