@@ -70,3 +70,7 @@ phpstan.neon
 /.twig-cs-fixer.php
 /.twig-cs-fixer.cache
 ###< vincentlanglet/twig-cs-fixer ###
+
+###> symfony/reprise ###
+/node_modules/
+###< symfony/reprise ###

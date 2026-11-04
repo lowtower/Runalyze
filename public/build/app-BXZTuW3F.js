@@ -1,0 +1,1 @@
+console.debug(`[Runalyze] module entry "app" loaded`);
