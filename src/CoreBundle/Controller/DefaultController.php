@@ -106,10 +106,13 @@ class DefaultController extends AbstractPluginsAwareController
             throw $throwable;
         }
 
-        $response = $this->render('legacy_end.html.twig');
-        $response->setContent($legacyContent . $response->getContent());
+        if ($request->isXmlHttpRequest()) {
+            return new Response($legacyContent);
+        }
 
-        return $response;
+        return $this->render('dashboard.html.twig', [
+            'legacyContainer' => $legacyContent,
+        ]);
     }
 
     #[Route(path: '/', name: 'base_url', methods: ['GET'])]

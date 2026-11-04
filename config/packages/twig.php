@@ -11,6 +11,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'strict_variables' => '%kernel.debug%',
         'globals' => [
             'RUNALYZE_VERSION' => '%RUNALYZE_VERSION%',
+            'RUNALYZE_DATE' => '%RUNALYZE_DATE%',
+            'feedback_mail' => '%app.feedback_mail%',
             'weather_proxy' => '%app.weather_proxy%',
             'openweathermap_api_key' => '%app.openweathermap_api_key%',
             'meteostatnet_api_key' => '%app.meteostatnet_api_key%',

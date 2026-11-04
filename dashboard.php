@@ -2,15 +2,16 @@
 /**
  * RUNALYZE
  *
+ * Legacy dashboard body. Full page requests get the twig shell
+ * (templates/dashboard.html.twig), XHR requests receive this container
+ * as-is (see DefaultController::dashboardAction).
+ *
  * @author Hannes Christiansen
  * @copyright http://www.runalyze.com/
  */
 
 use Runalyze\View\Activity\Context;
 
-if (! isset($request) || ! $request->isXmlHttpRequest()) {
-    include __DIR__ . '/inc/tpl/tpl.Frontend.header.php';
-}
 ?>
 
 <div id="container">
@@ -91,8 +92,3 @@ if (isset($_GET['id'])) {
         <?php echo $panelsContent; ?>
     </div>
 </div>
-<?php
-if (! isset($request) || ! $request->isXmlHttpRequest()) {
-    include __DIR__ . '/inc/tpl/tpl.Frontend.footer.php';
-}
-?>
