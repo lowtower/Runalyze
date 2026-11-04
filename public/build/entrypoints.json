@@ -1,0 +1,15 @@
+{
+  "isProd": true,
+  "devServer": null,
+  "publicPath": "/build/",
+  "entryPoints": {
+    "app": {
+      "js": [
+        "build/app-BXZTuW3F.js"
+      ],
+      "css": [],
+      "preload": [],
+      "dynamic": []
+    }
+  }
+}
