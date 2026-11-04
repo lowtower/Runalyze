@@ -8,6 +8,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->extension('doctrine_migrations', [
         'enable_service_migrations' => true,
         'migrations_paths' => [
+            # namespace is arbitrary but should be different from App\Migrations
+            # as migrations classes should NOT be autoloaded
+            # 'DoctrineMigrations' => '%kernel.project_dir%/migrations'
             'Runalyze\Migrations' => '%kernel.project_dir%/migrations',
         ],
         'storage' => [
