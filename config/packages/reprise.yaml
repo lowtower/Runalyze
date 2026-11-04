@@ -1,0 +1,10 @@
+# Configuration for symfony/reprise, the Vite integration (see vite.config.ts).
+#
+# `vite build` emits the built assets to public/build, where RepriseBundle
+# picks them up. Built files are committed to the repository, just like the
+# legacy pipeline's public/assets.
+#
+# All other options keep their documented defaults:
+# https://symfony.com/bundles/reprise/current/index.html
+reprise:
+    output_path: '%kernel.project_dir%/public/build'
