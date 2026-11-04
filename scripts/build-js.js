@@ -8,8 +8,11 @@
  * source in sloppy mode, so top-level `var` declarations and implicit
  * global assignments behave exactly as they did in the old bundle.
  *
- * The npm: prefix resolves a package from node_modules via its entry point
- * (for d3 packages that is the UMD dist build, which assigns to window.d3).
+ * The npm: prefix resolves a package from node_modules. Note: d3 packages
+ * (v3+) map their entry point to ESM (.mjs, the "default" exports
+ * condition). The legacy bundle must not contain any import/export
+ * statements, so the UMD dist build is picked explicitly (it assigns to
+ * window.d3, exactly like the former node_modules copy did).
  */
 
 const fs = require('fs');
@@ -86,21 +89,15 @@ const jsFiles = [
 
 function resolveFile(file) {
   if (file.startsWith('npm:')) {
-    const spec = file.slice(4);
-    const slash = spec.indexOf('/');
-    const pkg = slash === -1 ? spec : spec.slice(0, slash);
-    const sub = slash === -1 ? null : spec.slice(slash + 1);
-    try {
-      // Package entry point ("require"/"main" target): for d3 packages
-      // this is the UMD dist build. Subpaths like ./dist/... may be
-      // blocked by the package "exports" field (d3 v3+), hence this path.
-      return require.resolve(spec);
-    } catch (e) {
-      // Fallback: resolve the package root via its package.json (always
-      // resolvable) and append the subpath manually.
-      const root = path.dirname(require.resolve(pkg + '/package.json'));
-      return sub ? path.join(root, sub) : root;
+    const pkg = file.slice(4);
+    // Resolve the package root via its package.json (the package.json
+    // subpath is always resolvable, even with a restrictive "exports" map).
+    const root = path.dirname(require.resolve(pkg + '/package.json'));
+    const umd = path.join(root, 'dist', pkg + '.min.js');
+    if (!fs.existsSync(umd)) {
+      throw new Error('UMD build not found for ' + pkg + ' (expected ' + umd + ')');
     }
+    return umd;
   }
   return path.resolve(file);
 }
