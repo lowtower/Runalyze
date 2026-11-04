@@ -1,6 +1,12 @@
 {
-  "name": "runalyze",
+  "name": "Runalyze",
   "version": "4.3.0",
+  "description": "Runalyze - training analysis for athletes",
+  "homepage": "https://runalyze.com/",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lowtower/Runalyze"
+  },
   "private": true,
   "engines": {
     "node": ">=20"
@@ -13,11 +19,17 @@
     "test": "./vendor/bin/phpunit --bootstrap ./tests/bootstrap.php"
   },
   "dependencies": {
-    "d3-scale-chromatic": "^1.2.0"
+    "d3-scale-chromatic": "^3.1.0"
   },
   "devDependencies": {
     "clean-css": "^5.3.3",
     "esbuild": "^0.28.2",
     "less": "^4.9.1"
+  },
+  "overrides": {
+    "decode-uri-component": "^0.5.1",
+    "postcss": "^8.5.32",
+    "d3-interpolate": "^3.0.2",
+    "d3-color": "^3.1.1"
   }
 }
