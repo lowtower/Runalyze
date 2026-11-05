@@ -343,7 +343,7 @@ class SearchResults
             $_POST[$key]
         );
 
-        $conditions[] = '`t`.' . $key . '` IN(' . implode(',', $array) . ')';
+        $conditions[] = '`t`.`' . $key . '` IN(' . implode(',', $array) . ')';
     }
 
     /**
@@ -356,17 +356,17 @@ class SearchResults
         $sign = (isset($_POST['opt'][$key])) ? $this->signFor($_POST['opt'][$key]) : '=';
 
         if ($sign === ' LIKE ') {
-            $conditions[] = '`t`.' . $key . '` ' . $sign . ' "%' . DB::getInstance()->escape($_POST[$key], false) . '%"';
+            $conditions[] = '`t`.`' . $key . '` ' . $sign . ' "%' . DB::getInstance()->escape($_POST[$key], false) . '%"';
         } else {
             $value = $this->transformValueForDatabase($key, $_POST[$key]);
 
-            $conditions[] = '`t`.' . $key . '` ' . $sign . ' ' . DB::getInstance()->escape($value);
+            $conditions[] = '`t`.`' . $key . '` ' . $sign . ' ' . DB::getInstance()->escape($value);
 
             if ($sign === '<' || $sign === '<=') {
                 if (in_array($key, $this->keysThatShouldIgnoreZero)) {
-                    $conditions[] = '`t`.' . $key . '` != 0';
+                    $conditions[] = '`t`.`' . $key . '` != 0';
                 } elseif (in_array($key, $this->keysThatShouldIgnoreNull)) {
-                    $conditions[] = '`t`.' . $key . '` IS NOT NULL';
+                    $conditions[] = '`t`.`' . $key . '` IS NOT NULL';
                 }
             }
         }
@@ -559,9 +559,9 @@ class SearchResults
             $conditions[] = '`t`.`cadence` > 0';
             $conditions[] = '`t`.`groundcontact` > 0';
         } elseif (in_array($_POST['search-sort-by'], $this->keysThatShouldIgnoreZero)) {
-            $conditions[] = '`t`.' . $_POST['search-sort-by'] . '` != 0';
+            $conditions[] = '`t`.`' . $_POST['search-sort-by'] . '` != 0';
         } elseif (in_array($_POST['search-sort-by'], $this->keysThatShouldIgnoreNull)) {
-            $conditions[] = '`t`.' . $_POST['search-sort-by'] . '` IS NOT NULL';
+            $conditions[] = '`t`.`' . $_POST['search-sort-by'] . '` IS NOT NULL';
         }
     }
 
