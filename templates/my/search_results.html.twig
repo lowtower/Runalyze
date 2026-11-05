@@ -1,0 +1,27 @@
+<div id="searchResult">
+    {% if results.withResults %}
+        <p class="c">
+            {% if results.showBack %}
+                <span id="search-back" class="link">{{ results.backIcon|raw }}</span>
+            {% endif %}
+            {{ results.foundText }}
+            {% if results.showNext %}
+                <span id="search-next" class="link">{{ results.nextIcon|raw }}</span>
+            {% endif %}
+        </p>
+        <table class="fullwidth zebra-style">
+            <thead>
+                <tr style="font-size:.5em;line-height:1;"><td></td>{{ results.columnLabels|raw }}</tr>
+            </thead>
+            <tbody>
+                {% for row in results.rows %}
+                    <tr class="r">
+                        <td class="l"><small>{{ row.dateLink|raw }}</small></td>
+                        {{ row.cells|raw }}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {{ results.paginationJs|raw }}
+    {% endif %}
+</div>
