@@ -3,8 +3,9 @@
 namespace Runalyze\Bundle\CoreBundle\Controller\My;
 
 use Frontend;
-use Runalyze\Bundle\CoreBundle\Component\Search\SearchFormFields;
+use Runalyze\Activity\Duration;
 use Runalyze\Bundle\CoreBundle\Component\Search\SearchResults;
+use Runalyze\Bundle\CoreBundle\Form\SearchFormType;
 use SportFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -62,7 +63,10 @@ class SearchController extends AbstractController
 
         return $this->render('my/search.html.twig', [
             'showForm' => $showForm,
-            'fields' => new SearchFormFields()->fields(),
+            'form' => $this->createForm(
+                SearchFormType::class,
+                $showForm ? $this->initialFormData() : []
+            )->createView(),
             'results' => $searchResults->templateData(),
         ]);
     }
@@ -74,6 +78,37 @@ class SearchController extends AbstractController
         $_POST['date-from'] ??= date('d.m.Y', START_TIME);
 
         $_POST['date-to'] ??= date('d.m.Y');
+    }
+
+    /**
+     * Initial form data reflecting the current (possibly merged and
+     * default-filled) superglobals. The form is display-only for now: the
+     * search results query still reads the superglobals directly, so no
+     * handleRequest() is done here.
+     *
+     * @return array<string, mixed>
+     */
+    private function initialFormData(): array
+    {
+        $data = $_POST;
+
+        $data['opt'] = array_merge(SearchFormType::defaultOperators(), (array) ($data['opt'] ?? []));
+
+        foreach (['sportid', 'typeid', 'weatherid', 'equipmentid', 'tagid'] as $multiselect) {
+            if (isset($data[$multiselect]) && is_array($data[$multiselect])) {
+                $data[$multiselect] = array_map(strval(...), $data[$multiselect]);
+            }
+        }
+
+        $data['s'] = (isset($data['s']) && $data['s'] != 0) ? Duration::format((string) $data['s']) : '';
+
+        $data['send-to-multi-editor'] = ! empty($data['send-to-multi-editor']);
+
+        $data['resultsPerPage'] = (string) ($data['resultsPerPage'] ?? '20');
+
+        $data['page'] = (string) ($data['page'] ?? '1');
+
+        return $data;
     }
 
     private function transformOldParamsToNewParams(): void
