@@ -63,6 +63,11 @@ final class SearchControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStringContainsString('Search for activities', $content);
         $this->assertStringContainsString('id="search"', $content);
         $this->assertStringContainsString('id="searchResult"', $content);
+        $this->assertStringContainsString('name="page"', $content);
+        $this->assertStringContainsString('name="opt[distance]"', $content);
+        $this->assertStringContainsString('name="opt[s]"', $content);
+        $this->assertStringContainsString('chosen-select', $content);
+        $this->assertStringContainsString('pick-a-date', $content);
     }
 
     public function testSearchActionDisplaysOnlyResultsAfterSubmittingTheForm(): void

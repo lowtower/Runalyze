@@ -7,99 +7,304 @@
         </div>
 
         <div class="panel-content">
-            <form action="{{ url('my-search') }}" method="post" id="search" class="ajax">
-                <input type="hidden" name="page" value="1">
+            {{ form_start(form, {'action': url('my-search'), 'attr': {'id': 'search', 'class': 'ajax'}}) }}
+            {{ form_widget(form.page) }}
 
-                <fieldset id="search_legend_0">
-                    <legend onclick="Runalyze.toggleFieldset(this, 'search_legend_0', false, '')">{% trans %}Search activities{% endtrans %}</legend>
+            <fieldset id="search_legend_0">
+                <legend onclick="Runalyze.toggleFieldset(this, 'search_legend_0', false, '')">{% trans %}Search activities{% endtrans %}</legend>
 
-                    {% for field in fields %}
-                        {% if field.kind == 'multiselect' %}
-                            <div class="{{ field.layout }}">
-                                <label for="{{ field.name }}">{{ field.label|raw }}</label>
-                                <select name="{{ field.name }}[]" id="{{ field.name }}" class="chosen-select full-size" multiple="multiple" data-placeholder="{{ field.placeholder }}">
-                                    {% for value, label in field.options %}
-                                        <option value="{{ value }}"{% if value in field.selected %} selected{% endif %}>{{ label }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        {% elseif field.kind == 'time_range' %}
-                            <div class="{{ field.layout }}">
-                                <label>{{ field.label|raw }}</label>
-                                <div class="full-size left">
-                                    <span class="input-with-unit"><input type="text" name="date-from" id="date-from" value="{{ field.from }}" class="pick-a-date small-size"><label for="date-from" class="input-unit"><i class="fa far fa-fw fa-calendar"></i></label></span>
-                                    {% trans %}to{% endtrans %}
-                                    <span class="input-with-unit"><input type="text" name="date-to" id="date-to" value="{{ field.to }}" class="pick-a-date small-size"><label for="date-to" class="input-unit"><i class="fa far fa-fw fa-calendar"></i></label></span>
-                                </div>
-                            </div>
-                        {% elseif field.kind == 'sort' %}
-                            <div class="{{ field.layout }}">
-                                <label>{{ field.label|raw }}</label>
-                                <div class="full-size left">
-                                    <select name="search-sort-by">
-                                        {% for value, label in field.byOptions %}
-                                            <option value="{{ value }}"{% if field.bySelected is not null and value == field.bySelected %} selected{% endif %}>{{ label }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    <select name="search-sort-order">
-                                        {% for value, label in field.orderOptions %}
-                                            <option value="{{ value }}"{% if field.orderSelected is not null and value == field.orderSelected %} selected{% endif %}>{{ label }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                        {% elseif field.kind == 'input' %}
-                            <div class="{{ field.layout }}">
-                                <label for="{{ field.name }}">{{ field.label|raw }}</label>
-                                <input type="text" name="{{ field.name }}" id="{{ field.name }}" value="{{ field.value }}" class="{{ field.size }}">
-                                {% if field.hiddenOperator %}
-                                    <input type="hidden" name="opt[{{ field.name }}]" id="opt[{{ field.name }}]" value="{{ field.hiddenOperator }}">
-                                {% endif %}
-                            </div>
-                        {% elseif field.kind == 'condition' %}
-                            <div class="{{ field.layout }}">
-                                <label>{{ field.label|raw }}</label>
-                                <select name="opt[{{ field.name }}]">
-                                    {% for value, label in field.operators %}
-                                        <option value="{{ value }}"{% if field.operator == value %} selected{% endif %}>{{ label }}</option>
-                                    {% endfor %}
-                                </select>
-                                {% if field.unit %}
-                                    <span class="input-with-unit"><input type="text" name="{{ field.name }}" id="{{ field.name }}" value="{{ field.value }}" class="{{ field.size }}"{% if field.placeholder %} placeholder="{{ field.placeholder }}"{% endif %}><label for="{{ field.name }}" class="input-unit">{{ field.unit }}</label></span>
-                                {% else %}
-                                    <input type="text" name="{{ field.name }}" id="{{ field.name }}" value="{{ field.value }}" class="{{ field.size }}"{% if field.placeholder %} placeholder="{{ field.placeholder }}"{% endif %}>
-                                {% endif %}
-                            </div>
-                        {% elseif field.kind == 'select' %}
-                            <div class="{{ field.layout }}">
-                                <label for="{{ field.name }}">{{ field.label|raw }}</label>
-                                <select name="{{ field.name }}" id="{{ field.name }}">
-                                    {% for value, label in field.options %}
-                                        {% set is_selected = false %}
-                                        {% if field.selected is not null and field.selected == '' and value == '' %}
-                                            {% set is_selected = true %}
-                                        {% elseif field.selected is not null and field.selected != '' and value == field.selected %}
-                                            {% set is_selected = true %}
-                                        {% endif %}
-                                        <option value="{{ value }}"{% if is_selected %} selected{% endif %}>{{ label }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        {% elseif field.kind == 'checkbox' %}
-                            <div class="{{ field.layout }}">
-                                <label class="checkable" for="{{ field.name }}">{{ field.label|raw }}</label>
-                                <input type="checkbox" name="{{ field.name }}" id="{{ field.name }}"{% if field.checked %} checked="checked"{% endif %}>
-                            </div>
-                        {% elseif field.kind == 'submit' %}
-                            <div class="{{ field.layout }}">
-                                <input type="submit" value="{{ field.value }}">
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </fieldset>
+                <div class="w100 with33erLabel">
+                    {{ form_label(form.sportid) }}
+                    {{ form_widget(form.sportid) }}
+                </div>
 
-                <div class="c"></div>
-            </form>
+                <div class="w50 with33erLabel">
+                    {{ form_label(form['date-from']) }}
+                    <div class="full-size left">
+                        {{ form_widget(form['date-from']) }}
+                        {% trans %}to{% endtrans %}
+                        {{ form_widget(form['date-to']) }}
+                    </div>
+                </div>
+
+                <div class="w50 with33erLabel">
+                    {{ form_label(form['search-sort-by']) }}
+                    <div class="full-size left">
+                        {{ form_widget(form['search-sort-by']) }}
+                        {{ form_widget(form['search-sort-order']) }}
+                    </div>
+                </div>
+
+                <div class="w50 with33erLabel">
+                    {{ form_label(form.typeid) }}
+                    {{ form_widget(form.typeid) }}
+                </div>
+
+                <div class="w50 with33erLabel">
+                    {{ form_label(form.weatherid) }}
+                    {{ form_widget(form.weatherid) }}
+                </div>
+
+                <div class="w50 with33erLabel">
+                    {{ form_label(form.equipmentid) }}
+                    {{ form_widget(form.equipmentid) }}
+                </div>
+
+                <div class="w50 with33erLabel">
+                    {{ form_label(form.tagid) }}
+                    {{ form_widget(form.tagid) }}
+                </div>
+
+                <div class="w100 with33erLabel">
+                    {{ form_label(form.notes) }}
+                    {{ form_widget(form.notes) }}
+                    {{ form_widget(form.opt.notes) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.distance) }}
+                    {{ form_widget(form.opt.distance) }}
+                    {{ form_widget(form.distance) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.elevation) }}
+                    {{ form_widget(form.opt.elevation) }}
+                    {{ form_widget(form.elevation) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.route) }}
+                    {{ form_widget(form.opt.route) }}
+                    {{ form_widget(form.route) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.s) }}
+                    {{ form_widget(form.opt.s) }}
+                    {{ form_widget(form.s) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.gradient) }}
+                    {{ form_widget(form.opt.gradient) }}
+                    {{ form_widget(form.gradient) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.title) }}
+                    {{ form_widget(form.opt.title) }}
+                    {{ form_widget(form.title) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.pace) }}
+                    {{ form_widget(form.opt.pace) }}
+                    {{ form_widget(form.pace) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.cadence) }}
+                    {{ form_widget(form.opt.cadence) }}
+                    {{ form_widget(form.cadence) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.partner) }}
+                    {{ form_widget(form.opt.partner) }}
+                    {{ form_widget(form.partner) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.pulse_avg) }}
+                    {{ form_widget(form.opt.pulse_avg) }}
+                    {{ form_widget(form.pulse_avg) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.stride_length) }}
+                    {{ form_widget(form.opt.stride_length) }}
+                    {{ form_widget(form.stride_length) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.is_public) }}
+                    {{ form_widget(form.is_public) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.pulse_max) }}
+                    {{ form_widget(form.opt.pulse_max) }}
+                    {{ form_widget(form.pulse_max) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.power) }}
+                    {{ form_widget(form.opt.power) }}
+                    {{ form_widget(form.power) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.is_race) }}
+                    {{ form_widget(form.is_race) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.pulse_avg_active) }}
+                    {{ form_widget(form.opt.pulse_avg_active) }}
+                    {{ form_widget(form.pulse_avg_active) }}
+                </div>
+
+                {% if form.vo2max is defined %}
+                    <div class="w33">
+                        {{ form_label(form.vo2max) }}
+                        {{ form_widget(form.opt.vo2max) }}
+                        {{ form_widget(form.vo2max) }}
+                    </div>
+                {% elseif form.vo2max_with_elevation is defined %}
+                    <div class="w33">
+                        {{ form_label(form.vo2max_with_elevation) }}
+                        {{ form_widget(form.opt.vo2max_with_elevation) }}
+                        {{ form_widget(form.vo2max_with_elevation) }}
+                    </div>
+                {% endif %}
+
+                <div class="w33">
+                    {{ form_label(form.vertical_oscillation) }}
+                    {{ form_widget(form.opt.vertical_oscillation) }}
+                    {{ form_widget(form.vertical_oscillation) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.use_vo2max) }}
+                    {{ form_widget(form.use_vo2max) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.trimp) }}
+                    {{ form_widget(form.opt.trimp) }}
+                    {{ form_widget(form.trimp) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.vertical_ratio) }}
+                    {{ form_widget(form.opt.vertical_ratio) }}
+                    {{ form_widget(form.vertical_ratio) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.is_track) }}
+                    {{ form_widget(form.is_track) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.rpe) }}
+                    {{ form_widget(form.opt.rpe) }}
+                    {{ form_widget(form.rpe) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.groundcontact) }}
+                    {{ form_widget(form.opt.groundcontact) }}
+                    {{ form_widget(form.groundcontact) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.temperature) }}
+                    {{ form_widget(form.opt.temperature) }}
+                    {{ form_widget(form.temperature) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.kcal) }}
+                    {{ form_widget(form.opt.kcal) }}
+                    {{ form_widget(form.kcal) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.groundcontact_balance) }}
+                    {{ form_widget(form.opt.groundcontact_balance) }}
+                    {{ form_widget(form.groundcontact_balance) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.wind_speed) }}
+                    {{ form_widget(form.opt.wind_speed) }}
+                    {{ form_widget(form.wind_speed) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.fit_performance_condition) }}
+                    {{ form_widget(form.opt.fit_performance_condition) }}
+                    {{ form_widget(form.fit_performance_condition) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.fit_training_effect) }}
+                    {{ form_widget(form.opt.fit_training_effect) }}
+                    {{ form_widget(form.fit_training_effect) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.humidity) }}
+                    {{ form_widget(form.opt.humidity) }}
+                    {{ form_widget(form.humidity) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.fit_vo2max_estimate) }}
+                    {{ form_widget(form.opt.fit_vo2max_estimate) }}
+                    {{ form_widget(form.fit_vo2max_estimate) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.fit_recovery_time) }}
+                    {{ form_widget(form.opt.fit_recovery_time) }}
+                    {{ form_widget(form.fit_recovery_time) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.pressure) }}
+                    {{ form_widget(form.opt.pressure) }}
+                    {{ form_widget(form.pressure) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.climb_score) }}
+                    {{ form_widget(form.opt.climb_score) }}
+                    {{ form_widget(form.climb_score) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.percentage_hilly) }}
+                    {{ form_widget(form.opt.percentage_hilly) }}
+                    {{ form_widget(form.percentage_hilly) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.avg_respiration_rate) }}
+                    {{ form_widget(form.opt.avg_respiration_rate) }}
+                    {{ form_widget(form.avg_respiration_rate) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form['send-to-multi-editor']) }}
+                    {{ form_widget(form['send-to-multi-editor']) }}
+                </div>
+
+                <div class="w33">
+                    {{ form_label(form.resultsPerPage) }}
+                    {{ form_widget(form.resultsPerPage) }}
+                </div>
+
+                <div class="w33 c">
+                    {{ form_widget(form.submit) }}
+                </div>
+            </fieldset>
+
+            <div class="c"></div>
+
+            {{ form_end(form) }}
         </div>
     {% endif %}
 
