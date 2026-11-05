@@ -77,6 +77,6 @@ final class EventSubscribersTest extends KernelTestCase
             ++$controllerCount;
         }
 
-        $this->assertSame(32, $controllerCount);
+        $this->assertSame(33, $controllerCount);
     }
 }
