@@ -82,4 +82,21 @@ final class SearchControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStringNotContainsString('panel-heading', $content);
         $this->assertStringNotContainsString('id="search"', $content);
     }
+
+    public function testSearchActionRedirectsToTheMultiEditorWhenRequested(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $this->Client->request('POST', '/my/search', [
+            'send-to-multi-editor' => '1',
+        ]);
+
+        $response = $this->Client->getResponse();
+
+        $this->assertTrue($response->isRedirect());
+        $this->assertStringContainsString(
+            '/activity/multi-editor',
+            (string) $response->headers->get('Location')
+        );
+    }
 }
