@@ -253,9 +253,9 @@ class SearchFormType extends AbstractType
     private function idChoiceOptions(array $idToLabel, array $overrides = []): array
     {
         return array_merge([
-            'choices' => $idToLabel,
-            'choice_value' => fn ($choice, $key): string => (string) $key,
-            'choice_label' => fn ($choice): string => (string) $choice,
+            'choices' => array_keys($idToLabel),
+            'choice_value' => fn (int|string|null $choice = null): string => null === $choice ? '' : (string) $choice,
+            'choice_label' => fn (int|string $choice): string => $idToLabel[$choice] ?? (string) $choice,
             'choice_translation_domain' => false,
             'translation_domain' => false,
             'required' => false,
