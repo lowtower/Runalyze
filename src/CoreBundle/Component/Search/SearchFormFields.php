@@ -10,7 +10,6 @@ use Runalyze\Data\Weather\Humidity;
 use Runalyze\Data\Weather\Pressure;
 use Runalyze\Data\Weather\WindSpeed;
 use Runalyze\Dataset\Keys;
-use SearchResults;
 use SessionAccountHandler;
 
 /**
