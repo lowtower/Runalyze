@@ -261,7 +261,7 @@ class SearchFormFields
             'unit' => '',
             'value' => ($value == 0) ? '' : Duration::format($value),
             'operators' => $this->numericOperators(),
-            'operator' => $this->postOperator($name),
+            'operator' => 'gt',
             'placeholder' => 'h:mm:ss',
         ];
     }
