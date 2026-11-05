@@ -261,7 +261,7 @@ class SearchFormFields
             'unit' => '',
             'value' => ($value == 0) ? '' : Duration::format($value),
             'operators' => $this->numericOperators(),
-            'operator' => 'gt',
+            'operator' => $this->postOperator($name, 'gt'),
             'placeholder' => 'h:mm:ss',
         ];
     }
@@ -420,10 +420,10 @@ class SearchFormFields
         return array_map(strval(...), array_values($_POST[$name]));
     }
 
-    private function postOperator(string $name): string
+    private function postOperator(string $name, string $default = 'eq'): string
     {
         if (! isset($_POST['opt'][$name]) || ! is_string($_POST['opt'][$name])) {
-            return 'eq';
+            return $default;
         }
 
         return $_POST['opt'][$name];
