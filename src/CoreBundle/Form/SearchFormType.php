@@ -259,6 +259,7 @@ class SearchFormType extends AbstractType
             'choice_translation_domain' => false,
             'translation_domain' => false,
             'required' => false,
+            'placeholder' => false, // do not add an automatic empty option (legacy form has none either)
         ], $overrides);
     }
 
@@ -276,6 +277,7 @@ class SearchFormType extends AbstractType
             'choice_translation_domain' => false,
             'translation_domain' => false,
             'required' => false,
+            'placeholder' => false, // do not add an automatic empty option (booleans have an explicit empty choice)
         ], $overrides);
     }
 
