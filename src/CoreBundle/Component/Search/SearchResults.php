@@ -154,14 +154,16 @@ class SearchResults
         'vertical_ratio',
     ];
 
-    /** @var list<array<string, mixed>> */
+    /**
+     * @var list<array<string, mixed>>
+     */
     private array $trainings = [];
 
     private int $totalNumberOfTrainings = 0;
 
     private int $page = 0;
 
-    private int $resultsPerPage;
+    private readonly int $resultsPerPage;
 
     private int $accountId;
 
@@ -374,37 +376,37 @@ class SearchResults
 
     private function transformValueForDatabase(string $key, $value): float|int
     {
-        if (in_array($key, ['distance', 'vertical_oscillation', 'vertical_ratio', 'stride_length', 'groundcontact_balance', 'fit_training_effect', 'fit_anaerobic_training_effect', 'kcal'])) {
+        if (in_array($key, ['distance', 'vertical_oscillation', 'vertical_ratio', 'stride_length', 'groundcontact_balance', 'fit_training_effect', 'fit_anaerobic_training_effect', 'kcal'], true)) {
             $value = (float) str_replace(',', '.', $value);
         }
 
-        if ($key == 'elevation') {
+        if ($key === 'elevation') {
             $value = new Elevation()->setInPreferredUnit($value)
                 ->meter();
-        } elseif ($key == 'distance') {
+        } elseif ($key === 'distance') {
             $value = new Distance()->setInPreferredUnit($value)
                 ->kilometer();
-        } elseif ($key == 'percentage_hilly') {
+        } elseif ($key === 'percentage_hilly') {
             $value *= 0.01;
-        } elseif ($key == 'vertical_oscillation' || $key == 'vertical_ratio') {
+        } elseif ($key === 'vertical_oscillation' || $key === 'vertical_ratio') {
             $value *= 10;
-        } elseif ($key == 'groundcontact_balance') {
+        } elseif ($key === 'groundcontact_balance') {
             $value *= 100;
-        } elseif ($key == 'stride_length') {
+        } elseif ($key === 'stride_length') {
             $value = new StrideLength()->setInPreferredUnit($value)
                 ->cm();
-        } elseif ($key == 'temperature') {
+        } elseif ($key === 'temperature') {
             $value = new Temperature()->setInPreferredUnit($value)
                 ->celsius();
-        } elseif ($key == 'wind_speed') {
+        } elseif ($key === 'wind_speed') {
             $value = new WindSpeed()->setInPreferredUnit($value)
                 ->value();
-        } elseif (($key == 'vo2max' || $key == 'vo2max_with_elevation')) {
+        } elseif (($key === 'vo2max' || $key === 'vo2max_with_elevation')) {
             $value /= Configuration::Data()->vo2maxCorrectionFactor();
-        } elseif ($key == 'kcal') {
+        } elseif ($key === 'kcal') {
             $value = new Energy()->setInPreferredUnit($value)
                 ->kcal();
-        } elseif ($key == 'fit_recovery_time') {
+        } elseif ($key === 'fit_recovery_time') {
             $value *= 60;
         }
 
@@ -599,7 +601,9 @@ class SearchResults
     public function templateData(): array
     {
         if (! $this->withResults) {
-            return ['withResults' => false];
+            return [
+                'withResults' => false,
+            ];
         }
 
         $table = new Table($this->datasetConfig);
@@ -630,7 +634,7 @@ class SearchResults
             $context->setActivityData($training);
 
             $rows[] = [
-                'dateLink' => Ajax::trainingLink($training['id'], (new LocalTime($training['time']))->format('d.m.Y'), true),
+                'dateLink' => Ajax::trainingLink($training['id'], new LocalTime($training['time'])->format('d.m.Y'), true),
                 'cells' => $table->codeForColumns($context),
             ];
         }
