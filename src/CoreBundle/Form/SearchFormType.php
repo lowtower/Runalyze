@@ -37,30 +37,50 @@ class SearchFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $numericOperators = ['=' => 'eq', '>' => 'gt', '≥' => 'ge', '≤' => 'le', '<' => 'lt', '≠' => 'ne'];
-        $stringOperators = ['=' => 'eq', '≠' => 'ne', '≈' => 'like'];
+        $numericOperators = [
+            '=' => 'eq',
+            '>' => 'gt',
+            '≥' => 'ge',
+            '≤' => 'le',
+            '<' => 'lt',
+            '≠' => 'ne',
+        ];
+        $stringOperators = [
+            '=' => 'eq',
+            '≠' => 'ne',
+            '≈' => 'like',
+        ];
 
         $builder
             ->add('opt', FormType::class)
-            ->add('page', HiddenType::class, ['data' => '1'])
+            ->add('page', HiddenType::class, [
+                'data' => '1',
+            ])
             ->add('sportid', ChoiceType::class, $this->idChoiceOptions($this->dbOptions('sport', 'name'), [
                 'label' => __('Sport') . $this->sportShortLinks(),
                 'multiple' => true,
-                'attr' => ['class' => 'chosen-select full-size', 'data-placeholder' => __('Choose sport(s)')],
+                'attr' => [
+                    'class' => 'chosen-select full-size',
+                    'data-placeholder' => __('Choose sport(s)'),
+                ],
             ]))
             ->add('date-from', SearchConditionValueType::class, [
                 'label' => __('Time range'),
                 'translation_domain' => false,
                 'required' => false,
                 'unit' => '<i class="fa far fa-fw fa-calendar"></i>',
-                'attr' => ['class' => 'pick-a-date small-size'],
+                'attr' => [
+                    'class' => 'pick-a-date small-size',
+                ],
             ])
             ->add('date-to', SearchConditionValueType::class, [
                 'label' => false,
                 'translation_domain' => false,
                 'required' => false,
                 'unit' => '<i class="fa far fa-fw fa-calendar"></i>',
-                'attr' => ['class' => 'pick-a-date small-size'],
+                'attr' => [
+                    'class' => 'pick-a-date small-size',
+                ],
             ])
             ->add('search-sort-by', ChoiceType::class, $this->idChoiceOptions($this->sortByOptions(), [
                 'label' => __('Sorting'),
@@ -72,28 +92,42 @@ class SearchFormType extends AbstractType
             ->add('typeid', ChoiceType::class, $this->idChoiceOptions($this->dbOptions('type', 'name'), [
                 'label' => __('Type'),
                 'multiple' => true,
-                'attr' => ['class' => 'chosen-select full-size', 'data-placeholder' => __('Choose activity type(s)')],
+                'attr' => [
+                    'class' => 'chosen-select full-size',
+                    'data-placeholder' => __('Choose activity type(s)'),
+                ],
             ]))
             ->add('weatherid', ChoiceType::class, $this->idChoiceOptions($this->weatherOptions(), [
                 'label' => __('Weather'),
                 'multiple' => true,
-                'attr' => ['class' => 'chosen-select full-size', 'data-placeholder' => __('Choose weather conditions')],
+                'attr' => [
+                    'class' => 'chosen-select full-size',
+                    'data-placeholder' => __('Choose weather conditions'),
+                ],
             ]))
             ->add('equipmentid', ChoiceType::class, $this->idChoiceOptions($this->dbOptions('equipment', 'name'), [
                 'label' => __('Equipment'),
                 'multiple' => true,
-                'attr' => ['class' => 'chosen-select full-size', 'data-placeholder' => __('Choose equipment')],
+                'attr' => [
+                    'class' => 'chosen-select full-size',
+                    'data-placeholder' => __('Choose equipment'),
+                ],
             ]))
             ->add('tagid', ChoiceType::class, $this->idChoiceOptions($this->dbOptions('tag', 'tag'), [
                 'label' => __('Tag'),
                 'multiple' => true,
-                'attr' => ['class' => 'chosen-select full-size', 'data-placeholder' => __('Choose tag')],
+                'attr' => [
+                    'class' => 'chosen-select full-size',
+                    'data-placeholder' => __('Choose tag'),
+                ],
             ]))
             ->add('notes', TextType::class, [
                 'label' => __('Notes'),
                 'translation_domain' => false,
                 'required' => false,
-                'attr' => ['class' => 'full-size'],
+                'attr' => [
+                    'class' => 'full-size',
+                ],
             ]);
 
         $builder->get('opt')
@@ -139,18 +173,32 @@ class SearchFormType extends AbstractType
         $this->addCondition($builder, 'percentage_hilly', __('Percentage Hilly'), '%', $numericOperators);
         $this->addCondition($builder, 'avg_respiration_rate', 'Respiration rate', 'brpm', $numericOperators);
 
-        $booleanChoices = ['' => '', __('Yes') => '1', __('No') => '0'];
+        $booleanChoices = [
+            '' => '',
+            __('Yes') => '1',
+            __('No') => '0',
+        ];
 
         $builder
-            ->add('is_public', ChoiceType::class, $this->valueChoiceOptions($booleanChoices, ['label' => __('Is public')]))
-            ->add('is_race', ChoiceType::class, $this->valueChoiceOptions($booleanChoices, ['label' => __('Is race')]))
-            ->add('use_vo2max', ChoiceType::class, $this->valueChoiceOptions($booleanChoices, ['label' => __('Uses VO2max')]))
-            ->add('is_track', ChoiceType::class, $this->valueChoiceOptions($booleanChoices, ['label' => __('Track')]))
+            ->add('is_public', ChoiceType::class, $this->valueChoiceOptions($booleanChoices, [
+                'label' => __('Is public'),
+            ]))
+            ->add('is_race', ChoiceType::class, $this->valueChoiceOptions($booleanChoices, [
+                'label' => __('Is race'),
+            ]))
+            ->add('use_vo2max', ChoiceType::class, $this->valueChoiceOptions($booleanChoices, [
+                'label' => __('Uses VO2max'),
+            ]))
+            ->add('is_track', ChoiceType::class, $this->valueChoiceOptions($booleanChoices, [
+                'label' => __('Track'),
+            ]))
             ->add('send-to-multi-editor', CheckboxType::class, [
                 'label' => '<span class="atRight" rel="tooltip" title="'
                     . sprintf(__('Our multi editor is limited to a maximum of %d activities.'), SearchResults::MAX_LIMIT_FOR_MULTI_EDITOR)
                     . '">' . __('Send to multi editor') . '</span>',
-                'label_attr' => ['class' => 'checkable'],
+                'label_attr' => [
+                    'class' => 'checkable',
+                ],
                 'translation_domain' => false,
                 'required' => false,
             ])
@@ -160,7 +208,9 @@ class SearchFormType extends AbstractType
                 '50' => '50',
                 '100' => '100',
                 '200' => '200',
-            ], ['label' => __('Results per page')]))
+            ], [
+                'label' => __('Results per page'),
+            ]))
             ->add('submit', SubmitType::class, [
                 'label' => __('Search'),
                 'translation_domain' => false,
@@ -236,11 +286,18 @@ class SearchFormType extends AbstractType
             'translation_domain' => false,
             'required' => false,
             'unit' => $unit,
-            'attr' => $placeholder === null ? ['class' => $size] : ['class' => $size, 'placeholder' => $placeholder],
+            'attr' => $placeholder === null ? [
+                'class' => $size,
+            ] : [
+                'class' => $size,
+                'placeholder' => $placeholder,
+            ],
         ]);
 
         $builder->get('opt')
-            ->add($name, ChoiceType::class, $this->valueChoiceOptions($operatorChoices, ['label' => false]));
+            ->add($name, ChoiceType::class, $this->valueChoiceOptions($operatorChoices, [
+                'label' => false,
+            ]));
     }
 
     /**
@@ -254,7 +311,7 @@ class SearchFormType extends AbstractType
     {
         return array_merge([
             'choices' => array_keys($idToLabel),
-            'choice_value' => fn (int|string|null $choice = null): string => null === $choice ? '' : (string) $choice,
+            'choice_value' => fn (int|string|null $choice = null): string => $choice === null ? '' : (string) $choice,
             'choice_label' => fn (int|string $choice): string => $idToLabel[$choice] ?? (string) $choice,
             'choice_translation_domain' => false,
             'translation_domain' => false,
