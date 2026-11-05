@@ -26,77 +26,10 @@ class SearchFormFields
      */
     public function fields(): array
     {
-        $fields = [];
-
-        $fields[] = $this->sportField();
-        $fields[] = $this->timeRangeField();
-        $fields[] = $this->sortField();
-        $fields[] = $this->chosenField('typeid', 'type', 'name', __('Type'), __('Choose activity type(s)'));
-        $fields[] = $this->weatherField();
-        $fields[] = $this->chosenField('equipmentid', 'equipment', 'name', __('Equipment'), __('Choose equipment'));
-        $fields[] = $this->chosenField('tagid', 'tag', 'tag', __('Tag'), __('Choose tag'));
-        $fields[] = $this->notesField();
-
-        // Currently there's a fixed 3-column layout
-        // We try to order the fields column-wise, not row-wise
-        $fields[] = $this->numericConditionField('distance', __('Distance'), Configuration::General()->distanceUnitSystem()->distanceUnit());
-        $fields[] = $this->numericConditionField('elevation', __('Elevation'), Configuration::General()->distanceUnitSystem()->elevationUnit());
-        $fields[] = $this->stringConditionField('route', __('Route'));
-
-        $fields[] = $this->durationConditionField('s', __('Duration'));
-        $fields[] = $this->numericConditionField('gradient', __('Gradient'), '%');
-        $fields[] = $this->stringConditionField('title', __('Title'));
-
-        $fields[] = $this->numericConditionField('pace', __('Pace'), '/km');
-        $fields[] = $this->numericConditionField('cadence', __('Cadence'), 'spm');
-        $fields[] = $this->stringConditionField('partner', __('Partner'));
-
-        $fields[] = $this->numericConditionField('pulse_avg', __('avg. HR'), 'bpm');
-        $fields[] = $this->numericConditionField('stride_length', __('Stride length'), Configuration::General()->distanceUnitSystem()->strideLengthUnit());
-        $fields[] = $this->booleanField('is_public', __('Is public'));
-
-        $fields[] = $this->numericConditionField('pulse_max', __('max. HR'), 'bpm');
-        $fields[] = $this->numericConditionField('power', __('Power'), 'W');
-        $fields[] = $this->booleanField('is_race', __('Is race'));
-
-        $fields[] = $this->numericConditionField('pulse_avg_active', __('avg. HR') . ' active', 'bpm');
-        $fields[] = $this->numericConditionField(
+        return [$this->sportField(), $this->timeRangeField(), $this->sortField(), $this->chosenField('typeid', 'type', 'name', __('Type'), __('Choose activity type(s)')), $this->weatherField(), $this->chosenField('equipmentid', 'equipment', 'name', __('Equipment'), __('Choose equipment')), $this->chosenField('tagid', 'tag', 'tag', __('Tag'), __('Choose tag')), $this->notesField(), $this->numericConditionField('distance', __('Distance'), Configuration::General()->distanceUnitSystem()->distanceUnit()), $this->numericConditionField('elevation', __('Elevation'), Configuration::General()->distanceUnitSystem()->elevationUnit()), $this->stringConditionField('route', __('Route')), $this->durationConditionField('s', __('Duration')), $this->numericConditionField('gradient', __('Gradient'), '%'), $this->stringConditionField('title', __('Title')), $this->numericConditionField('pace', __('Pace'), '/km'), $this->numericConditionField('cadence', __('Cadence'), 'spm'), $this->stringConditionField('partner', __('Partner')), $this->numericConditionField('pulse_avg', __('avg. HR'), 'bpm'), $this->numericConditionField('stride_length', __('Stride length'), Configuration::General()->distanceUnitSystem()->strideLengthUnit()), $this->booleanField('is_public', __('Is public')), $this->numericConditionField('pulse_max', __('max. HR'), 'bpm'), $this->numericConditionField('power', __('Power'), 'W'), $this->booleanField('is_race', __('Is race')), $this->numericConditionField('pulse_avg_active', __('avg. HR') . ' active', 'bpm'), $this->numericConditionField(
             Configuration::VO2max()->useElevationCorrection() ? 'vo2max_with_elevation' : 'vo2max',
             'VO2max'
-        );
-        $fields[] = $this->numericConditionField('vertical_oscillation', __('Vertical oscillation'), 'cm');
-
-        $fields[] = $this->booleanField('use_vo2max', __('Uses VO2max'));
-        $fields[] = $this->numericConditionField('trimp', __('TRIMP'));
-        $fields[] = $this->numericConditionField('vertical_ratio', __('Vertical ratio'), '%');
-
-        $fields[] = $this->booleanField('is_track', __('Track'));
-        $fields[] = $this->numericConditionField('rpe', __('RPE'));
-        $fields[] = $this->numericConditionField('groundcontact', __('Ground contact'), 'ms');
-
-        $fields[] = $this->numericConditionField('temperature', __('Temperature'), Configuration::General()->temperatureUnit()->unit());
-        $fields[] = $this->numericConditionField('kcal', __('Energy'), Configuration::General()->energyUnit()->unit());
-        $fields[] = $this->numericConditionField('groundcontact_balance', __('Ground Contact Balance'), 'L%');
-
-        $fields[] = $this->numericConditionField('wind_speed', __('Wind Speed'), (new WindSpeed())->unit());
-        $fields[] = $this->numericConditionField('fit_performance_condition', __('Performance condition'));
-        $fields[] = $this->numericConditionField('fit_training_effect', __('(Aerob) Training Effect'));
-
-        $fields[] = $this->numericConditionField('humidity', __('Humidity'), (new Humidity())->unit());
-        $fields[] = $this->numericConditionField('fit_vo2max_estimate', 'VO2max (laut Datei)');
-        $fields[] = $this->numericConditionField('fit_recovery_time', Keys::get(Keys::FIT_RECOVERY_TIME)->label(), 'h');
-
-        $fields[] = $this->numericConditionField('pressure', __('Pressure'), (new Pressure())->unit());
-        $fields[] = $this->numericConditionField('climb_score', __('Climb Score'));
-        $fields[] = $this->numericConditionField('percentage_hilly', __('Percentage Hilly'), '%');
-
-        $fields[] = $this->numericConditionField('avg_respiration_rate', 'Respiration rate', 'brpm');
-
-        $fields[] = $this->multiEditorField();
-        $fields[] = $this->resultsPerPageField();
-        $fields[] = $this->submitField();
-
-        return $fields;
+        ), $this->numericConditionField('vertical_oscillation', __('Vertical oscillation'), 'cm'), $this->booleanField('use_vo2max', __('Uses VO2max')), $this->numericConditionField('trimp', __('TRIMP')), $this->numericConditionField('vertical_ratio', __('Vertical ratio'), '%'), $this->booleanField('is_track', __('Track')), $this->numericConditionField('rpe', __('RPE')), $this->numericConditionField('groundcontact', __('Ground contact'), 'ms'), $this->numericConditionField('temperature', __('Temperature'), Configuration::General()->temperatureUnit()->unit()), $this->numericConditionField('kcal', __('Energy'), Configuration::General()->energyUnit()->unit()), $this->numericConditionField('groundcontact_balance', __('Ground Contact Balance'), 'L%'), $this->numericConditionField('wind_speed', __('Wind Speed'), new WindSpeed()->unit()), $this->numericConditionField('fit_performance_condition', __('Performance condition')), $this->numericConditionField('fit_training_effect', __('(Aerob) Training Effect')), $this->numericConditionField('humidity', __('Humidity'), new Humidity()->unit()), $this->numericConditionField('fit_vo2max_estimate', 'VO2max (laut Datei)'), $this->numericConditionField('fit_recovery_time', Keys::get(Keys::FIT_RECOVERY_TIME)->label(), 'h'), $this->numericConditionField('pressure', __('Pressure'), new Pressure()->unit()), $this->numericConditionField('climb_score', __('Climb Score')), $this->numericConditionField('percentage_hilly', __('Percentage Hilly'), '%'), $this->numericConditionField('avg_respiration_rate', 'Respiration rate', 'brpm'), $this->multiEditorField(), $this->resultsPerPageField(), $this->submitField()];
     }
 
     /**
@@ -484,7 +417,7 @@ class SearchFormFields
             return [];
         }
 
-        return array_map('strval', array_values($_POST[$name]));
+        return array_map(strval(...), array_values($_POST[$name]));
     }
 
     private function postOperator(string $name): string

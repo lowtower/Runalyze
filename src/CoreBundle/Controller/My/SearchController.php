@@ -73,7 +73,7 @@ class SearchController extends AbstractController
 
         return $this->render('my/search.html.twig', [
             'showForm' => $showForm,
-            'fields' => (new SearchFormFields())->fields(),
+            'fields' => new SearchFormFields()->fields(),
             'resultsHtml' => $resultsHtml,
         ]);
     }

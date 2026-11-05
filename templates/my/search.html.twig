@@ -75,13 +75,13 @@
                                 <label for="{{ field.name }}">{{ field.label|raw }}</label>
                                 <select name="{{ field.name }}" id="{{ field.name }}">
                                     {% for value, label in field.options %}
-                                        {% set isSelected = false %}
+                                        {% set is_selected = false %}
                                         {% if field.selected is not null and field.selected == '' and value == '' %}
-                                            {% set isSelected = true %}
+                                            {% set is_selected = true %}
                                         {% elseif field.selected is not null and field.selected != '' and value == field.selected %}
-                                            {% set isSelected = true %}
+                                            {% set is_selected = true %}
                                         {% endif %}
-                                        <option value="{{ value }}"{% if isSelected %} selected{% endif %}>{{ label }}</option>
+                                        <option value="{{ value }}"{% if is_selected %} selected{% endif %}>{{ label }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
