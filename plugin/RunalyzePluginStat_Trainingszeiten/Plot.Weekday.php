@@ -28,9 +28,9 @@ for ($w = 1; $w <= 7; $w++) {
 // @phpstan-ignore property.protected (called only per include from this class, $this is bound)
 if ($this->sportid > 0) {
     // @phpstan-ignore property.protected (called only per include from this class, $this is bound)
-    $Sports = [SportFactory::DataFor($this->sportid)];
+    $Sports = [\Runalyze\Context::Factory()->sport($this->sportid)];
 } else {
-    $Sports = SportFactory::AllSports();
+    $Sports = \Runalyze\Context::Factory()->allSports();
 }
 
 // @phpstan-ignore-next-line method.protected (called only per include from this class, $this is bound)
@@ -51,11 +51,11 @@ $Query = DB::getInstance()->prepare(
 
 // TODO: Should be possible with one query?
 foreach ($Sports as $sport) {
-    $id = $sport['name'];
+    $id = $sport->name();
     $yAxis[$id] = [0, 0, 0, 0, 0, 0, 0];
 
     $Query->execute([
-        ':id' => $sport['id'],
+        ':id' => $sport->id(),
     ]);
     $data = $Query->fetchAll();
 

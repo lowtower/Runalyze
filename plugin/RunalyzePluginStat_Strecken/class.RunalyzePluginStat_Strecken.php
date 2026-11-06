@@ -298,8 +298,9 @@ class RunalyzePluginStat_Strecken extends PluginStat
     {
         $Code = '<li' . ($sportid === -1 ? ' class="active"' : '') . '>' . self::linkToRoutenet(__('All'), $positioninterval, -1, $year) . '</li>';
 
-        $Sports = SportFactory::NamesAsArray();
-        foreach ($Sports as $id => $name) {
+        foreach (\Runalyze\Context::Factory()->allSports() as $Sport) {
+            $id = (int) $Sport->id();
+            $name = $Sport->name();
             $Code .= '<li' . ($id == $sportid ? ' class="active"' : '') . '>' . self::linkToRoutenet($name, $positioninterval, $id, $year) . '</li>';
         }
 

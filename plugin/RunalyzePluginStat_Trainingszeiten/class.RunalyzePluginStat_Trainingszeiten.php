@@ -144,7 +144,7 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat
 
             echo '<td class="b">' . $View->daytime() . '</td>
                 <td>' . $Linker->linkWithSportIcon() . '</td>
-                <td>' . $View->distanceOrDuration() . ' ' . SportFactory::name($Activity->sportid()) . '</td>
+                <td>' . $View->distanceOrDuration() . ' ' . \Runalyze\Context::Factory()->sport($Activity->sportid())->name() . '</td>
                 <td>' . $Linker->weekLink() . '</td>';
 
             if ($this->shouldCloseRow($i, $totalCount)) {

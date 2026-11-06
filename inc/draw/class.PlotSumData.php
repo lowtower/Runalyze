@@ -8,6 +8,7 @@
 use Runalyze\Activity\Distance;
 use Runalyze\Calculation\BasicEndurance;
 use Runalyze\Configuration;
+use Runalyze\Profile\Sport\SportProfile;
 
 /**
  * Plot sum data
@@ -55,7 +56,7 @@ abstract class PlotSumData extends Plot
     /**
      * Sport
      */
-    protected Sport $Sport;
+    protected \Runalyze\Model\Sport\Entity $Sport;
 
     /**
      * Raw data from database
@@ -100,7 +101,7 @@ abstract class PlotSumData extends Plot
         $sportid = is_scalar($this->ParamSportId) && $this->ParamSportId !== '' ? (int) $this->ParamSportId : Configuration::General()->runningSport();
 
         $this->Year = $this->getRequestedYear();
-        $this->Sport = new Sport($sportid);
+        $this->Sport = \Runalyze\Context::Factory()->sport($sportid);
 
         parent::__construct($this->getCSSid(), 800, 500);
 
@@ -237,7 +238,7 @@ abstract class PlotSumData extends Plot
      */
     private function getMenuLinksForSports(): array
     {
-        $CurrentId = $this->Sport->id();
+        $CurrentId = (int) $this->Sport->id();
         $Current = __('All sports');
         $Links = [
             $this->link(__('All sports'), $this->Year, 0, 'sport', $this->ParamGroup === 'sport'),
@@ -245,9 +246,9 @@ abstract class PlotSumData extends Plot
         ];
 
         $SportGroup = $this->ParamGroup === 'sport' ? 'types' : $this->ParamGroup;
-        $Sports = SportFactory::NamesAsArray();
-
-        foreach ($Sports as $id => $name) {
+        foreach (\Runalyze\Context::Factory()->allSports() as $Sport) {
+            $id = (int) $Sport->id();
+            $name = $Sport->name();
             if ($CurrentId == $id) {
                 $Current = $name;
             }
@@ -400,9 +401,9 @@ abstract class PlotSumData extends Plot
      */
     private function loadData()
     {
-        $whereSport = ($this->ParamGroup === 'sport' || $this->ParamGroup === 'mainsport') ? '' : '`sportid`=' . $this->Sport->id() . ' AND';
+        $whereSport = ($this->ParamGroup === 'sport' || $this->ParamGroup === 'mainsport') ? '' : '`sportid`=' . (int) $this->Sport->id() . ' AND';
 
-        $this->usesDistance = $this->Sport->usesDistance();
+        $this->usesDistance = $this->Sport->hasDistances();
         if ($this->ParamGroup !== 'sport' && $this->ParamGroup !== 'mainsport' && $this->Analysis === self::ANALYSIS_DEFAULT && $this->usesDistance) {
             $num = DB::getInstance()->query('
 				SELECT COUNT(*) FROM `' . PREFIX . 'training`
@@ -583,7 +584,7 @@ abstract class PlotSumData extends Plot
             'data' => $emptyData,
         ]];
 
-        foreach (\Runalyze\Context::Factory()->typeForSport($this->Sport->id()) as $Type) {
+        foreach (\Runalyze\Context::Factory()->typeForSport((int) $this->Sport->id()) as $Type) {
             $name = ($Type->abbreviation() == '') ? $Type->name() : $Type->abbreviation();
             $Types[$Type->id()] = [
                 'name' => $name,
@@ -646,7 +647,7 @@ abstract class PlotSumData extends Plot
 
     protected function showsTarget(): bool
     {
-        return $this->Sport->isRunning() && $this->Analysis === self::ANALYSIS_DEFAULT && $this->usesDistance;
+        return SportProfile::RUNNING === $this->Sport->getInternalProfileEnum() && $this->Analysis === self::ANALYSIS_DEFAULT && $this->usesDistance;
     }
 
     /**

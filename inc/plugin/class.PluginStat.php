@@ -84,8 +84,7 @@ abstract class PluginStat extends Plugin
         $HeaderParts = [];
 
         if ($this->sportid > 0 && $this->ShowSportsNavigation) {
-            $Sport = new Sport($this->sportid);
-            $HeaderParts[] = $Sport->name();
+            $HeaderParts[] = \Runalyze\Context::Factory()->sport($this->sportid)->name();
         }
 
         if ($this->ShowYearsNavigation) {
@@ -210,8 +209,9 @@ abstract class PluginStat extends Plugin
             $Links .= '<li' . ($this->sportid === -1 ? ' class="active"' : '') . '>' . $this->getInnerLink(__('All'), -1, $this->year, $this->dat) . '</li>';
         }
 
-        $Sports = SportFactory::NamesAsArray();
-        foreach ($Sports as $id => $name) {
+        foreach (\Runalyze\Context::Factory()->allSports() as $Sport) {
+            $id = (int) $Sport->id();
+            $name = $Sport->name();
             $Links .= '<li' . ($id == $this->sportid ? ' class="active"' : '') . '>' . $this->getInnerLink($name, $id, $this->year, $this->dat) . '</li>';
         }
 
@@ -261,7 +261,13 @@ abstract class PluginStat extends Plugin
 
     protected function getSportString(): string
     {
-        return $this->sportid === -1 ? __('All') : SportFactory::name($this->sportid);
+        if ($this->sportid === -1) {
+            return __('All');
+        }
+
+        $name = \Runalyze\Context::Factory()->sport($this->sportid)->name();
+
+        return $name !== '' ? $name : __('unknown');
     }
 
     /**
