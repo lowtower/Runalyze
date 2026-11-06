@@ -46,11 +46,10 @@ final class DataBrowserSharedTest extends DatabaseTestCase
             'end' => (string) LocalTime::fromString('2020-01-19 23:59:59')->getTimestamp(),
         ];
 
-        FrontendShared::$IS_SHOWN = true;
         SharedLinker::$USER_ID = 0;
 
         // Statements that the legacy db wrapper rewrites get the id of the shared
-        // athlete, the same way a FrontendShared request sets it up.
+        // athlete, the same way a shared-page Frontend request sets it up.
         $this->DB->setAccountID(self::ACCOUNT_ID);
 
         $this->insertAccount();
@@ -67,7 +66,6 @@ final class DataBrowserSharedTest extends DatabaseTestCase
         $_GET = $this->previousGet;
         Request::setRequestStack(new RequestStack());
 
-        FrontendShared::$IS_SHOWN = false;
         SharedLinker::$USER_ID = 0;
         SessionAccountHandler::setAccount([
             'id' => 0,

@@ -299,7 +299,7 @@ abstract class PlotSumData extends Plot
             $analysis = $this->Analysis;
         }
 
-        if (FrontendShared::$IS_SHOWN) {
+        if (Request::isOnSharedPage()) {
             return Ajax::window('<li' . ($current ? ' class="active"' : '') . '><a href="' . DataBrowserShared::getBaseUrl() . '?type=' . ($this->ParamType === 'week' ? 'week' : 'month') . '&type=' . $this->ParamType . '&y=' . $year . '&sportid=' . $sportid . '&group=' . $group . '&analysis=' . $analysis . '">' . $text . '</a></li>');
         }
 
