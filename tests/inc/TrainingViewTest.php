@@ -162,7 +162,7 @@ final class TrainingViewTest extends DatabaseTestCase
                     $overviewRow = $row['data'];
                 }
 
-                if (($row['data']['kind'] ?? '') === 'tabbed_plot') {
+                if (($row['data']['plot']['kind'] ?? '') === 'tabbed_plot') {
                     ++$tabbedPlotRows;
                 }
             }
