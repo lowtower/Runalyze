@@ -52,7 +52,7 @@ class DataBrowser
 
     /**
      * Days to be displayed
-     * @var array
+     * @var array<int, array{date: int, shorts: list<array<string, mixed>>, trainings: list<array<string, mixed>>}>
      */
     protected $Days;
 
@@ -72,7 +72,7 @@ class DataBrowser
     protected $TypesNotShort = [];
 
     /**
-     * @var array distinct sports of the activities
+     * @var array<int, array{name: string, icon: string}> distinct sports of the activities
      */
     protected $Sports = [];
 
@@ -226,11 +226,177 @@ class DataBrowser
     }
 
     /**
-     * Display the DataBrowser
+     * Data for templates/my/data_browser.html.twig, which replaces the legacy
+     * tpl/tpl.DataBrowser.php. The dataset cells are still rendered through the
+     * legacy dataset table view.
+     *
+     * @return array<string, mixed>
      */
-    public function display(): void
+    public function templateData(): array
     {
-        include __DIR__ . '/tpl/tpl.DataBrowser.php';
+        $showActiveDaysOnly = Configuration::DataBrowser()->showActiveDaysOnly();
+
+        $Table = new View\Dataset\Table($this->DatasetConfig);
+        $Context = new Dataset\Context(new \Runalyze\Model\Activity\Entity(), $this->AccountID);
+
+        if ($this->DayCount < 25) {
+            $weekSeparator = ' top-separated';
+            $monthSeparator = ' top-separated-light';
+        } else {
+            $weekSeparator = ' top-separated-light';
+            $monthSeparator = ' top-separated';
+        }
+
+        $days = [];
+        $currentWeek = null;
+        $currentMonth = null;
+
+        foreach ($this->Days as $i => $day) {
+            $trClass = '';
+            $week = Configuration::General()->weekStart()->phpWeek($day['date'], true);
+            $month = (int) LocalTime::date('n', $day['date']);
+
+            if ($i > 0 && $week != $currentWeek) {
+                $trClass = $weekSeparator;
+            }
+
+            if ($i > 0 && $month != $currentMonth) {
+                $trClass = ($trClass === '') ? $monthSeparator : ' top-separated';
+            }
+
+            if (! empty($day['trainings'])) {
+                $shortLinksHtml = $this->shortLinksHtml($day['shorts'], $Table, $Context);
+
+                foreach ($day['trainings'] as $t => $Training) {
+                    $Context->setActivityData($Training);
+
+                    $id = (int) $Training['id'];
+                    $wkClass = (bool) ($Training['is_race'] ?? false) ? ' wk' : '';
+                    $rowTrClass = (0 == $t) ? $trClass : '';
+
+                    $days[] = [
+                        'tr_class' => $rowTrClass,
+                        'row_class' => ' training' . $wkClass,
+                        'row_attributes' => (FrontendShared::$IS_SHOWN && ! ($Training['is_public'] ?? false))
+                            ? ''
+                            : ' id="training_' . $id . '" ' . Ajax::trainingLinkAsOnclick($id),
+                        'show_date_cells' => (0 == $t),
+                        'short_links_html' => (0 == $t) ? $shortLinksHtml : '',
+                        'date_html' => $this->dateString($day['date']),
+                        'additional_columns_html' => $this->codeForAdditionalColumnsForActivity($Table, $Context),
+                        'cells_html' => $Table->codeForColumns($Context),
+                        'is_empty' => false,
+                        'empty_colspan' => 0,
+                    ];
+                }
+
+                $currentWeek = $week;
+                $currentMonth = $month;
+            } elseif (! $showActiveDaysOnly || ! empty($day['shorts'])) {
+                $days[] = [
+                    'tr_class' => $trClass,
+                    'row_class' => '',
+                    'row_attributes' => '',
+                    'show_date_cells' => true,
+                    'short_links_html' => $this->shortLinksHtml($day['shorts'], $Table, $Context),
+                    'date_html' => $this->dateString($day['date']),
+                    'additional_columns_html' => '',
+                    'cells_html' => '',
+                    'is_empty' => true,
+                    'empty_colspan' => $Table->numColumns() + $this->AdditionalColumns - 2,
+                ];
+
+                $currentWeek = $week;
+                $currentMonth = $month;
+            }
+        }
+
+        $summaryRows = [];
+
+        foreach ($this->DatasetQuery->fetchSummaryForAllSport($this->TimestampStart, $this->TimestampEnd, $this->SportId) as $data) {
+            $Sport = $this->Factory->sport((int) $data['sportid']);
+            $Context->setActivityData($data);
+            $num = (int) ($data['num'] ?? 0);
+
+            $summaryRows[] = [
+                'label_html' => '<small>' . $num . 'x</small> ' . $Sport->name(),
+                'cells_html' => $Table->codeForColumns($Context, [Dataset\Keys::SPORT]),
+            ];
+        }
+
+        $sportLinks = [];
+
+        foreach ($this->Sports as $id => $sport) {
+            $sportLinks[] = $this->getSportLink((int) $id, $sport['name'], $sport['icon'], $this->SportId == $id);
+        }
+
+        return [
+            'calendar_id' => self::CALENDAR_ID,
+            'navigation_links' => $this->navigationLinks(),
+            'title' => $this->title(),
+            'icon_links' => $this->iconLinks(),
+            'hover_links' => $this->hoverLinks(),
+            'sport_links' => $sportLinks,
+            'timestamp_start' => $this->TimestampStart,
+            'timestamp_end' => $this->TimestampEnd,
+            'locale_json' => $this->calendarLocaleJson(),
+            'year_links' => $this->yearLinksData(),
+            'show_labels' => Configuration::DataBrowser()->showLabels(),
+            'column_labels_html' => $Table->codeForColumnLabels(),
+            'additional_columns' => $this->AdditionalColumns,
+            'days' => $days,
+            'all_days_empty' => $this->AllDaysEmpty,
+            'show_active_days_only' => $showActiveDaysOnly,
+            'message_colspan' => $Table->numColumns() + $this->AdditionalColumns,
+            'summary_rows' => $summaryRows,
+        ];
+    }
+
+    /**
+     * @param list<array<string, mixed>> $shorts
+     */
+    private function shortLinksHtml(array $shorts, View\Dataset\Table $table, Dataset\Context $context): string
+    {
+        $html = '';
+
+        foreach ($shorts as $short) {
+            $context->setActivityData($short);
+
+            if (FrontendShared::$IS_SHOWN && ! $context->activity()->isPublic()) {
+                $html .= $table->codeForShortLink($context);
+            } else {
+                $html .= '<span class="link" ' . Ajax::trainingLinkAsOnclick($context->activity()->id()) . '>' . $table->codeForShortLink($context) . '</span>';
+            }
+        }
+
+        return $html;
+    }
+
+    private function calendarLocaleJson(): string
+    {
+        return (string) json_encode([
+            'days' => [__('Sunday'), __('Monday'), __('Tuesday'), __('Wednesday'), __('Thursday'), __('Friday'), __('Saturday')],
+            'daysMin' => [__('Su'), __('Mo'), __('Tu'), __('We'), __('Th'), __('Fr'), __('Sa')],
+            'daysShort' => [__('Sun'), __('Mon'), __('Tue'), __('Wed'), __('Thu'), __('Fri'), __('Sat')],
+            'months' => [__('January'), __('February'), __('March'), __('April'), __('May'), __('June'), __('July'), __('August'), __('September'), __('October'), __('November'), __('December')],
+            'monthsShort' => [__('Jan'), __('Feb'), __('Mar'), __('Apr'), __('May'), __('Jun'), __('Jul'), __('Aug'), __('Sep'), __('Oct'), __('Nov'), __('Dec')],
+            'weekMin' => _('wk'),
+        ]);
+    }
+
+    /**
+     * Links to navigate in calendar
+     */
+    public function navigationLinks(): string
+    {
+        // #TSC more space between for better usablility on small devices
+        // #TSC use fa-lg for larger icons in the navigation (better for tablets)
+        $span = '<span class="fa-lg" style="width: 25px; text-align: center; display: inline-block;">';
+
+        return $span . $this->getCalenderLink() . '</span>'
+            . $span . $this->getPrevLink() . '</span>'
+            . $span . $this->getNextLink() . '</span>'
+            . $span . $this->getCurrentLink() . '</span>';
     }
 
     /**
@@ -238,23 +404,36 @@ class DataBrowser
      */
     public function displayNavigationLinks(): void
     {
-        // #TSC more space between for better usablility on small devices
-        // #TSC use fa-lg for larger icons in the navigation (better for tablets)
-        echo '<span class="fa-lg" style="width: 25px; text-align: center; display: inline-block;">' . $this->getCalenderLink() . '</span>';
-        echo '<span class="fa-lg" style="width: 25px; text-align: center; display: inline-block;">' . $this->getPrevLink() . '</span>';
-        echo '<span class="fa-lg" style="width: 25px; text-align: center; display: inline-block;">' . $this->getNextLink() . '</span>';
-        echo '<span class="fa-lg" style="width: 25px; text-align: center; display: inline-block;">' . $this->getCurrentLink() . '</span>';
+        echo $this->navigationLinks();
+    }
+
+    public function title(): string
+    {
+        $now = (new LocalTime())->getTimestamp();
+        $timestampForLinks = ($this->TimestampStart < $now && $now < $this->TimestampEnd) ? $now : $this->TimestampStart;
+        $timeForLinks = new LocalTime($timestampForLinks);
+
+        return DataBrowserLinker::monthLink(Time::month($timeForLinks->format('m')), $timestampForLinks, $this->SportId) . ', '
+            . DataBrowserLinker::yearLink($timeForLinks->format('Y'), $timestampForLinks, $this->SportId) . ', '
+            . DataBrowserLinker::weekLink(Configuration::General()->weekStart()->phpWeek($timestampForLinks, true) . '. ' . __('week'), $timestampForLinks, false, $this->SportId);
     }
 
     public function displayTitle(): void
     {
-        $now = new LocalTime()->getTimestamp();
-        $timestampForLinks = ($this->TimestampStart < $now && $now < $this->TimestampEnd) ? $now : $this->TimestampStart;
-        $timeForLinks = new LocalTime($timestampForLinks);
+        echo $this->title();
+    }
 
-        echo DataBrowserLinker::monthLink(Time::month($timeForLinks->format('m')), $timestampForLinks, $this->SportId) . ', ';
-        echo DataBrowserLinker::yearLink($timeForLinks->format('Y'), $timestampForLinks, $this->SportId) . ', ';
-        echo DataBrowserLinker::weekLink(Configuration::General()->weekStart()->phpWeek($timestampForLinks, true) . '. ' . __('week'), $timestampForLinks, false, $this->SportId);
+    /**
+     * Specific icon-links
+     */
+    public function iconLinks(): string
+    {
+        return '<ul>'
+            . '<li>' . $this->getSharedListLink() . '</li>'
+            . '<li>' . $this->getMonthKmLink() . '</li>'
+            . '<li>' . $this->getWeekKmLink() . '</li>'
+            . '<li>' . $this->getAddLink() . '</li>'
+            . '</ul>';
     }
 
     /**
@@ -262,18 +441,17 @@ class DataBrowser
      */
     public function displayIconLinks(): void
     {
-        echo '<ul>';
-        echo '<li>' . $this->getSharedListLink() . '</li>';
-        echo '<li>' . $this->getMonthKmLink() . '</li>';
-        echo '<li>' . $this->getWeekKmLink() . '</li>';
-        echo '<li>' . $this->getAddLink() . '</li>';
-        echo '</ul>';
+        echo $this->iconLinks();
+    }
+
+    public function hoverLinks(): string
+    {
+        return $this->getConfigLink() . $this->getRefreshLink();
     }
 
     public function displayHoverLinks(): void
     {
-        echo $this->getConfigLink();
-        echo $this->getRefreshLink();
+        echo $this->hoverLinks();
     }
 
     public function getAccountId(): int
@@ -419,32 +597,31 @@ class DataBrowser
     }
 
     /**
-     * Show year links for the previous 20 years
+     * Links to the previous 20 years, for the direct timerange selection
      * #TSC
+     *
+     * @return list<array{link_html: string, selected: bool}>
      */
-    public function getYearLinks(): void
+    public function yearLinksData(): array
     {
-        $t = new DateTime('now', new DateTimeZone('UTC'));
+        $now = new DateTime('now', new DateTimeZone('UTC'));
         $oneYear = new DateInterval('P1Y');
-        $selectedYear = new LocalTime($this->TimestampStart)->format('Y');
+        $selectedYear = (new LocalTime($this->TimestampStart))->format('Y');
 
-        echo '<table>';
+        $links = [];
+
         for ($i = 0; $i < 20; $i++) {
-            if ($i % 4 === 0) {
-                echo '<tr>';
-            }
+            $year = $now->format('Y');
 
-            $year = $t->format('Y');
-            echo '<td' . ($year === $selectedYear ? ' style="background-color: #ff6"' : '') . '>'
-                . DataBrowserLinker::yearLink($year, $t->getTimestamp(), $this->SportId) . '</td>';
-            if ($i % 4 === 3) {
-                echo '</tr>';
-            }
+            $links[] = [
+                'link_html' => DataBrowserLinker::yearLink($year, $now->getTimestamp(), $this->SportId),
+                'selected' => $year === $selectedYear,
+            ];
 
-            $t = $t->sub($oneYear);
+            $now = $now->sub($oneYear);
         }
 
-        echo '</table>';
+        return $links;
     }
 
     /**
@@ -512,7 +689,7 @@ class DataBrowser
      * Additional columns that are shown next to date columns
      * @return string html string that must contain `$this->AdditionalColumns - 2` columns
      */
-    public function codeForAdditionalColumnsForActivity(): string
+    public function codeForAdditionalColumnsForActivity(?View\Dataset\Table $table = null, ?Dataset\Context $context = null): string
     {
         return '';
     }

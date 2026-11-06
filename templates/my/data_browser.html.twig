@@ -1,0 +1,101 @@
+{#
+    Data browser for the activity table, replaces inc/tpl/tpl.DataBrowser.php.
+
+    Content-only template: it is embedded in the dashboard (dashboard.php via
+    DefaultController), included from the shared athlete page and delivered
+    bare for XHR requests or wrapped in the page shell for direct requests,
+    see LegacyOutputCaptureTrait::wrapLegacyContent().
+#}
+<div class="panel-heading">
+    <div class="panel-menu">
+        {{ icon_links|raw }}
+    </div>
+    <div class="icons-left">{{ navigation_links|raw }}</div>
+    <h1>{{ title|raw }}</h1>
+    <div class="hover-icons">{{ hover_links|raw }}</div>
+    {# #TSC shows the sport icons for the timerange #}
+    <div style="max-width: 148px; display: inline-block; white-space: nowrap;">
+        {% for sport_link in sport_links %}
+            {{ sport_link|raw }}
+        {% endfor %}
+    </div>
+</div>
+<div class="panel-content">
+    <div id="{{ calendar_id }}">
+        <table>
+            <tr>
+                <td>
+                    <div id="widget-calendar"></div>
+                </td>
+                <td style="vertical-align: middle;">
+                    <div id="direct-timerange">
+                        <table>
+                            {% for row in year_links|batch(4) %}
+                                <tr>
+                                    {% for year in row %}
+                                        <td{% if year.selected %} style="background-color: #ff6"{% endif %}>{{ year.link_html|raw }}</td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <span id="calendar-result" class="hide">{% trans %}Choose a date ...{% endtrans %}</span>
+        <input id="calendar-start" type="hidden" value="{{ timestamp_start }}000">
+        <input id="calendar-end" type="hidden" value="{{ timestamp_end }}000">
+        <input id="calendar-locale" type="hidden" value="{{ locale_json }}">
+
+        <div class="c">
+            {% trans %}You can select any time range by selecting two dates.{% endtrans %}
+        </div>
+
+        <div class="c">
+            <span class="button" id="calendar-submit">{% trans %}Show selection{% endtrans %}</span>
+        </div>
+    </div>
+
+    <div id="data-browser-container">
+        <table class="zebra-style">
+            {% if show_labels %}
+                <thead class="data-browser-labels">
+                    <tr class="small">
+                        <td colspan="{{ additional_columns }}"></td>
+                        {{ column_labels_html|raw }}
+                    </tr>
+                </thead>
+            {% endif %}
+            <tbody class="top-and-bottom-border">
+                {% for day in days %}
+                    <tr class="r{{ day.tr_class }}{{ day.row_class }}"{{ day.row_attributes|raw }}>
+                        {% if day.show_date_cells %}
+                            <td class="l" style="width:24px;">{{ day.short_links_html|raw }}</td>
+                            <td class="l as-small-as-possible">{{ day.date_html|raw }}</td>
+                        {% else %}
+                            <td colspan="2"></td>
+                        {% endif %}
+                        {{ day.additional_columns_html|raw }}
+                        {% if day.is_empty %}
+                            <td colspan="{{ day.empty_colspan }}"></td>
+                        {% else %}
+                            {{ day.cells_html|raw }}
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                {% if all_days_empty and show_active_days_only %}
+                    <tr><td colspan="{{ message_colspan }}"><em>{% trans %}There are no activities for this time range.{% endtrans %}</em></td></tr>
+                {% endif %}
+            </tbody>
+            <tbody>
+                {% for summary in summary_rows %}
+                    <tr class="r no-zebra">
+                        <td colspan="{{ additional_columns }}">{{ summary.label_html|raw }}</td>
+                        {{ summary.cells_html|raw }}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

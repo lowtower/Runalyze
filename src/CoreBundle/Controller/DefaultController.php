@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller;
 
+use DataBrowser;
 use Doctrine\Persistence\ManagerRegistry;
 use Frontend;
 use Runalyze\Activity\Distance;
@@ -88,6 +89,8 @@ class DefaultController extends AbstractPluginsAwareController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
+
+        $dataBrowserContent = $this->renderView('my/data_browser.html.twig', (new DataBrowser())->templateData());
 
         $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
             ->getContent();
@@ -235,6 +238,8 @@ class DefaultController extends AbstractPluginsAwareController
 
         if ($request->isXmlHttpRequest()) {
             new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
+
+            $dataBrowserContent = $this->renderView('my/data_browser.html.twig', (new DataBrowser())->templateData());
 
             $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
                 ->getContent();

@@ -61,17 +61,19 @@ class DataBrowserShared extends DataBrowser
     }
 
     /**
-     * Display specific icon-links
+     * Icon links: only the sum plots, without the surrounding list of the
+     * default data browser
      */
-    public function displayIconLinks(): void
+    #[\Override]
+    public function iconLinks(): string
     {
-        echo $this->getMonthKmLink();
-        echo $this->getWeekKmLink();
+        return $this->getMonthKmLink() . $this->getWeekKmLink();
     }
 
-    public function displayHoverLinks(): void
+    #[\Override]
+    public function hoverLinks(): string
     {
-        echo $this->getRefreshLink();
+        return $this->getRefreshLink();
     }
 
     public static function getBaseUrl(): string
@@ -130,8 +132,9 @@ class DataBrowserShared extends DataBrowser
      * Additional columns that are shown next to date columns
      * @return string html string that must contain `$this->AdditionalColumns - 2` columns
      */
+    #[\Override]
     public function codeForAdditionalColumnsForActivity(?View\Dataset\Table $table = null, ?Dataset\Context $context = null): string
     {
-        return $table->codeForPublicIcon($context);
+        return $table?->codeForPublicIcon($context) ?? '';
     }
 }

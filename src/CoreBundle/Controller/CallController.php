@@ -35,7 +35,7 @@ class CallController extends AbstractController
     ) {}
 
     /**
-     * @throws Throwable if the legacy data browser throws
+     * @throws Throwable if the data browser throws
      */
     #[Route(path: '/call/call.DataBrowser.display.php', methods: ['GET'])]
     #[Route(path: 'databrowser', name: 'databrowser', methods: ['GET'])]
@@ -45,12 +45,9 @@ class CallController extends AbstractController
 
         new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
-        $legacyContent = $this->captureLegacyOutput(function (): void {
-            $DataBrowser = new DataBrowser();
-            $DataBrowser->display();
-        })->getContent();
+        $dataBrowserContent = $this->renderView('my/data_browser.html.twig', (new DataBrowser())->templateData());
 
-        return $this->wrapLegacyContent($legacyContent, $this->requestStack->getCurrentRequest());
+        return $this->wrapLegacyContent($dataBrowserContent, $this->requestStack->getCurrentRequest());
     }
 
     /**
