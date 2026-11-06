@@ -155,10 +155,12 @@ final class TrainingViewTest extends DatabaseTestCase
      */
     private function clearLegacyCaches(): void
     {
-        Factory::clearCache('sport');
+        // Model\Factory::clearCache() is not static, the static cache itself is
+        // public and can be unset directly.
+        unset(Factory::$StaticCache['sport']);
 
         foreach ([self::TRAINING_ID, self::NEXT_TRAINING_ID] as $trainingId) {
-            Factory::clearCache('training', $trainingId);
+            \Cache::delete('training' . $trainingId);
             \Cache::delete('trackdata' . $trainingId);
             \Cache::delete('swimdata' . $trainingId);
             \Cache::delete('hrv' . $trainingId);
