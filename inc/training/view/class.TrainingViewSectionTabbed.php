@@ -33,7 +33,6 @@ abstract class TrainingViewSectionTabbed extends TrainingViewSection
         $this->RowsTabbedTitle[] = $Title;
     }
 
-
     /**
      * Data for the twig template `activity/training_view/section.html.twig`
      *

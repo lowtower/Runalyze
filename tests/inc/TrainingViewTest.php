@@ -170,7 +170,7 @@ final class TrainingViewTest extends DatabaseTestCase
 
         $this->assertNotNull($overviewRow, 'The overview row must be part of the sections.');
         $this->assertSame('fullwidth', $overviewRow['kind']);
-        $this->assertStringContainsString('boxed-values', $overviewRow['content']);
+        $this->assertStringContainsString('boxed-values', (string) $overviewRow['content']);
 
         $this->assertGreaterThan(0, $tabbedPlotRows, 'At least one tabbed plot row must be part of the sections.');
     }

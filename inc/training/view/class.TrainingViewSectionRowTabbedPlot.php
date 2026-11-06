@@ -63,7 +63,6 @@ abstract class TrainingViewSectionRowTabbedPlot extends TrainingViewSectionRow
         return $this->RightContentTitle;
     }
 
-
     /**
      * Plot part: tabbed right content
      *

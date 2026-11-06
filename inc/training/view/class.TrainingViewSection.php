@@ -69,7 +69,6 @@ abstract class TrainingViewSection
         return empty($this->Header) || $this->Rows === [];
     }
 
-
     /**
      * Data for the twig template `activity/training_view/section.html.twig`
      *

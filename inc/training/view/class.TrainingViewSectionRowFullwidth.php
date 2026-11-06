@@ -26,7 +26,6 @@ abstract class TrainingViewSectionRowFullwidth extends TrainingViewSectionRowAbs
      */
     protected $id = '';
 
-
     /**
      * Data for the twig template `activity/training_view/row.html.twig`
      *

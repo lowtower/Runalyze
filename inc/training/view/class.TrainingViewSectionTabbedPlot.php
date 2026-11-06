@@ -28,7 +28,6 @@ abstract class TrainingViewSectionTabbedPlot extends TrainingViewSection
         $Row->setCSSid($this->cssId());
     }
 
-
     /**
      * Data for the twig template `activity/training_view/section.html.twig`
      *

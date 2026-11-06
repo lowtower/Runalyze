@@ -32,7 +32,6 @@ abstract class TrainingViewSectionRowOnlyText extends TrainingViewSectionRowAbst
      */
     protected $ContentLeft = '';
 
-
     /**
      * Data for the twig template `activity/training_view/row.html.twig`
      *
