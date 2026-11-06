@@ -33,48 +33,61 @@ abstract class TrainingViewSectionTabbed extends TrainingViewSection
         $this->RowsTabbedTitle[] = $Title;
     }
 
-    final public function display()
+
+    /**
+     * Data for the twig template `activity/training_view/section.html.twig`
+     *
+     * @return array<string, mixed> empty array if the section must not be displayed
+     */
+    public function templateData(): array
     {
-        if (! empty($this->Header) && ($this->RowsTabbed !== [] || $this->Rows !== [])) {
-            $this->displayHeader();
-            $this->displayContent();
+        if (empty($this->Header) || ($this->RowsTabbed === [] && $this->Rows === [])) {
+            return [];
         }
+
+        return [
+            'is_first' => $this->isFirst,
+            'header' => $this->Header,
+            'change_menu' => $this->changeMenuLinks(),
+            'container_id' => 'training-view-tabbed-' . $this->cssId(),
+            'rows' => $this->tabbedRowsTemplateData(),
+        ];
     }
 
-    private function displayHeader()
-    {
-        echo '<div class="panel-heading' . (! $this->isFirst ? ' panel-inner-heading' : '') . '">';
-        $this->displayChangeMenu();
-        echo '<h2>' . $this->Header . '</h2>';
-        echo '</div>';
-    }
-
-    private function displayChangeMenu()
+    /**
+     * @return string[]
+     */
+    private function changeMenuLinks(): array
     {
         if (count($this->RowsTabbedTitle) <= 1) {
-            return;
+            return [];
         }
 
-        echo '<div class="change-menu">';
+        $links = [];
 
         foreach ($this->RowsTabbedTitle as $i => $Title) {
-            echo Ajax::change($Title, 'training-view-tabbed-' . $this->cssId(), 'training-view-tabbed-' . $this->cssId() . '-' . $i);
+            $links[] = Ajax::change($Title, 'training-view-tabbed-' . $this->cssId(), 'training-view-tabbed-' . $this->cssId() . '-' . $i);
         }
 
-        echo '</div>';
+        return $links;
     }
 
-    private function displayContent()
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    private function tabbedRowsTemplateData(): array
     {
-        echo '<div id="training-view-tabbed-' . $this->cssId() . '">';
+        $data = [];
 
         foreach ($this->RowsTabbed as $i => $Row) {
-            echo '<div class="change" id="training-view-tabbed-' . $this->cssId() . '-' . $i . '"' . ($i != 0 ? ' style="display:none;"' : '') . '>';
-            $Row->display();
-            echo '</div>';
+            $data[] = [
+                'tab_id' => 'training-view-tabbed-' . $this->cssId() . '-' . $i,
+                'hidden' => $i != 0,
+                'data' => $Row->templateData(),
+            ];
         }
 
-        echo '</div>';
+        return $data;
     }
 
     /**

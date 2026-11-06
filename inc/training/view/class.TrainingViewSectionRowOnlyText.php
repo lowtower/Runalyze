@@ -32,11 +32,18 @@ abstract class TrainingViewSectionRowOnlyText extends TrainingViewSectionRowAbst
      */
     protected $ContentLeft = '';
 
-    final public function display()
+
+    /**
+     * Data for the twig template `activity/training_view/row.html.twig`
+     *
+     * @return array<string, mixed>
+     */
+    final public function templateData(): array
     {
-        echo '<div class="training-row">';
-        echo '<div class="training-row-info">' . $this->ContentLeft . '</div>';
-        echo '<div class="training-row-plot">' . $this->ContentRight . '</div>';
-        echo '</div>';
+        return [
+            'kind' => 'only_text',
+            'content_left' => $this->ContentLeft,
+            'content_right' => $this->ContentRight,
+        ];
     }
 }

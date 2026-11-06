@@ -69,29 +69,44 @@ abstract class TrainingViewSection
         return empty($this->Header) || $this->Rows === [];
     }
 
-    public function display()
-    {
-        if (! $this->isEmpty()) {
-            $this->displayHeader();
-            $this->displayContent();
-        }
-    }
 
-    private function displayHeader()
+    /**
+     * Data for the twig template `activity/training_view/section.html.twig`
+     *
+     * @return array<string, mixed> empty array if the section must not be displayed
+     */
+    public function templateData(): array
     {
-        echo '<div class="panel-heading' . (! $this->isFirst ? ' panel-inner-heading' : '') . '">';
-        echo '<h2>' . $this->Header . '</h2>';
-        echo '</div>';
-    }
-
-    private function displayContent()
-    {
-        echo '<div>';
-
-        foreach ($this->Rows as $Row) {
-            $Row->display();
+        if ($this->isEmpty()) {
+            return [];
         }
 
-        echo '</div>';
+        return [
+            'is_first' => $this->isFirst,
+            'header' => $this->Header,
+            'change_menu' => [],
+            'container_id' => '',
+            'rows' => $this->rowsTemplateData($this->Rows),
+        ];
+    }
+
+    /**
+     * @param TrainingViewSectionRowAbstract[] $rows
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    protected function rowsTemplateData(array $rows): array
+    {
+        $data = [];
+
+        foreach ($rows as $Row) {
+            $data[] = [
+                'tab_id' => '',
+                'hidden' => false,
+                'data' => $Row->templateData(),
+            ];
+        }
+
+        return $data;
     }
 }
