@@ -121,21 +121,13 @@ class ViewController extends AbstractController
         if (! $request->query->get('silent')) {
             new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
-            ob_start();
+            $context = new Context($activity->getId(), $activity->getAccount()->getId());
+            $view = new TrainingView($context);
 
-            try {
-                $context = new Context($activity->getId(), $activity->getAccount()->getId());
-                $view = new TrainingView($context);
-                $view->display();
-
-                $legacyContent = ob_get_clean();
-            } catch (Throwable $throwable) {
-                ob_end_clean();
-
-                throw $throwable;
-            }
-
-            return $this->wrapLegacyContent($legacyContent, $request);
+            return $this->wrapLegacyContent(
+                $this->renderView('activity/training_view.html.twig', $view->templateData()),
+                $request
+            );
         }
 
         return new Response();

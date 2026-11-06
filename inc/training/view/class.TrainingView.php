@@ -230,95 +230,83 @@ class TrainingView
         }
     }
 
-    public function display(): void
+
+    /**
+     * Data for the twig template `activity/training_view.html.twig`
+     *
+     * The sections are still rendered by the legacy section classes and are
+     * captured as html string. They will be ported to twig templates step
+     * by step.
+     *
+     * @return array<string, mixed>
+     */
+    public function templateData(): array
     {
-        $this->displayHeader();
-        $this->displaySections();
-    }
+        $isShared = Request::isOnSharedPage();
 
-    protected function displayHeader()
-    {
-        echo '<div class="panel-heading">';
-
-        if (! Request::isOnSharedPage()) {
-            $this->displayHeaderMenu();
-            $this->displayNavigation();
-        } else {
-            $this->displaySharedMenu();
-        }
-
-        echo '<h1>' . $this->Context->dataview()->titleWithComment() . '</h1>';
-
-        if (! Request::isOnSharedPage()) {
-            $this->displayReloadLink();
-        }
-
-        echo '</div>';
-    }
-
-    protected function displayHeaderMenu()
-    {
-        echo '<div class="panel-menu"><ul>';
-
-        foreach ($this->ToolbarLinks as $link) {
-            if (! str_starts_with($link, '<li') && ! str_starts_with($link, '</')) {
-                $link = '<li>' . $link . '</li>';
-            }
-
-            echo $link;
-        }
-
-        echo '</ul></div>';
-    }
-
-    protected function displaySharedMenu()
-    {
-        $User = DB::getInstance()->query('SELECT * FROM `' . PREFIX . 'account` WHERE `id`="' . SharedLinker::getUserId() . '" LIMIT 1')->fetch();
-
-        $this->ToolbarLinks = [];
-        $this->ToolbarLinks[] = SharedLinker::getStandardLinkTo($this->Context->activity()->id(), Icon::$ATTACH);
-        $this->ToolbarLinks[] = '<a href="athlete/' . $User['username'] . '" target="_blank">' . Icon::$TABLE . '</a>';
-
-        $this->displayHeaderMenu();
+        return [
+            'is_shared' => $isShared,
+            'title' => $this->Context->dataview()->titleWithComment(),
+            'toolbar_links' => $isShared ? $this->sharedToolbarLinks() : $this->ToolbarLinks,
+            'navigation_prev' => $isShared ? '' : $this->navigationLink(Linker::prevId($this->Context->activity()->id(), $this->Context->activity()->timestamp()), 'left'),
+            'navigation_next' => $isShared ? '' : $this->navigationLink(Linker::nextId($this->Context->activity()->id(), $this->Context->activity()->timestamp()), 'right'),
+            'refresh_icon' => Icon::$REFRESH_SMALL,
+            'sections_html' => $this->sectionsHtml(),
+            'plots_js' => Ajax::wrapJSforDocumentReady('RunalyzePlot.resizeTrainingCharts();'),
+        ];
     }
 
     /**
-     * Display prev/next navigation
+     * Toolbar links for the shared activity view
+     *
+     * @return string[]
      */
-    protected function displayNavigation()
+    private function sharedToolbarLinks(): array
     {
-        $prevId = Linker::prevId($this->Context->activity()->id(), $this->Context->activity()->timestamp());
-        $nextId = Linker::nextId($this->Context->activity()->id(), $this->Context->activity()->timestamp());
+        $User = DB::getInstance()->query('SELECT * FROM `' . PREFIX . 'account` WHERE `id`="' . SharedLinker::getUserId() . '" LIMIT 1')->fetch();
+        $username = is_array($User) ? (string) ($User['username'] ?? '') : '';
 
-        if ($prevId !== false) {
-            echo Ajax::trainingLink($prevId, '<i class="fa fa-fw fa-chevron-left"></i>');
-        } else {
-            echo '<i class="transparent-70 fa-grey fa fa-fw fa-chevron-left"></i>';
-        }
-
-        if ($nextId !== false) {
-            echo Ajax::trainingLink($nextId, '<i class="fa fa-fw fa-chevron-right"></i>');
-        } else {
-            echo '<i class="transparent-70 fa-grey fa fa-fw fa-chevron-right"></i>';
-        }
+        return [
+            SharedLinker::getStandardLinkTo($this->Context->activity()->id(), Icon::$ATTACH),
+            '<a href="athlete/' . $username . '" target="_blank">' . Icon::$TABLE . '</a>',
+        ];
     }
 
-    protected function displayReloadLink()
+    /**
+     * Link to the previous/next activity or a transparent icon if there is none
+     *
+     * @param bool|int $id id of the neighbouring activity or false
+     */
+    private function navigationLink(bool|int $id, string $direction): string
     {
-        echo '<div class="hover-icons"><span class="link" onclick="Runalyze.Statistics.reload();">' . Icon::$REFRESH_SMALL . '</span></div>';
-    }
-
-    protected function displaySections()
-    {
-        foreach ($this->Sections as &$Section) {
-            $Section->display();
+        if ($id !== false) {
+            return Ajax::trainingLink($id, '<i class="fa fa-fw fa-chevron-' . $direction . '"></i>');
         }
 
-        $this->initPlots();
+        return '<i class="transparent-70 fa-grey fa fa-fw fa-chevron-' . $direction . '"></i>';
     }
 
-    protected function initPlots()
+    /**
+     * Rendered sections
+     *
+     * The section classes still echo their content directly, therefore their
+     * output is captured here. This is transitional and will be removed when
+     * the sections are ported to twig templates.
+     */
+    private function sectionsHtml(): string
     {
-        echo Ajax::wrapJSforDocumentReady('RunalyzePlot.resizeTrainingCharts();');
+        ob_start();
+
+        try {
+            foreach ($this->Sections as $Section) {
+                $Section->display();
+            }
+        } catch (Throwable $throwable) {
+            ob_end_clean();
+
+            throw $throwable;
+        }
+
+        return (string) ob_get_clean();
     }
 }
