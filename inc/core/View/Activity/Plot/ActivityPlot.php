@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Runalyze\View\Activity\Plot;
 
+use Ajax;
 use Plot;
 use Runalyze\View\Activity;
 
@@ -137,6 +138,23 @@ abstract class ActivityPlot
     final protected function getCSSid(): string
     {
         return $this->id;
+    }
+
+    /**
+     * Data for the twig template activity/training_view/plot.html.twig
+     *
+     * @return array<string, mixed>
+     */
+    final public function templateData(): array
+    {
+        return [
+            'key' => $this->key,
+            'css_id' => $this->getCSSid(),
+            'width' => $this->WIDTH,
+            'height' => $this->HEIGHT,
+            'img_wait' => Ajax::$IMG_WAIT,
+            'js' => $this->Plot->getJavaScript(),
+        ];
     }
 
     /**

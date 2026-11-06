@@ -1,0 +1,10 @@
+{#-
+    A single activity plot, replaces the output capture of ActivityPlot's
+    display() in the training view row classes.
+
+    Variables (see ActivityPlot::templateData()):
+    - key: key of the plot for the surrounding container id
+    - css_id, width, height, img_wait: data of the inner flot div
+    - js: script tag with the plot setup (RunalyzePlot.preparePlot)
+-#}
+<div id="plot-{{ key }}" class="plot-container"><div class="flot {{ img_wait }} " id="{{ css_id }}" style="width:{{ width }}px;height:{{ height }}px;position:absolute;"></div>{{ js|raw }}</div>

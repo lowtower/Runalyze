@@ -86,17 +86,24 @@ class Plot
         echo $this->getDiv();
     }
 
-    public function outputJavaScript(bool $removeOldPlot = false): void
+    public function getJavaScript(bool $removeOldPlot = false): string
     {
+        $js = '';
+
         if ($removeOldPlot) {
-            echo Ajax::wrapJS('RunalyzePlot.remove("' . $this->cssID . '");');
+            $js .= Ajax::wrapJS('RunalyzePlot.remove("' . $this->cssID . '");');
         }
 
         $this->convertData();
 
         $bindedCode = ($this->ErrorString !== '') ? $this->getJSForError() : $this->getMainJS();
 
-        echo Ajax::wrapJS('RunalyzePlot.preparePlot("' . $this->cssID . '","' . $this->width . '","' . $this->height . '",function(){' . $bindedCode . '});');
+        return $js . Ajax::wrapJS('RunalyzePlot.preparePlot("' . $this->cssID . '","' . $this->width . '","' . $this->height . '",function(){' . $bindedCode . '});');
+    }
+
+    public function outputJavaScript(bool $removeOldPlot = false): void
+    {
+        echo $this->getJavaScript($removeOldPlot);
     }
 
     /**

@@ -4,8 +4,8 @@
 
     Variables (see the row classes' plotTemplateData()):
     - kind: plot | tabbed_plot | table
-    - plot: key (empty if there is no plot), html
-    - tabbed_plot: css_id, top_content, tabs (key, html, table)
+    - plot: single plot data (see plot.html.twig; null if there is no plot)
+    - tabbed_plot: css_id, top_content, tabs (key, html, plot, table)
     - table: template data (an optional 'template' key selects the twig
       template, defaults to table.html.twig, e.g. table_zones.html.twig,
       notes.html.twig or fitdetails.html.twig)
@@ -15,7 +15,7 @@
         {{ top_content|raw }}
         {% for tab in tabs %}
             <div class="change" id="training-view-tabbed-{{ css_id }}-{{ tab.key }}"{% if not loop.first %} style="display:none;"{% endif %}>
-                {% if tab.table %}{% include tab.table.template|default('activity/training_view/table.html.twig') with tab.table %}{% else %}{{ tab.html|raw }}{% endif %}
+                {% if tab.table %}{% include tab.table.template|default('activity/training_view/table.html.twig') with tab.table %}{% elseif tab.plot %}{% include 'activity/training_view/plot.html.twig' with tab.plot %}{% else %}{{ tab.html|raw }}{% endif %}
             </div>
         {% endfor %}
     </div>
@@ -23,6 +23,6 @@
     {% include table.template|default('activity/training_view/table.html.twig') with table %}
 {% else %}
     <div class="training-row-plot">
-        {% if key %}<div id="plot-{{ key }}" class="plot-container">{{ html|raw }}</div>{% endif %}
+        {% if plot %}{% include 'activity/training_view/plot.html.twig' with plot %}{% endif %}
     </div>
 {% endif %}
