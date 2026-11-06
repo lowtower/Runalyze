@@ -28,16 +28,6 @@ use Runalyze\View\Activity\Box;
 class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
 {
     /**
-     * Right content: notes
-     * @var string
-     */
-    protected $NotesContent = '';
-
-    protected $FitDetails = '';
-
-    protected $PausesContent = '';
-
-    /**
      * @param bool $showCadence
      */
     public function __construct(
@@ -57,11 +47,9 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
      */
     protected function setRightContent()
     {
-        $this->fillNotesContent();
-        $this->addRightContent('notes', __('Additional notes'), $this->NotesContent);
+        $this->addRightContent('notes', __('Additional notes'), $this->notesTemplateData());
 
-        $this->fillFitDetailContent();
-        $this->addRightContent('fitdetails', __('FIT details'), $this->FitDetails);
+        $this->addRightContent('fitdetails', __('FIT details'), $this->fitDetailsTemplateData());
 
         if ($this->showCadence && $this->Context->trackdata()->has(Trackdata\Entity::CADENCE)) {
             $Plot = new Activity\Plot\Cadence($this->Context);
@@ -342,45 +330,182 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
         }
     }
 
-    protected function fillNotesContent()
+    /**
+     * Notes tab, template data for activity/training_view/notes.html.twig
+     *
+     * @return array<string, mixed>
+     */
+    protected function notesTemplateData(): array
     {
-        $this->NotesContent = '<div class="panel-content">';
+        $creationAndModification = $this->creationAndModificationTemplateData();
 
-        $this->addRaceResult();
-        $this->addNotes();
-        $this->addWeatherSourceInfo();
-        $this->addCreationAndModificationTime();
-
-        $this->NotesContent .= '</div>';
+        return [
+            'template' => 'activity/training_view/notes.html.twig',
+            'race_result' => $this->raceResultTemplateData(),
+            'notes_label' => __('Notes') . ':',
+            'notes' => $this->Context->activity()->notes() != '' ? $this->Context->dataview()->notes() : null,
+            'weather_source' => $this->Context->activity()->weather()->sourceIsKnown()
+                ? sprintf(__('Source of weather data: %s'), $this->Context->activity()->weather()->sourceAsString())
+                : null,
+            'created' => $creationAndModification['created'],
+            'modified' => $creationAndModification['modified'],
+        ];
     }
 
     /**
-     * Fill FIT content.
-     * #TSC add FIT file data as a new panel/sheet
+     * Race result block for the notes tab
+     *
+     * @return array<string, mixed>|null
      */
-    protected function fillFitDetailContent()
+    protected function raceResultTemplateData(): ?array
     {
-        $this->FitDetails = '<div class="panel-content">';
+        if (! $this->Context->hasRaceResult()) {
+            return null;
+        }
 
-        $details = '<strong>' . __('FIT data from the file') . ':</strong><br>';
-        $c = 0;
-        $this->addToTable($details, 'Total ascent (m):', ($this->Context->activity()->fitTotalAscent() != null ? $this->Context->activity()->fitTotalAscent() : '-'), $c);
-        $this->addToTable($details, 'Total desent (m):', ($this->Context->activity()->fitTotalDescent() != null ? $this->Context->activity()->fitTotalDescent() : '-'), $c);
-        $this->addToTable($details, $this->getGlossaryLink('VO2MAX avg:', 'vo2max'), ($this->Context->activity()->fitVO2maxEstimate() != null ? $this->Context->activity()->fitVO2maxEstimate() : '-'), $c);
-        $this->addToTable($details, 'Recovery time (h):', ($this->Context->activity()->fitRecoveryTime() != null ? round($this->Context->activity()->fitRecoveryTime() / 60, 1) : '-'), $c);
+        $raceResult = $this->Context->raceResult();
+        $athlete = \Runalyze\Context::Athlete();
+        $ageGradeItem = null;
+
+        if ($this->Context->sport()->getInternalProfileEnum() === \Runalyze\Profile\Sport\SportProfile::RUNNING && $athlete->knowsGender() && $athlete->knowsAge()) {
+            $table = $athlete->gender() === Gender::FEMALE ? new FemaleTable() : new MaleTable();
+            $lookup = new Lookup($table, $athlete->age());
+
+            if ($this->Context->raceResult()->officialDistance() >= $lookup->getMinimalDistance()) {
+                $ageGrade = $lookup->getAgeGrade($raceResult->officialDistance(), (int) $raceResult->officialTime(), date('Y') - date('Y', $this->Context->activity()->timestamp()));
+                $ageGradeIcon = new View\Icon('fa-info-circle');
+                $ageGradeIcon->setTooltip(
+                    __('Age standard') . ': ' . Duration::format($ageGrade->getAgeStandard()) . ', '
+                    . __('Open standard') . ': ' . Duration::format($ageGrade->getOpenStandard()) . '<br>'
+                    . '<small><em>' . sprintf(__('via tables by %s'), 'Alan Jones / WMA / USATF') . '</em></small>'
+                );
+
+                $ageGradeItem = [
+                    'label' => __('Age grade'),
+                    'content' => number_format(100 * $ageGrade->getPerformance(), 2) . ' &#37; ' . $ageGradeIcon->code(),
+                ];
+            }
+        }
+
+        $RaceResultView = new View\RaceResult\Dataview($raceResult);
+
+        $items = [];
+
+        if ($raceResult->officialDistance()) {
+            $items[] = [
+                'label' => __('Official distance'),
+                'content' => $RaceResultView->officialDistance(),
+            ];
+        }
+
+        if ($raceResult->officialTime()) {
+            $items[] = [
+                'label' => __('Official time'),
+                'content' => $RaceResultView->officialTime()->string(Duration::FORMAT_COMPETITION),
+            ];
+        }
+
+        if ($ageGradeItem !== null) {
+            $items[] = $ageGradeItem;
+        }
+
+        if ($raceResult->placeTotal()) {
+            $items[] = [
+                'label' => __('Place overall'),
+                'content' => $RaceResultView->placementTotalWithParticipants(),
+            ];
+        }
+
+        if ($raceResult->placeAgeclass()) {
+            $items[] = [
+                'label' => __('Place age group'),
+                'content' => $RaceResultView->placementAgeClassWithParticipants(),
+            ];
+        }
+
+        if ($raceResult->placeGender()) {
+            $items[] = [
+                'label' => __('Place gender'),
+                'content' => $RaceResultView->placementGenderWithParticipants(),
+            ];
+        }
+
+        return [
+            'title' => __('Race Result') . ':',
+            'items' => $items,
+        ];
+    }
+
+    /**
+     * Creation and modification times for the notes tab
+     *
+     * @return array{created: ?string, modified: ?string}
+     */
+    protected function creationAndModificationTemplateData(): array
+    {
+        if (Request::isOnSharedPage()) {
+            return [
+                'created' => null,
+                'modified' => null,
+            ];
+        }
+
+        $created = $this->Context->activity()
+            ->get(\Runalyze\Model\Activity\Entity::TIMESTAMP_CREATED);
+        $edited = $this->Context->activity()
+            ->get(\Runalyze\Model\Activity\Entity::TIMESTAMP_EDITED);
+
+        if ($created == 0 && $edited == 0) {
+            return [
+                'created' => null,
+                'modified' => null,
+            ];
+        }
+
+        $createdDate = new \DateTime();
+        $createdDate->setTimestamp($created);
+
+        $createdText = ($created == 0) ? null : sprintf(
+            __('You created this training on <strong>%s</strong> at <strong>%s</strong>.'),
+            $createdDate->format('d.m.Y'),
+            $createdDate->format('H:i')
+        );
+
+        $editedDate = new \DateTime();
+        $editedDate->setTimestamp($edited);
+
+        $editedText = ($edited == 0) ? null : sprintf(
+            __('Last modification on <strong>%s</strong> at <strong>%s</strong>.'),
+            $editedDate->format('d.m.Y'),
+            $editedDate->format('H:i')
+        );
+
+        return [
+            'created' => $createdText,
+            'modified' => $editedText,
+        ];
+    }
+
+    /**
+     * FIT details tab, template data for activity/training_view/fitdetails.html.twig
+     * #TSC add FIT file data as a new panel/sheet
+     *
+     * @return array<string, mixed>
+     */
+    protected function fitDetailsTemplateData(): array
+    {
+        $activity = $this->Context->activity();
 
         // #TSC lactate threshold
-        if ($this->Context->activity()->fitLactateThresholdHR() == null && $this->Context->activity()->fitLactateThresholdPace() == null) {
+        if ($activity->fitLactateThresholdHR() == null && $activity->fitLactateThresholdPace() == null) {
             $lt = '-';
         } else {
-            $lthr = $this->Context->activity()
-                ->fitLactateThresholdHR() != null ? $this->Context->activity()
-                ->fitLactateThresholdHR() : '-';
-            if ($this->Context->activity()->fitLactateThresholdPace() != null) {
-                $ltp = new Pace($this->Context->activity()->fitLactateThresholdPace(), 1.0, $this->Context->sport()->getLegacyPaceUnitEnum());
+            $lthr = $activity->fitLactateThresholdHR() != null ? $activity->fitLactateThresholdHR() : '-';
+            if ($activity->fitLactateThresholdPace() != null) {
+                $ltp = new Pace($activity->fitLactateThresholdPace(), 1.0, $this->Context->sport()->getLegacyPaceUnitEnum());
                 // the previous Pace instancing will not work: for 3.22 m/s the result is a pace of 5:22/km; because of the first parameter time is a int!
                 // so use this: example for 3.22m/s: 3,22*3,6=11,592km/h -> 1/11,592km/h=0,0862h/km -> 0,0862×60=5,17min/km -> function needs second/float -> 5,17min/km*60=316,56sec/km
-                $ltp->fromMinPerKm((string) (1 / ($this->Context->activity()->fitLactateThresholdPace() * 3.6) * 60 * 60));
+                $ltp->fromMinPerKm((string) (1 / ($activity->fitLactateThresholdPace() * 3.6) * 60 * 60));
                 $ltp = $ltp->valueWithAppendix();
             } else {
                 $ltp = '-';
@@ -389,43 +514,105 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
             $lt = $lthr . ' | ' . $ltp;
         }
 
-        $this->addToTable($details, 'New lactate treshhold (bpm | pace):', $lt, $c);
-
-        $this->addToTable($details, $this->getGlossaryLink('HVR Heart-Rate Variability:', 'hrv'), ($this->Context->activity()->fitHRVscore() != null ? $this->Context->activity()->fitHRVscore() : '-'), $c);
-        $this->addToTable(
-            $details,
-            $this->getGlossaryLink('Performance condition start:', 'performance-condition'),
-            ($this->Context->activity()->fitPerformanceCondition() != null ? sprintf('%+d', $this->Context->activity()->fitPerformanceCondition() - 100) : '-'),
-            $c
-        );
-        $this->addToTable(
-            $details,
-            $this->getGlossaryLink('Performance cond. end:', 'performance-condition'),
-            ($this->Context->activity()->fitPerformanceConditionEnd() != null ? sprintf('%+d', $this->Context->activity()->fitPerformanceConditionEnd() - 100) : '-'),
-            $c
-        );
-        $this->addToTable($details, 'Max HR (bpm):', ($this->Context->activity()->maxHrUser() != null ? $this->Context->activity()->maxHrUser() : '-'), $c);
-        $this->addToTable($details, $this->getGlossaryLink(__('Training Effect') . ' benefit:', 'training-effect'), ($this->Context->activity()->fitTrainingEffectBenefit() != null ? runActivity\FitTrainingEffectBenefit::descriptionFromNum($this->Context->activity()->fitTrainingEffectBenefit()) : '-'), $c);
-        $this->addToTable($details, $this->getGlossaryLink('Aerob training effect:', 'training-effect'), ($this->Context->activity()->fitTrainingEffect() != null ? $this->Context->activity()->fitTrainingEffect() : '-'), $c);
-        $this->addToTable($details, $this->getGlossaryLink('Anaerob training effect:', 'training-effect'), ($this->Context->activity()->fitAnaerobicTrainingEffect() != null ? $this->Context->activity()->fitAnaerobicTrainingEffect() : '-'), $c);
-        $this->addToTable($details, 'Creator:', ($this->Context->activity()->creator() != null ? $this->Context->activity()->creator() : '-'), $c);
-        $this->addToTable($details, 'Creator details:', ($this->Context->activity()->creatorDetails() != null ? $this->Context->activity()->creatorDetails() : '-'), $c);
-        $this->addToTable($details, 'Avg / max respiration rate (brpm):', ($this->Context->activity()->avgRespirationRate() != null
-            ? $this->Context->activity()
-                ->avgRespirationRate() . ' / ' . $this->Context->activity()->maxRespirationRate() : '- / -'), $c);
-        $this->addToTable($details, $this->getGlossaryLink('Anstrengung (1-10):', 'self-evaluation'), ($this->Context->activity()->fitSelfEvaluationPerceivedEffort() != null ? $this->Context->activity()->fitSelfEvaluationPerceivedEffort() : '-'), $c);
-        $this->addToTable($details, $this->getGlossaryLink('Gefühl (1-5):', 'self-evaluation'), ($this->Context->activity()->fitSelfEvaluationFeeling() != null ? runActivity\SelfEvaluationFeeling::descriptionFromNum($this->Context->activity()->fitSelfEvaluationFeeling()) : '-'), $c);
-        $this->addToTable($details, $this->getGlossaryLink('Trainingsbelastung:', 'training_load_peak'), ($this->Context->activity()->fitLoadPeak() != null ? $this->Context->activity()->fitLoadPeak() : '-'), $c);
-        $this->addToTable($details, $this->getGlossaryLink('Laufzeit:', 'detection_run_walk'), $this->getFormattedSeconds($this->Context->activity()->fitRunTime()), $c);
-        $this->addToTable($details, $this->getGlossaryLink('Gehzeit:', 'detection_run_walk'), $this->getFormattedSeconds($this->Context->activity()->fitWalkTime()), $c);
-        $this->addToTable($details, $this->getGlossaryLink('Zeit Inaktivität:', 'detection_run_walk'), $this->getFormattedSeconds($this->Context->activity()->fitStandTime()), $c);
-        $this->addToTable($details, 'Sweat loss (ml):', ($this->Context->activity()->fitSweatLoss() != null ? $this->Context->activity()->fitSweatLoss() : '-'), $c);
-        $this->addToTable($details, __('Energy') . ' ' . __('Resting') . ' (kcal):', ($this->Context->activity()->energyInRest() != null ? $this->Context->activity()->energyInRest() : '-'), $c);
-
-        $details .= '</tr></table>';
-        $this->FitDetails .= HTML::fileBlock($details);
-
-        $this->FitDetails .= '</div>';
+        return [
+            'template' => 'activity/training_view/fitdetails.html.twig',
+            'header' => __('FIT data from the file') . ':',
+            'rows' => [
+                [
+                    'desc' => 'Total ascent (m):',
+                    'value' => $activity->fitTotalAscent() != null ? $activity->fitTotalAscent() : '-',
+                ],
+                [
+                    'desc' => 'Total desent (m):',
+                    'value' => $activity->fitTotalDescent() != null ? $activity->fitTotalDescent() : '-',
+                ],
+                [
+                    'desc' => $this->getGlossaryLink('VO2MAX avg:', 'vo2max'),
+                    'value' => $activity->fitVO2maxEstimate() != null ? $activity->fitVO2maxEstimate() : '-',
+                ],
+                [
+                    'desc' => 'Recovery time (h):',
+                    'value' => $activity->fitRecoveryTime() != null ? round($activity->fitRecoveryTime() / 60, 1) : '-',
+                ],
+                [
+                    'desc' => 'New lactate treshhold (bpm | pace):',
+                    'value' => $lt,
+                ],
+                [
+                    'desc' => $this->getGlossaryLink('HVR Heart-Rate Variability:', 'hrv'),
+                    'value' => $activity->fitHRVscore() != null ? $activity->fitHRVscore() : '-',
+                ],
+                [
+                    'desc' => $this->getGlossaryLink('Performance condition start:', 'performance-condition'),
+                    'value' => $activity->fitPerformanceCondition() != null ? sprintf('%+d', $activity->fitPerformanceCondition() - 100) : '-',
+                ],
+                [
+                    'desc' => $this->getGlossaryLink('Performance cond. end:', 'performance-condition'),
+                    'value' => $activity->fitPerformanceConditionEnd() != null ? sprintf('%+d', $activity->fitPerformanceConditionEnd() - 100) : '-',
+                ],
+                [
+                    'desc' => 'Max HR (bpm):',
+                    'value' => $activity->maxHrUser() != null ? $activity->maxHrUser() : '-',
+                ],
+                [
+                    'desc' => $this->getGlossaryLink(__('Training Effect') . ' benefit:', 'training-effect'),
+                    'value' => $activity->fitTrainingEffectBenefit() != null ? runActivity\FitTrainingEffectBenefit::descriptionFromNum($activity->fitTrainingEffectBenefit()) : '-',
+                ],
+                [
+                    'desc' => $this->getGlossaryLink('Aerob training effect:', 'training-effect'),
+                    'value' => $activity->fitTrainingEffect() != null ? $activity->fitTrainingEffect() : '-',
+                ],
+                [
+                    'desc' => $this->getGlossaryLink('Anaerob training effect:', 'training-effect'),
+                    'value' => $activity->fitAnaerobicTrainingEffect() != null ? $activity->fitAnaerobicTrainingEffect() : '-',
+                ],
+                [
+                    'desc' => 'Creator:',
+                    'value' => $activity->creator() != null ? $activity->creator() : '-',
+                ],
+                [
+                    'desc' => 'Creator details:',
+                    'value' => $activity->creatorDetails() != null ? $activity->creatorDetails() : '-',
+                ],
+                [
+                    'desc' => 'Avg / max respiration rate (brpm):',
+                    'value' => $activity->avgRespirationRate() != null
+                                        ? $activity->avgRespirationRate() . ' / ' . $activity->maxRespirationRate() : '- / -',
+                ],
+                [
+                    'desc' => $this->getGlossaryLink('Anstrengung (1-10):', 'self-evaluation'),
+                    'value' => $activity->fitSelfEvaluationPerceivedEffort() != null ? $activity->fitSelfEvaluationPerceivedEffort() : '-',
+                ],
+                [
+                    'desc' => $this->getGlossaryLink('Gefühl (1-5):', 'self-evaluation'),
+                    'value' => $activity->fitSelfEvaluationFeeling() != null ? runActivity\SelfEvaluationFeeling::descriptionFromNum($activity->fitSelfEvaluationFeeling()) : '-',
+                ],
+                [
+                    'desc' => $this->getGlossaryLink('Trainingsbelastung:', 'training_load_peak'),
+                    'value' => $activity->fitLoadPeak() != null ? $activity->fitLoadPeak() : '-',
+                ],
+                [
+                    'desc' => $this->getGlossaryLink('Laufzeit:', 'detection_run_walk'),
+                    'value' => $this->getFormattedSeconds($activity->fitRunTime()),
+                ],
+                [
+                    'desc' => $this->getGlossaryLink('Gehzeit:', 'detection_run_walk'),
+                    'value' => $this->getFormattedSeconds($activity->fitWalkTime()),
+                ],
+                [
+                    'desc' => $this->getGlossaryLink('Zeit Inaktivität:', 'detection_run_walk'),
+                    'value' => $this->getFormattedSeconds($activity->fitStandTime()),
+                ],
+                [
+                    'desc' => 'Sweat loss (ml):',
+                    'value' => $activity->fitSweatLoss() != null ? $activity->fitSweatLoss() : '-',
+                ],
+                [
+                    'desc' => __('Energy') . ' ' . __('Resting') . ' (kcal):',
+                    'value' => $activity->energyInRest() != null ? $activity->energyInRest() : '-',
+                ],
+            ],
+        ];
     }
 
     protected function getGlossaryLink(string $text, string $glossary): string
@@ -440,110 +627,6 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
         }
 
         return '-';
-    }
-
-    protected function addRaceResult()
-    {
-        if ($this->Context->hasRaceResult()) {
-            $raceResult = $this->Context->raceResult();
-            $athlete = \Runalyze\Context::Athlete();
-            $ageGrade = null;
-            $ageGradeIcon = '';
-
-            if ($this->Context->sport()->getInternalProfileEnum() === \Runalyze\Profile\Sport\SportProfile::RUNNING && $athlete->knowsGender() && $athlete->knowsAge()) {
-                $table = $athlete->gender() === Gender::FEMALE ? new FemaleTable() : new MaleTable();
-                $lookup = new Lookup($table, $athlete->age());
-
-                if ($this->Context->raceResult()->officialDistance() >= $lookup->getMinimalDistance()) {
-                    $ageGrade = $lookup->getAgeGrade($raceResult->officialDistance(), (int) $raceResult->officialTime(), date('Y') - date('Y', $this->Context->activity()->timestamp()));
-                    $ageGradeIcon = new View\Icon('fa-info-circle');
-                    $ageGradeIcon->setTooltip(
-                        __('Age standard') . ': ' . Duration::format($ageGrade->getAgeStandard()) . ', '
-                        . __('Open standard') . ': ' . Duration::format($ageGrade->getOpenStandard()) . '<br>'
-                        . '<small><em>' . sprintf(__('via tables by %s'), 'Alan Jones / WMA / USATF') . '</em></small>'
-                    );
-                }
-            }
-
-            $RaceResultView = new View\RaceResult\Dataview($raceResult);
-
-            $this->NotesContent .= HTML::info('<strong>' . __('Race Result') . ':</strong>');
-            $this->NotesContent .= '<ul>'
-                . ($raceResult->officialDistance() ? '<li><strong>' . __('Official distance') . '</strong>: ' . $RaceResultView->officialDistance() . '</li>' : '')
-                . ($raceResult->officialTime() ? '<li><strong>' . __('Official time') . '</strong>: ' . $RaceResultView->officialTime()->string(Duration::FORMAT_COMPETITION) . '</li>' : '')
-                . ($ageGrade !== null ? '<li><strong>' . __('Age grade') . '</strong>: ' . number_format(100 * $ageGrade->getPerformance(), 2) . ' &#37; ' . $ageGradeIcon->code() . '</li>' : '')
-                . ($raceResult->placeTotal() ? '<li><strong>' . __('Place overall') . '</strong>: ' . $RaceResultView->placementTotalWithParticipants() . '</li>' : '')
-                . ($raceResult->placeAgeclass() ? '<li><strong>' . __('Place age group') . '</strong>: ' . $RaceResultView->placementAgeClassWithParticipants() . '</li>' : '')
-                . ($raceResult->placeGender() ? '<li><strong>' . __('Place gender') . '</strong>: ' . $RaceResultView->placementGenderWithParticipants() . '</li>' : '') . '</ul>';
-        }
-    }
-
-    protected function addNotes()
-    {
-        if ($this->Context->activity()->notes() != '') {
-            $Notes = '<strong>' . __('Notes') . ':</strong><br>' . $this->Context->dataview()->notes();
-            $this->NotesContent .= HTML::fileBlock($Notes);
-        }
-    }
-
-    public function addToTable(string &$html, string $desc, $value, &$count): void
-    {
-        if ($count == 0) {
-            $html .= '<table class="fitdetail">';
-            $html .= '<tr>';
-        } elseif ($count % 3 === 0) {
-            $html .= '</tr><tr>';
-        }
-
-        $html .= '<td id="desc">' . $desc . '</td>';
-        $html .= '<td id="val">' . $value . '</td>';
-
-        $count++;
-    }
-
-    /**
-     * Add weather sources
-     */
-    protected function addWeatherSourceInfo()
-    {
-        if ($this->Context->activity()->weather()->sourceIsKnown()) {
-            $this->NotesContent .= HTML::info(
-                sprintf(__('Source of weather data: %s'), $this->Context->activity()->weather()->sourceAsString())
-            );
-        }
-    }
-
-    /**
-     * Add created/edited
-     */
-    protected function addCreationAndModificationTime()
-    {
-        if (! Request::isOnSharedPage()) {
-            $created = $this->Context->activity()
-                ->get(\Runalyze\Model\Activity\Entity::TIMESTAMP_CREATED);
-            $edited = $this->Context->activity()
-                ->get(\Runalyze\Model\Activity\Entity::TIMESTAMP_EDITED);
-
-            if ($created > 0 || $edited > 0) {
-                $createdDate = new \DateTime();
-                $createdDate->setTimestamp($created);
-                $CreationTime = ($created == 0) ? '' : sprintf(
-                    __('You created this training on <strong>%s</strong> at <strong>%s</strong>.'),
-                    $createdDate->format('d.m.Y'),
-                    $createdDate->format('H:i')
-                );
-
-                $editedDate = new \DateTime();
-                $editedDate->setTimestamp($edited);
-                $ModificationTime = ($edited == 0) ? '' : '<br>' . sprintf(
-                    __('Last modification on <strong>%s</strong> at <strong>%s</strong>.'),
-                    $editedDate->format('d.m.Y'),
-                    $editedDate->format('H:i')
-                );
-
-                $this->NotesContent .= HTML::fileBlock($CreationTime . $ModificationTime);
-            }
-        }
     }
 
     /**

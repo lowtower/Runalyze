@@ -1,0 +1,11 @@
+{#-
+    Notes tab of the miscellaneous training view row, replaces the string
+    building of SectionMiscellaneousRow::fillNotesContent().
+
+    Variables (see SectionMiscellaneousRow::notesTemplateData()):
+    - race_result: optional; title and items (label, content) of the race result
+    - notes_label, notes: optional user notes
+    - weather_source: optional info about the source of the weather data
+    - created, modified: optional creation/modification times
+-#}
+<div class="panel-content">{% if race_result %}<p class="info"><strong>{{ race_result.title }}</strong></p><ul>{% for item in race_result.items %}<li><strong>{{ item.label }}</strong>: {{ item.content|raw }}</li>{% endfor %}</ul>{% endif %}{% if notes %}<p class="file"><strong>{{ notes_label }}</strong><br>{{ notes|raw }}</p>{% endif %}{% if weather_source %}<p class="info">{{ weather_source|raw }}</p>{% endif %}{% if created or modified %}<p class="file">{{ created|raw }}{% if modified %}<br>{{ modified|raw }}{% endif %}</p>{% endif %}</div>

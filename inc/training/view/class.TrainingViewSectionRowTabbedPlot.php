@@ -53,7 +53,7 @@ abstract class TrainingViewSectionRowTabbedPlot extends TrainingViewSectionRow
     abstract protected function setRightContent();
 
     /**
-     * @param string|ActivityPlot|array<string, mixed> $content html string, plot or table template data
+     * @param string|ActivityPlot|array<string, mixed> $content html string, plot or template data (an optional 'template' key selects the twig template, defaults to activity/training_view/table.html.twig)
      */
     final protected function addRightContent(string $key, string $title, string|ActivityPlot|array $content)
     {

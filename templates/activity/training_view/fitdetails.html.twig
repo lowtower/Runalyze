@@ -1,0 +1,9 @@
+{#-
+    FIT details tab of the miscellaneous training view row, replaces the string
+    building of SectionMiscellaneousRow::fillFitDetailContent().
+
+    Variables (see SectionMiscellaneousRow::fitDetailsTemplateData()):
+    - header: title of the FIT data block
+    - rows: cells (desc, value), three cells per table row
+-#}
+<div class="panel-content"><p class="file"><strong>{{ header }}</strong><br><table class="fitdetail">{% for row in rows|batch(3) %}<tr>{% for cell in row %}<td id="desc">{{ cell.desc|raw }}</td><td id="val">{{ cell.value|raw }}</td>{% endfor %}</tr>{% endfor %}</table></p></div>
