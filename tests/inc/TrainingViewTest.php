@@ -74,7 +74,6 @@ final class TrainingViewTest extends DatabaseTestCase
         $_GET = $this->previousGet;
         Request::setRequestStack(new RequestStack());
 
-        FrontendShared::$IS_SHOWN = false;
         SharedLinker::$USER_ID = 0;
         SessionAccountHandler::setAccount([
             'id' => 0,
@@ -126,7 +125,6 @@ final class TrainingViewTest extends DatabaseTestCase
     public function testThatTheSharedActivityViewShowsTheSharedToolbarAndNoNavigation(): void
     {
         $_SERVER['REQUEST_URI'] = '/shared/training';
-        FrontendShared::$IS_SHOWN = true;
         SharedLinker::$USER_ID = self::ACCOUNT_ID;
 
         $data = $this->trainingViewFor(self::TRAINING_ID)->templateData();
