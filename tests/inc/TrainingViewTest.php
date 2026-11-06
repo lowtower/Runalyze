@@ -180,10 +180,13 @@ final class TrainingViewTest extends DatabaseTestCase
 
     private function insertTraining(int $id, string $localStartTime): void
     {
+        // The overview row passes `kcal` to `Runalyze\Activity\Energy` whose
+        // constructor is not nullable, so the value must always be set (as it
+        // always is for imported activities).
         $this->DB->exec(
-            'INSERT INTO `' . PREFIX . 'training` (`id`, `accountid`, `sportid`, `time`, `s`, `distance`, `title`) '
+            'INSERT INTO `' . PREFIX . 'training` (`id`, `accountid`, `sportid`, `time`, `s`, `distance`, `kcal`, `title`) '
             . 'VALUES (' . $id . ', ' . self::ACCOUNT_ID . ', ' . self::SPORT_ID . ', '
-            . LocalTime::fromString($localStartTime)->getTimestamp() . ', 1800, 10, "My Test Activity")'
+            . LocalTime::fromString($localStartTime)->getTimestamp() . ', 1800, 10, 300, "My Test Activity")'
         );
     }
 }
