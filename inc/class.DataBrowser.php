@@ -677,7 +677,19 @@ class DataBrowser
      */
     protected function getAddLink(): string
     {
-        return ImporterWindow::link();
+        return Ajax::window('<a href="activity/add">' . Icon::$ADD . ' ' . __('Add workout') . '</a>', 'small');
+    }
+
+    /**
+     * Get ajax-link for adding a training on a specific date
+     */
+    private function addLinkForDate(int $timestampInServerTime): string
+    {
+        if ($timestampInServerTime > time()) {
+            return '<span style="opacity:.25;">' . Icon::$ADD_SMALL . '</span>';
+        }
+
+        return Ajax::window('<a href="activity/new?date=' . date('d.m.Y', $timestampInServerTime) . '">' . Icon::$ADD_SMALL . '</a>', 'small');
     }
 
     /**
@@ -691,7 +703,7 @@ class DataBrowser
         $weekDay = Time::weekday($localTime->format('w'), true);
 
         if (Configuration::DataBrowser()->showCreateLink() && ! Request::isOnSharedPage()) {
-            $addLink = ImporterWindow::linkForDate($localTime->toServerTimestamp());
+            $addLink = $this->addLinkForDate($localTime->toServerTimestamp());
         }
 
         if ($localTime->isToday()) {
