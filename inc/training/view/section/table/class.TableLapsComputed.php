@@ -19,15 +19,9 @@ use Runalyze\Model\Trackdata;
  */
 class TableLapsComputed extends TableLapsAbstract
 {
-    /**
-     * Data
-     */
-    protected array $Data = [];
-
     protected function setCode()
     {
         $this->constructLaps();
-        $this->setDataToCode();
     }
 
     protected function constructLaps()
@@ -51,32 +45,32 @@ class TableLapsComputed extends TableLapsAbstract
     }
 
     /**
-     * Display data
+     * Data for the twig template `activity/training_view/table.html.twig`
+     *
+     * @return array<string, mixed>
      */
-    protected function setDataToCode()
+    public function templateData(): array
     {
         $showCellForHeartrate = $this->Context->trackdata()
             ->has(Trackdata\Entity::HEARTRATE);
         $showCellForElevation = $this->Context->hasRoute() && $this->Context->route()
             ->hasElevations();
 
-        $this->Code .= '<table class="fullwidth zebra-style">';
-        $this->Code .= '<thead><tr>';
-        $this->Code .= '<th>' . __('Distance') . '</th>';
-        $this->Code .= '<th>' . __('Time') . '</th>';
-        $this->Code .= '<th>' . __('Pace') . '</th>';
+        $header = [
+            $this->cell(__('Distance')),
+            $this->cell(__('Time')),
+            $this->cell(__('Pace')),
+        ];
+
         if ($showCellForHeartrate) {
-            $this->Code .= '<th>' . __('avg.') . ' ' . __('bpm') . '</th>';
+            $header[] = $this->cell(__('avg.') . ' ' . __('bpm'));
         }
 
         if ($showCellForElevation) {
-            $this->Code .= '<th>' . __('elev.') . '</th>';
+            $header[] = $this->cell(__('elev.'));
         }
 
-        $this->Code .= '</tr></thead>';
-
-        $this->Code .= '<tbody>';
-
+        $rows = [];
         $unit = $this->Context->sport()
             ->legacyPaceUnit();
         foreach ($this->Laps->objects() as $Lap) {
@@ -91,22 +85,53 @@ class TableLapsComputed extends TableLapsAbstract
                     ->appendix();
             }
 
-            $this->Code .= '<tr class="r">';
-            $this->Code .= '<td>' . $Lap->trackDistance()->string(true, Distance::$DefaultDecimalsSplitTable) . '</td>';
-            $this->Code .= '<td>' . $Lap->trackDuration()->string() . '</td>';
-            $this->Code .= '<td>' . $paceValue . '<small>' . $paceAppendix . '</small></td>';
+            $cells = [
+                $this->cell($Lap->trackDistance()->string(true, Distance::$DefaultDecimalsSplitTable)),
+                $this->cell($Lap->trackDuration()->string()),
+                $this->cell($paceValue . '<small>' . $paceAppendix . '</small>'),
+            ];
+
             if ($showCellForHeartrate) {
-                $this->Code .= '<td>' . $Lap->HRavg()->inBPM() . '<small>bpm</small></td>';
+                $cells[] = $this->cell($Lap->HRavg()->inBPM() . '<small>bpm</small>');
             }
 
             if ($showCellForElevation) {
-                $this->Code .= '<td class="c">+' . Elevation::format($Lap->elevationUp(), false) . '/-' . Elevation::format($Lap->elevationDown(), false) . '</td>';
+                $cells[] = [
+                    'class' => 'c',
+                    'style' => '',
+                    'content' => '+' . Elevation::format($Lap->elevationUp(), false) . '/-' . Elevation::format($Lap->elevationDown(), false),
+                ];
             }
 
-            $this->Code .= '</tr>';
+            $rows[] = [
+                'class' => 'r',
+                'style' => '',
+                'cells' => $cells,
+            ];
         }
 
-        $this->Code .= '</tbody>';
-        $this->Code .= '</table>';
+        return [
+            'class' => 'fullwidth zebra-style',
+            'wrapper_style' => '',
+            'warning' => '',
+            'header' => $header,
+            'bodies' => [
+                [
+                    'rows' => $rows,
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function cell(string $content): array
+    {
+        return [
+            'class' => '',
+            'style' => '',
+            'content' => $content,
+        ];
     }
 }

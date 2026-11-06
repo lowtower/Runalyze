@@ -177,8 +177,17 @@ final class TrainingViewTest extends DatabaseTestCase
                     }
                 }
 
-                if (($row['data']['kind'] ?? '') === 'row' && ($row['data']['info']['boxed_values'] ?? []) !== []) {
-                    ++$rowsWithBoxedValues;
+                if (($row['data']['kind'] ?? '') === 'row') {
+                    $this->assertArrayHasKey('table', $row['data']['info']);
+
+                    if (isset($row['data']['info']['table'])) {
+                        $this->assertArrayHasKey('header', $row['data']['info']['table']);
+                        $this->assertTrue(isset($row['data']['info']['table']['rows']) || isset($row['data']['info']['table']['bodies']));
+                    }
+
+                    if (($row['data']['info']['boxed_values'] ?? []) !== []) {
+                        ++$rowsWithBoxedValues;
+                    }
                 }
             }
         }

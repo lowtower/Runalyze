@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file contains class::TableLapsComputed
+ * This file contains class::TableSwimLane
  * @package Runalyze\DataObjects\Training\View\Section
  */
 
@@ -20,32 +20,28 @@ use Runalyze\Model\Trackdata;
  */
 class TableSwimLane extends TableLapsAbstract
 {
-    /**
-     * Data
-     */
-    protected array $Data = [];
-
     protected function setCode()
     {
-        $this->setDataToCode();
+        // Nothing to do, the table is no longer built as a code string, see templateData().
     }
 
     /**
-     * Display data
+     * Data for the twig template `activity/training_view/table.html.twig`
+     *
+     * @return array<string, mixed>
      */
-    protected function setDataToCode()
+    public function templateData(): array
     {
-        $this->Code .= '<table class="fullwidth zebra-style">';
-        $this->Code .= '<thead><tr>';
-        $this->Code .= '<th></th>';
-        $this->Code .= '<th>' . __('Distance') . '</th>';
-        $this->Code .= '<th>' . __('Time') . '</th>';
-        $this->Code .= '<th>' . __('Swolf') . '</th>';
-        $this->Code .= '<th>' . __('Strokes') . '</th>';
-        $this->Code .= '<th>' . __('Type') . '</th>';
-        $this->Code .= '</tr></thead>';
+        $header = [
+            $this->cell(''),
+            $this->cell(__('Distance')),
+            $this->cell(__('Time')),
+            $this->cell(__('Swolf')),
+            $this->cell(__('Strokes')),
+            $this->cell(__('Type')),
+        ];
 
-        $this->Code .= '<tbody>';
+        $rows = [];
 
         $Loop = new Swimdata\Loop($this->Context->swimdata());
         $Poollength = $this->Context->swimdata()
@@ -73,7 +69,7 @@ class TableSwimLane extends TableLapsAbstract
             if ($lapFinished && $Stroketype->isBreak()) {
                 if ($swolfs > 0 || $strokes > 0) {
                     // show the summary lane of this interval
-                    $this->writeSummary($Poollength, $TrackLoop, $interval, $intervalLanes, $swolfs, $strokes);
+                    $rows[] = $this->summaryRow($Poollength, $interval, $intervalLanes, $swolfs, $strokes);
                 }
 
                 $interval++;
@@ -83,40 +79,51 @@ class TableSwimLane extends TableLapsAbstract
                 $strokes = 0;
 
                 // TSC: pause/rest handling: if pause, show the pause lane
-                $this->Code .= '<tr class="r unimportant">';
-                $this->Code .= '<td></td>';
-                $this->Code .= '<td></td>';
-                $this->Code .= '<td>' . Duration::format($TrackLoop->difference(Trackdata\Entity::TIME)) . '</td>';
-                $this->Code .= '<td></td>';
-                $this->Code .= '<td></td>';
+                $rows[] = [
+                    'class' => 'r unimportant',
+                    'style' => '',
+                    'cells' => [
+                        $this->cell(''),
+                        $this->cell(''),
+                        $this->cell(Duration::format($TrackLoop->difference(Trackdata\Entity::TIME))),
+                        $this->cell(''),
+                        $this->cell(''),
+                        $this->cell($Stroketype->shortString()),
+                    ],
+                ];
 
                 $hasBreak = true;
             } else {
-                $this->Code .= '<tr class="r">';
+                $cells = [];
 
                 if (! $Stroketype->isBreak()) {
                     $lane++;
                     $intervalLanes++;
 
-                    $this->Code .= '<td>' . $lane . '.</td>';
-                    $this->Code .= '<td>' . $Distance->stringMeter() . '</td>';
-                    $this->Code .= '<td>' . Duration::format($TrackLoop->difference(Trackdata\Entity::TIME)) . '</td>';
-                    $this->Code .= '<td>' . $Loop->swolf() . '</td>';
-                    $this->Code .= '<td>' . $Loop->stroke() . '</td>';
+                    $cells[] = $this->cell($lane . '.');
+                    $cells[] = $this->cell($Distance->stringMeter());
+                    $cells[] = $this->cell(Duration::format($TrackLoop->difference(Trackdata\Entity::TIME)));
+                    $cells[] = $this->cell((string) $Loop->swolf());
+                    $cells[] = $this->cell((string) $Loop->stroke());
                 } else {
-                    $this->Code .= '<td></td>';
-                    $this->Code .= '<td></td>';
-                    $this->Code .= '<td>' . Duration::format($TrackLoop->difference(Trackdata\Entity::TIME)) . '</td>';
-                    $this->Code .= '<td></td>';
-                    $this->Code .= '<td></td>';
+                    $cells[] = $this->cell('');
+                    $cells[] = $this->cell('');
+                    $cells[] = $this->cell(Duration::format($TrackLoop->difference(Trackdata\Entity::TIME)));
+                    $cells[] = $this->cell('');
+                    $cells[] = $this->cell('');
                 }
 
                 $swolfs += empty($Loop->swolf()) ? 0 : $Loop->swolf();
                 $strokes += empty($Loop->stroke()) ? 0 : $Loop->stroke();
-            }
 
-            $this->Code .= '<td>' . $Stroketype->shortString() . '</td>';
-            $this->Code .= '</tr>';
+                $cells[] = $this->cell($Stroketype->shortString());
+
+                $rows[] = [
+                    'class' => 'r',
+                    'style' => '',
+                    'cells' => $cells,
+                ];
+            }
 
             $TrackLoop->nextStep();
             $Loop->nextStep();
@@ -124,11 +131,20 @@ class TableSwimLane extends TableLapsAbstract
 
         // #TSC: in break/rest add the last interval "summary"; but only if the last is not a break interval
         if ($hasBreak && ! $Stroketype->isBreak()) {
-            $this->writeSummary($Poollength, $TrackLoop, $interval, $intervalLanes, $swolfs, $strokes);
+            $rows[] = $this->summaryRow($Poollength, $interval, $intervalLanes, $swolfs, $strokes);
         }
 
-        $this->Code .= '</tbody>';
-        $this->Code .= '</table>';
+        return [
+            'class' => 'fullwidth zebra-style',
+            'wrapper_style' => '',
+            'warning' => '',
+            'header' => $header,
+            'bodies' => [
+                [
+                    'rows' => $rows,
+                ],
+            ],
+        ];
     }
 
     // create a array with trackloop-indexes where the pause laps/rounds including #TSC
@@ -155,21 +171,38 @@ class TableSwimLane extends TableLapsAbstract
     }
 
     /**
-     * writes the summary line with infos about the previous lanes.
+     * Summary row with infos about the previous lanes.
      * #TSC
+     *
+     * @return array<string, mixed>
      */
-    protected function writeSummary(float $Poollength, $TrackLoop, $interval, $intervalLanes, $swolfs, $strokes)
+    protected function summaryRow(float $Poollength, int $interval, int $intervalLanes, int|float $swolfs, int|float $strokes): array
     {
         $distance = new Distance($Poollength * $intervalLanes);
-        $this->Code .= '<tr class="r unimportant">';
 
-        $this->Code .= '<td>' . $interval . './' . $intervalLanes . '</td>';
-        $this->Code .= '<td>' . $distance->stringMeter() . '</td>';
-        $this->Code .= '<td></td>';
-        $this->Code .= '<td>&#216; ' . ($intervalLanes != 0 ? round($swolfs / $intervalLanes) : '-') . '</td>';
-        $this->Code .= '<td>&#216; ' . ($intervalLanes != 0 ? round($strokes / $intervalLanes) : '-') . '</td>';
+        return [
+            'class' => 'r unimportant',
+            'style' => '',
+            'cells' => [
+                $this->cell($interval . './' . $intervalLanes),
+                $this->cell($distance->stringMeter()),
+                $this->cell(''),
+                $this->cell('&#216; ' . ($intervalLanes !== 0 ? round($swolfs / $intervalLanes) : '-')),
+                $this->cell('&#216; ' . ($intervalLanes !== 0 ? round($strokes / $intervalLanes) : '-')),
+                $this->cell('Summary'),
+            ],
+        ];
+    }
 
-        $this->Code .= '<td>Summary</td>';
-        $this->Code .= '</tr>';
+    /**
+     * @return array<string, mixed>
+     */
+    private function cell(string $content): array
+    {
+        return [
+            'class' => '',
+            'style' => '',
+            'content' => $content,
+        ];
     }
 }

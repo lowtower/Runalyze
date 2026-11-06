@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file contains class::TableLapsComputed
+ * This file contains class::TableSwimLaneAggregateInterval
  * @package Runalyze\DataObjects\Training\View\Section
  */
 
@@ -23,38 +23,36 @@ use Runalyze\Parameter\Application\PaceUnit;
  */
 class TableSwimLaneAggregateInterval extends TableLapsAbstract
 {
-    /**
-     * Data
-     */
-    protected array $Data = [];
-
     protected function setCode()
     {
-        $this->setDataToCode();
+        // Nothing to do, the table is no longer built as a code string, see templateData().
     }
 
     /**
-     * Display data
+     * Data for the twig template `activity/training_view/table.html.twig`
+     *
+     * @return array<string, mixed>
      */
-    protected function setDataToCode()
+    public function templateData(): array
     {
-        // table header
-        $this->Code .= '<table class="fullwidth zebra-style">';
-        $this->Code .= '<thead><tr>';
-        $this->Code .= '<th>' . __('Laps') . '</th>';
-        $this->Code .= '<th>' . __('Distance') . '</th>';
-        $this->Code .= '<th></th>';
-        $this->Code .= '<th>' . __('Pace') . '</th>';
-        $this->Code .= '<th></th>';
-        $this->Code .= '<th>' . __('Pace') . ' ' . __('diff') . '</th>';
-        $this->Code .= '<th>' . __('Swolf') . '</th>';
-        $this->Code .= '<th>' . __('Swolf') . ' ' . __('diff') . '</th>';
-        $this->Code .= '<th>' . __('Strokes') . '</th>';
-        $this->Code .= '<th>' . __('Strokes') . ' ' . __('diff') . '</th>';
-        $this->Code .= '<th>' . __('Type') . '</th>';
-        $this->Code .= '</tr></thead>';
+        $header = [];
+        foreach ([
+            __('Laps'),
+            __('Distance'),
+            '',
+            __('Pace'),
+            '',
+            __('Pace') . ' ' . __('diff'),
+            __('Swolf'),
+            __('Swolf') . ' ' . __('diff'),
+            __('Strokes'),
+            __('Strokes') . ' ' . __('diff'),
+            __('Type'),
+        ] as $content) {
+            $header[] = $this->cell($content);
+        }
 
-        $this->Code .= '<tbody>';
+        $rows = [];
 
         // needed data
         $Loop = new Swimdata\Loop($this->Context->swimdata());
@@ -103,52 +101,63 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract
 
                 // if 100m exceeded or the lap is finished write the table row
                 if ($distance100->stringMeter(false) === '100' || $lapFinished) {
-                    $this->Code .= '<tr class="r"'
-                        . ($beginLap ? ' style="border-color: #666; border-style: dashed dashed dashed dashed; border-width: 1px 0px 1px 0px;"' : '')
-                        . '>';
+                    $cells = [];
 
                     // round/lap
-                    $this->Code .= '<td>' . $lap . '</td>';
+                    $cells[] = $this->cell((string) $lap);
 
                     // distance cumulated and per 100meter
-                    $this->Code .= '<td>' . $distance->stringMeter() . '</td>';
-                    $this->Code .= '<td>' . $distance100->stringMeter() . '</td>';
+                    $cells[] = $this->cell($distance->stringMeter());
+                    $cells[] = $this->cell($distance100->stringMeter());
 
                     // pace
                     $pace->setTime($duration->seconds());
                     $pace->setDistance($distance100->value());
-                    $this->Code .= '<td>' . $pace->valueWithAppendix() . '</td>';
+                    $cells[] = $this->cell($pace->valueWithAppendix());
                     // make it very easy: the pace seconds define the bar-width
-                    $this->Code .= '<td style="text-align: left; padding-left: 2%;">'
-                        . '<span class="bar-chart-value" style="width:' . ($pace->secondsPerKm() / 10) . 'px; top: 0px;"></span></td>';
+                    $cells[] = [
+                        'class' => '',
+                        'style' => 'text-align: left; padding-left: 2%;',
+                        'content' => '<span class="bar-chart-value" style="width:' . ($pace->secondsPerKm() / 10) . 'px; top: 0px;"></span>',
+                    ];
                     if ($beginLap && $lap === 1) {
-                        $this->Code .= '<td></td>';
+                        $cells[] = $this->cell('');
                     } else {
-                        $this->Code .= '<td><span style="opacity: ' . ($beginLap ? '0.5' : '1.0') . '">' . $pace->compareTo($prevPace) . '</span></td>';
+                        $cells[] = $this->cell('<span style="opacity: ' . ($beginLap ? '0.5' : '1.0') . '">' . $pace->compareTo($prevPace) . '</span>');
                     }
 
                     // swolfs
                     $sw = round($swolfs / ($distance100->value() / $poollength));
                     if ($beginLap && $lap === 1) {
-                        $this->Code .= '<td></td><td></td>';
+                        $cells[] = $this->cell('');
+                        $cells[] = $this->cell('');
                     } else {
-                        $this->Code .= '<td>' . $sw . '</td>';
-                        $this->Code .= '<td>' . $this->difference($prevSwolfs, $sw, $beginLap) . '</td>';
+                        $cells[] = $this->cell((string) $sw);
+                        $cells[] = $this->cell($this->difference($prevSwolfs, $sw, $beginLap));
                     }
 
                     // strokes
                     if ($beginLap && $lap === 1) {
-                        $this->Code .= '<td></td><td></td>';
+                        $cells[] = $this->cell('');
+                        $cells[] = $this->cell('');
                     } else {
-                        $this->Code .= '<td>' . $strokes . '</td>';
-                        $this->Code .= '<td>' . $this->difference($prevStrokes, $strokes, $beginLap) . '</td>';
+                        $cells[] = $this->cell((string) $strokes);
+                        $cells[] = $this->cell($this->difference($prevStrokes, $strokes, $beginLap));
                     }
 
                     $primaryStroketypeId = array_search(max($stroketypePrimary), $stroketypePrimary, true);
                     $Stroketype->set($primaryStroketypeId);
-                    $this->Code .= '<td style="padding-right: 20px;">' . $Stroketype->shortString() . '</td>';
+                    $cells[] = [
+                        'class' => '',
+                        'style' => 'padding-right: 20px;',
+                        'content' => $Stroketype->shortString(),
+                    ];
 
-                    $this->Code .= '</tr>';
+                    $rows[] = [
+                        'class' => 'r',
+                        'style' => $beginLap ? 'border-color: #666; border-style: dashed dashed dashed dashed; border-width: 1px 0px 1px 0px;' : '',
+                        'cells' => $cells,
+                    ];
 
                     // store "previous" values for diff
                     $prevPace->setTime($duration->seconds());
@@ -177,8 +186,17 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract
             $Loop->nextStep();
         }
 
-        $this->Code .= '</tbody>';
-        $this->Code .= '</table>';
+        return [
+            'class' => 'fullwidth zebra-style',
+            'wrapper_style' => '',
+            'warning' => '',
+            'header' => $header,
+            'bodies' => [
+                [
+                    'rows' => $rows,
+                ],
+            ],
+        ];
     }
 
     // create a array with trackloop-indexes where the laps/rounds changing
@@ -217,5 +235,17 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract
         }
 
         return '<span class="' . $class . '" style="opacity: ' . ($beginLap ? '0.5' : '1.0') . '">' . $sign . $diff . '</span>';
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function cell(string $content): array
+    {
+        return [
+            'class' => '',
+            'style' => '',
+            'content' => $content,
+        ];
     }
 }
