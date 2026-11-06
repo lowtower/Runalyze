@@ -121,15 +121,13 @@ abstract class TrainingViewSectionRow extends TrainingViewSectionRowAbstract
         if ($this->Plot === null) {
             return [
                 'kind' => 'plot',
-                'key' => '',
-                'html' => '',
+                'plot' => null,
             ];
         }
 
         return [
             'kind' => 'plot',
-            'key' => $this->Plot->getKey(),
-            'html' => $this->plotHtml($this->Plot),
+            'plot' => $this->Plot->templateData(),
         ];
     }
 
@@ -147,25 +145,5 @@ abstract class TrainingViewSectionRow extends TrainingViewSectionRowAbstract
         }
 
         return $data;
-    }
-
-    /**
-     * The plots still echo their content directly, therefore their output is
-     * captured here. This is transitional and will be removed when the plots
-     * are ported to twig templates.
-     */
-    final protected function plotHtml(\Runalyze\View\Activity\Plot\ActivityPlot $Plot): string
-    {
-        ob_start();
-
-        try {
-            $Plot->display();
-        } catch (Throwable $throwable) {
-            ob_end_clean();
-
-            throw $throwable;
-        }
-
-        return (string) ob_get_clean();
     }
 }

@@ -168,7 +168,12 @@ final class TrainingViewTest extends DatabaseTestCase
 
                     foreach ($row['data']['plot']['tabs'] as $tab) {
                         $this->assertArrayHasKey('key', $tab);
-                        $this->assertTrue(isset($tab['html']) || isset($tab['table']));
+                        $this->assertTrue(isset($tab['html']) || isset($tab['table']) || isset($tab['plot']));
+
+                        if (isset($tab['plot'])) {
+                            $this->assertArrayHasKey('css_id', $tab['plot']);
+                            $this->assertArrayHasKey('js', $tab['plot']);
+                        }
 
                         if (isset($tab['table']) && ! isset($tab['table']['template'])) {
                             $this->assertArrayHasKey('header', $tab['table']);

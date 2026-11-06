@@ -77,21 +77,27 @@ abstract class TrainingViewSectionRowTabbedPlot extends TrainingViewSectionRow
 
         foreach ($this->RightContent as $key => $Content) {
             if ($Content instanceof ActivityPlot) {
-                $html = '<div id="plot-' . $Content->getKey() . '" class="plot-container">' . $this->plotHtml($Content) . '</div>';
-                $table = null;
+                $tabs[] = [
+                    'key' => (string) $key,
+                    'html' => '',
+                    'plot' => $Content->templateData(),
+                    'table' => null,
+                ];
             } elseif (is_array($Content)) {
-                $html = '';
-                $table = $Content;
+                $tabs[] = [
+                    'key' => (string) $key,
+                    'html' => '',
+                    'plot' => null,
+                    'table' => $Content,
+                ];
             } else {
-                $html = (string) $Content;
-                $table = null;
+                $tabs[] = [
+                    'key' => (string) $key,
+                    'html' => (string) $Content,
+                    'plot' => null,
+                    'table' => null,
+                ];
             }
-
-            $tabs[] = [
-                'key' => (string) $key,
-                'html' => $html,
-                'table' => $table,
-            ];
         }
 
         return [
