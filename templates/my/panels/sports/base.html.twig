@@ -27,11 +27,11 @@
     {% for stats in [weekStatistics, monthStatistics, yearStatistics, totalStatistics] %}
         {# @var stats \Runalyze\Bundle\CoreBundle\Model\Sport\SportStatistics #}
         <div id="sports_{{ loop.index0 }}" class="change"{% if loop.index0 != 1 %} style="display:none;"{% endif %}>
-        {% if stats.count is defined %}
+        {% if stats.count > 0 %}
             <div class="boxed-values at-bottom">
             {% for stat in stats.statistics %}
                 {# @var stat \Runalyze\Bundle\CoreBundle\Model\Sport\SportStatistic #}
-                {% if stat.sport.distances is defined and stat.areMostActivitiesWithDistance is defined %}
+                {% if stat.sport.distances and stat.areMostActivitiesWithDistance %}
                     {{ boxedValueFor(distance(stat.totalDistance), stat.sport.name, '50%', stat.sport.img) }}
                 {% else %}
                     {{ boxedValue(stat.totalDuration|duration, '', stat.sport.name, '50%', stat.sport.img) }}
