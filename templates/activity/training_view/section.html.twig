@@ -1,0 +1,25 @@
+{#
+    Section shell of the training view, replaces the display methods of
+    inc/training/view/class.TrainingViewSection.php and its tabbed variants.
+
+    Variables (see TrainingViewSection::templateData()):
+    - is_first, header, change_menu, container_id, rows
+    - rows entries have tab_id/hidden/data, where data is the template data
+      of a TrainingViewSectionRow (see row.html.twig). tab_id is only set
+      for rows of a tabbed section (TrainingViewSectionTabbed).
+#}
+<div class="panel-heading{% if not is_first %} panel-inner-heading{% endif %}">
+    {% if change_menu %}
+        <div class="change-menu">
+            {% for item in change_menu %}{{ item|raw }}{% endfor %}
+        </div>
+    {% endif %}
+    <h2>{{ header|raw }}</h2>
+</div>
+<div{% if container_id %} id="{{ container_id }}"{% endif %}>
+    {% for row in rows %}
+        {% if row.tab_id %}<div class="change" id="{{ row.tab_id }}"{% if row.hidden %} style="display:none;"{% endif %}>{% endif %}
+        {% include 'activity/training_view/row.html.twig' with row.data %}
+        {% if row.tab_id %}</div>{% endif %}
+    {% endfor %}
+</div>

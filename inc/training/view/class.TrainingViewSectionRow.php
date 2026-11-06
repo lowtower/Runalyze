@@ -68,7 +68,6 @@ abstract class TrainingViewSectionRow extends TrainingViewSectionRowAbstract
 
     abstract protected function setPlot();
 
-
     /**
      * Data for the twig template `activity/training_view/row.html.twig`
      *
