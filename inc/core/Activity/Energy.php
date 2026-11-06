@@ -35,13 +35,13 @@ class Energy implements ValueInterface
     }
 
     /**
-     * @param float $energy [kcal]
+     * @param ?float $energy [kcal]
      */
-    public function __construct(float $energy = 0, ?EnergyUnit $preferredUnit = null)
+    public function __construct(?float $energy = 0, ?EnergyUnit $preferredUnit = null)
     {
         $this->PreferredUnit = $preferredUnit ?? Configuration::General()->energyUnit();
 
-        $this->set($energy);
+        $this->set($energy ?? 0);
     }
 
     /**

@@ -9019,16 +9019,16 @@
         },
         {
             "name": "phpstan/phpstan-doctrine",
-            "version": "2.1.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-doctrine.git",
-                "reference": "1c3be34c9f80f79931eb76f21dc98b2e8015f77c"
+                "reference": "a05453aeaa073187f637d823ce74de06b6621c3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/1c3be34c9f80f79931eb76f21dc98b2e8015f77c",
-                "reference": "1c3be34c9f80f79931eb76f21dc98b2e8015f77c",
+                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/a05453aeaa073187f637d823ce74de06b6621c3e",
+                "reference": "a05453aeaa073187f637d823ce74de06b6621c3e",
                 "shasum": ""
             },
             "require": {
@@ -9090,10 +9090,10 @@
             ],
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-doctrine/issues",
-                "source": "https://github.com/phpstan/phpstan-doctrine/tree/2.1.0"
+                "source": "https://github.com/phpstan/phpstan-doctrine/tree/2.1.1"
             },
-            "time": "2026-10-30T17:56:27+00:00",
-            "published-time": "2026-10-30T18:00:10+00:00"
+            "time": "2026-11-05T21:28:06+00:00",
+            "published-time": "2026-11-05T21:28:49+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -10961,12 +10961,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/security-advisories.git",
-                "reference": "f5762fafc4e6ab800e057c61d9146d7c092703e4"
+                "reference": "96b2f80c20fc53879a4f3e9e504aec5794e96633"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/security-advisories/zipball/f5762fafc4e6ab800e057c61d9146d7c092703e4",
-                "reference": "f5762fafc4e6ab800e057c61d9146d7c092703e4",
+                "url": "https://api.github.com/repos/FriendsOfPHP/security-advisories/zipball/96b2f80c20fc53879a4f3e9e504aec5794e96633",
+                "reference": "96b2f80c20fc53879a4f3e9e504aec5794e96633",
                 "shasum": ""
             },
             "require-dev": {
@@ -10992,8 +10992,8 @@
                 "issues": "https://github.com/FriendsOfPHP/security-advisories/issues",
                 "source": "https://github.com/FriendsOfPHP/security-advisories/tree/master"
             },
-            "time": "2026-11-03T10:56:24+00:00",
-            "published-time": "2026-11-03T10:56:35+00:00"
+            "time": "2026-11-05T19:19:42+00:00",
+            "published-time": "2026-11-05T19:19:48+00:00"
         },
         {
             "name": "staabm/side-effects-detector",
@@ -11571,16 +11571,16 @@
         },
         {
             "name": "symplify/easy-coding-standard",
-            "version": "13.3.13",
+            "version": "13.3.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ecsphp/ecs.git",
-                "reference": "ceb2ac9fd79dc30841dbecb4e259f88ceb9d5600"
+                "reference": "c6a379b5d5cce68c60d2dbd1211989bdf58eacaf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ecsphp/ecs/zipball/ceb2ac9fd79dc30841dbecb4e259f88ceb9d5600",
-                "reference": "ceb2ac9fd79dc30841dbecb4e259f88ceb9d5600",
+                "url": "https://api.github.com/repos/ecsphp/ecs/zipball/c6a379b5d5cce68c60d2dbd1211989bdf58eacaf",
+                "reference": "c6a379b5d5cce68c60d2dbd1211989bdf58eacaf",
                 "shasum": ""
             },
             "require": {
@@ -11613,10 +11613,10 @@
             ],
             "support": {
                 "issues": "https://github.com/ecsphp/ecs/issues",
-                "source": "https://github.com/ecsphp/ecs/tree/13.3.13"
+                "source": "https://github.com/ecsphp/ecs/tree/13.3.14"
             },
-            "time": "2026-11-02T22:11:38+00:00",
-            "published-time": "2026-11-02T22:31:00+00:00"
+            "time": "2026-11-05T16:53:58+00:00",
+            "published-time": "2026-11-05T16:54:06+00:00"
         },
         {
             "name": "tomasvotruba/type-coverage",

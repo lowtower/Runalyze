@@ -35,12 +35,15 @@ class Distance implements ValueInterface
      */
     public static int $DefaultDecimalsSplitTable = 2;
 
+    protected float $Kilometer;
+
     protected DistanceUnitSystem $UnitSystem;
 
     public function __construct(
-        protected float $Kilometer = 0.0,
+        ?float $Kilometer = 0.0,
         ?DistanceUnitSystem $unitSystem = null
     ) {
+        $this->Kilometer = $Kilometer ?? 0.0;
         $this->UnitSystem = ($unitSystem instanceof DistanceUnitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();
     }
 
