@@ -12,7 +12,7 @@ final class TableTest extends \PHPUnit\Framework\TestCase
 {
     public function testThatEmptySplitsResultInAnEmptyTable(): void
     {
-        $data = (new Table(new Entity()))->templateData();
+        $data = new Table(new Entity())->templateData();
 
         $this->assertSame('fullwidth zebra-style', $data['class']);
         $this->assertSame('', $data['wrapper_style']);
@@ -35,7 +35,7 @@ final class TableTest extends \PHPUnit\Framework\TestCase
             new Split(1.0, 330, true),
         ]);
 
-        $data = (new Table($splits))->templateData();
+        $data = new Table($splits)->templateData();
 
         $rows = $data['bodies'][0]['rows'];
         $this->assertCount(4, $rows);
@@ -82,8 +82,14 @@ final class TableTest extends \PHPUnit\Framework\TestCase
             new Split(2.0, 630, true),
         ]));
         $table->setHalfsOfCompetition([
-            ['s' => 300.0, 'km' => 1.0],
-            ['s' => 330.0, 'km' => 1.0],
+            [
+                's' => 300.0,
+                'km' => 1.0,
+            ],
+            [
+                's' => 330.0,
+                'km' => 1.0,
+            ],
         ]);
 
         $data = $table->templateData();

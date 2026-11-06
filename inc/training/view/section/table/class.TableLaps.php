@@ -36,7 +36,7 @@ class TableLaps extends TableLapsAbstract
 
     protected function splitsView(): Splits\Table
     {
-        if ($this->SplitsView === null) {
+        if (! $this->SplitsView instanceof \Runalyze\View\Splits\Table) {
             $Reader = new StringReader($this->Context->activity()->title());
 
             $Splits = $this->Context->activity()
