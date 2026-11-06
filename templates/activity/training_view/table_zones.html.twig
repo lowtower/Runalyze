@@ -1,0 +1,11 @@
+{#-
+    Zones table of the training view, replaces the code string building of
+    inc/training/view/section/table/class.TableZones*.php
+
+    Variables (see TableZonesAbstract::templateData()):
+    - header: cells with content (raw html) and optional style
+    - show_average: whether the average column is shown
+    - rows: each row has zone (raw html), percentage, optional color, time, distance and average (raw html)
+    - footer_hint: raw html shown after the table
+-#}
+<table class="fullwidth bar-chart-table"><thead><tr>{% for cell in header %}<th{% if cell.style %} style="{{ cell.style }}"{% endif %}>{{ cell.content|raw }}</th>{% endfor %}</tr></thead><tbody>{% for row in rows %}<tr><td class="bar-chart-label">{{ row.zone|raw }}</td><td class="bar-chart-value-cell"><span class="bar-chart-value" style="width:{{ row.percentage }}%;{% if row.color %}background:{{ row.color }};{% endif %}"></span> <span class="bar-chart-text">{{ row.percentage }} &#37;</span></td><td>{{ row.time|raw }}</td><td>{{ row.distance|raw }}</td>{% if show_average %}<td>{{ row.average|raw }}</td>{% endif %}</tr>{% endfor %}</tbody></table>{% if footer_hint %}{{ footer_hint|raw }}{% endif %}
