@@ -119,7 +119,7 @@ final class TrainingViewTest extends DatabaseTestCase
 
         $this->assertSame(Icon::$REFRESH_SMALL, $data['refresh_icon']);
 
-        $this->assertStringContainsString('training-row', (string) $data['sections_html']);
+        $this->assertThatSectionsProvideTheOverviewRow($data);
         $this->assertStringContainsString('RunalyzePlot.resizeTrainingCharts();', (string) $data['plots_js']);
     }
 
@@ -140,7 +140,39 @@ final class TrainingViewTest extends DatabaseTestCase
         $this->assertSame('', $data['navigation_prev']);
         $this->assertSame('', $data['navigation_next']);
 
-        $this->assertStringContainsString('training-row', (string) $data['sections_html']);
+        $this->assertThatSectionsProvideTheOverviewRow($data);
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     */
+    private function assertThatSectionsProvideTheOverviewRow(array $data): void
+    {
+        $this->assertNotEmpty($data['sections']);
+
+        $overviewRow = null;
+        $tabbedPlotRows = 0;
+
+        foreach ($data['sections'] as $section) {
+            $this->assertArrayHasKey('header', $section);
+            $this->assertNotEmpty($section['rows']);
+
+            foreach ($section['rows'] as $row) {
+                if (($row['data']['id'] ?? '') === 'training-overview') {
+                    $overviewRow = $row['data'];
+                }
+
+                if (($row['data']['plot']['kind'] ?? '') === 'tabbed_plot') {
+                    ++$tabbedPlotRows;
+                }
+            }
+        }
+
+        $this->assertNotNull($overviewRow, 'The overview row must be part of the sections.');
+        $this->assertSame('fullwidth', $overviewRow['kind']);
+        $this->assertStringContainsString('boxed-values', (string) $overviewRow['content']);
+
+        $this->assertGreaterThan(0, $tabbedPlotRows, 'At least one tabbed plot row must be part of the sections.');
     }
 
     private function trainingViewFor(int $trainingId): TrainingView

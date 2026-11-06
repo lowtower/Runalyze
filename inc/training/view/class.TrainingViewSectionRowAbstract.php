@@ -23,5 +23,10 @@ abstract class TrainingViewSectionRowAbstract
 
     abstract protected function setContent();
 
-    abstract public function display();
+    /**
+     * Data for the twig template `activity/training_view/row.html.twig`
+     *
+     * @return array<string, mixed>
+     */
+    abstract public function templateData(): array;
 }

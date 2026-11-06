@@ -7,8 +7,9 @@
     requests or wrapped in the page shell for direct requests, see
     LegacyOutputCaptureTrait::wrapLegacyContent().
 
-    The sections are transitional: they are still rendered by the legacy
-    section classes and will be ported to twig templates step by step.
+    The section shells are rendered here. Their content (boxed values,
+    tables, plots) is still built by the legacy classes and will be ported
+    to twig templates step by step.
 #}
 <div class="panel-heading">
     <div class="panel-menu">
@@ -30,5 +31,7 @@
         <div class="hover-icons"><span class="link" onclick="Runalyze.Statistics.reload();">{{ refresh_icon|raw }}</span></div>
     {% endif %}
 </div>
-{{ sections_html|raw }}
+{% for section in sections %}
+    {% include 'activity/training_view/section.html.twig' with section %}
+{% endfor %}
 {{ plots_js|raw }}

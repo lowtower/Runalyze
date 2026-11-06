@@ -28,48 +28,44 @@ abstract class TrainingViewSectionTabbedPlot extends TrainingViewSection
         $Row->setCSSid($this->cssId());
     }
 
-    final public function display()
+    /**
+     * Data for the twig template `activity/training_view/section.html.twig`
+     *
+     * @return array<string, mixed> empty array if the section must not be displayed
+     */
+    public function templateData(): array
     {
-        if (! $this->isEmpty()) {
-            $this->displayHeader();
-            $this->displayContent();
+        if ($this->isEmpty()) {
+            return [];
         }
+
+        return [
+            'is_first' => $this->isFirst,
+            'header' => $this->Header,
+            'change_menu' => $this->changeMenuLinks(),
+            'container_id' => '',
+            'rows' => $this->rowsTemplateData($this->Rows),
+        ];
     }
 
-    private function displayHeader()
-    {
-        echo '<div class="panel-heading' . (! $this->isFirst ? ' panel-inner-heading' : '') . '">';
-        $this->displayChangeMenu();
-        echo '<h2>' . $this->Header . '</h2>';
-        echo '</div>';
-    }
-
-    private function displayChangeMenu()
+    /**
+     * @return string[]
+     */
+    private function changeMenuLinks(): array
     {
         if (count($this->Links) <= 1) {
-            return;
+            return [];
         }
 
-        echo '<div class="change-menu">';
+        $links = [];
 
         foreach ($this->Links as $key => $Title) {
-            echo Ajax::change($Title, 'training-view-tabbed-' . $this->cssId(), 'training-view-tabbed-' . $this->cssId() . '-' . $key);
+            $links[] = Ajax::change($Title, 'training-view-tabbed-' . $this->cssId(), 'training-view-tabbed-' . $this->cssId() . '-' . $key);
         }
 
-        echo Ajax::change('<i class="fa fa-fw fa-bars"></i> ' . __('All'), 'training-view-tabbed-' . $this->cssId(), 'training-view-tabbed-' . $this->cssId());
+        $links[] = Ajax::change('<i class="fa fa-fw fa-bars"></i> ' . __('All'), 'training-view-tabbed-' . $this->cssId(), 'training-view-tabbed-' . $this->cssId());
 
-        echo '</div>';
-    }
-
-    private function displayContent()
-    {
-        echo '<div>';
-
-        foreach ($this->Rows as $Row) {
-            $Row->display();
-        }
-
-        echo '</div>';
+        return $links;
     }
 
     /**

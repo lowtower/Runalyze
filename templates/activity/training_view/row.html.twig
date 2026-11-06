@@ -1,0 +1,29 @@
+{#
+    Row shell of the training view, replaces the display methods of
+    inc/training/view/class.TrainingViewSectionRow*.php.
+
+    Variables (see the row classes' templateData()):
+    - kind: fullwidth | only_text | row
+    - fullwidth: id, content
+    - only_text: content_left, content_right
+    - row: with_shadow, info (class, boxed_values_html, header, code, footer), plot
+#}
+{% if kind == 'fullwidth' %}
+    <div class="training-row fullwidth" id="{{ id }}">{{ content|raw }}</div>
+{% elseif kind == 'only_text' %}
+    <div class="training-row">
+        <div class="training-row-info">{{ content_left|raw }}</div>
+        <div class="training-row-plot">{{ content_right|raw }}</div>
+    </div>
+{% else %}
+    <div class="training-row">
+        {% if with_shadow %}<div class="training-row-info-shadow"></div>{% endif %}
+        <div class="training-row-info {{ info.class }}">
+            {% if info.boxed_values_html %}{{ info.boxed_values_html|raw }}{% endif %}
+            {% if info.header %}<div class="panel-content">{{ info.header|raw }}</div>{% endif %}
+            {% if info.code %}<div>{{ info.code|raw }}</div>{% endif %}
+            {% if info.footer %}<div class="panel-content">{{ info.footer|raw }}</div>{% endif %}
+        </div>
+        {% include 'activity/training_view/row_plot.html.twig' with plot %}
+    </div>
+{% endif %}
