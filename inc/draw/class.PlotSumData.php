@@ -249,11 +249,11 @@ abstract class PlotSumData extends Plot
         foreach (\Runalyze\Context::Factory()->allSports() as $Sport) {
             $id = (int) $Sport->id();
             $name = $Sport->name();
-            if ($CurrentId == $id) {
+            if ($CurrentId === $id) {
                 $Current = $name;
             }
 
-            $Links[] = $this->link($name, $this->Year, $id, $SportGroup, $CurrentId == $id);
+            $Links[] = $this->link($name, $this->Year, $id, $SportGroup, $CurrentId === $id);
         }
 
         return [
@@ -647,7 +647,7 @@ abstract class PlotSumData extends Plot
 
     protected function showsTarget(): bool
     {
-        return SportProfile::RUNNING === $this->Sport->getInternalProfileEnum() && $this->Analysis === self::ANALYSIS_DEFAULT && $this->usesDistance;
+        return $this->Sport->getInternalProfileEnum() === SportProfile::RUNNING && $this->Analysis === self::ANALYSIS_DEFAULT && $this->usesDistance;
     }
 
     /**

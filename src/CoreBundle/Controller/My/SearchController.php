@@ -68,7 +68,7 @@ class SearchController extends AbstractController
 
     private function setDefaultValues(): void
     {
-        $_POST['sportid'] ??= array_map(fn ($Sport): int => (int) $Sport->id(), \Runalyze\Context::Factory()->allSports());
+        $_POST['sportid'] ??= array_map(fn (\Runalyze\Model\Sport\Entity $Sport): int => (int) $Sport->id(), \Runalyze\Context::Factory()->allSports());
 
         $_POST['date-from'] ??= date('d.m.Y', START_TIME);
 

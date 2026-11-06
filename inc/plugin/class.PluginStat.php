@@ -212,7 +212,7 @@ abstract class PluginStat extends Plugin
         foreach (\Runalyze\Context::Factory()->allSports() as $Sport) {
             $id = (int) $Sport->id();
             $name = $Sport->name();
-            $Links .= '<li' . ($id == $this->sportid ? ' class="active"' : '') . '>' . $this->getInnerLink($name, $id, $this->year, $this->dat) . '</li>';
+            $Links .= '<li' . ($id === $this->sportid ? ' class="active"' : '') . '>' . $this->getInnerLink($name, $id, $this->year, $this->dat) . '</li>';
         }
 
         return $Links;
