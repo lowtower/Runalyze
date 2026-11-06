@@ -41,7 +41,7 @@ class TableLapsComputed extends TableLapsAbstract
         }
 
         $this->Laps = new Laps();
-        $this->Laps->calculateFrom($Distances, $this->Context->trackdata(), $this->Context->route());
+        $this->Laps->calculateFrom($Distances, $this->Context->trackdata(), $this->Context->hasRoute() ? $this->Context->route() : null);
     }
 
     /**
