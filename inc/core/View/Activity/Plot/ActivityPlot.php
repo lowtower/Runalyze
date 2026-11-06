@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Runalyze\View\Activity\Plot;
 
+use Ajax;
 use Plot;
 use Runalyze\View\Activity;
 
