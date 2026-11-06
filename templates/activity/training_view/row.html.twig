@@ -6,7 +6,7 @@
     - kind: fullwidth | only_text | row
     - fullwidth: id, content, boxed_values (see boxed_value.html.twig)
     - only_text: content_left, content_right
-    - row: with_shadow, info (class, boxed_values, header, code, footer), plot
+    - row: with_shadow, info (class, boxed_values, header, table, code, footer), plot
 #}
 {% if kind == 'fullwidth' %}
     <div class="training-row fullwidth" id="{{ id }}">
@@ -33,6 +33,7 @@
                 </div>
             {% endif %}
             {% if info.header %}<div class="panel-content">{{ info.header|raw }}</div>{% endif %}
+            {% if info.table %}<div>{% include info.table.template|default('activity/training_view/table.html.twig') with info.table %}</div>{% endif %}
             {% if info.code %}<div>{{ info.code|raw }}</div>{% endif %}
             {% if info.footer %}<div class="panel-content">{{ info.footer|raw }}</div>{% endif %}
         </div>
