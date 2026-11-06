@@ -74,7 +74,7 @@ abstract class AbstractCadence
      */
     final public function useFactor(?int $value): ?float
     {
-        if (null === $value) {
+        if ($value === null) {
             return null;
         }
 
