@@ -1,0 +1,13 @@
+{#-
+    A sum data plot (week/month) of the shared athlete page, replaces
+    PlotSumData::display().
+
+    Variables (see PlotSumData::templateData()):
+    - navigation_menu: raw html of the navigation menus
+    - title: plot title with appendix
+    - plot_div: raw html of the flot div (positioned wrapper)
+    - plot_js: script tag with the plot setup
+    - info: optional info message
+-#}
+<div class="panel-heading"><div class="panel-menu">{{ navigation_menu|raw }}</div><h1>{{ title }}</h1></div>
+<div class="panel-content">{{ plot_div|raw }}{{ plot_js|raw }}{{ info|raw }}</div>

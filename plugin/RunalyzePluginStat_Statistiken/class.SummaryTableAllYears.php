@@ -39,7 +39,7 @@ class SummaryTableAllYears extends SummaryTable
         return DataBrowserLinker::yearLink(date('Y', $timestampInMiddelOfYear), $timestampInMiddelOfYear, $this->Sportid > 0 ? $this->Sportid : null);
     }
 
-    protected function displayAdditionalColumns(array $data)
+    protected function codeForAdditionalColumns(array $data): string
     {
         if ($this->AdditionalColumns) {
             $startTime = new LocalTime(START_TIME);
@@ -68,7 +68,9 @@ class SummaryTableAllYears extends SummaryTable
                 $monthString = NBSP;
             }
 
-            echo '<td class="small">' . $weekString . '<br>' . $monthString . '</td>';
+            return '<td class="small">' . $weekString . '<br>' . $monthString . '</td>';
         }
+
+        return '';
     }
 }
