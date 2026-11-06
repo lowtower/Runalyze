@@ -88,62 +88,81 @@ abstract class TableZonesAbstract
     }
 
     /**
-     * Display
+     * Get template data to display the zones table
+     *
+     * @return array<string, mixed>|null template data, null if there are no zone data
      */
-    final public function getCode(): string
+    final public function templateData(): ?array
     {
         if ($this->Data === []) {
-            return '';
+            return null;
         }
 
-        $Code = '<table class="fullwidth bar-chart-table">';
-        $Code .= '<thead><tr>';
-        $Code .= '<th>' . __('Zone') . '</th>';
-        $Code .= '<th style="text-align: left;">% ' . __($this->TitlePercent) . '</th>'; // #TSC set the table column title
-        $Code .= '<th>' . __('Time') . '</th>';
-        $Code .= '<th>' . __('Distance') . '</th>';
-        if ($this->showAverage()) {
-            $Code .= '<th>' . $this->titleForAverage() . '</th>';
-        }
-
-        $Code .= '</tr></thead>';
-
-        $Code .= '<tbody>';
-        $Code .= $this->getDataCode();
-        $Code .= '</tbody>';
-        $Code .= '</table>';
-
-        if (! empty($this->footerHint())) {
-            $Code .= HTML::info($this->footerHint());
-        }
-
-        return $Code;
+        return [
+            'template' => 'activity/training_view/table_zones.html.twig',
+            'header' => $this->headerTemplateData(),
+            'show_average' => $this->showAverage(),
+            'rows' => $this->rowsTemplateData(),
+            'footer_hint' => $this->footerHint() !== '' ? HTML::info($this->footerHint()) : '',
+        ];
     }
 
     /**
-     * Display data
+     * Get header cells
+     *
+     * @return array<int, array<string, string>>
      */
-    private function getDataCode(): string
+    private function headerTemplateData(): array
     {
-        $Code = '';
+        $header = [
+            [
+                'content' => __('Zone'),
+                'style' => '',
+            ],
+            [
+                'content' => '% ' . __($this->TitlePercent),
+                'style' => 'text-align: left;',
+            ], // #TSC set the table column title
+            [
+                'content' => __('Time'),
+                'style' => '',
+            ],
+            [
+                'content' => __('Distance'),
+                'style' => '',
+            ],
+        ];
 
-        foreach ($this->Data as $Info) {
-            $Code .= '<tr>';
-            $Code .= '<td class="bar-chart-label">' . $Info['zone'] . '</td>';
-
-            // #TSC support of colors for the percent bar
-            $stylecolor = array_key_exists('color', $Info) ? 'background:' . $Info['color'] . ';' : '';
-            $Code .= '<td class="bar-chart-value-cell"><span class="bar-chart-value" style="width:' . $Info['percentage'] . '%;' . $stylecolor . '"></span> <span class="bar-chart-text">' . $Info['percentage'] . ' &#37;</span></td>';
-
-            $Code .= '<td>' . $Info['time'] . '</td>';
-            $Code .= '<td>' . $Info['distance'] . '</td>';
-            if ($this->showAverage()) {
-                $Code .= '<td>' . $Info['average'] . '</td>';
-            }
-
-            $Code .= '</tr>';
+        if ($this->showAverage()) {
+            $header[] = [
+                'content' => $this->titleForAverage(),
+                'style' => '',
+            ];
         }
 
-        return $Code;
+        return $header;
+    }
+
+    /**
+     * Get data rows
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    private function rowsTemplateData(): array
+    {
+        $rows = [];
+
+        foreach ($this->Data as $Info) {
+            $rows[] = [
+                'zone' => $Info['zone'],
+                'percentage' => $Info['percentage'],
+                'color' => $Info['color'] ?? null, // #TSC support of colors for the percent bar
+                'time' => $Info['time'],
+                'distance' => $Info['distance'],
+                'average' => $Info['average'],
+            ];
+        }
+
+        return $rows;
     }
 }
