@@ -216,7 +216,7 @@ class DefaultController extends AbstractPluginsAwareController
      * @throws NotFoundHttpException if $plugin or $file contain a path traversal attempt
      * @throws Throwable if the included legacy plugin file throws
      */
-    #[Route(path: '/plugin/{plugin}/{file}', methods: ['GET'])]
+    #[Route(path: '/plugin/{plugin}/{file}', methods: ['GET', 'POST'])]
     public function pluginAction(string $plugin, string $file): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
