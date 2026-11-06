@@ -133,7 +133,7 @@ class DataBrowserShared extends DataBrowser
     #[\Override]
     public function codeForAdditionalColumnsForActivity(): string
     {
-        if ($this->Table === null || $this->Context === null) {
+        if (! $this->Table instanceof \Runalyze\View\Dataset\Table || ! $this->Context instanceof \Runalyze\Dataset\Context) {
             return '';
         }
 

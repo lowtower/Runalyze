@@ -22,7 +22,9 @@ final class DataBrowserSharedTest extends DatabaseTestCase
 
     private string $previousRequestUri;
 
-    /** @var array<string, mixed> */
+    /**
+     * @var array<string, mixed>
+     */
     private array $previousGet;
 
     protected function setUp(): void
@@ -80,13 +82,14 @@ final class DataBrowserSharedTest extends DatabaseTestCase
         // Tests that run later in the same process depend on that.
         $accountID = new ReflectionProperty(PDOforRunalyze::class, 'accountID');
         $accountID->setValue($this->DB, false);
+
         $addsAccountID = new ReflectionProperty(PDOforRunalyze::class, 'addsAccountID');
         $addsAccountID->setValue($this->DB, true);
     }
 
     public function testThatAPublicActivityIsRenderedWithThePublicLinkColumn(): void
     {
-        $data = (new DataBrowserShared())->templateData();
+        $data = new DataBrowserShared()->templateData();
 
         $this->assertFalse($data['all_days_empty']);
 
