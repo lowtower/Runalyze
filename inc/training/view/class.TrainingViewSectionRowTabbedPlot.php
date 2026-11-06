@@ -52,7 +52,10 @@ abstract class TrainingViewSectionRowTabbedPlot extends TrainingViewSectionRow
 
     abstract protected function setRightContent();
 
-    final protected function addRightContent(string $key, string $title, string|ActivityPlot $content)
+    /**
+     * @param string|ActivityPlot|array<string, mixed> $content html string, plot or table template data
+     */
+    final protected function addRightContent(string $key, string $title, string|ActivityPlot|array $content)
     {
         $this->RightContent[$key] = $content;
         $this->RightContentTitle[$key] = $title;
@@ -73,11 +76,21 @@ abstract class TrainingViewSectionRowTabbedPlot extends TrainingViewSectionRow
         $tabs = [];
 
         foreach ($this->RightContent as $key => $Content) {
+            if ($Content instanceof ActivityPlot) {
+                $html = '<div id="plot-' . $Content->getKey() . '" class="plot-container">' . $this->plotHtml($Content) . '</div>';
+                $table = null;
+            } elseif (is_array($Content)) {
+                $html = '';
+                $table = $Content;
+            } else {
+                $html = (string) $Content;
+                $table = null;
+            }
+
             $tabs[] = [
                 'key' => (string) $key,
-                'html' => $Content instanceof ActivityPlot
-                    ? '<div id="plot-' . $Content->getKey() . '" class="plot-container">' . $this->plotHtml($Content) . '</div>'
-                    : (string) $Content,
+                'html' => $html,
+                'table' => $table,
             ];
         }
 

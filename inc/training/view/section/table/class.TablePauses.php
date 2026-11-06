@@ -1,13 +1,12 @@
 <?php
 
 /**
- * This file contains class::TableLapsComputed
+ * This file contains class::TablePauses
  * @package Runalyze\DataObjects\Training\View\Section
  */
 
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\HeartRate;
-use Runalyze\Model\Trackdata\Pauses;
 use Runalyze\View\Activity\Context;
 
 /**
@@ -18,91 +17,122 @@ use Runalyze\View\Activity\Context;
  */
 class TablePauses
 {
-    /**
-     * Code
-     */
-    protected string $Code = '';
-
-    public function __construct(Context $context)
-    {
-        $this->setDataToCode($context->trackdata()->pauses(), $context->Activity()->elapsedTime());
-    }
-
-    public function getCode(): string
-    {
-        return $this->Code;
-    }
+    public function __construct(
+        protected Context $context
+    ) {}
 
     /**
-     * generate data
+     * Data for the twig template `activity/training_view/table.html.twig`
+     *
+     * @return array<string, mixed>
      */
-    protected function setDataToCode(Pauses $pauses, float $fullTime)
+    public function templateData(): array
     {
-        // header
-        $this->Code .= '<table class="fullwidth zebra-style">';
-        $this->Code .= '<thead><tr>';
-        $this->Code .= '<th class="r">#</th>';
-        $this->Code .= '<th class="r">' . __('Time') . '</th>';
-        $this->Code .= '<th class="r">' . __('Duration') . '</th>';
-        $this->Code .= '<th class="r">' . __('Heart rate') . ' (' . __('Start') . ')</th>';
-        $this->Code .= '<th class="r">' . __('Difference') . '</th>';
-        $this->Code .= '<th class="r" style="padding-right: 20px;">' . __('Heart rate') . ' (' . __('End') . ')</th>';
-        $this->Code .= '</tr></thead>';
+        $pauses = $this->context->trackdata()->pauses();
+        $fullTime = $this->context->Activity()->elapsedTime();
 
-        // pauses
-        $this->Code .= '<tbody>';
+        $hr = new HeartRate(0, \Runalyze\Context::Athlete());
+        $allPause = 0;
+        $rows = [];
 
         $len = count($pauses->asArray());
-        $hr = new HeartRate(0, Runalyze\Context::Athlete());
-        $allPause = 0;
 
-        for ($i = 0; $i < $len; $i++) {
-            $this->Code .= '<tr class="r">';
-
+        for ($i = 0; $i < $len; ++$i) {
             $pause = $pauses->at($i);
 
-            $this->Code .= '<td>' . ($i + 1) . '.</td>';
-            $this->Code .= '<td>' . Duration::format($pause->time()) . '</td>';
-            $this->Code .= '<td>' . Duration::format($pause->duration()) . '</td>';
+            $cells = [
+                self::cell(($i + 1) . '.'),
+                self::cell(Duration::format($pause->time())),
+                self::cell(Duration::format($pause->duration())),
+            ];
 
             if ($pause->hasHeartRateInfo()) {
                 $hr->setBPM($pause->HRstart());
-                $this->Code .= '<td>' . ($hr->inBPM() > 0 ? $hr->string() : '-') . '</td>';
+                $cells[] = self::cell($hr->inBPM() > 0 ? $hr->string() : '-');
 
                 $hr->setBPM(-$pause->hrDiff());
-                $this->Code .= '<td>' . ($hr->inBPM() !== 0 ? $hr->string() : '-') . '</td>';
+                $cells[] = self::cell($hr->inBPM() !== 0 ? $hr->string() : '-');
 
                 $hr->setBPM($pause->HRend());
-                $this->Code .= '<td style="padding-right: 20px;">' . ($hr->inBPM() > 0 ? $hr->string() : '-') . '</td>';
+                $cells[] = self::cell($hr->inBPM() > 0 ? $hr->string() : '-', 'padding-right: 20px;');
             } else {
-                $this->Code .= '<td colspan="3"></td>';
+                $cells[] = ['content' => '', 'style' => '', 'colspan' => 3, 'italic' => false];
             }
 
             $allPause += $pause->duration();
-            $this->Code .= '</tr>';
+
+            $rows[] = ['style' => '', 'cells' => $cells];
         }
 
-        $this->Code .= '</tbody>';
+        return [
+            'class' => 'fullwidth zebra-style',
+            'wrapper_style' => '',
+            'warning' => '',
+            'header' => $this->headerTemplateData(),
+            'bodies' => [
+                ['rows' => $rows],
+                ['rows' => $this->summaryRowsTemplateData($allPause, $fullTime)],
+            ],
+        ];
+    }
 
-        // summary
-        $this->Code .= '<tbody>';
-        $this->Code .= '<tr class="r" style="border-top: 1px solid #666;">';
-        $this->Code .= '<td colspan="2"></td>';
-        $this->Code .= '<td>' . Duration::format($allPause) . '</td>';
-        $this->Code .= '<td colspan="3" style="padding-right: 20px;"></td>';
-        $this->Code .= '</tr>';
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    private function headerTemplateData(): array
+    {
+        return [
+            self::cell('#'),
+            self::cell(__('Time')),
+            self::cell(__('Duration')),
+            self::cell(__('Heart rate') . ' (' . __('Start') . ')'),
+            self::cell(__('Difference')),
+            self::cell(__('Heart rate') . ' (' . __('End') . ')', 'padding-right: 20px;'),
+        ];
+    }
+
+    /**
+     * Summary rows: total pause time and its share of the total time
+     *
+     * @param float $allPause [s]
+     * @param float $fullTime [s]
+     * @return array<int, array<string, mixed>>
+     */
+    private function summaryRowsTemplateData(float $allPause, float $fullTime): array
+    {
+        $rows = [
+            [
+                'style' => 'border-top: 1px solid #666;',
+                'cells' => [
+                    ['content' => '', 'style' => '', 'colspan' => 2, 'italic' => false],
+                    ['content' => Duration::format($allPause), 'style' => '', 'colspan' => 0, 'italic' => false],
+                    ['content' => '', 'style' => 'padding-right: 20px;', 'colspan' => 3, 'italic' => false],
+                ],
+            ],
+        ];
 
         // fullTime must be set, but go to secure side ;-)
         if ($fullTime > 0) {
-            $this->Code .= '<tr class="r">';
-            $this->Code .= '<td colspan="2"></td>';
-            $this->Code .= '<td>' . round(100 / $fullTime * $allPause) . '% of ' . Duration::format($fullTime) . '</td>';
-            $this->Code .= '<td colspan="3" style="padding-right: 20px;"></td>';
-            $this->Code .= '</tr>';
+            $rows[] = [
+                'style' => '',
+                'cells' => [
+                    ['content' => '', 'style' => '', 'colspan' => 2, 'italic' => false],
+                    ['content' => round(100 / $fullTime * $allPause) . '% of ' . Duration::format($fullTime), 'style' => '', 'colspan' => 0, 'italic' => false],
+                    ['content' => '', 'style' => 'padding-right: 20px;', 'colspan' => 3, 'italic' => false],
+                ],
+            ];
         }
 
-        $this->Code .= '</tbody>';
+        return $rows;
+    }
 
-        $this->Code .= '</table>';
+    /**
+     * @param string $content
+     * @param string $style
+     * @return array<string, mixed>
+     */
+    private static function cell(string $content, string $style = '')
+    {
+        return ['content' => $content, 'style' => $style, 'colspan' => 0, 'italic' => false];
     }
 }
