@@ -1,0 +1,25 @@
+{#
+    A single boxed value, replaces BoxedValue::getCode(). The surrounding
+    div (see BoxedValue::getWrappedValues()) is rendered by row.html.twig.
+
+    Variables (see BoxedValue::templateData()):
+    - floating, floating_class, floating_width
+    - class, icon (raw html, e.g. an icon or tooltip)
+    - value, unit, info (may contain html entities), glossary
+#}
+{% if floating %}
+    <div class="boxed-value-outer{% if floating_width %}" style="width:{{ floating_width }};{% else %} {{ floating_class }}{% endif %}">
+{% endif %}
+<div class="{{ class }}">
+    {{ icon|raw }}
+    <div class="boxed-value">
+        {{ value|raw }}{% if unit %} <div class="boxed-value-unit">{{ unit|replace({' ': '&nbsp;'})|raw }}</div>{% endif %}
+    </div>
+    {% if info %}
+        <div class="boxed-value-info">
+            {% if glossary %}<a class="window left" href="glossary/{{ glossary }}"><i class="fa far fa-question-circle"></i></a>{% endif %}
+            {{ info|replace({' ': '&nbsp;'})|raw }}
+        </div>
+    {% endif %}
+</div>
+{% if floating %}</div>{% endif %}

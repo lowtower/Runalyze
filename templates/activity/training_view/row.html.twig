@@ -4,12 +4,20 @@
 
     Variables (see the row classes' templateData()):
     - kind: fullwidth | only_text | row
-    - fullwidth: id, content
+    - fullwidth: id, content, boxed_values (see boxed_value.html.twig)
     - only_text: content_left, content_right
-    - row: with_shadow, info (class, boxed_values_html, header, code, footer), plot
+    - row: with_shadow, info (class, boxed_values, header, code, footer), plot
 #}
 {% if kind == 'fullwidth' %}
-    <div class="training-row fullwidth" id="{{ id }}">{{ content|raw }}</div>
+    <div class="training-row fullwidth" id="{{ id }}">
+        {% if boxed_values %}
+            <div class="boxed-values">
+                {% for boxed_value in boxed_values %}{% include 'activity/training_view/boxed_value.html.twig' with boxed_value %}{% endfor %}
+            </div>
+        {% else %}
+            {{ content|raw }}
+        {% endif %}
+    </div>
 {% elseif kind == 'only_text' %}
     <div class="training-row">
         <div class="training-row-info">{{ content_left|raw }}</div>
@@ -19,7 +27,11 @@
     <div class="training-row">
         {% if with_shadow %}<div class="training-row-info-shadow"></div>{% endif %}
         <div class="training-row-info {{ info.class }}">
-            {% if info.boxed_values_html %}{{ info.boxed_values_html|raw }}{% endif %}
+            {% if info.boxed_values %}
+                <div class="boxed-values">
+                    {% for boxed_value in info.boxed_values %}{% include 'activity/training_view/boxed_value.html.twig' with boxed_value %}{% endfor %}
+                </div>
+            {% endif %}
             {% if info.header %}<div class="panel-content">{{ info.header|raw }}</div>{% endif %}
             {% if info.code %}<div>{{ info.code|raw }}</div>{% endif %}
             {% if info.footer %}<div class="panel-content">{{ info.footer|raw }}</div>{% endif %}
