@@ -63,30 +63,30 @@ abstract class TrainingViewSectionRowTabbedPlot extends TrainingViewSectionRow
         return $this->RightContentTitle;
     }
 
-    protected function displayPlot()
+
+    /**
+     * Plot part: tabbed right content
+     *
+     * @return array<string, mixed>
+     */
+    protected function plotTemplateData(): array
     {
-        echo '<div id="training-view-tabbed-' . $this->cssID . '" class="training-row-plot">';
-
-        $first = true;
-
-        echo $this->TopContent;
+        $tabs = [];
 
         foreach ($this->RightContent as $key => $Content) {
-            echo '<div class="change" id="training-view-tabbed-' . $this->cssID . '-' . $key . '"' . (! $first ? ' style="display:none;"' : '') . '>';
-
-            if ($Content instanceof ActivityPlot) {
-                echo '<div id="plot-' . $Content->getKey() . '" class="plot-container">';
-                $Content->display();
-                echo '</div>';
-            } else {
-                echo $Content;
-            }
-
-            echo '</div>';
-
-            $first = false;
+            $tabs[] = [
+                'key' => (string) $key,
+                'html' => $Content instanceof ActivityPlot
+                    ? '<div id="plot-' . $Content->getKey() . '" class="plot-container">' . $this->plotHtml($Content) . '</div>'
+                    : (string) $Content,
+            ];
         }
 
-        echo '</div>';
+        return [
+            'kind' => 'tabbed_plot',
+            'css_id' => $this->cssID,
+            'top_content' => $this->TopContent,
+            'tabs' => $tabs,
+        ];
     }
 }

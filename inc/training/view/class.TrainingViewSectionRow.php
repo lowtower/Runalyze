@@ -68,52 +68,66 @@ abstract class TrainingViewSectionRow extends TrainingViewSectionRowAbstract
 
     abstract protected function setPlot();
 
-    final public function display()
+
+    /**
+     * Data for the twig template `activity/training_view/row.html.twig`
+     *
+     * @return array<string, mixed>
+     */
+    final public function templateData(): array
     {
         if (\Runalyze\Configuration::ActivityView()->showSectionsFullheight()) {
             $this->big = true;
             $this->withShadow = false;
         }
 
-        echo '<div class="training-row">';
-
-        if ($this->withShadow) {
-            echo '<div class="training-row-info-shadow"></div>';
-        }
-
-        $this->displayInfo();
-        $this->displayPlot();
-
-        echo '</div>';
+        return [
+            'kind' => 'row',
+            'with_shadow' => $this->withShadow,
+            'info' => $this->infoTemplateData(),
+            'plot' => $this->plotTemplateData(),
+        ];
     }
 
-    protected function displayInfo()
+    /**
+     * Info part, i.e. boxed values and additional content
+     *
+     * @return array<string, mixed>
+     */
+    protected function infoTemplateData(): array
     {
-        $class = $this->big ? 'fullheight'
-                : ($this->withShadow ? 'with-shadow' : '');
-
-        echo '<div class="training-row-info ' . $class . '">';
-
-        if ($this->BoxedValues !== []) {
-            $this->displayBoxedValues();
-        }
-
-        if (! empty($this->Header)) {
-            echo '<div class="panel-content">' . $this->Header . '</div>';
-        }
-
-        if (! empty($this->Code)) {
-            echo '<div>' . $this->Code . '</div>';
-        }
-
-        if (! empty($this->Footer)) {
-            echo '<div class="panel-content">' . $this->Footer . '</div>';
-        }
-
-        echo '</div>';
+        return [
+            'class' => $this->big ? 'fullheight' : ($this->withShadow ? 'with-shadow' : ''),
+            'boxed_values_html' => $this->boxedValuesHtml(),
+            'header' => $this->Header,
+            'code' => $this->Code,
+            'footer' => $this->Footer,
+        ];
     }
 
-    protected function displayBoxedValues()
+    /**
+     * Plot part, can be overridden to show other content than a single plot
+     *
+     * @return array<string, mixed>
+     */
+    protected function plotTemplateData(): array
+    {
+        if ($this->Plot === null) {
+            return [
+                'kind' => 'plot',
+                'key' => '',
+                'html' => '',
+            ];
+        }
+
+        return [
+            'kind' => 'plot',
+            'key' => $this->Plot->getKey(),
+            'html' => $this->plotHtml($this->Plot),
+        ];
+    }
+
+    private function boxedValuesHtml(): string
     {
         $Code = '';
 
@@ -121,19 +135,26 @@ abstract class TrainingViewSectionRow extends TrainingViewSectionRowAbstract
             $Code .= $Value->getCode();
         }
 
-        BoxedValue::wrapValues($Code);
+        return BoxedValue::getWrappedValues($Code);
     }
 
-    protected function displayPlot()
+    /**
+     * The plots still echo their content directly, therefore their output is
+     * captured here. This is transitional and will be removed when the plots
+     * are ported to twig templates.
+     */
+    final protected function plotHtml(\Runalyze\View\Activity\Plot\ActivityPlot $Plot): string
     {
-        echo '<div class="training-row-plot">';
+        ob_start();
 
-        if ($this->Plot !== null) {
-            echo '<div id="plot-' . $this->Plot->getKey() . '" class="plot-container">';
-            $this->Plot->display();
-            echo '</div>';
+        try {
+            $Plot->display();
+        } catch (Throwable $throwable) {
+            ob_end_clean();
+
+            throw $throwable;
         }
 
-        echo '</div>';
+        return (string) ob_get_clean();
     }
 }

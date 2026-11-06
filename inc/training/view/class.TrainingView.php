@@ -233,9 +233,9 @@ class TrainingView
     /**
      * Data for the twig template `activity/training_view.html.twig`
      *
-     * The sections are still rendered by the legacy section classes and are
-     * captured as html string. They will be ported to twig templates step
-     * by step.
+     * The sections are still built by the legacy section classes and are
+     * passed as structured template data. Their content (boxed values,
+     * tables, plots) will be ported to twig templates step by step.
      *
      * @return array<string, mixed>
      */
@@ -250,7 +250,7 @@ class TrainingView
             'navigation_prev' => $isShared ? '' : $this->navigationLink(Linker::prevId($this->Context->activity()->id(), $this->Context->activity()->timestamp()), 'left'),
             'navigation_next' => $isShared ? '' : $this->navigationLink(Linker::nextId($this->Context->activity()->id(), $this->Context->activity()->timestamp()), 'right'),
             'refresh_icon' => Icon::$REFRESH_SMALL,
-            'sections_html' => $this->sectionsHtml(),
+            'sections' => $this->sectionsTemplateData(),
             'plots_js' => Ajax::wrapJSforDocumentReady('RunalyzePlot.resizeTrainingCharts();'),
         ];
     }
@@ -286,26 +286,22 @@ class TrainingView
     }
 
     /**
-     * Rendered sections
+     * Template data of all sections that must be displayed
      *
-     * The section classes still echo their content directly, therefore their
-     * output is captured here. This is transitional and will be removed when
-     * the sections are ported to twig templates.
+     * @return array<int, array<string, mixed>>
      */
-    private function sectionsHtml(): string
+    private function sectionsTemplateData(): array
     {
-        ob_start();
+        $sections = [];
 
-        try {
-            foreach ($this->Sections as $Section) {
-                $Section->display();
+        foreach ($this->Sections as $Section) {
+            $data = $Section->templateData();
+
+            if ($data !== []) {
+                $sections[] = $data;
             }
-        } catch (Throwable $throwable) {
-            ob_end_clean();
-
-            throw $throwable;
         }
 
-        return (string) ob_get_clean();
+        return $sections;
     }
 }
