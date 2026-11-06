@@ -392,11 +392,17 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
         $items = [];
 
         if ($raceResult->officialDistance()) {
-            $items[] = ['label' => __('Official distance'), 'content' => (string) $RaceResultView->officialDistance()];
+            $items[] = [
+                'label' => __('Official distance'),
+                'content' => $RaceResultView->officialDistance(),
+            ];
         }
 
         if ($raceResult->officialTime()) {
-            $items[] = ['label' => __('Official time'), 'content' => $RaceResultView->officialTime()->string(Duration::FORMAT_COMPETITION)];
+            $items[] = [
+                'label' => __('Official time'),
+                'content' => $RaceResultView->officialTime()->string(Duration::FORMAT_COMPETITION),
+            ];
         }
 
         if ($ageGradeItem !== null) {
@@ -404,15 +410,24 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
         }
 
         if ($raceResult->placeTotal()) {
-            $items[] = ['label' => __('Place overall'), 'content' => (string) $RaceResultView->placementTotalWithParticipants()];
+            $items[] = [
+                'label' => __('Place overall'),
+                'content' => $RaceResultView->placementTotalWithParticipants(),
+            ];
         }
 
         if ($raceResult->placeAgeclass()) {
-            $items[] = ['label' => __('Place age group'), 'content' => (string) $RaceResultView->placementAgeClassWithParticipants()];
+            $items[] = [
+                'label' => __('Place age group'),
+                'content' => $RaceResultView->placementAgeClassWithParticipants(),
+            ];
         }
 
         if ($raceResult->placeGender()) {
-            $items[] = ['label' => __('Place gender'), 'content' => (string) $RaceResultView->placementGenderWithParticipants()];
+            $items[] = [
+                'label' => __('Place gender'),
+                'content' => $RaceResultView->placementGenderWithParticipants(),
+            ];
         }
 
         return [
@@ -429,7 +444,10 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
     protected function creationAndModificationTemplateData(): array
     {
         if (Request::isOnSharedPage()) {
-            return ['created' => null, 'modified' => null];
+            return [
+                'created' => null,
+                'modified' => null,
+            ];
         }
 
         $created = $this->Context->activity()
@@ -438,11 +456,15 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
             ->get(\Runalyze\Model\Activity\Entity::TIMESTAMP_EDITED);
 
         if ($created == 0 && $edited == 0) {
-            return ['created' => null, 'modified' => null];
+            return [
+                'created' => null,
+                'modified' => null,
+            ];
         }
 
         $createdDate = new \DateTime();
         $createdDate->setTimestamp($created);
+
         $createdText = ($created == 0) ? null : sprintf(
             __('You created this training on <strong>%s</strong> at <strong>%s</strong>.'),
             $createdDate->format('d.m.Y'),
@@ -451,6 +473,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
 
         $editedDate = new \DateTime();
         $editedDate->setTimestamp($edited);
+
         $editedText = ($edited == 0) ? null : sprintf(
             __('Last modification on <strong>%s</strong> at <strong>%s</strong>.'),
             $editedDate->format('d.m.Y'),
@@ -495,30 +518,99 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
             'template' => 'activity/training_view/fitdetails.html.twig',
             'header' => __('FIT data from the file') . ':',
             'rows' => [
-                ['desc' => 'Total ascent (m):', 'value' => $activity->fitTotalAscent() != null ? $activity->fitTotalAscent() : '-'],
-                ['desc' => 'Total desent (m):', 'value' => $activity->fitTotalDescent() != null ? $activity->fitTotalDescent() : '-'],
-                ['desc' => $this->getGlossaryLink('VO2MAX avg:', 'vo2max'), 'value' => $activity->fitVO2maxEstimate() != null ? $activity->fitVO2maxEstimate() : '-'],
-                ['desc' => 'Recovery time (h):', 'value' => $activity->fitRecoveryTime() != null ? round($activity->fitRecoveryTime() / 60, 1) : '-'],
-                ['desc' => 'New lactate treshhold (bpm | pace):', 'value' => $lt],
-                ['desc' => $this->getGlossaryLink('HVR Heart-Rate Variability:', 'hrv'), 'value' => $activity->fitHRVscore() != null ? $activity->fitHRVscore() : '-'],
-                ['desc' => $this->getGlossaryLink('Performance condition start:', 'performance-condition'), 'value' => $activity->fitPerformanceCondition() != null ? sprintf('%+d', $activity->fitPerformanceCondition() - 100) : '-'],
-                ['desc' => $this->getGlossaryLink('Performance cond. end:', 'performance-condition'), 'value' => $activity->fitPerformanceConditionEnd() != null ? sprintf('%+d', $activity->fitPerformanceConditionEnd() - 100) : '-'],
-                ['desc' => 'Max HR (bpm):', 'value' => $activity->maxHrUser() != null ? $activity->maxHrUser() : '-'],
-                ['desc' => $this->getGlossaryLink(__('Training Effect') . ' benefit:', 'training-effect'), 'value' => $activity->fitTrainingEffectBenefit() != null ? runActivity\FitTrainingEffectBenefit::descriptionFromNum($activity->fitTrainingEffectBenefit()) : '-'],
-                ['desc' => $this->getGlossaryLink('Aerob training effect:', 'training-effect'), 'value' => $activity->fitTrainingEffect() != null ? $activity->fitTrainingEffect() : '-'],
-                ['desc' => $this->getGlossaryLink('Anaerob training effect:', 'training-effect'), 'value' => $activity->fitAnaerobicTrainingEffect() != null ? $activity->fitAnaerobicTrainingEffect() : '-'],
-                ['desc' => 'Creator:', 'value' => $activity->creator() != null ? $activity->creator() : '-'],
-                ['desc' => 'Creator details:', 'value' => $activity->creatorDetails() != null ? $activity->creatorDetails() : '-'],
-                ['desc' => 'Avg / max respiration rate (brpm):', 'value' => $activity->avgRespirationRate() != null
-                    ? $activity->avgRespirationRate() . ' / ' . $activity->maxRespirationRate() : '- / -'],
-                ['desc' => $this->getGlossaryLink('Anstrengung (1-10):', 'self-evaluation'), 'value' => $activity->fitSelfEvaluationPerceivedEffort() != null ? $activity->fitSelfEvaluationPerceivedEffort() : '-'],
-                ['desc' => $this->getGlossaryLink('Gefühl (1-5):', 'self-evaluation'), 'value' => $activity->fitSelfEvaluationFeeling() != null ? runActivity\SelfEvaluationFeeling::descriptionFromNum($activity->fitSelfEvaluationFeeling()) : '-'],
-                ['desc' => $this->getGlossaryLink('Trainingsbelastung:', 'training_load_peak'), 'value' => $activity->fitLoadPeak() != null ? $activity->fitLoadPeak() : '-'],
-                ['desc' => $this->getGlossaryLink('Laufzeit:', 'detection_run_walk'), 'value' => $this->getFormattedSeconds($activity->fitRunTime())],
-                ['desc' => $this->getGlossaryLink('Gehzeit:', 'detection_run_walk'), 'value' => $this->getFormattedSeconds($activity->fitWalkTime())],
-                ['desc' => $this->getGlossaryLink('Zeit Inaktivität:', 'detection_run_walk'), 'value' => $this->getFormattedSeconds($activity->fitStandTime())],
-                ['desc' => 'Sweat loss (ml):', 'value' => $activity->fitSweatLoss() != null ? $activity->fitSweatLoss() : '-'],
-                ['desc' => __('Energy') . ' ' . __('Resting') . ' (kcal):', 'value' => $activity->energyInRest() != null ? $activity->energyInRest() : '-'],
+                [
+                    'desc' => 'Total ascent (m):',
+                    'value' => $activity->fitTotalAscent() != null ? $activity->fitTotalAscent() : '-',
+                ],
+                [
+                    'desc' => 'Total desent (m):',
+                    'value' => $activity->fitTotalDescent() != null ? $activity->fitTotalDescent() : '-',
+                ],
+                [
+                    'desc' => $this->getGlossaryLink('VO2MAX avg:', 'vo2max'),
+                    'value' => $activity->fitVO2maxEstimate() != null ? $activity->fitVO2maxEstimate() : '-',
+                ],
+                [
+                    'desc' => 'Recovery time (h):',
+                    'value' => $activity->fitRecoveryTime() != null ? round($activity->fitRecoveryTime() / 60, 1) : '-',
+                ],
+                [
+                    'desc' => 'New lactate treshhold (bpm | pace):',
+                    'value' => $lt,
+                ],
+                [
+                    'desc' => $this->getGlossaryLink('HVR Heart-Rate Variability:', 'hrv'),
+                    'value' => $activity->fitHRVscore() != null ? $activity->fitHRVscore() : '-',
+                ],
+                [
+                    'desc' => $this->getGlossaryLink('Performance condition start:', 'performance-condition'),
+                    'value' => $activity->fitPerformanceCondition() != null ? sprintf('%+d', $activity->fitPerformanceCondition() - 100) : '-',
+                ],
+                [
+                    'desc' => $this->getGlossaryLink('Performance cond. end:', 'performance-condition'),
+                    'value' => $activity->fitPerformanceConditionEnd() != null ? sprintf('%+d', $activity->fitPerformanceConditionEnd() - 100) : '-',
+                ],
+                [
+                    'desc' => 'Max HR (bpm):',
+                    'value' => $activity->maxHrUser() != null ? $activity->maxHrUser() : '-',
+                ],
+                [
+                    'desc' => $this->getGlossaryLink(__('Training Effect') . ' benefit:', 'training-effect'),
+                    'value' => $activity->fitTrainingEffectBenefit() != null ? runActivity\FitTrainingEffectBenefit::descriptionFromNum($activity->fitTrainingEffectBenefit()) : '-',
+                ],
+                [
+                    'desc' => $this->getGlossaryLink('Aerob training effect:', 'training-effect'),
+                    'value' => $activity->fitTrainingEffect() != null ? $activity->fitTrainingEffect() : '-',
+                ],
+                [
+                    'desc' => $this->getGlossaryLink('Anaerob training effect:', 'training-effect'),
+                    'value' => $activity->fitAnaerobicTrainingEffect() != null ? $activity->fitAnaerobicTrainingEffect() : '-',
+                ],
+                [
+                    'desc' => 'Creator:',
+                    'value' => $activity->creator() != null ? $activity->creator() : '-',
+                ],
+                [
+                    'desc' => 'Creator details:',
+                    'value' => $activity->creatorDetails() != null ? $activity->creatorDetails() : '-',
+                ],
+                [
+                    'desc' => 'Avg / max respiration rate (brpm):',
+                    'value' => $activity->avgRespirationRate() != null
+                                        ? $activity->avgRespirationRate() . ' / ' . $activity->maxRespirationRate() : '- / -',
+                ],
+                [
+                    'desc' => $this->getGlossaryLink('Anstrengung (1-10):', 'self-evaluation'),
+                    'value' => $activity->fitSelfEvaluationPerceivedEffort() != null ? $activity->fitSelfEvaluationPerceivedEffort() : '-',
+                ],
+                [
+                    'desc' => $this->getGlossaryLink('Gefühl (1-5):', 'self-evaluation'),
+                    'value' => $activity->fitSelfEvaluationFeeling() != null ? runActivity\SelfEvaluationFeeling::descriptionFromNum($activity->fitSelfEvaluationFeeling()) : '-',
+                ],
+                [
+                    'desc' => $this->getGlossaryLink('Trainingsbelastung:', 'training_load_peak'),
+                    'value' => $activity->fitLoadPeak() != null ? $activity->fitLoadPeak() : '-',
+                ],
+                [
+                    'desc' => $this->getGlossaryLink('Laufzeit:', 'detection_run_walk'),
+                    'value' => $this->getFormattedSeconds($activity->fitRunTime()),
+                ],
+                [
+                    'desc' => $this->getGlossaryLink('Gehzeit:', 'detection_run_walk'),
+                    'value' => $this->getFormattedSeconds($activity->fitWalkTime()),
+                ],
+                [
+                    'desc' => $this->getGlossaryLink('Zeit Inaktivität:', 'detection_run_walk'),
+                    'value' => $this->getFormattedSeconds($activity->fitStandTime()),
+                ],
+                [
+                    'desc' => 'Sweat loss (ml):',
+                    'value' => $activity->fitSweatLoss() != null ? $activity->fitSweatLoss() : '-',
+                ],
+                [
+                    'desc' => __('Energy') . ' ' . __('Resting') . ' (kcal):',
+                    'value' => $activity->energyInRest() != null ? $activity->energyInRest() : '-',
+                ],
             ],
         ];
     }
