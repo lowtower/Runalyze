@@ -26,8 +26,8 @@ class SectionLapsRowPaceGoal extends SectionLapsRowComputed
         $Table = new TablePaceGoal($this->Context);
 
         return [
-            'kind' => 'raw',
-            'html' => $Table->getCode(),
+            'kind' => 'table',
+            'table' => $Table->templateData(),
         ];
     }
 }

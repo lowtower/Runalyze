@@ -3,20 +3,22 @@
     and TrainingViewSectionRowTabbedPlot::displayPlot().
 
     Variables (see the row classes' plotTemplateData()):
-    - kind: plot | tabbed_plot | raw
+    - kind: plot | tabbed_plot | table
     - plot: key (empty if there is no plot), html
-    - tabbed_plot: css_id, top_content, tabs (key, html)
-    - raw: html (rendered without any container, used for the pace goal table)
+    - tabbed_plot: css_id, top_content, tabs (key, html, table)
+    - table: table (see table.html.twig)
 #}
 {% if kind == 'tabbed_plot' %}
     <div id="training-view-tabbed-{{ css_id }}" class="training-row-plot">
         {{ top_content|raw }}
         {% for tab in tabs %}
-            <div class="change" id="training-view-tabbed-{{ css_id }}-{{ tab.key }}"{% if not loop.first %} style="display:none;"{% endif %}>{{ tab.html|raw }}</div>
+            <div class="change" id="training-view-tabbed-{{ css_id }}-{{ tab.key }}"{% if not loop.first %} style="display:none;"{% endif %}>
+                {% if tab.table %}{% include 'activity/training_view/table.html.twig' with tab.table %}{% else %}{{ tab.html|raw }}{% endif %}
+            </div>
         {% endfor %}
     </div>
-{% elseif kind == 'raw' %}
-    {{ html|raw }}
+{% elseif kind == 'table' %}
+    {% include 'activity/training_view/table.html.twig' with table %}
 {% else %}
     <div class="training-row-plot">
         {% if key %}<div id="plot-{{ key }}" class="plot-container">{{ html|raw }}</div>{% endif %}

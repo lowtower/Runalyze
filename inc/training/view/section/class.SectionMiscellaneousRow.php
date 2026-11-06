@@ -93,7 +93,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
         // #TSC pauses
         if ($this->Context->trackdata()->has(Trackdata\Entity::PAUSES)) {
             $Table = new TablePauses($this->Context);
-            $this->addRightContent('pauses', __('Pausen'), $Table->getCode());
+            $this->addRightContent('pauses', __('Pausen'), $Table->templateData());
         }
     }
 

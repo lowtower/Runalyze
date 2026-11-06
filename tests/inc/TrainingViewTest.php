@@ -165,6 +165,11 @@ final class TrainingViewTest extends DatabaseTestCase
 
                 if (($row['data']['plot']['kind'] ?? '') === 'tabbed_plot') {
                     ++$tabbedPlotRows;
+
+                    foreach ($row['data']['plot']['tabs'] as $tab) {
+                        $this->assertArrayHasKey('key', $tab);
+                        $this->assertTrue(isset($tab['html']) || isset($tab['table']));
+                    }
                 }
 
                 if (($row['data']['kind'] ?? '') === 'row' && ($row['data']['info']['boxed_values'] ?? []) !== []) {
