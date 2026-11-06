@@ -372,11 +372,12 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
      * Value at
      *
      * Remark: This method may throw index offsets.
+     * Existing values are returned as-is, i.e. null for gaps within nullable arrays.
      * @return mixed
      */
     public function at(int $index, string $key)
     {
-        if (! isset($this->Data[$key][$index])) {
+        if (! is_array($this->Data[$key]) || ! array_key_exists($index, $this->Data[$key])) {
             throw new \OutOfBoundsException("Undefined offset: {$index}");
         }
 

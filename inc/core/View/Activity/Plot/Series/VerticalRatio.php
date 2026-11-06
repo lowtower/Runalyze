@@ -32,7 +32,12 @@ class VerticalRatio extends ActivityPointSeries
         $this->initOptions();
         $this->initData($context->trackdata(), Trackdata::VERTICAL_RATIO);
         $this->manipulateData();
-        $this->setManualAverage($context->activity()->verticalRatio() * 0.1);
+
+        $activityVerticalRatio = $context->activity()->verticalRatio();
+
+        if ($activityVerticalRatio !== null) {
+            $this->setManualAverage($activityVerticalRatio * 0.1);
+        }
     }
 
     protected function initOptions()
@@ -54,13 +59,18 @@ class VerticalRatio extends ActivityPointSeries
     protected function manipulateData()
     {
         $this->Data = array_map($this->correctUnit(...), $this->Data);
+        $this->Data = array_filter($this->Data);
     }
 
     /**
-     * Change value by internal factor
+     * Change value by internal factor, gaps (null values) are filtered out afterwards
      */
-    protected function correctUnit(int $value): float
+    protected function correctUnit(int|float|null $value): ?float
     {
+        if ($value === null) {
+            return null;
+        }
+
         return 0.1 * $value;
     }
 

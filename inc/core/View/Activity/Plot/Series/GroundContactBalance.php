@@ -30,7 +30,13 @@ class GroundContactBalance extends ActivityPointSeries
     {
         $this->initOptions();
         $this->initData($context->trackdata(), Trackdata::GROUNDCONTACT_BALANCE);
-        $this->setManualAverage($context->activity()->groundContactBalance() / 100);
+
+        $activityGroundContactBalance = $context->activity()->groundContactBalance();
+
+        if ($activityGroundContactBalance !== null) {
+            $this->setManualAverage($activityGroundContactBalance / 100);
+        }
+
         $this->manipulateData();
     }
 
@@ -41,10 +47,14 @@ class GroundContactBalance extends ActivityPointSeries
     }
 
     /**
-     * Change value by internal factor
+     * Change value by internal factor, gaps (null values) are filtered out afterwards
      */
-    protected function correctUnit(int $value): float
+    protected function correctUnit(int|float|null $value): ?float
     {
+        if ($value === null) {
+            return null;
+        }
+
         return 0.01 * $value;
     }
 
