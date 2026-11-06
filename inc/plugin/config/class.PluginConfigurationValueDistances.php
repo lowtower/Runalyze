@@ -87,9 +87,9 @@ class PluginConfigurationValueDistances extends PluginConfigurationValueArray
         $Field->addAttribute('maxlength', (string) PluginConfigurationValue::MAXLENGTH);
 
         if ($this->unitSystem()->isImperial()) {
-            $Field->setUnit(FormularUnit::$MILES);
+            $Field->setUnit('miles');
         } else {
-            $Field->setUnit(FormularUnit::$KM);
+            $Field->setUnit('km');
         }
 
         return $Field;
