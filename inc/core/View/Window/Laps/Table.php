@@ -12,6 +12,7 @@ use FormularFieldset;
 use Helper;
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\Elevation;
+use Runalyze\Activity\HeartRate;
 use Runalyze\Activity\Pace;
 use Runalyze\Data\Laps\Laps;
 use Runalyze\Model\Activity;
@@ -269,12 +270,13 @@ class Table
         $obj = $this->splitsAdditional['data'][$idx];
 
         // clone a pace & HR from the first lap as "template"
-        $pace = clone $this->Laps->at(0)
-            ->pace();
+        $FirstLap = $this->Laps->at(0);
+
+        // #TSC: the first lap can be without pace or HR, e.g. if the laps are built from times only
+        $pace = $FirstLap->pace() instanceof Pace ? clone $FirstLap->pace() : clone $this->DemandedPace;
         $pace->setTime(1);
         // set one second
-        $hr = clone $this->Laps->at(0)
-            ->HRavg();
+        $hr = $FirstLap->hasHR() ? clone $FirstLap->HRavg() : new HeartRate(null);
 
         foreach ($this->splitsAdditional['keys'] as $key) {
             if (array_key_exists((string) $key, $obj)) {
