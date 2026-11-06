@@ -36,6 +36,12 @@ abstract class TrainingViewSectionRow extends TrainingViewSectionRowAbstract
     protected $Code = '';
 
     /**
+     * Additional table (template data)
+     * @var array<string, mixed>|null
+     */
+    protected ?array $TableData = null;
+
+    /**
      * Additional content
      * @var string
      */
@@ -99,6 +105,7 @@ abstract class TrainingViewSectionRow extends TrainingViewSectionRowAbstract
             'class' => $this->big ? 'fullheight' : ($this->withShadow ? 'with-shadow' : ''),
             'boxed_values' => $this->boxedValuesTemplateData(),
             'header' => $this->Header,
+            'table' => $this->TableData,
             'code' => $this->Code,
             'footer' => $this->Footer,
         ];

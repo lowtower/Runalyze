@@ -1,14 +1,14 @@
 <?php
 
 /**
- * This file contains class::SectionLapsRowManual
+ * This file contains class::SectionSwimLaneRow
  * @package Runalyze\DataObjects\Training\View\Section
  */
 
 use Runalyze\View\Activity;
 
 /**
- * Row: Laps (manual)
+ * Row: Swim lanes
  *
  * @author Hannes Christiansen & Michael Pohl
  * @package Runalyze\DataObjects\Training\View\Section
@@ -32,7 +32,7 @@ class SectionSwimLaneRow extends TrainingViewSectionRowTabbedPlot
             ->poollength(); // in cm
         if (! empty($poollength) && 100 % ($poollength / 100) === 0) {
             $Table = new TableSwimLaneAggregateInterval($this->Context);
-            $this->addRightContent('lanes_aggregate', __('Lanes') . ' 100m', $Table->getCode());
+            $this->addRightContent('lanes_aggregate', __('Lanes') . ' 100m', $Table->templateData());
         }
     }
 
@@ -48,6 +48,6 @@ class SectionSwimLaneRow extends TrainingViewSectionRowTabbedPlot
     protected function addTable()
     {
         $Table = new TableSwimLane($this->Context);
-        $this->Code = $Table->getCode();
+        $this->TableData = $Table->templateData();
     }
 }
