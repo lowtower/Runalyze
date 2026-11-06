@@ -153,10 +153,10 @@ class Series
     }
 
     /**
-     * @param int|float $value
+     * @param int|float|null $value
      */
     protected function setManualAverage($value)
     {
-        $this->ManualAverage = $value;
+        $this->ManualAverage = $value ?? false;
     }
 }

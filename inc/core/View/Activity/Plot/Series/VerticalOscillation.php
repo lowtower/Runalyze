@@ -31,7 +31,12 @@ class VerticalOscillation extends ActivityPointSeries
         $this->initOptions();
         $this->initData($context->trackdata(), Trackdata::VERTICAL_OSCILLATION);
         $this->manipulateData();
-        $this->setManualAverage($context->activity()->verticalOscillation() * 0.1);
+
+        $activityVerticalOscillation = $context->activity()->verticalOscillation();
+
+        if ($activityVerticalOscillation !== null) {
+            $this->setManualAverage($activityVerticalOscillation * 0.1);
+        }
     }
 
     protected function initOptions()
@@ -56,10 +61,14 @@ class VerticalOscillation extends ActivityPointSeries
     }
 
     /**
-     * Change value by internal factor
+     * Change value by internal factor, null values (gaps) are passed through
      */
-    protected function correctUnit(int $value): float
+    protected function correctUnit(?int $value): ?float
     {
+        if ($value === null) {
+            return null;
+        }
+
         return 0.1 * $value;
     }
 
