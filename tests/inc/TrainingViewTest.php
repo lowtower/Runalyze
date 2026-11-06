@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use \Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector;
-use \Runalyze\Model\Factory;
-use \Runalyze\Tests\DatabaseTestCase;
-use \Runalyze\Util\LocalTime;
-use \Symfony\Component\HttpFoundation\RequestStack;
+use Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector;
+use Runalyze\Model\Factory;
+use Runalyze\Tests\DatabaseTestCase;
+use Runalyze\Util\LocalTime;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]
 #[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
