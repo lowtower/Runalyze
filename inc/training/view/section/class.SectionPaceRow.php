@@ -33,7 +33,7 @@ class SectionPaceRow extends TrainingViewSectionRowTabbedPlot
             $Table = new TableZonesPace($this->Context);
             $tableData = $Table->templateData();
 
-            if (null === $tableData) {
+            if ($tableData === null) {
                 $tableData = HTML::info(__("You'll be soon able to configure your own zones."));
             } else {
                 $tableData['footer_hint'] .= HTML::info(__("You'll be soon able to configure your own zones."));

@@ -103,7 +103,7 @@ abstract class TableZonesAbstract
             'header' => $this->headerTemplateData(),
             'show_average' => $this->showAverage(),
             'rows' => $this->rowsTemplateData(),
-            'footer_hint' => '' !== $this->footerHint() ? HTML::info($this->footerHint()) : '',
+            'footer_hint' => $this->footerHint() !== '' ? HTML::info($this->footerHint()) : '',
         ];
     }
 
@@ -115,14 +115,29 @@ abstract class TableZonesAbstract
     private function headerTemplateData(): array
     {
         $header = [
-            ['content' => __('Zone'), 'style' => ''],
-            ['content' => '% ' . __($this->TitlePercent), 'style' => 'text-align: left;'], // #TSC set the table column title
-            ['content' => __('Time'), 'style' => ''],
-            ['content' => __('Distance'), 'style' => ''],
+            [
+                'content' => __('Zone'),
+                'style' => '',
+            ],
+            [
+                'content' => '% ' . __($this->TitlePercent),
+                'style' => 'text-align: left;',
+            ], // #TSC set the table column title
+            [
+                'content' => __('Time'),
+                'style' => '',
+            ],
+            [
+                'content' => __('Distance'),
+                'style' => '',
+            ],
         ];
 
         if ($this->showAverage()) {
-            $header[] = ['content' => $this->titleForAverage(), 'style' => ''];
+            $header[] = [
+                'content' => $this->titleForAverage(),
+                'style' => '',
+            ];
         }
 
         return $header;
