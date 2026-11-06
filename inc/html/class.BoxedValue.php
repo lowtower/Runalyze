@@ -185,6 +185,26 @@ class BoxedValue
         return $Code . '</div>';
     }
 
+    /**
+     * Data for the twig template `activity/training_view/boxed_value.html.twig`
+     *
+     * @return array<string, mixed>
+     */
+    public function templateData(): array
+    {
+        return [
+            'floating' => $this->AsFloatingBlock,
+            'floating_class' => $this->AsFloatingBlockClass,
+            'floating_width' => $this->AsFloatingBlockWidth,
+            'class' => $this->getDivClass(),
+            'icon' => $this->getDivForIcon(),
+            'value' => $this->Value,
+            'unit' => $this->Unit,
+            'info' => $this->Info,
+            'glossary' => $this->Glossary,
+        ];
+    }
+
     public static function wrapValues(string $ValuesString): void
     {
         echo self::getWrappedValues($ValuesString);

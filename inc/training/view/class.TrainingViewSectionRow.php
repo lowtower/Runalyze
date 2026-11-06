@@ -97,7 +97,7 @@ abstract class TrainingViewSectionRow extends TrainingViewSectionRowAbstract
     {
         return [
             'class' => $this->big ? 'fullheight' : ($this->withShadow ? 'with-shadow' : ''),
-            'boxed_values_html' => $this->BoxedValues === [] ? '' : $this->boxedValuesHtml(),
+            'boxed_values' => $this->boxedValuesTemplateData(),
             'header' => $this->Header,
             'code' => $this->Code,
             'footer' => $this->Footer,
@@ -126,15 +126,20 @@ abstract class TrainingViewSectionRow extends TrainingViewSectionRowAbstract
         ];
     }
 
-    private function boxedValuesHtml(): string
+    /**
+     * Template data of the boxed values
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    private function boxedValuesTemplateData(): array
     {
-        $Code = '';
+        $data = [];
 
-        foreach ($this->BoxedValues as &$Value) {
-            $Code .= $Value->getCode();
+        foreach ($this->BoxedValues as $Value) {
+            $data[] = $Value->templateData();
         }
 
-        return BoxedValue::getWrappedValues($Code);
+        return $data;
     }
 
     /**

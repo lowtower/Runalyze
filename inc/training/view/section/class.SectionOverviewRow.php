@@ -26,19 +26,27 @@ class SectionOverviewRow extends TrainingViewSectionRowFullwidth
         $this->id = 'training-overview';
 
         $this->setBoxedValues();
-        $this->setBoxedValuesToContent();
+
+        $NumberOfBoxes = count($this->BoxedValues);
+        foreach ($this->BoxedValues as $Value) {
+            $Value->defineAsFloatingBlockWithFixedWidth($NumberOfBoxes);
+        }
     }
 
-    protected function setBoxedValuesToContent()
+    /**
+     * Template data of the boxed values
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    protected function boxedValuesTemplateData(): array
     {
-        $NumberOfBoxes = count($this->BoxedValues);
-        $ValuesString = '';
-        foreach ($this->BoxedValues as &$Value) {
-            $Value->defineAsFloatingBlockWithFixedWidth($NumberOfBoxes);
-            $ValuesString .= $Value->getCode();
+        $data = [];
+
+        foreach ($this->BoxedValues as $Value) {
+            $data[] = $Value->templateData();
         }
 
-        $this->Content = BoxedValue::getWrappedValues($ValuesString);
+        return $data;
     }
 
     protected function setBoxedValues()

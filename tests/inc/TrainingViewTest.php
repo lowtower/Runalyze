@@ -152,6 +152,7 @@ final class TrainingViewTest extends DatabaseTestCase
 
         $overviewRow = null;
         $tabbedPlotRows = 0;
+        $rowsWithBoxedValues = 0;
 
         foreach ($data['sections'] as $section) {
             $this->assertArrayHasKey('header', $section);
@@ -165,14 +166,24 @@ final class TrainingViewTest extends DatabaseTestCase
                 if (($row['data']['plot']['kind'] ?? '') === 'tabbed_plot') {
                     ++$tabbedPlotRows;
                 }
+
+                if (($row['data']['kind'] ?? '') === 'row' && ($row['data']['info']['boxed_values'] ?? []) !== []) {
+                    ++$rowsWithBoxedValues;
+                }
             }
         }
 
         $this->assertNotNull($overviewRow, 'The overview row must be part of the sections.');
         $this->assertSame('fullwidth', $overviewRow['kind']);
-        $this->assertStringContainsString('boxed-values', (string) $overviewRow['content']);
+        $this->assertNotEmpty($overviewRow['boxed_values']);
+
+        foreach ($overviewRow['boxed_values'] as $boxedValue) {
+            $this->assertTrue($boxedValue['floating']);
+            $this->assertStringStartsWith('boxed-value-container', (string) $boxedValue['class']);
+        }
 
         $this->assertGreaterThan(0, $tabbedPlotRows, 'At least one tabbed plot row must be part of the sections.');
+        $this->assertGreaterThan(0, $rowsWithBoxedValues, 'At least one row with boxed values must be part of the sections.');
     }
 
     private function trainingViewFor(int $trainingId): TrainingView
