@@ -71,16 +71,16 @@ class TablePaceGoal
             $rows[] = [
                 'style' => '',
                 'cells' => [
-                    self::cell((string) $count++),
-                    self::goalCell($this->formatDistance($split['pp_dist_m'])),
-                    self::cell($this->formatDistance($split['dist_m'])),
-                    self::cell($this->formatDistance($sumDistM)),
-                    self::goalCell($durationGoal->string()),
-                    self::cell($durationRun->string()),
-                    self::cell($durationGoal->compareTo($durationRun)),
-                    self::goalCell($paceGoal->valueWithAppendix()),
-                    self::cell($paceRun->valueWithAppendix()),
-                    self::cell($paceRun->compareTo($paceGoal), 'padding-right: 20px;'),
+                    $this->cell((string) $count++),
+                    $this->goalCell($this->formatDistance($split['pp_dist_m'])),
+                    $this->cell($this->formatDistance($split['dist_m'])),
+                    $this->cell($this->formatDistance($sumDistM)),
+                    $this->goalCell($durationGoal->string()),
+                    $this->cell($durationRun->string()),
+                    $this->cell($durationGoal->compareTo($durationRun)),
+                    $this->goalCell($paceGoal->valueWithAppendix()),
+                    $this->cell($paceRun->valueWithAppendix()),
+                    $this->cell($paceRun->compareTo($paceGoal), 'padding-right: 20px;'),
                 ],
             ];
         }
@@ -93,16 +93,16 @@ class TablePaceGoal
         $summaryRow = [
             'style' => 'border-top: 1px solid #666;',
             'cells' => [
-                self::cell(''),
-                self::goalCell($this->formatDistance($sumPpDistM)),
-                self::cell($this->formatDistance($sumDistM)),
-                self::cell($this->formatDistance($sumDistM)),
-                self::goalCell($durationGoal->string()),
-                self::cell($durationRun->string()),
-                self::cell($durationGoal->compareTo($durationRun)),
-                self::goalCell($paceGoal->valueWithAppendix()),
-                self::cell($paceRun->valueWithAppendix()),
-                self::cell($paceRun->compareTo($paceGoal), 'padding-right: 20px;'),
+                $this->cell(''),
+                $this->goalCell($this->formatDistance($sumPpDistM)),
+                $this->cell($this->formatDistance($sumDistM)),
+                $this->cell($this->formatDistance($sumDistM)),
+                $this->goalCell($durationGoal->string()),
+                $this->cell($durationRun->string()),
+                $this->cell($durationGoal->compareTo($durationRun)),
+                $this->goalCell($paceGoal->valueWithAppendix()),
+                $this->cell($paceRun->valueWithAppendix()),
+                $this->cell($paceRun->compareTo($paceGoal), 'padding-right: 20px;'),
             ],
         ];
 
@@ -113,8 +113,12 @@ class TablePaceGoal
             'warning' => $this->warningFor($activityTimeS, $activityDistanceM, $sumTimeS, $sumDistM),
             'header' => $this->headerTemplateData(),
             'bodies' => [
-                ['rows' => $rows],
-                ['rows' => [$summaryRow]],
+                [
+                    'rows' => $rows,
+                ],
+                [
+                    'rows' => [$summaryRow],
+                ],
             ],
         ];
     }
@@ -146,16 +150,16 @@ class TablePaceGoal
     private function headerTemplateData(): array
     {
         return [
-            self::cell('#'),
-            self::goalCell(__('Distance') . ' ' . __('Goal')),
-            self::cell(__('Distance')),
-            self::cell(__('Distance') . ' &sum;'),
-            self::goalCell(__('Time') . ' ' . __('Goal')),
-            self::cell(__('Time')),
-            self::cell(__('Time') . ' &Delta; ' . $this->GreenTooltip),
-            self::goalCell(__('Pace') . ' ' . __('Goal')),
-            self::cell(__('Pace')),
-            self::cell(__('Pace') . ' &Delta; ' . $this->GreenTooltip, 'padding-right: 20px;'),
+            $this->cell('#'),
+            $this->goalCell(__('Distance') . ' ' . __('Goal')),
+            $this->cell(__('Distance')),
+            $this->cell(__('Distance') . ' &sum;'),
+            $this->goalCell(__('Time') . ' ' . __('Goal')),
+            $this->cell(__('Time')),
+            $this->cell(__('Time') . ' &Delta; ' . $this->GreenTooltip),
+            $this->goalCell(__('Pace') . ' ' . __('Goal')),
+            $this->cell(__('Pace')),
+            $this->cell(__('Pace') . ' &Delta; ' . $this->GreenTooltip, 'padding-right: 20px;'),
         ];
     }
 
@@ -172,22 +176,28 @@ class TablePaceGoal
     }
 
     /**
-     * @param string $content
-     * @param string $style
      * @return array<string, mixed>
      */
-    private static function cell(string $content, string $style = '')
+    private function cell(string $content, string $style = ''): array
     {
-        return ['content' => $content, 'style' => $style, 'colspan' => 0, 'italic' => false];
+        return [
+            'content' => $content,
+            'style' => $style,
+            'colspan' => 0,
+            'italic' => false,
+        ];
     }
 
     /**
-     * @param string $content
-     * @param string $style
      * @return array<string, mixed>
      */
-    private static function goalCell(string $content, string $style = '')
+    private function goalCell(string $content, string $style = ''): array
     {
-        return ['content' => $content, 'style' => $style, 'colspan' => 0, 'italic' => true];
+        return [
+            'content' => $content,
+            'style' => $style,
+            'colspan' => 0,
+            'italic' => true,
+        ];
     }
 }

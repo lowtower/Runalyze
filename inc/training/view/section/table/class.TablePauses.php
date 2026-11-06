@@ -41,27 +41,35 @@ class TablePauses
             $pause = $pauses->at($i);
 
             $cells = [
-                self::cell(($i + 1) . '.'),
-                self::cell(Duration::format($pause->time())),
-                self::cell(Duration::format($pause->duration())),
+                $this->cell(($i + 1) . '.'),
+                $this->cell(Duration::format($pause->time())),
+                $this->cell(Duration::format($pause->duration())),
             ];
 
             if ($pause->hasHeartRateInfo()) {
                 $hr->setBPM($pause->HRstart());
-                $cells[] = self::cell($hr->inBPM() > 0 ? $hr->string() : '-');
+                $cells[] = $this->cell($hr->inBPM() > 0 ? $hr->string() : '-');
 
                 $hr->setBPM(-$pause->hrDiff());
-                $cells[] = self::cell($hr->inBPM() !== 0 ? $hr->string() : '-');
+                $cells[] = $this->cell($hr->inBPM() !== 0 ? $hr->string() : '-');
 
                 $hr->setBPM($pause->HRend());
-                $cells[] = self::cell($hr->inBPM() > 0 ? $hr->string() : '-', 'padding-right: 20px;');
+                $cells[] = $this->cell($hr->inBPM() > 0 ? $hr->string() : '-', 'padding-right: 20px;');
             } else {
-                $cells[] = ['content' => '', 'style' => '', 'colspan' => 3, 'italic' => false];
+                $cells[] = [
+                    'content' => '',
+                    'style' => '',
+                    'colspan' => 3,
+                    'italic' => false,
+                ];
             }
 
             $allPause += $pause->duration();
 
-            $rows[] = ['style' => '', 'cells' => $cells];
+            $rows[] = [
+                'style' => '',
+                'cells' => $cells,
+            ];
         }
 
         return [
@@ -70,8 +78,12 @@ class TablePauses
             'warning' => '',
             'header' => $this->headerTemplateData(),
             'bodies' => [
-                ['rows' => $rows],
-                ['rows' => $this->summaryRowsTemplateData($allPause, $fullTime)],
+                [
+                    'rows' => $rows,
+                ],
+                [
+                    'rows' => $this->summaryRowsTemplateData($allPause, $fullTime),
+                ],
             ],
         ];
     }
@@ -82,12 +94,12 @@ class TablePauses
     private function headerTemplateData(): array
     {
         return [
-            self::cell('#'),
-            self::cell(__('Time')),
-            self::cell(__('Duration')),
-            self::cell(__('Heart rate') . ' (' . __('Start') . ')'),
-            self::cell(__('Difference')),
-            self::cell(__('Heart rate') . ' (' . __('End') . ')', 'padding-right: 20px;'),
+            $this->cell('#'),
+            $this->cell(__('Time')),
+            $this->cell(__('Duration')),
+            $this->cell(__('Heart rate') . ' (' . __('Start') . ')'),
+            $this->cell(__('Difference')),
+            $this->cell(__('Heart rate') . ' (' . __('End') . ')', 'padding-right: 20px;'),
         ];
     }
 
@@ -104,9 +116,24 @@ class TablePauses
             [
                 'style' => 'border-top: 1px solid #666;',
                 'cells' => [
-                    ['content' => '', 'style' => '', 'colspan' => 2, 'italic' => false],
-                    ['content' => Duration::format($allPause), 'style' => '', 'colspan' => 0, 'italic' => false],
-                    ['content' => '', 'style' => 'padding-right: 20px;', 'colspan' => 3, 'italic' => false],
+                    [
+                        'content' => '',
+                        'style' => '',
+                        'colspan' => 2,
+                        'italic' => false,
+                    ],
+                    [
+                        'content' => Duration::format($allPause),
+                        'style' => '',
+                        'colspan' => 0,
+                        'italic' => false,
+                    ],
+                    [
+                        'content' => '',
+                        'style' => 'padding-right: 20px;',
+                        'colspan' => 3,
+                        'italic' => false,
+                    ],
                 ],
             ],
         ];
@@ -116,9 +143,24 @@ class TablePauses
             $rows[] = [
                 'style' => '',
                 'cells' => [
-                    ['content' => '', 'style' => '', 'colspan' => 2, 'italic' => false],
-                    ['content' => round(100 / $fullTime * $allPause) . '% of ' . Duration::format($fullTime), 'style' => '', 'colspan' => 0, 'italic' => false],
-                    ['content' => '', 'style' => 'padding-right: 20px;', 'colspan' => 3, 'italic' => false],
+                    [
+                        'content' => '',
+                        'style' => '',
+                        'colspan' => 2,
+                        'italic' => false,
+                    ],
+                    [
+                        'content' => round(100 / $fullTime * $allPause) . '% of ' . Duration::format($fullTime),
+                        'style' => '',
+                        'colspan' => 0,
+                        'italic' => false,
+                    ],
+                    [
+                        'content' => '',
+                        'style' => 'padding-right: 20px;',
+                        'colspan' => 3,
+                        'italic' => false,
+                    ],
                 ],
             ];
         }
@@ -127,12 +169,15 @@ class TablePauses
     }
 
     /**
-     * @param string $content
-     * @param string $style
      * @return array<string, mixed>
      */
-    private static function cell(string $content, string $style = '')
+    private function cell(string $content, string $style = ''): array
     {
-        return ['content' => $content, 'style' => $style, 'colspan' => 0, 'italic' => false];
+        return [
+            'content' => $content,
+            'style' => $style,
+            'colspan' => 0,
+            'italic' => false,
+        ];
     }
 }
