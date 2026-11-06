@@ -52,9 +52,9 @@ class PluginConfigurationValueDistance extends PluginConfigurationValueFloat
         $Field->setSize(FormularInput::$SIZE_SMALL);
 
         if ($this->unitSystem()->isImperial()) {
-            $Field->setUnit(FormularUnit::$MILES);
+            $Field->setUnit('miles');
         } else {
-            $Field->setUnit(FormularUnit::$KM);
+            $Field->setUnit('km');
         }
 
         return $Field;
