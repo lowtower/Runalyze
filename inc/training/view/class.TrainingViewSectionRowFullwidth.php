@@ -37,6 +37,18 @@ abstract class TrainingViewSectionRowFullwidth extends TrainingViewSectionRowAbs
             'kind' => 'fullwidth',
             'id' => $this->id,
             'content' => $this->Content,
+            'boxed_values' => $this->boxedValuesTemplateData(),
         ];
+    }
+
+    /**
+     * Template data of the boxed values, can be overridden by rows that show
+     * boxed values instead of a content string
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    protected function boxedValuesTemplateData(): array
+    {
+        return [];
     }
 }
