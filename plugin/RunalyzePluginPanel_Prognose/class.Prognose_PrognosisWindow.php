@@ -214,8 +214,8 @@ class Prognose_PrognosisWindow
             $VO2maxpb = new LegacyEffectiveVO2max();
             $VO2maxpb->fromPace($km, $PB->seconds());
 
-            $PacePrognosis = new Pace($Prognosis, $km, SportFactory::getSpeedUnitFor(Configuration::General()->runningSport()));
-            $PacePB = new Pace($PB->seconds(), $km, SportFactory::getSpeedUnitFor(Configuration::General()->runningSport()));
+            $PacePrognosis = new Pace($Prognosis, $km, \Runalyze\Context::Factory()->sport(Configuration::General()->runningSport())->getLegacyPaceUnitEnum());
+            $PacePB = new Pace($PB->seconds(), $km, \Runalyze\Context::Factory()->sport(Configuration::General()->runningSport())->getLegacyPaceUnitEnum());
 
             $DateWithLink = $PB->seconds() > 0
                 ? Ajax::trainingLink($PB->activityId(), new LocalTime($PB->timestamp())->format('d.m.Y'), true)

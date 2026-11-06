@@ -206,7 +206,7 @@ class RunalyzePluginStat_Rekorde extends PluginStat
      */
     private function initData(): void
     {
-        // TODO: Use sport arrays from SportFactory
+        // TODO: Use sport arrays from Model\Factory
         $this->rekorde = [];
         $this->rekorde[] = [
             'name' => __('Fastest activities'),

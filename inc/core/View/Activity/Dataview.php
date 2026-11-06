@@ -35,7 +35,6 @@ use Runalyze\View\RpeColor;
 use Runalyze\View\Stresscolor;
 use SearchLink;
 use SessionAccountHandler;
-use SportFactory;
 
 class Dataview
 {
@@ -182,7 +181,7 @@ class Dataview
      */
     public function pace(): Pace
     {
-        return $this->object($this->Pace, fn (Activity\Entity $Activity): Pace => new Pace($Activity->duration(), $Activity->distance(), SportFactory::getSpeedUnitFor($Activity->sportid())));
+        return $this->object($this->Pace, fn (Activity\Entity $Activity): Pace => new Pace($Activity->duration(), $Activity->distance(), GeneralContext::Factory()->sport($Activity->sportid())->getLegacyPaceUnitEnum()));
     }
 
     /**
@@ -195,7 +194,7 @@ class Dataview
         $adjTime = $GaPaceCalculator->getAdjustedTime();
 
         return $this->object($this->GAPace, function (Activity\Entity $Activity) use (&$adjTime): Pace {
-            return new Pace($adjTime, $Activity->distance(), SportFactory::getSpeedUnitFor($Activity->sportid()));
+            return new Pace($adjTime, $Activity->distance(), GeneralContext::Factory()->sport($Activity->sportid())->getLegacyPaceUnitEnum());
         });
     }
 

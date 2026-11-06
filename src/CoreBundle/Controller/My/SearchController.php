@@ -5,7 +5,6 @@ namespace Runalyze\Bundle\CoreBundle\Controller\My;
 use Frontend;
 use Runalyze\Bundle\CoreBundle\Component\Search\SearchFormFields;
 use Runalyze\Bundle\CoreBundle\Component\Search\SearchResults;
-use SportFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -69,7 +68,7 @@ class SearchController extends AbstractController
 
     private function setDefaultValues(): void
     {
-        $_POST['sportid'] ??= array_keys(SportFactory::AllSports());
+        $_POST['sportid'] ??= array_map(fn (\Runalyze\Model\Sport\Entity $Sport): int => (int) $Sport->id(), \Runalyze\Context::Factory()->allSports());
 
         $_POST['date-from'] ??= date('d.m.Y', START_TIME);
 

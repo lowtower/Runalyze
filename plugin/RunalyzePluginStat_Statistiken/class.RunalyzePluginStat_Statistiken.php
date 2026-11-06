@@ -18,8 +18,6 @@ $PLUGINKEY = 'RunalyzePluginStat_Statistiken';
  */
 class RunalyzePluginStat_Statistiken extends PluginStat
 {
-    protected array $Sport = [];
-
     protected \Runalyze\Dataset\Configuration $DatasetConfig;
 
     /**
@@ -61,7 +59,6 @@ class RunalyzePluginStat_Statistiken extends PluginStat
 
     private function initVariables(): void
     {
-        $this->Sport = SportFactory::DataFor($this->sportid);
         $this->DatasetConfig = new \Runalyze\Dataset\Configuration(DB::getInstance(), SessionAccountHandler::getId());
 
         require_once __DIR__ . '/class.SummaryTable.php';

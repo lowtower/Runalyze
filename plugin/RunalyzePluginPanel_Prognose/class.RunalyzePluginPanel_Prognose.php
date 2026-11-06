@@ -205,11 +205,11 @@ class RunalyzePluginPanel_Prognose extends PluginPanel
 
         if ($this->Prognosis->areValuesValid()) {
             $prognosis = new Duration($this->Prognosis->getSeconds($distance));
-            $pace = new Pace($prognosis->seconds(), $distance, SportFactory::getSpeedUnitFor(Configuration::General()->runningSport()));
+            $pace = new Pace($prognosis->seconds(), $distance, \Runalyze\Context::Factory()->sport(Configuration::General()->runningSport())->getLegacyPaceUnitEnum());
             $prognosisString = $prognosis->string(Duration::FORMAT_AUTO, 0);
         } else {
             $prognosisString = '-';
-            $pace = new Pace(0, $distance, SportFactory::getSpeedUnitFor(Configuration::General()->runningSport()));
+            $pace = new Pace(0, $distance, \Runalyze\Context::Factory()->sport(Configuration::General()->runningSport())->getLegacyPaceUnitEnum());
         }
 
         echo '<p>
