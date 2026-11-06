@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::GroundContactBalance
  * @package Runalyze\View\Activity\Box
@@ -22,7 +24,7 @@ class GroundContactBalance extends ValueBox
     public function __construct(Context $Context)
     {
         parent::__construct(
-            new Activity\GroundcontactBalance($Context->activity()->groundContactBalance())
+            new Activity\GroundcontactBalance($Context->activity()->groundContactBalance() ?? 0)
         );
     }
 }
