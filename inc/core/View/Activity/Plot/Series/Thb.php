@@ -48,10 +48,14 @@ class Thb extends ActivitySeries
     }
 
     /**
-     * Change value by internal factor
+     * Change value by internal factor, gaps (null values) are filtered out afterwards
      */
-    protected function correctUnit(int $value): float
+    protected function correctUnit(int|float|null $value): ?float
     {
+        if ($value === null) {
+            return null;
+        }
+
         return 0.01 * $value;
     }
 

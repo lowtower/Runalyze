@@ -70,10 +70,14 @@ abstract class AbstractCadence
     }
 
     /**
-     * Change value by internal factor
+     * Change value by internal factor, null values (gaps) are passed through
      */
-    final public function useFactor(int $value): float
+    final public function useFactor(?int $value): ?float
     {
+        if (null === $value) {
+            return null;
+        }
+
         return $this->Factor * $value;
     }
 
