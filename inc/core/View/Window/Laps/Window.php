@@ -225,7 +225,7 @@ class Window
             $sum += $split->distance();
         }
 
-        $this->Laps->calculateFrom($Distances, $this->Context->trackdata(), $this->Context->route());
+        $this->Laps->calculateFrom($Distances, $this->Context->trackdata(), $this->Context->hasRoute() ? $this->Context->route() : null);
     }
 
     /**
@@ -241,7 +241,7 @@ class Window
             $sum += $split->time();
         }
 
-        $this->Laps->calculateFromTimes($Times, $this->Context->trackdata(), $this->Context->route(), $this->Context->swimdata());
+        $this->Laps->calculateFromTimes($Times, $this->Context->trackdata(), $this->Context->hasRoute() ? $this->Context->route() : null, $this->Context->swimdata());
     }
 
     protected function constructLapsFromTrackdata()
@@ -271,7 +271,7 @@ class Window
             }
         }
 
-        $this->Laps->calculateFromTimes($Times, $this->Context->trackdata(), $this->Context->route());
+        $this->Laps->calculateFromTimes($Times, $this->Context->trackdata(), $this->Context->hasRoute() ? $this->Context->route() : null);
     }
 
     protected function constructLapsFromTrackdataByDistances()
@@ -292,7 +292,7 @@ class Window
             }
         }
 
-        $this->Laps->calculateFrom($Distances, $this->Context->trackdata(), $this->Context->route());
+        $this->Laps->calculateFrom($Distances, $this->Context->trackdata(), $this->Context->hasRoute() ? $this->Context->route() : null);
     }
 
     public function display(): void
