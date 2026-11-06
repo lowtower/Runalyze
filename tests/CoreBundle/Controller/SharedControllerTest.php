@@ -6,6 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Conf;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
@@ -163,6 +164,14 @@ final class SharedControllerTest extends AbstractFixturesAwareWebTestCase
     public function testSharedAthletePageShowsThePublicActivityColumnForAPublicActivity(): void
     {
         $this->createTrainingForAccount($this->Account, isPublic: true);
+
+        $conf = new Conf();
+        $conf->setAccount($this->Account)
+            ->setCategory('privacy')
+            ->setKey('TRAINING_LIST_PUBLIC')
+            ->setValue('true');
+        $this->getEntityManager()->persist($conf);
+        $this->getEntityManager()->flush();
 
         $this->request('GET', '/athlete/' . $this->Account->getUsername());
 
