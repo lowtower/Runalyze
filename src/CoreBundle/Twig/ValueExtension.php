@@ -33,14 +33,14 @@ class ValueExtension
     }
 
     /**
-     * @param float $kilometer [km]
+     * @param ?float $kilometer [km]
      */
     #[\Twig\Attribute\AsTwigFunction(name: 'distance', isSafe: ['html'])]
-    public function distance(float $kilometer, ?AbstractDistanceUnit $unit = null, int $decimals = 2): DisplayableValue
+    public function distance(?float $kilometer, ?AbstractDistanceUnit $unit = null, int $decimals = 2): DisplayableValue
     {
         $unit = $unit ?: $this->UnitSystem->getDistanceUnit();
 
-        return new DisplayableValue($kilometer, $unit, $decimals);
+        return new DisplayableValue($kilometer ?? 0.0, $unit, $decimals);
     }
 
     /**
