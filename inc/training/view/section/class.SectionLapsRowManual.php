@@ -34,7 +34,7 @@ class SectionLapsRowManual extends TrainingViewSectionRow
     protected function addTable()
     {
         $Table = new TableLaps($this->Context);
-        $this->Code = $Table->getCode();
+        $this->TableData = $Table->templateData();
     }
 
     protected function addInfoLink()

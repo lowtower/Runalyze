@@ -17,20 +17,41 @@ use Runalyze\View\Splits;
  */
 class TableLaps extends TableLapsAbstract
 {
+    protected ?Splits\Table $SplitsView = null;
+
     protected function setCode()
     {
-        $Reader = new StringReader($this->Context->activity()->title());
+        $this->Code = $this->splitsView()->code();
+    }
 
-        $Splits = $this->Context->activity()
-            ->splits();
-        $SplitsView = new Splits\Table($Splits, $this->Context->dataview()->pace()->unitEnum());
-        $SplitsView->setDemandedPace($Reader->findDemandedPace());
+    /**
+     * Data for the twig template `activity/training_view/table.html.twig`
+     *
+     * @return array<string, mixed>
+     */
+    public function templateData(): array
+    {
+        return $this->splitsView()->templateData();
+    }
 
-        if ($this->Context->trackdata()->has(Trackdata\Entity::DISTANCE) && $this->Context->hasRaceResult()) {
-            $SplitsView->setHalfsOfCompetition($this->computeHalfs());
+    protected function splitsView(): Splits\Table
+    {
+        if (! $this->SplitsView instanceof \Runalyze\View\Splits\Table) {
+            $Reader = new StringReader($this->Context->activity()->title());
+
+            $Splits = $this->Context->activity()
+                ->splits();
+            $SplitsView = new Splits\Table($Splits, $this->Context->dataview()->pace()->unitEnum());
+            $SplitsView->setDemandedPace($Reader->findDemandedPace());
+
+            if ($this->Context->trackdata()->has(Trackdata\Entity::DISTANCE) && $this->Context->hasRaceResult()) {
+                $SplitsView->setHalfsOfCompetition($this->computeHalfs());
+            }
+
+            $this->SplitsView = $SplitsView;
         }
 
-        $this->Code = $SplitsView->code();
+        return $this->SplitsView;
     }
 
     protected function computeHalfs(): array
