@@ -230,7 +230,6 @@ class TrainingView
         }
     }
 
-
     /**
      * Data for the twig template `activity/training_view.html.twig`
      *

@@ -114,13 +114,13 @@ final class TrainingViewTest extends DatabaseTestCase
             '<i class="transparent-70 fa-grey fa fa-fw fa-chevron-left"></i>',
             $data['navigation_prev']
         );
-        $this->assertStringContainsString('activity/' . self::NEXT_TRAINING_ID, $data['navigation_next']);
-        $this->assertStringNotContainsString('transparent-70', $data['navigation_next']);
+        $this->assertStringContainsString('activity/' . self::NEXT_TRAINING_ID, (string) $data['navigation_next']);
+        $this->assertStringNotContainsString('transparent-70', (string) $data['navigation_next']);
 
         $this->assertSame(Icon::$REFRESH_SMALL, $data['refresh_icon']);
 
-        $this->assertStringContainsString('training-row', $data['sections_html']);
-        $this->assertStringContainsString('RunalyzePlot.resizeTrainingCharts();', $data['plots_js']);
+        $this->assertStringContainsString('training-row', (string) $data['sections_html']);
+        $this->assertStringContainsString('RunalyzePlot.resizeTrainingCharts();', (string) $data['plots_js']);
     }
 
     public function testThatTheSharedActivityViewShowsTheSharedToolbarAndNoNavigation(): void
@@ -134,13 +134,13 @@ final class TrainingViewTest extends DatabaseTestCase
         $this->assertTrue($data['is_shared']);
 
         $this->assertCount(2, $data['toolbar_links']);
-        $this->assertStringContainsString('shared/', $data['toolbar_links'][0]);
-        $this->assertStringContainsString('athlete/' . self::USERNAME, $data['toolbar_links'][1]);
+        $this->assertStringContainsString('shared/', (string) $data['toolbar_links'][0]);
+        $this->assertStringContainsString('athlete/' . self::USERNAME, (string) $data['toolbar_links'][1]);
 
         $this->assertSame('', $data['navigation_prev']);
         $this->assertSame('', $data['navigation_next']);
 
-        $this->assertStringContainsString('training-row', $data['sections_html']);
+        $this->assertStringContainsString('training-row', (string) $data['sections_html']);
     }
 
     private function trainingViewFor(int $trainingId): TrainingView
