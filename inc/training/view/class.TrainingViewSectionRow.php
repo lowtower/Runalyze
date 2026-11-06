@@ -97,7 +97,7 @@ abstract class TrainingViewSectionRow extends TrainingViewSectionRowAbstract
     {
         return [
             'class' => $this->big ? 'fullheight' : ($this->withShadow ? 'with-shadow' : ''),
-            'boxed_values_html' => $this->boxedValuesHtml(),
+            'boxed_values_html' => $this->BoxedValues === [] ? '' : $this->boxedValuesHtml(),
             'header' => $this->Header,
             'code' => $this->Code,
             'footer' => $this->Footer,
