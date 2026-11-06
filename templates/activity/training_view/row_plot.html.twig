@@ -6,8 +6,9 @@
     - kind: plot | tabbed_plot | table
     - plot: key (empty if there is no plot), html
     - tabbed_plot: css_id, top_content, tabs (key, html, table)
-    - table: table data (see table.html.twig; an optional 'template' key in the
-      table data selects another table template, e.g. table_zones.html.twig)
+    - table: template data (an optional 'template' key selects the twig
+      template, defaults to table.html.twig, e.g. table_zones.html.twig,
+      notes.html.twig or fitdetails.html.twig)
 #}
 {% if kind == 'tabbed_plot' %}
     <div id="training-view-tabbed-{{ css_id }}" class="training-row-plot">
