@@ -53,7 +53,7 @@ class Distance extends AbstractKey
         if ($context->hasData(self::KEY_DISTANCE_COMPARISON)) {
             return $context->dataview()
                 ->distance()
-                . $this->distanceComparison($context->activity()->distance(), $context->data(self::KEY_DISTANCE_COMPARISON));
+                . $this->distanceComparison($context->activity()->distance() ?? 0.0, $context->data(self::KEY_DISTANCE_COMPARISON));
         }
 
         return $context->dataview()
