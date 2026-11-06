@@ -49,7 +49,7 @@ class GroundContactBalance extends ActivityPointSeries
     /**
      * Change value by internal factor, gaps (null values) are filtered out afterwards
      */
-    protected function correctUnit(int|float|null $value): float|null
+    protected function correctUnit(int|float|null $value): ?float
     {
         if ($value === null) {
             return null;
