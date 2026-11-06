@@ -70,6 +70,23 @@ final class CallControllerTest extends AbstractFixturesAwareWebTestCase
         );
     }
 
+    public function testDataBrowserActionRendersTheTwigTemplate(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $this->Client->request('GET', '/databrowser');
+
+        $this->assertStatusCode(200, $this->Client);
+
+        $content = (string) $this->Client->getResponse()->getContent();
+
+        $this->assertStringContainsString('id="data-browser-calendar"', $content);
+        $this->assertStringContainsString('id="data-browser-container"', $content);
+        $this->assertStringContainsString('zebra-style', $content);
+        $this->assertStringContainsString('id="calendar-start"', $content);
+        $this->assertStringContainsString('id="direct-timerange"', $content);
+    }
+
     public function testSavePngActionRequiresAuthentication(): void
     {
         $this->Client->request('POST', '/call/savePng.php');

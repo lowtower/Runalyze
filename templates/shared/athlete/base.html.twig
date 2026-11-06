@@ -61,7 +61,7 @@
         <div id="publicList">
     {% endif %}
 
-    {{ dataBrowser.display }}
+    {% include 'my/data_browser.html.twig' with dataBrowser.templateData() %}
 
     {% if not app.request.xmlHttpRequest %}
         </div>

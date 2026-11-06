@@ -18,10 +18,7 @@ use Runalyze\View\Activity\Context;
     <div id="main">
         <div id="data-browser" class="panel">
             <div id="data-browser-inner">
-                <?php
-                $DataBrowser = new DataBrowser();
-$DataBrowser->display();
-?>
+                <?php echo $dataBrowserContent; ?>
             </div>
         </div>
 
