@@ -101,6 +101,264 @@ class Table
     }
 
     /**
+     * Data for the twig template `activity/training_view/table.html.twig`
+     *
+     * @return array<string, mixed>
+     */
+    public function templateData(): array
+    {
+        $splitRows = [];
+        $hasDistance = $this->appendSplits($splitRows);
+
+        $summaryRows = [];
+        $this->appendGoalRow($summaryRows);
+
+        // #TSC: if we have no distance/pace, not necessary
+        if ($hasDistance) {
+            $this->appendAverageRows($summaryRows);
+            $this->appendHalfsRows($summaryRows);
+        }
+
+        return [
+            'class' => 'fullwidth zebra-style',
+            'wrapper_style' => '',
+            'warning' => '',
+            'header' => $this->headerTemplateData(),
+            'bodies' => [
+                [
+                    'rows' => $splitRows,
+                ],
+                [
+                    'class' => 'top-spacer',
+                    'rows' => $summaryRows,
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    private function headerTemplateData(): array
+    {
+        return [
+            $this->headerCell(''),
+            $this->headerCell(__('Distance')),
+            $this->headerCell(__('Time')),
+            $this->headerCell(__('Pace')),
+            $this->headerCell(__('diff')),
+        ];
+    }
+
+    /**
+     * Append all splits as rows, separated by an empty line if only active laps are shown.
+     *
+     * @param array<int, array<string, mixed>> $rows
+     * @return bool whether any split comes with distance/pace
+     */
+    private function appendSplits(array &$rows): bool
+    {
+        $i = 0;
+        $seperated = false;
+        $hasDistance = false;
+
+        $showOnlyActive = $this->Splits->hasActiveAndInactiveLaps() && $this->Splits->hasActiveLaps(2);
+
+        foreach ($this->Splits->asArray() as $Split) {
+            $PaceObj = $Split->pace($this->PaceUnit);
+
+            if ($showOnlyActive && ! $Split->isActive()) {
+                if (! $seperated && ($i > 0)) {
+                    $rows[] = $this->separatorRow('space-line');
+                    $rows[] = $this->separatorRow('space-line zebra-corrector');
+                    $seperated = true;
+                }
+
+                continue;
+            }
+
+            $seperated = false;
+
+            // #TSC hide distance&pace if not available
+            if ($Split->distance() > 0 || ! $PaceObj->isEmpty()) {
+                $hasDistance = true;
+            }
+
+            $rows[] = [
+                'class' => 'r',
+                'style' => '',
+                'cells' => [
+                    $this->numberCell(++$i),
+                    $this->cell($hasDistance ? Distance::format($Split->distance(), true, Distance::$DefaultDecimalsSplitTable) : ''),
+                    $this->cell(Duration::format($Split->time())),
+                    $this->cell($hasDistance ? $PaceObj->value() . '<small>' . $PaceObj->appendix() . '</small>' : ''),
+                    $this->cell($hasDistance ? $this->tdForPaceDifference($PaceObj) : ''),
+                ],
+            ];
+        }
+
+        return $hasDistance;
+    }
+
+    /**
+     * @param array<int, array<string, mixed>> $rows
+     */
+    private function appendGoalRow(array &$rows): void
+    {
+        if ($this->demandedPace->isEmpty()) {
+            return;
+        }
+
+        $rows[] = [
+            'class' => 'small r no-zebra',
+            'style' => '',
+            'cells' => [
+                $this->spanCell(__('Goal') . ': ', 3),
+                $this->cell($this->demandedPace->valueWithAppendix()),
+                $this->cell(''),
+            ],
+        ];
+    }
+
+    /**
+     * @param array<int, array<string, mixed>> $rows
+     */
+    private function appendAverageRows(array &$rows): void
+    {
+        if (! $this->achievedPaceActive->isEmpty()) {
+            $rows[] = [
+                'class' => 'small r no-zebra',
+                'style' => '',
+                'cells' => [
+                    $this->spanCell(__('Average (active)') . ': ', 3),
+                    $this->cell($this->achievedPaceActive->valueWithAppendix()),
+                    $this->cell($this->tdForPaceDifference($this->achievedPaceActive, true)),
+                ],
+            ];
+        }
+
+        $rows[] = [
+            'class' => 'small r no-zebra',
+            'style' => '',
+            'cells' => [
+                $this->spanCell(__('Average (total)') . ': ', 3),
+                $this->cell($this->achievedPace->valueWithAppendix()),
+                $this->cell(''),
+            ],
+        ];
+    }
+
+    /**
+     * @param array<int, array<string, mixed>> $rows
+     */
+    private function appendHalfsRows(array &$rows): void
+    {
+        if ($this->Halfs === []) {
+            return;
+        }
+
+        $rows[] = [
+            'class' => 'no-zebra',
+            'style' => '',
+            'cells' => [$this->spanCell('&nbsp;', 5)],
+        ];
+        $rows[] = [
+            'class' => 'b bottom-spacer no-zebra',
+            'style' => '',
+            'cells' => [$this->spanCell(__('1st/2nd Half'), 5)],
+        ];
+
+        $totalTime = 0;
+        $totalDist = 0;
+
+        foreach ($this->Halfs as $Half) {
+            $totalTime += $Half['s'];
+            $totalDist += $Half['km'];
+        }
+
+        $TotalPace = new Pace($totalTime, $totalDist, $this->PaceUnit);
+
+        for ($i = 0, $num = count($this->Halfs); $i < $num; $i++) {
+            $Pace = new Pace($this->Halfs[$i]['s'], $this->Halfs[$i]['km'], $this->PaceUnit);
+
+            $rows[] = [
+                'class' => 'r',
+                'style' => '',
+                'cells' => [
+                    $this->cell(''),
+                    $this->cell(Distance::format($this->Halfs[$i]['km'], true, Distance::$DefaultDecimalsSplitTable)),
+                    $this->cell(Duration::format($this->Halfs[$i]['s'])),
+                    $this->cell($Pace->valueWithAppendix()),
+                    $this->cell($Pace->compareTo($TotalPace)),
+                ],
+            ];
+        }
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function separatorRow(string $class): array
+    {
+        return [
+            'class' => $class,
+            'style' => '',
+            'cells' => [$this->spanCell('', 5)],
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function numberCell(int $num): array
+    {
+        return [
+            'class' => 'c',
+            'style' => '',
+            'content' => $num . '.',
+        ];
+    }
+
+    /**
+     * Cell without a class key, so that the template's default class for
+     * header cells (r, i.e. right aligned) is applied.
+     *
+     * @return array<string, mixed>
+     */
+    private function headerCell(string $content): array
+    {
+        return [
+            'style' => '',
+            'content' => $content,
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function cell(string $content): array
+    {
+        return [
+            'class' => '',
+            'style' => '',
+            'content' => $content,
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function spanCell(string $content, int $colspan): array
+    {
+        return [
+            'class' => '',
+            'style' => '',
+            'content' => $content,
+            'colspan' => $colspan,
+        ];
+    }
+
+    /**
      * Display
      */
     public function setCode(): void
