@@ -160,6 +160,23 @@ final class SharedControllerTest extends AbstractFixturesAwareWebTestCase
         );
     }
 
+    public function testSharedAthletePageShowsThePublicActivityColumnForAPublicActivity(): void
+    {
+        $this->createTrainingForAccount($this->Account, isPublic: true);
+
+        $this->request('GET', '/athlete/' . $this->Account->getUsername());
+
+        $this->assertStatusCode(200, $this->Client);
+
+        $content = (string) $this->Client->getResponse()->getContent();
+
+        $this->assertStringContainsString('id="data-browser-container"', $content);
+        $this->assertStringContainsString(
+            '<td class="link">' . \Icon::$ADD_SMALL_GREEN . '</td>',
+            $content
+        );
+    }
+
     public function testPublicUserFeedActionReturnsXmlForAnUnknownUsername(): void
     {
         $this->request('GET', '/athlete/this-username-does-not-exist-' . uniqid('', true) . '/feed');

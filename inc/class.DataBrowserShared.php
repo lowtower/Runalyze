@@ -5,9 +5,7 @@
  * @package Runalyze\DataBrowser
  */
 
-use Runalyze\Dataset;
 use Runalyze\Util\LocalTime;
-use Runalyze\View;
 
 /**
  * Shared version of DataBrowser
@@ -133,8 +131,12 @@ class DataBrowserShared extends DataBrowser
      * @return string html string that must contain `$this->AdditionalColumns - 2` columns
      */
     #[\Override]
-    public function codeForAdditionalColumnsForActivity(?View\Dataset\Table $table = null, ?Dataset\Context $context = null): string
+    public function codeForAdditionalColumnsForActivity(): string
     {
-        return $table?->codeForPublicIcon($context) ?? '';
+        if ($this->Table === null || $this->Context === null) {
+            return '';
+        }
+
+        return $this->Table->codeForPublicIcon($this->Context);
     }
 }
