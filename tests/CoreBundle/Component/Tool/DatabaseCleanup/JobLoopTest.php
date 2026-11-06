@@ -19,18 +19,22 @@ final class JobLoopTest extends DatabaseTestCase
         parent::setUp();
 
         $this->PDO = \DB::getInstance();
+        $this->PDO->stopAddingAccountID();
         $this->PDO->exec('TRUNCATE TABLE `runalyze_route`');
         $this->PDO->exec('TRUNCATE TABLE `runalyze_trackdata`');
         $this->PDO->exec('DELETE FROM `runalyze_training`');
+        $this->PDO->startAddingAccountID();
     }
 
     protected function tearDown(): void
     {
         parent::tearDown();
 
+        $this->PDO->stopAddingAccountID();
         $this->PDO->exec('TRUNCATE TABLE `runalyze_route`');
         $this->PDO->exec('TRUNCATE TABLE `runalyze_trackdata`');
         $this->PDO->exec('DELETE FROM `runalyze_training`');
+        $this->PDO->startAddingAccountID();
     }
 
     public function testNoLoopForSingleActivity(): void
