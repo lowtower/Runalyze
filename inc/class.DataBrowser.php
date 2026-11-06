@@ -87,6 +87,13 @@ class DataBrowser
     protected \Runalyze\Model\Factory $Factory;
 
     /**
+     * Dataset table used to render the additional columns, set by templateData()
+     */
+    protected ?View\Dataset\Table $Table = null;
+
+    protected ?Dataset\Context $Context = null;
+
+    /**
      * Number of additional columns
      */
     protected int $AdditionalColumns = 2;
@@ -238,6 +245,9 @@ class DataBrowser
 
         $Table = new View\Dataset\Table($this->DatasetConfig);
         $Context = new Dataset\Context(new \Runalyze\Model\Activity\Entity(), $this->AccountID);
+
+        $this->Table = $Table;
+        $this->Context = $Context;
 
         if ($this->DayCount < 25) {
             $weekSeparator = ' top-separated';
@@ -693,6 +703,7 @@ class DataBrowser
 
     /**
      * Additional columns that are shown next to date columns
+     * The dataset table and the current context are provided as $this->Table/$this->Context by templateData().
      * @return string html string that must contain `$this->AdditionalColumns - 2` columns
      */
     public function codeForAdditionalColumnsForActivity(): string
