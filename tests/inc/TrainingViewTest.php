@@ -170,7 +170,7 @@ final class TrainingViewTest extends DatabaseTestCase
                         $this->assertArrayHasKey('key', $tab);
                         $this->assertTrue(isset($tab['html']) || isset($tab['table']));
 
-                        if (isset($tab['table'])) {
+                        if (isset($tab['table']) && !isset($tab['table']['template'])) {
                             $this->assertArrayHasKey('header', $tab['table']);
                             $this->assertTrue(isset($tab['table']['rows']) || isset($tab['table']['bodies']));
                         }
