@@ -48,16 +48,14 @@ class SectionCompositeRow extends TrainingViewSectionRowTabbedPlot
 
         if ($this->Context->trackdata()->has(\Runalyze\Model\Trackdata\Entity::PACE)) {
             $Table = new TableZonesPace($this->Context);
-            $Code = $Table->getCode();
 
-            $this->addRightContent('zones-pace', __('Pace zones'), $Code);
+            $this->addRightContent('zones-pace', __('Pace zones'), $Table->templateData() ?? '');
         }
 
         if ($this->Context->trackdata()->has(\Runalyze\Model\Trackdata\Entity::HEARTRATE)) {
             $Table = new TableZonesHeartrate($this->Context);
-            $Code = $Table->getCode();
 
-            $this->addRightContent('zones-hr', __('Heart rate zones'), $Code);
+            $this->addRightContent('zones-hr', __('Heart rate zones'), $Table->templateData() ?? '');
         }
     }
 
