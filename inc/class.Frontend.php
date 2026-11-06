@@ -35,12 +35,16 @@ class Frontend
      * database connection, session and cache. It does not produce any output;
      * page shells and chrome come from twig (templates/legacy_window.html.twig).
      *
+     * If $isSharedPage is true, the visitor's session account is not loaded, so that
+     * account-dependent legacy code resolves the shared athlete instead.
+     *
      * @throws \RuntimeException if the legacy cache directory cannot be initialized
      */
     public function __construct(
         protected ?TokenStorageInterface $symfonyToken = null,
         protected ?ParameterBagInterface $parameterBag = null,
-        protected ?RequestStack $requestStack = null
+        protected ?RequestStack $requestStack = null,
+        protected bool $isSharedPage = false
     ) {
         $this->initSystem();
         $this->defineConsts();
@@ -66,7 +70,11 @@ class Frontend
         $this->initConfig();
         $this->initDatabase();
         $this->initRequestBridge();
-        $this->initSessionAccountHandler();
+
+        if (! $this->isSharedPage) {
+            $this->initSessionAccountHandler();
+        }
+
         $this->initTimezone();
         $this->forwardAccountIDtoDatabaseWrapper();
     }

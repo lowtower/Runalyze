@@ -4,7 +4,7 @@ namespace Runalyze\Bundle\CoreBundle\Controller;
 
 use DataBrowserShared;
 use Doctrine\Persistence\ManagerRegistry;
-use FrontendShared;
+use Frontend;
 use FrontendSharedStatistics;
 use PlotMonthSumData;
 use PlotSumData;
@@ -88,7 +88,7 @@ class SharedController extends AbstractController
             ->getPrivacy()
             ->isListPublic();
 
-        new FrontendShared($this->tokenStorage, $this->parameterBag, $this->requestStack);
+        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack, isSharedPage: true);
 
         $activityContext = $this->activityContextFactory
             ->getContext($activity);
@@ -147,7 +147,7 @@ class SharedController extends AbstractController
 
         $request->query->set('user', $username);
 
-        new FrontendShared($this->tokenStorage, $this->parameterBag, $this->requestStack);
+        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack, isSharedPage: true);
 
         if ($request->query->has('type')) {
             return $this->render('shared/athlete/base_plot_sum_data.html.twig', [

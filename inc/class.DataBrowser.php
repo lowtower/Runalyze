@@ -287,7 +287,7 @@ class DataBrowser
                     $days[] = [
                         'tr_class' => $rowTrClass,
                         'row_class' => ' training' . $wkClass,
-                        'row_attributes' => (FrontendShared::$IS_SHOWN && ! ($Training['is_public'] ?? false))
+                        'row_attributes' => (Request::isOnSharedPage() && ! ($Training['is_public'] ?? false))
                             ? ''
                             : ' id="training_' . $id . '" ' . Ajax::trainingLinkAsOnclick($id),
                         'show_date_cells' => ($t == 0),
@@ -372,7 +372,7 @@ class DataBrowser
         foreach ($shorts as $short) {
             $context->setActivityData($short);
 
-            if (FrontendShared::$IS_SHOWN && ! $context->activity()->isPublic()) {
+            if (Request::isOnSharedPage() && ! $context->activity()->isPublic()) {
                 $html .= $table->codeForShortLink($context);
             } else {
                 $html .= '<span class="link" ' . Ajax::trainingLinkAsOnclick($context->activity()->id()) . '>' . $table->codeForShortLink($context) . '</span>';
@@ -690,7 +690,7 @@ class DataBrowser
         $addLink = '';
         $weekDay = Time::weekday($localTime->format('w'), true);
 
-        if (Configuration::DataBrowser()->showCreateLink() && ! FrontendShared::$IS_SHOWN) {
+        if (Configuration::DataBrowser()->showCreateLink() && ! Request::isOnSharedPage()) {
             $addLink = ImporterWindow::linkForDate($localTime->toServerTimestamp());
         }
 
