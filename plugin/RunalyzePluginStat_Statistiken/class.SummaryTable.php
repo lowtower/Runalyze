@@ -84,7 +84,10 @@ abstract class SummaryTable
      */
     abstract protected function rowHead(int $index): string;
 
-    protected function displayAdditionalColumns(array $data) {}
+    protected function codeForAdditionalColumns(array $data): string
+    {
+        return '';
+    }
 
     /**
      * @throws Exception
@@ -115,6 +118,45 @@ abstract class SummaryTable
 
     protected function displayTableBody()
     {
+        foreach ($this->rowsTemplateData() as $row) {
+            echo '<tr><td class="l"><span class="b">' . $row['head'] . '</span></td>';
+
+            if ($row['has_data']) {
+                echo '<td class="small">' . $row['num'] . 'x</td>';
+                echo $row['additional_columns'];
+                echo $row['columns'];
+            } else {
+                echo '<td colspan="' . $row['empty_colspan'] . '" class="c small"><em>' . __('No activities') . '</em></td>';
+            }
+
+            echo '</tr>';
+        }
+    }
+
+    /**
+     * Data for the twig template shared/athlete/summary_table.html.twig
+     *
+     * @return array<string, mixed>
+     */
+    public function templateData(): array
+    {
+        $this->prepare();
+        $this->checkPreparation();
+
+        return [
+            'title' => $this->Title,
+            'colspan' => $this->DatasetTable->numColumns() + 2 + $this->AdditionalColumns,
+            'rows' => $this->rowsTemplateData(),
+        ];
+    }
+
+    /**
+     * Template data of all rows
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    private function rowsTemplateData(): array
+    {
         $maxIndex = ceil(($this->TimeEnd - $this->TimeStart) / $this->Timerange) - 1;
         $CompleteData = [];
         $CompleteResult = $this->DatasetQuery->fetchSummaryForTimerange($this->Sportid, $this->Timerange, $this->TimeStart, $this->TimeEnd);
@@ -127,13 +169,11 @@ abstract class SummaryTable
             $CompleteData[$Data['timerange']] = $Data;
         }
 
+        $rows = [];
+
         for ($index = 0; $index <= $maxIndex; ++$index) {
-            echo '<tr><td class="l"><span class="b">' . $this->rowHead($index) . '</span></td>';
-
             if (isset($CompleteData[$index]) && ! empty($CompleteData[$index])) {
-                echo '<td class="small">' . $CompleteData[$index]['num'] . 'x</td>';
-
-                $this->displayAdditionalColumns($CompleteData[$index]);
+                $additionalColumns = $this->codeForAdditionalColumns($CompleteData[$index]);
 
                 if ($this->CompareKilometers) {
                     $value = isset($CompleteData[$index + 1]) ? $CompleteData[$index + 1]['distance'] : 0;
@@ -141,13 +181,28 @@ abstract class SummaryTable
                 }
 
                 $Context->setActivityData($CompleteData[$index]);
-                echo $this->DatasetTable->codeForColumns($Context, $hiddenKeys);
-            } else {
-                echo HTML::emptyTD($this->DatasetTable->numColumns() + 1 + $this->AdditionalColumns, '<em>' . __('No activities') . '</em>', 'c small');
-            }
 
-            echo '</tr>';
+                $rows[] = [
+                    'head' => $this->rowHead($index),
+                    'has_data' => true,
+                    'num' => $CompleteData[$index]['num'],
+                    'additional_columns' => $additionalColumns,
+                    'columns' => $this->DatasetTable->codeForColumns($Context, $hiddenKeys),
+                    'empty_colspan' => $this->DatasetTable->numColumns() + 1 + $this->AdditionalColumns,
+                ];
+            } else {
+                $rows[] = [
+                    'head' => $this->rowHead($index),
+                    'has_data' => false,
+                    'num' => null,
+                    'additional_columns' => '',
+                    'columns' => '',
+                    'empty_colspan' => $this->DatasetTable->numColumns() + 1 + $this->AdditionalColumns,
+                ];
+            }
         }
+
+        return $rows;
     }
 
     protected function displayTableFooter()

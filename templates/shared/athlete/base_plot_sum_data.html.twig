@@ -5,7 +5,7 @@
 {% block content %}
 
     <div{% if not app.request.xmlHttpRequest %} id="statistics-inner" class="panel" style="width:810px;margin:5px auto;"{% endif %}>
-        {{ plot.display }}
+        {% include 'shared/athlete/plot_sum_data.html.twig' with plot.templateData() %}
     </div>
 
 {% endblock %}

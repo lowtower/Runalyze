@@ -127,6 +127,22 @@ abstract class PlotSumData extends Plot
         $this->displayContent();
     }
 
+    /**
+     * Data for the twig template shared/athlete/plot_sum_data.html.twig
+     *
+     * @return array<string, mixed>
+     */
+    public function templateData(): array
+    {
+        return [
+            'navigation_menu' => $this->getNavigationMenu(),
+            'title' => $this->getTitle() . ' ' . $this->getTitleAppendix(),
+            'plot_div' => $this->getDiv(),
+            'plot_js' => $this->getJavaScript(),
+            'info' => $this->showsTarget() ? HTML::info(__('Target is based on current marathon shape calculations.')) : '',
+        ];
+    }
+
     private function displayHeader()
     {
         echo '<div class="panel-heading">';

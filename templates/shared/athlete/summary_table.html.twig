@@ -1,0 +1,10 @@
+{#-
+    Summary table of the shared athlete page (year on year), replaces
+    SummaryTable::display().
+
+    Variables (see SummaryTable::templateData()):
+    - title, colspan: table header
+    - rows: head (raw html), has_data, num, additional_columns (raw html),
+      columns (raw html), empty_colspan
+-#}
+<table class="r fullwidth zebra-style"><thead><tr><th colspan="{{ colspan }}">{{ title }}</th></tr></thead><tbody>{% for row in rows %}<tr><td class="l"><span class="b">{{ row.head|raw }}</span></td>{% if row.has_data %}<td class="small">{{ row.num }}x</td>{{ row.additional_columns|raw }}{{ row.columns|raw }}{% else %}<td colspan="{{ row.empty_colspan }}" class="c small"><em>{{ 'No activities'|trans }}</em></td>{% endif %}</tr>{% endfor %}</tbody></table>
