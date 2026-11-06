@@ -26,7 +26,7 @@ class DataBrowserLinker
      */
     public static function link(string $name, $startTimestampInNoTimezone, $endTimestampInNoTimezone, string $title = '', string $rel = '', ?int $sportid = null): string
     {
-        if (FrontendShared::$IS_SHOWN) {
+        if (Request::isOnSharedPage()) {
             return DataBrowserShared::getLink($name, $startTimestampInNoTimezone, $endTimestampInNoTimezone, $title, $sportid);
         }
 

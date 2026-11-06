@@ -41,7 +41,7 @@ class BackupGenerationMessageHandler
         }
 
         if (! defined('RUNALYZE')) {
-            new \FrontendShared(null, $this->parameterBag);
+            new \Frontend(null, $this->parameterBag);
         }
 
         $fileHandler = new FilenameHandler($message->getAccountId());

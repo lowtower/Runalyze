@@ -159,7 +159,7 @@ class Ajax
      */
     public static function trainingLinkAsOnclick(?int $id): string
     {
-        if (FrontendShared::$IS_SHOWN) {
+        if (Request::isOnSharedPage()) {
             return 'onclick="Pace.restart();Runalyze.Training.load(' . $id . ", '" . SharedLinker::getUrlFor($id) . '\', event)"';
         }
 

@@ -8,7 +8,6 @@
 namespace Runalyze\Configuration;
 
 use DB;
-use FrontendShared;
 use Runalyze\Parameter;
 use SharedLinker;
 
@@ -212,7 +211,7 @@ abstract class Category
             }
         }
 
-        if (! FrontendShared::$IS_SHOWN && $this->hasUserID()) {
+        if (! SharedLinker::isOnSharedPage() && $this->hasUserID()) {
             $this->correctDatabaseFor($KeysInDatabase);
         }
     }
