@@ -57,17 +57,17 @@ class TableLapsComputed extends TableLapsAbstract
             ->hasElevations();
 
         $header = [
-            self::cell(__('Distance')),
-            self::cell(__('Time')),
-            self::cell(__('Pace')),
+            $this->cell(__('Distance')),
+            $this->cell(__('Time')),
+            $this->cell(__('Pace')),
         ];
 
         if ($showCellForHeartrate) {
-            $header[] = self::cell(__('avg.') . ' ' . __('bpm'));
+            $header[] = $this->cell(__('avg.') . ' ' . __('bpm'));
         }
 
         if ($showCellForElevation) {
-            $header[] = self::cell(__('elev.'));
+            $header[] = $this->cell(__('elev.'));
         }
 
         $rows = [];
@@ -86,13 +86,13 @@ class TableLapsComputed extends TableLapsAbstract
             }
 
             $cells = [
-                self::cell($Lap->trackDistance()->string(true, Distance::$DefaultDecimalsSplitTable)),
-                self::cell($Lap->trackDuration()->string()),
-                self::cell($paceValue . '<small>' . $paceAppendix . '</small>'),
+                $this->cell($Lap->trackDistance()->string(true, Distance::$DefaultDecimalsSplitTable)),
+                $this->cell($Lap->trackDuration()->string()),
+                $this->cell($paceValue . '<small>' . $paceAppendix . '</small>'),
             ];
 
             if ($showCellForHeartrate) {
-                $cells[] = self::cell($Lap->HRavg()->inBPM() . '<small>bpm</small>');
+                $cells[] = $this->cell($Lap->HRavg()->inBPM() . '<small>bpm</small>');
             }
 
             if ($showCellForElevation) {
@@ -116,7 +116,9 @@ class TableLapsComputed extends TableLapsAbstract
             'warning' => '',
             'header' => $header,
             'bodies' => [
-                ['rows' => $rows],
+                [
+                    'rows' => $rows,
+                ],
             ],
         ];
     }
@@ -124,7 +126,7 @@ class TableLapsComputed extends TableLapsAbstract
     /**
      * @return array<string, mixed>
      */
-    private static function cell(string $content): array
+    private function cell(string $content): array
     {
         return [
             'class' => '',

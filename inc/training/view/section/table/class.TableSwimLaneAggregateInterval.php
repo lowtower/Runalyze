@@ -49,7 +49,7 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract
             __('Strokes') . ' ' . __('diff'),
             __('Type'),
         ] as $content) {
-            $header[] = self::cell($content);
+            $header[] = $this->cell($content);
         }
 
         $rows = [];
@@ -104,16 +104,16 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract
                     $cells = [];
 
                     // round/lap
-                    $cells[] = self::cell((string) $lap);
+                    $cells[] = $this->cell((string) $lap);
 
                     // distance cumulated and per 100meter
-                    $cells[] = self::cell($distance->stringMeter());
-                    $cells[] = self::cell($distance100->stringMeter());
+                    $cells[] = $this->cell($distance->stringMeter());
+                    $cells[] = $this->cell($distance100->stringMeter());
 
                     // pace
                     $pace->setTime($duration->seconds());
                     $pace->setDistance($distance100->value());
-                    $cells[] = self::cell($pace->valueWithAppendix());
+                    $cells[] = $this->cell($pace->valueWithAppendix());
                     // make it very easy: the pace seconds define the bar-width
                     $cells[] = [
                         'class' => '',
@@ -121,28 +121,28 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract
                         'content' => '<span class="bar-chart-value" style="width:' . ($pace->secondsPerKm() / 10) . 'px; top: 0px;"></span>',
                     ];
                     if ($beginLap && $lap === 1) {
-                        $cells[] = self::cell('');
+                        $cells[] = $this->cell('');
                     } else {
-                        $cells[] = self::cell('<span style="opacity: ' . ($beginLap ? '0.5' : '1.0') . '">' . $pace->compareTo($prevPace) . '</span>');
+                        $cells[] = $this->cell('<span style="opacity: ' . ($beginLap ? '0.5' : '1.0') . '">' . $pace->compareTo($prevPace) . '</span>');
                     }
 
                     // swolfs
                     $sw = round($swolfs / ($distance100->value() / $poollength));
                     if ($beginLap && $lap === 1) {
-                        $cells[] = self::cell('');
-                        $cells[] = self::cell('');
+                        $cells[] = $this->cell('');
+                        $cells[] = $this->cell('');
                     } else {
-                        $cells[] = self::cell((string) $sw);
-                        $cells[] = self::cell($this->difference($prevSwolfs, $sw, $beginLap));
+                        $cells[] = $this->cell((string) $sw);
+                        $cells[] = $this->cell($this->difference($prevSwolfs, $sw, $beginLap));
                     }
 
                     // strokes
                     if ($beginLap && $lap === 1) {
-                        $cells[] = self::cell('');
-                        $cells[] = self::cell('');
+                        $cells[] = $this->cell('');
+                        $cells[] = $this->cell('');
                     } else {
-                        $cells[] = self::cell((string) $strokes);
-                        $cells[] = self::cell($this->difference($prevStrokes, $strokes, $beginLap));
+                        $cells[] = $this->cell((string) $strokes);
+                        $cells[] = $this->cell($this->difference($prevStrokes, $strokes, $beginLap));
                     }
 
                     $primaryStroketypeId = array_search(max($stroketypePrimary), $stroketypePrimary, true);
@@ -192,7 +192,9 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract
             'warning' => '',
             'header' => $header,
             'bodies' => [
-                ['rows' => $rows],
+                [
+                    'rows' => $rows,
+                ],
             ],
         ];
     }
@@ -238,7 +240,7 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract
     /**
      * @return array<string, mixed>
      */
-    private static function cell(string $content): array
+    private function cell(string $content): array
     {
         return [
             'class' => '',

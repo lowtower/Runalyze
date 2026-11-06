@@ -33,12 +33,12 @@ class TableSwimLane extends TableLapsAbstract
     public function templateData(): array
     {
         $header = [
-            self::cell(''),
-            self::cell(__('Distance')),
-            self::cell(__('Time')),
-            self::cell(__('Swolf')),
-            self::cell(__('Strokes')),
-            self::cell(__('Type')),
+            $this->cell(''),
+            $this->cell(__('Distance')),
+            $this->cell(__('Time')),
+            $this->cell(__('Swolf')),
+            $this->cell(__('Strokes')),
+            $this->cell(__('Type')),
         ];
 
         $rows = [];
@@ -83,12 +83,12 @@ class TableSwimLane extends TableLapsAbstract
                     'class' => 'r unimportant',
                     'style' => '',
                     'cells' => [
-                        self::cell(''),
-                        self::cell(''),
-                        self::cell(Duration::format($TrackLoop->difference(Trackdata\Entity::TIME))),
-                        self::cell(''),
-                        self::cell(''),
-                        self::cell($Stroketype->shortString()),
+                        $this->cell(''),
+                        $this->cell(''),
+                        $this->cell(Duration::format($TrackLoop->difference(Trackdata\Entity::TIME))),
+                        $this->cell(''),
+                        $this->cell(''),
+                        $this->cell($Stroketype->shortString()),
                     ],
                 ];
 
@@ -100,23 +100,23 @@ class TableSwimLane extends TableLapsAbstract
                     $lane++;
                     $intervalLanes++;
 
-                    $cells[] = self::cell($lane . '.');
-                    $cells[] = self::cell($Distance->stringMeter());
-                    $cells[] = self::cell(Duration::format($TrackLoop->difference(Trackdata\Entity::TIME)));
-                    $cells[] = self::cell((string) $Loop->swolf());
-                    $cells[] = self::cell((string) $Loop->stroke());
+                    $cells[] = $this->cell($lane . '.');
+                    $cells[] = $this->cell($Distance->stringMeter());
+                    $cells[] = $this->cell(Duration::format($TrackLoop->difference(Trackdata\Entity::TIME)));
+                    $cells[] = $this->cell((string) $Loop->swolf());
+                    $cells[] = $this->cell((string) $Loop->stroke());
                 } else {
-                    $cells[] = self::cell('');
-                    $cells[] = self::cell('');
-                    $cells[] = self::cell(Duration::format($TrackLoop->difference(Trackdata\Entity::TIME)));
-                    $cells[] = self::cell('');
-                    $cells[] = self::cell('');
+                    $cells[] = $this->cell('');
+                    $cells[] = $this->cell('');
+                    $cells[] = $this->cell(Duration::format($TrackLoop->difference(Trackdata\Entity::TIME)));
+                    $cells[] = $this->cell('');
+                    $cells[] = $this->cell('');
                 }
 
                 $swolfs += empty($Loop->swolf()) ? 0 : $Loop->swolf();
                 $strokes += empty($Loop->stroke()) ? 0 : $Loop->stroke();
 
-                $cells[] = self::cell($Stroketype->shortString());
+                $cells[] = $this->cell($Stroketype->shortString());
 
                 $rows[] = [
                     'class' => 'r',
@@ -140,7 +140,9 @@ class TableSwimLane extends TableLapsAbstract
             'warning' => '',
             'header' => $header,
             'bodies' => [
-                ['rows' => $rows],
+                [
+                    'rows' => $rows,
+                ],
             ],
         ];
     }
@@ -172,9 +174,6 @@ class TableSwimLane extends TableLapsAbstract
      * Summary row with infos about the previous lanes.
      * #TSC
      *
-     * @param int|float $swolfs
-     * @param int|float $strokes
-     *
      * @return array<string, mixed>
      */
     protected function summaryRow(float $Poollength, int $interval, int $intervalLanes, int|float $swolfs, int|float $strokes): array
@@ -185,12 +184,12 @@ class TableSwimLane extends TableLapsAbstract
             'class' => 'r unimportant',
             'style' => '',
             'cells' => [
-                self::cell($interval . './' . $intervalLanes),
-                self::cell($distance->stringMeter()),
-                self::cell(''),
-                self::cell('&#216; ' . ($intervalLanes != 0 ? round($swolfs / $intervalLanes) : '-')),
-                self::cell('&#216; ' . ($intervalLanes != 0 ? round($strokes / $intervalLanes) : '-')),
-                self::cell('Summary'),
+                $this->cell($interval . './' . $intervalLanes),
+                $this->cell($distance->stringMeter()),
+                $this->cell(''),
+                $this->cell('&#216; ' . ($intervalLanes !== 0 ? round($swolfs / $intervalLanes) : '-')),
+                $this->cell('&#216; ' . ($intervalLanes !== 0 ? round($strokes / $intervalLanes) : '-')),
+                $this->cell('Summary'),
             ],
         ];
     }
@@ -198,7 +197,7 @@ class TableSwimLane extends TableLapsAbstract
     /**
      * @return array<string, mixed>
      */
-    private static function cell(string $content): array
+    private function cell(string $content): array
     {
         return [
             'class' => '',
