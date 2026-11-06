@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-use Runalyze\\Calculation\\JD\\LegacyEffectiveVO2maxCorrector;
-use Runalyze\\Model\\Factory;
-use Runalyze\\Tests\\DatabaseTestCase;
-use Runalyze\\Util\\LocalTime;
-use Symfony\\Component\\HttpFoundation\\RequestStack;
+use \Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector;
+use \Runalyze\Model\Factory;
+use \Runalyze\Tests\DatabaseTestCase;
+use \Runalyze\Util\LocalTime;
+use \Symfony\Component\HttpFoundation\RequestStack;
 
-#[\\PHPUnit\\Framework\\Attributes\\Group('dependsOn')]
-#[\\PHPUnit\\Framework\\Attributes\\Group('dependsOnOldDatabase')]
+#[\PHPUnit\Framework\Attributes\Group('dependsOn')]
+#[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
 final class TrainingViewTest extends DatabaseTestCase
 {
     private const int ACCOUNT_ID = 234567;
@@ -55,7 +55,7 @@ final class TrainingViewTest extends DatabaseTestCase
 
         // Normally done by Frontend::defineConsts() for every request.
         LegacyEffectiveVO2maxCorrector::setGlobalFactor(
-            \\Runalyze\\Configuration::Data()->vo2maxCorrectionFactor()
+            \Runalyze\Configuration::Data()->vo2maxCorrectionFactor()
         );
 
         $this->clearLegacyCaches();
@@ -83,7 +83,7 @@ final class TrainingViewTest extends DatabaseTestCase
             'timezone' => '43',
             'mail' => 'noreply@runalyze.com',
         ]);
-        \\Runalyze\\Context::reset();
+        \Runalyze\Context::reset();
 
         // Reset the legacy db wrapper to its pristine state: as long as no
         // account id has been set, no statement is rewritten with an accountid.
@@ -145,7 +145,7 @@ final class TrainingViewTest extends DatabaseTestCase
 
     private function trainingViewFor(int $trainingId): TrainingView
     {
-        return new TrainingView(new \\Runalyze\\View\\Activity\\Context($trainingId, self::ACCOUNT_ID));
+        return new TrainingView(new \Runalyze\View\Activity\Context($trainingId, self::ACCOUNT_ID));
     }
 
     /**
@@ -159,10 +159,10 @@ final class TrainingViewTest extends DatabaseTestCase
 
         foreach ([self::TRAINING_ID, self::NEXT_TRAINING_ID] as $trainingId) {
             Factory::clearCache('training', $trainingId);
-            \\Cache::delete('trackdata' . $trainingId);
-            \\Cache::delete('swimdata' . $trainingId);
-            \\Cache::delete('hrv' . $trainingId);
-            \\Cache::delete('raceresult' . $trainingId);
+            \Cache::delete('trackdata' . $trainingId);
+            \Cache::delete('swimdata' . $trainingId);
+            \Cache::delete('hrv' . $trainingId);
+            \Cache::delete('raceresult' . $trainingId);
         }
     }
 
