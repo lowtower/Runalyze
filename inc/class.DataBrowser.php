@@ -272,7 +272,7 @@ class DataBrowser
 
                     $id = (int) $Training['id'];
                     $wkClass = (bool) ($Training['is_race'] ?? false) ? ' wk' : '';
-                    $rowTrClass = (0 == $t) ? $trClass : '';
+                    $rowTrClass = ($t == 0) ? $trClass : '';
 
                     $days[] = [
                         'tr_class' => $rowTrClass,
@@ -280,10 +280,10 @@ class DataBrowser
                         'row_attributes' => (FrontendShared::$IS_SHOWN && ! ($Training['is_public'] ?? false))
                             ? ''
                             : ' id="training_' . $id . '" ' . Ajax::trainingLinkAsOnclick($id),
-                        'show_date_cells' => (0 == $t),
-                        'short_links_html' => (0 == $t) ? $shortLinksHtml : '',
+                        'show_date_cells' => ($t == 0),
+                        'short_links_html' => ($t == 0) ? $shortLinksHtml : '',
                         'date_html' => $this->dateString($day['date']),
-                        'additional_columns_html' => $this->codeForAdditionalColumnsForActivity($Table, $Context),
+                        'additional_columns_html' => $this->codeForAdditionalColumnsForActivity(),
                         'cells_html' => $Table->codeForColumns($Context),
                         'is_empty' => false,
                         'empty_colspan' => 0,
@@ -409,7 +409,7 @@ class DataBrowser
 
     public function title(): string
     {
-        $now = (new LocalTime())->getTimestamp();
+        $now = new LocalTime()->getTimestamp();
         $timestampForLinks = ($this->TimestampStart < $now && $now < $this->TimestampEnd) ? $now : $this->TimestampStart;
         $timeForLinks = new LocalTime($timestampForLinks);
 
@@ -484,6 +484,9 @@ class DataBrowser
         return $this->DayCount;
     }
 
+    /**
+     * @return array<int, array{date: int, shorts: list<array<string, mixed>>, trainings: list<array<string, mixed>>}>
+     */
     public function getDays(): array
     {
         return $this->Days;
@@ -499,6 +502,9 @@ class DataBrowser
         return $this->SportId;
     }
 
+    /**
+     * @return array<int, array{name: string, icon: string}>
+     */
     public function getSports(): array
     {
         return $this->Sports;
@@ -606,7 +612,7 @@ class DataBrowser
     {
         $now = new DateTime('now', new DateTimeZone('UTC'));
         $oneYear = new DateInterval('P1Y');
-        $selectedYear = (new LocalTime($this->TimestampStart))->format('Y');
+        $selectedYear = new LocalTime($this->TimestampStart)->format('Y');
 
         $links = [];
 
@@ -689,7 +695,7 @@ class DataBrowser
      * Additional columns that are shown next to date columns
      * @return string html string that must contain `$this->AdditionalColumns - 2` columns
      */
-    public function codeForAdditionalColumnsForActivity(?View\Dataset\Table $table = null, ?Dataset\Context $context = null): string
+    public function codeForAdditionalColumnsForActivity(): string
     {
         return '';
     }

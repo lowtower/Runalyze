@@ -45,7 +45,7 @@ class CallController extends AbstractController
 
         new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
-        $dataBrowserContent = $this->renderView('my/data_browser.html.twig', (new DataBrowser())->templateData());
+        $dataBrowserContent = $this->renderView('my/data_browser.html.twig', new DataBrowser()->templateData());
 
         return $this->wrapLegacyContent($dataBrowserContent, $this->requestStack->getCurrentRequest());
     }

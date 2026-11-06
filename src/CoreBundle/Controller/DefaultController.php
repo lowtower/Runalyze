@@ -90,7 +90,7 @@ class DefaultController extends AbstractPluginsAwareController
 
         new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
-        $dataBrowserContent = $this->renderView('my/data_browser.html.twig', (new DataBrowser())->templateData());
+        $dataBrowserContent = $this->renderView('my/data_browser.html.twig', new DataBrowser()->templateData());
 
         $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
             ->getContent();
@@ -239,7 +239,7 @@ class DefaultController extends AbstractPluginsAwareController
         if ($request->isXmlHttpRequest()) {
             new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
-            $dataBrowserContent = $this->renderView('my/data_browser.html.twig', (new DataBrowser())->templateData());
+            $dataBrowserContent = $this->renderView('my/data_browser.html.twig', new DataBrowser()->templateData());
 
             $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
                 ->getContent();
