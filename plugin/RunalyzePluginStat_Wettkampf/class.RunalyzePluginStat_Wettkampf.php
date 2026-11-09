@@ -134,10 +134,9 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
      */
     public function getYearComparisonTable(): string|false
     {
-        ob_start();
         $this->loadRaces();
-        $this->displayPersonalBestYears();
-        return ob_get_clean();
+
+        return $this->getPersonalBestYearsTable();
     }
 
     private function displayDivs(): void
@@ -184,7 +183,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
             $this->displayPersonalBestsImages();
         }
 
-        $this->displayPersonalBestYears();
+        echo $this->getPersonalBestYearsTable();
     }
 
     private function displayHintForPersonalBests(): void
@@ -274,7 +273,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
         echo '</div>';
     }
 
-    private function displayPersonalBestYears(): void
+    private function getPersonalBestYearsTable(): string
     {
         $year = [];
         $dists = [];
@@ -288,7 +287,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
         }
 
         if ($this->RaceContainer->num() === 0) {
-            return;
+            return '';
         }
 
         foreach ($this->RaceContainer->allRaces() as $wk) {
@@ -311,29 +310,29 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
             }
         }
 
-        echo '<table class="fullwidth zebra-style">';
-        echo '<thead>';
-        echo '<tr>';
-        echo '<th></th>';
+        $html = '<table class="fullwidth zebra-style">';
+        $html .= '<thead>';
+        $html .= '<tr>';
+        $html .= '<th></th>';
 
         $Years = array_keys($year);
         sort($Years);
 
         foreach ($Years as $y) {
             if ($y != 'sum') {
-                echo '<th>' . $y . '</th>';
+                $html .= '<th>' . $y . '</th>';
             }
         }
 
-        echo '</tr>';
-        echo '</thead>';
-        echo '<tbody>';
+        $html .= '</tr>';
+        $html .= '</thead>';
+        $html .= '<tbody>';
 
         PersonalBest::activateStaticCache();
         PersonalBest::lookupDistances($kms, $this->sportid);
 
         foreach ($kms as $km) {
-            echo '<tr class="r"><td class="b">' . new Distance($km)->stringAuto(true, 1) . '</td>';
+            $html .= '<tr class="r"><td class="b">' . new Distance($km)->stringAuto(true, 1) . '</td>';
 
             foreach ($Years as $key) {
                 $y = $year[$key];
@@ -347,14 +346,14 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
                             $distance = '<strong>' . $distance . '</strong>';
                         }
 
-                        echo '<td>' . $distance . ' <small>' . $y[(string) $km]['sum'] . 'x</small></td>';
+                        $html .= '<td>' . $distance . ' <small>' . $y[(string) $km]['sum'] . 'x</small></td>';
                     } else {
-                        echo '<td><em><small>---</small></em></td>';
+                        $html .= '<td><em><small>---</small></em></td>';
                     }
                 }
             }
 
-            echo '</tr>';
+            $html .= '</tr>';
         }
 
         $icon = new Icon(Icon::INFO)->code();
@@ -362,18 +361,20 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
         $tooltip->setPosition(Tooltip::POSITION_RIGHT);
         $tooltip->wrapAround($icon);
 
-        echo '<tr class="top-spacer no-zebra r">';
-        echo '<td class="b">' . __('In total') . ' ' . $icon . '</td>';
+        $html .= '<tr class="top-spacer no-zebra r">';
+        $html .= '<td class="b">' . __('In total') . ' ' . $icon . '</td>';
 
         foreach ($Years as $key) {
             if ($key != 'sum') {
-                echo '<td>' . $year[$key]['sum'] . 'x</td>';
+                $html .= '<td>' . $year[$key]['sum'] . 'x</td>';
             }
         }
 
-        echo '</tr>';
-        echo '</tbody>';
-        echo '</table>';
+        $html .= '</tr>';
+        $html .= '</tbody>';
+        $html .= '</table>';
+
+        return $html;
     }
 
     private function displayTableStart(string $id): void
