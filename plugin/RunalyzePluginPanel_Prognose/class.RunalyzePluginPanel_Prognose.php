@@ -9,7 +9,6 @@ use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\Pace;
 use Runalyze\Activity\PersonalBest;
-use Runalyze\Calculation\Prognosis;
 use Runalyze\Configuration;
 use Runalyze\Sports\Running\Prognosis\PrognosisInterface;
 
@@ -137,9 +136,31 @@ class RunalyzePluginPanel_Prognose extends PluginPanel
         $this->NumberOfPBs = PersonalBest::lookupDistances($this->getDistances(), Configuration::General()->runningSport());
     }
 
-    protected function getTopResult(int $num = 1): array
+    /**
+     * @return array<int, array<string, mixed>> top race results, ordered by effective VO2max (best first)
+     */
+    public function getTopResult(int $num = 1): array
     {
-        return new Prognosis\TopResults()->getTopResults($num);
+        $query = '
+            SELECT
+                `time`, `distance`, `s`, `vo2max_by_time`
+            FROM (
+                SELECT
+                    `time`, `distance`, `s`, `vo2max_by_time`
+                FROM `' . PREFIX . 'training`
+                WHERE
+                    `accountid`=' . \SessionAccountHandler::getId() . ' AND
+                    `sportid`=' . Configuration::General()->runningSport() . '
+                    AND `distance` >= 3.0
+                ORDER BY `vo2max_by_time` DESC
+                LIMIT 20
+            ) as `tmp`
+            GROUP BY `distance`
+            ORDER BY `vo2max_by_time` DESC
+            LIMIT ' . $num . '
+        ';
+
+        return DB::getInstance()->query($query)->fetchAll();
     }
 
     /**

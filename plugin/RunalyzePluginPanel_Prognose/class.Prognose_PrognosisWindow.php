@@ -11,7 +11,6 @@ use Runalyze\Activity\Pace;
 use Runalyze\Activity\PersonalBest;
 use Runalyze\Calculation\BasicEndurance;
 use Runalyze\Calculation\JD\LegacyEffectiveVO2max;
-use Runalyze\Calculation\Prognosis;
 use Runalyze\Configuration;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 use Runalyze\Sports\Running\Prognosis\Bock;
@@ -67,14 +66,14 @@ class Prognose_PrognosisWindow
     {
         $this->UnitSystem = Configuration::General()->distanceUnitSystem();
 
-        $TopResults = new Prognosis\TopResults()->getTopResults(2);
+        $Factory = new PluginFactory();
+        /** @var RunalyzePluginPanel_Prognose $Plugin */
+        $Plugin = $Factory->newInstance('RunalyzePluginPanel_Prognose');
+
+        $TopResults = $Plugin->getTopResult(2);
         $CurrentShape = Configuration::Data()->vo2maxShape();
 
         if (empty($_POST)) {
-            $Factory = new PluginFactory();
-            /** @var RunalyzePluginPanel_Prognose $Plugin */
-            $Plugin = $Factory->newInstance('RunalyzePluginPanel_Prognose');
-
             $_POST['model'] = 'vo2max';
             $_POST['distances'] = implode(', ', $this->distanceValuesToMiles($Plugin->getDistances()));
 
