@@ -1,0 +1,37 @@
+{% extends 'my/panels/base.html.twig' %}
+
+{% block pluginTitle %}
+    {{ 'Prognosis'|trans }}
+{% endblock %}
+
+{% block panelHeadingMenu %}
+    <ul>
+        <li><a class="atLeft window" rel="tooltip" title="{{ 'Race results'|trans }}: {{ 'Performance chart'|trans }}" href="{{ url('race-results-performance-chart') }}"><i class="fa far fa-fw fa-tachometer-alt"></i></a></li>
+        <li><a class="atLeft window" rel="tooltip" title="{{ 'Show prognosis trend'|trans }}" href="/plugin/RunalyzePluginPanel_Prognose/window.plot.php"><i class="fa far fa-fw fa-chart-line"></i></a></li>
+        <li><a class="atLeft window" rel="tooltip" title="{{ 'Prognosis calculator'|trans }}" href="/plugin/RunalyzePluginPanel_Prognose/window.php"><i class="fa far fa-fw fa-calculator"></i></a></li>
+    </ul>
+{% endblock %}
+
+{% block panelContent %}
+    {% for row in prognosisData.rows %}
+        {% set pbString = row.pbActivityId is not null
+            ? '<a class="training" href="' ~ url('ActivityShow', {id: row.pbActivityId}) ~ '" rel="' ~ row.pbActivityId ~ '" onclick="Runalyze.Overlay.close()">' ~ (row.pbSeconds|duration) ~ '</a>'
+            : '-' %}
+        {% set prognosisString = row.prognosisSeconds > 0 ? row.prognosisSeconds|duration : '-' %}
+        <p>
+            <span class="right">
+                {{ ('<small>from</small> %s <small>to</small> <strong>%s</strong>'|trans)|format(pbString, prognosisString)|raw }}
+                <small>({{ pace(row.prognosisSeconds / row.distance) }})</small>
+            </span>
+            <strong>{{ distance(row.distance) }}</strong>
+        </p>
+    {% endfor %}
+
+    {% if not prognosisData.hasValidPrognosis %}
+        <p class="warning">{{ "Prognoses can't be calculated."|trans }}</p>
+    {% endif %}
+
+    {% if prognosisData.numberOfPersonalBests == 0 %}
+        <p class="info">{{ 'There are not enough results for good predictions.'|trans }}</p>
+    {% endif %}
+{% endblock %}

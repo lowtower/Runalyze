@@ -5,13 +5,6 @@
  * @package Runalyze\Plugins\Panels
  */
 
-use Runalyze\Activity\Distance;
-use Runalyze\Activity\Duration;
-use Runalyze\Activity\Pace;
-use Runalyze\Activity\PersonalBest;
-use Runalyze\Configuration;
-use Runalyze\Sports\Running\Prognosis\PrognosisInterface;
-
 $PLUGINKEY = 'RunalyzePluginPanel_Prognose';
 /**
  * Class: RunalyzePluginPanel_Prognose
@@ -20,13 +13,6 @@ $PLUGINKEY = 'RunalyzePluginPanel_Prognose';
  */
 class RunalyzePluginPanel_Prognose extends PluginPanel
 {
-    protected PrognosisInterface $Prognosis;
-
-    /**
-     * Number of successfully fetched PBs
-     */
-    protected int $NumberOfPBs = 0;
-
     /**
      * @codeCoverageIgnore
      */
@@ -55,14 +41,14 @@ class RunalyzePluginPanel_Prognose extends PluginPanel
         echo HTML::fileBlock("<strong>Robert Bock (CPP, 'Competitive Performance Predictor')</strong><br>"
                     . __('Robert Bock uses an individual coefficient for your fatigue over time/distance. '
                         . 'This model uses your two best results.') . '<br>'
-                        . '<small>see <a href="http://www.robert-bock.de/Sport_0/lauf_7/cpp/cpp.html">http://www.robert-bock.de/Sport_0/lauf_7/cpp/cpp.html</a></small>');
+                    . '<small>see <a href="http://www.robert-bock.de/Sport_0/lauf_7/cpp/cpp.html">http://www.robert-bock.de/Sport_0/lauf_7/cpp/cpp.html</a></small>');
         echo HTML::fileBlock("<strong>Herbert Steffny ('Das gro&szlig;e Laufbuch')</strong><br>"
                     . __('Herbert Steffny uses fixed factors to transform performances from one distance to another. '
                         . 'This model uses your best result.'));
         echo HTML::fileBlock('<strong>David Cameron</strong><br>'
                     . __('David Cameron uses a fixed coefficient for the fatigue over time/distance and slightly different formulas than Robert Bock. '
                         . 'This model uses your best result.') . '<br>'
-                        . '<small>see <a href="http://www.infobarrel.com/Runners_Math_How_to_Predict_Your_Race_Time">http://www.infobarrel.com/Runners_Math_How_to_Predict_Your_Race_Time</a></small>');
+                    . '<small>see <a href="http://www.infobarrel.com/Runners_Math_How_to_Predict_Your_Race_Time">http://www.infobarrel.com/Runners_Math_How_to_Predict_Your_Race_Time</a></small>');
         echo HTML::info(__('The VO2max model is the only one which considers your current shape. '
                             . 'The other models are based on your previous race results.'));
     }
@@ -92,162 +78,11 @@ class RunalyzePluginPanel_Prognose extends PluginPanel
     }
 
     /**
-     * Method for getting the right symbol(s)
-     * @see PluginPanel::getRightSymbol()
-     */
-    protected function getRightSymbol(): string
-    {
-        $Links = '';
-        $Links .= '<li>' . Ajax::window('<a href="my/raceresult/performance-chart" ' . Ajax::tooltip('', __('Race results') . ': ' . __('Performance chart'), true, true) . '><i class="fa far fa-fw fa-tachometer-alt"></i></a>') . '</li>';
-        $Links .= '<li>' . Ajax::window('<a href="plugin/' . $this->key() . '/window.plot.php" ' . Ajax::tooltip('', __('Show prognosis trend'), true, true) . '>' . Icon::$LINE_CHART . '</a>') . '</li>';
-        $Links .= '<li>' . Ajax::window('<a href="plugin/' . $this->key() . '/window.php" ' . Ajax::tooltip('', __('Prognosis calculator'), true, true) . '>' . Icon::$CALCULATOR . '</a>') . '</li>';
-
-        return '<ul>' . $Links . '</ul>';
-    }
-
-    /**
      * @see PluginPanel::displayContent()
      */
     protected function displayContent(): void
     {
-        $this->lookupPersonalBests();
-        $this->prepareForPrognosis();
-
-        foreach ($this->getDistances() as $km) {
-            $this->showPrognosis($km);
-        }
-
-        if (! $this->Prognosis->areValuesValid()) {
-            echo HTML::warning(__("Prognoses can't be calculated."));
-        }
-
-        if ($this->thereAreNotEnoughCompetitions()) {
-            echo HTML::info(__('There are not enough results for good predictions.'));
-        }
-    }
-
-    /**
-     * Lookup all personal bests at once
-     */
-    protected function lookupPersonalBests()
-    {
-        PersonalBest::activateStaticCache();
-
-        $this->NumberOfPBs = PersonalBest::lookupDistances($this->getDistances(), Configuration::General()->runningSport());
-    }
-
-    /**
-     * @return array<int, array<string, mixed>> top race results, ordered by effective VO2max (best first)
-     */
-    public function getTopResult(int $num = 1): array
-    {
-        $query = '
-            SELECT
-                `time`, `distance`, `s`, `vo2max_by_time`
-            FROM (
-                SELECT
-                    `time`, `distance`, `s`, `vo2max_by_time`
-                FROM `' . PREFIX . 'training`
-                WHERE
-                    `accountid`=' . \SessionAccountHandler::getId() . ' AND
-                    `sportid`=' . Configuration::General()->runningSport() . '
-                    AND `distance` >= 3.0
-                ORDER BY `vo2max_by_time` DESC
-                LIMIT 20
-            ) as `tmp`
-            GROUP BY `distance`
-            ORDER BY `vo2max_by_time` DESC
-            LIMIT ' . $num . '
-        ';
-
-        return DB::getInstance()->query($query)->fetchAll();
-    }
-
-    /**
-     * Prepare calculations
-     */
-    protected function prepareForPrognosis()
-    {
-        switch ($this->Configuration()->value('model')) {
-            case 'cpp':
-                $topResults = $this->getTopResult(2);
-                $this->Prognosis = new \Runalyze\Sports\Running\Prognosis\Bock();
-
-                if (count($topResults) === 2) {
-                    $this->Prognosis->setFromResults($topResults[0]['distance'], $topResults[0]['s'], $topResults[1]['distance'], $topResults[1]['s']);
-                }
-
-                break;
-
-            case 'steffny':
-                $topResults = $this->getTopResult(2);
-                $this->Prognosis = new \Runalyze\Sports\Running\Prognosis\Steffny();
-
-                if (count($topResults) === 2) {
-                    $this->Prognosis->setReferenceResult($topResults[0]['distance'], $topResults[0]['s']);
-                }
-
-                break;
-
-            case 'cameron':
-                $topResults = $this->getTopResult(2);
-                $this->Prognosis = new \Runalyze\Sports\Running\Prognosis\Cameron();
-
-                if (count($topResults) === 2) {
-                    $this->Prognosis->setReferenceResult($topResults[0]['distance'], $topResults[0]['s']);
-                }
-
-                break;
-
-            case 'vo2max':
-            default:
-                $this->Prognosis = new \Runalyze\Sports\Running\Prognosis\VO2max(
-                    Configuration::Data()->vo2max(),
-                    $this->Configuration()
-                        ->value('use_be'),
-                    \Runalyze\Calculation\BasicEndurance::getConst()
-                );
-
-                break;
-        }
-    }
-
-    /**
-     * Show prognosis for a given distance
-     */
-    protected function showPrognosis(float $distance)
-    {
-        $PB = new PersonalBest($distance, Configuration::General()->runningSport());
-        $PB->lookupWithDetails();
-
-        $PBTime = $PB->exists() ? Duration::format($PB->seconds()) : '-';
-        $PBString = $PB->exists() ? Ajax::trainingLink($PB->activityId(), $PBTime, true) : $PBTime;
-        $Distance = new Distance($distance);
-
-        if ($this->Prognosis->areValuesValid()) {
-            $prognosis = new Duration($this->Prognosis->getSeconds($distance));
-            $pace = new Pace($prognosis->seconds(), $distance, \Runalyze\Context::Factory()->sport(Configuration::General()->runningSport())->getLegacyPaceUnitEnum());
-            $prognosisString = $prognosis->string(Duration::FORMAT_AUTO, 0);
-        } else {
-            $prognosisString = '-';
-            $pace = new Pace(0, $distance, \Runalyze\Context::Factory()->sport(Configuration::General()->runningSport())->getLegacyPaceUnitEnum());
-        }
-
-        echo '<p>
-                <span class="right">
-                    ' . sprintf(__('<small>from</small> %s <small>to</small> <strong>%s</strong>'), $PBString, $prognosisString) . '
-                    <small>(' . $pace->valueWithAppendix() . ')</small>
-                </span>
-                <strong>' . $Distance->stringAuto(true, 1) . '</strong>
-            </p>';
-    }
-
-    /**
-     * Are there not enough competitions?
-     */
-    protected function thereAreNotEnoughCompetitions(): bool
-    {
-        return $this->NumberOfPBs === 0;
+        // deprecated, see Runalyze\Bundle\CoreBundle\Controller\AbstractPluginsAwareController::getResponseForPrognosePanel
     }
 
     public function getDistances(): array

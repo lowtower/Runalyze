@@ -52,7 +52,10 @@ class Prognose_PrognosisWindow
 
     protected DistanceUnitSystem $UnitSystem;
 
-    public function __construct()
+    /**
+     * @param array<int, array<string, int|float|null>> $topResults rows as returned by TrainingRepository::findTopResults()
+     */
+    public function __construct(private readonly array $topResults = [])
     {
         $this->setDefaultValues();
         $this->readPostData();
@@ -66,14 +69,14 @@ class Prognose_PrognosisWindow
     {
         $this->UnitSystem = Configuration::General()->distanceUnitSystem();
 
-        $Factory = new PluginFactory();
-        /** @var RunalyzePluginPanel_Prognose $Plugin */
-        $Plugin = $Factory->newInstance('RunalyzePluginPanel_Prognose');
-
-        $TopResults = $Plugin->getTopResult(2);
+        $TopResults = $this->topResults;
         $CurrentShape = Configuration::Data()->vo2maxShape();
 
         if (empty($_POST)) {
+            $Factory = new PluginFactory();
+            /** @var RunalyzePluginPanel_Prognose $Plugin */
+            $Plugin = $Factory->newInstance('RunalyzePluginPanel_Prognose');
+
             $_POST['model'] = 'vo2max';
             $_POST['distances'] = implode(', ', $this->distanceValuesToMiles($Plugin->getDistances()));
 
