@@ -170,29 +170,20 @@ class ViewController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        ob_start();
+        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
+        $context = new Context($id, $account->getId());
 
-        try {
-            new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
-            $context = new Context($id, $account->getId());
-
-            if (! $context->hasTrackdata()) {
-                ob_end_clean();
-
-                return $this->render('activity/tool/not_possible.html.twig');
-            }
-
-            $window = new Window($context);
-            $window->display();
-
-            $legacyContent = ob_get_clean();
-        } catch (Throwable $throwable) {
-            ob_end_clean();
-
-            throw $throwable;
+        if (! $context->hasTrackdata()) {
+            return $this->render('activity/tool/not_possible.html.twig');
         }
 
-        return $this->wrapLegacyContent($legacyContent, $this->requestStack->getCurrentRequest());
+        return $this->wrapLegacyContent(
+            $this->captureLegacyOutput(function () use ($context): void {
+                $window = new Window($context);
+                $window->display();
+            })->getContent(),
+            $this->requestStack->getCurrentRequest()
+        );
     }
 
     /**
@@ -221,29 +212,20 @@ class ViewController extends AbstractController
                 ->save($activity);
         }
 
-        ob_start();
+        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
+        $context = new Context($id, $account->getId());
 
-        try {
-            new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
-            $context = new Context($id, $account->getId());
-
-            if (! $context->hasRoute()) {
-                ob_end_clean();
-
-                return $this->render('activity/tool/not_possible.html.twig');
-            }
-
-            $elevationInfo = new ElevationInfo($context);
-            $elevationInfo->display();
-
-            $legacyContent = ob_get_clean();
-        } catch (Throwable $throwable) {
-            ob_end_clean();
-
-            throw $throwable;
+        if (! $context->hasRoute()) {
+            return $this->render('activity/tool/not_possible.html.twig');
         }
 
-        return $this->wrapLegacyContent($legacyContent, $this->requestStack->getCurrentRequest());
+        return $this->wrapLegacyContent(
+            $this->captureLegacyOutput(function () use ($context): void {
+                $elevationInfo = new ElevationInfo($context);
+                $elevationInfo->display();
+            })->getContent(),
+            $this->requestStack->getCurrentRequest()
+        );
     }
 
     #[Route(path: '/activity/{id}/time-series-info', name: 'activity-tool-time-series-info', requirements: [

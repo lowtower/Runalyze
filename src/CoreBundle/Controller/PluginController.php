@@ -27,9 +27,7 @@ class PluginController extends AbstractPluginsAwareController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        ob_start();
-
-        try {
+        $legacyContent = $this->captureLegacyOutput(function () use ($request): void {
             new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
             $Pluginkey = $request->query->get('key');
@@ -64,13 +62,7 @@ class PluginController extends AbstractPluginsAwareController
             echo '<ul class="blocklist"><li>';
             echo Ajax::window('<a href="' . ConfigTabPlugins::getExternalUrl() . '">' . Icon::$TABLE . ' ' . __('back to list') . '</a>');
             echo '</li></ul>';
-
-            $legacyContent = ob_get_clean();
-        } catch (Throwable $throwable) {
-            ob_end_clean();
-
-            throw $throwable;
-        }
+        })->getContent();
 
         return $this->wrapLegacyContent($legacyContent, $this->requestStack->getCurrentRequest());
     }
@@ -103,9 +95,7 @@ class PluginController extends AbstractPluginsAwareController
 
         $id = $request->query->get('id');
 
-        ob_start();
-
-        try {
+        $legacyContent = $this->captureLegacyOutput(function () use ($id): void {
             new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
             $Factory = new PluginFactory();
 
@@ -115,13 +105,7 @@ class PluginController extends AbstractPluginsAwareController
             } else {
                 echo '<em>' . __('Something went wrong ...') . '</em>';
             }
-
-            $legacyContent = ob_get_clean();
-        } catch (Throwable $throwable) {
-            ob_end_clean();
-
-            throw $throwable;
-        }
+        })->getContent();
 
         return $this->wrapLegacyContent($legacyContent, $this->requestStack->getCurrentRequest());
     }
