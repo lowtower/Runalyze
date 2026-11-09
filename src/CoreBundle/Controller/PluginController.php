@@ -62,7 +62,6 @@ class PluginController extends AbstractPluginsAwareController
             echo '<ul class="blocklist"><li>';
             echo Ajax::window('<a href="' . ConfigTabPlugins::getExternalUrl() . '">' . Icon::$TABLE . ' ' . __('back to list') . '</a>');
             echo '</li></ul>';
-
         })->getContent();
 
         return $this->wrapLegacyContent($legacyContent, $this->requestStack->getCurrentRequest());
@@ -106,7 +105,6 @@ class PluginController extends AbstractPluginsAwareController
             } else {
                 echo '<em>' . __('Something went wrong ...') . '</em>';
             }
-
         })->getContent();
 
         return $this->wrapLegacyContent($legacyContent, $this->requestStack->getCurrentRequest());
