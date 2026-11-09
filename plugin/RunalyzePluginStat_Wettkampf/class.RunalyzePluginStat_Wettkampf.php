@@ -275,6 +275,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
 
     private function getPersonalBestYearsTable(): string
     {
+        $html = '';
         $year = [];
         $dists = [];
         $kms = (is_array($this->Configuration()->value('pb_distances'))) ? $this->Configuration()
@@ -287,7 +288,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
         }
 
         if ($this->RaceContainer->num() === 0) {
-            return '';
+            return $html;
         }
 
         foreach ($this->RaceContainer->allRaces() as $wk) {
@@ -310,7 +311,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
             }
         }
 
-        $html = '<table class="fullwidth zebra-style">';
+        $html .= '<table class="fullwidth zebra-style">';
         $html .= '<thead>';
         $html .= '<tr>';
         $html .= '<th></th>';
