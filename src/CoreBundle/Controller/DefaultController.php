@@ -62,20 +62,13 @@ class DefaultController extends AbstractPluginsAwareController
      */
     protected function includeOldScript(string $file, bool $initFrontend = true): Response
     {
-        ob_start();
-
-        try {
+        $legacyContent = $this->captureLegacyOutput(function () use ($file, $initFrontend): void {
             if ($initFrontend) {
                 new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
             }
 
             include $file;
-            $legacyContent = ob_get_clean();
-        } catch (Throwable $throwable) {
-            ob_end_clean();
-
-            throw $throwable;
-        }
+        })->getContent();
 
         return $this->wrapLegacyContent($legacyContent, $this->requestStack->getCurrentRequest());
     }
@@ -95,16 +88,9 @@ class DefaultController extends AbstractPluginsAwareController
         $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
             ->getContent();
 
-        ob_start();
-
-        try {
+        $legacyContent = $this->captureLegacyOutput(function () use ($dataBrowserContent, $panelsContent): void {
             include __DIR__ . '/../../../dashboard.php';
-            $legacyContent = ob_get_clean();
-        } catch (Throwable $throwable) {
-            ob_end_clean();
-
-            throw $throwable;
-        }
+        })->getContent();
 
         return $this->wrapLegacyContent($legacyContent, $request);
     }
@@ -244,16 +230,9 @@ class DefaultController extends AbstractPluginsAwareController
             $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
                 ->getContent();
 
-            ob_start();
-
-            try {
+            $legacyContent = $this->captureLegacyOutput(function () use ($dataBrowserContent, $panelsContent): void {
                 include $this->parameterBag->get('kernel.project_dir') . '/dashboard.php';
-                $legacyContent = ob_get_clean();
-            } catch (Throwable $throwable) {
-                ob_end_clean();
-
-                throw $throwable;
-            }
+            })->getContent();
 
             return new Response($legacyContent);
         }
