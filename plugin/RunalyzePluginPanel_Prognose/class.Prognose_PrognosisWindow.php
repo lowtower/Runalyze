@@ -173,9 +173,9 @@ class Prognose_PrognosisWindow
     protected function setupBockPrognosis()
     {
         $this->PrognosisObject = new Bock(
-            (float) $_POST['best-result-km'],
+            (float) Helper::CommaToPoint($_POST['best-result-km']),
             new Duration($_POST['best-result-time'])->seconds(),
-            (float) $_POST['second-best-result-km'],
+            (float) Helper::CommaToPoint($_POST['second-best-result-km']),
             new Duration($_POST['second-best-result-time'])->seconds()
         );
     }
@@ -184,7 +184,7 @@ class Prognose_PrognosisWindow
     {
         $this->PrognosisObject = new Steffny(
             new Duration($_POST['best-result-time'])->seconds(),
-            (float) $_POST['best-result-km']
+            (float) Helper::CommaToPoint($_POST['best-result-km'])
         );
     }
 
@@ -192,7 +192,7 @@ class Prognose_PrognosisWindow
     {
         $this->PrognosisObject = new Cameron(
             new Duration($_POST['best-result-time'])->seconds(),
-            (float) $_POST['best-result-km']
+            (float) Helper::CommaToPoint($_POST['best-result-km'])
         );
     }
 
