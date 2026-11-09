@@ -47,6 +47,42 @@ class TrainingRepository extends EntityRepository
     }
 
     /**
+     * Get the best activities according to `vo2max_by_time`, at most one per distance.
+     *
+     * Replaces the raw SQL query of the deprecated
+     * `Runalyze\Calculation\Prognosis\TopResults`, which was not compatible
+     * with `ONLY_FULL_GROUP_BY`.
+     *
+     * @param int $sportId id of the running sport
+     * @param int $numberOfResults number of distances to return
+     * @param float $minimalDistanceRequired in [km]
+     * @return array<int, array<string, int|float|null>> rows with keys `time`, `distance`, `s`, `vo2max_by_time`
+     */
+    public function findTopResults(Account $account, int $sportId, int $numberOfResults = 1, float $minimalDistanceRequired = 3.0): array
+    {
+        $allResults = $this->createQueryBuilder('t')
+            ->select('t.time, t.distance, t.s, t.vo2maxByTime as vo2max_by_time')
+            ->where('t.account = :account')
+            ->andWhere('t.sport = :sport')
+            ->andWhere('t.distance >= :minimalDistance')
+            ->setParameter('account', $account)
+            ->setParameter('sport', $sportId)
+            ->setParameter('minimalDistance', $minimalDistanceRequired)
+            ->orderBy('t.vo2maxByTime', \SortDirection::Descending)
+            ->setMaxResults(20)
+            ->getQuery()
+            ->getArrayResult();
+
+        $bestResultPerDistance = [];
+
+        foreach ($allResults as $result) {
+            $bestResultPerDistance[(string) $result['distance']] ??= $result;
+        }
+
+        return \array_slice(\array_values($bestResultPerDistance), 0, $numberOfResults);
+    }
+
+    /**
      * @see \Runalyze\Metrics\Velocity\Unit\PaceEnum
      * @throws NoResultException
      * @throws NonUniqueResultException

@@ -11,7 +11,6 @@ use Runalyze\Activity\Pace;
 use Runalyze\Activity\PersonalBest;
 use Runalyze\Calculation\BasicEndurance;
 use Runalyze\Calculation\JD\LegacyEffectiveVO2max;
-use Runalyze\Calculation\Prognosis;
 use Runalyze\Configuration;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 use Runalyze\Sports\Running\Prognosis\Bock;
@@ -53,8 +52,12 @@ class Prognose_PrognosisWindow
 
     protected DistanceUnitSystem $UnitSystem;
 
-    public function __construct()
-    {
+    /**
+     * @param array<int, array<string, int|float|null>> $topResults rows as returned by TrainingRepository::findTopResults()
+     */
+    public function __construct(
+        private readonly array $topResults = []
+    ) {
         $this->setDefaultValues();
         $this->readPostData();
         $this->runCalculations();
@@ -67,7 +70,7 @@ class Prognose_PrognosisWindow
     {
         $this->UnitSystem = Configuration::General()->distanceUnitSystem();
 
-        $TopResults = new Prognosis\TopResults()->getTopResults(2);
+        $TopResults = $this->topResults;
         $CurrentShape = Configuration::Data()->vo2maxShape();
 
         if (empty($_POST)) {
@@ -170,9 +173,9 @@ class Prognose_PrognosisWindow
     protected function setupBockPrognosis()
     {
         $this->PrognosisObject = new Bock(
-            (float) $_POST['best-result-km'],
+            (float) Helper::CommaToPoint($_POST['best-result-km']),
             new Duration($_POST['best-result-time'])->seconds(),
-            (float) $_POST['second-best-result-km'],
+            (float) Helper::CommaToPoint($_POST['second-best-result-km']),
             new Duration($_POST['second-best-result-time'])->seconds()
         );
     }
@@ -181,7 +184,7 @@ class Prognose_PrognosisWindow
     {
         $this->PrognosisObject = new Steffny(
             new Duration($_POST['best-result-time'])->seconds(),
-            (float) $_POST['best-result-km']
+            (float) Helper::CommaToPoint($_POST['best-result-km'])
         );
     }
 
@@ -189,7 +192,7 @@ class Prognose_PrognosisWindow
     {
         $this->PrognosisObject = new Cameron(
             new Duration($_POST['best-result-time'])->seconds(),
-            (float) $_POST['best-result-km']
+            (float) Helper::CommaToPoint($_POST['best-result-km'])
         );
     }
 

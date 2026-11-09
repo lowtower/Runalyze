@@ -215,6 +215,32 @@ class DefaultController extends AbstractPluginsAwareController
     }
 
     /**
+     * @throws Throwable if the legacy prognosis calculator window throws
+     */
+    #[Route(path: '/plugin/RunalyzePluginPanel_Prognose/window.php', methods: ['GET', 'POST'], priority: 10)]
+    public function prognoseCalculatorWindowAction(?Account $account = null): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
+
+        /** @var TrainingRepository $trainingRepository */
+        $trainingRepository = $this->doctrine->getRepository(Training::class);
+        $topResults = $trainingRepository->findTopResults(
+            $account,
+            \Runalyze\Configuration::General()->runningSport(),
+            2
+        );
+
+        return $this->wrapLegacyContent(
+            $this->captureLegacyOutput(function () use ($topResults): void {
+                new \Prognose_PrognosisWindow($topResults)->display();
+            })->getContent(),
+            $this->requestStack->getCurrentRequest()
+        );
+    }
+
+    /**
      * @throws Throwable if the included legacy dashboard throws
      */
     #[Route(path: '/index.php', methods: ['GET'])]
