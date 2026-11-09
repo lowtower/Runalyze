@@ -122,12 +122,6 @@ abstract class PlotSumData extends Plot
         return (int) $this->ParamYear;
     }
 
-    final public function display()
-    {
-        $this->displayHeader();
-        $this->displayContent();
-    }
-
     /**
      * Data for the twig template shared/athlete/plot_sum_data.html.twig
      *
@@ -142,25 +136,6 @@ abstract class PlotSumData extends Plot
             'plot_js' => $this->getJavaScript(),
             'info' => $this->showsTarget() ? HTML::info(__('Target is based on current marathon shape calculations.')) : '',
         ];
-    }
-
-    private function displayHeader()
-    {
-        echo '<div class="panel-heading">';
-        echo '<div class="panel-menu">';
-        echo $this->getNavigationMenu();
-        echo '</div>';
-        echo HTML::h1($this->getTitle() . ' ' . $this->getTitleAppendix());
-        echo '</div>';
-    }
-
-    private function displayContent()
-    {
-        echo '<div class="panel-content">';
-        $this->outputDiv();
-        $this->outputJavaScript();
-        $this->displayInfos();
-        echo '</div>';
     }
 
     /**
@@ -702,17 +677,4 @@ abstract class PlotSumData extends Plot
     }
 
     abstract protected function factorForWeekKm(): float;
-
-    /**
-     * Display additional info
-     */
-    protected function displayInfos()
-    {
-        if ($this->showsTarget()) {
-            $BasicEndurance = new BasicEndurance();
-            $BasicEndurance->readSettingsFromConfiguration();
-
-            echo HTML::info(__('Target is based on current marathon shape calculations.'));
-        }
-    }
 }

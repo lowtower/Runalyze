@@ -152,28 +152,21 @@ class CallController extends AbstractController
         return $request->query->get('type', 'month') == 'week' ? new PlotWeekSumData() : new PlotMonthSumData();
     }
 
-    /**
-     * @throws Throwable if the legacy plot sum data throws
-     */
     #[Route(path: '/call/window.plotSumData.php', methods: ['GET'])]
     public function windowsPlotSumDataAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        ob_start();
+        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
-        try {
-            new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
-            $this->getPlotSumData()
-                ->display();
-            $legacyContent = ob_get_clean();
-        } catch (Throwable $throwable) {
-            ob_end_clean();
-
-            throw $throwable;
-        }
-
-        return $this->wrapLegacyContent($legacyContent, $this->requestStack->getCurrentRequest());
+        return $this->wrapLegacyContent(
+            $this->renderView(
+                'shared/athlete/plot_sum_data.html.twig',
+                $this->getPlotSumData()
+                    ->templateData()
+            ),
+            $this->requestStack->getCurrentRequest()
+        );
     }
 
     #[Route(path: '/call/login.php', methods: ['GET', 'POST'])]
