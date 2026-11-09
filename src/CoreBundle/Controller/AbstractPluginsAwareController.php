@@ -13,11 +13,14 @@ use Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisSelecti
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
+use Runalyze\Bundle\CoreBundle\Model\Prognosis\PrognosisData;
 use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
+use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Twig\ValueExtension;
 use Runalyze\Util\LocalTime;
+use RunalyzePluginPanel_Prognose;
 use RunalyzePluginPanel_Sports;
 use RunalyzePluginStat_MonthlyStats;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -58,7 +61,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
             $panelContent = $this->getResponseFor($panel->id(), $request, $account)
                 ->getContent();
 
-            if ($panel instanceof RunalyzePluginPanel_Sports) {
+            if ($panel instanceof RunalyzePluginPanel_Sports || $panel instanceof RunalyzePluginPanel_Prognose) {
                 $panelContent = '<div class="panel" id="panel-' . $panel->id() . '">' . $panelContent . '</div>';
             }
 
@@ -90,6 +93,10 @@ abstract class AbstractPluginsAwareController extends AbstractController
 
         if ($plugin instanceof RunalyzePluginPanel_Sports) {
             return $this->getResponseForSportsPanel($account, $plugin);
+        }
+
+        if ($plugin instanceof RunalyzePluginPanel_Prognose) {
+            return $this->getResponseForPrognosePanel($account, $plugin);
         }
 
         if ($plugin instanceof RunalyzePluginStat_MonthlyStats) {
@@ -142,6 +149,32 @@ abstract class AbstractPluginsAwareController extends AbstractController
         return $this->render('my/statistics/monthly-stats/base.html.twig', [
             'pluginId' => $pluginId,
             'analysisData' => $analysisData,
+        ]);
+    }
+
+    protected function getResponseForPrognosePanel(Account $account, LegacyPlugin $plugin): Response
+    {
+        /** @var RunalyzePluginPanel_Prognose $prognosePlugin */
+        $prognosePlugin = $plugin;
+
+        /** @var TrainingRepository $trainingRepository */
+        $trainingRepository = $this->doctrine->getRepository(Training::class);
+
+        $prognosisData = new PrognosisData(
+            $trainingRepository,
+            $account,
+            (int) \Runalyze\Configuration::General()->runningSport(),
+            $prognosePlugin->getDistances(),
+            (string) $prognosePlugin->Configuration()->value('model'),
+            (bool) $prognosePlugin->Configuration()->value('use_be'),
+            (float) \Runalyze\Configuration::Data()->vo2max(),
+            (int) \Runalyze\Calculation\BasicEndurance::getConst()
+        );
+
+        return $this->render('my/panels/prognose/base.html.twig', [
+            'isHidden' => $plugin->isHidden(),
+            'pluginId' => $plugin->id(),
+            'prognosisData' => $prognosisData,
         ]);
     }
 }
