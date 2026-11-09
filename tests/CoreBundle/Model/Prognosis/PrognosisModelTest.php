@@ -88,4 +88,23 @@ final class PrognosisModelTest extends TestCase
 
         $this->assertInstanceOf(VO2max::class, $prognosis);
     }
+
+    public function testCppModelKeepsDecimalDistancesAndIsInvalidIfLongerResultIsNotSlower(): void
+    {
+        $prognosis = new PrognosisModel('cpp', [
+            [
+                'distance' => 8.9,
+                's' => 3196.0,
+            ],
+            [
+                'distance' => 5.72,
+                's' => 2064.0,
+            ],
+        ], 27.25, 2, true)->getPrognosisObject();
+
+        $this->assertInstanceOf(Bock::class, $prognosis);
+        $this->assertEqualsWithDelta(0.989078, $prognosis->getE(), 0.000001);
+        $this->assertEqualsWithDelta(367.777973, $prognosis->getK(), 0.000001);
+        $this->assertFalse($prognosis->areValuesValid());
+    }
 }

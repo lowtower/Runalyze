@@ -49,4 +49,17 @@ final class BockTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(90 * 60, $this->Bock->getSeconds(21.1), 1);
         $this->assertEqualsWithDelta(191 * 60 + 4, $this->Bock->getSeconds(42.2), 1);
     }
+
+    /**
+     * Real world example with nearly identical pace: the longer result is even
+     * slightly faster per km, so no valid Bock curve exists (e < 1).
+     */
+    public function testSetFromResultsWithNearlyEqualPaceIsInvalid(): void
+    {
+        $this->Bock->setFromResults(8.9, 53 * 60 + 16, 5.72, 34 * 60 + 24);
+
+        $this->assertEqualsWithDelta(0.989078, $this->Bock->getE(), 0.000001);
+        $this->assertEqualsWithDelta(367.777973, $this->Bock->getK(), 0.000001);
+        $this->assertFalse($this->Bock->areValuesValid());
+    }
 }
