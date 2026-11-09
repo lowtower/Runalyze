@@ -55,8 +55,9 @@ class Prognose_PrognosisWindow
     /**
      * @param array<int, array<string, int|float|null>> $topResults rows as returned by TrainingRepository::findTopResults()
      */
-    public function __construct(private readonly array $topResults = [])
-    {
+    public function __construct(
+        private readonly array $topResults = []
+    ) {
         $this->setDefaultValues();
         $this->readPostData();
         $this->runCalculations();

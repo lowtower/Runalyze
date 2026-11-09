@@ -14,13 +14,11 @@
 
 {% block panelContent %}
     {% for row in prognosisData.rows %}
-        {% set pbString = row.pbActivityId is not null
-            ? '<a class="training" href="' ~ url('ActivityShow', {id: row.pbActivityId}) ~ '" rel="' ~ row.pbActivityId ~ '" onclick="Runalyze.Overlay.close()">' ~ (row.pbSeconds|duration) ~ '</a>'
-            : '-' %}
-        {% set prognosisString = row.prognosisSeconds > 0 ? row.prognosisSeconds|duration : '-' %}
+        {% set pb_string = row.pbActivityId is not null ? '<a class="training" href="' ~ url('ActivityShow', {id: row.pbActivityId}) ~ '" rel="' ~ row.pbActivityId ~ '" onclick="Runalyze.Overlay.close()">' ~ (row.pbSeconds|duration) ~ '</a>' : '-' %}
+        {% set prognosis_string = row.prognosisSeconds > 0 ? row.prognosisSeconds|duration : '-' %}
         <p>
             <span class="right">
-                {{ ('<small>from</small> %s <small>to</small> <strong>%s</strong>'|trans)|format(pbString, prognosisString)|raw }}
+                {{ ('<small>from</small> %s <small>to</small> <strong>%s</strong>'|trans)|format(pb_string, prognosis_string)|raw }}
                 <small>({{ pace(row.prognosisSeconds / row.distance) }})</small>
             </span>
             <strong>{{ distance(row.distance) }}</strong>

@@ -15,7 +15,7 @@ final class PrognosisModelTest extends TestCase
 {
     public function testCppModelUsesBockWhenTwoTopResultsExist(): void
     {
-        $prognosis = (new PrognosisModel('cpp', [
+        $prognosis = new PrognosisModel('cpp', [
             [
                 'distance' => 5.0,
                 's' => 1200.0,
@@ -24,7 +24,7 @@ final class PrognosisModelTest extends TestCase
                 'distance' => 10.0,
                 's' => 2550.0,
             ],
-        ], 50.0, 60, true))->getPrognosisObject();
+        ], 50.0, 60, true)->getPrognosisObject();
 
         $this->assertInstanceOf(Bock::class, $prognosis);
         $this->assertTrue($prognosis->areValuesValid());
@@ -32,12 +32,12 @@ final class PrognosisModelTest extends TestCase
 
     public function testCppModelLeavesBockInvalidWhenFewerThanTwoTopResultsExist(): void
     {
-        $prognosis = (new PrognosisModel('cpp', [
+        $prognosis = new PrognosisModel('cpp', [
             [
                 'distance' => 5.0,
                 's' => 1200.0,
             ],
-        ], 50.0, 60, true))->getPrognosisObject();
+        ], 50.0, 60, true)->getPrognosisObject();
 
         $this->assertInstanceOf(Bock::class, $prognosis);
         $this->assertFalse($prognosis->areValuesValid());
@@ -45,7 +45,7 @@ final class PrognosisModelTest extends TestCase
 
     public function testSteffnyModelUsesSteffny(): void
     {
-        $prognosis = (new PrognosisModel('steffny', [
+        $prognosis = new PrognosisModel('steffny', [
             [
                 'distance' => 10.0,
                 's' => 2550.0,
@@ -54,14 +54,14 @@ final class PrognosisModelTest extends TestCase
                 'distance' => 5.0,
                 's' => 1200.0,
             ],
-        ], 50.0, 60, true))->getPrognosisObject();
+        ], 50.0, 60, true)->getPrognosisObject();
 
         $this->assertInstanceOf(Steffny::class, $prognosis);
     }
 
     public function testCameronModelUsesCameron(): void
     {
-        $prognosis = (new PrognosisModel('cameron', [
+        $prognosis = new PrognosisModel('cameron', [
             [
                 'distance' => 10.0,
                 's' => 2550.0,
@@ -70,21 +70,21 @@ final class PrognosisModelTest extends TestCase
                 'distance' => 5.0,
                 's' => 1200.0,
             ],
-        ], 50.0, 60, true))->getPrognosisObject();
+        ], 50.0, 60, true)->getPrognosisObject();
 
         $this->assertInstanceOf(Cameron::class, $prognosis);
     }
 
     public function testVo2maxModelUsesVO2max(): void
     {
-        $prognosis = (new PrognosisModel('vo2max', [], 50.0, 60, true))->getPrognosisObject();
+        $prognosis = new PrognosisModel('vo2max', [], 50.0, 60, true)->getPrognosisObject();
 
         $this->assertInstanceOf(VO2max::class, $prognosis);
     }
 
     public function testUnknownModelFallsBackToVO2max(): void
     {
-        $prognosis = (new PrognosisModel('some_unknown_model', [], 50.0, 60, true))->getPrognosisObject();
+        $prognosis = new PrognosisModel('some_unknown_model', [], 50.0, 60, true)->getPrognosisObject();
 
         $this->assertInstanceOf(VO2max::class, $prognosis);
     }

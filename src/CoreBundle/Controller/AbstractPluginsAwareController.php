@@ -163,11 +163,11 @@ abstract class AbstractPluginsAwareController extends AbstractController
         $prognosisData = new PrognosisData(
             $trainingRepository,
             $account,
-            (int) \Runalyze\Configuration::General()->runningSport(),
+            \Runalyze\Configuration::General()->runningSport(),
             $prognosePlugin->getDistances(),
             (string) $prognosePlugin->Configuration()->value('model'),
             (bool) $prognosePlugin->Configuration()->value('use_be'),
-            (float) \Runalyze\Configuration::Data()->vo2max(),
+            \Runalyze\Configuration::Data()->vo2max(),
             (int) \Runalyze\Calculation\BasicEndurance::getConst()
         );
 

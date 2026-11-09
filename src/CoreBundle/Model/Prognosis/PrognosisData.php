@@ -19,10 +19,12 @@ class PrognosisData
 {
     private readonly PrognosisInterface $prognosis;
 
-    /** @var array<int, array{distance: float, pbSeconds: float|null, pbActivityId: int|null, prognosisSeconds: float}> */
+    /**
+     * @var array<int, array{distance: float, pbSeconds: float|null, pbActivityId: int|null, prognosisSeconds: float}>
+     */
     private array $rows = [];
 
-    private int $numberOfPersonalBests = 0;
+    private readonly int $numberOfPersonalBests;
 
     /**
      * @param array<int|string, mixed> $distances distances in [km]
@@ -41,13 +43,13 @@ class PrognosisData
         float $vo2maxShape,
         int $basicEndurance
     ) {
-        $this->prognosis = (new PrognosisModel(
+        $this->prognosis = new PrognosisModel(
             $model,
             $trainingRepository->findTopResults($account, $runningSportId, 2),
             $vo2maxShape,
             $basicEndurance,
             $useMarathonShape
-        ))->getPrognosisObject();
+        )->getPrognosisObject();
 
         PersonalBest::activateStaticCache();
         $this->numberOfPersonalBests = PersonalBest::lookupDistances($distances, $runningSportId, null, true);
