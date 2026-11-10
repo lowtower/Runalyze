@@ -3,6 +3,7 @@
 namespace Runalyze\Calculation\JD;
 
 use Runalyze\Configuration\Category\VO2max;
+use Runalyze\Sports\Running\VO2max\EffectiveVO2maxCorrector;
 use Runalyze\Util\LocalTime;
 
 class Shape

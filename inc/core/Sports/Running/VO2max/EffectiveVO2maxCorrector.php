@@ -1,6 +1,6 @@
 <?php
 
-namespace Runalyze\Calculation\JD;
+namespace Runalyze\Sports\Running\VO2max;
 
 use PDO;
 use Runalyze\Model\Activity;

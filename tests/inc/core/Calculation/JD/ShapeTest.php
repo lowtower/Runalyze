@@ -4,6 +4,7 @@ namespace Runalyze\Calculation\JD;
 
 use PDO;
 use Runalyze\Configuration\Category;
+use Runalyze\Sports\Running\VO2max\EffectiveVO2maxCorrector;
 
 final class ShapeFake extends Shape
 {

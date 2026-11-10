@@ -4,7 +4,6 @@ namespace Runalyze\Bundle\CoreBundle\Component\Tool\VO2maxAnalysis;
 
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
-use Runalyze\Calculation\JD\EffectiveVO2maxCorrector;
 use Runalyze\Model\Activity\Entity;
 use Runalyze\Sports\Running\Prognosis\VO2max;
 use Runalyze\Util\LocalTime;
@@ -115,7 +114,9 @@ class RaceAnalysis
 
     public function getCorrectionFactor(): float
     {
-        return new EffectiveVO2maxCorrector()->fromActivity($this->Activity);
+        $vo2maxByHeartRate = $this->Activity->vo2maxByHeartRate();
+
+        return $vo2maxByHeartRate > 0.0 ? $this->Activity->vo2maxByTime() / $vo2maxByHeartRate : 1.0;
     }
 
     /**

@@ -1,9 +1,8 @@
 <?php
 
-namespace Runalyze\Calculation\JD;
+namespace Runalyze\Sports\Running\VO2max;
 
 use Runalyze\Sports\Running\VO2max\Estimation\DanielsGilbertFormula;
-use Runalyze\Sports\Running\VO2max\VO2maxVelocity;
 
 class EffectiveVO2max
 {
@@ -37,7 +36,7 @@ class EffectiveVO2max
 
     public function setCorrector(?EffectiveVO2maxCorrector $corrector = null): void
     {
-        if ($corrector instanceof \Runalyze\Calculation\JD\EffectiveVO2maxCorrector) {
+        if ($corrector instanceof EffectiveVO2maxCorrector) {
             $this->Corrector = $corrector;
         }
     }
@@ -83,7 +82,7 @@ class EffectiveVO2max
      */
     public function exactValue(): float
     {
-        if ($this->Corrector instanceof \Runalyze\Calculation\JD\EffectiveVO2maxCorrector) {
+        if ($this->Corrector instanceof EffectiveVO2maxCorrector) {
             return $this->Corrector->factor() * $this->Value;
         }
 

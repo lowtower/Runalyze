@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Runalyze\Calculation\JD;
 
+use Runalyze\Sports\Running\VO2max\EffectiveVO2max;
+use Runalyze\Sports\Running\VO2max\EffectiveVO2maxCorrector;
+
 final class EffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
 {
     protected function setUp(): void
