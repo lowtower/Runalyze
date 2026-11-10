@@ -13,7 +13,6 @@ use Runalyze\AgeGrade\Lookup;
 use Runalyze\AgeGrade\Table\FemaleTable;
 use Runalyze\AgeGrade\Table\MaleTable;
 use Runalyze\Model\Trackdata;
-use Runalyze\Model\Trackdata\Pauses;
 use Runalyze\Profile\Athlete\Gender;
 use Runalyze\View;
 use Runalyze\View\Activity;

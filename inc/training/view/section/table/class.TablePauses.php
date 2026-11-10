@@ -35,25 +35,25 @@ class TablePauses
         $allPause = 0;
         $rows = [];
 
-        $len = count($pauses->asArray());
+        $len = $pauses->count();
 
         for ($i = 0; $i < $len; ++$i) {
-            $pause = $pauses->at($i);
+            $pause = $pauses[$i];
 
             $cells = [
                 $this->cell(($i + 1) . '.'),
-                $this->cell(Duration::format($pause->time())),
-                $this->cell(Duration::format($pause->duration())),
+                $this->cell(Duration::format($pause->getTimeIndex())),
+                $this->cell(Duration::format($pause->getDuration())),
             ];
 
-            if ($pause->hasHeartRateInfo()) {
-                $hr->setBPM($pause->HRstart());
+            if ($pause->hasHeartRateDetails()) {
+                $hr->setBPM($pause->getHeartRateAtStart());
                 $cells[] = $this->cell($hr->inBPM() > 0 ? $hr->string() : '-');
 
-                $hr->setBPM(-$pause->hrDiff());
+                $hr->setBPM(-$pause->getHeartRateDifference());
                 $cells[] = $this->cell($hr->inBPM() !== 0 ? $hr->string() : '-');
 
-                $hr->setBPM($pause->HRend());
+                $hr->setBPM($pause->getHeartRateAtEnd());
                 $cells[] = $this->cell($hr->inBPM() > 0 ? $hr->string() : '-', 'padding-right: 20px;');
             } else {
                 $cells[] = [
@@ -64,7 +64,7 @@ class TablePauses
                 ];
             }
 
-            $allPause += $pause->duration();
+            $allPause += $pause->getDuration();
 
             $rows[] = [
                 'style' => '',
