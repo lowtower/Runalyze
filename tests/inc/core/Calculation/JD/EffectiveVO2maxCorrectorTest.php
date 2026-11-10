@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Tests\Calculation\JD;
 
-use Runalyze\Calculation\JD\EffectiveVO2maxCorrector;
+use Runalyze\Sports\Running\VO2max\EffectiveVO2maxCorrector;
 use Runalyze\Model\Activity;
 
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]

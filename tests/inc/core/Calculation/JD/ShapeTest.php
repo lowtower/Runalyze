@@ -2,6 +2,8 @@
 
 namespace Runalyze\Calculation\JD;
 
+use Runalyze\Sports\Running\VO2max\EffectiveVO2maxCorrector;
+
 use PDO;
 use Runalyze\Configuration\Category;
 
