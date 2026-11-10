@@ -4,6 +4,7 @@ namespace Runalyze\Calculation\Activity;
 
 use Runalyze\Calculation\Elevation;
 use Runalyze\Calculation\JD;
+use Runalyze\Sports\Running\VO2max\EffectiveVO2max;
 use Runalyze\Calculation\Trimp;
 use Runalyze\Configuration;
 use Runalyze\Context;
@@ -32,7 +33,7 @@ class Calculator
      */
     public function estimateVO2maxByTime(): string
     {
-        $VO2max = new JD\EffectiveVO2max();
+        $VO2max = new EffectiveVO2max();
         $VO2max->fromPace($this->Activity->distance(), $this->Activity->duration());
 
         return $VO2max->uncorrectedValue();
@@ -46,7 +47,7 @@ class Calculator
     {
         $distance ??= $this->Activity->distance();
 
-        $VO2max = new JD\EffectiveVO2max();
+        $VO2max = new EffectiveVO2max();
         $VO2max->fromPaceAndHR(
             $distance,
             $this->Activity->duration(),
