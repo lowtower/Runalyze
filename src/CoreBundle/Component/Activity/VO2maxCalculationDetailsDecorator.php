@@ -6,7 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Component\Activity;
 
 use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList;
 use Runalyze\Calculation\Elevation\DistanceModifier;
-use Runalyze\Calculation\JD\LegacyEffectiveVO2max;
+use Runalyze\Calculation\JD\EffectiveVO2max;
 
 class VO2maxCalculationDetailsDecorator
 {
@@ -20,7 +20,7 @@ class VO2maxCalculationDetailsDecorator
      */
     public function getPercentVO2maxVelocityByHeartRate(): int
     {
-        return (int) round(100.0 * LegacyEffectiveVO2max::percentageAt(
+        return (int) round(100.0 * EffectiveVO2max::percentageAt(
             $this->Context->getActivity()
                 ->getPulseAvg() / $this->ConfigurationList->getMaximalHeartRate()
         ));

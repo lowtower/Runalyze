@@ -5,10 +5,7 @@ namespace Runalyze\Calculation\JD;
 use PDO;
 use Runalyze\Model\Activity;
 
-/**
- * @deprecated since v3.3|4.0
- */
-class LegacyEffectiveVO2maxCorrector
+class EffectiveVO2maxCorrector
 {
     /**
      * @var int Number of (best) races to look at

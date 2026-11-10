@@ -10,7 +10,7 @@ use Runalyze\Activity\Duration;
 use Runalyze\Activity\Pace;
 use Runalyze\Activity\PersonalBest;
 use Runalyze\Calculation\BasicEndurance;
-use Runalyze\Calculation\JD\LegacyEffectiveVO2max;
+use Runalyze\Calculation\JD\EffectiveVO2max;
 use Runalyze\Configuration;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 use Runalyze\Sports\Running\Prognosis\Bock;
@@ -211,10 +211,10 @@ class Prognose_PrognosisWindow
             $PB = new PersonalBest($km, Configuration::General()->runningSport(), DB::getInstance(), false);
             $PB->lookupWithDetails();
 
-            $VO2maxprognosis = new LegacyEffectiveVO2max();
+            $VO2maxprognosis = new EffectiveVO2max();
             $VO2maxprognosis->fromPace($km, (int) $Prognosis);
 
-            $VO2maxpb = new LegacyEffectiveVO2max();
+            $VO2maxpb = new EffectiveVO2max();
             $VO2maxpb->fromPace($km, $PB->seconds());
 
             $PacePrognosis = new Pace($Prognosis, $km, \Runalyze\Context::Factory()->sport(Configuration::General()->runningSport())->getLegacyPaceUnitEnum());

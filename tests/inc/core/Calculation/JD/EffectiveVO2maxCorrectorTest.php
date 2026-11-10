@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Runalyze\Tests\Calculation\JD;
 
-use Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector;
+use Runalyze\Calculation\JD\EffectiveVO2maxCorrector;
 use Runalyze\Model\Activity;
 
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]
 #[\PHPUnit\Framework\Attributes\Group('dependsOnOldDatabase')]
-final class LegacyEffectiveVO2maxCorrectorTest extends \PHPUnit\Framework\TestCase
+final class EffectiveVO2maxCorrectorTest extends \PHPUnit\Framework\TestCase
 {
     protected \PDOforRunalyze $DB;
 
@@ -29,7 +29,7 @@ final class LegacyEffectiveVO2maxCorrectorTest extends \PHPUnit\Framework\TestCa
         $this->DB->exec('DELETE FROM `runalyze_raceresult`');
         $this->DB->exec('DELETE FROM `runalyze_training`');
 
-        LegacyEffectiveVO2maxCorrector::setGlobalFactor(1.0);
+        EffectiveVO2maxCorrector::setGlobalFactor(1.0);
     }
 
     protected function tearDown(): void
@@ -37,30 +37,30 @@ final class LegacyEffectiveVO2maxCorrectorTest extends \PHPUnit\Framework\TestCa
         $this->DB->exec('DELETE FROM `runalyze_raceresult`');
         $this->DB->exec('DELETE FROM `runalyze_training`');
 
-        LegacyEffectiveVO2maxCorrector::setGlobalFactor(1.0);
+        EffectiveVO2maxCorrector::setGlobalFactor(1.0);
     }
 
     public function testConstructorUsesDefaultGlobalFactor(): void
     {
-        $corrector = new LegacyEffectiveVO2maxCorrector();
+        $corrector = new EffectiveVO2maxCorrector();
 
         $this->assertEqualsWithDelta(1.0, $corrector->factor(), PHP_FLOAT_EPSILON);
     }
 
     public function testConstructorUsesConfiguredGlobalFactor(): void
     {
-        LegacyEffectiveVO2maxCorrector::setGlobalFactor(1.25);
+        EffectiveVO2maxCorrector::setGlobalFactor(1.25);
 
-        $corrector = new LegacyEffectiveVO2maxCorrector();
+        $corrector = new EffectiveVO2maxCorrector();
 
         $this->assertEqualsWithDelta(1.25, $corrector->factor(), PHP_FLOAT_EPSILON);
     }
 
     public function testConstructorUsesExplicitFactorInsteadOfGlobalFactor(): void
     {
-        LegacyEffectiveVO2maxCorrector::setGlobalFactor(1.25);
+        EffectiveVO2maxCorrector::setGlobalFactor(1.25);
 
-        $corrector = new LegacyEffectiveVO2maxCorrector(1.5);
+        $corrector = new EffectiveVO2maxCorrector(1.5);
 
         $this->assertEqualsWithDelta(1.5, $corrector->factor(), PHP_FLOAT_EPSILON);
     }
@@ -72,7 +72,7 @@ final class LegacyEffectiveVO2maxCorrectorTest extends \PHPUnit\Framework\TestCa
             Activity\Entity::VO2MAX_BY_TIME => 60.0,
         ]);
 
-        $corrector = new LegacyEffectiveVO2maxCorrector();
+        $corrector = new EffectiveVO2maxCorrector();
 
         $this->assertEqualsWithDelta(
             1.2,
@@ -94,7 +94,7 @@ final class LegacyEffectiveVO2maxCorrectorTest extends \PHPUnit\Framework\TestCa
             Activity\Entity::VO2MAX_BY_TIME => 60.0,
         ]);
 
-        $corrector = new LegacyEffectiveVO2maxCorrector(1.5);
+        $corrector = new EffectiveVO2maxCorrector(1.5);
 
         $this->assertEqualsWithDelta(1.0, $corrector->fromActivity($activity), PHP_FLOAT_EPSILON);
 
@@ -127,7 +127,7 @@ final class LegacyEffectiveVO2maxCorrectorTest extends \PHPUnit\Framework\TestCa
         $this->insertRaceResult($secondActivityId);
         $this->insertRaceResult($thirdActivityId);
 
-        $corrector = new LegacyEffectiveVO2maxCorrector();
+        $corrector = new EffectiveVO2maxCorrector();
 
         $this->assertEqualsWithDelta(
             1.2,
@@ -166,7 +166,7 @@ final class LegacyEffectiveVO2maxCorrectorTest extends \PHPUnit\Framework\TestCa
         $this->insertRaceResult($runningActivityId);
         $this->insertRaceResult($otherActivityId);
 
-        $corrector = new LegacyEffectiveVO2maxCorrector();
+        $corrector = new EffectiveVO2maxCorrector();
 
         $this->assertEqualsWithDelta(
             1.1,
@@ -200,7 +200,7 @@ final class LegacyEffectiveVO2maxCorrectorTest extends \PHPUnit\Framework\TestCa
         $this->insertRaceResult($validActivityId);
         $this->insertRaceResult($ignoredActivityId);
 
-        $corrector = new LegacyEffectiveVO2maxCorrector();
+        $corrector = new EffectiveVO2maxCorrector();
 
         $this->assertEqualsWithDelta(
             1.1,
@@ -215,7 +215,7 @@ final class LegacyEffectiveVO2maxCorrectorTest extends \PHPUnit\Framework\TestCa
 
     public function testDatabaseLookupFallsBackToOneWithoutMatchingRace(): void
     {
-        $corrector = new LegacyEffectiveVO2maxCorrector(1.5);
+        $corrector = new EffectiveVO2maxCorrector(1.5);
 
         $result = $corrector->fromDatabase(
             $this->DB,

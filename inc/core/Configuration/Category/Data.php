@@ -211,7 +211,7 @@ class Data extends \Runalyze\Configuration\Category
      */
     public function recalculateVO2maxCorrector(): float
     {
-        $Corrector = new JD\LegacyEffectiveVO2maxCorrector();
+        $Corrector = new JD\EffectiveVO2maxCorrector();
         $Corrector->fromDatabase(
             DB::getInstance(),
             SessionAccountHandler::getId(),
@@ -234,7 +234,7 @@ class Data extends \Runalyze\Configuration\Category
             Configuration::General()->runningSport(),
             Configuration::VO2max()
         );
-        $Shape->setCorrector(new JD\LegacyEffectiveVO2maxCorrector($this->vo2maxCorrectionFactor()));
+        $Shape->setCorrector(new JD\EffectiveVO2maxCorrector($this->vo2maxCorrectionFactor()));
         $Shape->calculate();
 
         $this->updateVO2maxShape($Shape->value());

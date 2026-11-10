@@ -49,7 +49,7 @@ final class ShapeTest extends \PHPUnit\Framework\TestCase
 			);
 		');
 
-        LegacyEffectiveVO2maxCorrector::setGlobalFactor(1.0);
+        EffectiveVO2maxCorrector::setGlobalFactor(1.0);
     }
 
     protected function tearDown(): void
@@ -133,7 +133,7 @@ final class ShapeTest extends \PHPUnit\Framework\TestCase
     public function testCorrector(): void
     {
         $Shape = new ShapeFake($this->PDO, 1, 1, new CategoryFake());
-        $Shape->setCorrector(new LegacyEffectiveVO2maxCorrector(0.9));
+        $Shape->setCorrector(new EffectiveVO2maxCorrector(0.9));
         $Shape->calculate();
 
         $this->assertEquals(50, $Shape->uncorrectedValue());

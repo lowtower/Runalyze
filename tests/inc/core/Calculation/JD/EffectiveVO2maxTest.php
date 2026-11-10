@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace Runalyze\Calculation\JD;
 
-final class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
+final class EffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
 {
     protected function setUp(): void
     {
-        LegacyEffectiveVO2max::setPrecision(2);
+        EffectiveVO2max::setPrecision(2);
     }
 
     protected function tearDown(): void
     {
-        LegacyEffectiveVO2max::setPrecision(2);
+        EffectiveVO2max::setPrecision(2);
     }
 
     public function testConstructor(): void
     {
-        $Value = new LegacyEffectiveVO2max(50.1234);
+        $Value = new EffectiveVO2max(50.1234);
 
         $this->assertEqualsWithDelta(50.12, $Value->value(), PHP_FLOAT_EPSILON);
         $this->assertEqualsWithDelta(50.1234, $Value->exactValue(), PHP_FLOAT_EPSILON);
@@ -26,18 +26,18 @@ final class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
 
     public function testWithCorrector(): void
     {
-        $Value = new LegacyEffectiveVO2max(50, new LegacyEffectiveVO2maxCorrector(0.9));
+        $Value = new EffectiveVO2max(50, new EffectiveVO2maxCorrector(0.9));
 
         $this->assertEquals(45, $Value->value());
         $this->assertEquals(50, $Value->uncorrectedValue());
 
-        $Value->setCorrector(new LegacyEffectiveVO2maxCorrector(1));
+        $Value->setCorrector(new EffectiveVO2maxCorrector(1));
         $this->assertEquals(50, $Value->value());
     }
 
     public function testInvalidResults(): void
     {
-        $Value = new LegacyEffectiveVO2max();
+        $Value = new EffectiveVO2max();
 
         $Value->fromPace(1, 0);
         $this->assertEquals(0, $Value->value());
@@ -48,7 +48,7 @@ final class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
 
     public function test5kResults(): void
     {
-        $Value = new LegacyEffectiveVO2max();
+        $Value = new EffectiveVO2max();
 
         $Results = [
             30 => 30 * 60 + 40,
@@ -73,7 +73,7 @@ final class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
 
     public function test10kResults(): void
     {
-        $Value = new LegacyEffectiveVO2max();
+        $Value = new EffectiveVO2max();
 
         $Results = [
             30 => 63 * 60 + 46,
@@ -98,7 +98,7 @@ final class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
 
     public function test21kResults(): void
     {
-        $Value = new LegacyEffectiveVO2max();
+        $Value = new EffectiveVO2max();
 
         $Results = [
             30 => 2 * 60 * 60 + 21 * 60 + 4,
@@ -123,7 +123,7 @@ final class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
 
     public function test42kResults(): void
     {
-        $Value = new LegacyEffectiveVO2max();
+        $Value = new EffectiveVO2max();
 
         $Results = [
             30 => 4 * 60 * 60 + 49 * 60 + 17,
@@ -150,7 +150,7 @@ final class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
     {
         // 250 m/min = 4:00 min/km
         // VO2max 48: 3.000m in 11:58
-        $Value = new LegacyEffectiveVO2max();
+        $Value = new EffectiveVO2max();
         $Value->fromSpeed(250);
 
         $this->assertEqualsWithDelta(48, $Value->value(), 0.6);
@@ -162,7 +162,7 @@ final class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
     public function testVeryLowSpeed(): void
     {
         // 16.67 m/min = ca. 60 min/km
-        $Value = new LegacyEffectiveVO2max();
+        $Value = new EffectiveVO2max();
         $Value->fromSpeed(16.67);
 
         $this->assertEquals(0, $Value->value());
@@ -172,10 +172,10 @@ final class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
 
     public function testDistanceIndependenceOfEstimateByHR(): void
     {
-        $Value1 = new LegacyEffectiveVO2max();
+        $Value1 = new EffectiveVO2max();
         $Value1->fromPaceAndHR(10, 40 * 60, 0.75);
 
-        $Value2 = new LegacyEffectiveVO2max();
+        $Value2 = new EffectiveVO2max();
         $Value2->fromPaceAndHR(3, 12 * 60, 0.75);
 
         $this->assertSame($Value1->value(), $Value2->value());
@@ -183,7 +183,7 @@ final class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
 
     public function testMissingValueForEmptyHR(): void
     {
-        $Value = new LegacyEffectiveVO2max();
+        $Value = new EffectiveVO2max();
         $Value->fromPaceAndHR(10, 40 * 60, 0);
 
         $this->assertEquals(0, $Value->value());
@@ -243,8 +243,8 @@ final class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
         // since v1.5
         $epsilon1 = 1.25;
         foreach ($Table as $vVO2max => $HR) {
-            $this->assertEqualsWithDelta($HR / 100, LegacyEffectiveVO2max::HRat($vVO2max / 100), $epsilon1 / 100, 'LegacyEffectiveVO2max::HRat(' . $vVO2max . ')[log] failed');
-            $this->assertEqualsWithDelta($vVO2max / 100, LegacyEffectiveVO2max::percentageAt($HR / 100), $epsilon1 / 100, 'LegacyEffectiveVO2max::percentageAt(' . $HR . ')[log] failed');
+            $this->assertEqualsWithDelta($HR / 100, EffectiveVO2max::HRat($vVO2max / 100), $epsilon1 / 100, 'EffectiveVO2max::HRat(' . $vVO2max . ')[log] failed');
+            $this->assertEqualsWithDelta($vVO2max / 100, EffectiveVO2max::percentageAt($HR / 100), $epsilon1 / 100, 'EffectiveVO2max::percentageAt(' . $HR . ')[log] failed');
         }
     }
 }

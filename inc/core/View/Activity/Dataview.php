@@ -19,8 +19,8 @@ use Runalyze\Activity\Temperature;
 use Runalyze\Activity\TrainingEffect;
 use Runalyze\Activity\VerticalRatio;
 use Runalyze\Calculation\Activity\GradeAdjustedPaceCalculator;
-use Runalyze\Calculation\JD\LegacyEffectiveVO2max;
-use Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector;
+use Runalyze\Calculation\JD\EffectiveVO2max;
+use Runalyze\Calculation\JD\EffectiveVO2maxCorrector;
 use Runalyze\Configuration;
 use Runalyze\Context as GeneralContext;
 use Runalyze\Data\Cadence;
@@ -52,7 +52,7 @@ class Dataview
 
     protected ?Pace $Pace = null;
 
-    protected ?LegacyEffectiveVO2max $VO2max = null;
+    protected ?EffectiveVO2max $VO2max = null;
 
     protected ?Cadence\AbstractCadence $Cadence = null;
 
@@ -71,7 +71,7 @@ class Dataview
     /**
      * @return mixed
      */
-    protected function object(\Runalyze\Activity\Duration|\Runalyze\Activity\Pace|\Runalyze\Data\Cadence\AbstractCadence|\Runalyze\Activity\StrideLength|\Runalyze\Activity\Energy|\Runalyze\Activity\HeartRate|\Runalyze\Activity\Elevation|\Runalyze\Data\Weather\WindChillFactor|\Runalyze\Data\Weather\HeatIndex|\Runalyze\Calculation\JD\LegacyEffectiveVO2max|null &$value, \Closure $constructor)
+    protected function object(\Runalyze\Activity\Duration|\Runalyze\Activity\Pace|\Runalyze\Data\Cadence\AbstractCadence|\Runalyze\Activity\StrideLength|\Runalyze\Activity\Energy|\Runalyze\Activity\HeartRate|\Runalyze\Activity\Elevation|\Runalyze\Data\Weather\WindChillFactor|\Runalyze\Data\Weather\HeatIndex|\Runalyze\Calculation\JD\EffectiveVO2max|null &$value, \Closure $constructor)
     {
         $value ??= $constructor($this->Activity);
 
@@ -501,11 +501,11 @@ class Dataview
         return nl2br(HTML::encodeTags($this->Activity->notes()));
     }
 
-    public function vo2max(): \Runalyze\Calculation\JD\LegacyEffectiveVO2max
+    public function vo2max(): \Runalyze\Calculation\JD\EffectiveVO2max
     {
         $self = $this;
 
-        return $this->object($this->VO2max, fn (Activity\Entity $Activity): \Runalyze\Calculation\JD\LegacyEffectiveVO2max => new LegacyEffectiveVO2max($self->usedVO2maxValue(), new LegacyEffectiveVO2maxCorrector()));
+        return $this->object($this->VO2max, fn (Activity\Entity $Activity): \Runalyze\Calculation\JD\EffectiveVO2max => new EffectiveVO2max($self->usedVO2maxValue(), new EffectiveVO2maxCorrector()));
     }
 
     /**

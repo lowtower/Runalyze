@@ -32,7 +32,7 @@ class Calculator
      */
     public function estimateVO2maxByTime(): string
     {
-        $VO2max = new JD\LegacyEffectiveVO2max();
+        $VO2max = new JD\EffectiveVO2max();
         $VO2max->fromPace($this->Activity->distance(), $this->Activity->duration());
 
         return $VO2max->uncorrectedValue();
@@ -46,7 +46,7 @@ class Calculator
     {
         $distance ??= $this->Activity->distance();
 
-        $VO2max = new JD\LegacyEffectiveVO2max();
+        $VO2max = new JD\EffectiveVO2max();
         $VO2max->fromPaceAndHR(
             $distance,
             $this->Activity->duration(),

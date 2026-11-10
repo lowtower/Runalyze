@@ -5,10 +5,7 @@ namespace Runalyze\Calculation\JD;
 use Runalyze\Sports\Running\VO2max\Estimation\DanielsGilbertFormula;
 use Runalyze\Sports\Running\VO2max\VO2maxVelocity;
 
-/**
- * @deprecated since v3.3|4.0
- */
-class LegacyEffectiveVO2max
+class EffectiveVO2max
 {
     private static int $Precision = 2;
 
@@ -17,7 +14,7 @@ class LegacyEffectiveVO2max
      */
     protected ?float $Value;
 
-    protected ?LegacyEffectiveVO2maxCorrector $Corrector = null;
+    protected ?EffectiveVO2maxCorrector $Corrector = null;
 
     /**
      * @param int $decimals number of decimals to display
@@ -27,7 +24,7 @@ class LegacyEffectiveVO2max
         self::$Precision = $decimals;
     }
 
-    public function __construct(?float $value = 0.0, ?LegacyEffectiveVO2maxCorrector $corrector = null)
+    public function __construct(?float $value = 0.0, ?EffectiveVO2maxCorrector $corrector = null)
     {
         $this->setValue($value);
         $this->setCorrector($corrector);
@@ -38,9 +35,9 @@ class LegacyEffectiveVO2max
         $this->Value = $value;
     }
 
-    public function setCorrector(?LegacyEffectiveVO2maxCorrector $corrector = null): void
+    public function setCorrector(?EffectiveVO2maxCorrector $corrector = null): void
     {
-        if ($corrector instanceof \Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector) {
+        if ($corrector instanceof \Runalyze\Calculation\JD\EffectiveVO2maxCorrector) {
             $this->Corrector = $corrector;
         }
     }
@@ -86,7 +83,7 @@ class LegacyEffectiveVO2max
      */
     public function exactValue(): float
     {
-        if ($this->Corrector instanceof \Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector) {
+        if ($this->Corrector instanceof \Runalyze\Calculation\JD\EffectiveVO2maxCorrector) {
             return $this->Corrector->factor() * $this->Value;
         }
 
