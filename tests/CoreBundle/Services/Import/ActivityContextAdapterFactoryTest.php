@@ -9,7 +9,7 @@ use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext;
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContextAdapter;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityContextAdapterFactory;
-use Runalyze\Bundle\CoreBundle\Services\Import\DuplicateFinder;
+use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Import\WeatherForecast;
 use Runalyze\Service\RouteNameEvaluation\RouteNameEval;
 use Runalyze\Service\RouteNameEvaluation\RouteNameEvalFactory;
@@ -26,7 +26,7 @@ final class ActivityContextAdapterFactoryTest extends TestCase
 
         $factory = new ActivityContextAdapterFactory(
             $this->createStub(WeatherForecast::class),
-            $this->createStub(DuplicateFinder::class),
+            $this->createStub(TrainingRepository::class),
             $routeNameEvalFactory
         );
 
@@ -46,7 +46,7 @@ final class ActivityContextAdapterFactoryTest extends TestCase
 
         $factory = new ActivityContextAdapterFactory(
             $this->createStub(WeatherForecast::class),
-            $this->createStub(DuplicateFinder::class),
+            $this->createStub(TrainingRepository::class),
             $routeNameEvalFactory
         );
 
@@ -63,7 +63,7 @@ final class ActivityContextAdapterFactoryTest extends TestCase
 
         $factory = new ActivityContextAdapterFactory(
             $this->createStub(WeatherForecast::class),
-            $this->createStub(DuplicateFinder::class),
+            $this->createStub(TrainingRepository::class),
             $routeNameEvalFactory
         );
 

@@ -94,7 +94,6 @@ use Runalyze\Bundle\CoreBundle\Services\Import\ActivityCache;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityContextAdapterFactory;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityDataContainerFilter;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityDataContainerToActivityContextConverter;
-use Runalyze\Bundle\CoreBundle\Services\Import\DuplicateFinder;
 use Runalyze\Bundle\CoreBundle\Services\Import\ElevationCorrection;
 use Runalyze\Bundle\CoreBundle\Services\Import\FileImporter;
 use Runalyze\Bundle\CoreBundle\Services\Import\GeoTiffReader;
@@ -924,11 +923,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(FileImporter::class, 'app.file_importer');
 
-    $services->set('app.activity_duplicate_finder', DuplicateFinder::class)
-        ->arg('$TrainingRepository', service('app.repository.training'));
-
-    $services->alias(DuplicateFinder::class, 'app.activity_duplicate_finder');
-
     $services->set('app.activity_data_container.converter', ActivityDataContainerToActivityContextConverter::class)
         ->arg('$SportRepository', service('app.repository.sport'))
         ->arg('$TypeRepository', service('app.repository.type'))
@@ -952,7 +946,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set('app.activity_context_adapter_factory', ActivityContextAdapterFactory::class)
         ->arg('$WeatherForecast', service('app.weather_forecast'))
-        ->arg('$DuplicateFinder', service('app.activity_duplicate_finder'))
+        ->arg('$TrainingRepository', service('app.repository.training'))
         ->arg('$routeNameEvalFactory', service('app.routename_evaluation.routename_evaluation_factory'));
 
     $services->alias(ActivityContextAdapterFactory::class, 'app.activity_context_adapter_factory');

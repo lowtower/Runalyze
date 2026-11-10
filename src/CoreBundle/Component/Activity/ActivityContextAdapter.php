@@ -7,7 +7,7 @@ use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Services\Import\DuplicateFinder;
+use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Import\WeatherDataToActivityConverter;
 use Runalyze\Bundle\CoreBundle\Services\Import\WeatherForecast;
 use Runalyze\Parameter\Application\Timezone;
@@ -23,7 +23,7 @@ class ActivityContextAdapter implements LoggerAwareInterface
     public function __construct(
         protected ActivityContext $Context,
         protected WeatherForecast $WeatherForecast,
-        protected DuplicateFinder $DuplicateFinder,
+        protected TrainingRepository $TrainingRepository,
         protected RouteNameEval $RouteNameEval,
         ?LoggerInterface $logger = null
     ) {
@@ -114,6 +114,9 @@ class ActivityContextAdapter implements LoggerAwareInterface
 
     public function isPossibleDuplicate(): bool
     {
-        return $this->DuplicateFinder->isPossibleDuplicate($this->Context->getActivity());
+        $activity = $this->Context->getActivity();
+        $activity->getAdapter()->setActivityIdIfEmpty();
+
+        return $this->TrainingRepository->isPossibleDuplicate($activity);
     }
 }

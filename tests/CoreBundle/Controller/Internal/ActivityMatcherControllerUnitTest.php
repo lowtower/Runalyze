@@ -11,7 +11,7 @@ use Runalyze\Bundle\CoreBundle\Controller\Internal\ActivityMatcherController;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
-use Runalyze\Bundle\CoreBundle\Services\Import\DuplicateFinder;
+use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
@@ -26,7 +26,7 @@ final class ActivityMatcherControllerUnitTest extends TestCase
 
     // Stubs by default. Tests that need expects() build their own mock
     // and create the controller again with createController().
-    private DuplicateFinder&Stub $duplicateFinder;
+    private TrainingRepository&Stub $trainingRepository;
 
     private ConfigurationManager&Stub $configurationManager;
 
@@ -38,7 +38,7 @@ final class ActivityMatcherControllerUnitTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->duplicateFinder = $this->createStub(DuplicateFinder::class);
+        $this->trainingRepository = $this->createStub(TrainingRepository::class);
         $this->configurationList = new RunalyzeConfigurationList();
         $this->configurationManager = $this->createStub(ConfigurationManager::class);
         $this->configurationManager->method('getList')
@@ -54,12 +54,12 @@ final class ActivityMatcherControllerUnitTest extends TestCase
         $this->defaultContainer->set('security.authorization_checker', $authorizationChecker);
         $this->defaultContainer->set('security.token_storage', $tokenStorage);
 
-        $this->controller = $this->createController($this->duplicateFinder);
+        $this->controller = $this->createController($this->trainingRepository);
     }
 
-    private function createController(DuplicateFinder $duplicateFinder, ?Container $container = null): ActivityMatcherController
+    private function createController(TrainingRepository $trainingRepository, ?Container $container = null): ActivityMatcherController
     {
-        $controller = new ActivityMatcherController($duplicateFinder, $this->configurationManager);
+        $controller = new ActivityMatcherController($trainingRepository, $this->configurationManager);
         $controller->setContainer($container ?? $this->defaultContainer);
 
         return $controller;
@@ -99,11 +99,11 @@ final class ActivityMatcherControllerUnitTest extends TestCase
         $container->set('security.authorization_checker', $authorizationChecker);
         $container->set('security.token_storage', new TokenStorage());
 
-        $duplicateFinder = $this->createMock(DuplicateFinder::class);
-        $duplicateFinder->expects($this->never())
+        $trainingRepository = $this->createMock(TrainingRepository::class);
+        $trainingRepository->expects($this->never())
             ->method('isPossibleDuplicate');
 
-        $this->controller = $this->createController($duplicateFinder, $container);
+        $this->controller = $this->createController($trainingRepository, $container);
 
         $this->expectException(AccessDeniedException::class);
 
@@ -112,7 +112,7 @@ final class ActivityMatcherControllerUnitTest extends TestCase
 
     public function testActivityIsNoMatchWhenItIsNeitherDuplicateNorIgnored(): void
     {
-        $this->duplicateFinder->method('isPossibleDuplicate')
+        $this->trainingRepository->method('isPossibleDuplicate')
             ->willReturn(false);
 
         $this->assertSame([
@@ -122,31 +122,31 @@ final class ActivityMatcherControllerUnitTest extends TestCase
         ], $this->requestMatchesFor([self::MATCHING_ID]));
     }
 
-    public function testActivityIsMatchWhenDuplicateFinderFindsDuplicate(): void
+    public function testActivityIsMatchWhenRepositoryFindsDuplicate(): void
     {
-        $this->duplicateFinder->method('isPossibleDuplicate')
+        $this->trainingRepository->method('isPossibleDuplicate')
             ->willReturn(true);
 
         $this->assertTrue($this->requestMatchesFor([self::MATCHING_ID])[self::MATCHING_ID]['match']);
     }
 
-    public function testDuplicateFinderReceivesTrainingOfLoggedInAccountAtParsedTime(): void
+    public function testRepositoryReceivesTrainingOfLoggedInAccountAtParsedTime(): void
     {
-        $duplicateFinder = $this->createMock(DuplicateFinder::class);
-        $duplicateFinder->expects($this->once())
+        $trainingRepository = $this->createMock(TrainingRepository::class);
+        $trainingRepository->expects($this->once())
             ->method('isPossibleDuplicate')
             ->with(self::callback(static fn (Training $training): bool => $training->getAccount() instanceof Account
                 && is_int($training->getTime())))
             ->willReturn(false);
 
-        $this->controller = $this->createController($duplicateFinder);
+        $this->controller = $this->createController($trainingRepository);
 
         $this->requestMatchesFor([self::MATCHING_ID]);
     }
 
     public function testActivityIsMatchWhenItIsOnTheIgnoreList(): void
     {
-        $this->duplicateFinder->method('isPossibleDuplicate')
+        $this->trainingRepository->method('isPossibleDuplicate')
             ->willReturn(false);
         $this->ignoreActivities(self::MATCHING_ID . ',2013-02-28T08:29:54Z');
 
@@ -155,7 +155,7 @@ final class ActivityMatcherControllerUnitTest extends TestCase
 
     public function testActivityWithinTheSameMinuteAsIgnoredActivityIsMatch(): void
     {
-        $this->duplicateFinder->method('isPossibleDuplicate')
+        $this->trainingRepository->method('isPossibleDuplicate')
             ->willReturn(false);
         $this->ignoreActivities(self::MATCHING_ID);
 
@@ -164,7 +164,7 @@ final class ActivityMatcherControllerUnitTest extends TestCase
 
     public function testActivityInDifferentMinuteThanIgnoredActivityIsNoMatch(): void
     {
-        $this->duplicateFinder->method('isPossibleDuplicate')
+        $this->trainingRepository->method('isPossibleDuplicate')
             ->willReturn(false);
         $this->ignoreActivities(self::MATCHING_ID);
 
@@ -173,19 +173,19 @@ final class ActivityMatcherControllerUnitTest extends TestCase
 
     public function testUnparseableEntriesOnTheIgnoreListAreSkipped(): void
     {
-        $this->duplicateFinder->method('isPossibleDuplicate')
+        $this->trainingRepository->method('isPossibleDuplicate')
             ->willReturn(false);
         $this->ignoreActivities('not-a-valid-date,' . self::MATCHING_ID);
 
         $this->assertTrue($this->requestMatchesFor([self::MATCHING_ID])[self::MATCHING_ID]['match']);
     }
 
-    public function testUnparseableExternalIdIsNoMatchAndDoesNotAskDuplicateFinder(): void
+    public function testUnparseableExternalIdIsNoMatchAndDoesNotAskRepository(): void
     {
-        $duplicateFinder = $this->createMock(DuplicateFinder::class);
-        $duplicateFinder->expects($this->never())
+        $trainingRepository = $this->createMock(TrainingRepository::class);
+        $trainingRepository->expects($this->never())
             ->method('isPossibleDuplicate');
-        $this->controller = $this->createController($duplicateFinder);
+        $this->controller = $this->createController($trainingRepository);
 
         $this->ignoreActivities('not-a-valid-date');
 
@@ -194,17 +194,17 @@ final class ActivityMatcherControllerUnitTest extends TestCase
 
     public function testRequestWithoutExternalIdsReturnsNoMatches(): void
     {
-        $duplicateFinder = $this->createMock(DuplicateFinder::class);
-        $duplicateFinder->expects($this->never())
+        $trainingRepository = $this->createMock(TrainingRepository::class);
+        $trainingRepository->expects($this->never())
             ->method('isPossibleDuplicate');
-        $this->controller = $this->createController($duplicateFinder);
+        $this->controller = $this->createController($trainingRepository);
 
         $this->assertSame([], $this->requestMatchesFor([]));
     }
 
     public function testEveryExternalIdIsEvaluatedIndependently(): void
     {
-        $this->duplicateFinder->method('isPossibleDuplicate')
+        $this->trainingRepository->method('isPossibleDuplicate')
             ->willReturn(false);
         $this->ignoreActivities(self::MATCHING_ID);
 
