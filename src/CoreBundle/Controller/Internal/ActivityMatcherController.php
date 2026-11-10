@@ -7,8 +7,8 @@ namespace Runalyze\Bundle\CoreBundle\Controller\Internal;
 use Exception;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
+use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
-use Runalyze\Bundle\CoreBundle\Services\Import\DuplicateFinder;
 use Runalyze\Util\LocalTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,7 +21,7 @@ class ActivityMatcherController extends AbstractController
     private const string EXTERNAL_IDS_PREFIX = 'externalIds=';
 
     public function __construct(
-        private readonly DuplicateFinder $duplicateFinder,
+        private readonly TrainingRepository $trainingRepository,
         private readonly ConfigurationManager $configurationManager
     ) {}
 
@@ -45,11 +45,12 @@ class ActivityMatcherController extends AbstractController
 
             try {
                 $timestamp = $this->parserStrtotime($id);
-                $possibleDuplicate = $this->duplicateFinder->isPossibleDuplicate(
-                    new Training()
-                        ->setAccount($account)
-                        ->setTime($timestamp)
-                );
+                $activity = new Training()
+                    ->setAccount($account)
+                    ->setTime($timestamp);
+                $activity->getAdapter()->setActivityIdIfEmpty();
+
+                $possibleDuplicate = $this->trainingRepository->isPossibleDuplicate($activity);
             } catch (Exception) {
                 $possibleDuplicate = false;
             }

@@ -11,7 +11,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Route;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
-use Runalyze\Bundle\CoreBundle\Services\Import\DuplicateFinder;
+use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Import\WeatherForecast;
 use Runalyze\Service\RouteNameEvaluation\RouteNameEval;
 use Runalyze\Service\RouteNameEvaluation\RouteNameEvalResult;
@@ -21,13 +21,13 @@ final class ActivityContextAdapterTest extends TestCase
     private function createAdapter(
         ActivityContext $context,
         ?WeatherForecast $weatherForecast = null,
-        ?DuplicateFinder $duplicateFinder = null,
+        ?TrainingRepository $trainingRepository = null,
         ?RouteNameEval $routeNameEval = null
     ): ActivityContextAdapter {
         return new ActivityContextAdapter(
             $context,
             $weatherForecast ?? $this->createStub(WeatherForecast::class),
-            $duplicateFinder ?? $this->createStub(DuplicateFinder::class),
+            $trainingRepository ?? $this->createStub(TrainingRepository::class),
             $routeNameEval ?? $this->createStub(RouteNameEval::class)
         );
     }
@@ -192,36 +192,73 @@ final class ActivityContextAdapterTest extends TestCase
         $this->assertTrue($adapter->guessRouteDetails());
     }
 
-    public function testIsPossibleDuplicateDelegatesToDuplicateFinder(): void
+    public function testIsPossibleDuplicateQueriesTrainingRepository(): void
     {
-        $activity = $this->createStub(Training::class);
+        $activity = new Training()->setTime(1700000000);
         $context = new ActivityContext($activity);
 
-        $duplicateFinder = $this->createMock(DuplicateFinder::class);
-        $duplicateFinder->expects($this->once())
+        $trainingRepository = $this->createMock(TrainingRepository::class);
+        $trainingRepository->expects($this->once())
             ->method('isPossibleDuplicate')
             ->with($activity)
             ->willReturn(true);
 
-        $adapter = $this->createAdapter($context, null, $duplicateFinder);
+        $adapter = $this->createAdapter($context, null, $trainingRepository);
 
         $this->assertTrue($adapter->isPossibleDuplicate());
     }
 
-    public function testIsPossibleDuplicateReturnsFalseWhenFinderReportsNoMatch(): void
+    public function testIsPossibleDuplicateReturnsFalseWhenRepositoryReportsNoMatch(): void
     {
-        $activity = $this->createStub(Training::class);
+        $activity = new Training()->setTime(1700000000);
         $context = new ActivityContext($activity);
 
         // Was method()->with() only. expects(once()) makes it a real expectation.
-        $duplicateFinder = $this->createMock(DuplicateFinder::class);
-        $duplicateFinder->expects($this->once())
+        $trainingRepository = $this->createMock(TrainingRepository::class);
+        $trainingRepository->expects($this->once())
             ->method('isPossibleDuplicate')
             ->with($activity)
             ->willReturn(false);
 
-        $adapter = $this->createAdapter($context, null, $duplicateFinder);
+        $adapter = $this->createAdapter($context, null, $trainingRepository);
 
         $this->assertFalse($adapter->isPossibleDuplicate());
+    }
+
+    public function testIsPossibleDuplicateSetsActivityIdFromTimestampWhenNotAlreadySet(): void
+    {
+        $activity = new Training()->setTime(1700000123);
+        $this->assertNull($activity->getActivityId());
+
+        $context = new ActivityContext($activity);
+
+        $trainingRepository = $this->createMock(TrainingRepository::class);
+        $trainingRepository->expects($this->once())
+            ->method('isPossibleDuplicate')
+            ->with($this->callback(static fn (Training $passedActivity): bool => $passedActivity->getActivityId() !== null))
+            ->willReturn(false);
+
+        $adapter = $this->createAdapter($context, null, $trainingRepository);
+        $adapter->isPossibleDuplicate();
+
+        $this->assertSame((int) floor(1700000123 / 60.0) * 60, $activity->getActivityId());
+    }
+
+    public function testIsPossibleDuplicateDoesNotOverwriteAnAlreadySetActivityId(): void
+    {
+        $activity = new Training()
+            ->setTime(1700000123)
+            ->setActivityId(42);
+
+        $context = new ActivityContext($activity);
+
+        $trainingRepository = $this->createStub(TrainingRepository::class);
+        $trainingRepository->method('isPossibleDuplicate')
+            ->willReturn(false);
+
+        $adapter = $this->createAdapter($context, null, $trainingRepository);
+        $adapter->isPossibleDuplicate();
+
+        $this->assertSame(42, $activity->getActivityId());
     }
 }

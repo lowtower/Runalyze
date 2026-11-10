@@ -58,7 +58,6 @@ return RectorConfig::configure()
             __DIR__ . '/config/services.php',
         ],
         ScalarArgumentToExpectedParamTypeRector::class => [
-            __DIR__ . '/tests/inc/core/Activity/DuplicateFinderTest.php',
             __DIR__ . '/tests/inc/core/Calculation/NightDetectorTest.php',
             __DIR__ . '/tests/inc/core/Util/LocalTimeTest.php',
             __DIR__ . '/tests/CoreBundle/Component/Tool/Anova/QueryGroup/EquipmentTypeQueryGroupTest.php',
