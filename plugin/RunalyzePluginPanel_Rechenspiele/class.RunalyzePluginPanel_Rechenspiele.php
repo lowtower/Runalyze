@@ -9,8 +9,8 @@ $PLUGINKEY = 'RunalyzePluginPanel_Rechenspiele';
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
 use Runalyze\Calculation\BasicEndurance;
-use Runalyze\Calculation\JD\LegacyEffectiveVO2max;
-use Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector;
+use Runalyze\Calculation\JD\EffectiveVO2max;
+use Runalyze\Calculation\JD\EffectiveVO2maxCorrector;
 use Runalyze\Calculation\Performance;
 use Runalyze\Configuration;
 use Runalyze\Sports\Performance\Model\TsbModel;
@@ -399,7 +399,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel
     public function getFieldsetEffectiveVO2max(): \FormularFieldset
     {
         $Tooltip = new Tooltip('');
-        $EffectiveVO2max = new LegacyEffectiveVO2max(0, new LegacyEffectiveVO2maxCorrector(Configuration::Data()->vo2maxCorrectionFactor()));
+        $EffectiveVO2max = new EffectiveVO2max(0, new EffectiveVO2maxCorrector(Configuration::Data()->vo2maxCorrectionFactor()));
         $vo2maxColumn = Configuration::VO2max()->useElevationCorrection() ? 'IF(`vo2max_with_elevation`>0,`vo2max_with_elevation`,`vo2max`) as `vo2max`' : '`vo2max`';
         $EffectiveVO2maxValues = DB::getInstance()->query('SELECT `id`,`time`,`distance`,' . $vo2maxColumn . ' FROM `' . PREFIX . 'training` WHERE time>=' . (time() - Configuration::VO2max()->days() * DAY_IN_S) . ' AND `vo2max`>0 AND `use_vo2max`=1 AND accountid = ' . SessionAccountHandler::getId() . ' ORDER BY time ASC')->fetchAll();
 
