@@ -10,7 +10,7 @@ use Runalyze\Activity\Duration;
 use Runalyze\Activity\Pace;
 use Runalyze\Activity\PersonalBest;
 use Runalyze\Calculation\BasicEndurance;
-use Runalyze\Calculation\JD\EffectiveVO2max;
+use Runalyze\Sports\Running\VO2max\EffectiveVO2max;
 use Runalyze\Configuration;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 use Runalyze\Sports\Running\Prognosis\Bock;

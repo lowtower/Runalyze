@@ -6,7 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Component\Activity;
 
 use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList;
 use Runalyze\Calculation\Elevation\DistanceModifier;
-use Runalyze\Calculation\JD\EffectiveVO2max;
+use Runalyze\Sports\Running\VO2max\EffectiveVO2max;
 
 class VO2maxCalculationDetailsDecorator
 {
