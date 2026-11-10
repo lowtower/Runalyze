@@ -28,8 +28,6 @@ use Runalyze\Bundle\CoreBundle\Message\PosterGenerationMessage;
 use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
-use Runalyze\Configuration\Category as ConfigurationCategory;
-use Runalyze\Configuration\Category\VO2max as VO2maxConfigurationCategory;
 use Runalyze\Metrics\Common\JavaScriptFormatter;
 use Runalyze\Sports\Running\Prognosis\VO2max;
 use Runalyze\Sports\Running\VO2max\VO2maxVelocity;
@@ -167,15 +165,15 @@ class ToolsController extends AbstractController
             ->getList();
         $correctionFactor = $configuration->getVO2maxCorrectionFactor();
 
-        /** @var VO2maxConfigurationCategory&ConfigurationCategory $vo2max */
-        $vo2max = $configuration->getVO2max()
-            ->getLegacyCategory();
-        $analysisTable = new VO2maxAnalysis($vo2max);
+        $analysisTable = new VO2maxAnalysis(
+            $this->doctrine->getRepository(Training::class),
+            $configuration->getVO2max()
+        );
         $races = $analysisTable->getAnalysisForAllRaces(
             $correctionFactor,
+            $account,
             $configuration->getGeneral()
-                ->getRunningSport(),
-            $account->getId()
+                ->getRunningSport()
         );
 
         return $this->render('tools/vo2max_analysis.html.twig', [

@@ -4,14 +4,14 @@ namespace Runalyze\Bundle\CoreBundle\Component\Tool\VO2maxAnalysis;
 
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
-use Runalyze\Model\Activity\Entity;
+use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Sports\Running\Prognosis\VO2max;
 use Runalyze\Util\LocalTime;
 
 class RaceAnalysis
 {
     public function __construct(
-        protected Entity $Activity,
+        protected Training $Activity,
         protected float $VO2maxFactor,
         protected float $VO2maxShape
     ) {}
@@ -21,17 +21,17 @@ class RaceAnalysis
      */
     public function getDate(): string
     {
-        return LocalTime::date('d.m.Y', $this->Activity->timestamp());
+        return LocalTime::date('d.m.Y', $this->Activity->getTime());
     }
 
     public function getName(): string
     {
-        return $this->Activity->title();
+        return $this->Activity->getTitle() ?? '';
     }
 
     public function getDistance(): string
     {
-        $distance = new Distance($this->Activity->distance());
+        $distance = new Distance($this->Activity->getDistance());
 
         if ($this->Activity->isTrack()) {
             return $distance->stringMeter();
@@ -42,7 +42,7 @@ class RaceAnalysis
 
     public function getDuration(): string
     {
-        return $this->formatTime($this->Activity->duration());
+        return $this->formatTime((int) $this->Activity->getS());
     }
 
     /**
@@ -50,7 +50,7 @@ class RaceAnalysis
      */
     public function getVO2maxByTime(): ?float
     {
-        return $this->Activity->vo2maxByTime();
+        return $this->Activity->getVO2maxByTime();
     }
 
     /**
@@ -58,7 +58,7 @@ class RaceAnalysis
      */
     public function getHeartRateInBpm(): ?int
     {
-        return $this->Activity->hrAvg();
+        return $this->Activity->getPulseAvg();
     }
 
     /**
@@ -66,12 +66,12 @@ class RaceAnalysis
      */
     public function getVO2maxByHeartRate(): ?float
     {
-        return $this->Activity->vo2maxByHeartRate();
+        return $this->Activity->getVO2max();
     }
 
     public function getPrognosisByHeartRate(): string
     {
-        return $this->prognosisFor($this->Activity->vo2maxByHeartRate(), $this->Activity->distance());
+        return $this->prognosisFor($this->Activity->getVO2max(), $this->Activity->getDistance());
     }
 
     /**
@@ -79,12 +79,12 @@ class RaceAnalysis
      */
     public function getVO2maxByHeartRateAfterCorrection(): ?float
     {
-        return $this->VO2maxFactor * $this->Activity->vo2maxByHeartRate();
+        return $this->VO2maxFactor * $this->Activity->getVO2max();
     }
 
     public function getPrognosisByHeartRateAfterCorrection(): string
     {
-        return $this->prognosisFor($this->VO2maxFactor * $this->Activity->vo2maxByHeartRate(), $this->Activity->distance());
+        return $this->prognosisFor($this->VO2maxFactor * $this->Activity->getVO2max(), $this->Activity->getDistance());
     }
 
     /**
@@ -97,26 +97,26 @@ class RaceAnalysis
 
     public function getPrognosisByShape(): string
     {
-        return $this->prognosisFor($this->VO2maxShape, $this->Activity->distance());
+        return $this->prognosisFor($this->VO2maxShape, $this->Activity->getDistance());
     }
 
     public function getShapeDeviation(): string
     {
-        $prognosis = $this->prognosisInSecondsFor($this->VO2maxShape, $this->Activity->distance());
+        $prognosis = $this->prognosisInSecondsFor($this->VO2maxShape, $this->Activity->getDistance());
         if ($prognosis === null) {
             return '-';
         }
 
-        $duration = $this->Activity->duration();
+        $duration = (int) $this->Activity->getS();
         $difference = 100 * ($prognosis - $duration) / $duration;
         return sprintf('%01.2f', $difference);
     }
 
     public function getCorrectionFactor(): float
     {
-        $vo2maxByHeartRate = $this->Activity->vo2maxByHeartRate();
+        $vo2maxByHeartRate = $this->Activity->getVO2max();
 
-        return $vo2maxByHeartRate > 0.0 ? $this->Activity->vo2maxByTime() / $vo2maxByHeartRate : 1.0;
+        return $vo2maxByHeartRate > 0.0 ? $this->Activity->getVO2maxByTime() / $vo2maxByHeartRate : 1.0;
     }
 
     /**

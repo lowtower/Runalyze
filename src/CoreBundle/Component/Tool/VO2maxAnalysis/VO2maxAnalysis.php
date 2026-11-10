@@ -2,84 +2,37 @@
 
 namespace Runalyze\Bundle\CoreBundle\Component\Tool\VO2maxAnalysis;
 
-use Runalyze\Calculation\JD\Shape;
-use Runalyze\Configuration;
-use Runalyze\Model;
+use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\VO2max;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 
 class VO2maxAnalysis
 {
-    protected float $VO2maxFactor;
-
-    protected int $AccountId;
-
-    protected int $RunningSportId;
-
     public function __construct(
-        protected Configuration\Category\VO2max $VO2maxConfig
+        protected TrainingRepository $trainingRepository,
+        protected VO2max $vo2maxConfiguration
     ) {}
 
     /**
      * @return RaceAnalysis[]
-     *
-     * @TODO use Doctrine
      */
-    public function getAnalysisForAllRaces(float $vo2maxFactor, int $sportId, int $accountId): array
+    public function getAnalysisForAllRaces(float $vo2maxFactor, Account $account, int $sportId): array
     {
-        $this->VO2maxFactor = $vo2maxFactor;
-        $this->RunningSportId = $sportId;
-        $this->AccountId = $accountId;
-
         $analysisData = [];
-        $statement = \DB::getInstance()->query($this->getQuery());
 
-        while ($data = $statement->fetch()) {
+        foreach ($this->trainingRepository->findVO2maxAnalysisRaces($account, $sportId) as $training) {
             $analysisData[] = new RaceAnalysis(
-                new Model\Activity\Entity($data),
-                $this->VO2maxFactor,
-                $this->loadUncorrectedShape($data['time']) * $this->VO2maxFactor
+                $training,
+                $vo2maxFactor,
+                $this->loadUncorrectedShape($account, $sportId, $training->getTime()) * $vo2maxFactor
             );
         }
 
         return $analysisData;
     }
 
-    protected function getQuery(): string
+    protected function loadUncorrectedShape(Account $account, int $sportId, int $time): float
     {
-        return 'SELECT
-                `tr`.`id`,
-                `tr`.`time`,
-                `tr`.`sportid`,
-                `tr`.`distance`,
-                `tr`.`s`,
-                `tr`.`is_track`,
-                `tr`.`title`,
-                `tr`.`pulse_avg`,
-                `tr`.`pulse_max`,
-                `tr`.`vo2max`,
-                `tr`.`vo2max_by_time`
-            FROM `' . PREFIX . 'raceresult` `r` LEFT JOIN `' . PREFIX . 'training` `tr` ON `tr`.`id` = `r`.`activity_id`
-            WHERE
-                `tr`.`pulse_avg` !=0 AND
-                `tr`.`sportid` = ' . $this->RunningSportId . ' AND
-                `r`.`accountid` = ' . $this->AccountId . '
-            ORDER BY `tr`.`time` DESC';
-    }
-
-    /**
-     * Load shape
-     *
-     * @TODO use Doctrine
-     */
-    protected function loadUncorrectedShape(int $time): float
-    {
-        $Shape = new Shape(
-            \DB::getInstance(),
-            $this->AccountId,
-            $this->RunningSportId,
-            $this->VO2maxConfig
-        );
-        $Shape->calculateAt($time);
-
-        return $Shape->uncorrectedValue();
+        return $this->trainingRepository->calculateVO2maxShape($account, $this->vo2maxConfiguration, $sportId, $time);
     }
 }
