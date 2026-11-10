@@ -6,20 +6,20 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\VO2maxAnalysis;
 
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Component\Tool\VO2maxAnalysis\RaceAnalysis;
-use Runalyze\Model\Activity\Entity as ActivityEntity;
+use Runalyze\Bundle\CoreBundle\Entity\Training;
 
 #[\PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations]
 final class RaceAnalysisTest extends TestCase
 {
-    private function createActivityMock(): ActivityEntity&\PHPUnit\Framework\MockObject\MockObject
+    private function createActivityMock(): Training&\PHPUnit\Framework\MockObject\MockObject
     {
-        return $this->createMock(ActivityEntity::class);
+        return $this->createMock(Training::class);
     }
 
     public function testGetNameDelegatesToActivityTitle(): void
     {
         $activity = $this->createActivityMock();
-        $activity->method('title')
+        $activity->method('getTitle')
             ->willReturn('Sunday Long Run');
 
         $race = new RaceAnalysis($activity, 1.0, 50.0);
@@ -30,7 +30,7 @@ final class RaceAnalysisTest extends TestCase
     public function testGetVO2maxByTimeDelegatesToActivity(): void
     {
         $activity = $this->createActivityMock();
-        $activity->method('vo2maxByTime')
+        $activity->method('getVO2maxByTime')
             ->willReturn(55.5);
 
         $race = new RaceAnalysis($activity, 1.0, 50.0);
@@ -41,7 +41,7 @@ final class RaceAnalysisTest extends TestCase
     public function testGetHeartRateInBpmDelegatesToActivity(): void
     {
         $activity = $this->createActivityMock();
-        $activity->method('hrAvg')
+        $activity->method('getPulseAvg')
             ->willReturn(165);
 
         $race = new RaceAnalysis($activity, 1.0, 50.0);
@@ -52,7 +52,7 @@ final class RaceAnalysisTest extends TestCase
     public function testGetVO2maxByHeartRateDelegatesToActivity(): void
     {
         $activity = $this->createActivityMock();
-        $activity->method('vo2maxByHeartRate')
+        $activity->method('getVO2max')
             ->willReturn(48.2);
 
         $race = new RaceAnalysis($activity, 1.0, 50.0);
@@ -70,7 +70,7 @@ final class RaceAnalysisTest extends TestCase
     public function testGetVO2maxByHeartRateAfterCorrectionMultipliesFactorWithActivityValue(): void
     {
         $activity = $this->createActivityMock();
-        $activity->method('vo2maxByHeartRate')
+        $activity->method('getVO2max')
             ->willReturn(50.0);
 
         $race = new RaceAnalysis($activity, 1.1, 50.0);
@@ -81,7 +81,7 @@ final class RaceAnalysisTest extends TestCase
     public function testGetVO2maxByHeartRateAfterCorrectionWithFactorOfOneReturnsUnchangedValue(): void
     {
         $activity = $this->createActivityMock();
-        $activity->method('vo2maxByHeartRate')
+        $activity->method('getVO2max')
             ->willReturn(50.0);
 
         $race = new RaceAnalysis($activity, 1.0, 50.0);
@@ -93,7 +93,7 @@ final class RaceAnalysisTest extends TestCase
     public function testGetDurationFormatsUsingTotalHoursNeverWrappingToDays(int $seconds, string $expected): void
     {
         $activity = $this->createActivityMock();
-        $activity->method('duration')
+        $activity->method('getS')
             ->willReturn($seconds);
 
         $race = new RaceAnalysis($activity, 1.0, 50.0);
@@ -117,7 +117,7 @@ final class RaceAnalysisTest extends TestCase
     public function testGetPrognosisByShapeReturnsFallbackForOutOfRangeVO2max(float $invalidShape): void
     {
         $activity = $this->createActivityMock();
-        $activity->method('distance')
+        $activity->method('getDistance')
             ->willReturn(10.0);
 
         $race = new RaceAnalysis($activity, 1.0, $invalidShape);
@@ -139,9 +139,9 @@ final class RaceAnalysisTest extends TestCase
     public function testGetShapeDeviationReturnsFallbackForOutOfRangeVO2maxShape(): void
     {
         $activity = $this->createActivityMock();
-        $activity->method('duration')
+        $activity->method('getS')
             ->willReturn(3600);
-        $activity->method('distance')
+        $activity->method('getDistance')
             ->willReturn(10.0);
 
         $race = new RaceAnalysis($activity, 1.0, 0.0);
@@ -152,9 +152,9 @@ final class RaceAnalysisTest extends TestCase
     public function testGetPrognosisByHeartRateReturnsFallbackWhenActivitysVO2maxIsOutOfRange(): void
     {
         $activity = $this->createActivityMock();
-        $activity->method('vo2maxByHeartRate')
+        $activity->method('getVO2max')
             ->willReturn(5.0);
-        $activity->method('distance')
+        $activity->method('getDistance')
             ->willReturn(10.0);
 
         $race = new RaceAnalysis($activity, 1.0, 50.0);
@@ -165,9 +165,9 @@ final class RaceAnalysisTest extends TestCase
     public function testGetPrognosisByHeartRateAfterCorrectionReturnsFallbackWhenCorrectedValueIsOutOfRange(): void
     {
         $activity = $this->createActivityMock();
-        $activity->method('vo2maxByHeartRate')
+        $activity->method('getVO2max')
             ->willReturn(50.0);
-        $activity->method('distance')
+        $activity->method('getDistance')
             ->willReturn(10.0);
 
         $race = new RaceAnalysis($activity, 0.1, 50.0);
@@ -178,7 +178,7 @@ final class RaceAnalysisTest extends TestCase
     public function testGetPrognosisByShapeReturnsHoursMinutesSecondsFormatForValidVO2max(): void
     {
         $activity = $this->createActivityMock();
-        $activity->method('distance')
+        $activity->method('getDistance')
             ->willReturn(10.0);
 
         $race = new RaceAnalysis($activity, 1.0, 50.0);
@@ -190,7 +190,7 @@ final class RaceAnalysisTest extends TestCase
     public function testGetPrognosisByShapeReturnsFallbackWhenDistanceIsNull(): void
     {
         $activity = $this->createActivityMock();
-        $activity->method('distance')
+        $activity->method('getDistance')
             ->willReturn(null);
 
         $race = new RaceAnalysis($activity, 1.0, 50.0);
@@ -201,9 +201,9 @@ final class RaceAnalysisTest extends TestCase
     public function testGetPrognosisByHeartRateReturnsHoursMinutesSecondsFormatForValidVO2max(): void
     {
         $activity = $this->createActivityMock();
-        $activity->method('vo2maxByHeartRate')
+        $activity->method('getVO2max')
             ->willReturn(45.0);
-        $activity->method('distance')
+        $activity->method('getDistance')
             ->willReturn(10.0);
 
         $race = new RaceAnalysis($activity, 1.0, 50.0);
