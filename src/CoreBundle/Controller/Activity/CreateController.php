@@ -293,6 +293,8 @@ class CreateController extends AbstractController
                 ->setData($this->activityCache->save($activity));
         }
 
+        $activity->getAdapter()->setActivityIdIfEmpty();
+
         return $this->render('activity/form.html.twig', [
             'form' => $form->createView(),
             'isNew' => true,
