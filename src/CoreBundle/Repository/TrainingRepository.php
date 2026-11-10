@@ -83,6 +83,23 @@ class TrainingRepository extends EntityRepository
     }
 
     /**
+     * @return Training[]
+     */
+    public function findVO2maxAnalysisRaces(Account $account, int $sportId): array
+    {
+        return $this->createQueryBuilder('t')
+            ->join('t.raceresult', 'r')
+            ->where('t.account = :account')
+            ->andWhere('t.sport = :sport')
+            ->andWhere('t.pulseAvg != 0')
+            ->setParameter('account', $account)
+            ->setParameter('sport', $sportId)
+            ->orderBy('t.time', \SortDirection::Descending)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
      * @see \Runalyze\Metrics\Velocity\Unit\PaceEnum
      * @throws NoResultException
      * @throws NonUniqueResultException
