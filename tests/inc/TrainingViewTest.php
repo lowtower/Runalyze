@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector;
+use Runalyze\Calculation\JD\EffectiveVO2maxCorrector;
 use Runalyze\Model\Factory;
 use Runalyze\Tests\DatabaseTestCase;
 use Runalyze\Util\LocalTime;
@@ -54,7 +54,7 @@ final class TrainingViewTest extends DatabaseTestCase
         ]);
 
         // Normally done by Frontend::defineConsts() for every request.
-        LegacyEffectiveVO2maxCorrector::setGlobalFactor(
+        EffectiveVO2maxCorrector::setGlobalFactor(
             \Runalyze\Configuration::Data()->vo2maxCorrectionFactor()
         );
 
