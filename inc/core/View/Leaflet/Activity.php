@@ -275,8 +275,7 @@ class Activity extends LeafletRoute
             if (
                 $this->PauseIndex < $this->Trackdata->pauses()
                     ->count()
-                && $this->Trackdata->pauses()
-                    [$this->PauseIndex]
+                && $this->Trackdata->pauses()[$this->PauseIndex]
                     ->getTimeIndex() <= $this->Trackdata->at($this->TrackdataLoop->index(), Trackdata\Entity::TIME)
             ) {
                 if ($this->Trackdata->pauses()[$this->PauseIndex]->getTimeIndex() < $this->Trackdata->at($this->TrackdataLoop->index(), Trackdata\Entity::TIME)) {
@@ -313,8 +312,7 @@ class Activity extends LeafletRoute
      */
     protected function addCurrentPauseIcon()
     {
-        $Pause = $this->Trackdata->pauses()
-            [$this->PauseIndex];
+        $Pause = $this->Trackdata->pauses()[$this->PauseIndex];
         $Index = $this->RouteLoop->index();
 
         // #TSC: add also pause-index to the tooltip

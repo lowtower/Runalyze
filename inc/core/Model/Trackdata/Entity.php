@@ -260,7 +260,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 
         $data = $this->Data[self::PAUSES] ?? null;
 
-        if (is_string($data) && '' !== $data) {
+        if (is_string($data) && $data !== '') {
             $data = json_decode($data, true);
         }
 
