@@ -110,19 +110,6 @@ class WeekStart extends \Runalyze\Parameter\Select
     }
 
     /**
-     * Parameter for `WEEK(date, mode)` in MySQL
-     * @see http://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html#function_week
-     * @deprecated 3.1.0 Use `mysqlWeek()` instead as it fixes #1941
-     */
-    public function mysqlParameter(): int
-    {
-        return match ($this->value()) {
-            self::SUNDAY => 6,
-            default => 3,
-        };
-    }
-
-    /**
      * Fixed version to get correct mysql week
      * @see https://github.com/Runalyze/Runalyze/issues/1941
      *

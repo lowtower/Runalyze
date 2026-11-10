@@ -70,8 +70,7 @@ class ExportController extends AbstractController
             $exporter = File\Types::get($typeid, $context);
 
             if ($exporter instanceof File\AbstractFileExporter) {
-                $exporter->downloadFile();
-                exit;
+                return $exporter->toResponse();
             }
         }
 
