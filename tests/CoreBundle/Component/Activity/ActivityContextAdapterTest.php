@@ -194,7 +194,7 @@ final class ActivityContextAdapterTest extends TestCase
 
     public function testIsPossibleDuplicateQueriesTrainingRepository(): void
     {
-        $activity = (new Training())->setTime(1700000000);
+        $activity = new Training()->setTime(1700000000);
         $context = new ActivityContext($activity);
 
         $trainingRepository = $this->createMock(TrainingRepository::class);
@@ -210,7 +210,7 @@ final class ActivityContextAdapterTest extends TestCase
 
     public function testIsPossibleDuplicateReturnsFalseWhenRepositoryReportsNoMatch(): void
     {
-        $activity = (new Training())->setTime(1700000000);
+        $activity = new Training()->setTime(1700000000);
         $context = new ActivityContext($activity);
 
         // Was method()->with() only. expects(once()) makes it a real expectation.
@@ -227,7 +227,7 @@ final class ActivityContextAdapterTest extends TestCase
 
     public function testIsPossibleDuplicateSetsActivityIdFromTimestampWhenNotAlreadySet(): void
     {
-        $activity = (new Training())->setTime(1700000123);
+        $activity = new Training()->setTime(1700000123);
         $this->assertNull($activity->getActivityId());
 
         $context = new ActivityContext($activity);
@@ -246,7 +246,7 @@ final class ActivityContextAdapterTest extends TestCase
 
     public function testIsPossibleDuplicateDoesNotOverwriteAnAlreadySetActivityId(): void
     {
-        $activity = (new Training())
+        $activity = new Training()
             ->setTime(1700000123)
             ->setActivityId(42);
 

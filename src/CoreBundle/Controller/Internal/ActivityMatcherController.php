@@ -7,8 +7,8 @@ namespace Runalyze\Bundle\CoreBundle\Controller\Internal;
 use Exception;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
-use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Util\LocalTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -45,7 +45,7 @@ class ActivityMatcherController extends AbstractController
 
             try {
                 $timestamp = $this->parserStrtotime($id);
-                $activity = (new Training())
+                $activity = new Training()
                     ->setAccount($account)
                     ->setTime($timestamp);
                 $activity->getAdapter()->setActivityIdIfEmpty();

@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Services\Import;
 
-use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
-
 use Psr\Log\LoggerInterface;
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext;
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContextAdapter;
+use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Service\RouteNameEvaluation\RouteNameEval;
 use Runalyze\Service\RouteNameEvaluation\RouteNameEvalFactory;
 
