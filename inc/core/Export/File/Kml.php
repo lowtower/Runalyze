@@ -55,7 +55,7 @@ class Kml extends AbstractFileExporter
     protected $TrackdataLoop;
 
     /**
-     * @var \Runalyze\Model\Trackdata\Pauses
+     * @var \Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection
      */
     protected $Pauses;
 
@@ -126,11 +126,11 @@ class Kml extends AbstractFileExporter
         $this->TrackdataLoop = new Trackdata\Loop($this->Context->trackdata());
         $this->Pauses = $this->Context->trackdata()
             ->pauses();
-        $this->NumPauses = $this->Pauses->num();
+        $this->NumPauses = count($this->Pauses);
 
         if ($this->NumPauses > 0) {
-            $this->CurrentPauseTime = $this->Pauses->at(0)
-                ->time();
+            $this->CurrentPauseTime = $this->Pauses[0]
+                ->getTimeIndex();
         }
     }
 
@@ -145,8 +145,8 @@ class Kml extends AbstractFileExporter
         $this->CurrentPauseIndex++;
 
         if ($this->NumPauses > $this->CurrentPauseIndex) {
-            $this->CurrentPauseTime = $this->Pauses->at($this->CurrentPauseIndex)
-                ->time();
+            $this->CurrentPauseTime = $this->Pauses[$this->CurrentPauseIndex]
+                ->getTimeIndex();
         }
     }
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Runalyze\View\Leaflet;
 
 use Runalyze\Model\Trackdata\Entity;
-use Runalyze\Model\Trackdata\Pause;
+use Runalyze\Parser\Activity\Common\Data\Pause\Pause;
 use Runalyze\View\Activity\FakeContext;
 
 final class ActivityTest extends \PHPUnit\Framework\TestCase

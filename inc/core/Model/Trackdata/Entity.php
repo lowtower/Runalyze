@@ -11,6 +11,8 @@ use Runalyze\Calculation\Activity\PaceCalculator;
 use Runalyze\Calculation\Activity\VerticalRatioCalculator;
 use Runalyze\Calculation\StrideLength;
 use Runalyze\Model;
+use Runalyze\Parser\Activity\Common\Data\Pause\Pause as ParserPause;
+use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 
 /**
  * Trackdata entity.
@@ -168,7 +170,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
     /**
      * Pauses
      */
-    protected \Runalyze\Model\Trackdata\Pauses $Pauses;
+    protected PauseCollection $Pauses;
 
     protected bool $TimeHasBeenRemoved = false;
 
@@ -254,7 +256,28 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 
     protected function readPauses()
     {
-        $this->Pauses = new Pauses($this->Data[self::PAUSES]);
+        $this->Pauses = new PauseCollection();
+
+        $data = $this->Data[self::PAUSES] ?? null;
+
+        if (is_string($data) && $data !== '') {
+            $data = json_decode($data, true);
+        }
+
+        if (is_array($data)) {
+            foreach ($data as $row) {
+                $Pause = new ParserPause((int) ($row['time'] ?? 0), (float) ($row['duration'] ?? 0));
+
+                if (array_key_exists('hr-start', $row) || array_key_exists('hr-end', $row)) {
+                    $Pause->setHeartRateDetails(
+                        isset($row['hr-start']) ? (int) $row['hr-start'] : null,
+                        isset($row['hr-end']) ? (int) $row['hr-end'] : null
+                    );
+                }
+
+                $this->Pauses->add($Pause);
+            }
+        }
     }
 
     public function synchronize(): void
@@ -262,7 +285,15 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
         if ($this->Pauses->isEmpty()) {
             $this->Data[self::PAUSES] = null;
         } else {
-            $this->Data[self::PAUSES] = $this->Pauses->asString();
+            $this->Data[self::PAUSES] = json_encode(array_map(
+                static fn (ParserPause $Pause): array => [
+                    'time' => $Pause->getTimeIndex(),
+                    'duration' => $Pause->getDuration(),
+                    'hr-start' => $Pause->getHeartRateAtStart(),
+                    'hr-end' => $Pause->getHeartRateAtEnd(),
+                ],
+                $this->Pauses->getElements()
+            ));
         }
     }
 
@@ -685,7 +716,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
     /**
      * Get pauses
      */
-    public function pauses(): \Runalyze\Model\Trackdata\Pauses
+    public function pauses(): PauseCollection
     {
         return $this->Pauses;
     }

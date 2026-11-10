@@ -274,12 +274,11 @@ class Activity extends LeafletRoute
         if ($this->Trackdata instanceof \Runalyze\Model\Trackdata\Entity && $this->Trackdata->hasPauses() && $this->hasTrackdataLoop()) {
             if (
                 $this->PauseIndex < $this->Trackdata->pauses()
-                    ->num()
-                && $this->Trackdata->pauses()
-                    ->at($this->PauseIndex)
-                    ->time() <= $this->Trackdata->at($this->TrackdataLoop->index(), Trackdata\Entity::TIME)
+                    ->count()
+                && $this->Trackdata->pauses()[$this->PauseIndex]
+                    ->getTimeIndex() <= $this->Trackdata->at($this->TrackdataLoop->index(), Trackdata\Entity::TIME)
             ) {
-                if ($this->Trackdata->pauses()->at($this->PauseIndex)->time() < $this->Trackdata->at($this->TrackdataLoop->index(), Trackdata\Entity::TIME)) {
+                if ($this->Trackdata->pauses()[$this->PauseIndex]->getTimeIndex() < $this->Trackdata->at($this->TrackdataLoop->index(), Trackdata\Entity::TIME)) {
                     $this->handleExactPausePosition();
                 } else {
                     $this->addCurrentPauseIcon();
@@ -297,7 +296,7 @@ class Activity extends LeafletRoute
     {
         $this->goToIndex($this->RouteLoop->index() - $this->RouteLoop->currentStepSize() + 1);
 
-        while ($this->Trackdata->pauses()->at($this->PauseIndex)->time() > $this->Trackdata->at($this->TrackdataLoop->index(), Trackdata\Entity::TIME)) {
+        while ($this->Trackdata->pauses()[$this->PauseIndex]->getTimeIndex() > $this->Trackdata->at($this->TrackdataLoop->index(), Trackdata\Entity::TIME)) {
             $this->goToIndex($this->RouteLoop->index() + 1);
         }
 
@@ -313,17 +312,16 @@ class Activity extends LeafletRoute
      */
     protected function addCurrentPauseIcon()
     {
-        $Pause = $this->Trackdata->pauses()
-            ->at($this->PauseIndex);
+        $Pause = $this->Trackdata->pauses()[$this->PauseIndex];
         $Index = $this->RouteLoop->index();
 
         // #TSC: add also pause-index to the tooltip
-        $Tooltip = sprintf('<strong>%d.</strong> ' . __('<strong>Pause</strong> of %s'), $this->PauseIndex + 1, Duration::format($Pause->duration()));
+        $Tooltip = sprintf('<strong>%d.</strong> ' . __('<strong>Pause</strong> of %s'), $this->PauseIndex + 1, Duration::format($Pause->getDuration()));
         $Tooltip .= '<br>' . sprintf(__('<strong>Distance:</strong> %s'), Distance::format($this->Trackdata->at($Index, Trackdata\Entity::DISTANCE)));
         $Tooltip .= '<br>' . sprintf(__('<strong>Time:</strong> %s'), Duration::format($this->Trackdata->at($Index, Trackdata\Entity::TIME)));
 
-        if ($Pause->hasHeartRateInfo()) {
-            $Tooltip .= '<br>' . sprintf(__('<strong>Heart rate:</strong>') . ' ' . __('%s to %s'), $Pause->hrStart(), $Pause->hrEnd() . ' bpm');
+        if ($Pause->hasHeartRateDetails()) {
+            $Tooltip .= '<br>' . sprintf(__('<strong>Heart rate:</strong>') . ' ' . __('%s to %s'), $Pause->getHeartRateAtStart(), $Pause->getHeartRateAtEnd() . ' bpm');
         }
 
         $this->addMarkerGeohash(

@@ -11,15 +11,17 @@ final class EntityTest extends \PHPUnit\Framework\TestCase
 {
     protected function simpleObjectByStrings(): \Runalyze\Model\Trackdata\Entity
     {
-        $P = new Pauses();
-        $P->add(new Pause(20, 10, 140, 120));
-
         return new Entity([
             Entity::ACTIVITYID => 1,
             Entity::TIME => '20' . Entity::ARRAY_SEPARATOR . '40',
             Entity::DISTANCE => '0.1' . Entity::ARRAY_SEPARATOR . '0.2',
             Entity::HEARTRATE => '140' . Entity::ARRAY_SEPARATOR . '120',
-            Entity::PAUSES => $P->asString(),
+            Entity::PAUSES => json_encode([[
+                'time' => 20,
+                'duration' => 10,
+                'hr-start' => 140,
+                'hr-end' => 120,
+            ]]),
         ]);
     }
 
@@ -60,8 +62,8 @@ final class EntityTest extends \PHPUnit\Framework\TestCase
 
         $this->assertSame(2, $T->num());
         $this->assertTrue($T->hasPauses());
-        $this->assertSame(1, $T->pauses()->num());
-        $this->assertEquals(20, $T->pauses()->at(0)->hrDiff());
+        $this->assertCount(1, $T->pauses());
+        $this->assertEquals(20, $T->pauses()[0]->getHeartRateDifference());
 
         $this->assertEquals(40, $T->totalTime());
         $this->assertEqualsWithDelta(0.2, $T->totalDistance(), PHP_FLOAT_EPSILON);
@@ -108,10 +110,8 @@ final class EntityTest extends \PHPUnit\Framework\TestCase
     public function testSettingPausesDirectly(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $P = new Pauses();
-
         $T = new Entity();
-        $T->set(Entity::PAUSES, $P->asString());
+        $T->set(Entity::PAUSES, '[]');
     }
 
     public function testDirectAccess(): void
