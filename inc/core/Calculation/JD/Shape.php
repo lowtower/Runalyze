@@ -7,7 +7,7 @@ use Runalyze\Util\LocalTime;
 
 class Shape
 {
-    protected ?LegacyEffectiveVO2maxCorrector $Corrector = null;
+    protected ?EffectiveVO2maxCorrector $Corrector = null;
 
     /**
      * @var ?float [ml/kg/min]
@@ -21,7 +21,7 @@ class Shape
         protected VO2max $Configuration
     ) {}
 
-    public function setCorrector(LegacyEffectiveVO2maxCorrector $corrector): void
+    public function setCorrector(EffectiveVO2maxCorrector $corrector): void
     {
         $this->Corrector = $corrector;
     }
@@ -96,7 +96,7 @@ class Shape
      */
     public function value(): float
     {
-        $this->Corrector ??= new LegacyEffectiveVO2maxCorrector();
+        $this->Corrector ??= new EffectiveVO2maxCorrector();
 
         return $this->uncorrectedValue() * $this->Corrector->factor();
     }
