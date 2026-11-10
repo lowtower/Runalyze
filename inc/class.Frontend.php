@@ -144,7 +144,7 @@ class Frontend
 
         Configuration::loadAll();
 
-        \Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector::setGlobalFactor(Configuration::Data()->vo2maxCorrectionFactor());
+        \Runalyze\Calculation\JD\EffectiveVO2maxCorrector::setGlobalFactor(Configuration::Data()->vo2maxCorrectionFactor());
 
         require_once FRONTEND_PATH . 'class.Helper.php';
     }

@@ -345,7 +345,7 @@ class Calculator
                 ->kilometer();
         }
 
-        $vo2max = new Calculation\JD\LegacyEffectiveVO2max();
+        $vo2max = new Calculation\JD\EffectiveVO2max();
         $vo2max->fromPaceAndHR(
             $distance,
             (int) $Lap->duration()
