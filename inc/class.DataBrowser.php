@@ -692,7 +692,6 @@ class DataBrowser
 
     /**
      * Get ajax-link for adding a training at a given date
-     * @param int $timestampInServerTime
      */
     protected function getAddLinkForDate(int $timestampInServerTime): string
     {
