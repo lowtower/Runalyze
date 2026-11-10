@@ -94,7 +94,7 @@ final class RaceAnalysisTest extends TestCase
     {
         $activity = $this->createActivityMock();
         $activity->method('getS')
-            ->willReturn($seconds);
+            ->willReturn((float) $seconds);
 
         $race = new RaceAnalysis($activity, 1.0, 50.0);
 
@@ -140,7 +140,7 @@ final class RaceAnalysisTest extends TestCase
     {
         $activity = $this->createActivityMock();
         $activity->method('getS')
-            ->willReturn(3600);
+            ->willReturn(3600.0);
         $activity->method('getDistance')
             ->willReturn(10.0);
 
