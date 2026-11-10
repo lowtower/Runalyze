@@ -10,7 +10,6 @@ use Runalyze\Activity\Duration;
 use Runalyze\Activity\Pace;
 use Runalyze\Activity\PersonalBest;
 use Runalyze\Calculation\BasicEndurance;
-use Runalyze\Sports\Running\VO2max\EffectiveVO2max;
 use Runalyze\Configuration;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 use Runalyze\Sports\Running\Prognosis\Bock;
@@ -18,6 +17,7 @@ use Runalyze\Sports\Running\Prognosis\Cameron;
 use Runalyze\Sports\Running\Prognosis\PrognosisInterface;
 use Runalyze\Sports\Running\Prognosis\Steffny;
 use Runalyze\Sports\Running\Prognosis\VO2max;
+use Runalyze\Sports\Running\VO2max\EffectiveVO2max;
 use Runalyze\Util\LocalTime;
 
 /**

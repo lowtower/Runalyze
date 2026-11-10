@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Runalyze\Sports\Running\VO2max\EffectiveVO2maxCorrector;
 use Runalyze\Model\Factory;
+use Runalyze\Sports\Running\VO2max\EffectiveVO2maxCorrector;
 use Runalyze\Tests\DatabaseTestCase;
 use Runalyze\Util\LocalTime;
 use Symfony\Component\HttpFoundation\RequestStack;

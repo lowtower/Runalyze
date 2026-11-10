@@ -3,7 +3,6 @@
 namespace Runalyze\Sports\Running\VO2max;
 
 use Runalyze\Sports\Running\VO2max\Estimation\DanielsGilbertFormula;
-use Runalyze\Sports\Running\VO2max\VO2maxVelocity;
 
 class EffectiveVO2max
 {

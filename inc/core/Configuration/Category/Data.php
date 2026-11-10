@@ -6,12 +6,12 @@ use DB;
 use Helper;
 use Runalyze\Calculation\BasicEndurance;
 use Runalyze\Calculation\JD;
-use Runalyze\Sports\Running\VO2max\EffectiveVO2maxCorrector;
 use Runalyze\Calculation\Performance;
 use Runalyze\Configuration;
 use Runalyze\Parameter\FloatingPoint;
 use Runalyze\Parameter\Integer;
 use Runalyze\Sports\Performance\Model\TsbModel;
+use Runalyze\Sports\Running\VO2max\EffectiveVO2maxCorrector;
 use SessionAccountHandler;
 
 class Data extends \Runalyze\Configuration\Category

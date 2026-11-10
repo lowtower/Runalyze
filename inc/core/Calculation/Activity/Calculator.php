@@ -3,12 +3,11 @@
 namespace Runalyze\Calculation\Activity;
 
 use Runalyze\Calculation\Elevation;
-use Runalyze\Calculation\JD;
-use Runalyze\Sports\Running\VO2max\EffectiveVO2max;
 use Runalyze\Calculation\Trimp;
 use Runalyze\Configuration;
 use Runalyze\Context;
 use Runalyze\Model;
+use Runalyze\Sports\Running\VO2max\EffectiveVO2max;
 
 class Calculator
 {
