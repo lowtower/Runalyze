@@ -15,7 +15,6 @@ use Runalyze\Bundle\CoreBundle\Services\Import\ActivityCache;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityContextAdapterFactory;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityDataContainerFilter;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityDataContainerToActivityContextConverter;
-use Runalyze\Bundle\CoreBundle\Services\Import\DuplicateFinder;
 use Runalyze\Bundle\CoreBundle\Services\Import\ElevationCorrection;
 use Runalyze\Bundle\CoreBundle\Services\Import\FileImporter;
 use Runalyze\Bundle\CoreBundle\Services\Import\WeatherForecast;
@@ -38,7 +37,6 @@ trait AppServiceSubscriberTrait
             'app.activity_context_adapter_factory' => '?' . ActivityContextAdapterFactory::class,
             'app.activity_data_container.converter' => '?' . ActivityDataContainerToActivityContextConverter::class,
             'app.activity_data_container.filter' => '?' . ActivityDataContainerFilter::class,
-            'app.activity_duplicate_finder' => '?' . DuplicateFinder::class,
             'app.age_grade_lookup' => '?' . AgeGradeLookup::class,
             'app.automatic_reload_flag_setter' => '?' . AutomaticReloadFlagSetter::class,
             'app.configuration_manager' => '?' . ConfigurationManager::class,

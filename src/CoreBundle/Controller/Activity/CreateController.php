@@ -22,7 +22,6 @@ use Runalyze\Bundle\CoreBundle\Services\Import\ActivityCache;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityContextAdapterFactory;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityDataContainerFilter;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityDataContainerToActivityContextConverter;
-use Runalyze\Bundle\CoreBundle\Services\Import\DuplicateFinder;
 use Runalyze\Bundle\CoreBundle\Services\Import\FileImporter;
 use Runalyze\Bundle\CoreBundle\Services\Import\FileImportResultCollection;
 use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
@@ -48,7 +47,6 @@ class CreateController extends AbstractController
         private ConfigurationManager $configurationManager,
         private ActivityDataContainerToActivityContextConverter $activityDataContainerToActivityContextConverter,
         private ActivityCache $activityCache,
-        private DuplicateFinder $duplicateFinder,
         private TranslatorInterface $translator,
         private ActivityContextAdapterFactory $activityContextAdapterFactory,
         private AutomaticReloadFlagSetter $automaticReloadFlagSetter
@@ -183,7 +181,8 @@ class CreateController extends AbstractController
             } else {
                 foreach ($result->getContainer() as $container) {
                     $activity = $this->containerToActivity($container, $account);
-                    $previews[] = new ActivityPreview($activity, $this->duplicateFinder->isPossibleDuplicate($activity));
+                    $activity->getAdapter()->setActivityIdIfEmpty();
+                    $previews[] = new ActivityPreview($activity, $this->getTrainingRepository()->isPossibleDuplicate($activity));
                     $activityHashes[] = $this->activityCache->save($activity);
                 }
             }
@@ -297,7 +296,7 @@ class CreateController extends AbstractController
         return $this->render('activity/form.html.twig', [
             'form' => $form->createView(),
             'isNew' => true,
-            'isDuplicate' => $this->duplicateFinder->isPossibleDuplicate($activity),
+            'isDuplicate' => $this->getTrainingRepository()->isPossibleDuplicate($activity),
             'isPowerLocked' => $activity->isPowerCalculated() !== null,
             'prev_activity_id' => null,
             'next_activity_id' => null,
