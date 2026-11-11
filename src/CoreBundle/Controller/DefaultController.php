@@ -43,9 +43,10 @@ class DefaultController extends AbstractPluginsAwareController
         TokenStorageInterface $tokenStorage,
         ParameterBagInterface $parameterBag,
         private readonly AccountMailer $accountMailer,
-        private readonly ConfigurationManager $configurationManager,
+        ConfigurationManager $configurationManager,
         RequestStack $requestStack
     ) {
+        $this->configurationManager = $configurationManager;
         $this->tokenStorage = $tokenStorage;
         $this->parameterBag = $parameterBag;
         $this->requestStack = $requestStack;
