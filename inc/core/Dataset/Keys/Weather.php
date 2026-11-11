@@ -69,7 +69,7 @@ class Weather extends AbstractKey
             $TooltipCode = '';
 
             if ($context->hasData('temperature')) {
-                $TooltipCode .= __('Temperature') . ': ' . $weather->temperature()->asString() . '<br>';
+                $TooltipCode .= __('Temperature') . ': ' . $weather->temperature()->string() . '<br>';
             }
 
             if ($context->hasData('humidity')) {

@@ -15,7 +15,7 @@ final class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($A->knowsTimezoneOffset());
 
         $this->assertTrue($A->weather()->isEmpty());
-        $this->assertTrue($A->weather()->temperature()->isUnknown());
+        $this->assertTrue($A->weather()->temperature()->isEmpty());
         $this->assertTrue($A->weather()->condition()->isUnknown());
         $this->assertTrue($A->weather()->humidity()->isUnknown());
         $this->assertTrue($A->weather()->pressure()->isUnknown());
@@ -43,8 +43,8 @@ final class EntityTest extends \PHPUnit\Framework\TestCase
             Entity::HUMIDITY => '',
         ]);
 
-        $this->assertTrue($A->weather()->temperature()->isUnknown());
-        $this->assertTrue($B->weather()->temperature()->isUnknown());
+        $this->assertTrue($A->weather()->temperature()->isEmpty());
+        $this->assertTrue($B->weather()->temperature()->isEmpty());
         $this->assertTrue($A->weather()->windDegree()->isUnknown());
         $this->assertTrue($B->weather()->windDegree()->isUnknown());
         $this->assertTrue($A->weather()->windSpeed()->isUnknown());
@@ -66,7 +66,7 @@ final class EntityTest extends \PHPUnit\Framework\TestCase
         ]);
         $A->weather()
             ->temperature()
-            ->setTemperature(17);
+            ->set(17);
         $A->weather()
             ->windSpeed()
             ->set(10);

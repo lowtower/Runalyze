@@ -7,6 +7,7 @@
 
 namespace Runalyze\Model\Activity;
 
+use Runalyze\Activity\Temperature;
 use Runalyze\Data\Weather;
 use Runalyze\Model;
 
@@ -1272,7 +1273,7 @@ class Entity extends Model\EntityWithID
     {
         if (! $this->Weather instanceof \Runalyze\Data\Weather) {
             $this->Weather = new Weather(
-                new Weather\Temperature($this->Data[self::TEMPERATURE]),
+                new Temperature($this->Data[self::TEMPERATURE]),
                 new Weather\Condition((int) $this->Data[self::WEATHERID]),
                 new Weather\WindSpeed($this->Data[self::WINDSPEED]),
                 new Weather\WindDegree($this->Data[self::WINDDEG]),

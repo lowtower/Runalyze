@@ -69,7 +69,7 @@ class HeatIndex extends AbstractKey
             ! $context->activity()
                 ->weather()
                 ->temperature()
-                ->isUnknown()
+                ->isEmpty()
             && ! $context->activity()
                 ->weather()
                 ->humidity()

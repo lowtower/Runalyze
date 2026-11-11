@@ -232,13 +232,13 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
                 $this->BoxedValues[] = $Pressure;
             }
 
-            if (! $WeatherObject->windSpeed()->isUnknown() && ! $WeatherObject->temperature()->isUnknown() && $this->Context->activity()->distance() > 0 && $this->Context->activity()->duration() > 0) {
+            if (! $WeatherObject->windSpeed()->isUnknown() && ! $WeatherObject->temperature()->isEmpty() && $this->Context->activity()->distance() > 0 && $this->Context->activity()->duration() > 0) {
                 $WindChill = new Box\WeatherWindChillFactor($this->Context);
                 $WindChill->defineAsFloatingBlock('w50');
                 $this->BoxedValues[] = $WindChill;
             }
 
-            if (! $WeatherObject->temperature()->isUnknown() && ! $WeatherObject->humidity()->isUnknown()) {
+            if (! $WeatherObject->temperature()->isEmpty() && ! $WeatherObject->humidity()->isUnknown()) {
                 $heatIndexObject = $this->Context->dataview()
                     ->heatIndex();
                 $HeatIndex = new BoxedValue(Helper::Unknown(round($heatIndexObject->value(), 1), '-'), $heatIndexObject->unit(), $heatIndexObject->label(), $heatIndexObject->getIcon());

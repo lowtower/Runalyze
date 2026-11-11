@@ -68,7 +68,7 @@ final class HeatIndexTest extends \PHPUnit\Framework\TestCase
         $heatIndex = new HeatIndex();
         $heatIndex->setFromWeather(
             new \Runalyze\Data\Weather(
-                new \Runalyze\Data\Weather\Temperature(12.0),
+                new \Runalyze\Activity\Temperature(12.0),
                 new \Runalyze\Data\Weather\Condition(\Runalyze\Profile\Weather\WeatherConditionProfile::UNKNOWN),
                 new \Runalyze\Data\Weather\WindSpeed(),
                 new \Runalyze\Data\Weather\WindDegree(),
