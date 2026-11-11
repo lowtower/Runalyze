@@ -44,7 +44,7 @@ final class JobLoopTest extends DatabaseTestCase
             . 'VALUES (1, 10, 3600, 150, ' . Configuration::General()->runningSport() . ', 0, 1477839475)'
         );
 
-        $Loop = new JobLoop([], $this->PDO, 0, 'runalyze_');
+        $Loop = new JobLoop([], $this->PDO, 0, 'runalyze_', Configuration::General()->runningSport());
         $Loop->run();
 
         $data = $this->PDO->query('SELECT * FROM `runalyze_training` WHERE `id`=1 LIMIT 1')
@@ -68,7 +68,7 @@ final class JobLoopTest extends DatabaseTestCase
             JobLoop::ELEVATION_OVERWRITE => true,
             JobLoop::VO2MAX => true,
             JobLoop::TRIMP => true,
-        ], $this->PDO, 0, 'runalyze_');
+        ], $this->PDO, 0, 'runalyze_', Configuration::General()->runningSport());
         $Loop->run();
 
         $data = $this->PDO->query('SELECT * FROM `runalyze_training` WHERE `id`=1 LIMIT 1')
@@ -87,7 +87,7 @@ final class JobLoopTest extends DatabaseTestCase
         $Loop = new JobLoop([
             JobLoop::ELEVATION => true,
             JobLoop::ELEVATION_OVERWRITE => true,
-        ], $this->PDO, 0, 'runalyze_');
+        ], $this->PDO, 0, 'runalyze_', Configuration::General()->runningSport());
         $Loop->run();
 
         $this->assertEquals(123, $this->PDO->query(
@@ -102,7 +102,7 @@ final class JobLoopTest extends DatabaseTestCase
 
         $Loop = new JobLoop([
             JobLoop::ELEVATION => true,
-        ], $this->PDO, 0, 'runalyze_');
+        ], $this->PDO, 0, 'runalyze_', Configuration::General()->runningSport());
         $Loop->run();
 
         $this->assertEquals(42, $this->PDO->query(
@@ -127,7 +127,7 @@ final class JobLoopTest extends DatabaseTestCase
             JobLoop::ELEVATION => true,
             JobLoop::ELEVATION_OVERWRITE => true,
             JobLoop::VO2MAX => true,
-        ], $this->PDO, 0, 'runalyze_');
+        ], $this->PDO, 0, 'runalyze_', Configuration::General()->runningSport());
         $Loop->run();
 
         $DataDown = $this->PDO->query('SELECT `elevation`, `vo2max`, `vo2max_with_elevation` FROM `runalyze_training` WHERE `id`=1 LIMIT 1')
@@ -159,7 +159,7 @@ final class JobLoopTest extends DatabaseTestCase
 
         $Loop = new JobLoop([
             JobLoop::VO2MAX => true,
-        ], $this->PDO, 0, 'runalyze_');
+        ], $this->PDO, 0, 'runalyze_', Configuration::General()->runningSport());
         $Loop->run();
 
         $vo2maxElevationDown = $this->PDO->query('SELECT `vo2max_with_elevation` FROM `runalyze_training` WHERE `id`=1 LIMIT 1')
@@ -180,7 +180,7 @@ final class JobLoopTest extends DatabaseTestCase
         $Loop = new JobLoop([
             JobLoop::VO2MAX => true,
             JobLoop::TRIMP => true,
-        ], $this->PDO, 0, 'runalyze_');
+        ], $this->PDO, 0, 'runalyze_', Configuration::General()->runningSport());
         $Loop->run();
 
         $data = $this->PDO->query('SELECT * FROM `runalyze_training` WHERE `id`=1 LIMIT 1')

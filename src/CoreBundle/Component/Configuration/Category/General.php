@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Component\Configuration\Category;
 
+use Runalyze\Parameter\Application\DistanceUnitSystem;
+use Runalyze\Parameter\Application\EnergyUnit;
+use Runalyze\Parameter\Application\TemperatureUnit;
+
 class General extends AbstractCategory
 {
     public function getDefaultVariables(): array
@@ -18,6 +22,30 @@ class General extends AbstractCategory
             'MAINSPORT' => '1',
             'RUNNINGSPORT' => '1',
         ];
+    }
+
+    public function getDistanceUnitSystem(): DistanceUnitSystem
+    {
+        $unitSystem = new DistanceUnitSystem();
+        $unitSystem->set($this->Variables['DISTANCE_UNIT_SYSTEM']);
+
+        return $unitSystem;
+    }
+
+    public function getTemperatureUnit(): TemperatureUnit
+    {
+        $unit = new TemperatureUnit();
+        $unit->set($this->Variables['TEMPERATURE_UNIT']);
+
+        return $unit;
+    }
+
+    public function getEnergyUnit(): EnergyUnit
+    {
+        $unit = new EnergyUnit();
+        $unit->set($this->Variables['ENERGY_UNIT']);
+
+        return $unit;
     }
 
     public function getRunningSport(): int

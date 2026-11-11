@@ -78,9 +78,9 @@ class ToolsController extends AbstractController
             new Frontend($this->tokenStorage, $this->parameterBag);
 
             if ($form->getData()['mode'] === 'general') {
-                $job = new JobGeneral($form->getData(), DB::getInstance(), $account->getId(), $this->databasePrefix);
+                $job = new JobGeneral($form->getData(), DB::getInstance(), $account->getId(), $this->databasePrefix, $this->configurationManager->getList()->getGeneral()->getRunningSport());
             } else {
-                $job = new JobLoop($form->getData(), DB::getInstance(), $account->getId(), $this->databasePrefix);
+                $job = new JobLoop($form->getData(), DB::getInstance(), $account->getId(), $this->databasePrefix, $this->configurationManager->getList()->getGeneral()->getRunningSport());
             }
 
             $job->run();

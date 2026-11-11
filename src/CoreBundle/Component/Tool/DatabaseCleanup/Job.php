@@ -9,16 +9,13 @@ abstract class Job
      */
     private array $Messages = [];
 
-    protected int $RunningSportId;
-
     public function __construct(
         private array $RequestData,
         protected \PDO $PDO,
         protected int $AccountId,
-        protected string $DatabasePrefix
-    ) {
-        $this->RunningSportId = \Runalyze\Configuration::General()->runningSport();
-    }
+        protected string $DatabasePrefix,
+        protected int $RunningSportId
+    ) {}
 
     /**
      * Is task requested?
