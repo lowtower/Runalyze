@@ -152,6 +152,18 @@ abstract class AbstractPluginsAwareController extends AbstractController
         ]);
     }
 
+    private function vo2maxForPrognosis(): float
+    {
+        $list = $this->configurationManager->getList();
+        $vo2maxCategory = $list->getVO2max();
+
+        if ($vo2maxCategory->useManualValue()) {
+            return $vo2maxCategory->getManualValue();
+        }
+
+        return $list->getData()->getVO2maxShape();
+    }
+
     protected function getResponseForPrognosePanel(Account $account, LegacyPlugin $plugin): Response
     {
         /** @var RunalyzePluginPanel_Prognose $prognosePlugin */
@@ -163,11 +175,11 @@ abstract class AbstractPluginsAwareController extends AbstractController
         $prognosisData = new PrognosisData(
             $trainingRepository,
             $account,
-            \Runalyze\Configuration::General()->runningSport(),
+            $this->configurationManager->getList()->getGeneral()->getRunningSport(),
             $prognosePlugin->getDistances(),
             (string) $prognosePlugin->Configuration()->value('model'),
             (bool) $prognosePlugin->Configuration()->value('use_be'),
-            \Runalyze\Configuration::Data()->vo2max(),
+            $this->vo2maxForPrognosis(),
             (int) \Runalyze\Calculation\BasicEndurance::getConst()
         );
 

@@ -18,6 +18,28 @@ class VO2max extends AbstractCategory
         ];
     }
 
+    public function useManualValue(): bool
+    {
+        return $this->getManualValue() > 0.0;
+    }
+
+    public function getManualValue(): float
+    {
+        return (float) str_replace(',', '.', $this->Variables['VO2MAX_MANUAL_VALUE']);
+    }
+
+    public function useManualFactor(): bool
+    {
+        $factor = $this->Variables['VO2MAX_MANUAL_CORRECTOR'];
+
+        return $factor !== null && $factor !== '';
+    }
+
+    public function getManualFactor(): float
+    {
+        return (float) $this->Variables['VO2MAX_MANUAL_CORRECTOR'];
+    }
+
     public function getNumberOfDaysToConsider(): int
     {
         return (int) $this->Variables['VO2MAX_DAYS'];
