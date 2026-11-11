@@ -50,6 +50,11 @@ class Data extends AbstractCategory
         return (int) $this->Variables['VO2MAX_FORM'];
     }
 
+    public function getVO2maxShape(): float
+    {
+        return (float) $this->Variables['VO2MAX_FORM'];
+    }
+
     public function getVO2maxCorrectionFactor(): float
     {
         return (float) $this->Variables['VO2MAX_CORRECTOR'];

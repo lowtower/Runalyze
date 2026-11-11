@@ -14,6 +14,7 @@ use Runalyze\Bundle\CoreBundle\Form\RegistrationType;
 use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -42,6 +43,7 @@ class DefaultController extends AbstractPluginsAwareController
         TokenStorageInterface $tokenStorage,
         ParameterBagInterface $parameterBag,
         private readonly AccountMailer $accountMailer,
+        private readonly ConfigurationManager $configurationManager,
         RequestStack $requestStack
     ) {
         $this->tokenStorage = $tokenStorage;
@@ -228,7 +230,7 @@ class DefaultController extends AbstractPluginsAwareController
         $trainingRepository = $this->doctrine->getRepository(Training::class);
         $topResults = $trainingRepository->findTopResults(
             $account,
-            \Runalyze\Configuration::General()->runningSport(),
+            $this->configurationManager->getList()->getGeneral()->getRunningSport(),
             2
         );
 
