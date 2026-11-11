@@ -371,11 +371,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$parameterBag', service('parameter_bag'))
         ->arg('$mailer', service('mailer'))
         ->arg('$twig', service('twig'))
-        ->arg('$translator', service('translator'))
-        ->call('setFrom', [
-            '%app.mail_sender%',
-            '%app.mail_name%',
-        ]);
+        ->arg('$translator', service('translator'));
 
     $services->set('app.legacy_cache', LegacyCache::class)
         ->arg('$path', '%app.data_directory%');

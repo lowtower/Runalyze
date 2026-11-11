@@ -385,12 +385,6 @@ class Entity extends Model\EntityWithID
     public const string ROUTEID = 'routeid';
 
     /**
-     * Key: route
-     * @deprecated
-     */
-    public const string ROUTE = 'route';
-
-    /**
      * Key: splits
      */
     public const string SPLITS = 'splits';
@@ -535,7 +529,6 @@ class Entity extends Model\EntityWithID
             self::WEATHER_SOURCE,
             self::IS_NIGHT,
             self::ROUTEID,
-            self::ROUTE,
             self::SPLITS,
             self::SPLITS_ADDITIONAL,
             self::TITLE,

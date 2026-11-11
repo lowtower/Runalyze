@@ -40,16 +40,6 @@ class AccountMailer
     }
 
     /**
-     * @deprecated Pass the sender to the constructor instead.
-     *
-     * @throws RfcComplianceException if the sender mail address is invalid
-     */
-    public function setFrom(string $senderMail, string $senderName): void
-    {
-        $this->sender = new Address($senderMail, $senderName);
-    }
-
-    /**
      * @param array<string, scalar|object|null> $templateData
      *
      * @throws RfcComplianceException if the mail address of the account is invalid

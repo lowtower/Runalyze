@@ -99,34 +99,6 @@ final class AccountMailerTest extends TestCase
         $this->assertSame('RUNALYZE', $captured->getFrom()[0]->getName());
     }
 
-    public function testSetFromReplacesSenderPassedToConstructor(): void
-    {
-        $twig = $this->createTwig(languageTemplateExists: false, html: 'HTML');
-        $captured = null;
-        $mailer = $this->createCapturingMailer($captured);
-
-        $service = $this->createMailerService($mailer, $twig, $this->createTranslator());
-        $service->setFrom('other@runalyze.com', 'OTHER');
-        $service->sendMailTo($this->createAccount(), 'Subject', 'mail/test/example.html.twig', []);
-
-        /** @var Email $captured */
-        $this->assertSame('other@runalyze.com', $captured->getFrom()[0]->getAddress());
-        $this->assertSame('OTHER', $captured->getFrom()[0]->getName());
-    }
-
-    public function testSetFromWithInvalidMailThrowsRfcComplianceException(): void
-    {
-        $service = $this->createMailerService(
-            $this->createStub(MailerInterface::class),
-            $this->createTwig(languageTemplateExists: false, html: 'HTML'),
-            $this->createTranslator()
-        );
-
-        $this->expectException(RfcComplianceException::class);
-
-        $service->setFrom('not-an-email', 'RUNALYZE');
-    }
-
     public function testConstructorWithInvalidSenderMailThrowsRfcComplianceException(): void
     {
         $this->expectException(RfcComplianceException::class);

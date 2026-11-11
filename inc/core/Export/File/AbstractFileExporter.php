@@ -62,19 +62,6 @@ abstract class AbstractFileExporter extends AbstractExporter
         $this->createFile();
     }
 
-    /**
-     * @deprecated in favor of toResponse(), which returns a proper Symfony Response
-     */
-    final public function downloadFile(): void
-    {
-        header('Content-Type: ' . $this->mimeType());
-        header('Content-Disposition: attachment; filename=' . $this->filename() . '');
-
-        $this->createFile();
-
-        print $this->FileContent;
-    }
-
     final public function toResponse(): Response
     {
         $this->createFile();
