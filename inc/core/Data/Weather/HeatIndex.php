@@ -2,7 +2,6 @@
 
 namespace Runalyze\Data\Weather;
 
-use Runalyze\Activity;
 use Runalyze\Activity\Temperature;
 use Runalyze\Activity\ValueInterface;
 use Runalyze\Data\Weather;
@@ -42,10 +41,7 @@ class HeatIndex implements ValueInterface
 
     public function setFromWeather(Weather $weather): void
     {
-        $this->setFrom(
-            new Activity\Temperature($weather->temperature()->value()),
-            $weather->humidity()
-        );
+        $this->setFrom($weather->temperature(), $weather->humidity());
     }
 
     public function setFrom(Temperature $temperature, Humidity $humidity): void

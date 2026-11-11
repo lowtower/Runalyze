@@ -7,11 +7,11 @@
 
 namespace Runalyze\Data;
 
+use Runalyze\Activity\Temperature;
 use Runalyze\Data\Weather\Condition;
 use Runalyze\Data\Weather\Humidity;
 use Runalyze\Data\Weather\Pressure;
 use Runalyze\Data\Weather\Sources;
-use Runalyze\Data\Weather\Temperature;
 use Runalyze\Data\Weather\WindDegree;
 use Runalyze\Data\Weather\WindSpeed;
 use Runalyze\Profile\Weather\WeatherConditionProfile;
@@ -147,7 +147,7 @@ class Weather
             $icon->setAsNight();
         }
 
-        return $icon->code() . ' ' . $this->Condition->string() . ' ' . __('at') . ' ' . $this->Temperature->asString();
+        return $icon->code() . ' ' . $this->Condition->string() . ' ' . __('at') . ' ' . $this->Temperature->string();
     }
 
     /**
@@ -156,7 +156,7 @@ class Weather
     public function isEmpty(): bool
     {
         return
-            $this->Temperature->isUnknown()
+            $this->Temperature->isEmpty()
             && $this->Condition->isUnknown()
             && $this->WindSpeed->isUnknown()
             && $this->WindDegree->isUnknown()
@@ -170,7 +170,7 @@ class Weather
      */
     public function clear(): void
     {
-        $this->Temperature->setTemperature(null);
+        $this->Temperature->set(null);
         $this->Condition->set(WeatherConditionProfile::UNKNOWN);
         $this->WindSpeed->set(null);
         $this->WindDegree->set(null);

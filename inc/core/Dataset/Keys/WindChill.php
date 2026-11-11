@@ -60,7 +60,7 @@ class WindChill extends AbstractKey
             ! $context->activity()
                 ->weather()
                 ->temperature()
-                ->isUnknown()
+                ->isEmpty()
             && ! $context->activity()
                 ->weather()
                 ->windSpeed()
