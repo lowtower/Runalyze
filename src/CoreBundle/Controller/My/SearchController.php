@@ -5,6 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Controller\My;
 use Frontend;
 use Runalyze\Bundle\CoreBundle\Component\Search\SearchFormFields;
 use Runalyze\Bundle\CoreBundle\Component\Search\SearchResults;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -19,7 +20,8 @@ class SearchController extends AbstractController
     public function __construct(
         private readonly TokenStorageInterface $tokenStorage,
         private readonly ParameterBagInterface $parameterBag,
-        private readonly RequestStack $requestStack
+        private readonly RequestStack $requestStack,
+        private readonly ConfigurationManager $configurationManager
     ) {}
 
     #[Route(path: '/my/search', name: 'my-search', methods: ['GET', 'POST'])]
@@ -45,7 +47,7 @@ class SearchController extends AbstractController
             $this->transformOldParamsToNewParams();
         }
 
-        $searchResults = new SearchResults($showResults);
+        $searchResults = new SearchResults($this->configurationManager, $showResults);
 
         if ($showResults && $searchResults->multiEditorRequested()) {
             return $this->redirectToRoute('multi-editor', [
@@ -61,7 +63,7 @@ class SearchController extends AbstractController
 
         return $this->render('my/search.html.twig', [
             'showForm' => $showForm,
-            'fields' => new SearchFormFields()->fields(),
+            'fields' => new SearchFormFields($this->configurationManager)->fields(),
             'results' => $searchResults->templateData(),
         ]);
     }

@@ -15,7 +15,7 @@ use Runalyze\Activity\Energy;
 use Runalyze\Activity\Pace;
 use Runalyze\Activity\StrideLength;
 use Runalyze\Activity\Temperature;
-use Runalyze\Configuration;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Data\Weather\WindSpeed;
 use Runalyze\Dataset\Configuration as DatasetConfiguration;
 use Runalyze\Dataset\Context;
@@ -174,6 +174,7 @@ class SearchResults
     private DatasetQuery $datasetQuery;
 
     public function __construct(
+        private readonly ConfigurationManager $configurationManager,
         private readonly bool $withResults = true
     ) {
         $this->resultsPerPage = (isset($_POST['resultsPerPage']) && is_numeric($_POST['resultsPerPage'])) ? $_POST['resultsPerPage'] : 20;
@@ -402,7 +403,7 @@ class SearchResults
             $value = new WindSpeed()->setInPreferredUnit($value)
                 ->value();
         } elseif (($key === 'vo2max' || $key === 'vo2max_with_elevation')) {
-            $value /= Configuration::Data()->vo2maxCorrectionFactor();
+            $value /= $this->configurationManager->getList()->getVO2maxCorrectionFactor();
         } elseif ($key === 'kcal') {
             $value = new Energy()->setInPreferredUnit($value)
                 ->kcal();
@@ -513,7 +514,7 @@ class SearchResults
         $order = (! isset($_POST['search-sort-order'])) ? 'DESC' : $this->db->escape($_POST['search-sort-order'], false);
 
         if (isset($_POST['search-sort-by'])) {
-            if ($_POST['search-sort-by'] == 'vo2max' && Configuration::VO2max()->useElevationCorrection()) {
+            if ($_POST['search-sort-by'] == 'vo2max' && $this->configurationManager->getList()->getVO2max()->useCorrectionForElevation()) {
                 return ' ORDER BY IF(`t`.`vo2max_with_elevation`>0, `t`.`vo2max_with_elevation`, `t`.`vo2max`) ' . $order;
             }
 
