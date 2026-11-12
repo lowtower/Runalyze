@@ -13,7 +13,7 @@ final readonly class DashboardStatisticsProvider
     ) {}
 
     /**
-     * @throws \\InvalidArgumentException when the requested plugin does not exist
+     * @throws \InvalidArgumentException when the requested plugin does not exist
      */
     public function getStatistics(Request $request): DashboardStatistics
     {
