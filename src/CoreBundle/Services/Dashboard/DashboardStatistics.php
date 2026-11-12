@@ -1,6 +1,6 @@
 <?php
 
-namespace Runalyze\\Bundle\\CoreBundle\\Services\\Dashboard;
+namespace Runalyze\Bundle\CoreBundle\Services\Dashboard;
 
 use Plugin;
 
