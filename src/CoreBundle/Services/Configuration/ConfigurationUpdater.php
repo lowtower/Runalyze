@@ -9,14 +9,19 @@ class ConfigurationUpdater
 {
     public function __construct(
         protected ConfRepository $Repository,
-        protected ?ConfigurationManager $Manager = null
+        protected ConfigurationManager $Manager
     ) {}
+
+    protected function updateInCategoryConfiguration(Account $account, string $category, string $key, string $value): void
+    {
+        $this->Repository->updateOrInsert($account, $category, $key, $value);
+        $this->Manager->getList($account)
+            ->set($category . '.' . $key, $value);
+    }
 
     protected function updateInDataConfiguration(Account $account, string $configName, string $value): void
     {
-        $this->Repository->updateOrInsert($account, 'data', $configName, $value);
-        $this->Manager->getList($account)
-            ->set('data.' . $configName, $value);
+        $this->updateInCategoryConfiguration($account, 'data', $configName, $value);
     }
 
     public function updateStartTime(Account $account, int $startTime): void
@@ -90,5 +95,29 @@ class ConfigurationUpdater
             $this->Repository->updateOrInsert($account, 'privacy', $key, $value);
             $list->set('privacy.' . $key, $value);
         }
+    }
+
+    public function addIgnoredActivityId(Account $account, string $activityId): void
+    {
+        $category = $this->Manager->getList($account)->getActivityForm();
+        $category->addIgnoredActivityId($activityId);
+
+        $this->updateInCategoryConfiguration($account, 'activity-form', 'GARMIN_IGNORE_IDS', $category->getIgnoredActivityIdsAsString());
+    }
+
+    public function updateMapLayer(Account $account, string $layer): void
+    {
+        $this->updateInCategoryConfiguration($account, 'activity-view', 'TRAINING_LEAFLET_LAYER', $layer);
+    }
+
+    public function updateFieldVisibility(Account $account, string $legendKey, string $value): void
+    {
+        $this->updateInCategoryConfiguration($account, 'activity-form', 'FORMULAR_SHOW_' . $legendKey, $value);
+    }
+
+    public function resetToDefaults(Account $account): void
+    {
+        $this->Repository->deleteAllForAccountExceptGeneralAndData($account);
+        $this->Manager->reloadCurrentList();
     }
 }

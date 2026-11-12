@@ -47,6 +47,19 @@ class ConfRepository extends EntityRepository
         return $conf;
     }
 
+    public function deleteAllForAccountExceptGeneralAndData(Account $account): int
+    {
+        return $this->getEntityManager()
+            ->createQueryBuilder()
+            ->delete(Conf::class, 'c')
+            ->where('c.account = :account')
+            ->andWhere('c.category NOT IN (:keptCategories)')
+            ->setParameter('account', $account)
+            ->setParameter('keptCategories', ['general', 'data'])
+            ->getQuery()
+            ->execute();
+    }
+
     public function save(Conf $conf): void
     {
         $this->getEntityManager()->persist($conf);

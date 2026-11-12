@@ -63,4 +63,9 @@ class ConfigurationManager
             $this->CurrentConfigurationList = new RunalyzeConfigurationList();
         }
     }
+
+    public function reloadCurrentList(): void
+    {
+        $this->CurrentConfigurationList = null;
+    }
 }

@@ -43,6 +43,16 @@ class ActivityView extends AbstractCategory
         return (int) $this->Variables['ELEVATION_TRESHOLD'];
     }
 
+    public function getMapLayer(): string
+    {
+        return $this->Variables['TRAINING_LEAFLET_LAYER'];
+    }
+
+    public function updateMapLayer(string $layer): void
+    {
+        $this->Variables['TRAINING_LEAFLET_LAYER'] = $layer;
+    }
+
     protected function getLegacyCategoryName(): string
     {
         return \Runalyze\Configuration\Category\ActivityView::class;

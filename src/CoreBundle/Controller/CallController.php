@@ -11,7 +11,8 @@ use Frontend;
 use PlotMonthSumData;
 use PlotSumData;
 use PlotWeekSumData;
-use Runalyze\Configuration;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +32,8 @@ class CallController extends AbstractController
     public function __construct(
         private TokenStorageInterface $tokenStorage,
         private ParameterBagInterface $parameterBag,
-        private RequestStack $requestStack
+        private RequestStack $requestStack,
+        private ConfigurationUpdater $configurationUpdater
     ) {}
 
     /**
@@ -104,7 +106,7 @@ class CallController extends AbstractController
     }
 
     #[Route(path: '/call/ajax.change.Config.php', methods: ['GET'])]
-    public function ajaxChanceConfigAction(Request $request): Response
+    public function ajaxChanceConfigAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -116,7 +118,7 @@ class CallController extends AbstractController
         switch ($key) {
             case 'garmin-ignore':
                 if (is_string($value) && $value !== '') {
-                    Configuration::ActivityForm()->ignoreActivityID($value);
+                    $this->configurationUpdater->addIgnoredActivityId($account, $value);
                 }
 
                 break;
@@ -126,7 +128,7 @@ class CallController extends AbstractController
                     throw new BadRequestHttpException('Invalid map layer.');
                 }
 
-                Configuration::ActivityView()->updateLayer($value);
+                $this->configurationUpdater->updateMapLayer($account, $value);
 
                 break;
 
@@ -134,7 +136,7 @@ class CallController extends AbstractController
                 $legendKey = str_starts_with($key, 'show-') ? substr($key, 5) : '';
 
                 if (in_array($legendKey, ['SPORT', 'GENERAL', 'DISTANCE', 'SPLITS', 'WEATHER', 'OTHER', 'NOTES', 'PUBLIC', 'ELEVATION', 'GPS'], true) && is_string($value)) {
-                    Configuration::ActivityForm()->update($legendKey, $value);
+                    $this->configurationUpdater->updateFieldVisibility($account, $legendKey, $value);
                 }
         }
 
