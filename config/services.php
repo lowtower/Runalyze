@@ -250,6 +250,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autoconfigure(true)
         ->public();
 
+    $services->set(PluginFactory::class);
+    $services->set(DashboardStatisticsProvider::class);
+
     $services->load('Runalyze\Bundle\CoreBundle\Controller\\', __DIR__ . '/../src/CoreBundle/Controller')
         ->tag('controller.service_arguments');
 
