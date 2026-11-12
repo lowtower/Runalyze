@@ -44,7 +44,7 @@ final class DashboardStatisticsProviderTest extends TestCase
             ->with('DashboardStatisticsProviderTestPlugin')
             ->willReturn($plugin);
 
-        $statistics = (new DashboardStatisticsProvider($factory))->getStatistics(new Request());
+        $statistics = new DashboardStatisticsProvider($factory)->getStatistics(new Request());
 
         $this->assertSame('<li class="active"><a rel="statistics" href="my/plugin/17">Test statistics</a></li>', $statistics->navigationHtml);
         $this->assertSame($plugin, $statistics->plugin);
@@ -64,8 +64,10 @@ final class DashboardStatisticsProviderTest extends TestCase
             ->with(23)
             ->willReturn($plugin);
 
-        $statistics = (new DashboardStatisticsProvider($factory))->getStatistics(
-            new Request(query: ['pluginid' => '23'])
+        $statistics = new DashboardStatisticsProvider($factory)->getStatistics(
+            new Request(query: [
+                'pluginid' => '23',
+            ])
         );
 
         $this->assertSame($plugin, $statistics->plugin);
@@ -84,8 +86,10 @@ final class DashboardStatisticsProviderTest extends TestCase
             ->with(23)
             ->willReturn($inactivePlugin);
 
-        $statistics = (new DashboardStatisticsProvider($factory))->getStatistics(
-            new Request(query: ['pluginid' => '23'])
+        $statistics = new DashboardStatisticsProvider($factory)->getStatistics(
+            new Request(query: [
+                'pluginid' => '23',
+            ])
         );
 
         $this->assertSame($activePlugin, $statistics->plugin);
@@ -97,7 +101,7 @@ final class DashboardStatisticsProviderTest extends TestCase
         $factory->method('activePlugins')->willReturn([]);
         $factory->method('variousPlugins')->willReturn([]);
 
-        $statistics = (new DashboardStatisticsProvider($factory))->getStatistics(new Request());
+        $statistics = new DashboardStatisticsProvider($factory)->getStatistics(new Request());
 
         $this->assertNull($statistics->plugin);
         $this->assertFalse($statistics->hasActiveStatistics);
@@ -110,8 +114,11 @@ final class DashboardStatisticsProviderTest extends TestCase
         $factory->method('variousPlugins')->willReturn([]);
         $factory->expects($this->never())->method('newInstanceFor');
 
-        $statistics = (new DashboardStatisticsProvider($factory))->getStatistics(
-            new Request(query: ['id' => '42', 'pluginid' => '23'])
+        $statistics = new DashboardStatisticsProvider($factory)->getStatistics(
+            new Request(query: [
+                'id' => '42',
+                'pluginid' => '23',
+            ])
         );
 
         $this->assertSame(42, $statistics->activityId);
@@ -129,14 +136,16 @@ final class DashboardStatisticsProviderTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
 
-        (new DashboardStatisticsProvider($factory))->getStatistics(
-            new Request(query: ['pluginid' => '999'])
+        new DashboardStatisticsProvider($factory)->getStatistics(
+            new Request(query: [
+                'pluginid' => '999',
+            ])
         );
     }
 
     private function plugin(int $id, int $active): DashboardStatisticsProviderTestPlugin
     {
-        $plugin = (new \ReflectionClass(DashboardStatisticsProviderTestPlugin::class))
+        $plugin = new \ReflectionClass(DashboardStatisticsProviderTestPlugin::class)
             ->newInstanceWithoutConstructor();
 
         $idProperty = new \ReflectionProperty(Plugin::class, 'id');

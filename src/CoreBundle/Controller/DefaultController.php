@@ -5,8 +5,6 @@ namespace Runalyze\Bundle\CoreBundle\Controller;
 use DataBrowser;
 use Doctrine\Persistence\ManagerRegistry;
 use Frontend;
-use SessionAccountHandler;
-use TrainingView;
 use Runalyze\Activity\Distance;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -19,9 +17,10 @@ use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Dashboard\DashboardStatisticsProvider;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
+use Runalyze\View\Activity\Context as ActivityContext;
+use SessionAccountHandler;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Runalyze\View\Activity\Context as ActivityContext;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,6 +32,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Throwable;
+use TrainingView;
 use Twig\Environment;
 
 /**
@@ -113,12 +113,12 @@ class DefaultController extends AbstractPluginsAwareController
         $statistics = $provider->getStatistics($request);
         $content = $this->captureLegacyOutput(function () use ($statistics): void {
             if ($statistics->activityId !== null) {
-                (new TrainingView(new ActivityContext($statistics->activityId, SessionAccountHandler::getId())))->display();
+                new TrainingView(new ActivityContext($statistics->activityId, SessionAccountHandler::getId()))->display();
 
                 return;
             }
 
-            if ($statistics->plugin !== null) {
+            if ($statistics->plugin instanceof \Plugin) {
                 $statistics->plugin->display();
 
                 return;

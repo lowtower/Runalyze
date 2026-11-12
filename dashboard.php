@@ -9,8 +9,6 @@
  * @author Hannes Christiansen
  * @copyright http://www.runalyze.com/
  */
-
-
 ?>
 
 <div id="container">
