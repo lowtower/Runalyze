@@ -13,7 +13,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: ci-${{ github.ref }}
+  group: ci-\${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -49,7 +49,7 @@ jobs:
       - name: Dump run logs on failure
         if: failure()
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: \${{ github.token }}
         run: |
           mkdir -p ci-logs
           gh run view "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --log > ci-logs/run.log || true
@@ -63,7 +63,7 @@ jobs:
           if-no-files-found: ignore
 
   tests:
-    name: PHPUnit (PHP ${{ matrix.php-version }})
+    name: PHPUnit (PHP \${{ matrix.php-version }})
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
@@ -108,13 +108,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-version }}
+          php-version: \${{ matrix.php-version }}
           extensions: ctype, iconv, pdo_mysql, pdo_sqlite, sqlite3
-          coverage: none
+          coverage: xdebug
 
       - name: Install system dependencies (mariadb-client, spatialite)
         run: |
@@ -125,7 +127,7 @@ jobs:
         run: |
           MODULE_PATH="$(dpkg -L libsqlite3-mod-spatialite | grep -m1 'mod_spatialite.so$')"
           if [ -n "$MODULE_PATH" ]; then
-            echo "SQLITE_MOD_SPATIALITE=${MODULE_PATH}" >> "$GITHUB_ENV"
+            echo "SQLITE_MOD_SPATIALITE=$MODULE_PATH" >> "$GITHUB_ENV"
           fi
 
       - name: Install Composer dependencies
@@ -144,15 +146,92 @@ jobs:
       - name: Prepare test databases
         run: composer test:setup
 
-      - name: Run PHPUnit
+      - name: Run PHPUnit with coverage
         run: |
-          mkdir -p var/log
-          composer test
+          mkdir -p var/log var/coverage
+          composer test:coverage-clover
+
+      - name: Checkout pull request base revision
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v7
+        with:
+          ref: \${{ github.event.pull_request.base.sha }}
+          path: coverage-baseline
+          fetch-depth: 1
+
+      - name: Reuse installed dependencies for baseline
+        if: github.event_name == 'pull_request'
+        run: ln -s "$GITHUB_WORKSPACE/vendor" "$GITHUB_WORKSPACE/coverage-baseline/vendor"
+
+      - name: Prepare baseline test data
+        if: github.event_name == 'pull_request'
+        working-directory: coverage-baseline
+        run: |
+          composer download:timezone-database
+          composer download:disposable-domains-list
+          composer download:tif-testfiles || true
+          composer test:setup
+
+      - name: Measure base branch coverage
+        if: github.event_name == 'pull_request'
+        working-directory: coverage-baseline
+        run: |
+          mkdir -p var/log var/coverage
+          composer test:coverage-clover
+
+      - name: Compare code coverage
+        if: github.event_name == 'pull_request'
+        env:
+          BASELINE_COVERAGE: coverage-baseline/var/coverage/clover.xml
+          PULL_REQUEST_COVERAGE: var/coverage/clover.xml
+        run: |
+          php -r '
+          $readCoverage = static function (string $path): array {
+              if (!is_file($path)) {
+                  fwrite(STDERR, "Coverage report not found: $path\n");
+                  exit(1);
+              }
+
+              $report = simplexml_load_file($path);
+              $metrics = $report?->project?->metrics;
+
+              if ($metrics === null || !isset($metrics["statements"], $metrics["coveredstatements"])) {
+                  fwrite(STDERR, "Coverage report has no statement metrics: $path\n");
+                  exit(1);
+              }
+
+              $total = (int) $metrics["statements"];
+              $covered = (int) $metrics["coveredstatements"];
+
+              if ($total === 0) {
+                  fwrite(STDERR, "Coverage report contains no executable statements: $path\n");
+                  exit(1);
+              }
+
+              return [$covered, $total];
+          };
+
+          [$baseCovered, $baseTotal] = $readCoverage(getenv("BASELINE_COVERAGE"));
+          [$headCovered, $headTotal] = $readCoverage(getenv("PULL_REQUEST_COVERAGE"));
+
+          $basePercentage = 100 * $baseCovered / $baseTotal;
+          $headPercentage = 100 * $headCovered / $headTotal;
+
+          printf("Base coverage:        %.4f%% (%d/%d)\n", $basePercentage, $baseCovered, $baseTotal);
+          printf("Pull request coverage: %.4f%% (%d/%d)\n", $headPercentage, $headCovered, $headTotal);
+
+          if ($headCovered * $baseTotal < $baseCovered * $headTotal) {
+              fwrite(STDERR, sprintf("Code coverage decreased by %.4f percentage points.\n", $basePercentage - $headPercentage));
+              exit(1);
+          }
+
+          echo "Code coverage did not decrease.\n";
+          '
 
       - name: Dump run logs on failure
         if: failure()
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: \${{ github.token }}
         run: |
           mkdir -p var/log/ci
           gh run view "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --log > var/log/ci/run.log || true
@@ -161,8 +240,18 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: phpunit-junit-${{ matrix.php-version }}
+          name: phpunit-junit-\${{ matrix.php-version }}
           path: var/log/phpunit-junit.xml
+          if-no-files-found: ignore
+
+      - name: Upload coverage reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: phpunit-coverage-\${{ matrix.php-version }}
+          path: |
+            var/coverage/clover.xml
+            coverage-baseline/var/coverage/clover.xml
           if-no-files-found: ignore
 
       - name: Upload logs on failure
