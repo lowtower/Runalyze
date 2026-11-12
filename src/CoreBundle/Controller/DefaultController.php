@@ -113,7 +113,9 @@ class DefaultController extends AbstractPluginsAwareController
         $statistics = $provider->getStatistics($request);
         $content = $this->captureLegacyOutput(function () use ($statistics): void {
             if ($statistics->activityId !== null) {
-                new TrainingView(new ActivityContext($statistics->activityId, SessionAccountHandler::getId()))->display();
+                $trainingView = new TrainingView(new ActivityContext($statistics->activityId, SessionAccountHandler::getId()));
+
+                echo $this->renderView('activity/training_view.html.twig', $trainingView->templateData());
 
                 return;
             }
