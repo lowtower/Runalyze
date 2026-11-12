@@ -12,6 +12,9 @@ final readonly class DashboardStatisticsProvider
         private PluginFactory $pluginFactory
     ) {}
 
+    /**
+     * @throws \\InvalidArgumentException when the requested plugin does not exist
+     */
     public function getStatistics(Request $request): DashboardStatistics
     {
         $activeStatistics = $this->pluginFactory->activePlugins(PluginType::STAT);
