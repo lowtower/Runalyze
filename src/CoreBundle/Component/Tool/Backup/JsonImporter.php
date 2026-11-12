@@ -3,7 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\Component\Tool\Backup;
 
 use PDOforRunalyze;
-use Runalyze\Configuration;
+use Runalyze\Configuration\Handle;
 use Runalyze\Util\File\GZipReader;
 
 class JsonImporter
@@ -90,8 +90,6 @@ class JsonImporter
 
     private function readExistingData(): void
     {
-        Configuration::loadAll();
-
         $Tables = [
             'sport' => 'name',
             'type' => 'name',
@@ -441,7 +439,7 @@ class JsonImporter
     private function correctConfigReferences(): void
     {
         if ($this->OverwriteConfig) {
-            $configValues = Configuration\Handle::tableHandles();
+            $configValues = Handle::tableHandles();
 
             foreach ($configValues as $key => $table) {
                 $table = 'runalyze_' . $table;

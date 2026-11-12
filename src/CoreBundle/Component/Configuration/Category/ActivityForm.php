@@ -87,11 +87,34 @@ class ActivityForm extends AbstractCategory
         return $order;
     }
 
+    /**
+     * @return array<int, string>
+     */
     public function getIgnoredActivityIds(): array
     {
-        return array_filter(
+        return array_values(array_filter(
             explode(',', $this->Variables['GARMIN_IGNORE_IDS'])
-        );
+        ));
+    }
+
+    public function getIgnoredActivityIdsAsString(): string
+    {
+        return implode(',', $this->getIgnoredActivityIds());
+    }
+
+    public function addIgnoredActivityId(string $activityId): void
+    {
+        $ids = $this->getIgnoredActivityIds();
+
+        if (! in_array($activityId, $ids, true)) {
+            $ids[] = $activityId;
+            $this->Variables['GARMIN_IGNORE_IDS'] = implode(',', $ids);
+        }
+    }
+
+    public function updateFieldVisibility(string $legendKey, string $value): void
+    {
+        $this->Variables['FORMULAR_SHOW_' . $legendKey] = $value;
     }
 
     protected function getLegacyCategoryName(): string

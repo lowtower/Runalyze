@@ -18,7 +18,7 @@ use Runalyze\Bundle\CoreBundle\Repository\DatasetRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
-use Runalyze\Configuration;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
 use Runalyze\Dataset\Context;
 use Runalyze\Dataset\DefaultConfiguration;
 use Runalyze\Dataset\Keys;
@@ -48,7 +48,8 @@ class SettingsController extends AbstractController
         private AutomaticReloadFlagSetter $automaticReloadFlagSetter,
         private RequestStack $requestStack,
         private AccountMailer $accountMailer,
-        private ConfigurationManager $configurationManager
+        private ConfigurationManager $configurationManager,
+        private ConfigurationUpdater $configurationUpdater
     ) {}
 
     protected function getAccountRepository(): AccountRepository
@@ -83,7 +84,7 @@ class SettingsController extends AbstractController
             $formdata = $request->request->all($form->getName());
 
             if (isset($formdata['reset_configuration'])) {
-                Configuration::resetConfiguration($account->getId());
+                $this->configurationUpdater->resetToDefaults($account);
                 $this->addFlash('success', $this->translator->trans('Default configuration has been restored!'));
 
                 $this->automaticReloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_ALL);
