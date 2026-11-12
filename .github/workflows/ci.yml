@@ -174,9 +174,9 @@ jobs:
           path: coverage-baseline
           fetch-depth: 1
 
-      - name: Reuse installed dependencies for baseline
+      - name: Install Composer dependencies for baseline
         if: github.event_name == 'pull_request' && steps.baseline-cache.outputs.cache-hit != 'true'
-        run: ln -s "$GITHUB_WORKSPACE/vendor" "$GITHUB_WORKSPACE/coverage-baseline/vendor"
+        run: composer install --working-dir=coverage-baseline --no-interaction --prefer-dist --no-progress --no-scripts
 
       - name: Prepare baseline test data
         if: github.event_name == 'pull_request' && steps.baseline-cache.outputs.cache-hit != 'true'
