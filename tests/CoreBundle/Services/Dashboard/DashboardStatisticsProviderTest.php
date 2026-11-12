@@ -97,7 +97,7 @@ final class DashboardStatisticsProviderTest extends TestCase
 
     public function testItReturnsNoPluginWhenNoStatisticsAreActive(): void
     {
-        $factory = $this->createMock(PluginFactory::class);
+        $factory = $this->createStub(PluginFactory::class);
         $factory->method('activePlugins')->willReturn([]);
         $factory->method('variousPlugins')->willReturn([]);
 
@@ -130,7 +130,8 @@ final class DashboardStatisticsProviderTest extends TestCase
         $factory = $this->createMock(PluginFactory::class);
         $factory->method('activePlugins')->willReturn([]);
         $factory->method('variousPlugins')->willReturn([]);
-        $factory->method('newInstanceFor')
+        $factory->expects($this->once())
+            ->method('newInstanceFor')
             ->with(999)
             ->willThrowException(new InvalidArgumentException('Unknown plugin.'));
 
