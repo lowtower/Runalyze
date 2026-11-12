@@ -13,7 +13,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: ci-\${{ github.ref }}
+  group: ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -49,7 +49,7 @@ jobs:
       - name: Dump run logs on failure
         if: failure()
         env:
-          GH_TOKEN: \${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           mkdir -p ci-logs
           gh run view "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --log > ci-logs/run.log || true
@@ -63,7 +63,7 @@ jobs:
           if-no-files-found: ignore
 
   tests:
-    name: PHPUnit (PHP \${{ matrix.php-version }})
+    name: PHPUnit (PHP ${{ matrix.php-version }})
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
@@ -114,7 +114,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: \${{ matrix.php-version }}
+          php-version: ${{ matrix.php-version }}
           extensions: ctype, iconv, pdo_mysql, pdo_sqlite, sqlite3
           coverage: xdebug
 
@@ -155,7 +155,7 @@ jobs:
         if: github.event_name == 'pull_request'
         uses: actions/checkout@v7
         with:
-          ref: \${{ github.event.pull_request.base.sha }}
+          ref: ${{ github.event.pull_request.base.sha }}
           path: coverage-baseline
           fetch-depth: 1
 
@@ -231,7 +231,7 @@ jobs:
       - name: Dump run logs on failure
         if: failure()
         env:
-          GH_TOKEN: \${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           mkdir -p var/log/ci
           gh run view "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --log > var/log/ci/run.log || true
@@ -240,7 +240,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: phpunit-junit-\${{ matrix.php-version }}
+          name: phpunit-junit-${{ matrix.php-version }}
           path: var/log/phpunit-junit.xml
           if-no-files-found: ignore
 
@@ -248,7 +248,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: phpunit-coverage-\${{ matrix.php-version }}
+          name: phpunit-coverage-${{ matrix.php-version }}
           path: |
             var/coverage/clover.xml
             coverage-baseline/var/coverage/clover.xml
