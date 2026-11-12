@@ -5,6 +5,8 @@ namespace Runalyze\Bundle\CoreBundle\Controller;
 use DataBrowser;
 use Doctrine\Persistence\ManagerRegistry;
 use Frontend;
+use SessionAccountHandler;
+use TrainingView;
 use Runalyze\Activity\Distance;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
