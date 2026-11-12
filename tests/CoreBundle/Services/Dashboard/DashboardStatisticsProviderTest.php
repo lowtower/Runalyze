@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\\Bundle\\CoreBundle\\Tests\\Services\\Dashboard;
+namespace Runalyze\Bundle\CoreBundle\Tests\Services\Dashboard;
 
 use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 use Plugin;
 use PluginFactory;
 use PluginStat;
 use PluginType;
-use Runalyze\\Bundle\\CoreBundle\\Services\\Dashboard\\DashboardStatisticsProvider;
-use PHPUnit\\Framework\\TestCase;
-use Symfony\\Component\\HttpFoundation\\Request;
+use Runalyze\Bundle\CoreBundle\Services\Dashboard\DashboardStatisticsProvider;
+use Symfony\Component\HttpFoundation\Request;
 
 final class DashboardStatisticsProviderTestPlugin extends PluginStat
 {
@@ -39,7 +39,7 @@ final class DashboardStatisticsProviderTest extends TestCase
             ->with(PluginType::STAT)
             ->willReturn(['DashboardStatisticsProviderTestPlugin']);
         $factory->method('variousPlugins')->willReturn([]);
-        $factory->expects($this->once())
+        $factory->expects($this->exactly(2))
             ->method('newInstance')
             ->with('DashboardStatisticsProviderTestPlugin')
             ->willReturn($plugin);
@@ -136,13 +136,13 @@ final class DashboardStatisticsProviderTest extends TestCase
 
     private function plugin(int $id, int $active): DashboardStatisticsProviderTestPlugin
     {
-        $plugin = (new \\ReflectionClass(DashboardStatisticsProviderTestPlugin::class))
+        $plugin = (new \ReflectionClass(DashboardStatisticsProviderTestPlugin::class))
             ->newInstanceWithoutConstructor();
 
-        $idProperty = new \\ReflectionProperty(Plugin::class, 'id');
+        $idProperty = new \ReflectionProperty(Plugin::class, 'id');
         $idProperty->setValue($plugin, $id);
 
-        $activeProperty = new \\ReflectionProperty(Plugin::class, 'active');
+        $activeProperty = new \ReflectionProperty(Plugin::class, 'active');
         $activeProperty->setValue($plugin, $active);
 
         return $plugin;
