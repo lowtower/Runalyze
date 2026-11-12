@@ -151,8 +151,23 @@ jobs:
           mkdir -p var/log var/coverage
           composer test:coverage-clover
 
-      - name: Checkout pull request base revision
+      - name: Cache main branch coverage
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/cache/save@v4
+        with:
+          path: var/coverage/clover.xml
+          key: coverage-main-${{ github.sha }}
+
+      - name: Restore base branch coverage
         if: github.event_name == 'pull_request'
+        id: baseline-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: coverage-baseline/var/coverage/clover.xml
+          key: coverage-main-${{ github.event.pull_request.base.sha }}
+
+      - name: Checkout pull request base revision
+        if: github.event_name == 'pull_request' && steps.baseline-cache.outputs.cache-hit != 'true'
         uses: actions/checkout@v7
         with:
           ref: ${{ github.event.pull_request.base.sha }}
@@ -160,11 +175,11 @@ jobs:
           fetch-depth: 1
 
       - name: Reuse installed dependencies for baseline
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && steps.baseline-cache.outputs.cache-hit != 'true'
         run: ln -s "$GITHUB_WORKSPACE/vendor" "$GITHUB_WORKSPACE/coverage-baseline/vendor"
 
       - name: Prepare baseline test data
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && steps.baseline-cache.outputs.cache-hit != 'true'
         working-directory: coverage-baseline
         run: |
           composer download:timezone-database
@@ -173,7 +188,7 @@ jobs:
           composer test:setup
 
       - name: Measure base branch coverage
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && steps.baseline-cache.outputs.cache-hit != 'true'
         working-directory: coverage-baseline
         run: |
           mkdir -p var/log var/coverage
