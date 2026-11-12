@@ -15,7 +15,10 @@ use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
+use Runalyze\Bundle\CoreBundle\Services\Dashboard\DashboardStatisticsProvider;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
+use Runalyze\View\Activity\Context as ActivityContext;
+use SessionAccountHandler;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,6 +32,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Throwable;
+use TrainingView;
 use Twig\Environment;
 
 /**
@@ -80,7 +84,7 @@ class DefaultController extends AbstractPluginsAwareController
      * @throws Throwable if the included legacy dashboard throws
      */
     #[Route(path: '/dashboard', name: 'dashboard', methods: ['GET'])]
-    public function dashboardAction(Request $request, ?Account $account = null): Response
+    public function dashboardAction(Request $request, DashboardStatisticsProvider $dashboardStatisticsProvider, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -90,12 +94,45 @@ class DefaultController extends AbstractPluginsAwareController
 
         $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
             ->getContent();
+        $dashboardStatistics = $this->getDashboardStatisticsContent($dashboardStatisticsProvider, $request);
+        $statisticsNavigationContent = $dashboardStatistics['navigation'];
+        $statisticsContent = $dashboardStatistics['content'];
 
-        $legacyContent = $this->captureLegacyOutput(function () use ($dataBrowserContent, $panelsContent): void {
+        $legacyContent = $this->captureLegacyOutput(function () use ($dataBrowserContent, $panelsContent, $statisticsNavigationContent, $statisticsContent): void {
             include __DIR__ . '/../../../dashboard.php';
         })->getContent();
 
         return $this->wrapLegacyContent($legacyContent, $request);
+    }
+
+    /**
+     * @return array{navigation: string, content: string}
+     */
+    private function getDashboardStatisticsContent(DashboardStatisticsProvider $provider, Request $request): array
+    {
+        $statistics = $provider->getStatistics($request);
+        $content = $this->captureLegacyOutput(function () use ($statistics): void {
+            if ($statistics->activityId !== null) {
+                $trainingView = new TrainingView(new ActivityContext($statistics->activityId, SessionAccountHandler::getId()));
+
+                echo $this->renderView('activity/training_view.html.twig', $trainingView->templateData());
+
+                return;
+            }
+
+            if ($statistics->plugin instanceof \Plugin) {
+                $statistics->plugin->display();
+
+                return;
+            }
+
+            echo __('<em>There are no statistics available. Activate a plugin in your configuration.</em>');
+        })->getContent();
+
+        return [
+            'navigation' => $statistics->navigationHtml,
+            'content' => $content,
+        ];
     }
 
     #[Route(path: '/', name: 'base_url', methods: ['GET'])]
@@ -247,7 +284,7 @@ class DefaultController extends AbstractPluginsAwareController
      * @throws Throwable if the included legacy dashboard throws
      */
     #[Route(path: '/index.php', methods: ['GET'])]
-    public function indexPhpAction(Request $request, ?Account $account = null): Response|RedirectResponse
+    public function indexPhpAction(Request $request, DashboardStatisticsProvider $dashboardStatisticsProvider, ?Account $account = null): Response|RedirectResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -258,8 +295,11 @@ class DefaultController extends AbstractPluginsAwareController
 
             $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
                 ->getContent();
+            $dashboardStatistics = $this->getDashboardStatisticsContent($dashboardStatisticsProvider, $request);
+            $statisticsNavigationContent = $dashboardStatistics['navigation'];
+            $statisticsContent = $dashboardStatistics['content'];
 
-            $legacyContent = $this->captureLegacyOutput(function () use ($dataBrowserContent, $panelsContent): void {
+            $legacyContent = $this->captureLegacyOutput(function () use ($dataBrowserContent, $panelsContent, $statisticsNavigationContent, $statisticsContent): void {
                 include $this->parameterBag->get('kernel.project_dir') . '/dashboard.php';
             })->getContent();
 

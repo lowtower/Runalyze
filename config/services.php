@@ -89,6 +89,7 @@ use Runalyze\Bundle\CoreBundle\Services\Activity\DataSeriesRemover;
 use Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
+use Runalyze\Bundle\CoreBundle\Services\Dashboard\DashboardStatisticsProvider;
 use Runalyze\Bundle\CoreBundle\Services\DisposableDomainProvider;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityCache;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityContextAdapterFactory;
@@ -249,6 +250,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autowire(true)
         ->autoconfigure(true)
         ->public();
+
+    $services->set(PluginFactory::class)
+        ->class(PluginFactory::class);
+    $services->set(DashboardStatisticsProvider::class);
 
     $services->load('Runalyze\Bundle\CoreBundle\Controller\\', __DIR__ . '/../src/CoreBundle/Controller')
         ->tag('controller.service_arguments');

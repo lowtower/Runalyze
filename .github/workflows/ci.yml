@@ -127,7 +127,7 @@ jobs:
         run: |
           MODULE_PATH="$(dpkg -L libsqlite3-mod-spatialite | grep -m1 'mod_spatialite.so$')"
           if [ -n "$MODULE_PATH" ]; then
-            echo "SQLITE_MOD_SPATIALITE=${MODULE_PATH}" >> "$GITHUB_ENV"
+            echo "SQLITE_MOD_SPATIALITE=$MODULE_PATH" >> "$GITHUB_ENV"
           fi
 
       - name: Install Composer dependencies
