@@ -46,7 +46,7 @@ final class PluginFactoryCustomConstructorFixture extends PluginPanel
 
 final class PluginFactoryConfigurationFixture extends PluginPanel
 {
-    protected function initConfiguration()
+    protected function initConfiguration(): void
     {
         $configuration = new PluginConfiguration($this->id());
         $configuration->addValue(new PluginConfigurationValue('fixture-setting', '', '', 'default'));
