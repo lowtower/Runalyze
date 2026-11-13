@@ -103,7 +103,13 @@ class PluginFactory
     {
         foreach (self::Plugins() as $plugin) {
             if ($plugin['key'] == $pluginkey) {
-                return $this->pluginInstantiator->instantiate($pluginkey, (int) $plugin['id']);
+                $pluginId = $plugin['id'];
+
+                if (! is_int($pluginId) && ! is_string($pluginId)) {
+                    throw new InvalidArgumentException(sprintf('Plugin "%s" has an invalid identifier.', $pluginkey));
+                }
+
+                return $this->pluginInstantiator->instantiate($pluginkey, $pluginId);
             }
         }
 
