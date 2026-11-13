@@ -27,7 +27,9 @@ final readonly class PluginInstallationManager
      */
     public function getInstalledPluginKeys(): array
     {
-        return $this->getPluginRepository()->findKeysForAccount($this->getAccount());
+        $account = $this->getAccount();
+
+        return $this->getPluginRepository()->findKeysForAccount($account);
     }
 
     /**
@@ -37,7 +39,9 @@ final readonly class PluginInstallationManager
      */
     public function getInstalledPluginData(): array
     {
-        return $this->getPluginRepository()->findDataForAccount($this->getAccount());
+        $account = $this->getAccount();
+
+        return $this->getPluginRepository()->findDataForAccount($account);
     }
 
     /**
@@ -45,7 +49,9 @@ final readonly class PluginInstallationManager
      */
     public function isInstalled(string $key): bool
     {
-        return $this->getPluginRepository()->findForAccountAndKey($this->getAccount(), $key) !== null;
+        $account = $this->getAccount();
+
+        return $this->getPluginRepository()->findForAccountAndKey($account, $key) !== null;
     }
 
     /**
