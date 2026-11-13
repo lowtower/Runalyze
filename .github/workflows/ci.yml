@@ -215,7 +215,7 @@ jobs:
           php -r '
           $readCoverage = static function (string $path): array {
               if (!is_file($path)) {
-                  fwrite(STDERR, "Coverage report not found: $path\\n");
+                  fwrite(STDERR, "Coverage report not found: $path\n");
                   exit(1);
               }
 
@@ -223,7 +223,7 @@ jobs:
               $metrics = $report?->project?->metrics;
 
               if ($metrics === null || !isset($metrics["statements"], $metrics["coveredstatements"])) {
-                  fwrite(STDERR, "Coverage report has no statement metrics: $path\\n");
+                  fwrite(STDERR, "Coverage report has no statement metrics: $path\n");
                   exit(1);
               }
 
@@ -231,7 +231,7 @@ jobs:
               $covered = (int) $metrics["coveredstatements"];
 
               if ($total === 0) {
-                  fwrite(STDERR, "Coverage report contains no executable statements: $path\\n");
+                  fwrite(STDERR, "Coverage report contains no executable statements: $path\n");
                   exit(1);
               }
 
@@ -249,7 +249,7 @@ jobs:
           $status = $decreased ? "Coverage decreased" : "Coverage did not decrease";
 
           $report = sprintf(
-              "<!-- runalyze-coverage-report -->\\n### Code coverage\\n\\n| Revision | Statement coverage | Covered statements |\\n| --- | ---: | ---: |\\n| Base branch | %.4f%% | %d/%d |\\n| Pull request | %.4f%% | %d/%d |\\n\\n**Change:** %s  \\n**Result:** %s",
+              "<!-- runalyze-coverage-report -->\n### Code coverage\n\n| Revision | Statement coverage | Covered statements |\n| --- | ---: | ---: |\n| Base branch | %.4f%% | %d/%d |\n| Pull request | %.4f%% | %d/%d |\n\n**Change:** %s  \n**Result:** %s",
               $basePercentage,
               $baseCovered,
               $baseTotal,
@@ -260,19 +260,19 @@ jobs:
               $status
           );
 
-          file_put_contents(getenv("GITHUB_STEP_SUMMARY"), $report . "\\n");
+          file_put_contents(getenv("GITHUB_STEP_SUMMARY"), $report . "\n");
           file_put_contents(
               getenv("GITHUB_OUTPUT"),
-              "report<<COVERAGE_REPORT\\n" . $report . "\\nCOVERAGE_REPORT\\n",
+              "report<<COVERAGE_REPORT\n" . $report . "\nCOVERAGE_REPORT\n",
               FILE_APPEND
           );
 
           if ($decreased) {
-              fwrite(STDERR, sprintf("Code coverage decreased by %.4f percentage points.\\n", -$delta));
+              fwrite(STDERR, sprintf("Code coverage decreased by %.4f percentage points.\n", -$delta));
               exit(1);
           }
 
-          echo "Code coverage did not decrease.\\n";
+          echo "Code coverage did not decrease.\n";
           '
       - name: Dump run logs on failure
         if: failure()
