@@ -25,7 +25,7 @@ final class PluginDiscovery
         $keys = [];
 
         foreach (new FilesystemIterator($this->pluginDirectory, FilesystemIterator::SKIP_DOTS) as $entry) {
-            if ($entry->isDir()) {
+            if (! str_starts_with($entry->getFilename(), '.') && $entry->isDir()) {
                 $keys[] = $entry->getFilename();
             }
         }
