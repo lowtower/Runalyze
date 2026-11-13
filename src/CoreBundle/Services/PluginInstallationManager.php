@@ -33,6 +33,16 @@ final readonly class PluginInstallationManager
     /**
      * @throws LogicException if there is no authenticated account
      */
+    /**
+     * @return list<array{id: int, key: string, type: string, active: int, order: int}>
+     *
+     * @throws LogicException if there is no authenticated account
+     */
+    public function getInstalledPluginData(): array
+    {
+        return $this->getPluginRepository()->findDataForAccount($this->getAccount());
+    }
+
     public function isInstalled(string $key): bool
     {
         return $this->getPluginRepository()->findForAccountAndKey($this->getAccount(), $key) !== null;
