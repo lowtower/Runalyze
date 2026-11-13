@@ -201,8 +201,7 @@ class PluginFactory
 
     /**
      * @return array array with plugin keys
-     */
-    /**
+     *
      * @throws LogicException if there is no authenticated account
      */
     public function variousPlugins(): array
