@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\\Bundle\\CoreBundle\\Services;
+namespace Runalyze\Bundle\CoreBundle\Services;
 
-use Doctrine\\Persistence\\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use LogicException;
 use PluginInstaller;
-use Runalyze\\Bundle\\CoreBundle\\Entity\\Account;
-use Runalyze\\Bundle\\CoreBundle\\Entity\\Plugin;
-use Runalyze\\Bundle\\CoreBundle\\Repository\\PluginRepository;
-use Symfony\\Component\\Security\\Core\\Authentication\\Token\\Storage\\TokenStorageInterface;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Plugin;
+use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 final readonly class PluginInstallationManager
 {
@@ -35,7 +35,7 @@ final readonly class PluginInstallationManager
 
     /**
      * @throws LogicException if there is no authenticated account
-     * @throws \\InvalidArgumentException if the plugin implementation is invalid
+     * @throws \InvalidArgumentException if the plugin implementation is invalid
      */
     public function install(string $key): bool
     {
