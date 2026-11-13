@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
-use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginConfigurationStorage;
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 
@@ -68,10 +68,14 @@ final class PluginFactoryConfigurationFixture extends PluginPanel
 
 final class PluginFactoryTestConfigurationStorage implements PluginConfigurationStorageInterface
 {
-    /** @var int[] */
+    /**
+     * @var int[]
+     */
     public array $loadedPluginIds = [];
 
-    /** @var array<int, array{int, string, string}> */
+    /**
+     * @var array<int, array{int, string, string}>
+     */
     public array $insertedValues = [];
 
     public function loadForPlugins(array $pluginIds): array
