@@ -6,6 +6,7 @@ use DataBrowser;
 use Doctrine\Persistence\ManagerRegistry;
 use Frontend;
 use Plugin;
+use PluginFactory;
 use Runalyze\Activity\Distance;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
