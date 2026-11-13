@@ -89,15 +89,21 @@ final class PluginFactoryTest extends TestCase
             $this->pluginEntry(1, 'AccountSpecificPlugin', PluginType::string(PluginType::PANEL), Plugin::ACTIVE),
         ];
 
-        SessionAccountHandler::setAccount(['id' => 11]);
+        SessionAccountHandler::setAccount([
+            'id' => 11,
+        ]);
         $this->setPluginsData($accountAPlugins);
         $this->assertSame($accountAPlugins[0], PluginFactory::dataFor(1));
 
-        SessionAccountHandler::setAccount(['id' => 22]);
+        SessionAccountHandler::setAccount([
+            'id' => 22,
+        ]);
         $this->setPluginsData($accountBPlugins);
         $this->assertSame($accountBPlugins[0], PluginFactory::dataFor(1));
 
-        SessionAccountHandler::setAccount(['id' => 11]);
+        SessionAccountHandler::setAccount([
+            'id' => 11,
+        ]);
         $this->assertSame($accountAPlugins[0], PluginFactory::dataFor(1));
     }
 
