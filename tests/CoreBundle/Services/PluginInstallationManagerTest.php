@@ -10,8 +10,8 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+
 final class PluginInstallationManagerTest extends TestCase
-final class PluginInstallationManagerTest extends \PHPUnit\Framework\TestCase
 {
     public function testInstalledPluginKeysRequireAnAuthenticatedAccount(): void
     {
