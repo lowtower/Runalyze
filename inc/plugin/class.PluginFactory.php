@@ -227,11 +227,6 @@ class PluginFactory
     }
 
     /**
-     * @internal SECURITY-SENSITIVE: identical unvalidated `new $Pluginkey(...)` pattern as
-     *           newInstallerInstance() above - no known caller as of this review, but any future
-     *           caller must validate $Pluginkey first (e.g. against notInstalledPlugins()).
-     */
-    /**
      * @throws InvalidArgumentException if the class is not an instantiable plugin implementation
      */
     public function installPlugin(string $Pluginkey): bool
