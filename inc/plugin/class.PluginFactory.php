@@ -28,11 +28,6 @@ class PluginFactory
      */
     private static array $Plugins = [];
 
-    /**
-     * @var array<int, true>
-     */
-    private static array $DoctrinePluginsLoaded = [];
-
     private static function Plugins(): array
     {
         $accountId = SessionAccountHandler::getId();
@@ -56,7 +51,7 @@ class PluginFactory
     public static function clearCache(): void
     {
         $accountId = SessionAccountHandler::getId();
-        unset(self::$Plugins[$accountId], self::$DoctrinePluginsLoaded[$accountId]);
+        unset(self::$Plugins[$accountId]);
         Cache::delete(self::CACHE_KEY);
     }
 
@@ -237,10 +232,7 @@ class PluginFactory
         if ($this->pluginInstallationManager instanceof PluginInstallationManager) {
             $accountId = SessionAccountHandler::getId();
 
-            if (! isset(self::$DoctrinePluginsLoaded[$accountId])) {
-                self::$Plugins[$accountId] = $this->pluginInstallationManager->getInstalledPluginData();
-                self::$DoctrinePluginsLoaded[$accountId] = true;
-            }
+            self::$Plugins[$accountId] = $this->pluginInstallationManager->getInstalledPluginData();
 
             return self::$Plugins[$accountId];
         }
