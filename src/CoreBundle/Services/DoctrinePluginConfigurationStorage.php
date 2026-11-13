@@ -43,20 +43,17 @@ final class DoctrinePluginConfigurationStorage implements PluginConfigurationSto
             ->setConfig($key)
             ->setValue($value);
 
-        $this->entityManager->persist($configuration);
-        $this->entityManager->flush();
+        $this->entityManager->getRepository(PluginConf::class)->save($configuration);
     }
 
     public function update(int $pluginId, string $key, string $value): void
     {
-        $configuration = $this->entityManager->getRepository(PluginConf::class)->findOneBy([
-            'plugin' => $pluginId,
-            'config' => $key,
-        ]);
+        $configuration = $this->entityManager->getRepository(PluginConf::class)
+            ->findForPluginAndKey($pluginId, $key);
 
         if ($configuration instanceof PluginConf) {
             $configuration->setValue($value);
-            $this->entityManager->flush();
+            $this->entityManager->getRepository(PluginConf::class)->save($configuration);
         }
     }
 
