@@ -7,7 +7,6 @@ use ConfigTabPlugins;
 use Frontend;
 use HTML;
 use Icon;
-use PluginFactory;
 use PluginInstaller;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Symfony\Component\HttpFoundation\Request;
