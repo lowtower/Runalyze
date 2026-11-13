@@ -1,10 +1,11 @@
 <?php
 
-namespace Runalyze\Bundle\CoreBundle\Services\Dashboard;
+namespace Runalyze\\Bundle\\CoreBundle\\Services\\Dashboard;
 
+use Plugin;
 use PluginFactory;
 use PluginType;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\\Component\\HttpFoundation\\Request;
 
 final readonly class DashboardStatisticsProvider
 {
@@ -13,7 +14,7 @@ final readonly class DashboardStatisticsProvider
     ) {}
 
     /**
-     * @throws \InvalidArgumentException when the requested plugin does not exist
+     * @throws \\InvalidArgumentException when the requested plugin does not exist
      */
     public function getStatistics(Request $request): DashboardStatistics
     {
