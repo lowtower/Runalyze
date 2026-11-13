@@ -65,6 +65,29 @@ final class PluginRepositoryTest extends AbstractRepositoryTestCase
         ], $this->PluginRepository->findDataForAccount($this->EmptyAccount));
     }
 
+    public function testFindDataForAccountReadsCurrentDatabaseStateInsteadOfManagedEntities(): void
+    {
+        $plugin = $this->insertPanel(4, 'installed-plugin');
+
+        $this->getEntityManager()->getConnection()->executeStatement(
+            'UPDATE runalyze_plugin SET `key` = :key WHERE id = :id',
+            [
+                'key' => 'updated-plugin',
+                'id' => $plugin->getId(),
+            ]
+        );
+
+        $this->assertSame([
+            [
+                'id' => $plugin->getId(),
+                'key' => 'updated-plugin',
+                'type' => Plugin::TYPE_PANEL,
+                'active' => Plugin::STATE_ACTIVE,
+                'order' => 4,
+            ],
+        ], $this->PluginRepository->findDataForAccount($this->EmptyAccount));
+    }
+
     public function testFindKeysForAccountDoesNotReturnPluginsFromAnotherAccount(): void
     {
         $this->insertPanel(1, 'empty-account-plugin');
