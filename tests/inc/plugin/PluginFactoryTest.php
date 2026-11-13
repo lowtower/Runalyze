@@ -415,7 +415,9 @@ final class PluginFactoryTest extends TestCase
             );
 
             $this->assertSame([
-                ['key' => 'AvailablePlugin'],
+                [
+                    'key' => 'AvailablePlugin',
+                ],
             ], $factory->notInstalledPlugins());
         } finally {
             rmdir($pluginDirectory . '/AvailablePlugin');

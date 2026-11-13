@@ -43,7 +43,7 @@ final class PluginDiscoveryTest extends TestCase
 
         $discovery = new PluginDiscovery($this->pluginDirectory);
 
-        self::assertSame([
+        $this->assertSame([
             'RunalyzePluginPanel_Sports',
             'RunalyzePluginStat_Weather',
         ], $discovery->findAvailablePluginKeys());
@@ -54,10 +54,10 @@ final class PluginDiscoveryTest extends TestCase
         $discovery = new PluginDiscovery($this->pluginDirectory);
 
         mkdir($this->pluginDirectory . '/FirstPlugin');
-        self::assertSame(['FirstPlugin'], $discovery->findAvailablePluginKeys());
+        $this->assertSame(['FirstPlugin'], $discovery->findAvailablePluginKeys());
 
         mkdir($this->pluginDirectory . '/SecondPlugin');
-        self::assertSame(['FirstPlugin', 'SecondPlugin'], $discovery->findAvailablePluginKeys());
+        $this->assertSame(['FirstPlugin', 'SecondPlugin'], $discovery->findAvailablePluginKeys());
     }
 
     public function testThrowsWhenPluginDirectoryDoesNotExist(): void
@@ -65,7 +65,7 @@ final class PluginDiscoveryTest extends TestCase
         $discovery = new PluginDiscovery($this->pluginDirectory . '/missing');
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('does not exist or is not readable');
+        $this->expectExceptionMessageIsOrContains('does not exist or is not readable');
 
         $discovery->findAvailablePluginKeys();
     }

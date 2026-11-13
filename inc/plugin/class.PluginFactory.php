@@ -12,14 +12,11 @@ class PluginFactory
 {
     private readonly LegacyPluginInstantiator $pluginInstantiator;
 
-    private readonly ?PluginDiscovery $pluginDiscovery;
-
     public function __construct(
         ?LegacyPluginInstantiator $pluginInstantiator = null,
-        ?PluginDiscovery $pluginDiscovery = null
+        private readonly ?PluginDiscovery $pluginDiscovery = null
     ) {
         $this->pluginInstantiator = $pluginInstantiator ?? new LegacyPluginInstantiator();
-        $this->pluginDiscovery = $pluginDiscovery;
     }
 
     public const string CACHE_KEY = 'plugins';

@@ -5,10 +5,10 @@ namespace Runalyze\Bundle\CoreBundle\Services;
 use FilesystemIterator;
 use RuntimeException;
 
-final class PluginDiscovery
+final readonly class PluginDiscovery
 {
     public function __construct(
-        private readonly string $pluginDirectory
+        private string $pluginDirectory
     ) {}
 
     /**
