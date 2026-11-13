@@ -379,7 +379,7 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStatusCode(200, $this->Client);
     }
 
-    public function testDashboardActionRendersTheLegacyDashboardContentForLoggedInUser(): void
+    public function testDashboardActionRendersTheDashboardThroughTwig(): void
     {
         $this->loginClient($this->Client, $this->Account, 'default');
 
@@ -480,6 +480,8 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
 
         $this->assertStringContainsString('id="data-browser"', $content);
         $this->assertStringContainsString('id="statistics"', $content);
+        $this->assertStringNotContainsString('<!DOCTYPE html>', $content);
+        $this->assertStringNotContainsString('id="headline"', $content);
     }
 
     public function testLoginPhpActionRedirectsToDashboard(): void
