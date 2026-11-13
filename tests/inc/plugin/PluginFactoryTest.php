@@ -296,7 +296,7 @@ final class PluginFactoryTest extends TestCase
         $factory->newInstanceFor(999);
     }
 
-    public function testNewInstanceForDelegatesToKeyForAndNewInstance(): void
+    public function testNewInstanceForCreatesInstanceForMatchingId(): void
     {
         $this->setPluginsData([
             $this->pluginEntry(PluginInstaller::ID, 'PluginFactoryTestFixture', PluginType::string(PluginType::PANEL), Plugin::ACTIVE),
