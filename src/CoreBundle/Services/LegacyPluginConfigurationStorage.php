@@ -12,7 +12,11 @@ final class LegacyPluginConfigurationStorage implements PluginConfigurationStora
             return [];
         }
 
-        $rows = DB::getInstance()->query(
+        $cacheKey = 'PluginConf_' . SessionAccountHandler::getId();
+        $rows = Cache::get($cacheKey);
+
+        if ($rows === null) {
+            $rows = DB::getInstance()->query(
             'SELECT `pluginid`,`config`,`value` '
             . 'FROM `' . PREFIX . 'plugin_conf` '
             . 'WHERE `pluginid` IN (' . implode(',', array_map('intval', $pluginIds)) . ')'
@@ -38,7 +42,7 @@ final class LegacyPluginConfigurationStorage implements PluginConfigurationStora
     {
         DB::getInstance()->updateWhere(
             'plugin_conf',
-            '`pluginid`=' . $pluginId . ' AND `config`=' . DB::getInstance()->quote($key),
+            '`pluginid`=' . $pluginId . ' AND `config`=' . '\"' . $key . '\"',
             'value',
             $value
         );
@@ -47,6 +51,6 @@ final class LegacyPluginConfigurationStorage implements PluginConfigurationStora
 
     public function clearCache(): void
     {
-        Cache::delete('PluginConf');
+        Cache::delete('PluginConf_' . SessionAccountHandler::getId());
     }
 }
