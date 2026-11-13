@@ -151,11 +151,17 @@ jobs:
           mkdir -p var/log var/coverage
           composer test:coverage-clover
 
+      - name: Prepare main branch coverage cache
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          mkdir -p coverage-baseline/var/coverage
+          cp var/coverage/clover.xml coverage-baseline/var/coverage/clover.xml
+
       - name: Cache main branch coverage
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/cache/save@v4
         with:
-          path: var/coverage/clover.xml
+          path: coverage-baseline/var/coverage/clover.xml
           key: coverage-main-${{ github.sha }}
 
       - name: Restore base branch coverage
