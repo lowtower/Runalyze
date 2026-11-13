@@ -151,6 +151,32 @@ final class DashboardStatisticsProviderTest extends TestCase
         );
     }
 
+
+    public function testItGroupsVariousStatisticsInASubmenu(): void
+    {
+        $plugin = $this->plugin(31, Plugin::ACTIVE_VARIOUS);
+        $factory = $this->createStub(PluginFactory::class);
+        $factory->method('activePlugins')->willReturn([]);
+        $factory->method('variousPlugins')->willReturn(['DashboardStatisticsProviderTestPlugin']);
+        $factory->method('newInstance')->willReturn($plugin);
+
+        $statistics = new DashboardStatisticsProvider($factory)->getStatistics(new Request());
+
+        $this->assertSame([
+            [
+                'label' => __('Miscellaneous'),
+                'href' => '#',
+                'active' => false,
+                'children' => [
+                    [
+                        'label' => 'Test statistics',
+                        'href' => 'my/plugin/31',
+                    ],
+                ],
+            ],
+        ], $statistics->navigation);
+    }
+
     private function plugin(int $id, int $active): DashboardStatisticsProviderTestPlugin
     {
         $plugin = new \ReflectionClass(DashboardStatisticsProviderTestPlugin::class)
