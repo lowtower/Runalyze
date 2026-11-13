@@ -46,7 +46,14 @@ final class DashboardStatisticsProviderTest extends TestCase
 
         $statistics = new DashboardStatisticsProvider($factory)->getStatistics(new Request());
 
-        $this->assertSame('<li class="active"><a rel="statistics" href="my/plugin/17">Test statistics</a></li>', $statistics->navigationHtml);
+        $this->assertSame([
+            [
+                'label' => 'Test statistics',
+                'href' => 'my/plugin/17',
+                'active' => true,
+                'children' => [],
+            ],
+        ], $statistics->navigation);
         $this->assertSame($plugin, $statistics->plugin);
         $this->assertNull($statistics->activityId);
         $this->assertTrue($statistics->hasActiveStatistics);
