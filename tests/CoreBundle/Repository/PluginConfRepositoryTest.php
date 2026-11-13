@@ -7,6 +7,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Repository;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Entity\PluginConf;
 use Runalyze\Bundle\CoreBundle\Repository\PluginConfRepository;
+use Runalyze\Bundle\CoreBundle\Services\DoctrinePluginConfigurationStorage;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 final class PluginConfRepositoryTest extends AbstractRepositoryTestCase
@@ -14,6 +15,8 @@ final class PluginConfRepositoryTest extends AbstractRepositoryTestCase
     private PluginConfRepository $repository;
 
     private Plugin $plugin;
+
+    private int $pluginId;
 
     protected function setUp(): void
     {
@@ -28,6 +31,7 @@ final class PluginConfRepositoryTest extends AbstractRepositoryTestCase
 
         $this->getEntityManager()->persist($this->plugin);
         $this->getEntityManager()->flush();
+        $this->pluginId = $this->pluginId;
     }
 
     public function testFindValuesForPluginsGroupsValuesByPluginId(): void
@@ -56,6 +60,21 @@ final class PluginConfRepositoryTest extends AbstractRepositoryTestCase
     public function testFindValuesForPluginsReturnsEmptyArrayWithoutPluginIds(): void
     {
         $this->assertSame([], $this->repository->findValuesForPlugins([]));
+    }
+
+
+    public function testDoctrineStorageInsertsUpdatesAndLoadsValues(): void
+    {
+        $storage = new DoctrinePluginConfigurationStorage($this->getEntityManager());
+
+        $storage->insert($this->pluginId, 'setting', 'initial');
+        $storage->update($this->pluginId, 'setting', 'updated');
+
+        $this->assertSame([
+            $this->pluginId => [
+                'setting' => 'updated',
+            ],
+        ], $storage->loadForPlugins([$this->pluginId]));
     }
 
     public function testFindForPluginAndKeyReturnsMatchingConfiguration(): void
