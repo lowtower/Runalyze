@@ -447,6 +447,24 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStatusCode(404, $this->Client);
     }
 
+    public function testIndexActionRendersTheDashboardFragmentForAnXmlHttpRequest(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $this->Client->request('GET', '/', [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ]);
+
+        $this->assertStatusCode(200, $this->Client);
+
+        $content = (string) $this->Client->getResponse()->getContent();
+
+        $this->assertStringContainsString('id="data-browser"', $content);
+        $this->assertStringContainsString('id="statistics"', $content);
+        $this->assertStringNotContainsString('<!DOCTYPE html>', $content);
+        $this->assertStringNotContainsString('id="headline"', $content);
+    }
+
     public function testIndexPhpActionRequiresAuthentication(): void
     {
         $this->Client->request('GET', '/index.php', [], [], [
