@@ -115,8 +115,8 @@ class PluginConfigurationWindow
     protected function getFieldsetForActivation(): \FormularFieldset
     {
         $activationLink = $this->Plugin->isInActive()
-            ? $this->Plugin->getConfigLink(__('Activate plugin'), '&active=' . Plugin::ACTIVE)
-            : $this->Plugin->getConfigLink(__('Deactivate plugin'), '&active=' . Plugin::ACTIVE_NOT);
+            ? $this->Plugin->getActivationLink(__('Activate plugin'), Plugin::ACTIVE)
+            : $this->Plugin->getActivationLink(__('Deactivate plugin'), Plugin::ACTIVE_NOT);
 
         $Fieldset = new FormularFieldset(__('Activation'));
         $Fieldset->addInfo($activationLink);
