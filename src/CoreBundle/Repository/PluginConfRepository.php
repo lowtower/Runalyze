@@ -40,10 +40,16 @@ class PluginConfRepository extends EntityRepository
 
     public function findForPluginAndKey(int $pluginId, string $key): ?PluginConf
     {
-        return $this->findOneBy([
-            'plugin' => $pluginId,
-            'config' => $key,
-        ]);
+        /** @var PluginConf|null $configuration */
+        $configuration = $this->createQueryBuilder('configuration')
+            ->where('IDENTITY(configuration.plugin) = :pluginId')
+            ->andWhere('configuration.config = :key')
+            ->setParameter('pluginId', $pluginId)
+            ->setParameter('key', $key)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $configuration;
     }
 
     public function save(PluginConf $configuration): void
