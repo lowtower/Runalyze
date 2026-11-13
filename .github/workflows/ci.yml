@@ -64,6 +64,7 @@ jobs:
 
   tests:
     name: PHPUnit (PHP ${{ matrix.php-version }})
+    needs: qa
     outputs:
       coverage_report: ${{ steps.coverage.outputs.report }}
     permissions:
