@@ -34,7 +34,7 @@ class PluginController extends AbstractPluginsAwareController
 
             $installableKeys = array_column($factory->notInstalledPlugins(), 'key');
 
-            if (! in_array($Pluginkey, $installableKeys, true)) {
+            if (! is_string($Pluginkey) || ! in_array($Pluginkey, $installableKeys, true)) {
                 throw $this->createNotFoundException('Unknown or already installed plugin.');
             }
 
