@@ -65,8 +65,6 @@ class PluginConfiguration
             $value->setValueFromPost();
             $this->update($value->key());
         }
-
-        $this->Storage->clearCache();
     }
 
     final public function update(string $key): void
