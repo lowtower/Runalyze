@@ -415,7 +415,7 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
 
             $this->assertStringContainsString('Monthly Stats', $content);
             $this->assertStringContainsString('analysis-table', $content);
-            $this->assertStringNotContainsString('id="headline"', $content);
+            $this->assertSame(1, substr_count($content, 'id="headline"'));
         } finally {
             DB::getInstance()->exec('DELETE FROM `' . PREFIX . 'plugin` WHERE `id` = ' . $pluginId);
             PluginFactory::clearCache();
