@@ -30,7 +30,7 @@ final readonly class PluginInstallationManager
 
     public function isInstalled(string $key): bool
     {
-        return in_array($key, $this->getInstalledPluginKeys(), true);
+        return $this->getPluginRepository()->findForAccountAndKey($this->getAccount(), $key) !== null;
     }
 
     /**
@@ -41,13 +41,13 @@ final readonly class PluginInstallationManager
     {
         $account = $this->getAccount();
 
-        if (in_array($key, $this->getPluginRepository()->findKeysForAccount($account), true)) {
+        if ($this->getPluginRepository()->findForAccountAndKey($account, $key) !== null) {
             return false;
         }
 
         $plugin = $this->pluginInstantiator->instantiate($key, PluginInstaller::ID);
 
-        $this->getPluginRepository()->installForAccount($account, $key, $plugin->typeString());
+        $this->getPluginRepository()->installForAccount($account, $plugin->key(), $plugin->typeString());
 
         return true;
     }
