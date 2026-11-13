@@ -6,14 +6,20 @@
  */
 
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
+use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 
 class PluginFactory
 {
     private readonly LegacyPluginInstantiator $pluginInstantiator;
 
-    public function __construct(?LegacyPluginInstantiator $pluginInstantiator = null)
-    {
+    private readonly PluginDiscovery $pluginDiscovery;
+
+    public function __construct(
+        ?LegacyPluginInstantiator $pluginInstantiator = null,
+        ?PluginDiscovery $pluginDiscovery = null
+    ) {
         $this->pluginInstantiator = $pluginInstantiator ?? new LegacyPluginInstantiator();
+        $this->pluginDiscovery = $pluginDiscovery ?? new PluginDiscovery(FRONTEND_PATH . '../plugin/');
     }
 
     public const string CACHE_KEY = 'plugins';
@@ -209,17 +215,14 @@ class PluginFactory
     public function notInstalledPlugins(): array
     {
         $plugins = [];
-        $dir = opendir(FRONTEND_PATH . '../plugin/');
 
-        while ($file = readdir($dir)) {
-            if ($file[0] != '.' && is_dir(FRONTEND_PATH . '../plugin/' . $file) && ! $this->isInstalled($file)) {
+        foreach ($this->pluginDiscovery->findAvailablePluginKeys() as $key) {
+            if (! $this->isInstalled($key)) {
                 $plugins[] = [
-                    'key' => $file,
+                    'key' => $key,
                 ];
             }
         }
-
-        closedir($dir);
 
         return $plugins;
     }
