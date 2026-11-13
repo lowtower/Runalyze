@@ -1,0 +1,14 @@
+{% for item in navigation %}
+    <li{% if item.active %} class="active"{% elseif item.children is not empty %} class="with-submenu"{% endif %}>
+        {% if item.children is not empty %}
+            <a href="#">{{ item.label }}</a>
+            <ul class="submenu">
+                {% for child in item.children %}
+                    <li><a rel="statistics" href="{{ child.href }}">{{ child.label }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <a rel="statistics" href="{{ item.href }}">{{ item.label }}</a>
+        {% endif %}
+    </li>
+{% endfor %}
