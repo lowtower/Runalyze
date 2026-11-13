@@ -6,6 +6,7 @@ use DataBrowser;
 use Doctrine\Persistence\ManagerRegistry;
 use Frontend;
 use Plugin;
+use PluginFactory;
 use Runalyze\Activity\Distance;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -44,6 +45,7 @@ class DefaultController extends AbstractPluginsAwareController
 {
     public function __construct(
         ManagerRegistry $doctrine,
+        PluginFactory $pluginFactory,
         private readonly AuthorizationCheckerInterface $authorizationChecker,
         private readonly AuthenticationUtils $authenticationUtils,
         TokenStorageInterface $tokenStorage,
@@ -55,6 +57,7 @@ class DefaultController extends AbstractPluginsAwareController
     ) {
         parent::__construct(
             $doctrine,
+            $pluginFactory,
             $configurationManager,
             $sportSelectionFactory,
             $tokenStorage,
