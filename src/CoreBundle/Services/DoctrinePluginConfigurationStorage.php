@@ -40,8 +40,4 @@ final class DoctrinePluginConfigurationStorage implements PluginConfigurationSto
             $this->entityManager->getRepository(PluginConf::class)->save($configuration);
         }
     }
-
-    public function clearCache(): void
-    {
-    }
 }
