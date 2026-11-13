@@ -74,6 +74,33 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStatusCode(404, $this->Client);
     }
 
+    #[\\PHPUnit\\Framework\\Attributes\\Group('plugin')]
+    public function testPluginInstallActionPersistsPluginForAuthenticatedAccount(): void
+    {
+        $pluginKey = 'RunalyzePluginPanel_Equipment';
+
+        $this->loginClient($this->Client, $this->Account, 'default');
+        $this->request('GET', '/call/call.Plugin.install.php?key=' . $pluginKey);
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString(
+            'The plugin has been successfully installed.',
+            (string) $this->Client->getResponse()->getContent()
+        );
+
+        $plugin = $this->getEntityManager()
+            ->getRepository(Plugin::class)
+            ->findOneBy([
+                'account' => $this->Account,
+                'key' => $pluginKey,
+            ]);
+
+        $this->assertInstanceOf(Plugin::class, $plugin);
+        $this->assertSame(Plugin::TYPE_PANEL, $plugin->getType());
+        $this->assertSame(Plugin::STATE_ACTIVE, $plugin->getActive());
+        $this->assertSame(99, $plugin->getOrder());
+    }
+
     public function testPluginInstallActionRejectsAMissingKey(): void
     {
         $this->loginClient($this->Client, $this->Account, 'default');
