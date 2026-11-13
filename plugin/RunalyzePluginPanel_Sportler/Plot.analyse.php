@@ -5,6 +5,8 @@
  * Call:   include 'Plot.gewicht.php'
  * @package Runalyze\Plugins\Panels
  */
+
+/** @var RunalyzePluginPanel_Sportler $Plugin */
 if ($Plugin->Configuration()->value('plot_timerange') > 0) {
     $QueryEnd = 'WHERE `time` > ' . (time() - DAY_IN_S * (int) $Plugin->Configuration()->value('plot_timerange')) . ' AND `accountid` = ' . SessionAccountHandler::getId() . ' ORDER BY `time` DESC';
 } else {
