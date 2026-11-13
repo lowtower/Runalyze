@@ -40,6 +40,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
 
     public function __construct(
         protected ManagerRegistry $doctrine,
+        protected PluginFactory $pluginFactory,
         protected ConfigurationManager $configurationManager,
         protected SportSelectionFactory $sportSelectionFactory,
         protected TokenStorageInterface $tokenStorage,
@@ -53,7 +54,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
     protected function getResponseForAllEnabledPanels(Request $request, Account $account): Response
     {
         $this->IsShowingAllPanels = true;
-        $factory = new PluginFactory();
+        $factory = $this->pluginFactory;
         $content = '';
 
         foreach ($factory->enabledPanels() as $key) {
@@ -76,7 +77,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
      */
     protected function getResponseFor(int $pluginId, Request $request, Account $account): Response
     {
-        $factory = new PluginFactory();
+        $factory = $this->pluginFactory;
         $content = '';
 
         try {
