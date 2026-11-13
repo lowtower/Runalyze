@@ -16,24 +16,8 @@ final class DoctrinePluginConfigurationStorage implements PluginConfigurationSto
 
     public function loadForPlugins(array $pluginIds): array
     {
-        if ($pluginIds === []) {
-            return [];
-        }
-
-        $rows = $this->entityManager->createQueryBuilder()
-            ->select('IDENTITY(configuration.plugin) AS pluginId', 'configuration.config', 'configuration.value')
-            ->from(PluginConf::class, 'configuration')
-            ->where('IDENTITY(configuration.plugin) IN (:pluginIds)')
-            ->setParameter('pluginIds', $pluginIds)
-            ->getQuery()
-            ->getArrayResult();
-
-        $values = [];
-        foreach ($rows as $row) {
-            $values[(int) $row['pluginId']][$row['config']] = $row['value'];
-        }
-
-        return $values;
+        return $this->entityManager->getRepository(PluginConf::class)
+            ->findValuesForPlugins($pluginIds);
     }
 
     public function insert(int $pluginId, string $key, string $value): void
