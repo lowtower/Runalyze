@@ -62,7 +62,7 @@ final readonly class PluginInstallationManager
     {
         $account = $this->getAccount();
 
-        if ($this->getPluginRepository()->findForAccountAndKey($account, $key) !== null) {
+        if ($this->getPluginRepository()->findForAccountAndKey($account, $key) instanceof Plugin) {
             return false;
         }
 
