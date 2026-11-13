@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 
 final class PluginFactoryTestFixture extends PluginPanel
 {
@@ -15,6 +16,26 @@ final class PluginFactoryTestFixture extends PluginPanel
     final public function description(): string
     {
         return 'Fixture plugin for PluginFactoryTest.';
+    }
+
+    protected function displayContent(): void {}
+}
+
+final class PluginFactoryCustomConstructorFixture extends PluginPanel
+{
+    public function __construct(string $id)
+    {
+        parent::__construct((int) $id);
+    }
+
+    final public function name(): string
+    {
+        return 'Custom constructor fixture';
+    }
+
+    final public function description(): string
+    {
+        return 'Fixture plugin with a custom constructor.';
     }
 
     protected function displayContent(): void {}
@@ -177,6 +198,71 @@ final class PluginFactoryTest extends TestCase
         $instance = $factory->newInstance('PluginFactoryTestFixture');
 
         $this->assertInstanceOf(PluginFactoryTestFixture::class, $instance);
+    }
+
+    public function testNewInstanceSupportsCustomPluginConstructors(): void
+    {
+        $this->setPluginsData([
+            $this->pluginEntry(17, PluginFactoryCustomConstructorFixture::class, PluginType::string(PluginType::PANEL), Plugin::ACTIVE),
+        ]);
+        $factory = new PluginFactory(new LegacyPluginInstantiator());
+
+        $instance = $factory->newInstance(PluginFactoryCustomConstructorFixture::class);
+
+        $this->assertInstanceOf(PluginFactoryCustomConstructorFixture::class, $instance);
+        $this->assertSame(17, $instance->id());
+    }
+
+    public function testNewInstanceRejectsNonScalarPluginIdentifiers(): void
+    {
+        $this->setPluginsData([
+            [
+                'id' => [],
+                'key' => PluginFactoryTestFixture::class,
+                'type' => PluginType::string(PluginType::PANEL),
+                'active' => Plugin::ACTIVE,
+                'order' => 1,
+            ],
+        ]);
+        $factory = new PluginFactory();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessageIsOrContains('Plugin "PluginFactoryTestFixture" has an invalid identifier.');
+
+        $factory->newInstance(PluginFactoryTestFixture::class);
+    }
+
+    public function testNewInstanceRejectsClassesThatAreNotPlugins(): void
+    {
+        $this->setPluginsData([
+            $this->pluginEntry(17, DateTimeImmutable::class, PluginType::string(PluginType::PANEL), Plugin::ACTIVE),
+        ]);
+        $factory = new PluginFactory(new LegacyPluginInstantiator());
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessageIsOrContains('Class "DateTimeImmutable" is not an instantiable plugin.');
+
+        $factory->newInstance(DateTimeImmutable::class);
+    }
+
+    public function testNewInstallerInstanceRejectsUnknownClasses(): void
+    {
+        $factory = new PluginFactory(new LegacyPluginInstantiator());
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessageIsOrContains('Plugin class "NoSuchPluginClass" does not exist.');
+
+        $factory->newInstallerInstance('NoSuchPluginClass');
+    }
+
+    public function testNewInstallerInstanceRejectsClassesThatAreNotPlugins(): void
+    {
+        $factory = new PluginFactory(new LegacyPluginInstantiator());
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessageIsOrContains('Class "DateTimeImmutable" is not an instantiable plugin.');
+
+        $factory->newInstallerInstance(DateTimeImmutable::class);
     }
 
     public function testNewInstanceThrowsInvalidArgumentExceptionForUnknownKey(): void

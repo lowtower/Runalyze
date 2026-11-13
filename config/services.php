@@ -102,6 +102,7 @@ use Runalyze\Bundle\CoreBundle\Services\Import\GeoTiffReader;
 use Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookup;
 use Runalyze\Bundle\CoreBundle\Services\Import\WeatherForecast;
 use Runalyze\Bundle\CoreBundle\Services\LegacyCache;
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 use Runalyze\Bundle\CoreBundle\Services\PrivacyGuard;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager;
@@ -252,6 +253,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autowire(true)
         ->autoconfigure(true)
         ->public();
+
+    $services->set(LegacyPluginInstantiator::class);
 
     $services->set(PluginFactory::class)
         ->class(PluginFactory::class);

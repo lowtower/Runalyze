@@ -4,8 +4,18 @@
  * @author Hannes Christiansen
  * @package Runalyze\Plugin
  */
+
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
+
 class PluginFactory
 {
+    private readonly LegacyPluginInstantiator $pluginInstantiator;
+
+    public function __construct(?LegacyPluginInstantiator $pluginInstantiator = null)
+    {
+        $this->pluginInstantiator = $pluginInstantiator ?? new LegacyPluginInstantiator();
+    }
+
     public const string CACHE_KEY = 'plugins';
 
     /**
@@ -93,7 +103,13 @@ class PluginFactory
     {
         foreach (self::Plugins() as $plugin) {
             if ($plugin['key'] == $pluginkey) {
-                return new $pluginkey($plugin['id']);
+                $pluginId = $plugin['id'];
+
+                if (! is_int($pluginId) && ! is_string($pluginId)) {
+                    throw new InvalidArgumentException(sprintf('Plugin "%s" has an invalid identifier.', $pluginkey));
+                }
+
+                return $this->pluginInstantiator->instantiate($pluginkey, $pluginId);
             }
         }
 
@@ -106,16 +122,11 @@ class PluginFactory
     }
 
     /**
-     * @internal SECURITY-SENSITIVE: performs no validation of $Pluginkey whatsoever - `new
-     *           $Pluginkey(...)` instantiates ANY autoloadable class matching that name, not
-     *           just actual plugin classes. Its only current caller,
-     *           PluginController::pluginInstallAction(), validates $Pluginkey against
-     *           notInstalledPlugins() before ever reaching this method; any future caller must do
-     *           the same.
+     * @throws InvalidArgumentException if the class is not an instantiable plugin implementation
      */
     public function newInstallerInstance(string $Pluginkey): Plugin
     {
-        return new $Pluginkey(PluginInstaller::ID);
+        return $this->pluginInstantiator->instantiate($Pluginkey, PluginInstaller::ID);
     }
 
     public function isInstalled(string $key): bool
@@ -214,15 +225,11 @@ class PluginFactory
     }
 
     /**
-     * @internal SECURITY-SENSITIVE: identical unvalidated `new $Pluginkey(...)` pattern as
-     *           newInstallerInstance() above - no known caller as of this review, but any future
-     *           caller must validate $Pluginkey first (e.g. against notInstalledPlugins()).
+     * @throws InvalidArgumentException if the class is not an instantiable plugin implementation
      */
-    public function installPlugin(string $Pluginkey)
+    public function installPlugin(string $Pluginkey): bool
     {
-        $Plugin = new $Pluginkey(PluginInstaller::ID);
-
-        return $Plugin->install();
+        return $this->newInstallerInstance($Pluginkey)->install();
     }
 
     /**
