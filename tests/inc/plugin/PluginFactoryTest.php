@@ -23,9 +23,9 @@ final class PluginFactoryTestFixture extends PluginPanel
 
 final class PluginFactoryCustomConstructorFixture extends PluginPanel
 {
-    public function __construct(int $id)
+    public function __construct(string $id)
     {
-        parent::__construct($id);
+        parent::__construct((int) $id);
     }
 
     final public function name(): string
