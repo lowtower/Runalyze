@@ -20,8 +20,6 @@ class PluginRepository extends EntityRepository
             ->select('plugin.key')
             ->where('plugin.account = :account')
             ->setParameter('account', $account)
-            ->orderBy('plugin.order', 'ASC')
-            ->addOrderBy('plugin.id', 'ASC')
             ->getQuery()
             ->getArrayResult();
 
