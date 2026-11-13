@@ -19,7 +19,10 @@ final class PluginDiscovery
     public function findAvailablePluginKeys(): array
     {
         if (! is_dir($this->pluginDirectory) || ! is_readable($this->pluginDirectory)) {
-            throw new RuntimeException(sprintf('Plugin directory "%s" does not exist or is not readable.', $this->pluginDirectory));
+            throw new RuntimeException(sprintf(
+                'Plugin directory "%s" does not exist or is not readable.',
+                $this->pluginDirectory
+            ));
         }
 
         $keys = [];
