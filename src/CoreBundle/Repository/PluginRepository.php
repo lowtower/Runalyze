@@ -37,32 +37,14 @@ class PluginRepository extends EntityRepository
      */
     public function findDataForAccount(Account $account): array
     {
-        $plugins = $this->findBy([
-            'account' => $account,
-        ], [
-            'order' => 'ASC',
-            'id' => 'ASC',
-        ]);
-
-        $data = [];
-
-        foreach ($plugins as $plugin) {
-            $id = $plugin->getId();
-
-            if ($id === null) {
-                continue;
-            }
-
-            $data[] = [
-                'id' => $id,
-                'key' => $plugin->getKey(),
-                'type' => $plugin->getType(),
-                'active' => $plugin->getActive(),
-                'order' => $plugin->getOrder(),
-            ];
-        }
-
-        return $data;
+        return $this->createQueryBuilder('plugin')
+            ->select('plugin.id, plugin.key, plugin.type, plugin.active, plugin.order')
+            ->where('plugin.account = :account')
+            ->setParameter('account', $account)
+            ->orderBy('plugin.order', 'ASC')
+            ->addOrderBy('plugin.id', 'ASC')
+            ->getQuery()
+            ->getArrayResult();
     }
 
     public function findForAccountAndKey(Account $account, string $key): ?Plugin
