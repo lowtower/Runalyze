@@ -6,6 +6,8 @@
  * @package Runalyze\Plugins\Panels
  */
 
+/** @var RunalyzePluginPanel_Sportler $Plugin */
+
 use Runalyze\Activity\Weight;
 
 $Weight = new Weight();
