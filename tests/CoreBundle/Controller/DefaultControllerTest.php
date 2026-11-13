@@ -409,7 +409,7 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
 
         try {
             $this->loginClient($this->Client, $this->Account, 'default');
-            $this->Client->request('GET', '/dashboard?pluginid=' . $pluginId);
+            $this->Client->request('GET', '/dashboard?pluginid=' . $pluginId . '&sport=all');
 
             $this->assertStatusCode(200, $this->Client);
 
