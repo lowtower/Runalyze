@@ -116,14 +116,6 @@ class PluginFactory
     }
 
     /**
-     * @internal SECURITY-SENSITIVE: performs no validation of $Pluginkey whatsoever - `new
-     *           $Pluginkey(...)` instantiates ANY autoloadable class matching that name, not
-     *           just actual plugin classes. Its only current caller,
-     *           PluginController::pluginInstallAction(), validates $Pluginkey against
-     *           notInstalledPlugins() before ever reaching this method; any future caller must do
-     *           the same.
-     */
-    /**
      * @throws InvalidArgumentException if the class is not an instantiable plugin implementation
      */
     public function newInstallerInstance(string $Pluginkey): Plugin
