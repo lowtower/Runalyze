@@ -56,4 +56,8 @@ final class LegacyPluginConfigurationStorage implements PluginConfigurationStora
     {
         \Cache::delete('PluginConf_' . \SessionAccountHandler::getId());
     }
+    private function clearCache(): void
+    {
+        \\Cache::delete('PluginConf_' . \\SessionAccountHandler::getId());
+    }
 }
