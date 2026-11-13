@@ -4,8 +4,18 @@
  * @author Hannes Christiansen
  * @package Runalyze\Plugin
  */
+
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
+
 class PluginFactory
 {
+    private LegacyPluginInstantiator $pluginInstantiator;
+
+    public function __construct(?LegacyPluginInstantiator $pluginInstantiator = null)
+    {
+        $this->pluginInstantiator = $pluginInstantiator ?? new LegacyPluginInstantiator();
+    }
+
     public const string CACHE_KEY = 'plugins';
 
     /**
@@ -93,7 +103,7 @@ class PluginFactory
     {
         foreach (self::Plugins() as $plugin) {
             if ($plugin['key'] == $pluginkey) {
-                return new $pluginkey($plugin['id']);
+                return $this->pluginInstantiator->instantiate($pluginkey, (int) $plugin['id']);
             }
         }
 
@@ -115,7 +125,7 @@ class PluginFactory
      */
     public function newInstallerInstance(string $Pluginkey): Plugin
     {
-        return new $Pluginkey(PluginInstaller::ID);
+        return $this->pluginInstantiator->instantiate($Pluginkey, PluginInstaller::ID);
     }
 
     public function isInstalled(string $key): bool
@@ -218,11 +228,9 @@ class PluginFactory
      *           newInstallerInstance() above - no known caller as of this review, but any future
      *           caller must validate $Pluginkey first (e.g. against notInstalledPlugins()).
      */
-    public function installPlugin(string $Pluginkey)
+    public function installPlugin(string $Pluginkey): bool
     {
-        $Plugin = new $Pluginkey(PluginInstaller::ID);
-
-        return $Plugin->install();
+        return $this->newInstallerInstance($Pluginkey)->install();
     }
 
     /**
