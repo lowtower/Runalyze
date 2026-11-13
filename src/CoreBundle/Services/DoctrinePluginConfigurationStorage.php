@@ -43,7 +43,7 @@ final class DoctrinePluginConfigurationStorage implements PluginConfigurationSto
 
         if ($configuration instanceof PluginConf) {
             $configuration->setValue($value);
-            $this->entityManager->getRepository(PluginConf::class)->save($configuration);
+            $this->repository->save($configuration);
         }
     }
 }
