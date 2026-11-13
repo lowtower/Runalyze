@@ -9,7 +9,7 @@ use Plugin;
 final readonly class DashboardStatistics
 {
     public function __construct(
-        public string $navigationHtml,
+        public array $navigation,
         public ?int $activityId,
         public ?Plugin $plugin,
         public bool $hasActiveStatistics
