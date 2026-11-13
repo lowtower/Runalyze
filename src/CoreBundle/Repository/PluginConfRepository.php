@@ -14,8 +14,53 @@ use Runalyze\Bundle\CoreBundle\Entity\PluginConf;
 class PluginConfRepository extends EntityRepository
 {
     /**
-     * @return int[]
+     * @param int[] $pluginIds
+     * @return array<int, array<string, string>>
      */
+    public function findValuesForPlugins(array $pluginIds): array
+    {
+        if ($pluginIds === []) {
+            return [];
+        }
+
+        $rows = $this->createQueryBuilder('configuration')
+            ->select('IDENTITY(configuration.plugin) AS pluginId', 'configuration.config', 'configuration.value')
+            ->where('IDENTITY(configuration.plugin) IN (:pluginIds)')
+            ->setParameter('pluginIds', $pluginIds)
+            ->getQuery()
+            ->getArrayResult();
+
+        $values = [];
+        foreach ($rows as $row) {
+            $values[(int) $row['pluginId']][$row['config']] = $row['value'];
+        }
+
+        return $values;
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findForPluginAndKey(int $pluginId, string $key): ?PluginConf
+    {
+        /** @var PluginConf|null $configuration */
+        $configuration = $this->createQueryBuilder('configuration')
+            ->where('IDENTITY(configuration.plugin) = :pluginId')
+            ->andWhere('configuration.config = :key')
+            ->setParameter('pluginId', $pluginId)
+            ->setParameter('key', $key)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $configuration;
+    }
+
+    public function save(PluginConf $configuration): void
+    {
+        $this->getEntityManager()->persist($configuration);
+        $this->getEntityManager()->flush();
+    }
+
     public function getAllActivityIdsOfFunRaces(Account $account): array
     {
         try {

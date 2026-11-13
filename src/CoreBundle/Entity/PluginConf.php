@@ -24,7 +24,7 @@ class PluginConf
     private string $value;
 
     #[ORM\JoinColumn(name: 'pluginid', referencedColumnName: 'id', nullable: false)]
-    #[ORM\ManyToOne(targetEntity: \Plugin::class)]
+    #[ORM\ManyToOne(targetEntity: Plugin::class)]
     private Plugin $plugin;
 
     public function getId(): ?int

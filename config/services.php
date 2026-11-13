@@ -91,6 +91,7 @@ use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
 use Runalyze\Bundle\CoreBundle\Services\Dashboard\DashboardStatisticsProvider;
 use Runalyze\Bundle\CoreBundle\Services\DisposableDomainProvider;
+use Runalyze\Bundle\CoreBundle\Services\DoctrinePluginConfigurationStorage;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityCache;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityContextAdapterFactory;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityDataContainerFilter;
@@ -101,6 +102,7 @@ use Runalyze\Bundle\CoreBundle\Services\Import\GeoTiffReader;
 use Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookup;
 use Runalyze\Bundle\CoreBundle\Services\Import\WeatherForecast;
 use Runalyze\Bundle\CoreBundle\Services\LegacyCache;
+use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 use Runalyze\Bundle\CoreBundle\Services\PrivacyGuard;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
@@ -253,6 +255,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(PluginFactory::class)
         ->class(PluginFactory::class);
+
+    $services->set(DoctrinePluginConfigurationStorage::class);
+    $services->alias(PluginConfigurationStorageInterface::class, DoctrinePluginConfigurationStorage::class);
     $services->set(DashboardStatisticsProvider::class);
 
     $services->load('Runalyze\Bundle\CoreBundle\Controller\\', __DIR__ . '/../src/CoreBundle/Controller')
