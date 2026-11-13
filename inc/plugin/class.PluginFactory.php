@@ -121,6 +121,9 @@ class PluginFactory
         throw new InvalidArgumentException('Plugin with key "' . $pluginkey . '" is not installed.');
     }
 
+    /**
+     * @throws InvalidArgumentException if no plugin is installed with the given id
+     */
     public function newInstanceFor(int $id): Plugin
     {
         foreach ($this->getPluginData() as $plugin) {
@@ -141,7 +144,7 @@ class PluginFactory
     }
 
     /**
-     * @throws \\LogicException if there is no authenticated account
+     * @throws \LogicException if there is no authenticated account
      */
     public function isInstalled(string $key): bool
     {
@@ -239,7 +242,7 @@ class PluginFactory
     /**
      * @return array<int, array{key: string}>
      *
-     * @throws \\LogicException if there is no authenticated account
+     * @throws \LogicException if there is no authenticated account
      */
     public function notInstalledPlugins(): array
     {
@@ -266,7 +269,7 @@ class PluginFactory
 
     /**
      * @throws InvalidArgumentException if the class is not an instantiable plugin implementation
-     * @throws \\LogicException if there is no authenticated account
+     * @throws \LogicException if there is no authenticated account
      */
     public function installPlugin(string $Pluginkey): bool
     {
@@ -288,7 +291,7 @@ class PluginFactory
      */
     public static function keyFor(int $id): string
     {
-        foreach ($this->getPluginData() as $plugin) {
+        foreach (self::Plugins() as $plugin) {
             if ($id == $plugin['id']) {
                 return $plugin['key'];
             }
