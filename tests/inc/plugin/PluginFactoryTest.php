@@ -275,4 +275,14 @@ final class PluginFactoryTest extends TestCase
             $this->assertArrayHasKey('key', $entry);
         }
     }
+    public function testGetActivationLinkDoesNotRequirePluginConfiguration(): void
+    {
+        $plugin = new PluginFactoryTestFixture(PluginInstaller::ID);
+
+        $activationLink = $plugin->getActivationLink('Activate plugin', Plugin::ACTIVE);
+
+        $this->assertStringContainsString('call/call.Plugin.config.php?id=' . PluginInstaller::ID . '&active=' . Plugin::ACTIVE, $activationLink);
+        $this->assertStringContainsString('Activate plugin', $activationLink);
+    }
+
 }
