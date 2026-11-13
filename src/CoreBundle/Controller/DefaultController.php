@@ -44,6 +44,7 @@ class DefaultController extends AbstractPluginsAwareController
 {
     public function __construct(
         ManagerRegistry $doctrine,
+        PluginFactory $pluginFactory,
         private readonly AuthorizationCheckerInterface $authorizationChecker,
         private readonly AuthenticationUtils $authenticationUtils,
         TokenStorageInterface $tokenStorage,
@@ -55,6 +56,7 @@ class DefaultController extends AbstractPluginsAwareController
     ) {
         parent::__construct(
             $doctrine,
+            $pluginFactory,
             $configurationManager,
             $sportSelectionFactory,
             $tokenStorage,
