@@ -101,9 +101,6 @@ class Entity extends Model\Entity
         ];
     }
 
-    /**
-     * Properties
-     */
     public function properties(): array
     {
         return self::allDatabaseProperties();
@@ -213,7 +210,6 @@ class Entity extends Model\Entity
     }
 
     /**
-     * participants total
      * @return string
      */
     public function participantsTotal()
@@ -222,7 +218,6 @@ class Entity extends Model\Entity
     }
 
     /**
-     * participants gender
      * @return string
      */
     public function participantsGender()
@@ -231,7 +226,6 @@ class Entity extends Model\Entity
     }
 
     /**
-     * participants ageclass
      * @return string
      */
     public function participantsAgeclass()

@@ -1296,9 +1296,6 @@ class Entity extends Model\EntityWithID
         return $this->Data[self::IS_NIGHT] !== null;
     }
 
-    /**
-     * Splits
-     */
     public function splits(): ?\Runalyze\Model\Activity\Splits\Entity
     {
         if (! $this->Splits instanceof \Runalyze\Model\Activity\Splits\Entity) {
@@ -1345,9 +1342,6 @@ class Entity extends Model\EntityWithID
         return json_decode($this->Data[self::PACE_GOAL], true);
     }
 
-    /**
-     * Notes
-     */
     public function notes(): ?string
     {
         return $this->Data[self::NOTES];
@@ -1365,9 +1359,6 @@ class Entity extends Model\EntityWithID
         return $this->Data[self::CREATOR];
     }
 
-    /**
-     * creatorDetails
-     */
     public function creatorDetails(): ?string
     {
         return $this->Data[self::CREATOR_DETAILS];

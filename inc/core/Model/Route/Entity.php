@@ -243,9 +243,6 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
         ];
     }
 
-    /**
-     * Properties
-     */
     public function properties(): array
     {
         return self::allProperties();
@@ -512,9 +509,6 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
         return $this->Data[self::NAME];
     }
 
-    /**
-     * Cities as array
-     */
     public function citiesAsArray(): array
     {
         return explode(self::CITIES_SEPARATOR, $this->Data[self::CITIES]);
@@ -540,9 +534,6 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
         return (int) $this->Data[self::ELEVATION_DOWN];
     }
 
-    /**
-     * Geohashes
-     */
     public function geohashes(): array
     {
         return $this->Data[self::GEOHASHES];

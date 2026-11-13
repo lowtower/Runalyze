@@ -9,6 +9,8 @@ use Plugin;
 use PluginFactory;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Sport;
+use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
 use Runalyze\Model\Account\UserRole;
@@ -407,7 +409,7 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
 
         try {
             $this->loginClient($this->Client, $this->Account, 'default');
-            $this->Client->request('GET', '/dashboard?pluginid=' . $pluginId);
+            $this->Client->request('GET', '/dashboard?pluginid=' . $pluginId . '&sport=all');
 
             $this->assertStatusCode(200, $this->Client);
 
@@ -415,7 +417,55 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
 
             $this->assertStringContainsString('Monthly Stats', $content);
             $this->assertStringContainsString('analysis-table', $content);
+            $this->assertStringContainsString('colspan="13"', $content);
             $this->assertSame(1, substr_count($content, 'id="headline"'));
+        } finally {
+            DB::getInstance()->exec('DELETE FROM `' . PREFIX . 'plugin` WHERE `id` = ' . $pluginId);
+            PluginFactory::clearCache();
+        }
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testDashboardRendersMonthlyStatisticsWithActivities(): void
+    {
+        $sport = $this->getEntityManager()
+            ->getRepository(Sport::class)
+            ->findOneBy([
+                'account' => $this->Account,
+                'img' => 'icons8-Running',
+            ]);
+
+        $this->assertInstanceOf(Sport::class, $sport);
+
+        $training = new Training()
+            ->setTime(mktime(12, 0, 0, 6, 1, 2025))
+            ->setS(3600)
+            ->setDistance(10.0)
+            ->setSport($sport)
+            ->setAccount($this->Account);
+
+        $this->getEntityManager()->persist($training);
+        $this->getEntityManager()->flush();
+
+        $pluginId = (int) DB::getInstance()->insert(
+            'plugin',
+            ['key', 'type', 'active', 'order', 'accountid'],
+            ['RunalyzePluginStat_MonthlyStats', 'stat', (string) Plugin::ACTIVE, '0', (string) $this->Account->getId()]
+        );
+        PluginFactory::clearCache();
+
+        try {
+            $this->loginClient($this->Client, $this->Account, 'default');
+            $this->Client->request('GET', '/dashboard?pluginid=' . $pluginId . '&sport=all');
+
+            $this->assertStatusCode(200, $this->Client);
+
+            $content = (string) $this->Client->getResponse()->getContent();
+
+            $this->assertStringContainsString('Monthly Stats', $content);
+            $this->assertStringContainsString('analysis-table', $content);
+            $this->assertStringContainsString('2025', $content);
+            $this->assertStringNotContainsString('colspan="13"', $content);
         } finally {
             DB::getInstance()->exec('DELETE FROM `' . PREFIX . 'plugin` WHERE `id` = ' . $pluginId);
             PluginFactory::clearCache();

@@ -78,9 +78,6 @@ class Split extends StringObject
         $this->Time = (int) $Duration->seconds();
     }
 
-    /**
-     * As string
-     */
     public function asString(): string
     {
         $string = $this->Intensity->getValue();
@@ -90,9 +87,6 @@ class Split extends StringObject
         return $string . $this->timeAsString();
     }
 
-    /**
-     * Is empty
-     */
     public function isEmpty(): bool
     {
         return $this->Distance <= 0 && $this->Time <= 0;

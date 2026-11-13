@@ -108,7 +108,6 @@ abstract class Laps extends ActivityPlot
     }
 
     /**
-     * Splits are not complete
      * "Complete" means: all laps are active and fill total distance
      */
     protected function splitsAreNotComplete(Activity\Context $context): bool

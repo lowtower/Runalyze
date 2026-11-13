@@ -90,9 +90,6 @@ class Handle
         $this->OnchangeReloadFlag = $flag;
     }
 
-    /**
-     * Process onchange events
-     */
     final public function processOnchangeEvents(): void
     {
         if (! empty($this->OnchangeCallback)) {

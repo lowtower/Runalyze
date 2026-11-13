@@ -48,9 +48,6 @@ class ElevationMethod extends \Runalyze\Parameter\Select
         ]);
     }
 
-    /**
-     * Uses none
-     */
     public function usesNone(): bool
     {
         return $this->value() == self::NONE;

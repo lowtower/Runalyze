@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="de" datatype="plaintext" original="messages">
+        <body>
+            <trans-unit id="monthly-stats-by-elevation">
+                <source>by elevation</source>
+                <target>nach Höhenmetern</target>
+            </trans-unit>
+            <trans-unit id="monthly-stats-by-energy">
+                <source>by energy</source>
+                <target>nach Energie</target>
+            </trans-unit>
+            <trans-unit id="monthly-stats-by-trimp">
+                <source>by trimp</source>
+                <target>nach TRIMP</target>
+            </trans-unit>
+            <trans-unit id="monthly-stats-by-number">
+                <source>by number</source>
+                <target>nach Anzahl</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -164,9 +164,6 @@ class Splits
         return implode(', ', $strings);
     }
 
-    /**
-     * As icon with tooltip
-     */
     public function asIconWithTooltip(): string
     {
         if (! $this->areEmpty()) {

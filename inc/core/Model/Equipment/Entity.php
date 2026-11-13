@@ -77,9 +77,6 @@ class Entity extends Model\EntityWithID
         ];
     }
 
-    /**
-     * Properties
-     */
     public function properties(): array
     {
         return self::allDatabaseProperties();
@@ -128,9 +125,6 @@ class Entity extends Model\EntityWithID
         return (int) $this->Data[self::TYPEID];
     }
 
-    /**
-     * Notes
-     */
     public function notes(): string
     {
         return $this->Data[self::NOTES];

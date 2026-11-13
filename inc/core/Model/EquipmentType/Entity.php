@@ -63,9 +63,6 @@ class Entity extends Model\EntityWithID
         ];
     }
 
-    /**
-     * Properties
-     */
     public function properties(): array
     {
         return self::allDatabaseProperties();
@@ -95,9 +92,6 @@ class Entity extends Model\EntityWithID
         return $this->Data[self::NAME];
     }
 
-    /**
-     * Allows multiple values
-     */
     public function allowsMultipleValues(): bool
     {
         return $this->Data[self::INPUT] == self::CHOICE_MULTIPLE;

@@ -92,9 +92,6 @@ class Entity extends Model\Entity implements Model\Loopable
         return $key !== self::ACTIVITYID && $key !== self::POOL_LENGTH;
     }
 
-    /**
-     * Properties
-     */
     public function properties(): array
     {
         return self::allProperties();
@@ -156,9 +153,6 @@ class Entity extends Model\Entity implements Model\Loopable
         return $this->Data[self::SWOLF];
     }
 
-    /**
-     * SWOLFcycles
-     */
     public function swolfcycles(): array
     {
         return $this->Data[self::SWOLFCYCLES];
