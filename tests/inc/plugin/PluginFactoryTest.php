@@ -5,6 +5,7 @@ declare(strict_types=1);
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
+use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 
 final class PluginFactoryTestFixture extends PluginPanel
 {
@@ -394,6 +395,34 @@ final class PluginFactoryTest extends TestCase
         $this->assertIsArray($result);
         foreach ($result as $entry) {
             $this->assertArrayHasKey('key', $entry);
+        }
+    }
+
+    public function testNotInstalledPluginsUsesInjectedDiscoveryAndFiltersInstalledPlugins(): void
+    {
+        $pluginDirectory = sys_get_temp_dir() . '/runalyze-plugin-factory-' . bin2hex(random_bytes(8));
+        mkdir($pluginDirectory);
+        mkdir($pluginDirectory . '/InstalledPlugin');
+        mkdir($pluginDirectory . '/AvailablePlugin');
+
+        try {
+            $this->setPluginsData([
+                $this->pluginEntry(1, 'InstalledPlugin', PluginType::string(PluginType::PANEL), Plugin::ACTIVE),
+            ]);
+            $factory = new PluginFactory(
+                null,
+                new PluginDiscovery($pluginDirectory)
+            );
+
+            $this->assertSame([
+                [
+                    'key' => 'AvailablePlugin',
+                ],
+            ], $factory->notInstalledPlugins());
+        } finally {
+            rmdir($pluginDirectory . '/AvailablePlugin');
+            rmdir($pluginDirectory . '/InstalledPlugin');
+            rmdir($pluginDirectory);
         }
     }
 

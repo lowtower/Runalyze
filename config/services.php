@@ -104,6 +104,7 @@ use Runalyze\Bundle\CoreBundle\Services\Import\WeatherForecast;
 use Runalyze\Bundle\CoreBundle\Services\LegacyCache;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
+use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Runalyze\Bundle\CoreBundle\Services\PrivacyGuard;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
@@ -256,8 +257,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(LegacyPluginInstantiator::class);
 
+    $services->set(PluginDiscovery::class)
+        ->arg('$pluginDirectory', '%kernel.project_dir%/plugin');
+
     $services->set(PluginFactory::class)
-        ->class(PluginFactory::class);
+        ->class(PluginFactory::class)
+        ->arg('$pluginDiscovery', service(PluginDiscovery::class));
 
     $services->set(DoctrinePluginConfigurationStorage::class);
     $services->alias(PluginConfigurationStorageInterface::class, DoctrinePluginConfigurationStorage::class);
