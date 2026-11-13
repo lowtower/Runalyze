@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\\Bundle\\CoreBundle\\Services;
 
+use Doctrine\\Persistence\\ManagerRegistry;
 use LogicException;
 use PluginInstaller;
 use Runalyze\\Bundle\\CoreBundle\\Entity\\Account;
@@ -14,7 +15,7 @@ use Symfony\\Component\\Security\\Core\\Authentication\\Token\\Storage\\TokenSto
 final readonly class PluginInstallationManager
 {
     public function __construct(
-        private PluginRepository $pluginRepository,
+        private ManagerRegistry $doctrine,
         private TokenStorageInterface $tokenStorage,
         private LegacyPluginInstantiator $pluginInstantiator
     ) {}
@@ -24,7 +25,7 @@ final readonly class PluginInstallationManager
      */
     public function getInstalledPluginKeys(): array
     {
-        return $this->pluginRepository->findKeysForAccount($this->getAccount());
+        return $this->getPluginRepository()->findKeysForAccount($this->getAccount());
     }
 
     public function isInstalled(string $key): bool
@@ -40,13 +41,13 @@ final readonly class PluginInstallationManager
     {
         $account = $this->getAccount();
 
-        if (in_array($key, $this->pluginRepository->findKeysForAccount($account), true)) {
+        if (in_array($key, $this->getPluginRepository()->findKeysForAccount($account), true)) {
             return false;
         }
 
         $plugin = $this->pluginInstantiator->instantiate($key, PluginInstaller::ID);
 
-        $this->pluginRepository->installForAccount($account, $key, $plugin->typeString());
+        $this->getPluginRepository()->installForAccount($account, $key, $plugin->typeString());
 
         return true;
     }
@@ -63,5 +64,13 @@ final readonly class PluginInstallationManager
         }
 
         return $user;
+    }
+
+    private function getPluginRepository(): PluginRepository
+    {
+        $repository = $this->doctrine->getRepository(Plugin::class);
+        assert($repository instanceof PluginRepository);
+
+        return $repository;
     }
 }
