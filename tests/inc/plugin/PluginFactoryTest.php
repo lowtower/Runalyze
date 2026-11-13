@@ -47,12 +47,17 @@ final class PluginFactoryTest extends TestCase
 {
     private array $originalPlugins;
 
+    private array $originalDoctrinePluginsLoaded;
+
     private array $originalAccount;
 
     protected function setUp(): void
     {
         $pluginsProperty = new \ReflectionProperty(PluginFactory::class, 'Plugins');
         $this->originalPlugins = $pluginsProperty->getValue();
+
+        $doctrinePluginsLoadedProperty = new \\ReflectionProperty(PluginFactory::class, 'DoctrinePluginsLoaded');
+        $this->originalDoctrinePluginsLoaded = $doctrinePluginsLoadedProperty->getValue();
 
         $accountProperty = new \ReflectionProperty(SessionAccountHandler::class, 'Account');
         $this->originalAccount = $accountProperty->getValue();
@@ -64,6 +69,9 @@ final class PluginFactoryTest extends TestCase
 
         $property = new \ReflectionProperty(PluginFactory::class, 'Plugins');
         $property->setValue(null, $this->originalPlugins);
+
+        $doctrinePluginsLoadedProperty = new \\ReflectionProperty(PluginFactory::class, 'DoctrinePluginsLoaded');
+        $doctrinePluginsLoadedProperty->setValue(null, $this->originalDoctrinePluginsLoaded);
     }
 
     private function setPluginsData(array $plugins): void
