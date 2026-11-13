@@ -1,12 +1,13 @@
 <?php
 
-namespace Runalyze\Bundle\CoreBundle\Repository;
+namespace Runalyze\\Bundle\\CoreBundle\\Repository;
 
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
-use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Entity\PluginConf;
+use Doctrine\\ORM\\EntityRepository;
+use Doctrine\\ORM\\NonUniqueResultException;
+use Doctrine\\ORM\\NoResultException;
+use Runalyze\\Bundle\\CoreBundle\\Entity\\Account;
+use Runalyze\\Bundle\\CoreBundle\\Entity\\Plugin;
+use Runalyze\\Bundle\\CoreBundle\\Entity\\PluginConf;
 
 /**
  * @extends EntityRepository<PluginConf>
@@ -14,8 +15,44 @@ use Runalyze\Bundle\CoreBundle\Entity\PluginConf;
 class PluginConfRepository extends EntityRepository
 {
     /**
-     * @return int[]
+     * @param int[] $pluginIds
+     * @return array<int, array<string, string>>
      */
+    public function findValuesForPlugins(array $pluginIds): array
+    {
+        if ($pluginIds === []) {
+            return [];
+        }
+
+        $rows = $this->createQueryBuilder('configuration')
+            ->select('IDENTITY(configuration.plugin) AS pluginId', 'configuration.config', 'configuration.value')
+            ->where('IDENTITY(configuration.plugin) IN (:pluginIds)')
+            ->setParameter('pluginIds', $pluginIds)
+            ->getQuery()
+            ->getArrayResult();
+
+        $values = [];
+        foreach ($rows as $row) {
+            $values[(int) $row['pluginId']][$row['config']] = $row['value'];
+        }
+
+        return $values;
+    }
+
+    public function findForPluginAndKey(int $pluginId, string $key): ?PluginConf
+    {
+        return $this->findOneBy([
+            'plugin' => $pluginId,
+            'config' => $key,
+        ]);
+    }
+
+    public function save(PluginConf $configuration): void
+    {
+        $this->getEntityManager()->persist($configuration);
+        $this->getEntityManager()->flush();
+    }
+
     public function getAllActivityIdsOfFunRaces(Account $account): array
     {
         try {
