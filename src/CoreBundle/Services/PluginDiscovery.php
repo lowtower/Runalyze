@@ -1,6 +1,6 @@
 <?php
 
-namespace Runalyze\\Bundle\\CoreBundle\\Services;
+namespace Runalyze\Bundle\CoreBundle\Services;
 
 use FilesystemIterator;
 use RuntimeException;
