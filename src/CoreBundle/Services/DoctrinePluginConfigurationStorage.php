@@ -10,30 +10,36 @@ use Runalyze\Bundle\CoreBundle\Entity\PluginConf;
 
 final class DoctrinePluginConfigurationStorage implements PluginConfigurationStorageInterface
 {
+    private readonly PluginConfRepository $repository;
+
     public function __construct(private readonly EntityManagerInterface $entityManager)
     {
+        /** @var PluginConfRepository $repository */
+        $repository = $entityManager->getRepository(PluginConf::class);
+        $this->repository = $repository;
     }
 
     public function loadForPlugins(array $pluginIds): array
     {
-        return $this->entityManager->getRepository(PluginConf::class)
-            ->findValuesForPlugins($pluginIds);
+        return $this->repository->findValuesForPlugins($pluginIds);
     }
 
     public function insert(int $pluginId, string $key, string $value): void
     {
+        $plugin = $this->entityManager->getReference(Plugin::class, $pluginId);
+        assert($plugin instanceof Plugin);
+
         $configuration = (new PluginConf())
-            ->setPlugin($this->entityManager->getReference(Plugin::class, $pluginId))
+            ->setPlugin($plugin)
             ->setConfig($key)
             ->setValue($value);
 
-        $this->entityManager->getRepository(PluginConf::class)->save($configuration);
+        $this->repository->save($configuration);
     }
 
     public function update(int $pluginId, string $key, string $value): void
     {
-        $configuration = $this->entityManager->getRepository(PluginConf::class)
-            ->findForPluginAndKey($pluginId, $key);
+        $configuration = $this->repository->findForPluginAndKey($pluginId, $key);
 
         if ($configuration instanceof PluginConf) {
             $configuration->setValue($value);
