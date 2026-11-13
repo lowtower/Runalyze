@@ -14,7 +14,8 @@ class PluginFactory
 
     public function __construct(
         ?LegacyPluginInstantiator $pluginInstantiator = null,
-        private readonly ?PluginDiscovery $pluginDiscovery = null
+        private readonly ?PluginDiscovery $pluginDiscovery = null,
+        private readonly ?PluginInstallationManager $pluginInstallationManager = null
     ) {
         $this->pluginInstantiator = $pluginInstantiator ?? new LegacyPluginInstantiator();
     }
@@ -134,7 +135,11 @@ class PluginFactory
 
     public function isInstalled(string $key): bool
     {
-        return in_array($key, $this->allPlugins());
+        if ($this->pluginInstallationManager !== null) {
+            return $this->pluginInstallationManager->isInstalled($key);
+        }
+
+        return in_array($key, $this->allPlugins(), true);
     }
 
     /**
@@ -215,8 +220,14 @@ class PluginFactory
 
         $discovery = $this->pluginDiscovery ?? new PluginDiscovery(FRONTEND_PATH . '../plugin/');
 
+        $installedPluginKeys = $this->pluginInstallationManager?->getInstalledPluginKeys();
+
         foreach ($discovery->findAvailablePluginKeys() as $key) {
-            if (! $this->isInstalled($key)) {
+            $isInstalled = $installedPluginKeys !== null
+                ? in_array($key, $installedPluginKeys, true)
+                : $this->isInstalled($key);
+
+            if (! $isInstalled) {
                 $plugins[] = [
                     'key' => $key,
                 ];
@@ -231,7 +242,17 @@ class PluginFactory
      */
     public function installPlugin(string $Pluginkey): bool
     {
-        return $this->newInstallerInstance($Pluginkey)->install();
+        if ($this->pluginInstallationManager === null) {
+            return $this->newInstallerInstance($Pluginkey)->install();
+        }
+
+        $installed = $this->pluginInstallationManager->install($Pluginkey);
+
+        if ($installed) {
+            self::clearCache();
+        }
+
+        return $installed;
     }
 
     /**
