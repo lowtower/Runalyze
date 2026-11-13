@@ -79,7 +79,7 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testPluginInstallActionPersistsPluginForAuthenticatedAccount(): void
     {
-        $pluginKey = 'RunalyzePluginPanel_Equipment';
+        $pluginKey = 'RunalyzePluginPanel_TagsSummary';
 
         $this->loginClient($this->Client, $this->Account, 'default');
         $this->request('GET', '/call/call.Plugin.install.php?key=' . $pluginKey);
@@ -111,6 +111,33 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->request('GET', '/call/call.Plugin.install.php?key=' . $pluginKey);
 
         $this->assertStatusCode(404, $this->Client);
+    }
+
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPluginFactoryRefreshesInstalledPluginDataAfterDatabaseChanges(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+        $this->request('GET', '/dashboard');
+
+        $this->assertStatusCode(200, $this->Client);
+
+        /** @var PluginFactory $factory */
+        $factory = self::getContainer()->get(PluginFactory::class);
+
+        $this->assertNotContains('plugin-added-after-first-read', $factory->allPlugins());
+
+        $plugin = new Plugin()
+            ->setAccount($this->Account)
+            ->setKey('plugin-added-after-first-read')
+            ->setType(Plugin::TYPE_PANEL)
+            ->setActive(Plugin::STATE_ACTIVE)
+            ->setOrder(99);
+
+        $this->getEntityManager()->persist($plugin);
+        $this->getEntityManager()->flush();
+
+        $this->assertContains('plugin-added-after-first-read', $factory->allPlugins());
     }
 
     public function testPluginInstallActionRejectsAMissingKey(): void
