@@ -126,7 +126,13 @@ class DefaultController extends AbstractPluginsAwareController
             $fragmentRequest = $request->duplicate();
             $fragmentRequest->headers->set('X-Requested-With', 'XMLHttpRequest');
 
-            $content = $this->getResponseFor($statistics->plugin->id(), $fragmentRequest, $account)->getContent() ?: '';
+            $this->requestStack->push($fragmentRequest);
+
+            try {
+                $content = $this->getResponseFor($statistics->plugin->id(), $fragmentRequest, $account)->getContent() ?: '';
+            } finally {
+                $this->requestStack->pop();
+            }
         } else {
             $content = __('<em>There are no statistics available. Activate a plugin in your configuration.</em>');
         }
