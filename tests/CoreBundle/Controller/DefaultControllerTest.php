@@ -437,7 +437,7 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
 
         $this->assertInstanceOf(Sport::class, $sport);
 
-        $training = (new Training())
+        $training = new Training()
             ->setTime(mktime(12, 0, 0, 6, 1, 2025))
             ->setS(3600)
             ->setDistance(10.0)
