@@ -38,6 +38,9 @@ class PluginConfRepository extends EntityRepository
         return $values;
     }
 
+    /**
+     * @throws NonUniqueResultException
+     */
     public function findForPluginAndKey(int $pluginId, string $key): ?PluginConf
     {
         /** @var PluginConf|null $configuration */
