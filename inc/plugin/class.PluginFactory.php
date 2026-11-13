@@ -169,8 +169,7 @@ class PluginFactory
     /**
      * @param mixed $type false or enum
      * @return array array with plugin keys
-     */
-    /**
+     *
      * @throws LogicException if there is no authenticated account
      */
     public function allPlugins($type = false): array
@@ -181,8 +180,7 @@ class PluginFactory
     /**
      * @param mixed $type false or enum
      * @return array array with plugin keys
-     */
-    /**
+     *
      * @throws LogicException if there is no authenticated account
      */
     public function activePlugins($type = false): array
@@ -193,8 +191,7 @@ class PluginFactory
     /**
      * @param mixed $type false or enum
      * @return array array with plugin keys
-     */
-    /**
+     *
      * @throws LogicException if there is no authenticated account
      */
     public function inactivePlugins($type = false): array
@@ -233,8 +230,7 @@ class PluginFactory
 
     /**
      * @return array<int, array<string, mixed>>
-     */
-    /**
+     *
      * @throws LogicException if there is no authenticated account
      */
     private function getPluginData(): array
