@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\\Bundle\\CoreBundle\\Services;
+namespace Runalyze\Bundle\CoreBundle\Services;
 
 final class LegacyPluginConfigurationStorage implements PluginConfigurationStorageInterface
 {
@@ -16,7 +16,7 @@ final class LegacyPluginConfigurationStorage implements PluginConfigurationStora
             'SELECT `pluginid`,`config`,`value` '
             . 'FROM `' . PREFIX . 'plugin_conf` '
             . 'WHERE `pluginid` IN (' . implode(',', array_map('intval', $pluginIds)) . ')'
-        )->fetchAll(\\PDO::FETCH_GROUP | \\PDO::FETCH_ASSOC);
+        )->fetchAll(\PDO::FETCH_GROUP | \PDO::FETCH_ASSOC);
 
         $values = [];
         foreach ($rows as $pluginId => $pluginRows) {
