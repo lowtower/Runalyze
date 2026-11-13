@@ -12,14 +12,14 @@ class PluginFactory
 {
     private readonly LegacyPluginInstantiator $pluginInstantiator;
 
-    private readonly PluginDiscovery $pluginDiscovery;
+    private readonly ?PluginDiscovery $pluginDiscovery;
 
     public function __construct(
         ?LegacyPluginInstantiator $pluginInstantiator = null,
         ?PluginDiscovery $pluginDiscovery = null
     ) {
         $this->pluginInstantiator = $pluginInstantiator ?? new LegacyPluginInstantiator();
-        $this->pluginDiscovery = $pluginDiscovery ?? new PluginDiscovery(FRONTEND_PATH . '../plugin/');
+        $this->pluginDiscovery = $pluginDiscovery;
     }
 
     public const string CACHE_KEY = 'plugins';
@@ -216,7 +216,9 @@ class PluginFactory
     {
         $plugins = [];
 
-        foreach ($this->pluginDiscovery->findAvailablePluginKeys() as $key) {
+        $discovery = $this->pluginDiscovery ?? new PluginDiscovery(FRONTEND_PATH . '../plugin/');
+
+        foreach ($discovery->findAvailablePluginKeys() as $key) {
             if (! $this->isInstalled($key)) {
                 $plugins[] = [
                     'key' => $key,
