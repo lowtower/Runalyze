@@ -94,7 +94,7 @@ class DefaultController extends AbstractPluginsAwareController
 
         $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
             ->getContent();
-        $dashboardStatistics = $this->getDashboardStatisticsContent($dashboardStatisticsProvider, $request);
+        $dashboardStatistics = $this->getDashboardStatisticsContent($dashboardStatisticsProvider, $request, $account);
         $statisticsNavigationContent = $dashboardStatistics['navigation'];
         $statisticsContent = $dashboardStatistics['content'];
 
@@ -108,26 +108,21 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @return array{navigation: string, content: string}
      */
-    private function getDashboardStatisticsContent(DashboardStatisticsProvider $provider, Request $request): array
+    private function getDashboardStatisticsContent(DashboardStatisticsProvider $provider, Request $request, ?Account $account): array
     {
         $statistics = $provider->getStatistics($request);
-        $content = $this->captureLegacyOutput(function () use ($statistics): void {
-            if ($statistics->activityId !== null) {
-                $trainingView = new TrainingView(new ActivityContext($statistics->activityId, SessionAccountHandler::getId()));
 
-                echo $this->renderView('activity/training_view.html.twig', $trainingView->templateData());
+        if ($statistics->activityId !== null) {
+            $trainingView = new TrainingView(new ActivityContext($statistics->activityId, SessionAccountHandler::getId()));
+            $content = $this->renderView('activity/training_view.html.twig', $trainingView->templateData());
+        } elseif ($statistics->plugin instanceof \\Plugin) {
+            $fragmentRequest = $request->duplicate();
+            $fragmentRequest->headers->set('X-Requested-With', 'XMLHttpRequest');
 
-                return;
-            }
-
-            if ($statistics->plugin instanceof \Plugin) {
-                $statistics->plugin->display();
-
-                return;
-            }
-
-            echo __('<em>There are no statistics available. Activate a plugin in your configuration.</em>');
-        })->getContent();
+            $content = $this->getResponseFor($statistics->plugin->id(), $fragmentRequest, $account)->getContent() ?? '';
+        } else {
+            $content = __('<em>There are no statistics available. Activate a plugin in your configuration.</em>');
+        }
 
         return [
             'navigation' => $this->renderView('dashboard/statistics_navigation.html.twig', [
@@ -297,7 +292,7 @@ class DefaultController extends AbstractPluginsAwareController
 
             $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
                 ->getContent();
-            $dashboardStatistics = $this->getDashboardStatisticsContent($dashboardStatisticsProvider, $request);
+            $dashboardStatistics = $this->getDashboardStatisticsContent($dashboardStatisticsProvider, $request, $account);
             $statisticsNavigationContent = $dashboardStatistics['navigation'];
             $statisticsContent = $dashboardStatistics['content'];
 
