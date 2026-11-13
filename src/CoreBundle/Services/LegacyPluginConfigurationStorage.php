@@ -19,7 +19,7 @@ final class LegacyPluginConfigurationStorage implements PluginConfigurationStora
             $rows = \DB::getInstance()->query(
                 'SELECT `pluginid`,`config`,`value` '
                 . 'FROM `' . PREFIX . 'plugin_conf` '
-                . 'WHERE `pluginid` IN (' . implode(',', array_map('intval', $pluginIds)) . ')'
+                . 'WHERE `pluginid` IN (' . implode(',', array_map(intval(...), $pluginIds)) . ')'
             )->fetchAll(\PDO::FETCH_GROUP | \PDO::FETCH_ASSOC);
 
             \Cache::set($cacheKey, $rows, 60);

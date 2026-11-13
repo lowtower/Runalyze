@@ -24,7 +24,7 @@ final class PluginConfRepositoryTest extends AbstractRepositoryTestCase
 
         $this->repository = $this->getEntityManager()->getRepository(PluginConf::class);
 
-        $this->plugin = (new Plugin())
+        $this->plugin = new Plugin()
             ->setAccount($this->getEmptyAccount())
             ->setKey('PluginConfRepositoryTest')
             ->setType(Plugin::TYPE_STAT);
@@ -32,20 +32,20 @@ final class PluginConfRepositoryTest extends AbstractRepositoryTestCase
         $this->getEntityManager()->persist($this->plugin);
         $this->getEntityManager()->flush();
         $pluginId = $this->plugin->getId();
-        self::assertNotNull($pluginId);
+        $this->assertNotNull($pluginId);
         $this->pluginId = $pluginId;
     }
 
     public function testFindValuesForPluginsGroupsValuesByPluginId(): void
     {
         $this->repository->save(
-            (new PluginConf())
+            new PluginConf()
                 ->setPlugin($this->plugin)
                 ->setConfig('first')
                 ->setValue('one')
         );
         $this->repository->save(
-            (new PluginConf())
+            new PluginConf()
                 ->setPlugin($this->plugin)
                 ->setConfig('second')
                 ->setValue('two')
@@ -80,7 +80,7 @@ final class PluginConfRepositoryTest extends AbstractRepositoryTestCase
 
     public function testFindForPluginAndKeyReturnsMatchingConfiguration(): void
     {
-        $configuration = (new PluginConf())
+        $configuration = new PluginConf()
             ->setPlugin($this->plugin)
             ->setConfig('setting')
             ->setValue('enabled');

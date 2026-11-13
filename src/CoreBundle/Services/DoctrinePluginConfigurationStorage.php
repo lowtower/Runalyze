@@ -9,12 +9,13 @@ use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Entity\PluginConf;
 use Runalyze\Bundle\CoreBundle\Repository\PluginConfRepository;
 
-final class DoctrinePluginConfigurationStorage implements PluginConfigurationStorageInterface
+final readonly class DoctrinePluginConfigurationStorage implements PluginConfigurationStorageInterface
 {
-    private readonly PluginConfRepository $repository;
+    private PluginConfRepository $repository;
 
-    public function __construct(private readonly EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        private EntityManagerInterface $entityManager
+    ) {
         /** @var PluginConfRepository $repository */
         $repository = $entityManager->getRepository(PluginConf::class);
         $this->repository = $repository;
@@ -30,7 +31,7 @@ final class DoctrinePluginConfigurationStorage implements PluginConfigurationSto
         $plugin = $this->entityManager->getReference(Plugin::class, $pluginId);
         assert($plugin instanceof Plugin);
 
-        $configuration = (new PluginConf())
+        $configuration = new PluginConf()
             ->setPlugin($plugin)
             ->setConfig($key)
             ->setValue($value);

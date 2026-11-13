@@ -19,8 +19,10 @@ class PluginConfiguration
 
     private readonly PluginConfigurationStorageInterface $Storage;
 
-    public function __construct(protected int $PluginID, ?PluginConfigurationStorageInterface $Storage = null)
-    {
+    public function __construct(
+        protected int $PluginID,
+        ?PluginConfigurationStorageInterface $Storage = null
+    ) {
         $this->Storage = $Storage ?? new LegacyPluginConfigurationStorage();
     }
 
