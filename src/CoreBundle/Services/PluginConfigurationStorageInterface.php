@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\\Bundle\\CoreBundle\\Services;
+namespace Runalyze\Bundle\CoreBundle\Services;
 
 interface PluginConfigurationStorageInterface
 {
