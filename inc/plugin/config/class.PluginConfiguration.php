@@ -1,7 +1,7 @@
 <?php
 
-use Runalyze\\Bundle\\CoreBundle\\Services\\LegacyPluginConfigurationStorage;
-use Runalyze\\Bundle\\CoreBundle\\Services\\PluginConfigurationStorageInterface;
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginConfigurationStorage;
+use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 
 /**
  * Plugin configuration
