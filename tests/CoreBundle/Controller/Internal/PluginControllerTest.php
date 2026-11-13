@@ -279,9 +279,14 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
     #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
     public function testThatContentPanelsActionDoesNotHideAnActivePanel(): void
     {
-        $accountId = $this->Account->getId();
-        $this->deleteLegacyPluginsForAccount($accountId);
-        $id = $this->insertLegacyPanelPlugin($accountId, 'RunalyzePluginPanel_Equipment', Plugin::STATE_ACTIVE);
+        $this->removeExistingPanelPluginsFor($this->Account);
+        $plugin = $this->persistPluginForAccount(
+            $this->Account,
+            Plugin::TYPE_PANEL,
+            Plugin::STATE_ACTIVE,
+            0
+        );
+        $id = (int) $plugin->getId();
         PluginFactory::clearCache();
 
         try {
@@ -298,7 +303,9 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
             $this->assertStringContainsString('<div class="panel-content">', (string) $content);
             $this->assertStringNotContainsString('style="display:none;"', (string) $content);
         } finally {
-            $this->deleteLegacyPluginsForAccount($accountId);
+            $this->getEntityManager()->remove($plugin);
+            $this->getEntityManager()->flush();
+            PluginFactory::clearCache();
         }
     }
 }
