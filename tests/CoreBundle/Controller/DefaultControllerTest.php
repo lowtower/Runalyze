@@ -392,6 +392,33 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStringContainsString('id="headline"', $content);
     }
 
+    #[\\PHPUnit\\Framework\\Attributes\\Group('plugin')]
+    public function testDashboardRendersMonthlyStatisticsThroughItsTwigTemplate(): void
+    {
+        $pluginId = (int) DB::getInstance()->insert(
+            'plugin',
+            ['key', 'type', 'active', 'order', 'accountid'],
+            ['RunalyzePluginStat_MonthlyStats', 'stat', (string) Plugin::ACTIVE, '0', (string) $this->Account->getId()]
+        );
+        PluginFactory::clearCache();
+
+        try {
+            $this->loginClient($this->Client, $this->Account, 'default');
+            $this->Client->request('GET', '/dashboard?pluginid=' . $pluginId);
+
+            $this->assertStatusCode(200, $this->Client);
+
+            $content = (string) $this->Client->getResponse()->getContent();
+
+            $this->assertStringContainsString('Monthly Stats', $content);
+            $this->assertStringContainsString('analysis-table', $content);
+            $this->assertStringNotContainsString('id="headline"', $content);
+        } finally {
+            DB::getInstance()->exec('DELETE FROM `' . PREFIX . 'plugin` WHERE `id` = ' . $pluginId);
+            PluginFactory::clearCache();
+        }
+    }
+
     public function testPluginActionRequiresAuthentication(): void
     {
         $this->Client->request('GET', '/plugin/SomePlugin/index.php');
