@@ -15,6 +15,4 @@ interface PluginConfigurationStorageInterface
     public function insert(int $pluginId, string $key, string $value): void;
 
     public function update(int $pluginId, string $key, string $value): void;
-
-    public function clearCache(): void;
 }
