@@ -234,18 +234,18 @@ class PluginFactory
      */
     private function getPluginData(): array
     {
-        if (!$this->pluginInstallationManager instanceof PluginInstallationManager) {
-            return self::Plugins();
+        if ($this->pluginInstallationManager instanceof PluginInstallationManager) {
+            $accountId = SessionAccountHandler::getId();
+
+            if (! isset(self::$DoctrinePluginsLoaded[$accountId])) {
+                self::$Plugins[$accountId] = $this->pluginInstallationManager->getInstalledPluginData();
+                self::$DoctrinePluginsLoaded[$accountId] = true;
+            }
+
+            return self::$Plugins[$accountId];
         }
 
-        $accountId = SessionAccountHandler::getId();
-
-        if (! isset(self::$DoctrinePluginsLoaded[$accountId])) {
-            self::$Plugins[$accountId] = $this->pluginInstallationManager->getInstalledPluginData();
-            self::$DoctrinePluginsLoaded[$accountId] = true;
-        }
-
-        return self::$Plugins[$accountId];
+        return self::Plugins();
     }
 
     /**
@@ -303,17 +303,17 @@ class PluginFactory
      */
     public function installPlugin(string $Pluginkey): bool
     {
-        if (!$this->pluginInstallationManager instanceof PluginInstallationManager) {
-            return $this->newInstallerInstance($Pluginkey)->install();
+        if ($this->pluginInstallationManager instanceof PluginInstallationManager) {
+            $installed = $this->pluginInstallationManager->install($Pluginkey);
+
+            if ($installed) {
+                self::clearCache();
+            }
+
+            return $installed;
         }
 
-        $installed = $this->pluginInstallationManager->install($Pluginkey);
-
-        if ($installed) {
-            self::clearCache();
-        }
-
-        return $installed;
+        return $this->newInstallerInstance($Pluginkey)->install();
     }
 
     /**
