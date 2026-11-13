@@ -23,23 +23,33 @@ final class PluginFactoryTestFixture extends PluginPanel
 #[Group('plugin')]
 final class PluginFactoryTest extends TestCase
 {
-    private ?array $originalPlugins;
+    private array $originalPlugins;
+
+    private array $originalAccount;
 
     protected function setUp(): void
     {
-        $property = new \ReflectionProperty(PluginFactory::class, 'Plugins');
-        $this->originalPlugins = $property->getValue();
+        $pluginsProperty = new \ReflectionProperty(PluginFactory::class, 'Plugins');
+        $this->originalPlugins = $pluginsProperty->getValue();
+
+        $accountProperty = new \ReflectionProperty(SessionAccountHandler::class, 'Account');
+        $this->originalAccount = $accountProperty->getValue();
     }
 
     protected function tearDown(): void
     {
-        $this->setPluginsData($this->originalPlugins);
+        SessionAccountHandler::setAccount($this->originalAccount);
+
+        $property = new \ReflectionProperty(PluginFactory::class, 'Plugins');
+        $property->setValue(null, $this->originalPlugins);
     }
 
-    private function setPluginsData(?array $plugins): void
+    private function setPluginsData(array $plugins): void
     {
         $property = new \ReflectionProperty(PluginFactory::class, 'Plugins');
-        $property->setValue(null, $plugins);
+        $allPlugins = $property->getValue();
+        $allPlugins[SessionAccountHandler::getId()] = $plugins;
+        $property->setValue(null, $allPlugins);
     }
 
     /**
@@ -70,6 +80,31 @@ final class PluginFactoryTest extends TestCase
             $this->pluginEntry(3, 'SomeVariousStatKey', $statType, Plugin::ACTIVE_VARIOUS, 3),
             $this->pluginEntry(4, 'SomeInactivePanelKey', $panelType, Plugin::ACTIVE_NOT, 4),
         ];
+    }
+
+    public function testPluginDataIsIsolatedBetweenAccounts(): void
+    {
+        $accountAPlugins = $this->samplePlugins();
+        $accountBPlugins = [
+            $this->pluginEntry(1, 'AccountSpecificPlugin', PluginType::string(PluginType::PANEL), Plugin::ACTIVE),
+        ];
+
+        SessionAccountHandler::setAccount([
+            'id' => 11,
+        ]);
+        $this->setPluginsData($accountAPlugins);
+        $this->assertSame($accountAPlugins[0], PluginFactory::dataFor(1));
+
+        SessionAccountHandler::setAccount([
+            'id' => 22,
+        ]);
+        $this->setPluginsData($accountBPlugins);
+        $this->assertSame($accountBPlugins[0], PluginFactory::dataFor(1));
+
+        SessionAccountHandler::setAccount([
+            'id' => 11,
+        ]);
+        $this->assertSame($accountAPlugins[0], PluginFactory::dataFor(1));
     }
 
     public function testDataForReturnsMatchingPluginData(): void

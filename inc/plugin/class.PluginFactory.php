@@ -8,13 +8,17 @@ class PluginFactory
 {
     public const string CACHE_KEY = 'plugins';
 
-    private static ?array $Plugins = null;
+    /**
+     * @var array<int, array<int, array<string, mixed>>>
+     */
+    private static array $Plugins = [];
 
     private static function Plugins(): array
     {
-        self::$Plugins ??= self::fetchAllPlugins();
+        $accountId = SessionAccountHandler::getId();
+        self::$Plugins[$accountId] ??= self::fetchAllPlugins();
 
-        return self::$Plugins;
+        return self::$Plugins[$accountId];
     }
 
     private static function fetchAllPlugins(): array
@@ -31,7 +35,7 @@ class PluginFactory
 
     public static function clearCache(): void
     {
-        self::$Plugins = null;
+        unset(self::$Plugins[SessionAccountHandler::getId()]);
         Cache::delete(self::CACHE_KEY);
     }
 
