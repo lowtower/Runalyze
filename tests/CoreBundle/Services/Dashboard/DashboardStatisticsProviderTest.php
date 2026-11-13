@@ -151,7 +151,6 @@ final class DashboardStatisticsProviderTest extends TestCase
         );
     }
 
-
     public function testItGroupsVariousStatisticsInASubmenu(): void
     {
         $plugin = $this->plugin(31, Plugin::ACTIVE_VARIOUS);
