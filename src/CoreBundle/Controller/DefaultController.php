@@ -105,11 +105,12 @@ class DefaultController extends AbstractPluginsAwareController
         $statisticsNavigationContent = $dashboardStatistics['navigation'];
         $statisticsContent = $dashboardStatistics['content'];
 
-        $legacyContent = $this->captureLegacyOutput(function () use ($dataBrowserContent, $panelsContent, $statisticsNavigationContent, $statisticsContent): void {
-            include __DIR__ . '/../../../dashboard.php';
-        })->getContent();
-
-        return $this->wrapLegacyContent($legacyContent, $request);
+        return $this->render('dashboard/base.html.twig', [
+            'dataBrowserContent' => $dataBrowserContent,
+            'panelsContent' => $panelsContent,
+            'statisticsNavigationContent' => $statisticsNavigationContent,
+            'statisticsContent' => $statisticsContent,
+        ]);
     }
 
     /**
@@ -145,10 +146,17 @@ class DefaultController extends AbstractPluginsAwareController
         ];
     }
 
+    /**
+     * @throws Throwable if a dashboard plugin throws
+     */
     #[Route(path: '/', name: 'base_url', methods: ['GET'])]
-    public function indexAction(Request $request): RedirectResponse
+    public function indexAction(Request $request, DashboardStatisticsProvider $dashboardStatisticsProvider, ?Account $account = null): Response
     {
         if ($this->authorizationChecker->isGranted('IS_AUTHENTICATED_FULLY') || $this->authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            if ($request->isXmlHttpRequest()) {
+                return $this->renderDashboardFragment($request, $dashboardStatisticsProvider, $account);
+            }
+
             return $this->redirectToRoute('dashboard');
         }
 
@@ -291,7 +299,28 @@ class DefaultController extends AbstractPluginsAwareController
     }
 
     /**
-     * @throws Throwable if the included legacy dashboard throws
+     * @throws Throwable if a dashboard plugin throws
+     */
+    private function renderDashboardFragment(Request $request, DashboardStatisticsProvider $dashboardStatisticsProvider, ?Account $account): Response
+    {
+        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
+
+        $dataBrowserContent = $this->renderView('my/data_browser.html.twig', new DataBrowser()->templateData());
+
+        $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
+            ->getContent();
+        $dashboardStatistics = $this->getDashboardStatisticsContent($dashboardStatisticsProvider, $request, $account);
+
+        return $this->render('dashboard/base.html.twig', [
+            'dataBrowserContent' => $dataBrowserContent,
+            'panelsContent' => $panelsContent,
+            'statisticsNavigationContent' => $dashboardStatistics['navigation'],
+            'statisticsContent' => $dashboardStatistics['content'],
+        ]);
+    }
+
+    /**
+     * @throws Throwable if a dashboard plugin throws
      */
     #[Route(path: '/index.php', methods: ['GET'])]
     public function indexPhpAction(Request $request, DashboardStatisticsProvider $dashboardStatisticsProvider, ?Account $account = null): Response|RedirectResponse
@@ -299,21 +328,7 @@ class DefaultController extends AbstractPluginsAwareController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         if ($request->isXmlHttpRequest()) {
-            new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
-
-            $dataBrowserContent = $this->renderView('my/data_browser.html.twig', new DataBrowser()->templateData());
-
-            $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
-                ->getContent();
-            $dashboardStatistics = $this->getDashboardStatisticsContent($dashboardStatisticsProvider, $request, $account);
-            $statisticsNavigationContent = $dashboardStatistics['navigation'];
-            $statisticsContent = $dashboardStatistics['content'];
-
-            $legacyContent = $this->captureLegacyOutput(function () use ($dataBrowserContent, $panelsContent, $statisticsNavigationContent, $statisticsContent): void {
-                include $this->parameterBag->get('kernel.project_dir') . '/dashboard.php';
-            })->getContent();
-
-            return new Response($legacyContent);
+            return $this->renderDashboardFragment($request, $dashboardStatisticsProvider, $account);
         }
 
         return $this->redirectToRoute('base_url');
