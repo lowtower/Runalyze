@@ -1,10 +1,10 @@
 <?php
 
-namespace Runalyze\\Bundle\\CoreBundle\\Repository;
+namespace Runalyze\Bundle\CoreBundle\Repository;
 
-use Doctrine\\ORM\\EntityRepository;
-use Runalyze\\Bundle\\CoreBundle\\Entity\\Account;
-use Runalyze\\Bundle\\CoreBundle\\Entity\\Plugin;
+use Doctrine\ORM\EntityRepository;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 
 /**
  * @extends EntityRepository<Plugin>
