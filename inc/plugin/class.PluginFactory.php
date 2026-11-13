@@ -139,7 +139,7 @@ class PluginFactory
     {
         foreach ($this->getPluginData() as $plugin) {
             if ((int) $plugin['id'] === $id) {
-                return $this->newInstance($plugin['key']);
+                return $this->newInstance((string) $plugin['key']);
             }
         }
 
@@ -272,6 +272,7 @@ class PluginFactory
      * @return array<int, array{key: string}>
      *
      * @throws \LogicException if there is no authenticated account
+     * @throws RuntimeException if the plugin directory cannot be read
      */
     public function notInstalledPlugins(): array
     {
