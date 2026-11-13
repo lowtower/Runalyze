@@ -285,6 +285,17 @@ final class PluginFactoryTest extends TestCase
         $factory->newInstance('NoSuchKey');
     }
 
+    public function testNewInstanceForThrowsInvalidArgumentExceptionForUnknownId(): void
+    {
+        $this->setPluginsData($this->samplePlugins());
+        $factory = new PluginFactory();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessageIsOrContains('No plugin found for id "999".');
+
+        $factory->newInstanceFor(999);
+    }
+
     public function testNewInstanceForDelegatesToKeyForAndNewInstance(): void
     {
         $this->setPluginsData([
