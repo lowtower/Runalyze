@@ -38,7 +38,6 @@ abstract class AbstractCadence
     }
 
     /**
-     * As string
      * @codeCoverageIgnore
      */
     final public function asString(): string
@@ -47,7 +46,6 @@ abstract class AbstractCadence
     }
 
     /**
-     * As string with tooltip
      * @codeCoverageIgnore
      */
     final public function asStringWithTooltip(): string

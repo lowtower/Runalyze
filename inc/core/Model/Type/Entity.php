@@ -65,9 +65,6 @@ class Entity extends Model\EntityWithID
         ];
     }
 
-    /**
-     * Properties
-     */
     public function properties(): array
     {
         return self::allDatabaseProperties();

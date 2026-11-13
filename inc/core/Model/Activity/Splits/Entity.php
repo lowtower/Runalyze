@@ -59,7 +59,6 @@ class Entity extends StringArrayObject
     }
 
     /**
-     * As array
      * @return Split[]
      */
     public function asArray(): array
@@ -82,9 +81,6 @@ class Entity extends StringArrayObject
         }
     }
 
-    /**
-     * As string
-     */
     public function asString(): string
     {
         $array = [];

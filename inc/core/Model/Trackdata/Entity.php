@@ -331,9 +331,6 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
         ];
     }
 
-    /**
-     * Properties
-     */
     public function properties(): array
     {
         return array_merge(

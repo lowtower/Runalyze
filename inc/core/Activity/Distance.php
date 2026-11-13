@@ -127,17 +127,11 @@ class Distance implements ValueInterface
         return (int) round($this->Kilometer * 1000);
     }
 
-    /**
-     * Miles
-     */
     public function miles(): float
     {
         return $this->Kilometer * DistanceUnitSystem::MILE_MULTIPLIER;
     }
 
-    /**
-     * Yards
-     */
     public function yards(): int
     {
         return (int) round($this->Kilometer * DistanceUnitSystem::YARD_MULTIPLIER);

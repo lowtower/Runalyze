@@ -54,7 +54,6 @@ class BasicEndurance extends \Runalyze\Configuration\Category
     }
 
     /**
-     * Days for longjogs
      * @return int
      */
     public function daysForLongjogs(): mixed
@@ -63,7 +62,6 @@ class BasicEndurance extends \Runalyze\Configuration\Category
     }
 
     /**
-     * Days for week km
      * @return int
      */
     public function daysForWeekKm(): mixed

@@ -77,9 +77,6 @@ abstract class Category
         return $this->UserID;
     }
 
-    /**
-     * Keys
-     */
     final public function keys(): array
     {
         return array_keys($this->Handles);

@@ -131,7 +131,6 @@ class Language implements InterfaceChoosable
     }
 
     /**
-     * Guess language
      * Based on get parameter or language accepted by the browser
      */
     protected function guessLanguage(): string
