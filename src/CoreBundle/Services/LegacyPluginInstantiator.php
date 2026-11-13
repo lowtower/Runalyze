@@ -11,7 +11,7 @@ final class LegacyPluginInstantiator
     /**
      * @throws InvalidArgumentException if the class is not an instantiable plugin implementation
      */
-    public function instantiate(string $className, int $pluginId): Plugin
+    public function instantiate(string $className, int|string $pluginId): Plugin
     {
         if (! class_exists($className)) {
             throw new InvalidArgumentException(sprintf('Plugin class "%s" does not exist.', $className));
