@@ -253,6 +253,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(PluginFactory::class)
         ->class(PluginFactory::class);
+
+    $services->set(DoctrinePluginConfigurationStorage::class);
+    $services->alias(PluginConfigurationStorageInterface::class, DoctrinePluginConfigurationStorage::class);
     $services->set(DashboardStatisticsProvider::class);
 
     $services->load('Runalyze\Bundle\CoreBundle\Controller\\', __DIR__ . '/../src/CoreBundle/Controller')
