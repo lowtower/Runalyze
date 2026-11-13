@@ -9,7 +9,7 @@ use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 
 class PluginFactory
 {
-    private LegacyPluginInstantiator $pluginInstantiator;
+    private readonly LegacyPluginInstantiator $pluginInstantiator;
 
     public function __construct(?LegacyPluginInstantiator $pluginInstantiator = null)
     {

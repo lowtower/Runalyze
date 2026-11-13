@@ -227,7 +227,7 @@ final class PluginFactoryTest extends TestCase
         $factory = new PluginFactory();
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Plugin "PluginFactoryTestFixture" has an invalid identifier.');
+        $this->expectExceptionMessageIsOrContains('Plugin "PluginFactoryTestFixture" has an invalid identifier.');
 
         $factory->newInstance(PluginFactoryTestFixture::class);
     }
@@ -240,7 +240,7 @@ final class PluginFactoryTest extends TestCase
         $factory = new PluginFactory(new LegacyPluginInstantiator());
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Class "DateTimeImmutable" is not an instantiable plugin.');
+        $this->expectExceptionMessageIsOrContains('Class "DateTimeImmutable" is not an instantiable plugin.');
 
         $factory->newInstance(DateTimeImmutable::class);
     }
@@ -250,7 +250,7 @@ final class PluginFactoryTest extends TestCase
         $factory = new PluginFactory(new LegacyPluginInstantiator());
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Plugin class "NoSuchPluginClass" does not exist.');
+        $this->expectExceptionMessageIsOrContains('Plugin class "NoSuchPluginClass" does not exist.');
 
         $factory->newInstallerInstance('NoSuchPluginClass');
     }
@@ -260,7 +260,7 @@ final class PluginFactoryTest extends TestCase
         $factory = new PluginFactory(new LegacyPluginInstantiator());
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Class "DateTimeImmutable" is not an instantiable plugin.');
+        $this->expectExceptionMessageIsOrContains('Class "DateTimeImmutable" is not an instantiable plugin.');
 
         $factory->newInstallerInstance(DateTimeImmutable::class);
     }
