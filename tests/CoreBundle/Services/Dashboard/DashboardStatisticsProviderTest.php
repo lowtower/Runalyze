@@ -46,7 +46,14 @@ final class DashboardStatisticsProviderTest extends TestCase
 
         $statistics = new DashboardStatisticsProvider($factory)->getStatistics(new Request());
 
-        $this->assertSame('<li class="active"><a rel="statistics" href="my/plugin/17">Test statistics</a></li>', $statistics->navigationHtml);
+        $this->assertSame([
+            [
+                'label' => 'Test statistics',
+                'href' => 'my/plugin/17',
+                'active' => true,
+                'children' => [],
+            ],
+        ], $statistics->navigation);
         $this->assertSame($plugin, $statistics->plugin);
         $this->assertNull($statistics->activityId);
         $this->assertTrue($statistics->hasActiveStatistics);
@@ -142,6 +149,31 @@ final class DashboardStatisticsProviderTest extends TestCase
                 'pluginid' => '999',
             ])
         );
+    }
+
+    public function testItGroupsVariousStatisticsInASubmenu(): void
+    {
+        $plugin = $this->plugin(31, Plugin::ACTIVE_VARIOUS);
+        $factory = $this->createStub(PluginFactory::class);
+        $factory->method('activePlugins')->willReturn([]);
+        $factory->method('variousPlugins')->willReturn(['DashboardStatisticsProviderTestPlugin']);
+        $factory->method('newInstance')->willReturn($plugin);
+
+        $statistics = new DashboardStatisticsProvider($factory)->getStatistics(new Request());
+
+        $this->assertSame([
+            [
+                'label' => __('Miscellaneous'),
+                'href' => '#',
+                'active' => false,
+                'children' => [
+                    [
+                        'label' => 'Test statistics',
+                        'href' => 'my/plugin/31',
+                    ],
+                ],
+            ],
+        ], $statistics->navigation);
     }
 
     private function plugin(int $id, int $active): DashboardStatisticsProviderTestPlugin

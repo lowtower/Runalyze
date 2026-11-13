@@ -130,7 +130,9 @@ class DefaultController extends AbstractPluginsAwareController
         })->getContent();
 
         return [
-            'navigation' => $statistics->navigationHtml,
+            'navigation' => $this->renderView('dashboard/statistics_navigation.html.twig', [
+                'navigation' => $statistics->navigation,
+            ]),
             'content' => $content,
         ];
     }

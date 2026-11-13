@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Services\Dashboard;
 
+use Plugin;
 use PluginFactory;
 use PluginType;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,27 +19,37 @@ final readonly class DashboardStatisticsProvider
     public function getStatistics(Request $request): DashboardStatistics
     {
         $activeStatistics = $this->pluginFactory->activePlugins(PluginType::STAT);
-        $navigation = '';
+        $navigation = [];
 
         foreach ($activeStatistics as $index => $key) {
             $plugin = $this->pluginFactory->newInstance($key);
-            $navigation .= '<li' . ($index === 0 ? ' class="active"' : '') . '>' . $plugin->getLink() . '</li>';
+            $navigation[] = [
+                'label' => $plugin->name(),
+                'href' => Plugin::$DISPLAY_URL . '/' . $plugin->id(),
+                'active' => $index === 0,
+                'children' => [],
+            ];
         }
 
         $variousStatistics = $this->pluginFactory->variousPlugins();
 
         if ($variousStatistics !== []) {
-            $navigation .= '<li class="with-submenu">';
-            $navigation .= '<a href="#">' . __('Miscellaneous') . '</a>';
-            $navigation .= '<ul class="submenu">';
+            $children = [];
 
             foreach ($variousStatistics as $key) {
                 $plugin = $this->pluginFactory->newInstance($key);
-                $navigation .= '<li>' . $plugin->getLink() . '</li>';
+                $children[] = [
+                    'label' => $plugin->name(),
+                    'href' => Plugin::$DISPLAY_URL . '/' . $plugin->id(),
+                ];
             }
 
-            $navigation .= '</ul>';
-            $navigation .= '</li>';
+            $navigation[] = [
+                'label' => __('Miscellaneous'),
+                'href' => '#',
+                'active' => false,
+                'children' => $children,
+            ];
         }
 
         if ($request->query->has('id')) {
