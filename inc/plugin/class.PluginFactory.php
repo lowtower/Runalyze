@@ -234,7 +234,7 @@ class PluginFactory
      */
     private function getPluginData(): array
     {
-        if (! $this->pluginInstallationManager instanceof PluginInstallationManager) {
+        if (!$this->pluginInstallationManager instanceof PluginInstallationManager) {
             return self::Plugins();
         }
 
@@ -303,7 +303,7 @@ class PluginFactory
      */
     public function installPlugin(string $Pluginkey): bool
     {
-        if ($this->pluginInstallationManager === null) {
+        if (!$this->pluginInstallationManager instanceof PluginInstallationManager) {
             return $this->newInstallerInstance($Pluginkey)->install();
         }
 
