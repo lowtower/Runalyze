@@ -260,9 +260,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(PluginDiscovery::class)
         ->arg('$pluginDirectory', '%kernel.project_dir%/plugin');
 
+    $services->set(PluginInstallationManager::class);
+
     $services->set(PluginFactory::class)
         ->class(PluginFactory::class)
-        ->arg('$pluginDiscovery', service(PluginDiscovery::class));
+        ->arg('$pluginDiscovery', service(PluginDiscovery::class))
+        ->arg('$pluginInstallationManager', service(PluginInstallationManager::class));
 
     $services->set(DoctrinePluginConfigurationStorage::class);
     $services->alias(PluginConfigurationStorageInterface::class, DoctrinePluginConfigurationStorage::class);
