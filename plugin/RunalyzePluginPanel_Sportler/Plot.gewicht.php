@@ -9,7 +9,6 @@
 use Runalyze\Activity\Weight;
 
 $Weight = new Weight();
-$Plugin = $this;
 $Wunschgewicht = $Plugin->Configuration()
     ->value('wunschgewicht');
 
