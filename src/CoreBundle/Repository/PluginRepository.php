@@ -23,7 +23,13 @@ class PluginRepository extends EntityRepository
             ->getQuery()
             ->getArrayResult();
 
-        return array_column($rows, 'key');
+        $keys = [];
+
+        foreach ($rows as $row) {
+            $keys[] = (string) $row['key'];
+        }
+
+        return $keys;
     }
 
     public function findForAccountAndKey(Account $account, string $key): ?Plugin
