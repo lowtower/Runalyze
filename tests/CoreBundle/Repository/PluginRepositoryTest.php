@@ -8,6 +8,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
 
+#[\PHPUnit\Framework\Attributes\Group('plugin')]
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 final class PluginRepositoryTest extends AbstractRepositoryTestCase
 {
