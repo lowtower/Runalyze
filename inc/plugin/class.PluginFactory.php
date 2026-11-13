@@ -88,10 +88,10 @@ class PluginFactory
     public function completeData(?int $type = null): array
     {
         if ($type === null) {
-            return self::Plugins();
+            return $this->getPluginData();
         }
 
-        $plugins = self::Plugins();
+        $plugins = $this->getPluginData();
         foreach ($plugins as $k => $plugin) {
             if ($plugin['type'] != PluginType::string($type)) {
                 unset($plugins[$k]);
@@ -106,7 +106,7 @@ class PluginFactory
      */
     public function newInstance(string $pluginkey): Plugin
     {
-        foreach (self::Plugins() as $plugin) {
+        foreach ($this->getPluginData() as $plugin) {
             if ($plugin['key'] == $pluginkey) {
                 $pluginId = $plugin['id'];
 
@@ -123,7 +123,13 @@ class PluginFactory
 
     public function newInstanceFor(int $id): Plugin
     {
-        return $this->newInstance(self::keyFor($id));
+        foreach ($this->getPluginData() as $plugin) {
+            if ((int) $plugin['id'] === $id) {
+                return $this->newInstance($plugin['key']);
+            }
+        }
+
+        throw new InvalidArgumentException('No plugin found for id "' . $id . '".');
     }
 
     /**
@@ -188,13 +194,28 @@ class PluginFactory
     {
         $keys = [];
 
-        foreach (self::Plugins() as $plugin) {
+        foreach ($this->getPluginData() as $plugin) {
             if ($plugin['type'] == PluginType::string(PluginType::PANEL) && $plugin['active'] != Plugin::ACTIVE_NOT) {
                 $keys[] = $plugin['key'];
             }
         }
 
         return $keys;
+    }
+
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    private function getPluginData(): array
+    {
+        if ($this->pluginInstallationManager === null) {
+            return self::Plugins();
+        }
+
+        $accountId = SessionAccountHandler::getId();
+        self::$Plugins[$accountId] ??= $this->pluginInstallationManager->getInstalledPluginData();
+
+        return self::$Plugins[$accountId];
     }
 
     /**
@@ -206,7 +227,7 @@ class PluginFactory
     {
         $keys = [];
 
-        foreach (self::Plugins() as $plugin) {
+        foreach ($this->getPluginData() as $plugin) {
             if (($type === false || $plugin['type'] == PluginType::string($type)) && ($active === false || $plugin['active'] == $active)) {
                 $keys[] = $plugin['key'];
             }
@@ -267,7 +288,7 @@ class PluginFactory
      */
     public static function keyFor(int $id): string
     {
-        foreach (self::Plugins() as $plugin) {
+        foreach ($this->getPluginData() as $plugin) {
             if ($id == $plugin['id']) {
                 return $plugin['key'];
             }
