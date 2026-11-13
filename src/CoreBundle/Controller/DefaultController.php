@@ -5,6 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Controller;
 use DataBrowser;
 use Doctrine\Persistence\ManagerRegistry;
 use Frontend;
+use Plugin;
 use Runalyze\Activity\Distance;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -16,6 +17,7 @@ use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Dashboard\DashboardStatisticsProvider;
+use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\View\Activity\Context as ActivityContext;
 use SessionAccountHandler;
@@ -41,19 +43,24 @@ use Twig\Environment;
 class DefaultController extends AbstractPluginsAwareController
 {
     public function __construct(
-        protected ManagerRegistry $doctrine,
+        ManagerRegistry $doctrine,
         private readonly AuthorizationCheckerInterface $authorizationChecker,
         private readonly AuthenticationUtils $authenticationUtils,
         TokenStorageInterface $tokenStorage,
         ParameterBagInterface $parameterBag,
         private readonly AccountMailer $accountMailer,
         ConfigurationManager $configurationManager,
+        SportSelectionFactory $sportSelectionFactory,
         RequestStack $requestStack
     ) {
-        $this->configurationManager = $configurationManager;
-        $this->tokenStorage = $tokenStorage;
-        $this->parameterBag = $parameterBag;
-        $this->requestStack = $requestStack;
+        parent::__construct(
+            $doctrine,
+            $configurationManager,
+            $sportSelectionFactory,
+            $tokenStorage,
+            $parameterBag,
+            $requestStack
+        );
     }
 
     protected function getAccountRepository(): AccountRepository
@@ -94,7 +101,7 @@ class DefaultController extends AbstractPluginsAwareController
 
         $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
             ->getContent();
-        $dashboardStatistics = $this->getDashboardStatisticsContent($dashboardStatisticsProvider, $request);
+        $dashboardStatistics = $this->getDashboardStatisticsContent($dashboardStatisticsProvider, $request, $account);
         $statisticsNavigationContent = $dashboardStatistics['navigation'];
         $statisticsContent = $dashboardStatistics['content'];
 
@@ -108,26 +115,27 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @return array{navigation: string, content: string}
      */
-    private function getDashboardStatisticsContent(DashboardStatisticsProvider $provider, Request $request): array
+    private function getDashboardStatisticsContent(DashboardStatisticsProvider $provider, Request $request, ?Account $account): array
     {
         $statistics = $provider->getStatistics($request);
-        $content = $this->captureLegacyOutput(function () use ($statistics): void {
-            if ($statistics->activityId !== null) {
-                $trainingView = new TrainingView(new ActivityContext($statistics->activityId, SessionAccountHandler::getId()));
 
-                echo $this->renderView('activity/training_view.html.twig', $trainingView->templateData());
+        if ($statistics->activityId !== null) {
+            $trainingView = new TrainingView(new ActivityContext($statistics->activityId, SessionAccountHandler::getId()));
+            $content = $this->renderView('activity/training_view.html.twig', $trainingView->templateData());
+        } elseif ($statistics->plugin instanceof Plugin) {
+            $fragmentRequest = $request->duplicate();
+            $fragmentRequest->headers->set('X-Requested-With', 'XMLHttpRequest');
 
-                return;
+            $this->requestStack->push($fragmentRequest);
+
+            try {
+                $content = $this->getResponseFor($statistics->plugin->id(), $fragmentRequest, $account)->getContent() ?: '';
+            } finally {
+                $this->requestStack->pop();
             }
-
-            if ($statistics->plugin instanceof \Plugin) {
-                $statistics->plugin->display();
-
-                return;
-            }
-
-            echo __('<em>There are no statistics available. Activate a plugin in your configuration.</em>');
-        })->getContent();
+        } else {
+            $content = __('<em>There are no statistics available. Activate a plugin in your configuration.</em>');
+        }
 
         return [
             'navigation' => $this->renderView('dashboard/statistics_navigation.html.twig', [
@@ -297,7 +305,7 @@ class DefaultController extends AbstractPluginsAwareController
 
             $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
                 ->getContent();
-            $dashboardStatistics = $this->getDashboardStatisticsContent($dashboardStatisticsProvider, $request);
+            $dashboardStatistics = $this->getDashboardStatisticsContent($dashboardStatisticsProvider, $request, $account);
             $statisticsNavigationContent = $dashboardStatistics['navigation'];
             $statisticsContent = $dashboardStatistics['content'];
 

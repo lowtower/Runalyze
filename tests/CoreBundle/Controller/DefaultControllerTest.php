@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
+use DB;
+use Plugin;
+use PluginFactory;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
@@ -390,6 +393,33 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStringContainsString('id="statistics"', $content);
         $this->assertStringContainsString('<!DOCTYPE html>', $content);
         $this->assertStringContainsString('id="headline"', $content);
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testDashboardRendersMonthlyStatisticsThroughItsTwigTemplate(): void
+    {
+        $pluginId = (int) DB::getInstance()->insert(
+            'plugin',
+            ['key', 'type', 'active', 'order', 'accountid'],
+            ['RunalyzePluginStat_MonthlyStats', 'stat', (string) Plugin::ACTIVE, '0', (string) $this->Account->getId()]
+        );
+        PluginFactory::clearCache();
+
+        try {
+            $this->loginClient($this->Client, $this->Account, 'default');
+            $this->Client->request('GET', '/dashboard?pluginid=' . $pluginId);
+
+            $this->assertStatusCode(200, $this->Client);
+
+            $content = (string) $this->Client->getResponse()->getContent();
+
+            $this->assertStringContainsString('Monthly Stats', $content);
+            $this->assertStringContainsString('analysis-table', $content);
+            $this->assertSame(1, substr_count($content, 'id="headline"'));
+        } finally {
+            DB::getInstance()->exec('DELETE FROM `' . PREFIX . 'plugin` WHERE `id` = ' . $pluginId);
+            PluginFactory::clearCache();
+        }
     }
 
     public function testPluginActionRequiresAuthentication(): void
