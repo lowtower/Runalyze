@@ -28,6 +28,11 @@ class PluginFactory
      */
     private static array $Plugins = [];
 
+    /**
+     * @var array<int, true>
+     */
+    private static array $DoctrinePluginsLoaded = [];
+
     private static function Plugins(): array
     {
         $accountId = SessionAccountHandler::getId();
@@ -50,7 +55,8 @@ class PluginFactory
 
     public static function clearCache(): void
     {
-        unset(self::$Plugins[SessionAccountHandler::getId()]);
+        $accountId = SessionAccountHandler::getId();
+        unset(self::$Plugins[$accountId], self::$DoctrinePluginsLoaded[$accountId]);
         Cache::delete(self::CACHE_KEY);
     }
 
@@ -85,6 +91,9 @@ class PluginFactory
         return $IDs;
     }
 
+    /**
+     * @throws LogicException if there is no authenticated account
+     */
     public function completeData(?int $type = null): array
     {
         if ($type === null) {
@@ -103,6 +112,7 @@ class PluginFactory
 
     /**
      * @throws InvalidArgumentException
+     * @throws LogicException if there is no authenticated account
      */
     public function newInstance(string $pluginkey): Plugin
     {
@@ -123,6 +133,7 @@ class PluginFactory
 
     /**
      * @throws InvalidArgumentException if no plugin is installed with the given id
+     * @throws LogicException if there is no authenticated account
      */
     public function newInstanceFor(int $id): Plugin
     {
@@ -159,6 +170,9 @@ class PluginFactory
      * @param mixed $type false or enum
      * @return array array with plugin keys
      */
+    /**
+     * @throws LogicException if there is no authenticated account
+     */
     public function allPlugins($type = false): array
     {
         return $this->getPlugins($type);
@@ -167,6 +181,9 @@ class PluginFactory
     /**
      * @param mixed $type false or enum
      * @return array array with plugin keys
+     */
+    /**
+     * @throws LogicException if there is no authenticated account
      */
     public function activePlugins($type = false): array
     {
@@ -177,6 +194,9 @@ class PluginFactory
      * @param mixed $type false or enum
      * @return array array with plugin keys
      */
+    /**
+     * @throws LogicException if there is no authenticated account
+     */
     public function inactivePlugins($type = false): array
     {
         return $this->getPlugins($type, Plugin::ACTIVE_NOT);
@@ -185,6 +205,9 @@ class PluginFactory
     /**
      * @return array array with plugin keys
      */
+    /**
+     * @throws LogicException if there is no authenticated account
+     */
     public function variousPlugins(): array
     {
         return $this->getPlugins(PluginType::STAT, Plugin::ACTIVE_VARIOUS);
@@ -192,6 +215,8 @@ class PluginFactory
 
     /**
      * @return array array with plugin keys
+     *
+     * @throws LogicException if there is no authenticated account
      */
     public function enabledPanels(): array
     {
@@ -209,6 +234,9 @@ class PluginFactory
     /**
      * @return array<int, array<string, mixed>>
      */
+    /**
+     * @throws LogicException if there is no authenticated account
+     */
     private function getPluginData(): array
     {
         if ($this->pluginInstallationManager === null) {
@@ -216,7 +244,11 @@ class PluginFactory
         }
 
         $accountId = SessionAccountHandler::getId();
-        self::$Plugins[$accountId] ??= $this->pluginInstallationManager->getInstalledPluginData();
+
+        if (! isset(self::$DoctrinePluginsLoaded[$accountId])) {
+            self::$Plugins[$accountId] = $this->pluginInstallationManager->getInstalledPluginData();
+            self::$DoctrinePluginsLoaded[$accountId] = true;
+        }
 
         return self::$Plugins[$accountId];
     }
@@ -225,6 +257,8 @@ class PluginFactory
      * @param mixed $type false or enum
      * @param mixed $active false or enum
      * @return array array with plugin keys
+     *
+     * @throws LogicException if there is no authenticated account
      */
     protected function getPlugins($type = false, $active = false): array
     {
