@@ -309,6 +309,16 @@ abstract class Plugin
             return null;
         }
 
+        return $this->createConfigLink($name, $add_param);
+    }
+
+    final public function getActivationLink(string $name, int $active): string
+    {
+        return $this->createConfigLink($name, '&active=' . $active);
+    }
+
+    private function createConfigLink(string $name, string $add_param): string
+    {
         return Ajax::window('<a href="' . self::$CONFIG_URL . '?id=' . $this->id() . $add_param . '">' . $name . '</a>', 'small');
     }
 
