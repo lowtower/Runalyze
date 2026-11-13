@@ -213,6 +213,25 @@ final class PluginFactoryTest extends TestCase
         $this->assertSame(17, $instance->id());
     }
 
+    public function testNewInstanceRejectsNonScalarPluginIdentifiers(): void
+    {
+        $this->setPluginsData([
+            [
+                'id' => [],
+                'key' => PluginFactoryTestFixture::class,
+                'type' => PluginType::string(PluginType::PANEL),
+                'active' => Plugin::ACTIVE,
+                'order' => 1,
+            ],
+        ]);
+        $factory = new PluginFactory();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Plugin "PluginFactoryTestFixture" has an invalid identifier.');
+
+        $factory->newInstance(PluginFactoryTestFixture::class);
+    }
+
     public function testNewInstanceRejectsClassesThatAreNotPlugins(): void
     {
         $this->setPluginsData([
