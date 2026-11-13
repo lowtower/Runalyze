@@ -32,7 +32,7 @@ class PluginController extends AbstractPluginsAwareController
 
             $Pluginkey = $request->query->get('key');
 
-            $factory = new PluginFactory();
+            $factory = $this->pluginFactory;
 
             $installableKeys = array_column($factory->notInstalledPlugins(), 'key');
 
@@ -97,7 +97,7 @@ class PluginController extends AbstractPluginsAwareController
 
         $legacyContent = $this->captureLegacyOutput(function () use ($id): void {
             new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
-            $Factory = new PluginFactory();
+            $Factory = $this->pluginFactory;
 
             if ($id !== null && is_numeric($id)) {
                 $Plugin = $Factory->newInstanceFor((int) $id);
