@@ -38,6 +38,34 @@ final class PluginRepositoryTest extends AbstractRepositoryTestCase
         return $panel;
     }
 
+    public function testFindKeysForAccountReturnsInstalledPluginKeys(): void
+    {
+        $this->insertPanel(1, 'first-plugin');
+        $this->insertPanel(2, 'second-plugin');
+
+        $this->assertEqualsCanonicalizing(
+            ['first-plugin', 'second-plugin'],
+            $this->PluginRepository->findKeysForAccount($this->EmptyAccount)
+        );
+    }
+
+    public function testInstallForAccountPersistsPluginWithDefaultState(): void
+    {
+        $plugin = $this->PluginRepository->installForAccount(
+            $this->EmptyAccount,
+            'new-plugin',
+            Plugin::TYPE_PANEL
+        );
+
+        $this->assertNotNull($plugin->getId());
+        $this->assertSame($this->EmptyAccount, $plugin->getAccount());
+        $this->assertSame('new-plugin', $plugin->getKey());
+        $this->assertSame(Plugin::TYPE_PANEL, $plugin->getType());
+        $this->assertSame(Plugin::STATE_ACTIVE, $plugin->getActive());
+        $this->assertSame(99, $plugin->getOrder());
+        $this->assertSame(['new-plugin'], $this->PluginRepository->findKeysForAccount($this->EmptyAccount));
+    }
+
     public function testMoving(): void
     {
         $firstPanel = $this->insertPanel(1);
