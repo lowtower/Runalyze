@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\\Bundle\\CoreBundle\\Services;
+namespace Runalyze\Bundle\CoreBundle\Services;
 
-use Doctrine\\ORM\\EntityManagerInterface;
-use Runalyze\\Bundle\\CoreBundle\\Entity\\Plugin;
-use Runalyze\\Bundle\\CoreBundle\\Entity\\PluginConf;
+use Doctrine\ORM\EntityManagerInterface;
+use Runalyze\Bundle\CoreBundle\Entity\Plugin;
+use Runalyze\Bundle\CoreBundle\Entity\PluginConf;
 
 final class DoctrinePluginConfigurationStorage implements PluginConfigurationStorageInterface
 {
