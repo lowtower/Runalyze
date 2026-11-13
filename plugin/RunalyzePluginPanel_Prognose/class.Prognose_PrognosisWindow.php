@@ -383,7 +383,7 @@ class Prognose_PrognosisWindow
         $FieldEnduranceValue->setLayout(FormularFieldset::$LAYOUT_FIELD_W50);
         $FieldEnduranceValue->addCSSclass('hide-on-model-change');
         $FieldEnduranceValue->addCSSclass('only-vo2max');
-        $FieldEnduranceValue->setUnit(FormularUnit::$PERCENT);
+        $FieldEnduranceValue->setUnit('&#37;');
 
         $this->FieldsetInput->addField($FieldVO2max);
         $this->FieldsetInput->addField($FieldEnduranceValue);
