@@ -146,6 +146,9 @@ class DefaultController extends AbstractPluginsAwareController
         ];
     }
 
+    /**
+     * @throws Throwable if a dashboard plugin throws
+     */
     #[Route(path: '/', name: 'base_url', methods: ['GET'])]
     public function indexAction(Request $request, DashboardStatisticsProvider $dashboardStatisticsProvider, ?Account $account = null): Response
     {
@@ -295,6 +298,9 @@ class DefaultController extends AbstractPluginsAwareController
         );
     }
 
+    /**
+     * @throws Throwable if a dashboard plugin throws
+     */
     private function renderDashboardFragment(Request $request, DashboardStatisticsProvider $dashboardStatisticsProvider, ?Account $account): Response
     {
         new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
@@ -314,7 +320,7 @@ class DefaultController extends AbstractPluginsAwareController
     }
 
     /**
-     * @throws Throwable if the included legacy dashboard throws
+     * @throws Throwable if a dashboard plugin throws
      */
     #[Route(path: '/index.php', methods: ['GET'])]
     public function indexPhpAction(Request $request, DashboardStatisticsProvider $dashboardStatisticsProvider, ?Account $account = null): Response|RedirectResponse
