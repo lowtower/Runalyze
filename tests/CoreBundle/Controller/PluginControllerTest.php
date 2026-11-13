@@ -100,6 +100,11 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertSame(Plugin::TYPE_PANEL, $plugin->getType());
         $this->assertSame(Plugin::STATE_ACTIVE, $plugin->getActive());
         $this->assertSame(99, $plugin->getOrder());
+
+        $factory = self::getContainer()->get(PluginFactory::class);
+
+        $this->assertContains($pluginKey, $factory->allPlugins());
+        $this->assertTrue($factory->isInstalled($pluginKey));
     }
 
     public function testPluginInstallActionRejectsAMissingKey(): void
