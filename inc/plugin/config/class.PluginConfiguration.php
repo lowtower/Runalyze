@@ -19,11 +19,30 @@ class PluginConfiguration
 
     private readonly PluginConfigurationStorageInterface $Storage;
 
+    private static ?PluginConfigurationStorageInterface $CurrentStorage = null;
+
+    /**
+     * @template T
+     * @param callable(): T $callback
+     * @return T
+     */
+    public static function withStorage(PluginConfigurationStorageInterface $Storage, callable $callback): mixed
+    {
+        $PreviousStorage = self::$CurrentStorage;
+        self::$CurrentStorage = $Storage;
+
+        try {
+            return $callback();
+        } finally {
+            self::$CurrentStorage = $PreviousStorage;
+        }
+    }
+
     public function __construct(
         protected int $PluginID,
         ?PluginConfigurationStorageInterface $Storage = null
     ) {
-        $this->Storage = $Storage ?? new LegacyPluginConfigurationStorage();
+        $this->Storage = $Storage ?? self::$CurrentStorage ?? new LegacyPluginConfigurationStorage();
     }
 
     final public function catchValuesFromDatabaseIfNotDoneYet(): void

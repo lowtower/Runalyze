@@ -256,8 +256,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autoconfigure(true)
         ->public();
 
-    $services->set(LegacyPluginInstantiator::class);
-
     $services->set(PluginDiscovery::class)
         ->arg('$pluginDirectory', '%kernel.project_dir%/plugin');
 
@@ -270,6 +268,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(DoctrinePluginConfigurationStorage::class);
     $services->alias(PluginConfigurationStorageInterface::class, DoctrinePluginConfigurationStorage::class);
+
+    $services->set(LegacyPluginInstantiator::class)
+        ->arg('$configurationStorage', service(PluginConfigurationStorageInterface::class));
     $services->set(DashboardStatisticsProvider::class);
 
     $services->load('Runalyze\Bundle\CoreBundle\Controller\\', __DIR__ . '/../src/CoreBundle/Controller')
