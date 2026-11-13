@@ -102,6 +102,7 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertSame(Plugin::STATE_ACTIVE, $plugin->getActive());
         $this->assertSame(99, $plugin->getOrder());
 
+        /** @var PluginFactory $factory */
         $factory = self::getContainer()->get(PluginFactory::class);
 
         $this->assertContains($pluginKey, $factory->allPlugins());
