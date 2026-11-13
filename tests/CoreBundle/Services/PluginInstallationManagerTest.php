@@ -47,7 +47,7 @@ final class PluginInstallationManagerTest extends TestCase
         $tokenStorage->method('getToken')->willReturn(null);
 
         return new PluginInstallationManager(
-            $this->createMock(ManagerRegistry::class),
+            $this->createStub(ManagerRegistry::class),
             $tokenStorage,
             new LegacyPluginInstantiator()
         );
