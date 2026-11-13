@@ -56,7 +56,7 @@ final class PluginFactoryTest extends TestCase
         $pluginsProperty = new \ReflectionProperty(PluginFactory::class, 'Plugins');
         $this->originalPlugins = $pluginsProperty->getValue();
 
-        $doctrinePluginsLoadedProperty = new \\ReflectionProperty(PluginFactory::class, 'DoctrinePluginsLoaded');
+        $doctrinePluginsLoadedProperty = new \ReflectionProperty(PluginFactory::class, 'DoctrinePluginsLoaded');
         $this->originalDoctrinePluginsLoaded = $doctrinePluginsLoadedProperty->getValue();
 
         $accountProperty = new \ReflectionProperty(SessionAccountHandler::class, 'Account');
@@ -70,7 +70,7 @@ final class PluginFactoryTest extends TestCase
         $property = new \ReflectionProperty(PluginFactory::class, 'Plugins');
         $property->setValue(null, $this->originalPlugins);
 
-        $doctrinePluginsLoadedProperty = new \\ReflectionProperty(PluginFactory::class, 'DoctrinePluginsLoaded');
+        $doctrinePluginsLoadedProperty = new \ReflectionProperty(PluginFactory::class, 'DoctrinePluginsLoaded');
         $doctrinePluginsLoadedProperty->setValue(null, $this->originalDoctrinePluginsLoaded);
     }
 
