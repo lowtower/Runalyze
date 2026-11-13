@@ -134,6 +134,9 @@ class PluginFactory
         return $this->pluginInstantiator->instantiate($Pluginkey, PluginInstaller::ID);
     }
 
+    /**
+     * @throws \\LogicException if there is no authenticated account
+     */
     public function isInstalled(string $key): bool
     {
         if ($this->pluginInstallationManager !== null) {
@@ -214,6 +217,8 @@ class PluginFactory
 
     /**
      * @return array<int, array{key: string}>
+     *
+     * @throws \\LogicException if there is no authenticated account
      */
     public function notInstalledPlugins(): array
     {
@@ -240,6 +245,7 @@ class PluginFactory
 
     /**
      * @throws InvalidArgumentException if the class is not an instantiable plugin implementation
+     * @throws \\LogicException if there is no authenticated account
      */
     public function installPlugin(string $Pluginkey): bool
     {
