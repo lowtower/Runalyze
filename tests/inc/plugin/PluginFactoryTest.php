@@ -171,7 +171,7 @@ final class PluginFactoryTest extends TestCase
         $this->setPluginsData($this->samplePlugins());
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('No plugin found for id "999".');
+        $this->expectExceptionMessage('No plugin found for id "999".');
 
         PluginFactory::keyFor(999);
     }
