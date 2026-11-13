@@ -49,6 +49,21 @@ final class PluginRepositoryTest extends AbstractRepositoryTestCase
         );
     }
 
+    public function testFindDataForAccountReturnsPluginState(): void
+    {
+        $plugin = $this->insertPanel(4, 'installed-plugin');
+
+        $this->assertSame([
+            [
+                'id' => $plugin->getId(),
+                'key' => 'installed-plugin',
+                'type' => Plugin::TYPE_PANEL,
+                'active' => Plugin::STATE_ACTIVE,
+                'order' => 4,
+            ],
+        ], $this->PluginRepository->findDataForAccount($this->EmptyAccount));
+    }
+
     public function testFindKeysForAccountDoesNotReturnPluginsFromAnotherAccount(): void
     {
         $this->insertPanel(1, 'empty-account-plugin');
