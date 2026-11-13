@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\\Bundle\\CoreBundle\\Tests\\Services;
+namespace Runalyze\Bundle\CoreBundle\Tests\Services;
 
-use Doctrine\\Persistence\\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use LogicException;
-use Runalyze\\Bundle\\CoreBundle\\Services\\LegacyPluginInstantiator;
-use Runalyze\\Bundle\\CoreBundle\\Services\\PluginInstallationManager;
-use Symfony\\Component\\Security\\Core\\Authentication\\Token\\Storage\\TokenStorageInterface;
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
+use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-final class PluginInstallationManagerTest extends \\PHPUnit\\Framework\\TestCase
+final class PluginInstallationManagerTest extends \PHPUnit\Framework\TestCase
 {
     public function testInstalledPluginKeysRequireAnAuthenticatedAccount(): void
     {
