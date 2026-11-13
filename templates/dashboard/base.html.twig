@@ -1,0 +1,29 @@
+{% extends 'base_logged_in.twig' %}
+
+{% block content %}
+    <div id="container">
+        <div id="main">
+            <div id="data-browser" class="panel">
+                <div id="data-browser-inner">
+                    {{ dataBrowserContent|raw }}
+                </div>
+            </div>
+
+            <div id="statistics" class="panel">
+                <!-- #TSC: needed to scroll to statistics
+                     same as runalyze.lib.training.js#load() of "scrollTop" -->
+                <div id="statistics-scrolltag" style="position: relative; top: -43px;"></div>
+                <ul id="statistics-nav">
+                    {{ statisticsNavigationContent|raw }}
+                </ul>
+                <div id="statistics-inner">
+                    {{ statisticsContent|raw }}
+                </div>
+            </div>
+        </div>
+
+        <div id="panels">
+            {{ panelsContent|raw }}
+        </div>
+    </div>
+{% endblock %}
