@@ -1,16 +1,55 @@
 <?php
 
-namespace Runalyze\Bundle\CoreBundle\Repository;
+namespace Runalyze\\Bundle\\CoreBundle\\Repository;
 
-use Doctrine\ORM\EntityRepository;
-use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Entity\Plugin;
+use Doctrine\\ORM\\EntityRepository;
+use Runalyze\\Bundle\\CoreBundle\\Entity\\Account;
+use Runalyze\\Bundle\\CoreBundle\\Entity\\Plugin;
 
 /**
  * @extends EntityRepository<Plugin>
  */
 class PluginRepository extends EntityRepository
 {
+    /**
+     * @return list<string>
+     */
+    public function findKeysForAccount(Account $account): array
+    {
+        $rows = $this->createQueryBuilder('plugin')
+            ->select('plugin.key')
+            ->where('plugin.account = :account')
+            ->setParameter('account', $account)
+            ->orderBy('plugin.order', 'ASC')
+            ->addOrderBy('plugin.id', 'ASC')
+            ->getQuery()
+            ->getArrayResult();
+
+        return array_column($rows, 'key');
+    }
+
+    public function findForAccountAndKey(Account $account, string $key): ?Plugin
+    {
+        return $this->findOneBy([
+            'account' => $account,
+            'key' => $key,
+        ]);
+    }
+
+    public function installForAccount(Account $account, string $key, string $type): Plugin
+    {
+        $plugin = new Plugin()
+            ->setAccount($account)
+            ->setKey($key)
+            ->setType($type)
+            ->setActive(Plugin::STATE_ACTIVE)
+            ->setOrder(99);
+
+        $this->save($plugin);
+
+        return $plugin;
+    }
+
     public function findPanelByPosition(Account $account, int $position): ?Plugin
     {
         return $this->findOneBy([
