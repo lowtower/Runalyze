@@ -7,10 +7,10 @@ use Plugin;
 use PluginConfiguration;
 use ReflectionClass;
 
-final class LegacyPluginInstantiator
+final readonly class LegacyPluginInstantiator
 {
     public function __construct(
-        private readonly ?PluginConfigurationStorageInterface $configurationStorage = null
+        private ?PluginConfigurationStorageInterface $configurationStorage = null
     ) {}
 
     /**
@@ -28,7 +28,7 @@ final class LegacyPluginInstantiator
             throw new InvalidArgumentException(sprintf('Class "%s" is not an instantiable plugin.', $className));
         }
 
-        if ($this->configurationStorage === null) {
+        if (! $this->configurationStorage instanceof PluginConfigurationStorageInterface) {
             return new $className($pluginId);
         }
 
