@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
+use DB;
+use Plugin;
+use PluginFactory;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
@@ -392,7 +395,7 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStringContainsString('id="headline"', $content);
     }
 
-    #[\\PHPUnit\\Framework\\Attributes\\Group('plugin')]
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testDashboardRendersMonthlyStatisticsThroughItsTwigTemplate(): void
     {
         $pluginId = (int) DB::getInstance()->insert(
