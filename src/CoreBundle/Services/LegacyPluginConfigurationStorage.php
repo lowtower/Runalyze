@@ -12,15 +12,18 @@ final class LegacyPluginConfigurationStorage implements PluginConfigurationStora
             return [];
         }
 
-        $cacheKey = 'PluginConf_' . SessionAccountHandler::getId();
-        $rows = Cache::get($cacheKey);
+        $cacheKey = 'PluginConf_' . \SessionAccountHandler::getId();
+        $rows = \Cache::get($cacheKey);
 
         if ($rows === null) {
-            $rows = DB::getInstance()->query(
-            'SELECT `pluginid`,`config`,`value` '
-            . 'FROM `' . PREFIX . 'plugin_conf` '
-            . 'WHERE `pluginid` IN (' . implode(',', array_map('intval', $pluginIds)) . ')'
-        )->fetchAll(\PDO::FETCH_GROUP | \PDO::FETCH_ASSOC);
+            $rows = \DB::getInstance()->query(
+                'SELECT `pluginid`,`config`,`value` '
+                . 'FROM `' . PREFIX . 'plugin_conf` '
+                . 'WHERE `pluginid` IN (' . implode(',', array_map('intval', $pluginIds)) . ')'
+            )->fetchAll(\PDO::FETCH_GROUP | \PDO::FETCH_ASSOC);
+
+            \Cache::set($cacheKey, $rows, 60);
+        }
 
         $values = [];
         foreach ($rows as $pluginId => $pluginRows) {
@@ -34,15 +37,15 @@ final class LegacyPluginConfigurationStorage implements PluginConfigurationStora
 
     public function insert(int $pluginId, string $key, string $value): void
     {
-        DB::getInstance()->insert('plugin_conf', ['pluginid', 'config', 'value'], [$pluginId, $key, $value]);
+        \DB::getInstance()->insert('plugin_conf', ['pluginid', 'config', 'value'], [$pluginId, $key, $value]);
         $this->clearCache();
     }
 
     public function update(int $pluginId, string $key, string $value): void
     {
-        DB::getInstance()->updateWhere(
+        \DB::getInstance()->updateWhere(
             'plugin_conf',
-            '`pluginid`=' . $pluginId . ' AND `config`=' . '\"' . $key . '\"',
+            '`pluginid`=' . $pluginId . ' AND `config`="' . $key . '"',
             'value',
             $value
         );
@@ -51,6 +54,6 @@ final class LegacyPluginConfigurationStorage implements PluginConfigurationStora
 
     public function clearCache(): void
     {
-        Cache::delete('PluginConf_' . SessionAccountHandler::getId());
+        \Cache::delete('PluginConf_' . \SessionAccountHandler::getId());
     }
 }
