@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Tests\Services;
 
 use Doctrine\Persistence\ManagerRegistry;
-use PHPUnit\Framework\Attributes\Group;
 use LogicException;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
