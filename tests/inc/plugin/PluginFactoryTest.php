@@ -29,10 +29,10 @@ final class PluginFactoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $pluginsProperty = new \\ReflectionProperty(PluginFactory::class, 'Plugins');
+        $pluginsProperty = new \ReflectionProperty(PluginFactory::class, 'Plugins');
         $this->originalPlugins = $pluginsProperty->getValue();
 
-        $accountProperty = new \\ReflectionProperty(SessionAccountHandler::class, 'Account');
+        $accountProperty = new \ReflectionProperty(SessionAccountHandler::class, 'Account');
         $this->originalAccount = $accountProperty->getValue();
     }
 
@@ -40,13 +40,13 @@ final class PluginFactoryTest extends TestCase
     {
         SessionAccountHandler::setAccount($this->originalAccount);
 
-        $property = new \\ReflectionProperty(PluginFactory::class, 'Plugins');
+        $property = new \ReflectionProperty(PluginFactory::class, 'Plugins');
         $property->setValue(null, $this->originalPlugins);
     }
 
     private function setPluginsData(array $plugins): void
     {
-        $property = new \\ReflectionProperty(PluginFactory::class, 'Plugins');
+        $property = new \ReflectionProperty(PluginFactory::class, 'Plugins');
         $allPlugins = $property->getValue();
         $allPlugins[SessionAccountHandler::getId()] = $plugins;
         $property->setValue(null, $allPlugins);
