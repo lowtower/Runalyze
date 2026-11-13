@@ -9,8 +9,7 @@
 use Runalyze\Activity\Weight;
 
 $Weight = new Weight();
-$Factory = new PluginFactory();
-$Plugin = $Factory->newInstance('RunalyzePluginPanel_Sportler');
+$Plugin = $this;
 $Wunschgewicht = $Plugin->Configuration()
     ->value('wunschgewicht');
 
