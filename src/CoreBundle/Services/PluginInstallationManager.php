@@ -22,12 +22,17 @@ final readonly class PluginInstallationManager
 
     /**
      * @return list<string>
+     *
+     * @throws LogicException if there is no authenticated account
      */
     public function getInstalledPluginKeys(): array
     {
         return $this->getPluginRepository()->findKeysForAccount($this->getAccount());
     }
 
+    /**
+     * @throws LogicException if there is no authenticated account
+     */
     public function isInstalled(string $key): bool
     {
         return $this->getPluginRepository()->findForAccountAndKey($this->getAccount(), $key) !== null;
