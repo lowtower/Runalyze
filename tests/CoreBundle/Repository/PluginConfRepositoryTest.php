@@ -31,7 +31,9 @@ final class PluginConfRepositoryTest extends AbstractRepositoryTestCase
 
         $this->getEntityManager()->persist($this->plugin);
         $this->getEntityManager()->flush();
-        $this->pluginId = $this->pluginId;
+        $pluginId = $this->plugin->getId();
+        self::assertNotNull($pluginId);
+        $this->pluginId = $pluginId;
     }
 
     public function testFindValuesForPluginsGroupsValuesByPluginId(): void
@@ -50,11 +52,11 @@ final class PluginConfRepositoryTest extends AbstractRepositoryTestCase
         );
 
         $this->assertSame([
-            $this->plugin->getId() => [
+            $this->pluginId => [
                 'first' => 'one',
                 'second' => 'two',
             ],
-        ], $this->repository->findValuesForPlugins([$this->plugin->getId()]));
+        ], $this->repository->findValuesForPlugins([$this->pluginId]));
     }
 
     public function testFindValuesForPluginsReturnsEmptyArrayWithoutPluginIds(): void
@@ -87,7 +89,7 @@ final class PluginConfRepositoryTest extends AbstractRepositoryTestCase
 
         $this->assertSame(
             $configuration,
-            $this->repository->findForPluginAndKey($this->plugin->getId(), 'setting')
+            $this->repository->findForPluginAndKey($this->pluginId, 'setting')
         );
     }
 }
