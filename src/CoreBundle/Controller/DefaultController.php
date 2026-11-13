@@ -17,6 +17,7 @@ use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Dashboard\DashboardStatisticsProvider;
+use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\View\Activity\Context as ActivityContext;
 use SessionAccountHandler;
@@ -42,19 +43,24 @@ use Twig\Environment;
 class DefaultController extends AbstractPluginsAwareController
 {
     public function __construct(
-        protected ManagerRegistry $doctrine,
+        ManagerRegistry $doctrine,
         private readonly AuthorizationCheckerInterface $authorizationChecker,
         private readonly AuthenticationUtils $authenticationUtils,
         TokenStorageInterface $tokenStorage,
         ParameterBagInterface $parameterBag,
         private readonly AccountMailer $accountMailer,
         ConfigurationManager $configurationManager,
+        SportSelectionFactory $sportSelectionFactory,
         RequestStack $requestStack
     ) {
-        $this->configurationManager = $configurationManager;
-        $this->tokenStorage = $tokenStorage;
-        $this->parameterBag = $parameterBag;
-        $this->requestStack = $requestStack;
+        parent::__construct(
+            $doctrine,
+            $configurationManager,
+            $sportSelectionFactory,
+            $tokenStorage,
+            $parameterBag,
+            $requestStack
+        );
     }
 
     protected function getAccountRepository(): AccountRepository
