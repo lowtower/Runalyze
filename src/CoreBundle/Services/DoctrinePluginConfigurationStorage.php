@@ -7,6 +7,7 @@ namespace Runalyze\Bundle\CoreBundle\Services;
 use Doctrine\ORM\EntityManagerInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Entity\PluginConf;
+use Runalyze\Bundle\CoreBundle\Repository\PluginConfRepository;
 
 final class DoctrinePluginConfigurationStorage implements PluginConfigurationStorageInterface
 {
