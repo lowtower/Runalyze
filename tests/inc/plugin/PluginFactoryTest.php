@@ -64,7 +64,6 @@ final class PluginFactoryTest extends TestCase
 
         $property = new \ReflectionProperty(PluginFactory::class, 'Plugins');
         $property->setValue(null, $this->originalPlugins);
-
     }
 
     private function setPluginsData(array $plugins): void

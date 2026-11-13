@@ -113,7 +113,6 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStatusCode(404, $this->Client);
     }
 
-
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testPluginFactoryRefreshesInstalledPluginDataAfterDatabaseChanges(): void
     {
