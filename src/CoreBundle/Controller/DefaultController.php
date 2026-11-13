@@ -5,6 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Controller;
 use DataBrowser;
 use Doctrine\Persistence\ManagerRegistry;
 use Frontend;
+use Plugin;
 use Runalyze\Activity\Distance;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -115,11 +116,11 @@ class DefaultController extends AbstractPluginsAwareController
         if ($statistics->activityId !== null) {
             $trainingView = new TrainingView(new ActivityContext($statistics->activityId, SessionAccountHandler::getId()));
             $content = $this->renderView('activity/training_view.html.twig', $trainingView->templateData());
-        } elseif ($statistics->plugin instanceof \\Plugin) {
+        } elseif ($statistics->plugin instanceof Plugin) {
             $fragmentRequest = $request->duplicate();
             $fragmentRequest->headers->set('X-Requested-With', 'XMLHttpRequest');
 
-            $content = $this->getResponseFor($statistics->plugin->id(), $fragmentRequest, $account)->getContent() ?? '';
+            $content = $this->getResponseFor($statistics->plugin->id(), $fragmentRequest, $account)->getContent();
         } else {
             $content = __('<em>There are no statistics available. Activate a plugin in your configuration.</em>');
         }
