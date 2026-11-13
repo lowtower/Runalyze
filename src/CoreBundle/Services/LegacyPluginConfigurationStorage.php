@@ -1,0 +1,52 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Runalyze\\Bundle\\CoreBundle\\Services;
+
+final class LegacyPluginConfigurationStorage implements PluginConfigurationStorageInterface
+{
+    public function loadForPlugins(array $pluginIds): array
+    {
+        if ($pluginIds === []) {
+            return [];
+        }
+
+        $rows = DB::getInstance()->query(
+            'SELECT `pluginid`,`config`,`value` '
+            . 'FROM `' . PREFIX . 'plugin_conf` '
+            . 'WHERE `pluginid` IN (' . implode(',', array_map('intval', $pluginIds)) . ')'
+        )->fetchAll(\\PDO::FETCH_GROUP | \\PDO::FETCH_ASSOC);
+
+        $values = [];
+        foreach ($rows as $pluginId => $pluginRows) {
+            foreach ($pluginRows as $row) {
+                $values[(int) $pluginId][$row['config']] = $row['value'];
+            }
+        }
+
+        return $values;
+    }
+
+    public function insert(int $pluginId, string $key, string $value): void
+    {
+        DB::getInstance()->insert('plugin_conf', ['pluginid', 'config', 'value'], [$pluginId, $key, $value]);
+        $this->clearCache();
+    }
+
+    public function update(int $pluginId, string $key, string $value): void
+    {
+        DB::getInstance()->updateWhere(
+            'plugin_conf',
+            '`pluginid`=' . $pluginId . ' AND `config`=' . DB::getInstance()->quote($key),
+            'value',
+            $value
+        );
+        $this->clearCache();
+    }
+
+    public function clearCache(): void
+    {
+        Cache::delete('PluginConf');
+    }
+}
