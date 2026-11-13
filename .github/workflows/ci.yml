@@ -243,16 +243,14 @@ jobs:
 
           $basePercentage = 100 * $baseCovered / $baseTotal;
           $headPercentage = 100 * $headCovered / $headTotal;
-          $delta = $headPercentage - $basePercentage;
-          $coverageDecreaseThreshold = 1.0;
-          $decreased = $delta < 0;
-          $failed = $delta <= -$coverageDecreaseThreshold;
-          $change = sprintf("%+.4f pp", $delta);
-          $status = match (true) {
-              $failed => sprintf("Coverage decreased by at least %.1f pp", $coverageDecreaseThreshold),
-              $decreased => "Coverage decreased within the allowed tolerance",
-              default => "Coverage did not decrease",
-          };
+          $coveredDelta = $headCovered - $baseCovered;
+          $percentageDelta = $headPercentage - $basePercentage;
+          $decreased = $coveredDelta < 0;
+          $failed = $coveredDelta < 0;
+          $change = sprintf("%+d covered statements (%+.4f pp)", $coveredDelta, $percentageDelta);
+          $status = $decreased
+              ? sprintf("Covered statements decreased by %d", -$coveredDelta)
+              : "Covered statements did not decrease";
 
           $report = sprintf(
               "<!-- runalyze-coverage-report -->\n### Code coverage\n\n| Revision | Statement coverage | Covered statements |\n| --- | ---: | ---: |\n| Base branch | %.4f%% | %d/%d |\n| Pull request | %.4f%% | %d/%d |\n\n**Change:** %s  \n**Result:** %s",
@@ -264,7 +262,7 @@ jobs:
               $headTotal,
               $change,
               $status
-          ) . sprintf("\n\n**Allowed decrease:** %.1f pp", $coverageDecreaseThreshold);
+          ) . "\n\n**Gate:** the absolute number of covered statements must not decrease. Deleting untested code lowers the total, but not the covered count, and therefore does not fail the gate.";
 
           file_put_contents(getenv("GITHUB_STEP_SUMMARY"), $report . "\n");
           file_put_contents(
@@ -277,23 +275,16 @@ jobs:
               fwrite(
                   STDERR,
                   sprintf(
-                      "Code coverage decreased by %.4f percentage points; the allowed decrease is %.1f percentage points.\n",
-                      -$delta,
-                      $coverageDecreaseThreshold
+                      "Covered statements decreased by %d (from %d to %d).\n",
+                      -$coveredDelta,
+                      $baseCovered,
+                      $headCovered
                   )
               );
               exit(1);
           }
 
-          if ($decreased) {
-              echo sprintf(
-                  "Code coverage decreased by %.4f percentage points, within the allowed tolerance of %.1f percentage points.\n",
-                  -$delta,
-                  $coverageDecreaseThreshold
-              );
-          } else {
-              echo "Code coverage did not decrease.\n";
-          }
+          echo "Covered statements did not decrease.\n";
           '
       - name: Dump run logs on failure
         if: failure()
