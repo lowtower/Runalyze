@@ -105,11 +105,12 @@ class DefaultController extends AbstractPluginsAwareController
         $statisticsNavigationContent = $dashboardStatistics['navigation'];
         $statisticsContent = $dashboardStatistics['content'];
 
-        $legacyContent = $this->captureLegacyOutput(function () use ($dataBrowserContent, $panelsContent, $statisticsNavigationContent, $statisticsContent): void {
-            include __DIR__ . '/../../../dashboard.php';
-        })->getContent();
-
-        return $this->wrapLegacyContent($legacyContent, $request);
+        return $this->render('dashboard/base.html.twig', [
+            'dataBrowserContent' => $dataBrowserContent,
+            'panelsContent' => $panelsContent,
+            'statisticsNavigationContent' => $statisticsNavigationContent,
+            'statisticsContent' => $statisticsContent,
+        ]);
     }
 
     /**
@@ -309,11 +310,12 @@ class DefaultController extends AbstractPluginsAwareController
             $statisticsNavigationContent = $dashboardStatistics['navigation'];
             $statisticsContent = $dashboardStatistics['content'];
 
-            $legacyContent = $this->captureLegacyOutput(function () use ($dataBrowserContent, $panelsContent, $statisticsNavigationContent, $statisticsContent): void {
-                include $this->parameterBag->get('kernel.project_dir') . '/dashboard.php';
-            })->getContent();
-
-            return new Response($legacyContent);
+            return $this->render('dashboard/base.html.twig', [
+                'dataBrowserContent' => $dataBrowserContent,
+                'panelsContent' => $panelsContent,
+                'statisticsNavigationContent' => $statisticsNavigationContent,
+                'statisticsContent' => $statisticsContent,
+            ]);
         }
 
         return $this->redirectToRoute('base_url');
