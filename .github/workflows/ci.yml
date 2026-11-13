@@ -64,6 +64,11 @@ jobs:
 
   tests:
     name: PHPUnit (PHP ${{ matrix.php-version }})
+    outputs:
+      coverage_report: ${{ steps.coverage.outputs.report }}
+    permissions:
+      contents: read
+      actions: read
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
@@ -202,6 +207,7 @@ jobs:
 
       - name: Compare code coverage
         if: github.event_name == 'pull_request'
+        id: coverage
         env:
           BASELINE_COVERAGE: coverage-baseline/var/coverage/clover.xml
           PULL_REQUEST_COVERAGE: var/coverage/clover.xml
@@ -237,18 +243,37 @@ jobs:
 
           $basePercentage = 100 * $baseCovered / $baseTotal;
           $headPercentage = 100 * $headCovered / $headTotal;
+          $delta = $headPercentage - $basePercentage;
+          $decreased = $headCovered * $baseTotal < $baseCovered * $headTotal;
+          $change = sprintf("%+.4f pp", $delta);
+          $status = $decreased ? "Coverage decreased" : "Coverage did not decrease";
 
-          printf("Base coverage:        %.4f%% (%d/%d)\n", $basePercentage, $baseCovered, $baseTotal);
-          printf("Pull request coverage: %.4f%% (%d/%d)\n", $headPercentage, $headCovered, $headTotal);
+          $report = sprintf(
+              "<!-- runalyze-coverage-report -->\n### Code coverage\n\n| Revision | Statement coverage | Covered statements |\n| --- | ---: | ---: |\n| Base branch | %.4f%% | %d/%d |\n| Pull request | %.4f%% | %d/%d |\n\n**Change:** %s  \n**Result:** %s",
+              $basePercentage,
+              $baseCovered,
+              $baseTotal,
+              $headPercentage,
+              $headCovered,
+              $headTotal,
+              $change,
+              $status
+          );
 
-          if ($headCovered * $baseTotal < $baseCovered * $headTotal) {
-              fwrite(STDERR, sprintf("Code coverage decreased by %.4f percentage points.\n", $basePercentage - $headPercentage));
+          file_put_contents(getenv("GITHUB_STEP_SUMMARY"), $report . "\n");
+          file_put_contents(
+              getenv("GITHUB_OUTPUT"),
+              "report<<COVERAGE_REPORT\n" . $report . "\nCOVERAGE_REPORT\n",
+              FILE_APPEND
+          );
+
+          if ($decreased) {
+              fwrite(STDERR, sprintf("Code coverage decreased by %.4f percentage points.\n", -$delta));
               exit(1);
           }
 
           echo "Code coverage did not decrease.\n";
           '
-
       - name: Dump run logs on failure
         if: failure()
         env:
@@ -282,3 +307,34 @@ jobs:
           name: test-logs
           path: var/log/ci/
           if-no-files-found: ignore
+
+  coverage-comment:
+    name: Publish coverage report
+    needs: tests
+    if: >-
+      always() &&
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      needs.tests.outputs.coverage_report != ''
+    runs-on: ubuntu-24.04
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Create or update coverage comment
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          COVERAGE_REPORT: ${{ needs.tests.outputs.coverage_report }}
+        run: |
+          comments="$(gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/comments")"
+          comment_id="$(printf '%s' "$comments" | jq -r '.[][] | select(.body | contains("<!-- runalyze-coverage-report -->")) | .id' | head -n 1)"
+
+          if [ -n "$comment_id" ]; then
+            gh api "repos/$GITHUB_REPOSITORY/issues/comments/$comment_id" \
+              --method PATCH \
+              --field body="$COVERAGE_REPORT"
+          else
+            gh api "repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/comments" \
+              --method POST \
+              --field body="$COVERAGE_REPORT"
+          fi
