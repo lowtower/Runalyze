@@ -64,7 +64,6 @@ final class PluginConfRepositoryTest extends AbstractRepositoryTestCase
         $this->assertSame([], $this->repository->findValuesForPlugins([]));
     }
 
-
     public function testDoctrineStorageInsertsUpdatesAndLoadsValues(): void
     {
         $storage = new DoctrinePluginConfigurationStorage($this->getEntityManager());
