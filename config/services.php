@@ -105,6 +105,7 @@ use Runalyze\Bundle\CoreBundle\Services\LegacyCache;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
+use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PrivacyGuard;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
@@ -271,13 +272,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(PluginConfigurationStorageInterface::class, DoctrinePluginConfigurationStorage::class);
     $services->set(DashboardStatisticsProvider::class);
 
-    $services->load('Runalyze\Bundle\CoreBundle\Controller\\', __DIR__ . '/../src/CoreBundle/Controller')
+    $services->load('Runalyze\Bundle\CoreBundle\Controller\', __DIR__ . '/../src/CoreBundle/Controller')
         ->tag('controller.service_arguments');
 
-    $services->load('Runalyze\Bundle\GlossaryBundle\Controller\\', __DIR__ . '/../vendor/runalyze/glossary/Controller')
+    $services->load('Runalyze\Bundle\GlossaryBundle\Controller\', __DIR__ . '/../vendor/runalyze/glossary/Controller')
         ->tag('controller.service_arguments');
 
-    $services->load('Runalyze\Bundle\CoreBundle\Command\\', __DIR__ . '/../src/CoreBundle/Command');
+    $services->load('Runalyze\Bundle\CoreBundle\Command\', __DIR__ . '/../src/CoreBundle/Command');
 
     $services->set(CleanupBackupCommand::class)
         ->arg('$parameterBag', service('parameter_bag'))
@@ -298,7 +299,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(FinderFactoryInterface::class, FinderFactory::class);
 
-    $services->load('Runalyze\Migrations\\', __DIR__ . '/../migrations/*')
+    $services->load('Runalyze\Migrations\', __DIR__ . '/../migrations/*')
         ->bind('$DatabasePrefix', '%app.database_prefix%');
 
     $services->alias(EntityManager::class, 'doctrine.orm.default_entity_manager');
@@ -1098,7 +1099,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set('app.frontend', Frontend::class)
         ->arg('$parameterBag', service('parameter_bag'));
 
-    # $services->load('Runalyze\Bundle\CoreBundle\\Component\\Tool\Backup\\', __DIR__ . '/../src/CoreBundle/Component/Tool/Backup/');
+    # $services->load('Runalyze\Bundle\CoreBundle\Component\Tool\Backup\', __DIR__ . '/../src/CoreBundle/Component/Tool/Backup/');
 
     $services->set('app.disposable_domain_provider', DisposableDomainProvider::class)
         ->arg('$projectDir', '%kernel.project_dir%');
