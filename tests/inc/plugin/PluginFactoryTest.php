@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginConfigurationStorage;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
+use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 
 final class PluginFactoryTestFixture extends PluginPanel
@@ -40,6 +42,55 @@ final class PluginFactoryCustomConstructorFixture extends PluginPanel
     }
 
     protected function displayContent(): void {}
+}
+
+final class PluginFactoryConfigurationFixture extends PluginPanel
+{
+    protected function initConfiguration(): void
+    {
+        $configuration = new PluginConfiguration($this->id());
+        $configuration->addValue(new PluginConfigurationValue('fixture-setting', '', '', 'default'));
+        $this->setConfiguration($configuration);
+    }
+
+    final public function name(): string
+    {
+        return 'Configuration fixture';
+    }
+
+    final public function description(): string
+    {
+        return 'Fixture plugin with a configuration value.';
+    }
+
+    protected function displayContent(): void {}
+}
+
+final class PluginFactoryTestConfigurationStorage implements PluginConfigurationStorageInterface
+{
+    /**
+     * @var int[]
+     */
+    public array $loadedPluginIds = [];
+
+    /**
+     * @var array<int, array{int, string, string}>
+     */
+    public array $insertedValues = [];
+
+    public function loadForPlugins(array $pluginIds): array
+    {
+        $this->loadedPluginIds = $pluginIds;
+
+        return [];
+    }
+
+    public function insert(int $pluginId, string $key, string $value): void
+    {
+        $this->insertedValues[] = [$pluginId, $key, $value];
+    }
+
+    public function update(int $pluginId, string $key, string $value): void {}
 }
 
 #[Group('plugin')]
@@ -214,6 +265,26 @@ final class PluginFactoryTest extends TestCase
         $this->assertSame(17, $instance->id());
     }
 
+    public function testNewInstanceUsesInjectedPluginConfigurationStorage(): void
+    {
+        $pluginId = 17;
+        $this->setPluginsData([
+            $this->pluginEntry($pluginId, PluginFactoryConfigurationFixture::class, PluginType::string(PluginType::PANEL), Plugin::ACTIVE),
+        ]);
+        $storage = new PluginFactoryTestConfigurationStorage();
+        $factory = new PluginFactory(new LegacyPluginInstantiator($storage));
+
+        $instance = $factory->newInstance(PluginFactoryConfigurationFixture::class);
+
+        $this->assertSame('default', $instance->Configuration()->value('fixture-setting'));
+        $this->assertSame([$pluginId], $storage->loadedPluginIds);
+        $this->assertSame([[$pluginId, 'fixture-setting', 'default']], $storage->insertedValues);
+
+        $configuration = new PluginConfiguration($pluginId);
+        $storageProperty = new \ReflectionProperty(PluginConfiguration::class, 'Storage');
+        $this->assertInstanceOf(LegacyPluginConfigurationStorage::class, $storageProperty->getValue($configuration));
+    }
+
     public function testNewInstanceRejectsNonScalarPluginIdentifiers(): void
     {
         $this->setPluginsData([
@@ -277,7 +348,18 @@ final class PluginFactoryTest extends TestCase
         $factory->newInstance('NoSuchKey');
     }
 
-    public function testNewInstanceForDelegatesToKeyForAndNewInstance(): void
+    public function testNewInstanceForThrowsInvalidArgumentExceptionForUnknownId(): void
+    {
+        $this->setPluginsData($this->samplePlugins());
+        $factory = new PluginFactory();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessageIsOrContains('No plugin found for id "999".');
+
+        $factory->newInstanceFor(999);
+    }
+
+    public function testNewInstanceForCreatesInstanceForMatchingId(): void
     {
         $this->setPluginsData([
             $this->pluginEntry(PluginInstaller::ID, 'PluginFactoryTestFixture', PluginType::string(PluginType::PANEL), Plugin::ACTIVE),

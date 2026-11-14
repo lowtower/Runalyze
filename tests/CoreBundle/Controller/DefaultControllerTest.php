@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
-use DB;
-use Plugin;
 use PluginFactory;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginEntity;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
@@ -400,11 +399,16 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testDashboardRendersMonthlyStatisticsThroughItsTwigTemplate(): void
     {
-        $pluginId = (int) DB::getInstance()->insert(
-            'plugin',
-            ['key', 'type', 'active', 'order', 'accountid'],
-            ['RunalyzePluginStat_MonthlyStats', 'stat', (string) Plugin::ACTIVE, '0', (string) $this->Account->getId()]
-        );
+        $plugin = new PluginEntity()
+            ->setKey('RunalyzePluginStat_MonthlyStats')
+            ->setType(PluginEntity::TYPE_STAT)
+            ->setActive(PluginEntity::STATE_ACTIVE)
+            ->setOrder(0)
+            ->setAccount($this->Account);
+        $this->getEntityManager()->persist($plugin);
+        $this->getEntityManager()->flush();
+
+        $pluginId = (int) $plugin->getId();
         PluginFactory::clearCache();
 
         try {
@@ -420,7 +424,8 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             $this->assertStringContainsString('colspan="13"', $content);
             $this->assertSame(1, substr_count($content, 'id="headline"'));
         } finally {
-            DB::getInstance()->exec('DELETE FROM `' . PREFIX . 'plugin` WHERE `id` = ' . $pluginId);
+            $this->getEntityManager()->remove($plugin);
+            $this->getEntityManager()->flush();
             PluginFactory::clearCache();
         }
     }
@@ -447,11 +452,16 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $this->getEntityManager()->persist($training);
         $this->getEntityManager()->flush();
 
-        $pluginId = (int) DB::getInstance()->insert(
-            'plugin',
-            ['key', 'type', 'active', 'order', 'accountid'],
-            ['RunalyzePluginStat_MonthlyStats', 'stat', (string) Plugin::ACTIVE, '0', (string) $this->Account->getId()]
-        );
+        $plugin = new PluginEntity()
+            ->setKey('RunalyzePluginStat_MonthlyStats')
+            ->setType(PluginEntity::TYPE_STAT)
+            ->setActive(PluginEntity::STATE_ACTIVE)
+            ->setOrder(0)
+            ->setAccount($this->Account);
+        $this->getEntityManager()->persist($plugin);
+        $this->getEntityManager()->flush();
+
+        $pluginId = (int) $plugin->getId();
         PluginFactory::clearCache();
 
         try {
@@ -467,7 +477,8 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             $this->assertStringContainsString('2025', $content);
             $this->assertStringNotContainsString('colspan="13"', $content);
         } finally {
-            DB::getInstance()->exec('DELETE FROM `' . PREFIX . 'plugin` WHERE `id` = ' . $pluginId);
+            $this->getEntityManager()->remove($plugin);
+            $this->getEntityManager()->flush();
             PluginFactory::clearCache();
         }
     }
