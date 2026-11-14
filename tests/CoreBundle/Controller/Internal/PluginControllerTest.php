@@ -25,10 +25,10 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         PluginFactory::clearCache();
     }
 
-    private function persistPluginForAccount(Account $account, string $type, int $active, int $order): Plugin
+    private function persistPluginForAccount(Account $account, string $type, int $active, int $order, string $key = 'test-plugin'): Plugin
     {
         $plugin = new Plugin()
-            ->setKey('test-plugin')
+            ->setKey($key)
             ->setType($type)
             ->setActive($active)
             ->setOrder($order)
@@ -284,7 +284,8 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
             $this->Account,
             Plugin::TYPE_PANEL,
             Plugin::STATE_ACTIVE,
-            0
+            0,
+            'RunalyzePluginPanel_Equipment'
         );
         $id = (int) $plugin->getId();
         PluginFactory::clearCache();
