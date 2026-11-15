@@ -33,6 +33,11 @@ final class PluginSettingsProviderFixture extends PluginPanel
         return 'Plugin settings provider fixture.';
     }
 
+    protected function defaultSport(): int
+    {
+        return -1;
+    }
+
     protected function displayContent(): void {}
 }
 
