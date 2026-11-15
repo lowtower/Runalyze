@@ -69,6 +69,45 @@ class PluginRepository extends EntityRepository
         return $plugin;
     }
 
+    /**
+     * @param array<int, array{active: int, order: int}> $settings
+     */
+    public function updateSettingsForAccount(Account $account, array $settings): bool
+    {
+        $plugins = $this->findBy([
+            'account' => $account,
+        ]);
+        $changed = false;
+
+        foreach ($plugins as $plugin) {
+            $pluginId = $plugin->getId();
+
+            if ($pluginId === null) {
+                continue;
+            }
+
+            $setting = $settings[$pluginId] ?? null;
+
+            if ($setting === null) {
+                continue;
+            }
+
+            if ($plugin->getActive() !== $setting['active'] || $plugin->getOrder() !== $setting['order']) {
+                $plugin
+                    ->setActive($setting['active'])
+                    ->setOrder($setting['order']);
+
+                $changed = true;
+            }
+        }
+
+        if ($changed) {
+            $this->saveMultiple($plugins);
+        }
+
+        return $changed;
+    }
+
     public function findPanelByPosition(Account $account, int $position): ?Plugin
     {
         return $this->findOneBy([
