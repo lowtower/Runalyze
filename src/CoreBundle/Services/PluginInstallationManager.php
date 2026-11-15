@@ -45,6 +45,27 @@ final readonly class PluginInstallationManager
     }
 
     /**
+     * @param array<int, array{active: int, order: int}> $settings
+     *
+     * @throws LogicException if there is no authenticated account
+     * @throws \\InvalidArgumentException if a plugin state or order is invalid
+     */
+    public function updateInstalledPluginSettings(array $settings): bool
+    {
+        foreach ($settings as $setting) {
+            if (! in_array($setting['active'], [
+                Plugin::STATE_INACTIVE,
+                Plugin::STATE_ACTIVE,
+                Plugin::STATE_HIDDEN,
+            ], true) || $setting['order'] < 1) {
+                throw new \\InvalidArgumentException('Plugin settings contain an invalid state or order.');
+            }
+        }
+
+        return $this->getPluginRepository()->updateSettingsForAccount($this->getAccount(), $settings);
+    }
+
+    /**
      * @throws LogicException if there is no authenticated account
      */
     public function isInstalled(string $key): bool
