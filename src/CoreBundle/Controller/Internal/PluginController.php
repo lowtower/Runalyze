@@ -87,7 +87,7 @@ class PluginController extends AbstractPluginsAwareController
 
     /**
      * @throws AccessDeniedException
-     * @throws \\Throwable if a legacy plugin throws while building the panels' content
+     * @throws \Throwable if a legacy plugin throws while building the panels' content
      */
     #[Route(path: '/all-panels', name: 'internal-plugin-all-panels', methods: ['GET'])]
     public function contentPanelsAction(Request $request, ?Account $account = null): Response
