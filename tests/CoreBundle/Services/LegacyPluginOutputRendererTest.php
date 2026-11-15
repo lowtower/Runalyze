@@ -31,7 +31,7 @@ final class LegacyPluginOutputRendererTest extends TestCase
         $outputBufferLevel = ob_get_level();
 
         try {
-            $renderer->render(function (): void {
+            $renderer->render(function (): never {
                 throw new RuntimeException('Legacy plugin rendering failed.');
             });
             $this->fail('Expected the legacy callback to throw.');
