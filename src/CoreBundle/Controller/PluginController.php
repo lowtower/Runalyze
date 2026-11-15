@@ -7,6 +7,7 @@ use ConfigTabPlugins;
 use Frontend;
 use HTML;
 use Icon;
+use PluginFactory;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,6 +43,8 @@ class PluginController extends AbstractPluginsAwareController
             echo '<h1>' . __('Install') . ' ' . $Pluginkey . '</h1>';
 
             if ($this->pluginInstallationManager->install($Pluginkey)) {
+                PluginFactory::clearCache();
+
                 $Plugin = $this->instantiatePluginByKey($Pluginkey);
 
                 echo HTML::okay(__('The plugin has been successfully installed.'));
