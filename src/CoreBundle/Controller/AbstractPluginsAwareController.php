@@ -128,7 +128,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
     {
         foreach ($this->pluginInstallationManager->getInstalledPluginData() as $pluginData) {
             if ((int) $pluginData['id'] === $pluginId) {
-                return $this->pluginInstantiator->instantiate($pluginData['key'], $pluginData['id']);
+                return $this->pluginInstantiator->instantiate($pluginData['key'], $pluginData['id'], $pluginData);
             }
         }
 
@@ -142,7 +142,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
     {
         foreach ($this->pluginInstallationManager->getInstalledPluginData() as $pluginData) {
             if ($pluginData['key'] === $pluginKey) {
-                return $this->pluginInstantiator->instantiate($pluginData['key'], $pluginData['id']);
+                return $this->pluginInstantiator->instantiate($pluginData['key'], $pluginData['id'], $pluginData);
             }
         }
 
