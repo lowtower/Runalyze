@@ -74,7 +74,9 @@ class PluginRepository extends EntityRepository
      */
     public function updateSettingsForAccount(Account $account, array $settings): bool
     {
-        $plugins = $this->findBy(['account' => $account]);
+        $plugins = $this->findBy([
+            'account' => $account,
+        ]);
         $changed = false;
 
         foreach ($plugins as $plugin) {
