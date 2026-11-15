@@ -103,6 +103,7 @@ use Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookup;
 use Runalyze\Bundle\CoreBundle\Services\Import\WeatherForecast;
 use Runalyze\Bundle\CoreBundle\Services\LegacyCache;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
@@ -272,6 +273,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(DoctrinePluginConfigurationStorage::class);
     $services->alias(PluginConfigurationStorageInterface::class, DoctrinePluginConfigurationStorage::class);
+
+    $services->set(LegacyPluginOutputRenderer::class);
 
     $services->set(LegacyPluginInstantiator::class)
         ->arg('$configurationStorage', service(PluginConfigurationStorageInterface::class));
