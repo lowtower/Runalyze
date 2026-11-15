@@ -79,8 +79,8 @@ final class LegacyPluginOutputRendererTest extends TestCase
         try {
             $renderer->render($plugin);
             $this->fail('Expected the legacy plugin to throw.');
-        } catch (RuntimeException $exception) {
-            $this->assertSame('Legacy plugin rendering failed.', $exception->getMessage());
+        } catch (RuntimeException $runtimeException) {
+            $this->assertSame('Legacy plugin rendering failed.', $runtimeException->getMessage());
         }
 
         $this->assertSame($outputBufferLevel, ob_get_level());
