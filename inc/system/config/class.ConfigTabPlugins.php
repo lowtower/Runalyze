@@ -82,7 +82,6 @@ class ConfigTabPlugins extends ConfigTab
 				<tbody>';
 
         foreach ($Plugins as $pos => $Plugin) {
-
             $Code .= '
 					<tr id="' . $Plugin->id() . '_tr" class="a' . ($Plugin->isInActive() ? ' unimportant' : '') . '">
 						<td>' . $Plugin->getConfigLink() . '</td>
@@ -154,7 +153,6 @@ class ConfigTabPlugins extends ConfigTab
 				<tbody>';
 
         foreach ($Plugins as $Plugin) {
-
             $Code .= '
 				<tr>
 					<td>' . Icon::$ADD . '</td>
