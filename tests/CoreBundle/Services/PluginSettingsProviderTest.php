@@ -12,7 +12,6 @@ use PluginInstaller;
 use PluginPanel;
 use PluginType;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginEntity;
 use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
