@@ -15,9 +15,6 @@ final readonly class LegacyPluginInstantiator
     ) {}
 
     /**
-     * @throws InvalidArgumentException if the class is not an instantiable plugin implementation
-     */
-    /**
      * @param array<string, mixed>|null $pluginData
      *
      * @throws InvalidArgumentException if the class is not an instantiable plugin implementation
