@@ -115,7 +115,7 @@ final class PluginSettingsProviderTest extends TestCase
         $repository->method('findKeysForAccount')->willReturn($installedKeys);
 
         $doctrine = $this->createStub(ManagerRegistry::class);
-        $doctrine->method('getRepository')->with(PluginEntity::class)->willReturn($repository);
+        $doctrine->method('getRepository')->willReturn($repository);
 
         $token = $this->createMock(TokenInterface::class);
         $token->method('getUser')->willReturn(new Account());
