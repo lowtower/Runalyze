@@ -8,6 +8,8 @@ use Doctrine\\Persistence\\ManagerRegistry;
 use PHPUnit\\Framework\\Attributes\\Group;
 use PHPUnit\\Framework\\TestCase;
 use Plugin;
+use PluginInstaller;
+use PluginType;
 use PluginPanel;
 use Runalyze\\Bundle\\CoreBundle\\Entity\\Account;
 use Runalyze\\Bundle\\CoreBundle\\Entity\\Plugin as PluginEntity;
@@ -124,9 +126,7 @@ final class PluginSettingsProviderTest extends TestCase
 
         $directory = $discovery;
         if ($directory === null) {
-            $path = sys_get_temp_dir() . '/runalyze-plugin-settings-empty-' . bin2hex(random_bytes(8));
-            mkdir($path);
-            $directory = new PluginDiscovery($path);
+            $directory = new PluginDiscovery(sys_get_temp_dir() . '/runalyze-plugin-settings-empty');
         }
 
         return new PluginSettingsProvider(
