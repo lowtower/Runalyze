@@ -67,7 +67,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
                 continue;
             }
 
-            $panel = $this->pluginInstantiator->instantiate($pluginData['key'], $pluginData['id']);
+            $panel = $this->pluginInstantiator->instantiate($pluginData['key'], $pluginData['id'], $pluginData);
             $panelContent = $this->getResponseFor($panel->id(), $request, $account)
                 ->getContent();
 
