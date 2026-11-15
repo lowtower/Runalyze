@@ -108,6 +108,10 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertContains($pluginKey, $factory->allPlugins());
         $this->assertTrue($factory->isInstalled($pluginKey));
 
+        $this->request('GET', '/call/call.Plugin.config.php?id=' . $plugin->getId());
+
+        $this->assertStatusCode(200, $this->Client);
+
         $this->request('GET', '/call/call.Plugin.install.php?key=' . $pluginKey);
 
         $this->assertStatusCode(404, $this->Client);
