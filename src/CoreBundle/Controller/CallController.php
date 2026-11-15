@@ -100,7 +100,10 @@ class CallController extends AbstractController
         $legacyContent = $this->captureLegacyOutput(function (): void {
             $ConfigTabs = new ConfigTabs();
             $ConfigTabs->addDefaultTab(new ConfigTabGeneral());
-            $ConfigTabs->addTab(new ConfigTabPlugins($this->pluginInstallationManager, $this->pluginSettingsProvider));
+            $ConfigTabs->addTab(new ConfigTabPlugins(
+                $this->pluginInstallationManager,
+                $this->pluginSettingsProvider
+            ));
             $ConfigTabs->display();
 
             echo Ajax::wrapJSforDocumentReady('Runalyze.Overlay.removeClasses();');
