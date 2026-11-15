@@ -18,6 +18,7 @@ use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Dashboard\DashboardStatisticsProvider;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
@@ -50,6 +51,7 @@ class DefaultController extends AbstractPluginsAwareController
         PluginInstallationManager $pluginInstallationManager,
         PluginDiscovery $pluginDiscovery,
         LegacyPluginInstantiator $pluginInstantiator,
+        LegacyPluginOutputRenderer $legacyPluginOutputRenderer,
         private readonly AuthorizationCheckerInterface $authorizationChecker,
         private readonly AuthenticationUtils $authenticationUtils,
         TokenStorageInterface $tokenStorage,
@@ -64,6 +66,7 @@ class DefaultController extends AbstractPluginsAwareController
             $pluginInstallationManager,
             $pluginDiscovery,
             $pluginInstantiator,
+            $legacyPluginOutputRenderer,
             $configurationManager,
             $sportSelectionFactory,
             $tokenStorage,
