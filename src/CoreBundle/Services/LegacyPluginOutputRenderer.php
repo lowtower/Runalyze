@@ -4,21 +4,22 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Services;
 
-use Plugin;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 final class LegacyPluginOutputRenderer
 {
     /**
-     * @throws Throwable if the legacy plugin throws while rendering
+     * @param callable(): void $callback
+     *
+     * @throws Throwable if the legacy callback throws while rendering
      */
-    public function render(Plugin $plugin): Response
+    public function render(callable $callback): Response
     {
         ob_start();
 
         try {
-            $plugin->display();
+            $callback();
             $content = ob_get_clean();
         } catch (Throwable $throwable) {
             ob_end_clean();
