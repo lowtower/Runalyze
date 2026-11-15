@@ -63,7 +63,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
         $content = '';
 
         foreach ($this->pluginInstallationManager->getInstalledPluginData() as $pluginData) {
-            if ($pluginData['type'] !== Plugin::TYPE_PANEL || $pluginData['active'] === Plugin::STATE_INACTIVE) {
+            if ($pluginData['type'] !== Plugin::TYPE_PANEL || (int) $pluginData['active'] === Plugin::STATE_INACTIVE) {
                 continue;
             }
 
