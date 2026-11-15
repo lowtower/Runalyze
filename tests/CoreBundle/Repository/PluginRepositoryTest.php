@@ -137,8 +137,8 @@ final class PluginRepositoryTest extends AbstractRepositoryTestCase
 
         $pluginId = $plugin->getId();
         $otherAccountPluginId = $otherAccountPlugin->getId();
-        self::assertNotNull($pluginId);
-        self::assertNotNull($otherAccountPluginId);
+        $this->assertNotNull($pluginId);
+        $this->assertNotNull($otherAccountPluginId);
 
         $changed = $this->PluginRepository->updateSettingsForAccount($this->EmptyAccount, [
             $pluginId => [
@@ -163,7 +163,7 @@ final class PluginRepositoryTest extends AbstractRepositoryTestCase
         $plugin = $this->insertPanel(1, 'account-plugin');
 
         $pluginId = $plugin->getId();
-        self::assertNotNull($pluginId);
+        $this->assertNotNull($pluginId);
 
         $changed = $this->PluginRepository->updateSettingsForAccount($this->EmptyAccount, [
             $pluginId => [
