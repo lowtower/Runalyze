@@ -130,9 +130,7 @@ final class PluginSettingsProviderTest extends TestCase
         );
 
         $directory = $discovery;
-        if ($directory === null) {
-            $directory = new PluginDiscovery(sys_get_temp_dir() . '/runalyze-plugin-settings-empty');
-        }
+        $directory ??= new PluginDiscovery(sys_get_temp_dir() . '/runalyze-plugin-settings-empty');
 
         return new PluginSettingsProvider(
             $installationManager,
