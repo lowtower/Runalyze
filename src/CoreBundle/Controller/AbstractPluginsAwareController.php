@@ -118,7 +118,9 @@ abstract class AbstractPluginsAwareController extends AbstractController
             $plugin->setSurroundingDivVisible($this->IsShowingAllPanels);
         }
 
-        return $this->legacyPluginOutputRenderer->render($plugin);
+        return $this->legacyPluginOutputRenderer->render(function () use ($plugin): void {
+            $plugin->display();
+        });
     }
 
     /**
