@@ -125,7 +125,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
     protected function instantiatePluginById(int $pluginId): LegacyPlugin
     {
         foreach ($this->pluginInstallationManager->getInstalledPluginData() as $pluginData) {
-            if ($pluginData['id'] === $pluginId) {
+            if ((int) $pluginData['id'] === $pluginId) {
                 return $this->pluginInstantiator->instantiate($pluginData['key'], $pluginData['id']);
             }
         }
