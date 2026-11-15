@@ -4,18 +4,20 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Services;
 
-use Plugin;
-use PluginInstaller;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
+use Plugin;
+use PluginInstaller;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
 
 final class LegacyPluginOutputRendererFixture extends Plugin
 {
-    public function __construct(private readonly string $output, private readonly bool $throw = false)
-    {
+    public function __construct(
+        private readonly string $output,
+        private readonly bool $throw = false
+    ) {
         parent::__construct(PluginInstaller::ID);
     }
 
