@@ -124,6 +124,49 @@ final class PluginRepositoryTest extends AbstractRepositoryTestCase
         $this->assertSame(['new-plugin'], $this->PluginRepository->findKeysForAccount($this->EmptyAccount));
     }
 
+    public function testUpdateSettingsForAccountUpdatesOnlyPluginsOfTheGivenAccount(): void
+    {
+        $plugin = $this->insertPanel(1, 'account-plugin');
+        $otherAccountPlugin = new Plugin()
+            ->setAccount($this->getDefaultAccount())
+            ->setKey('other-account-plugin')
+            ->setType(Plugin::TYPE_PANEL)
+            ->setActive(Plugin::STATE_ACTIVE)
+            ->setOrder(1);
+        $this->PluginRepository->save($otherAccountPlugin);
+
+        $changed = $this->PluginRepository->updateSettingsForAccount($this->EmptyAccount, [
+            $plugin->getId() => [
+                'active' => Plugin::STATE_HIDDEN,
+                'order' => 3,
+            ],
+            $otherAccountPlugin->getId() => [
+                'active' => Plugin::STATE_INACTIVE,
+                'order' => 4,
+            ],
+        ]);
+
+        $this->assertTrue($changed);
+        $this->assertSame(Plugin::STATE_HIDDEN, $plugin->getActive());
+        $this->assertSame(3, $plugin->getOrder());
+        $this->assertSame(Plugin::STATE_ACTIVE, $otherAccountPlugin->getActive());
+        $this->assertSame(1, $otherAccountPlugin->getOrder());
+    }
+
+    public function testUpdateSettingsForAccountReturnsFalseWhenNothingChanges(): void
+    {
+        $plugin = $this->insertPanel(1, 'account-plugin');
+
+        $changed = $this->PluginRepository->updateSettingsForAccount($this->EmptyAccount, [
+            $plugin->getId() => [
+                'active' => Plugin::STATE_ACTIVE,
+                'order' => 1,
+            ],
+        ]);
+
+        $this->assertFalse($changed);
+    }
+
     public function testMoving(): void
     {
         $firstPanel = $this->insertPanel(1);
