@@ -119,6 +119,9 @@ abstract class AbstractPluginsAwareController extends AbstractController
         });
     }
 
+    /**
+     * @throws InvalidArgumentException if no plugin is installed with the given id
+     */
     protected function instantiatePluginById(int $pluginId): LegacyPlugin
     {
         foreach ($this->pluginInstallationManager->getInstalledPluginData() as $pluginData) {
@@ -130,6 +133,9 @@ abstract class AbstractPluginsAwareController extends AbstractController
         throw new InvalidArgumentException(sprintf('No plugin found for id "%d".', $pluginId));
     }
 
+    /**
+     * @throws InvalidArgumentException if no plugin is installed with the given key
+     */
     protected function instantiatePluginByKey(string $pluginKey): LegacyPlugin
     {
         foreach ($this->pluginInstallationManager->getInstalledPluginData() as $pluginData) {
