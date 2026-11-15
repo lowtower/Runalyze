@@ -180,6 +180,31 @@ final class PluginFactoryTest extends TestCase
         $this->assertSame($accountAPlugins[0], PluginFactory::dataFor(1));
     }
 
+    public function testDataForUsesScopedPluginDataDuringLegacyInstantiation(): void
+    {
+        $legacyPlugins = $this->samplePlugins();
+        $this->setPluginsData($legacyPlugins);
+        $pluginData = $this->pluginEntry(17, PluginFactoryTestFixture::class, PluginType::string(PluginType::PANEL), Plugin::ACTIVE);
+
+        $result = PluginFactory::withPluginData($pluginData, function () use ($pluginData): array {
+            return PluginFactory::dataFor($pluginData['id']);
+        });
+
+        $this->assertSame($pluginData, $result);
+        $this->assertSame($legacyPlugins[0], PluginFactory::dataFor(1));
+    }
+
+    public function testLegacyPluginInstantiatorUsesProvidedPluginData(): void
+    {
+        $pluginData = $this->pluginEntry(17, PluginFactoryTestFixture::class, PluginType::string(PluginType::PANEL), Plugin::ACTIVE, 4);
+        $instantiator = new LegacyPluginInstantiator();
+
+        $plugin = $instantiator->instantiate(PluginFactoryTestFixture::class, 17, $pluginData);
+
+        $this->assertTrue($plugin->isActive());
+        $this->assertSame(4, $plugin->order());
+    }
+
     public function testDataForReturnsMatchingPluginData(): void
     {
         $plugins = $this->samplePlugins();
