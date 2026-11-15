@@ -1,6 +1,7 @@
 <?php
 
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
+use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 
 /**
  * This file contains class::ConfigTabPlugins
@@ -13,7 +14,8 @@ use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 class ConfigTabPlugins extends ConfigTab
 {
     public function __construct(
-        private readonly PluginInstallationManager $pluginInstallationManager
+        private readonly PluginInstallationManager $pluginInstallationManager,
+        private readonly PluginSettingsProvider $pluginSettingsProvider
     ) {
         parent::__construct();
     }
@@ -62,9 +64,7 @@ class ConfigTabPlugins extends ConfigTab
 
     private function getCodeFor(?int $PluginType): string
     {
-        $Factory = new PluginFactory();
-        $Plugins = $Factory->completeData($PluginType);
-        usort($Plugins, $this->pluginOrderFunction());
+        $Plugins = $this->pluginSettingsProvider->getInstalledPlugins($PluginType);
 
         if ($Plugins === []) {
             return HTML::info(__('No plugins available.'));
@@ -81,9 +81,7 @@ class ConfigTabPlugins extends ConfigTab
 				</thead>
 				<tbody>';
 
-        foreach ($Plugins as $pos => $Data) {
-            $Plugin = $Factory->newInstance($Data['key']);
-
+        foreach ($Plugins as $pos => $Plugin) {
             $Code .= '
 					<tr id="' . $Plugin->id() . '_tr" class="a' . ($Plugin->isInActive() ? ' unimportant' : '') . '">
 						<td>' . $Plugin->getConfigLink() . '</td>
@@ -136,33 +134,9 @@ class ConfigTabPlugins extends ConfigTab
         return $Code;
     }
 
-    protected function pluginOrderFunction(): \Closure
-    {
-        return function (array $a, array $b): int {
-            if ($a['active'] == $b['active']) {
-                if ($a['order'] == $b['order']) {
-                    return ($a['id'] > $b['id']) ? 1 : -1;
-                }
-
-                return ($a['order'] > $b['order']) ? 1 : -1;
-            }
-
-            if ($a['active'] == 0) {
-                return 1;
-            }
-
-            if ($b['active'] == 0) {
-                return -1;
-            }
-
-            return ($a['active'] > $b['active']) ? 1 : -1;
-        };
-    }
-
     private function getCodeForInstall(): string
     {
-        $Factory = new PluginFactory();
-        $Plugins = $Factory->notInstalledPlugins();
+        $Plugins = $this->pluginSettingsProvider->getAvailablePluginsToInstall();
 
         if ($Plugins === []) {
             return HTML::fileBlock(__('There are no new plugins to install.'));
@@ -178,9 +152,7 @@ class ConfigTabPlugins extends ConfigTab
 				</thead>
 				<tbody>';
 
-        foreach ($Plugins as $Data) {
-            $Plugin = $Factory->newInstallerInstance($Data['key']);
-
+        foreach ($Plugins as $Plugin) {
             $Code .= '
 				<tr>
 					<td>' . Icon::$ADD . '</td>
@@ -200,10 +172,9 @@ class ConfigTabPlugins extends ConfigTab
      */
     public function parsePostData(): void
     {
-        $Factory = new PluginFactory();
         $settings = [];
 
-        foreach ($Factory->completeData() as $Plugin) {
+        foreach ($this->pluginSettingsProvider->getInstalledPluginData() as $Plugin) {
             $id = $Plugin['id'];
 
             if (isset($_POST['plugin_modus_' . $id]) && isset($_POST['plugin_order_' . $id])) {
@@ -218,6 +189,6 @@ class ConfigTabPlugins extends ConfigTab
             Ajax::setReloadFlag(Ajax::$RELOAD_ALL);
         }
 
-        $Factory->clearCache();
+        PluginFactory::clearCache();
     }
 }

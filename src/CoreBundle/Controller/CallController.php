@@ -14,6 +14,7 @@ use PlotWeekSumData;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
+use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,7 +36,8 @@ class CallController extends AbstractController
         private ParameterBagInterface $parameterBag,
         private RequestStack $requestStack,
         private ConfigurationUpdater $configurationUpdater,
-        private PluginInstallationManager $pluginInstallationManager
+        private PluginInstallationManager $pluginInstallationManager,
+        private PluginSettingsProvider $pluginSettingsProvider
     ) {}
 
     /**
@@ -98,7 +100,10 @@ class CallController extends AbstractController
         $legacyContent = $this->captureLegacyOutput(function (): void {
             $ConfigTabs = new ConfigTabs();
             $ConfigTabs->addDefaultTab(new ConfigTabGeneral());
-            $ConfigTabs->addTab(new ConfigTabPlugins($this->pluginInstallationManager));
+            $ConfigTabs->addTab(new ConfigTabPlugins(
+                $this->pluginInstallationManager,
+                $this->pluginSettingsProvider
+            ));
             $ConfigTabs->display();
 
             echo Ajax::wrapJSforDocumentReady('Runalyze.Overlay.removeClasses();');
