@@ -12,8 +12,9 @@ use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
  */
 class ConfigTabPlugins extends ConfigTab
 {
-    public function __construct(private readonly PluginInstallationManager $pluginInstallationManager)
-    {
+    public function __construct(
+        private readonly PluginInstallationManager $pluginInstallationManager
+    ) {
         parent::__construct();
     }
 
