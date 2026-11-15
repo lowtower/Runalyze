@@ -135,12 +135,17 @@ final class PluginRepositoryTest extends AbstractRepositoryTestCase
             ->setOrder(1);
         $this->PluginRepository->save($otherAccountPlugin);
 
+        $pluginId = $plugin->getId();
+        $otherAccountPluginId = $otherAccountPlugin->getId();
+        self::assertNotNull($pluginId);
+        self::assertNotNull($otherAccountPluginId);
+
         $changed = $this->PluginRepository->updateSettingsForAccount($this->EmptyAccount, [
-            $plugin->getId() => [
+            $pluginId => [
                 'active' => Plugin::STATE_HIDDEN,
                 'order' => 3,
             ],
-            $otherAccountPlugin->getId() => [
+            $otherAccountPluginId => [
                 'active' => Plugin::STATE_INACTIVE,
                 'order' => 4,
             ],
@@ -157,8 +162,11 @@ final class PluginRepositoryTest extends AbstractRepositoryTestCase
     {
         $plugin = $this->insertPanel(1, 'account-plugin');
 
+        $pluginId = $plugin->getId();
+        self::assertNotNull($pluginId);
+
         $changed = $this->PluginRepository->updateSettingsForAccount($this->EmptyAccount, [
-            $plugin->getId() => [
+            $pluginId => [
                 'active' => Plugin::STATE_ACTIVE,
                 'order' => 1,
             ],
