@@ -7,6 +7,7 @@ use ConfigTabPlugins;
 use Frontend;
 use HTML;
 use Icon;
+use PluginFactory;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,9 +31,9 @@ class PluginController extends AbstractPluginsAwareController
 
             $Pluginkey = $request->query->get('key');
 
-            $factory = $this->pluginFactory;
-
-            $installableKeys = array_column($factory->notInstalledPlugins(), 'key');
+            $availablePluginKeys = $this->pluginDiscovery->findAvailablePluginKeys();
+            $installedPluginKeys = $this->pluginInstallationManager->getInstalledPluginKeys();
+            $installableKeys = array_diff($availablePluginKeys, $installedPluginKeys);
 
             if (! is_string($Pluginkey) || ! in_array($Pluginkey, $installableKeys, true)) {
                 throw $this->createNotFoundException('Unknown or already installed plugin.');
@@ -40,8 +41,10 @@ class PluginController extends AbstractPluginsAwareController
 
             echo '<h1>' . __('Install') . ' ' . $Pluginkey . '</h1>';
 
-            if ($factory->installPlugin($Pluginkey)) {
-                $Plugin = $factory->newInstance($Pluginkey);
+            if ($this->pluginInstallationManager->install($Pluginkey)) {
+                PluginFactory::clearCache();
+
+                $Plugin = $this->instantiatePluginByKey($Pluginkey);
 
                 echo HTML::okay(__('The plugin has been successfully installed.'));
 
@@ -93,11 +96,8 @@ class PluginController extends AbstractPluginsAwareController
 
         $legacyContent = $this->captureLegacyOutput(function () use ($id): void {
             new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
-            $Factory = $this->pluginFactory;
-
             if ($id !== null && is_numeric($id)) {
-                $Plugin = $Factory->newInstanceFor((int) $id);
-                $Plugin->displayConfigWindow();
+                $this->instantiatePluginById((int) $id)->displayConfigWindow();
             } else {
                 echo '<em>' . __('Something went wrong ...') . '</em>';
             }

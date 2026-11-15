@@ -64,8 +64,33 @@ class PluginFactory
         )->fetchAll();
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
+    public static function withPluginData(array $data, callable $callback): mixed
+    {
+        self::$InstantiationData[] = $data;
+
+        try {
+            return $callback();
+        } finally {
+            array_pop(self::$InstantiationData);
+        }
+    }
+
+    /**
+     * @var list<array<string, mixed>>
+     */
+    private static array $InstantiationData = [];
+
     public static function dataFor(int $id): array
     {
+        foreach (array_reverse(self::$InstantiationData) as $data) {
+            if ((int) $data['id'] === $id) {
+                return $data;
+            }
+        }
+
         foreach (self::Plugins() as $data) {
             if ($data['id'] == $id) {
                 return $data;
@@ -119,7 +144,7 @@ class PluginFactory
                     throw new InvalidArgumentException(sprintf('Plugin "%s" has an invalid identifier.', $pluginkey));
                 }
 
-                return $this->pluginInstantiator->instantiate($pluginkey, $pluginId);
+                return $this->pluginInstantiator->instantiate($pluginkey, $pluginId, $plugin);
             }
         }
 
