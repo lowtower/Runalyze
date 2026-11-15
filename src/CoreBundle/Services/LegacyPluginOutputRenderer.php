@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\\Bundle\\CoreBundle\\Services;
+namespace Runalyze\Bundle\CoreBundle\Services;
 
 use Plugin;
-use Symfony\\Component\\HttpFoundation\\Response;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 final class LegacyPluginOutputRenderer
