@@ -78,7 +78,13 @@ class PluginRepository extends EntityRepository
         $changed = false;
 
         foreach ($plugins as $plugin) {
-            $setting = $settings[$plugin->getId()] ?? null;
+            $pluginId = $plugin->getId();
+
+            if ($pluginId === null) {
+                continue;
+            }
+
+            $setting = $settings[$pluginId] ?? null;
 
             if ($setting === null) {
                 continue;
