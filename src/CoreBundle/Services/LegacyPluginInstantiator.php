@@ -4,10 +4,15 @@ namespace Runalyze\Bundle\CoreBundle\Services;
 
 use InvalidArgumentException;
 use Plugin;
+use PluginConfiguration;
 use ReflectionClass;
 
-final class LegacyPluginInstantiator
+final readonly class LegacyPluginInstantiator
 {
+    public function __construct(
+        private ?PluginConfigurationStorageInterface $configurationStorage = null
+    ) {}
+
     /**
      * @throws InvalidArgumentException if the class is not an instantiable plugin implementation
      */
@@ -23,6 +28,13 @@ final class LegacyPluginInstantiator
             throw new InvalidArgumentException(sprintf('Class "%s" is not an instantiable plugin.', $className));
         }
 
-        return new $className($pluginId);
+        if (! $this->configurationStorage instanceof PluginConfigurationStorageInterface) {
+            return new $className($pluginId);
+        }
+
+        return PluginConfiguration::withStorage(
+            $this->configurationStorage,
+            fn (): Plugin => new $className($pluginId)
+        );
     }
 }

@@ -105,6 +105,7 @@ use Runalyze\Bundle\CoreBundle\Services\LegacyCache;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
+use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PrivacyGuard;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
@@ -255,17 +256,22 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autoconfigure(true)
         ->public();
 
-    $services->set(LegacyPluginInstantiator::class);
-
     $services->set(PluginDiscovery::class)
         ->arg('$pluginDirectory', '%kernel.project_dir%/plugin');
 
+    $services->set(PluginInstallationManager::class);
+
     $services->set(PluginFactory::class)
         ->class(PluginFactory::class)
-        ->arg('$pluginDiscovery', service(PluginDiscovery::class));
+        ->arg('$pluginInstantiator', service(LegacyPluginInstantiator::class))
+        ->arg('$pluginDiscovery', service(PluginDiscovery::class))
+        ->arg('$pluginInstallationManager', service(PluginInstallationManager::class));
 
     $services->set(DoctrinePluginConfigurationStorage::class);
     $services->alias(PluginConfigurationStorageInterface::class, DoctrinePluginConfigurationStorage::class);
+
+    $services->set(LegacyPluginInstantiator::class)
+        ->arg('$configurationStorage', service(PluginConfigurationStorageInterface::class));
     $services->set(DashboardStatisticsProvider::class);
 
     $services->load('Runalyze\Bundle\CoreBundle\Controller\\', __DIR__ . '/../src/CoreBundle/Controller')

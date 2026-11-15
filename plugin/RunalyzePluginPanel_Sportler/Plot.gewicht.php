@@ -6,11 +6,11 @@
  * @package Runalyze\Plugins\Panels
  */
 
+/** @var RunalyzePluginPanel_Sportler $Plugin */
+
 use Runalyze\Activity\Weight;
 
 $Weight = new Weight();
-$Factory = new PluginFactory();
-$Plugin = $Factory->newInstance('RunalyzePluginPanel_Sportler');
 $Wunschgewicht = $Plugin->Configuration()
     ->value('wunschgewicht');
 

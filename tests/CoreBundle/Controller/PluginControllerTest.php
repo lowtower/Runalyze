@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
+use PluginFactory;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -72,6 +74,69 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->request('GET', '/call/call.Plugin.install.php?key=ThisPluginDirectoryDoesNotExist');
 
         $this->assertStatusCode(404, $this->Client);
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPluginInstallActionPersistsPluginForAuthenticatedAccount(): void
+    {
+        $pluginKey = 'RunalyzePluginPanel_TagsSummary';
+
+        $this->loginClient($this->Client, $this->Account, 'default');
+        $this->request('GET', '/call/call.Plugin.install.php?key=' . $pluginKey);
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString(
+            'The plugin has been successfully installed.',
+            (string) $this->Client->getResponse()->getContent()
+        );
+
+        $plugin = $this->getEntityManager()
+            ->getRepository(Plugin::class)
+            ->findOneBy([
+                'account' => $this->Account,
+                'key' => $pluginKey,
+            ]);
+
+        $this->assertInstanceOf(Plugin::class, $plugin);
+        $this->assertSame(Plugin::TYPE_PANEL, $plugin->getType());
+        $this->assertSame(Plugin::STATE_ACTIVE, $plugin->getActive());
+        $this->assertSame(99, $plugin->getOrder());
+
+        /** @var PluginFactory $factory */
+        $factory = self::getContainer()->get(PluginFactory::class);
+
+        $this->assertContains($pluginKey, $factory->allPlugins());
+        $this->assertTrue($factory->isInstalled($pluginKey));
+
+        $this->request('GET', '/call/call.Plugin.install.php?key=' . $pluginKey);
+
+        $this->assertStatusCode(404, $this->Client);
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPluginFactoryRefreshesInstalledPluginDataAfterDatabaseChanges(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+        $this->request('GET', '/dashboard');
+
+        $this->assertStatusCode(200, $this->Client);
+
+        /** @var PluginFactory $factory */
+        $factory = self::getContainer()->get(PluginFactory::class);
+
+        $this->assertNotContains('plugin-added-after-first-read', $factory->allPlugins());
+
+        $plugin = new Plugin()
+            ->setAccount($this->Account)
+            ->setKey('plugin-added-after-first-read')
+            ->setType(Plugin::TYPE_PANEL)
+            ->setActive(Plugin::STATE_ACTIVE)
+            ->setOrder(99);
+
+        $this->getEntityManager()->persist($plugin);
+        $this->getEntityManager()->flush();
+
+        $this->assertContains('plugin-added-after-first-read', $factory->allPlugins());
     }
 
     public function testPluginInstallActionRejectsAMissingKey(): void

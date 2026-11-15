@@ -172,6 +172,8 @@ class RunalyzePluginPanel_Sportler extends PluginPanel
 				<div class="flot ' . Ajax::$IMG_WAIT . ' flot-hide" id="sportler_analyse" style="width:320px;height:150px;position:absolute;"></div>
 			</div>';
 
+        $Plugin = $this;
+
         include FRONTEND_PATH . '../plugin/' . $this->key() . '/Plot.gewicht.php';
         include FRONTEND_PATH . '../plugin/' . $this->key() . '/Plot.analyse.php';
 

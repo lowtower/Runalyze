@@ -7,7 +7,6 @@ use ConfigTabPlugins;
 use Frontend;
 use HTML;
 use Icon;
-use PluginInstaller;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,15 +34,13 @@ class PluginController extends AbstractPluginsAwareController
 
             $installableKeys = array_column($factory->notInstalledPlugins(), 'key');
 
-            if (! in_array($Pluginkey, $installableKeys, true)) {
+            if (! is_string($Pluginkey) || ! in_array($Pluginkey, $installableKeys, true)) {
                 throw $this->createNotFoundException('Unknown or already installed plugin.');
             }
 
-            $Installer = new PluginInstaller($Pluginkey);
-
             echo '<h1>' . __('Install') . ' ' . $Pluginkey . '</h1>';
 
-            if ($Installer->install()) {
+            if ($factory->installPlugin($Pluginkey)) {
                 $Plugin = $factory->newInstance($Pluginkey);
 
                 echo HTML::okay(__('The plugin has been successfully installed.'));
