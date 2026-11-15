@@ -1,5 +1,7 @@
 <?php
 
+use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
+
 /**
  * This file contains class::ConfigTabPlugins
  * @package Runalyze\System\Config
@@ -10,6 +12,11 @@
  */
 class ConfigTabPlugins extends ConfigTab
 {
+    public function __construct(private readonly PluginInstallationManager $pluginInstallationManager)
+    {
+        parent::__construct();
+    }
+
     /**
      * Set key and title for form
      */
@@ -192,42 +199,24 @@ class ConfigTabPlugins extends ConfigTab
      */
     public function parsePostData(): void
     {
-        $PreparedUpdate = $this->prepareUpdateStatement();
         $Factory = new PluginFactory();
+        $settings = [];
 
         foreach ($Factory->completeData() as $Plugin) {
             $id = $Plugin['id'];
 
             if (isset($_POST['plugin_modus_' . $id]) && isset($_POST['plugin_order_' . $id])) {
-                $this->updatePlugin($PreparedUpdate, $Plugin, (int) $_POST['plugin_modus_' . $id], (int) $_POST['plugin_order_' . $id]);
+                $settings[(int) $id] = [
+                    'active' => (int) $_POST['plugin_modus_' . $id],
+                    'order' => (int) $_POST['plugin_order_' . $id],
+                ];
             }
         }
 
-        $Factory->clearCache();
-    }
-
-    protected function prepareUpdateStatement(): \PDOStatement
-    {
-        return DB::getInstance()->prepare(
-            'UPDATE `' . PREFIX . 'plugin` SET `active` = :active, `order` = :order WHERE `id` = :id'
-        );
-    }
-
-    /**
-     * @param array<string, mixed> $Plugin
-     * @param int $newModus
-     * @param int $newOrder
-     */
-    protected function updatePlugin(\PDOStatement $update, array $Plugin, $newModus, $newOrder)
-    {
-        if ($Plugin['active'] != $newModus || $Plugin['order'] != $newOrder) {
-            $update->execute([
-                ':active' => $newModus,
-                ':order' => $newOrder,
-                ':id' => $Plugin['id'],
-            ]);
-
+        if ($this->pluginInstallationManager->updateInstalledPluginSettings($settings)) {
             Ajax::setReloadFlag(Ajax::$RELOAD_ALL);
         }
+
+        $Factory->clearCache();
     }
 }
