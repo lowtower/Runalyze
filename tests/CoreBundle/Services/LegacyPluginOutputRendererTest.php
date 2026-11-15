@@ -6,81 +6,35 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Services;
 
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
-use Plugin;
-use PluginInstaller;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
 
-final class LegacyPluginOutputRendererFixture extends Plugin
-{
-    public function __construct(
-        private readonly string $output,
-        private readonly bool $throw = false
-    ) {
-        parent::__construct(PluginInstaller::ID);
-    }
-
-    public function name(): string
-    {
-        return 'Fixture';
-    }
-
-    public function description(): string
-    {
-        return 'Legacy plugin output renderer fixture.';
-    }
-
-    public function type(): int
-    {
-        return 0;
-    }
-
-    public function display(): void
-    {
-        if ($this->throw) {
-            throw new RuntimeException('Legacy plugin rendering failed.');
-        }
-
-        echo $this->output;
-    }
-
-    protected function displayContent(): void {}
-
-    public function getLink(): string
-    {
-        return '';
-    }
-
-    protected function getInnerLink(string $name, int $sport = 0, int $year = 0, string $dat = ''): string
-    {
-        return '';
-    }
-}
-
 #[Group('plugin')]
 final class LegacyPluginOutputRendererTest extends TestCase
 {
-    public function testReturnsLegacyPluginOutputAsResponse(): void
+    public function testReturnsLegacyOutputAsResponse(): void
     {
         $renderer = new LegacyPluginOutputRenderer();
-        $plugin = new LegacyPluginOutputRendererFixture('<div>Legacy plugin content</div>');
 
-        $response = $renderer->render($plugin);
+        $response = $renderer->render(function (): void {
+            echo '<div>Legacy plugin content</div>';
+        });
 
         $this->assertInstanceOf(Response::class, $response);
         $this->assertSame('<div>Legacy plugin content</div>', $response->getContent());
     }
 
-    public function testRestoresOutputBufferWhenLegacyPluginThrows(): void
+    public function testRestoresOutputBufferWhenLegacyCallbackThrows(): void
     {
         $renderer = new LegacyPluginOutputRenderer();
-        $plugin = new LegacyPluginOutputRendererFixture('', true);
         $outputBufferLevel = ob_get_level();
 
         try {
-            $renderer->render($plugin);
-            $this->fail('Expected the legacy plugin to throw.');
+            $renderer->render(function (): void {
+                throw new RuntimeException('Legacy plugin rendering failed.');
+            });
+            $this->fail('Expected the legacy callback to throw.');
         } catch (RuntimeException $runtimeException) {
             $this->assertSame('Legacy plugin rendering failed.', $runtimeException->getMessage());
         }
