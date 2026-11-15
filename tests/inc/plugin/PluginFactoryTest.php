@@ -186,9 +186,7 @@ final class PluginFactoryTest extends TestCase
         $this->setPluginsData($legacyPlugins);
         $pluginData = $this->pluginEntry(17, PluginFactoryTestFixture::class, PluginType::string(PluginType::PANEL), Plugin::ACTIVE);
 
-        $result = PluginFactory::withPluginData($pluginData, function () use ($pluginData): array {
-            return PluginFactory::dataFor($pluginData['id']);
-        });
+        $result = PluginFactory::withPluginData($pluginData, fn(): array => PluginFactory::dataFor($pluginData['id']));
 
         $this->assertSame($pluginData, $result);
         $this->assertSame($legacyPlugins[0], PluginFactory::dataFor(1));
