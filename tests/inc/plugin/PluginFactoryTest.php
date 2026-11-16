@@ -8,7 +8,6 @@ use Runalyze\Bundle\CoreBundle\Services\LegacyPluginConfigurationStorage;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginDataContext;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
-use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 
 final class PluginFactoryTestFixture extends PluginPanel
 {
@@ -160,25 +159,31 @@ final class PluginFactoryTest extends TestCase
     {
         $accountAPlugins = $this->samplePlugins();
         $accountBPlugins = [
-            $this->pluginEntry(1, 'AccountSpecificPlugin', PluginType::string(PluginType::PANEL), Plugin::ACTIVE),
+            $this->pluginEntry(22, PluginFactoryTestFixture::class, PluginType::string(PluginType::PANEL), Plugin::ACTIVE),
         ];
 
         SessionAccountHandler::setAccount([
             'id' => 11,
         ]);
         $this->setPluginsData($accountAPlugins);
-        $this->assertSame($accountAPlugins, new PluginFactory()->completeData());
+
+        $accountAPlugin = new PluginFactory()->newInstance(PluginFactoryTestFixture::class);
+        $this->assertSame(1, $accountAPlugin->id());
 
         SessionAccountHandler::setAccount([
             'id' => 22,
         ]);
         $this->setPluginsData($accountBPlugins);
-        $this->assertSame($accountBPlugins, new PluginFactory()->completeData());
+
+        $accountBPlugin = new PluginFactory()->newInstance(PluginFactoryTestFixture::class);
+        $this->assertSame(22, $accountBPlugin->id());
 
         SessionAccountHandler::setAccount([
             'id' => 11,
         ]);
-        $this->assertSame($accountAPlugins, new PluginFactory()->completeData());
+
+        $accountAPlugin = new PluginFactory()->newInstance(PluginFactoryTestFixture::class);
+        $this->assertSame(1, $accountAPlugin->id());
     }
 
     public function testLegacyPluginDataContextFindsScopedDataAndClearsAfterCallback(): void
@@ -254,27 +259,6 @@ final class PluginFactoryTest extends TestCase
 
         $this->assertTrue($plugin->isActive());
         $this->assertSame(4, $plugin->order());
-    }
-
-    public function testCompleteDataReturnsAllPluginsWhenTypeIsNull(): void
-    {
-        $plugins = $this->samplePlugins();
-        $this->setPluginsData($plugins);
-        $factory = new PluginFactory();
-
-        $this->assertSame($plugins, $factory->completeData());
-    }
-
-    public function testCompleteDataFiltersByType(): void
-    {
-        $this->setPluginsData($this->samplePlugins());
-        $factory = new PluginFactory();
-
-        $result = $factory->completeData(PluginType::PANEL);
-        $this->assertCount(2, $result);
-        foreach ($result as $plugin) {
-            $this->assertSame(PluginType::string(PluginType::PANEL), $plugin['type']);
-        }
     }
 
     public function testNewInstanceCreatesInstanceForKnownKey(): void
@@ -355,26 +339,6 @@ final class PluginFactoryTest extends TestCase
         $factory->newInstance(DateTimeImmutable::class);
     }
 
-    public function testNewInstallerInstanceRejectsUnknownClasses(): void
-    {
-        $factory = new PluginFactory(new LegacyPluginInstantiator());
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('Plugin class "NoSuchPluginClass" does not exist.');
-
-        $factory->newInstallerInstance('NoSuchPluginClass');
-    }
-
-    public function testNewInstallerInstanceRejectsClassesThatAreNotPlugins(): void
-    {
-        $factory = new PluginFactory(new LegacyPluginInstantiator());
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('Class "DateTimeImmutable" is not an instantiable plugin.');
-
-        $factory->newInstallerInstance(DateTimeImmutable::class);
-    }
-
     public function testNewInstanceThrowsInvalidArgumentExceptionForUnknownKey(): void
     {
         $this->setPluginsData($this->samplePlugins());
@@ -384,39 +348,6 @@ final class PluginFactoryTest extends TestCase
         $this->expectExceptionMessageIsOrContains('Plugin with key "NoSuchKey" is not installed.');
 
         $factory->newInstance('NoSuchKey');
-    }
-
-    public function testNewInstanceForThrowsInvalidArgumentExceptionForUnknownId(): void
-    {
-        $this->setPluginsData($this->samplePlugins());
-        $factory = new PluginFactory();
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('No plugin found for id "999".');
-
-        $factory->newInstanceFor(999);
-    }
-
-    public function testNewInstanceForCreatesInstanceForMatchingId(): void
-    {
-        $this->setPluginsData([
-            $this->pluginEntry(PluginInstaller::ID, 'PluginFactoryTestFixture', PluginType::string(PluginType::PANEL), Plugin::ACTIVE),
-        ]);
-        $factory = new PluginFactory();
-
-        $instance = $factory->newInstanceFor(PluginInstaller::ID);
-
-        $this->assertInstanceOf(PluginFactoryTestFixture::class, $instance);
-    }
-
-    public function testNewInstallerInstanceCreatesInstanceWithInstallerId(): void
-    {
-        $factory = new PluginFactory();
-
-        $instance = $factory->newInstallerInstance(PluginFactoryTestFixture::class);
-
-        $this->assertInstanceOf(PluginFactoryTestFixture::class, $instance);
-        $this->assertSame(PluginInstaller::ID, $instance->id());
     }
 
     public function testIsInstalledIsTrueForKnownKey(): void
@@ -435,115 +366,11 @@ final class PluginFactoryTest extends TestCase
         $this->assertFalse($factory->isInstalled('NoSuchKey'));
     }
 
-    public function testAllPluginsReturnsAllKeysRegardlessOfState(): void
-    {
-        $this->setPluginsData($this->samplePlugins());
-        $factory = new PluginFactory();
-
-        $this->assertSame(
-            ['PluginFactoryTestFixture', 'SomeStatKey', 'SomeVariousStatKey', 'SomeInactivePanelKey'],
-            $factory->allPlugins()
-        );
-    }
-
-    public function testActivePluginsReturnsOnlyActiveKeys(): void
-    {
-        $this->setPluginsData($this->samplePlugins());
-        $factory = new PluginFactory();
-
-        $this->assertSame(['PluginFactoryTestFixture'], $factory->activePlugins());
-    }
-
-    public function testInactivePluginsWithNoTypeFilterReturnsAllInactiveKeysRegardlessOfType(): void
-    {
-        $this->setPluginsData($this->samplePlugins());
-        $factory = new PluginFactory();
-
-        $this->assertSame(['SomeStatKey', 'SomeInactivePanelKey'], $factory->inactivePlugins());
-    }
-
-    public function testVariousPluginsReturnsOnlyVariousStatKeys(): void
-    {
-        $this->setPluginsData($this->samplePlugins());
-        $factory = new PluginFactory();
-
-        $this->assertSame(['SomeVariousStatKey'], $factory->variousPlugins());
-    }
-
-    public function testEnabledPanelsReturnsOnlyNonInactivePanelKeys(): void
-    {
-        $this->setPluginsData($this->samplePlugins());
-        $factory = new PluginFactory();
-        $this->assertSame(['PluginFactoryTestFixture'], $factory->enabledPanels());
-    }
-
-    public function testActivePluginsCanBeFilteredByTypeViaGetPlugins(): void
-    {
-        $this->setPluginsData($this->samplePlugins());
-        $factory = new PluginFactory();
-
-        $this->assertSame(['PluginFactoryTestFixture'], $factory->activePlugins(PluginType::PANEL));
-    }
-
     public function testPluginCanBeInstantiatedWithInstallerId(): void
     {
         $instance = new PluginFactoryTestFixture(PluginInstaller::ID);
 
         $this->assertSame(PluginInstaller::ID, $instance->id());
-    }
-
-    public function testNotInstalledPluginsExcludesAnAlreadyInstalledPlugin(): void
-    {
-        $this->setPluginsData([
-            $this->pluginEntry(1, 'RunalyzePluginStat_Wettkampf', PluginType::string(PluginType::STAT), Plugin::ACTIVE),
-        ]);
-        $factory = new PluginFactory();
-
-        $result = $factory->notInstalledPlugins();
-        $keys = array_column($result, 'key');
-
-        $this->assertNotContains('RunalyzePluginStat_Wettkampf', $keys);
-    }
-
-    public function testNotInstalledPluginsReturnsArrayOfEntriesWithKeyField(): void
-    {
-        $this->setPluginsData([]);
-        $factory = new PluginFactory();
-
-        $result = $factory->notInstalledPlugins();
-
-        $this->assertIsArray($result);
-        foreach ($result as $entry) {
-            $this->assertArrayHasKey('key', $entry);
-        }
-    }
-
-    public function testNotInstalledPluginsUsesInjectedDiscoveryAndFiltersInstalledPlugins(): void
-    {
-        $pluginDirectory = sys_get_temp_dir() . '/runalyze-plugin-factory-' . bin2hex(random_bytes(8));
-        mkdir($pluginDirectory);
-        mkdir($pluginDirectory . '/InstalledPlugin');
-        mkdir($pluginDirectory . '/AvailablePlugin');
-
-        try {
-            $this->setPluginsData([
-                $this->pluginEntry(1, 'InstalledPlugin', PluginType::string(PluginType::PANEL), Plugin::ACTIVE),
-            ]);
-            $factory = new PluginFactory(
-                null,
-                new PluginDiscovery($pluginDirectory)
-            );
-
-            $this->assertSame([
-                [
-                    'key' => 'AvailablePlugin',
-                ],
-            ], $factory->notInstalledPlugins());
-        } finally {
-            rmdir($pluginDirectory . '/AvailablePlugin');
-            rmdir($pluginDirectory . '/InstalledPlugin');
-            rmdir($pluginDirectory);
-        }
     }
 
     public function testGetActivationLinkDoesNotRequirePluginConfiguration(): void

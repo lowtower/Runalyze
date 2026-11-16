@@ -271,7 +271,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(PluginFactory::class)
         ->class(PluginFactory::class)
         ->arg('$pluginInstantiator', service(LegacyPluginInstantiator::class))
-        ->arg('$pluginDiscovery', service(PluginDiscovery::class))
         ->arg('$pluginInstallationManager', service(PluginInstallationManager::class));
 
     $services->set(DoctrinePluginConfigurationStorage::class);

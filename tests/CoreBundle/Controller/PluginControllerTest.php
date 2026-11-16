@@ -9,6 +9,7 @@ use ReflectionProperty;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
+use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -106,7 +107,6 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         /** @var PluginFactory $factory */
         $factory = self::getContainer()->get(PluginFactory::class);
 
-        $this->assertContains($pluginKey, $factory->allPlugins());
         $this->assertTrue($factory->isInstalled($pluginKey));
 
         $this->request('GET', '/call/call.Plugin.config.php?id=' . $plugin->getId());
@@ -155,10 +155,16 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $pluginsProperty->setValue(null, []);
 
         try {
+            /** @var PluginInstallationManager $installationManager */
+            $installationManager = self::getContainer()->get(PluginInstallationManager::class);
+            $installedPluginKeys = $installationManager->getInstalledPluginKeys();
+
+            $this->assertNotEmpty($installedPluginKeys);
+
             /** @var PluginFactory $factory */
             $factory = self::getContainer()->get(PluginFactory::class);
 
-            $this->assertNotEmpty($factory->allPlugins());
+            $this->assertTrue($factory->isInstalled($installedPluginKeys[0]));
             $this->assertSame([], $pluginsProperty->getValue());
         } finally {
             $pluginsProperty->setValue(null, $originalPlugins);
@@ -175,7 +181,7 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         /** @var PluginFactory $factory */
         $factory = self::getContainer()->get(PluginFactory::class);
 
-        $this->assertNotContains('plugin-added-after-first-read', $factory->allPlugins());
+        $this->assertFalse($factory->isInstalled('plugin-added-after-first-read'));
 
         $plugin = new Plugin()
             ->setAccount($this->Account)
@@ -187,7 +193,7 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->getEntityManager()->persist($plugin);
         $this->getEntityManager()->flush();
 
-        $this->assertContains('plugin-added-after-first-read', $factory->allPlugins());
+        $this->assertTrue($factory->isInstalled('plugin-added-after-first-read'));
     }
 
     public function testPluginInstallActionRejectsAMissingKey(): void
