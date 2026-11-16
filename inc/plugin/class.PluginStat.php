@@ -324,5 +324,4 @@ abstract class PluginStat extends Plugin
 
         return Ajax::link($name, 'statistics-inner', self::$DISPLAY_URL . '/' . $this->id() . '?sport=' . $sport . '&jahr=' . $year . '&dat=' . $dat);
     }
-
 }
