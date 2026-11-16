@@ -72,7 +72,7 @@ abstract class Plugin
     private PluginConfiguration $Configuration;
 
     public function __construct(
-        private int $id
+        private readonly int $id
     ) {
         $this->key = static::class;
 
@@ -192,27 +192,6 @@ abstract class Plugin
     protected function displayLongDescription()
     {
         echo HTML::p($this->description());
-    }
-
-    final public function install(): bool
-    {
-        if ($this->id() !== PluginInstaller::ID) {
-            return false;
-        }
-
-        $this->id = DB::getInstance()->insert('plugin', [
-            'key',
-            'type',
-            'active',
-            'order',
-        ], [
-            $this->key(),
-            $this->typeString(),
-            '1',
-            '99',
-        ]);
-
-        return true;
     }
 
     final protected function initVars()

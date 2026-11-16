@@ -311,19 +311,6 @@ class PluginFactory
     }
 
     /**
-     * @throws InvalidArgumentException if the class is not an instantiable plugin implementation
-     * @throws \LogicException if there is no authenticated account
-     */
-    public function installPlugin(string $Pluginkey): bool
-    {
-        if ($this->pluginInstallationManager instanceof PluginInstallationManager) {
-            return $this->pluginInstallationManager->install($Pluginkey);
-        }
-
-        return $this->newInstallerInstance($Pluginkey)->install();
-    }
-
-    /**
      * @throws InvalidArgumentException
      */
     public static function keyFor(int $id): string
