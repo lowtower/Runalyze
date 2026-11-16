@@ -91,11 +91,32 @@ class PluginController extends AbstractPluginsAwareController
 
         $id = $request->query->get('id');
 
-        $legacyContent = $this->legacyPluginOutputRenderer->render(function () use ($id): void {
+        $legacyContent = $this->legacyPluginOutputRenderer->render(function () use ($id, $request): void {
             new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
             if ($id !== null && is_numeric($id)) {
-                $this->instantiatePluginById((int) $id)->displayConfigWindow();
+                $plugin = $this->instantiatePluginById((int) $id);
+                $active = $request->query->get('active');
+
+                if ($active !== null) {
+                    if (! is_string($active) || ! ctype_digit($active)) {
+                        throw $this->createNotFoundException('Invalid plugin activation state.');
+                    }
+
+                    if (! $this->pluginInstallationManager->setInstalledPluginActive($plugin->id(), (int) $active)) {
+                        $pluginData = $this->pluginInstallationManager->getInstalledPluginData();
+                        $isInstalled = array_any($pluginData, static fn (array $data): bool => (int) $data['id'] === $plugin->id());
+
+                        if (! $isInstalled) {
+                            throw $this->createNotFoundException('Plugin not found for current account.');
+                        }
+                    }
+
+                    Ajax::setReloadFlag(Ajax::$RELOAD_ALL);
+                    echo Ajax::getReloadCommand();
+                }
+
+                $plugin->displayConfigWindow();
             } else {
                 echo '<em>' . __('Something went wrong ...') . '</em>';
             }
