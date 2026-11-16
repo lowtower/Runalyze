@@ -6,7 +6,6 @@
  */
 
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
-use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 
 class PluginFactory
@@ -15,7 +14,6 @@ class PluginFactory
 
     public function __construct(
         ?LegacyPluginInstantiator $pluginInstantiator = null,
-        private readonly ?PluginDiscovery $pluginDiscovery = null,
         private readonly ?PluginInstallationManager $pluginInstallationManager = null
     ) {
         $this->pluginInstantiator = $pluginInstantiator ?? new LegacyPluginInstantiator();
@@ -65,25 +63,6 @@ class PluginFactory
     }
 
     /**
-     * @throws LogicException if there is no authenticated account
-     */
-    public function completeData(?int $type = null): array
-    {
-        if ($type === null) {
-            return $this->getPluginData();
-        }
-
-        $plugins = $this->getPluginData();
-        foreach ($plugins as $k => $plugin) {
-            if ($plugin['type'] != PluginType::string($type)) {
-                unset($plugins[$k]);
-            }
-        }
-
-        return $plugins;
-    }
-
-    /**
      * @throws InvalidArgumentException
      * @throws LogicException if there is no authenticated account
      */
@@ -105,29 +84,6 @@ class PluginFactory
     }
 
     /**
-     * @throws InvalidArgumentException if no plugin is installed with the given id
-     * @throws LogicException if there is no authenticated account
-     */
-    public function newInstanceFor(int $id): Plugin
-    {
-        foreach ($this->getPluginData() as $plugin) {
-            if ((int) $plugin['id'] === $id) {
-                return $this->newInstance((string) $plugin['key']);
-            }
-        }
-
-        throw new InvalidArgumentException('No plugin found for id "' . $id . '".');
-    }
-
-    /**
-     * @throws InvalidArgumentException if the class is not an instantiable plugin implementation
-     */
-    public function newInstallerInstance(string $Pluginkey): Plugin
-    {
-        return $this->pluginInstantiator->instantiate($Pluginkey, PluginInstaller::ID);
-    }
-
-    /**
      * @throws \LogicException if there is no authenticated account
      */
     public function isInstalled(string $key): bool
@@ -136,68 +92,7 @@ class PluginFactory
             return $this->pluginInstallationManager->isInstalled($key);
         }
 
-        return in_array($key, $this->allPlugins(), true);
-    }
-
-    /**
-     * @param mixed $type false or enum
-     * @return array array with plugin keys
-     *
-     * @throws LogicException if there is no authenticated account
-     */
-    public function allPlugins($type = false): array
-    {
-        return $this->getPlugins($type);
-    }
-
-    /**
-     * @param mixed $type false or enum
-     * @return array array with plugin keys
-     *
-     * @throws LogicException if there is no authenticated account
-     */
-    public function activePlugins($type = false): array
-    {
-        return $this->getPlugins($type, Plugin::ACTIVE);
-    }
-
-    /**
-     * @param mixed $type false or enum
-     * @return array array with plugin keys
-     *
-     * @throws LogicException if there is no authenticated account
-     */
-    public function inactivePlugins($type = false): array
-    {
-        return $this->getPlugins($type, Plugin::ACTIVE_NOT);
-    }
-
-    /**
-     * @return array array with plugin keys
-     *
-     * @throws LogicException if there is no authenticated account
-     */
-    public function variousPlugins(): array
-    {
-        return $this->getPlugins(PluginType::STAT, Plugin::ACTIVE_VARIOUS);
-    }
-
-    /**
-     * @return array array with plugin keys
-     *
-     * @throws LogicException if there is no authenticated account
-     */
-    public function enabledPanels(): array
-    {
-        $keys = [];
-
-        foreach ($this->getPluginData() as $plugin) {
-            if ($plugin['type'] == PluginType::string(PluginType::PANEL) && $plugin['active'] != Plugin::ACTIVE_NOT) {
-                $keys[] = $plugin['key'];
-            }
-        }
-
-        return $keys;
+        return in_array($key, array_column($this->getPluginData(), 'key'), true);
     }
 
     /**
@@ -214,52 +109,4 @@ class PluginFactory
         return $this->Plugins();
     }
 
-    /**
-     * @param mixed $type false or enum
-     * @param mixed $active false or enum
-     * @return array array with plugin keys
-     *
-     * @throws LogicException if there is no authenticated account
-     */
-    protected function getPlugins($type = false, $active = false): array
-    {
-        $keys = [];
-
-        foreach ($this->getPluginData() as $plugin) {
-            if (($type === false || $plugin['type'] == PluginType::string($type)) && ($active === false || $plugin['active'] == $active)) {
-                $keys[] = $plugin['key'];
-            }
-        }
-
-        return $keys;
-    }
-
-    /**
-     * @return array<int, array{key: string}>
-     *
-     * @throws \LogicException if there is no authenticated account
-     * @throws RuntimeException if the plugin directory cannot be read
-     */
-    public function notInstalledPlugins(): array
-    {
-        $plugins = [];
-
-        $discovery = $this->pluginDiscovery ?? new PluginDiscovery(FRONTEND_PATH . '../plugin/');
-
-        $installedPluginKeys = $this->pluginInstallationManager?->getInstalledPluginKeys();
-
-        foreach ($discovery->findAvailablePluginKeys() as $key) {
-            $isInstalled = $installedPluginKeys !== null
-                ? in_array($key, $installedPluginKeys, true)
-                : $this->isInstalled($key);
-
-            if (! $isInstalled) {
-                $plugins[] = [
-                    'key' => $key,
-                ];
-            }
-        }
-
-        return $plugins;
-    }
 }
