@@ -503,7 +503,7 @@ final class PluginFactoryTest extends TestCase
             $installationManager
         );
 
-        $pluginsProperty = new \\ReflectionProperty(PluginFactory::class, 'Plugins');
+        $pluginsProperty = new \ReflectionProperty(PluginFactory::class, 'Plugins');
         $originalPlugins = $pluginsProperty->getValue();
         $expectedPlugins = $originalPlugins;
         $expectedPlugins[SessionAccountHandler::getId()] = [
