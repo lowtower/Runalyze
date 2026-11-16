@@ -159,25 +159,31 @@ final class PluginFactoryTest extends TestCase
     {
         $accountAPlugins = $this->samplePlugins();
         $accountBPlugins = [
-            $this->pluginEntry(1, 'AccountSpecificPlugin', PluginType::string(PluginType::PANEL), Plugin::ACTIVE),
+            $this->pluginEntry(22, PluginFactoryTestFixture::class, PluginType::string(PluginType::PANEL), Plugin::ACTIVE),
         ];
 
         SessionAccountHandler::setAccount([
             'id' => 11,
         ]);
         $this->setPluginsData($accountAPlugins);
-        $this->assertSame($accountAPlugins, new PluginFactory()->completeData());
+
+        $accountAPlugin = (new PluginFactory())->newInstance(PluginFactoryTestFixture::class);
+        $this->assertSame(1, $accountAPlugin->id());
 
         SessionAccountHandler::setAccount([
             'id' => 22,
         ]);
         $this->setPluginsData($accountBPlugins);
-        $this->assertSame($accountBPlugins, new PluginFactory()->completeData());
+
+        $accountBPlugin = (new PluginFactory())->newInstance(PluginFactoryTestFixture::class);
+        $this->assertSame(22, $accountBPlugin->id());
 
         SessionAccountHandler::setAccount([
             'id' => 11,
         ]);
-        $this->assertSame($accountAPlugins, new PluginFactory()->completeData());
+
+        $accountAPlugin = (new PluginFactory())->newInstance(PluginFactoryTestFixture::class);
+        $this->assertSame(1, $accountAPlugin->id());
     }
 
     public function testLegacyPluginDataContextFindsScopedDataAndClearsAfterCallback(): void
