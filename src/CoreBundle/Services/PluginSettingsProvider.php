@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Services;
 
+use InvalidArgumentException;
+use LogicException;
 use Plugin;
 use PluginInstaller;
 use PluginType;
@@ -49,7 +51,8 @@ final readonly class PluginSettingsProvider
     }
 
     /**
-     * @throws \InvalidArgumentException if no plugin is installed with the given id
+     * @throws InvalidArgumentException if no plugin is installed with the given id
+     * @throws LogicException if there is no authenticated account
      */
     public function getInstalledPluginById(int $id): Plugin
     {
@@ -59,7 +62,7 @@ final readonly class PluginSettingsProvider
             }
         }
 
-        throw new \InvalidArgumentException(sprintf('No plugin found for id "%d".', $id));
+        throw new InvalidArgumentException(sprintf('No plugin found for id "%d".', $id));
     }
 
     /**
