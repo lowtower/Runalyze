@@ -35,7 +35,7 @@ final class ContainsDisposableMailAddressValidatorIntegrationTest extends Constr
     public function testRejectsDisposableEmailFromFile(): void
     {
         file_put_contents(
-            $this->tempDir . '/var/email/disposable-domains.txt',
+            $this->tempDir . '/data/email/disposable-domains.txt',
             "mailinator.com\n"
         );
 
@@ -50,7 +50,7 @@ final class ContainsDisposableMailAddressValidatorIntegrationTest extends Constr
     public function testAcceptsNonDisposableEmailFromFile(): void
     {
         file_put_contents(
-            $this->tempDir . '/var/email/disposable-domains.txt',
+            $this->tempDir . '/data/email/disposable-domains.txt',
             "mailinator.com\n"
         );
 
@@ -73,7 +73,7 @@ final class ContainsDisposableMailAddressValidatorIntegrationTest extends Constr
     public function testUsesFallbackWhenFileEmpty(): void
     {
         file_put_contents(
-            $this->tempDir . '/var/email/disposable-domains.txt',
+            $this->tempDir . '/data/email/disposable-domains.txt',
             ''
         );
 
