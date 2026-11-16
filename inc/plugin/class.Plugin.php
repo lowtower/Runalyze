@@ -72,7 +72,7 @@ abstract class Plugin
     private PluginConfiguration $Configuration;
 
     public function __construct(
-        private int $id
+        private readonly int $id
     ) {
         $this->key = static::class;
 
