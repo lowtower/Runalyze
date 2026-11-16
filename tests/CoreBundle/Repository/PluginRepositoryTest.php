@@ -175,6 +175,50 @@ final class PluginRepositoryTest extends AbstractRepositoryTestCase
         $this->assertFalse($changed);
     }
 
+    public function testSetActiveForAccountUpdatesOnlyTheOwnedPlugin(): void
+    {
+        $plugin = $this->insertPanel(1, 'account-plugin');
+        $otherAccountPlugin = new Plugin()
+            ->setAccount($this->getDefaultAccount())
+            ->setKey('other-account-plugin')
+            ->setType(Plugin::TYPE_PANEL)
+            ->setActive(Plugin::STATE_ACTIVE)
+            ->setOrder(1);
+        $this->PluginRepository->save($otherAccountPlugin);
+
+        $pluginId = $plugin->getId();
+        $otherAccountPluginId = $otherAccountPlugin->getId();
+        $this->assertNotNull($pluginId);
+        $this->assertNotNull($otherAccountPluginId);
+
+        $this->assertTrue($this->PluginRepository->setActiveForAccount(
+            $this->EmptyAccount,
+            $pluginId,
+            Plugin::STATE_INACTIVE
+        ));
+        $this->assertFalse($this->PluginRepository->setActiveForAccount(
+            $this->EmptyAccount,
+            $otherAccountPluginId,
+            Plugin::STATE_INACTIVE
+        ));
+
+        $this->assertSame(Plugin::STATE_INACTIVE, $plugin->getActive());
+        $this->assertSame(Plugin::STATE_ACTIVE, $otherAccountPlugin->getActive());
+    }
+
+    public function testSetActiveForAccountReturnsFalseWhenTheStateIsUnchanged(): void
+    {
+        $plugin = $this->insertPanel(1, 'account-plugin');
+        $pluginId = $plugin->getId();
+        $this->assertNotNull($pluginId);
+
+        $this->assertFalse($this->PluginRepository->setActiveForAccount(
+            $this->EmptyAccount,
+            $pluginId,
+            Plugin::STATE_ACTIVE
+        ));
+    }
+
     public function testMoving(): void
     {
         $firstPanel = $this->insertPanel(1);
