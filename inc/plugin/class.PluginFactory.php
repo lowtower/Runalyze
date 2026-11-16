@@ -273,5 +273,4 @@ class PluginFactory
 
         return $plugins;
     }
-
 }
