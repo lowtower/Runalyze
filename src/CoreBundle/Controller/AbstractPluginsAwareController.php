@@ -20,6 +20,7 @@ use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
+use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
@@ -49,6 +50,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
         protected PluginDiscovery $pluginDiscovery,
         protected LegacyPluginInstantiator $pluginInstantiator,
         protected LegacyPluginOutputRenderer $legacyPluginOutputRenderer,
+        protected PluginSettingsProvider $pluginSettingsProvider,
         protected ConfigurationManager $configurationManager,
         protected SportSelectionFactory $sportSelectionFactory,
         protected TokenStorageInterface $tokenStorage,
@@ -128,13 +130,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
      */
     protected function instantiatePluginById(int $pluginId): LegacyPlugin
     {
-        foreach ($this->pluginInstallationManager->getInstalledPluginData() as $pluginData) {
-            if ((int) $pluginData['id'] === $pluginId) {
-                return $this->pluginInstantiator->instantiate($pluginData['key'], $pluginData['id'], $pluginData);
-            }
-        }
-
-        throw new InvalidArgumentException(sprintf('No plugin found for id "%d".', $pluginId));
+        return $this->pluginSettingsProvider->getInstalledPluginById($pluginId);
     }
 
     /**
@@ -142,13 +138,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
      */
     protected function instantiatePluginByKey(string $pluginKey): LegacyPlugin
     {
-        foreach ($this->pluginInstallationManager->getInstalledPluginData() as $pluginData) {
-            if ($pluginData['key'] === $pluginKey) {
-                return $this->pluginInstantiator->instantiate($pluginData['key'], $pluginData['id'], $pluginData);
-            }
-        }
-
-        throw new InvalidArgumentException(sprintf('Plugin with key "%s" is not installed.', $pluginKey));
+        return $this->pluginSettingsProvider->getInstalledPluginByKey($pluginKey);
     }
 
     protected function getResponseForSportsPanel(Account $account, LegacyPlugin $plugin): Response
