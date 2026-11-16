@@ -1,4 +1,4 @@
- 
+
 {% macro plusMinus(value, string, epsilon) %}
     {% if value > (epsilon|default(0)) %}
         <span class="plus">{{ string|default(value)|raw }}</span>
@@ -24,7 +24,7 @@
 
 {% macro boxedValueFor(displayableValue, label, width, icon) %}
     {% import _self as utils %}
-    {# @var displayableValue \\Runalyze\\Bundle\\CoreBundle\\Twig\\DisplayableValue #}
+    {# @var displayableValue \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue #}
     {{ utils.boxedValue(displayableValue.zero ? '-' : displayableValue.value, displayableValue.unit, label, width, icon) }}
 {% endmacro %}
 
