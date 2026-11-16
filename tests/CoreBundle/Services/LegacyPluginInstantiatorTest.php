@@ -174,7 +174,7 @@ final class LegacyPluginInstantiatorTest extends TestCase
         $instantiator = new LegacyPluginInstantiator();
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Plugin data is required for regular plugin instances.');
+        $this->expectExceptionMessageIsOrContains('Plugin data is required for regular plugin instances.');
 
         $instantiator->instantiate(LegacyPluginInstantiatorTestFixture::class, 17);
     }
@@ -182,7 +182,7 @@ final class LegacyPluginInstantiatorTest extends TestCase
     public function testPluginCannotBeInstantiatedWithoutScopedPluginData(): void
     {
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('No plugin data available for plugin with id "17".');
+        $this->expectExceptionMessageIsOrContains('No plugin data available for plugin with id "17".');
 
         new LegacyPluginInstantiatorTestFixture(17);
     }
@@ -231,9 +231,9 @@ final class LegacyPluginInstantiatorTest extends TestCase
     public function testLegacyPluginInstantiatorRejectsClassesThatAreNotPlugins(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Class "DateTimeImmutable" is not an instantiable plugin.');
+        $this->expectExceptionMessageIsOrContains('Class "DateTimeImmutable" is not an instantiable plugin.');
 
-        (new LegacyPluginInstantiator())->instantiate(DateTimeImmutable::class, 17, $this->pluginData(17));
+        new LegacyPluginInstantiator()->instantiate(DateTimeImmutable::class, 17, $this->pluginData(17));
     }
 
     public function testPluginCanBeInstantiatedWithInstallerId(): void
