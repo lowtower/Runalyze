@@ -547,27 +547,12 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStringContainsString('formverlauf_10', (string) $this->Client->getResponse()->getContent());
     }
 
-    public function testPluginActionRequiresAuthentication(): void
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testGenericPluginIncludeRouteIsNotAvailable(): void
     {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
         $this->Client->request('GET', '/plugin/SomePlugin/index.php');
-
-        $this->isSuccessful($this->Client->getResponse(), false);
-    }
-
-    public function testPluginActionRejectsPathTraversalInPluginSegment(): void
-    {
-        $this->loginClient($this->Client, $this->Account, 'default');
-
-        $this->Client->request('GET', '/plugin/..%2f..%2f..%2fetc/passwd');
-
-        $this->assertStatusCode(404, $this->Client);
-    }
-
-    public function testPluginActionRejectsPathTraversalInFileSegment(): void
-    {
-        $this->loginClient($this->Client, $this->Account, 'default');
-
-        $this->Client->request('GET', '/plugin/SomePlugin/..%2f..%2fclass.Cache.php');
 
         $this->assertStatusCode(404, $this->Client);
     }

@@ -138,7 +138,6 @@ final class RouteSmokeTest extends WebTestCase
         yield ['login', '/{_locale}/login', 'GET', 200, false];
         yield ['login_check', '/{_locale}/login_check', 'POST', 400, false];
         yield ['logout', '/logout', 'GET', 302, false];
-        yield ['runalyze_core_default_plugin', '/plugin/{plugin}/{file}', 'GET', 302, false];
         yield ['runalyze_core_default_indexphp', '/index.php', 'GET', 302, false];
         yield ['runalyze_core_default_loginphp', '/login.php', 'GET', 302, false];
         yield ['unsubscribe-mail', '/unsubscribe/{mail}/{hash}', 'GET', 200, false];
