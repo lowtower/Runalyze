@@ -226,6 +226,47 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStringContainsString('Something went wrong', (string) $this->Client->getResponse()->getContent());
     }
 
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPluginConfigActionUpdatesActivationThroughTheInstallationManager(): void
+    {
+        $plugin = new Plugin()
+            ->setAccount($this->Account)
+            ->setKey('RunalyzePluginPanel_TagsSummary')
+            ->setType(Plugin::TYPE_PANEL)
+            ->setActive(Plugin::STATE_ACTIVE)
+            ->setOrder(1);
+        $this->getEntityManager()->persist($plugin);
+        $this->getEntityManager()->flush();
+
+        $this->loginClient($this->Client, $this->Account, 'default');
+        $this->request('GET', '/call/call.Plugin.config.php?id=' . $plugin->getId() . '&active=0');
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->getEntityManager()->refresh($plugin);
+        $this->assertSame(Plugin::STATE_INACTIVE, $plugin->getActive());
+        $this->assertStringContainsString('Runalyze.reload', (string) $this->Client->getResponse()->getContent());
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPluginConfigActionRejectsAnInvalidActivationState(): void
+    {
+        $plugin = new Plugin()
+            ->setAccount($this->Account)
+            ->setKey('RunalyzePluginPanel_TagsSummary')
+            ->setType(Plugin::TYPE_PANEL)
+            ->setActive(Plugin::STATE_ACTIVE)
+            ->setOrder(1);
+        $this->getEntityManager()->persist($plugin);
+        $this->getEntityManager()->flush();
+
+        $this->loginClient($this->Client, $this->Account, 'default');
+        $this->request('GET', '/call/call.Plugin.config.php?id=' . $plugin->getId() . '&active=99');
+
+        $this->assertStatusCode(400, $this->Client);
+        $this->getEntityManager()->refresh($plugin);
+        $this->assertSame(Plugin::STATE_ACTIVE, $plugin->getActive());
+    }
+
     public function testPluginDisplayActionRequiresAuthentication(): void
     {
         $this->request('GET', '/my/plugin/999999999');
