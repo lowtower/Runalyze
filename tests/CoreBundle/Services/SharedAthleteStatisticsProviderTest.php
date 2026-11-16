@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\\Bundle\\CoreBundle\\Tests\\Services;
+namespace Runalyze\Bundle\CoreBundle\Tests\Services;
 
-use Doctrine\\Persistence\\ManagerRegistry;
-use PHPUnit\\Framework\\Attributes\\Group;
-use PHPUnit\\Framework\\TestCase;
-use Runalyze\\Bundle\\CoreBundle\\Entity\\Account;
-use Runalyze\\Bundle\\CoreBundle\\Entity\\Plugin;
-use Runalyze\\Bundle\\CoreBundle\\Repository\\PluginRepository;
-use Runalyze\\Bundle\\CoreBundle\\Services\\LegacyPluginInstantiator;
-use Runalyze\\Bundle\\CoreBundle\\Services\\SharedAthleteStatisticsProvider;
+use Doctrine\Persistence\ManagerRegistry;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\TestCase;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Plugin;
+use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
+use Runalyze\Bundle\CoreBundle\Services\SharedAthleteStatisticsProvider;
 
 #[Group('plugin')]
 final class SharedAthleteStatisticsProviderTest extends TestCase
