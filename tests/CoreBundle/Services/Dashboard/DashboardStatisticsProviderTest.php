@@ -2,24 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\\Bundle\\CoreBundle\\Tests\\Services\\Dashboard;
+namespace Runalyze\Bundle\CoreBundle\Tests\Services\Dashboard;
 
 use InvalidArgumentException;
-use PHPUnit\\Framework\\TestCase;
+use PHPUnit\Framework\TestCase;
 use Plugin;
 use PluginStat;
 use PluginType;
-use Runalyze\\Bundle\\CoreBundle\\Entity\\Account;
-use Runalyze\\Bundle\\CoreBundle\\Repository\\PluginRepository;
-use Runalyze\\Bundle\\CoreBundle\\Services\\Dashboard\\DashboardStatisticsProvider;
-use Runalyze\\Bundle\\CoreBundle\\Services\\LegacyPluginInstantiator;
-use Runalyze\\Bundle\\CoreBundle\\Services\\PluginDiscovery;
-use Runalyze\\Bundle\\CoreBundle\\Services\\PluginInstallationManager;
-use Runalyze\\Bundle\\CoreBundle\\Services\\PluginSettingsProvider;
-use Doctrine\\Persistence\\ManagerRegistry;
-use Symfony\\Component\\HttpFoundation\\Request;
-use Symfony\\Component\\Security\\Core\\Authentication\\Token\\Storage\\TokenStorageInterface;
-use Symfony\\Component\\Security\\Core\\Authentication\\Token\\TokenInterface;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
+use Runalyze\Bundle\CoreBundle\Services\Dashboard\DashboardStatisticsProvider;
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
+use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
+use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
+use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 final class DashboardStatisticsProviderTestPlugin extends PluginStat
 {
