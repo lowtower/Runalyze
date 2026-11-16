@@ -66,6 +66,21 @@ final readonly class PluginSettingsProvider
     }
 
     /**
+     * @throws InvalidArgumentException if no plugin is installed with the given key
+     * @throws LogicException if there is no authenticated account
+     */
+    public function getInstalledPluginByKey(string $key): Plugin
+    {
+        foreach ($this->getInstalledPluginData() as $data) {
+            if ($data['key'] === $key) {
+                return $this->pluginInstantiator->instantiate($key, $data['id'], $data);
+            }
+        }
+
+        throw new InvalidArgumentException(sprintf('Plugin with key "%s" is not installed.', $key));
+    }
+
+    /**
      * @return list<Plugin>
      */
     public function getAvailablePluginsToInstall(): array
