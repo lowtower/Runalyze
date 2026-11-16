@@ -521,7 +521,7 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStringContainsString('id="rechenspiele-calculator"', (string) $this->Client->getResponse()->getContent());
     }
 
-    #[\\PHPUnit\\Framework\\Attributes\\Group('plugin')]
+    #[\PHPUnit\\Framework\\Attributes\\Group('plugin')]
     public function testPrognosisPlotWindowWorksWithoutTheOptionalRacePlugin(): void
     {
         $this->loginClient($this->Client, $this->Account, 'default');
@@ -536,7 +536,7 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStringContainsString('formverlauf_10', (string) $this->Client->getResponse()->getContent());
     }
 
-    #[\\PHPUnit\\Framework\\Attributes\\Group('plugin')]
+    #[\PHPUnit\\Framework\\Attributes\\Group('plugin')]
     public function testPrognosisPlotWindowUsesTheInstalledOptionalRacePlugin(): void
     {
         $this->loginClient($this->Client, $this->Account, 'default');
