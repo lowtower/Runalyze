@@ -5,6 +5,7 @@
  * @package Runalyze\Plugin
  */
 
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginDataContext;
 use Runalyze\Configuration;
 
 /**
@@ -200,7 +201,7 @@ abstract class Plugin
             return;
         }
 
-        $data = PluginFactory::dataFor($this->id());
+        $data = LegacyPluginDataContext::find($this->id()) ?? PluginFactory::dataFor($this->id());
         $this->key = $data['key'];
         $this->active = $data['active'];
         $this->order = $data['order'];

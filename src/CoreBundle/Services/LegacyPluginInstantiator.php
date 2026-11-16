@@ -5,7 +5,6 @@ namespace Runalyze\Bundle\CoreBundle\Services;
 use InvalidArgumentException;
 use Plugin;
 use PluginConfiguration;
-use PluginFactory;
 use ReflectionClass;
 
 final readonly class LegacyPluginInstantiator
@@ -33,7 +32,7 @@ final readonly class LegacyPluginInstantiator
 
         $instantiate = fn (): Plugin => $pluginData === null
             ? new $className($pluginId)
-            : PluginFactory::withPluginData($pluginData, fn (): Plugin => new $className($pluginId));
+            : LegacyPluginDataContext::withPluginData($pluginData, fn (): Plugin => new $className($pluginId));
 
         if (! $this->configurationStorage instanceof PluginConfigurationStorageInterface) {
             return $instantiate();
