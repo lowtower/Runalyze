@@ -242,7 +242,8 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->request('GET', '/call/call.Plugin.config.php?id=' . $plugin->getId() . '&active=0');
 
         $this->assertStatusCode(200, $this->Client);
-        $this->getEntityManager()->refresh($plugin);
+        $plugin = $this->getEntityManager()->getRepository(Plugin::class)->find($plugin->getId());
+        $this->assertInstanceOf(Plugin::class, $plugin);
         $this->assertSame(Plugin::STATE_INACTIVE, $plugin->getActive());
         $this->assertStringContainsString('Runalyze.reload', (string) $this->Client->getResponse()->getContent());
     }
@@ -263,7 +264,8 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->request('GET', '/call/call.Plugin.config.php?id=' . $plugin->getId() . '&active=99');
 
         $this->assertStatusCode(400, $this->Client);
-        $this->getEntityManager()->refresh($plugin);
+        $plugin = $this->getEntityManager()->getRepository(Plugin::class)->find($plugin->getId());
+        $this->assertInstanceOf(Plugin::class, $plugin);
         $this->assertSame(Plugin::STATE_ACTIVE, $plugin->getActive());
     }
 
