@@ -16,6 +16,17 @@ use Runalyze\Bundle\CoreBundle\Services\SharedAthleteStatisticsProvider;
 #[Group('plugin')]
 final class SharedAthleteStatisticsProviderTest extends TestCase
 {
+    public function testRejectsAnAccountThatHasNotBeenPersisted(): void
+    {
+        $provider = new SharedAthleteStatisticsProvider(
+            $this->createStub(ManagerRegistry::class),
+            new LegacyPluginInstantiator()
+        );
+
+        $this->expectException(\\LogicException::class);
+        $provider->getYearComparisonTable(new Account());
+    }
+
     public function testReturnsEmptyMessageWhenTheAccountHasNoInstalledRacePlugin(): void
     {
         $account = new Account();
