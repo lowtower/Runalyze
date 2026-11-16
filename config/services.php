@@ -113,6 +113,7 @@ use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Services\SessionRequestProcessor;
 use Runalyze\Bundle\CoreBundle\Services\Sha256SaltedEncoder;
+use Runalyze\Bundle\CoreBundle\Services\SharedAthleteStatisticsProvider;
 use Runalyze\Bundle\CoreBundle\Services\UnitSystemFactory;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\ORM\LoadAccountData;
@@ -264,6 +265,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(PluginInstallationManager::class);
 
     $services->set(PluginSettingsProvider::class);
+
+    $services->set(SharedAthleteStatisticsProvider::class);
 
     $services->set(PluginFactory::class)
         ->class(PluginFactory::class)
