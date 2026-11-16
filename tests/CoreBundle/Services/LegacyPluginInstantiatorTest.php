@@ -2,17 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\\Bundle\\CoreBundle\\Tests\\Services;
+namespace Runalyze\Bundle\CoreBundle\Tests\Services;
 
 use InvalidArgumentException;
 use LogicException;
-use PHPUnit\\Framework\\Attributes\\Group;
-use PHPUnit\\Framework\\TestCase;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\TestCase;
+use Plugin;
 use PluginInstaller;
 use PluginPanel;
 use PluginType;
-use Runalyze\\Bundle\\CoreBundle\\Services\\LegacyPluginDataContext;
-use Runalyze\\Bundle\\CoreBundle\\Services\\LegacyPluginInstantiator;
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginDataContext;
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use RuntimeException;
 
 final class LegacyPluginInstantiatorTestFixture extends PluginPanel
@@ -133,10 +134,10 @@ final class LegacyPluginInstantiatorTest extends TestCase
     {
         $plugin = new LegacyPluginInstantiatorTestFixture(PluginInstaller::ID);
 
-        $activationLink = $plugin->getActivationLink('Activate plugin', 1);
+        $activationLink = $plugin->getActivationLink('Activate plugin', Plugin::ACTIVE);
 
         $this->assertStringContainsString(
-            'call/call.Plugin.config.php?id=' . PluginInstaller::ID . '&active=1',
+            'call/call.Plugin.config.php?id=' . PluginInstaller::ID . '&active=' . Plugin::ACTIVE,
             $activationLink
         );
         $this->assertStringContainsString('Activate plugin', $activationLink);
