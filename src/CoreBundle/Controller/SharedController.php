@@ -5,7 +5,6 @@ namespace Runalyze\Bundle\CoreBundle\Controller;
 use DataBrowserShared;
 use Doctrine\Persistence\ManagerRegistry;
 use Frontend;
-use FrontendSharedStatistics;
 use PlotMonthSumData;
 use PlotSumData;
 use PlotWeekSumData;
@@ -16,6 +15,7 @@ use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Activity\ActivityContextFactory;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\PrivacyGuard;
+use Runalyze\Bundle\CoreBundle\Services\SharedAthleteStatisticsProvider;
 use Runalyze\Export\Share\Facebook;
 use Runalyze\View\Activity\Context;
 use Runalyze\View\Activity\Feed;
@@ -43,7 +43,8 @@ class SharedController extends AbstractController
         private ActivityContextFactory $activityContextFactory,
         private PrivacyGuard $privacyGuard,
         private Feed $activityFeed,
-        private RequestStack $requestStack
+        private RequestStack $requestStack,
+        private SharedAthleteStatisticsProvider $sharedAthleteStatisticsProvider
     ) {}
 
     protected function getTrainingRepository(): TrainingRepository
@@ -159,21 +160,24 @@ class SharedController extends AbstractController
         if ($privacy->isListWithStatistics()) {
             $accountStatistics = $this->getTrainingRepository()
                 ->getAccountStatistics($account);
-            $legacyStatistics = new FrontendSharedStatistics();
+            $yearComparisonTable = $this->sharedAthleteStatisticsProvider->getYearComparisonTable($account);
+            $tabForComparisonOfYears = $this->sharedAthleteStatisticsProvider->getTabForComparisonOfYears($account);
             $publicList = $this->configurationManager
                 ->getList($account)
                 ->getPrivacy()
                 ->isListPublic();
         } else {
             $accountStatistics = null;
-            $legacyStatistics = null;
+            $yearComparisonTable = null;
+            $tabForComparisonOfYears = null;
             $publicList = false;
         }
 
         return $this->render('shared/athlete/base.html.twig', [
             'account' => $account,
             'accountStatistics' => $accountStatistics,
-            'legacyStatistics' => $legacyStatistics,
+            'yearComparisonTable' => $yearComparisonTable,
+            'tabForComparisonOfYears' => $tabForComparisonOfYears,
             'dataBrowser' => new DataBrowserShared(),
             'username' => $username,
             'hasPublicList' => $publicList,
