@@ -6,9 +6,7 @@
 
 use Runalyze\Activity\Distance;
 
-$Factory = new PluginFactory();
 /** @var RunalyzePluginPanel_Prognose $Plugin */
-$Plugin = $Factory->newInstance('RunalyzePluginPanel_Prognose');
 $distances = $Plugin->getDistances();
 
 if (! isset($_GET['distance'])) {
