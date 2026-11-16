@@ -42,7 +42,13 @@ final class LegacyPluginConfigurationStorage implements PluginConfigurationStora
             }
         }
 
-        return $values;
+        $orderedValues = [];
+
+        foreach ($pluginIds as $pluginId) {
+            $orderedValues[$pluginId] = $values[$pluginId];
+        }
+
+        return $orderedValues;
     }
 
     /**
