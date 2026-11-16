@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Services;
 
+use InvalidArgumentException;
+use LogicException;
 use Plugin;
 use PluginInstaller;
 use PluginType;
@@ -33,12 +35,12 @@ final readonly class PluginSettingsProvider
     /**
      * @return list<Plugin>
      */
-    public function getInstalledPlugins(?int $type = null): array
+    public function getInstalledPlugins(?int $type = null, ?int $active = null): array
     {
         $plugins = [];
 
         foreach ($this->getInstalledPluginData() as $data) {
-            if ($type !== null && $data['type'] !== PluginType::string($type)) {
+            if (($type !== null && $data['type'] !== PluginType::string($type)) || ($active !== null && $data['active'] !== $active)) {
                 continue;
             }
 
@@ -46,6 +48,21 @@ final readonly class PluginSettingsProvider
         }
 
         return $plugins;
+    }
+
+    /**
+     * @throws InvalidArgumentException if no plugin is installed with the given id
+     * @throws LogicException if there is no authenticated account
+     */
+    public function getInstalledPluginById(int $id): Plugin
+    {
+        foreach ($this->getInstalledPluginData() as $data) {
+            if ($data['id'] === $id) {
+                return $this->pluginInstantiator->instantiate($data['key'], $id, $data);
+            }
+        }
+
+        throw new InvalidArgumentException(sprintf('No plugin found for id "%d".', $id));
     }
 
     /**
