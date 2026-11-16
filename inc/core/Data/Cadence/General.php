@@ -48,6 +48,6 @@ class General extends AbstractCadence
      */
     public function formularUnit(): string
     {
-        return \FormularUnit::$RPM;
+        return 'rpm';
     }
 }

@@ -53,6 +53,6 @@ class Running extends AbstractCadence
      */
     public function formularUnit(): string
     {
-        return \FormularUnit::$SPM;
+        return 'spm';
     }
 }
