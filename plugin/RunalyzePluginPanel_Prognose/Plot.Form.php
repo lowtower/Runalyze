@@ -13,14 +13,7 @@ use Runalyze\Configuration;
 use Runalyze\Sports\Running\Prognosis;
 use Runalyze\Util\LocalTime;
 
-if (is_dir(FRONTEND_PATH . '../plugin/RunalyzePluginStat_Wettkampf')) {
-    $Factory = new PluginFactory();
-
-    if (! $Factory->isInstalled('RunalyzePluginStat_Wettkampf')) {
-        /** @var RunalyzePluginStat_Wettkampf $WKplugin */
-        $WKplugin = $Factory->newInstance('RunalyzePluginStat_Wettkampf');
-    }
-}
+$WKplugin ??= null;
 
 $distance ??= 10;
 
