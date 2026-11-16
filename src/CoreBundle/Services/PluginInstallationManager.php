@@ -70,6 +70,25 @@ final readonly class PluginInstallationManager
 
     /**
      * @throws LogicException if there is no authenticated account
+     * @throws InvalidArgumentException if the activation state is invalid
+     */
+    public function setInstalledPluginActive(int $pluginId, int $active): bool
+    {
+        if (! in_array($active, [
+            Plugin::STATE_INACTIVE,
+            Plugin::STATE_ACTIVE,
+            Plugin::STATE_HIDDEN,
+        ], true)) {
+            throw new InvalidArgumentException('Plugin activation state is invalid.');
+        }
+
+        $account = $this->getAccount();
+
+        return $this->getPluginRepository()->setActiveForAccount($account, $pluginId, $active);
+    }
+
+    /**
+     * @throws LogicException if there is no authenticated account
      */
     public function isInstalled(string $key): bool
     {

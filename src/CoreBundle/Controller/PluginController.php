@@ -7,9 +7,11 @@ use ConfigTabPlugins;
 use Frontend;
 use HTML;
 use Icon;
+use InvalidArgumentException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Throwable;
@@ -82,6 +84,7 @@ class PluginController extends AbstractPluginsAwareController
     }
 
     /**
+     * @throws BadRequestHttpException if the activation state is invalid
      * @throws Throwable if the legacy plugin config window throws
      */
     #[Route(path: '/call/call.Plugin.config.php', name: 'plugin-config', methods: ['GET', 'POST'])]
@@ -91,11 +94,31 @@ class PluginController extends AbstractPluginsAwareController
 
         $id = $request->query->get('id');
 
-        $legacyContent = $this->legacyPluginOutputRenderer->render(function () use ($id): void {
+        $legacyContent = $this->legacyPluginOutputRenderer->render(function () use ($id, $request): void {
             new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
             if ($id !== null && is_numeric($id)) {
-                $this->instantiatePluginById((int) $id)->displayConfigWindow();
+                $plugin = $this->instantiatePluginById((int) $id);
+                $active = $request->query->get('active');
+
+                if ($active !== null) {
+                    if (! is_string($active) || ! ctype_digit($active)) {
+                        throw new BadRequestHttpException('Invalid plugin activation state.');
+                    }
+
+                    try {
+                        $this->pluginInstallationManager->setInstalledPluginActive($plugin->id(), (int) $active);
+                    } catch (InvalidArgumentException $exception) {
+                        throw new BadRequestHttpException('Invalid plugin activation state.', $exception);
+                    }
+
+                    $plugin = $this->instantiatePluginById($plugin->id());
+
+                    Ajax::setReloadFlag(Ajax::$RELOAD_ALL);
+                    echo Ajax::getReloadCommand();
+                }
+
+                $plugin->displayConfigWindow();
             } else {
                 echo '<em>' . __('Something went wrong ...') . '</em>';
             }
