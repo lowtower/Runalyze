@@ -79,10 +79,10 @@ final class PluginInstallationManagerTest extends TestCase
 
     private function createManagerWithAuthenticatedAccount(): PluginInstallationManager
     {
-        $token = $this->createMock(TokenInterface::class);
+        $token = $this->createStub(TokenInterface::class);
         $token->method('getUser')->willReturn(new Account());
 
-        $tokenStorage = $this->createMock(TokenStorageInterface::class);
+        $tokenStorage = $this->createStub(TokenStorageInterface::class);
         $tokenStorage->method('getToken')->willReturn($token);
 
         return new PluginInstallationManager(
@@ -94,7 +94,7 @@ final class PluginInstallationManagerTest extends TestCase
 
     private function createManagerWithoutAuthenticatedAccount(): PluginInstallationManager
     {
-        $tokenStorage = $this->createMock(TokenStorageInterface::class);
+        $tokenStorage = $this->createStub(TokenStorageInterface::class);
         $tokenStorage->method('getToken')->willReturn(null);
 
         return new PluginInstallationManager(

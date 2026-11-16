@@ -28,7 +28,7 @@
     {{ utils.boxedValue(displayableValue.zero ? '-' : displayableValue.value, displayableValue.unit, label, width, icon) }}
 {% endmacro %}
 
-{% macro tableHeadMonths(fixedWidth, emptyCells, tag, withTotalCell) %}
+{% macro tableHeadMonths(fixedWidth, emptyCells, tag='th', withTotalCell=false) %}
     {% set width = fixedWidth > 0 ? ' width="' ~ fixedWidth ~ '%"' : '' %}
     {% set tag = tag|default('th') %}
     {% set tag_open = '<' ~ tag ~ width ~ '>' %}

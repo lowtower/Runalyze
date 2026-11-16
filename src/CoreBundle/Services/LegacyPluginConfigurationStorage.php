@@ -8,28 +8,59 @@ final class LegacyPluginConfigurationStorage implements PluginConfigurationStora
 {
     public function loadForPlugins(array $pluginIds): array
     {
+        $pluginIds = array_values(array_unique(array_map(intval(...), $pluginIds)));
+
         if ($pluginIds === []) {
             return [];
         }
 
-        $cacheKey = 'PluginConf_' . \SessionAccountHandler::getId();
-        $rows = \Cache::get($cacheKey);
+        $values = [];
+        $missingPluginIds = [];
 
-        if ($rows === null) {
+        foreach ($pluginIds as $pluginId) {
+            $rows = \Cache::get($this->cacheKey($pluginId));
+
+            if ($rows === null) {
+                $missingPluginIds[] = $pluginId;
+                continue;
+            }
+
+            $values[$pluginId] = $this->mapRows($rows);
+        }
+
+        if ($missingPluginIds !== []) {
             $rows = \DB::getInstance()->query(
                 'SELECT `pluginid`,`config`,`value` '
                 . 'FROM `' . PREFIX . 'plugin_conf` '
-                . 'WHERE `pluginid` IN (' . implode(',', array_map(intval(...), $pluginIds)) . ')'
+                . 'WHERE `pluginid` IN (' . implode(',', $missingPluginIds) . ')'
             )->fetchAll(\PDO::FETCH_GROUP | \PDO::FETCH_ASSOC);
 
-            \Cache::set($cacheKey, $rows, 60);
+            foreach ($missingPluginIds as $pluginId) {
+                $pluginRows = $rows[$pluginId] ?? [];
+                \Cache::set($this->cacheKey($pluginId), $pluginRows, 60);
+                $values[$pluginId] = $this->mapRows($pluginRows);
+            }
         }
 
+        $orderedValues = [];
+
+        foreach ($pluginIds as $pluginId) {
+            $orderedValues[$pluginId] = $values[$pluginId];
+        }
+
+        return $orderedValues;
+    }
+
+    /**
+     * @param array<int, array<string, string>> $rows
+     * @return array<string, string>
+     */
+    private function mapRows(array $rows): array
+    {
         $values = [];
-        foreach ($rows as $pluginId => $pluginRows) {
-            foreach ($pluginRows as $row) {
-                $values[(int) $pluginId][$row['config']] = $row['value'];
-            }
+
+        foreach ($rows as $row) {
+            $values[$row['config']] = $row['value'];
         }
 
         return $values;
@@ -38,7 +69,7 @@ final class LegacyPluginConfigurationStorage implements PluginConfigurationStora
     public function insert(int $pluginId, string $key, string $value): void
     {
         \DB::getInstance()->insert('plugin_conf', ['pluginid', 'config', 'value'], [$pluginId, $key, $value]);
-        $this->clearCache();
+        $this->clearCache($pluginId);
     }
 
     public function update(int $pluginId, string $key, string $value): void
@@ -49,11 +80,16 @@ final class LegacyPluginConfigurationStorage implements PluginConfigurationStora
             'value',
             $value
         );
-        $this->clearCache();
+        $this->clearCache($pluginId);
     }
 
-    private function clearCache(): void
+    private function cacheKey(int $pluginId): string
     {
-        \Cache::delete('PluginConf_' . \SessionAccountHandler::getId());
+        return 'PluginConf_' . $pluginId;
+    }
+
+    private function clearCache(int $pluginId): void
+    {
+        \Cache::delete($this->cacheKey($pluginId));
     }
 }

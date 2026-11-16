@@ -55,7 +55,7 @@ class PluginConfiguration
 
     final public function catchValuesFromDatabase(): void
     {
-        $this->checkValuesFromDatabase($this->Storage->loadForPlugins(PluginFactory::allIDs()));
+        $this->checkValuesFromDatabase($this->Storage->loadForPlugins([$this->PluginID]));
     }
 
     /**

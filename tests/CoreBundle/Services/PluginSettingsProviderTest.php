@@ -106,17 +106,14 @@ final class PluginSettingsProviderTest extends TestCase
         array $installedKeys = [],
         ?PluginDiscovery $discovery = null
     ): PluginSettingsProvider {
-        $repository = $this->getMockBuilder(PluginRepository::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['findDataForAccount', 'findKeysForAccount'])
-            ->getMock();
+        $repository = $this->createStub(PluginRepository::class);
         $repository->method('findDataForAccount')->willReturn($data);
         $repository->method('findKeysForAccount')->willReturn($installedKeys);
 
         $doctrine = $this->createStub(ManagerRegistry::class);
         $doctrine->method('getRepository')->willReturn($repository);
 
-        $token = $this->createMock(TokenInterface::class);
+        $token = $this->createStub(TokenInterface::class);
         $token->method('getUser')->willReturn(new Account());
 
         $tokenStorage = $this->createStub(TokenStorageInterface::class);
