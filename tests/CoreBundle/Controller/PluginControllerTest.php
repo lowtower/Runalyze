@@ -118,6 +118,26 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPluginFactoryDoesNotPopulateLegacyStaticCacheWhenUsingInstallationManager(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+        $this->request('GET', '/dashboard');
+
+        $pluginsProperty = new \\ReflectionProperty(PluginFactory::class, 'Plugins');
+        $originalPlugins = $pluginsProperty->getValue();
+        $pluginsProperty->setValue(null, []);
+
+        try {
+            /** @var PluginFactory $factory */
+            $factory = self::getContainer()->get(PluginFactory::class);
+
+            $this->assertNotEmpty($factory->allPlugins());
+            $this->assertSame([], $pluginsProperty->getValue());
+        } finally {
+            $pluginsProperty->setValue(null, $originalPlugins);
+        }
+    }
+
     public function testPluginFactoryRefreshesInstalledPluginDataAfterDatabaseChanges(): void
     {
         $this->loginClient($this->Client, $this->Account, 'default');
