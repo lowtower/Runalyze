@@ -307,34 +307,11 @@ abstract class Plugin
     }
 
     /**
-     * Handle Get/Post-data and update database
-     */
-    private function handleGetPostRequest()
-    {
-        if (isset($_GET['active'])) {
-            $this->setActive((int) $_GET['active']);
-
-            Ajax::setReloadFlag(Ajax::$RELOAD_ALL);
-            echo Ajax::getReloadCommand();
-        }
-    }
-
-    /**
      * Displays the config window for editing the variables
      */
-    final public function displayConfigWindow()
+    final public function displayConfigWindow(): void
     {
-        $this->handleGetPostRequest();
-
         $Window = new PluginConfigurationWindow($this);
         $Window->display();
-    }
-
-    final public function setActive(int $active = 1)
-    {
-        DB::getInstance()->update('plugin', $this->id(), 'active', $active);
-        $this->active = $active;
-
-        PluginFactory::clearCache();
     }
 }
