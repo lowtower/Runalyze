@@ -2,12 +2,19 @@
 
 declare(strict_types=1);
 
+use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginEntity;
+use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginConfigurationStorage;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
+use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 final class PluginFactoryTestFixture extends PluginPanel
 {
@@ -469,6 +476,51 @@ final class PluginFactoryTest extends TestCase
         $factory = new PluginFactory();
 
         $this->assertSame(['PluginFactoryTestFixture'], $factory->activePlugins(PluginType::PANEL));
+    }
+
+    public function testInstallPluginDoesNotInvalidateLegacyStaticCacheWhenUsingInstallationManager(): void
+    {
+        $repository = $this->createStub(PluginRepository::class);
+        $repository->method('findForAccountAndKey')->willReturn(null);
+        $repository->method('installForAccount')->willReturn(new PluginEntity());
+
+        $doctrine = $this->createStub(ManagerRegistry::class);
+        $doctrine->method('getRepository')->willReturn($repository);
+
+        $token = $this->createStub(TokenInterface::class);
+        $token->method('getUser')->willReturn(new Account());
+
+        $tokenStorage = $this->createStub(TokenStorageInterface::class);
+        $tokenStorage->method('getToken')->willReturn($token);
+
+        $installationManager = new PluginInstallationManager(
+            $doctrine,
+            $tokenStorage,
+            new LegacyPluginInstantiator()
+        );
+        $factory = new PluginFactory(
+            null,
+            null,
+            $installationManager
+        );
+
+        $pluginsProperty = new \ReflectionProperty(PluginFactory::class, 'Plugins');
+        $originalPlugins = $pluginsProperty->getValue();
+        $expectedPlugins = $originalPlugins;
+        $expectedPlugins[SessionAccountHandler::getId()] = [
+            [
+                'id' => 1,
+                'key' => 'legacy-cache-sentinel',
+            ],
+        ];
+        $pluginsProperty->setValue(null, $expectedPlugins);
+
+        try {
+            $this->assertTrue($factory->installPlugin(PluginFactoryTestFixture::class));
+            $this->assertSame($expectedPlugins, $pluginsProperty->getValue());
+        } finally {
+            $pluginsProperty->setValue(null, $originalPlugins);
+        }
     }
 
     public function testInstallPluginNoLongerThrowsFatalErrorOnPrivatePropertyAccess(): void
