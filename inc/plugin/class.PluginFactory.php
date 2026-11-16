@@ -319,10 +319,6 @@ class PluginFactory
         if ($this->pluginInstallationManager instanceof PluginInstallationManager) {
             $installed = $this->pluginInstallationManager->install($Pluginkey);
 
-            if ($installed) {
-                self::clearCache();
-            }
-
             return $installed;
         }
 
