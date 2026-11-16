@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Services\Dashboard;
 
+use InvalidArgumentException;
+use LogicException;
 use Plugin;
 use PluginType;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
@@ -15,6 +17,10 @@ final readonly class DashboardStatisticsProvider
         private PluginSettingsProvider $pluginSettingsProvider
     ) {}
 
+    /**
+     * @throws InvalidArgumentException if the requested plugin does not exist
+     * @throws LogicException if there is no authenticated account
+     */
     public function getStatistics(Request $request): DashboardStatistics
     {
         $activeStatistics = $this->pluginSettingsProvider->getInstalledPlugins(PluginType::STAT, Plugin::ACTIVE);
