@@ -6,7 +6,6 @@ namespace Runalyze\Bundle\CoreBundle\Services;
 
 use Doctrine\Persistence\ManagerRegistry;
 use InvalidArgumentException;
-use InvalidArgumentException;
 use LogicException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
