@@ -108,5 +108,4 @@ class PluginFactory
 
         return $this->Plugins();
     }
-
 }
