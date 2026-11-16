@@ -119,7 +119,6 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
-    #[\\PHPUnit\\Framework\\Attributes\\Group('plugin')]
     public function testPluginInstallActionDoesNotInvalidateLegacyStaticPluginCache(): void
     {
         $this->loginClient($this->Client, $this->Account, 'default');
@@ -145,6 +144,7 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         }
     }
 
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testPluginFactoryDoesNotPopulateLegacyStaticCacheWhenUsingInstallationManager(): void
     {
         $this->loginClient($this->Client, $this->Account, 'default');
