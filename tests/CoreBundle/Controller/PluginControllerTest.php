@@ -106,7 +106,6 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         /** @var PluginFactory $factory */
         $factory = self::getContainer()->get(PluginFactory::class);
 
-        $this->assertContains($pluginKey, $factory->allPlugins());
         $this->assertTrue($factory->isInstalled($pluginKey));
 
         $this->request('GET', '/call/call.Plugin.config.php?id=' . $plugin->getId());
@@ -158,7 +157,7 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
             /** @var PluginFactory $factory */
             $factory = self::getContainer()->get(PluginFactory::class);
 
-            $this->assertNotEmpty($factory->allPlugins());
+            $this->assertTrue($factory->isInstalled('RunalyzePluginPanel_TagsSummary'));
             $this->assertSame([], $pluginsProperty->getValue());
         } finally {
             $pluginsProperty->setValue(null, $originalPlugins);
@@ -175,7 +174,7 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         /** @var PluginFactory $factory */
         $factory = self::getContainer()->get(PluginFactory::class);
 
-        $this->assertNotContains('plugin-added-after-first-read', $factory->allPlugins());
+        $this->assertFalse($factory->isInstalled('plugin-added-after-first-read'));
 
         $plugin = new Plugin()
             ->setAccount($this->Account)
@@ -187,7 +186,7 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->getEntityManager()->persist($plugin);
         $this->getEntityManager()->flush();
 
-        $this->assertContains('plugin-added-after-first-read', $factory->allPlugins());
+        $this->assertTrue($factory->isInstalled('plugin-added-after-first-read'));
     }
 
     public function testPluginInstallActionRejectsAMissingKey(): void
