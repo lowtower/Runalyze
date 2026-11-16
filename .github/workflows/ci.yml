@@ -246,12 +246,11 @@ jobs:
           $headPercentage = 100 * $headCovered / $headTotal;
           $coveredDelta = $headCovered - $baseCovered;
           $percentageDelta = $headPercentage - $basePercentage;
-          $decreased = $coveredDelta < 0;
-          $failed = $coveredDelta < 0;
+          $failed = $percentageDelta < 0;
           $change = sprintf("%+d covered statements (%+.4f pp)", $coveredDelta, $percentageDelta);
-          $status = $decreased
-              ? sprintf("Covered statements decreased by %d", -$coveredDelta)
-              : "Covered statements did not decrease";
+          $status = $failed
+              ? sprintf("Statement coverage decreased by %.4f percentage points", -$percentageDelta)
+              : "Statement coverage did not decrease";
 
           $report = sprintf(
               "<!-- runalyze-coverage-report -->\n### Code coverage\n\n| Revision | Statement coverage | Covered statements |\n| --- | ---: | ---: |\n| Base branch | %.4f%% | %d/%d |\n| Pull request | %.4f%% | %d/%d |\n\n**Change:** %s  \n**Result:** %s",
@@ -263,7 +262,7 @@ jobs:
               $headTotal,
               $change,
               $status
-          ) . "\n\n**Gate:** the absolute number of covered statements must not decrease. Deleting untested code lowers the total, but not the covered count, and therefore does not fail the gate.";
+          ) . "\n\n**Gate:** the statement coverage percentage must not decrease. The absolute number of covered statements may decrease when executable code is removed.";
 
           file_put_contents(getenv("GITHUB_STEP_SUMMARY"), $report . "\n");
           file_put_contents(
@@ -276,10 +275,10 @@ jobs:
               fwrite(
                   STDERR,
                   sprintf(
-                      "Covered statements decreased by %d (from %d to %d).\n",
-                      -$coveredDelta,
-                      $baseCovered,
-                      $headCovered
+                      "Statement coverage decreased by %.4f percentage points (from %.4f%% to %.4f%%).\n",
+                      -$percentageDelta,
+                      $basePercentage,
+                      $headPercentage
                   )
               );
               exit(1);
