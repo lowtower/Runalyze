@@ -104,11 +104,6 @@ use Runalyze\Bundle\CoreBundle\Services\SharedAthleteStatisticsProvider;
 use Runalyze\Bundle\CoreBundle\Services\UnitSystemFactory;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\ORM\LoadAccountData;
-use Runalyze\Bundle\CoreBundle\Twig\AutomaticReloadFlagExtension;
-use Runalyze\Bundle\CoreBundle\Twig\ConfigurationExtension;
-use Runalyze\Bundle\CoreBundle\Twig\HtmlExtension;
-use Runalyze\Bundle\CoreBundle\Twig\UtilityExtension;
-use Runalyze\Bundle\CoreBundle\Twig\ValueExtension;
 use Runalyze\Bundle\CoreBundle\Validator\Constraints\ContainsDisposableMailAddressValidator;
 use Runalyze\Metrics\Distance\Unit\AbstractDistanceUnit;
 use Runalyze\Metrics\Energy\Unit\AbstractEnergyUnit;
@@ -713,37 +708,24 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ],
     ]);
 
-    $services->set('app.twig_configuration_extension', ConfigurationExtension::class)
-        ->private()
-        ->arg('$ConfigurationManager', service('app.configuration_manager'))
+    $services->load('Runalyze\Bundle\CoreBundle\Twig\\', __DIR__ . '/../src/CoreBundle/Twig')
         ->tag('twig.attribute_extension');
 
-    $services->alias(ConfigurationExtension::class, 'app.twig_configuration_extension');
+    $services->alias('app.twig_configuration_extension', ConfigurationExtension::class);
+    $services->alias('app.twig_html_extension', HtmlExtension::class);
+    $services->alias('app.twig_utility_extension', UtilityExtension::class);
+    $services->alias('app.twig_value_extension', ValueExtension::class);
+    $services->alias('app.twig_automatic_reload_flag_extension', AutomaticReloadFlagExtension::class);
+
+    $services->set('app.twig_configuration_extension', ConfigurationExtension::class)
 
     $services->set('app.twig_html_extension', HtmlExtension::class)
-        ->private()
-        ->tag('twig.attribute_extension');
-
-    $services->alias(HtmlExtension::class, 'app.twig_html_extension');
 
     $services->set('app.twig_utility_extension', UtilityExtension::class)
-        ->private()
-        ->tag('twig.attribute_extension');
-
-    $services->alias(UtilityExtension::class, 'app.twig_utility_extension');
 
     $services->set('app.twig_value_extension', ValueExtension::class)
-        ->private()
-        ->arg('$configurationManager', service('app.configuration_manager'))
-        ->tag('twig.attribute_extension');
-
-    $services->alias(ValueExtension::class, 'app.twig_value_extension');
 
     $services->set('app.twig_automatic_reload_flag_extension', AutomaticReloadFlagExtension::class)
-        ->private()
-        ->tag('twig.attribute_extension');
-
-    $services->alias(AutomaticReloadFlagExtension::class, 'app.twig_automatic_reload_flag_extension');
 
     $services->set('app.poster.generate_json', GenerateJsonData::class)
         ->arg('$TrainingRepository', service(TrainingRepository::class))
