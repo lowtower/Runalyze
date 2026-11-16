@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\\Bundle\\CoreBundle\\Services;
+namespace Runalyze\Bundle\CoreBundle\Services;
 
-use Doctrine\\Persistence\\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use LogicException;
-use Runalyze\\Bundle\\CoreBundle\\Entity\\Account;
-use Runalyze\\Bundle\\CoreBundle\\Entity\\Plugin;
-use Runalyze\\Bundle\\CoreBundle\\Repository\\PluginRepository;
-use Runalyze\\Configuration;
-use Runalyze\\Dataset\\Configuration as DatasetConfiguration;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Plugin;
+use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
+use Runalyze\Configuration;
+use Runalyze\Dataset\Configuration as DatasetConfiguration;
 
 final readonly class SharedAthleteStatisticsProvider
 {
@@ -52,7 +52,7 @@ final readonly class SharedAthleteStatisticsProvider
                 $pluginData
             );
 
-            assert($plugin instanceof \\RunalyzePluginStat_Wettkampf);
+            assert($plugin instanceof \RunalyzePluginStat_Wettkampf);
 
             $content = $plugin->getYearComparisonTable();
 
