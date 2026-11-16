@@ -7,6 +7,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Services;
 use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
+use LogicException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
@@ -23,7 +24,7 @@ final class SharedAthleteStatisticsProviderTest extends TestCase
             new LegacyPluginInstantiator()
         );
 
-        $this->expectException(\\LogicException::class);
+        $this->expectException(LogicException::class);
         $provider->getYearComparisonTable(new Account());
     }
 
