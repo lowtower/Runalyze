@@ -54,7 +54,7 @@ class Prognose_PrognosisWindow
 
     /**
      * @param array<int, array<string, int|float|null>> $topResults rows as returned by TrainingRepository::findTopResults()
-     * @param array<int, int|float|string> $distances
+     * @param array<int, mixed> $distances
      */
     public function __construct(
         private readonly array $topResults,
