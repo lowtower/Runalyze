@@ -9,6 +9,7 @@ use HTML;
 use Icon;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
@@ -100,17 +101,10 @@ class PluginController extends AbstractPluginsAwareController
 
                 if ($active !== null) {
                     if (! is_string($active) || ! ctype_digit($active)) {
-                        throw $this->createNotFoundException('Invalid plugin activation state.');
+                        throw new BadRequestHttpException('Invalid plugin activation state.');
                     }
 
-                    if (! $this->pluginInstallationManager->setInstalledPluginActive($plugin->id(), (int) $active)) {
-                        $pluginData = $this->pluginInstallationManager->getInstalledPluginData();
-                        $isInstalled = array_any($pluginData, static fn (array $data): bool => (int) $data['id'] === $plugin->id());
-
-                        if (! $isInstalled) {
-                            throw $this->createNotFoundException('Plugin not found for current account.');
-                        }
-                    }
+                    $this->pluginInstallationManager->setInstalledPluginActive($plugin->id(), (int) $active);
 
                     Ajax::setReloadFlag(Ajax::$RELOAD_ALL);
                     echo Ajax::getReloadCommand();
