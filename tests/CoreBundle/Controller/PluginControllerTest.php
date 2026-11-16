@@ -9,6 +9,7 @@ use ReflectionProperty;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
+use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -154,10 +155,16 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $pluginsProperty->setValue(null, []);
 
         try {
+            /** @var PluginInstallationManager $installationManager */
+            $installationManager = self::getContainer()->get(PluginInstallationManager::class);
+            $installedPluginKeys = $installationManager->getInstalledPluginKeys();
+
+            $this->assertNotEmpty($installedPluginKeys);
+
             /** @var PluginFactory $factory */
             $factory = self::getContainer()->get(PluginFactory::class);
 
-            $this->assertTrue($factory->isInstalled('RunalyzePluginPanel_TagsSummary'));
+            $this->assertTrue($factory->isInstalled($installedPluginKeys[0]));
             $this->assertSame([], $pluginsProperty->getValue());
         } finally {
             $pluginsProperty->setValue(null, $originalPlugins);
