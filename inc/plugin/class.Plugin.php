@@ -194,27 +194,6 @@ abstract class Plugin
         echo HTML::p($this->description());
     }
 
-    final public function install(): bool
-    {
-        if ($this->id() !== PluginInstaller::ID) {
-            return false;
-        }
-
-        $this->id = DB::getInstance()->insert('plugin', [
-            'key',
-            'type',
-            'active',
-            'order',
-        ], [
-            $this->key(),
-            $this->typeString(),
-            '1',
-            '99',
-        ]);
-
-        return true;
-    }
-
     final protected function initVars()
     {
         if ($this->id() === PluginInstaller::ID) {
