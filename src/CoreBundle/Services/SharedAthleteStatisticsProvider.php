@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Services;
 
 use Doctrine\Persistence\ManagerRegistry;
+use InvalidArgumentException;
 use LogicException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
@@ -43,7 +44,7 @@ final readonly class SharedAthleteStatisticsProvider
     }
 
     /**
-     * @throws \\InvalidArgumentException if the installed plugin implementation is invalid
+     * @throws InvalidArgumentException if the installed plugin implementation is invalid
      */
     public function getTabForComparisonOfYears(Account $account): string
     {
