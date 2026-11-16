@@ -6,6 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Services;
 
 use Doctrine\Persistence\ManagerRegistry;
 use InvalidArgumentException;
+use InvalidArgumentException;
 use LogicException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
@@ -59,7 +60,9 @@ final readonly class SharedAthleteStatisticsProvider
                 $pluginData
             );
 
-            assert($plugin instanceof \RunalyzePluginStat_Wettkampf);
+            if (! $plugin instanceof \RunalyzePluginStat_Wettkampf) {
+                throw new InvalidArgumentException('The installed race plugin has an invalid implementation.');
+            }
 
             $content = $plugin->getYearComparisonTable();
 
