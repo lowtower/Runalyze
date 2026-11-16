@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller\Internal;
 
 use DB;
-use PluginFactory;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
@@ -21,8 +20,6 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         parent::setUp();
 
         $this->Account = $this->getDefaultAccount();
-
-        PluginFactory::clearCache();
     }
 
     private function persistPluginForAccount(Account $account, string $type, int $active, int $order, string $key = 'test-plugin'): Plugin
@@ -72,8 +69,6 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
     private function deleteLegacyPluginsForAccount(int $accountId): void
     {
         DB::getInstance()->exec('DELETE FROM `' . PREFIX . 'plugin` WHERE `accountid` = ' . $accountId);
-
-        PluginFactory::clearCache();
     }
 
     private function reloadPlugin(int $id): ?Plugin
@@ -232,7 +227,6 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $accountId = $this->Account->getId();
         $this->deleteLegacyPluginsForAccount($accountId);
         $id = $this->insertLegacyPanelPlugin($accountId, 'RunalyzePluginPanel_Equipment', Plugin::STATE_INACTIVE);
-        PluginFactory::clearCache();
 
         try {
             $this->loginClient($this->Client, $this->Account, 'default');
@@ -255,7 +249,6 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $accountId = $this->Account->getId();
         $this->deleteLegacyPluginsForAccount($accountId);
         $this->insertLegacyPanelPlugin($accountId, 'RunalyzePluginPanel_Equipment', Plugin::STATE_HIDDEN);
-        PluginFactory::clearCache();
 
         try {
             $this->loginClient($this->Client, $this->Account, 'default');
@@ -288,7 +281,6 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
             'RunalyzePluginPanel_Equipment'
         );
         $id = (int) $plugin->getId();
-        PluginFactory::clearCache();
 
         try {
             $this->loginClient($this->Client, $this->Account, 'default');
@@ -306,7 +298,6 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         } finally {
             $this->getEntityManager()->remove($plugin);
             $this->getEntityManager()->flush();
-            PluginFactory::clearCache();
         }
     }
 }

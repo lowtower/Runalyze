@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
-use PluginFactory;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginEntity;
@@ -410,7 +409,6 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $this->getEntityManager()->flush();
 
         $pluginId = (int) $plugin->getId();
-        PluginFactory::clearCache();
 
         try {
             $this->loginClient($this->Client, $this->Account, 'default');
@@ -427,7 +425,6 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         } finally {
             $this->getEntityManager()->remove($plugin);
             $this->getEntityManager()->flush();
-            PluginFactory::clearCache();
         }
     }
 
@@ -463,7 +460,6 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $this->getEntityManager()->flush();
 
         $pluginId = (int) $plugin->getId();
-        PluginFactory::clearCache();
 
         try {
             $this->loginClient($this->Client, $this->Account, 'default');
@@ -480,7 +476,6 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         } finally {
             $this->getEntityManager()->remove($plugin);
             $this->getEntityManager()->flush();
-            PluginFactory::clearCache();
         }
     }
 
