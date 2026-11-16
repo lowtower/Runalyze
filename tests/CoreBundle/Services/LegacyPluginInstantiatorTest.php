@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Services;
 
+use DateTimeImmutable;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\Attributes\Group;
@@ -14,6 +15,7 @@ use PluginConfigurationValue;
 use PluginInstaller;
 use PluginPanel;
 use PluginType;
+use ReflectionProperty;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginDataContext;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginConfigurationStorage;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
@@ -226,7 +228,7 @@ final class LegacyPluginInstantiatorTest extends TestCase
         $this->assertSame([[$pluginId, 'fixture-setting', 'default']], $storage->insertedValues);
 
         $configuration = new PluginConfiguration($pluginId);
-        $storageProperty = new \\ReflectionProperty(PluginConfiguration::class, 'Storage');
+        $storageProperty = new ReflectionProperty(PluginConfiguration::class, 'Storage');
         $this->assertInstanceOf(LegacyPluginConfigurationStorage::class, $storageProperty->getValue($configuration));
     }
 
