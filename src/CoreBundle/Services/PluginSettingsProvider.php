@@ -49,6 +49,20 @@ final readonly class PluginSettingsProvider
     }
 
     /**
+     * @throws \InvalidArgumentException if no plugin is installed with the given id
+     */
+    public function getInstalledPluginById(int $id): Plugin
+    {
+        foreach ($this->getInstalledPluginData() as $data) {
+            if ($data['id'] === $id) {
+                return $this->pluginInstantiator->instantiate($data['key'], $id, $data);
+            }
+        }
+
+        throw new \InvalidArgumentException(sprintf('No plugin found for id "%d".', $id));
+    }
+
+    /**
      * @return list<Plugin>
      */
     public function getAvailablePluginsToInstall(): array
