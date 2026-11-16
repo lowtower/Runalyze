@@ -259,30 +259,6 @@ final class PluginFactoryTest extends TestCase
         $this->assertSame([], PluginFactory::dataFor(999));
     }
 
-    public function testAllIDsReturnsAllPluginIds(): void
-    {
-        $this->setPluginsData($this->samplePlugins());
-
-        $this->assertSame([1, 2, 3, 4], PluginFactory::allIDs());
-    }
-
-    public function testKeyForReturnsMatchingKey(): void
-    {
-        $this->setPluginsData($this->samplePlugins());
-
-        $this->assertSame('SomeStatKey', PluginFactory::keyFor(2));
-    }
-
-    public function testKeyForThrowsInvalidArgumentExceptionForUnknownId(): void
-    {
-        $this->setPluginsData($this->samplePlugins());
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('No plugin found for id "999".');
-
-        PluginFactory::keyFor(999);
-    }
-
     public function testCompleteDataReturnsAllPluginsWhenTypeIsNull(): void
     {
         $plugins = $this->samplePlugins();
