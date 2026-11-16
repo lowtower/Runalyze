@@ -199,6 +199,16 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
 
+      - name: Enforce coverage gate
+        if: github.event_name == 'pull_request'
+        env:
+          COVERAGE_FAILED: ${{ steps.coverage.outputs.failed }}
+        run: |
+          if [ "$COVERAGE_FAILED" != "false" ]; then
+            echo "::error::Statement coverage decreased or could not be determined."
+            exit 1
+          fi
+
   coverage-comment:
     name: Publish coverage report
     needs: tests

@@ -59,11 +59,10 @@ $report = sprintf(
 );
 
 file_put_contents((string) getenv('GITHUB_STEP_SUMMARY'), $report . "\n", FILE_APPEND);
-file_put_contents(
-    (string) getenv('GITHUB_OUTPUT'),
-    "report<<COVERAGE_REPORT\n" . $report . "\nCOVERAGE_REPORT\n",
-    FILE_APPEND
-);
+
+$outputs = "report<<COVERAGE_REPORT\n" . $report . "\nCOVERAGE_REPORT\n"
+    . 'failed=' . ($failed ? 'true' : 'false') . "\n";
+file_put_contents((string) getenv('GITHUB_OUTPUT'), $outputs, FILE_APPEND);
 
 if ($failed) {
     fwrite(STDERR, sprintf(
@@ -72,7 +71,6 @@ if ($failed) {
         $basePercentage,
         $headPercentage
     ));
-    exit(1);
+} else {
+    echo "Covered statements did not decrease.\n";
 }
-
-echo "Covered statements did not decrease.\n";
