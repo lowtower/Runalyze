@@ -17,15 +17,8 @@ final readonly class DashboardStatisticsProvider
 
     public function getStatistics(Request $request): DashboardStatistics
     {
-        $statistics = $this->pluginSettingsProvider->getInstalledPlugins(PluginType::STAT);
-        $activeStatistics = array_values(array_filter(
-            $statistics,
-            static fn (Plugin $plugin): bool => $plugin->isActive()
-        ));
-        $variousStatistics = array_values(array_filter(
-            $statistics,
-            static fn (Plugin $plugin): bool => $plugin->isHidden()
-        ));
+        $activeStatistics = $this->pluginSettingsProvider->getInstalledPlugins(PluginType::STAT, Plugin::ACTIVE);
+        $variousStatistics = $this->pluginSettingsProvider->getInstalledPlugins(PluginType::STAT, Plugin::ACTIVE_VARIOUS);
         $navigation = [];
 
         foreach ($activeStatistics as $index => $plugin) {
