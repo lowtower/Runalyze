@@ -167,7 +167,7 @@ final class PluginFactoryTest extends TestCase
         ]);
         $this->setPluginsData($accountAPlugins);
 
-        $accountAPlugin = (new PluginFactory())->newInstance(PluginFactoryTestFixture::class);
+        $accountAPlugin = new PluginFactory()->newInstance(PluginFactoryTestFixture::class);
         $this->assertSame(1, $accountAPlugin->id());
 
         SessionAccountHandler::setAccount([
@@ -175,14 +175,14 @@ final class PluginFactoryTest extends TestCase
         ]);
         $this->setPluginsData($accountBPlugins);
 
-        $accountBPlugin = (new PluginFactory())->newInstance(PluginFactoryTestFixture::class);
+        $accountBPlugin = new PluginFactory()->newInstance(PluginFactoryTestFixture::class);
         $this->assertSame(22, $accountBPlugin->id());
 
         SessionAccountHandler::setAccount([
             'id' => 11,
         ]);
 
-        $accountAPlugin = (new PluginFactory())->newInstance(PluginFactoryTestFixture::class);
+        $accountAPlugin = new PluginFactory()->newInstance(PluginFactoryTestFixture::class);
         $this->assertSame(1, $accountAPlugin->id());
     }
 
