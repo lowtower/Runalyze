@@ -119,6 +119,32 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    #[\\PHPUnit\\Framework\\Attributes\\Group('plugin')]
+    public function testPluginInstallActionDoesNotInvalidateLegacyStaticPluginCache(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $pluginsProperty = new ReflectionProperty(PluginFactory::class, 'Plugins');
+        $originalPlugins = $pluginsProperty->getValue();
+        $expectedPlugins = $originalPlugins;
+        $expectedPlugins[$this->Account->getId()] = [
+            [
+                'id' => -1,
+                'key' => 'legacy-cache-sentinel',
+            ],
+        ];
+        $pluginsProperty->setValue(null, $expectedPlugins);
+
+        try {
+            $this->request('GET', '/call/call.Plugin.install.php?key=RunalyzePluginPanel_TagsSummary');
+
+            $this->assertStatusCode(200, $this->Client);
+            $this->assertSame($expectedPlugins, $pluginsProperty->getValue());
+        } finally {
+            $pluginsProperty->setValue(null, $originalPlugins);
+        }
+    }
+
     public function testPluginFactoryDoesNotPopulateLegacyStaticCacheWhenUsingInstallationManager(): void
     {
         $this->loginClient($this->Client, $this->Account, 'default');
