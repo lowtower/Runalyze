@@ -1,10 +1,11 @@
 <?php
 
-namespace Runalyze\Bundle\CoreBundle\Repository;
+namespace Runalyze\\Bundle\\CoreBundle\\Repository;
 
-use Doctrine\ORM\EntityRepository;
-use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Entity\Plugin;
+use Doctrine\\ORM\\EntityRepository;
+use Runalyze\\Bundle\\CoreBundle\\Entity\\Account;
+use Runalyze\\Bundle\\CoreBundle\\Entity\\Plugin;
+use SortDirection;
 
 /**
  * @extends EntityRepository<Plugin>
@@ -41,8 +42,8 @@ class PluginRepository extends EntityRepository
             ->select('plugin.id, plugin.key, plugin.type, plugin.active, plugin.order')
             ->where('plugin.account = :account')
             ->setParameter('account', $account)
-            ->orderBy('plugin.order', 'ASC')
-            ->addOrderBy('plugin.id', 'ASC')
+            ->orderBy('plugin.order', SortDirection::Ascending)
+            ->addOrderBy('plugin.id', SortDirection::Ascending)
             ->getQuery()
             ->getArrayResult();
     }
