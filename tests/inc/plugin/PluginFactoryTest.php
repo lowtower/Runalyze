@@ -219,12 +219,12 @@ final class PluginFactoryTest extends TestCase
         $pluginData = $this->pluginEntry(17, PluginFactoryTestFixture::class, PluginType::string(PluginType::PANEL), Plugin::ACTIVE);
 
         try {
-            LegacyPluginDataContext::withPluginData($pluginData, static function (): void {
+            LegacyPluginDataContext::withPluginData($pluginData, static function (): never {
                 throw new RuntimeException('Instantiation failed.');
             });
             $this->fail('Expected the callback to throw an exception.');
-        } catch (RuntimeException $exception) {
-            $this->assertSame('Instantiation failed.', $exception->getMessage());
+        } catch (RuntimeException $runtimeException) {
+            $this->assertSame('Instantiation failed.', $runtimeException->getMessage());
         }
 
         $this->assertNull(LegacyPluginDataContext::find(17));
