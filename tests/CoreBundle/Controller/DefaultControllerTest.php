@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
 use PluginPanel;
-
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginEntity;
