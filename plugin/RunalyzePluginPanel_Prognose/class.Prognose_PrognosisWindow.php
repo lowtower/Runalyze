@@ -54,9 +54,11 @@ class Prognose_PrognosisWindow
 
     /**
      * @param array<int, array<string, int|float|null>> $topResults rows as returned by TrainingRepository::findTopResults()
+     * @param array<int, int|float|string> $distances
      */
     public function __construct(
-        private readonly array $topResults = []
+        private readonly array $topResults,
+        private readonly array $distances
     ) {
         $this->setDefaultValues();
         $this->readPostData();
@@ -74,12 +76,8 @@ class Prognose_PrognosisWindow
         $CurrentShape = Configuration::Data()->vo2maxShape();
 
         if (empty($_POST)) {
-            $Factory = new PluginFactory();
-            /** @var RunalyzePluginPanel_Prognose $Plugin */
-            $Plugin = $Factory->newInstance('RunalyzePluginPanel_Prognose');
-
             $_POST['model'] = 'vo2max';
-            $_POST['distances'] = implode(', ', $this->distanceValuesToMiles($Plugin->getDistances()));
+            $_POST['distances'] = implode(', ', $this->distanceValuesToMiles($this->distances));
 
             $_POST['vo2max'] = $CurrentShape;
             $_POST['endurance'] = true;
