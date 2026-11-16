@@ -37,8 +37,9 @@ final class SharedAthleteStatisticsProviderTest extends TestCase
             ->with($account)
             ->willReturn([]);
 
-        $doctrine = $this->createStub(ManagerRegistry::class);
-        $doctrine->method('getRepository')
+        $doctrine = $this->createMock(ManagerRegistry::class);
+        $doctrine->expects($this->once())
+            ->method('getRepository')
             ->with(Plugin::class)
             ->willReturn($repository);
 
