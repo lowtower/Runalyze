@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
-use PluginFactory;
-use ReflectionProperty;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
+use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -103,11 +102,10 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertSame(Plugin::STATE_ACTIVE, $plugin->getActive());
         $this->assertSame(99, $plugin->getOrder());
 
-        /** @var PluginFactory $factory */
-        $factory = self::getContainer()->get(PluginFactory::class);
+        /** @var PluginInstallationManager $installationManager */
+        $installationManager = self::getContainer()->get(PluginInstallationManager::class);
 
-        $this->assertContains($pluginKey, $factory->allPlugins());
-        $this->assertTrue($factory->isInstalled($pluginKey));
+        $this->assertTrue($installationManager->isInstalled($pluginKey));
 
         $this->request('GET', '/call/call.Plugin.config.php?id=' . $plugin->getId());
 
@@ -119,63 +117,17 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
-    public function testPluginInstallActionDoesNotInvalidateLegacyStaticPluginCache(): void
-    {
-        $this->loginClient($this->Client, $this->Account, 'default');
-
-        $pluginsProperty = new ReflectionProperty(PluginFactory::class, 'Plugins');
-        $originalPlugins = $pluginsProperty->getValue();
-        $expectedPlugins = $originalPlugins;
-        $expectedPlugins[$this->Account->getId()] = [
-            [
-                'id' => -1,
-                'key' => 'legacy-cache-sentinel',
-            ],
-        ];
-        $pluginsProperty->setValue(null, $expectedPlugins);
-
-        try {
-            $this->request('GET', '/call/call.Plugin.install.php?key=RunalyzePluginPanel_TagsSummary');
-
-            $this->assertStatusCode(200, $this->Client);
-            $this->assertSame($expectedPlugins, $pluginsProperty->getValue());
-        } finally {
-            $pluginsProperty->setValue(null, $originalPlugins);
-        }
-    }
-
-    #[\PHPUnit\Framework\Attributes\Group('plugin')]
-    public function testPluginFactoryDoesNotPopulateLegacyStaticCacheWhenUsingInstallationManager(): void
-    {
-        $this->loginClient($this->Client, $this->Account, 'default');
-        $this->request('GET', '/dashboard');
-
-        $pluginsProperty = new ReflectionProperty(PluginFactory::class, 'Plugins');
-        $originalPlugins = $pluginsProperty->getValue();
-        $pluginsProperty->setValue(null, []);
-
-        try {
-            /** @var PluginFactory $factory */
-            $factory = self::getContainer()->get(PluginFactory::class);
-
-            $this->assertNotEmpty($factory->allPlugins());
-            $this->assertSame([], $pluginsProperty->getValue());
-        } finally {
-            $pluginsProperty->setValue(null, $originalPlugins);
-        }
-    }
-
-    public function testPluginFactoryRefreshesInstalledPluginDataAfterDatabaseChanges(): void
+    public function testInstallationManagerRefreshesInstalledPluginDataAfterDatabaseChanges(): void
     {
         $this->loginClient($this->Client, $this->Account, 'default');
         $this->request('GET', '/dashboard');
 
         $this->assertStatusCode(200, $this->Client);
 
-        /** @var PluginFactory $factory */
-        $factory = self::getContainer()->get(PluginFactory::class);
+        /** @var PluginInstallationManager $installationManager */
+        $installationManager = self::getContainer()->get(PluginInstallationManager::class);
 
-        $this->assertNotContains('plugin-added-after-first-read', $factory->allPlugins());
+        $this->assertFalse($installationManager->isInstalled('plugin-added-after-first-read'));
 
         $plugin = new Plugin()
             ->setAccount($this->Account)
@@ -187,7 +139,7 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->getEntityManager()->persist($plugin);
         $this->getEntityManager()->flush();
 
-        $this->assertContains('plugin-added-after-first-read', $factory->allPlugins());
+        $this->assertTrue($installationManager->isInstalled('plugin-added-after-first-read'));
     }
 
     public function testPluginInstallActionRejectsAMissingKey(): void

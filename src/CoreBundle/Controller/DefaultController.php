@@ -21,9 +21,13 @@ use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
+use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\View\Activity\Context as ActivityContext;
+use RunalyzePluginPanel_Prognose;
+use RunalyzePluginPanel_Rechenspiele;
+use RunalyzePluginStat_Wettkampf;
 use SessionAccountHandler;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -52,6 +56,7 @@ class DefaultController extends AbstractPluginsAwareController
         PluginDiscovery $pluginDiscovery,
         LegacyPluginInstantiator $pluginInstantiator,
         LegacyPluginOutputRenderer $legacyPluginOutputRenderer,
+        PluginSettingsProvider $pluginSettingsProvider,
         private readonly AuthorizationCheckerInterface $authorizationChecker,
         private readonly AuthenticationUtils $authenticationUtils,
         TokenStorageInterface $tokenStorage,
@@ -67,6 +72,7 @@ class DefaultController extends AbstractPluginsAwareController
             $pluginDiscovery,
             $pluginInstantiator,
             $legacyPluginOutputRenderer,
+            $pluginSettingsProvider,
             $configurationManager,
             $sportSelectionFactory,
             $tokenStorage,
@@ -285,6 +291,27 @@ class DefaultController extends AbstractPluginsAwareController
     }
 
     /**
+     * @throws Throwable if the legacy calculations window throws
+     */
+    #[Route(path: '/plugin/RunalyzePluginPanel_Rechenspiele/window.php', methods: ['GET', 'POST'], priority: 10)]
+    public function rechenspieleWindowAction(): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
+
+        /** @var RunalyzePluginPanel_Rechenspiele $Plugin */
+        $Plugin = $this->instantiatePluginByKey('RunalyzePluginPanel_Rechenspiele');
+
+        return $this->wrapLegacyContent(
+            $this->captureLegacyOutput(function () use ($Plugin): void {
+                include FRONTEND_PATH . '../plugin/RunalyzePluginPanel_Rechenspiele/window.php';
+            })->getContent(),
+            $this->requestStack->getCurrentRequest()
+        );
+    }
+
+    /**
      * @throws Throwable if the legacy prognosis calculator window throws
      */
     #[Route(path: '/plugin/RunalyzePluginPanel_Prognose/window.php', methods: ['GET', 'POST'], priority: 10)]
@@ -302,9 +329,42 @@ class DefaultController extends AbstractPluginsAwareController
             2
         );
 
+        /** @var RunalyzePluginPanel_Prognose $prognosePlugin */
+        $prognosePlugin = $this->instantiatePluginByKey('RunalyzePluginPanel_Prognose');
+
         return $this->wrapLegacyContent(
-            $this->captureLegacyOutput(function () use ($topResults): void {
-                new \Prognose_PrognosisWindow($topResults)->display();
+            $this->captureLegacyOutput(function () use ($topResults, $prognosePlugin): void {
+                new \Prognose_PrognosisWindow($topResults, $prognosePlugin->getDistances())->display();
+            })->getContent(),
+            $this->requestStack->getCurrentRequest()
+        );
+    }
+
+    /**
+     * @throws Throwable if the legacy prognosis plot throws
+     */
+    #[Route(path: '/plugin/RunalyzePluginPanel_Prognose/window.plot.php', methods: ['GET'], priority: 10)]
+    public function prognosisPlotWindowAction(): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
+
+        /** @var RunalyzePluginPanel_Prognose $Plugin */
+        $Plugin = $this->instantiatePluginByKey('RunalyzePluginPanel_Prognose');
+
+        $WKplugin = null;
+        if (
+            in_array('RunalyzePluginStat_Wettkampf', $this->pluginDiscovery->findAvailablePluginKeys(), true)
+            && $this->pluginInstallationManager->isInstalled('RunalyzePluginStat_Wettkampf')
+        ) {
+            /** @var RunalyzePluginStat_Wettkampf $WKplugin */
+            $WKplugin = $this->instantiatePluginByKey('RunalyzePluginStat_Wettkampf');
+        }
+
+        return $this->wrapLegacyContent(
+            $this->captureLegacyOutput(function () use ($Plugin, $WKplugin): void {
+                include FRONTEND_PATH . '../plugin/RunalyzePluginPanel_Prognose/window.plot.php';
             })->getContent(),
             $this->requestStack->getCurrentRequest()
         );

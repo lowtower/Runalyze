@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Tests\Services;
 
 use Doctrine\Persistence\ManagerRegistry;
+use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Plugin;
@@ -56,6 +57,50 @@ final class PluginSettingsProviderTest extends TestCase
         $plugins = $provider->getInstalledPlugins(PluginType::PANEL);
 
         $this->assertSame([4, 1, 2], array_map(static fn (Plugin $plugin): int => $plugin->id(), $plugins));
+    }
+
+    public function testReturnsInstalledPluginById(): void
+    {
+        $provider = $this->createProvider([
+            $this->pluginData(17, PluginType::string(PluginType::PANEL), Plugin::ACTIVE, 1),
+        ]);
+
+        $plugin = $provider->getInstalledPluginById(17);
+
+        $this->assertInstanceOf(PluginSettingsProviderFixture::class, $plugin);
+        $this->assertSame(17, $plugin->id());
+    }
+
+    public function testThrowsWhenInstalledPluginIdDoesNotExist(): void
+    {
+        $provider = $this->createProvider([]);
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessageIsOrContains('No plugin found for id "17".');
+
+        $provider->getInstalledPluginById(17);
+    }
+
+    public function testReturnsInstalledPluginByKey(): void
+    {
+        $provider = $this->createProvider([
+            $this->pluginData(17, PluginType::string(PluginType::PANEL), Plugin::ACTIVE, 1),
+        ]);
+
+        $plugin = $provider->getInstalledPluginByKey(PluginSettingsProviderFixture::class);
+
+        $this->assertInstanceOf(PluginSettingsProviderFixture::class, $plugin);
+        $this->assertSame(17, $plugin->id());
+    }
+
+    public function testThrowsWhenInstalledPluginKeyDoesNotExist(): void
+    {
+        $provider = $this->createProvider([]);
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessageIsOrContains('Plugin with key "missing-plugin" is not installed.');
+
+        $provider->getInstalledPluginByKey('missing-plugin');
     }
 
     public function testReturnsAvailablePluginInstancesExcludingInstalledPlugins(): void

@@ -188,7 +188,5 @@ class ConfigTabPlugins extends ConfigTab
         if ($this->pluginInstallationManager->updateInstalledPluginSettings($settings)) {
             Ajax::setReloadFlag(Ajax::$RELOAD_ALL);
         }
-
-        PluginFactory::clearCache();
     }
 }

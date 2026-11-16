@@ -145,7 +145,7 @@ jobs:
 
       - name: Store main branch coverage baseline in cache
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           path: coverage-baseline/var/coverage/clover.xml
           key: ${{ env.COVERAGE_CACHE_PREFIX }}${{ github.sha }}
@@ -153,7 +153,7 @@ jobs:
       - name: Restore base branch coverage
         if: github.event_name == 'pull_request'
         id: baseline-cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: coverage-baseline/var/coverage/clover.xml
           key: ${{ env.COVERAGE_CACHE_PREFIX }}${{ github.event.pull_request.base.sha }}

@@ -6,15 +6,17 @@ echo "Downloading timezone database ..."
 for i in {1..3}; do
     tmp="./data/timezone.sqlite"
     domain="https://cdn.runalyze.com/update/timezone.sqlite"
-    if curl -fSL --progress-bar -o "$tmp" "$domain"; then
-        echo "✓ Downloaded timezone database successfully"
-        break
-    else
-        if [ $i -lt 3 ]; then
-            echo "⚠ Attempt $i failed, retrying in 5 seconds..."
-            sleep 5
+    if [ ! -f ${tmp} ]; then
+        if curl -fsSLo "$tmp" "$domain"; then
+            echo "✓ Downloaded timezone database successfully"
+            break
         else
-            echo "⚠ Could not download timezone database, using existing version"
+            if [ $i -lt 3 ]; then
+                echo "⚠ Attempt $i failed, retrying in 5 seconds..."
+                sleep 5
+            else
+                echo "⚠ Could not download timezone database, using existing version"
+            fi
         fi
     fi
 done

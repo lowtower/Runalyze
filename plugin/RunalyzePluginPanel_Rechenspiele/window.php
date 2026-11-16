@@ -4,10 +4,7 @@
 
 <div class="panel-content">
 <?php
-$Factory = new PluginFactory();
-    /** @var RunalyzePluginPanel_Rechenspiele $Plugin */
-    $Plugin = $Factory->newInstance('RunalyzePluginPanel_Rechenspiele');
-
+/** @var RunalyzePluginPanel_Rechenspiele $Plugin */
     $Formular = new Formular();
     $Formular->setId('rechenspiele-calculator');
     $Formular->addCSSclass('ajax');

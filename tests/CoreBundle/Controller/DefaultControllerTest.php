@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
-use PluginFactory;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginEntity;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
+use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
 use Runalyze\Model\Account\UserRole;
@@ -409,7 +409,6 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $this->getEntityManager()->flush();
 
         $pluginId = (int) $plugin->getId();
-        PluginFactory::clearCache();
 
         try {
             $this->loginClient($this->Client, $this->Account, 'default');
@@ -426,7 +425,6 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         } finally {
             $this->getEntityManager()->remove($plugin);
             $this->getEntityManager()->flush();
-            PluginFactory::clearCache();
         }
     }
 
@@ -462,7 +460,6 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $this->getEntityManager()->flush();
 
         $pluginId = (int) $plugin->getId();
-        PluginFactory::clearCache();
 
         try {
             $this->loginClient($this->Client, $this->Account, 'default');
@@ -479,8 +476,75 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         } finally {
             $this->getEntityManager()->remove($plugin);
             $this->getEntityManager()->flush();
-            PluginFactory::clearCache();
         }
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPrognoseCalculatorWindowUsesTheInstalledPlugin(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        /** @var PluginInstallationManager $installationManager */
+        $installationManager = self::getContainer()->get(PluginInstallationManager::class);
+        $installationManager->install('RunalyzePluginPanel_Prognose');
+
+        $post = $_POST;
+        $_POST = [];
+
+        try {
+            $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.php');
+
+            $this->assertStatusCode(200, $this->Client);
+            $this->assertStringContainsString('id="prognosis-calculator"', (string) $this->Client->getResponse()->getContent());
+        } finally {
+            $_POST = $post;
+        }
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testRechenspieleWindowUsesTheInstalledPlugin(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        /** @var PluginInstallationManager $installationManager */
+        $installationManager = self::getContainer()->get(PluginInstallationManager::class);
+        $installationManager->install('RunalyzePluginPanel_Rechenspiele');
+
+        $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Rechenspiele/window.php');
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('id="rechenspiele-calculator"', (string) $this->Client->getResponse()->getContent());
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPrognosisPlotWindowWorksWithoutTheOptionalRacePlugin(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        /** @var PluginInstallationManager $installationManager */
+        $installationManager = self::getContainer()->get(PluginInstallationManager::class);
+        $installationManager->install('RunalyzePluginPanel_Prognose');
+
+        $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.plot.php?distance=10');
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('formverlauf_10', (string) $this->Client->getResponse()->getContent());
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPrognosisPlotWindowUsesTheInstalledOptionalRacePlugin(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        /** @var PluginInstallationManager $installationManager */
+        $installationManager = self::getContainer()->get(PluginInstallationManager::class);
+        $installationManager->install('RunalyzePluginPanel_Prognose');
+        $installationManager->install('RunalyzePluginStat_Wettkampf');
+
+        $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.plot.php?distance=10');
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('formverlauf_10', (string) $this->Client->getResponse()->getContent());
     }
 
     public function testPluginActionRequiresAuthentication(): void
