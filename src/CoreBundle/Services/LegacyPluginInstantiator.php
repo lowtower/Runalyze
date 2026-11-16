@@ -16,7 +16,7 @@ final readonly class LegacyPluginInstantiator
     /**
      * @param array<string, mixed>|null $pluginData
      *
-     * @throws InvalidArgumentException if the class is not an instantiable plugin implementation
+     * @throws InvalidArgumentException if the class is not an instantiable plugin implementation or plugin data is missing
      */
     public function instantiate(string $className, int|string $pluginId, ?array $pluginData = null): Plugin
     {
@@ -28,6 +28,10 @@ final readonly class LegacyPluginInstantiator
 
         if (! $reflection->isInstantiable() || ! $reflection->isSubclassOf(Plugin::class)) {
             throw new InvalidArgumentException(sprintf('Class "%s" is not an instantiable plugin.', $className));
+        }
+
+        if ($pluginData === null && (int) $pluginId !== PluginInstaller::ID) {
+            throw new InvalidArgumentException('Plugin data is required for regular plugin instances.');
         }
 
         $instantiate = fn (): Plugin => $pluginData === null
