@@ -2,15 +2,22 @@
 
 namespace Runalyze\Bundle\CoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Conf;
+use Symfony\Bridge\Doctrine\ServiceEntityRepository;
 
 /**
- * @extends EntityRepository<Conf>
+ * @extends ServiceEntityRepository<Conf>
  */
-class ConfRepository extends EntityRepository
+class ConfRepository extends ServiceEntityRepository
 {
+
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Conf::class);
+    }
+
     /**
      * @return Conf[]
      */

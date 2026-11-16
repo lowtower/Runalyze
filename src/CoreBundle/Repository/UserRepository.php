@@ -3,15 +3,22 @@
 namespace Runalyze\Bundle\CoreBundle\Repository;
 
 use Doctrine\ORM\AbstractQuery;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\User;
+use Symfony\Bridge\Doctrine\ServiceEntityRepository;
 
 /**
- * @extends EntityRepository<User>
+ * @extends ServiceEntityRepository<User>
  */
-class UserRepository extends EntityRepository
+class UserRepository extends ServiceEntityRepository
 {
+
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, User::class);
+    }
+
     /**
      * @return User[]
      */

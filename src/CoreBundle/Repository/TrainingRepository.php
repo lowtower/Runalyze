@@ -3,7 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\Repository;
 
 use Doctrine\ORM\AbstractQuery;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
@@ -21,12 +21,19 @@ use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Bundle\CoreBundle\Model\Account\AccountStatistics;
 use Runalyze\Sports\Running\MarathonShape;
 use Runalyze\Util\Time;
+use Symfony\Bridge\Doctrine\ServiceEntityRepository;
 
 /**
- * @extends EntityRepository<Training>
+ * @extends ServiceEntityRepository<Training>
  */
-class TrainingRepository extends EntityRepository
+class TrainingRepository extends ServiceEntityRepository
 {
+
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Training::class);
+    }
+
     /**
      * @throws NoResultException
      * @throws NonUniqueResultException

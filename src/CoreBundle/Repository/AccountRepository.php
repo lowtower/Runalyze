@@ -2,7 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
@@ -10,12 +10,19 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Symfony\Bridge\Doctrine\ServiceEntityRepository;
 
 /**
- * @extends EntityRepository<Account>
+ * @extends ServiceEntityRepository<Account>
  */
-class AccountRepository extends EntityRepository implements UserLoaderInterface, PasswordUpgraderInterface
+class AccountRepository extends ServiceEntityRepository implements UserLoaderInterface, PasswordUpgraderInterface
 {
+
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Account::class);
+    }
+
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
         if (! $user instanceof Account) {
