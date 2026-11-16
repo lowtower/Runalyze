@@ -7,6 +7,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Services\Dashboard;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Plugin;
+use PluginPanel;
 use PluginStat;
 use PluginType;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -31,6 +32,26 @@ final class DashboardStatisticsProviderTestPlugin extends PluginStat
     public function description(): string
     {
         return 'Test statistics plugin.';
+    }
+
+    protected function displayContent(): void {}
+}
+
+final class DashboardStatisticsProviderTestPanel extends PluginPanel
+{
+    public function name(): string
+    {
+        return 'Test panel';
+    }
+
+    public function description(): string
+    {
+        return 'Test panel plugin.';
+    }
+
+    protected function defaultSport(): int
+    {
+        return -1;
     }
 
     protected function displayContent(): void {}
@@ -142,7 +163,7 @@ final class DashboardStatisticsProviderTest extends TestCase
     public function testRequestedInstalledPluginCanBeSelectedEvenWhenItIsNotAStatistic(): void
     {
         $provider = new DashboardStatisticsProvider($this->createSettingsProvider([
-            $this->pluginData(41, Plugin::ACTIVE, 1, PluginType::string(PluginType::PANEL)),
+            $this->pluginData(41, Plugin::ACTIVE, 1, PluginType::string(PluginType::PANEL), DashboardStatisticsProviderTestPanel::class),
         ]));
 
         $statistics = $provider->getStatistics(new Request(query: ['pluginid' => '41']));
@@ -184,11 +205,12 @@ final class DashboardStatisticsProviderTest extends TestCase
         int $id,
         int $active,
         int $order,
-        string $type = 'stat'
+        string $type = 'stat',
+        string $key = DashboardStatisticsProviderTestPlugin::class
     ): array {
         return [
             'id' => $id,
-            'key' => DashboardStatisticsProviderTestPlugin::class,
+            'key' => $key,
             'type' => $type,
             'active' => $active,
             'order' => $order,
