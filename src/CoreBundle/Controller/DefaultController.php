@@ -26,6 +26,7 @@ use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\View\Activity\Context as ActivityContext;
 use RunalyzePluginPanel_Prognose;
 use RunalyzePluginPanel_Rechenspiele;
+use RunalyzePluginStat_Wettkampf;
 use SessionAccountHandler;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -331,6 +332,36 @@ class DefaultController extends AbstractPluginsAwareController
         return $this->wrapLegacyContent(
             $this->captureLegacyOutput(function () use ($topResults, $prognosePlugin): void {
                 new \Prognose_PrognosisWindow($topResults, $prognosePlugin->getDistances())->display();
+            })->getContent(),
+            $this->requestStack->getCurrentRequest()
+        );
+    }
+
+    /**
+     * @throws Throwable if the legacy prognosis plot throws
+     */
+    #[Route(path: '/plugin/RunalyzePluginPanel_Prognose/window.plot.php', methods: ['GET'], priority: 10)]
+    public function prognosisPlotWindowAction(): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
+
+        /** @var RunalyzePluginPanel_Prognose $Plugin */
+        $Plugin = $this->instantiatePluginByKey('RunalyzePluginPanel_Prognose');
+
+        $WKplugin = null;
+        if (
+            in_array('RunalyzePluginStat_Wettkampf', $this->pluginDiscovery->findAvailablePluginKeys(), true)
+            && $this->pluginInstallationManager->isInstalled('RunalyzePluginStat_Wettkampf')
+        ) {
+            /** @var RunalyzePluginStat_Wettkampf $WKplugin */
+            $WKplugin = $this->instantiatePluginByKey('RunalyzePluginStat_Wettkampf');
+        }
+
+        return $this->wrapLegacyContent(
+            $this->captureLegacyOutput(function () use ($Plugin, $WKplugin): void {
+                include FRONTEND_PATH . '../plugin/RunalyzePluginPanel_Prognose/window.plot.php';
             })->getContent(),
             $this->requestStack->getCurrentRequest()
         );

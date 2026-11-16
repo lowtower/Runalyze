@@ -521,6 +521,37 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStringContainsString('id="rechenspiele-calculator"', (string) $this->Client->getResponse()->getContent());
     }
 
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPrognosisPlotWindowWorksWithoutTheOptionalRacePlugin(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        /** @var PluginInstallationManager $installationManager */
+        $installationManager = self::getContainer()->get(PluginInstallationManager::class);
+        $installationManager->install('RunalyzePluginPanel_Prognose');
+
+        $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.plot.php?distance=10');
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('formverlauf_10', (string) $this->Client->getResponse()->getContent());
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPrognosisPlotWindowUsesTheInstalledOptionalRacePlugin(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        /** @var PluginInstallationManager $installationManager */
+        $installationManager = self::getContainer()->get(PluginInstallationManager::class);
+        $installationManager->install('RunalyzePluginPanel_Prognose');
+        $installationManager->install('RunalyzePluginStat_Wettkampf');
+
+        $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.plot.php?distance=10');
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('formverlauf_10', (string) $this->Client->getResponse()->getContent());
+    }
+
     public function testPluginActionRequiresAuthentication(): void
     {
         $this->Client->request('GET', '/plugin/SomePlugin/index.php');
