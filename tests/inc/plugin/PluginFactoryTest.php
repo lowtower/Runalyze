@@ -6,6 +6,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginEntity;
 use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginConfigurationStorage;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
@@ -481,7 +482,7 @@ final class PluginFactoryTest extends TestCase
     {
         $repository = $this->createStub(PluginRepository::class);
         $repository->method('findForAccountAndKey')->willReturn(null);
-        $repository->method('installForAccount')->willReturn(new Plugin());
+        $repository->method('installForAccount')->willReturn(new PluginEntity());
 
         $doctrine = $this->createStub(ManagerRegistry::class);
         $doctrine->method('getRepository')->willReturn($repository);
