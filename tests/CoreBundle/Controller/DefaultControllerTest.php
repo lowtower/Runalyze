@@ -506,6 +506,21 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         }
     }
 
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testRechenspieleWindowUsesTheInstalledPlugin(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        /** @var PluginInstallationManager $installationManager */
+        $installationManager = self::getContainer()->get(PluginInstallationManager::class);
+        $installationManager->install('RunalyzePluginPanel_Rechenspiele');
+
+        $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Rechenspiele/window.php');
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('id="rechenspiele-calculator"', (string) $this->Client->getResponse()->getContent());
+    }
+
     public function testPluginActionRequiresAuthentication(): void
     {
         $this->Client->request('GET', '/plugin/SomePlugin/index.php');
