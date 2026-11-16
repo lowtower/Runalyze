@@ -5,6 +5,7 @@ declare(strict_types=1);
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginConfigurationStorage;
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginDataContext;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
@@ -180,20 +181,60 @@ final class PluginFactoryTest extends TestCase
         $this->assertSame($accountAPlugins[0], PluginFactory::dataFor(1));
     }
 
-    public function testDataForUsesScopedPluginDataDuringLegacyInstantiation(): void
+    public function testLegacyPluginDataContextFindsScopedDataWithoutUsingFactoryCache(): void
     {
         $legacyPlugins = $this->samplePlugins();
         $this->setPluginsData($legacyPlugins);
         $pluginData = $this->pluginEntry(17, PluginFactoryTestFixture::class, PluginType::string(PluginType::PANEL), Plugin::ACTIVE);
 
-        $result = PluginFactory::withPluginData($pluginData, fn (): array => PluginFactory::dataFor($pluginData['id']));
+        $result = LegacyPluginDataContext::withPluginData(
+            $pluginData,
+            fn (): ?array => LegacyPluginDataContext::find($pluginData['id'])
+        );
 
         $this->assertSame($pluginData, $result);
         $this->assertSame($legacyPlugins[0], PluginFactory::dataFor(1));
+        $this->assertNull(LegacyPluginDataContext::find(17));
+    }
+
+    public function testLegacyPluginDataContextPrefersInnermostMatchingData(): void
+    {
+        $outerPluginData = $this->pluginEntry(17, PluginFactoryTestFixture::class, PluginType::string(PluginType::PANEL), Plugin::ACTIVE);
+        $innerPluginData = $this->pluginEntry(17, PluginFactoryTestFixture::class, PluginType::string(PluginType::PANEL), Plugin::ACTIVE_NOT);
+
+        $result = LegacyPluginDataContext::withPluginData(
+            $outerPluginData,
+            fn (): ?array => LegacyPluginDataContext::withPluginData(
+                $innerPluginData,
+                fn (): ?array => LegacyPluginDataContext::find(17)
+            )
+        );
+
+        $this->assertSame($innerPluginData, $result);
+        $this->assertNull(LegacyPluginDataContext::find(17));
+    }
+
+    public function testLegacyPluginDataContextIsClearedWhenCallbackThrows(): void
+    {
+        $pluginData = $this->pluginEntry(17, PluginFactoryTestFixture::class, PluginType::string(PluginType::PANEL), Plugin::ACTIVE);
+
+        try {
+            LegacyPluginDataContext::withPluginData($pluginData, static function (): void {
+                throw new RuntimeException('Instantiation failed.');
+            });
+            $this->fail('Expected the callback to throw an exception.');
+        } catch (RuntimeException $exception) {
+            $this->assertSame('Instantiation failed.', $exception->getMessage());
+        }
+
+        $this->assertNull(LegacyPluginDataContext::find(17));
     }
 
     public function testLegacyPluginInstantiatorUsesProvidedPluginData(): void
     {
+        $this->setPluginsData([
+            $this->pluginEntry(17, PluginFactoryTestFixture::class, PluginType::string(PluginType::PANEL), Plugin::ACTIVE_NOT, 99),
+        ]);
         $pluginData = $this->pluginEntry(17, PluginFactoryTestFixture::class, PluginType::string(PluginType::PANEL), Plugin::ACTIVE, 4);
         $instantiator = new LegacyPluginInstantiator();
 
