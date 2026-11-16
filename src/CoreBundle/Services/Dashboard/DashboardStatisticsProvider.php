@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\\Bundle\\CoreBundle\\Services\\Dashboard;
+namespace Runalyze\Bundle\CoreBundle\Services\Dashboard;
 
 use Plugin;
 use PluginType;
-use Runalyze\\Bundle\\CoreBundle\\Services\\PluginSettingsProvider;
-use Symfony\\Component\\HttpFoundation\\Request;
+use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
+use Symfony\Component\HttpFoundation\Request;
 
 final readonly class DashboardStatisticsProvider
 {
