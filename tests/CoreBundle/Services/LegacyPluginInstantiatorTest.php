@@ -9,12 +9,85 @@ use LogicException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Plugin;
+use PluginConfiguration;
+use PluginConfigurationValue;
 use PluginInstaller;
 use PluginPanel;
 use PluginType;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginDataContext;
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginConfigurationStorage;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
+use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 use RuntimeException;
+
+final class LegacyPluginInstantiatorCustomConstructorFixture extends PluginPanel
+{
+    public function __construct(string $id)
+    {
+        parent::__construct((int) $id);
+    }
+
+    public function name(): string
+    {
+        return 'Custom constructor fixture';
+    }
+
+    public function description(): string
+    {
+        return 'Fixture plugin with a custom constructor.';
+    }
+
+    protected function displayContent(): void {}
+}
+
+final class LegacyPluginInstantiatorConfigurationFixture extends PluginPanel
+{
+    protected function initConfiguration(): void
+    {
+        $configuration = new PluginConfiguration($this->id());
+        $configuration->addValue(new PluginConfigurationValue('fixture-setting', '', '', 'default'));
+        $this->setConfiguration($configuration);
+    }
+
+    public function name(): string
+    {
+        return 'Configuration fixture';
+    }
+
+    public function description(): string
+    {
+        return 'Fixture plugin with a configuration value.';
+    }
+
+    protected function displayContent(): void {}
+}
+
+final class LegacyPluginInstantiatorTestConfigurationStorage implements PluginConfigurationStorageInterface
+{
+    /**
+     * @var list<int>
+     */
+    public array $loadedPluginIds = [];
+
+    /**
+     * @var list<array{int, string, string}>
+     */
+    public array $insertedValues = [];
+
+    public function loadForPlugins(array $pluginIds): array
+    {
+        $this->loadedPluginIds = $pluginIds;
+
+        return [];
+    }
+
+    public function insert(int $pluginId, string $key, string $value): void
+    {
+        $this->insertedValues[] = [$pluginId, $key, $value];
+    }
+
+    public function update(int $pluginId, string $key, string $value): void {}
+}
 
 final class LegacyPluginInstantiatorTestFixture extends PluginPanel
 {
@@ -121,6 +194,48 @@ final class LegacyPluginInstantiatorTest extends TestCase
 
         $this->assertTrue($plugin->isActive());
         $this->assertSame(4, $plugin->order());
+    }
+
+    public function testLegacyPluginInstantiatorSupportsCustomPluginConstructors(): void
+    {
+        $pluginData = [
+            ...$this->pluginData(17),
+        ];
+        $instantiator = new LegacyPluginInstantiator();
+
+        $plugin = $instantiator->instantiate(LegacyPluginInstantiatorCustomConstructorFixture::class, 17, $pluginData);
+
+        $this->assertInstanceOf(LegacyPluginInstantiatorCustomConstructorFixture::class, $plugin);
+        $this->assertSame(17, $plugin->id());
+    }
+
+    public function testLegacyPluginInstantiatorUsesInjectedPluginConfigurationStorage(): void
+    {
+        $pluginId = 17;
+        $pluginData = [
+            ...$this->pluginData($pluginId),
+        ];
+        $pluginData['key'] = LegacyPluginInstantiatorConfigurationFixture::class;
+        $storage = new LegacyPluginInstantiatorTestConfigurationStorage();
+        $instantiator = new LegacyPluginInstantiator($storage);
+
+        $plugin = $instantiator->instantiate(LegacyPluginInstantiatorConfigurationFixture::class, $pluginId, $pluginData);
+
+        $this->assertSame('default', $plugin->Configuration()->value('fixture-setting'));
+        $this->assertSame([$pluginId], $storage->loadedPluginIds);
+        $this->assertSame([[$pluginId, 'fixture-setting', 'default']], $storage->insertedValues);
+
+        $configuration = new PluginConfiguration($pluginId);
+        $storageProperty = new \\ReflectionProperty(PluginConfiguration::class, 'Storage');
+        $this->assertInstanceOf(LegacyPluginConfigurationStorage::class, $storageProperty->getValue($configuration));
+    }
+
+    public function testLegacyPluginInstantiatorRejectsClassesThatAreNotPlugins(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Class "DateTimeImmutable" is not an instantiable plugin.');
+
+        (new LegacyPluginInstantiator())->instantiate(DateTimeImmutable::class, 17, $this->pluginData(17));
     }
 
     public function testPluginCanBeInstantiatedWithInstallerId(): void
