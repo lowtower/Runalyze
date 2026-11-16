@@ -33,7 +33,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -82,24 +81,6 @@ class DefaultController extends AbstractPluginsAwareController
     {
         return $this->doctrine
             ->getRepository(Account::class);
-    }
-
-    /**
-     * Includes a legacy script and captures its direct output into the Symfony Response.
-     *
-     * @throws Throwable if the included legacy file throws
-     */
-    protected function includeOldScript(string $file, bool $initFrontend = true): Response
-    {
-        $legacyContent = $this->captureLegacyOutput(function () use ($file, $initFrontend): void {
-            if ($initFrontend) {
-                new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
-            }
-
-            include $file;
-        })->getContent();
-
-        return $this->wrapLegacyContent($legacyContent, $this->requestStack->getCurrentRequest());
     }
 
     /**
@@ -269,22 +250,6 @@ class DefaultController extends AbstractPluginsAwareController
             'user' => (int) $numUser,
             'distance' => Distance::format($numDistance),
         ];
-    }
-
-    /**
-     * @throws NotFoundHttpException if $plugin or $file contain a path traversal attempt
-     * @throws Throwable if the included legacy plugin file throws
-     */
-    #[Route(path: '/plugin/{plugin}/{file}', methods: ['GET', 'POST'])]
-    public function pluginAction(string $plugin, string $file): Response
-    {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-
-        if (str_contains($plugin, '..') || str_contains($file, '..') || str_starts_with($plugin, '/') || str_starts_with($file, '/')) {
-            throw $this->createNotFoundException('Invalid plugin path.');
-        }
-
-        return $this->includeOldScript('../plugin/' . $plugin . '/' . $file);
     }
 
     /**
