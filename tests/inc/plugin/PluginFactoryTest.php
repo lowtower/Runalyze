@@ -255,8 +255,6 @@ final class PluginFactoryTest extends TestCase
         $this->assertSame(4, $plugin->order());
     }
 
-
-
     public function testNewInstanceCreatesInstanceForKnownKey(): void
     {
         $this->setPluginsData([
@@ -335,8 +333,6 @@ final class PluginFactoryTest extends TestCase
         $factory->newInstance(DateTimeImmutable::class);
     }
 
-
-
     public function testNewInstanceThrowsInvalidArgumentExceptionForUnknownKey(): void
     {
         $this->setPluginsData($this->samplePlugins());
@@ -347,9 +343,6 @@ final class PluginFactoryTest extends TestCase
 
         $factory->newInstance('NoSuchKey');
     }
-
-
-
 
     public function testIsInstalledIsTrueForKnownKey(): void
     {
@@ -367,21 +360,12 @@ final class PluginFactoryTest extends TestCase
         $this->assertFalse($factory->isInstalled('NoSuchKey'));
     }
 
-
-
-
-
-
-
     public function testPluginCanBeInstantiatedWithInstallerId(): void
     {
         $instance = new PluginFactoryTestFixture(PluginInstaller::ID);
 
         $this->assertSame(PluginInstaller::ID, $instance->id());
     }
-
-
-
 
     public function testGetActivationLinkDoesNotRequirePluginConfiguration(): void
     {
