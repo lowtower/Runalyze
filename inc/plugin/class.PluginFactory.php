@@ -255,11 +255,7 @@ class PluginFactory
     private function getPluginData(): array
     {
         if ($this->pluginInstallationManager instanceof PluginInstallationManager) {
-            $accountId = SessionAccountHandler::getId();
-
-            self::$Plugins[$accountId] = $this->pluginInstallationManager->getInstalledPluginData();
-
-            return self::$Plugins[$accountId];
+            return $this->pluginInstallationManager->getInstalledPluginData();
         }
 
         return self::Plugins();
