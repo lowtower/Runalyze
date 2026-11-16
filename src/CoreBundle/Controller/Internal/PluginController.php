@@ -3,7 +3,6 @@
 namespace Runalyze\Bundle\CoreBundle\Controller\Internal;
 
 use Frontend;
-use PluginFactory;
 use Runalyze\Bundle\CoreBundle\Controller\AbstractPluginsAwareController;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
@@ -34,10 +33,6 @@ class PluginController extends AbstractPluginsAwareController
         if ($plugin === null || $plugin->getAccount()->getId() != $account->getId()) {
             throw $this->createAccessDeniedException();
         }
-
-        // Only as long as PluginFactory's cache is in use
-        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
-        PluginFactory::clearCache();
 
         return $plugin;
     }
