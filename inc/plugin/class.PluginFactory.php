@@ -28,20 +28,20 @@ class PluginFactory
      */
     private static array $Plugins = [];
 
-    private static function Plugins(): array
+    private function Plugins(): array
     {
         $accountId = SessionAccountHandler::getId();
-        self::$Plugins[$accountId] ??= self::fetchAllPlugins();
+        self::$Plugins[$accountId] ??= $this->fetchAllPlugins();
 
         return self::$Plugins[$accountId];
     }
 
-    private static function fetchAllPlugins(): array
+    private function fetchAllPlugins(): array
     {
         $data = Cache::get(self::CACHE_KEY);
 
         if ($data === null || $data == []) {
-            $data = self::fetchAllPluginsFrom(DB::getInstance(), SessionAccountHandler::getId());
+            $data = $this->fetchAllPluginsFrom(DB::getInstance(), SessionAccountHandler::getId());
             Cache::set(self::CACHE_KEY, $data, 3600);
         }
 
@@ -55,7 +55,7 @@ class PluginFactory
         Cache::delete(self::CACHE_KEY);
     }
 
-    private static function fetchAllPluginsFrom(PDO $PDO, int $accountID): array
+    private function fetchAllPluginsFrom(PDO $PDO, int $accountID): array
     {
         return $PDO->query(
             'SELECT * FROM `' . PREFIX . 'plugin` '
@@ -211,7 +211,7 @@ class PluginFactory
             return $this->pluginInstallationManager->getInstalledPluginData();
         }
 
-        return self::Plugins();
+        return $this->Plugins();
     }
 
     /**

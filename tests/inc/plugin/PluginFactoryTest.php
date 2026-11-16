@@ -167,18 +167,18 @@ final class PluginFactoryTest extends TestCase
             'id' => 11,
         ]);
         $this->setPluginsData($accountAPlugins);
-        $this->assertSame($accountAPlugins, (new PluginFactory())->completeData());
+        $this->assertSame($accountAPlugins, new PluginFactory()->completeData());
 
         SessionAccountHandler::setAccount([
             'id' => 22,
         ]);
         $this->setPluginsData($accountBPlugins);
-        $this->assertSame($accountBPlugins, (new PluginFactory())->completeData());
+        $this->assertSame($accountBPlugins, new PluginFactory()->completeData());
 
         SessionAccountHandler::setAccount([
             'id' => 11,
         ]);
-        $this->assertSame($accountAPlugins, (new PluginFactory())->completeData());
+        $this->assertSame($accountAPlugins, new PluginFactory()->completeData());
     }
 
     public function testLegacyPluginDataContextFindsScopedDataAndClearsAfterCallback(): void
@@ -232,7 +232,7 @@ final class PluginFactoryTest extends TestCase
         $instantiator = new LegacyPluginInstantiator();
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Plugin data is required for regular plugin instances.');
+        $this->expectExceptionMessageIsOrContains('Plugin data is required for regular plugin instances.');
 
         $instantiator->instantiate(PluginFactoryTestFixture::class, 17);
     }
@@ -240,7 +240,7 @@ final class PluginFactoryTest extends TestCase
     public function testPluginCannotBeInstantiatedWithoutScopedPluginData(): void
     {
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('No plugin data available for plugin with id "17".');
+        $this->expectExceptionMessageIsOrContains('No plugin data available for plugin with id "17".');
 
         new PluginFactoryTestFixture(17);
     }
