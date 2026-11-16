@@ -70,6 +70,26 @@ class PluginRepository extends EntityRepository
         return $plugin;
     }
 
+    public function setActiveForAccount(Account $account, int $pluginId, int $active): bool
+    {
+        $plugin = $this->findOneBy([
+            'id' => $pluginId,
+            'account' => $account,
+        ]);
+
+        if (! $plugin instanceof Plugin) {
+            return false;
+        }
+
+        if ($plugin->getActive() === $active) {
+            return false;
+        }
+
+        $this->save($plugin->setActive($active));
+
+        return true;
+    }
+
     /**
      * @param array<int, array{active: int, order: int}> $settings
      */
