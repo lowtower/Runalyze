@@ -75,17 +75,6 @@ class PluginFactory
         return [];
     }
 
-    public static function allIDs(): array
-    {
-        $IDs = [];
-
-        foreach (self::Plugins() as $data) {
-            $IDs[] = $data['id'];
-        }
-
-        return $IDs;
-    }
-
     /**
      * @throws LogicException if there is no authenticated account
      */
@@ -285,17 +274,4 @@ class PluginFactory
         return $plugins;
     }
 
-    /**
-     * @throws InvalidArgumentException
-     */
-    public static function keyFor(int $id): string
-    {
-        foreach (self::Plugins() as $plugin) {
-            if ($id == $plugin['id']) {
-                return $plugin['key'];
-            }
-        }
-
-        throw new InvalidArgumentException('No plugin found for id "' . $id . '".');
-    }
 }
