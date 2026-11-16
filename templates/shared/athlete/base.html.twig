@@ -49,8 +49,8 @@
                             </table>
                         </div>
                         <div id="statistics-years" class="change" style="display:none;">
-                            {% include 'shared/athlete/summary_table.html.twig' with legacyStatistics.yearComparisonTable.templateData() %}
-                            {{ legacyStatistics.tabForComparisonOfYears|raw }}
+                            {% include 'shared/athlete/summary_table.html.twig' with yearComparisonTable.templateData() %}
+                            {{ tabForComparisonOfYears|raw }}
                         </div>
                     </div>
                 {% endif %}
