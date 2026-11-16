@@ -1281,11 +1281,14 @@
 							// filter callback( exact cell content, parser normalized content,
 							// filter input value, column index, jQuery row object )
 							filterMatched = fxn( data.exact, data.cache, data.filter, columnIndex, data.$row, c, data );
-						} else if ( typeof fxn[ ffxn || data.filter ] === 'function' ) {
+						} else {
 							// selector option function
 							txt = ffxn || data.filter;
-							filterMatched =
-								fxn[ txt ]( data.exact, data.cache, data.filter, columnIndex, data.$row, c, data );
+							if ( txt != null && Object.prototype.hasOwnProperty.call( fxn, txt ) &&
+								typeof fxn[ txt ] === 'function' ) {
+								filterMatched =
+									fxn[ txt ]( data.exact, data.cache, data.filter, columnIndex, data.$row, c, data );
+							}
 						}
 					}
 					if ( filterMatched === null ) {
