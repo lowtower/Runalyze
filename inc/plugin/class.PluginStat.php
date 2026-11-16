@@ -325,22 +325,4 @@ abstract class PluginStat extends Plugin
         return Ajax::link($name, 'statistics-inner', self::$DISPLAY_URL . '/' . $this->id() . '?sport=' . $sport . '&jahr=' . $year . '&dat=' . $dat);
     }
 
-    public static function hasVariousStats(): bool
-    {
-        $Factory = new PluginFactory();
-        $array = $Factory->variousPlugins();
-
-        return $array !== [];
-    }
-
-    /**
-     * Get the link for first various statistic
-     */
-    public static function getLinkForVariousStats(): string
-    {
-        $Factory = new PluginFactory();
-        $array = $Factory->variousPlugins();
-
-        return $Factory->newInstance($array[0])->getLink();
-    }
 }
