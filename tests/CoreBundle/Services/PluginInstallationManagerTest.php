@@ -77,6 +77,20 @@ final class PluginInstallationManagerTest extends TestCase
         ]);
     }
 
+    public function testSetInstalledPluginActiveRequiresAnAuthenticatedAccount(): void
+    {
+        $this->expectException(LogicException::class);
+
+        $this->createManagerWithoutAuthenticatedAccount()->setInstalledPluginActive(1, 1);
+    }
+
+    public function testSetInstalledPluginActiveRejectsAnInvalidActivationState(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->createManagerWithAuthenticatedAccount()->setInstalledPluginActive(1, 99);
+    }
+
     private function createManagerWithAuthenticatedAccount(): PluginInstallationManager
     {
         $token = $this->createStub(TokenInterface::class);
