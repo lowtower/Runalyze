@@ -5,6 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Services;
 use InvalidArgumentException;
 use Plugin;
 use PluginConfiguration;
+use PluginInstaller;
 use ReflectionClass;
 
 final readonly class LegacyPluginInstantiator
