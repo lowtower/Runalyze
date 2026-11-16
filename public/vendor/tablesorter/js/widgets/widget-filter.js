@@ -1284,7 +1284,9 @@
 						} else {
 							// selector option function
 							txt = ffxn || data.filter;
-							if ( txt != null && Object.prototype.hasOwnProperty.call( fxn, txt ) &&
+							if ( typeof txt === 'string' && txt !== '' &&
+								txt !== '__proto__' && txt !== 'prototype' && txt !== 'constructor' &&
+								Object.prototype.hasOwnProperty.call( fxn, txt ) &&
 								typeof fxn[ txt ] === 'function' ) {
 								filterMatched =
 									fxn[ txt ]( data.exact, data.cache, data.filter, columnIndex, data.$row, c, data );
