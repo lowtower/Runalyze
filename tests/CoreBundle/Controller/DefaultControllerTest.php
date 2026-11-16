@@ -493,10 +493,17 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $installationManager = self::getContainer()->get(PluginInstallationManager::class);
         $installationManager->install('RunalyzePluginPanel_Prognose');
 
-        $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.php');
+        $post = $_POST;
+        $_POST = [];
 
-        $this->assertStatusCode(200, $this->Client);
-        $this->assertStringContainsString('id="prognosis-calculator"', (string) $this->Client->getResponse()->getContent());
+        try {
+            $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.php');
+
+            $this->assertStatusCode(200, $this->Client);
+            $this->assertStringContainsString('id="prognosis-calculator"', (string) $this->Client->getResponse()->getContent());
+        } finally {
+            $_POST = $post;
+        }
     }
 
     public function testPluginActionRequiresAuthentication(): void
