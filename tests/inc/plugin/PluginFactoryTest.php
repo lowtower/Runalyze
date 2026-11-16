@@ -293,6 +293,7 @@ final class PluginFactoryTest extends TestCase
         $pluginId = 17;
         $this->setPluginsData([
             $this->pluginEntry($pluginId, PluginFactoryConfigurationFixture::class, PluginType::string(PluginType::PANEL), Plugin::ACTIVE),
+            $this->pluginEntry(18, PluginFactoryTestFixture::class, PluginType::string(PluginType::PANEL), Plugin::ACTIVE, 2),
         ]);
         $storage = new PluginFactoryTestConfigurationStorage();
         $factory = new PluginFactory(new LegacyPluginInstantiator($storage));
