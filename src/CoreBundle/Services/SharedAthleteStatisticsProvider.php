@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Services;
 
+use DB;
 use Doctrine\Persistence\ManagerRegistry;
 use InvalidArgumentException;
 use LogicException;
@@ -12,6 +13,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
 use Runalyze\Configuration;
 use Runalyze\Dataset\Configuration as DatasetConfiguration;
+use SummaryTableAllYears;
 
 final readonly class SharedAthleteStatisticsProvider
 {
