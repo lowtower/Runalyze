@@ -195,13 +195,17 @@ abstract class Plugin
         echo HTML::p($this->description());
     }
 
-    final protected function initVars()
+    /**
+     * @throws LogicException if no scoped plugin data is available
+     */
+    final protected function initVars(): void
     {
         if ($this->id() === PluginInstaller::ID) {
             return;
         }
 
-        $data = LegacyPluginDataContext::find($this->id()) ?? PluginFactory::dataFor($this->id());
+        $data = LegacyPluginDataContext::find($this->id())
+            ?? throw new LogicException(sprintf('No plugin data available for plugin with id "%d".', $this->id()));
         $this->key = $data['key'];
         $this->active = $data['active'];
         $this->order = $data['order'];

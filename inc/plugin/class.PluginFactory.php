@@ -28,20 +28,20 @@ class PluginFactory
      */
     private static array $Plugins = [];
 
-    private static function Plugins(): array
+    private function Plugins(): array
     {
         $accountId = SessionAccountHandler::getId();
-        self::$Plugins[$accountId] ??= self::fetchAllPlugins();
+        self::$Plugins[$accountId] ??= $this->fetchAllPlugins();
 
         return self::$Plugins[$accountId];
     }
 
-    private static function fetchAllPlugins(): array
+    private function fetchAllPlugins(): array
     {
         $data = Cache::get(self::CACHE_KEY);
 
         if ($data === null || $data == []) {
-            $data = self::fetchAllPluginsFrom(DB::getInstance(), SessionAccountHandler::getId());
+            $data = $this->fetchAllPluginsFrom(DB::getInstance(), SessionAccountHandler::getId());
             Cache::set(self::CACHE_KEY, $data, 3600);
         }
 
@@ -55,35 +55,13 @@ class PluginFactory
         Cache::delete(self::CACHE_KEY);
     }
 
-    private static function fetchAllPluginsFrom(PDO $PDO, int $accountID): array
+    private function fetchAllPluginsFrom(PDO $PDO, int $accountID): array
     {
         return $PDO->query(
             'SELECT * FROM `' . PREFIX . 'plugin` '
             . 'WHERE `accountid`=' . $accountID . ' '
             . 'ORDER BY `order` ASC'
         )->fetchAll();
-    }
-
-    public static function dataFor(int $id): array
-    {
-        foreach (self::Plugins() as $data) {
-            if ($data['id'] == $id) {
-                return $data;
-            }
-        }
-
-        return [];
-    }
-
-    public static function allIDs(): array
-    {
-        $IDs = [];
-
-        foreach (self::Plugins() as $data) {
-            $IDs[] = $data['id'];
-        }
-
-        return $IDs;
     }
 
     /**
@@ -233,7 +211,7 @@ class PluginFactory
             return $this->pluginInstallationManager->getInstalledPluginData();
         }
 
-        return self::Plugins();
+        return $this->Plugins();
     }
 
     /**
@@ -283,19 +261,5 @@ class PluginFactory
         }
 
         return $plugins;
-    }
-
-    /**
-     * @throws InvalidArgumentException
-     */
-    public static function keyFor(int $id): string
-    {
-        foreach (self::Plugins() as $plugin) {
-            if ($id == $plugin['id']) {
-                return $plugin['key'];
-            }
-        }
-
-        throw new InvalidArgumentException('No plugin found for id "' . $id . '".');
     }
 }

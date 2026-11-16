@@ -167,24 +167,22 @@ final class PluginFactoryTest extends TestCase
             'id' => 11,
         ]);
         $this->setPluginsData($accountAPlugins);
-        $this->assertSame($accountAPlugins[0], PluginFactory::dataFor(1));
+        $this->assertSame($accountAPlugins, new PluginFactory()->completeData());
 
         SessionAccountHandler::setAccount([
             'id' => 22,
         ]);
         $this->setPluginsData($accountBPlugins);
-        $this->assertSame($accountBPlugins[0], PluginFactory::dataFor(1));
+        $this->assertSame($accountBPlugins, new PluginFactory()->completeData());
 
         SessionAccountHandler::setAccount([
             'id' => 11,
         ]);
-        $this->assertSame($accountAPlugins[0], PluginFactory::dataFor(1));
+        $this->assertSame($accountAPlugins, new PluginFactory()->completeData());
     }
 
-    public function testLegacyPluginDataContextFindsScopedDataWithoutUsingFactoryCache(): void
+    public function testLegacyPluginDataContextFindsScopedDataAndClearsAfterCallback(): void
     {
-        $legacyPlugins = $this->samplePlugins();
-        $this->setPluginsData($legacyPlugins);
         $pluginData = $this->pluginEntry(17, PluginFactoryTestFixture::class, PluginType::string(PluginType::PANEL), Plugin::ACTIVE);
 
         $result = LegacyPluginDataContext::withPluginData(
@@ -193,7 +191,6 @@ final class PluginFactoryTest extends TestCase
         );
 
         $this->assertSame($pluginData, $result);
-        $this->assertSame($legacyPlugins[0], PluginFactory::dataFor(1));
         $this->assertNull(LegacyPluginDataContext::find(17));
     }
 
@@ -230,11 +227,26 @@ final class PluginFactoryTest extends TestCase
         $this->assertNull(LegacyPluginDataContext::find(17));
     }
 
+    public function testLegacyPluginInstantiatorRequiresPluginDataForRegularInstances(): void
+    {
+        $instantiator = new LegacyPluginInstantiator();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessageIsOrContains('Plugin data is required for regular plugin instances.');
+
+        $instantiator->instantiate(PluginFactoryTestFixture::class, 17);
+    }
+
+    public function testPluginCannotBeInstantiatedWithoutScopedPluginData(): void
+    {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessageIsOrContains('No plugin data available for plugin with id "17".');
+
+        new PluginFactoryTestFixture(17);
+    }
+
     public function testLegacyPluginInstantiatorUsesProvidedPluginData(): void
     {
-        $this->setPluginsData([
-            $this->pluginEntry(17, PluginFactoryTestFixture::class, PluginType::string(PluginType::PANEL), Plugin::ACTIVE_NOT, 99),
-        ]);
         $pluginData = $this->pluginEntry(17, PluginFactoryTestFixture::class, PluginType::string(PluginType::PANEL), Plugin::ACTIVE, 4);
         $instantiator = new LegacyPluginInstantiator();
 
@@ -242,45 +254,6 @@ final class PluginFactoryTest extends TestCase
 
         $this->assertTrue($plugin->isActive());
         $this->assertSame(4, $plugin->order());
-    }
-
-    public function testDataForReturnsMatchingPluginData(): void
-    {
-        $plugins = $this->samplePlugins();
-        $this->setPluginsData($plugins);
-
-        $this->assertSame($plugins[1], PluginFactory::dataFor(2));
-    }
-
-    public function testDataForReturnsEmptyArrayForUnknownId(): void
-    {
-        $this->setPluginsData($this->samplePlugins());
-
-        $this->assertSame([], PluginFactory::dataFor(999));
-    }
-
-    public function testAllIDsReturnsAllPluginIds(): void
-    {
-        $this->setPluginsData($this->samplePlugins());
-
-        $this->assertSame([1, 2, 3, 4], PluginFactory::allIDs());
-    }
-
-    public function testKeyForReturnsMatchingKey(): void
-    {
-        $this->setPluginsData($this->samplePlugins());
-
-        $this->assertSame('SomeStatKey', PluginFactory::keyFor(2));
-    }
-
-    public function testKeyForThrowsInvalidArgumentExceptionForUnknownId(): void
-    {
-        $this->setPluginsData($this->samplePlugins());
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('No plugin found for id "999".');
-
-        PluginFactory::keyFor(999);
     }
 
     public function testCompleteDataReturnsAllPluginsWhenTypeIsNull(): void
