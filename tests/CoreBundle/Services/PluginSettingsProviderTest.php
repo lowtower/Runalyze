@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\\Bundle\\CoreBundle\\Tests\\Services;
+namespace Runalyze\Bundle\CoreBundle\Tests\Services;
 
-use Doctrine\\Persistence\\ManagerRegistry;
-use PHPUnit\\Framework\\Attributes\\Group;
-use PHPUnit\\Framework\\TestCase;
+use Doctrine\Persistence\ManagerRegistry;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\TestCase;
 use Plugin;
 use PluginInstaller;
 use PluginPanel;
 use PluginType;
-use Runalyze\\Bundle\\CoreBundle\\Entity\\Account;
-use Runalyze\\Bundle\\CoreBundle\\Repository\\PluginRepository;
-use Runalyze\\Bundle\\CoreBundle\\Services\\LegacyPluginInstantiator;
-use Runalyze\\Bundle\\CoreBundle\\Services\\PluginDiscovery;
-use Runalyze\\Bundle\\CoreBundle\\Services\\PluginInstallationManager;
-use Runalyze\\Bundle\\CoreBundle\\Services\\PluginSettingsProvider;
-use Symfony\\Component\\Security\\Core\\Authentication\\Token\\Storage\\TokenStorageInterface;
-use Symfony\\Component\\Security\\Core\\Authentication\\Token\\TokenInterface;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
+use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
+use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
+use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 final class PluginSettingsProviderFixture extends PluginPanel
 {
