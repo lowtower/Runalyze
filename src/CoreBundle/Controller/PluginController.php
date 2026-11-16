@@ -9,8 +9,8 @@ use HTML;
 use Icon;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Throwable;
@@ -83,6 +83,7 @@ class PluginController extends AbstractPluginsAwareController
     }
 
     /**
+     * @throws BadRequestHttpException if the activation state is invalid
      * @throws Throwable if the legacy plugin config window throws
      */
     #[Route(path: '/call/call.Plugin.config.php', name: 'plugin-config', methods: ['GET', 'POST'])]
@@ -105,6 +106,7 @@ class PluginController extends AbstractPluginsAwareController
                     }
 
                     $this->pluginInstallationManager->setInstalledPluginActive($plugin->id(), (int) $active);
+                    $plugin = $this->instantiatePluginById($plugin->id());
 
                     Ajax::setReloadFlag(Ajax::$RELOAD_ALL);
                     echo Ajax::getReloadCommand();
