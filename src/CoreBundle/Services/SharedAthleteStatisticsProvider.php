@@ -21,6 +21,9 @@ final readonly class SharedAthleteStatisticsProvider
         private LegacyPluginInstantiator $pluginInstantiator
     ) {}
 
+    /**
+     * @throws LogicException if the account is not persisted
+     */
     public function getYearComparisonTable(Account $account): SummaryTableAllYears
     {
         $accountId = $account->getId();
@@ -39,6 +42,9 @@ final readonly class SharedAthleteStatisticsProvider
         );
     }
 
+    /**
+     * @throws \\InvalidArgumentException if the installed plugin implementation is invalid
+     */
     public function getTabForComparisonOfYears(Account $account): string
     {
         foreach ($this->getPluginRepository()->findDataForAccount($account) as $pluginData) {
