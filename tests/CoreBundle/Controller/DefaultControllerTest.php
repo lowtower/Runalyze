@@ -15,6 +15,35 @@ use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCa
 use Runalyze\Model\Account\UserRole;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+final class DashboardInstantiationTestPanel extends PluginPanel
+{
+    public static int $instantiationCount = 0;
+
+    public function __construct(int $id)
+    {
+        ++self::$instantiationCount;
+
+        parent::__construct($id);
+    }
+
+    public function name(): string
+    {
+        return 'Dashboard instantiation test';
+    }
+
+    public function description(): string
+    {
+        return 'Dashboard instantiation test panel.';
+    }
+
+    protected function defaultSport(): int
+    {
+        return -1;
+    }
+
+    protected function displayContent(): void {}
+}
+
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
@@ -473,6 +502,32 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             $this->assertStringContainsString('analysis-table', $content);
             $this->assertStringContainsString('2025', $content);
             $this->assertStringNotContainsString('colspan="13"', $content);
+        } finally {
+            $this->getEntityManager()->remove($plugin);
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testDashboardInstantiatesEachPanelOnlyOnce(): void
+    {
+        $plugin = new PluginEntity()
+            ->setKey(DashboardInstantiationTestPanel::class)
+            ->setType(PluginEntity::TYPE_PANEL)
+            ->setActive(PluginEntity::STATE_ACTIVE)
+            ->setOrder(1)
+            ->setAccount($this->Account);
+        $this->getEntityManager()->persist($plugin);
+        $this->getEntityManager()->flush();
+
+        DashboardInstantiationTestPanel::$instantiationCount = 0;
+
+        try {
+            $this->loginClient($this->Client, $this->Account, 'default');
+            $this->Client->request('GET', '/dashboard');
+
+            $this->assertStatusCode(200, $this->Client);
+            $this->assertSame(1, DashboardInstantiationTestPanel::$instantiationCount);
         } finally {
             $this->getEntityManager()->remove($plugin);
             $this->getEntityManager()->flush();
