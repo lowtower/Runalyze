@@ -13,7 +13,9 @@ final class LegacyPluginConfigurationStorageTest extends DatabaseTestCase
 {
     private LegacyPluginConfigurationStorage $storage;
 
-    /** @var int[] */
+    /**
+     * @var int[]
+     */
     private array $pluginIds = [];
 
     protected function setUp(): void
@@ -44,8 +46,12 @@ final class LegacyPluginConfigurationStorageTest extends DatabaseTestCase
 
         $this->assertSame(
             [
-                $firstPluginId => ['first-key' => 'first-value'],
-                $secondPluginId => ['second-key' => 'second-value'],
+                $firstPluginId => [
+                    'first-key' => 'first-value',
+                ],
+                $secondPluginId => [
+                    'second-key' => 'second-value',
+                ],
             ],
             $this->storage->loadForPlugins([
                 $firstPluginId,
@@ -63,7 +69,11 @@ final class LegacyPluginConfigurationStorageTest extends DatabaseTestCase
         $this->insertConfiguration($firstPluginId, 'key', 'cached-value');
 
         $this->assertSame(
-            [$firstPluginId => ['key' => 'cached-value']],
+            [
+                $firstPluginId => [
+                    'key' => 'cached-value',
+                ],
+            ],
             $this->storage->loadForPlugins([$firstPluginId])
         );
 
@@ -77,8 +87,12 @@ final class LegacyPluginConfigurationStorageTest extends DatabaseTestCase
 
         $this->assertSame(
             [
-                $firstPluginId => ['key' => 'cached-value'],
-                $secondPluginId => ['key' => 'loaded-value'],
+                $firstPluginId => [
+                    'key' => 'cached-value',
+                ],
+                $secondPluginId => [
+                    'key' => 'loaded-value',
+                ],
             ],
             $this->storage->loadForPlugins([$firstPluginId, $secondPluginId])
         );
@@ -89,14 +103,18 @@ final class LegacyPluginConfigurationStorageTest extends DatabaseTestCase
         $pluginId = $this->createPlugin('empty-plugin');
 
         $this->assertSame(
-            [$pluginId => []],
+            [
+                $pluginId => [],
+            ],
             $this->storage->loadForPlugins([$pluginId])
         );
 
         $this->insertConfiguration($pluginId, 'key', 'new-value');
 
         $this->assertSame(
-            [$pluginId => []],
+            [
+                $pluginId => [],
+            ],
             $this->storage->loadForPlugins([$pluginId])
         );
     }
@@ -125,7 +143,9 @@ final class LegacyPluginConfigurationStorageTest extends DatabaseTestCase
                     'existing-key' => 'existing-value',
                     'new-key' => 'new-value',
                 ],
-                $secondPluginId => ['key' => 'cached-value'],
+                $secondPluginId => [
+                    'key' => 'cached-value',
+                ],
             ],
             $this->storage->loadForPlugins([$firstPluginId, $secondPluginId])
         );
@@ -151,8 +171,12 @@ final class LegacyPluginConfigurationStorageTest extends DatabaseTestCase
 
         $this->assertSame(
             [
-                $firstPluginId => ['key' => 'updated-value'],
-                $secondPluginId => ['key' => 'cached-value'],
+                $firstPluginId => [
+                    'key' => 'updated-value',
+                ],
+                $secondPluginId => [
+                    'key' => 'cached-value',
+                ],
             ],
             $this->storage->loadForPlugins([$firstPluginId, $secondPluginId])
         );
@@ -166,7 +190,7 @@ final class LegacyPluginConfigurationStorageTest extends DatabaseTestCase
             [$key, 'stat', 1, 0]
         );
 
-        self::assertIsInt($pluginId);
+        $this->assertIsInt($pluginId);
 
         $this->pluginIds[] = $pluginId;
 
@@ -181,6 +205,6 @@ final class LegacyPluginConfigurationStorageTest extends DatabaseTestCase
             [$pluginId, $key, $value]
         );
 
-        self::assertIsInt($id);
+        $this->assertIsInt($id);
     }
 }
