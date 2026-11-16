@@ -33,12 +33,12 @@ final readonly class PluginSettingsProvider
     /**
      * @return list<Plugin>
      */
-    public function getInstalledPlugins(?int $type = null): array
+    public function getInstalledPlugins(?int $type = null, ?int $active = null): array
     {
         $plugins = [];
 
         foreach ($this->getInstalledPluginData() as $data) {
-            if ($type !== null && $data['type'] !== PluginType::string($type)) {
+            if (($type !== null && $data['type'] !== PluginType::string($type)) || ($active !== null && $data['active'] !== $active)) {
                 continue;
             }
 
