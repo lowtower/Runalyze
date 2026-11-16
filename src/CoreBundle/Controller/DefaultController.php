@@ -25,6 +25,7 @@ use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\View\Activity\Context as ActivityContext;
 use RunalyzePluginPanel_Prognose;
+use RunalyzePluginPanel_Rechenspiele;
 use SessionAccountHandler;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -283,6 +284,27 @@ class DefaultController extends AbstractPluginsAwareController
         }
 
         return $this->includeOldScript('../plugin/' . $plugin . '/' . $file);
+    }
+
+    /**
+     * @throws Throwable if the legacy calculations window throws
+     */
+    #[Route(path: '/plugin/RunalyzePluginPanel_Rechenspiele/window.php', methods: ['GET', 'POST'], priority: 10)]
+    public function rechenspieleWindowAction(): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
+
+        /** @var RunalyzePluginPanel_Rechenspiele $Plugin */
+        $Plugin = $this->instantiatePluginByKey('RunalyzePluginPanel_Rechenspiele');
+
+        return $this->wrapLegacyContent(
+            $this->captureLegacyOutput(function () use ($Plugin): void {
+                include FRONTEND_PATH . '../plugin/RunalyzePluginPanel_Rechenspiele/window.php';
+            })->getContent(),
+            $this->requestStack->getCurrentRequest()
+        );
     }
 
     /**
