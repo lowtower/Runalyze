@@ -1,28 +1,34 @@
 <?php
 
-namespace Runalyze\Bundle\CoreBundle\Services\Dashboard;
+declare(strict_types=1);
+
+namespace Runalyze\\Bundle\\CoreBundle\\Services\\Dashboard;
 
 use Plugin;
-use PluginFactory;
 use PluginType;
-use Symfony\Component\HttpFoundation\Request;
+use Runalyze\\Bundle\\CoreBundle\\Services\\PluginSettingsProvider;
+use Symfony\\Component\\HttpFoundation\\Request;
 
 final readonly class DashboardStatisticsProvider
 {
     public function __construct(
-        private PluginFactory $pluginFactory
+        private PluginSettingsProvider $pluginSettingsProvider
     ) {}
 
-    /**
-     * @throws \InvalidArgumentException when the requested plugin does not exist
-     */
     public function getStatistics(Request $request): DashboardStatistics
     {
-        $activeStatistics = $this->pluginFactory->activePlugins(PluginType::STAT);
+        $statistics = $this->pluginSettingsProvider->getInstalledPlugins(PluginType::STAT);
+        $activeStatistics = array_values(array_filter(
+            $statistics,
+            static fn (Plugin $plugin): bool => $plugin->isActive()
+        ));
+        $variousStatistics = array_values(array_filter(
+            $statistics,
+            static fn (Plugin $plugin): bool => $plugin->isHidden()
+        ));
         $navigation = [];
 
-        foreach ($activeStatistics as $index => $key) {
-            $plugin = $this->pluginFactory->newInstance($key);
+        foreach ($activeStatistics as $index => $plugin) {
             $navigation[] = [
                 'label' => $plugin->name(),
                 'href' => Plugin::$DISPLAY_URL . '/' . $plugin->id(),
@@ -31,13 +37,10 @@ final readonly class DashboardStatisticsProvider
             ];
         }
 
-        $variousStatistics = $this->pluginFactory->variousPlugins();
-
         if ($variousStatistics !== []) {
             $children = [];
 
-            foreach ($variousStatistics as $key) {
-                $plugin = $this->pluginFactory->newInstance($key);
+            foreach ($variousStatistics as $plugin) {
                 $children[] = [
                     'label' => $plugin->name(),
                     'href' => Plugin::$DISPLAY_URL . '/' . $plugin->id(),
@@ -62,7 +65,7 @@ final readonly class DashboardStatisticsProvider
         }
 
         if ($request->query->has('pluginid')) {
-            $plugin = $this->pluginFactory->newInstanceFor($request->query->getInt('pluginid'));
+            $plugin = $this->pluginSettingsProvider->getInstalledPluginById($request->query->getInt('pluginid'));
 
             if (! $plugin->isInActive()) {
                 return new DashboardStatistics($navigation, null, $plugin, $activeStatistics !== []);
@@ -73,11 +76,6 @@ final readonly class DashboardStatisticsProvider
             return new DashboardStatistics($navigation, null, null, false);
         }
 
-        return new DashboardStatistics(
-            $navigation,
-            null,
-            $this->pluginFactory->newInstance($activeStatistics[0]),
-            true
-        );
+        return new DashboardStatistics($navigation, null, $activeStatistics[0], true);
     }
 }
