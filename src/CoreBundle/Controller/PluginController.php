@@ -5,6 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Controller;
 use Ajax;
 use ConfigTabPlugins;
 use Frontend;
+use InvalidArgumentException;
 use HTML;
 use Icon;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -105,7 +106,12 @@ class PluginController extends AbstractPluginsAwareController
                         throw new BadRequestHttpException('Invalid plugin activation state.');
                     }
 
-                    $this->pluginInstallationManager->setInstalledPluginActive($plugin->id(), (int) $active);
+                    try {
+                        $this->pluginInstallationManager->setInstalledPluginActive($plugin->id(), (int) $active);
+                    } catch (InvalidArgumentException $exception) {
+                        throw new BadRequestHttpException('Invalid plugin activation state.', $exception);
+                    }
+
                     $plugin = $this->instantiatePluginById($plugin->id());
 
                     Ajax::setReloadFlag(Ajax::$RELOAD_ALL);
