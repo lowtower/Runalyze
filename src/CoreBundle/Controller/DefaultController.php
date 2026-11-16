@@ -411,7 +411,7 @@ class DefaultController extends AbstractPluginsAwareController
     }
 
     /**
-     * @throws NotFoundHttpException if no feedback recipient is configured
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException if no feedback recipient is configured
      */
     #[Route(path: '/feedback', name: 'feedback', methods: ['GET', 'POST'])]
     public function feedbackAction(Request $request, ?Account $account = null): Response
