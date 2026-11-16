@@ -76,7 +76,7 @@ final class PluginSettingsProviderTest extends TestCase
         $provider = $this->createProvider([]);
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('No plugin found for id "17".');
+        $this->expectExceptionMessageIsOrContains('No plugin found for id "17".');
 
         $provider->getInstalledPluginById(17);
     }
@@ -98,7 +98,7 @@ final class PluginSettingsProviderTest extends TestCase
         $provider = $this->createProvider([]);
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Plugin with key "missing-plugin" is not installed.');
+        $this->expectExceptionMessageIsOrContains('Plugin with key "missing-plugin" is not installed.');
 
         $provider->getInstalledPluginByKey('missing-plugin');
     }
