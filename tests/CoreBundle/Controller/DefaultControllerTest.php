@@ -11,6 +11,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginEntity;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
+use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
 use Runalyze\Model\Account\UserRole;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -481,6 +482,21 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             $this->getEntityManager()->flush();
             PluginFactory::clearCache();
         }
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPrognoseCalculatorWindowUsesTheInstalledPlugin(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        /** @var PluginInstallationManager $installationManager */
+        $installationManager = self::getContainer()->get(PluginInstallationManager::class);
+        $installationManager->install('RunalyzePluginPanel_Prognose');
+
+        $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.php');
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('id="prognosis-calculator"', (string) $this->Client->getResponse()->getContent());
     }
 
     public function testPluginActionRequiresAuthentication(): void
