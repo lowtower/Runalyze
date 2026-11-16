@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
 use PluginFactory;
+use ReflectionProperty;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
@@ -123,7 +124,7 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->loginClient($this->Client, $this->Account, 'default');
         $this->request('GET', '/dashboard');
 
-        $pluginsProperty = new \\ReflectionProperty(PluginFactory::class, 'Plugins');
+        $pluginsProperty = new ReflectionProperty(PluginFactory::class, 'Plugins');
         $originalPlugins = $pluginsProperty->getValue();
         $pluginsProperty->setValue(null, []);
 
