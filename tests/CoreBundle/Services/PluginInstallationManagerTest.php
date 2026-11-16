@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\\Bundle\\CoreBundle\\Tests\\Services;
+namespace Runalyze\Bundle\CoreBundle\Tests\Services;
 
-use Doctrine\\Persistence\\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use InvalidArgumentException;
 use LogicException;
-use PHPUnit\\Framework\\Attributes\\Group;
-use PHPUnit\\Framework\\TestCase;
-use Runalyze\\Bundle\\CoreBundle\\Entity\\Account;
-use Runalyze\\Bundle\\CoreBundle\\Services\\LegacyPluginInstantiator;
-use Runalyze\\Bundle\\CoreBundle\\Services\\PluginInstallationManager;
-use Symfony\\Component\\Security\\Core\\Authentication\\Token\\Storage\\TokenStorageInterface;
-use Symfony\\Component\\Security\\Core\\Authentication\\Token\\TokenInterface;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\TestCase;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
+use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 #[Group('plugin')]
 final class PluginInstallationManagerTest extends TestCase
