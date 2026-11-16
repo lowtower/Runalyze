@@ -82,7 +82,9 @@ final readonly class PluginInstallationManager
             throw new InvalidArgumentException('Plugin activation state is invalid.');
         }
 
-        return $this->getPluginRepository()->setActiveForAccount($this->getAccount(), $pluginId, $active);
+        $account = $this->getAccount();
+
+        return $this->getPluginRepository()->setActiveForAccount($account, $pluginId, $active);
     }
 
     /**
