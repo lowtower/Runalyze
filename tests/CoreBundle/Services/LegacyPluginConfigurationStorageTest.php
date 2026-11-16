@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\Tests\CoreBundle\Services;
+namespace Runalyze\Tests;
 
 use PHPUnit\Framework\Attributes\Group;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginConfigurationStorage;
-use Runalyze\Tests\DatabaseTestCase;
 
 #[Group('dependsOn')]
 #[Group('dependsOnOldDatabase')]
@@ -14,9 +13,7 @@ final class LegacyPluginConfigurationStorageTest extends DatabaseTestCase
 {
     private LegacyPluginConfigurationStorage $storage;
 
-    /**
-     * @var int[]
-     */
+    /** @var int[] */
     private array $pluginIds = [];
 
     protected function setUp(): void
@@ -28,116 +25,148 @@ final class LegacyPluginConfigurationStorageTest extends DatabaseTestCase
 
     protected function tearDown(): void
     {
-        foreach ($this->pluginIds as $pluginId) {
-            \Cache::delete('PluginConf_' . $pluginId);
+        try {
+            foreach ($this->pluginIds as $pluginId) {
+                \Cache::delete('PluginConf_' . $pluginId);
+            }
+        } finally {
+            parent::tearDown();
         }
-
-        parent::tearDown();
     }
 
-    public function testLoadForPluginsReturnsConfigurationGroupedByPluginId(): void
+    public function testLoadForPluginsReturnsGroupedConfigurationValues(): void
     {
-        $firstPluginId = $this->createPlugin();
-        $secondPluginId = $this->createPlugin();
+        $firstPluginId = $this->createPlugin('first-plugin');
+        $secondPluginId = $this->createPlugin('second-plugin');
 
-        $this->insertConfiguration($firstPluginId, 'first-setting', 'first-value');
-        $this->insertConfiguration($secondPluginId, 'second-setting', 'second-value');
+        $this->insertConfiguration($firstPluginId, 'first-key', 'first-value');
+        $this->insertConfiguration($secondPluginId, 'second-key', 'second-value');
 
-        self::assertSame([
-            $firstPluginId => ['first-setting' => 'first-value'],
-            $secondPluginId => ['second-setting' => 'second-value'],
-        ], $this->storage->loadForPlugins([$firstPluginId, $secondPluginId]));
+        $this->assertSame(
+            [
+                $firstPluginId => ['first-key' => 'first-value'],
+                $secondPluginId => ['second-key' => 'second-value'],
+            ],
+            $this->storage->loadForPlugins([
+                $firstPluginId,
+                (string) $firstPluginId,
+                $secondPluginId,
+            ])
+        );
     }
 
-    public function testLoadForPluginsLoadsMissingPluginConfigurationsWithoutRefreshingCachedPlugins(): void
+    public function testLoadForPluginsLoadsMissingConfigurationsWithoutReloadingCachedOnes(): void
     {
-        $cachedPluginId = $this->createPlugin();
-        $missingPluginId = $this->createPlugin();
+        $firstPluginId = $this->createPlugin('first-plugin');
+        $secondPluginId = $this->createPlugin('second-plugin');
 
-        $this->insertConfiguration($cachedPluginId, 'cached-setting', 'cached-value');
+        $this->insertConfiguration($firstPluginId, 'key', 'cached-value');
 
-        self::assertSame([
-            $cachedPluginId => ['cached-setting' => 'cached-value'],
-        ], $this->storage->loadForPlugins([$cachedPluginId]));
+        $this->assertSame(
+            [$firstPluginId => ['key' => 'cached-value']],
+            $this->storage->loadForPlugins([$firstPluginId])
+        );
 
-        $this->insertConfiguration($cachedPluginId, 'new-cached-setting', 'not-loaded');
-        $this->insertConfiguration($missingPluginId, 'missing-setting', 'missing-value');
+        $this->insertConfiguration($secondPluginId, 'key', 'loaded-value');
 
-        self::assertSame([
-            $cachedPluginId => ['cached-setting' => 'cached-value'],
-            $missingPluginId => ['missing-setting' => 'missing-value'],
-        ], $this->storage->loadForPlugins([$cachedPluginId, $missingPluginId]));
+        $this->DB->exec(
+            'UPDATE `' . PREFIX . 'plugin_conf` '
+            . 'SET `value` = "changed-value" '
+            . 'WHERE `pluginid` = ' . $firstPluginId
+        );
+
+        $this->assertSame(
+            [
+                $firstPluginId => ['key' => 'cached-value'],
+                $secondPluginId => ['key' => 'loaded-value'],
+            ],
+            $this->storage->loadForPlugins([$firstPluginId, $secondPluginId])
+        );
     }
 
     public function testLoadForPluginsCachesEmptyConfigurations(): void
     {
-        $pluginId = $this->createPlugin();
+        $pluginId = $this->createPlugin('empty-plugin');
 
-        self::assertSame([$pluginId => []], $this->storage->loadForPlugins([$pluginId]));
-
-        $this->insertConfiguration($pluginId, 'new-setting', 'new-value');
-
-        self::assertSame([$pluginId => []], $this->storage->loadForPlugins([$pluginId]));
-    }
-
-    public function testInsertInvalidatesOnlyTheAffectedPluginCache(): void
-    {
-        $pluginId = $this->createPlugin();
-        $otherPluginId = $this->createPlugin();
-
-        $this->insertConfiguration($pluginId, 'existing-setting', 'existing-value');
-        $this->insertConfiguration($otherPluginId, 'other-setting', 'other-value');
-
-        $this->storage->loadForPlugins([$pluginId, $otherPluginId]);
-
-        $this->insertConfiguration($otherPluginId, 'external-setting', 'not-loaded');
-
-        $this->storage->insert($pluginId, 'inserted-setting', 'inserted-value');
-
-        self::assertSame([
-            $pluginId => [
-                'existing-setting' => 'existing-value',
-                'inserted-setting' => 'inserted-value',
-            ],
-            $otherPluginId => ['other-setting' => 'other-value'],
-        ], $this->storage->loadForPlugins([$pluginId, $otherPluginId]));
-    }
-
-    public function testUpdateInvalidatesOnlyTheAffectedPluginCache(): void
-    {
-        $pluginId = $this->createPlugin();
-        $otherPluginId = $this->createPlugin();
-
-        $this->insertConfiguration($pluginId, 'setting', 'original-value');
-        $this->insertConfiguration($otherPluginId, 'other-setting', 'original-other-value');
-
-        $this->storage->loadForPlugins([$pluginId, $otherPluginId]);
-
-        $this->DB->query(
-            'UPDATE `' . PREFIX . 'plugin_conf` '
-            . 'SET `value`="external-value" '
-            . 'WHERE `pluginid`=' . $otherPluginId . ' AND `config`="other-setting"'
+        $this->assertSame(
+            [$pluginId => []],
+            $this->storage->loadForPlugins([$pluginId])
         );
 
-        $this->storage->update($pluginId, 'setting', 'updated-value');
+        $this->insertConfiguration($pluginId, 'key', 'new-value');
 
-        self::assertSame([
-            $pluginId => ['setting' => 'updated-value'],
-            $otherPluginId => ['other-setting' => 'original-other-value'],
-        ], $this->storage->loadForPlugins([$pluginId, $otherPluginId]));
+        $this->assertSame(
+            [$pluginId => []],
+            $this->storage->loadForPlugins([$pluginId])
+        );
     }
 
-    private function createPlugin(): int
+    public function testInsertInvalidatesOnlyTheAffectedPluginConfiguration(): void
+    {
+        $firstPluginId = $this->createPlugin('first-plugin');
+        $secondPluginId = $this->createPlugin('second-plugin');
+
+        $this->insertConfiguration($firstPluginId, 'existing-key', 'existing-value');
+        $this->insertConfiguration($secondPluginId, 'key', 'cached-value');
+
+        $this->storage->loadForPlugins([$firstPluginId, $secondPluginId]);
+
+        $this->DB->exec(
+            'UPDATE `' . PREFIX . 'plugin_conf` '
+            . 'SET `value` = "changed-value" '
+            . 'WHERE `pluginid` = ' . $secondPluginId
+        );
+
+        $this->storage->insert($firstPluginId, 'new-key', 'new-value');
+
+        $this->assertSame(
+            [
+                $firstPluginId => [
+                    'existing-key' => 'existing-value',
+                    'new-key' => 'new-value',
+                ],
+                $secondPluginId => ['key' => 'cached-value'],
+            ],
+            $this->storage->loadForPlugins([$firstPluginId, $secondPluginId])
+        );
+    }
+
+    public function testUpdateInvalidatesOnlyTheAffectedPluginConfiguration(): void
+    {
+        $firstPluginId = $this->createPlugin('first-plugin');
+        $secondPluginId = $this->createPlugin('second-plugin');
+
+        $this->insertConfiguration($firstPluginId, 'key', 'old-value');
+        $this->insertConfiguration($secondPluginId, 'key', 'cached-value');
+
+        $this->storage->loadForPlugins([$firstPluginId, $secondPluginId]);
+
+        $this->DB->exec(
+            'UPDATE `' . PREFIX . 'plugin_conf` '
+            . 'SET `value` = "changed-value" '
+            . 'WHERE `pluginid` = ' . $secondPluginId
+        );
+
+        $this->storage->update($firstPluginId, 'key', 'updated-value');
+
+        $this->assertSame(
+            [
+                $firstPluginId => ['key' => 'updated-value'],
+                $secondPluginId => ['key' => 'cached-value'],
+            ],
+            $this->storage->loadForPlugins([$firstPluginId, $secondPluginId])
+        );
+    }
+
+    private function createPlugin(string $key): int
     {
         $pluginId = $this->DB->insert(
             'plugin',
-            ['key', 'type'],
-            ['LegacyPluginConfigurationStorageTest', 'stat']
+            ['key', 'type', 'active', 'order'],
+            [$key, 'stat', 1, 0]
         );
 
-        if (! is_int($pluginId)) {
-            self::fail('The plugin fixture could not be inserted.');
-        }
+        self::assertIsInt($pluginId);
 
         $this->pluginIds[] = $pluginId;
 
@@ -146,12 +175,12 @@ final class LegacyPluginConfigurationStorageTest extends DatabaseTestCase
 
     private function insertConfiguration(int $pluginId, string $key, string $value): void
     {
-        $insertedId = $this->DB->insert(
+        $id = $this->DB->insert(
             'plugin_conf',
             ['pluginid', 'config', 'value'],
             [$pluginId, $key, $value]
         );
 
-        self::assertIsInt($insertedId);
+        self::assertIsInt($id);
     }
 }
