@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Services\Dashboard;
 
+use Doctrine\Persistence\ManagerRegistry;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Plugin;
@@ -17,7 +18,6 @@ use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -86,7 +86,9 @@ final class DashboardStatisticsProviderTest extends TestCase
             $this->pluginData(23, Plugin::ACTIVE, 1),
         ]));
 
-        $statistics = $provider->getStatistics(new Request(query: ['pluginid' => '23']));
+        $statistics = $provider->getStatistics(new Request(query: [
+            'pluginid' => '23',
+        ]));
 
         $this->assertSame(23, $statistics->plugin?->id());
     }
@@ -98,7 +100,9 @@ final class DashboardStatisticsProviderTest extends TestCase
             $this->pluginData(23, Plugin::ACTIVE_NOT, 2),
         ]));
 
-        $statistics = $provider->getStatistics(new Request(query: ['pluginid' => '23']));
+        $statistics = $provider->getStatistics(new Request(query: [
+            'pluginid' => '23',
+        ]));
 
         $this->assertSame(17, $statistics->plugin?->id());
     }
@@ -134,7 +138,9 @@ final class DashboardStatisticsProviderTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
 
-        $provider->getStatistics(new Request(query: ['pluginid' => '999']));
+        $provider->getStatistics(new Request(query: [
+            'pluginid' => '999',
+        ]));
     }
 
     public function testItGroupsVariousStatisticsInASubmenu(): void
@@ -166,7 +172,9 @@ final class DashboardStatisticsProviderTest extends TestCase
             $this->pluginData(41, Plugin::ACTIVE, 1, PluginType::string(PluginType::PANEL), DashboardStatisticsProviderTestPanel::class),
         ]));
 
-        $statistics = $provider->getStatistics(new Request(query: ['pluginid' => '41']));
+        $statistics = $provider->getStatistics(new Request(query: [
+            'pluginid' => '41',
+        ]));
 
         $this->assertSame(41, $statistics->plugin?->id());
         $this->assertFalse($statistics->hasActiveStatistics);
