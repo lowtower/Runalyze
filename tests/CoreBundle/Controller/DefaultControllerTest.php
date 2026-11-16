@@ -46,7 +46,6 @@ final class DashboardInstantiationTestPanel extends PluginPanel
     protected function displayContent(): void {}
 }
 
-
 final class DashboardStatisticsInstantiationTestPlugin extends PluginStat
 {
     public static int $instantiationCount = 0;
