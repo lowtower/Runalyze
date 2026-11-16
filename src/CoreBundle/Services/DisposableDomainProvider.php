@@ -18,7 +18,7 @@ class DisposableDomainProvider
             return $this->domains;
         }
 
-        $filePath = $this->projectDir . '/var/email/disposable-domains.txt';
+        $filePath = $this->projectDir . '/data/email/disposable-domains.txt';
 
         if (! file_exists($filePath)) {
             return $this->domains = $this->getFallback();
