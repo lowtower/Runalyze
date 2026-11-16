@@ -269,7 +269,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(SharedAthleteStatisticsProvider::class);
 
     $services->set(PluginFactory::class)
-        ->class(PluginFactory::class)
         ->arg('$pluginInstantiator', service(LegacyPluginInstantiator::class))
         ->arg('$pluginInstallationManager', service(PluginInstallationManager::class));
 
@@ -1109,7 +1108,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set('app.frontend', Frontend::class)
         ->arg('$parameterBag', service('parameter_bag'));
 
-    # $services->load('Runalyze\Bundle\CoreBundle\\Component\\Tool\Backup\\', __DIR__ . '/../src/CoreBundle/Component/Tool/Backup/');
 
     $services->set('app.disposable_domain_provider', DisposableDomainProvider::class)
         ->arg('$projectDir', '%kernel.project_dir%');
