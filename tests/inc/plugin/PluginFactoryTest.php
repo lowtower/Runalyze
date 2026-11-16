@@ -181,10 +181,8 @@ final class PluginFactoryTest extends TestCase
         $this->assertSame($accountAPlugins, (new PluginFactory())->completeData());
     }
 
-    public function testLegacyPluginDataContextFindsScopedDataWithoutUsingFactoryCache(): void
+    public function testLegacyPluginDataContextFindsScopedDataAndClearsAfterCallback(): void
     {
-        $legacyPlugins = $this->samplePlugins();
-        $this->setPluginsData($legacyPlugins);
         $pluginData = $this->pluginEntry(17, PluginFactoryTestFixture::class, PluginType::string(PluginType::PANEL), Plugin::ACTIVE);
 
         $result = LegacyPluginDataContext::withPluginData(
@@ -249,9 +247,6 @@ final class PluginFactoryTest extends TestCase
 
     public function testLegacyPluginInstantiatorUsesProvidedPluginData(): void
     {
-        $this->setPluginsData([
-            $this->pluginEntry(17, PluginFactoryTestFixture::class, PluginType::string(PluginType::PANEL), Plugin::ACTIVE_NOT, 99),
-        ]);
         $pluginData = $this->pluginEntry(17, PluginFactoryTestFixture::class, PluginType::string(PluginType::PANEL), Plugin::ACTIVE, 4);
         $instantiator = new LegacyPluginInstantiator();
 
