@@ -21,6 +21,7 @@ use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
+use RunalyzePluginPanel_Prognose;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\View\Activity\Context as ActivityContext;
@@ -302,9 +303,12 @@ class DefaultController extends AbstractPluginsAwareController
             2
         );
 
+        /** @var RunalyzePluginPanel_Prognose $prognosePlugin */
+        $prognosePlugin = $this->instantiatePluginByKey('RunalyzePluginPanel_Prognose');
+
         return $this->wrapLegacyContent(
-            $this->captureLegacyOutput(function () use ($topResults): void {
-                new \Prognose_PrognosisWindow($topResults)->display();
+            $this->captureLegacyOutput(function () use ($topResults, $prognosePlugin): void {
+                new \Prognose_PrognosisWindow($topResults, $prognosePlugin->getDistances())->display();
             })->getContent(),
             $this->requestStack->getCurrentRequest()
         );
