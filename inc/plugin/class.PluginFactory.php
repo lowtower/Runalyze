@@ -64,17 +64,6 @@ class PluginFactory
         )->fetchAll();
     }
 
-    public static function dataFor(int $id): array
-    {
-        foreach (self::Plugins() as $data) {
-            if ($data['id'] == $id) {
-                return $data;
-            }
-        }
-
-        return [];
-    }
-
     /**
      * @throws LogicException if there is no authenticated account
      */
