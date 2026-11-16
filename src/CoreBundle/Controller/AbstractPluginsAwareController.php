@@ -72,7 +72,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
             }
 
             $panel = $this->pluginInstantiator->instantiate($pluginData['key'], $pluginData['id'], $pluginData);
-            $panelContent = $this->getResponseFor($panel->id(), $request, $account)
+            $panelContent = $this->getResponseForPlugin($panel, $request, $account)
                 ->getContent();
 
             if ($panel instanceof RunalyzePluginPanel_Sports || $panel instanceof RunalyzePluginPanel_Prognose) {
@@ -104,6 +104,14 @@ abstract class AbstractPluginsAwareController extends AbstractController
             return new Response()->setContent($content);
         }
 
+        return $this->getResponseForPlugin($plugin, $request, $account);
+    }
+
+    /**
+     * @throws Throwable if a legacy plugin throws
+     */
+    private function getResponseForPlugin(LegacyPlugin $plugin, Request $request, Account $account): Response
+    {
         if ($plugin instanceof RunalyzePluginPanel_Sports) {
             return $this->getResponseForSportsPanel($account, $plugin);
         }
@@ -113,7 +121,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
         }
 
         if ($plugin instanceof RunalyzePluginStat_MonthlyStats) {
-            return $this->getResponseForMonthlyStats($request, $account, $pluginId);
+            return $this->getResponseForMonthlyStats($request, $account, $plugin->id());
         }
 
         if ($plugin instanceof PluginPanel) {
