@@ -139,9 +139,15 @@ jobs:
 
       - name: Save main branch coverage baseline
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          mkdir -p coverage-baseline/var/coverage
+          cp var/coverage/clover.xml coverage-baseline/var/coverage/clover.xml
+
+      - name: Store main branch coverage baseline in cache
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/cache/save@v4
         with:
-          path: var/coverage/clover.xml
+          path: coverage-baseline/var/coverage/clover.xml
           key: ${{ env.COVERAGE_CACHE_PREFIX }}${{ github.sha }}
 
       - name: Restore base branch coverage
