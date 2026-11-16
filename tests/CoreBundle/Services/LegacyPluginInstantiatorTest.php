@@ -16,8 +16,8 @@ use PluginInstaller;
 use PluginPanel;
 use PluginType;
 use ReflectionProperty;
-use Runalyze\Bundle\CoreBundle\Services\LegacyPluginDataContext;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginConfigurationStorage;
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginDataContext;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 use RuntimeException;
@@ -200,9 +200,7 @@ final class LegacyPluginInstantiatorTest extends TestCase
 
     public function testLegacyPluginInstantiatorSupportsCustomPluginConstructors(): void
     {
-        $pluginData = [
-            ...$this->pluginData(17),
-        ];
+        $pluginData = $this->pluginData(17);
         $instantiator = new LegacyPluginInstantiator();
 
         $plugin = $instantiator->instantiate(LegacyPluginInstantiatorCustomConstructorFixture::class, 17, $pluginData);
@@ -214,9 +212,7 @@ final class LegacyPluginInstantiatorTest extends TestCase
     public function testLegacyPluginInstantiatorUsesInjectedPluginConfigurationStorage(): void
     {
         $pluginId = 17;
-        $pluginData = [
-            ...$this->pluginData($pluginId),
-        ];
+        $pluginData = $this->pluginData($pluginId);
         $pluginData['key'] = LegacyPluginInstantiatorConfigurationFixture::class;
         $storage = new LegacyPluginInstantiatorTestConfigurationStorage();
         $instantiator = new LegacyPluginInstantiator($storage);
