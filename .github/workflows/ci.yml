@@ -17,6 +17,7 @@ concurrency:
 
 env:
   PHP_VERSION: '8.5.12'
+  COVERAGE_CACHE_PREFIX: coverage-main-xdebug
 
 jobs:
   qa:
@@ -31,7 +32,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
-          extensions: ctype, iconv
+          extensions: ctype, iconv, pdo_mysql, pdo_sqlite, sqlite3
           coverage: none
 
       - name: Install Composer dependencies
@@ -105,7 +106,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           extensions: ctype, iconv, pdo_mysql, pdo_sqlite, sqlite3
-          coverage: pcov
+          coverage: xdebug
 
       - name: Install system dependencies
         run: |
@@ -141,7 +142,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: var/coverage/clover.xml
-          key: coverage-main-${{ github.sha }}
+          key: ${{ env.COVERAGE_CACHE_PREFIX }}${{ github.sha }}
 
       - name: Restore base branch coverage
         if: github.event_name == 'pull_request'
@@ -149,7 +150,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: coverage-baseline/var/coverage/clover.xml
-          key: coverage-main-${{ github.event.pull_request.base.sha }}
+          key: ${{ env.COVERAGE_CACHE_PREFIX }}${{ github.event.pull_request.base.sha }}
 
       - name: Checkout pull request base revision
         if: github.event_name == 'pull_request' && steps.baseline-cache.outputs.cache-hit != 'true'
@@ -204,6 +205,7 @@ jobs:
         env:
           COVERAGE_FAILED: ${{ steps.coverage.outputs.failed }}
         run: |
+          echo "Coverage gate input: '$COVERAGE_FAILED'"
           if [ "$COVERAGE_FAILED" != "false" ]; then
             echo "::error::Statement coverage decreased or could not be determined."
             exit 1
