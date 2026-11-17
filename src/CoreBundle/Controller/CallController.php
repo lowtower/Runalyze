@@ -30,7 +30,6 @@ use Throwable;
 class CallController extends AbstractController
 {
     use AppServiceSubscriberTrait;
-    use LegacyOutputCaptureTrait;
 
     public function __construct(
         private TokenStorageInterface $tokenStorage,
@@ -39,7 +38,8 @@ class CallController extends AbstractController
         private ConfigurationUpdater $configurationUpdater,
         private PluginInstallationManager $pluginInstallationManager,
         private PluginSettingsProvider $pluginSettingsProvider,
-        private LegacyPluginOutputRenderer $legacyPluginOutputRenderer
+        private LegacyPluginOutputRenderer $legacyPluginOutputRenderer,
+        private LegacyPluginResponseFactory $legacyPluginResponseFactory
     ) {}
 
     /**
@@ -55,7 +55,7 @@ class CallController extends AbstractController
 
         $dataBrowserContent = $this->renderView('my/data_browser.html.twig', new DataBrowser()->templateData());
 
-        return $this->wrapLegacyContent($dataBrowserContent, $this->requestStack->getCurrentRequest());
+        return $this->legacyPluginResponseFactory->create($dataBrowserContent, $this->requestStack->getCurrentRequest());
     }
 
     /**
@@ -111,7 +111,7 @@ class CallController extends AbstractController
             echo Ajax::wrapJSforDocumentReady('Runalyze.Overlay.removeClasses();');
         })->getContent();
 
-        return $this->wrapLegacyContent($legacyContent, $this->requestStack->getCurrentRequest());
+        return $this->legacyPluginResponseFactory->create($legacyContent, $this->requestStack->getCurrentRequest());
     }
 
     #[Route(path: '/call/ajax.change.Config.php', methods: ['GET'])]
@@ -170,7 +170,7 @@ class CallController extends AbstractController
 
         new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
-        return $this->wrapLegacyContent(
+        return $this->legacyPluginResponseFactory->create(
             $this->renderView(
                 'shared/athlete/plot_sum_data.html.twig',
                 $this->getPlotSumData()
