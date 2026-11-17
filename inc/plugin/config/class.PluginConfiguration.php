@@ -80,10 +80,10 @@ class PluginConfiguration
         $this->Storage->insert($this->PluginID, $value->key(), $value->valueAsString());
     }
 
-    final public function updateFromPost(): void
+    final public function updateFromPost(array $postData): void
     {
         foreach ($this->Values as $value) {
-            $value->setValueFromPost();
+            $value->setValueFromPost($postData);
             $this->update($value->key());
         }
     }
