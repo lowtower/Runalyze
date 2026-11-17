@@ -20,6 +20,7 @@ use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Activity\ActivityContextFactory;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\LegacyCache;
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Runalyze\Metrics\Velocity\Unit\PaceEnum;
 use Runalyze\Service\ElevationCorrection\StepwiseElevationProfileFixer;
 use Runalyze\View\Activity\Context;
@@ -47,7 +48,8 @@ class ViewController extends AbstractController
         private ActivityContextFactory $activityContextFactory,
         private ConfigurationManager $configurationManager,
         private LegacyCache $legacyCache,
-        private RequestStack $requestStack
+        private RequestStack $requestStack,
+        private LegacyPluginOutputRenderer $legacyPluginOutputRenderer
     ) {}
 
     protected function getTrainingRepository(): TrainingRepository
@@ -178,10 +180,10 @@ class ViewController extends AbstractController
         }
 
         return $this->wrapLegacyContent(
-            $this->captureLegacyOutput(function () use ($context): void {
+            $this->legacyPluginOutputRenderer->render(function () use ($context): void {
                 $window = new Window($context);
                 $window->display();
-            })->getContent(),
+            }),
             $this->requestStack->getCurrentRequest()
         );
     }
@@ -220,10 +222,10 @@ class ViewController extends AbstractController
         }
 
         return $this->wrapLegacyContent(
-            $this->captureLegacyOutput(function () use ($context): void {
+            $this->legacyPluginOutputRenderer->render(function () use ($context): void {
                 $elevationInfo = new ElevationInfo($context);
                 $elevationInfo->display();
-            })->getContent(),
+            }),
             $this->requestStack->getCurrentRequest()
         );
     }
