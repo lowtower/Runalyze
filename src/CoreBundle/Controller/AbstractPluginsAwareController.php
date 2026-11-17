@@ -8,17 +8,16 @@ use HTML;
 use InvalidArgumentException;
 use Plugin as LegacyPlugin;
 use PluginPanel;
+use PluginType;
 use Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisData;
 use Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisSelection;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Model\Prognosis\PrognosisData;
 use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
-use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
@@ -46,7 +45,6 @@ abstract class AbstractPluginsAwareController extends AbstractController
     public function __construct(
         protected ManagerRegistry $doctrine,
         protected PluginInstallationManager $pluginInstallationManager,
-        protected LegacyPluginInstantiator $pluginInstantiator,
         protected LegacyPluginOutputRenderer $legacyPluginOutputRenderer,
         protected PluginSettingsProvider $pluginSettingsProvider,
         protected ConfigurationManager $configurationManager,
@@ -64,12 +62,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
         $this->IsShowingAllPanels = true;
         $content = '';
 
-        foreach ($this->pluginInstallationManager->getInstalledPluginData() as $pluginData) {
-            if ($pluginData['type'] !== Plugin::TYPE_PANEL || (int) $pluginData['active'] === Plugin::STATE_INACTIVE) {
-                continue;
-            }
-
-            $panel = $this->pluginInstantiator->instantiate($pluginData['key'], $pluginData['id'], $pluginData);
+        foreach ($this->pluginSettingsProvider->getInstalledPluginsExceptInactive(PluginType::PANEL) as $panel) {
             $panelContent = $this->getResponseForPlugin($panel, $request, $account)
                 ->getContent();
 
