@@ -15,6 +15,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,7 +38,8 @@ class CallController extends AbstractController
         private RequestStack $requestStack,
         private ConfigurationUpdater $configurationUpdater,
         private PluginInstallationManager $pluginInstallationManager,
-        private PluginSettingsProvider $pluginSettingsProvider
+        private PluginSettingsProvider $pluginSettingsProvider,
+        private LegacyPluginOutputRenderer $legacyPluginOutputRenderer
     ) {}
 
     /**
@@ -97,7 +99,7 @@ class CallController extends AbstractController
 
         new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
-        $legacyContent = $this->captureLegacyOutput(function (): void {
+        $legacyContent = $this->legacyPluginOutputRenderer->render(function (): void {
             $ConfigTabs = new ConfigTabs();
             $ConfigTabs->addDefaultTab(new ConfigTabGeneral());
             $ConfigTabs->addTab(new ConfigTabPlugins(
