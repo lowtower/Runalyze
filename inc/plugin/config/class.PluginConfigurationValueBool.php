@@ -29,9 +29,9 @@ class PluginConfigurationValueBool extends PluginConfigurationValue
         return $this->Value ? '1' : '0';
     }
 
-    public function setValueFromPost(): void
+    public function setValueFromPost(array $postData): void
     {
-        $this->setValue(isset($_POST[$this->Key]));
+        $this->setValue(isset($postData[$this->Key]));
     }
 
     /**

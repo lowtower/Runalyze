@@ -119,7 +119,7 @@ class PluginController extends AbstractPluginsAwareController
                     echo Ajax::getReloadCommand();
                 }
 
-                $plugin->displayConfigWindow();
+                $plugin->displayConfigWindow($request->request->all());
             } else {
                 echo '<em>' . __('Something went wrong ...') . '</em>';
             }

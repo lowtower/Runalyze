@@ -36,10 +36,10 @@ class PluginConfigurationValueDistance extends PluginConfigurationValueFloat
         return (string) round($this->value(), self::PRECISION);
     }
 
-    public function setValueFromPost(): void
+    public function setValueFromPost(array $postData): void
     {
-        if (isset($_POST[$this->Key])) {
-            $this->Value = (float) $_POST[$this->Key] * $this->unitSystem()->distanceToKmFactor();
+        if (isset($postData[$this->Key])) {
+            $this->Value = (float) $postData[$this->Key] * $this->unitSystem()->distanceToKmFactor();
         }
     }
 

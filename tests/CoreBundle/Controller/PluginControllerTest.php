@@ -221,6 +221,32 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertSame(Plugin::STATE_ACTIVE, $plugin->getActive());
     }
 
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPluginConfigActionPassesPostDataToLegacyConfiguration(): void
+    {
+        $plugin = new Plugin()
+            ->setAccount($this->Account)
+            ->setKey('RunalyzePluginPanel_TagsSummary')
+            ->setType(Plugin::TYPE_PANEL)
+            ->setActive(Plugin::STATE_ACTIVE)
+            ->setOrder(1);
+        $this->getEntityManager()->persist($plugin);
+        $this->getEntityManager()->flush();
+
+        $this->loginClient($this->Client, $this->Account, 'default');
+        $this->Client->request(
+            'POST',
+            '/call/call.Plugin.config.php?id=' . $plugin->getId(),
+            [
+                'edit' => 'true',
+                'tagssummary_timescale' => '3',
+            ]
+        );
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('Runalyze.reload', (string) $this->Client->getResponse()->getContent());
+    }
+
     public function testPluginDisplayActionRequiresAuthentication(): void
     {
         $this->request('GET', '/my/plugin/999999999');
