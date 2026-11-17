@@ -93,6 +93,18 @@ final class PluginConfigurationValueFormFieldFactoryTest extends TestCase
         $field = $this->factory->create($value);
 
         $this->assertInstanceOf(FormularInput::class, $field);
+        $this->assertStringContainsString(FormularInput::$SIZE_SMALL, $field->getCode());
+        $this->assertStringContainsString('miles', $field->getCode());
+    }
+
+    public function testDistancesValueUsesLegacyMilesLabelForImperialUnits(): void
+    {
+        $value = new PluginConfigurationValueDistances('distances');
+        $this->setUnitSystem($value, DistanceUnitSystem::IMPERIAL);
+
+        $field = $this->factory->create($value);
+
+        $this->assertInstanceOf(FormularInput::class, $field);
         $this->assertStringContainsString('miles', $field->getCode());
     }
 
