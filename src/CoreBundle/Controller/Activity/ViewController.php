@@ -10,7 +10,6 @@ use Runalyze\Bundle\CoreBundle\Component\Activity\Tool\BestSubSegmentsStatistics
 use Runalyze\Bundle\CoreBundle\Component\Activity\Tool\TimeSeriesStatistics;
 use Runalyze\Bundle\CoreBundle\Component\Activity\VO2maxCalculationDetailsDecorator;
 use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
-use Runalyze\Bundle\CoreBundle\Controller\LegacyOutputCaptureTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Trackdata;
@@ -20,6 +19,7 @@ use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Activity\ActivityContextFactory;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\LegacyCache;
+use Runalyze\Bundle\CoreBundle\Services\LegacyContentResponseFactory;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Runalyze\Metrics\Velocity\Unit\PaceEnum;
 use Runalyze\Service\ElevationCorrection\StepwiseElevationProfileFixer;
@@ -39,7 +39,6 @@ use TrainingView;
 class ViewController extends AbstractController
 {
     use AppServiceSubscriberTrait;
-    use LegacyOutputCaptureTrait;
 
     public function __construct(
         protected ManagerRegistry $doctrine,
@@ -49,7 +48,8 @@ class ViewController extends AbstractController
         private ConfigurationManager $configurationManager,
         private LegacyCache $legacyCache,
         private RequestStack $requestStack,
-        private LegacyPluginOutputRenderer $legacyPluginOutputRenderer
+        private LegacyPluginOutputRenderer $legacyPluginOutputRenderer,
+        private LegacyContentResponseFactory $legacyContentResponseFactory
     ) {}
 
     protected function getTrainingRepository(): TrainingRepository
