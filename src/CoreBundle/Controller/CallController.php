@@ -14,6 +14,7 @@ use PlotWeekSumData;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginResponseFactory;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
