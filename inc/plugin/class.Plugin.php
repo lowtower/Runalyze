@@ -314,9 +314,9 @@ abstract class Plugin
     /**
      * Displays the config window for editing the variables
      */
-    final public function displayConfigWindow(): void
+    final public function displayConfigWindow(array $postData = []): void
     {
-        $Window = new PluginConfigurationWindow($this);
+        $Window = new PluginConfigurationWindow($this, $postData);
         $Window->display();
     }
 }
