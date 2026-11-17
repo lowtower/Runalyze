@@ -13,6 +13,7 @@ use PlotSumData;
 use PlotWeekSumData;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
+use Runalyze\Bundle\CoreBundle\Services\LegacyContentResponseFactory;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
@@ -30,7 +31,6 @@ use Throwable;
 class CallController extends AbstractController
 {
     use AppServiceSubscriberTrait;
-    use LegacyOutputCaptureTrait;
 
     public function __construct(
         private TokenStorageInterface $tokenStorage,
@@ -39,7 +39,8 @@ class CallController extends AbstractController
         private ConfigurationUpdater $configurationUpdater,
         private PluginInstallationManager $pluginInstallationManager,
         private PluginSettingsProvider $pluginSettingsProvider,
-        private LegacyPluginOutputRenderer $legacyPluginOutputRenderer
+        private LegacyPluginOutputRenderer $legacyPluginOutputRenderer,
+        private LegacyContentResponseFactory $legacyContentResponseFactory
     ) {}
 
     /**
