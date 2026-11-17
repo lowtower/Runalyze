@@ -28,7 +28,7 @@ class PluginController extends AbstractPluginsAwareController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $legacyContent = $this->legacyPluginOutputRenderer->render(function () use ($request): void {
+        $legacyContent = $this->legacyPluginOutputRenderer->render(function () use ($request, $pluginDiscovery): void {
             new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
             $Pluginkey = $request->query->get('key');
