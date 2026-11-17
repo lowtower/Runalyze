@@ -55,7 +55,7 @@ class CallController extends AbstractController
 
         $dataBrowserContent = $this->renderView('my/data_browser.html.twig', new DataBrowser()->templateData());
 
-        return $this->wrapLegacyContent($dataBrowserContent, $this->requestStack->getCurrentRequest());
+        return $this->legacyContentResponseFactory->create($dataBrowserContent, $this->requestStack->getCurrentRequest());
     }
 
     /**
@@ -111,7 +111,7 @@ class CallController extends AbstractController
             echo Ajax::wrapJSforDocumentReady('Runalyze.Overlay.removeClasses();');
         })->getContent();
 
-        return $this->wrapLegacyContent($legacyContent, $this->requestStack->getCurrentRequest());
+        return $this->legacyContentResponseFactory->create($legacyContent, $this->requestStack->getCurrentRequest());
     }
 
     #[Route(path: '/call/ajax.change.Config.php', methods: ['GET'])]
@@ -170,7 +170,7 @@ class CallController extends AbstractController
 
         new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
-        return $this->wrapLegacyContent(
+        return $this->legacyContentResponseFactory->create(
             $this->renderView(
                 'shared/athlete/plot_sum_data.html.twig',
                 $this->getPlotSumData()
