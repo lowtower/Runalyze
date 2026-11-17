@@ -31,6 +31,24 @@ final class PluginConfigurationValueIntTest extends TestCase
         yield 'empty string becomes zero' => ['', 0];
     }
 
+    public function testSetValueFromPostUsesExplicitPostData(): void
+    {
+        $Value = new PluginConfigurationValueInt('key');
+        $Value->setValueFromPost([
+            'key' => '42',
+        ]);
+
+        $this->assertSame(42, $Value->value());
+    }
+
+    public function testSetValueFromPostLeavesValueUnchangedWhenKeyIsMissing(): void
+    {
+        $Value = new PluginConfigurationValueInt('key', '', '', 5);
+        $Value->setValueFromPost([]);
+
+        $this->assertSame(5, $Value->value());
+    }
+
     public function testValueAsStringReturnsCastValueAsString(): void
     {
         $Value = new PluginConfigurationValueInt('key');

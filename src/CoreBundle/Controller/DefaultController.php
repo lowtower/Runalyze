@@ -21,18 +21,19 @@ use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
+use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\View\Activity\Context as ActivityContext;
 use RunalyzePluginPanel_Prognose;
 use RunalyzePluginPanel_Rechenspiele;
+use RunalyzePluginStat_Wettkampf;
 use SessionAccountHandler;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -51,9 +52,10 @@ class DefaultController extends AbstractPluginsAwareController
     public function __construct(
         ManagerRegistry $doctrine,
         PluginInstallationManager $pluginInstallationManager,
-        PluginDiscovery $pluginDiscovery,
+        private readonly PluginDiscovery $pluginDiscovery,
         LegacyPluginInstantiator $pluginInstantiator,
         LegacyPluginOutputRenderer $legacyPluginOutputRenderer,
+        PluginSettingsProvider $pluginSettingsProvider,
         private readonly AuthorizationCheckerInterface $authorizationChecker,
         private readonly AuthenticationUtils $authenticationUtils,
         TokenStorageInterface $tokenStorage,
@@ -66,9 +68,9 @@ class DefaultController extends AbstractPluginsAwareController
         parent::__construct(
             $doctrine,
             $pluginInstallationManager,
-            $pluginDiscovery,
             $pluginInstantiator,
             $legacyPluginOutputRenderer,
+            $pluginSettingsProvider,
             $configurationManager,
             $sportSelectionFactory,
             $tokenStorage,
@@ -81,24 +83,6 @@ class DefaultController extends AbstractPluginsAwareController
     {
         return $this->doctrine
             ->getRepository(Account::class);
-    }
-
-    /**
-     * Includes a legacy script and captures its direct output into the Symfony Response.
-     *
-     * @throws Throwable if the included legacy file throws
-     */
-    protected function includeOldScript(string $file, bool $initFrontend = true): Response
-    {
-        $legacyContent = $this->captureLegacyOutput(function () use ($file, $initFrontend): void {
-            if ($initFrontend) {
-                new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
-            }
-
-            include $file;
-        })->getContent();
-
-        return $this->wrapLegacyContent($legacyContent, $this->requestStack->getCurrentRequest());
     }
 
     /**
@@ -144,7 +128,7 @@ class DefaultController extends AbstractPluginsAwareController
             $this->requestStack->push($fragmentRequest);
 
             try {
-                $content = $this->getResponseFor($statistics->plugin->id(), $fragmentRequest, $account)->getContent() ?: '';
+                $content = $this->getResponseForPlugin($statistics->plugin, $fragmentRequest, $account)->getContent() ?: '';
             } finally {
                 $this->requestStack->pop();
             }
@@ -271,22 +255,6 @@ class DefaultController extends AbstractPluginsAwareController
     }
 
     /**
-     * @throws NotFoundHttpException if $plugin or $file contain a path traversal attempt
-     * @throws Throwable if the included legacy plugin file throws
-     */
-    #[Route(path: '/plugin/{plugin}/{file}', methods: ['GET', 'POST'])]
-    public function pluginAction(string $plugin, string $file): Response
-    {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-
-        if (str_contains($plugin, '..') || str_contains($file, '..') || str_starts_with($plugin, '/') || str_starts_with($file, '/')) {
-            throw $this->createNotFoundException('Invalid plugin path.');
-        }
-
-        return $this->includeOldScript('../plugin/' . $plugin . '/' . $file);
-    }
-
-    /**
      * @throws Throwable if the legacy calculations window throws
      */
     #[Route(path: '/plugin/RunalyzePluginPanel_Rechenspiele/window.php', methods: ['GET', 'POST'], priority: 10)]
@@ -331,6 +299,36 @@ class DefaultController extends AbstractPluginsAwareController
         return $this->wrapLegacyContent(
             $this->captureLegacyOutput(function () use ($topResults, $prognosePlugin): void {
                 new \Prognose_PrognosisWindow($topResults, $prognosePlugin->getDistances())->display();
+            })->getContent(),
+            $this->requestStack->getCurrentRequest()
+        );
+    }
+
+    /**
+     * @throws Throwable if the legacy prognosis plot throws
+     */
+    #[Route(path: '/plugin/RunalyzePluginPanel_Prognose/window.plot.php', methods: ['GET'], priority: 10)]
+    public function prognosisPlotWindowAction(): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
+
+        /** @var RunalyzePluginPanel_Prognose $Plugin */
+        $Plugin = $this->instantiatePluginByKey('RunalyzePluginPanel_Prognose');
+
+        $WKplugin = null;
+        if (
+            in_array('RunalyzePluginStat_Wettkampf', $this->pluginDiscovery->findAvailablePluginKeys(), true)
+            && $this->pluginInstallationManager->isInstalled('RunalyzePluginStat_Wettkampf')
+        ) {
+            /** @var RunalyzePluginStat_Wettkampf $WKplugin */
+            $WKplugin = $this->instantiatePluginByKey('RunalyzePluginStat_Wettkampf');
+        }
+
+        return $this->wrapLegacyContent(
+            $this->captureLegacyOutput(function () use ($Plugin, $WKplugin): void {
+                include FRONTEND_PATH . '../plugin/RunalyzePluginPanel_Prognose/window.plot.php';
             })->getContent(),
             $this->requestStack->getCurrentRequest()
         );
@@ -415,7 +413,7 @@ class DefaultController extends AbstractPluginsAwareController
     }
 
     /**
-     * @throws NotFoundHttpException if no feedback recipient is configured
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException if no feedback recipient is configured
      */
     #[Route(path: '/feedback', name: 'feedback', methods: ['GET', 'POST'])]
     public function feedbackAction(Request $request, ?Account $account = null): Response

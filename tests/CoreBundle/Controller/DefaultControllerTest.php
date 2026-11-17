@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
-use PluginFactory;
+use PluginPanel;
+use PluginStat;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginEntity;
@@ -15,6 +16,59 @@ use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
 use Runalyze\Model\Account\UserRole;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
+final class DashboardInstantiationTestPanel extends PluginPanel
+{
+    public static int $instantiationCount = 0;
+
+    public function __construct(int $id)
+    {
+        ++self::$instantiationCount;
+
+        parent::__construct($id);
+    }
+
+    public function name(): string
+    {
+        return 'Dashboard instantiation test';
+    }
+
+    public function description(): string
+    {
+        return 'Dashboard instantiation test panel.';
+    }
+
+    protected function defaultSport(): int
+    {
+        return -1;
+    }
+
+    protected function displayContent(): void {}
+}
+
+final class DashboardStatisticsInstantiationTestPlugin extends PluginStat
+{
+    public static int $instantiationCount = 0;
+
+    public function __construct(int $id)
+    {
+        ++self::$instantiationCount;
+
+        parent::__construct($id);
+    }
+
+    public function name(): string
+    {
+        return 'Dashboard statistics instantiation test';
+    }
+
+    public function description(): string
+    {
+        return 'Dashboard statistics instantiation test plugin.';
+    }
+
+    protected function displayContent(): void {}
+}
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
@@ -410,7 +464,6 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $this->getEntityManager()->flush();
 
         $pluginId = (int) $plugin->getId();
-        PluginFactory::clearCache();
 
         try {
             $this->loginClient($this->Client, $this->Account, 'default');
@@ -427,7 +480,6 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         } finally {
             $this->getEntityManager()->remove($plugin);
             $this->getEntityManager()->flush();
-            PluginFactory::clearCache();
         }
     }
 
@@ -463,7 +515,6 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $this->getEntityManager()->flush();
 
         $pluginId = (int) $plugin->getId();
-        PluginFactory::clearCache();
 
         try {
             $this->loginClient($this->Client, $this->Account, 'default');
@@ -480,7 +531,58 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         } finally {
             $this->getEntityManager()->remove($plugin);
             $this->getEntityManager()->flush();
-            PluginFactory::clearCache();
+        }
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testDashboardInstantiatesEachPanelOnlyOnce(): void
+    {
+        $plugin = new PluginEntity()
+            ->setKey(DashboardInstantiationTestPanel::class)
+            ->setType(PluginEntity::TYPE_PANEL)
+            ->setActive(PluginEntity::STATE_ACTIVE)
+            ->setOrder(1)
+            ->setAccount($this->Account);
+        $this->getEntityManager()->persist($plugin);
+        $this->getEntityManager()->flush();
+
+        DashboardInstantiationTestPanel::$instantiationCount = 0;
+
+        try {
+            $this->loginClient($this->Client, $this->Account, 'default');
+            $this->Client->request('GET', '/dashboard');
+
+            $this->assertStatusCode(200, $this->Client);
+            $this->assertSame(1, DashboardInstantiationTestPanel::$instantiationCount);
+        } finally {
+            $this->getEntityManager()->remove($plugin);
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testDashboardInstantiatesTheSelectedStatisticsPluginOnlyOnce(): void
+    {
+        $plugin = new PluginEntity()
+            ->setKey(DashboardStatisticsInstantiationTestPlugin::class)
+            ->setType(PluginEntity::TYPE_STAT)
+            ->setActive(PluginEntity::STATE_ACTIVE)
+            ->setOrder(0)
+            ->setAccount($this->Account);
+        $this->getEntityManager()->persist($plugin);
+        $this->getEntityManager()->flush();
+
+        DashboardStatisticsInstantiationTestPlugin::$instantiationCount = 0;
+
+        try {
+            $this->loginClient($this->Client, $this->Account, 'default');
+            $this->Client->request('GET', '/dashboard');
+
+            $this->assertStatusCode(200, $this->Client);
+            $this->assertSame(1, DashboardStatisticsInstantiationTestPlugin::$instantiationCount);
+        } finally {
+            $this->getEntityManager()->remove($plugin);
+            $this->getEntityManager()->flush();
         }
     }
 
@@ -521,27 +623,43 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStringContainsString('id="rechenspiele-calculator"', (string) $this->Client->getResponse()->getContent());
     }
 
-    public function testPluginActionRequiresAuthentication(): void
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPrognosisPlotWindowWorksWithoutTheOptionalRacePlugin(): void
     {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        /** @var PluginInstallationManager $installationManager */
+        $installationManager = self::getContainer()->get(PluginInstallationManager::class);
+        $installationManager->install('RunalyzePluginPanel_Prognose');
+
+        $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.plot.php?distance=10');
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('formverlauf_10', (string) $this->Client->getResponse()->getContent());
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPrognosisPlotWindowUsesTheInstalledOptionalRacePlugin(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        /** @var PluginInstallationManager $installationManager */
+        $installationManager = self::getContainer()->get(PluginInstallationManager::class);
+        $installationManager->install('RunalyzePluginPanel_Prognose');
+        $installationManager->install('RunalyzePluginStat_Wettkampf');
+
+        $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.plot.php?distance=10');
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('formverlauf_10', (string) $this->Client->getResponse()->getContent());
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testGenericPluginIncludeRouteIsNotAvailable(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
         $this->Client->request('GET', '/plugin/SomePlugin/index.php');
-
-        $this->isSuccessful($this->Client->getResponse(), false);
-    }
-
-    public function testPluginActionRejectsPathTraversalInPluginSegment(): void
-    {
-        $this->loginClient($this->Client, $this->Account, 'default');
-
-        $this->Client->request('GET', '/plugin/..%2f..%2f..%2fetc/passwd');
-
-        $this->assertStatusCode(404, $this->Client);
-    }
-
-    public function testPluginActionRejectsPathTraversalInFileSegment(): void
-    {
-        $this->loginClient($this->Client, $this->Account, 'default');
-
-        $this->Client->request('GET', '/plugin/SomePlugin/..%2f..%2fclass.Cache.php');
 
         $this->assertStatusCode(404, $this->Client);
     }

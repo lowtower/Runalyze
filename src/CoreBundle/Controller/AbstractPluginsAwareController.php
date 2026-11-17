@@ -20,8 +20,8 @@ use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
-use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
+use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Twig\ValueExtension;
 use Runalyze\Util\LocalTime;
@@ -46,9 +46,9 @@ abstract class AbstractPluginsAwareController extends AbstractController
     public function __construct(
         protected ManagerRegistry $doctrine,
         protected PluginInstallationManager $pluginInstallationManager,
-        protected PluginDiscovery $pluginDiscovery,
         protected LegacyPluginInstantiator $pluginInstantiator,
         protected LegacyPluginOutputRenderer $legacyPluginOutputRenderer,
+        protected PluginSettingsProvider $pluginSettingsProvider,
         protected ConfigurationManager $configurationManager,
         protected SportSelectionFactory $sportSelectionFactory,
         protected TokenStorageInterface $tokenStorage,
@@ -70,7 +70,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
             }
 
             $panel = $this->pluginInstantiator->instantiate($pluginData['key'], $pluginData['id'], $pluginData);
-            $panelContent = $this->getResponseFor($panel->id(), $request, $account)
+            $panelContent = $this->getResponseForPlugin($panel, $request, $account)
                 ->getContent();
 
             if ($panel instanceof RunalyzePluginPanel_Sports || $panel instanceof RunalyzePluginPanel_Prognose) {
@@ -102,6 +102,14 @@ abstract class AbstractPluginsAwareController extends AbstractController
             return new Response()->setContent($content);
         }
 
+        return $this->getResponseForPlugin($plugin, $request, $account);
+    }
+
+    /**
+     * @throws Throwable if a legacy plugin throws
+     */
+    protected function getResponseForPlugin(LegacyPlugin $plugin, Request $request, Account $account): Response
+    {
         if ($plugin instanceof RunalyzePluginPanel_Sports) {
             return $this->getResponseForSportsPanel($account, $plugin);
         }
@@ -111,7 +119,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
         }
 
         if ($plugin instanceof RunalyzePluginStat_MonthlyStats) {
-            return $this->getResponseForMonthlyStats($request, $account, $pluginId);
+            return $this->getResponseForMonthlyStats($request, $account, $plugin->id());
         }
 
         if ($plugin instanceof PluginPanel) {
@@ -128,13 +136,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
      */
     protected function instantiatePluginById(int $pluginId): LegacyPlugin
     {
-        foreach ($this->pluginInstallationManager->getInstalledPluginData() as $pluginData) {
-            if ((int) $pluginData['id'] === $pluginId) {
-                return $this->pluginInstantiator->instantiate($pluginData['key'], $pluginData['id'], $pluginData);
-            }
-        }
-
-        throw new InvalidArgumentException(sprintf('No plugin found for id "%d".', $pluginId));
+        return $this->pluginSettingsProvider->getInstalledPluginById($pluginId);
     }
 
     /**
@@ -142,13 +144,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
      */
     protected function instantiatePluginByKey(string $pluginKey): LegacyPlugin
     {
-        foreach ($this->pluginInstallationManager->getInstalledPluginData() as $pluginData) {
-            if ($pluginData['key'] === $pluginKey) {
-                return $this->pluginInstantiator->instantiate($pluginData['key'], $pluginData['id'], $pluginData);
-            }
-        }
-
-        throw new InvalidArgumentException(sprintf('Plugin with key "%s" is not installed.', $pluginKey));
+        return $this->pluginSettingsProvider->getInstalledPluginByKey($pluginKey);
     }
 
     protected function getResponseForSportsPanel(Account $account, LegacyPlugin $plugin): Response
