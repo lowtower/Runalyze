@@ -64,12 +64,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
         $this->IsShowingAllPanels = true;
         $content = '';
 
-        foreach ($this->pluginInstallationManager->getInstalledPluginData() as $pluginData) {
-            if ($pluginData['type'] !== Plugin::TYPE_PANEL || (int) $pluginData['active'] === Plugin::STATE_INACTIVE) {
-                continue;
-            }
-
-            $panel = $this->pluginInstantiator->instantiate($pluginData['key'], $pluginData['id'], $pluginData);
+        foreach ($this->pluginSettingsProvider->getInstalledPluginsExceptInactive(PluginType::PANEL) as $panel) {
             $panelContent = $this->getResponseForPlugin($panel, $request, $account)
                 ->getContent();
 
