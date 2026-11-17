@@ -17,6 +17,7 @@ use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Dashboard\DashboardStatisticsProvider;
+use Runalyze\Bundle\CoreBundle\Services\LegacyContentResponseFactory;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
@@ -53,6 +54,7 @@ class DefaultController extends AbstractPluginsAwareController
         PluginInstallationManager $pluginInstallationManager,
         private readonly PluginDiscovery $pluginDiscovery,
         LegacyPluginOutputRenderer $legacyPluginOutputRenderer,
+        LegacyContentResponseFactory $legacyContentResponseFactory,
         PluginSettingsProvider $pluginSettingsProvider,
         private readonly AuthorizationCheckerInterface $authorizationChecker,
         private readonly AuthenticationUtils $authenticationUtils,
@@ -67,6 +69,7 @@ class DefaultController extends AbstractPluginsAwareController
             $doctrine,
             $pluginInstallationManager,
             $legacyPluginOutputRenderer,
+            $legacyContentResponseFactory,
             $pluginSettingsProvider,
             $configurationManager,
             $sportSelectionFactory,
@@ -264,7 +267,7 @@ class DefaultController extends AbstractPluginsAwareController
         /** @var RunalyzePluginPanel_Rechenspiele $Plugin */
         $Plugin = $this->instantiatePluginByKey('RunalyzePluginPanel_Rechenspiele');
 
-        return $this->wrapLegacyContent(
+        return $this->legacyContentResponseFactory->create(
             $this->legacyPluginOutputRenderer->render(function () use ($Plugin): void {
                 include FRONTEND_PATH . '../plugin/RunalyzePluginPanel_Rechenspiele/window.php';
             })->getContent(),
@@ -293,7 +296,7 @@ class DefaultController extends AbstractPluginsAwareController
         /** @var RunalyzePluginPanel_Prognose $prognosePlugin */
         $prognosePlugin = $this->instantiatePluginByKey('RunalyzePluginPanel_Prognose');
 
-        return $this->wrapLegacyContent(
+        return $this->legacyContentResponseFactory->create(
             $this->legacyPluginOutputRenderer->render(function () use ($topResults, $prognosePlugin): void {
                 new \Prognose_PrognosisWindow($topResults, $prognosePlugin->getDistances())->display();
             })->getContent(),
@@ -323,7 +326,7 @@ class DefaultController extends AbstractPluginsAwareController
             $WKplugin = $this->instantiatePluginByKey('RunalyzePluginStat_Wettkampf');
         }
 
-        return $this->wrapLegacyContent(
+        return $this->legacyContentResponseFactory->create(
             $this->legacyPluginOutputRenderer->render(function () use ($Plugin, $WKplugin): void {
                 include FRONTEND_PATH . '../plugin/RunalyzePluginPanel_Prognose/window.plot.php';
             })->getContent(),

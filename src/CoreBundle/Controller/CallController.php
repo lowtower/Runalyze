@@ -13,6 +13,7 @@ use PlotSumData;
 use PlotWeekSumData;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
+use Runalyze\Bundle\CoreBundle\Services\LegacyContentResponseFactory;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
@@ -30,7 +31,6 @@ use Throwable;
 class CallController extends AbstractController
 {
     use AppServiceSubscriberTrait;
-    use LegacyOutputCaptureTrait;
 
     public function __construct(
         private TokenStorageInterface $tokenStorage,
@@ -39,7 +39,8 @@ class CallController extends AbstractController
         private ConfigurationUpdater $configurationUpdater,
         private PluginInstallationManager $pluginInstallationManager,
         private PluginSettingsProvider $pluginSettingsProvider,
-        private LegacyPluginOutputRenderer $legacyPluginOutputRenderer
+        private LegacyPluginOutputRenderer $legacyPluginOutputRenderer,
+        private LegacyContentResponseFactory $legacyContentResponseFactory
     ) {}
 
     /**
@@ -55,7 +56,7 @@ class CallController extends AbstractController
 
         $dataBrowserContent = $this->renderView('my/data_browser.html.twig', new DataBrowser()->templateData());
 
-        return $this->wrapLegacyContent($dataBrowserContent, $this->requestStack->getCurrentRequest());
+        return $this->legacyContentResponseFactory->create($dataBrowserContent, $this->requestStack->getCurrentRequest());
     }
 
     /**
@@ -111,7 +112,7 @@ class CallController extends AbstractController
             echo Ajax::wrapJSforDocumentReady('Runalyze.Overlay.removeClasses();');
         })->getContent();
 
-        return $this->wrapLegacyContent($legacyContent, $this->requestStack->getCurrentRequest());
+        return $this->legacyContentResponseFactory->create($legacyContent, $this->requestStack->getCurrentRequest());
     }
 
     #[Route(path: '/call/ajax.change.Config.php', methods: ['GET'])]
@@ -170,7 +171,7 @@ class CallController extends AbstractController
 
         new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
-        return $this->wrapLegacyContent(
+        return $this->legacyContentResponseFactory->create(
             $this->renderView(
                 'shared/athlete/plot_sum_data.html.twig',
                 $this->getPlotSumData()

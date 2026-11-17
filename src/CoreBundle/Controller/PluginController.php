@@ -63,7 +63,7 @@ class PluginController extends AbstractPluginsAwareController
             echo '</li></ul>';
         })->getContent();
 
-        return $this->wrapLegacyContent($legacyContent, $this->requestStack->getCurrentRequest());
+        return $this->legacyContentResponseFactory->create($legacyContent, $this->requestStack->getCurrentRequest());
     }
 
     /**
@@ -78,7 +78,7 @@ class PluginController extends AbstractPluginsAwareController
 
         new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
-        return $this->wrapLegacyContent(
+        return $this->legacyContentResponseFactory->create(
             $this->getResponseFor($id, $request, $account)->getContent(),
             $request
         );
@@ -137,6 +137,6 @@ class PluginController extends AbstractPluginsAwareController
             }
         })->getContent();
 
-        return $this->wrapLegacyContent($legacyContent, $this->requestStack->getCurrentRequest());
+        return $this->legacyContentResponseFactory->create($legacyContent, $this->requestStack->getCurrentRequest());
     }
 }
