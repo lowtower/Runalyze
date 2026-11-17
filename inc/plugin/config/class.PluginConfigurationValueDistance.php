@@ -43,26 +43,14 @@ class PluginConfigurationValueDistance extends PluginConfigurationValueFloat
         }
     }
 
-    /**
-     * Display row for config form
-     */
-    public function getFormField(): ?\FormularField
+    public function usesImperialUnits(): bool
     {
-        $Field = new FormularInput($this->Key, $this->formLabel(), $this->valueAsString(true));
-        $Field->setSize(FormularInput::$SIZE_SMALL);
-
-        if ($this->unitSystem()->isImperial()) {
-            $Field->setUnit(FormularUnit::$MILES);
-        } else {
-            $Field->setUnit(FormularUnit::$KM);
-        }
-
-        return $Field;
+        return $this->unitSystem()->isImperial();
     }
 
     protected function unitSystem(): DistanceUnitSystem
     {
-        if (! $this->UnitSystem instanceof \Runalyze\Parameter\Application\DistanceUnitSystem) {
+        if (! $this->UnitSystem instanceof DistanceUnitSystem) {
             $this->UnitSystem = Configuration::General()->distanceUnitSystem();
         }
 
