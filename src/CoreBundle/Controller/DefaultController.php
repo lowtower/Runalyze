@@ -52,7 +52,7 @@ class DefaultController extends AbstractPluginsAwareController
     public function __construct(
         ManagerRegistry $doctrine,
         PluginInstallationManager $pluginInstallationManager,
-        PluginDiscovery $pluginDiscovery,
+        private readonly PluginDiscovery $pluginDiscovery,
         LegacyPluginInstantiator $pluginInstantiator,
         LegacyPluginOutputRenderer $legacyPluginOutputRenderer,
         PluginSettingsProvider $pluginSettingsProvider,
@@ -68,7 +68,6 @@ class DefaultController extends AbstractPluginsAwareController
         parent::__construct(
             $doctrine,
             $pluginInstallationManager,
-            $pluginDiscovery,
             $pluginInstantiator,
             $legacyPluginOutputRenderer,
             $pluginSettingsProvider,

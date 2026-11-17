@@ -20,7 +20,6 @@ use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
-use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
@@ -47,7 +46,6 @@ abstract class AbstractPluginsAwareController extends AbstractController
     public function __construct(
         protected ManagerRegistry $doctrine,
         protected PluginInstallationManager $pluginInstallationManager,
-        protected PluginDiscovery $pluginDiscovery,
         protected LegacyPluginInstantiator $pluginInstantiator,
         protected LegacyPluginOutputRenderer $legacyPluginOutputRenderer,
         protected PluginSettingsProvider $pluginSettingsProvider,

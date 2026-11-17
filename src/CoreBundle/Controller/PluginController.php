@@ -9,6 +9,7 @@ use HTML;
 use Icon;
 use InvalidArgumentException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -23,16 +24,16 @@ class PluginController extends AbstractPluginsAwareController
      * @throws Throwable if the legacy plugin installer throws
      */
     #[Route(path: '/call/call.Plugin.install.php', methods: ['GET', 'POST'])]
-    public function pluginInstallAction(Request $request): Response
+    public function pluginInstallAction(Request $request, PluginDiscovery $pluginDiscovery): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $legacyContent = $this->legacyPluginOutputRenderer->render(function () use ($request): void {
+        $legacyContent = $this->legacyPluginOutputRenderer->render(function () use ($request, $pluginDiscovery): void {
             new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
             $Pluginkey = $request->query->get('key');
 
-            $availablePluginKeys = $this->pluginDiscovery->findAvailablePluginKeys();
+            $availablePluginKeys = $pluginDiscovery->findAvailablePluginKeys();
             $installedPluginKeys = $this->pluginInstallationManager->getInstalledPluginKeys();
             $installableKeys = array_diff($availablePluginKeys, $installedPluginKeys);
 
