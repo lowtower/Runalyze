@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Controller\Activity;
 
 use Frontend;
-use Runalyze\Bundle\CoreBundle\Controller\LegacyOutputCaptureTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Runalyze\Export\File;
 use Runalyze\Export\Share;
 use Runalyze\View\Activity\Context;
@@ -20,12 +20,11 @@ use Throwable;
 
 class ExportController extends AbstractController
 {
-    use LegacyOutputCaptureTrait;
-
     public function __construct(
         private readonly TokenStorageInterface $tokenStorage,
         private readonly ParameterBagInterface $parameterBag,
-        private readonly RequestStack $requestStack
+        private readonly RequestStack $requestStack,
+        private readonly LegacyPluginOutputRenderer $legacyPluginOutputRenderer
     ) {}
 
     /**
@@ -51,7 +50,7 @@ class ExportController extends AbstractController
             return new Response();
         }
 
-        return $this->captureLegacyOutput(function () use ($exporter): void {
+        return $this->legacyPluginOutputRenderer->render(function () use ($exporter): void {
             $exporter->display();
         });
     }
