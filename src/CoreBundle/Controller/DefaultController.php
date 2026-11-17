@@ -18,6 +18,7 @@ use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Dashboard\DashboardStatisticsProvider;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginResponseFactory;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
