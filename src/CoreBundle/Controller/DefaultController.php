@@ -17,7 +17,6 @@ use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Dashboard\DashboardStatisticsProvider;
-use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
@@ -53,7 +52,6 @@ class DefaultController extends AbstractPluginsAwareController
         ManagerRegistry $doctrine,
         PluginInstallationManager $pluginInstallationManager,
         private readonly PluginDiscovery $pluginDiscovery,
-        LegacyPluginInstantiator $pluginInstantiator,
         LegacyPluginOutputRenderer $legacyPluginOutputRenderer,
         PluginSettingsProvider $pluginSettingsProvider,
         private readonly AuthorizationCheckerInterface $authorizationChecker,
@@ -68,7 +66,6 @@ class DefaultController extends AbstractPluginsAwareController
         parent::__construct(
             $doctrine,
             $pluginInstallationManager,
-            $pluginInstantiator,
             $legacyPluginOutputRenderer,
             $pluginSettingsProvider,
             $configurationManager,
