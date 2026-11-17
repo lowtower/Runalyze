@@ -51,6 +51,24 @@ final readonly class PluginSettingsProvider
     }
 
     /**
+     * @return list<Plugin>
+     */
+    public function getInstalledPluginsExceptInactive(?int $type = null): array
+    {
+        $plugins = [];
+
+        foreach ($this->getInstalledPluginData() as $data) {
+            if (($type !== null && $data['type'] !== PluginType::string($type)) || $data['active'] === Plugin::ACTIVE_NOT) {
+                continue;
+            }
+
+            $plugins[] = $this->pluginInstantiator->instantiate($data['key'], $data['id'], $data);
+        }
+
+        return $plugins;
+    }
+
+    /**
      * @throws InvalidArgumentException if no plugin is installed with the given id
      * @throws LogicException if there is no authenticated account
      */
