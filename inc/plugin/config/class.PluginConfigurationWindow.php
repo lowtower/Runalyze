@@ -12,24 +12,25 @@
 class PluginConfigurationWindow
 {
     public function __construct(
-        protected \Plugin $Plugin
+        protected \Plugin $Plugin,
+        protected array $postData = []
     ) {
         $this->handlePostData();
     }
 
-    protected function handlePostData()
+    protected function handlePostData(): void
     {
-        if (! empty($_POST)) {
+        if ($this->postData !== []) {
             $this->updateConfiguration();
             $this->setReloadCommand();
         }
     }
 
-    protected function updateConfiguration()
+    protected function updateConfiguration(): void
     {
-        if (isset($_POST['edit']) && $_POST['edit'] == 'true') {
+        if (isset($this->postData['edit']) && $this->postData['edit'] == 'true') {
             $this->Plugin->Configuration()
-                ->updateFromPost();
+                ->updateFromPost($this->postData);
         }
     }
 
