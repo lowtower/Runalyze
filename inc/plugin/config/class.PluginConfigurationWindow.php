@@ -11,9 +11,13 @@
  */
 class PluginConfigurationWindow
 {
+    private readonly PluginConfigurationValueFormFieldFactory $formFieldFactory;
+
     public function __construct(
         protected \Plugin $Plugin
-    ) {}
+    ) {
+        $this->formFieldFactory = new PluginConfigurationValueFormFieldFactory();
+    }
 
     public function display(): void
     {
@@ -75,7 +79,11 @@ class PluginConfigurationWindow
             $Fieldset->addInfo(__('There are no settings.'));
         } else {
             foreach ($this->Plugin->Configuration()->objects() as $Value) {
-                $Fieldset->addField($Value->getFormField());
+                $Field = $this->formFieldFactory->create($Value);
+
+                if (null !== $Field) {
+                    $Fieldset->addField($Field);
+                }
             }
 
             $Fieldset->addField(new FormularSubmit(__('Save'), ''));
