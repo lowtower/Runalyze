@@ -221,7 +221,7 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertSame(Plugin::STATE_ACTIVE, $plugin->getActive());
     }
 
-    #[\\PHPUnit\\Framework\\Attributes\\Group('plugin')]
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testPluginConfigActionPassesPostDataToLegacyConfiguration(): void
     {
         $plugin = new Plugin()
