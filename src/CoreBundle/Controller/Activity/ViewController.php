@@ -183,7 +183,7 @@ class ViewController extends AbstractController
             $this->legacyPluginOutputRenderer->render(function () use ($context): void {
                 $window = new Window($context);
                 $window->display();
-            }),
+            })->getContent(),
             $this->requestStack->getCurrentRequest()
         );
     }
@@ -225,7 +225,7 @@ class ViewController extends AbstractController
             $this->legacyPluginOutputRenderer->render(function () use ($context): void {
                 $elevationInfo = new ElevationInfo($context);
                 $elevationInfo->display();
-            }),
+            })->getContent(),
             $this->requestStack->getCurrentRequest()
         );
     }
