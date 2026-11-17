@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use PHPUnit\\Framework\\Attributes\\Group;
-use PHPUnit\\Framework\\TestCase;
-use Runalyze\\Bundle\\CoreBundle\\Services\\PluginConfigurationStorageInterface;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\TestCase;
+use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 
 #[Group('plugin')]
 final class PluginConfigurationValuePostDataTest extends TestCase
