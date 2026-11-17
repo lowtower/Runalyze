@@ -24,6 +24,15 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 final class DashboardStatisticsProviderTestPlugin extends PluginStat
 {
+    public static int $instantiationCount = 0;
+
+    public function __construct(int $id)
+    {
+        ++self::$instantiationCount;
+
+        parent::__construct($id);
+    }
+
     public function name(): string
     {
         return 'Test statistics';
@@ -80,8 +89,10 @@ final class DashboardStatisticsProviderTest extends TestCase
         $this->assertTrue($statistics->hasActiveStatistics);
     }
 
-    public function testItSelectsTheRequestedActivePlugin(): void
+    public function testItSelectsTheRequestedActivePluginWithoutInstantiatingItTwice(): void
     {
+        DashboardStatisticsProviderTestPlugin::$instantiationCount = 0;
+
         $provider = new DashboardStatisticsProvider($this->createSettingsProvider([
             $this->pluginData(23, Plugin::ACTIVE, 1),
         ]));
@@ -91,6 +102,7 @@ final class DashboardStatisticsProviderTest extends TestCase
         ]));
 
         $this->assertSame(23, $statistics->plugin?->id());
+        $this->assertSame(1, DashboardStatisticsProviderTestPlugin::$instantiationCount);
     }
 
     public function testItFallsBackToTheFirstActivePluginWhenTheRequestedPluginIsInactive(): void
