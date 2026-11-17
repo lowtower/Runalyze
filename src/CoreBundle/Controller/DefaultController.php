@@ -268,7 +268,7 @@ class DefaultController extends AbstractPluginsAwareController
         $Plugin = $this->instantiatePluginByKey('RunalyzePluginPanel_Rechenspiele');
 
         return $this->wrapLegacyContent(
-            $this->captureLegacyOutput(function () use ($Plugin): void {
+            $this->legacyPluginOutputRenderer->render(function () use ($Plugin): void {
                 include FRONTEND_PATH . '../plugin/RunalyzePluginPanel_Rechenspiele/window.php';
             })->getContent(),
             $this->requestStack->getCurrentRequest()
@@ -297,7 +297,7 @@ class DefaultController extends AbstractPluginsAwareController
         $prognosePlugin = $this->instantiatePluginByKey('RunalyzePluginPanel_Prognose');
 
         return $this->wrapLegacyContent(
-            $this->captureLegacyOutput(function () use ($topResults, $prognosePlugin): void {
+            $this->legacyPluginOutputRenderer->render(function () use ($topResults, $prognosePlugin): void {
                 new \Prognose_PrognosisWindow($topResults, $prognosePlugin->getDistances())->display();
             })->getContent(),
             $this->requestStack->getCurrentRequest()
@@ -327,7 +327,7 @@ class DefaultController extends AbstractPluginsAwareController
         }
 
         return $this->wrapLegacyContent(
-            $this->captureLegacyOutput(function () use ($Plugin, $WKplugin): void {
+            $this->legacyPluginOutputRenderer->render(function () use ($Plugin, $WKplugin): void {
                 include FRONTEND_PATH . '../plugin/RunalyzePluginPanel_Prognose/window.plot.php';
             })->getContent(),
             $this->requestStack->getCurrentRequest()
