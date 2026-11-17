@@ -8,15 +8,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
-final class LegacyContentResponseFactory
+final readonly class LegacyContentResponseFactory
 {
     public function __construct(
-        private readonly Environment $twig
+        private Environment $twig
     ) {}
 
     public function create(string $content, ?Request $request): Response
     {
-        if ($request === null || $request->isXmlHttpRequest()) {
+        if (!$request instanceof Request || $request->isXmlHttpRequest()) {
             return new Response($content);
         }
 
