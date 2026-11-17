@@ -20,14 +20,8 @@ class PluginConfigurationValueSelect extends PluginConfigurationValue
         $this->Options = $Options;
     }
 
-    /**
-     * Display row for config form
-     */
-    public function getFormField(): ?\FormularField
+    public function options(): array
     {
-        $Field = new FormularSelectBox($this->Key, $this->formLabel(), $this->valueAsString());
-        $Field->setOptions($this->Options);
-
-        return $Field;
+        return $this->Options;
     }
 }

@@ -33,16 +33,4 @@ class PluginConfigurationValueArray extends PluginConfigurationValue
             $this->setValueFromString($postData[$this->Key]);
         }
     }
-
-    /**
-     * Display row for config form
-     */
-    public function getFormField(): ?\FormularField
-    {
-        $Field = new FormularInput($this->Key, $this->formLabel(), $this->valueAsString());
-        $Field->setSize(FormularInput::$SIZE_FULL_INLINE);
-        $Field->addAttribute('maxlength', (string) PluginConfigurationValue::MAXLENGTH);
-
-        return $Field;
-    }
 }
