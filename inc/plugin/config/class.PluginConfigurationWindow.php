@@ -12,34 +12,8 @@
 class PluginConfigurationWindow
 {
     public function __construct(
-        protected \Plugin $Plugin,
-        protected array $postData = []
-    ) {
-        $this->handlePostData();
-    }
-
-    protected function handlePostData(): void
-    {
-        if ($this->postData !== []) {
-            $this->updateConfiguration();
-            $this->setReloadCommand();
-        }
-    }
-
-    protected function updateConfiguration(): void
-    {
-        if (isset($this->postData['edit']) && $this->postData['edit'] == 'true') {
-            $this->Plugin->Configuration()
-                ->updateFromPost($this->postData);
-        }
-    }
-
-    protected function setReloadCommand(): void
-    {
-        Ajax::setPluginIDtoReload($this->Plugin->id());
-        Ajax::setReloadFlag(Ajax::$RELOAD_PLUGINS);
-        echo Ajax::getReloadCommand();
-    }
+        protected \Plugin $Plugin
+    ) {}
 
     public function display(): void
     {

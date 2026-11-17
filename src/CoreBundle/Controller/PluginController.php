@@ -119,7 +119,19 @@ class PluginController extends AbstractPluginsAwareController
                     echo Ajax::getReloadCommand();
                 }
 
-                $plugin->displayConfigWindow($request->request->all());
+                $postData = $request->request->all();
+
+                if ($postData !== []) {
+                    if (isset($postData['edit']) && $postData['edit'] == 'true') {
+                        $plugin->Configuration()->updateFromPost($postData);
+                    }
+
+                    Ajax::setPluginIDtoReload($plugin->id());
+                    Ajax::setReloadFlag(Ajax::$RELOAD_PLUGINS);
+                    echo Ajax::getReloadCommand();
+                }
+
+                $plugin->displayConfigWindow();
             } else {
                 echo '<em>' . __('Something went wrong ...') . '</em>';
             }
