@@ -12,7 +12,7 @@
 class PluginConfigurationWindow
 {
     public function __construct(
-        protected \\Plugin $Plugin
+        protected \Plugin $Plugin
     ) {}
 
     public function display(): void
