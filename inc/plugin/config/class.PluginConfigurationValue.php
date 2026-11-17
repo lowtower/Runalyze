@@ -29,6 +29,16 @@ class PluginConfigurationValue
         return $this->Key;
     }
 
+    final public function label(): string
+    {
+        return $this->Label;
+    }
+
+    final public function tooltip(): string
+    {
+        return $this->Tooltip;
+    }
+
     final public function value(): mixed
     {
         return $this->Value;
@@ -42,15 +52,6 @@ class PluginConfigurationValue
     final public function setTooltip(string $Tooltip): void
     {
         $this->Tooltip = $Tooltip;
-    }
-
-    final protected function formLabel(): string
-    {
-        if (! empty($this->Tooltip)) {
-            return Ajax::tooltip($this->Label, $this->Tooltip, true);
-        }
-
-        return $this->Label;
     }
 
     final public function setValue(mixed $Value): void
@@ -89,13 +90,5 @@ class PluginConfigurationValue
         if (isset($postData[$this->Key])) {
             $this->setValueFromString($postData[$this->Key]);
         }
-    }
-
-    public function getFormField(): ?\FormularField
-    {
-        $Field = new FormularInput($this->Key, $this->formLabel(), $this->valueAsString());
-        $Field->setSize(FormularInput::$SIZE_MIDDLE);
-
-        return $Field;
     }
 }
