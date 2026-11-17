@@ -245,6 +245,13 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
 
         $this->assertStatusCode(200, $this->Client);
         $this->assertStringContainsString('Runalyze.reload', (string) $this->Client->getResponse()->getContent());
+
+        $configuration = $this->getEntityManager()
+            ->getRepository(PluginConf::class)
+            ->findForPluginAndKey($plugin->getId(), 'tagssummary_timescale');
+
+        $this->assertInstanceOf(PluginConf::class, $configuration);
+        $this->assertSame('3', $configuration->getValue());
     }
 
     public function testPluginDisplayActionRequiresAuthentication(): void
