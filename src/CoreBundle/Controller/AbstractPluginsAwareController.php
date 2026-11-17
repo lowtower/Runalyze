@@ -19,6 +19,7 @@ use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginResponseFactory;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
@@ -38,7 +39,6 @@ use Throwable;
 abstract class AbstractPluginsAwareController extends AbstractController
 {
     use AppServiceSubscriberTrait;
-    use LegacyOutputCaptureTrait;
 
     protected bool $IsShowingAllPanels = false;
 
@@ -46,6 +46,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
         protected ManagerRegistry $doctrine,
         protected PluginInstallationManager $pluginInstallationManager,
         protected LegacyPluginOutputRenderer $legacyPluginOutputRenderer,
+        protected LegacyPluginResponseFactory $legacyPluginResponseFactory,
         protected PluginSettingsProvider $pluginSettingsProvider,
         protected ConfigurationManager $configurationManager,
         protected SportSelectionFactory $sportSelectionFactory,
