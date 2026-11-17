@@ -17,12 +17,4 @@ class PluginConfigurationValueInt extends PluginConfigurationValue
     {
         $this->Value = (int) $Value;
     }
-
-    public function getFormField(): ?\FormularField
-    {
-        $Field = new FormularInput($this->Key, $this->formLabel(), $this->valueAsString());
-        $Field->setSize(FormularInput::$SIZE_SMALL);
-
-        return $Field;
-    }
 }
