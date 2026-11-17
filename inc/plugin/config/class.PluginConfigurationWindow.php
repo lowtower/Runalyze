@@ -34,7 +34,7 @@ class PluginConfigurationWindow
         }
     }
 
-    protected function setReloadCommand()
+    protected function setReloadCommand(): void
     {
         Ajax::setPluginIDtoReload($this->Plugin->id());
         Ajax::setReloadFlag(Ajax::$RELOAD_PLUGINS);
