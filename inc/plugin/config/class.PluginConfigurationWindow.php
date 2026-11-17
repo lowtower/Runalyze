@@ -81,7 +81,7 @@ class PluginConfigurationWindow
             foreach ($this->Plugin->Configuration()->objects() as $Value) {
                 $Field = $this->formFieldFactory->create($Value);
 
-                if (null !== $Field) {
+                if ($Field instanceof \FormularField) {
                     $Fieldset->addField($Field);
                 }
             }

@@ -81,6 +81,7 @@ final class PluginConfigurationValueFormFieldFactoryTest extends TestCase
     public function testTooltipIsIncludedInFieldLabel(): void
     {
         $field = $this->factory->create(new PluginConfigurationValue('key', 'Label', 'Tooltip', 'value'));
+        $this->assertInstanceOf(\FormularField::class, $field);
 
         $this->assertStringContainsString('Tooltip', $field->getCode());
     }

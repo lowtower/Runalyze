@@ -11,6 +11,4 @@ declare(strict_types=1);
  * @author Hannes Christiansen
  * @package Runalyze\Plugin
  */
-class PluginConfigurationValueHiddenArray extends PluginConfigurationValueArray
-{
-}
+class PluginConfigurationValueHiddenArray extends PluginConfigurationValueArray {}
