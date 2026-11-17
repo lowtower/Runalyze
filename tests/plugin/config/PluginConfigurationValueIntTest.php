@@ -34,7 +34,9 @@ final class PluginConfigurationValueIntTest extends TestCase
     public function testSetValueFromPostUsesExplicitPostData(): void
     {
         $Value = new PluginConfigurationValueInt('key');
-        $Value->setValueFromPost(['key' => '42']);
+        $Value->setValueFromPost([
+            'key' => '42',
+        ]);
 
         $this->assertSame(42, $Value->value());
     }

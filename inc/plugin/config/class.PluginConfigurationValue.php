@@ -81,6 +81,9 @@ class PluginConfigurationValue
         return $this->value();
     }
 
+    /**
+     * @param array<string, mixed> $postData
+     */
     public function setValueFromPost(array $postData): void
     {
         if (isset($postData[$this->Key])) {

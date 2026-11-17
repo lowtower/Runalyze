@@ -12,7 +12,9 @@ final class PluginConfigurationValuePostDataTest extends TestCase
     public function testBooleanValueIsTrueWhenItsKeyIsPresent(): void
     {
         $value = new PluginConfigurationValueBool('enabled');
-        $value->setValueFromPost(['enabled' => '0']);
+        $value->setValueFromPost([
+            'enabled' => '0',
+        ]);
 
         $this->assertTrue($value->value());
     }
@@ -28,7 +30,9 @@ final class PluginConfigurationValuePostDataTest extends TestCase
     public function testArrayValueIsParsedFromExplicitPostData(): void
     {
         $value = new PluginConfigurationValueArray('items');
-        $value->setValueFromPost(['items' => 'first, second']);
+        $value->setValueFromPost([
+            'items' => 'first, second',
+        ]);
 
         $this->assertSame(['first', 'second'], $value->value());
     }
