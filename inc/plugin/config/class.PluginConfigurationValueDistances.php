@@ -70,10 +70,10 @@ class PluginConfigurationValueDistances extends PluginConfigurationValueArray
         ));
     }
 
-    public function setValueFromPost(): void
+    public function setValueFromPost(array $postData): void
     {
-        if (isset($_POST[$this->Key])) {
-            $this->setValueFromString($_POST[$this->Key]);
+        if (isset($postData[$this->Key])) {
+            $this->setValueFromString($postData[$this->Key]);
         }
     }
 
