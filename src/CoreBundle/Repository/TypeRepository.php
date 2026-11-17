@@ -2,16 +2,22 @@
 
 namespace Runalyze\Bundle\CoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Type;
 
 /**
- * @extends EntityRepository<Type>
+ * @extends ServiceEntityRepository<Type>
  */
-class TypeRepository extends EntityRepository
+class TypeRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Type::class);
+    }
+
     /**
      * @return Type[]
      */

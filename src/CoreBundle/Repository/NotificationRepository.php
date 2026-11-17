@@ -2,15 +2,21 @@
 
 namespace Runalyze\Bundle\CoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Notification;
 
 /**
- * @extends EntityRepository<Notification>
+ * @extends ServiceEntityRepository<Notification>
  */
-class NotificationRepository extends EntityRepository
+class NotificationRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Notification::class);
+    }
+
     /**
      * @return Notification[]
      */

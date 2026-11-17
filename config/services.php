@@ -19,18 +19,6 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\FileHandler;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\GenerateJsonData;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\GeneratePoster;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\PosterGenerationStateResolver;
-use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Entity\Conf;
-use Runalyze\Bundle\CoreBundle\Entity\Equipment;
-use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
-use Runalyze\Bundle\CoreBundle\Entity\Notification;
-use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
-use Runalyze\Bundle\CoreBundle\Entity\Sport;
-use Runalyze\Bundle\CoreBundle\Entity\Tag;
-use Runalyze\Bundle\CoreBundle\Entity\Training;
-use Runalyze\Bundle\CoreBundle\Entity\Type;
-use Runalyze\Bundle\CoreBundle\Entity\User;
-use Runalyze\Bundle\CoreBundle\Entity\Weathercache;
 use Runalyze\Bundle\CoreBundle\EntityListener\ActivityListener;
 use Runalyze\Bundle\CoreBundle\EntityListener\EquipmentUpdateSubscriber;
 use Runalyze\Bundle\CoreBundle\EntityListener\RaceResultListener;
@@ -73,13 +61,11 @@ use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Repository\ConfRepository;
 use Runalyze\Bundle\CoreBundle\Repository\EquipmentRepository;
 use Runalyze\Bundle\CoreBundle\Repository\EquipmentTypeRepository;
-use Runalyze\Bundle\CoreBundle\Repository\NotificationRepository;
 use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
 use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TagRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TypeRepository;
-use Runalyze\Bundle\CoreBundle\Repository\UserRepository;
 use Runalyze\Bundle\CoreBundle\Repository\WeathercacheRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountChecker;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
@@ -285,6 +271,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->load('Runalyze\Bundle\CoreBundle\Command\\', __DIR__ . '/../src/CoreBundle/Command');
 
+    $services->load('Runalyze\Bundle\CoreBundle\Repository\\', __DIR__ . '/../src/CoreBundle/Repository')
+        ->exclude(__DIR__ . '/../src/CoreBundle/Repository/{DatasetRepository.php,HrvRepository.php,PluginConfRepository.php,PluginRepository.php,RouteRepository.php,SwimdataRepository.php,TrackdataRepository.php}');
+
     $services->set(CleanupBackupCommand::class)
         ->arg('$parameterBag', service('parameter_bag'))
         ->arg('$filesystem', service('filesystem'));
@@ -414,98 +403,35 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(AccountChecker::class);
 
-    $services->set('app.repository.account', AccountRepository::class)
-        ->factory([
-            service('doctrine.orm.entity_manager'),
-            'getRepository',
-        ])
-        ->arg(0, Account::class);
+    $services->alias('app.repository.account', AccountRepository::class);
 
-    $services->alias(AccountRepository::class, 'app.repository.account');
 
-    $services->set('app.repository.conf', ConfRepository::class)
-        ->factory([
-            service('doctrine.orm.entity_manager'),
-            'getRepository',
-        ])->arg(0, Conf::class);
+    $services->alias('app.repository.conf', ConfRepository::class);
 
-    $services->alias(ConfRepository::class, 'app.repository.conf');
 
-    $services->set('app.repository.equipment', EquipmentRepository::class)
-        ->factory([
-            service('doctrine.orm.entity_manager'),
-            'getRepository',
-        ])->arg(0, Equipment::class);
+    $services->alias('app.repository.equipment', EquipmentRepository::class);
 
-    $services->alias(EquipmentRepository::class, 'app.repository.equipment');
 
-    $services->set('app.repository.equipment_type', EquipmentTypeRepository::class)
-        ->factory([
-            service('doctrine.orm.entity_manager'),
-            'getRepository',
-        ])->arg(0, EquipmentType::class);
+    $services->alias('app.repository.equipment_type', EquipmentTypeRepository::class);
 
-    $services->alias(EquipmentTypeRepository::class, 'app.repository.equipment_type');
 
-    $services->set(NotificationRepository::class)
-        ->factory([
-            service('doctrine.orm.entity_manager'),
-            'getRepository',
-        ])->arg(0, Notification::class);
+    $services->alias('app.repository.race_result', RaceresultRepository::class);
 
-    $services->set('app.repository.race_result', RaceresultRepository::class)
-        ->factory([
-            service('doctrine.orm.entity_manager'),
-            'getRepository',
-        ])->arg(0, Raceresult::class);
 
-    $services->alias(RaceresultRepository::class, 'app.repository.race_result');
+    $services->alias('app.repository.sport', SportRepository::class);
 
-    $services->set('app.repository.sport', SportRepository::class)
-        ->factory([
-            service('doctrine.orm.entity_manager'),
-            'getRepository',
-        ])->arg(0, Sport::class);
 
-    $services->alias(SportRepository::class, 'app.repository.sport');
+    $services->alias('app.repository.tag', TagRepository::class);
 
-    $services->set('app.repository.tag', TagRepository::class)
-        ->factory([
-            service('doctrine.orm.entity_manager'),
-            'getRepository',
-        ])->arg(0, Tag::class);
 
-    $services->alias(TagRepository::class, 'app.repository.tag');
+    $services->alias('app.repository.type', TypeRepository::class);
 
-    $services->set('app.repository.type', TypeRepository::class)
-        ->factory([
-            service('doctrine.orm.entity_manager'),
-            'getRepository',
-        ])->arg(0, Type::class);
 
-    $services->alias(TypeRepository::class, 'app.repository.type');
+    $services->alias('app.repository.training', TrainingRepository::class);
 
-    $services->set('app.repository.training', TrainingRepository::class)
-        ->factory([
-            service('doctrine.orm.entity_manager'),
-            'getRepository',
-        ])->arg(0, Training::class);
 
-    $services->alias(TrainingRepository::class, 'app.repository.training');
+    $services->alias('app.repository.weathercache', WeathercacheRepository::class);
 
-    $services->set(UserRepository::class)
-        ->factory([
-            service('doctrine.orm.entity_manager'),
-            'getRepository',
-        ])->arg(0, User::class);
-
-    $services->set('app.repository.weathercache', WeathercacheRepository::class)
-        ->factory([
-            service('doctrine.orm.entity_manager'),
-            'getRepository',
-        ])->arg(0, Weathercache::class);
-
-    $services->alias(WeathercacheRepository::class, 'app.repository.weathercache');
 
     $services->set('app.entity_listener.activity', ActivityListener::class)
         ->arg('$RecalculationManager', service('app.recalculation_manager'))

@@ -2,16 +2,22 @@
 
 namespace Runalyze\Bundle\CoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
 use Runalyze\Bundle\CoreBundle\Model\Equipment\EquipmentStatistics;
 
 /**
- * @extends EntityRepository<Equipment>
+ * @extends ServiceEntityRepository<Equipment>
  */
-class EquipmentRepository extends EntityRepository
+class EquipmentRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Equipment::class);
+    }
+
     /**
      * @return Equipment[]
      */

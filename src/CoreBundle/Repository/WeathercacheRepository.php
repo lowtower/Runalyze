@@ -2,7 +2,8 @@
 
 namespace Runalyze\Bundle\CoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Entity\Weathercache;
 use Runalyze\Parser\Activity\Common\Data\WeatherData;
 use Runalyze\Service\WeatherForecast\DatabaseCacheInterface;
@@ -10,10 +11,15 @@ use Runalyze\Service\WeatherForecast\Location;
 use Runalyze\Service\WeatherForecast\Strategy\DatabaseCache;
 
 /**
- * @extends EntityRepository<WeatherCache>
+ * @extends ServiceEntityRepository<WeatherCache>
  */
-class WeathercacheRepository extends EntityRepository implements DatabaseCacheInterface
+class WeathercacheRepository extends ServiceEntityRepository implements DatabaseCacheInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Weathercache::class);
+    }
+
     /**
      * @param int $timeTolerance [s]
      */

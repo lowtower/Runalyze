@@ -2,16 +2,22 @@
 
 namespace Runalyze\Bundle\CoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 
 /**
- * @extends EntityRepository<Raceresult>
+ * @extends ServiceEntityRepository<Raceresult>
  */
-class RaceresultRepository extends EntityRepository
+class RaceresultRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Raceresult::class);
+    }
+
     public const int NUMBER_OF_RACES_TO_CONSIDER_FOR_CORRECTION_FACTOR = 3;
 
     public function findForActivity(int $activityId): ?Raceresult

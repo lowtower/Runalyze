@@ -2,11 +2,12 @@
 
 namespace Runalyze\Bundle\CoreBundle\Repository;
 
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\AbstractQuery;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
+use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\BasicEndurance;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\VO2max;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -23,10 +24,15 @@ use Runalyze\Sports\Running\MarathonShape;
 use Runalyze\Util\Time;
 
 /**
- * @extends EntityRepository<Training>
+ * @extends ServiceEntityRepository<Training>
  */
-class TrainingRepository extends EntityRepository
+class TrainingRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Training::class);
+    }
+
     /**
      * @throws NoResultException
      * @throws NonUniqueResultException
