@@ -90,6 +90,7 @@ use Runalyze\Bundle\CoreBundle\Services\Import\WeatherForecast;
 use Runalyze\Bundle\CoreBundle\Services\LegacyCache;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginResponseFactory;
 use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
@@ -258,6 +259,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(PluginConfigurationStorageInterface::class, DoctrinePluginConfigurationStorage::class);
 
     $services->set(LegacyPluginOutputRenderer::class);
+
+    $services->set(LegacyPluginResponseFactory::class);
 
     $services->set(LegacyPluginInstantiator::class)
         ->arg('$configurationStorage', service(PluginConfigurationStorageInterface::class));
