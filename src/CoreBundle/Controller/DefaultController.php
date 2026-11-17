@@ -17,6 +17,7 @@ use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Dashboard\DashboardStatisticsProvider;
+use Runalyze\Bundle\CoreBundle\Services\LegacyContentResponseFactory;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
@@ -53,6 +54,7 @@ class DefaultController extends AbstractPluginsAwareController
         PluginInstallationManager $pluginInstallationManager,
         private readonly PluginDiscovery $pluginDiscovery,
         LegacyPluginOutputRenderer $legacyPluginOutputRenderer,
+        LegacyContentResponseFactory $legacyContentResponseFactory,
         PluginSettingsProvider $pluginSettingsProvider,
         private readonly AuthorizationCheckerInterface $authorizationChecker,
         private readonly AuthenticationUtils $authenticationUtils,
@@ -67,6 +69,7 @@ class DefaultController extends AbstractPluginsAwareController
             $doctrine,
             $pluginInstallationManager,
             $legacyPluginOutputRenderer,
+            $legacyContentResponseFactory,
             $pluginSettingsProvider,
             $configurationManager,
             $sportSelectionFactory,
