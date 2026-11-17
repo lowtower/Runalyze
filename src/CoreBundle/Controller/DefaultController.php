@@ -264,7 +264,7 @@ class DefaultController extends AbstractPluginsAwareController
         /** @var RunalyzePluginPanel_Rechenspiele $Plugin */
         $Plugin = $this->instantiatePluginByKey('RunalyzePluginPanel_Rechenspiele');
 
-        return $this->wrapLegacyContent(
+        return $this->legacyContentResponseFactory->create(
             $this->legacyPluginOutputRenderer->render(function () use ($Plugin): void {
                 include FRONTEND_PATH . '../plugin/RunalyzePluginPanel_Rechenspiele/window.php';
             })->getContent(),
@@ -293,7 +293,7 @@ class DefaultController extends AbstractPluginsAwareController
         /** @var RunalyzePluginPanel_Prognose $prognosePlugin */
         $prognosePlugin = $this->instantiatePluginByKey('RunalyzePluginPanel_Prognose');
 
-        return $this->wrapLegacyContent(
+        return $this->legacyContentResponseFactory->create(
             $this->legacyPluginOutputRenderer->render(function () use ($topResults, $prognosePlugin): void {
                 new \Prognose_PrognosisWindow($topResults, $prognosePlugin->getDistances())->display();
             })->getContent(),
@@ -323,7 +323,7 @@ class DefaultController extends AbstractPluginsAwareController
             $WKplugin = $this->instantiatePluginByKey('RunalyzePluginStat_Wettkampf');
         }
 
-        return $this->wrapLegacyContent(
+        return $this->legacyContentResponseFactory->create(
             $this->legacyPluginOutputRenderer->render(function () use ($Plugin, $WKplugin): void {
                 include FRONTEND_PATH . '../plugin/RunalyzePluginPanel_Prognose/window.plot.php';
             })->getContent(),
