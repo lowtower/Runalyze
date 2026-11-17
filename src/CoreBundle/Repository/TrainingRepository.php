@@ -21,7 +21,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Bundle\CoreBundle\Model\Account\AccountStatistics;
 use Runalyze\Sports\Running\MarathonShape;
 use Runalyze\Util\Time;
-use Symfony\Bridge\Doctrine\ServiceEntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Training>

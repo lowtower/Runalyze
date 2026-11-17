@@ -9,7 +9,7 @@ use Runalyze\Bundle\CoreBundle\Model\Sport\SportStatistics;
 use Runalyze\Profile\Sport\Running;
 use Runalyze\Profile\Sport\SportProfile;
 use Runalyze\Util\LocalTime;
-use Symfony\Bridge\Doctrine\ServiceEntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Sport>

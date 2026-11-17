@@ -8,7 +8,7 @@ use Runalyze\Parser\Activity\Common\Data\WeatherData;
 use Runalyze\Service\WeatherForecast\DatabaseCacheInterface;
 use Runalyze\Service\WeatherForecast\Location;
 use Runalyze\Service\WeatherForecast\Strategy\DatabaseCache;
-use Symfony\Bridge\Doctrine\ServiceEntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<WeatherCache>
