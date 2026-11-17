@@ -64,7 +64,20 @@ final readonly class DashboardStatisticsProvider
         }
 
         if ($request->query->has('pluginid')) {
-            $plugin = $this->pluginSettingsProvider->getInstalledPluginById($request->query->getInt('pluginid'));
+            $pluginId = $request->query->getInt('pluginid');
+            $plugin = null;
+
+            foreach ([$activeStatistics, $variousStatistics] as $installedPlugins) {
+                foreach ($installedPlugins as $installedPlugin) {
+                    if ($installedPlugin->id() === $pluginId) {
+                        $plugin = $installedPlugin;
+
+                        break 2;
+                    }
+                }
+            }
+
+            $plugin ??= $this->pluginSettingsProvider->getInstalledPluginById($pluginId);
 
             if (! $plugin->isInActive()) {
                 return new DashboardStatistics($navigation, null, $plugin, $activeStatistics !== []);
