@@ -409,43 +409,33 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias('app.repository.account', AccountRepository::class);
 
-    $services->alias(AccountRepository::class, 'app.repository.account');
 
     $services->alias('app.repository.conf', ConfRepository::class);
 
-    $services->alias(ConfRepository::class, 'app.repository.conf');
 
     $services->alias('app.repository.equipment', EquipmentRepository::class);
 
-    $services->alias(EquipmentRepository::class, 'app.repository.equipment');
 
     $services->alias('app.repository.equipment_type', EquipmentTypeRepository::class);
 
-    $services->alias(EquipmentTypeRepository::class, 'app.repository.equipment_type');
 
     $services->alias('app.repository.race_result', RaceresultRepository::class);
 
-    $services->alias(RaceresultRepository::class, 'app.repository.race_result');
 
     $services->alias('app.repository.sport', SportRepository::class);
 
-    $services->alias(SportRepository::class, 'app.repository.sport');
 
     $services->alias('app.repository.tag', TagRepository::class);
 
-    $services->alias(TagRepository::class, 'app.repository.tag');
 
     $services->alias('app.repository.type', TypeRepository::class);
 
-    $services->alias(TypeRepository::class, 'app.repository.type');
 
     $services->alias('app.repository.training', TrainingRepository::class);
 
-    $services->alias(TrainingRepository::class, 'app.repository.training');
 
     $services->alias('app.repository.weathercache', WeathercacheRepository::class);
 
-    $services->alias(WeathercacheRepository::class, 'app.repository.weathercache');
 
     $services->set('app.entity_listener.activity', ActivityListener::class)
         ->arg('$RecalculationManager', service('app.recalculation_manager'))
