@@ -16,7 +16,7 @@ final readonly class LegacyContentResponseFactory
 
     public function create(string $content, ?Request $request): Response
     {
-        if (!$request instanceof Request || $request->isXmlHttpRequest()) {
+        if (! $request instanceof Request || $request->isXmlHttpRequest()) {
             return new Response($content);
         }
 
