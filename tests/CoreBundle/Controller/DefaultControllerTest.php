@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
 use PluginPanel;
+use PluginStat;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginEntity;
@@ -40,6 +41,30 @@ final class DashboardInstantiationTestPanel extends PluginPanel
     protected function defaultSport(): int
     {
         return -1;
+    }
+
+    protected function displayContent(): void {}
+}
+
+final class DashboardStatisticsInstantiationTestPlugin extends PluginStat
+{
+    public static int $instantiationCount = 0;
+
+    public function __construct(int $id)
+    {
+        ++self::$instantiationCount;
+
+        parent::__construct($id);
+    }
+
+    public function name(): string
+    {
+        return 'Dashboard statistics instantiation test';
+    }
+
+    public function description(): string
+    {
+        return 'Dashboard statistics instantiation test plugin.';
     }
 
     protected function displayContent(): void {}
@@ -529,6 +554,32 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
 
             $this->assertStatusCode(200, $this->Client);
             $this->assertSame(1, DashboardInstantiationTestPanel::$instantiationCount);
+        } finally {
+            $this->getEntityManager()->remove($plugin);
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testDashboardInstantiatesTheSelectedStatisticsPluginOnlyOnce(): void
+    {
+        $plugin = new PluginEntity()
+            ->setKey(DashboardStatisticsInstantiationTestPlugin::class)
+            ->setType(PluginEntity::TYPE_STAT)
+            ->setActive(PluginEntity::STATE_ACTIVE)
+            ->setOrder(0)
+            ->setAccount($this->Account);
+        $this->getEntityManager()->persist($plugin);
+        $this->getEntityManager()->flush();
+
+        DashboardStatisticsInstantiationTestPlugin::$instantiationCount = 0;
+
+        try {
+            $this->loginClient($this->Client, $this->Account, 'default');
+            $this->Client->request('GET', '/dashboard');
+
+            $this->assertStatusCode(200, $this->Client);
+            $this->assertSame(1, DashboardStatisticsInstantiationTestPlugin::$instantiationCount);
         } finally {
             $this->getEntityManager()->remove($plugin);
             $this->getEntityManager()->flush();

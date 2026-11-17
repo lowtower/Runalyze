@@ -129,7 +129,7 @@ class DefaultController extends AbstractPluginsAwareController
             $this->requestStack->push($fragmentRequest);
 
             try {
-                $content = $this->getResponseFor($statistics->plugin->id(), $fragmentRequest, $account)->getContent() ?: '';
+                $content = $this->getResponseForPlugin($statistics->plugin, $fragmentRequest, $account)->getContent() ?: '';
             } finally {
                 $this->requestStack->pop();
             }

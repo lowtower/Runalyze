@@ -110,7 +110,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
     /**
      * @throws Throwable if a legacy plugin throws
      */
-    private function getResponseForPlugin(LegacyPlugin $plugin, Request $request, Account $account): Response
+    protected function getResponseForPlugin(LegacyPlugin $plugin, Request $request, Account $account): Response
     {
         if ($plugin instanceof RunalyzePluginPanel_Sports) {
             return $this->getResponseForSportsPanel($account, $plugin);
