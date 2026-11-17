@@ -126,7 +126,7 @@ class ViewController extends AbstractController
             $context = new Context($activity->getId(), $activity->getAccount()->getId());
             $view = new TrainingView($context);
 
-            return $this->wrapLegacyContent(
+            return $this->legacyContentResponseFactory->create(
                 $this->renderView('activity/training_view.html.twig', $view->templateData()),
                 $request
             );
@@ -179,7 +179,7 @@ class ViewController extends AbstractController
             return $this->render('activity/tool/not_possible.html.twig');
         }
 
-        return $this->wrapLegacyContent(
+        return $this->legacyContentResponseFactory->create(
             $this->legacyPluginOutputRenderer->render(function () use ($context): void {
                 $window = new Window($context);
                 $window->display();
@@ -221,7 +221,7 @@ class ViewController extends AbstractController
             return $this->render('activity/tool/not_possible.html.twig');
         }
 
-        return $this->wrapLegacyContent(
+        return $this->legacyContentResponseFactory->create(
             $this->legacyPluginOutputRenderer->render(function () use ($context): void {
                 $elevationInfo = new ElevationInfo($context);
                 $elevationInfo->display();
