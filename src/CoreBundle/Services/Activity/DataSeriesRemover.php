@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Services\Activity;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Hrv;
 use Runalyze\Bundle\CoreBundle\Entity\Route;
 use Runalyze\Bundle\CoreBundle\Entity\Trackdata;
@@ -64,7 +65,7 @@ class DataSeriesRemover
     public const string KEY_HRV = 'hrv';
 
     public function __construct(
-        protected \Doctrine\ORM\EntityManager $EntityManager
+        protected EntityManagerInterface $EntityManager
     ) {}
 
     /**

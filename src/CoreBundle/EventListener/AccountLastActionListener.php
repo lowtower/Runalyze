@@ -8,13 +8,13 @@ use Doctrine\ORM\EntityManager;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\HttpKernel;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\UsageTrackingTokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class AccountLastActionListener
 {
     public function __construct(
-        protected UsageTrackingTokenStorage $token,
+        protected TokenStorageInterface $token,
         protected EntityManager $em
     ) {}
 
