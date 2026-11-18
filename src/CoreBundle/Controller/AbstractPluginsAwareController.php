@@ -132,7 +132,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
         return $this->render('@Sportler/panel.html.twig', [
             'pluginId' => $installation->getId(),
             'isHidden' => $installation->isHidden(),
-            'panelData' => $this->sportlerPanelPresenter->present($account, $installation),
+            'panel_data' => $this->sportlerPanelPresenter->present($account, $installation),
         ]);
     }
 
