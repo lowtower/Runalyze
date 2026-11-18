@@ -37,7 +37,7 @@ The repository uses separate roots for the two generations:
 - `plugin/` remains the legacy root. Existing directories, class names, global base classes, and Composer classmap discovery remain supported during migration.
 - `plugins/` is the root for modern plugins. New modern plugin code must not be added to the legacy `plugin/` tree.
 
-Each modern plugin has one directory named after its stable, human-readable plugin name in PascalCase. Its PHP namespace is rooted at `Runalyze\\Plugins\\<PluginName>\\`, mapped by Composer PSR-4 from `Runalyze\\Plugins\\` to `plugins/`.
+Each modern plugin has one directory named after its stable, human-readable plugin name in PascalCase. Its PHP namespace is rooted at `Runalyze\Plugins\<PluginName>\`, mapped by Composer PSR-4 from `Runalyze\Plugins\` to `plugins/`.
 
 A modern plugin should follow this structure where the corresponding concerns exist:
 
@@ -62,7 +62,7 @@ The directory name and namespace segment are code organization details, not pers
 - Keep plugin-specific classes in that namespace or meaningful subnamespaces such as `Configuration`, `Presentation`, or `Infrastructure`.
 - Use PascalCase for plugin directory names and PHP class names.
 - Do not introduce a generic `Plugin` namespace shared by unrelated feature code.
-- Do not place plugin-specific providers, presenters, DTOs, or configuration definitions in `Runalyze\\Bundle\\CoreBundle\\`.
+- Do not place plugin-specific providers, presenters, DTOs, or configuration definitions in `Runalyze\Bundle\CoreBundle\`.
 - Keep reusable application services, shared contracts, repositories, and cross-plugin orchestration in the CoreBundle.
 
 ### Composer and Symfony integration
@@ -239,7 +239,7 @@ Do not bulk-convert plugin directories, change all routes, or migrate the legacy
 
 ## First validated panel slice: Sportler
 
-The first implementation step introduces `plugins/Sportler/SportlerPanelDataProvider.php` as a Symfony-managed, stateless service under the `Runalyze\\Plugins\\Sportler` namespace. Its invocation receives the authenticated `Account` and the persisted `Plugin` installation explicitly. It rejects installations belonging to another account, installations with a different stable key, non-panel installations, and inactive installations; hidden installations remain executable so the existing hidden-panel behavior can be preserved.
+The first implementation step introduces `plugins/Sportler/SportlerPanelDataProvider.php` as a Symfony-managed, stateless service under the `Runalyze\Plugins\Sportler` namespace. Its invocation receives the authenticated `Account` and the persisted `Plugin` installation explicitly. It rejects installations belonging to another account, installations with a different stable key, non-panel installations, and inactive installations; hidden installations remain executable so the existing hidden-panel behavior can be preserved.
 
 The provider reuses `UserRepository` for the latest body values and the account-scoped weight/body-composition histories, and `PluginConfigurationStorageInterface` for the existing `wunschgewicht`, `plot_points`, and `plot_timerange` settings. The legacy defaults are applied at this boundary. The provider returns typed data only; rendering and chart presentation remain outside it. The service is registered through `plugins/Sportler/config/services.php`, which is imported explicitly by the application service configuration. Its unit test lives at `tests/Plugins/Sportler/SportlerPanelDataProviderTest.php`. This is a panel-specific plugin service, not a generic plugin execution contract.
 
