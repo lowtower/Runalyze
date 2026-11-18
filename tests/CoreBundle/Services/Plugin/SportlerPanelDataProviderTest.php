@@ -155,6 +155,42 @@ final class SportlerPanelDataProviderTest extends TestCase
         $provider->getData($account, $installation);
     }
 
+    public function testRejectsInstallationWithAnotherStableKey(): void
+    {
+        $account = $this->createAccount(7);
+        $installation = $this->createInstallation($account, 17, PluginInstallation::STATE_ACTIVE, 'AnotherPanel');
+
+        $repository = $this->createMock(UserRepository::class);
+        $repository->expects($this->never())->method('getLatestEntryFor');
+
+        $provider = $this->createProvider($repository, []);
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $provider->getData($account, $installation);
+    }
+
+    public function testRejectsInstallationOfAnotherPluginType(): void
+    {
+        $account = $this->createAccount(7);
+        $installation = $this->createInstallation(
+            $account,
+            17,
+            PluginInstallation::STATE_ACTIVE,
+            'RunalyzePluginPanel_Sportler',
+            PluginInstallation::TYPE_STAT
+        );
+
+        $repository = $this->createMock(UserRepository::class);
+        $repository->expects($this->never())->method('getLatestEntryFor');
+
+        $provider = $this->createProvider($repository, []);
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $provider->getData($account, $installation);
+    }
+
     /**
      * @param array<int, array<string, string>> $configuration
      */
@@ -183,12 +219,14 @@ final class SportlerPanelDataProviderTest extends TestCase
     private function createInstallation(
         Account $account,
         int $id,
-        int $active = PluginInstallation::STATE_ACTIVE
+        int $active = PluginInstallation::STATE_ACTIVE,
+        string $key = 'RunalyzePluginPanel_Sportler',
+        string $type = PluginInstallation::TYPE_PANEL
     ): PluginInstallation {
         $installation = (new PluginInstallation())
             ->setAccount($account)
-            ->setKey('RunalyzePluginPanel_Sportler')
-            ->setType(PluginInstallation::TYPE_PANEL)
+            ->setKey($key)
+            ->setType($type)
             ->setActive($active);
         new ReflectionProperty(PluginInstallation::class, 'id')->setValue($installation, $id);
 
