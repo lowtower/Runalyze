@@ -37,10 +37,13 @@ final readonly class SportlerPanelDataProvider
      */
     public function getData(Account $account, PluginInstallation $installation): array
     {
+        $pluginId = $installation->getId();
+        $accountId = $account->getId();
+
         if (
-            $installation->getId() === null
-            || $account->getId() === null
-            || $installation->getAccount()->getId() !== $account->getId()
+            $pluginId === null
+            || $accountId === null
+            || $installation->getAccount()->getId() !== $accountId
             || $installation->getKey() !== self::PLUGIN_KEY
             || ! $installation->isPanel()
             || $installation->isInactive()
@@ -48,7 +51,6 @@ final readonly class SportlerPanelDataProvider
             throw new InvalidArgumentException('The Sportler panel installation is not available for this account.');
         }
 
-        $pluginId = $installation->getId();
         $storedConfiguration = $this->configurationStorage->loadForPlugins([$pluginId])[$pluginId] ?? [];
 
         $configuration = [
