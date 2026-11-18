@@ -11,7 +11,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'user')]
 #[ORM\Index(name: 'accountid_time', columns: ['accountid', 'time'])]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\EntityListeners([\Runalyze\Bundle\CoreBundle\EntityListener\UserListener::class])]
 class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
 {
     #[ORM\Column(name: 'id', type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: false, options: [
