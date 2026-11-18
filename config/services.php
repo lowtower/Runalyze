@@ -713,37 +713,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ],
     ]);
 
-    $services->set('app.twig_configuration_extension', ConfigurationExtension::class)
-        ->private()
-        ->arg('$ConfigurationManager', service('app.configuration_manager'))
+    $services->load('Runalyze\Bundle\CoreBundle\Twig\\', __DIR__ . '/../src/CoreBundle/Twig/*Extension.php')
         ->tag('twig.attribute_extension');
 
-    $services->alias(ConfigurationExtension::class, 'app.twig_configuration_extension');
-
-    $services->set('app.twig_html_extension', HtmlExtension::class)
-        ->private()
-        ->tag('twig.attribute_extension');
-
-    $services->alias(HtmlExtension::class, 'app.twig_html_extension');
-
-    $services->set('app.twig_utility_extension', UtilityExtension::class)
-        ->private()
-        ->tag('twig.attribute_extension');
-
-    $services->alias(UtilityExtension::class, 'app.twig_utility_extension');
-
-    $services->set('app.twig_value_extension', ValueExtension::class)
-        ->private()
-        ->arg('$configurationManager', service('app.configuration_manager'))
-        ->tag('twig.attribute_extension');
-
-    $services->alias(ValueExtension::class, 'app.twig_value_extension');
-
-    $services->set('app.twig_automatic_reload_flag_extension', AutomaticReloadFlagExtension::class)
-        ->private()
-        ->tag('twig.attribute_extension');
-
-    $services->alias(AutomaticReloadFlagExtension::class, 'app.twig_automatic_reload_flag_extension');
+    $services->alias('app.twig_configuration_extension', ConfigurationExtension::class);
+    $services->alias('app.twig_html_extension', HtmlExtension::class);
+    $services->alias('app.twig_utility_extension', UtilityExtension::class);
+    $services->alias('app.twig_value_extension', ValueExtension::class);
+    $services->alias('app.twig_automatic_reload_flag_extension', AutomaticReloadFlagExtension::class);
 
     $services->set('app.poster.generate_json', GenerateJsonData::class)
         ->arg('$TrainingRepository', service(TrainingRepository::class))
