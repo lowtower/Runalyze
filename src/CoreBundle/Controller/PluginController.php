@@ -96,9 +96,9 @@ class PluginController extends AbstractPluginsAwareController
         $id = $request->query->get('id');
 
         $legacyContent = $this->legacyPluginOutputRenderer->render(function () use ($id, $request): void {
-            new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
-
             if ($id !== null && is_numeric($id)) {
+                new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
+
                 $plugin = $this->instantiatePluginById((int) $id);
                 $active = $request->query->get('active');
 
