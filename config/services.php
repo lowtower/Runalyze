@@ -5,7 +5,6 @@ declare(strict_types=1);
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ObjectManager;
 use GuzzleHttp\Client;
-use Monolog\Formatter\LineFormatter;
 use Runalyze\Bundle\CoreBundle\ArgumentResolver\AccountValueResolver;
 use Runalyze\Bundle\CoreBundle\Command\ActivityBulkRouteNameEvaluationCommand;
 use Runalyze\Bundle\CoreBundle\Command\CleanupBackupCommand;
@@ -406,41 +405,31 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(AccountChecker::class);
 
-    $services->alias('app.repository.account', AccountRepository::class);
 
 
-    $services->alias('app.repository.conf', ConfRepository::class);
 
 
-    $services->alias('app.repository.equipment', EquipmentRepository::class);
 
 
-    $services->alias('app.repository.equipment_type', EquipmentTypeRepository::class);
 
 
-    $services->alias('app.repository.race_result', RaceresultRepository::class);
 
 
-    $services->alias('app.repository.sport', SportRepository::class);
 
 
-    $services->alias('app.repository.tag', TagRepository::class);
 
 
-    $services->alias('app.repository.type', TypeRepository::class);
 
 
-    $services->alias('app.repository.training', TrainingRepository::class);
 
 
-    $services->alias('app.repository.weathercache', WeathercacheRepository::class);
 
 
     $services->set('app.entity_listener.activity', ActivityListener::class)
         ->arg('$RecalculationManager', service('app.recalculation_manager'))
         ->arg('$ConfigurationManager', service('app.configuration_manager'))
-        ->arg('$SportRepository', service('app.repository.sport'))
-        ->arg('$EquipmentRepository', service('app.repository.equipment'))
+        ->arg('$SportRepository', service(SportRepository::class))
+        ->arg('$EquipmentRepository', service(EquipmentRepository::class))
         ->arg('$TimezoneLookup', service('app.timezone_lookup'))
         ->tag('doctrine.orm.entity_listener', [
             'lazy' => true,
@@ -484,7 +473,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set('app.form.activity', ActivityType::class)
         ->arg('$TokenStorageInterface', service('security.token_storage'))
-        ->arg('$TagRepository', service('app.repository.tag'))
+        ->arg('$TagRepository', service(TagRepository::class))
         ->tag('form.type');
 
     $services->alias(ActivityType::class, 'app.form.activity');
@@ -504,9 +493,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(ActivityEquipmentType::class, 'app.form.activity.equipment');
 
     $services->set('app.form.anova', AnovaType::class)
-        ->arg('$SportRepository', service('app.repository.sport'))
-        ->arg('$TypeRepository', service('app.repository.type'))
-        ->arg('$EquipmentTypeRepository', service('app.repository.equipment_type'))
+        ->arg('$SportRepository', service(SportRepository::class))
+        ->arg('$TypeRepository', service(TypeRepository::class))
+        ->arg('$EquipmentTypeRepository', service(EquipmentTypeRepository::class))
         ->arg('$TokenStorageInterface', service('security.token_storage'))
         ->arg('$ConfigurationManager', service('app.configuration_manager'))
         ->tag('form.type');
@@ -514,8 +503,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(AnovaType::class, 'app.form.anova');
 
     $services->set('app.form.trend_analysis', TrendAnalysisType::class)
-        ->arg('$SportRepository', service('app.repository.sport'))
-        ->arg('$TypeRepository', service('app.repository.type'))
+        ->arg('$SportRepository', service(SportRepository::class))
+        ->arg('$TypeRepository', service(TypeRepository::class))
         ->arg('$TokenStorageInterface', service('security.token_storage'))
         ->arg('$ConfigurationManager', service('app.configuration_manager'))
         ->tag('form.type');
@@ -523,31 +512,31 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(TrendAnalysisType::class, 'app.form.trend_analysis');
 
     $services->set('app.form.poster', PosterType::class)
-        ->arg('$SportRepository', service('app.repository.sport'))
-        ->arg('$TrainingRepository', service('app.repository.training'))
+        ->arg('$SportRepository', service(SportRepository::class))
+        ->arg('$TrainingRepository', service(TrainingRepository::class))
         ->arg('$TokenStorageInterface', service('security.token_storage'))
         ->tag('form.type');
 
     $services->alias(PosterType::class, 'app.form.poster');
 
     $services->set('app.form.equipment', \Runalyze\Bundle\CoreBundle\Form\EquipmentType::class)
-        ->arg('$EquipmentRepository', service('app.repository.equipment_type'))
+        ->arg('$EquipmentRepository', service(EquipmentTypeRepository::class))
         ->arg('$TokenStorageInterface', service('security.token_storage'))
         ->tag('form.type');
 
     $services->alias(\Runalyze\Bundle\CoreBundle\Form\EquipmentType::class, 'app.form.equipment');
 
     $services->set('app.form.equipment_category', EquipmentCategoryType::class)
-        ->arg('$SportRepository', service('app.repository.sport'))
+        ->arg('$SportRepository', service(SportRepository::class))
         ->arg('$TokenStorage', service('security.token_storage'))
         ->tag('form.type');
 
     $services->alias(EquipmentCategoryType::class, 'app.form.equipment_category');
 
     $services->set('app.form.sport_setting', SportType::class)
-        ->arg('$TypeRepository', service('app.repository.type'))
-        ->arg('$SportRepository', service('app.repository.sport'))
-        ->arg('$EquipmentTypeRepository', service('app.repository.equipment_type'))
+        ->arg('$TypeRepository', service(TypeRepository::class))
+        ->arg('$SportRepository', service(SportRepository::class))
+        ->arg('$EquipmentTypeRepository', service(EquipmentTypeRepository::class))
         ->arg('$TokenStorageInterface', service('security.token_storage'))
         ->tag('form.type');
 
@@ -599,7 +588,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set('app.form.type.sport', SportChoiceType::class)
         ->arg('$tokenStorage', service('security.token_storage'))
-        ->arg('$SportRepository', service('app.repository.sport'))
+        ->arg('$SportRepository', service(SportRepository::class))
         ->call('setConfigurationManager', [
             service('app.configuration_manager'),
         ])
@@ -665,13 +654,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias('app.activity_context.factory', ActivityContextFactory::class);
 
     $services->set(ConfigurationManager::class)
-        ->arg('$Repository', service('app.repository.conf'))
+        ->arg('$Repository', service(ConfRepository::class))
         ->arg('$tokenStorage', service('security.token_storage'));
 
     $services->alias('app.configuration_manager', ConfigurationManager::class);
 
     $services->set('app.configuration_updater', ConfigurationUpdater::class)
-        ->arg('$Repository', service('app.repository.conf'))
+        ->arg('$Repository', service(ConfRepository::class))
         ->arg('$Manager', service('app.configuration_manager'))
         ->lazy(true);
 
@@ -680,14 +669,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set('app.recalculation_manager', RecalculationManager::class)
         ->arg('$ConfigurationManager', service('app.configuration_manager'))
         ->arg('$ConfigurationUpdater', service('app.configuration_updater'))
-        ->arg('$TrainingRepository', service('app.repository.training'))
-        ->arg('$RaceResultRepository', service('app.repository.race_result'))
+        ->arg('$TrainingRepository', service(TrainingRepository::class))
+        ->arg('$RaceResultRepository', service(RaceresultRepository::class))
         ->lazy(true);
 
     $services->alias(RecalculationManager::class, 'app.recalculation_manager');
 
     $services->set('app.sport_selection_factory', SportSelectionFactory::class)
-        ->arg('$SportRepository', service('app.repository.sport'))
+        ->arg('$SportRepository', service(SportRepository::class))
         ->arg('$ConfigurationManager', service('app.configuration_manager'))
         ->arg('$tokenStorage', service('security.token_storage'));
 
@@ -800,8 +789,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(AutomaticReloadFlagExtension::class, 'app.twig_automatic_reload_flag_extension');
 
     $services->set('app.poster.generate_json', GenerateJsonData::class)
-        ->arg('$TrainingRepository', service('app.repository.training'))
-        ->arg('$RaceresultRepository', service('app.repository.race_result'))
+        ->arg('$TrainingRepository', service(TrainingRepository::class))
+        ->arg('$RaceresultRepository', service(RaceresultRepository::class))
         ->arg('$projectDir', '%kernel.project_dir%');
 
     $services->alias(GenerateJsonData::class, 'app.poster.generate_json');
@@ -809,7 +798,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set('app.poster.generate_poster', GeneratePoster::class)
         ->arg('$projectDir', '%kernel.project_dir%')
         ->arg('$Python3Path', '%app.python3_path%')
-        ->arg('$TrainingRepository', service('app.repository.training'));
+        ->arg('$TrainingRepository', service(TrainingRepository::class));
 
     $services->alias(GeneratePoster::class, 'app.poster.generate_poster');
 
@@ -826,7 +815,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(FileHandler::class, 'app.poster.filehandler');
 
     $services->set(BackupGenerationMessageHandler::class)
-        ->arg('$accountRepository', service('app.repository.account'))
+        ->arg('$accountRepository', service(AccountRepository::class))
         ->arg('$parameterBag', service('parameter_bag'))
         ->arg('$dataDirectory', '%app.data_directory%')
         ->arg('$databasePrefix', '%app.database_prefix%')
@@ -836,8 +825,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(PosterGenerationMessageHandler::class)
         ->arg('$logger', service('monolog.logger.queue'))
-        ->arg('$accountRepository', service('app.repository.account'))
-        ->arg('$sportRepository', service('app.repository.sport'))
+        ->arg('$accountRepository', service(AccountRepository::class))
+        ->arg('$sportRepository', service(SportRepository::class))
         ->arg('$generateJsonData', service('app.poster.generate_json'))
         ->arg('$generatePoster', service('app.poster.generate_poster'))
         ->arg('$fileHandler', service('app.poster.filehandler'))
@@ -876,9 +865,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(FileImporter::class, 'app.file_importer');
 
     $services->set('app.activity_data_container.converter', ActivityDataContainerToActivityContextConverter::class)
-        ->arg('$SportRepository', service('app.repository.sport'))
-        ->arg('$TypeRepository', service('app.repository.type'))
-        ->arg('$EquipmentRepository', service('app.repository.equipment'))
+        ->arg('$SportRepository', service(SportRepository::class))
+        ->arg('$TypeRepository', service(TypeRepository::class))
+        ->arg('$EquipmentRepository', service(EquipmentRepository::class))
         ->arg('$ConfigurationManager', service('app.configuration_manager'));
 
     $services->alias(ActivityDataContainerToActivityContextConverter::class, 'app.activity_data_container.converter');
@@ -898,7 +887,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set('app.activity_context_adapter_factory', ActivityContextAdapterFactory::class)
         ->arg('$WeatherForecast', service('app.weather_forecast'))
-        ->arg('$TrainingRepository', service('app.repository.training'))
+        ->arg('$TrainingRepository', service(TrainingRepository::class))
         ->arg('$routeNameEvalFactory', service('app.routename_evaluation.routename_evaluation_factory'));
 
     $services->alias(ActivityContextAdapterFactory::class, 'app.activity_context_adapter_factory');
@@ -947,7 +936,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(MeteostatNet::class, 'app.weather_forecast.meteostatnet');
 
     $services->set('app.weather_forecast.cache', DatabaseCache::class)
-        ->arg('$Cache', service('app.repository.weathercache'));
+        ->arg('$Cache', service(WeathercacheRepository::class));
 
     $services->alias(DatabaseCache::class, 'app.weather_forecast.cache');
 
@@ -955,7 +944,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$cache', service('app.weather_forecast.cache'))
         ->arg('$openWeatherMap', service('app.weather_forecast.openweathermap'))
         ->arg('$meteostatNet', service('app.weather_forecast.meteostatnet'))
-        ->arg('$DatabaseCache', service('app.repository.weathercache'));
+        ->arg('$DatabaseCache', service(WeathercacheRepository::class));
 
     $services->alias(WeatherForecast::class, 'app.weather_forecast');
 
@@ -1027,8 +1016,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'method' => 'processRecord',
         ]);
 
-    $services->set('monolog.formatter.session_request', LineFormatter::class)
-        ->arg('$format', '[%%datetime%%] [%%extra.token%%] %%channel%%.%%level_name%%: %%message%% %%context%% %%extra%%');
 
     $services->set('app.disposable_domain_provider', DisposableDomainProvider::class)
         ->arg('$projectDir', '%kernel.project_dir%');
