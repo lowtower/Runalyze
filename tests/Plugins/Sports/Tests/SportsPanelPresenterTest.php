@@ -27,14 +27,18 @@ final class SportsPanelPresenterTest extends TestCase
         $clock = $this->createStub(ClockInterface::class);
         $clock->method('now')->willReturn($now);
 
-        $today = new LocalTime($now->getTimestamp());
-        $today->setTime(0, 0, 0);
+        $today = new DateTimeImmutable('2026-11-18T00:00:00+00:00');
         $expectedTimestamps = [
-            $today->weekstart(),
-            $today->monthStart(),
-            $today->yearStart(),
+            $today->modify('-2 days')->getTimestamp(),
+            $today->modify('first day of this month')->getTimestamp(),
+            $today->setDate(2026, 1, 1)->getTimestamp(),
             null,
         ];
+
+        $configurationList = $this->createStub(RunalyzeConfigurationList::class);
+        $configurationList->method('get')->with('general.WEEK_START')->willReturn('1');
+        $configurationManager = $this->createStub(ConfigurationManager::class);
+        $configurationManager->method('getList')->with($account)->willReturn($configurationList);
         $actualTimestamps = [];
 
         $statistics = [
@@ -54,7 +58,7 @@ final class SportsPanelPresenterTest extends TestCase
                 return $statistics[count($actualTimestamps) - 1];
             });
 
-        $presenter = new SportsPanelPresenter($repository, $clock);
+        $presenter = new SportsPanelPresenter($repository, $configurationManager, $clock);
 
         $data = $presenter->present($account, $installation);
 
@@ -69,7 +73,8 @@ final class SportsPanelPresenterTest extends TestCase
     {
         $clock = $this->createStub(ClockInterface::class);
         $repository = $this->createStub(SportRepository::class);
-        $presenter = new SportsPanelPresenter($repository, $clock);
+        $configurationManager = $this->createStub(ConfigurationManager::class);
+        $presenter = new SportsPanelPresenter($repository, $configurationManager, $clock);
 
         $this->assertSame('RunalyzePluginPanel_Sports', $presenter->getKey());
         $this->assertSame('@Sports/panel.html.twig', $presenter->getTemplate());
