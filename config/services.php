@@ -708,7 +708,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ],
     ]);
 
-    $services->load('Runalyze\Bundle\CoreBundle\Twig\\', __DIR__ . '/../src/CoreBundle/Twig')
+    $services->load('Runalyze\Bundle\CoreBundle\Twig\\', __DIR__ . '/../src/CoreBundle/Twig/*Extension.php')
         ->tag('twig.attribute_extension');
 
     $services->alias('app.twig_configuration_extension', ConfigurationExtension::class);
