@@ -27,6 +27,16 @@ final class SportsPanelPresenterTest extends TestCase
         $clock = $this->createStub(ClockInterface::class);
         $clock->method('now')->willReturn($now);
 
+        $today = new LocalTime($now->getTimestamp());
+        $today->setTime(0, 0, 0);
+        $expectedTimestamps = [
+            $today->weekstart(),
+            $today->monthStart(),
+            $today->yearStart(),
+            null,
+        ];
+        $actualTimestamps = [];
+
         $statistics = [
             new SportStatistics(new \DateTime('2026-11-18'), []),
             new SportStatistics(new \DateTime('2026-11-01'), []),
@@ -37,7 +47,12 @@ final class SportsPanelPresenterTest extends TestCase
         $repository = $this->createMock(SportRepository::class);
         $repository->expects($this->exactly(4))
             ->method('getSportStatisticsSince')
-            ->willReturnOnConsecutiveCalls(...$statistics);
+            ->willReturnCallback(function (?int $timestamp, Account $receivedAccount) use (&$actualTimestamps, $account, $statistics): SportStatistics {
+                $this->assertSame($account, $receivedAccount);
+                $actualTimestamps[] = $timestamp;
+
+                return $statistics[count($actualTimestamps) - 1];
+            });
 
         $presenter = new SportsPanelPresenter($repository, $clock);
 
@@ -47,6 +62,7 @@ final class SportsPanelPresenterTest extends TestCase
         $this->assertSame($statistics[1], $data['month_statistics']);
         $this->assertSame($statistics[2], $data['year_statistics']);
         $this->assertSame($statistics[3], $data['total_statistics']);
+        $this->assertSame($expectedTimestamps, $actualTimestamps);
     }
 
     public function testDeclaresItsStableKeyTemplateAndTrainingReloadBehavior(): void
