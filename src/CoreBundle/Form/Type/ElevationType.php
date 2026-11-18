@@ -9,9 +9,9 @@ class ElevationType extends AbstractUnitBasedType
     #[\Override]
     protected int $ViewPrecision = 0;
 
-    public function __construct(AbstractDistanceUnit $distanceUnit)
+    public function __construct(AbstractDistanceUnit $elevationUnit)
     {
-        parent::__construct($distanceUnit);
+        parent::__construct($elevationUnit);
     }
 
     public function transform(mixed $value): string
