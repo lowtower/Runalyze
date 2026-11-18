@@ -1030,10 +1030,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set('monolog.formatter.session_request', LineFormatter::class)
         ->arg('$format', '[%%datetime%%] [%%extra.token%%] %%channel%%.%%level_name%%: %%message%% %%context%% %%extra%%');
 
-    $services->set('app.frontend', Frontend::class)
-        ->arg('$parameterBag', service('parameter_bag'));
-
-
     $services->set('app.disposable_domain_provider', DisposableDomainProvider::class)
         ->arg('$projectDir', '%kernel.project_dir%');
 
