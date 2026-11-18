@@ -130,8 +130,8 @@ abstract class AbstractPluginsAwareController extends AbstractController
         $panel = $this->modernPanelRegistry->get($installation->getKey());
 
         return $this->render($panel->getTemplate(), [
-            'pluginId' => $installation->getId(),
-            'isHidden' => $installation->isHidden(),
+            'plugin_id' => $installation->getId(),
+            'is_hidden' => $installation->isHidden(),
             'panel_data' => $panel->present($account, $installation),
         ]);
     }
@@ -193,7 +193,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
         $analysisData->setValueExtension($valueExtension);
 
         return $this->render('my/statistics/monthly-stats/base.html.twig', [
-            'pluginId' => $pluginId,
+            'plugin_id' => $pluginId,
             'analysisData' => $analysisData,
         ]);
     }
@@ -230,8 +230,8 @@ abstract class AbstractPluginsAwareController extends AbstractController
         );
 
         return $this->render('my/panels/prognose/base.html.twig', [
-            'isHidden' => $plugin->isHidden(),
-            'pluginId' => $plugin->id(),
+            'is_hidden' => $plugin->isHidden(),
+            'plugin_id' => $plugin->id(),
             'prognosisData' => $prognosisData,
         ]);
     }
