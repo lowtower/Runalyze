@@ -15,5 +15,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->public();
 
     $services->set(SportlerPanelDataProvider::class);
-    $services->set(SportlerPanelPresenter::class);
+    $services->set(SportlerPanelPresenter::class)
+        ->tag('runalyze.modern_panel');
 };
