@@ -193,7 +193,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
         $analysisData->setValueExtension($valueExtension);
 
         return $this->render('my/statistics/monthly-stats/base.html.twig', [
-            'plugin_id' => $pluginId,
+            'pluginId' => $pluginId,
             'analysisData' => $analysisData,
         ]);
     }
