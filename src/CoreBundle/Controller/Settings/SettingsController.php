@@ -72,8 +72,6 @@ class SettingsController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
-
         $currentLanguage = $account->getLanguage();
         $form = $this->createForm(AccountType::class, $account, [
             'action' => $this->generateUrl('settings-account'),
