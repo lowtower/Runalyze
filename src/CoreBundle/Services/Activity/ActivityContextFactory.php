@@ -2,7 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Services\Activity;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use InvalidArgumentException;
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
@@ -10,7 +10,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 class ActivityContextFactory
 {
     public function __construct(
-        protected EntityManager $EntityManager
+        protected EntityManagerInterface $EntityManager
     ) {}
 
     public function getContext(Training $activity): ActivityContext
