@@ -91,6 +91,7 @@
             "Runalyze\\Devices\\": "vendor/runalyze/devices/src/",
             "Runalyze\\Migrations\\": "migrations/",
             "Runalyze\\Bundle\\": "src/",
+            "Runalyze\\Plugins\\": "plugins/",
             "Runalyze\\": "inc/core/"
         }
     },
