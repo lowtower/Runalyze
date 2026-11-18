@@ -13,8 +13,8 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
 use Runalyze\Bundle\CoreBundle\Entity\User;
 use Runalyze\Bundle\CoreBundle\Repository\UserRepository;
-use Runalyze\Plugins\Sportler\SportlerPanelDataProvider;
 use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
+use Runalyze\Plugins\Sportler\SportlerPanelDataProvider;
 use Symfony\Component\Clock\ClockInterface;
 
 #[Group('plugin')]
