@@ -48,6 +48,14 @@ class PluginRepository extends EntityRepository
             ->getArrayResult();
     }
 
+    public function findForAccountAndId(Account $account, int $id): ?Plugin
+    {
+        return $this->findOneBy([
+            'account' => $account,
+            'id' => $id,
+        ]);
+    }
+
     public function findForAccountAndKey(Account $account, string $key): ?Plugin
     {
         return $this->findOneBy([
