@@ -33,6 +33,107 @@ final class UserRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEmpty($this->UserRepository->findAllFor(new Account()));
     }
 
+    public function testFindBodyValueHistoryForAccountWithLimit(): void
+    {
+        $this->insertBodyValues($this->Account, 100, 65.2, 50, 15.1, 55.2, 40.3);
+        $this->insertBodyValues($this->Account, 200, 66.1, 51, 15.2, 55.3, 40.4);
+        $this->insertBodyValues($this->Account, 300, 67.0, 52, 15.3, 55.4, 40.5);
+        $this->insertBodyValues($this->getEmptyAccount(), 400, 80.0, 60, 20.0, 50.0, 30.0);
+
+        $this->assertSame([
+            [
+                'time' => 300,
+                'weight' => 67.0,
+                'pulseRest' => 52,
+            ],
+            [
+                'time' => 200,
+                'weight' => 66.1,
+                'pulseRest' => 51,
+            ],
+        ], $this->UserRepository->findWeightHistoryFor($this->Account, 2));
+
+        $this->assertSame([
+            [
+                'time' => 300,
+                'fat' => 15.3,
+                'water' => 55.4,
+                'muscles' => 40.5,
+            ],
+            [
+                'time' => 200,
+                'fat' => 15.2,
+                'water' => 55.3,
+                'muscles' => 40.4,
+            ],
+        ], $this->UserRepository->findBodyCompositionHistoryFor($this->Account, 2));
+    }
+
+    public function testFindBodyValueHistorySinceTimestampForAccount(): void
+    {
+        $this->insertBodyValues($this->Account, 100, 65.2, 50, 15.1, 55.2, 40.3);
+        $this->insertBodyValues($this->Account, 200, 66.1, 51, 15.2, 55.3, 40.4);
+        $this->insertBodyValues($this->Account, 300, 67.0, 52, 15.3, 55.4, 40.5);
+        $this->insertBodyValues($this->getEmptyAccount(), 400, 80.0, 60, 20.0, 50.0, 30.0);
+
+        $this->assertSame([
+            [
+                'time' => 300,
+                'weight' => 67.0,
+                'pulseRest' => 52,
+            ],
+            [
+                'time' => 200,
+                'weight' => 66.1,
+                'pulseRest' => 51,
+            ],
+        ], $this->UserRepository->findWeightHistorySince($this->Account, 100));
+
+        $this->assertSame([
+            [
+                'time' => 300,
+                'fat' => 15.3,
+                'water' => 55.4,
+                'muscles' => 40.5,
+            ],
+            [
+                'time' => 200,
+                'fat' => 15.2,
+                'water' => 55.3,
+                'muscles' => 40.4,
+            ],
+        ], $this->UserRepository->findBodyCompositionHistorySince($this->Account, 100));
+    }
+
+    public function testFindBodyValueHistoryReturnsEmptyForAccountWithoutEntries(): void
+    {
+        $this->assertSame([], $this->UserRepository->findWeightHistoryFor($this->Account, 20));
+        $this->assertSame([], $this->UserRepository->findWeightHistorySince($this->Account, 0));
+        $this->assertSame([], $this->UserRepository->findBodyCompositionHistoryFor($this->Account, 20));
+        $this->assertSame([], $this->UserRepository->findBodyCompositionHistorySince($this->Account, 0));
+    }
+
+    private function insertBodyValues(
+        Account $account,
+        int $timestamp,
+        ?float $weight,
+        ?int $restingHeartRate,
+        ?float $fat,
+        ?float $water,
+        ?float $muscles
+    ): void {
+        $user = new User()
+            ->setTime($timestamp)
+            ->setWeight($weight)
+            ->setPulseRest($restingHeartRate)
+            ->setFat($fat)
+            ->setWater($water)
+            ->setMuscles($muscles)
+            ->setAccount($account);
+
+        $this->UserRepository->save($user, $account);
+    }
+
     protected function insertDataForDefaultAccount(int $heartRateMax, int $heartRateRest, ?int $timestamp = null): User
     {
         $user = new User()
