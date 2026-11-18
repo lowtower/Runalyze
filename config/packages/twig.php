@@ -7,6 +7,9 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->extension('twig', [
         'file_name_pattern' => '*.twig',
+        'paths' => [
+            '%kernel.project_dir%/plugins/Sportler/templates' => 'Sportler',
+        ],
         'debug' => '%kernel.debug%',
         'strict_variables' => '%kernel.debug%',
         'globals' => [

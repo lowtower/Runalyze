@@ -1,0 +1,103 @@
+{% extends 'my/panels/base.html.twig' %}
+{% from '_macro/utilities.html.twig' import boxedValue, boxedValueFor %}
+{% set panel_content_no_padding = true %}
+
+{% block pluginTitle %}
+    {{ 'Body values'|trans }}
+{% endblock %}
+
+{% block panelHeadingMenu %}
+    <ul>
+        <li><a class="atLeft window" href="my/body-values/add" title="{{ 'Add data'|trans }}"><i class="fa fa-fw fa-plus"></i></a></li>
+        <li><a class="atLeft window" href="my/body-values/table" title="{{ 'Show table'|trans }}"><i class="fa fa-fw fa-table"></i></a></li>
+    </ul>
+{% endblock %}
+
+{% block panelContent %}
+    {% set latest = panelData.latest %}
+    <div class="boxed-values at-bottom">
+        {{ boxedValueFor(weight(latest.weight ?? 0), 'Weight'|trans, '33%', '') }}
+        {{ boxedValue(latest.pulseRest ?: '-', 'bpm', 'Resting HR'|trans, '33%', '') }}
+        {{ boxedValue(latest.pulseMax ?: '-', 'bpm', 'Maximal HR'|trans, '33%', '') }}
+        {% if latest.fat %}
+            {{ boxedValue(latest.fat, '%', 'Fat'|trans, '33%', '') }}
+        {% endif %}
+        {% if latest.water %}
+            {{ boxedValue(latest.water, '%', 'Water'|trans, '33%', '') }}
+        {% endif %}
+        {% if latest.muscles %}
+            {{ boxedValue(latest.muscles, '%', 'Muscles'|trans, '33%', '') }}
+        {% endif %}
+    </div>
+
+    <div class="panel-content">
+    <div class="flot-menu flot-menu-inline">
+        <span class="link flotChanger-sportler_flots flotChanger-id-sportler_weights" onclick="Runalyze.flotChange('sportler_flots','sportler_weights')">{{ 'Weight'|trans }}</span>
+        <span class="link unimportant flotChanger-sportler_flots flotChanger-id-sportler_analyse" onclick="Runalyze.flotChange('sportler_flots','sportler_analyse')">{{ 'Other values'|trans }}</span>
+    </div>
+    <div id="sportler_flots" class="flot-changeable" style="position:relative;width:320px;height:150px;margin:0 auto;">
+        <div class="flot wait-img" id="sportler_weights" style="width:320px;height:150px;position:absolute;"></div>
+        <div class="flot wait-img flot-hide" id="sportler_analyse" style="width:320px;height:150px;position:absolute;"></div>
+    </div>
+    </div>
+
+    {% set weight_data = [] %}
+    {% set resting_heartrate_data = [] %}
+    {% for entry in panelData.weightHistory %}
+        {% set displayable_weight = entry.weight is not null ? weight(entry.weight) : null %}
+        {% set timestamp = entry.time * 1000 %}
+        {% set weight_data = weight_data|merge([[timestamp, displayable_weight is not null and displayable_weight.rawValue != 0 ? displayable_weight.rawValue : null]]) %}
+        {% set resting_heartrate_data = resting_heartrate_data|merge([[timestamp, entry.pulseRest > 0 ? entry.pulseRest : null]]) %}
+    {% endfor %}
+
+    {% set fat_data = [] %}
+    {% set water_data = [] %}
+    {% set muscles_data = [] %}
+    {% for entry in panelData.bodyCompositionHistory %}
+        {% set timestamp = entry.time * 1000 %}
+        {% set fat_data = fat_data|merge([[timestamp, entry.fat > 0 ? entry.fat : null]]) %}
+        {% set water_data = water_data|merge([[timestamp, entry.water > 0 ? entry.water : null]]) %}
+        {% set muscles_data = muscles_data|merge([[timestamp, entry.muscles > 0 ? entry.muscles : null]]) %}
+    {% endfor %}
+
+    <script>
+        RunalyzePlot.preparePlot('sportler_weights', 320, 150, function () {
+            {% if weight_data is empty %}
+                $('#sportler_weights').append('<div class="flot-error"><span>{{ 'No data available.'|trans|e('js') }}</span></div>');
+            {% else %}
+                RunalyzePlot.addPlot('sportler_weights', [
+                    {label: {{ 'Weight'|trans|json_encode|raw }}, color: '#008', data: {{ weight_data|json_encode|raw }}},
+                    {label: {{ 'Resting HR'|trans|json_encode|raw }}, color: '#800', data: {{ resting_heartrate_data|json_encode|raw }}, yaxis: 2}
+                ], {
+                    xaxis: {mode: 'time', timeformat: '%m/%y', max: Date.now(), labelWidth: 50},
+                    yaxes: [
+                        {position: 'left', minTickSize: 2, tickFormatter: function (value) { return Math.round(value * 10) / 10 + ' ' + {{ weight(1).unit|json_encode|raw }}; }},
+                        {position: 'right', alignTicksWithAxis: 1, minTickSize: 1, tickFormatter: function (value) { return Math.round(value) + ' bpm'; }}
+                    ],
+                    grid: {minBorderMargin: 5{% if panelData.configuration.desiredWeight > 1 %}, markings: [{color: '#000', lineWidth: 1, y1axis: {from: panelData.configuration.desiredWeight, to: panelData.configuration.desiredWeight}}, {color: 'rgba(255,255,255,0.2)', y1axis: {from: 0, to: panelData.configuration.desiredWeight}}]{% endif %}},
+                    series: {curvedLines: {monotonicFit: true}}
+                }, {allowSelection: false}, []);
+            {% endif %}
+        });
+
+        RunalyzePlot.preparePlot('sportler_analyse', 320, 150, function () {
+            {% if fat_data is empty %}
+                $('#sportler_analyse').append('<div class="flot-error"><span>{{ 'No data available.'|trans|e('js') }}</span></div>');
+            {% else %}
+                RunalyzePlot.addPlot('sportler_analyse', [
+                    {label: {{ 'Fat'|trans|json_encode|raw }}, color: '#800', data: {{ fat_data|json_encode|raw }}},
+                    {label: {{ 'Water'|trans|json_encode|raw }}, color: '#008', data: {{ water_data|json_encode|raw }}, yaxis: 2},
+                    {label: {{ 'Muscles'|trans|json_encode|raw }}, color: '#080', data: {{ muscles_data|json_encode|raw }}, yaxis: 2}
+                ], {
+                    xaxis: {mode: 'time', timeformat: '%m/%y', max: Date.now(), labelWidth: 50},
+                    yaxes: [
+                        {position: 'left', minTickSize: 1, tickFormatter: function (value) { return Math.round(value) + ' %'; }},
+                        {position: 'right', min: 0, max: 100, minTickSize: 1, tickFormatter: function (value) { return Math.round(value) + ' %'; }}
+                    ],
+                    grid: {minBorderMargin: 5},
+                    series: {curvedLines: {monotonicFit: true}}
+                }, {allowSelection: false}, []);
+            {% endif %}
+        });
+    </script>
+{% endblock %}

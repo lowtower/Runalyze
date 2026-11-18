@@ -11,6 +11,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginEntity;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
+use Runalyze\Bundle\CoreBundle\Entity\User;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
@@ -818,5 +819,47 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $this->Client->request('GET', '/dashboard');
 
         $this->assertStatusCode(200, $this->Client);
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testDashboardRendersSportlerPanelThroughTheModernTwigPath(): void
+    {
+        $plugin = $this->getEntityManager()->getRepository(PluginEntity::class)->findOneBy([
+            'account' => $this->Account,
+            'key' => 'RunalyzePluginPanel_Sportler',
+        ]);
+
+        $this->assertInstanceOf(PluginEntity::class, $plugin);
+        $user = new User()
+            ->setAccount($this->Account)
+            ->setTime(time())
+            ->setWeight(70.5)
+            ->setPulseRest(55)
+            ->setPulseMax(190)
+            ->setFat(20.0)
+            ->setWater(55.0)
+            ->setMuscles(40.0);
+
+        $this->getEntityManager()->persist($user);
+        $this->getEntityManager()->flush();
+
+        try {
+            $this->loginClient($this->Client, $this->Account, 'default');
+            $this->Client->request('GET', '/dashboard');
+
+            $this->assertStatusCode(200, $this->Client);
+
+            $content = (string) $this->Client->getResponse()->getContent();
+
+            $this->assertStringContainsString('class="panel dont-reload-for-training" id="panel-' . $plugin->getId() . '"', $content);
+            $this->assertStringContainsString('Body values', $content);
+            $this->assertStringContainsString('Resting HR', $content);
+            $this->assertStringContainsString('sportler_weights', $content);
+            $this->assertStringContainsString('sportler_analyse', $content);
+            $this->assertStringContainsString('RunalyzePlot.addPlot', $content);
+        } finally {
+            $this->getEntityManager()->remove($user);
+            $this->getEntityManager()->flush();
+        }
     }
 }

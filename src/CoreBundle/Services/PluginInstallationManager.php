@@ -87,6 +87,11 @@ final readonly class PluginInstallationManager
         return $this->getPluginRepository()->setActiveForAccount($account, $pluginId, $active);
     }
 
+    public function getInstallationForAccount(Account $account, int $pluginId): ?Plugin
+    {
+        return $this->getPluginRepository()->findForAccountAndId($account, $pluginId);
+    }
+
     /**
      * @throws LogicException if there is no authenticated account
      */

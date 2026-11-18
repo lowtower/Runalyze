@@ -12,6 +12,7 @@ use PluginType;
 use Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisData;
 use Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisSelection;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Model\Prognosis\PrognosisData;
@@ -24,6 +25,7 @@ use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Twig\ValueExtension;
+use Runalyze\Plugins\Sportler\SportlerPanelPresenter;
 use Runalyze\Util\LocalTime;
 use RunalyzePluginPanel_Prognose;
 use RunalyzePluginPanel_Sports;
@@ -48,6 +50,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
         protected LegacyPluginOutputRenderer $legacyPluginOutputRenderer,
         protected LegacyContentResponseFactory $legacyContentResponseFactory,
         protected PluginSettingsProvider $pluginSettingsProvider,
+        protected SportlerPanelPresenter $sportlerPanelPresenter,
         protected ConfigurationManager $configurationManager,
         protected SportSelectionFactory $sportSelectionFactory,
         protected TokenStorageInterface $tokenStorage,
@@ -63,9 +66,24 @@ abstract class AbstractPluginsAwareController extends AbstractController
         $this->IsShowingAllPanels = true;
         $content = '';
 
-        foreach ($this->pluginSettingsProvider->getInstalledPluginsExceptInactive(PluginType::PANEL) as $panel) {
-            $panelContent = $this->getResponseForPlugin($panel, $request, $account)
-                ->getContent();
+        foreach ($this->pluginSettingsProvider->getInstalledPluginData() as $pluginData) {
+            if ($pluginData['type'] !== PluginType::string(PluginType::PANEL) || $pluginData['active'] === 0) {
+                continue;
+            }
+
+            if ($pluginData['key'] === 'RunalyzePluginPanel_Sportler') {
+                $installation = $this->pluginInstallationManager->getInstallationForAccount($account, $pluginData['id']);
+
+                if ($installation instanceof PluginInstallation) {
+                    $panelContent = $this->getResponseForSportlerPanel($account, $installation)->getContent();
+                    $content .= '<div class="panel dont-reload-for-training" id="panel-' . $pluginData['id'] . '">' . $panelContent . '</div>';
+
+                    continue;
+                }
+            }
+
+            $panel = $this->pluginSettingsProvider->getInstalledPluginById($pluginData['id']);
+            $panelContent = $this->getResponseForPlugin($panel, $request, $account)->getContent();
 
             if ($panel instanceof RunalyzePluginPanel_Sports || $panel instanceof RunalyzePluginPanel_Prognose) {
                 $panelContent = '<div class="panel" id="panel-' . $panel->id() . '">' . $panelContent . '</div>';
@@ -82,13 +100,23 @@ abstract class AbstractPluginsAwareController extends AbstractController
      */
     protected function getResponseFor(int $pluginId, Request $request, Account $account): Response
     {
+        $installation = $this->pluginInstallationManager->getInstallationForAccount($account, $pluginId);
+
+        if (
+            $installation instanceof PluginInstallation
+            && $installation->getKey() === 'RunalyzePluginPanel_Sportler'
+            && $installation->isPanel()
+            && ! $installation->isInactive()
+        ) {
+            return $this->getResponseForSportlerPanel($account, $installation);
+        }
+
         $content = '';
 
         try {
             $plugin = $this->instantiatePluginById($pluginId);
         } catch (Exception) {
             $plugin = null;
-
             $content = HTML::error(__('The plugin could not be found.'));
         }
 
@@ -97,6 +125,15 @@ abstract class AbstractPluginsAwareController extends AbstractController
         }
 
         return $this->getResponseForPlugin($plugin, $request, $account);
+    }
+
+    private function getResponseForSportlerPanel(Account $account, PluginInstallation $installation): Response
+    {
+        return $this->render('@Sportler/panel.html.twig', [
+            'pluginId' => $installation->getId(),
+            'isHidden' => $installation->isHidden(),
+            'panelData' => $this->sportlerPanelPresenter->present($account, $installation),
+        ]);
     }
 
     /**

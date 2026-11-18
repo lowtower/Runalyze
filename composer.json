@@ -220,7 +220,7 @@
             "@cache:dev:warmup",
             "vendor/bin/phpstan analyse"
         ],
-        "twig:lint": "twigcs templates --severity error",
+        "twig:lint": "twigcs templates plugins --severity error",
         "fix": [
             "@rector:fix",
             "@lint:fix"
