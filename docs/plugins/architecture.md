@@ -87,16 +87,23 @@ Plugin templates, translations, and assets stay within the plugin directory unle
 
 ### Tests
 
-Plugin-specific unit tests remain in the central `tests/` tree and mirror the plugin namespace, for example:
+Plugin-specific tests remain in the central `tests/` tree, but use a plugin-owned test namespace. Composer's development autoload maps `Runalyze\\Plugins\\` to `tests/Plugins/`; test classes live below a plugin-specific `Tests/` directory:
 
 ```text
 tests/
 └── Plugins/
     └── Sportler/
-        └── SportlerPanelDataProviderTest.php
+        └── Tests/
+            └── SportlerPanelDataProviderTest.php
 ```
 
-Use the existing PHPUnit configuration and group conventions. Do not add a plugin-local test runner or duplicate test infrastructure.
+The corresponding namespace is:
+
+```php
+namespace Runalyze\\Plugins\\Sportler\\Tests;
+```
+
+This keeps plugin tests independent of the application's `App\\Tests\\` namespace while retaining the central PHPUnit configuration and test suite. Tests for code that still belongs to shared application infrastructure remain in the corresponding application test namespace.
 
 ### Legacy coexistence
 
