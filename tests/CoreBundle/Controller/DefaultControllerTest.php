@@ -479,6 +479,7 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             $this->assertStringContainsString('colspan="13"', $content);
             $this->assertSame(1, substr_count($content, 'id="headline"'));
         } finally {
+            $this->getEntityManager()->remove($plugin);
             $this->getEntityManager()->flush();
         }
     }
@@ -858,7 +859,6 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             $this->assertStringContainsString('RunalyzePlot.addPlot', $content);
         } finally {
             $this->getEntityManager()->remove($user);
-            $this->getEntityManager()->remove($plugin);
             $this->getEntityManager()->flush();
         }
     }
