@@ -6,6 +6,12 @@ use Runalyze\Plugins\Sportler\SportlerPanelDataProvider;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->services()
-        ->set(SportlerPanelDataProvider::class);
+    $services = $containerConfigurator->services();
+
+    $services->defaults()
+        ->autowire(true)
+        ->autoconfigure(true)
+        ->public();
+
+    $services->set(SportlerPanelDataProvider::class);
 };
