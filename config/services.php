@@ -717,16 +717,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias('app.twig_value_extension', ValueExtension::class);
     $services->alias('app.twig_automatic_reload_flag_extension', AutomaticReloadFlagExtension::class);
 
-    $services->set('app.twig_configuration_extension', ConfigurationExtension::class)
-
-    $services->set('app.twig_html_extension', HtmlExtension::class)
-
-    $services->set('app.twig_utility_extension', UtilityExtension::class)
-
-    $services->set('app.twig_value_extension', ValueExtension::class)
-
-    $services->set('app.twig_automatic_reload_flag_extension', AutomaticReloadFlagExtension::class)
-
     $services->set('app.poster.generate_json', GenerateJsonData::class)
         ->arg('$TrainingRepository', service(TrainingRepository::class))
         ->arg('$RaceresultRepository', service(RaceresultRepository::class))
