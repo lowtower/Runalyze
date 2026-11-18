@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block panelContent %}
-    {% set latest = panelData.latest %}
+    {% set latest = panel_data.latest %}
     <div class="boxed-values at-bottom">
         {{ boxedValueFor(weight(latest.weight ?? 0), 'Weight'|trans, '33%', '') }}
         {{ boxedValue(latest.pulseRest ?: '-', 'bpm', 'Resting HR'|trans, '33%', '') }}
@@ -43,7 +43,7 @@
 
     {% set weight_data = [] %}
     {% set resting_heartrate_data = [] %}
-    {% for entry in panelData.weightHistory %}
+    {% for entry in panel_data.weightHistory %}
         {% set displayable_weight = entry.weight is not null ? weight(entry.weight) : null %}
         {% set timestamp = entry.time * 1000 %}
         {% set weight_data = weight_data|merge([[timestamp, displayable_weight is not null and displayable_weight.rawValue != 0 ? displayable_weight.rawValue : null]]) %}
@@ -53,7 +53,7 @@
     {% set fat_data = [] %}
     {% set water_data = [] %}
     {% set muscles_data = [] %}
-    {% for entry in panelData.bodyCompositionHistory %}
+    {% for entry in panel_data.bodyCompositionHistory %}
         {% set timestamp = entry.time * 1000 %}
         {% set fat_data = fat_data|merge([[timestamp, entry.fat > 0 ? entry.fat : null]]) %}
         {% set water_data = water_data|merge([[timestamp, entry.water > 0 ? entry.water : null]]) %}
@@ -74,7 +74,7 @@
                         {position: 'left', minTickSize: 2, tickFormatter: function (value) { return Math.round(value * 10) / 10 + ' ' + {{ weight(1).unit|json_encode|raw }}; }},
                         {position: 'right', alignTicksWithAxis: 1, minTickSize: 1, tickFormatter: function (value) { return Math.round(value) + ' bpm'; }}
                     ],
-                    grid: {minBorderMargin: 5{% if panelData.configuration.desiredWeight > 1 %}, markings: [{color: '#000', lineWidth: 1, y1axis: {from: panelData.configuration.desiredWeight, to: panelData.configuration.desiredWeight}}, {color: 'rgba(255,255,255,0.2)', y1axis: {from: 0, to: panelData.configuration.desiredWeight}}]{% endif %}},
+                    grid: {minBorderMargin: 5{% if panel_data.configuration.desiredWeight > 1 %}, markings: [{color: '#000', lineWidth: 1, y1axis: {from: {{ panel_data.configuration.desiredWeight|json_encode|raw }}, to: {{ panel_data.configuration.desiredWeight|json_encode|raw }}}}, {color: 'rgba(255,255,255,0.2)', y1axis: {from: 0, to: {{ panel_data.configuration.desiredWeight|json_encode|raw }}}}]{% endif %}},
                     series: {curvedLines: {monotonicFit: true}}
                 }, {allowSelection: false}, []);
             {% endif %}
