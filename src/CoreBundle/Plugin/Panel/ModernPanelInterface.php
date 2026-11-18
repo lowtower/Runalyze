@@ -16,5 +16,5 @@ interface ModernPanelInterface
     /**
      * @return array<string, mixed>
      */
-    public function getData(Account $account, Plugin $installation): array;
+    public function present(Account $account, Plugin $installation): array;
 }
