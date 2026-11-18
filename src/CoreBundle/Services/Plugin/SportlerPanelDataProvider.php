@@ -14,6 +14,8 @@ use Symfony\\Component\\Clock\\ClockInterface;
 
 final readonly class SportlerPanelDataProvider
 {
+    private const string PLUGIN_KEY = 'RunalyzePluginPanel_Sportler';
+
     public function __construct(
         private UserRepository $userRepository,
         private PluginConfigurationStorageInterface $configurationStorage,
@@ -39,6 +41,7 @@ final readonly class SportlerPanelDataProvider
             $installation->getId() === null
             || $account->getId() === null
             || $installation->getAccount()->getId() !== $account->getId()
+            || $installation->getKey() !== self::PLUGIN_KEY
             || ! $installation->isPanel()
             || $installation->isInactive()
         ) {
