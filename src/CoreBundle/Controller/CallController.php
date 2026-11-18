@@ -120,8 +120,6 @@ class CallController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
-
         $key = $request->query->get('key', '');
         $value = $request->query->get('value');
 
