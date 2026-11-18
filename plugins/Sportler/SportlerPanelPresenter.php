@@ -34,6 +34,11 @@ final readonly class SportlerPanelPresenter implements ModernPanelInterface
         return '@Sportler/panel.html.twig';
     }
 
+    public function shouldReloadAfterTraining(): bool
+    {
+        return false;
+    }
+
     public function present(Account $account, Plugin $installation): array
     {
         $data = $this->dataProvider->getData($account, $installation);
