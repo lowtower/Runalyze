@@ -871,4 +871,52 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             $this->getEntityManager()->flush();
         }
     }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testDashboardRendersSportsPanelThroughTheModernPluginTemplate(): void
+    {
+        $repository = $this->getEntityManager()->getRepository(PluginEntity::class);
+        $plugin = $repository->findOneBy([
+            'account' => $this->Account,
+            'key' => 'RunalyzePluginPanel_Sports',
+        ]);
+        $created = ! $plugin instanceof PluginEntity;
+
+        if ($created) {
+            $plugin = new PluginEntity()
+                ->setKey('RunalyzePluginPanel_Sports')
+                ->setType(PluginEntity::TYPE_PANEL)
+                ->setActive(PluginEntity::STATE_ACTIVE)
+                ->setOrder(1)
+                ->setAccount($this->Account);
+            $this->getEntityManager()->persist($plugin);
+            $this->getEntityManager()->flush();
+        }
+
+        $this->assertInstanceOf(PluginEntity::class, $plugin);
+        $originalActive = $plugin->getActive();
+        $plugin->setActive(PluginEntity::STATE_ACTIVE);
+        $this->getEntityManager()->flush();
+
+        try {
+            $this->loginClient($this->Client, $this->Account, 'default');
+            $this->Client->request('GET', '/dashboard');
+
+            $this->assertStatusCode(200, $this->Client);
+
+            $content = (string) $this->Client->getResponse()->getContent();
+
+            $this->assertStringContainsString('class="panel" id="panel-' . $plugin->getId() . '"', $content);
+            $this->assertStringContainsString('id="sports_0"', $content);
+            $this->assertStringContainsString('id="sports_3"', $content);
+        } finally {
+            if ($created) {
+                $this->getEntityManager()->remove($plugin);
+            } else {
+                $plugin->setActive($originalActive);
+            }
+
+            $this->getEntityManager()->flush();
+        }
+    }
 }
