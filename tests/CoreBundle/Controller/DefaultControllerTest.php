@@ -819,4 +819,48 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
 
         $this->assertStatusCode(200, $this->Client);
     }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testDashboardRendersSportlerPanelThroughTheModernTwigPath(): void
+    {
+        $plugin = new PluginEntity()
+            ->setKey('RunalyzePluginPanel_Sportler')
+            ->setType(PluginEntity::TYPE_PANEL)
+            ->setActive(PluginEntity::STATE_ACTIVE)
+            ->setOrder(1)
+            ->setAccount($this->Account);
+        $user = new User()
+            ->setAccount($this->Account)
+            ->setTime(time())
+            ->setWeight(70.5)
+            ->setPulseRest(55)
+            ->setPulseMax(190)
+            ->setFat(20.0)
+            ->setWater(55.0)
+            ->setMuscles(40.0);
+
+        $this->getEntityManager()->persist($plugin);
+        $this->getEntityManager()->persist($user);
+        $this->getEntityManager()->flush();
+
+        try {
+            $this->loginClient($this->Client, $this->Account, 'default');
+            $this->Client->request('GET', '/dashboard');
+
+            $this->assertStatusCode(200, $this->Client);
+
+            $content = (string) $this->Client->getResponse()->getContent();
+
+            $this->assertStringContainsString('id="panel-' . $plugin->getId() . '"', $content);
+            $this->assertStringContainsString('Body values', $content);
+            $this->assertStringContainsString('Resting HR', $content);
+            $this->assertStringContainsString('sportler_weights', $content);
+            $this->assertStringContainsString('sportler_analyse', $content);
+            $this->assertStringContainsString('RunalyzePlot.addPlot', $content);
+        } finally {
+            $this->getEntityManager()->remove($user);
+            $this->getEntityManager()->remove($plugin);
+            $this->getEntityManager()->flush();
+        }
+    }
 }
