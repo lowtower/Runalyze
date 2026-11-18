@@ -107,6 +107,26 @@ final class PluginRepositoryTest extends AbstractRepositoryTestCase
         );
     }
 
+    public function testFindForAccountAndIdReturnsOnlyAnOwnedPlugin(): void
+    {
+        $plugin = $this->insertPanel(1, 'account-plugin');
+        $otherAccountPlugin = new Plugin()
+            ->setAccount($this->getDefaultAccount())
+            ->setKey('other-account-plugin')
+            ->setType(Plugin::TYPE_PANEL)
+            ->setActive(Plugin::STATE_ACTIVE)
+            ->setOrder(1);
+        $this->PluginRepository->save($otherAccountPlugin);
+
+        $pluginId = $plugin->getId();
+        $otherAccountPluginId = $otherAccountPlugin->getId();
+        $this->assertNotNull($pluginId);
+        $this->assertNotNull($otherAccountPluginId);
+
+        $this->assertSame($plugin, $this->PluginRepository->findForAccountAndId($this->EmptyAccount, $pluginId));
+        $this->assertNull($this->PluginRepository->findForAccountAndId($this->EmptyAccount, $otherAccountPluginId));
+    }
+
     public function testInstallForAccountPersistsPluginWithDefaultState(): void
     {
         $plugin = $this->PluginRepository->installForAccount(
