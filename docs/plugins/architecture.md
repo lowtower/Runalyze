@@ -248,7 +248,19 @@ Do not bulk-convert plugin directories, change all routes, or migrate the legacy
 
 The first implementation step introduces `plugins/Sportler/SportlerPanelDataProvider.php` as a Symfony-managed, stateless service under the `Runalyze\Plugins\Sportler` namespace. Its invocation receives the authenticated `Account` and the persisted `Plugin` installation explicitly. It rejects installations belonging to another account, installations with a different stable key, non-panel installations, and inactive installations; hidden installations remain executable so the existing hidden-panel behavior can be preserved.
 
-The provider reuses `UserRepository` for the latest body values and the account-scoped weight/body-composition histories, and `PluginConfigurationStorageInterface` for the existing `wunschgewicht`, `plot_points`, and `plot_timerange` settings. The legacy defaults are applied at this boundary. The provider returns typed data only; rendering and chart presentation remain outside it. The service is registered through `plugins/Sportler/config/services.php`, which is imported explicitly by the application service configuration. Its unit test lives at `tests/Plugins/Sportler/SportlerPanelDataProviderTest.php`. This is a panel-specific plugin service, not a generic plugin execution contract.
+The provider reuses `UserRepository` for the latest body values and the account-scoped weight/body-composition histories, and `PluginConfigurationStorageInterface` for the existing `wunschgewicht`, `plot_points`, and `plot_timerange` settings. The legacy defaults are applied at this boundary. The provider returns typed data only; rendering and chart presentation remain outside it. The service is registered through `plugins/Sportler/config/services.php`, which is imported explicitly by the application service configuration. Its unit test lives at `tests/Plugins/Sportler/Tests/SportlerPanelDataProviderTest.php`. This is a panel-specific plugin service, not a generic plugin execution contract.
+
+### Sportler presentation and HTTP integration
+
+The next migration slice routes the installed Sportler panel through the modern rendering path without changing the persisted plugin key or database schema:
+
+- `PluginInstallationManager::getInstallationForAccount()` resolves an installation by both account and installation ID. The repository query applies both predicates.
+- `SportlerPanelPresenter` adapts the provider data for panel presentation and preserves the legacy behavior of duplicating a single history point for Flot.
+- The panel template is owned by `plugins/Sportler/templates/` and loaded through the `@Sportler` Twig namespace.
+- `AbstractPluginsAwareController` selects this path by the stable key `RunalyzePluginPanel_Sportler` before instantiating the legacy panel. Other panel implementations continue through their existing paths.
+- The modern template reuses the common panel wrapper, body-value presentation macros, Flot initialization, chart IDs, and panel interaction hooks. The legacy Sportler implementation and its plot includes remain available as a fallback.
+
+This is deliberately a concrete panel integration, not a general plugin registry or universal presenter contract. Functional coverage belongs in the existing `DefaultControllerTest` suite. The legacy fallback should only be removed in a later step after the modern rendering path has been exercised in the application.
 
 ## Open design decisions
 
