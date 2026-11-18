@@ -13,6 +13,8 @@ interface ModernPanelInterface
 
     public function getTemplate(): string;
 
+    public function shouldReloadAfterTraining(): bool;
+
     /**
      * @return array<string, mixed>
      */
