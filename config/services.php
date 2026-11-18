@@ -94,6 +94,7 @@ use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
+use Runalyze\Bundle\CoreBundle\Services\Plugin\SportlerPanelDataProvider;
 use Runalyze\Bundle\CoreBundle\Services\PrivacyGuard;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
