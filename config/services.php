@@ -252,6 +252,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(PluginSettingsProvider::class);
 
+    $services->set(ModernPanelRegistry::class)
+        ->arg('$panels', tagged_iterator('runalyze.modern_panel'));
+
     $containerConfigurator->import(__DIR__ . '/../plugins/Sportler/config/services.php');
 
     $services->set(SharedAthleteStatisticsProvider::class);
