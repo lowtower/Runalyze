@@ -2,9 +2,13 @@
 
 namespace Runalyze\Bundle\CoreBundle\EntityListener;
 
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager;
 
+#[AsEntityListener(event: 'postPersist', entity: Raceresult::class, lazy: true)]
+#[AsEntityListener(event: 'postUpdate', entity: Raceresult::class, lazy: true)]
+#[AsEntityListener(event: 'postRemove', entity: Raceresult::class, lazy: true)]
 class RaceResultListener
 {
     public function __construct(

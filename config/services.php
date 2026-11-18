@@ -18,11 +18,7 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\FileHandler;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\GenerateJsonData;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\GeneratePoster;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\PosterGenerationStateResolver;
-use Runalyze\Bundle\CoreBundle\EntityListener\ActivityListener;
 use Runalyze\Bundle\CoreBundle\EntityListener\EquipmentUpdateSubscriber;
-use Runalyze\Bundle\CoreBundle\EntityListener\RaceResultListener;
-use Runalyze\Bundle\CoreBundle\EntityListener\RouteListener;
-use Runalyze\Bundle\CoreBundle\EntityListener\UserListener;
 use Runalyze\Bundle\CoreBundle\EventListener\AccountLastActionListener;
 use Runalyze\Bundle\CoreBundle\EventListener\ConsoleExceptionListener;
 use Runalyze\Bundle\CoreBundle\EventListener\LocaleListener;
@@ -416,17 +412,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 
 
-    $services->set('app.entity_listener.activity', ActivityListener::class)
-        ->arg('$RecalculationManager', service('app.recalculation_manager'))
-        ->arg('$ConfigurationManager', service('app.configuration_manager'))
-        ->arg('$SportRepository', service(SportRepository::class))
-        ->arg('$EquipmentRepository', service(EquipmentRepository::class))
-        ->arg('$TimezoneLookup', service('app.timezone_lookup'))
-        ->tag('doctrine.orm.entity_listener', [
-            'lazy' => true,
-        ]);
-
-    $services->alias(ActivityListener::class, 'app.entity_listener.activity');
 
     $services->set('app.entity_subscriber.equipment_update', EquipmentUpdateSubscriber::class)
         ->tag('doctrine.event_listener', [
@@ -437,30 +422,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(EquipmentUpdateSubscriber::class, 'app.entity_subscriber.equipment_update');
 
-    $services->set('app.entity_listener.user', UserListener::class)
-        ->arg('$ConfigurationUpdater', service('app.configuration_updater'))
-        ->tag('doctrine.orm.entity_listener', [
-            'lazy' => true,
-        ]);
 
-    $services->alias(UserListener::class, 'app.entity_listener.user');
 
-    $services->set('app.entity_listener.race_result', RaceResultListener::class)
-        ->arg('$RecalculationManager', service('app.recalculation_manager'))
-        ->tag('doctrine.orm.entity_listener', [
-            'lazy' => true,
-        ]);
-
-    $services->alias(RaceResultListener::class, 'app.entity_listener.race_result');
-
-    $services->set('app.entity_listener.route', RouteListener::class)
-        ->arg('$ConfigurationManager', service('app.configuration_manager'))
-        ->arg('$ElevationCorrection', service('app.elevation_correction'))
-        ->tag('doctrine.orm.entity_listener', [
-            'lazy' => true,
-        ]);
-
-    $services->alias(RouteListener::class, 'app.entity_listener.route');
 
     $services->set('app.form.activity', ActivityType::class)
         ->arg('$TagRepository', service(TagRepository::class))
