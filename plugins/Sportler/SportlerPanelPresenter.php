@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\\Plugins\\Sportler;
+namespace Runalyze\Plugins\Sportler;
 
-use Runalyze\\Bundle\\CoreBundle\\Entity\\Account;
-use Runalyze\\Bundle\\CoreBundle\\Entity\\Plugin;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 
 final readonly class SportlerPanelPresenter
 {
