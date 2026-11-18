@@ -15,10 +15,10 @@ use Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookup;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager;
 use Runalyze\Util\LocalTime;
 
-#[AsEntityListener(event: 'prePersist', entity: Training::class, lazy: true)]
-#[AsEntityListener(event: 'postPersist', entity: Training::class, lazy: true)]
-#[AsEntityListener(event: 'preUpdate', entity: Training::class, lazy: true)]
-#[AsEntityListener(event: 'postRemove', entity: Training::class, lazy: true)]
+#[AsEntityListener(event: 'prePersist', lazy: true, entity: Training::class)]
+#[AsEntityListener(event: 'postPersist', lazy: true, entity: Training::class)]
+#[AsEntityListener(event: 'preUpdate', lazy: true, entity: Training::class)]
+#[AsEntityListener(event: 'postRemove', lazy: true, entity: Training::class)]
 class ActivityListener
 {
     public function __construct(

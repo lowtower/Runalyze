@@ -6,9 +6,9 @@ use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager;
 
-#[AsEntityListener(event: 'postPersist', entity: Raceresult::class, lazy: true)]
-#[AsEntityListener(event: 'postUpdate', entity: Raceresult::class, lazy: true)]
-#[AsEntityListener(event: 'postRemove', entity: Raceresult::class, lazy: true)]
+#[AsEntityListener(event: 'postPersist', lazy: true, entity: Raceresult::class)]
+#[AsEntityListener(event: 'postUpdate', lazy: true, entity: Raceresult::class)]
+#[AsEntityListener(event: 'postRemove', lazy: true, entity: Raceresult::class)]
 class RaceResultListener
 {
     public function __construct(

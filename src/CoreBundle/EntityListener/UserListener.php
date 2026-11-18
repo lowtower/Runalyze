@@ -10,9 +10,9 @@ use Runalyze\Bundle\CoreBundle\Entity\User;
 use Runalyze\Bundle\CoreBundle\Repository\UserRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
 
-#[AsEntityListener(event: 'postPersist', entity: User::class, lazy: true)]
-#[AsEntityListener(event: 'postUpdate', entity: User::class, lazy: true)]
-#[AsEntityListener(event: 'postRemove', entity: User::class, lazy: true)]
+#[AsEntityListener(event: 'postPersist', lazy: true, entity: User::class)]
+#[AsEntityListener(event: 'postUpdate', lazy: true, entity: User::class)]
+#[AsEntityListener(event: 'postRemove', lazy: true, entity: User::class)]
 class UserListener
 {
     public function __construct(

@@ -11,8 +11,8 @@ use Runalyze\Bundle\CoreBundle\Entity\Route;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Import\ElevationCorrection;
 
-#[AsEntityListener(event: 'prePersist', entity: Route::class, lazy: true)]
-#[AsEntityListener(event: 'preUpdate', entity: Route::class, lazy: true)]
+#[AsEntityListener(event: 'prePersist', lazy: true, entity: Route::class)]
+#[AsEntityListener(event: 'preUpdate', lazy: true, entity: Route::class)]
 class RouteListener
 {
     public function __construct(
