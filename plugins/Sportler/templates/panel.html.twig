@@ -43,7 +43,7 @@
     {% for entry in panelData.weightHistory %}
         {% set displayableWeight = entry.weight is not null ? weight(entry.weight) : null %}
         {% set timestamp = entry.time * 1000 %}
-        {% set weightData = weightData|merge([[timestamp, displayableWeight is not null ? displayableWeight.value : null]]) %}
+        {% set weightData = weightData|merge([[timestamp, displayableWeight is not null ? displayableWeight.rawValue : null]]) %}
         {% set restingHeartRateData = restingHeartRateData|merge([[timestamp, entry.pulseRest]]) %}
     {% endfor %}
 
