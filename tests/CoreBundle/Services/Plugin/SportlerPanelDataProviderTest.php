@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\\Bundle\\CoreBundle\\Tests\\Services\\Plugin;
+namespace Runalyze\Bundle\CoreBundle\Tests\Services\Plugin;
 
 use DateTimeImmutable;
 use InvalidArgumentException;
-use PHPUnit\\Framework\\Attributes\\Group;
-use PHPUnit\\Framework\\TestCase;
-use Runalyze\\Bundle\\CoreBundle\\Entity\\Account;
-use Runalyze\\Bundle\\CoreBundle\\Entity\\Plugin as PluginInstallation;
-use Runalyze\\Bundle\\CoreBundle\\Entity\\User;
-use Runalyze\\Bundle\\CoreBundle\\Repository\\UserRepository;
-use Runalyze\\Bundle\\CoreBundle\\Services\\Plugin\\SportlerPanelDataProvider;
-use Runalyze\\Bundle\\CoreBundle\\Services\\PluginConfigurationStorageInterface;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\TestCase;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
+use Runalyze\Bundle\CoreBundle\Entity\User;
+use Runalyze\Bundle\CoreBundle\Repository\UserRepository;
+use Runalyze\Bundle\CoreBundle\Services\Plugin\SportlerPanelDataProvider;
+use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 use ReflectionProperty;
-use Symfony\\Component\\Clock\\ClockInterface;
+use Symfony\Component\Clock\ClockInterface;
 
 #[Group('plugin')]
 final class SportlerPanelDataProviderTest extends TestCase
