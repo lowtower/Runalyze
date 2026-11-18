@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Plugins\Sports\Tests;
 
+use DateTime;
 use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
