@@ -1,6 +1,6 @@
 {% extends 'my/panels/base.html.twig' %}
 {% from '_macro/utilities.html.twig' import boxedValue, boxedValueFor %}
-{% set panelContentNoPadding = true %}
+{% set panel_content_no_padding = true %}
 
 {% block pluginTitle %}
     {{ 'Body values'|trans }}
@@ -41,33 +41,33 @@
     </div>
     </div>
 
-    {% set weightData = [] %}
-    {% set restingHeartRateData = [] %}
+    {% set weight_data = [] %}
+    {% set resting_heartrate_data = [] %}
     {% for entry in panelData.weightHistory %}
-        {% set displayableWeight = entry.weight is not null ? weight(entry.weight) : null %}
+        {% set displayable_weight = entry.weight is not null ? weight(entry.weight) : null %}
         {% set timestamp = entry.time * 1000 %}
-        {% set weightData = weightData|merge([[timestamp, displayableWeight is not null and displayableWeight.rawValue != 0 ? displayableWeight.rawValue : null]]) %}
-        {% set restingHeartRateData = restingHeartRateData|merge([[timestamp, entry.pulseRest > 0 ? entry.pulseRest : null]]) %}
+        {% set weight_data = weight_data|merge([[timestamp, displayable_weight is not null and displayable_weight.rawValue != 0 ? displayable_weight.rawValue : null]]) %}
+        {% set resting_heartrate_data = resting_heartrate_data|merge([[timestamp, entry.pulseRest > 0 ? entry.pulseRest : null]]) %}
     {% endfor %}
 
-    {% set fatData = [] %}
-    {% set waterData = [] %}
-    {% set musclesData = [] %}
+    {% set fat_data = [] %}
+    {% set water_data = [] %}
+    {% set muscles_data = [] %}
     {% for entry in panelData.bodyCompositionHistory %}
         {% set timestamp = entry.time * 1000 %}
-        {% set fatData = fatData|merge([[timestamp, entry.fat > 0 ? entry.fat : null]]) %}
-        {% set waterData = waterData|merge([[timestamp, entry.water > 0 ? entry.water : null]]) %}
-        {% set musclesData = musclesData|merge([[timestamp, entry.muscles > 0 ? entry.muscles : null]]) %}
+        {% set fat_data = fat_data|merge([[timestamp, entry.fat > 0 ? entry.fat : null]]) %}
+        {% set water_data = water_data|merge([[timestamp, entry.water > 0 ? entry.water : null]]) %}
+        {% set muscles_data = muscles_data|merge([[timestamp, entry.muscles > 0 ? entry.muscles : null]]) %}
     {% endfor %}
 
     <script>
         RunalyzePlot.preparePlot('sportler_weights', 320, 150, function () {
-            {% if weightData is empty %}
+            {% if weight_data is empty %}
                 $('#sportler_weights').append('<div class="flot-error"><span>{{ 'No data available.'|trans|e('js') }}</span></div>');
             {% else %}
                 RunalyzePlot.addPlot('sportler_weights', [
-                    {label: {{ 'Weight'|trans|json_encode|raw }}, color: '#008', data: {{ weightData|json_encode|raw }}},
-                    {label: {{ 'Resting HR'|trans|json_encode|raw }}, color: '#800', data: {{ restingHeartRateData|json_encode|raw }}, yaxis: 2}
+                    {label: {{ 'Weight'|trans|json_encode|raw }}, color: '#008', data: {{ weight_data|json_encode|raw }}},
+                    {label: {{ 'Resting HR'|trans|json_encode|raw }}, color: '#800', data: {{ resting_heartrate_data|json_encode|raw }}, yaxis: 2}
                 ], {
                     xaxis: {mode: 'time', timeformat: '%m/%y', max: Date.now(), labelWidth: 50},
                     yaxes: [
@@ -81,13 +81,13 @@
         });
 
         RunalyzePlot.preparePlot('sportler_analyse', 320, 150, function () {
-            {% if fatData is empty %}
+            {% if fat_data is empty %}
                 $('#sportler_analyse').append('<div class="flot-error"><span>{{ 'No data available.'|trans|e('js') }}</span></div>');
             {% else %}
                 RunalyzePlot.addPlot('sportler_analyse', [
-                    {label: {{ 'Fat'|trans|json_encode|raw }}, color: '#800', data: {{ fatData|json_encode|raw }}},
-                    {label: {{ 'Water'|trans|json_encode|raw }}, color: '#008', data: {{ waterData|json_encode|raw }}, yaxis: 2},
-                    {label: {{ 'Muscles'|trans|json_encode|raw }}, color: '#080', data: {{ musclesData|json_encode|raw }}, yaxis: 2}
+                    {label: {{ 'Fat'|trans|json_encode|raw }}, color: '#800', data: {{ fat_data|json_encode|raw }}},
+                    {label: {{ 'Water'|trans|json_encode|raw }}, color: '#008', data: {{ water_data|json_encode|raw }}, yaxis: 2},
+                    {label: {{ 'Muscles'|trans|json_encode|raw }}, color: '#080', data: {{ muscles_data|json_encode|raw }}, yaxis: 2}
                 ], {
                     xaxis: {mode: 'time', timeformat: '%m/%y', max: Date.now(), labelWidth: 50},
                     yaxes: [
