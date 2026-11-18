@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\\Bundle\\CoreBundle\\Services\\Plugin;
+namespace Runalyze\Bundle\CoreBundle\Services\Plugin;
 
 use InvalidArgumentException;
-use Runalyze\\Bundle\\CoreBundle\\Entity\\Account;
-use Runalyze\\Bundle\\CoreBundle\\Entity\\Plugin as PluginInstallation;
-use Runalyze\\Bundle\\CoreBundle\\Entity\\User;
-use Runalyze\\Bundle\\CoreBundle\\Repository\\UserRepository;
-use Runalyze\\Bundle\\CoreBundle\\Services\\PluginConfigurationStorageInterface;
-use Symfony\\Component\\Clock\\ClockInterface;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
+use Runalyze\Bundle\CoreBundle\Entity\User;
+use Runalyze\Bundle\CoreBundle\Repository\UserRepository;
+use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
+use Symfony\Component\Clock\ClockInterface;
 
 final readonly class SportlerPanelDataProvider
 {
