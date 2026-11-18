@@ -7,7 +7,7 @@ namespace Runalyze\Plugins\Sportler;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 
-final readonly class SportlerPanelPresenter
+final readonly class SportlerPanelPresenter implements ModernPanelInterface
 {
     public function __construct(
         private SportlerPanelDataProvider $dataProvider
@@ -23,6 +23,16 @@ final readonly class SportlerPanelPresenter
      *     bodyCompositionHistory: list<array{time: int, fat: ?float, water: ?float, muscles: ?float}>
      * }
      */
+    public function getKey(): string
+    {
+        return 'RunalyzePluginPanel_Sportler';
+    }
+
+    public function getTemplate(): string
+    {
+        return '@Sportler/panel.html.twig';
+    }
+
     public function present(Account $account, Plugin $installation): array
     {
         $data = $this->dataProvider->getData($account, $installation);
