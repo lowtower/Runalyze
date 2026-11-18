@@ -48,6 +48,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
         protected LegacyPluginOutputRenderer $legacyPluginOutputRenderer,
         protected LegacyContentResponseFactory $legacyContentResponseFactory,
         protected PluginSettingsProvider $pluginSettingsProvider,
+        protected SportlerPanelPresenter $sportlerPanelPresenter,
         protected ConfigurationManager $configurationManager,
         protected SportSelectionFactory $sportSelectionFactory,
         protected TokenStorageInterface $tokenStorage,
@@ -63,9 +64,24 @@ abstract class AbstractPluginsAwareController extends AbstractController
         $this->IsShowingAllPanels = true;
         $content = '';
 
-        foreach ($this->pluginSettingsProvider->getInstalledPluginsExceptInactive(PluginType::PANEL) as $panel) {
-            $panelContent = $this->getResponseForPlugin($panel, $request, $account)
-                ->getContent();
+        foreach ($this->pluginSettingsProvider->getInstalledPluginData() as $pluginData) {
+            if ($pluginData['type'] !== PluginType::string(PluginType::PANEL) || $pluginData['active'] === 0) {
+                continue;
+            }
+
+            if ($pluginData['key'] === 'RunalyzePluginPanel_Sportler') {
+                $installation = $this->pluginInstallationManager->getInstallationForAccount($account, $pluginData['id']);
+
+                if ($installation instanceof \\Runalyze\\Bundle\\CoreBundle\\Entity\\Plugin) {
+                    $panelContent = $this->getResponseForSportlerPanel($account, $installation)->getContent();
+                    $content .= '<div class="panel" id="panel-' . $pluginData['id'] . '">' . $panelContent . '</div>';
+
+                    continue;
+                }
+            }
+
+            $panel = $this->pluginSettingsProvider->getInstalledPluginById($pluginData['id']);
+            $panelContent = $this->getResponseForPlugin($panel, $request, $account)->getContent();
 
             if ($panel instanceof RunalyzePluginPanel_Sports || $panel instanceof RunalyzePluginPanel_Prognose) {
                 $panelContent = '<div class="panel" id="panel-' . $panel->id() . '">' . $panelContent . '</div>';
@@ -82,13 +98,23 @@ abstract class AbstractPluginsAwareController extends AbstractController
      */
     protected function getResponseFor(int $pluginId, Request $request, Account $account): Response
     {
+        $installation = $this->pluginInstallationManager->getInstallationForAccount($account, $pluginId);
+
+        if (
+            $installation instanceof \\Runalyze\\Bundle\\CoreBundle\\Entity\\Plugin
+            && $installation->getKey() === 'RunalyzePluginPanel_Sportler'
+            && $installation->isPanel()
+            && ! $installation->isInactive()
+        ) {
+            return $this->getResponseForSportlerPanel($account, $installation);
+        }
+
         $content = '';
 
         try {
             $plugin = $this->instantiatePluginById($pluginId);
         } catch (Exception) {
             $plugin = null;
-
             $content = HTML::error(__('The plugin could not be found.'));
         }
 
@@ -97,6 +123,15 @@ abstract class AbstractPluginsAwareController extends AbstractController
         }
 
         return $this->getResponseForPlugin($plugin, $request, $account);
+    }
+
+    private function getResponseForSportlerPanel(Account $account, \\Runalyze\\Bundle\\CoreBundle\\Entity\\Plugin $installation): Response
+    {
+        return $this->render('@Sportler/panel.html.twig', [
+            'pluginId' => $installation->getId(),
+            'isHidden' => $installation->isHidden(),
+            'panelData' => $this->sportlerPanelPresenter->present($account, $installation),
+        ]);
     }
 
     /**
