@@ -11,9 +11,9 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Model\Sport\SportStatistics;
 use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
-use Runalyze\Plugins\Sports\SportsPanelPresenter;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
+use Runalyze\Plugins\Sports\SportsPanelPresenter;
 use Symfony\Component\Clock\ClockInterface;
 
 #[Group('plugin')]
