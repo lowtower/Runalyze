@@ -56,6 +56,7 @@ use Runalyze\Bundle\CoreBundle\Form\Type\WeightType;
 use Runalyze\Bundle\CoreBundle\Form\Type\WindSpeedType;
 use Runalyze\Bundle\CoreBundle\MessageHandler\BackupGenerationMessageHandler;
 use Runalyze\Bundle\CoreBundle\MessageHandler\PosterGenerationMessageHandler;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
 use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Repository\ConfRepository;
 use Runalyze\Bundle\CoreBundle\Repository\EquipmentRepository;
@@ -129,6 +130,7 @@ use Runalyze\View\Activity\Feed;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $localesFile = __DIR__ . '/locales.php';
@@ -251,6 +253,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(PluginInstallationManager::class);
 
     $services->set(PluginSettingsProvider::class);
+
+    $services->set(ModernPanelRegistry::class)
+        ->arg('$panels', tagged_iterator('runalyze.modern_panel'));
 
     $containerConfigurator->import(__DIR__ . '/../plugins/Sportler/config/services.php');
 

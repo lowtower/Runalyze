@@ -12,6 +12,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Form\FeedbackType;
 use Runalyze\Bundle\CoreBundle\Form\RegistrationType;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
 use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
@@ -24,7 +25,6 @@ use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
-use Runalyze\Plugins\Sportler\SportlerPanelPresenter;
 use Runalyze\View\Activity\Context as ActivityContext;
 use RunalyzePluginPanel_Prognose;
 use RunalyzePluginPanel_Rechenspiele;
@@ -57,7 +57,7 @@ class DefaultController extends AbstractPluginsAwareController
         LegacyPluginOutputRenderer $legacyPluginOutputRenderer,
         LegacyContentResponseFactory $legacyContentResponseFactory,
         PluginSettingsProvider $pluginSettingsProvider,
-        SportlerPanelPresenter $sportlerPanelPresenter,
+        ModernPanelRegistry $modernPanelRegistry,
         private readonly AuthorizationCheckerInterface $authorizationChecker,
         private readonly AuthenticationUtils $authenticationUtils,
         TokenStorageInterface $tokenStorage,
@@ -73,7 +73,7 @@ class DefaultController extends AbstractPluginsAwareController
             $legacyPluginOutputRenderer,
             $legacyContentResponseFactory,
             $pluginSettingsProvider,
-            $sportlerPanelPresenter,
+            $modernPanelRegistry,
             $configurationManager,
             $sportSelectionFactory,
             $tokenStorage,
