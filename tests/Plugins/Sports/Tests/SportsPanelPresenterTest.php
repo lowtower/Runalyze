@@ -12,7 +12,8 @@ use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Model\Sport\SportStatistics;
 use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
 use Runalyze\Plugins\Sports\SportsPanelPresenter;
-use Runalyze\Util\LocalTime;
+use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Symfony\Component\Clock\ClockInterface;
 
 #[Group('plugin')]
