@@ -33,7 +33,6 @@ final class UserRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEmpty($this->UserRepository->findAllFor(new Account()));
     }
 
-
     public function testFindBodyValueHistoryForAccountWithLimit(): void
     {
         $this->insertBodyValues($this->Account, 100, 65.2, 50, 15.1, 55.2, 40.3);
