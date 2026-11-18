@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\\Plugins\\Sports;
+namespace Runalyze\Plugins\Sports;
 
-use Runalyze\\Bundle\\CoreBundle\\Entity\\Account;
-use Runalyze\\Bundle\\CoreBundle\\Entity\\Plugin;
-use Runalyze\\Bundle\\CoreBundle\\Model\\Sport\\SportStatistics;
-use Runalyze\\Bundle\\CoreBundle\\Plugin\\Panel\\ModernPanelInterface;
-use Runalyze\\Bundle\\CoreBundle\\Repository\\SportRepository;
-use Runalyze\\Util\\LocalTime;
-use Symfony\\Component\\Clock\\ClockInterface;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Plugin;
+use Runalyze\Bundle\CoreBundle\Model\Sport\SportStatistics;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface;
+use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
+use Runalyze\Util\LocalTime;
+use Symfony\Component\Clock\ClockInterface;
 
 final readonly class SportsPanelPresenter implements ModernPanelInterface
 {
