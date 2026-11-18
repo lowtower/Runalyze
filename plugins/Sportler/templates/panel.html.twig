@@ -16,17 +16,17 @@
 {% block panelContent %}
     {% set latest = panelData.latest %}
     <div class="boxed-values at-bottom">
-        {{ boxedValueFor(weight(latest.weight ?? 0), 'Weight'|trans, '33%') }}
-        {{ boxedValue(latest.pulseRest ?: '-', 'bpm', 'Resting HR'|trans, '33%') }}
-        {{ boxedValue(latest.pulseMax ?: '-', 'bpm', 'Maximal HR'|trans, '33%') }}
+        {{ boxedValueFor(weight(latest.weight ?? 0), 'Weight'|trans, '33%', '') }}
+        {{ boxedValue(latest.pulseRest ?: '-', 'bpm', 'Resting HR'|trans, '33%', '') }}
+        {{ boxedValue(latest.pulseMax ?: '-', 'bpm', 'Maximal HR'|trans, '33%', '') }}
         {% if latest.fat %}
-            {{ boxedValue(latest.fat, '%', 'Fat'|trans, '33%') }}
+            {{ boxedValue(latest.fat, '%', 'Fat'|trans, '33%', '') }}
         {% endif %}
         {% if latest.water %}
-            {{ boxedValue(latest.water, '%', 'Water'|trans, '33%') }}
+            {{ boxedValue(latest.water, '%', 'Water'|trans, '33%', '') }}
         {% endif %}
         {% if latest.muscles %}
-            {{ boxedValue(latest.muscles, '%', 'Muscles'|trans, '33%') }}
+            {{ boxedValue(latest.muscles, '%', 'Muscles'|trans, '33%', '') }}
         {% endif %}
     </div>
 
