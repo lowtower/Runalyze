@@ -268,7 +268,7 @@ This is deliberately a concrete panel integration, not a general plugin registry
 The Sports dashboard panel is migrated through the existing panel contract:
 
 - `SportsPanelPresenter` is a stateless Symfony service registered from `plugins/Sports/config/services.php` with the `runalyze.modern_panel` tag.
-- It injects the existing `SportRepository` and Symfony's `ClockInterface`; it does not introduce a new repository, data provider, or statistics abstraction.
+- It injects the existing `SportRepository`, `ConfigurationManager`, and Symfony's `ClockInterface`; it does not introduce a new repository, data provider, or statistics abstraction. The week boundary is calculated from the account's modern configuration instead of reading the legacy static configuration facade.
 - It preserves the legacy week, month, year, and all-time queries, including the configured week start and the server-time conversion already owned by `SportRepository`.
 - Its Twig template lives at `plugins/Sports/templates/panel.html.twig` and is loaded through the `@Sports` namespace.
 - `AbstractPluginsAwareController` resolves the panel by the stable key `RunalyzePluginPanel_Sports`. The dashboard wrapper remains refreshable after training changes; the Sportler panel retains its separate no-reload behavior.
