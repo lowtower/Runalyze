@@ -1,6 +1,6 @@
 # Plugin architecture
 
-This document defines the proposed target architecture for new and migrated Runalyze plugins. It is an architectural contract for the migration; the interfaces and examples below are design proposals, not APIs that are already available in the application.
+This document defines the proposed target architecture for new and migrated Runalyze plugins. It is an architectural contract for the migration; the interfaces and examples below are design proposals, not APIs that are already available in the application. It also defines the directory and namespace convention for modern plugins; the Composer mapping and runtime integration are introduced incrementally with the first migrated plugin.
 
 The existing plugin system remains supported while this target is introduced incrementally. Existing implementations under `plugin/` continue to use the global `Plugin` / `PluginPanel` base classes and their legacy lifecycle. New code must not extend those classes.
 
@@ -27,6 +27,80 @@ The Symfony integration already has useful boundaries that should be reused:
 - `LegacyPluginOutputRenderer` captures output from legacy implementations.
 
 These services are not to be replaced merely to make the new API look different. The new API should coexist with them and use them where their responsibilities match.
+
+## Directory and namespace convention
+
+Modern plugins are self-contained feature modules. Plugin-specific application code, templates, translations, assets, and plugin-local configuration belong to the plugin; shared infrastructure and cross-plugin contracts remain in the application.
+
+The repository uses separate roots for the two generations:
+
+- `plugin/` remains the legacy root. Existing directories, class names, global base classes, and Composer classmap discovery remain supported during migration.
+- `plugins/` is the root for modern plugins. New modern plugin code must not be added to the legacy `plugin/` tree.
+
+Each modern plugin has one directory named after its stable, human-readable plugin name in PascalCase. Its PHP namespace is rooted at `Runalyze\\Plugins\\<PluginName>\\`, mapped by Composer PSR-4 from `Runalyze\\Plugins\\` to `plugins/`.
+
+A modern plugin should follow this structure where the corresponding concerns exist:
+
+```text
+plugins/
+└── Sportler/
+    ├── SportlerPanelDataProvider.php
+    ├── SportlerPanelPresenter.php
+    ├── Configuration/
+    ├── templates/
+    ├── translations/
+    ├── assets/
+    └── config/
+        └── services.php
+```
+
+The directory name and namespace segment are code organization details, not persisted plugin identifiers. The stable plugin key remains explicit metadata and must not be derived from a PHP class name, namespace, or directory name. Renaming or moving implementation files must not change installed plugin records.
+
+### PHP namespaces and class names
+
+- Use `Runalyze\\Plugins\\<PluginName>` as the namespace root for the plugin.
+- Keep plugin-specific classes in that namespace or meaningful subnamespaces such as `Configuration`, `Presentation`, or `Infrastructure`.
+- Use PascalCase for plugin directory names and PHP class names.
+- Do not introduce a generic `Plugin` namespace shared by unrelated feature code.
+- Do not place plugin-specific providers, presenters, DTOs, or configuration definitions in `Runalyze\\Bundle\\CoreBundle\\`.
+- Keep reusable application services, shared contracts, repositories, and cross-plugin orchestration in the CoreBundle.
+
+### Composer and Symfony integration
+
+The intended Composer mapping is a single PSR-4 prefix:
+
+```json
+{
+    "autoload": {
+        "psr-4": {
+            "Runalyze\\Plugins\\": "plugins/"
+        }
+    }
+}
+```
+
+This mapping is a target convention and must be added as part of the first code migration that introduces the `plugins/` root; this documentation change does not alter Composer configuration or move existing classes.
+
+Modern plugin services must be registered explicitly with Symfony dependency injection. A plugin-local `config/services.php` may describe its services, but it must be imported by the application configuration; the directory existing on disk does not make it automatically discoverable. Service registration must not rely on scanning the legacy classmap or on runtime container lookups.
+
+Plugin templates, translations, and assets stay within the plugin directory unless an established Symfony integration requires a deliberate application-level registration step. Their paths and loading mechanisms must be explicit and tested.
+
+### Tests
+
+Plugin-specific unit tests remain in the central `tests/` tree and mirror the plugin namespace, for example:
+
+```text
+tests/
+└── Plugins/
+    └── Sportler/
+        └── SportlerPanelDataProviderTest.php
+```
+
+Use the existing PHPUnit configuration and group conventions. Do not add a plugin-local test runner or duplicate test infrastructure.
+
+### Legacy coexistence
+
+A migrated plugin may temporarily contain both its legacy implementation under `plugin/<legacy-directory>/` and its modern implementation under `plugins/<PluginName>/`. The legacy implementation remains the compatibility path until the modern execution and presentation path has been verified. Do not move legacy files merely to make the directory layout look uniform.
 
 ## Target architecture
 
