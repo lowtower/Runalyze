@@ -9,6 +9,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Model\Sport\SportStatistics;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface;
 use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Util\LocalTime;
 use Symfony\Component\Clock\ClockInterface;
 
@@ -16,6 +17,7 @@ final readonly class SportsPanelPresenter implements ModernPanelInterface
 {
     public function __construct(
         private SportRepository $sportRepository,
+        private ConfigurationManager $configurationManager,
         private ClockInterface $clock
     ) {}
 
@@ -44,10 +46,16 @@ final readonly class SportsPanelPresenter implements ModernPanelInterface
      */
     public function present(Account $account, Plugin $installation): array
     {
-        $today = new LocalTime($this->clock->now()->getTimestamp())->setTime(0, 0, 0);
+        $today = new LocalTime($this->clock->now()->getTimestamp());
+        $today->setTime(0, 0, 0);
+
+        $weekStartDay = (int) $this->configurationManager->getList($account)->get('general.WEEK_START');
+        $daysSinceWeekStart = ((int) $today->format('w') - $weekStartDay + 7) % 7;
+        $weekStart = clone $today;
+        $weekStart->modify(sprintf('-%d days', $daysSinceWeekStart));
 
         /** @var SportStatistics $weekStatistics */
-        $weekStatistics = $this->sportRepository->getSportStatisticsSince($today->weekstart(), $account);
+        $weekStatistics = $this->sportRepository->getSportStatisticsSince($weekStart->getTimestamp(), $account);
         /** @var SportStatistics $monthStatistics */
         $monthStatistics = $this->sportRepository->getSportStatisticsSince($today->monthStart(), $account);
         /** @var SportStatistics $yearStatistics */
