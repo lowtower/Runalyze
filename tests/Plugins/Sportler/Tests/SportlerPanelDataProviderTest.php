@@ -123,7 +123,7 @@ final class SportlerPanelDataProviderTest extends TestCase
         $account = $this->createAccount(7);
         $installation = $this->createInstallation($account, 17);
 
-        $repository = $this->createMock(UserRepository::class);
+        $repository = $this->createStub(UserRepository::class);
         $repository->method('getLatestEntryFor')->willReturn(null);
         $repository->method('findWeightHistoryFor')->willReturn([]);
         $repository->method('findBodyCompositionHistoryFor')->willReturn([]);
