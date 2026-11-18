@@ -101,7 +101,9 @@ final class SportsPanelPresenterTest extends TestCase
         $repository = $this->createMock(SportRepository::class);
         $repository->expects($this->exactly(4))
             ->method('getSportStatisticsSince')
-            ->willReturnCallback(function (?int $timestamp, Account $receivedAccount, bool $raw = false) use (&$actualTimestamps, $statistics): SportStatistics {
+            ->willReturnCallback(function (?int $timestamp, Account $receivedAccount, bool $raw = false) use (&$actualTimestamps, $statistics, $account): SportStatistics {
+                $this->assertSame($account, $receivedAccount);
+                $this->assertFalse($raw);
                 $actualTimestamps[] = $timestamp;
 
                 return $statistics;
