@@ -29,22 +29,22 @@ class PluginController extends AbstractPluginsAwareController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $legacyContent = $this->legacyPluginOutputRenderer->render(function () use ($request, $pluginDiscovery): void {
-            new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
-
-            $Pluginkey = $request->query->get('key');
+            $pluginKey = $request->query->get('key');
 
             $availablePluginKeys = $pluginDiscovery->findAvailablePluginKeys();
             $installedPluginKeys = $this->pluginInstallationManager->getInstalledPluginKeys();
             $installableKeys = array_diff($availablePluginKeys, $installedPluginKeys);
 
-            if (! is_string($Pluginkey) || ! in_array($Pluginkey, $installableKeys, true)) {
+            if (! is_string($pluginKey) || ! in_array($pluginKey, $installableKeys, true)) {
                 throw $this->createNotFoundException('Unknown or already installed plugin.');
             }
 
-            echo '<h1>' . __('Install') . ' ' . $Pluginkey . '</h1>';
+            new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
-            if ($this->pluginInstallationManager->install($Pluginkey)) {
-                $Plugin = $this->instantiatePluginByKey($Pluginkey);
+            echo '<h1>' . __('Install') . ' ' . $pluginKey . '</h1>';
+
+            if ($this->pluginInstallationManager->install($pluginKey)) {
+                $Plugin = $this->instantiatePluginByKey($pluginKey);
 
                 echo HTML::okay(__('The plugin has been successfully installed.'));
 
