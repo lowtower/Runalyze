@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\Bundle\CoreBundle\Tests\Services\Plugin;
+namespace Runalyze\Plugins\Sportler\Tests;
 
 use DateTimeImmutable;
 use InvalidArgumentException;
@@ -13,8 +13,8 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
 use Runalyze\Bundle\CoreBundle\Entity\User;
 use Runalyze\Bundle\CoreBundle\Repository\UserRepository;
-use Runalyze\Bundle\CoreBundle\Services\Plugin\SportlerPanelDataProvider;
 use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
+use Runalyze\Plugins\Sportler\SportlerPanelDataProvider;
 use Symfony\Component\Clock\ClockInterface;
 
 #[Group('plugin')]

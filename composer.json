@@ -91,6 +91,7 @@
             "Runalyze\\Devices\\": "vendor/runalyze/devices/src/",
             "Runalyze\\Migrations\\": "migrations/",
             "Runalyze\\Bundle\\": "src/",
+            "Runalyze\\Plugins\\": "plugins/",
             "Runalyze\\": "inc/core/"
         }
     },
@@ -98,7 +99,8 @@
         "psr-4": {
             "App\\Tests\\": "tests/",
             "Runalyze\\Tests\\": "tests/inc/core/",
-            "Runalyze\\Bundle\\CoreBundle\\Tests\\": "tests/CoreBundle"
+            "Runalyze\\Bundle\\CoreBundle\\Tests\\": "tests/CoreBundle",
+            "Runalyze\\Plugins\\": "tests/Plugins/"
         }
     },
     "replace": {

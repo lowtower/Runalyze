@@ -90,7 +90,6 @@ use Runalyze\Bundle\CoreBundle\Services\LegacyCache;
 use Runalyze\Bundle\CoreBundle\Services\LegacyContentResponseFactory;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
-use Runalyze\Bundle\CoreBundle\Services\Plugin\SportlerPanelDataProvider;
 use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
@@ -253,7 +252,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(PluginSettingsProvider::class);
 
-    $services->set(SportlerPanelDataProvider::class);
+    $containerConfigurator->import(__DIR__ . '/../plugins/Sportler/config/services.php');
 
     $services->set(SharedAthleteStatisticsProvider::class);
 

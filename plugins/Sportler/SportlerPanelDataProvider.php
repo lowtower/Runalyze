@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\Bundle\CoreBundle\Services\Plugin;
+namespace Runalyze\Plugins\Sportler;
 
 use InvalidArgumentException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
