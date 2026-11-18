@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Runalyze\\Plugins\\Sportler;
 
+use Runalyze\\Bundle\\CoreBundle\\Entity\\Account;
+use Runalyze\\Bundle\\CoreBundle\\Entity\\Plugin;
+
 final readonly class SportlerPanelPresenter
 {
     public function __construct(
@@ -20,7 +23,7 @@ final readonly class SportlerPanelPresenter
      *     bodyCompositionHistory: list<array{time: int, fat: ?float, water: ?float, muscles: ?float}>
      * }
      */
-    public function present(\\Runalyze\\Bundle\\CoreBundle\\Entity\\Account $account, \\Runalyze\\Bundle\\CoreBundle\\Entity\\Plugin $installation): array
+    public function present(Account $account, Plugin $installation): array
     {
         $data = $this->dataProvider->getData($account, $installation);
 
@@ -31,10 +34,8 @@ final readonly class SportlerPanelPresenter
     }
 
     /**
-     * @template T of array<string, mixed>
-     *
-     * @param list<T> $history
-     * @return list<T>
+     * @param list<array<string, mixed>> $history
+     * @return list<array<string, mixed>>
      */
     private function duplicateSingleEntry(array $history): array
     {
