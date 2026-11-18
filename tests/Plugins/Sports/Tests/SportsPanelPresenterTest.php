@@ -81,4 +81,35 @@ final class SportsPanelPresenterTest extends TestCase
         $this->assertSame('@Sports/panel.html.twig', $presenter->getTemplate());
         $this->assertTrue($presenter->shouldReloadAfterTraining());
     }
+
+    public function testUsesTheConfiguredSundayAsTheWeekStart(): void
+    {
+        $account = new Account();
+        $now = new DateTimeImmutable('2026-11-18T12:34:56+00:00');
+
+        $clock = $this->createStub(ClockInterface::class);
+        $clock->method('now')->willReturn($now);
+
+        $configurationList = $this->createStub(RunalyzeConfigurationList::class);
+        $configurationList->method('get')->with('general.WEEK_START')->willReturn('0');
+        $configurationManager = $this->createStub(ConfigurationManager::class);
+        $configurationManager->method('getList')->with($account)->willReturn($configurationList);
+
+        $statistics = new SportStatistics(new \DateTime('2026-11-18'), []);
+        $actualTimestamps = [];
+        $repository = $this->createMock(SportRepository::class);
+        $repository->expects($this->exactly(4))
+            ->method('getSportStatisticsSince')
+            ->willReturnCallback(function (?int $timestamp) use (&$actualTimestamps, $statistics): SportStatistics {
+                $actualTimestamps[] = $timestamp;
+
+                return $statistics;
+            });
+
+        $presenter = new SportsPanelPresenter($repository, $configurationManager, $clock);
+
+        $presenter->present($account, new Plugin());
+
+        $this->assertSame((new DateTimeImmutable('2026-11-15T00:00:00+00:00'))->getTimestamp(), $actualTimestamps[0]);
+    }
 }
