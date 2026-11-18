@@ -18,7 +18,11 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\FileHandler;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\GenerateJsonData;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\GeneratePoster;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\PosterGenerationStateResolver;
+use Runalyze\Bundle\CoreBundle\EntityListener\ActivityListener;
 use Runalyze\Bundle\CoreBundle\EntityListener\EquipmentUpdateSubscriber;
+use Runalyze\Bundle\CoreBundle\EntityListener\RaceResultListener;
+use Runalyze\Bundle\CoreBundle\EntityListener\RouteListener;
+use Runalyze\Bundle\CoreBundle\EntityListener\UserListener;
 use Runalyze\Bundle\CoreBundle\EventListener\AccountLastActionListener;
 use Runalyze\Bundle\CoreBundle\EventListener\ConsoleExceptionListener;
 use Runalyze\Bundle\CoreBundle\EventListener\LocaleListener;
@@ -412,6 +416,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 
 
+
+    $services->set(ActivityListener::class);
+
+    $services->set(RaceResultListener::class);
+
+    $services->set(RouteListener::class);
+
+    $services->set(UserListener::class);
 
     $services->set('app.entity_subscriber.equipment_update', EquipmentUpdateSubscriber::class)
         ->tag('doctrine.event_listener', [
