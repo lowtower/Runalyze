@@ -98,7 +98,8 @@
         "psr-4": {
             "App\\Tests\\": "tests/",
             "Runalyze\\Tests\\": "tests/inc/core/",
-            "Runalyze\\Bundle\\CoreBundle\\Tests\\": "tests/CoreBundle"
+            "Runalyze\\Bundle\\CoreBundle\\Tests\\": "tests/CoreBundle",
+            "Runalyze\\Plugins\\": "tests/Plugins/"
         }
     },
     "replace": {
