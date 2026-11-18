@@ -36,10 +36,16 @@ final class SportsPanelPresenterTest extends TestCase
             null,
         ];
 
-        $configurationList = $this->createStub(RunalyzeConfigurationList::class);
-        $configurationList->method('get')->with('general.WEEK_START')->willReturn('1');
-        $configurationManager = $this->createStub(ConfigurationManager::class);
-        $configurationManager->method('getList')->with($account)->willReturn($configurationList);
+        $configurationList = $this->createMock(RunalyzeConfigurationList::class);
+        $configurationList->expects($this->once())
+            ->method('get')
+            ->with('general.WEEK_START')
+            ->willReturn('1');
+        $configurationManager = $this->createMock(ConfigurationManager::class);
+        $configurationManager->expects($this->once())
+            ->method('getList')
+            ->with($account)
+            ->willReturn($configurationList);
         $actualTimestamps = [];
 
         $statistics = [
@@ -91,10 +97,16 @@ final class SportsPanelPresenterTest extends TestCase
         $clock = $this->createStub(ClockInterface::class);
         $clock->method('now')->willReturn($now);
 
-        $configurationList = $this->createStub(RunalyzeConfigurationList::class);
-        $configurationList->method('get')->with('general.WEEK_START')->willReturn('0');
-        $configurationManager = $this->createStub(ConfigurationManager::class);
-        $configurationManager->method('getList')->with($account)->willReturn($configurationList);
+        $configurationList = $this->createMock(RunalyzeConfigurationList::class);
+        $configurationList->expects($this->once())
+            ->method('get')
+            ->with('general.WEEK_START')
+            ->willReturn('0');
+        $configurationManager = $this->createMock(ConfigurationManager::class);
+        $configurationManager->expects($this->once())
+            ->method('getList')
+            ->with($account)
+            ->willReturn($configurationList);
 
         $statistics = new SportStatistics(new \DateTime('2026-11-18'), []);
         $actualTimestamps = [];
