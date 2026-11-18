@@ -1,6 +1,6 @@
 # Plugin architecture
 
-This document defines the proposed target architecture for new and migrated Runalyze plugins. It is an architectural contract for the migration; the interfaces and examples below are design proposals, not APIs that are already available in the application. It also defines the directory and namespace convention for modern plugins; the Composer mapping and runtime integration are introduced incrementally with the first migrated plugin.
+This document defines the target architecture for new and migrated Runalyze plugins. The panel-specific contract and registry described below are implemented; proposals for other plugin types remain conceptual until a concrete migration requires them. The directory, namespace, Composer, service-registration, and Twig-loading conventions for modern plugins are active.
 
 The existing plugin system remains supported while this target is introduced incrementally. Existing implementations under `plugin/` continue to use the global `Plugin` / `PluginPanel` base classes and their legacy lifecycle. New code must not extend those classes.
 
@@ -67,7 +67,7 @@ The directory name and namespace segment are code organization details, not pers
 
 ### Composer and Symfony integration
 
-The intended Composer mapping is a single PSR-4 prefix:
+The Composer mapping uses a single PSR-4 prefix:
 
 ```json
 {
@@ -79,7 +79,7 @@ The intended Composer mapping is a single PSR-4 prefix:
 }
 ```
 
-This mapping is a target convention and must be added as part of the first code migration that introduces the `plugins/` root; this documentation change does not alter Composer configuration or move existing classes.
+This mapping is active in `composer.json` for application code and plugin tests.
 
 Modern plugin services must be registered explicitly with Symfony dependency injection. A plugin-local `config/services.php` may describe its services, but it must be imported by the application configuration; the directory existing on disk does not make it automatically discoverable. Service registration must not rely on scanning the legacy classmap or on runtime container lookups.
 
@@ -140,25 +140,26 @@ The registry must not silently fall back from a missing modern key to filesystem
 
 A modern plugin's key is application metadata, not its PHP class name or directory name. This allows implementations to move without changing persisted installation records.
 
-### Proposed contract shape
+### Implemented panel contract
 
-The final PHP interfaces should be deliberately small. The following is a conceptual shape, not copy-and-paste code for the current application:
+The first implemented type-specific contract is `ModernPanelInterface` in `src/CoreBundle/Plugin/Panel/`. It deliberately models panels only:
 
 ```php
-interface ModernPluginInterface
+interface ModernPanelInterface
 {
-    public function definition(): PluginDefinition;
+    public function getKey(): string;
 
-    public function execute(PluginContext $context): PluginResult;
+    public function getTemplate(): string;
+
+    public function shouldReloadAfterTraining(): bool;
+
+    public function present(Account $account, Plugin $installation): array;
 }
 ```
 
-- `PluginDefinition` is immutable metadata: stable key, plugin type, display name and description. It must not contain account-specific values.
-- `PluginContext` is immutable invocation data. It explicitly carries the authenticated account and installation identity, validated input, and the configuration snapshot needed for this execution.
-- `PluginResult` is a typed result appropriate to the plugin type. Prefer data structures over HTML strings or direct output.
-- Dependencies used by the implementation are constructor-injected services, not members of `PluginContext`.
+`ModernPanelRegistry` receives services tagged with `runalyze.modern_panel`, indexes them by their stable key, and rejects duplicate keys. The controller verifies the account-scoped installation before calling the presenter. The `shouldReloadAfterTraining()` flag preserves the existing dashboard behavior: Sports panels are refreshed after training changes, while Sportler panels are not.
 
-The exact type-specific result contracts should be introduced only when the first real plugin type is migrated. A panel, a statistic provider, and an interactive tool have different presentation and lifecycle needs; one universal result object with many optional fields would obscure those differences.
+This contract is intentionally not a universal plugin API. Other plugin types should receive their own small contracts only when a real migration needs them. The conceptual `PluginDefinition` / `PluginContext` / `PluginResult` design is therefore not implemented and must not be treated as a current runtime API.
 
 ### Execution and account isolation
 
@@ -262,14 +263,26 @@ The next migration slice routes the installed Sportler panel through the modern 
 
 This is deliberately a concrete panel integration, not a general plugin registry or universal presenter contract. Functional coverage belongs in the existing `DefaultControllerTest` suite. The legacy fallback should only be removed in a later step after the modern rendering path has been exercised in the application.
 
+## Second validated panel slice: Sports
+
+The Sports dashboard panel is migrated through the existing panel contract:
+
+- `SportsPanelPresenter` is a stateless Symfony service registered from `plugins/Sports/config/services.php` with the `runalyze.modern_panel` tag.
+- It injects the existing `SportRepository` and Symfony's `ClockInterface`; it does not introduce a new repository, data provider, or statistics abstraction.
+- It preserves the legacy week, month, year, and all-time queries, including the configured week start and the server-time conversion already owned by `SportRepository`.
+- Its Twig template lives at `plugins/Sports/templates/panel.html.twig` and is loaded through the `@Sports` namespace.
+- `AbstractPluginsAwareController` resolves the panel by the stable key `RunalyzePluginPanel_Sports`. The dashboard wrapper remains refreshable after training changes; the Sportler panel retains its separate no-reload behavior.
+- The existing legacy class remains in `plugin/` for discovery and persisted installation compatibility. Its old Twig template and controller-specific rendering method are no longer used by the dashboard path.
+
+The presenter test is located at `tests/Plugins/Sports/Tests/SportsPanelPresenterTest.php`; dashboard integration coverage is added to the existing `DefaultControllerTest`. The legacy class should only be removed in a separate step after its discovery and installation responsibilities have been audited.
+
 ## Open design decisions
 
 Resolve these against the first concrete migration rather than speculating now:
 
-- Which plugin type is the best first vertical slice.
-- The exact metadata and type-specific execution interfaces.
-- Whether configuration is supplied as an immutable snapshot or a narrow scoped accessor for that plugin type.
-- The exact typed result/view-model shape for each migrated plugin type.
+- The type-specific contracts required for plugin types other than panels.
+- Whether configuration for each future plugin type is supplied as an immutable snapshot or a narrow scoped accessor.
+- The typed result/view-model shape for each future plugin type.
 - Whether any legacy installation metadata needs a schema change (prefer not; retain stable keys where possible).
 
 The first implementation PR should include a small working example and tests that exercise the chosen contract end to end. Update this document when implementation evidence settles the open decisions.
