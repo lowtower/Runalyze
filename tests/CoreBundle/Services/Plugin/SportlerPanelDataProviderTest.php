@@ -36,8 +36,14 @@ final class SportlerPanelDataProviderTest extends TestCase
 
         $repository = $this->createMock(UserRepository::class);
         $repository->expects($this->once())->method('getLatestEntryFor')->with($account)->willReturn($latest);
-        $repository->expects($this->once())->method('findWeightHistoryFor')->with($account, 12)->willReturn([]);
-        $repository->expects($this->once())->method('findBodyCompositionHistoryFor')->with($account, 12)->willReturn([]);
+        $repository->expects($this->once())->method('findWeightHistoryFor')->with($account, 12)->willReturn([
+            ['time' => 200, 'weight' => 68.5, 'pulseRest' => 49],
+            ['time' => 100, 'weight' => 68.4, 'pulseRest' => 48],
+        ]);
+        $repository->expects($this->once())->method('findBodyCompositionHistoryFor')->with($account, 12)->willReturn([
+            ['time' => 200, 'fat' => 15.0, 'water' => 58.0, 'muscles' => 41.0],
+            ['time' => 100, 'fat' => 14.5, 'water' => 58.2, 'muscles' => 41.3],
+        ]);
 
         $provider = $this->createProvider($repository, [
             17 => [
@@ -49,6 +55,8 @@ final class SportlerPanelDataProviderTest extends TestCase
 
         $data = $provider->getData($account, $installation);
 
+        $this->assertSame([100, 200], array_column($data['weightHistory'], 'time'));
+        $this->assertSame([100, 200], array_column($data['bodyCompositionHistory'], 'time'));
         $this->assertSame(17, $data['pluginId']);
         $this->assertFalse($data['isHidden']);
         $this->assertSame([
