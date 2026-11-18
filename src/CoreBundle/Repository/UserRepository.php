@@ -4,6 +4,7 @@ namespace Runalyze\Bundle\CoreBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\User;
@@ -81,6 +82,106 @@ class UserRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+
+    /**
+     * @return array<array{time: int, weight: ?float, pulseRest: ?int}>
+     */
+    public function findWeightHistoryFor(Account $account, int $limit): array
+    {
+        $rows = $this->createHistoryQueryBuilder(
+            $account,
+            'u.time AS time, u.weight AS weight, u.pulseRest AS pulseRest',
+            $limit,
+            null
+        )->getQuery()->getArrayResult();
+
+        return array_map(static fn (array $row): array => [
+            'time' => (int) $row['time'],
+            'weight' => null === $row['weight'] ? null : (float) $row['weight'],
+            'pulseRest' => null === $row['pulseRest'] ? null : (int) $row['pulseRest'],
+        ], $rows);
+    }
+
+    /**
+     * @return array<array{time: int, weight: ?float, pulseRest: ?int}>
+     */
+    public function findWeightHistorySince(Account $account, int $timestamp): array
+    {
+        $rows = $this->createHistoryQueryBuilder(
+            $account,
+            'u.time AS time, u.weight AS weight, u.pulseRest AS pulseRest',
+            null,
+            $timestamp
+        )->getQuery()->getArrayResult();
+
+        return array_map(static fn (array $row): array => [
+            'time' => (int) $row['time'],
+            'weight' => null === $row['weight'] ? null : (float) $row['weight'],
+            'pulseRest' => null === $row['pulseRest'] ? null : (int) $row['pulseRest'],
+        ], $rows);
+    }
+
+    /**
+     * @return array<array{time: int, fat: ?float, water: ?float, muscles: ?float}>
+     */
+    public function findBodyCompositionHistoryFor(Account $account, int $limit): array
+    {
+        $rows = $this->createHistoryQueryBuilder(
+            $account,
+            'u.time AS time, u.fat AS fat, u.water AS water, u.muscles AS muscles',
+            $limit,
+            null
+        )->getQuery()->getArrayResult();
+
+        return array_map(static fn (array $row): array => [
+            'time' => (int) $row['time'],
+            'fat' => null === $row['fat'] ? null : (float) $row['fat'],
+            'water' => null === $row['water'] ? null : (float) $row['water'],
+            'muscles' => null === $row['muscles'] ? null : (float) $row['muscles'],
+        ], $rows);
+    }
+
+    /**
+     * @return array<array{time: int, fat: ?float, water: ?float, muscles: ?float}>
+     */
+    public function findBodyCompositionHistorySince(Account $account, int $timestamp): array
+    {
+        $rows = $this->createHistoryQueryBuilder(
+            $account,
+            'u.time AS time, u.fat AS fat, u.water AS water, u.muscles AS muscles',
+            null,
+            $timestamp
+        )->getQuery()->getArrayResult();
+
+        return array_map(static fn (array $row): array => [
+            'time' => (int) $row['time'],
+            'fat' => null === $row['fat'] ? null : (float) $row['fat'],
+            'water' => null === $row['water'] ? null : (float) $row['water'],
+            'muscles' => null === $row['muscles'] ? null : (float) $row['muscles'],
+        ], $rows);
+    }
+
+    private function createHistoryQueryBuilder(
+        Account $account,
+        string $select,
+        ?int $limit,
+        ?int $timestamp
+    ): QueryBuilder {
+        $queryBuilder = $this->createQueryBuilder('u')
+            ->select($select)
+            ->where('u.account = :account')
+            ->setParameter('account', $account)
+            ->orderBy('u.time', 'DESC');
+
+        if (null !== $timestamp) {
+            return $queryBuilder
+                ->andWhere('u.time > :timestamp')
+                ->setParameter('timestamp', $timestamp);
+        }
+
+        return $queryBuilder->setMaxResults($limit);
     }
 
     public function remove(User $user): void
