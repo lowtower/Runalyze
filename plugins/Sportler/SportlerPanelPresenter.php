@@ -6,6 +6,7 @@ namespace Runalyze\Plugins\Sportler;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface;
 
 final readonly class SportlerPanelPresenter implements ModernPanelInterface
 {
