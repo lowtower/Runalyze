@@ -252,6 +252,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(PluginSettingsProvider::class);
 
+    $services->set(SportlerPanelDataProvider::class);
+
     $services->set(SharedAthleteStatisticsProvider::class);
 
     $services->set(DoctrinePluginConfigurationStorage::class);
