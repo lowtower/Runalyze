@@ -14,6 +14,7 @@ use Runalyze\\Bundle\\CoreBundle\\Entity\\User;
 use Runalyze\\Bundle\\CoreBundle\\Repository\\UserRepository;
 use Runalyze\\Bundle\\CoreBundle\\Services\\Plugin\\SportlerPanelDataProvider;
 use Runalyze\\Bundle\\CoreBundle\\Services\\PluginConfigurationStorageInterface;
+use ReflectionProperty;
 use Symfony\\Component\\Clock\\ClockInterface;
 
 #[Group('plugin')]
@@ -166,7 +167,7 @@ final class SportlerPanelDataProviderTest extends TestCase
     private function createAccount(int $id): Account
     {
         $account = new Account();
-        new \\ReflectionProperty(Account::class, 'id')->setValue($account, $id);
+        new ReflectionProperty(Account::class, 'id')->setValue($account, $id);
 
         return $account;
     }
@@ -181,7 +182,7 @@ final class SportlerPanelDataProviderTest extends TestCase
             ->setKey('RunalyzePluginPanel_Sportler')
             ->setType(PluginInstallation::TYPE_PANEL)
             ->setActive($active);
-        new \\ReflectionProperty(PluginInstallation::class, 'id')->setValue($installation, $id);
+        new ReflectionProperty(PluginInstallation::class, 'id')->setValue($installation, $id);
 
         return $installation;
     }
