@@ -8,13 +8,13 @@ use DateTimeImmutable;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
+use ReflectionProperty;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
 use Runalyze\Bundle\CoreBundle\Entity\User;
 use Runalyze\Bundle\CoreBundle\Repository\UserRepository;
 use Runalyze\Bundle\CoreBundle\Services\Plugin\SportlerPanelDataProvider;
 use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
-use ReflectionProperty;
 use Symfony\Component\Clock\ClockInterface;
 
 #[Group('plugin')]
@@ -24,7 +24,7 @@ final class SportlerPanelDataProviderTest extends TestCase
     {
         $account = $this->createAccount(7);
         $installation = $this->createInstallation($account, 17);
-        $latest = (new User())
+        $latest = new User()
             ->setAccount($account)
             ->setTime(1234)
             ->setWeight(68.4)
@@ -37,12 +37,30 @@ final class SportlerPanelDataProviderTest extends TestCase
         $repository = $this->createMock(UserRepository::class);
         $repository->expects($this->once())->method('getLatestEntryFor')->with($account)->willReturn($latest);
         $repository->expects($this->once())->method('findWeightHistoryFor')->with($account, 12)->willReturn([
-            ['time' => 200, 'weight' => 68.5, 'pulseRest' => 49],
-            ['time' => 100, 'weight' => 68.4, 'pulseRest' => 48],
+            [
+                'time' => 200,
+                'weight' => 68.5,
+                'pulseRest' => 49,
+            ],
+            [
+                'time' => 100,
+                'weight' => 68.4,
+                'pulseRest' => 48,
+            ],
         ]);
         $repository->expects($this->once())->method('findBodyCompositionHistoryFor')->with($account, 12)->willReturn([
-            ['time' => 200, 'fat' => 15.0, 'water' => 58.0, 'muscles' => 41.0],
-            ['time' => 100, 'fat' => 14.5, 'water' => 58.2, 'muscles' => 41.3],
+            [
+                'time' => 200,
+                'fat' => 15.0,
+                'water' => 58.0,
+                'muscles' => 41.0,
+            ],
+            [
+                'time' => 100,
+                'fat' => 14.5,
+                'water' => 58.2,
+                'muscles' => 41.3,
+            ],
         ]);
 
         $provider = $this->createProvider($repository, [
@@ -86,7 +104,11 @@ final class SportlerPanelDataProviderTest extends TestCase
 
         $provider = $this->createProvider(
             $repository,
-            [17 => ['plot_timerange' => '30']],
+            [
+                17 => [
+                    'plot_timerange' => '30',
+                ],
+            ],
             2000000
         );
 
@@ -135,7 +157,7 @@ final class SportlerPanelDataProviderTest extends TestCase
         $provider = $this->createProvider($repository, []);
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The Sportler panel installation is not available for this account.');
+        $this->expectExceptionMessageIsOrContains('The Sportler panel installation is not available for this account.');
 
         $provider->getData($account, $installation);
     }
@@ -223,7 +245,7 @@ final class SportlerPanelDataProviderTest extends TestCase
         string $key = 'RunalyzePluginPanel_Sportler',
         string $type = PluginInstallation::TYPE_PANEL
     ): PluginInstallation {
-        $installation = (new PluginInstallation())
+        $installation = new PluginInstallation()
             ->setAccount($account)
             ->setKey($key)
             ->setType($type)
