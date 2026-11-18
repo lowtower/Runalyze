@@ -479,7 +479,6 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             $this->assertStringContainsString('colspan="13"', $content);
             $this->assertSame(1, substr_count($content, 'id="headline"'));
         } finally {
-            $this->getEntityManager()->remove($plugin);
             $this->getEntityManager()->flush();
         }
     }
@@ -824,12 +823,12 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testDashboardRendersSportlerPanelThroughTheModernTwigPath(): void
     {
-        $plugin = new PluginEntity()
-            ->setKey('RunalyzePluginPanel_Sportler')
-            ->setType(PluginEntity::TYPE_PANEL)
-            ->setActive(PluginEntity::STATE_ACTIVE)
-            ->setOrder(1)
-            ->setAccount($this->Account);
+        $plugin = $this->getEntityManager()->getRepository(PluginEntity::class)->findOneBy([
+            'account' => $this->Account,
+            'key' => 'RunalyzePluginPanel_Sportler',
+        ]);
+
+        $this->assertInstanceOf(PluginEntity::class, $plugin);
         $user = new User()
             ->setAccount($this->Account)
             ->setTime(time())
@@ -840,7 +839,6 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             ->setWater(55.0)
             ->setMuscles(40.0);
 
-        $this->getEntityManager()->persist($plugin);
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
 
