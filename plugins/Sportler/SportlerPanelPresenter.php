@@ -27,22 +27,14 @@ final readonly class SportlerPanelPresenter
     {
         $data = $this->dataProvider->getData($account, $installation);
 
-        $data['weightHistory'] = $this->duplicateSingleEntry($data['weightHistory']);
-        $data['bodyCompositionHistory'] = $this->duplicateSingleEntry($data['bodyCompositionHistory']);
-
-        return $data;
-    }
-
-    /**
-     * @param list<array<string, mixed>> $history
-     * @return list<array<string, mixed>>
-     */
-    private function duplicateSingleEntry(array $history): array
-    {
-        if (count($history) === 1) {
-            $history[] = $history[0];
+        if (count($data['weightHistory']) === 1) {
+            $data['weightHistory'][] = $data['weightHistory'][0];
         }
 
-        return $history;
+        if (count($data['bodyCompositionHistory']) === 1) {
+            $data['bodyCompositionHistory'][] = $data['bodyCompositionHistory'][0];
+        }
+
+        return $data;
     }
 }
