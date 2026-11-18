@@ -30,6 +30,7 @@
         {% endif %}
     </div>
 
+    <div class="panel-content">
     <div class="flot-menu flot-menu-inline">
         <span class="link flotChanger-sportler_flots flotChanger-id-sportler_weights" onclick="Runalyze.flotChange('sportler_flots','sportler_weights')">{{ 'Weight'|trans }}</span>
         <span class="link unimportant flotChanger-sportler_flots flotChanger-id-sportler_analyse" onclick="Runalyze.flotChange('sportler_flots','sportler_analyse')">{{ 'Other values'|trans }}</span>
@@ -37,6 +38,7 @@
     <div id="sportler_flots" class="flot-changeable" style="position:relative;width:320px;height:150px;margin:0 auto;">
         <div class="flot" id="sportler_weights" style="width:320px;height:150px;position:absolute;"></div>
         <div class="flot flot-hide" id="sportler_analyse" style="width:320px;height:150px;position:absolute;"></div>
+    </div>
     </div>
 
     {% set weightData = [] %}
