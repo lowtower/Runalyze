@@ -50,7 +50,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
         protected LegacyPluginOutputRenderer $legacyPluginOutputRenderer,
         protected LegacyContentResponseFactory $legacyContentResponseFactory,
         protected PluginSettingsProvider $pluginSettingsProvider,
-        protected SportlerPanelPresenter $sportlerPanelPresenter,
+        protected ModernPanelRegistry $modernPanelRegistry,
         protected ConfigurationManager $configurationManager,
         protected SportSelectionFactory $sportSelectionFactory,
         protected TokenStorageInterface $tokenStorage,
@@ -71,11 +71,11 @@ abstract class AbstractPluginsAwareController extends AbstractController
                 continue;
             }
 
-            if ($pluginData['key'] === 'RunalyzePluginPanel_Sportler') {
+            if ($this->modernPanelRegistry->has($pluginData['key'])) {
                 $installation = $this->pluginInstallationManager->getInstallationForAccount($account, $pluginData['id']);
 
                 if ($installation instanceof PluginInstallation) {
-                    $panelContent = $this->getResponseForSportlerPanel($account, $installation)->getContent();
+                    $panelContent = $this->getResponseForModernPanel($account, $installation)->getContent();
                     $content .= '<div class="panel dont-reload-for-training" id="panel-' . $pluginData['id'] . '">' . $panelContent . '</div>';
 
                     continue;
@@ -104,11 +104,11 @@ abstract class AbstractPluginsAwareController extends AbstractController
 
         if (
             $installation instanceof PluginInstallation
-            && $installation->getKey() === 'RunalyzePluginPanel_Sportler'
             && $installation->isPanel()
             && ! $installation->isInactive()
+            && $this->modernPanelRegistry->has($installation->getKey())
         ) {
-            return $this->getResponseForSportlerPanel($account, $installation);
+            return $this->getResponseForModernPanel($account, $installation);
         }
 
         $content = '';
@@ -127,12 +127,14 @@ abstract class AbstractPluginsAwareController extends AbstractController
         return $this->getResponseForPlugin($plugin, $request, $account);
     }
 
-    private function getResponseForSportlerPanel(Account $account, PluginInstallation $installation): Response
+    private function getResponseForModernPanel(Account $account, PluginInstallation $installation): Response
     {
-        return $this->render('@Sportler/panel.html.twig', [
+        $panel = $this->modernPanelRegistry->get($installation->getKey());
+
+        return $this->render($panel->getTemplate(), [
             'pluginId' => $installation->getId(),
             'isHidden' => $installation->isHidden(),
-            'panel_data' => $this->sportlerPanelPresenter->present($account, $installation),
+            'panel_data' => $panel->present($account, $installation),
         ]);
     }
 
