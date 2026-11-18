@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Runalyze\Plugins\Sports\Tests;
 
-use DateTime;
 use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
@@ -114,6 +113,6 @@ final class SportsPanelPresenterTest extends TestCase
 
         $presenter->present($account, new Plugin());
 
-        $this->assertSame((new DateTimeImmutable('2026-11-15T00:00:00+00:00'))->getTimestamp(), $actualTimestamps[0]);
+        $this->assertSame(new DateTimeImmutable('2026-11-15T00:00:00+00:00')->getTimestamp(), $actualTimestamps[0]);
     }
 }
