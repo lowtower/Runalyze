@@ -159,8 +159,6 @@ class ToolsController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        new Frontend($this->tokenStorage, $this->parameterBag);
-
         $configuration = $this->configurationManager
             ->getList();
         $correctionFactor = $configuration->getVO2maxCorrectionFactor();
