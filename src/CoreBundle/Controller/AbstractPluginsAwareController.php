@@ -12,6 +12,7 @@ use PluginType;
 use Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisData;
 use Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisSelection;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Model\Prognosis\PrognosisData;
@@ -23,6 +24,7 @@ use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
+use Runalyze\Plugins\Sportler\SportlerPanelPresenter;
 use Runalyze\Bundle\CoreBundle\Twig\ValueExtension;
 use Runalyze\Util\LocalTime;
 use RunalyzePluginPanel_Prognose;
@@ -72,7 +74,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
             if ($pluginData['key'] === 'RunalyzePluginPanel_Sportler') {
                 $installation = $this->pluginInstallationManager->getInstallationForAccount($account, $pluginData['id']);
 
-                if ($installation instanceof \\Runalyze\\Bundle\\CoreBundle\\Entity\\Plugin) {
+                if ($installation instanceof PluginInstallation) {
                     $panelContent = $this->getResponseForSportlerPanel($account, $installation)->getContent();
                     $content .= '<div class="panel" id="panel-' . $pluginData['id'] . '">' . $panelContent . '</div>';
 
@@ -101,7 +103,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
         $installation = $this->pluginInstallationManager->getInstallationForAccount($account, $pluginId);
 
         if (
-            $installation instanceof \\Runalyze\\Bundle\\CoreBundle\\Entity\\Plugin
+            $installation instanceof PluginInstallation
             && $installation->getKey() === 'RunalyzePluginPanel_Sportler'
             && $installation->isPanel()
             && ! $installation->isInactive()
@@ -125,7 +127,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
         return $this->getResponseForPlugin($plugin, $request, $account);
     }
 
-    private function getResponseForSportlerPanel(Account $account, \\Runalyze\\Bundle\\CoreBundle\\Entity\\Plugin $installation): Response
+    private function getResponseForSportlerPanel(Account $account, PluginInstallation $installation): Response
     {
         return $this->render('@Sportler/panel.html.twig', [
             'pluginId' => $installation->getId(),
