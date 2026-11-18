@@ -8,13 +8,11 @@ use League\Geotools\Coordinate\Coordinate;
 use League\Geotools\Geohash\Geohash;
 use Runalyze\Bundle\CoreBundle\Entity\Adapter\RouteAdapter;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
-use Runalyze\Bundle\CoreBundle\EntityListener\RouteListener;
 use Runalyze\Bundle\CoreBundle\Repository\RouteRepository;
 use Runalyze\Calculation\Route\GeohashLine;
 
 #[ORM\Table(name: 'route')]
 #[ORM\Entity(repositoryClass: RouteRepository::class)]
-#[ORM\EntityListeners([RouteListener::class])]
 #[ORM\HasLifecycleCallbacks]
 class Route implements AccountRelatedEntityInterface
 {

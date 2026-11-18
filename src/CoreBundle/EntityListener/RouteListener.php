@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\EntityListener;
 
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Route;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Import\ElevationCorrection;
 
+#[AsEntityListener(event: 'prePersist', lazy: true, entity: Route::class)]
+#[AsEntityListener(event: 'preUpdate', lazy: true, entity: Route::class)]
 class RouteListener
 {
     public function __construct(
