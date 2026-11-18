@@ -84,7 +84,6 @@ class UserRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-
     /**
      * @return array<array{time: int, weight: ?float, pulseRest: ?int}>
      */
