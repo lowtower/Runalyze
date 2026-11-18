@@ -1,5 +1,6 @@
 {% extends 'my/panels/base.html.twig' %}
 {% from '_macro/utilities.html.twig' import boxedValue, boxedValueFor %}
+{% set panelContentNoPadding = true %}
 
 {% block pluginTitle %}
     {{ 'Body values'|trans }}
@@ -43,8 +44,8 @@
     {% for entry in panelData.weightHistory %}
         {% set displayableWeight = entry.weight is not null ? weight(entry.weight) : null %}
         {% set timestamp = entry.time * 1000 %}
-        {% set weightData = weightData|merge([[timestamp, displayableWeight is not null ? displayableWeight.rawValue : null]]) %}
-        {% set restingHeartRateData = restingHeartRateData|merge([[timestamp, entry.pulseRest]]) %}
+        {% set weightData = weightData|merge([[timestamp, displayableWeight is not null and displayableWeight.rawValue != 0 ? displayableWeight.rawValue : null]]) %}
+        {% set restingHeartRateData = restingHeartRateData|merge([[timestamp, entry.pulseRest > 0 ? entry.pulseRest : null]]) %}
     {% endfor %}
 
     {% set fatData = [] %}
@@ -52,9 +53,9 @@
     {% set musclesData = [] %}
     {% for entry in panelData.bodyCompositionHistory %}
         {% set timestamp = entry.time * 1000 %}
-        {% set fatData = fatData|merge([[timestamp, entry.fat]]) %}
-        {% set waterData = waterData|merge([[timestamp, entry.water]]) %}
-        {% set musclesData = musclesData|merge([[timestamp, entry.muscles]]) %}
+        {% set fatData = fatData|merge([[timestamp, entry.fat > 0 ? entry.fat : null]]) %}
+        {% set waterData = waterData|merge([[timestamp, entry.water > 0 ? entry.water : null]]) %}
+        {% set musclesData = musclesData|merge([[timestamp, entry.muscles > 0 ? entry.muscles : null]]) %}
     {% endfor %}
 
     <script>
