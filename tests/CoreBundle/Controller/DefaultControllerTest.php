@@ -852,7 +852,7 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
 
             $content = (string) $this->Client->getResponse()->getContent();
 
-            $this->assertStringContainsString('id="panel-' . $plugin->getId() . '"', $content);
+            $this->assertStringContainsString('class="panel dont-reload-for-training" id="panel-' . $plugin->getId() . '"', $content);
             $this->assertStringContainsString('Body values', $content);
             $this->assertStringContainsString('Resting HR', $content);
             $this->assertStringContainsString('sportler_weights', $content);
