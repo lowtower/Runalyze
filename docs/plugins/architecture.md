@@ -43,13 +43,15 @@ A modern plugin should follow this structure where the corresponding concerns ex
 
 ```text
 plugins/
-└── Sportler/
-    ├── SportlerPanelDataProvider.php
-    ├── SportlerPanelPresenter.php
-    ├── Configuration/
+├── Sportler/
+│   ├── SportlerPanelDataProvider.php
+│   ├── SportlerPanelPresenter.php
+│   ├── templates/
+│   └── config/
+│       └── services.php
+└── Sports/
+    ├── SportsPanelPresenter.php
     ├── templates/
-    ├── translations/
-    ├── assets/
     └── config/
         └── services.php
 ```
@@ -278,11 +280,11 @@ The presenter test is located at `tests/Plugins/Sports/Tests/SportsPanelPresente
 
 ## Open design decisions
 
-Resolve these against the first concrete migration rather than speculating now:
+Resolve these against each future concrete migration rather than speculating now:
 
 - The type-specific contracts required for plugin types other than panels.
 - Whether configuration for each future plugin type is supplied as an immutable snapshot or a narrow scoped accessor.
 - The typed result/view-model shape for each future plugin type.
 - Whether any legacy installation metadata needs a schema change (prefer not; retain stable keys where possible).
 
-The first implementation PR should include a small working example and tests that exercise the chosen contract end to end. Update this document when implementation evidence settles the open decisions.
+Each migration PR should include a small working example and tests that exercise its contract end to end. Update this document when implementation evidence settles the remaining open decisions.
