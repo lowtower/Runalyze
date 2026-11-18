@@ -21,9 +21,9 @@ final class ModernPanelRegistryTest extends TestCase
 
         $registry = new ModernPanelRegistry([$panel]);
 
-        self::assertTrue($registry->has('example-panel'));
-        self::assertFalse($registry->has('unknown-panel'));
-        self::assertSame($panel, $registry->get('example-panel'));
+        $this->assertTrue($registry->has('example-panel'));
+        $this->assertFalse($registry->has('unknown-panel'));
+        $this->assertSame($panel, $registry->get('example-panel'));
     }
 
     public function testItRejectsUnknownPanelKeys(): void
