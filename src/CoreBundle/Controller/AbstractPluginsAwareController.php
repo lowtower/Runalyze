@@ -76,7 +76,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
 
                 if ($installation instanceof PluginInstallation) {
                     $panelContent = $this->getResponseForSportlerPanel($account, $installation)->getContent();
-                    $content .= '<div class="panel" id="panel-' . $pluginData['id'] . '">' . $panelContent . '</div>';
+                    $content .= '<div class="panel dont-reload-for-training" id="panel-' . $pluginData['id'] . '">' . $panelContent . '</div>';
 
                     continue;
                 }
