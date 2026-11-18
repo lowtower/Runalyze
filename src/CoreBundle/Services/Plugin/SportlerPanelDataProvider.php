@@ -33,7 +33,7 @@ final readonly class SportlerPanelDataProvider
      * }
      *
      * @throws InvalidArgumentException if the installation does not belong to the account,
-     *                                  is not a panel, or is inactive
+     *                                  has a different stable key, is not a panel, or is inactive
      */
     public function getData(Account $account, PluginInstallation $installation): array
     {
@@ -81,11 +81,11 @@ final readonly class SportlerPanelDataProvider
 
         if ($configuration['plotTimerange'] > 0) {
             $timestamp = $this->clock->now()->getTimestamp() - ($configuration['plotTimerange'] * 86400);
-            $weightHistory = $this->userRepository->findWeightHistorySince($account, $timestamp);
-            $bodyCompositionHistory = $this->userRepository->findBodyCompositionHistorySince($account, $timestamp);
+            $weightHistory = array_reverse($this->userRepository->findWeightHistorySince($account, $timestamp));
+            $bodyCompositionHistory = array_reverse($this->userRepository->findBodyCompositionHistorySince($account, $timestamp));
         } else {
-            $weightHistory = $this->userRepository->findWeightHistoryFor($account, $configuration['plotPoints']);
-            $bodyCompositionHistory = $this->userRepository->findBodyCompositionHistoryFor($account, $configuration['plotPoints']);
+            $weightHistory = array_reverse($this->userRepository->findWeightHistoryFor($account, $configuration['plotPoints']));
+            $bodyCompositionHistory = array_reverse($this->userRepository->findBodyCompositionHistoryFor($account, $configuration['plotPoints']));
         }
 
         return [
