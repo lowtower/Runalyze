@@ -40,21 +40,33 @@ final class UserRepositoryTest extends AbstractRepositoryTestCase
         $this->insertBodyValues($this->Account, 300, 67.0, 52, 15.3, 55.4, 40.5);
         $this->insertBodyValues($this->getEmptyAccount(), 400, 80.0, 60, 20.0, 50.0, 30.0);
 
-        self::assertSame(
+        $this->assertSame([
             [
-                ['time' => 300, 'weight' => 67.0, 'pulseRest' => 52],
-                ['time' => 200, 'weight' => 66.1, 'pulseRest' => 51],
+                'time' => 300,
+                'weight' => 67.0,
+                'pulseRest' => 52,
             ],
-            $this->UserRepository->findWeightHistoryFor($this->Account, 2)
-        );
+            [
+                'time' => 200,
+                'weight' => 66.1,
+                'pulseRest' => 51,
+            ],
+        ], $this->UserRepository->findWeightHistoryFor($this->Account, 2));
 
-        self::assertSame(
+        $this->assertSame([
             [
-                ['time' => 300, 'fat' => 15.3, 'water' => 55.4, 'muscles' => 40.5],
-                ['time' => 200, 'fat' => 15.2, 'water' => 55.3, 'muscles' => 40.4],
+                'time' => 300,
+                'fat' => 15.3,
+                'water' => 55.4,
+                'muscles' => 40.5,
             ],
-            $this->UserRepository->findBodyCompositionHistoryFor($this->Account, 2)
-        );
+            [
+                'time' => 200,
+                'fat' => 15.2,
+                'water' => 55.3,
+                'muscles' => 40.4,
+            ],
+        ], $this->UserRepository->findBodyCompositionHistoryFor($this->Account, 2));
     }
 
     public function testFindBodyValueHistorySinceTimestampForAccount(): void
@@ -64,29 +76,41 @@ final class UserRepositoryTest extends AbstractRepositoryTestCase
         $this->insertBodyValues($this->Account, 300, 67.0, 52, 15.3, 55.4, 40.5);
         $this->insertBodyValues($this->getEmptyAccount(), 400, 80.0, 60, 20.0, 50.0, 30.0);
 
-        self::assertSame(
+        $this->assertSame([
             [
-                ['time' => 300, 'weight' => 67.0, 'pulseRest' => 52],
-                ['time' => 200, 'weight' => 66.1, 'pulseRest' => 51],
+                'time' => 300,
+                'weight' => 67.0,
+                'pulseRest' => 52,
             ],
-            $this->UserRepository->findWeightHistorySince($this->Account, 100)
-        );
+            [
+                'time' => 200,
+                'weight' => 66.1,
+                'pulseRest' => 51,
+            ],
+        ], $this->UserRepository->findWeightHistorySince($this->Account, 100));
 
-        self::assertSame(
+        $this->assertSame([
             [
-                ['time' => 300, 'fat' => 15.3, 'water' => 55.4, 'muscles' => 40.5],
-                ['time' => 200, 'fat' => 15.2, 'water' => 55.3, 'muscles' => 40.4],
+                'time' => 300,
+                'fat' => 15.3,
+                'water' => 55.4,
+                'muscles' => 40.5,
             ],
-            $this->UserRepository->findBodyCompositionHistorySince($this->Account, 100)
-        );
+            [
+                'time' => 200,
+                'fat' => 15.2,
+                'water' => 55.3,
+                'muscles' => 40.4,
+            ],
+        ], $this->UserRepository->findBodyCompositionHistorySince($this->Account, 100));
     }
 
     public function testFindBodyValueHistoryReturnsEmptyForAccountWithoutEntries(): void
     {
-        self::assertSame([], $this->UserRepository->findWeightHistoryFor($this->Account, 20));
-        self::assertSame([], $this->UserRepository->findWeightHistorySince($this->Account, 0));
-        self::assertSame([], $this->UserRepository->findBodyCompositionHistoryFor($this->Account, 20));
-        self::assertSame([], $this->UserRepository->findBodyCompositionHistorySince($this->Account, 0));
+        $this->assertSame([], $this->UserRepository->findWeightHistoryFor($this->Account, 20));
+        $this->assertSame([], $this->UserRepository->findWeightHistorySince($this->Account, 0));
+        $this->assertSame([], $this->UserRepository->findBodyCompositionHistoryFor($this->Account, 20));
+        $this->assertSame([], $this->UserRepository->findBodyCompositionHistorySince($this->Account, 0));
     }
 
     private function insertBodyValues(

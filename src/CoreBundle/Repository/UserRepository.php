@@ -98,8 +98,8 @@ class UserRepository extends ServiceEntityRepository
 
         return array_map(static fn (array $row): array => [
             'time' => (int) $row['time'],
-            'weight' => null === $row['weight'] ? null : (float) $row['weight'],
-            'pulseRest' => null === $row['pulseRest'] ? null : (int) $row['pulseRest'],
+            'weight' => $row['weight'] === null ? null : (float) $row['weight'],
+            'pulseRest' => $row['pulseRest'] === null ? null : (int) $row['pulseRest'],
         ], $rows);
     }
 
@@ -117,8 +117,8 @@ class UserRepository extends ServiceEntityRepository
 
         return array_map(static fn (array $row): array => [
             'time' => (int) $row['time'],
-            'weight' => null === $row['weight'] ? null : (float) $row['weight'],
-            'pulseRest' => null === $row['pulseRest'] ? null : (int) $row['pulseRest'],
+            'weight' => $row['weight'] === null ? null : (float) $row['weight'],
+            'pulseRest' => $row['pulseRest'] === null ? null : (int) $row['pulseRest'],
         ], $rows);
     }
 
@@ -136,9 +136,9 @@ class UserRepository extends ServiceEntityRepository
 
         return array_map(static fn (array $row): array => [
             'time' => (int) $row['time'],
-            'fat' => null === $row['fat'] ? null : (float) $row['fat'],
-            'water' => null === $row['water'] ? null : (float) $row['water'],
-            'muscles' => null === $row['muscles'] ? null : (float) $row['muscles'],
+            'fat' => $row['fat'] === null ? null : (float) $row['fat'],
+            'water' => $row['water'] === null ? null : (float) $row['water'],
+            'muscles' => $row['muscles'] === null ? null : (float) $row['muscles'],
         ], $rows);
     }
 
@@ -156,9 +156,9 @@ class UserRepository extends ServiceEntityRepository
 
         return array_map(static fn (array $row): array => [
             'time' => (int) $row['time'],
-            'fat' => null === $row['fat'] ? null : (float) $row['fat'],
-            'water' => null === $row['water'] ? null : (float) $row['water'],
-            'muscles' => null === $row['muscles'] ? null : (float) $row['muscles'],
+            'fat' => $row['fat'] === null ? null : (float) $row['fat'],
+            'water' => $row['water'] === null ? null : (float) $row['water'],
+            'muscles' => $row['muscles'] === null ? null : (float) $row['muscles'],
         ], $rows);
     }
 
@@ -174,7 +174,7 @@ class UserRepository extends ServiceEntityRepository
             ->setParameter('account', $account)
             ->orderBy('u.time', 'DESC');
 
-        if (null !== $timestamp) {
+        if ($timestamp !== null) {
             return $queryBuilder
                 ->andWhere('u.time > :timestamp')
                 ->setParameter('timestamp', $timestamp);
