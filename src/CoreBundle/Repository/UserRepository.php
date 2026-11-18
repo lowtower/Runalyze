@@ -172,7 +172,7 @@ class UserRepository extends ServiceEntityRepository
             ->select($select)
             ->where('u.account = :account')
             ->setParameter('account', $account)
-            ->orderBy('u.time', 'DESC');
+            ->orderBy('u.time', \SortDirection::Descending);
 
         if ($timestamp !== null) {
             return $queryBuilder
