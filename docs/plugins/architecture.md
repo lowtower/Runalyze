@@ -163,6 +163,12 @@ Do not bulk-convert plugin directories, change all routes, or migrate the legacy
 - No simultaneous rewrite of all plugin types or the existing plugin catalog.
 - No new persistence abstraction where an existing repository/service already owns the responsibility.
 
+## First validated panel slice: Sportler
+
+The first implementation step introduces `SportlerPanelDataProvider` as a Symfony-managed, stateless service. Its invocation receives the authenticated `Account` and the persisted `Plugin` installation explicitly. It rejects installations belonging to another account, installations with a different stable key, non-panel installations, and inactive installations; hidden installations remain executable so the existing hidden-panel behavior can be preserved.
+
+The provider reuses `UserRepository` for the latest body values and the account-scoped weight/body-composition histories, and `PluginConfigurationStorageInterface` for the existing `wunschgewicht`, `plot_points`, and `plot_timerange` settings. The legacy defaults are applied at this boundary. The provider returns typed data only; rendering and chart presentation remain outside it. This is a panel-specific application service, not a generic plugin execution contract.
+
 ## Open design decisions
 
 Resolve these against the first concrete migration rather than speculating now:
