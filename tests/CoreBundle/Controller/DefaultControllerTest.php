@@ -830,6 +830,12 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         ]);
 
         $this->assertInstanceOf(PluginEntity::class, $plugin);
+        $configuration = new PluginConf()
+            ->setPlugin($plugin)
+            ->setConfig('wunschgewicht')
+            ->setValue('75');
+        $this->getEntityManager()->persist($configuration);
+
         $user = new User()
             ->setAccount($this->Account)
             ->setTime(time())
@@ -857,8 +863,10 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             $this->assertStringContainsString('sportler_weights', $content);
             $this->assertStringContainsString('sportler_analyse', $content);
             $this->assertStringContainsString('RunalyzePlot.addPlot', $content);
+            $this->assertStringContainsString('from: 75, to: 75', $content);
         } finally {
             $this->getEntityManager()->remove($user);
+            $this->getEntityManager()->remove($configuration);
             $this->getEntityManager()->flush();
         }
     }
