@@ -6,6 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Repository\ConfRepository;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -190,6 +191,12 @@ final class CallControllerTest extends AbstractFixturesAwareWebTestCase
         $this->Client->request('GET', '/call/ajax.change.Config.php?key=leaflet-layer&value=' . urlencode('OpenStreetMap (de)'));
 
         $this->assertStatusCode(200, $this->Client);
+
+        $configuration = self::getContainer()->get(ConfRepository::class)
+            ->findForAccountAndKey($this->Account, 'TRAINING_LEAFLET_LAYER');
+
+        $this->assertNotNull($configuration);
+        $this->assertSame('OpenStreetMap (de)', $configuration->getValue());
     }
 
     public function testAjaxChangeConfigActionRejectsAnUnsafeLeafletLayer(): void
