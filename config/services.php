@@ -523,19 +523,16 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(BodyValuesType::class, 'app.form.type.body_values');
 
     $services->set('app.form.type.distance', DistanceType::class)
-        ->arg('$distanceUnit', service('app.unit_system.distance'))
         ->tag('form.type');
 
     $services->alias(DistanceType::class, 'app.form.type.distance');
 
     $services->set('app.form.type.elevation', ElevationType::class)
-        ->arg('$distanceUnit', service('app.unit_system.elevation'))
         ->tag('form.type');
 
     $services->alias(ElevationType::class, 'app.form.type.elevation');
 
     $services->set('app.form.type.energy', EnergyType::class)
-        ->arg('$energyUnit', service('app.unit_system.energy'))
         ->tag('form.type');
 
     $services->alias(EnergyType::class, 'app.form.type.energy');
@@ -576,19 +573,16 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(ActivityLapIntensityChoiceType::class, 'app.form.type.activity_lapintensity');
 
     $services->set('app.form.type.temperature', TemperatureType::class)
-        ->arg('$temperatureUnit', service('app.unit_system.temperature'))
         ->tag('form.type');
 
     $services->alias(TemperatureType::class, 'app.form.type.temperature');
 
     $services->set('app.form.type.wind_speed', WindSpeedType::class)
-        ->arg('$velocityUnit', service('app.unit_system.wind_speed'))
         ->tag('form.type');
 
     $services->alias(WindSpeedType::class, 'app.form.type.wind_speed');
 
     $services->set('app.form.type.weight', WeightType::class)
-        ->arg('$weightUnit', service('app.unit_system.weight'))
         ->tag('form.type');
 
     $services->alias(WeightType::class, 'app.form.type.weight');
@@ -661,7 +655,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             service('app.configuration_manager'),
         ]);
 
-    $services->alias(AbstractDistanceUnit::class, 'app.unit_system.elevation');
+    $services->alias(AbstractDistanceUnit::class . ' $distanceUnit', 'app.unit_system.distance');
+
+    $services->alias(AbstractDistanceUnit::class . ' $elevationUnit', 'app.unit_system.elevation');
 
     $services->set('app.unit_system.energy', AbstractEnergyUnit::class)
         ->factory([
@@ -672,7 +668,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             service('app.configuration_manager'),
         ]);
 
-    $services->alias(AbstractEnergyUnit::class, 'app.unit_system.energy');
+    $services->alias(AbstractEnergyUnit::class . ' $energyUnit', 'app.unit_system.energy');
 
     $services->set('app.unit_system.temperature', AbstractTemperatureUnit::class)
         ->factory([
@@ -683,7 +679,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             service('app.configuration_manager'),
         ]);
 
-    $services->alias(AbstractTemperatureUnit::class, 'app.unit_system.temperature');
+    $services->alias(AbstractTemperatureUnit::class . ' $temperatureUnit', 'app.unit_system.temperature');
 
     $services->set('app.unit_system.wind_speed', AbstractPaceInDecimalFormatUnit::class)
         ->factory([
@@ -694,7 +690,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             service('app.configuration_manager'),
         ]);
 
-    $services->alias(AbstractPaceInDecimalFormatUnit::class, 'app.unit_system.wind_speed');
+    $services->alias(AbstractPaceInDecimalFormatUnit::class . ' $velocityUnit', 'app.unit_system.wind_speed');
 
     $services->set('app.unit_system.weight', AbstractWeightUnit::class)
         ->factory([
@@ -705,7 +701,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             service('app.configuration_manager'),
         ]);
 
-    $services->alias(AbstractWeightUnit::class, 'app.unit_system.weight');
+    $services->alias(AbstractWeightUnit::class . ' $weightUnit', 'app.unit_system.weight');
 
     $containerConfigurator->extension('twig', [
         'globals' => [
