@@ -11,13 +11,23 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
 use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+
+final class ModernInstallablePanelFixture implements \Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface, ModernPanelMetadataInterface
+{
+    public function getKey(): string { return 'ModernPanelWithoutLegacyClass'; }
+    public function getName(): string { return 'Modern'; }
+    public function getDescription(): string { return 'Modern panel'; }
+    public function getTemplate(): string { return 'panel.html.twig'; }
+    public function shouldReloadAfterTraining(): bool { return true; }
+    public function present(Account $account, Plugin $installation): array { return []; }
+}
 
 #[Group('plugin')]
 final class PluginInstallationManagerTest extends TestCase
@@ -115,8 +125,8 @@ final class PluginInstallationManagerTest extends TestCase
         $tokenStorage = $this->createStub(TokenStorageInterface::class);
         $tokenStorage->method('getToken')->willReturn($token);
 
-        $panel = $this->createStub(ModernPanelInterface::class);
-        $panel->method('getKey')->willReturn('ModernPanelWithoutLegacyClass');
+        $panel = new ModernInstallablePanelFixture();
+
 
         $manager = new PluginInstallationManager(
             $doctrine,
