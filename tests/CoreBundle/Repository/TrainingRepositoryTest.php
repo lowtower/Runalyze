@@ -49,9 +49,18 @@ final class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $sameDay = strtotime('2026-01-10 18:00:00 UTC');
         $nextDay = strtotime('2026-01-11 07:00:00 UTC');
 
-        $this->TrainingRepository->save($this->getActivityForDefaultAccount($firstDay)->setTrimp(40));
-        $this->TrainingRepository->save($this->getActivityForDefaultAccount($sameDay)->setTrimp(35));
-        $this->TrainingRepository->save($this->getActivityForDefaultAccount($nextDay)->setTrimp(20));
+        $firstActivity = $this->getActivityForDefaultAccount($firstDay);
+        $secondActivity = $this->getActivityForDefaultAccount($sameDay);
+        $thirdActivity = $this->getActivityForDefaultAccount($nextDay);
+
+        foreach ([$firstActivity, $secondActivity, $thirdActivity] as $activity) {
+            $this->TrainingRepository->save($activity);
+        }
+
+        $firstActivity->setTrimp(40);
+        $secondActivity->setTrimp(35);
+        $thirdActivity->setTrimp(20);
+        $this->getEntityManager()->flush();
 
         $this->assertSame([
             ['day' => '2026-01-10', 'trimp' => 75.0],
