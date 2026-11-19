@@ -87,7 +87,11 @@ final class EquipmentPanelPresenterTest extends TestCase
         $data = $this->createPresenter(
             [$type],
             $items,
-            [5 => ['type' => '3']]
+            [
+                5 => [
+                    'type' => '3',
+                ],
+            ]
         )->present($account, $this->createInstallation($account));
 
         $this->assertSame([330, 0], array_column($data['equipment_rows'], 'usage_width'));
@@ -255,7 +259,11 @@ final class EquipmentPanelPresenterTest extends TestCase
         $presenter = $this->createPresenter(
             [$equipmentType],
             [],
-            [5 => ['type' => '3']]
+            [
+                5 => [
+                    'type' => '3',
+                ],
+            ]
         );
 
         $this->assertSame('Equipment', $presenter->getName());
@@ -264,7 +272,10 @@ final class EquipmentPanelPresenterTest extends TestCase
 
         $data = $presenter->getConfigurationData($account, $this->createInstallation($account));
 
-        $this->assertSame([['id' => 3, 'name' => 'Shoes']], $data['equipment_types']);
+        $this->assertSame([[
+            'id' => 3,
+            'name' => 'Shoes',
+        ]], $data['equipment_types']);
         $this->assertSame(3, $data['selected_type_id']);
     }
 
@@ -307,7 +318,9 @@ final class EquipmentPanelPresenterTest extends TestCase
             $this->createConfigurationManager(new Kilometer())
         );
 
-        $presenter->updateConfiguration($account, $installation, ['type' => '3']);
+        $presenter->updateConfiguration($account, $installation, [
+            'type' => '3',
+        ]);
 
         $this->expectException(InvalidArgumentException::class);
         $presenter->present($account, $installation);
@@ -334,7 +347,9 @@ final class EquipmentPanelPresenterTest extends TestCase
         $presenter->updateConfiguration(
             $account,
             $this->createInstallation($this->createAccount(13)),
-            ['type' => '3']
+            [
+                'type' => '3',
+            ]
         );
     }
 
