@@ -10,6 +10,14 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
+    $services->defaults()
+        ->autowire(true)
+        ->autoconfigure(true)
+        ->public();
+
+    $services->set(RechenspielePanelPresenter::class)
+        ->tag('runalyze.modern_panel');
+
     $services->set(RechenspieleTrainingLoadCalculator::class);
 
     $services->set(RechenspieleTrimpDataProvider::class)
