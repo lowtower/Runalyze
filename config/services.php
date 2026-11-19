@@ -320,14 +320,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias('app.account_last_action_listener', AccountLastActionListener::class);
 
-    $services->set('app.listener.recalculation_tasks_performer_listener', RecalculationTasksPerformerListener::class)
-        ->arg('$Manager', service('app.recalculation_manager'))
-        ->tag('kernel.event_listener', [
-            'event' => 'kernel.terminate',
-            'method' => 'onTerminate',
-        ]);
+    $services->set(RecalculationTasksPerformerListener::class)
+        ->arg('$Manager', service('app.recalculation_manager'));
 
-    $services->alias(RecalculationTasksPerformerListener::class, 'app.listener.recalculation_tasks_performer_listener');
+    $services->alias('app.listener.recalculation_tasks_performer_listener', RecalculationTasksPerformerListener::class);
 
     $services->set('app.sha256salted_encoder', Sha256SaltedEncoder::class);
 
