@@ -303,13 +303,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(AccountValueResolver::class, 'app.value_resolver.account');
 
-    $services->set('app.listener.console_exception', ConsoleExceptionListener::class)
-        ->tag('kernel.event_listener', [
-            'event' => 'console.error',
-            'method' => 'onConsoleError',
-        ]);
+    $services->load('Runalyze\\Bundle\\CoreBundle\\EventListener\\', __DIR__ . '/../src/CoreBundle/EventListener/{ConsoleExceptionListener,UserLocaleListener}.php');
 
-    $services->alias(ConsoleExceptionListener::class, 'app.listener.console_exception');
+    $services->alias('app.listener.console_exception', ConsoleExceptionListener::class);
 
     $services->set('app.locale_listener', LocaleListener::class)
         ->args([
@@ -326,17 +322,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(UserTimezoneListener::class, 'app.listener.user_timezone');
 
-    $services->set('app.user_locale_listener', UserLocaleListener::class)
-        ->tag('kernel.event_listener', [
-            'event' => 'security.interactive_login',
-            'method' => 'onInteractiveLogin',
-        ])
-        ->tag('kernel.event_listener', [
-            'event' => 'security.switch_user',
-            'method' => 'onSwitchUser',
-        ]);
-
-    $services->alias(UserLocaleListener::class, 'app.user_locale_listener');
+    $services->alias('app.user_locale_listener', UserLocaleListener::class);
 
     $services->set('app.account_last_action_listener', AccountLastActionListener::class)
         ->tag('kernel.event_listener', [

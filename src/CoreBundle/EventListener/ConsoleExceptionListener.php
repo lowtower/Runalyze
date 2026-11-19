@@ -6,6 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\EventListener;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Event\ConsoleErrorEvent;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 class ConsoleExceptionListener
 {
@@ -13,6 +14,7 @@ class ConsoleExceptionListener
         protected LoggerInterface $Logger
     ) {}
 
+    #[AsEventListener(event: 'console.error')]
     public function onConsoleError(ConsoleErrorEvent $event): void
     {
         $command = $event->getCommand();
