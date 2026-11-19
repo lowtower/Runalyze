@@ -43,6 +43,46 @@ final class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertSame(0, $this->TrainingRepository->getNumberOfActivitiesFor(new Account()));
     }
 
+    public function testDailyTrimpAggregationRespectsAccountAndTimestampBounds(): void
+    {
+        $firstDay = strtotime('2026-01-10 08:00:00 UTC');
+        $sameDay = strtotime('2026-01-10 18:00:00 UTC');
+        $nextDay = strtotime('2026-01-11 07:00:00 UTC');
+
+        $firstActivity = $this->getActivityForDefaultAccount($firstDay);
+        $secondActivity = $this->getActivityForDefaultAccount($sameDay);
+        $thirdActivity = $this->getActivityForDefaultAccount($nextDay);
+
+        foreach ([$firstActivity, $secondActivity, $thirdActivity] as $activity) {
+            $this->TrainingRepository->save($activity);
+        }
+
+        $firstActivity->setTrimp(40);
+        $secondActivity->setTrimp(35);
+        $thirdActivity->setTrimp(20);
+        $this->getEntityManager()->flush();
+
+        $this->assertSame([
+            [
+                'day' => '2026-01-10',
+                'trimp' => 75.0,
+            ],
+            [
+                'day' => '2026-01-11',
+                'trimp' => 20.0,
+            ],
+        ], $this->TrainingRepository->findDailyTrimpForAccount($this->Account));
+
+        $this->assertSame([
+            [
+                'day' => '2026-01-10',
+                'trimp' => 35.0,
+            ],
+        ], $this->TrainingRepository->findDailyTrimpForAccount($this->Account, $sameDay, $sameDay));
+
+        $this->assertSame([], $this->TrainingRepository->findDailyTrimpForAccount($this->getEmptyAccount()));
+    }
+
     protected function insertActivityForDefaultAccount(
         ?int $timestamp = null,
         float $duration = 3600,

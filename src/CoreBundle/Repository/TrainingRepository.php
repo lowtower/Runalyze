@@ -53,6 +53,47 @@ class TrainingRepository extends ServiceEntityRepository
     }
 
     /**
+     * Return daily TRIMP totals for an account. Training timestamps are stored
+     * as timezone-neutral UTC values, so UTC dates match the legacy grouping.
+     *
+     * @return list<array{day: string, trimp: float}>
+     */
+    public function findDailyTrimpForAccount(Account $account, ?int $from = null, ?int $to = null): array
+    {
+        $queryBuilder = $this->createQueryBuilder('t')
+            ->select('t.time AS time, t.trimp AS trimp')
+            ->where('t.account = :account')
+            ->setParameter('account', $account)
+            ->orderBy('t.time', \SortDirection::Ascending);
+
+        if ($from !== null) {
+            $queryBuilder->andWhere('t.time >= :from')->setParameter('from', $from);
+        }
+
+        if ($to !== null) {
+            $queryBuilder->andWhere('t.time <= :to')->setParameter('to', $to);
+        }
+
+        $totals = [];
+
+        foreach ($queryBuilder->getQuery()->toIterable() as $row) {
+            $day = gmdate('Y-m-d', (int) $row['time']);
+            $totals[$day] = ($totals[$day] ?? 0.0) + (float) ($row['trimp'] ?? 0);
+        }
+
+        $result = [];
+
+        foreach ($totals as $day => $trimp) {
+            $result[] = [
+                'day' => $day,
+                'trimp' => $trimp,
+            ];
+        }
+
+        return $result;
+    }
+
+    /**
      * Get the best activities according to `vo2max_by_time`, at most one per distance.
      *
      * Replaces the raw SQL query of the deprecated

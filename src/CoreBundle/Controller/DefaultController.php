@@ -279,6 +279,27 @@ class DefaultController extends AbstractPluginsAwareController
     }
 
     /**
+     * @throws Throwable if the legacy calculations plot throws
+     */
+    #[Route(path: '/plugin/RunalyzePluginPanel_Rechenspiele/window.plot.php', methods: ['GET'], priority: 10)]
+    public function rechenspielePlotWindowAction(): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
+
+        /** @var RunalyzePluginPanel_Rechenspiele $Plugin */
+        $Plugin = $this->instantiatePluginByKey('RunalyzePluginPanel_Rechenspiele');
+
+        return $this->legacyContentResponseFactory->create(
+            $this->legacyPluginOutputRenderer->render(function () use ($Plugin): void {
+                include FRONTEND_PATH . '../plugin/RunalyzePluginPanel_Rechenspiele/window.plot.php';
+            })->getContent(),
+            $this->requestStack->getCurrentRequest()
+        );
+    }
+
+    /**
      * @throws Throwable if the legacy prognosis calculator window throws
      */
     #[Route(path: '/plugin/RunalyzePluginPanel_Prognose/window.php', methods: ['GET', 'POST'], priority: 10)]
