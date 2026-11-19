@@ -51,10 +51,13 @@ final readonly class PrognosePanelPresenter implements ModernPanelInterface
      */
     public function present(Account $account, Plugin $installation): array
     {
+        $pluginId = $installation->getId();
+        $accountId = $account->getId();
+
         if (
-            $installation->getId() === null
-            || $account->getId() === null
-            || $installation->getAccount()->getId() !== $account->getId()
+            $pluginId === null
+            || $accountId === null
+            || $installation->getAccount()->getId() !== $accountId
             || $installation->getKey() !== self::PLUGIN_KEY
             || ! $installation->isPanel()
             || $installation->isInactive()
@@ -62,7 +65,7 @@ final readonly class PrognosePanelPresenter implements ModernPanelInterface
             throw new InvalidArgumentException('The Prognose panel installation is not available for this account.');
         }
 
-        $configuration = $this->configurationStorage->loadForPlugins([$installation->getId()])[$installation->getId()] ?? [];
+        $configuration = $this->configurationStorage->loadForPlugins([$pluginId])[$pluginId] ?? [];
         $distances = array_filter(
             array_map(trim(...), explode(',', $configuration['distances'] ?? implode(', ', self::DEFAULT_DISTANCES))),
             is_numeric(...)
@@ -74,6 +77,12 @@ final readonly class PrognosePanelPresenter implements ModernPanelInterface
             ? $vo2maxCategory->getManualValue()
             : $accountConfiguration->getData()->getVO2maxShape();
 
+        $basicEndurance = (int) $accountConfiguration->get('data.BASIC_ENDURANCE');
+
+        if ($basicEndurance === 0) {
+            $basicEndurance = (int) BasicEndurance::getConst();
+        }
+
         return [
             'prognosis_data' => new PrognosisData(
                 $this->trainingRepository,
@@ -84,7 +93,7 @@ final readonly class PrognosePanelPresenter implements ModernPanelInterface
                 $configuration['model'] ?? 'vo2max',
                 ($configuration['use_be'] ?? '1') === '1',
                 $vo2maxShape,
-                (int) BasicEndurance::getConst()
+                $basicEndurance
             ),
         ];
     }
