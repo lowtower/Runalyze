@@ -6,6 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\EventListener;
 
 use Doctrine\ORM\EntityManager;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -21,6 +22,7 @@ class AccountLastActionListener
     /**
      * Update the user "lastaction" on each request
      */
+    #[AsEventListener(event: 'kernel.controller')]
     public function onCoreController(ControllerEvent $event): void
     {
         if ($event->getRequestType() !== HttpKernel::MAIN_REQUEST) {
