@@ -10,13 +10,12 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class AccountLastActionListener
 {
     public function __construct(
-        protected TokenStorageInterface $token,
-        protected EntityManager $em
+        private readonly TokenStorageInterface $token,
+        private readonly EntityManager $em
     ) {}
 
     /**
@@ -29,14 +28,11 @@ class AccountLastActionListener
             return;
         }
 
-        if ($this->token->getToken() instanceof TokenInterface) {
-            $account = $this->token->getToken()
-                ->getUser();
+        $account = $this->token->getToken()?->getUser();
 
-            if ($account instanceof Account && $account->getLastAction() < strtotime('2 minutes ago')) {
-                $account->setLastAction();
-                $this->em->flush();
-            }
+        if ($account instanceof Account && $account->getLastAction() < strtotime('2 minutes ago')) {
+            $account->setLastAction();
+            $this->em->flush();
         }
     }
 }
