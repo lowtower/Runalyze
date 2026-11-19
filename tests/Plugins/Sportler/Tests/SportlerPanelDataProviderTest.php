@@ -213,6 +213,110 @@ final class SportlerPanelDataProviderTest extends TestCase
         $provider->getData($account, $installation);
     }
 
+    public function testExposesConfigurationDefaultsForInactiveInstallation(): void
+    {
+        $account = $this->createAccount(7);
+        $installation = $this->createInstallation($account, 17, PluginInstallation::STATE_INACTIVE);
+
+        $data = $this->createProvider($this->createStub(UserRepository::class), [])
+            ->getConfigurationData($account, $installation);
+
+        $this->assertSame([
+            'desiredWeight' => 0,
+            'plotPoints' => 20,
+            'plotTimerange' => 0,
+        ], $data['configuration']);
+        $this->assertSame(PluginInstallation::STATE_INACTIVE, $data['active']);
+    }
+
+    public function testConfigurationReadRejectsInstallationOwnedByAnotherAccount(): void
+    {
+        $storage = $this->createMock(PluginConfigurationStorageInterface::class);
+        $storage->expects($this->never())->method('loadForPlugins');
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->providerWithStorage($storage)->getConfigurationData(
+            $this->createAccount(7),
+            $this->createInstallation($this->createAccount(8), 17)
+        );
+    }
+
+    public function testSavesValidatedNumericConfigurationValues(): void
+    {
+        $account = $this->createAccount(7);
+        $installation = $this->createInstallation($account, 17);
+
+        $storage = $this->createMock(PluginConfigurationStorageInterface::class);
+        $storage->expects($this->once())->method('loadForPlugins')->with([17])->willReturn([
+            17 => [
+                'wunschgewicht' => '0',
+                'plot_points' => '20',
+            ],
+        ]);
+        $storage->expects($this->exactly(2))
+            ->method('update')
+            ->willReturnCallback(static function (int $pluginId, string $key, string $value): void {
+                self::assertSame(17, $pluginId);
+                self::assertContains([$key, $value], [
+                    ['wunschgewicht', '75'],
+                    ['plot_points', '12'],
+                ]);
+            });
+        $storage->expects($this->once())->method('insert')->with(17, 'plot_timerange', '30');
+
+        $provider = $this->providerWithStorage($storage);
+        $provider->updateConfiguration($account, $installation, [
+            'wunschgewicht' => '75',
+            'plot_points' => '12',
+            'plot_timerange' => '30',
+        ]);
+    }
+
+    public function testIgnoresInvalidConfigurationValues(): void
+    {
+        $account = $this->createAccount(7);
+        $installation = $this->createInstallation($account, 17);
+
+        $storage = $this->createMock(PluginConfigurationStorageInterface::class);
+        $storage->expects($this->once())->method('loadForPlugins')->willReturn([]);
+        $storage->expects($this->never())->method('insert');
+        $storage->expects($this->never())->method('update');
+
+        $this->providerWithStorage($storage)->updateConfiguration($account, $installation, [
+            'wunschgewicht' => '-1',
+            'plot_points' => '0',
+            'plot_timerange' => 'unknown',
+        ]);
+    }
+
+    public function testRejectsCrossAccountConfigurationWrites(): void
+    {
+        $storage = $this->createMock(PluginConfigurationStorageInterface::class);
+        $storage->expects($this->never())->method('loadForPlugins');
+        $storage->expects($this->never())->method('insert');
+        $storage->expects($this->never())->method('update');
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->providerWithStorage($storage)->updateConfiguration(
+            $this->createAccount(7),
+            $this->createInstallation($this->createAccount(8), 17),
+            [
+                'plot_points' => '30',
+            ]
+        );
+    }
+
+    private function providerWithStorage(PluginConfigurationStorageInterface $storage): SportlerPanelDataProvider
+    {
+        return new SportlerPanelDataProvider(
+            $this->createStub(UserRepository::class),
+            $storage,
+            $this->createStub(ClockInterface::class)
+        );
+    }
+
     /**
      * @param array<int, array<string, string>> $configuration
      */

@@ -6,27 +6,50 @@ namespace Runalyze\Plugins\Sportler;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelConfigurationInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
 
-final readonly class SportlerPanelPresenter implements ModernPanelInterface
+final readonly class SportlerPanelPresenter implements ModernPanelInterface, ModernPanelMetadataInterface, ModernPanelConfigurationInterface
 {
     public function __construct(
         private SportlerPanelDataProvider $dataProvider
     ) {}
 
-    /**
-     * @return array{
-     *     pluginId: int,
-     *     isHidden: bool,
-     *     configuration: array{desiredWeight: int, plotPoints: int, plotTimerange: int},
-     *     latest: array{weight: ?float, pulseRest: ?int, pulseMax: ?int, fat: ?float, water: ?float, muscles: ?float},
-     *     weightHistory: list<array{time: int, weight: ?float, pulseRest: ?int}>,
-     *     bodyCompositionHistory: list<array{time: int, fat: ?float, water: ?float, muscles: ?float}>
-     * }
-     */
     public function getKey(): string
     {
         return 'RunalyzePluginPanel_Sportler';
+    }
+
+    public function getName(): string
+    {
+        return __('Body values');
+    }
+
+    public function getDescription(): string
+    {
+        return __('Show body values: weight, resting heart rate and values like fat-, water- and muscles-percentage.');
+    }
+
+    public function getConfigurationTemplate(): string
+    {
+        return '@Sportler/configuration.html.twig';
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getConfigurationData(Account $account, Plugin $installation): array
+    {
+        return $this->dataProvider->getConfigurationData($account, $installation);
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     */
+    public function updateConfiguration(Account $account, Plugin $installation, array $data): void
+    {
+        $this->dataProvider->updateConfiguration($account, $installation, $data);
     }
 
     public function getTemplate(): string
@@ -39,6 +62,16 @@ final readonly class SportlerPanelPresenter implements ModernPanelInterface
         return false;
     }
 
+    /**
+     * @return array{
+     *     pluginId: int,
+     *     isHidden: bool,
+     *     configuration: array{desiredWeight: int, plotPoints: int, plotTimerange: int},
+     *     latest: array{weight: ?float, pulseRest: ?int, pulseMax: ?int, fat: ?float, water: ?float, muscles: ?float},
+     *     weightHistory: list<array{time: int, weight: ?float, pulseRest: ?int}>,
+     *     bodyCompositionHistory: list<array{time: int, fat: ?float, water: ?float, muscles: ?float}>
+     * }
+     */
     public function present(Account $account, Plugin $installation): array
     {
         $data = $this->dataProvider->getData($account, $installation);

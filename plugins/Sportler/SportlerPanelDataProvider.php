@@ -24,6 +24,87 @@ final readonly class SportlerPanelDataProvider
 
     /**
      * @return array{
+     *     configuration: array{desiredWeight: int, plotPoints: int, plotTimerange: int},
+     *     active: int
+     * }
+     *
+     * @throws InvalidArgumentException if the installation is not available for the account
+     */
+    public function getConfigurationData(Account $account, PluginInstallation $installation): array
+    {
+        self::validateInstallation($account, $installation, true);
+
+        $pluginId = $installation->getId();
+        assert($pluginId !== null);
+
+        $stored = $this->configurationStorage->loadForPlugins([$pluginId])[$pluginId] ?? [];
+
+        return [
+            'configuration' => [
+                'desiredWeight' => (int) ($stored['wunschgewicht'] ?? 0),
+                'plotPoints' => (int) ($stored['plot_points'] ?? 20),
+                'plotTimerange' => (int) ($stored['plot_timerange'] ?? 0),
+            ],
+            'active' => $installation->getActive(),
+        ];
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     *
+     * @throws InvalidArgumentException if the installation is not available for the account
+     */
+    public function updateConfiguration(Account $account, PluginInstallation $installation, array $data): void
+    {
+        self::validateInstallation($account, $installation, true);
+
+        $pluginId = $installation->getId();
+        assert($pluginId !== null);
+
+        $stored = $this->configurationStorage->loadForPlugins([$pluginId])[$pluginId] ?? [];
+
+        foreach (['wunschgewicht', 'plot_points', 'plot_timerange'] as $key) {
+            $raw = $data[$key] ?? null;
+
+            if (! is_string($raw) || ! ctype_digit($raw)) {
+                continue;
+            }
+
+            $value = filter_var($raw, FILTER_VALIDATE_INT);
+
+            if ($value === false || ($key === 'plot_points' && $value < 1)) {
+                continue;
+            }
+
+            if (array_key_exists($key, $stored)) {
+                $this->configurationStorage->update($pluginId, $key, (string) $value);
+            } else {
+                $this->configurationStorage->insert($pluginId, $key, (string) $value);
+            }
+        }
+    }
+
+    /**
+     * @throws InvalidArgumentException if the installation does not belong to the account
+     */
+    public static function validateInstallation(Account $account, PluginInstallation $installation, bool $allowInactive = false): void
+    {
+        $accountId = $account->getId();
+
+        if (
+            $installation->getId() === null
+            || $accountId === null
+            || $installation->getAccount()->getId() !== $accountId
+            || $installation->getKey() !== self::PLUGIN_KEY
+            || ! $installation->isPanel()
+            || (! $allowInactive && $installation->isInactive())
+        ) {
+            throw new InvalidArgumentException('The Sportler panel installation is not available for this account.');
+        }
+    }
+
+    /**
+     * @return array{
      *     pluginId: int,
      *     isHidden: bool,
      *     configuration: array{desiredWeight: int, plotPoints: int, plotTimerange: int},
@@ -37,27 +118,11 @@ final readonly class SportlerPanelDataProvider
      */
     public function getData(Account $account, PluginInstallation $installation): array
     {
+        self::validateInstallation($account, $installation);
+
+        $configuration = $this->getConfigurationData($account, $installation)['configuration'];
         $pluginId = $installation->getId();
-        $accountId = $account->getId();
-
-        if (
-            $pluginId === null
-            || $accountId === null
-            || $installation->getAccount()->getId() !== $accountId
-            || $installation->getKey() !== self::PLUGIN_KEY
-            || ! $installation->isPanel()
-            || $installation->isInactive()
-        ) {
-            throw new InvalidArgumentException('The Sportler panel installation is not available for this account.');
-        }
-
-        $storedConfiguration = $this->configurationStorage->loadForPlugins([$pluginId])[$pluginId] ?? [];
-
-        $configuration = [
-            'desiredWeight' => (int) ($storedConfiguration['wunschgewicht'] ?? 0),
-            'plotPoints' => (int) ($storedConfiguration['plot_points'] ?? 20),
-            'plotTimerange' => (int) ($storedConfiguration['plot_timerange'] ?? 0),
-        ];
+        assert($pluginId !== null);
 
         $latest = $this->userRepository->getLatestEntryFor($account);
 
