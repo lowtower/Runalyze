@@ -75,6 +75,34 @@ final class PrognosisModelTest extends TestCase
         $this->assertInstanceOf(Cameron::class, $prognosis);
     }
 
+    public function testSteffnyModelSupportsOnlyOneReferenceResult(): void
+    {
+        $prognosis = new PrognosisModel('steffny', [
+            [
+                'distance' => 10.0,
+                's' => 2550.0,
+            ],
+        ], 50.0, 60, false)->getPrognosisObject();
+
+        $this->assertInstanceOf(Steffny::class, $prognosis);
+        $this->assertTrue($prognosis->areValuesValid());
+        $this->assertEqualsWithDelta(2550.0, $prognosis->getSeconds(10.0), 0.01);
+    }
+
+    public function testCameronModelSupportsOnlyOneReferenceResult(): void
+    {
+        $prognosis = new PrognosisModel('cameron', [
+            [
+                'distance' => 10.0,
+                's' => 2550.0,
+            ],
+        ], 50.0, 60, false)->getPrognosisObject();
+
+        $this->assertInstanceOf(Cameron::class, $prognosis);
+        $this->assertTrue($prognosis->areValuesValid());
+        $this->assertEqualsWithDelta(2550.0, $prognosis->getSeconds(10.0), 0.01);
+    }
+
     public function testVo2maxModelUsesVO2max(): void
     {
         $prognosis = new PrognosisModel('vo2max', [], 50.0, 60, true)->getPrognosisObject();
