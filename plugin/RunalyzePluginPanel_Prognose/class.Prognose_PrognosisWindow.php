@@ -9,8 +9,8 @@ use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\Pace;
 use Runalyze\Activity\PersonalBest;
-use Runalyze\Calculation\BasicEndurance;
 use Runalyze\Bundle\CoreBundle\Model\Prognosis\PrognosisModel;
+use Runalyze\Calculation\BasicEndurance;
 use Runalyze\Configuration;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 use Runalyze\Sports\Running\Prognosis\Bock;
@@ -139,13 +139,13 @@ class Prognose_PrognosisWindow
         if ($model !== 'vo2max') {
             $results[] = [
                 'distance' => (float) Helper::CommaToPoint($_POST['best-result-km']),
-                's' => (float) (new Duration($_POST['best-result-time']))->seconds(),
+                's' => new Duration($_POST['best-result-time'])->seconds(),
             ];
 
             if ($model === 'cpp') {
                 $results[] = [
                     'distance' => (float) Helper::CommaToPoint($_POST['second-best-result-km']),
-                    's' => (float) (new Duration($_POST['second-best-result-time']))->seconds(),
+                    's' => new Duration($_POST['second-best-result-time'])->seconds(),
                 ];
             }
         }
