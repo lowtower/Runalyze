@@ -1,0 +1,45 @@
+<div class="panel-heading">
+    <div class="panel-menu">
+        <ul><li><a class="window" href="settings?key=config_tab_plugins&amp;external=true">{{ 'back to overview'|trans }}</a></li></ul>
+    </div>
+    <h1>{{ 'Plugin configuration'|trans }}: {{ 'Tags summary'|trans }}</h1>
+</div>
+<div class="panel-content">
+    <form class="ajax no-automatic-reload" action="{{ path('plugin-config', {'id': plugin_id}) }}" method="post">
+        <input type="hidden" name="edit" value="true">
+        <fieldset>
+            <legend>{{ 'Description'|trans }}</legend>
+            <p>{{ 'Summarises your tags for the selected sport.'|trans }}</p>
+        </fieldset>
+        <fieldset>
+            <legend>{{ 'Configuration'|trans }}</legend>
+            <div class="w100 block">
+                <label for="tags-summary-sport">{{ 'Sport to summarise tags for'|trans }}</label>
+                <select name="sport" id="tags-summary-sport">
+                    {% for sport in config_data.sports %}
+                        <option value="{{ sport.id }}"{% if sport.id == config_data.selected_sport_id %} selected{% endif %}>{{ sport.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="w100 block">
+                <label for="tags-summary-timescale">{{ 'Show tags for this period of months'|trans }}</label>
+                <select name="tagssummary_timescale" id="tags-summary-timescale">
+                    {% for timescale in config_data.timescales %}
+                        <option value="{{ timescale }}"{% if timescale == config_data.selected_timescale %} selected{% endif %}>{{ timescale }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="w100 block">
+                <input type="submit" value="{{ 'Save'|trans }}">
+            </div>
+        </fieldset>
+    </form>
+    <fieldset>
+        <legend>{{ 'Activation'|trans }}</legend>
+        {% if config_data.active == 0 %}
+            <a class="window" href="{{ path('plugin-config', {'id': plugin_id, 'active': 1}) }}">{{ 'Activate plugin'|trans }}</a>
+        {% else %}
+            <a class="window" href="{{ path('plugin-config', {'id': plugin_id, 'active': 0}) }}">{{ 'Deactivate plugin'|trans }}</a>
+        {% endif %}
+    </fieldset>
+</div>

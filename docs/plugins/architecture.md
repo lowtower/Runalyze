@@ -134,6 +134,22 @@ configuration editing and default values have an equivalent modern implementatio
 Legacy windows and other dependencies must also be migrated before deleting their
 classes. Merely having a modern Twig presenter is not sufficient.
 
+TagsSummary is the first legacy-free panel with user configuration. It implements
+`ModernPanelConfigurationInterface` in addition to the panel and metadata
+contracts. The optional configuration contract supplies a plugin-local Twig
+template, account-scoped configuration view data, and a validated update
+operation. The existing `plugin-config` route handles modern configuration,
+activation and AJAX reloads while retaining the legacy URL and form behavior.
+The TagsSummary selection handler is shared between dashboard changes and
+configuration POSTs; inactive installations are accepted only on the explicit
+configuration path. Modern plugins without configuration support continue to
+display the no-options message.
+
+Before deleting another legacy class, verify installation, settings metadata,
+configuration POST/defaults, activation/deactivation, optional plot/window routes,
+and legacy tests. Move meaningful characterization assertions into the modern
+feature tests rather than retaining tests tied to an obsolete class.
+
 ## Target architecture
 
 A modern plugin is a Symfony-managed service implementing a small application-owned contract. Its dependencies are injected through its constructor like any other service. The container owns its lifetime; application code must not instantiate plugin classes with `new`.

@@ -7,7 +7,9 @@ namespace Runalyze\Plugins\TagsSummary;
 use InvalidArgumentException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelConfigurationInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRequestHandlerInterface;
 use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TagRepository;
@@ -15,7 +17,7 @@ use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 use Symfony\Component\Clock\ClockInterface;
 
-final readonly class TagsSummaryPanelPresenter implements ModernPanelInterface, ModernPanelRequestHandlerInterface
+final readonly class TagsSummaryPanelPresenter implements ModernPanelInterface, ModernPanelRequestHandlerInterface, ModernPanelMetadataInterface, ModernPanelConfigurationInterface
 {
     private const string PLUGIN_KEY = 'RunalyzePluginPanel_TagsSummary';
 
@@ -33,6 +35,71 @@ final readonly class TagsSummaryPanelPresenter implements ModernPanelInterface, 
     public function getKey(): string
     {
         return self::PLUGIN_KEY;
+    }
+
+    public function getName(): string
+    {
+        return __('Tags summary');
+    }
+
+    public function getDescription(): string
+    {
+        return __('Summarises your tags for the selected sport.');
+    }
+
+    public function getConfigurationTemplate(): string
+    {
+        return '@TagsSummary/configuration.html.twig';
+    }
+
+    /**
+     * @return array{sports: list<array{id: int, name: string}>, selected_sport_id: ?int, timescales: list<int>, selected_timescale: int, active: int}
+     *
+     * @throws InvalidArgumentException if the installation does not belong to the account
+     */
+    public function getConfigurationData(Account $account, Plugin $installation): array
+    {
+        self::validateInstallation($account, $installation, true);
+
+        $pluginId = $installation->getId();
+        assert($pluginId !== null);
+        $configuration = $this->configurationStorage->loadForPlugins([$pluginId])[$pluginId] ?? [];
+
+        $sports = [];
+
+        foreach ($this->sportRepository->findAllFor($account) as $sport) {
+            $id = $sport->getId();
+
+            if ($id !== null) {
+                $sports[] = ['id' => $id, 'name' => $sport->getName()];
+            }
+        }
+
+        $sportIds = array_column($sports, 'id');
+        $configuredId = (int) ($configuration['sport'] ?? 0);
+        $runningSportId = $this->configurationManager->getList($account)->getGeneral()->getRunningSport();
+        $selectedSportId = in_array($configuredId, $sportIds, true) ? $configuredId
+            : (in_array($runningSportId, $sportIds, true) ? $runningSportId : ($sportIds[0] ?? null));
+
+        $selectedTimescale = (int) ($configuration['tagssummary_timescale'] ?? 1);
+
+        return [
+            'sports' => $sports,
+            'selected_sport_id' => $selectedSportId,
+            'timescales' => self::TIMESCALES,
+            'selected_timescale' => in_array($selectedTimescale, self::TIMESCALES, true) ? $selectedTimescale : 1,
+            'active' => $installation->getActive(),
+        ];
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     *
+     * @throws InvalidArgumentException if the installation does not belong to the account
+     */
+    public function updateConfiguration(Account $account, Plugin $installation, array $data): void
+    {
+        $this->selectionHandler->handle($account, $installation, $data, true);
     }
 
     public function getTemplate(): string
@@ -119,7 +186,7 @@ final readonly class TagsSummaryPanelPresenter implements ModernPanelInterface, 
     /**
      * @throws InvalidArgumentException if the installation is not available for the account
      */
-    public static function validateInstallation(Account $account, Plugin $installation): void
+    public static function validateInstallation(Account $account, Plugin $installation, bool $allowInactive = false): void
     {
         $accountId = $account->getId();
 
@@ -129,7 +196,7 @@ final readonly class TagsSummaryPanelPresenter implements ModernPanelInterface, 
             || $installation->getAccount()->getId() !== $accountId
             || $installation->getKey() !== self::PLUGIN_KEY
             || ! $installation->isPanel()
-            || $installation->isInactive()
+            || (! $allowInactive && $installation->isInactive())
         ) {
             throw new InvalidArgumentException('The TagsSummary panel installation is not available for this account.');
         }

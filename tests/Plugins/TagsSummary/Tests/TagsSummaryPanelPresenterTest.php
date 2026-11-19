@@ -105,6 +105,93 @@ final class TagsSummaryPanelPresenterTest extends TestCase
         $this->presenter()->present($account, $this->installation($this->account(13)));
     }
 
+    public function testProvidesModernPluginMetadataAndConfigurationSelection(): void
+    {
+        $account = $this->account(12);
+        $sport = $this->sport(7, 'Running');
+        $sports = $this->createStub(SportRepository::class);
+        $sports->method('findAllFor')->willReturn([$sport]);
+
+        $storage = $this->createStub(PluginConfigurationStorageInterface::class);
+        $storage->method('loadForPlugins')->willReturn([
+            5 => [
+                'sport' => '7',
+                'tagssummary_timescale' => '6',
+            ],
+        ]);
+
+        $presenter = $this->presenter($sports, null, $storage);
+
+        $this->assertSame('Tags summary', $presenter->getName());
+        $this->assertSame('Summarises your tags for the selected sport.', $presenter->getDescription());
+        $this->assertSame('@TagsSummary/configuration.html.twig', $presenter->getConfigurationTemplate());
+
+        $configuration = $presenter->getConfigurationData($account, $this->installation($account));
+
+        $this->assertSame([[
+            'id' => 7,
+            'name' => 'Running',
+        ]], $configuration['sports']);
+        $this->assertSame(7, $configuration['selected_sport_id']);
+        $this->assertSame(6, $configuration['selected_timescale']);
+        $this->assertSame(TagsSummaryPanelPresenter::TIMESCALES, $configuration['timescales']);
+    }
+
+    public function testConfigurationRejectsAnotherAccountsInstallation(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->presenter()->getConfigurationData($this->account(12), $this->installation($this->account(13)));
+    }
+
+    public function testConfigurationCanUpdateAnInactiveInstallation(): void
+    {
+        $account = $this->account(12);
+        $installation = $this->installation($account, true);
+
+        $sports = $this->createStub(SportRepository::class);
+        $sports->method('findAllFor')->willReturn([$this->sport(7, 'Running')]);
+
+        $storage = $this->createMock(PluginConfigurationStorageInterface::class);
+        $storage->expects($this->once())->method('loadForPlugins')->with([5])->willReturn([]);
+        $storage->expects($this->once())->method('insert')->with(5, 'sport', '7');
+
+        $presenter = $this->presenter($sports, null, $storage);
+        $presenter->updateConfiguration($account, $installation, [
+            'sport' => '7',
+        ]);
+    }
+
+    public function testPanelUsageWidthsPreserveLegacyScale(): void
+    {
+        $account = $this->account(12);
+        $sports = $this->createStub(SportRepository::class);
+        $sports->method('findAllFor')->willReturn([$this->sport(7, 'Running')]);
+
+        $tags = $this->createStub(TagRepository::class);
+        $tags->method('findUsageForSportSince')->willReturn([
+            [
+                'id' => 1,
+                'tag' => 'A',
+                'usage_count' => 3,
+            ],
+            [
+                'id' => 2,
+                'tag' => 'B',
+                'usage_count' => 1,
+            ],
+            [
+                'id' => 3,
+                'tag' => 'C',
+                'usage_count' => 0,
+            ],
+        ]);
+
+        $result = $this->presenter($sports, $tags)->present($account, $this->installation($account));
+
+        $this->assertSame([330, 110, 0], array_column($result['tags'], 'usage_width'));
+    }
+
     public function testSelectionPersistsOnlyValidAccountSports(): void
     {
         $account = $this->account(12);
@@ -227,14 +314,14 @@ final class TagsSummaryPanelPresenterTest extends TestCase
         return $account;
     }
 
-    private function installation(Account $account): Plugin
+    private function installation(Account $account, bool $inactive = false): Plugin
     {
         $installation = $this->createStub(Plugin::class);
         $installation->method('getId')->willReturn(5);
         $installation->method('getAccount')->willReturn($account);
         $installation->method('getKey')->willReturn('RunalyzePluginPanel_TagsSummary');
         $installation->method('isPanel')->willReturn(true);
-        $installation->method('isInactive')->willReturn(false);
+        $installation->method('isInactive')->willReturn($inactive);
 
         return $installation;
     }

@@ -22,9 +22,9 @@ final readonly class TagsSummaryPanelSelectionHandler
      *
      * @throws InvalidArgumentException if the installation is not available for the account
      */
-    public function handle(Account $account, Plugin $installation, array $queryParameters): void
+    public function handle(Account $account, Plugin $installation, array $queryParameters, bool $allowInactive = false): void
     {
-        TagsSummaryPanelPresenter::validateInstallation($account, $installation);
+        TagsSummaryPanelPresenter::validateInstallation($account, $installation, $allowInactive);
 
         $pluginId = $installation->getId();
         assert($pluginId !== null);

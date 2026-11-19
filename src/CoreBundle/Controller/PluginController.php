@@ -9,6 +9,8 @@ use HTML;
 use Icon;
 use InvalidArgumentException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelConfigurationInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,7 +49,22 @@ class PluginController extends AbstractPluginsAwareController
             if ($this->pluginInstallationManager->install($pluginKey)) {
                 echo HTML::okay(__('The plugin has been successfully installed.'));
 
-                if (! $this->modernPanelRegistry->has($pluginKey)
+                if ($this->modernPanelRegistry->has($pluginKey)
+                    && $this->modernPanelRegistry->get($pluginKey) instanceof ModernPanelConfigurationInterface
+                ) {
+                    $installations = $this->pluginSettingsProvider->getInstalledPluginData();
+
+                    foreach ($installations as $installationData) {
+                        if ($installationData['key'] === $pluginKey) {
+                            echo '<ul class="blocklist"><li>';
+                            echo Ajax::window('<a href="call/call.Plugin.config.php?id=' . $installationData['id'] . '">'
+                                . Icon::$CONF . ' ' . __('Configuration') . '</a>', 'small');
+                            echo '</li></ul>';
+
+                            break;
+                        }
+                    }
+                } elseif (! $this->modernPanelRegistry->has($pluginKey)
                     || ! $this->modernPanelRegistry->get($pluginKey) instanceof ModernPanelMetadataInterface
                 ) {
                     $plugin = $this->instantiatePluginByKey($pluginKey);
@@ -104,16 +121,59 @@ class PluginController extends AbstractPluginsAwareController
         if (is_scalar($id) && ctype_digit((string) $id) && $account instanceof Account) {
             $installation = $this->pluginInstallationManager->getInstallationForAccount($account, (int) $id);
 
-            if ($installation instanceof \Runalyze\Bundle\CoreBundle\Entity\Plugin
+            if ($installation instanceof PluginInstallation
                 && $this->modernPanelRegistry->has($installation->getKey())
-                && $this->modernPanelRegistry->get($installation->getKey()) instanceof ModernPanelMetadataInterface
             ) {
-                new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
+                $panel = $this->modernPanelRegistry->get($installation->getKey());
 
-                return $this->legacyContentResponseFactory->create(
-                    HTML::info(__('This plugin has no configurable options.')),
-                    $request
-                );
+                if ($panel instanceof ModernPanelConfigurationInterface) {
+                    new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
+                    $reloadRequired = false;
+
+                    $active = $request->query->get('active');
+
+                    if ($active !== null) {
+                        if (! is_string($active) || ! ctype_digit($active)) {
+                            throw new BadRequestHttpException('Invalid plugin activation state.');
+                        }
+
+                        try {
+                            $reloadRequired = $this->pluginInstallationManager->setInstalledPluginActive(
+                                (int) $id,
+                                (int) $active
+                            );
+                        } catch (InvalidArgumentException $exception) {
+                            throw new BadRequestHttpException('Invalid plugin activation state.', $exception);
+                        }
+                    }
+
+                    if ($request->isMethod('POST') && $request->request->get('edit') === 'true') {
+                        $panel->updateConfiguration($account, $installation, $request->request->all());
+                        $reloadRequired = true;
+                    }
+
+                    $content = $this->renderView($panel->getConfigurationTemplate(), [
+                        'plugin_id' => $installation->getId(),
+                        'config_data' => $panel->getConfigurationData($account, $installation),
+                    ]);
+
+                    if ($reloadRequired) {
+                        Ajax::setPluginIDtoReload((int) $id);
+                        Ajax::setReloadFlag(Ajax::$RELOAD_PLUGINS);
+                        $content .= Ajax::getReloadCommand();
+                    }
+
+                    return $this->legacyContentResponseFactory->create($content, $request);
+                }
+
+                if ($panel instanceof ModernPanelMetadataInterface) {
+                    new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
+
+                    return $this->legacyContentResponseFactory->create(
+                        HTML::info(__('This plugin has no configurable options.')),
+                        $request
+                    );
+                }
             }
         }
 
