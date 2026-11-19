@@ -81,8 +81,8 @@ final class RechenspielePanelPresenterTest extends TestCase
             'show_basicendurance' => '0',
         ])->present($account, $this->installation($account));
 
-        $this->assertSame('0', $result['rows'][0]['value']);
-        $this->assertSame('0', $result['rows'][1]['value']);
+        $this->assertSame('0 %', $result['rows'][0]['value']);
+        $this->assertSame('0 %', $result['rows'][1]['value']);
         $this->assertSame('+0', $result['rows'][2]['value']);
     }
 
