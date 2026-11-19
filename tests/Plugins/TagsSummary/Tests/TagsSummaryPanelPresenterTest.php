@@ -36,15 +36,26 @@ final class TagsSummaryPanelPresenterTest extends TestCase
         $tags = $this->createMock(TagRepository::class);
         $tags->expects($this->once())
             ->method('findUsageForSportSince')
-            ->with($account, 7, (new DateTimeImmutable('2026-11-19 12:00:00 UTC'))->modify('-3 months')->getTimestamp())
+            ->with($account, 7, new DateTimeImmutable('2026-11-19 12:00:00 UTC')->modify('-3 months')->getTimestamp())
             ->willReturn([
-                ['id' => 2, 'tag' => 'Intervals', 'usage_count' => 6],
-                ['id' => 4, 'tag' => 'Easy', 'usage_count' => 3],
+                [
+                    'id' => 2,
+                    'tag' => 'Intervals',
+                    'usage_count' => 6,
+                ],
+                [
+                    'id' => 4,
+                    'tag' => 'Easy',
+                    'usage_count' => 3,
+                ],
             ]);
 
         $storage = $this->createStub(PluginConfigurationStorageInterface::class);
         $storage->method('loadForPlugins')->willReturn([
-            5 => ['sport' => '7', 'tagssummary_timescale' => '3'],
+            5 => [
+                'sport' => '7',
+                'tagssummary_timescale' => '3',
+            ],
         ]);
 
         $result = $this->presenter($sports, $tags, $storage)->present($account, $installation);
@@ -52,8 +63,18 @@ final class TagsSummaryPanelPresenterTest extends TestCase
         $this->assertSame(7, $result['selected_sport_id']);
         $this->assertSame(3, $result['selected_timescale']);
         $this->assertSame([
-            ['id' => 2, 'name' => 'Intervals', 'count' => 6, 'usage_width' => 330],
-            ['id' => 4, 'name' => 'Easy', 'count' => 3, 'usage_width' => 165],
+            [
+                'id' => 2,
+                'name' => 'Intervals',
+                'count' => 6,
+                'usage_width' => 330,
+            ],
+            [
+                'id' => 4,
+                'name' => 'Easy',
+                'count' => 3,
+                'usage_width' => 165,
+            ],
         ], $result['tags']);
     }
 
@@ -97,7 +118,9 @@ final class TagsSummaryPanelPresenterTest extends TestCase
         $storage->expects($this->never())->method('update');
 
         new TagsSummaryPanelSelectionHandler($sports, $storage)
-            ->handle($account, $installation, ['sport' => '7']);
+            ->handle($account, $installation, [
+                'sport' => '7',
+            ]);
     }
 
     public function testSelectionIgnoresUnknownSportAndUnsupportedTimescale(): void
@@ -126,12 +149,18 @@ final class TagsSummaryPanelPresenterTest extends TestCase
 
         $storage = $this->createMock(PluginConfigurationStorageInterface::class);
         $storage->expects($this->once())->method('loadForPlugins')
-            ->willReturn([5 => ['tagssummary_timescale' => '1']]);
+            ->willReturn([
+                5 => [
+                    'tagssummary_timescale' => '1',
+                ],
+            ]);
         $storage->expects($this->once())->method('update')
             ->with(5, 'tagssummary_timescale', '24');
 
         new TagsSummaryPanelSelectionHandler($sports, $storage)
-            ->handle($account, $this->installation($account), ['tagssummary_timescale' => '24']);
+            ->handle($account, $this->installation($account), [
+                'tagssummary_timescale' => '24',
+            ]);
     }
 
     public function testSelectionRejectsAnInstallationOwnedByAnotherAccount(): void
@@ -145,7 +174,9 @@ final class TagsSummaryPanelPresenterTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
 
         new TagsSummaryPanelSelectionHandler($sports, $storage)
-            ->handle($account, $this->installation($this->account(13)), ['sport' => '7']);
+            ->handle($account, $this->installation($this->account(13)), [
+                'sport' => '7',
+            ]);
     }
 
     public function testDeclaresItsStableKeyAndTemplate(): void

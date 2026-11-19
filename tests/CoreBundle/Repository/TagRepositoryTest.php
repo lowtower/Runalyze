@@ -34,8 +34,16 @@ final class TagRepositoryTest extends AbstractRepositoryTestCase
         $this->assertInstanceOf(TagRepository::class, $repository);
 
         $this->assertSame([
-            ['id' => $firstTag->getId(), 'tag' => 'Easy', 'usage_count' => 2],
-            ['id' => $secondTag->getId(), 'tag' => 'Intervals', 'usage_count' => 1],
+            [
+                'id' => $firstTag->getId(),
+                'tag' => 'Easy',
+                'usage_count' => 2,
+            ],
+            [
+                'id' => $secondTag->getId(),
+                'tag' => 'Intervals',
+                'usage_count' => 1,
+            ],
         ], $repository->findUsageForSportSince($account, (int) $running->getId(), 200));
 
         $this->assertSame([], $repository->findUsageForSportSince($this->getEmptyAccount(), (int) $running->getId(), 200));
