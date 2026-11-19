@@ -303,7 +303,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(AccountValueResolver::class, 'app.value_resolver.account');
 
-    $services->load('Runalyze\\Bundle\\CoreBundle\\EventListener\\', __DIR__ . '/../src/CoreBundle/EventListener/{ConsoleExceptionListener,UserLocaleListener}.php');
+    $services->load('Runalyze\\Bundle\\CoreBundle\\EventListener\\', __DIR__ . '/../src/CoreBundle/EventListener/{AccountLastActionListener,ConsoleExceptionListener,UserLocaleListener,UserTimezoneListener}.php');
 
     $services->alias('app.listener.console_exception', ConsoleExceptionListener::class);
 
@@ -314,23 +314,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(LocaleListener::class, 'app.locale_listener');
 
-    $services->set('app.listener.user_timezone', UserTimezoneListener::class)
-        ->tag('kernel.event_listener', [
-            'event' => 'kernel.request',
-            'method' => 'onKernelRequest',
-        ]);
-
-    $services->alias(UserTimezoneListener::class, 'app.listener.user_timezone');
+    $services->alias('app.listener.user_timezone', UserTimezoneListener::class);
 
     $services->alias('app.user_locale_listener', UserLocaleListener::class);
 
-    $services->set('app.account_last_action_listener', AccountLastActionListener::class)
-        ->tag('kernel.event_listener', [
-            'event' => 'kernel.controller',
-            'method' => 'onCoreController',
-        ]);
-
-    $services->alias(AccountLastActionListener::class, 'app.account_last_action_listener');
+    $services->alias('app.account_last_action_listener', AccountLastActionListener::class);
 
     $services->set('app.listener.recalculation_tasks_performer_listener', RecalculationTasksPerformerListener::class)
         ->arg('$Manager', service('app.recalculation_manager'))
