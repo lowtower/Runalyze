@@ -151,7 +151,6 @@ final class PluginInstallationManagerTest extends TestCase
 
         $panel = new ModernInstallablePanelFixture();
 
-
         $manager = new PluginInstallationManager(
             $doctrine,
             $tokenStorage,
