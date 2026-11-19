@@ -919,4 +919,52 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             $this->getEntityManager()->flush();
         }
     }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testDashboardRendersPrognosisPanelThroughTheModernPluginTemplate(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $repository = $this->getEntityManager()->getRepository(PluginEntity::class);
+        $plugin = $repository->findOneBy([
+            'account' => $this->Account,
+            'key' => 'RunalyzePluginPanel_Prognose',
+        ]);
+        $created = ! $plugin instanceof PluginEntity;
+
+        if ($created) {
+            /** @var PluginInstallationManager $installationManager */
+            $installationManager = self::getContainer()->get(PluginInstallationManager::class);
+            $installationManager->install('RunalyzePluginPanel_Prognose');
+            $plugin = $repository->findOneBy([
+                'account' => $this->Account,
+                'key' => 'RunalyzePluginPanel_Prognose',
+            ]);
+        }
+
+        $this->assertInstanceOf(PluginEntity::class, $plugin);
+        $originalActive = $plugin->getActive();
+        $plugin->setActive(PluginEntity::STATE_ACTIVE);
+        $this->getEntityManager()->flush();
+
+        try {
+            $this->Client->request('GET', '/dashboard');
+
+            $this->assertStatusCode(200, $this->Client);
+
+            $content = (string) $this->Client->getResponse()->getContent();
+
+            $this->assertStringContainsString('class="panel" id="panel-' . $plugin->getId() . '"', $content);
+            $this->assertStringContainsString('Prognosis', $content);
+            $this->assertStringContainsString('title="Prognosis calculator"', $content);
+        } finally {
+            if ($created) {
+                $this->getEntityManager()->remove($plugin);
+            } else {
+                $plugin->setActive($originalActive);
+            }
+
+            $this->getEntityManager()->flush();
+        }
+    }
 }

@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block panelContent %}
-    {% for row in prognosisData.rows %}
+    {% for row in panel_data.prognosis_data.rows %}
         {% set pb_string = row.pbActivityId is not null ? '<a class="training" href="' ~ url('ActivityShow', {id: row.pbActivityId}) ~ '" rel="' ~ row.pbActivityId ~ '" onclick="Runalyze.Overlay.close()">' ~ (row.pbSeconds|duration) ~ '</a>' : '-' %}
         {% set prognosis_string = row.prognosisSeconds > 0 ? row.prognosisSeconds|duration : '-' %}
         <p>
@@ -25,11 +25,11 @@
         </p>
     {% endfor %}
 
-    {% if not prognosisData.hasValidPrognosis %}
+    {% if not panel_data.prognosis_data.hasValidPrognosis %}
         <p class="warning">{{ "Prognoses can't be calculated."|trans }}</p>
     {% endif %}
 
-    {% if prognosisData.numberOfPersonalBests == 0 %}
+    {% if panel_data.prognosis_data.numberOfPersonalBests == 0 %}
         <p class="info">{{ 'There are not enough results for good predictions.'|trans }}</p>
     {% endif %}
 {% endblock %}
