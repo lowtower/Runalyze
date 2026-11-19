@@ -14,7 +14,10 @@ final class RechenspieleTrainingLoadCalculatorTest extends TestCase
     public function testCalculatesTrainingLoadFromKnownTrimpHistory(): void
     {
         $result = new RechenspieleTrainingLoadCalculator()->calculate(
-            [-2 => 100.0, 0 => 50.0],
+            [
+                -2 => 100.0,
+                0 => 50.0,
+            ],
             [10.0, 90.0, 20.0, 80.0, 15.0, 85.0, 30.0],
             42,
             7,
@@ -50,14 +53,17 @@ final class RechenspieleTrainingLoadCalculatorTest extends TestCase
         $this->assertSame(1, $result['max_ctl']);
         $this->assertSame(0, $result['rest_days']);
         $this->assertSame(0, $result['easy_trimp']);
-        $this->assertSame(0.0, $result['monotony']);
+        $this->assertEqualsWithDelta(0.0, $result['monotony'], PHP_FLOAT_EPSILON);
         $this->assertSame(0, $result['training_strain']);
     }
 
     public function testCalculatedHistoricalMaximaRaiseOutdatedStoredMaxima(): void
     {
         $result = new RechenspieleTrainingLoadCalculator()->calculate(
-            [-2 => 100.0, 0 => 50.0],
+            [
+                -2 => 100.0,
+                0 => 50.0,
+            ],
             [50.0],
             42,
             7,
