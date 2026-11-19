@@ -7,8 +7,8 @@ namespace Runalyze\Bundle\CoreBundle\Tests\EventListener;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use RuntimeException;
 use Runalyze\Bundle\CoreBundle\EventListener\ConsoleExceptionListener;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleErrorEvent;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -30,7 +30,9 @@ final class ConsoleExceptionListenerTest extends TestCase
                 $exception->getLine(),
                 'app:example'
             ),
-            ['exception' => $exception]
+            [
+                'exception' => $exception,
+            ]
         );
 
         $event = new ConsoleErrorEvent(
@@ -56,7 +58,9 @@ final class ConsoleExceptionListenerTest extends TestCase
                 $exception->getLine(),
                 'n/a'
             ),
-            ['exception' => $exception]
+            [
+                'exception' => $exception,
+            ]
         );
 
         $event = new ConsoleErrorEvent(
