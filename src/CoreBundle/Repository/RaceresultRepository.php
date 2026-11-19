@@ -35,6 +35,55 @@ class RaceresultRepository extends ServiceEntityRepository
         ]);
     }
 
+    /**
+     * @param array<int|string, mixed> $distances
+     * @return array<string, array{activity_id: int, seconds: float}>
+     */
+    public function findPersonalBestDetailsForDistances(Account $account, int $sportId, array $distances): array
+    {
+        $distances = array_values(array_unique(array_map(
+            static fn (mixed $distance): float => (float) $distance,
+            array_filter($distances, is_numeric(...))
+        )));
+
+        if ($distances === []) {
+            return [];
+        }
+
+        $rows = $this->createQueryBuilder('race')
+            ->select('race.officialDistance AS distance')
+            ->addSelect('race.officialTime AS seconds')
+            ->addSelect('activity.id AS activityId')
+            ->join('race.activity', 'activity')
+            ->where('race.account = :account')
+            ->andWhere('activity.sport = :sportId')
+            ->andWhere('race.officialDistance IN (:distances)')
+            ->setParameter('account', $account)
+            ->setParameter('sportId', $sportId)
+            ->setParameter('distances', $distances)
+            ->orderBy('race.officialDistance', \SortDirection::Ascending)
+            ->addOrderBy('race.officialTime', \SortDirection::Ascending)
+            ->getQuery()
+            ->getArrayResult();
+
+        $personalBests = [];
+
+        foreach ($rows as $row) {
+            $key = sprintf('%.2f', (float) $row['distance']);
+
+            if (isset($personalBests[$key])) {
+                continue;
+            }
+
+            $personalBests[$key] = [
+                'activity_id' => (int) $row['activityId'],
+                'seconds' => (float) $row['seconds'],
+            ];
+        }
+
+        return $personalBests;
+    }
+
     public function findForSportAndYear(Account $account, Sport $sport, int $year): array
     {
         return $this->getEntityManager()->createQueryBuilder()
