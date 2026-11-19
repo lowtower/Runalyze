@@ -1,0 +1,50 @@
+{% extends 'my/panels/base.html.twig' %}
+
+{% block pluginTitle %}{{ 'Calculations'|trans }}{% endblock %}
+
+{% block panelHeadingMenu %}
+    <ul>
+        <li><a class="window" rel="tooltip" title="{{ 'Show shape'|trans }}" href="/plugin/RunalyzePluginPanel_Rechenspiele/window.plot.php"><i class="fa far fa-fw fa-chart-line"></i></a></li>
+        <li><a class="window" rel="tooltip" title="{{ 'Show training paces'|trans }}" href="/my/tools/tables/vo2max-pace"><i class="fa far fa-fw fa-tachometer-alt"></i></a></li>
+        <li><a class="window" rel="tooltip" title="{{ 'How are these values calculated?'|trans }}" href="/plugin/RunalyzePluginPanel_Rechenspiele/window.php"><i class="fa fa-fw fa-magic"></i></a></li>
+        <li><a class="window" rel="tooltip" title="{{ 'Explanations: What are VO2max and TRIMP?'|trans }}" href="/dashboard/help-calculations"><i class="fa fa-fw fa-info-circle"></i></a></li>
+    </ul>
+{% endblock %}
+
+{% block panelContent %}
+    <table class="fullwidth nomargin" id="rechenspiele-values">
+        {% for row in panel_data.rows %}
+            <tr>
+                <td>
+                    {% if row.glossary is not null %}
+                        <a class="window" href="glossary/{{ row.glossary }}"><i class="fa far fa-question-circle"></i></a>
+                    {% endif %}
+                </td>
+                <td class="nowrap">
+                    <strong>{{ row.label|trans }}</strong>
+                    {% if row.abbreviation %}<small>({{ row.abbreviation }})</small>{% endif %}
+                </td>
+                <td style="width:99%;vertical-align:middle;">
+                    <div class="rechenspiele-progress" style="height:8px;background:#e5e5e5;">
+                        <div class="rechenspiele-progress-value rechenspiele-{{ row.tone }}" style="height:8px;width:{{ row.percent }}%;"></div>
+                    </div>
+                </td>
+                <td class="r nowrap">{{ row.value }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <style>
+        .rechenspiele-blue { background-color: #307bbb; }
+        .rechenspiele-green { background-color: #32883c; }
+        .rechenspiele-orange { background-color: #d69022; }
+        .rechenspiele-red { background-color: #c34a4a; }
+    </style>
+
+    {% if panel_data.missing_vo2max %}
+        <p class="error small">{{ 'There are no current activities with an estimated VO2max.'|trans }}</p>
+    {% endif %}
+    {% if panel_data.insufficient_activities %}
+        <p class="info">{{ 'There are not enough activities for good calculations.'|trans }}</p>
+    {% endif %}
+{% endblock %}
