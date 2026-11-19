@@ -279,8 +279,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(InstallDatabaseCommand::class);
 
-    $services->set(InstallFilesystemCommand::class)
-        ->arg('$kernel', service('kernel'));
+    $services->set(InstallFilesystemCommand::class);
 
     $services->set(ActivityBulkRouteNameEvaluationCommand::class)
         ->arg('$osmOverpassUrl', '%app.osm_overpass_url%');
@@ -507,14 +506,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias('app.activity_context.factory', ActivityContextFactory::class);
 
-    $services->set(ConfigurationManager::class)
-        ->arg('$Repository', service(ConfRepository::class));
+    $services->set(ConfigurationManager::class);
 
     $services->alias('app.configuration_manager', ConfigurationManager::class);
 
     $services->set('app.configuration_updater', ConfigurationUpdater::class)
-        ->arg('$Repository', service(ConfRepository::class))
-        ->arg('$Manager', service('app.configuration_manager'))
         ->lazy(true);
 
     $services->alias(ConfigurationUpdater::class, 'app.configuration_updater');
