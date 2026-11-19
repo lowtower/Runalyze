@@ -27,7 +27,7 @@ class RecalculationTasksPerformerListener
             return;
         }
 
-        if ((new ReflectionClass($this->Manager))->isUninitializedLazyObject($this->Manager)) {
+        if (new ReflectionClass($this->Manager)->isUninitializedLazyObject($this->Manager)) {
             return;
         }
 

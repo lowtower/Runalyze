@@ -16,35 +16,35 @@ final class RecalculationTasksPerformerListenerTest extends TestCase
     public function testDoesNotInitializeUnusedNativeLazyManager(): void
     {
         $manager = $this->createMock(RecalculationManager::class);
-        $manager->expects(self::never())->method('runScheduledTasks');
+        $manager->expects($this->never())->method('runScheduledTasks');
 
-        $lazyManager = (new ReflectionClass(RecalculationManager::class))
+        $lazyManager = new ReflectionClass(RecalculationManager::class)
             ->newLazyProxy(static fn (): RecalculationManager => $manager);
 
         $listener = new RecalculationTasksPerformerListener($lazyManager);
         $listener->onTerminate();
 
-        self::assertTrue((new ReflectionClass($lazyManager))->isUninitializedLazyObject($lazyManager));
+        $this->assertTrue(new ReflectionClass($lazyManager)->isUninitializedLazyObject($lazyManager));
     }
 
     public function testRunsScheduledTasksOnInitializedNativeLazyManager(): void
     {
         $manager = $this->createMock(RecalculationManager::class);
-        $manager->expects(self::once())->method('runScheduledTasks');
+        $manager->expects($this->once())->method('runScheduledTasks');
 
-        $lazyManager = (new ReflectionClass(RecalculationManager::class))
+        $lazyManager = new ReflectionClass(RecalculationManager::class)
             ->newLazyProxy(static fn (): RecalculationManager => $manager);
 
-        (new ReflectionClass($lazyManager))->initializeLazyObject($lazyManager);
+        new ReflectionClass($lazyManager)->initializeLazyObject($lazyManager);
 
-        (new RecalculationTasksPerformerListener($lazyManager))->onTerminate();
+        new RecalculationTasksPerformerListener($lazyManager)->onTerminate();
     }
 
     public function testRunsScheduledTasksOnRegularManager(): void
     {
         $manager = $this->createMock(RecalculationManager::class);
-        $manager->expects(self::once())->method('runScheduledTasks');
+        $manager->expects($this->once())->method('runScheduledTasks');
 
-        (new RecalculationTasksPerformerListener($manager))->onTerminate();
+        new RecalculationTasksPerformerListener($manager)->onTerminate();
     }
 }
