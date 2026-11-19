@@ -8,6 +8,7 @@ use Frontend;
 use HTML;
 use Icon;
 use InvalidArgumentException;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,13 +45,18 @@ class PluginController extends AbstractPluginsAwareController
             echo '<h1>' . __('Install') . ' ' . $pluginKey . '</h1>';
 
             if ($this->pluginInstallationManager->install($pluginKey)) {
-                $Plugin = $this->instantiatePluginByKey($pluginKey);
-
                 echo HTML::okay(__('The plugin has been successfully installed.'));
 
-                echo '<ul class="blocklist"><li>';
-                echo $Plugin->getConfigLink(Icon::$CONF . ' ' . __('Configuration'));
-                echo '</li></ul>';
+                if (! $this->modernPanelRegistry->has($pluginKey)
+                    || ! $this->modernPanelRegistry->get($pluginKey) instanceof ModernPanelMetadataInterface
+                ) {
+                    $plugin = $this->instantiatePluginByKey($pluginKey);
+                    $configLink = $plugin->getConfigLink(Icon::$CONF . ' ' . __('Configuration'));
+
+                    if ($configLink !== null) {
+                        echo '<ul class="blocklist"><li>' . $configLink . '</li></ul>';
+                    }
+                }
 
                 Ajax::setReloadFlag(Ajax::$RELOAD_ALL);
                 echo Ajax::getReloadCommand();
@@ -89,11 +95,25 @@ class PluginController extends AbstractPluginsAwareController
      * @throws Throwable if the legacy plugin config window throws
      */
     #[Route(path: '/call/call.Plugin.config.php', name: 'plugin-config', methods: ['GET', 'POST'])]
-    public function pluginConfigAction(Request $request): Response
+    public function pluginConfigAction(Request $request, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $id = $request->query->get('id');
+
+        if (is_scalar($id) && ctype_digit((string) $id) && $account instanceof Account) {
+            $installation = $this->pluginInstallationManager->getInstallationForAccount($account, (int) $id);
+
+            if ($installation !== null
+                && $this->modernPanelRegistry->has($installation->getKey())
+                && $this->modernPanelRegistry->get($installation->getKey()) instanceof ModernPanelMetadataInterface
+            ) {
+                return $this->legacyContentResponseFactory->create(
+                    HTML::info(__('This plugin has no configurable options.')),
+                    $request
+                );
+            }
+        }
 
         $legacyContent = $this->legacyPluginOutputRenderer->render(function () use ($id, $request): void {
             if ($id !== null && is_numeric($id)) {
