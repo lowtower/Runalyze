@@ -111,6 +111,29 @@ This keeps plugin tests independent of the application's `App\\Tests\\` namespac
 
 A migrated plugin may temporarily contain both its legacy implementation under `plugin/<legacy-directory>/` and its modern implementation under `plugins/<PluginName>/`. The legacy implementation remains the compatibility path until the modern execution and presentation path has been verified. Do not move legacy files merely to make the directory layout look uniform.
 
+### Removing a migrated legacy panel
+
+The Sports panel is the first panel to be provided solely through `plugins/`, without a matching
+`plugin/RunalyzePluginPanel_Sports/class.RunalyzePluginPanel_Sports.php`.
+
+A legacy-free panel implements both `ModernPanelInterface` and
+`ModernPanelMetadataInterface`. The metadata contract supplies the display name and
+description for plugin administration. The panel retains its stable key, and the
+`ModernPanelRegistry` exposes registered keys for `PluginDiscovery` alongside
+legacy directories. `PluginInstallationManager` installs metadata-enabled panels
+directly as account-scoped panel records without creating a legacy plugin instance.
+
+`PluginSettingsProvider` exposes administration entries for these panels, so the
+configuration list does not need a legacy `Plugin` object. The existing legacy
+methods remain available for plugins not yet migrated.
+
+**Limitation:** The first metadata-enabled panel (Sports) has no plugin-specific
+configuration fields. Its configuration endpoint displays an informational message.
+Do not mark a panel with legacy configuration fields as legacy-free until its
+configuration editing and default values have an equivalent modern implementation.
+Legacy windows and other dependencies must also be migrated before deleting their
+classes. Merely having a modern Twig presenter is not sufficient.
+
 ## Target architecture
 
 A modern plugin is a Symfony-managed service implementing a small application-owned contract. Its dependencies are injected through its constructor like any other service. The container owns its lifetime; application code must not instantiate plugin classes with `new`.
