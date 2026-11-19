@@ -36,6 +36,9 @@ final class RechenspielePanelPresenterTest extends TestCase
             'show_vo2max' => '0',
             'show_basicendurance' => '0',
             'show_trimpvalues_extra' => '0',
+        ], [
+            'data.MAX_ATL' => '100',
+            'data.MAX_CTL' => '100',
         ])->present($account, $this->installation($account));
 
         $this->assertSame(['Fatigue', 'Fitness level', 'Stress Balance', 'Rest days'], array_column($result['rows'], 'label'));
@@ -74,7 +77,7 @@ final class RechenspielePanelPresenterTest extends TestCase
 
         $this->assertSame('0', $result['rows'][0]['value']);
         $this->assertSame('0', $result['rows'][1]['value']);
-        $this->assertSame('0', $result['rows'][2]['value']);
+        $this->assertSame('+0', $result['rows'][2]['value']);
     }
 
     public function testRejectsAnotherAccountsInstallationBeforeReadingTraining(): void
