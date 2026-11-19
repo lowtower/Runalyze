@@ -6,6 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Repository;
 
 use PHPUnit\Framework\Attributes\Group;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Tag;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Repository\TagRepository;
@@ -35,9 +36,9 @@ final class TagRepositoryTest extends AbstractRepositoryTestCase
         $this->assertSame([
             ['id' => $firstTag->getId(), 'tag' => 'Easy', 'usage_count' => 2],
             ['id' => $secondTag->getId(), 'tag' => 'Intervals', 'usage_count' => 1],
-        ], $repository->findUsageForSportSince($account, $running->getId(), 200));
+        ], $repository->findUsageForSportSince($account, (int) $running->getId(), 200));
 
-        $this->assertSame([], $repository->findUsageForSportSince($this->getEmptyAccount(), $running->getId(), 200));
+        $this->assertSame([], $repository->findUsageForSportSince($this->getEmptyAccount(), (int) $running->getId(), 200));
     }
 
     private function createTag(Account $account, string $name): Tag
@@ -55,7 +56,7 @@ final class TagRepositoryTest extends AbstractRepositoryTestCase
     /**
      * @param list<Tag> $tags
      */
-    private function createActivity(int $timestamp, \Runalyze\Bundle\CoreBundle\Entity\Sport $sport, array $tags): void
+    private function createActivity(int $timestamp, Sport $sport, array $tags): void
     {
         $activity = $this->getActivityForDefaultAccount($timestamp, 3600, 10.0, $sport);
 
