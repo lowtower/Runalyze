@@ -53,6 +53,38 @@ class TrainingRepository extends ServiceEntityRepository
     }
 
     /**
+     * Return daily TRIMP totals for an account, using the same database-day grouping
+     * as the legacy Rechenspiele performance-model query.
+     *
+     * @return list<array{day: string, trimp: float}>
+     */
+    public function findDailyTrimpForAccount(Account $account, ?int $from = null, ?int $to = null): array
+    {
+        $queryBuilder = $this->createQueryBuilder('t')
+            ->select('DATE(FROM_UNIXTIME(t.time)) AS training_day, SUM(t.trimp) AS total_trimp')
+            ->where('t.account = :account')
+            ->setParameter('account', $account)
+            ->groupBy('training_day')
+            ->orderBy('training_day', \SortDirection::Ascending);
+
+        if ($from !== null) {
+            $queryBuilder->andWhere('t.time >= :from')->setParameter('from', $from);
+        }
+
+        if ($to !== null) {
+            $queryBuilder->andWhere('t.time <= :to')->setParameter('to', $to);
+        }
+
+        return array_map(
+            static fn (array $row): array => [
+                'day' => (string) $row['training_day'],
+                'trimp' => (float) ($row['total_trimp'] ?? 0),
+            ],
+            $queryBuilder->getQuery()->getArrayResult()
+        );
+    }
+
+    /**
      * Get the best activities according to `vo2max_by_time`, at most one per distance.
      *
      * Replaces the raw SQL query of the deprecated
