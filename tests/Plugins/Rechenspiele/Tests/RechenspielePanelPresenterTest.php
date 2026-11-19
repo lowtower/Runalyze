@@ -28,8 +28,14 @@ final class RechenspielePanelPresenterTest extends TestCase
         $account = $this->account(12);
         $repository = $this->createStub(TrainingRepository::class);
         $repository->method('findDailyTrimpForAccount')->willReturn([
-            ['day' => '2026-11-17', 'trimp' => 100.0],
-            ['day' => '2026-11-19', 'trimp' => 50.0],
+            [
+                'day' => '2026-11-17',
+                'trimp' => 100.0,
+            ],
+            [
+                'day' => '2026-11-19',
+                'trimp' => 50.0,
+            ],
         ]);
 
         $result = $this->presenter($repository, [
@@ -85,8 +91,14 @@ final class RechenspielePanelPresenterTest extends TestCase
         $account = $this->account(12);
         $repository = $this->createStub(TrainingRepository::class);
         $repository->method('findDailyTrimpForAccount')->willReturn([
-            ['day' => '2026-11-17', 'trimp' => 100.0],
-            ['day' => '2026-11-19', 'trimp' => 50.0],
+            [
+                'day' => '2026-11-17',
+                'trimp' => 100.0,
+            ],
+            [
+                'day' => '2026-11-19',
+                'trimp' => 50.0,
+            ],
         ]);
 
         $result = $this->presenter($repository, [
@@ -155,7 +167,9 @@ final class RechenspielePanelPresenterTest extends TestCase
         $manager->method('getList')->willReturn(new RunalyzeConfigurationList($configurationOptions));
 
         $storage = $this->createStub(PluginConfigurationStorageInterface::class);
-        $storage->method('loadForPlugins')->willReturn([5 => $pluginOptions]);
+        $storage->method('loadForPlugins')->willReturn([
+            5 => $pluginOptions,
+        ]);
 
         return new RechenspielePanelPresenter(
             new RechenspieleTrimpDataProvider($repository, $clock),
