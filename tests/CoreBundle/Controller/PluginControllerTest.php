@@ -415,6 +415,64 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertSame(Plugin::STATE_ACTIVE, $reloaded->getActive());
     }
 
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testSportlerConfigurationWorksWithoutLegacyPanelClass(): void
+    {
+        $repository = $this->getEntityManager()->getRepository(Plugin::class);
+        $plugin = $repository->findOneBy([
+            'account' => $this->Account,
+            'key' => 'RunalyzePluginPanel_Sportler',
+        ]);
+
+        $this->assertInstanceOf(Plugin::class, $plugin);
+        $pluginId = (int) $plugin->getId();
+
+        $this->loginClient($this->Client, $this->Account, 'default');
+        $this->request('GET', '/call/call.Plugin.config.php?id=' . $pluginId);
+
+        $this->assertStatusCode(200, $this->Client);
+        $content = (string) $this->Client->getResponse()->getContent();
+        $this->assertStringContainsString('name="wunschgewicht"', $content);
+        $this->assertStringContainsString('name="plot_points"', $content);
+        $this->assertStringContainsString('name="plot_timerange"', $content);
+        $this->assertStringContainsString('<div class="w100 block">', $content);
+
+        $this->Client->request('POST', '/call/call.Plugin.config.php?id=' . $pluginId, [
+            'edit' => 'true',
+            'wunschgewicht' => '75',
+            'plot_points' => '12',
+            'plot_timerange' => '30',
+        ]);
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('Runalyze.reload', (string) $this->Client->getResponse()->getContent());
+
+        foreach ([
+            'wunschgewicht' => '75',
+            'plot_points' => '12',
+            'plot_timerange' => '30',
+        ] as $key => $expected) {
+            $setting = $this->getEntityManager()->getRepository(PluginConf::class)
+                ->findForPluginAndKey($pluginId, $key);
+            $this->assertInstanceOf(PluginConf::class, $setting);
+            $this->assertSame($expected, $setting->getValue());
+        }
+
+        $this->request('GET', '/call/call.Plugin.config.php?id=' . $pluginId . '&active=0');
+        $this->assertStatusCode(200, $this->Client);
+        $this->getEntityManager()->clear();
+        $inactive = $this->getEntityManager()->getRepository(Plugin::class)->find($pluginId);
+        $this->assertInstanceOf(Plugin::class, $inactive);
+        $this->assertSame(Plugin::STATE_INACTIVE, $inactive->getActive());
+
+        $this->request('GET', '/call/call.Plugin.config.php?id=' . $pluginId . '&active=1');
+        $this->assertStatusCode(200, $this->Client);
+        $this->getEntityManager()->clear();
+        $active = $this->getEntityManager()->getRepository(Plugin::class)->find($pluginId);
+        $this->assertInstanceOf(Plugin::class, $active);
+        $this->assertSame(Plugin::STATE_ACTIVE, $active->getActive());
+    }
+
     public function testPluginDisplayActionRequiresAuthentication(): void
     {
         $this->request('GET', '/my/plugin/999999999');
