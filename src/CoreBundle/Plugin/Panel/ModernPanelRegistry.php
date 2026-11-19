@@ -34,6 +34,17 @@ final readonly class ModernPanelRegistry
         $this->panels = $registeredPanels;
     }
 
+    /**
+     * @return list<string>
+     */
+    public function getKeys(): array
+    {
+        $keys = array_keys($this->panels);
+        sort($keys, SORT_STRING);
+
+        return $keys;
+    }
+
     public function has(string $key): bool
     {
         return isset($this->panels[$key]);
