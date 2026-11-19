@@ -24,7 +24,7 @@
 
 {% block panelContent %}
     <div id="sports">
-    {% for stats in [weekStatistics, monthStatistics, yearStatistics, totalStatistics] %}
+    {% for stats in [panel_data.week_statistics, panel_data.month_statistics, panel_data.year_statistics, panel_data.total_statistics] %}
         {# @var stats \Runalyze\Bundle\CoreBundle\Model\Sport\SportStatistics #}
         <div id="sports_{{ loop.index0 }}" class="change"{% if loop.index0 != 1 %} style="display:none;"{% endif %}>
         {% if stats.count > 0 %}

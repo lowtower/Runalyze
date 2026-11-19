@@ -13,11 +13,9 @@ use Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisData;
 use Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisSelection;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
-use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Model\Prognosis\PrognosisData;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
-use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\LegacyContentResponseFactory;
@@ -26,9 +24,7 @@ use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Twig\ValueExtension;
-use Runalyze\Util\LocalTime;
 use RunalyzePluginPanel_Prognose;
-use RunalyzePluginPanel_Sports;
 use RunalyzePluginStat_MonthlyStats;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -75,8 +71,10 @@ abstract class AbstractPluginsAwareController extends AbstractController
                 $installation = $this->pluginInstallationManager->getInstallationForAccount($account, $pluginData['id']);
 
                 if ($installation instanceof PluginInstallation) {
+                    $panel = $this->modernPanelRegistry->get($pluginData['key']);
                     $panelContent = $this->getResponseForModernPanel($account, $installation)->getContent();
-                    $content .= '<div class="panel dont-reload-for-training" id="panel-' . $pluginData['id'] . '">' . $panelContent . '</div>';
+                    $panelClass = $panel->shouldReloadAfterTraining() ? 'panel' : 'panel dont-reload-for-training';
+                    $content .= '<div class="' . $panelClass . '" id="panel-' . $pluginData['id'] . '">' . $panelContent . '</div>';
 
                     continue;
                 }
@@ -85,7 +83,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
             $panel = $this->pluginSettingsProvider->getInstalledPluginById($pluginData['id']);
             $panelContent = $this->getResponseForPlugin($panel, $request, $account)->getContent();
 
-            if ($panel instanceof RunalyzePluginPanel_Sports || $panel instanceof RunalyzePluginPanel_Prognose) {
+            if ($panel instanceof RunalyzePluginPanel_Prognose) {
                 $panelContent = '<div class="panel" id="panel-' . $panel->id() . '">' . $panelContent . '</div>';
             }
 
@@ -132,8 +130,8 @@ abstract class AbstractPluginsAwareController extends AbstractController
         $panel = $this->modernPanelRegistry->get($installation->getKey());
 
         return $this->render($panel->getTemplate(), [
-            'pluginId' => $installation->getId(),
-            'isHidden' => $installation->isHidden(),
+            'plugin_id' => $installation->getId(),
+            'is_hidden' => $installation->isHidden(),
             'panel_data' => $panel->present($account, $installation),
         ]);
     }
@@ -143,10 +141,6 @@ abstract class AbstractPluginsAwareController extends AbstractController
      */
     protected function getResponseForPlugin(LegacyPlugin $plugin, Request $request, Account $account): Response
     {
-        if ($plugin instanceof RunalyzePluginPanel_Sports) {
-            return $this->getResponseForSportsPanel($account, $plugin);
-        }
-
         if ($plugin instanceof RunalyzePluginPanel_Prognose) {
             return $this->getResponseForPrognosePanel($account, $plugin);
         }
@@ -178,22 +172,6 @@ abstract class AbstractPluginsAwareController extends AbstractController
     protected function instantiatePluginByKey(string $pluginKey): LegacyPlugin
     {
         return $this->pluginSettingsProvider->getInstalledPluginByKey($pluginKey);
-    }
-
-    protected function getResponseForSportsPanel(Account $account, LegacyPlugin $plugin): Response
-    {
-        /** @var SportRepository $sportRepository */
-        $sportRepository = $this->doctrine->getRepository(Sport::class);
-        $today = new LocalTime()->setTime(0, 0, 0);
-
-        return $this->render('my/panels/sports/base.html.twig', [
-            'isHidden' => $plugin->isHidden(),
-            'pluginId' => $plugin->id(),
-            'weekStatistics' => $sportRepository->getSportStatisticsSince($today->weekstart(), $account),
-            'monthStatistics' => $sportRepository->getSportStatisticsSince($today->monthStart(), $account),
-            'yearStatistics' => $sportRepository->getSportStatisticsSince($today->yearStart(), $account),
-            'totalStatistics' => $sportRepository->getSportStatisticsSince(null, $account),
-        ]);
     }
 
     protected function getResponseForMonthlyStats(Request $request, Account $account, int $pluginId): Response
@@ -252,8 +230,8 @@ abstract class AbstractPluginsAwareController extends AbstractController
         );
 
         return $this->render('my/panels/prognose/base.html.twig', [
-            'isHidden' => $plugin->isHidden(),
-            'pluginId' => $plugin->id(),
+            'is_hidden' => $plugin->isHidden(),
+            'plugin_id' => $plugin->id(),
             'prognosisData' => $prognosisData,
         ]);
     }

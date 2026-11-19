@@ -9,6 +9,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'file_name_pattern' => '*.twig',
         'paths' => [
             '%kernel.project_dir%/plugins/Sportler/templates' => 'Sportler',
+            '%kernel.project_dir%/plugins/Sports/templates' => 'Sports',
         ],
         'debug' => '%kernel.debug%',
         'strict_variables' => '%kernel.debug%',
