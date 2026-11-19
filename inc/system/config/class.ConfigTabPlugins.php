@@ -64,7 +64,7 @@ class ConfigTabPlugins extends ConfigTab
 
     private function getCodeFor(?int $PluginType): string
     {
-        $Plugins = $this->pluginSettingsProvider->getInstalledPlugins($PluginType);
+        $Plugins = $this->pluginSettingsProvider->getInstalledPluginAdminEntries($PluginType);
 
         if ($Plugins === []) {
             return HTML::info(__('No plugins available.'));
@@ -83,19 +83,19 @@ class ConfigTabPlugins extends ConfigTab
 
         foreach ($Plugins as $pos => $Plugin) {
             $Code .= '
-					<tr id="' . $Plugin->id() . '_tr" class="a' . ($Plugin->isInActive() ? ' unimportant' : '') . '">
-						<td>' . $Plugin->getConfigLink() . '</td>
-						<td class="b">' . $Plugin->name() . '</td>
-						<td>' . $Plugin->description() . '</td>
-						<td><select name="plugin_modus_' . $Plugin->id() . '">
-								<option value="' . Plugin::ACTIVE . '"' . HTML::Selected($Plugin->isActive()) . '>' . __('enabled') . '</option>
-								<option value="' . Plugin::ACTIVE_VARIOUS . '"' . HTML::Selected($Plugin->isHidden()) . '>' . __('hidden*') . '</option>
-								<option value="' . Plugin::ACTIVE_NOT . '"' . HTML::Selected($Plugin->isInActive()) . '>' . __('not enabled') . '</option>
+					<tr id="' . $Plugin['id'] . '_tr" class="a' . (($Plugin['active'] === Plugin::ACTIVE_NOT) ? ' unimportant' : '') . '">
+						<td>' . $Plugin['config_link'] . '</td>
+						<td class="b">' . $Plugin['name'] . '</td>
+						<td>' . $Plugin['description'] . '</td>
+						<td><select name="plugin_modus_' . $Plugin['id'] . '">
+								<option value="' . Plugin::ACTIVE . '"' . HTML::Selected(($Plugin['active'] === Plugin::ACTIVE)) . '>' . __('enabled') . '</option>
+								<option value="' . Plugin::ACTIVE_VARIOUS . '"' . HTML::Selected(($Plugin['active'] === Plugin::ACTIVE_VARIOUS)) . '>' . __('hidden*') . '</option>
+								<option value="' . Plugin::ACTIVE_NOT . '"' . HTML::Selected(($Plugin['active'] === Plugin::ACTIVE_NOT)) . '>' . __('not enabled') . '</option>
 							</select></td>
 						<td style="white-space:nowrap;">
-							<input class="plugin-position" type="text" name="plugin_order_' . $Plugin->id() . '" size="3" value="' . ($pos + 1) . '">
-							<span class="link" onclick="pluginMove(' . $Plugin->id() . ', \'up\')">' . Icon::$UP . '</span>
-							<span class="link" onclick="pluginMove(' . $Plugin->id() . ', \'down\')">' . Icon::$DOWN . '</span>
+							<input class="plugin-position" type="text" name="plugin_order_' . $Plugin['id'] . '" size="3" value="' . ($pos + 1) . '">
+							<span class="link" onclick="pluginMove(' . $Plugin['id'] . ', \'up\')">' . Icon::$UP . '</span>
+							<span class="link" onclick="pluginMove(' . $Plugin['id'] . ', \'down\')">' . Icon::$DOWN . '</span>
 						</td>
 					</tr>';
         }
@@ -136,7 +136,7 @@ class ConfigTabPlugins extends ConfigTab
 
     private function getCodeForInstall(): string
     {
-        $Plugins = $this->pluginSettingsProvider->getAvailablePluginsToInstall();
+        $Plugins = $this->pluginSettingsProvider->getAvailablePluginAdminEntries();
 
         if ($Plugins === []) {
             return HTML::fileBlock(__('There are no new plugins to install.'));
@@ -156,9 +156,9 @@ class ConfigTabPlugins extends ConfigTab
             $Code .= '
 				<tr>
 					<td>' . Icon::$ADD . '</td>
-					<td class="b">' . PluginInstaller::link($Plugin->key(), $Plugin->name()) . '</td>
-					<td>' . $Plugin->description() . '</td>
-					<td colspan="2">' . PluginType::readableString($Plugin->type()) . '</td>
+					<td class="b">' . PluginInstaller::link($Plugin['key'], $Plugin['name']) . '</td>
+					<td>' . $Plugin['description'] . '</td>
+					<td colspan="2">' . PluginType::readableString($Plugin['type']) . '</td>
 				</tr>';
         }
 

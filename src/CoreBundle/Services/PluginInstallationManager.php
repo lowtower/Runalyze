@@ -10,6 +10,8 @@ use LogicException;
 use PluginInstaller;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
 use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -18,7 +20,8 @@ final readonly class PluginInstallationManager
     public function __construct(
         private ManagerRegistry $doctrine,
         private TokenStorageInterface $tokenStorage,
-        private LegacyPluginInstantiator $pluginInstantiator
+        private LegacyPluginInstantiator $pluginInstantiator,
+        private ?ModernPanelRegistry $modernPanelRegistry = null
     ) {}
 
     /**
@@ -112,6 +115,14 @@ final readonly class PluginInstallationManager
 
         if ($this->getPluginRepository()->findForAccountAndKey($account, $key) instanceof Plugin) {
             return false;
+        }
+
+        if ($this->modernPanelRegistry?->has($key)
+            && $this->modernPanelRegistry->get($key) instanceof ModernPanelMetadataInterface
+        ) {
+            $this->getPluginRepository()->installForAccount($account, $key, Plugin::TYPE_PANEL);
+
+            return true;
         }
 
         $plugin = $this->pluginInstantiator->instantiate($key, PluginInstaller::ID);

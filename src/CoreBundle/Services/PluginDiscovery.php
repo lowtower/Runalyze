@@ -3,12 +3,14 @@
 namespace Runalyze\Bundle\CoreBundle\Services;
 
 use FilesystemIterator;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
 use RuntimeException;
 
 final readonly class PluginDiscovery
 {
     public function __construct(
-        private string $pluginDirectory
+        private string $pluginDirectory,
+        private ?ModernPanelRegistry $modernPanelRegistry = null
     ) {}
 
     /**
@@ -31,6 +33,10 @@ final readonly class PluginDiscovery
             if (! str_starts_with($entry->getFilename(), '.') && $entry->isDir()) {
                 $keys[] = $entry->getFilename();
             }
+        }
+
+        if ($this->modernPanelRegistry instanceof \Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry) {
+            $keys = array_values(array_unique([...$keys, ...$this->modernPanelRegistry->getKeys()]));
         }
 
         sort($keys, SORT_STRING);

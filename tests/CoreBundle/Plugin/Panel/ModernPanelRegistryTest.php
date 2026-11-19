@@ -26,6 +26,19 @@ final class ModernPanelRegistryTest extends TestCase
         $this->assertSame($panel, $registry->get('example-panel'));
     }
 
+    public function testListsModernPanelKeysInStableSortedOrder(): void
+    {
+        $lastPanel = $this->createStub(ModernPanelInterface::class);
+        $lastPanel->method('getKey')->willReturn('ZuluPanel');
+
+        $firstPanel = $this->createStub(ModernPanelInterface::class);
+        $firstPanel->method('getKey')->willReturn('AlphaPanel');
+
+        $registry = new ModernPanelRegistry([$lastPanel, $firstPanel]);
+
+        $this->assertSame(['AlphaPanel', 'ZuluPanel'], $registry->getKeys());
+    }
+
     public function testItRejectsUnknownPanelKeys(): void
     {
         $registry = new ModernPanelRegistry([]);

@@ -13,6 +13,10 @@ use PluginInstaller;
 use PluginPanel;
 use PluginType;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
 use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
@@ -39,6 +43,39 @@ final class PluginSettingsProviderFixture extends PluginPanel
     }
 
     protected function displayContent(): void {}
+}
+
+final class ModernPanelMetadataFixture implements ModernPanelInterface, ModernPanelMetadataInterface
+{
+    public function getKey(): string
+    {
+        return 'ModernPanelWithoutLegacyClass';
+    }
+
+    public function getName(): string
+    {
+        return 'Modern Panel';
+    }
+
+    public function getDescription(): string
+    {
+        return 'Modern panel description';
+    }
+
+    public function getTemplate(): string
+    {
+        return 'modern.html.twig';
+    }
+
+    public function shouldReloadAfterTraining(): bool
+    {
+        return true;
+    }
+
+    public function present(Account $account, PluginInstallation $installation): array
+    {
+        return [];
+    }
 }
 
 #[Group('plugin')]
@@ -169,6 +206,55 @@ final class PluginSettingsProviderTest extends TestCase
         }
     }
 
+    public function testModernPanelAdminEntriesDoNotInstantiateLegacyPlugin(): void
+    {
+        $registry = new ModernPanelRegistry([new ModernPanelMetadataFixture()]);
+        $data = [[
+            'id' => 17,
+            'key' => 'ModernPanelWithoutLegacyClass',
+            'type' => PluginType::string(PluginType::PANEL),
+            'active' => Plugin::ACTIVE,
+            'order' => 1,
+        ]];
+        $provider = $this->createProvider($data, [], null, $registry);
+
+        $this->assertSame([[
+            'id' => 17,
+            'key' => 'ModernPanelWithoutLegacyClass',
+            'name' => 'Modern Panel',
+            'description' => 'Modern panel description',
+            'type' => PluginType::PANEL,
+            'active' => Plugin::ACTIVE,
+            'order' => 1,
+            'config_link' => null,
+        ]], $provider->getInstalledPluginAdminEntries(PluginType::PANEL));
+    }
+
+    public function testModernPanelCanBeListedForInstallationWithoutLegacyDirectory(): void
+    {
+        $directory = sys_get_temp_dir() . '/runalyze-plugin-settings-' . bin2hex(random_bytes(8));
+        mkdir($directory);
+
+        try {
+            $registry = new ModernPanelRegistry([new ModernPanelMetadataFixture()]);
+            $provider = $this->createProvider(
+                [],
+                [],
+                new PluginDiscovery($directory, $registry),
+                $registry
+            );
+
+            $this->assertSame([[
+                'key' => 'ModernPanelWithoutLegacyClass',
+                'name' => 'Modern Panel',
+                'description' => 'Modern panel description',
+                'type' => PluginType::PANEL,
+            ]], $provider->getAvailablePluginAdminEntries());
+        } finally {
+            rmdir($directory);
+        }
+    }
+
     /**
      * @param list<array{id: int, key: string, type: string, active: int, order: int}> $data
      * @param list<string> $installedKeys
@@ -176,7 +262,8 @@ final class PluginSettingsProviderTest extends TestCase
     private function createProvider(
         array $data,
         array $installedKeys = [],
-        ?PluginDiscovery $discovery = null
+        ?PluginDiscovery $discovery = null,
+        ?ModernPanelRegistry $modernPanelRegistry = null
     ): PluginSettingsProvider {
         $repository = $this->createStub(PluginRepository::class);
         $repository->method('findDataForAccount')->willReturn($data);
@@ -203,7 +290,8 @@ final class PluginSettingsProviderTest extends TestCase
         return new PluginSettingsProvider(
             $installationManager,
             new LegacyPluginInstantiator(),
-            $directory
+            $directory,
+            $modernPanelRegistry
         );
     }
 

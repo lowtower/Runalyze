@@ -118,6 +118,53 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testSportsPanelCanBeInstalledAndConfiguredWithoutLegacyClass(): void
+    {
+        $repository = $this->getEntityManager()->getRepository(Plugin::class);
+        $existing = $repository->findOneBy([
+            'account' => $this->Account,
+            'key' => 'RunalyzePluginPanel_Sports',
+        ]);
+
+        if ($existing instanceof Plugin) {
+            $this->getEntityManager()->remove($existing);
+            $this->getEntityManager()->flush();
+        }
+
+        $this->loginClient($this->Client, $this->Account, 'default');
+        $this->request('GET', '/call/call.Plugin.install.php?key=RunalyzePluginPanel_Sports');
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString(
+            'The plugin has been successfully installed.',
+            (string) $this->Client->getResponse()->getContent()
+        );
+
+        $plugin = $this->getEntityManager()
+            ->getRepository(Plugin::class)
+            ->findOneBy([
+                'account' => $this->Account,
+                'key' => 'RunalyzePluginPanel_Sports',
+            ]);
+
+        $this->assertInstanceOf(Plugin::class, $plugin);
+        $this->assertSame(Plugin::TYPE_PANEL, $plugin->getType());
+
+        $this->request('GET', '/call/call.Plugin.config.php?id=' . $plugin->getId());
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString(
+            'This plugin has no configurable options.',
+            (string) $this->Client->getResponse()->getContent()
+        );
+
+        $this->request('GET', '/my/plugin/' . $plugin->getId());
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('id="sports_0"', (string) $this->Client->getResponse()->getContent());
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testInstallationManagerRefreshesInstalledPluginDataAfterDatabaseChanges(): void
     {
         $this->loginClient($this->Client, $this->Account, 'default');

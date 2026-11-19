@@ -7,6 +7,8 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Services;
 use FilesystemIterator;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use RuntimeException;
 
@@ -47,6 +49,24 @@ final class PluginDiscoveryTest extends TestCase
             'RunalyzePluginPanel_Sports',
             'RunalyzePluginStat_Weather',
         ], $discovery->findAvailablePluginKeys());
+    }
+
+    public function testFindsModernPanelsWithoutLegacyDirectoriesAndDeduplicatesExistingKeys(): void
+    {
+        mkdir($this->pluginDirectory . '/LegacyPanel');
+
+        $modernOnly = $this->createStub(ModernPanelInterface::class);
+        $modernOnly->method('getKey')->willReturn('ModernPanel');
+
+        $alsoLegacy = $this->createStub(ModernPanelInterface::class);
+        $alsoLegacy->method('getKey')->willReturn('LegacyPanel');
+
+        $discovery = new PluginDiscovery(
+            $this->pluginDirectory,
+            new ModernPanelRegistry([$modernOnly, $alsoLegacy])
+        );
+
+        $this->assertSame(['LegacyPanel', 'ModernPanel'], $discovery->findAvailablePluginKeys());
     }
 
     public function testFindsNewPluginDirectoriesWithoutRecreatingTheService(): void

@@ -10,10 +10,48 @@ use LogicException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Plugin;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
+use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+
+final class ModernInstallablePanelFixture implements ModernPanelInterface, ModernPanelMetadataInterface
+{
+    public function getKey(): string
+    {
+        return 'ModernPanelWithoutLegacyClass';
+    }
+
+    public function getName(): string
+    {
+        return 'Modern';
+    }
+
+    public function getDescription(): string
+    {
+        return 'Modern panel';
+    }
+
+    public function getTemplate(): string
+    {
+        return 'panel.html.twig';
+    }
+
+    public function shouldReloadAfterTraining(): bool
+    {
+        return true;
+    }
+
+    public function present(Account $account, Plugin $installation): array
+    {
+        return [];
+    }
+}
 
 #[Group('plugin')]
 final class PluginInstallationManagerTest extends TestCase
@@ -89,6 +127,39 @@ final class PluginInstallationManagerTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
 
         $this->createManagerWithAuthenticatedAccount()->setInstalledPluginActive(1, 99);
+    }
+
+    public function testInstallsModernPanelWithoutInstantiatingLegacyClass(): void
+    {
+        $account = new Account();
+        $repository = $this->createMock(PluginRepository::class);
+        $repository->expects($this->once())
+            ->method('findForAccountAndKey')
+            ->with($account, 'ModernPanelWithoutLegacyClass')
+            ->willReturn(null);
+        $repository->expects($this->once())
+            ->method('installForAccount')
+            ->with($account, 'ModernPanelWithoutLegacyClass', Plugin::TYPE_PANEL);
+
+        $doctrine = $this->createStub(ManagerRegistry::class);
+        $doctrine->method('getRepository')->willReturn($repository);
+
+        $token = $this->createStub(TokenInterface::class);
+        $token->method('getUser')->willReturn($account);
+
+        $tokenStorage = $this->createStub(TokenStorageInterface::class);
+        $tokenStorage->method('getToken')->willReturn($token);
+
+        $panel = new ModernInstallablePanelFixture();
+
+        $manager = new PluginInstallationManager(
+            $doctrine,
+            $tokenStorage,
+            new LegacyPluginInstantiator(),
+            new ModernPanelRegistry([$panel])
+        );
+
+        $this->assertTrue($manager->install('ModernPanelWithoutLegacyClass'));
     }
 
     private function createManagerWithAuthenticatedAccount(): PluginInstallationManager
