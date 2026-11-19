@@ -1,0 +1,58 @@
+{% extends 'my/panels/base.html.twig' %}
+
+{% block pluginTitle %}{{ 'Tags summary'|trans }}{% endblock %}
+
+{% block panelHeadingMenu %}
+    <ul>
+        <li class="with-submenu">
+            {% set selected_sport = panel_data.sports|filter(sport => sport.id == panel_data.selected_sport_id)|first %}
+            <span class="link">{{ selected_sport ? selected_sport.name : 'Sport'|trans }}</span>
+            <ul class="submenu">
+                {% for sport in panel_data.sports %}
+                    <li{% if sport.id == panel_data.selected_sport_id %} class="active"{% endif %}>
+                        <a class="ajax" target="panel-{{ plugin_id }}" href="{{ path('plugin-display', {'id': plugin_id, 'sport': sport.id}) }}">{{ sport.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
+        <li class="with-submenu">
+            <span class="link">{{ panel_data.selected_timescale }} {{ (panel_data.selected_timescale == 1 ? 'month' : 'months')|trans }}</span>
+            <ul class="submenu">
+                {% for timescale in panel_data.timescales %}
+                    <li{% if timescale == panel_data.selected_timescale %} class="active"{% endif %}>
+                        <a class="ajax" target="panel-{{ plugin_id }}" href="{{ path('plugin-display', {'id': plugin_id, 'tagssummary_timescale': timescale}) }}">{{ timescale }} {{ (timescale == 1 ? 'month' : 'months')|trans }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block panelContent %}
+    <style>
+        .tags-usage {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background-image: url('{{ asset('assets/images/damage.png') }}');
+            background-position: left center;
+            height: 2px;
+            max-width: 100%;
+        }
+    </style>
+
+    <div id="tags-summary">
+        {% if panel_data.tags is empty %}
+            <em>{{ "You don't have any tags for this sport or timescale."|trans }}</em>
+        {% else %}
+            {% for tag in panel_data.tags %}
+                <p style="position:relative;">
+                    <span class="right">{{ tag.count }}x</span>
+                    <strong><a class="window" data-size="big" href="my/search?get=true&amp;tagid={{ tag.id }}">{{ tag.name }}</a></strong>
+                    <span class="tags-usage" style="width:{{ tag.usage_width }}px;"></span>
+                </p>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="clear"></div>
+{% endblock %}
