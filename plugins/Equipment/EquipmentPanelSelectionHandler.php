@@ -12,8 +12,6 @@ use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 
 final readonly class EquipmentPanelSelectionHandler
 {
-    private const string PLUGIN_KEY = 'RunalyzePluginPanel_Equipment';
-
     public function __construct(
         private EquipmentTypeRepository $equipmentTypeRepository,
         private PluginConfigurationStorageInterface $configurationStorage
@@ -25,21 +23,12 @@ final readonly class EquipmentPanelSelectionHandler
      * @throws InvalidArgumentException if the installation does not belong to the account,
      *                                  has a different stable key, is not a panel, or is inactive
      */
-    public function handle(Account $account, Plugin $installation, array $queryParameters): void
+    public function handle(Account $account, Plugin $installation, array $queryParameters, bool $allowInactive = false): void
     {
-        $pluginId = $installation->getId();
-        $accountId = $account->getId();
+        EquipmentPanelPresenter::validateInstallation($account, $installation, $allowInactive);
 
-        if (
-            $pluginId === null
-            || $accountId === null
-            || $installation->getAccount()->getId() !== $accountId
-            || $installation->getKey() !== self::PLUGIN_KEY
-            || ! $installation->isPanel()
-            || $installation->isInactive()
-        ) {
-            throw new InvalidArgumentException('The Equipment panel installation is not available for this account.');
-        }
+        $pluginId = $installation->getId();
+        assert($pluginId !== null);
 
         $requestedType = $queryParameters['type'] ?? null;
 

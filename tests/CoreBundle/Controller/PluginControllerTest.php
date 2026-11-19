@@ -6,6 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Entity\PluginConf;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
@@ -356,6 +357,62 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $reloadedPlugin = $this->getEntityManager()->getRepository(Plugin::class)->find($pluginId);
         $this->assertInstanceOf(Plugin::class, $reloadedPlugin);
         $this->assertSame(Plugin::STATE_ACTIVE, $reloadedPlugin->getActive());
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testEquipmentConfigurationPersistsSelectedTypeWithoutLegacyPanel(): void
+    {
+        $plugin = new Plugin()
+            ->setAccount($this->Account)
+            ->setKey('RunalyzePluginPanel_Equipment')
+            ->setType(Plugin::TYPE_PANEL)
+            ->setActive(Plugin::STATE_ACTIVE)
+            ->setOrder(1);
+
+        $this->getEntityManager()->persist($plugin);
+        $this->getEntityManager()->flush();
+
+        $equipmentType = new EquipmentType()
+            ->setAccount($this->Account)
+            ->setName('Shoes');
+        $this->getEntityManager()->persist($equipmentType);
+        $this->getEntityManager()->flush();
+
+        $pluginId = (int) $plugin->getId();
+        $typeId = (int) $equipmentType->getId();
+
+        $this->loginClient($this->Client, $this->Account, 'default');
+        $this->request('GET', '/call/call.Plugin.config.php?id=' . $pluginId);
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('name="type"', (string) $this->Client->getResponse()->getContent());
+
+        $this->Client->request('POST', '/call/call.Plugin.config.php?id=' . $pluginId, [
+            'edit' => 'true',
+            'type' => (string) $typeId,
+        ]);
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('Runalyze.reload', (string) $this->Client->getResponse()->getContent());
+
+        $saved = $this->getEntityManager()->getRepository(PluginConf::class)
+            ->findForPluginAndKey($pluginId, 'type');
+        $this->assertInstanceOf(PluginConf::class, $saved);
+        $this->assertSame((string) $typeId, $saved->getValue());
+
+        $this->request('GET', '/call/call.Plugin.config.php?id=' . $pluginId . '&active=0');
+        $this->assertStatusCode(200, $this->Client);
+        $this->getEntityManager()->clear();
+        $reloaded = $this->getEntityManager()->getRepository(Plugin::class)->find($pluginId);
+        $this->assertInstanceOf(Plugin::class, $reloaded);
+        $this->assertSame(Plugin::STATE_INACTIVE, $reloaded->getActive());
+
+        $this->request('GET', '/call/call.Plugin.config.php?id=' . $pluginId . '&active=1');
+        $this->assertStatusCode(200, $this->Client);
+        $this->getEntityManager()->clear();
+        $reloaded = $this->getEntityManager()->getRepository(Plugin::class)->find($pluginId);
+        $this->assertInstanceOf(Plugin::class, $reloaded);
+        $this->assertSame(Plugin::STATE_ACTIVE, $reloaded->getActive());
     }
 
     public function testPluginDisplayActionRequiresAuthentication(): void
