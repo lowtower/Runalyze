@@ -77,7 +77,7 @@ final readonly class PrognosePanelPresenter implements ModernPanelInterface
                 is_numeric(...)
             );
             $distances = array_map(
-                static fn (string $distance): float => $distanceUnit->toBaseUnit((float) $distance),
+                fn (string $distance): float => $distanceUnit->toBaseUnit((float) $distance),
                 array_values($storedDistances)
             );
         }
