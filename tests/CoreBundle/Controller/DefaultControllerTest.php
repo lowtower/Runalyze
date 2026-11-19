@@ -1056,6 +1056,53 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testDashboardRendersTagsSummaryThroughTheModernPluginTemplate(): void
+    {
+        $repository = $this->getEntityManager()->getRepository(PluginEntity::class);
+        $plugin = $repository->findOneBy([
+            'account' => $this->Account,
+            'key' => 'RunalyzePluginPanel_TagsSummary',
+        ]);
+        $created = ! $plugin instanceof PluginEntity;
+
+        if ($created) {
+            $plugin = new PluginEntity()
+                ->setKey('RunalyzePluginPanel_TagsSummary')
+                ->setType(PluginEntity::TYPE_PANEL)
+                ->setActive(PluginEntity::STATE_ACTIVE)
+                ->setOrder(1)
+                ->setAccount($this->Account);
+            $this->getEntityManager()->persist($plugin);
+            $this->getEntityManager()->flush();
+        }
+
+        $this->assertInstanceOf(PluginEntity::class, $plugin);
+        $originalActive = $plugin->getActive();
+        $plugin->setActive(PluginEntity::STATE_ACTIVE);
+        $this->getEntityManager()->flush();
+
+        try {
+            $this->loginClient($this->Client, $this->Account, 'default');
+            $this->Client->request('GET', '/dashboard');
+
+            $this->assertStatusCode(200, $this->Client);
+
+            $content = (string) $this->Client->getResponse()->getContent();
+            $this->assertStringContainsString('class="panel" id="panel-' . $plugin->getId() . '"', $content);
+            $this->assertStringContainsString('id="tags-summary"', $content);
+            $this->assertStringContainsString('tagssummary_timescale', $content);
+        } finally {
+            if ($created) {
+                $this->getEntityManager()->remove($plugin);
+            } else {
+                $plugin->setActive($originalActive);
+            }
+
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testDashboardRendersPrognosisPanelThroughTheModernPluginTemplate(): void
     {
         $this->loginClient($this->Client, $this->Account, 'default');

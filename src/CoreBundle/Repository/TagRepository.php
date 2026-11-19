@@ -8,6 +8,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Tag;
+use Runalyze\Bundle\CoreBundle\Entity\Training;
+use SortDirection;
 
 /**
  * @extends ServiceEntityRepository<Tag>
@@ -32,6 +34,36 @@ class TagRepository extends ServiceEntityRepository
                 'tag' => 'ASC',
             ]
         );
+    }
+
+    /**
+     * @return list<array{id: int, tag: string, usage_count: int}>
+     */
+    public function findUsageForSportSince(Account $account, int $sportId, int $since): array
+    {
+        $results = $this->getEntityManager()->createQueryBuilder()
+            ->select('tg.id AS id, tg.tag AS tag, COUNT(t.id) AS usage_count')
+            ->from(Training::class, 't')
+            ->innerJoin('t.tag', 'tg')
+            ->where('t.account = :account')
+            ->andWhere('tg.account = :account')
+            ->andWhere('t.sport = :sport')
+            ->andWhere('t.time >= :since')
+            ->setParameter('account', $account)
+            ->setParameter('sport', $sportId)
+            ->setParameter('since', $since)
+            ->groupBy('tg.id')
+            ->addGroupBy('tg.tag')
+            ->orderBy('usage_count', SortDirection::Descending)
+            ->addOrderBy('tg.id', SortDirection::Ascending)
+            ->getQuery()
+            ->getArrayResult();
+
+        return array_map(static fn (array $row): array => [
+            'id' => (int) $row['id'],
+            'tag' => (string) $row['tag'],
+            'usage_count' => (int) $row['usage_count'],
+        ], $results);
     }
 
     public function save(Tag $tag): void

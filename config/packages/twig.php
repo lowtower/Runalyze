@@ -12,6 +12,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             '%kernel.project_dir%/plugins/Sportler/templates' => 'Sportler',
             '%kernel.project_dir%/plugins/Sports/templates' => 'Sports',
             '%kernel.project_dir%/plugins/Prognose/templates' => 'Prognose',
+            '%kernel.project_dir%/plugins/TagsSummary/templates' => 'TagsSummary',
         ],
         'debug' => '%kernel.debug%',
         'strict_variables' => '%kernel.debug%',
