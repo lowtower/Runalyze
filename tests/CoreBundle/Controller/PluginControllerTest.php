@@ -120,6 +120,17 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testSportsPanelCanBeInstalledAndConfiguredWithoutLegacyClass(): void
     {
+        $repository = $this->getEntityManager()->getRepository(Plugin::class);
+        $existing = $repository->findOneBy([
+            'account' => $this->Account,
+            'key' => 'RunalyzePluginPanel_Sports',
+        ]);
+
+        if ($existing instanceof Plugin) {
+            $this->getEntityManager()->remove($existing);
+            $this->getEntityManager()->flush();
+        }
+
         $this->loginClient($this->Client, $this->Account, 'default');
         $this->request('GET', '/call/call.Plugin.install.php?key=RunalyzePluginPanel_Sports');
 
