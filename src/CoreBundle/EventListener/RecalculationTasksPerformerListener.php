@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\EventListener;
 
 use Doctrine\Persistence\Proxy;
-use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 class RecalculationTasksPerformerListener
 {
