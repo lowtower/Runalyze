@@ -6,6 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\EventListener;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Language;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\Exception\SessionNotFoundException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
@@ -22,6 +23,7 @@ class UserLocaleListener
     /**
      * @throws SessionNotFoundException if the user has a language but the request has no session
      */
+    #[AsEventListener(event: 'security.interactive_login')]
     public function onInteractiveLogin(InteractiveLoginEvent $event): void
     {
         $this->applyLocaleFor($event->getAuthenticationToken()->getUser());
@@ -30,6 +32,7 @@ class UserLocaleListener
     /**
      * @throws SessionNotFoundException if the target user has a language but the request has no session
      */
+    #[AsEventListener(event: 'security.switch_user')]
     public function onSwitchUser(SwitchUserEvent $event): void
     {
         $this->applyLocaleFor($event->getTargetUser());
