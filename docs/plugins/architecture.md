@@ -153,6 +153,15 @@ template and continue to use their existing Symfony routes. Its legacy
 characterization tests have been replaced by modern presenter tests for usage
 bar clamping and configuration ownership.
 
+Sportler (Body values) is also legacy-free. Its modern provider now owns the three
+integer settings (`wunschgewicht`, `plot_points`, `plot_timerange`), validation
+and account-scoped persistence. The configuration form uses the existing
+`ModernPanelConfigurationInterface`, the stable legacy keys, and the original
+submit input/wrapper layout. Both former `Plot.*.php` includes are obsolete
+because the Sportler Twig panel already renders its weight, heart-rate and
+body-composition plots from account-scoped history queries. Remove those includes
+together with the obsolete legacy class, not independently while it is still used.
+
 Before deleting another legacy class, verify installation, settings metadata,
 configuration POST/defaults, activation/deactivation, optional plot/window routes,
 and legacy tests. Move meaningful characterization assertions into the modern
