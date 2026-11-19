@@ -920,7 +920,7 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         }
     }
 
-    #[\\PHPUnit\\Framework\\Attributes\\Group('plugin')]
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testDashboardRendersPrognosisPanelThroughTheModernPluginTemplate(): void
     {
         $repository = $this->getEntityManager()->getRepository(PluginEntity::class);
