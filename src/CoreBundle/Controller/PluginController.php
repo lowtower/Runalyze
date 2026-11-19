@@ -108,6 +108,8 @@ class PluginController extends AbstractPluginsAwareController
                 && $this->modernPanelRegistry->has($installation->getKey())
                 && $this->modernPanelRegistry->get($installation->getKey()) instanceof ModernPanelMetadataInterface
             ) {
+                new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
+
                 return $this->legacyContentResponseFactory->create(
                     HTML::info(__('This plugin has no configurable options.')),
                     $request
