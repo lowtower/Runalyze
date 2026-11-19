@@ -228,6 +228,98 @@ final class EquipmentPanelPresenterTest extends TestCase
         $presenter->present($account, $installation);
     }
 
+    public function testProvidesEquipmentMetadataAndConfigurationForAccount(): void
+    {
+        $account = $this->createAccount(12);
+        $equipmentType = $this->createEquipmentType(3, true, 500);
+        $equipmentType->method('getName')->willReturn('Shoes');
+
+        $presenter = $this->createPresenter(
+            [$equipmentType],
+            [],
+            [5 => ['type' => '3']]
+        );
+
+        $this->assertSame('Equipment', $presenter->getName());
+        $this->assertSame('Display statistics for your equipment.', $presenter->getDescription());
+        $this->assertSame('@Equipment/configuration.html.twig', $presenter->getConfigurationTemplate());
+
+        $data = $presenter->getConfigurationData($account, $this->createInstallation($account));
+
+        $this->assertSame([['id' => 3, 'name' => 'Shoes']], $data['equipment_types']);
+        $this->assertSame(3, $data['selected_type_id']);
+    }
+
+    public function testConfigurationHandlesEmptyEquipmentTypes(): void
+    {
+        $account = $this->createAccount(12);
+        $data = $this->createPresenter([], [], [])
+            ->getConfigurationData($account, $this->createInstallation($account));
+
+        $this->assertSame([], $data['equipment_types']);
+        $this->assertNull($data['selected_type_id']);
+    }
+
+    public function testConfigurationRejectsAnotherAccountsInstallation(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->createPresenter([], [], [])
+            ->getConfigurationData($this->createAccount(12), $this->createInstallation($this->createAccount(13)));
+    }
+
+    public function testInactiveEquipmentCanBeConfiguredButCannotBeRendered(): void
+    {
+        $account = $this->createAccount(12);
+        $installation = $this->createInstallation($account, true);
+        $type = $this->createEquipmentType(3, false, null);
+
+        $storage = $this->createMock(PluginConfigurationStorageInterface::class);
+        $storage->expects($this->once())->method('loadForPlugins')->with([5])->willReturn([]);
+        $storage->expects($this->once())->method('insert')->with(5, 'type', '3');
+
+        $typeRepository = $this->createStub(EquipmentTypeRepository::class);
+        $typeRepository->method('findAllForPanel')->willReturn([$type]);
+
+        $presenter = new EquipmentPanelPresenter(
+            $this->createStub(EquipmentRepository::class),
+            $typeRepository,
+            $storage,
+            new EquipmentPanelSelectionHandler($typeRepository, $storage),
+            $this->createConfigurationManager(new Kilometer())
+        );
+
+        $presenter->updateConfiguration($account, $installation, ['type' => '3']);
+
+        $this->expectException(InvalidArgumentException::class);
+        $presenter->present($account, $installation);
+    }
+
+    public function testConfigurationRejectsCrossAccountWrite(): void
+    {
+        $account = $this->createAccount(12);
+        $storage = $this->createMock(PluginConfigurationStorageInterface::class);
+        $storage->expects($this->never())->method('insert');
+        $storage->expects($this->never())->method('update');
+        $typeRepository = $this->createMock(EquipmentTypeRepository::class);
+        $typeRepository->expects($this->never())->method('findAllForPanel');
+
+        $presenter = new EquipmentPanelPresenter(
+            $this->createStub(EquipmentRepository::class),
+            $typeRepository,
+            $storage,
+            new EquipmentPanelSelectionHandler($typeRepository, $storage),
+            $this->createConfigurationManager(new Kilometer())
+        );
+
+        $this->expectException(InvalidArgumentException::class);
+        $presenter->updateConfiguration(
+            $account,
+            $this->createInstallation($this->createAccount(13)),
+            ['type' => '3']
+        );
+    }
+
     public function testDeclaresItsStableKeyTemplateAndTrainingReloadBehavior(): void
     {
         $presenter = $this->createPresenter([], [], []);
@@ -288,14 +380,14 @@ final class EquipmentPanelPresenterTest extends TestCase
         return $account;
     }
 
-    private function createInstallation(Account $account): Plugin
+    private function createInstallation(Account $account, bool $inactive = false): Plugin
     {
         $installation = $this->createStub(Plugin::class);
         $installation->method('getId')->willReturn(5);
         $installation->method('getAccount')->willReturn($account);
         $installation->method('getKey')->willReturn('RunalyzePluginPanel_Equipment');
         $installation->method('isPanel')->willReturn(true);
-        $installation->method('isInactive')->willReturn(false);
+        $installation->method('isInactive')->willReturn($inactive);
 
         return $installation;
     }
