@@ -303,7 +303,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(AccountValueResolver::class, 'app.value_resolver.account');
 
-    $services->load('Runalyze\\Bundle\\CoreBundle\\EventListener\\', __DIR__ . '/../src/CoreBundle/EventListener/{AccountLastActionListener,ConsoleExceptionListener,UserLocaleListener,UserTimezoneListener}.php');
+    $services->load('Runalyze\\Bundle\\CoreBundle\\EventListener\\', __DIR__ . '/../src/CoreBundle/EventListener/{AccountLastActionListener,ConsoleExceptionListener,MaintenanceListener,UserLocaleListener,UserTimezoneListener}.php');
 
     $services->alias('app.listener.console_exception', ConsoleExceptionListener::class);
 
@@ -341,15 +341,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(TablePrefixSubscriber::class, 'app.event.doctrine.table_prefix_subscriber');
 
-    $services->set('app.listener.maintenance', MaintenanceListener::class)
-        ->arg('$kernel', service('kernel'))
-        ->arg('$twig', service('twig'))
-        ->tag('kernel.event_listener', [
-            'event' => 'kernel.request',
-            'method' => 'onKernelRequest',
-        ]);
-
-    $services->alias(MaintenanceListener::class, 'app.listener.maintenance');
+    $services->alias('app.listener.maintenance', MaintenanceListener::class);
 
     $services->set(AccountMailer::class)
         ->arg('$mailer', service('mailer'))
