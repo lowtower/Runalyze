@@ -13,9 +13,11 @@ use Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisData;
 use Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisSelection;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
+use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Model\Prognosis\PrognosisData;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
+use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\LegacyContentResponseFactory;
@@ -198,9 +200,9 @@ abstract class AbstractPluginsAwareController extends AbstractController
         ]);
     }
 
-    private function vo2maxForPrognosis(): float
+    private function vo2maxForPrognosis(Account $account): float
     {
-        $list = $this->configurationManager->getList();
+        $list = $this->configurationManager->getList($account);
         $vo2maxCategory = $list->getVO2max();
 
         if ($vo2maxCategory->useManualValue()) {
@@ -217,15 +219,18 @@ abstract class AbstractPluginsAwareController extends AbstractController
 
         /** @var TrainingRepository $trainingRepository */
         $trainingRepository = $this->doctrine->getRepository(Training::class);
+        /** @var RaceresultRepository $raceResultRepository */
+        $raceResultRepository = $this->doctrine->getRepository(Raceresult::class);
 
         $prognosisData = new PrognosisData(
             $trainingRepository,
+            $raceResultRepository,
             $account,
-            $this->configurationManager->getList()->getGeneral()->getRunningSport(),
+            $this->configurationManager->getList($account)->getGeneral()->getRunningSport(),
             $prognosePlugin->getDistances(),
             (string) $prognosePlugin->Configuration()->value('model'),
             (bool) $prognosePlugin->Configuration()->value('use_be'),
-            $this->vo2maxForPrognosis(),
+            $this->vo2maxForPrognosis($account),
             (int) \Runalyze\Calculation\BasicEndurance::getConst()
         );
 

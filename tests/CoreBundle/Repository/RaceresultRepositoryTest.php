@@ -42,6 +42,54 @@ final class RaceresultRepositoryTest extends AbstractRepositoryTestCase
         ), PHP_FLOAT_EPSILON);
     }
 
+    public function testFindPersonalBestDetailsForDistancesIsScopedToAccountAndSport(): void
+    {
+        $runningSport = $this->getDefaultAccountsRunningSport();
+
+        $fastestRunningRace = $this->getActivityForDefaultAccount(null, 2300, 10.0, $runningSport);
+        $this->insertRace('Fastest running race', $fastestRunningRace);
+        $fastestRunningActivityId = $fastestRunningRace->getId();
+        $this->assertNotNull($fastestRunningActivityId);
+
+        $this->insertRace('Slower running race', $this->getActivityForDefaultAccount(null, 2500, 10.0, $runningSport));
+        $fiveKilometerRace = $this->getActivityForDefaultAccount(null, 1100, 5.0, $runningSport);
+        $this->insertRace('Running five kilometers', $fiveKilometerRace);
+        $fiveKilometerActivityId = $fiveKilometerRace->getId();
+        $this->assertNotNull($fiveKilometerActivityId);
+        $this->insertRace('Cycling race', $this->getActivityForDefaultAccount(null, 1200, 10.0, $this->getDefaultAccountsCyclingSport()));
+
+        $otherAccountActivity = new Training()
+            ->setS(1000)
+            ->setTime(time())
+            ->setDistance(10.0)
+            ->setSport($runningSport)
+            ->setAccount($this->getEmptyAccount());
+        $this->insertRace('Other account race', $otherAccountActivity);
+
+        $personalBests = $this->RaceresultRepository->findPersonalBestDetailsForDistances(
+            $this->Account,
+            $runningSport->getId(),
+            [10.0, 5.0, 21.1]
+        );
+
+        $this->assertSame([
+            '5.00' => [
+                'activity_id' => $fiveKilometerActivityId,
+                'seconds' => 1100.0,
+            ],
+            '10.00' => [
+                'activity_id' => $fastestRunningActivityId,
+                'seconds' => 2300.0,
+            ],
+        ], $personalBests);
+    }
+
+    public function testFindPersonalBestDetailsForDistancesReturnsNoResultsForInvalidDistances(): void
+    {
+        $this->assertSame([], $this->RaceresultRepository->findPersonalBestDetailsForDistances($this->Account, 1, []));
+        $this->assertSame([], $this->RaceresultRepository->findPersonalBestDetailsForDistances($this->Account, 1, ['invalid']));
+    }
+
     public function testSingleRace(): void
     {
         $raceActivity = $this->getActivityForDefaultAccount(mktime(3, 14, 15, 9, 26, 2016), 2400, 10.0);
