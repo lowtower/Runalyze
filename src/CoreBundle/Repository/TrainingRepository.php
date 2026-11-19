@@ -53,19 +53,18 @@ class TrainingRepository extends ServiceEntityRepository
     }
 
     /**
-     * Return daily TRIMP totals for an account, using the same database-day grouping
-     * as the legacy Rechenspiele performance-model query.
+     * Return daily TRIMP totals for an account. Training timestamps are stored
+     * as timezone-neutral UTC values, so UTC dates match the legacy grouping.
      *
      * @return list<array{day: string, trimp: float}>
      */
     public function findDailyTrimpForAccount(Account $account, ?int $from = null, ?int $to = null): array
     {
         $queryBuilder = $this->createQueryBuilder('t')
-            ->select('DATE(FROM_UNIXTIME(t.time)) AS training_day, SUM(t.trimp) AS total_trimp')
+            ->select('t.time AS time, t.trimp AS trimp')
             ->where('t.account = :account')
             ->setParameter('account', $account)
-            ->groupBy('training_day')
-            ->orderBy('training_day', \SortDirection::Ascending);
+            ->orderBy('t.time', \SortDirection::Ascending);
 
         if ($from !== null) {
             $queryBuilder->andWhere('t.time >= :from')->setParameter('from', $from);
@@ -75,13 +74,20 @@ class TrainingRepository extends ServiceEntityRepository
             $queryBuilder->andWhere('t.time <= :to')->setParameter('to', $to);
         }
 
-        return array_map(
-            static fn (array $row): array => [
-                'day' => (string) $row['training_day'],
-                'trimp' => (float) ($row['total_trimp'] ?? 0),
-            ],
-            $queryBuilder->getQuery()->getArrayResult()
-        );
+        $totals = [];
+
+        foreach ($queryBuilder->getQuery()->toIterable() as $row) {
+            $day = gmdate('Y-m-d', (int) $row['time']);
+            $totals[$day] = ($totals[$day] ?? 0.0) + (float) ($row['trimp'] ?? 0);
+        }
+
+        $result = [];
+
+        foreach ($totals as $day => $trimp) {
+            $result[] = ['day' => $day, 'trimp' => $trimp];
+        }
+
+        return $result;
     }
 
     /**
