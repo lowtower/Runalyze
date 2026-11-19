@@ -133,7 +133,8 @@ final class PluginInstallationManagerTest extends TestCase
     {
         $account = new Account();
         $repository = $this->createMock(PluginRepository::class);
-        $repository->method('findForAccountAndKey')
+        $repository->expects($this->once())
+            ->method('findForAccountAndKey')
             ->with($account, 'ModernPanelWithoutLegacyClass')
             ->willReturn(null);
         $repository->expects($this->once())
