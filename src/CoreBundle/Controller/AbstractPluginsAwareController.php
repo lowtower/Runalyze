@@ -13,12 +13,8 @@ use Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisData;
 use Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisSelection;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
-use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
-use Runalyze\Bundle\CoreBundle\Model\Prognosis\PrognosisData;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
-use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
-use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\LegacyContentResponseFactory;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
@@ -26,7 +22,6 @@ use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Twig\ValueExtension;
-use RunalyzePluginPanel_Prognose;
 use RunalyzePluginStat_MonthlyStats;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -85,10 +80,6 @@ abstract class AbstractPluginsAwareController extends AbstractController
             $panel = $this->pluginSettingsProvider->getInstalledPluginById($pluginData['id']);
             $panelContent = $this->getResponseForPlugin($panel, $request, $account)->getContent();
 
-            if ($panel instanceof RunalyzePluginPanel_Prognose) {
-                $panelContent = '<div class="panel" id="panel-' . $panel->id() . '">' . $panelContent . '</div>';
-            }
-
             $content .= $panelContent;
         }
 
@@ -143,10 +134,6 @@ abstract class AbstractPluginsAwareController extends AbstractController
      */
     protected function getResponseForPlugin(LegacyPlugin $plugin, Request $request, Account $account): Response
     {
-        if ($plugin instanceof RunalyzePluginPanel_Prognose) {
-            return $this->getResponseForPrognosePanel($account, $plugin);
-        }
-
         if ($plugin instanceof RunalyzePluginStat_MonthlyStats) {
             return $this->getResponseForMonthlyStats($request, $account, $plugin->id());
         }
@@ -200,44 +187,4 @@ abstract class AbstractPluginsAwareController extends AbstractController
         ]);
     }
 
-    private function vo2maxForPrognosis(Account $account): float
-    {
-        $list = $this->configurationManager->getList($account);
-        $vo2maxCategory = $list->getVO2max();
-
-        if ($vo2maxCategory->useManualValue()) {
-            return $vo2maxCategory->getManualValue();
-        }
-
-        return $list->getData()->getVO2maxShape();
-    }
-
-    protected function getResponseForPrognosePanel(Account $account, LegacyPlugin $plugin): Response
-    {
-        /** @var RunalyzePluginPanel_Prognose $prognosePlugin */
-        $prognosePlugin = $plugin;
-
-        /** @var TrainingRepository $trainingRepository */
-        $trainingRepository = $this->doctrine->getRepository(Training::class);
-        /** @var RaceresultRepository $raceResultRepository */
-        $raceResultRepository = $this->doctrine->getRepository(Raceresult::class);
-
-        $prognosisData = new PrognosisData(
-            $trainingRepository,
-            $raceResultRepository,
-            $account,
-            $this->configurationManager->getList($account)->getGeneral()->getRunningSport(),
-            $prognosePlugin->getDistances(),
-            (string) $prognosePlugin->Configuration()->value('model'),
-            (bool) $prognosePlugin->Configuration()->value('use_be'),
-            $this->vo2maxForPrognosis($account),
-            (int) \Runalyze\Calculation\BasicEndurance::getConst()
-        );
-
-        return $this->render('my/panels/prognose/base.html.twig', [
-            'is_hidden' => $plugin->isHidden(),
-            'plugin_id' => $plugin->id(),
-            'prognosisData' => $prognosisData,
-        ]);
-    }
 }
