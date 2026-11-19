@@ -66,12 +66,21 @@ final readonly class PrognosePanelPresenter implements ModernPanelInterface
         }
 
         $configuration = $this->configurationStorage->loadForPlugins([$pluginId])[$pluginId] ?? [];
-        $distances = array_filter(
-            array_map(trim(...), explode(',', $configuration['distances'] ?? implode(', ', self::DEFAULT_DISTANCES))),
-            is_numeric(...)
-        );
-
         $accountConfiguration = $this->configurationManager->getList($account);
+
+        $distances = self::DEFAULT_DISTANCES;
+
+        if (isset($configuration['distances'])) {
+            $distanceUnit = $accountConfiguration->getUnitSystem()->getDistanceUnit();
+            $storedDistances = array_filter(
+                array_map(trim(...), explode(',', $configuration['distances'])),
+                is_numeric(...)
+            );
+            $distances = array_map(
+                static fn (string $distance): float => $distanceUnit->toBaseUnit((float) $distance),
+                array_values($storedDistances)
+            );
+        }
         $vo2maxCategory = $accountConfiguration->getVO2max();
         $vo2maxShape = $vo2maxCategory->useManualValue()
             ? $vo2maxCategory->getManualValue()
