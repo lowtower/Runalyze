@@ -75,6 +75,24 @@ final class EquipmentPanelPresenterTest extends TestCase
         $this->assertSame('250,000 km', $data['equipment_rows'][0]['display_value']);
     }
 
+    public function testClampsEquipmentUsageBarWidthToAvailableRange(): void
+    {
+        $account = $this->createAccount(12);
+        $type = $this->createEquipmentType(3, true, 500);
+        $items = [
+            $this->createEquipment(9, 'Over limit', 750, 0, true),
+            $this->createEquipment(10, 'No use', 0, 0, false),
+        ];
+
+        $data = $this->createPresenter(
+            [$type],
+            $items,
+            [5 => ['type' => '3']]
+        )->present($account, $this->createInstallation($account));
+
+        $this->assertSame([330, 0], array_column($data['equipment_rows'], 'usage_width'));
+    }
+
     public function testFormatsDistanceUsingTheAccountImperialUnitSystem(): void
     {
         $account = $this->createAccount(12);
