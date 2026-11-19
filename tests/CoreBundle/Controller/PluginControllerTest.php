@@ -302,6 +302,55 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertSame('3', $configuration->getValue());
     }
 
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testTagsSummaryConfigurationWorksWithoutLegacyPluginClass(): void
+    {
+        $plugin = new Plugin()
+            ->setAccount($this->Account)
+            ->setKey('RunalyzePluginPanel_TagsSummary')
+            ->setType(Plugin::TYPE_PANEL)
+            ->setActive(Plugin::STATE_ACTIVE)
+            ->setOrder(1);
+
+        $this->getEntityManager()->persist($plugin);
+        $this->getEntityManager()->flush();
+
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $this->request('GET', '/call/call.Plugin.config.php?id=' . $plugin->getId());
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString(
+            'name="tagssummary_timescale"',
+            (string) $this->Client->getResponse()->getContent()
+        );
+
+        $this->Client->request('POST', '/call/call.Plugin.config.php?id=' . $plugin->getId(), [
+            'edit' => 'true',
+            'tagssummary_timescale' => '6',
+        ]);
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('Runalyze.reload', (string) $this->Client->getResponse()->getContent());
+
+        $configuration = $this->getEntityManager()
+            ->getRepository(PluginConf::class)
+            ->findForPluginAndKey($plugin->getId(), 'tagssummary_timescale');
+
+        $this->assertInstanceOf(PluginConf::class, $configuration);
+        $this->assertSame('6', $configuration->getValue());
+
+        $this->request('GET', '/call/call.Plugin.config.php?id=' . $plugin->getId() . '&active=0');
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame(Plugin::STATE_INACTIVE, $plugin->getActive());
+
+        $this->request('GET', '/call/call.Plugin.config.php?id=' . $plugin->getId() . '&active=1');
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame(Plugin::STATE_ACTIVE, $plugin->getActive());
+    }
+
     public function testPluginDisplayActionRequiresAuthentication(): void
     {
         $this->request('GET', '/my/plugin/999999999');
