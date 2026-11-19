@@ -1,0 +1,42 @@
+<div class="panel-heading">
+    <div class="panel-menu">
+        <ul><li><a class="window" href="settings?key=config_tab_plugins&amp;external=true">{{ 'back to overview'|trans }}</a></li></ul>
+    </div>
+    <h1>{{ 'Plugin configuration'|trans }}: {{ 'Body values'|trans }}</h1>
+</div>
+<div class="panel-content">
+    <form class="ajax no-automatic-reload" action="{{ path('plugin-config', {'id': plugin_id}) }}" method="post">
+        <input type="hidden" name="edit" value="true">
+        <fieldset>
+            <legend>{{ 'Description'|trans }}</legend>
+            <p>{{ 'Show body values: weight, resting heart rate and values like fat-, water- and muscles-percentage.'|trans }}</p>
+        </fieldset>
+        <fieldset>
+            <legend>{{ 'Configuration'|trans }}</legend>
+            <div class="w100 block">
+                <label for="sportler-desired-weight">{{ 'Desired body weight'|trans }}</label>
+                <input type="number" min="0" step="1" name="wunschgewicht" id="sportler-desired-weight" value="{{ config_data.configuration.desiredWeight }}">
+            </div>
+            <div class="w100 block">
+                <label for="sportler-plot-points">{{ 'Plot: number of points'|trans }}</label>
+                <input type="number" min="1" step="1" name="plot_points" id="sportler-plot-points" value="{{ config_data.configuration.plotPoints }}">
+            </div>
+            <div class="w100 block">
+                <label for="sportler-plot-timerange">{{ 'or fixed number of days'|trans }}</label>
+                <input type="number" min="0" step="1" name="plot_timerange" id="sportler-plot-timerange" value="{{ config_data.configuration.plotTimerange }}">
+                <small>{{ 'Enter a value ≥ 0 to show a fixed time range.'|trans }}</small>
+            </div>
+            <div class="w100 block">
+                <input type="submit" value="{{ 'Save'|trans }}">
+            </div>
+        </fieldset>
+    </form>
+    <fieldset>
+        <legend>{{ 'Activation'|trans }}</legend>
+        {% if config_data.active == 0 %}
+            <a class="window" href="{{ path('plugin-config', {'id': plugin_id, 'active': 1}) }}">{{ 'Activate plugin'|trans }}</a>
+        {% else %}
+            <a class="window" href="{{ path('plugin-config', {'id': plugin_id, 'active': 0}) }}">{{ 'Deactivate plugin'|trans }}</a>
+        {% endif %}
+    </fieldset>
+</div>
