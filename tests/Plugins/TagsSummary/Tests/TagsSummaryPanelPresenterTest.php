@@ -141,8 +141,7 @@ final class TagsSummaryPanelPresenterTest extends TestCase
     public function testConfigurationCanUpdateAnInactiveInstallation(): void
     {
         $account = $this->account(12);
-        $installation = $this->installation($account);
-        $installation->method('isInactive')->willReturn(true);
+        $installation = $this->installation($account, true);
 
         $sports = $this->createStub(SportRepository::class);
         $sports->method('findAllFor')->willReturn([$this->sport(7, 'Running')]);
@@ -295,14 +294,14 @@ final class TagsSummaryPanelPresenterTest extends TestCase
         return $account;
     }
 
-    private function installation(Account $account): Plugin
+    private function installation(Account $account, bool $inactive = false): Plugin
     {
         $installation = $this->createStub(Plugin::class);
         $installation->method('getId')->willReturn(5);
         $installation->method('getAccount')->willReturn($account);
         $installation->method('getKey')->willReturn('RunalyzePluginPanel_TagsSummary');
         $installation->method('isPanel')->willReturn(true);
-        $installation->method('isInactive')->willReturn(false);
+        $installation->method('isInactive')->willReturn($inactive);
 
         return $installation;
     }
