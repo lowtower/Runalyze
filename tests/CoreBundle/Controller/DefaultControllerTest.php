@@ -947,7 +947,6 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $this->getEntityManager()->flush();
 
         try {
-            $this->loginClient($this->Client, $this->Account, 'default');
             $this->Client->request('GET', '/dashboard');
 
             $this->assertStatusCode(200, $this->Client);
