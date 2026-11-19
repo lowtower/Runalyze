@@ -25,8 +25,7 @@ final readonly class PluginSettingsProvider
     {
         $plugins = $this->installationManager->getInstalledPluginData();
 
-        usort($plugins, static fn (array $left, array $right): int => ($right['active'] <=> $left['active'])
-            ?: ($left['order'] <=> $right['order'])
+        usort($plugins, static fn (array $left, array $right): int => ($left['order'] <=> $right['order'])
             ?: ($left['id'] <=> $right['id']));
 
         return $plugins;
