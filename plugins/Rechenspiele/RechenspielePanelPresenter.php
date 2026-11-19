@@ -74,7 +74,6 @@ final readonly class RechenspielePanelPresenter implements ModernPanelInterface
             ? $vo2maxCategory->getManualValue()
             : $data->getVO2maxShape();
 
-        $trimpConfiguration = $accountConfiguration->getTrimp();
         $load = $this->calculator->calculate(
             $this->trimpDataProvider->getPerformanceModelData($account),
             $this->trimpDataProvider->getMonotonyData($account),
