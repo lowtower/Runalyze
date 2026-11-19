@@ -9,6 +9,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Tag;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
+use SortDirection;
 
 /**
  * @extends ServiceEntityRepository<Tag>
@@ -53,8 +54,8 @@ class TagRepository extends ServiceEntityRepository
             ->setParameter('since', $since)
             ->groupBy('tg.id')
             ->addGroupBy('tg.tag')
-            ->orderBy('usage_count', 'DESC')
-            ->addOrderBy('tg.id', 'ASC')
+            ->orderBy('usage_count', SortDirection::Descending)
+            ->addOrderBy('tg.id', SortDirection::Ascending)
             ->getQuery()
             ->getArrayResult();
 
