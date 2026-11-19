@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\EventListener;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleErrorEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 class ConsoleExceptionListener
 {
     public function __construct(
-        protected LoggerInterface $Logger
+        private readonly LoggerInterface $logger
     ) {}
 
     #[AsEventListener(event: 'console.error')]
@@ -26,10 +27,10 @@ class ConsoleExceptionListener
             $error->getMessage(),
             $error->getFile(),
             $error->getLine(),
-            $command instanceof \Symfony\Component\Console\Command\Command ? $command->getName() : 'n/a'
+            $command instanceof Command ? $command->getName() : 'n/a'
         );
 
-        $this->Logger->error($message, [
+        $this->logger->error($message, [
             'exception' => $error,
         ]);
     }
