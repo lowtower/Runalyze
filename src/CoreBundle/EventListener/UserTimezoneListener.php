@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\EventListener;
 
+use DateTimeZone;
+use Exception;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Parameter\Application\Timezone;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
@@ -33,8 +35,8 @@ class UserTimezoneListener
         $timezoneName = Timezone::getFullNameByEnum($timezone);
 
         try {
-            new \DateTimeZone($timezoneName);
-        } catch (\Exception) {
+            new DateTimeZone($timezoneName);
+        } catch (Exception) {
             return;
         }
 
