@@ -967,5 +967,4 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             $this->getEntityManager()->flush();
         }
     }
-
 }

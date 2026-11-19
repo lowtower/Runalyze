@@ -186,5 +186,4 @@ abstract class AbstractPluginsAwareController extends AbstractController
             'analysisData' => $analysisData,
         ]);
     }
-
 }
