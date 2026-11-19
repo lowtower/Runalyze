@@ -473,6 +473,62 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertSame(Plugin::STATE_ACTIVE, $active->getActive());
     }
 
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPrognoseSettingsUseModernConfigurationWithoutBreakingLegacyWindows(): void
+    {
+        $plugin = $this->getEntityManager()->getRepository(Plugin::class)->findOneBy([
+            'account' => $this->Account,
+            'key' => 'RunalyzePluginPanel_Prognose',
+        ]);
+
+        $this->assertInstanceOf(Plugin::class, $plugin);
+        $id = (int) $plugin->getId();
+
+        $this->loginClient($this->Client, $this->Account, 'default');
+        $this->request('GET', '/call/call.Plugin.config.php?id=' . $id);
+
+        $this->assertStatusCode(200, $this->Client);
+        $content = (string) $this->Client->getResponse()->getContent();
+        $this->assertStringContainsString('name="distances"', $content);
+        $this->assertStringContainsString('name="model"', $content);
+        $this->assertStringContainsString('name="use_be"', $content);
+        $this->assertStringContainsString('<div class="w100 block">', $content);
+
+        $this->Client->request('POST', '/call/call.Plugin.config.php?id=' . $id, [
+            'edit' => 'true',
+            'distances' => '5, 10, 21.1',
+            'model' => 'cpp',
+        ]);
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('Runalyze.reload', (string) $this->Client->getResponse()->getContent());
+
+        foreach ([
+            'distances' => '5,10,21.1',
+            'model' => 'cpp',
+            'use_be' => '0',
+        ] as $key => $expected) {
+            $setting = $this->getEntityManager()->getRepository(PluginConf::class)
+                ->findForPluginAndKey($id, $key);
+            $this->assertInstanceOf(PluginConf::class, $setting);
+            $this->assertSame($expected, $setting->getValue());
+        }
+
+        $this->request('GET', '/call/call.Plugin.config.php?id=' . $id . '&active=0');
+        $this->assertStatusCode(200, $this->Client);
+        $this->getEntityManager()->clear();
+        $disabled = $this->getEntityManager()->getRepository(Plugin::class)->find($id);
+        $this->assertInstanceOf(Plugin::class, $disabled);
+        $this->assertSame(Plugin::STATE_INACTIVE, $disabled->getActive());
+
+        $this->request('GET', '/call/call.Plugin.config.php?id=' . $id . '&active=1');
+        $this->assertStatusCode(200, $this->Client);
+        $this->getEntityManager()->clear();
+        $enabled = $this->getEntityManager()->getRepository(Plugin::class)->find($id);
+        $this->assertInstanceOf(Plugin::class, $enabled);
+        $this->assertSame(Plugin::STATE_ACTIVE, $enabled->getActive());
+    }
+
     public function testPluginDisplayActionRequiresAuthentication(): void
     {
         $this->request('GET', '/my/plugin/999999999');

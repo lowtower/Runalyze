@@ -162,6 +162,16 @@ because the Sportler Twig panel already renders its weight, heart-rate and
 body-composition plots from account-scoped history queries. Remove those includes
 together with the obsolete legacy class, not independently while it is still used.
 
+Prognose is a deliberate two-step migration. Its dashboard runs through the modern
+presenter, and its panel configuration now uses
+`ModernPanelConfigurationInterface` with a plugin-owned Twig form. Distance
+settings remain stored in kilometers and are converted to/from the account's
+preferred display unit only at the configuration boundary; prediction model
+and marathon-shape settings retain their existing keys and defaults. The
+legacy Prognose plugin class is intentionally retained for its prognosis-trend
+window and interactive calculator, whose remaining code and routes must be
+migrated before that class can be deleted.
+
 Before deleting another legacy class, verify installation, settings metadata,
 configuration POST/defaults, activation/deactivation, optional plot/window routes,
 and legacy tests. Move meaningful characterization assertions into the modern

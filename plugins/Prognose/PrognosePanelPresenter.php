@@ -8,14 +8,16 @@ use InvalidArgumentException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Model\Prognosis\PrognosisData;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelConfigurationInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
 use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 use Runalyze\Calculation\BasicEndurance;
 
-final readonly class PrognosePanelPresenter implements ModernPanelInterface
+final readonly class PrognosePanelPresenter implements ModernPanelInterface, ModernPanelMetadataInterface, ModernPanelConfigurationInterface
 {
     private const string PLUGIN_KEY = 'RunalyzePluginPanel_Prognose';
 
@@ -31,6 +33,129 @@ final readonly class PrognosePanelPresenter implements ModernPanelInterface
     public function getKey(): string
     {
         return self::PLUGIN_KEY;
+    }
+
+    public function getName(): string
+    {
+        return __('Prognosis');
+    }
+
+    public function getDescription(): string
+    {
+        return __('Predict your race performance on various distances.');
+    }
+
+    public function getConfigurationTemplate(): string
+    {
+        return '@Prognose/configuration.html.twig';
+    }
+
+    /**
+     * @return array{
+     *     distances: string,
+     *     distance_unit: string,
+     *     model: string,
+     *     use_be: bool,
+     *     active: int
+     * }
+     *
+     * @throws InvalidArgumentException if the installation is not available for the account
+     */
+    public function getConfigurationData(Account $account, Plugin $installation): array
+    {
+        self::validateInstallation($account, $installation, true);
+
+        $id = $installation->getId();
+        assert($id !== null);
+
+        $stored = $this->configurationStorage->loadForPlugins([$id])[$id] ?? [];
+        $distanceUnit = $this->configurationManager->getList($account)->getUnitSystem()->getDistanceUnit();
+        $distancesInKm = isset($stored['distances'])
+            ? array_map(floatval(...), explode(',', $stored['distances']))
+            : self::DEFAULT_DISTANCES;
+
+        return [
+            'distances' => implode(', ', array_map(
+                static fn (float $km): string => (string) round((float) $distanceUnit->fromBaseUnit($km), 2),
+                $distancesInKm
+            )),
+            'distance_unit' => $distanceUnit->getAppendix(),
+            'model' => in_array($stored['model'] ?? '', ['vo2max', 'cpp', 'steffny', 'cameron'], true)
+                ? $stored['model']
+                : 'vo2max',
+            'use_be' => ($stored['use_be'] ?? '1') === '1',
+            'active' => $installation->getActive(),
+        ];
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     *
+     * @throws InvalidArgumentException if the installation is not available for the account
+     */
+    public function updateConfiguration(Account $account, Plugin $installation, array $data): void
+    {
+        self::validateInstallation($account, $installation, true);
+
+        $id = $installation->getId();
+        assert($id !== null);
+
+        $stored = $this->configurationStorage->loadForPlugins([$id])[$id] ?? [];
+        $settings = [];
+
+        if (isset($data['distances']) && is_string($data['distances'])) {
+            $values = array_map(trim(...), explode(',', $data['distances']));
+
+            if ($values !== [] && count($values) <= 30 && array_reduce(
+                $values,
+                static fn (bool $valid, string $value): bool => $valid
+                    && is_numeric($value) && (float) $value > 0 && is_finite((float) $value),
+                true
+            )) {
+                $unit = $this->configurationManager->getList($account)->getUnitSystem()->getDistanceUnit();
+                $settings['distances'] = implode(',', array_map(
+                    static fn (string $value): string => (string) round((float) $unit->toBaseUnit((float) $value), 2),
+                    $values
+                ));
+            }
+        }
+
+        if (isset($data['model']) && is_string($data['model'])
+            && in_array($data['model'], ['vo2max', 'cpp', 'steffny', 'cameron'], true)
+        ) {
+            $settings['model'] = $data['model'];
+        }
+
+        if (isset($data['edit']) && $data['edit'] === 'true') {
+            $settings['use_be'] = isset($data['use_be']) && $data['use_be'] === '1' ? '1' : '0';
+        }
+
+        foreach ($settings as $key => $value) {
+            if (array_key_exists($key, $stored)) {
+                $this->configurationStorage->update($id, $key, $value);
+            } else {
+                $this->configurationStorage->insert($id, $key, $value);
+            }
+        }
+    }
+
+    /**
+     * @throws InvalidArgumentException if the installation is not available for the account
+     */
+    public static function validateInstallation(Account $account, Plugin $installation, bool $allowInactive = false): void
+    {
+        $accountId = $account->getId();
+
+        if (
+            $installation->getId() === null
+            || $accountId === null
+            || $installation->getAccount()->getId() !== $accountId
+            || $installation->getKey() !== self::PLUGIN_KEY
+            || ! $installation->isPanel()
+            || (! $allowInactive && $installation->isInactive())
+        ) {
+            throw new InvalidArgumentException('The Prognose panel installation is not available for this account.');
+        }
     }
 
     public function getTemplate(): string
@@ -51,19 +176,10 @@ final readonly class PrognosePanelPresenter implements ModernPanelInterface
      */
     public function present(Account $account, Plugin $installation): array
     {
-        $pluginId = $installation->getId();
-        $accountId = $account->getId();
+        self::validateInstallation($account, $installation);
 
-        if (
-            $pluginId === null
-            || $accountId === null
-            || $installation->getAccount()->getId() !== $accountId
-            || $installation->getKey() !== self::PLUGIN_KEY
-            || ! $installation->isPanel()
-            || $installation->isInactive()
-        ) {
-            throw new InvalidArgumentException('The Prognose panel installation is not available for this account.');
-        }
+        $pluginId = $installation->getId();
+        assert($pluginId !== null);
 
         $configuration = $this->configurationStorage->loadForPlugins([$pluginId])[$pluginId] ?? [];
         $accountConfiguration = $this->configurationManager->getList($account);
@@ -71,15 +187,11 @@ final readonly class PrognosePanelPresenter implements ModernPanelInterface
         $distances = self::DEFAULT_DISTANCES;
 
         if (isset($configuration['distances'])) {
-            $distanceUnit = $accountConfiguration->getUnitSystem()->getDistanceUnit();
             $storedDistances = array_filter(
                 array_map(trim(...), explode(',', $configuration['distances'])),
-                is_numeric(...)
+                static fn (string $distance): bool => is_numeric($distance) && (float) $distance > 0
             );
-            $distances = array_map(
-                fn (string $distance): float => (float) $distanceUnit->toBaseUnit((float) $distance),
-                array_values($storedDistances)
-            );
+            $distances = array_map(floatval(...), array_values($storedDistances));
         }
 
         $vo2maxCategory = $accountConfiguration->getVO2max();
