@@ -145,6 +145,14 @@ configuration POSTs; inactive installations are accepted only on the explicit
 configuration path. Modern plugins without configuration support continue to
 display the no-options message.
 
+Equipment is another metadata- and configuration-enabled legacy-free panel. It reuses
+`ModernPanelConfigurationInterface` and its existing account-scoped selection
+handler to save the selected equipment type from the Twig configuration form.
+The original equipment-management and table links are part of its modern panel
+template and continue to use their existing Symfony routes. Its legacy
+characterization tests have been replaced by modern presenter tests for usage
+bar clamping and configuration ownership.
+
 Before deleting another legacy class, verify installation, settings metadata,
 configuration POST/defaults, activation/deactivation, optional plot/window routes,
 and legacy tests. Move meaningful characterization assertions into the modern
