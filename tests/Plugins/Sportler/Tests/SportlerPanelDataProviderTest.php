@@ -249,7 +249,10 @@ final class SportlerPanelDataProviderTest extends TestCase
 
         $storage = $this->createMock(PluginConfigurationStorageInterface::class);
         $storage->expects($this->once())->method('loadForPlugins')->with([17])->willReturn([
-            17 => ['wunschgewicht' => '0', 'plot_points' => '20'],
+            17 => [
+                'wunschgewicht' => '0',
+                'plot_points' => '20',
+            ],
         ]);
         $storage->expects($this->exactly(2))
             ->method('update')
@@ -299,7 +302,9 @@ final class SportlerPanelDataProviderTest extends TestCase
         $this->providerWithStorage($storage)->updateConfiguration(
             $this->createAccount(7),
             $this->createInstallation($this->createAccount(8), 17),
-            ['plot_points' => '30']
+            [
+                'plot_points' => '30',
+            ]
         );
     }
 
