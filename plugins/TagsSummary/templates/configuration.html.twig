@@ -13,22 +13,22 @@
         </fieldset>
         <fieldset>
             <legend>{{ 'Configuration'|trans }}</legend>
-            <p>
+            <div class="w100 block">
                 <label for="tags-summary-sport">{{ 'Sport to summarise tags for'|trans }}</label>
                 <select name="sport" id="tags-summary-sport">
                     {% for sport in config_data.sports %}
                         <option value="{{ sport.id }}"{% if sport.id == config_data.selected_sport_id %} selected{% endif %}>{{ sport.name }}</option>
                     {% endfor %}
                 </select>
-            </p>
-            <p>
+            </div>
+            <div class="w100 block">
                 <label for="tags-summary-timescale">{{ 'Show tags for this period of months'|trans }}</label>
                 <select name="tagssummary_timescale" id="tags-summary-timescale">
                     {% for timescale in config_data.timescales %}
                         <option value="{{ timescale }}"{% if timescale == config_data.selected_timescale %} selected{% endif %}>{{ timescale }}</option>
                     {% endfor %}
                 </select>
-            </p>
+            </div>
             <div class="w100 block">
                 <input type="submit" value="{{ 'Save'|trans }}">
             </div>
