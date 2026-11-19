@@ -43,7 +43,11 @@ final class PrognosePanelPresenterTest extends TestCase
     public function testConvertsStoredKilometersToMilesForConfigurationDisplay(): void
     {
         $account = $this->account(12);
-        $presenter = $this->presenter([5 => ['distances' => '5,10']], new Miles());
+        $presenter = $this->presenter([
+            5 => [
+                'distances' => '5,10',
+            ],
+        ], new Miles());
 
         $data = $presenter->getConfigurationData($account, $this->installation($account));
 
@@ -71,7 +75,11 @@ final class PrognosePanelPresenterTest extends TestCase
         $this->presenter([], new Miles(), $storage)->updateConfiguration(
             $account,
             $this->installation($account),
-            ['edit' => 'true', 'distances' => '3.1, 6.22', 'model' => 'cpp']
+            [
+                'edit' => 'true',
+                'distances' => '3.1, 6.22',
+                'model' => 'cpp',
+            ]
         );
     }
 
@@ -80,7 +88,11 @@ final class PrognosePanelPresenterTest extends TestCase
         $account = $this->account(12);
         $storage = $this->createMock(PluginConfigurationStorageInterface::class);
         $storage->expects($this->once())->method('loadForPlugins')->willReturn([
-            5 => ['distances' => '5,10', 'model' => 'vo2max', 'use_be' => '1'],
+            5 => [
+                'distances' => '5,10',
+                'model' => 'vo2max',
+                'use_be' => '1',
+            ],
         ]);
         $storage->expects($this->exactly(3))->method('update');
         $storage->expects($this->never())->method('insert');
@@ -88,7 +100,12 @@ final class PrognosePanelPresenterTest extends TestCase
         $this->presenter([], new Kilometer(), $storage)->updateConfiguration(
             $account,
             $this->installation($account, true),
-            ['edit' => 'true', 'distances' => '3, 10', 'model' => 'cameron', 'use_be' => '1']
+            [
+                'edit' => 'true',
+                'distances' => '3, 10',
+                'model' => 'cameron',
+                'use_be' => '1',
+            ]
         );
     }
 
@@ -103,7 +120,10 @@ final class PrognosePanelPresenterTest extends TestCase
         $this->presenter([], new Kilometer(), $storage)->updateConfiguration(
             $account,
             $this->installation($account),
-            ['distances' => '5, invalid', 'model' => 'unknown']
+            [
+                'distances' => '5, invalid',
+                'model' => 'unknown',
+            ]
         );
     }
 
