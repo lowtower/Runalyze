@@ -16,16 +16,6 @@ final readonly class SportlerPanelPresenter implements ModernPanelInterface, Mod
         private SportlerPanelDataProvider $dataProvider
     ) {}
 
-    /**
-     * @return array{
-     *     pluginId: int,
-     *     isHidden: bool,
-     *     configuration: array{desiredWeight: int, plotPoints: int, plotTimerange: int},
-     *     latest: array{weight: ?float, pulseRest: ?int, pulseMax: ?int, fat: ?float, water: ?float, muscles: ?float},
-     *     weightHistory: list<array{time: int, weight: ?float, pulseRest: ?int}>,
-     *     bodyCompositionHistory: list<array{time: int, fat: ?float, water: ?float, muscles: ?float}>
-     * }
-     */
     public function getKey(): string
     {
         return 'RunalyzePluginPanel_Sportler';
@@ -72,6 +62,16 @@ final readonly class SportlerPanelPresenter implements ModernPanelInterface, Mod
         return false;
     }
 
+    /**
+     * @return array{
+     *     pluginId: int,
+     *     isHidden: bool,
+     *     configuration: array{desiredWeight: int, plotPoints: int, plotTimerange: int},
+     *     latest: array{weight: ?float, pulseRest: ?int, pulseMax: ?int, fat: ?float, water: ?float, muscles: ?float},
+     *     weightHistory: list<array{time: int, weight: ?float, pulseRest: ?int}>,
+     *     bodyCompositionHistory: list<array{time: int, fat: ?float, water: ?float, muscles: ?float}>
+     * }
+     */
     public function present(Account $account, Plugin $installation): array
     {
         $data = $this->dataProvider->getData($account, $installation);
