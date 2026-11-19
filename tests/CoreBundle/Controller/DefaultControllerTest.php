@@ -983,6 +983,11 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             ->setValue((string) $firstType->getId());
         $this->getEntityManager()->persist($configuration);
         $this->getEntityManager()->flush();
+        $pluginId = (int) $plugin->getId();
+        $firstTypeId = (int) $firstType->getId();
+        $secondTypeId = (int) $secondType->getId();
+        $activeEquipmentId = (int) $activeEquipment->getId();
+        $inactiveEquipmentId = (int) $inactiveEquipment->getId();
 
         try {
             $this->Client->request('GET', '/dashboard');
@@ -1009,19 +1014,44 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             $this->assertInstanceOf(PluginConf::class, $storedConfiguration);
             $this->assertSame((string) $secondType->getId(), $storedConfiguration->getValue());
         } finally {
-            $this->getEntityManager()->remove($configuration);
-            $this->getEntityManager()->remove($activeEquipment);
-            $this->getEntityManager()->remove($inactiveEquipment);
-            $this->getEntityManager()->remove($firstType);
-            $this->getEntityManager()->remove($secondType);
+            $entityManager = $this->getEntityManager();
 
-            if ($created) {
-                $this->getEntityManager()->remove($plugin);
-            } else {
-                $plugin->setActive($originalActive);
+            foreach ([$activeEquipmentId, $inactiveEquipmentId] as $equipmentId) {
+                $equipmentToRemove = $entityManager->find(Equipment::class, $equipmentId);
+
+                if ($equipmentToRemove instanceof Equipment) {
+                    $entityManager->remove($equipmentToRemove);
+                }
             }
 
-            $this->getEntityManager()->flush();
+            $configurationToRemove = $entityManager->getRepository(PluginConf::class)->findOneBy([
+                'plugin' => $pluginId,
+                'config' => 'type',
+            ]);
+
+            if ($configurationToRemove instanceof PluginConf) {
+                $entityManager->remove($configurationToRemove);
+            }
+
+            foreach ([$firstTypeId, $secondTypeId] as $equipmentTypeId) {
+                $equipmentTypeToRemove = $entityManager->find(EquipmentType::class, $equipmentTypeId);
+
+                if ($equipmentTypeToRemove instanceof EquipmentType) {
+                    $entityManager->remove($equipmentTypeToRemove);
+                }
+            }
+
+            $pluginToUpdate = $entityManager->find(PluginEntity::class, $pluginId);
+
+            if ($pluginToUpdate instanceof PluginEntity) {
+                if ($created) {
+                    $entityManager->remove($pluginToUpdate);
+                } else {
+                    $pluginToUpdate->setActive($originalActive);
+                }
+            }
+
+            $entityManager->flush();
         }
     }
 
