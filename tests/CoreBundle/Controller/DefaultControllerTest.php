@@ -551,7 +551,6 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         DashboardInstantiationTestPanel::$instantiationCount = 0;
 
         try {
-            $this->loginClient($this->Client, $this->Account, 'default');
             $this->Client->request('GET', '/dashboard');
 
             $this->assertStatusCode(200, $this->Client);
@@ -923,6 +922,8 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testDashboardRendersPrognosisPanelThroughTheModernPluginTemplate(): void
     {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
         $repository = $this->getEntityManager()->getRepository(PluginEntity::class);
         $plugin = $repository->findOneBy([
             'account' => $this->Account,
