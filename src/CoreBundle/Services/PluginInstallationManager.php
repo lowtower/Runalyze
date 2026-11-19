@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use InvalidArgumentException;
 use LogicException;
 use PluginInstaller;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
@@ -116,7 +117,9 @@ final readonly class PluginInstallationManager
             return false;
         }
 
-        if ($this->modernPanelRegistry?->has($key)) {
+        if ($this->modernPanelRegistry?->has($key)
+            && $this->modernPanelRegistry->get($key) instanceof ModernPanelMetadataInterface
+        ) {
             $this->getPluginRepository()->installForAccount($account, $key, Plugin::TYPE_PANEL);
 
             return true;
