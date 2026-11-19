@@ -35,6 +35,47 @@ final class EquipmentRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEmpty($this->EquipmentRepository->findForTypeId(1, new Account()));
     }
 
+    public function testFindForPanelScopesResultsToTheAccount(): void
+    {
+        $equipmentTypeId = (int) $this->getDefaultAccountsClothesType()->getId();
+
+        $this->assertSame([], $this->EquipmentRepository->findForPanel($equipmentTypeId, $this->getEmptyAccount()));
+    }
+
+    public function testFindForPanelOrdersActiveEquipmentFirstAndThenByDistance(): void
+    {
+        $equipment = $this->EquipmentRepository->findForTypeId(
+            (int) $this->getDefaultAccountsClothesType()->getId(),
+            $this->Account
+        );
+
+        $this->assertGreaterThanOrEqual(2, count($equipment));
+
+        foreach ($equipment as $index => $item) {
+            $item->setDateEnd(new \DateTime('2024-01-01'));
+            $item->setDistance((float) (count($equipment) - $index));
+        }
+
+        $equipment[0]->setDateEnd();
+        $equipment[0]->setDistance(0.5);
+        $this->getEntityManager()->flush();
+
+        $expectedIds = array_map(
+            static fn (Equipment $item): ?int => $item->getId(),
+            [$equipment[0], ...array_slice($equipment, 1)]
+        );
+
+        $result = $this->EquipmentRepository->findForPanel(
+            (int) $this->getDefaultAccountsClothesType()->getId(),
+            $this->Account
+        );
+
+        $this->assertSame($expectedIds, array_map(
+            static fn (Equipment $item): ?int => $item->getId(),
+            $result
+        ));
+    }
+
     public function testEquipmentStatistics(): void
     {
         $clothes = $this->EquipmentRepository->findForTypeId($this->getDefaultAccountsClothesType()->getId(), $this->Account);

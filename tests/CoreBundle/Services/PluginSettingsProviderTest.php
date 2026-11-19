@@ -56,7 +56,20 @@ final class PluginSettingsProviderTest extends TestCase
 
         $plugins = $provider->getInstalledPlugins(PluginType::PANEL);
 
-        $this->assertSame([4, 1, 2], array_map(static fn (Plugin $plugin): int => $plugin->id(), $plugins));
+        $this->assertSame([1, 4, 2], array_map(static fn (Plugin $plugin): int => $plugin->id(), $plugins));
+    }
+
+    public function testKeepsHiddenPanelsBetweenActivePanelsAccordingToTheirPositions(): void
+    {
+        $provider = $this->createProvider([
+            $this->pluginData(3, PluginType::string(PluginType::PANEL), Plugin::ACTIVE, 3),
+            $this->pluginData(2, PluginType::string(PluginType::PANEL), Plugin::ACTIVE_VARIOUS, 2),
+            $this->pluginData(1, PluginType::string(PluginType::PANEL), Plugin::ACTIVE, 1),
+        ]);
+
+        $plugins = $provider->getInstalledPluginsExceptInactive(PluginType::PANEL);
+
+        $this->assertSame([1, 2, 3], array_map(static fn (Plugin $plugin): int => $plugin->id(), $plugins));
     }
 
     public function testReturnsInstalledPluginsExceptInactiveAndFiltersByType(): void

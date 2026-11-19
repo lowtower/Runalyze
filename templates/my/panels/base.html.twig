@@ -13,7 +13,7 @@
     </div>
 </div>
 
-<div class="panel-content{% if panel_content_no_padding|default(false) %} nopadding{% endif %}"{% if is_hidden|default(false) %} style="display:none;"{% endif %}">
+<div class="panel-content{% if panel_content_no_padding|default(false) %} nopadding{% endif %}"{% if is_hidden|default(false) %} style="display:none;"{% endif %}>
     {% block panelContent %}
     {% endblock %}
 </div>

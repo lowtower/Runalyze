@@ -8,6 +8,8 @@ use PluginPanel;
 use PluginStat;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Equipment;
+use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginEntity;
 use Runalyze\Bundle\CoreBundle\Entity\PluginConf;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
@@ -917,6 +919,139 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             }
 
             $this->getEntityManager()->flush();
+        }
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testDashboardRendersEquipmentPanelThroughTheModernPluginTemplate(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $pluginRepository = $this->getEntityManager()->getRepository(PluginEntity::class);
+        $plugin = $pluginRepository->findOneBy([
+            'account' => $this->Account,
+            'key' => 'RunalyzePluginPanel_Equipment',
+        ]);
+        $created = ! $plugin instanceof PluginEntity;
+
+        if ($created) {
+            /** @var PluginInstallationManager $installationManager */
+            $installationManager = self::getContainer()->get(PluginInstallationManager::class);
+            $this->assertTrue($installationManager->install('RunalyzePluginPanel_Equipment'));
+            $plugin = $pluginRepository->findOneBy([
+                'account' => $this->Account,
+                'key' => 'RunalyzePluginPanel_Equipment',
+            ]);
+        }
+
+        $this->assertInstanceOf(PluginEntity::class, $plugin);
+        $originalActive = $plugin->getActive();
+        $plugin->setActive(PluginEntity::STATE_ACTIVE);
+
+        $firstType = new EquipmentType()
+            ->setName('Running shoes')
+            ->setMaxKm(500)
+            ->setAccount($this->Account);
+        $secondType = new EquipmentType()
+            ->setName('Cycling shoes')
+            ->setMaxKm(1000)
+            ->setAccount($this->Account);
+
+        $activeEquipment = new Equipment()
+            ->setName('Trail shoes')
+            ->setAccount($this->Account)
+            ->setType($firstType)
+            ->setDistance(250.0)
+            ->setTime(3600);
+        $inactiveEquipment = new Equipment()
+            ->setName('Old shoes')
+            ->setAccount($this->Account)
+            ->setType($firstType)
+            ->setDistance(100.0)
+            ->setTime(1800)
+            ->setDateEnd(new \DateTime('2025-01-01'));
+
+        $this->getEntityManager()->persist($firstType);
+        $this->getEntityManager()->persist($secondType);
+        $this->getEntityManager()->persist($activeEquipment);
+        $this->getEntityManager()->persist($inactiveEquipment);
+        $this->getEntityManager()->flush();
+
+        $configuration = new PluginConf()
+            ->setPlugin($plugin)
+            ->setConfig('type')
+            ->setValue((string) $firstType->getId());
+        $this->getEntityManager()->persist($configuration);
+        $this->getEntityManager()->flush();
+        $pluginId = (int) $plugin->getId();
+        $firstTypeId = (int) $firstType->getId();
+        $secondTypeId = (int) $secondType->getId();
+        $activeEquipmentId = (int) $activeEquipment->getId();
+        $inactiveEquipmentId = (int) $inactiveEquipment->getId();
+
+        try {
+            $this->Client->request('GET', '/dashboard');
+
+            $this->assertStatusCode(200, $this->Client);
+
+            $content = (string) $this->Client->getResponse()->getContent();
+
+            $this->assertStringContainsString('class="panel" id="panel-' . $plugin->getId() . '"', $content);
+            $this->assertStringContainsString('Trail shoes', $content);
+            $this->assertStringContainsString('Show/Hide unused equipment', $content);
+            $this->assertStringContainsString('Old shoes', $content);
+            $this->assertStringContainsString('equipmentid=' . $activeEquipment->getId(), $content);
+
+            $this->Client->request('GET', '/my/plugin/' . $plugin->getId() . '?type=' . $secondType->getId());
+
+            $this->assertStatusCode(200, $this->Client);
+
+            $storedConfiguration = $this->getEntityManager()->getRepository(PluginConf::class)->findOneBy([
+                'plugin' => $plugin,
+                'config' => 'type',
+            ]);
+
+            $this->assertInstanceOf(PluginConf::class, $storedConfiguration);
+            $this->assertSame((string) $secondType->getId(), $storedConfiguration->getValue());
+        } finally {
+            $entityManager = $this->getEntityManager();
+
+            foreach ([$activeEquipmentId, $inactiveEquipmentId] as $equipmentId) {
+                $equipmentToRemove = $entityManager->find(Equipment::class, $equipmentId);
+
+                if ($equipmentToRemove instanceof Equipment) {
+                    $entityManager->remove($equipmentToRemove);
+                }
+            }
+
+            $configurationToRemove = $entityManager->getRepository(PluginConf::class)->findOneBy([
+                'plugin' => $pluginId,
+                'config' => 'type',
+            ]);
+
+            if ($configurationToRemove instanceof PluginConf) {
+                $entityManager->remove($configurationToRemove);
+            }
+
+            foreach ([$firstTypeId, $secondTypeId] as $equipmentTypeId) {
+                $equipmentTypeToRemove = $entityManager->find(EquipmentType::class, $equipmentTypeId);
+
+                if ($equipmentTypeToRemove instanceof EquipmentType) {
+                    $entityManager->remove($equipmentTypeToRemove);
+                }
+            }
+
+            $pluginToUpdate = $entityManager->find(PluginEntity::class, $pluginId);
+
+            if ($pluginToUpdate instanceof PluginEntity) {
+                if ($created) {
+                    $entityManager->remove($pluginToUpdate);
+                } else {
+                    $pluginToUpdate->setActive($originalActive);
+                }
+            }
+
+            $entityManager->flush();
         }
     }
 

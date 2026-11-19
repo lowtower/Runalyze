@@ -32,6 +32,22 @@ class EquipmentRepository extends ServiceEntityRepository
     /**
      * @return Equipment[]
      */
+    public function findForPanel(int $equipmentTypeId, Account $account): array
+    {
+        return $this->createQueryBuilder('equipment')
+            ->where('equipment.type = :typeId')
+            ->andWhere('equipment.account = :account')
+            ->setParameter('typeId', $equipmentTypeId)
+            ->setParameter('account', $account->getId())
+            ->orderBy('equipment.dateEnd', \SortDirection::Ascending)
+            ->addOrderBy('equipment.distance', \SortDirection::Descending)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return Equipment[]
+     */
     public function findForName(string|array $equipmentName, Account $account): array
     {
         return $this->findBy([
