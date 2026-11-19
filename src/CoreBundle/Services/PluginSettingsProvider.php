@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Services;
 
+use Ajax;
+use Icon;
 use InvalidArgumentException;
 use LogicException;
 use Plugin;
 use PluginInstaller;
 use PluginType;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelConfigurationInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
 
@@ -57,7 +60,12 @@ final readonly class PluginSettingsProvider
                     'type' => PluginType::PANEL,
                     'active' => $data['active'],
                     'order' => $data['order'],
-                    'config_link' => null,
+                    'config_link' => $modern instanceof ModernPanelConfigurationInterface
+                        ? Ajax::window(
+                            '<a href="' . Plugin::$CONFIG_URL . '?id=' . $data['id'] . '">' . Icon::$CONF . '</a>',
+                            'small'
+                        )
+                        : null,
                 ];
 
                 continue;
