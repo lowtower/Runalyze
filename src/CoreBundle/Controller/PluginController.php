@@ -49,7 +49,22 @@ class PluginController extends AbstractPluginsAwareController
             if ($this->pluginInstallationManager->install($pluginKey)) {
                 echo HTML::okay(__('The plugin has been successfully installed.'));
 
-                if (! $this->modernPanelRegistry->has($pluginKey)
+                if ($this->modernPanelRegistry->has($pluginKey)
+                    && $this->modernPanelRegistry->get($pluginKey) instanceof ModernPanelConfigurationInterface
+                ) {
+                    $installations = $this->pluginSettingsProvider->getInstalledPluginData();
+
+                    foreach ($installations as $installationData) {
+                        if ($installationData['key'] === $pluginKey) {
+                            echo '<ul class="blocklist"><li>';
+                            echo Ajax::window('<a href="call/call.Plugin.config.php?id=' . $installationData['id'] . '">'
+                                . Icon::$CONF . ' ' . __('Configuration') . '</a>', 'small');
+                            echo '</li></ul>';
+
+                            break;
+                        }
+                    }
+                } elseif (! $this->modernPanelRegistry->has($pluginKey)
                     || ! $this->modernPanelRegistry->get($pluginKey) instanceof ModernPanelMetadataInterface
                 ) {
                     $plugin = $this->instantiatePluginByKey($pluginKey);
