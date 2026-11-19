@@ -41,20 +41,20 @@ class TagRepository extends ServiceEntityRepository
     public function findUsageForSportSince(Account $account, int $sportId, int $since): array
     {
         $results = $this->getEntityManager()->createQueryBuilder()
-            ->select('tag.id AS id, tag.tag AS tag, COUNT(t.id) AS usage_count')
+            ->select('tg.id AS id, tg.tag AS tag, COUNT(t.id) AS usage_count')
             ->from(Training::class, 't')
-            ->innerJoin('t.tag', 'tag')
+            ->innerJoin('t.tag', 'tg')
             ->where('t.account = :account')
-            ->andWhere('tag.account = :account')
+            ->andWhere('tg.account = :account')
             ->andWhere('t.sport = :sport')
             ->andWhere('t.time >= :since')
             ->setParameter('account', $account)
             ->setParameter('sport', $sportId)
             ->setParameter('since', $since)
-            ->groupBy('tag.id')
-            ->addGroupBy('tag.tag')
+            ->groupBy('tg.id')
+            ->addGroupBy('tg.tag')
             ->orderBy('usage_count', 'DESC')
-            ->addOrderBy('tag.id', 'ASC')
+            ->addOrderBy('tg.id', 'ASC')
             ->getQuery()
             ->getArrayResult();
 
