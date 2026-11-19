@@ -409,26 +409,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(AccountChecker::class);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     $services->set(ActivityListener::class);
 
     $services->set(RaceResultListener::class);
@@ -445,8 +425,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ]);
 
     $services->alias(EquipmentUpdateSubscriber::class, 'app.entity_subscriber.equipment_update');
-
-
 
 
     $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\Type\\', __DIR__ . '/../src/CoreBundle/Form/Type/{DistanceType,ElevationType,EnergyType,EnergyKcalType,PowerType,TemperatureType,WeightType,WindSpeedType}.php');
@@ -529,15 +507,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(BodyValuesType::class, 'app.form.type.body_values');
 
-    $services->alias('app.form.type.distance', DistanceType::class);
-
-    $services->alias('app.form.type.elevation', ElevationType::class);
-
-    $services->alias('app.form.type.energy', EnergyType::class);
-
-    $services->alias('app.form.type.energy_kcal', EnergyKcalType::class);
-
-    $services->alias('app.form.type.power', PowerType::class);
 
     $services->set('app.form.type.sport', SportChoiceType::class)
         ->arg('$SportRepository', service(SportRepository::class))
@@ -564,11 +533,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(ActivityLapIntensityChoiceType::class, 'app.form.type.activity_lapintensity');
 
-    $services->alias('app.form.type.temperature', TemperatureType::class);
-
-    $services->alias('app.form.type.wind_speed', WindSpeedType::class);
-
-    $services->alias('app.form.type.weight', WeightType::class);
 
     $services->set('app.form.type.hrzonebound', HrZoneBoundType::class)
         ->args([])
