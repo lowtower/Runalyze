@@ -81,6 +81,7 @@ final readonly class PrognosePanelPresenter implements ModernPanelInterface
                 array_values($storedDistances)
             );
         }
+
         $vo2maxCategory = $accountConfiguration->getVO2max();
         $vo2maxShape = $vo2maxCategory->useManualValue()
             ? $vo2maxCategory->getManualValue()
