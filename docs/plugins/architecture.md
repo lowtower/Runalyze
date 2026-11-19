@@ -172,6 +172,12 @@ legacy Prognose plugin class is intentionally retained for its prognosis-trend
 window and interactive calculator, whose remaining code and routes must be
 migrated before that class can be deleted.
 
+The interactive calculator now reuses `src/CoreBundle/Model/Prognosis/PrognosisModel`
+for constructing the four prediction models. Legacy form identifiers are mapped
+at the window boundary; one reference result is sufficient for Steffny and
+Cameron. The calculator's HTML, POST input processing and personal-best lookup,
+and the trend window's legacy data access, remain for subsequent migration.
+
 Before deleting another legacy class, verify installation, settings metadata,
 configuration POST/defaults, activation/deactivation, optional plot/window routes,
 and legacy tests. Move meaningful characterization assertions into the modern
