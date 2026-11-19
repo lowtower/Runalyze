@@ -449,6 +449,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 
 
+    $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\Type\\', __DIR__ . '/../src/CoreBundle/Form/Type/{DistanceType,ElevationType,EnergyType,EnergyKcalType,PowerType,TemperatureType,WeightType,WindSpeedType}.php');
+
     $services->set('app.form.activity', ActivityType::class)
         ->arg('$TagRepository', service(TagRepository::class))
         ->tag('form.type');
@@ -527,30 +529,15 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(BodyValuesType::class, 'app.form.type.body_values');
 
-    $services->set('app.form.type.distance', DistanceType::class)
-        ->tag('form.type');
+    $services->alias('app.form.type.distance', DistanceType::class);
 
-    $services->alias(DistanceType::class, 'app.form.type.distance');
+    $services->alias('app.form.type.elevation', ElevationType::class);
 
-    $services->set('app.form.type.elevation', ElevationType::class)
-        ->tag('form.type');
+    $services->alias('app.form.type.energy', EnergyType::class);
 
-    $services->alias(ElevationType::class, 'app.form.type.elevation');
+    $services->alias('app.form.type.energy_kcal', EnergyKcalType::class);
 
-    $services->set('app.form.type.energy', EnergyType::class)
-        ->tag('form.type');
-
-    $services->alias(EnergyType::class, 'app.form.type.energy');
-
-    $services->set('app.form.type.energy_kcal', EnergyKcalType::class)
-        ->tag('form.type');
-
-    $services->alias(EnergyKcalType::class, 'app.form.type.energy_kcal');
-
-    $services->set('app.form.type.power', PowerType::class)
-        ->tag('form.type');
-
-    $services->alias(PowerType::class, 'app.form.type.power');
+    $services->alias('app.form.type.power', PowerType::class);
 
     $services->set('app.form.type.sport', SportChoiceType::class)
         ->arg('$SportRepository', service(SportRepository::class))
@@ -577,20 +564,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(ActivityLapIntensityChoiceType::class, 'app.form.type.activity_lapintensity');
 
-    $services->set('app.form.type.temperature', TemperatureType::class)
-        ->tag('form.type');
+    $services->alias('app.form.type.temperature', TemperatureType::class);
 
-    $services->alias(TemperatureType::class, 'app.form.type.temperature');
+    $services->alias('app.form.type.wind_speed', WindSpeedType::class);
 
-    $services->set('app.form.type.wind_speed', WindSpeedType::class)
-        ->tag('form.type');
-
-    $services->alias(WindSpeedType::class, 'app.form.type.wind_speed');
-
-    $services->set('app.form.type.weight', WeightType::class)
-        ->tag('form.type');
-
-    $services->alias(WeightType::class, 'app.form.type.weight');
+    $services->alias('app.form.type.weight', WeightType::class);
 
     $services->set('app.form.type.hrzonebound', HrZoneBoundType::class)
         ->args([])
