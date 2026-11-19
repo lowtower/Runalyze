@@ -10,12 +10,11 @@ use Runalyze\Activity\Duration;
 use Runalyze\Activity\Pace;
 use Runalyze\Activity\PersonalBest;
 use Runalyze\Calculation\BasicEndurance;
+use Runalyze\Bundle\CoreBundle\Model\Prognosis\PrognosisModel;
 use Runalyze\Configuration;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 use Runalyze\Sports\Running\Prognosis\Bock;
-use Runalyze\Sports\Running\Prognosis\Cameron;
 use Runalyze\Sports\Running\Prognosis\PrognosisInterface;
-use Runalyze\Sports\Running\Prognosis\Steffny;
 use Runalyze\Sports\Running\Prognosis\VO2max;
 use Runalyze\Sports\Running\VO2max\EffectiveVO2max;
 use Runalyze\Util\LocalTime;
@@ -126,14 +125,38 @@ class Prognose_PrognosisWindow
         $_POST['second-best-result-km'] = Distance::format($_POST['second-best-result-km'], false, self::DISTANCE_PRECISION);
     }
 
-    protected function readPostData()
+    protected function readPostData(): void
     {
-        match ($_POST['model']) {
-            'robert-bock' => $this->setupBockPrognosis(),
-            'herbert-steffny' => $this->setupSteffnyPrognosis(),
-            'david-cameron' => $this->setupCameronPrognosis(),
-            default => $this->setupEffectiveVO2maxPrognosis(),
+        $model = match ($_POST['model']) {
+            'robert-bock' => 'cpp',
+            'herbert-steffny' => 'steffny',
+            'david-cameron' => 'cameron',
+            default => 'vo2max',
         };
+
+        $results = [];
+
+        if ($model !== 'vo2max') {
+            $results[] = [
+                'distance' => (float) Helper::CommaToPoint($_POST['best-result-km']),
+                's' => (float) (new Duration($_POST['best-result-time']))->seconds(),
+            ];
+
+            if ($model === 'cpp') {
+                $results[] = [
+                    'distance' => (float) Helper::CommaToPoint($_POST['second-best-result-km']),
+                    's' => (float) (new Duration($_POST['second-best-result-time']))->seconds(),
+                ];
+            }
+        }
+
+        $this->PrognosisObject = new PrognosisModel(
+            $model,
+            $results,
+            (float) Helper::CommaToPoint($_POST['vo2max'] ?? 0),
+            (int) ($_POST['endurance-value'] ?? 0),
+            isset($_POST['endurance'])
+        )->getPrognosisObject();
 
         $this->Distances = $this->distanceValuesToKm(Helper::arrayTrim(explode(',', $_POST['distances'])));
     }
@@ -157,41 +180,6 @@ class Prognose_PrognosisWindow
         }
 
         return $values;
-    }
-
-    protected function setupEffectiveVO2maxPrognosis()
-    {
-        $this->PrognosisObject = new VO2max(
-            (float) Helper::CommaToPoint($_POST['vo2max']),
-            isset($_POST['endurance']),
-            (int) $_POST['endurance-value']
-        );
-    }
-
-    protected function setupBockPrognosis()
-    {
-        $this->PrognosisObject = new Bock(
-            (float) Helper::CommaToPoint($_POST['best-result-km']),
-            new Duration($_POST['best-result-time'])->seconds(),
-            (float) Helper::CommaToPoint($_POST['second-best-result-km']),
-            new Duration($_POST['second-best-result-time'])->seconds()
-        );
-    }
-
-    protected function setupSteffnyPrognosis()
-    {
-        $this->PrognosisObject = new Steffny(
-            new Duration($_POST['best-result-time'])->seconds(),
-            (float) Helper::CommaToPoint($_POST['best-result-km'])
-        );
-    }
-
-    protected function setupCameronPrognosis()
-    {
-        $this->PrognosisObject = new Cameron(
-            new Duration($_POST['best-result-time'])->seconds(),
-            (float) Helper::CommaToPoint($_POST['best-result-km'])
-        );
     }
 
     /**
