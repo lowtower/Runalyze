@@ -10,6 +10,10 @@ use LogicException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Plugin;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
+use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -89,6 +93,39 @@ final class PluginInstallationManagerTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
 
         $this->createManagerWithAuthenticatedAccount()->setInstalledPluginActive(1, 99);
+    }
+
+    public function testInstallsModernPanelWithoutInstantiatingLegacyClass(): void
+    {
+        $account = new Account();
+        $repository = $this->createMock(PluginRepository::class);
+        $repository->method('findForAccountAndKey')
+            ->with($account, 'ModernPanelWithoutLegacyClass')
+            ->willReturn(null);
+        $repository->expects($this->once())
+            ->method('installForAccount')
+            ->with($account, 'ModernPanelWithoutLegacyClass', Plugin::TYPE_PANEL);
+
+        $doctrine = $this->createStub(ManagerRegistry::class);
+        $doctrine->method('getRepository')->willReturn($repository);
+
+        $token = $this->createStub(TokenInterface::class);
+        $token->method('getUser')->willReturn($account);
+
+        $tokenStorage = $this->createStub(TokenStorageInterface::class);
+        $tokenStorage->method('getToken')->willReturn($token);
+
+        $panel = $this->createStub(ModernPanelInterface::class);
+        $panel->method('getKey')->willReturn('ModernPanelWithoutLegacyClass');
+
+        $manager = new PluginInstallationManager(
+            $doctrine,
+            $tokenStorage,
+            new LegacyPluginInstantiator(),
+            new ModernPanelRegistry([$panel])
+        );
+
+        $this->assertTrue($manager->install('ModernPanelWithoutLegacyClass'));
     }
 
     private function createManagerWithAuthenticatedAccount(): PluginInstallationManager
