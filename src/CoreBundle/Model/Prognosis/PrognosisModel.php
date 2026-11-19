@@ -62,7 +62,7 @@ class PrognosisModel
     {
         $prognosis = new Steffny();
 
-        if (count($this->topResults) === 2) {
+        if (count($this->topResults) >= 1) {
             $prognosis->setReferenceResult(
                 (float) $this->topResults[0]['distance'],
                 (float) $this->topResults[0]['s']
@@ -76,7 +76,7 @@ class PrognosisModel
     {
         $prognosis = new Cameron();
 
-        if (count($this->topResults) === 2) {
+        if (count($this->topResults) >= 1) {
             $prognosis->setReferenceResult(
                 (float) $this->topResults[0]['distance'],
                 (float) $this->topResults[0]['s']
