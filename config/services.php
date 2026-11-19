@@ -333,10 +333,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias('app.listener.maintenance', MaintenanceListener::class);
 
-    $services->set(AccountMailer::class)
-        ->arg('$mailer', service('mailer'))
-        ->arg('$twig', service('twig'))
-        ->arg('$translator', service('translator'));
+    $services->set(AccountMailer::class);
 
     $services->set('app.legacy_cache', LegacyCache::class)
         ->arg('$path', '%app.data_directory%');
@@ -347,8 +344,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$passwordHasher', service('security.user_password_hasher'))
         ->tag('doctrine.fixture.orm');
 
-    $services->set(Registration::class)
-        ->arg('$passwordHasher', service('security.user_password_hasher'));
+    $services->set(Registration::class);
 
     $services->set(AccountChecker::class);
 
