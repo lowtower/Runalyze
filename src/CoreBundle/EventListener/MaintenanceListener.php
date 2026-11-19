@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\EventListener;
 
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -18,6 +19,7 @@ class MaintenanceListener
         private readonly Environment $twig
     ) {}
 
+    #[AsEventListener(event: 'kernel.request')]
     public function onKernelRequest(RequestEvent $event): void
     {
         $maintenance = $this->parameterBag->has('app.maintenance') ? $this->parameterBag->get('app.maintenance') : false;
