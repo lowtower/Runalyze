@@ -114,7 +114,10 @@ final class TagsSummaryPanelPresenterTest extends TestCase
 
         $storage = $this->createStub(PluginConfigurationStorageInterface::class);
         $storage->method('loadForPlugins')->willReturn([
-            5 => ['sport' => '7', 'tagssummary_timescale' => '6'],
+            5 => [
+                'sport' => '7',
+                'tagssummary_timescale' => '6',
+            ],
         ]);
 
         $presenter = $this->presenter($sports, null, $storage);
@@ -125,7 +128,10 @@ final class TagsSummaryPanelPresenterTest extends TestCase
 
         $configuration = $presenter->getConfigurationData($account, $this->installation($account));
 
-        $this->assertSame([['id' => 7, 'name' => 'Running']], $configuration['sports']);
+        $this->assertSame([[
+            'id' => 7,
+            'name' => 'Running',
+        ]], $configuration['sports']);
         $this->assertSame(7, $configuration['selected_sport_id']);
         $this->assertSame(6, $configuration['selected_timescale']);
         $this->assertSame(TagsSummaryPanelPresenter::TIMESCALES, $configuration['timescales']);
@@ -151,7 +157,9 @@ final class TagsSummaryPanelPresenterTest extends TestCase
         $storage->expects($this->once())->method('insert')->with(5, 'sport', '7');
 
         $presenter = $this->presenter($sports, null, $storage);
-        $presenter->updateConfiguration($account, $installation, ['sport' => '7']);
+        $presenter->updateConfiguration($account, $installation, [
+            'sport' => '7',
+        ]);
     }
 
     public function testPanelUsageWidthsPreserveLegacyScale(): void
@@ -162,9 +170,21 @@ final class TagsSummaryPanelPresenterTest extends TestCase
 
         $tags = $this->createStub(TagRepository::class);
         $tags->method('findUsageForSportSince')->willReturn([
-            ['id' => 1, 'tag' => 'A', 'usage_count' => 3],
-            ['id' => 2, 'tag' => 'B', 'usage_count' => 1],
-            ['id' => 3, 'tag' => 'C', 'usage_count' => 0],
+            [
+                'id' => 1,
+                'tag' => 'A',
+                'usage_count' => 3,
+            ],
+            [
+                'id' => 2,
+                'tag' => 'B',
+                'usage_count' => 1,
+            ],
+            [
+                'id' => 3,
+                'tag' => 'C',
+                'usage_count' => 0,
+            ],
         ]);
 
         $result = $this->presenter($sports, $tags)->present($account, $this->installation($account));
