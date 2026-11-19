@@ -13,6 +13,7 @@ use PluginInstaller;
 use PluginPanel;
 use PluginType;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
@@ -71,7 +72,7 @@ final class ModernPanelMetadataFixture implements ModernPanelInterface, ModernPa
         return true;
     }
 
-    public function present(Account $account, \Runalyze\Bundle\CoreBundle\Entity\Plugin $installation): array
+    public function present(Account $account, PluginInstallation $installation): array
     {
         return [];
     }
