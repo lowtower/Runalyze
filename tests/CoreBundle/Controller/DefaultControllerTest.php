@@ -551,6 +551,7 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         DashboardInstantiationTestPanel::$instantiationCount = 0;
 
         try {
+            $this->loginClient($this->Client, $this->Account, 'default');
             $this->Client->request('GET', '/dashboard');
 
             $this->assertStatusCode(200, $this->Client);
@@ -955,7 +956,7 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
 
             $this->assertStringContainsString('class="panel" id="panel-' . $plugin->getId() . '"', $content);
             $this->assertStringContainsString('Prognosis', $content);
-            $this->assertStringContainsString('Prognoses can\'t be calculated.', $content);
+            $this->assertStringContainsString('title="Prognosis calculator"', $content);
         } finally {
             if ($created) {
                 $this->getEntityManager()->remove($plugin);
