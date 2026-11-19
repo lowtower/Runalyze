@@ -628,6 +628,23 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testRechenspieleShapePlotUsesTheInstalledPlugin(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        /** @var PluginInstallationManager $installationManager */
+        $installationManager = self::getContainer()->get(PluginInstallationManager::class);
+        $installationManager->install('RunalyzePluginPanel_Rechenspiele');
+
+        $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Rechenspiele/window.plot.php');
+
+        $this->assertStatusCode(200, $this->Client);
+        $content = (string) $this->Client->getResponse()->getContent();
+        $this->assertStringContainsString('Shape', $content);
+        $this->assertStringContainsString('formlasthalftsb', $content);
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testPrognosisPlotWindowWorksWithoutTheOptionalRacePlugin(): void
     {
         $this->loginClient($this->Client, $this->Account, 'default');
