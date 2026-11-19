@@ -80,6 +80,44 @@ final class RechenspielePanelPresenterTest extends TestCase
         $this->assertSame('+0', $result['rows'][2]['value']);
     }
 
+    public function testRespectsAbsoluteLoadAndPercentageBalanceConfiguration(): void
+    {
+        $account = $this->account(12);
+        $repository = $this->createStub(TrainingRepository::class);
+        $repository->method('findDailyTrimpForAccount')->willReturn([
+            ['day' => '2026-11-17', 'trimp' => 100.0],
+            ['day' => '2026-11-19', 'trimp' => 50.0],
+        ]);
+
+        $result = $this->presenter($repository, [
+            'show_vo2max' => '0',
+            'show_basicendurance' => '0',
+            'show_trimpvalues_extra' => '0',
+        ], [
+            'trimp.TRIMP_MODEL_IN_PERCENT' => 'false',
+            'trimp.TSB_IN_PERCENT' => 'true',
+        ])->present($account, $this->installation($account));
+
+        $this->assertSame('27', $result['rows'][0]['value']);
+        $this->assertSame('7', $result['rows'][1]['value']);
+        $this->assertSame('-74 %', $result['rows'][2]['value']);
+    }
+
+    public function testIndicatesMissingVo2maxAndRecentTrainingHistory(): void
+    {
+        $account = $this->account(12);
+        $startTime = new DateTimeImmutable('2026-11-16 12:00:00 UTC')->getTimestamp();
+
+        $result = $this->presenter(null, [
+            'show_basicendurance' => '0',
+        ], [
+            'data.START_TIME' => (string) $startTime,
+        ])->present($account, $this->installation($account));
+
+        $this->assertTrue($result['missing_vo2max']);
+        $this->assertTrue($result['insufficient_activities']);
+    }
+
     public function testRejectsAnotherAccountsInstallationBeforeReadingTraining(): void
     {
         $account = $this->account(12);
