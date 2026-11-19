@@ -229,6 +229,19 @@ final class SportlerPanelDataProviderTest extends TestCase
         $this->assertSame(PluginInstallation::STATE_INACTIVE, $data['active']);
     }
 
+    public function testConfigurationReadRejectsInstallationOwnedByAnotherAccount(): void
+    {
+        $storage = $this->createMock(PluginConfigurationStorageInterface::class);
+        $storage->expects($this->never())->method('loadForPlugins');
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->providerWithStorage($storage)->getConfigurationData(
+            $this->createAccount(7),
+            $this->createInstallation($this->createAccount(8), 17)
+        );
+    }
+
     public function testSavesValidatedNumericConfigurationValues(): void
     {
         $account = $this->createAccount(7);
