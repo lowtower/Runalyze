@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Model\Prognosis;
 
-use Runalyze\Activity\PersonalBest;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Sports\Running\Prognosis\PrognosisInterface;
 
@@ -35,6 +35,7 @@ class PrognosisData
      */
     public function __construct(
         TrainingRepository $trainingRepository,
+        RaceresultRepository $raceResultRepository,
         Account $account,
         int $runningSportId,
         array $distances,
@@ -51,18 +52,17 @@ class PrognosisData
             $useMarathonShape
         )->getPrognosisObject();
 
-        PersonalBest::activateStaticCache();
-        $this->numberOfPersonalBests = PersonalBest::lookupDistances($distances, $runningSportId, null, true);
+        $personalBests = $raceResultRepository->findPersonalBestDetailsForDistances($account, $runningSportId, $distances);
+        $this->numberOfPersonalBests = count($personalBests);
 
         foreach ($distances as $distance) {
             $distanceInKm = (float) $distance;
-            $personalBest = new PersonalBest($distanceInKm, $runningSportId, null, false);
-            $personalBest->lookupWithDetails();
+            $personalBest = $personalBests[sprintf('%.2f', $distanceInKm)] ?? null;
 
             $this->rows[] = [
                 'distance' => $distanceInKm,
-                'pbSeconds' => $personalBest->exists() ? (float) $personalBest->seconds() : null,
-                'pbActivityId' => $personalBest->knowsActivity() ? (int) $personalBest->activityId() : null,
+                'pbSeconds' => $personalBest['seconds'] ?? null,
+                'pbActivityId' => $personalBest['activity_id'] ?? null,
                 'prognosisSeconds' => $this->prognosis->areValuesValid() ? $this->prognosis->getSeconds($distanceInKm) : 0.0,
             ];
         }
