@@ -15,7 +15,7 @@ final class DisposableDomainProviderTest extends TestCase
     {
         $this->tempDir = sys_get_temp_dir() . '/disposable_provider_' . uniqid();
 
-        mkdir($this->tempDir . '/var/email', 0777, true);
+        mkdir($this->tempDir . '/data/email', 0777, true);
     }
 
     protected function tearDown(): void
@@ -27,13 +27,14 @@ final class DisposableDomainProviderTest extends TestCase
     {
         file_put_contents(
             $this->tempDir . '/data/email/disposable-domains.txt',
-            "mailinator.com\n"
+            "custom-disposable.example\n"
         );
 
         $provider = new DisposableDomainProvider($this->tempDir);
         $domains = $provider->getDomains();
 
-        $this->assertArrayHasKey('mailinator.com', $domains);
+        $this->assertArrayHasKey('custom-disposable.example', $domains);
+        $this->assertArrayNotHasKey('mailinator.com', $domains);
     }
 
     public function testFallbackWhenFileMissing(): void
