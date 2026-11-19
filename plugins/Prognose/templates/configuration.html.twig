@@ -1,0 +1,47 @@
+<div class="panel-heading">
+    <div class="panel-menu">
+        <ul><li><a class="window" href="settings?key=config_tab_plugins&amp;external=true">{{ 'back to overview'|trans }}</a></li></ul>
+    </div>
+    <h1>{{ 'Plugin configuration'|trans }}: {{ 'Prognosis'|trans }}</h1>
+</div>
+<div class="panel-content">
+    <form class="ajax no-automatic-reload" action="{{ path('plugin-config', {'id': plugin_id}) }}" method="post">
+        <input type="hidden" name="edit" value="true">
+        <fieldset>
+            <legend>{{ 'Description'|trans }}</legend>
+            <p>{{ 'Predict your race performance on various distances.'|trans }}</p>
+        </fieldset>
+        <fieldset>
+            <legend>{{ 'Configuration'|trans }}</legend>
+            <div class="w100 block">
+                <label for="prognose-distances">{{ 'Distances to predict'|trans }} ({{ config_data.distance_unit }})</label>
+                <input type="text" name="distances" id="prognose-distances" value="{{ config_data.distances }}">
+            </div>
+            <div class="w100 block">
+                <label for="prognose-model">{{ 'Prediction model'|trans }}</label>
+                <select name="model" id="prognose-model">
+                    <option value="vo2max"{% if config_data.model == 'vo2max' %} selected{% endif %}>{{ 'Effective VO2max'|trans }}</option>
+                    <option value="cpp"{% if config_data.model == 'cpp' %} selected{% endif %}>Robert Bock (CPP)</option>
+                    <option value="steffny"{% if config_data.model == 'steffny' %} selected{% endif %}>Herbert Steffny</option>
+                    <option value="cameron"{% if config_data.model == 'cameron' %} selected{% endif %}>David Cameron</option>
+                </select>
+            </div>
+            <div class="w100 block">
+                <label for="prognose-use-be">{{ 'Use marathon shape'|trans }}</label>
+                <input type="checkbox" name="use_be" id="prognose-use-be" value="1"{% if config_data.use_be %} checked{% endif %}>
+                <small>{{ 'Use marathon shape factor to adapt prognosis for long distances (VO2max only).'|trans }}</small>
+            </div>
+            <div class="w100 block">
+                <input type="submit" value="{{ 'Save'|trans }}">
+            </div>
+        </fieldset>
+    </form>
+    <fieldset>
+        <legend>{{ 'Activation'|trans }}</legend>
+        {% if config_data.active == 0 %}
+            <a class="window" href="{{ path('plugin-config', {'id': plugin_id, 'active': 1}) }}">{{ 'Activate plugin'|trans }}</a>
+        {% else %}
+            <a class="window" href="{{ path('plugin-config', {'id': plugin_id, 'active': 0}) }}">{{ 'Deactivate plugin'|trans }}</a>
+        {% endif %}
+    </fieldset>
+</div>
