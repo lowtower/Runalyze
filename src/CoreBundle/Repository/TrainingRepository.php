@@ -84,7 +84,10 @@ class TrainingRepository extends ServiceEntityRepository
         $result = [];
 
         foreach ($totals as $day => $trimp) {
-            $result[] = ['day' => $day, 'trimp' => $trimp];
+            $result[] = [
+                'day' => $day,
+                'trimp' => $trimp,
+            ];
         }
 
         return $result;

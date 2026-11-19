@@ -63,12 +63,21 @@ final class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->getEntityManager()->flush();
 
         $this->assertSame([
-            ['day' => '2026-01-10', 'trimp' => 75.0],
-            ['day' => '2026-01-11', 'trimp' => 20.0],
+            [
+                'day' => '2026-01-10',
+                'trimp' => 75.0,
+            ],
+            [
+                'day' => '2026-01-11',
+                'trimp' => 20.0,
+            ],
         ], $this->TrainingRepository->findDailyTrimpForAccount($this->Account));
 
         $this->assertSame([
-            ['day' => '2026-01-10', 'trimp' => 35.0],
+            [
+                'day' => '2026-01-10',
+                'trimp' => 35.0,
+            ],
         ], $this->TrainingRepository->findDailyTrimpForAccount($this->Account, $sameDay, $sameDay));
 
         $this->assertSame([], $this->TrainingRepository->findDailyTrimpForAccount($this->getEmptyAccount()));

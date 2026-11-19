@@ -24,15 +24,28 @@ final class RechenspieleTrimpDataProviderTest extends TestCase
             ->method('findDailyTrimpForAccount')
             ->with($account)
             ->willReturn([
-                ['day' => '2026-11-18', 'trimp' => 10.0],
-                ['day' => '2026-11-19', 'trimp' => 50.0],
-                ['day' => '2026-11-20', 'trimp' => 30.0],
+                [
+                    'day' => '2026-11-18',
+                    'trimp' => 10.0,
+                ],
+                [
+                    'day' => '2026-11-19',
+                    'trimp' => 50.0,
+                ],
+                [
+                    'day' => '2026-11-20',
+                    'trimp' => 30.0,
+                ],
             ]);
 
         $data = $this->provider($repository, '2026-11-19 23:30:00 UTC')
             ->getPerformanceModelData($account);
 
-        $this->assertSame([-2 => 10.0, -1 => 50.0, 0 => 30.0], $data);
+        $this->assertSame([
+            -2 => 10.0,
+            -1 => 50.0,
+            0 => 30.0,
+        ], $data);
     }
 
     public function testReturnsEmptyModelDataWhenTheAccountHasNoActivities(): void
@@ -58,8 +71,14 @@ final class RechenspieleTrimpDataProviderTest extends TestCase
                 strtotime('2026-11-20 23:59:59 UTC')
             )
             ->willReturn([
-                ['day' => '2026-11-14', 'trimp' => 40.0],
-                ['day' => '2026-11-19', 'trimp' => 25.0],
+                [
+                    'day' => '2026-11-14',
+                    'trimp' => 40.0,
+                ],
+                [
+                    'day' => '2026-11-19',
+                    'trimp' => 25.0,
+                ],
             ]);
 
         $data = $this->provider($repository, '2026-11-19 23:30:00 UTC')
