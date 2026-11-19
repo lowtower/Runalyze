@@ -340,15 +340,22 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertInstanceOf(PluginConf::class, $configuration);
         $this->assertSame('6', $configuration->getValue());
 
-        $this->request('GET', '/call/call.Plugin.config.php?id=' . $plugin->getId() . '&active=0');
+        $pluginId = $plugin->getId();
+        $this->request('GET', '/call/call.Plugin.config.php?id=' . $pluginId . '&active=0');
 
         $this->assertStatusCode(200, $this->Client);
-        $this->assertSame(Plugin::STATE_INACTIVE, $plugin->getActive());
+        $this->getEntityManager()->clear();
+        $reloadedPlugin = $this->getEntityManager()->getRepository(Plugin::class)->find($pluginId);
+        $this->assertInstanceOf(Plugin::class, $reloadedPlugin);
+        $this->assertSame(Plugin::STATE_INACTIVE, $reloadedPlugin->getActive());
 
-        $this->request('GET', '/call/call.Plugin.config.php?id=' . $plugin->getId() . '&active=1');
+        $this->request('GET', '/call/call.Plugin.config.php?id=' . $pluginId . '&active=1');
 
         $this->assertStatusCode(200, $this->Client);
-        $this->assertSame(Plugin::STATE_ACTIVE, $plugin->getActive());
+        $this->getEntityManager()->clear();
+        $reloadedPlugin = $this->getEntityManager()->getRepository(Plugin::class)->find($pluginId);
+        $this->assertInstanceOf(Plugin::class, $reloadedPlugin);
+        $this->assertSame(Plugin::STATE_ACTIVE, $reloadedPlugin->getActive());
     }
 
     public function testPluginDisplayActionRequiresAuthentication(): void
