@@ -262,6 +262,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(__DIR__ . '/../plugins/Sports/config/services.php');
     $containerConfigurator->import(__DIR__ . '/../plugins/Prognose/config/services.php');
     $containerConfigurator->import(__DIR__ . '/../plugins/TagsSummary/config/services.php');
+    $containerConfigurator->import(__DIR__ . '/../plugins/Rechenspiele/config/services.php');
 
     $services->set(SharedAthleteStatisticsProvider::class);
 
