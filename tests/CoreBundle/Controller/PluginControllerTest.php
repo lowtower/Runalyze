@@ -6,6 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Entity\PluginConf;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
@@ -371,7 +372,7 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->getEntityManager()->persist($plugin);
         $this->getEntityManager()->flush();
 
-        $equipmentType = new \Runalyze\Bundle\CoreBundle\Entity\EquipmentType()
+        $equipmentType = new EquipmentType()
             ->setAccount($this->Account)
             ->setName('Shoes');
         $this->getEntityManager()->persist($equipmentType);
