@@ -303,16 +303,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(AccountValueResolver::class, 'app.value_resolver.account');
 
-    $services->load('Runalyze\\Bundle\\CoreBundle\\EventListener\\', __DIR__ . '/../src/CoreBundle/EventListener/{AccountLastActionListener,ConsoleExceptionListener,MaintenanceListener,UserLocaleListener,UserTimezoneListener}.php');
+    $services->load('Runalyze\\Bundle\\CoreBundle\\EventListener\\', __DIR__ . '/../src/CoreBundle/EventListener/{AccountLastActionListener,ConsoleExceptionListener,LocaleListener,MaintenanceListener,UserLocaleListener,UserTimezoneListener}.php');
 
     $services->alias('app.listener.console_exception', ConsoleExceptionListener::class);
 
-    $services->set('app.locale_listener', LocaleListener::class)
-        ->args([
-            '%kernel.default_locale%',
-        ]);
-
-    $services->alias(LocaleListener::class, 'app.locale_listener');
+    $services->alias('app.locale_listener', LocaleListener::class);
 
     $services->alias('app.listener.user_timezone', UserTimezoneListener::class);
 
