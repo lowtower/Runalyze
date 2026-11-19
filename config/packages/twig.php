@@ -13,6 +13,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             '%kernel.project_dir%/plugins/Sports/templates' => 'Sports',
             '%kernel.project_dir%/plugins/Prognose/templates' => 'Prognose',
             '%kernel.project_dir%/plugins/TagsSummary/templates' => 'TagsSummary',
+            '%kernel.project_dir%/plugins/Rechenspiele/templates' => 'Rechenspiele',
         ],
         'debug' => '%kernel.debug%',
         'strict_variables' => '%kernel.debug%',
