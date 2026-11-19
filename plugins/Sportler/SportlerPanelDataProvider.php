@@ -121,6 +121,8 @@ final readonly class SportlerPanelDataProvider
         self::validateInstallation($account, $installation);
 
         $configuration = $this->getConfigurationData($account, $installation)['configuration'];
+        $pluginId = $installation->getId();
+        assert($pluginId !== null);
 
         $latest = $this->userRepository->getLatestEntryFor($account);
 
