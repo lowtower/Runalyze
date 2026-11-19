@@ -37,7 +37,11 @@ final class EquipmentPanelPresenterTest extends TestCase
         $configurationStorage->expects($this->once())
             ->method('loadForPlugins')
             ->with([5])
-            ->willReturn([5 => ['type' => '3']]);
+            ->willReturn([
+                5 => [
+                    'type' => '3',
+                ],
+            ]);
 
         $equipmentTypeRepository = $this->createMock(EquipmentTypeRepository::class);
         $equipmentTypeRepository->expects($this->once())
@@ -61,14 +65,14 @@ final class EquipmentPanelPresenterTest extends TestCase
 
         $data = $presenter->present($account, $installation);
 
-        self::assertSame($equipmentType, $data['selected_type']);
-        self::assertCount(1, $data['equipment_rows']);
-        self::assertSame(9, $data['equipment_rows'][0]['id']);
-        self::assertSame('Running shoes', $data['equipment_rows'][0]['name']);
-        self::assertSame('my/search?get=true&equipmentid=9', $data['equipment_rows'][0]['search_url']);
-        self::assertSame(165, $data['equipment_rows'][0]['usage_width']);
-        self::assertTrue($data['equipment_rows'][0]['is_active']);
-        self::assertSame('250,000 km', $data['equipment_rows'][0]['display_value']);
+        $this->assertSame($equipmentType, $data['selected_type']);
+        $this->assertCount(1, $data['equipment_rows']);
+        $this->assertSame(9, $data['equipment_rows'][0]['id']);
+        $this->assertSame('Running shoes', $data['equipment_rows'][0]['name']);
+        $this->assertSame('my/search?get=true&equipmentid=9', $data['equipment_rows'][0]['search_url']);
+        $this->assertSame(165, $data['equipment_rows'][0]['usage_width']);
+        $this->assertTrue($data['equipment_rows'][0]['is_active']);
+        $this->assertSame('250,000 km', $data['equipment_rows'][0]['display_value']);
     }
 
     public function testFormatsDistanceUsingTheAccountImperialUnitSystem(): void
@@ -81,13 +85,17 @@ final class EquipmentPanelPresenterTest extends TestCase
         $presenter = $this->createPresenter(
             [$equipmentType],
             [$equipment],
-            [5 => ['type' => '3']],
+            [
+                5 => [
+                    'type' => '3',
+                ],
+            ],
             new Miles()
         );
 
         $data = $presenter->present($account, $installation);
 
-        self::assertSame('155.343 mi', $data['equipment_rows'][0]['display_value']);
+        $this->assertSame('155.343 mi', $data['equipment_rows'][0]['display_value']);
     }
 
     public function testUsesTheConfiguredDurationLimitForUsage(): void
@@ -100,12 +108,16 @@ final class EquipmentPanelPresenterTest extends TestCase
         $presenter = $this->createPresenter(
             [$equipmentType],
             [$equipment],
-            [5 => ['type' => '3']]
+            [
+                5 => [
+                    'type' => '3',
+                ],
+            ]
         );
 
         $data = $presenter->present($account, $installation);
 
-        self::assertSame(165, $data['equipment_rows'][0]['usage_width']);
+        $this->assertSame(165, $data['equipment_rows'][0]['usage_width']);
     }
 
     public function testUsesTheFirstNonZeroEquipmentDurationAsFallbackUsageLimit(): void
@@ -122,12 +134,16 @@ final class EquipmentPanelPresenterTest extends TestCase
         $presenter = $this->createPresenter(
             [$equipmentType],
             $equipment,
-            [5 => ['type' => '3']]
+            [
+                5 => [
+                    'type' => '3',
+                ],
+            ]
         );
 
         $data = $presenter->present($account, $installation);
 
-        self::assertSame([0, 330, 165], array_column($data['equipment_rows'], 'usage_width'));
+        $this->assertSame([0, 330, 165], array_column($data['equipment_rows'], 'usage_width'));
     }
 
     public function testPersistsAValidTypeSelectedFromThePanelMenu(): void
@@ -153,7 +169,9 @@ final class EquipmentPanelPresenterTest extends TestCase
 
         $handler = new EquipmentPanelSelectionHandler($typeRepository, $storage);
 
-        $handler->handle($account, $installation, ['type' => '3']);
+        $handler->handle($account, $installation, [
+            'type' => '3',
+        ]);
     }
 
     public function testDoesNotPersistAnUnknownTypeSelection(): void
@@ -175,7 +193,9 @@ final class EquipmentPanelPresenterTest extends TestCase
 
         $handler = new EquipmentPanelSelectionHandler($typeRepository, $storage);
 
-        $handler->handle($account, $installation, ['type' => '999']);
+        $handler->handle($account, $installation, [
+            'type' => '999',
+        ]);
     }
 
     public function testSelectionHandlerRejectsAnInstallationOwnedByAnotherAccount(): void
@@ -192,7 +212,9 @@ final class EquipmentPanelPresenterTest extends TestCase
         $handler = new EquipmentPanelSelectionHandler($typeRepository, $storage);
 
         $this->expectException(InvalidArgumentException::class);
-        $handler->handle($account, $installation, ['type' => '3']);
+        $handler->handle($account, $installation, [
+            'type' => '3',
+        ]);
     }
 
     public function testRejectsAnInstallationOwnedByAnotherAccount(): void
@@ -210,9 +232,9 @@ final class EquipmentPanelPresenterTest extends TestCase
     {
         $presenter = $this->createPresenter([], [], []);
 
-        self::assertSame('RunalyzePluginPanel_Equipment', $presenter->getKey());
-        self::assertSame('@Equipment/panel.html.twig', $presenter->getTemplate());
-        self::assertTrue($presenter->shouldReloadAfterTraining());
+        $this->assertSame('RunalyzePluginPanel_Equipment', $presenter->getKey());
+        $this->assertSame('@Equipment/panel.html.twig', $presenter->getTemplate());
+        $this->assertTrue($presenter->shouldReloadAfterTraining());
     }
 
     /**

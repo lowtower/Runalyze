@@ -937,14 +937,14 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         if ($created) {
             /** @var PluginInstallationManager $installationManager */
             $installationManager = self::getContainer()->get(PluginInstallationManager::class);
-            self::assertTrue($installationManager->install('RunalyzePluginPanel_Equipment'));
+            $this->assertTrue($installationManager->install('RunalyzePluginPanel_Equipment'));
             $plugin = $pluginRepository->findOneBy([
                 'account' => $this->Account,
                 'key' => 'RunalyzePluginPanel_Equipment',
             ]);
         }
 
-        self::assertInstanceOf(PluginEntity::class, $plugin);
+        $this->assertInstanceOf(PluginEntity::class, $plugin);
         $originalActive = $plugin->getActive();
         $plugin->setActive(PluginEntity::STATE_ACTIVE);
 

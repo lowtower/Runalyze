@@ -35,8 +35,12 @@ class EquipmentTypeRepository extends ServiceEntityRepository
     public function findAllForPanel(Account $account): array
     {
         return $this->findBy(
-            ['account' => $account->getId()],
-            ['name' => 'ASC']
+            [
+                'account' => $account->getId(),
+            ],
+            [
+                'name' => 'ASC',
+            ]
         );
     }
 

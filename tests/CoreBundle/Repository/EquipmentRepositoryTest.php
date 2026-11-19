@@ -49,14 +49,14 @@ final class EquipmentRepositoryTest extends AbstractRepositoryTestCase
             $this->Account
         );
 
-        self::assertGreaterThanOrEqual(2, count($equipment));
+        $this->assertGreaterThanOrEqual(2, count($equipment));
 
         foreach ($equipment as $index => $item) {
             $item->setDateEnd(new \DateTime('2024-01-01'));
             $item->setDistance((float) (count($equipment) - $index));
         }
 
-        $equipment[0]->setDateEnd(null);
+        $equipment[0]->setDateEnd();
         $equipment[0]->setDistance(0.5);
         $this->getEntityManager()->flush();
 
@@ -70,7 +70,7 @@ final class EquipmentRepositoryTest extends AbstractRepositoryTestCase
             $this->Account
         );
 
-        self::assertSame($expectedIds, array_map(
+        $this->assertSame($expectedIds, array_map(
             static fn (Equipment $item): ?int => $item->getId(),
             $result
         ));
