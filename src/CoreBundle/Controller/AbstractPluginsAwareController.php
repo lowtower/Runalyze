@@ -15,6 +15,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRequestHandlerInterface;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\LegacyContentResponseFactory;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
@@ -52,7 +53,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
     ) {}
 
     /**
-     * @throws Throwable if a legacy plugin throws
+     * @throws Throwable if a modern panel or legacy plugin throws
      */
     protected function getResponseForAllEnabledPanels(Request $request, Account $account): Response
     {
@@ -69,7 +70,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
 
                 if ($installation instanceof PluginInstallation) {
                     $panel = $this->modernPanelRegistry->get($pluginData['key']);
-                    $panelContent = $this->getResponseForModernPanel($account, $installation)->getContent();
+                    $panelContent = $this->getResponseForModernPanel($account, $installation, $request)->getContent();
                     $panelClass = $panel->shouldReloadAfterTraining() ? 'panel' : 'panel dont-reload-for-training';
                     $content .= '<div class="' . $panelClass . '" id="panel-' . $pluginData['id'] . '">' . $panelContent . '</div>';
 
@@ -87,7 +88,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
     }
 
     /**
-     * @throws Throwable if a legacy plugin throws
+     * @throws Throwable if a modern panel or legacy plugin throws
      */
     protected function getResponseFor(int $pluginId, Request $request, Account $account): Response
     {
@@ -99,7 +100,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
             && ! $installation->isInactive()
             && $this->modernPanelRegistry->has($installation->getKey())
         ) {
-            return $this->getResponseForModernPanel($account, $installation);
+            return $this->getResponseForModernPanel($account, $installation, $request);
         }
 
         $content = '';
@@ -118,9 +119,16 @@ abstract class AbstractPluginsAwareController extends AbstractController
         return $this->getResponseForPlugin($plugin, $request, $account);
     }
 
-    private function getResponseForModernPanel(Account $account, PluginInstallation $installation): Response
+    /**
+     * @throws InvalidArgumentException if a modern panel rejects the installation or request parameters
+     */
+    private function getResponseForModernPanel(Account $account, PluginInstallation $installation, Request $request): Response
     {
         $panel = $this->modernPanelRegistry->get($installation->getKey());
+
+        if ($panel instanceof ModernPanelRequestHandlerInterface) {
+            $panel->handleRequest($account, $installation, $request->query->all());
+        }
 
         return $this->render($panel->getTemplate(), [
             'plugin_id' => $installation->getId(),

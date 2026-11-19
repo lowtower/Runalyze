@@ -140,6 +140,8 @@ The registry is the only resolution boundary. It builds a key-to-plugin map, val
 
 The registry must not silently fall back from a missing modern key to filesystem scanning. Legacy discovery remains the responsibility of `PluginDiscovery`; the compatibility boundary decides which implementation path applies.
 
+Panels that need request-specific navigation can implement the optional `ModernPanelRequestHandlerInterface`. The controller passes query parameters to that handler before calling `present()`. The handler must validate every parameter it consumes and scope any selected entity to the authenticated account. Presenters remain focused on producing view data and must not read request globals or retain request data on the shared service.
+
 A modern plugin's key is application metadata, not its PHP class name or directory name. This allows implementations to move without changing persisted installation records.
 
 ### Implemented panel contract
@@ -278,6 +280,16 @@ The Sports dashboard panel is migrated through the existing panel contract:
 
 The presenter test is located at `tests/Plugins/Sports/Tests/SportsPanelPresenterTest.php`; dashboard integration coverage is added to the existing `DefaultControllerTest`. The legacy class should only be removed in a separate step after its discovery and installation responsibilities have been audited.
 
+## Third validated panel slice: Equipment
+
+The Equipment dashboard panel reuses the existing Doctrine entities and repositories:
+
+- `EquipmentPanelPresenter` uses `EquipmentRepository` and the panel-specific, account-scoped `EquipmentTypeRepository::findAllForPanel()` lookup. It preserves active-first and distance-descending equipment ordering, usage bars, and the existing search-window links.
+- `EquipmentPanelSelectionHandler` persists a selected equipment type only after verifying that the type belongs to the authenticated account. It uses `PluginConfigurationStorageInterface`; it does not access the database directly.
+- `ModernPanelRequestHandlerInterface` is an optional extension for panels that need validated query parameters before presentation. The controller invokes it before rendering; panels without request-specific behavior remain unchanged.
+- The panel template is owned by `plugins/Equipment/templates/` and loaded through the `@Equipment` Twig namespace.
+- Presenter and selection-handler coverage lives in `tests/Plugins/Equipment/Tests/EquipmentPanelPresenterTest.php`; repository ordering and account isolation are covered by `EquipmentRepositoryTest`, and the existing `DefaultControllerTest` covers dashboard rendering and type selection through the panel route.
+- The legacy Equipment class remains available for plugin discovery and configuration-window compatibility. Its dashboard rendering path is no longer used.
 ## Open design decisions
 
 Resolve these against each future concrete migration rather than speculating now:

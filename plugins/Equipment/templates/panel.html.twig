@@ -1,0 +1,75 @@
+{% extends 'my/panels/base.html.twig' %}
+
+{% block pluginTitle %}{{ 'Equipment'|trans }}{% endblock %}
+
+{% block panelHeadingMenu %}
+    <ul>
+        <li class="with-submenu">
+            <span class="link">{{ panel_data.selected_type ? panel_data.selected_type.name : 'Select equipment type'|trans }}</span>
+            <ul class="submenu">
+                {% for equipment_type in panel_data.equipment_types %}
+                    <li{% if panel_data.selected_type and panel_data.selected_type.id == equipment_type.id %} class="active"{% endif %}>
+                        <a class="ajax" target="panel-{{ plugin_id }}" href="{{ path('plugin-display', {'id': plugin_id, 'type': equipment_type.id}) }}">{{ equipment_type.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
+        {% if panel_data.selected_type %}
+            <li>
+                <a class="window" href="{{ path('equipment-overview') }}" title="{{ 'Add/Edit equipment'|trans }}">
+                    <i class="fa fa-fw fa-plus"></i>
+                </a>
+            </li>
+            <li>
+                <a class="window" data-size="big" href="{{ path('equipment-category-table', {'typeid': panel_data.selected_type.id}) }}" title="{{ 'Show all equipment'|trans }}">
+                    <i class="fa fa-fw fa-table"></i>
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+{% endblock %}
+
+{% block panelContent %}
+    {% if panel_data.selected_type is null %}
+        <p class="warning">{{ 'Please choose an equipment type in the plugin configuration.'|trans }}</p>
+    {% else %}
+        <style>
+            .equipment-usage {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                background-image: url('{{ asset('assets/images/damage.png') }}');
+                background-position: left center;
+                height: 2px;
+                max-width: 100%;
+            }
+        </style>
+
+        <div id="equipment">
+            {% if panel_data.equipment_rows is empty %}
+                <em>{{ "You don't have any equipment"|trans }}</em>
+            {% else %}
+                {% set active_count = panel_data.equipment_rows|filter(equipment => equipment.is_active)|length %}
+                {% set inactive_count = panel_data.equipment_rows|length - active_count %}
+
+                {% for equipment in panel_data.equipment_rows %}
+                    {% if inactive_count > 0 and loop.index == active_count + 1 %}
+                        <details>
+                            <summary>{{ 'Show/Hide unused equipment'|trans }}</summary>
+                    {% endif %}
+
+                    <p style="position: relative;">
+                        <span class="right">{{ equipment.display_value }}</span>
+                        <strong><a class="window" data-size="big" href="{{ equipment.search_url }}">{{ equipment.name }}</a></strong>
+                        <span class="equipment-usage" style="width: {{ equipment.usage_width }}px;"></span>
+                    </p>
+                {% endfor %}
+
+                {% if inactive_count > 0 %}
+                    </details>
+                {% endif %}
+            {% endif %}
+        </div>
+        <div class="clear"></div>
+    {% endif %}
+{% endblock %}

@@ -32,6 +32,17 @@ class EquipmentTypeRepository extends ServiceEntityRepository
     /**
      * @return EquipmentType[]
      */
+    public function findAllForPanel(Account $account): array
+    {
+        return $this->findBy(
+            ['account' => $account->getId()],
+            ['name' => 'ASC']
+        );
+    }
+
+    /**
+     * @return EquipmentType[]
+     */
     public function findSingleChoiceTypesFor(Account $account): array
     {
         return $this->findBy([
