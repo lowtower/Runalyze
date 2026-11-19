@@ -44,16 +44,8 @@ use Runalyze\Bundle\CoreBundle\Form\Tools\TrendAnalysis\TrendAnalysisType;
 use Runalyze\Bundle\CoreBundle\Form\Type\ActivityEquipmentType;
 use Runalyze\Bundle\CoreBundle\Form\Type\ActivityLapIntensityChoiceType;
 use Runalyze\Bundle\CoreBundle\Form\Type\ActivityTypeChoiceType;
-use Runalyze\Bundle\CoreBundle\Form\Type\DistanceType;
-use Runalyze\Bundle\CoreBundle\Form\Type\ElevationType;
-use Runalyze\Bundle\CoreBundle\Form\Type\EnergyKcalType;
-use Runalyze\Bundle\CoreBundle\Form\Type\EnergyType;
 use Runalyze\Bundle\CoreBundle\Form\Type\HrZoneBoundType;
-use Runalyze\Bundle\CoreBundle\Form\Type\PowerType;
 use Runalyze\Bundle\CoreBundle\Form\Type\SportChoiceType;
-use Runalyze\Bundle\CoreBundle\Form\Type\TemperatureType;
-use Runalyze\Bundle\CoreBundle\Form\Type\WeightType;
-use Runalyze\Bundle\CoreBundle\Form\Type\WindSpeedType;
 use Runalyze\Bundle\CoreBundle\MessageHandler\BackupGenerationMessageHandler;
 use Runalyze\Bundle\CoreBundle\MessageHandler\PosterGenerationMessageHandler;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
@@ -449,6 +441,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 
 
+    $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\Type\\', __DIR__ . '/../src/CoreBundle/Form/Type/{DistanceType,ElevationType,EnergyType,EnergyKcalType,PowerType,TemperatureType,WeightType,WindSpeedType}.php');
+
     $services->set('app.form.activity', ActivityType::class)
         ->arg('$TagRepository', service(TagRepository::class))
         ->tag('form.type');
@@ -527,31 +521,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(BodyValuesType::class, 'app.form.type.body_values');
 
-    $services->set('app.form.type.distance', DistanceType::class)
-        ->tag('form.type');
-
-    $services->alias(DistanceType::class, 'app.form.type.distance');
-
-    $services->set('app.form.type.elevation', ElevationType::class)
-        ->tag('form.type');
-
-    $services->alias(ElevationType::class, 'app.form.type.elevation');
-
-    $services->set('app.form.type.energy', EnergyType::class)
-        ->tag('form.type');
-
-    $services->alias(EnergyType::class, 'app.form.type.energy');
-
-    $services->set('app.form.type.energy_kcal', EnergyKcalType::class)
-        ->tag('form.type');
-
-    $services->alias(EnergyKcalType::class, 'app.form.type.energy_kcal');
-
-    $services->set('app.form.type.power', PowerType::class)
-        ->tag('form.type');
-
-    $services->alias(PowerType::class, 'app.form.type.power');
-
     $services->set('app.form.type.sport', SportChoiceType::class)
         ->arg('$SportRepository', service(SportRepository::class))
         ->call('setConfigurationManager', [
@@ -576,21 +545,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->tag('form.type');
 
     $services->alias(ActivityLapIntensityChoiceType::class, 'app.form.type.activity_lapintensity');
-
-    $services->set('app.form.type.temperature', TemperatureType::class)
-        ->tag('form.type');
-
-    $services->alias(TemperatureType::class, 'app.form.type.temperature');
-
-    $services->set('app.form.type.wind_speed', WindSpeedType::class)
-        ->tag('form.type');
-
-    $services->alias(WindSpeedType::class, 'app.form.type.wind_speed');
-
-    $services->set('app.form.type.weight', WeightType::class)
-        ->tag('form.type');
-
-    $services->alias(WeightType::class, 'app.form.type.weight');
 
     $services->set('app.form.type.hrzonebound', HrZoneBoundType::class)
         ->args([])
