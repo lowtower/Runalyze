@@ -48,7 +48,7 @@ final readonly class PluginSettingsProvider
 
             $modern = $this->modernPanelMetadataFor($data['key']);
 
-            if ($modern !== null) {
+            if ($modern instanceof \Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface) {
                 $entries[] = [
                     'id' => $data['id'],
                     'key' => $data['key'],
@@ -94,7 +94,7 @@ final readonly class PluginSettingsProvider
 
             $modern = $this->modernPanelMetadataFor($key);
 
-            if ($modern !== null) {
+            if ($modern instanceof \Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface) {
                 $entries[] = [
                     'key' => $key,
                     'name' => $modern->getName(),
@@ -119,7 +119,7 @@ final readonly class PluginSettingsProvider
 
     private function modernPanelMetadataFor(string $key): ?ModernPanelMetadataInterface
     {
-        if ($this->modernPanelRegistry === null || ! $this->modernPanelRegistry->has($key)) {
+        if (! $this->modernPanelRegistry instanceof \Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry || ! $this->modernPanelRegistry->has($key)) {
             return null;
         }
 

@@ -8,10 +8,10 @@ use Doctrine\Persistence\ManagerRegistry;
 use InvalidArgumentException;
 use LogicException;
 use PluginInstaller;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
 use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 

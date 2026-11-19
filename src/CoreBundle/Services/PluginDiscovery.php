@@ -35,7 +35,7 @@ final readonly class PluginDiscovery
             }
         }
 
-        if ($this->modernPanelRegistry !== null) {
+        if ($this->modernPanelRegistry instanceof \Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry) {
             $keys = array_values(array_unique([...$keys, ...$this->modernPanelRegistry->getKeys()]));
         }
 

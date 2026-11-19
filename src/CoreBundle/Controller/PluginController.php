@@ -8,8 +8,8 @@ use Frontend;
 use HTML;
 use Icon;
 use InvalidArgumentException;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -104,7 +104,7 @@ class PluginController extends AbstractPluginsAwareController
         if (is_scalar($id) && ctype_digit((string) $id) && $account instanceof Account) {
             $installation = $this->pluginInstallationManager->getInstallationForAccount($account, (int) $id);
 
-            if ($installation !== null
+            if ($installation instanceof \Runalyze\Bundle\CoreBundle\Entity\Plugin
                 && $this->modernPanelRegistry->has($installation->getKey())
                 && $this->modernPanelRegistry->get($installation->getKey()) instanceof ModernPanelMetadataInterface
             ) {
