@@ -380,7 +380,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\', __DIR__ . '/../src/CoreBundle/Form/{BodyValuesType,MultiImporterType,RaceResultType}.php');
 
-    $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\Settings\\', __DIR__ . '/../src/CoreBundle/Form/Settings/SportTypeType.php');
+    $services->set(SportTypeType::class);
 
     $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\Type\\', __DIR__ . '/../src/CoreBundle/Form/Type/{DistanceType,ElevationType,EnergyType,EnergyKcalType,HrZoneBoundType,PowerType,TemperatureType,WeightType,WindSpeedType}.php');
 
