@@ -383,9 +383,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(ActivityType::class);
 
 
-    $services->set('app.form.activity.equipment', ActivityEquipmentType::class);
+    $services->set(ActivityEquipmentType::class);
 
-    $services->alias(ActivityEquipmentType::class, 'app.form.activity.equipment');
+    $services->alias('app.form.activity.equipment', ActivityEquipmentType::class);
 
     $services->set(AnovaType::class);
 
