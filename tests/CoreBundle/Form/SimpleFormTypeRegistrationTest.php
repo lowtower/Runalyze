@@ -12,6 +12,7 @@ use Runalyze\Bundle\CoreBundle\Form\EquipmentCategoryType;
 use Runalyze\Bundle\CoreBundle\Form\EquipmentType as EquipmentFormType;
 use Runalyze\Bundle\CoreBundle\Form\MultiImporterType;
 use Runalyze\Bundle\CoreBundle\Form\RaceResultType;
+use Runalyze\Bundle\CoreBundle\Form\Settings\SportType;
 use Runalyze\Bundle\CoreBundle\Form\Settings\SportTypeType;
 use Runalyze\Bundle\CoreBundle\Form\Tools\PosterType;
 use Runalyze\Bundle\CoreBundle\Form\Type\HrZoneBoundType;
@@ -40,6 +41,7 @@ final class SimpleFormTypeRegistrationTest extends KernelTestCase
         yield 'multi importer' => [MultiImporterType::class];
         yield 'race result' => [RaceResultType::class];
         yield 'poster' => [PosterType::class];
+        yield 'sport settings' => [SportType::class];
         yield 'sport type settings' => [SportTypeType::class];
         yield 'heart rate zone bound' => [HrZoneBoundType::class];
     }

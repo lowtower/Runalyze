@@ -416,13 +416,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(EquipmentCategoryType::class);
 
-    $services->set('app.form.sport_setting', SportType::class)
-        ->arg('$TypeRepository', service(TypeRepository::class))
-        ->arg('$SportRepository', service(SportRepository::class))
-        ->arg('$EquipmentTypeRepository', service(EquipmentTypeRepository::class))
-        ->tag('form.type');
-
-    $services->alias(SportType::class, 'app.form.sport_setting');
+    $services->set(SportType::class);
 
 
 
