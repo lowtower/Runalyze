@@ -55,6 +55,51 @@ final class PrognosePanelPresenterTest extends TestCase
         $this->assertSame('mi', $data['distance_unit']);
     }
 
+    public function testPredictionDistancesUseLegacyDefaultsWithoutStoredConfiguration(): void
+    {
+        $account = $this->account(12);
+        $presenter = $this->presenter([], new Kilometer());
+
+        $this->assertSame(
+            [1, 3, 5, 10, 21.1, 42.2],
+            $presenter->getPredictionDistances($account, $this->installation($account))
+        );
+    }
+
+    public function testPredictionDistancesReadStoredKilometersForCalculator(): void
+    {
+        $account = $this->account(12);
+        $presenter = $this->presenter([
+            5 => ['distances' => '5, 10, invalid, -2, 21.1'],
+        ], new Miles());
+
+        $this->assertSame(
+            [5.0, 10.0, 21.1],
+            $presenter->getPredictionDistances($account, $this->installation($account))
+        );
+    }
+
+    public function testPredictionDistancesRejectAnotherAccountsInstallationWithoutReadingStorage(): void
+    {
+        $storage = $this->createMock(PluginConfigurationStorageInterface::class);
+        $storage->expects($this->never())->method('loadForPlugins');
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->presenter([], new Kilometer(), $storage)
+            ->getPredictionDistances($this->account(12), $this->installation($this->account(13)));
+    }
+
+    public function testPredictionDistancesAcceptInactiveInstallationForCalculatorSettings(): void
+    {
+        $account = $this->account(12);
+        $presenter = $this->presenter([
+            5 => ['distances' => '3, 7'],
+        ], new Kilometer());
+
+        $this->assertSame([3.0, 7.0], $presenter->getPredictionDistances($account, $this->installation($account, true)));
+    }
+
     public function testConvertsSubmittedMilesToKilometersForPersistence(): void
     {
         $account = $this->account(12);
