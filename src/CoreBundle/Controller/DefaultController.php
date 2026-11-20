@@ -27,6 +27,7 @@ use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
+use Runalyze\Plugins\Prognose\PrognoseCalculatorPersonalBestProvider;
 use Runalyze\Plugins\Prognose\PrognosePanelPresenter;
 use Runalyze\View\Activity\Context as ActivityContext;
 use RunalyzePluginPanel_Prognose;
@@ -306,7 +307,11 @@ class DefaultController extends AbstractPluginsAwareController
      * @throws Throwable if the legacy prognosis calculator window throws
      */
     #[Route(path: '/plugin/RunalyzePluginPanel_Prognose/window.php', methods: ['GET', 'POST'], priority: 10)]
-    public function prognoseCalculatorWindowAction(PrognosePanelPresenter $prognosePanelPresenter, ?Account $account = null): Response
+    public function prognoseCalculatorWindowAction(
+        PrognosePanelPresenter $prognosePanelPresenter,
+        PrognoseCalculatorPersonalBestProvider $personalBestProvider,
+        ?Account $account = null
+    ): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -328,15 +333,12 @@ class DefaultController extends AbstractPluginsAwareController
 
         /** @var TrainingRepository $trainingRepository */
         $trainingRepository = $this->doctrine->getRepository(Training::class);
-        $topResults = $trainingRepository->findTopResults(
-            $account,
-            $this->configurationManager->getList()->getGeneral()->getRunningSport(),
-            2
-        );
+        $runningSportId = $this->configurationManager->getList()->getGeneral()->getRunningSport();
+        $topResults = $trainingRepository->findTopResults($account, $runningSportId, 2);
 
         return $this->legacyContentResponseFactory->create(
-            $this->legacyPluginOutputRenderer->render(function () use ($topResults, $distances): void {
-                new \Prognose_PrognosisWindow($topResults, $distances)->display();
+            $this->legacyPluginOutputRenderer->render(function () use ($topResults, $distances, $account, $runningSportId, $personalBestProvider): void {
+                new \Prognose_PrognosisWindow($topResults, $distances, $account, $runningSportId, $personalBestProvider)->display();
             })->getContent(),
             $this->requestStack->getCurrentRequest()
         );
