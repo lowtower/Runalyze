@@ -407,9 +407,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(ActivityLapIntensityChoiceType::class);
 
 
-    $services->set('app.automatic_reload_flag_setter', AutomaticReloadFlagSetter::class);
-
-    $services->alias(AutomaticReloadFlagSetter::class, 'app.automatic_reload_flag_setter');
+    $services->set(AutomaticReloadFlagSetter::class);
 
     $services->set(PrivacyGuard::class);
 
