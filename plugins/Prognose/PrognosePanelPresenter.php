@@ -158,6 +158,32 @@ final readonly class PrognosePanelPresenter implements ModernPanelInterface, Mod
         }
     }
 
+    /**
+     * @return list<float>
+     *
+     * @throws InvalidArgumentException if the installation is not available for the account
+     */
+    public function getPredictionDistances(Account $account, Plugin $installation): array
+    {
+        self::validateInstallation($account, $installation, true);
+
+        $pluginId = $installation->getId();
+        assert($pluginId !== null);
+
+        $configuration = $this->configurationStorage->loadForPlugins([$pluginId])[$pluginId] ?? [];
+
+        if (! isset($configuration['distances'])) {
+            return self::DEFAULT_DISTANCES;
+        }
+
+        $storedDistances = array_filter(
+            array_map(trim(...), explode(',', $configuration['distances'])),
+            static fn (string $distance): bool => is_numeric($distance) && (float) $distance > 0
+        );
+
+        return array_values(array_map(floatval(...), $storedDistances));
+    }
+
     public function getTemplate(): string
     {
         return '@Prognose/panel.html.twig';
@@ -184,15 +210,7 @@ final readonly class PrognosePanelPresenter implements ModernPanelInterface, Mod
         $configuration = $this->configurationStorage->loadForPlugins([$pluginId])[$pluginId] ?? [];
         $accountConfiguration = $this->configurationManager->getList($account);
 
-        $distances = self::DEFAULT_DISTANCES;
-
-        if (isset($configuration['distances'])) {
-            $storedDistances = array_filter(
-                array_map(trim(...), explode(',', $configuration['distances'])),
-                static fn (string $distance): bool => is_numeric($distance) && (float) $distance > 0
-            );
-            $distances = array_map(floatval(...), array_values($storedDistances));
-        }
+        $distances = $this->getPredictionDistances($account, $installation);
 
         $vo2maxCategory = $accountConfiguration->getVO2max();
         $vo2maxShape = $vo2maxCategory->useManualValue()
