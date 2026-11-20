@@ -382,9 +382,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\Type\\', __DIR__ . '/../src/CoreBundle/Form/Type/{DistanceType,ElevationType,EnergyType,EnergyKcalType,HrZoneBoundType,PowerType,TemperatureType,WeightType,WindSpeedType}.php');
 
-    $services->set('app.form.activity', ActivityType::class);
-
-    $services->alias(ActivityType::class, 'app.form.activity');
+    $services->set(ActivityType::class);
 
 
     $services->set('app.form.activity.equipment', ActivityEquipmentType::class)
