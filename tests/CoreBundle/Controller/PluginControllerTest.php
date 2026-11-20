@@ -492,6 +492,8 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStringContainsString('name="distances"', $content);
         $this->assertStringContainsString('name="model"', $content);
         $this->assertStringContainsString('name="use_be"', $content);
+        $this->assertStringContainsString('VO<sub>2</sub>max', $content);
+        $this->assertStringNotContainsString('VO&lt;sub&gt;2&lt;/sub&gt;max', $content);
         $this->assertStringContainsString('<div class="w100 block">', $content);
 
         $this->Client->request('POST', '/call/call.Plugin.config.php?id=' . $id, [
