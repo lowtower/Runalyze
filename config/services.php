@@ -393,9 +393,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(AnovaType::class);
 
-    $services->set('app.form.trend_analysis', TrendAnalysisType::class);
-
-    $services->alias(TrendAnalysisType::class, 'app.form.trend_analysis');
+    $services->set(TrendAnalysisType::class);
 
     $services->set(PosterType::class);
 
