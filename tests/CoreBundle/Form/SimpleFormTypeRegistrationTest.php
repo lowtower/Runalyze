@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use Runalyze\Bundle\CoreBundle\Form\BodyValuesType;
 use Runalyze\Bundle\CoreBundle\Form\EquipmentCategoryType;
+use Runalyze\Bundle\CoreBundle\Form\EquipmentType as EquipmentFormType;
 use Runalyze\Bundle\CoreBundle\Form\MultiImporterType;
 use Runalyze\Bundle\CoreBundle\Form\RaceResultType;
 use Runalyze\Bundle\CoreBundle\Form\Settings\SportTypeType;
@@ -32,6 +33,7 @@ final class SimpleFormTypeRegistrationTest extends KernelTestCase
     {
         yield 'body values' => [BodyValuesType::class];
         yield 'equipment category' => [EquipmentCategoryType::class];
+        yield 'equipment' => [EquipmentFormType::class];
         yield 'multi importer' => [MultiImporterType::class];
         yield 'race result' => [RaceResultType::class];
         yield 'sport type settings' => [SportTypeType::class];
