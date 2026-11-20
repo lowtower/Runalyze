@@ -28,6 +28,7 @@ use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
+use Runalyze\Plugins\Prognose\PrognoseCalculatorModelFactory;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorPersonalBestProvider;
 use Runalyze\Plugins\Prognose\PrognosePanelPresenter;
 use Runalyze\Plugins\Prognose\PrognoseTrendDataProvider;
@@ -312,6 +313,7 @@ class DefaultController extends AbstractPluginsAwareController
     public function prognoseCalculatorWindowAction(
         PrognosePanelPresenter $prognosePanelPresenter,
         PrognoseCalculatorPersonalBestProvider $personalBestProvider,
+        PrognoseCalculatorModelFactory $modelFactory,
         ?Account $account = null
     ): Response {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -338,8 +340,8 @@ class DefaultController extends AbstractPluginsAwareController
         $topResults = $trainingRepository->findTopResults($account, $runningSportId, 2);
 
         return $this->legacyContentResponseFactory->create(
-            $this->legacyPluginOutputRenderer->render(function () use ($topResults, $distances, $account, $runningSportId, $personalBestProvider): void {
-                new \Prognose_PrognosisWindow($topResults, $distances, $account, $runningSportId, $personalBestProvider)->display();
+            $this->legacyPluginOutputRenderer->render(function () use ($topResults, $distances, $account, $runningSportId, $personalBestProvider, $modelFactory): void {
+                new \Prognose_PrognosisWindow($topResults, $distances, $account, $runningSportId, $personalBestProvider, $modelFactory)->display();
             })->getContent(),
             $this->requestStack->getCurrentRequest()
         );
