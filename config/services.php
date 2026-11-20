@@ -427,13 +427,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(SportSelectionFactory::class);
 
-    $services->set('app.unit_system_factory', UnitSystemFactory::class);
-
-    $services->alias(UnitSystemFactory::class, 'app.unit_system_factory');
+    $services->set(UnitSystemFactory::class);
 
     $services->set('app.unit_system.distance', AbstractDistanceUnit::class)
         ->factory([
-            service('app.unit_system_factory'),
+            service(UnitSystemFactory::class),
             'getDistanceUnit',
         ])
         ->args([
@@ -442,7 +440,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set('app.unit_system.elevation', AbstractDistanceUnit::class)
         ->factory([
-            service('app.unit_system_factory'),
+            service(UnitSystemFactory::class),
             'getElevationUnit',
         ])
         ->args([
@@ -455,7 +453,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set('app.unit_system.energy', AbstractEnergyUnit::class)
         ->factory([
-            service('app.unit_system_factory'),
+            service(UnitSystemFactory::class),
             'getEnergyUnit',
         ])
         ->args([
@@ -466,7 +464,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set('app.unit_system.temperature', AbstractTemperatureUnit::class)
         ->factory([
-            service('app.unit_system_factory'),
+            service(UnitSystemFactory::class),
             'getTemperatureUnit',
         ])
         ->args([
@@ -477,7 +475,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set('app.unit_system.wind_speed', AbstractPaceInDecimalFormatUnit::class)
         ->factory([
-            service('app.unit_system_factory'),
+            service(UnitSystemFactory::class),
             'getWindSpeedUnit',
         ])
         ->args([
@@ -488,7 +486,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set('app.unit_system.weight', AbstractWeightUnit::class)
         ->factory([
-            service('app.unit_system_factory'),
+            service(UnitSystemFactory::class),
             'getWeightUnit',
         ])
         ->args([
