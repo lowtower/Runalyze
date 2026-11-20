@@ -22,11 +22,17 @@ final readonly class PrognoseCalculatorPersonalBestProvider
      */
     public function findForDistances(Account $account, int $sportId, array $distances): array
     {
+        $accountId = $account->getId();
+
+        if ($accountId === null) {
+            return [];
+        }
+
         $results = $this->raceResultRepository->findPersonalBestDetailsForDistances($account, $sportId, $distances);
         $personalBests = [];
 
         foreach ($results as $distance => $result) {
-            $activity = $this->trainingRepository->findForAccount($result['activity_id'], $account->getId());
+            $activity = $this->trainingRepository->findForAccount($result['activity_id'], $accountId);
 
             if ($activity === null) {
                 continue;
