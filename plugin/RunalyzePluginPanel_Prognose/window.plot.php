@@ -13,6 +13,8 @@ if (! isset($_GET['distance'])) {
     $distance = (float) $_GET['distance'];
 }
 
+$raceResultsData = $raceResultRepository->findTrendResultsForDistance($account, $runningSportId, (float) $distance);
+
 $Submenu = '';
 foreach ($distances as $km) {
     $link = 'plugin/RunalyzePluginPanel_Prognose/window.plot.php?distance=' . $km;
