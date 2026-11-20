@@ -314,10 +314,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(UnsubscribeHashGenerator::class)
         ->arg('$appSecret', '%app.secret%');
 
-    $services->set('app.event.doctrine.table_prefix_subscriber', TablePrefixSubscriber::class)
+    $services->set(TablePrefixSubscriber::class)
         ->arg('$prefix', '%app.database_prefix%');
 
-    $services->alias(TablePrefixSubscriber::class, 'app.event.doctrine.table_prefix_subscriber');
+    $services->alias('app.event.doctrine.table_prefix_subscriber', TablePrefixSubscriber::class);
 
     $services->alias('app.listener.maintenance', MaintenanceListener::class);
 
