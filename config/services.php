@@ -656,9 +656,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(FileImporter::class, 'app.file_importer');
 
-    $services->set('app.activity_data_container.converter', ActivityDataContainerToActivityContextConverter::class);
-
-    $services->alias(ActivityDataContainerToActivityContextConverter::class, 'app.activity_data_container.converter');
+    $services->set(ActivityDataContainerToActivityContextConverter::class);
 
     $services->set('app.activity_data_container.filter', ActivityDataContainerFilter::class)
         ->arg('$logger', service('logger'))
