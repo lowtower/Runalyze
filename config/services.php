@@ -29,6 +29,7 @@ use Runalyze\Bundle\CoreBundle\EventListener\UserLocaleListener;
 use Runalyze\Bundle\CoreBundle\EventListener\UserTimezoneListener;
 use Runalyze\Bundle\CoreBundle\Form\ActivityType;
 use Runalyze\Bundle\CoreBundle\Form\EquipmentCategoryType;
+use Runalyze\Bundle\CoreBundle\Form\EquipmentType as EquipmentFormType;
 use Runalyze\Bundle\CoreBundle\Form\Settings\SportType;
 use Runalyze\Bundle\CoreBundle\Form\Settings\SportTypeType;
 use Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaType;
@@ -421,11 +422,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(PosterType::class, 'app.form.poster');
 
-    $services->set('app.form.equipment', \Runalyze\Bundle\CoreBundle\Form\EquipmentType::class)
-        ->arg('$EquipmentRepository', service(EquipmentTypeRepository::class))
-        ->tag('form.type');
-
-    $services->alias(\Runalyze\Bundle\CoreBundle\Form\EquipmentType::class, 'app.form.equipment');
+    $services->set(EquipmentFormType::class);
 
     $services->set(EquipmentCategoryType::class);
 
