@@ -175,8 +175,11 @@ configuration. The stable plugin key and legacy window URLs are unchanged.
 The interactive calculator reuses `src/CoreBundle/Model/Prognosis/PrognosisModel`
 for constructing the four prediction models and uses an account-scoped
 personal-best provider. Legacy form identifiers are mapped at the window
-boundary; one reference result is sufficient for Steffny and Cameron. The
-calculator's HTML and POST input processing remain for subsequent migration.
+boundary; one reference result is sufficient for Steffny and Cameron. The calculator now delegates model selection and input conversion to
+`PrognoseCalculatorModelFactory`, which reuses the existing `PrognosisModel`
+instead of implementing prognosis formulas. The legacy window still owns POST
+state, distance-unit conversion, HTML fieldsets and the result table; those
+boundaries remain for subsequent migration.
 The trend window now loads its official race-result series through the
 account-scoped `RaceresultRepository` instead of direct SQL and a cache key
 shared across accounts. The training-history query also comes from the

@@ -6,6 +6,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
+use Runalyze\Plugins\Prognose\PrognoseCalculatorModelFactory;
 
 /**
  * Characterization test for Prognose_PrognosisWindow.
@@ -21,6 +22,8 @@ final class Prognose_PrognosisWindowCharacterizationTest extends TestCase
     {
         $this->window = new \ReflectionClass(Prognose_PrognosisWindow::class)
             ->newInstanceWithoutConstructor();
+        $modelFactoryProperty = new \ReflectionProperty(Prognose_PrognosisWindow::class, 'modelFactory');
+        $modelFactoryProperty->setValue($this->window, new PrognoseCalculatorModelFactory());
 
         $this->originalPost = $_POST;
     }
