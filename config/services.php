@@ -37,7 +37,6 @@ use Runalyze\Bundle\CoreBundle\Form\Tools\TrendAnalysis\TrendAnalysisType;
 use Runalyze\Bundle\CoreBundle\Form\Type\ActivityEquipmentType;
 use Runalyze\Bundle\CoreBundle\Form\Type\ActivityLapIntensityChoiceType;
 use Runalyze\Bundle\CoreBundle\Form\Type\ActivityTypeChoiceType;
-use Runalyze\Bundle\CoreBundle\Form\Type\HrZoneBoundType;
 use Runalyze\Bundle\CoreBundle\Form\Type\SportChoiceType;
 use Runalyze\Bundle\CoreBundle\MessageHandler\BackupGenerationMessageHandler;
 use Runalyze\Bundle\CoreBundle\MessageHandler\PosterGenerationMessageHandler;
@@ -380,7 +379,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\', __DIR__ . '/../src/CoreBundle/Form/{BodyValuesType,MultiImporterType,RaceResultType}.php');
 
-    $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\Type\\', __DIR__ . '/../src/CoreBundle/Form/Type/{DistanceType,ElevationType,EnergyType,EnergyKcalType,PowerType,TemperatureType,WeightType,WindSpeedType}.php');
+    $services->set(SportTypeType::class);
+
+    $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\Type\\', __DIR__ . '/../src/CoreBundle/Form/Type/{DistanceType,ElevationType,EnergyType,EnergyKcalType,HrZoneBoundType,PowerType,TemperatureType,WeightType,WindSpeedType}.php');
 
     $services->set('app.form.activity', ActivityType::class)
         ->arg('$TagRepository', service(TagRepository::class))
@@ -441,10 +442,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(SportType::class, 'app.form.sport_setting');
 
-    $services->set('app.form.sport_types_setting', SportTypeType::class)
-        ->tag('form.type');
-
-    $services->alias(SportTypeType::class, 'app.form.sport_types_setting');
 
 
 
@@ -473,11 +470,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(ActivityLapIntensityChoiceType::class, 'app.form.type.activity_lapintensity');
 
-    $services->set('app.form.type.hrzonebound', HrZoneBoundType::class)
-        ->args([])
-        ->tag('form.type');
-
-    $services->alias(HrZoneBoundType::class, 'app.form.type.hrzonebound');
 
     $services->set('app.automatic_reload_flag_setter', AutomaticReloadFlagSetter::class);
 
