@@ -8,14 +8,13 @@ use Runalyze\Activity\Distance;
 
 /** @var list<float> $distances */
 if (! isset($_GET['distance'])) {
-    $distance = (in_array(10, $distances)) ? 10 : trim($distances[0]);
+    $distance = in_array(10, $distances) ? 10 : $distances[0];
 } else {
     $distance = (float) $_GET['distance'];
 }
 
 $Submenu = '';
 foreach ($distances as $km) {
-    $km = (float) trim($km);
     $link = 'plugin/RunalyzePluginPanel_Prognose/window.plot.php?distance=' . $km;
     $Submenu .= '<li' . ($km == $distance ? ' class="active"' : '') . '>' . Ajax::window('<a href="' . $link . '">' . (new Distance($km)->stringAuto()) . '</a>') . '</li>';
 }
