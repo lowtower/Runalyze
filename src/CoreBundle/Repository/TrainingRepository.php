@@ -2,6 +2,8 @@
 
 namespace Runalyze\Bundle\CoreBundle\Repository;
 
+use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\NonUniqueResultException;
@@ -123,12 +125,12 @@ class TrainingRepository extends ServiceEntityRepository
             ->getQuery()
             ->toIterable();
 
-        $today = new \DateTimeImmutable('today', new \DateTimeZone('UTC'));
+        $today = new DateTimeImmutable('today', new DateTimeZone('UTC'));
         $history = [];
 
         foreach ($rows as $row) {
             $date = gmdate('Y-m-d', (int) $row['time']);
-            $day = new \DateTimeImmutable($date, new \DateTimeZone('UTC'));
+            $day = new DateTimeImmutable($date, new DateTimeZone('UTC'));
             $duration = (float) $row['duration'];
             $vo2max = (float) ($row['vo2max'] ?? 0);
             $useVO2max = (bool) $row['useVO2max'];
