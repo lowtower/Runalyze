@@ -757,6 +757,16 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testPrognosisPlotWindowRequiresInstalledPanel(): void
     {
+        $entityManager = $this->getEntityManager();
+        $plugin = $entityManager->getRepository(PluginEntity::class)->findOneBy([
+            'account' => $this->Account,
+            'key' => 'RunalyzePluginPanel_Prognose',
+        ]);
+        $this->assertInstanceOf(PluginEntity::class, $plugin);
+
+        $entityManager->remove($plugin);
+        $entityManager->flush();
+
         $this->loginClient($this->Client, $this->Account, 'default');
 
         $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.plot.php');
