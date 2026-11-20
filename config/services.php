@@ -37,7 +37,6 @@ use Runalyze\Bundle\CoreBundle\Form\Tools\TrendAnalysis\TrendAnalysisType;
 use Runalyze\Bundle\CoreBundle\Form\Type\ActivityEquipmentType;
 use Runalyze\Bundle\CoreBundle\Form\Type\ActivityLapIntensityChoiceType;
 use Runalyze\Bundle\CoreBundle\Form\Type\ActivityTypeChoiceType;
-use Runalyze\Bundle\CoreBundle\Form\Type\HrZoneBoundType;
 use Runalyze\Bundle\CoreBundle\Form\Type\SportChoiceType;
 use Runalyze\Bundle\CoreBundle\MessageHandler\BackupGenerationMessageHandler;
 use Runalyze\Bundle\CoreBundle\MessageHandler\PosterGenerationMessageHandler;
