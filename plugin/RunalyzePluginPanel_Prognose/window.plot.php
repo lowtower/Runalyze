@@ -5,8 +5,15 @@
  */
 
 use Runalyze\Activity\Distance;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
 
-/** @var list<float> $distances */
+/**
+ * @var list<float> $distances
+ * @var Account $account
+ * @var RaceresultRepository $raceResultRepository
+ * @var int $runningSportId
+ */
 if (! isset($_GET['distance'])) {
     $distance = in_array(10, $distances) ? 10 : $distances[0];
 } else {
