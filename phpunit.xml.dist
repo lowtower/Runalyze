@@ -53,6 +53,7 @@
         <include>
             <directory suffix=".php">inc</directory>
             <directory suffix=".php">plugin</directory>
+            <directory suffix=".php">plugins</directory>
             <directory suffix=".php">src</directory>
         </include>
         <exclude>

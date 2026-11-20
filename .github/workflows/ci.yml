@@ -153,8 +153,23 @@ jobs:
           path: coverage-baseline/var/coverage/clover.xml
           key: ${{ env.COVERAGE_CACHE_PREFIX }}${{ github.sha }}
 
-      - name: Restore base branch coverage
+      - name: Detect PHPUnit coverage scope changes
         if: github.event_name == 'pull_request'
+        id: coverage-scope
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git fetch --no-tags --depth=1 origin "$BASE_SHA"
+          git show "$BASE_SHA:phpunit.xml.dist" > "$RUNNER_TEMP/base-phpunit.xml.dist"
+          if cmp -s phpunit.xml.dist "$RUNNER_TEMP/base-phpunit.xml.dist"; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "PHPUnit configuration changed; recalculating base coverage with the PR's configuration."
+          fi
+
+      - name: Restore base branch coverage
+        if: github.event_name == 'pull_request' && steps.coverage-scope.outputs.changed == 'false'
         id: baseline-cache
         uses: actions/cache/restore@v6
         with:
@@ -162,15 +177,23 @@ jobs:
           key: ${{ env.COVERAGE_CACHE_PREFIX }}${{ github.event.pull_request.base.sha }}
 
       - name: Checkout pull request base revision
-        if: github.event_name == 'pull_request' && steps.baseline-cache.outputs.cache-hit != 'true'
+        if: >-
+          github.event_name == 'pull_request' &&
+          (steps.coverage-scope.outputs.changed == 'true' || steps.baseline-cache.outputs.cache-hit != 'true')
         uses: actions/checkout@v7
         with:
           ref: ${{ github.event.pull_request.base.sha }}
           path: coverage-baseline
           fetch-depth: 1
 
+      - name: Apply PR coverage configuration to base revision
+        if: github.event_name == 'pull_request' && steps.coverage-scope.outputs.changed == 'true'
+        run: cp phpunit.xml.dist coverage-baseline/phpunit.xml.dist
+
       - name: Measure base branch coverage
-        if: github.event_name == 'pull_request' && steps.baseline-cache.outputs.cache-hit != 'true'
+        if: >-
+          github.event_name == 'pull_request' &&
+          (steps.coverage-scope.outputs.changed == 'true' || steps.baseline-cache.outputs.cache-hit != 'true')
         working-directory: coverage-baseline
         run: |
           composer install --no-interaction --prefer-dist --no-progress --no-scripts
