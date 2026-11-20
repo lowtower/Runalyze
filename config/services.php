@@ -286,12 +286,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(EntityManager::class, 'doctrine.orm.default_entity_manager');
     $services->alias(ObjectManager::class, 'doctrine.orm.default_entity_manager');
 
-    $services->set('app.value_resolver.account', AccountValueResolver::class)
+    $services->set(AccountValueResolver::class)
+        ->autoconfigure(false)
         ->tag('controller.argument_value_resolver', [
             'priority' => 150,
         ]);
-
-    $services->alias(AccountValueResolver::class, 'app.value_resolver.account');
 
     $services->load('Runalyze\\Bundle\\CoreBundle\\EventListener\\', __DIR__ . '/../src/CoreBundle/EventListener/{AccountLastActionListener,ConsoleExceptionListener,LocaleListener,MaintenanceListener,UserLocaleListener,UserTimezoneListener}.php');
 
