@@ -15,8 +15,12 @@ final class PrognoseTrendPlotRendererTest extends TestCase
     {
         $plot = new PrognoseTrendPlotRenderer()->render(
             5.72,
-            ['1760000000000' => 1200000.0],
-            ['1760000000000' => 1300000.0],
+            [
+                '1760000000000' => 1200000.0,
+            ],
+            [
+                '1760000000000' => 1300000.0,
+            ],
             [],
             true
         );
@@ -35,8 +39,16 @@ final class PrognoseTrendPlotRendererTest extends TestCase
             [],
             [],
             [
-                ['id' => 11, 'time' => 1750000000, 'official_time' => 2200.0],
-                ['id' => 12, 'time' => 1750001000, 'official_time' => 2300.0],
+                [
+                    'id' => 11,
+                    'time' => 1750000000,
+                    'official_time' => 2200.0,
+                ],
+                [
+                    'id' => 12,
+                    'time' => 1750001000,
+                    'official_time' => 2300.0,
+                ],
             ],
             true,
             static function (int $id) use (&$checked): bool {
@@ -58,7 +70,11 @@ final class PrognoseTrendPlotRendererTest extends TestCase
             10.0,
             [],
             [],
-            [['id' => 11, 'time' => 1750000000, 'official_time' => 2200.0]],
+            [[
+                'id' => 11,
+                'time' => 1750000000,
+                'official_time' => 2200.0,
+            ]],
             false,
             static function (int $id) use (&$checked): bool {
                 $checked[] = $id;
