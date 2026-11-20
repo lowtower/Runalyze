@@ -696,6 +696,52 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPrognosisPlotWindowDefaultsToFirstCustomDistance(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        /** @var PluginInstallationManager $installationManager */
+        $installationManager = self::getContainer()->get(PluginInstallationManager::class);
+        $installationManager->install('RunalyzePluginPanel_Prognose');
+
+        $entityManager = $this->getEntityManager();
+        $plugin = $entityManager->getRepository(PluginEntity::class)->findOneBy([
+            'account' => $this->Account,
+            'key' => 'RunalyzePluginPanel_Prognose',
+        ]);
+        $this->assertInstanceOf(PluginEntity::class, $plugin);
+
+        $configuration = new PluginConf()
+            ->setPlugin($plugin)
+            ->setConfig('distances')
+            ->setValue('5.72,8.9');
+        $entityManager->persist($configuration);
+        $entityManager->flush();
+
+        try {
+            $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.plot.php');
+
+            $this->assertStatusCode(200, $this->Client);
+            $content = (string) $this->Client->getResponse()->getContent();
+            $this->assertStringContainsString('formverlauf_5_72', $content);
+            $this->assertStringContainsString('distance=8.9', $content);
+        } finally {
+            $entityManager->remove($configuration);
+            $entityManager->flush();
+        }
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPrognosisPlotWindowRequiresInstalledPanel(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.plot.php');
+
+        $this->assertStatusCode(404, $this->Client);
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testPrognosisPlotWindowUsesTheInstalledOptionalRacePlugin(): void
     {
         $this->loginClient($this->Client, $this->Account, 'default');
