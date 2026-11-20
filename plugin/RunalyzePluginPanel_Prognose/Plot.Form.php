@@ -6,7 +6,6 @@
  * @package Runalyze\Plugins\Panels
  */
 
-use Runalyze\Activity\Distance;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Plugins\Prognose\PrognoseTrendDataProvider;
 use Runalyze\Util\LocalTime;
@@ -24,7 +23,6 @@ $distance ??= 10;
 $DataFailed = false;
 $Prognosis = [];
 $PrognosisWithBasicEndurance = [];
-$BasicEndurance = [];
 $Results = [];
 
 $trendData = $trendDataProvider->getSeries($account, $runningSportId, (float) $distance);
@@ -33,11 +31,11 @@ if ($trendData['has_history']) {
     $Prognosis = $trendData['prognosis'];
     $PrognosisWithBasicEndurance = $trendData['prognosis_with_basic_endurance'];
 
-        foreach ($raceResultsData as $dat) {
-            if ($WKplugin === null || ! $WKplugin->isFunCompetition($dat['id'])) {
-                $Results[new LocalTime($dat['time'])->toServerTimestamp() . '000'] = $dat['official_time'] * 1000;
-            }
+    foreach ($raceResultsData as $dat) {
+        if ($WKplugin === null || ! $WKplugin->isFunCompetition($dat['id'])) {
+            $Results[new LocalTime($dat['time'])->toServerTimestamp() . '000'] = $dat['official_time'] * 1000;
         }
+    }
 } else {
     $DataFailed = true;
 }
@@ -98,8 +96,6 @@ if ($Prognosis !== [] && max($Prognosis) > 1000 * 3600) {
 } else {
     $Plot->setYAxisTimeFormat('%M:%S');
 }
-
-# $Plot->setTitle(__('Prognosis trend') . ' ' . Distance::format($distance));
 
 if ($DataFailed) {
     $Plot->raiseError(__('No data available.'));
