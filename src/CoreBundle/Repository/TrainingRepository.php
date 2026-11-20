@@ -94,6 +94,58 @@ class TrainingRepository extends ServiceEntityRepository
     }
 
     /**
+     * Return training rows for the prognosis trend, preserving the legacy
+     * VO2max duration weighting and ordering by activity date.
+     *
+     * @return list<array{
+     *     date_age: int,
+     *     date: string,
+     *     distance: float,
+     *     vo2max_weighted: float,
+     *     vo2max_sum_time: float
+     * }>
+     */
+    public function findPrognosisTrendHistory(Account $account, int $sportId, bool $withElevation): array
+    {
+        $vo2maxColumn = $withElevation ? 'vo2maxWithElevation' : 'vo2max';
+
+        $rows = $this->createQueryBuilder('t')
+            ->select('t.time AS time')
+            ->addSelect('t.distance AS distance')
+            ->addSelect('t.s AS duration')
+            ->addSelect('t.useVO2max AS useVO2max')
+            ->addSelect('t.' . $vo2maxColumn . ' AS vo2max')
+            ->where('t.account = :account')
+            ->andWhere('t.sport = :sport')
+            ->setParameter('account', $account)
+            ->setParameter('sport', $sportId)
+            ->orderBy('t.time', \SortDirection::Ascending)
+            ->getQuery()
+            ->toIterable();
+
+        $today = new \DateTimeImmutable('today', new \DateTimeZone('UTC'));
+        $history = [];
+
+        foreach ($rows as $row) {
+            $date = gmdate('Y-m-d', (int) $row['time']);
+            $day = new \DateTimeImmutable($date, new \DateTimeZone('UTC'));
+            $duration = (float) $row['duration'];
+            $vo2max = (float) ($row['vo2max'] ?? 0);
+            $useVO2max = (bool) $row['useVO2max'];
+
+            $history[] = [
+                'date_age' => (int) $today->diff($day)->format('%r%a'),
+                'date' => $date,
+                'distance' => (float) ($row['distance'] ?? 0),
+                'vo2max_weighted' => $duration * (int) $useVO2max * $vo2max,
+                'vo2max_sum_time' => $vo2max > 0 && $useVO2max ? $duration : 0.0,
+            ];
+        }
+
+        return $history;
+    }
+
+    /**
      * Get the best activities according to `vo2max_by_time`, at most one per distance.
      *
      * Replaces the raw SQL query of the deprecated
