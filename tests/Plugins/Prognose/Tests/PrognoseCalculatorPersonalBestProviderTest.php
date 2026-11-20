@@ -25,8 +25,14 @@ final class PrognoseCalculatorPersonalBestProviderTest extends TestCase
             ->method('findPersonalBestDetailsForDistances')
             ->with($account, 3, [5.72, 8.9])
             ->willReturn([
-                '5.72' => ['activity_id' => 51, 'seconds' => 2064.0],
-                '8.90' => ['activity_id' => 89, 'seconds' => 3196.0],
+                '5.72' => [
+                    'activity_id' => 51,
+                    'seconds' => 2064.0,
+                ],
+                '8.90' => [
+                    'activity_id' => 89,
+                    'seconds' => 3196.0,
+                ],
             ]);
 
         $first = $this->createStub(Training::class);
@@ -50,8 +56,16 @@ final class PrognoseCalculatorPersonalBestProviderTest extends TestCase
         $provider = new PrognoseCalculatorPersonalBestProvider($races, $trainings);
 
         $this->assertSame([
-            '5.72' => ['seconds' => 2064.0, 'activity_id' => 51, 'timestamp' => 1700000000],
-            '8.90' => ['seconds' => 3196.0, 'activity_id' => 89, 'timestamp' => 1710000000],
+            '5.72' => [
+                'seconds' => 2064.0,
+                'activity_id' => 51,
+                'timestamp' => 1700000000,
+            ],
+            '8.90' => [
+                'seconds' => 3196.0,
+                'activity_id' => 89,
+                'timestamp' => 1710000000,
+            ],
         ], $provider->findForDistances($account, 3, [5.72, 8.9]));
     }
 
@@ -62,7 +76,12 @@ final class PrognoseCalculatorPersonalBestProviderTest extends TestCase
 
         $races = $this->createMock(RaceresultRepository::class);
         $races->expects($this->once())->method('findPersonalBestDetailsForDistances')
-            ->willReturn(['5.72' => ['activity_id' => 51, 'seconds' => 2064.0]]);
+            ->willReturn([
+                '5.72' => [
+                    'activity_id' => 51,
+                    'seconds' => 2064.0,
+                ],
+            ]);
 
         $trainings = $this->createMock(TrainingRepository::class);
         $trainings->expects($this->once())

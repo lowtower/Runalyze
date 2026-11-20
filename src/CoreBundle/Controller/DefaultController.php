@@ -311,8 +311,7 @@ class DefaultController extends AbstractPluginsAwareController
         PrognosePanelPresenter $prognosePanelPresenter,
         PrognoseCalculatorPersonalBestProvider $personalBestProvider,
         ?Account $account = null
-    ): Response
-    {
+    ): Response {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         if (! $account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account) {

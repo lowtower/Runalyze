@@ -224,10 +224,10 @@ final class Prognose_PrognosisWindowCharacterizationTest extends TestCase
 
         $html = $this->getProtectedProperty('ResultTable');
 
-        $this->assertStringContainsString('5.72 km', $html);
-        $this->assertStringContainsString('0:34:00', $html);
-        $this->assertStringContainsString('/activity/51', $html);
-        $this->assertStringContainsString('14.11.2023', $html);
+        $this->assertStringContainsString('5.72 km', (string) $html);
+        $this->assertStringContainsString('0:34:00', (string) $html);
+        $this->assertStringContainsString('/activity/51', (string) $html);
+        $this->assertStringContainsString('14.11.2023', (string) $html);
     }
 
     private function setUnitSystem(string $system): void
