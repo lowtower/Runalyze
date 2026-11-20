@@ -310,9 +310,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias('app.listener.recalculation_tasks_performer_listener', RecalculationTasksPerformerListener::class);
 
-    $services->set('app.sha256salted_encoder', Sha256SaltedEncoder::class);
-
-    $services->alias(Sha256SaltedEncoder::class, 'app.sha256salted_encoder');
+    $services->set(Sha256SaltedEncoder::class);
 
     $services->set(UnsubscribeHashGenerator::class)
         ->arg('$appSecret', '%app.secret%');
