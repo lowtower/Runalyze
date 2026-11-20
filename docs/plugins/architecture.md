@@ -179,8 +179,10 @@ boundary; one reference result is sufficient for Steffny and Cameron. The
 calculator's HTML and POST input processing remain for subsequent migration.
 The trend window now loads its official race-result series through the
 account-scoped `RaceresultRepository` instead of direct SQL and a cache key
-shared across accounts. Its training-history/VO2max-shape SQL, legacy
-configuration, and JavaScript plot rendering remain for later migration.
+shared across accounts. The training-history query now also comes from the
+account-scoped `TrainingRepository`, preserving the legacy VO2max weighting
+and date-based rows. The trend calculation, legacy configuration access, and
+JavaScript plot rendering remain for later migration.
 
 Before deleting another legacy class, verify installation, settings metadata,
 configuration POST/defaults, activation/deactivation, optional plot/window routes,
