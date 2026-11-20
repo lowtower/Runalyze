@@ -350,6 +350,7 @@ class DefaultController extends AbstractPluginsAwareController
     public function prognosisPlotWindowAction(
         PrognosePanelPresenter $prognosePanelPresenter,
         RaceresultRepository $raceResultRepository,
+        TrainingRepository $trainingRepository,
         ?Account $account = null
     ): Response {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -381,7 +382,7 @@ class DefaultController extends AbstractPluginsAwareController
         }
 
         return $this->legacyContentResponseFactory->create(
-            $this->legacyPluginOutputRenderer->render(function () use ($distances, $WKplugin, $account, $runningSportId, $raceResultRepository): void {
+            $this->legacyPluginOutputRenderer->render(function () use ($distances, $WKplugin, $account, $runningSportId, $raceResultRepository, $trainingRepository): void {
                 include FRONTEND_PATH . '../plugin/RunalyzePluginPanel_Prognose/window.plot.php';
             })->getContent(),
             $this->requestStack->getCurrentRequest()

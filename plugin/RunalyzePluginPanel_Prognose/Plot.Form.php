@@ -7,13 +7,19 @@
  */
 
 use Runalyze\Activity\Distance;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Calculation\BasicEndurance;
-use Runalyze\Calculation\JD;
 use Runalyze\Configuration;
 use Runalyze\Sports\Running\Prognosis;
 use Runalyze\Util\LocalTime;
 
-/** @var list<array{time: int, id: int, official_time: float}> $raceResultsData */
+/**
+ * @var list<array{time: int, id: int, official_time: float}> $raceResultsData
+ * @var TrainingRepository $trainingRepository
+ * @var Account $account
+ * @var int $runningSportId
+ */
 $WKplugin ??= null;
 
 $distance ??= 10;
@@ -32,18 +38,7 @@ $BasicEnduranceObj->readSettingsFromConfiguration();
 if (time() != START_TIME) {
     $withElevation = Configuration::VO2max()->useElevationCorrection();
 
-    $Data = DB::getInstance()->query('
-        SELECT
-            DATEDIFF(FROM_UNIXTIME(`time`), "' . date('Y-m-d') . '") as `date_age`,
-            DATE(FROM_UNIXTIME(`time`)) as `date`,
-            `distance`,
-            ' . JD\Shape::mysqlVO2maxSum($withElevation) . ' as `vo2max_weighted`,
-            ' . JD\Shape::mysqlVO2maxSumTime($withElevation) . ' as `vo2max_sum_time`
-        FROM `' . PREFIX . 'training`
-        WHERE
-            `accountid`=' . \SessionAccountHandler::getId() . ' AND
-            `sportid`=' . Configuration::General()->runningSport() . '
-        ORDER BY `date` ASC')->fetchAll();
+    $Data = $trainingRepository->findPrognosisTrendHistory($account, $runningSportId, $withElevation);
 
     if ($Data !== []) {
         $currentFirstIndexForVO2max = 0;

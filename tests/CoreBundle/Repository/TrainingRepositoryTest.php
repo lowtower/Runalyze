@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Repository;
 
+use DateTimeImmutable;
+use DateTimeZone;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\BasicEndurance;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\VO2max;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -81,6 +83,70 @@ final class TrainingRepositoryTest extends AbstractRepositoryTestCase
         ], $this->TrainingRepository->findDailyTrimpForAccount($this->Account, $sameDay, $sameDay));
 
         $this->assertSame([], $this->TrainingRepository->findDailyTrimpForAccount($this->getEmptyAccount()));
+    }
+
+    public function testPrognosisTrendHistoryPreservesChronologyAndVO2maxWeights(): void
+    {
+        $runningSport = $this->getDefaultAccountsRunningSport();
+        $earlyTimestamp = strtotime('2026-01-10 08:00:00 UTC');
+        $laterTimestamp = strtotime('2026-01-11 08:00:00 UTC');
+
+        $later = $this->getActivityForDefaultAccount($laterTimestamp, 1800, 12.0, $runningSport);
+        $this->TrainingRepository->save($later);
+
+        $early = $this->getActivityForDefaultAccount($earlyTimestamp, 3600, 10.0, $runningSport);
+        $this->TrainingRepository->save($early);
+
+        $this->insertActivityForDefaultAccount($earlyTimestamp, 1800, 20.0, $this->getDefaultAccountsCyclingSport());
+
+        $later->setVO2max(44.0)->setVO2maxWithElevation(48.0)->setUseVO2max(false);
+        $early->setVO2max(45.0)->setVO2maxWithElevation(50.0)->setUseVO2max(true);
+        $this->getEntityManager()->flush();
+
+        $today = new DateTimeImmutable('today', new DateTimeZone('UTC'));
+        $earlyAge = (int) $today->diff(new DateTimeImmutable('2026-01-10', new DateTimeZone('UTC')))->format('%r%a');
+        $laterAge = (int) $today->diff(new DateTimeImmutable('2026-01-11', new DateTimeZone('UTC')))->format('%r%a');
+
+        $this->assertSame([
+            [
+                'date_age' => $earlyAge,
+                'date' => '2026-01-10',
+                'distance' => 10.0,
+                'vo2max_weighted' => 162000.0,
+                'vo2max_sum_time' => 3600.0,
+            ],
+            [
+                'date_age' => $laterAge,
+                'date' => '2026-01-11',
+                'distance' => 12.0,
+                'vo2max_weighted' => 0.0,
+                'vo2max_sum_time' => 0.0,
+            ],
+        ], $this->TrainingRepository->findPrognosisTrendHistory($this->Account, $runningSport->getId(), false));
+
+        $elevationHistory = $this->TrainingRepository->findPrognosisTrendHistory($this->Account, $runningSport->getId(), true);
+        $this->assertEqualsWithDelta(180000.0, $elevationHistory[0]['vo2max_weighted'], PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(3600.0, $elevationHistory[0]['vo2max_sum_time'], PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(0.0, $elevationHistory[1]['vo2max_weighted'], PHP_FLOAT_EPSILON);
+    }
+
+    public function testPrognosisTrendHistoryIsScopedToAccountAndHandlesMissingVO2max(): void
+    {
+        $runningSport = $this->getDefaultAccountsRunningSport();
+        $activity = $this->getActivityForDefaultAccount(strtotime('2026-01-10 12:00:00 UTC'), 1000, 5.0, $runningSport);
+        $activity->setVO2max(null)->setUseVO2max(true);
+        $this->TrainingRepository->save($activity);
+
+        $this->assertSame([], $this->TrainingRepository->findPrognosisTrendHistory(
+            $this->getEmptyAccount(),
+            $runningSport->getId(),
+            false
+        ));
+
+        $history = $this->TrainingRepository->findPrognosisTrendHistory($this->Account, $runningSport->getId(), false);
+        $this->assertCount(1, $history);
+        $this->assertEqualsWithDelta(0.0, $history[0]['vo2max_weighted'], PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(0.0, $history[0]['vo2max_sum_time'], PHP_FLOAT_EPSILON);
     }
 
     protected function insertActivityForDefaultAccount(
