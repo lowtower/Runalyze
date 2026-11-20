@@ -443,7 +443,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(SportType::class, 'app.form.sport_setting');
 
-    $services->alias('app.form.sport_types_setting', SportTypeType::class);
 
 
 
@@ -472,7 +471,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(ActivityLapIntensityChoiceType::class, 'app.form.type.activity_lapintensity');
 
-    $services->alias('app.form.type.hrzonebound', HrZoneBoundType::class);
 
     $services->set('app.automatic_reload_flag_setter', AutomaticReloadFlagSetter::class);
 
