@@ -475,8 +475,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(AutomaticReloadFlagSetter::class, 'app.automatic_reload_flag_setter');
 
-    $services->set('app.privacy_guard', PrivacyGuard::class)
-        ->arg('$ConfigurationManager', service(ConfigurationManager::class));
+    $services->set('app.privacy_guard', PrivacyGuard::class);
 
     $services->alias(PrivacyGuard::class, 'app.privacy_guard');
 
@@ -498,9 +497,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(RecalculationManager::class, 'app.recalculation_manager');
 
-    $services->set('app.sport_selection_factory', SportSelectionFactory::class)
-        ->arg('$SportRepository', service(SportRepository::class))
-        ->arg('$ConfigurationManager', service(ConfigurationManager::class));
+    $services->set('app.sport_selection_factory', SportSelectionFactory::class);
 
     $services->alias(SportSelectionFactory::class, 'app.sport_selection_factory');
 
