@@ -18,6 +18,7 @@ use Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaType;
 use Runalyze\Bundle\CoreBundle\Form\Tools\PosterType;
 use Runalyze\Bundle\CoreBundle\Form\Tools\TrendAnalysis\TrendAnalysisType;
 use Runalyze\Bundle\CoreBundle\Form\Type\HrZoneBoundType;
+use Runalyze\Bundle\CoreBundle\Form\Type\SportChoiceType;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Form\FormRegistryInterface;
 
@@ -48,5 +49,6 @@ final class SimpleFormTypeRegistrationTest extends KernelTestCase
         yield 'sport settings' => [SportType::class];
         yield 'sport type settings' => [SportTypeType::class];
         yield 'heart rate zone bound' => [HrZoneBoundType::class];
+        yield 'sport choice' => [SportChoiceType::class];
     }
 }
