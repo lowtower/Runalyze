@@ -92,14 +92,16 @@ final class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $laterTimestamp = strtotime('2026-01-11 08:00:00 UTC');
 
         $later = $this->getActivityForDefaultAccount($laterTimestamp, 1800, 12.0, $runningSport);
-        $later->setVO2max(44.0)->setVO2maxWithElevation(48.0)->setUseVO2max(false);
         $this->TrainingRepository->save($later);
 
         $early = $this->getActivityForDefaultAccount($earlyTimestamp, 3600, 10.0, $runningSport);
-        $early->setVO2max(45.0)->setVO2maxWithElevation(50.0)->setUseVO2max(true);
         $this->TrainingRepository->save($early);
 
         $this->insertActivityForDefaultAccount($earlyTimestamp, 1800, 20.0, $this->getDefaultAccountsCyclingSport());
+
+        $later->setVO2max(44.0)->setVO2maxWithElevation(48.0)->setUseVO2max(false);
+        $early->setVO2max(45.0)->setVO2maxWithElevation(50.0)->setUseVO2max(true);
+        $this->getEntityManager()->flush();
 
         $today = new DateTimeImmutable('today', new DateTimeZone('UTC'));
         $earlyAge = (int) $today->diff(new DateTimeImmutable('2026-01-10', new DateTimeZone('UTC')))->format('%r%a');
