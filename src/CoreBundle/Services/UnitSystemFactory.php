@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Services;
 
+use Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem;
+use Runalyze\Metrics\Distance\Unit\AbstractDistanceUnit;
+use Runalyze\Metrics\Energy\Unit\AbstractEnergyUnit;
+use Runalyze\Metrics\Temperature\Unit\AbstractTemperatureUnit;
+use Runalyze\Metrics\Velocity\Unit\AbstractPaceInDecimalFormatUnit;
+use Runalyze\Metrics\Weight\Unit\AbstractWeightUnit;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 
