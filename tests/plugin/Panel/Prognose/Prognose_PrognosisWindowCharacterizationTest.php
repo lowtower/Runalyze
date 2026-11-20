@@ -127,6 +127,26 @@ final class Prognose_PrognosisWindowCharacterizationTest extends TestCase
             \Runalyze\Sports\Running\Prognosis\VO2max::class,
             $this->getProtectedProperty('PrognosisObject')
         );
+        $this->assertSame('vo2max', $_POST['model']);
+    }
+
+    public function testReadPostDataNormalizesUntrustedModelBeforeRendering(): void
+    {
+        $this->setUnitSystem(DistanceUnitSystem::METRIC);
+        $_POST = [
+            'model' => "vo2max');alert(1);//",
+            'distances' => '5',
+            'vo2max' => '50',
+            'endurance-value' => '80',
+        ];
+
+        $this->callProtectedMethod('readPostData');
+
+        $this->assertSame('vo2max', $_POST['model']);
+        $this->assertInstanceOf(
+            \Runalyze\Sports\Running\Prognosis\VO2max::class,
+            $this->getProtectedProperty('PrognosisObject')
+        );
     }
 
     public function testReadPostDataUsesBockForRobertBockModelWithValidResults(): void
