@@ -8,7 +8,11 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Services\AccountChecker;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Runalyze\Bundle\CoreBundle\Services\Sha256SaltedEncoder;
+use Symfony\Bundle\SecurityBundle\DependencyInjection\SecurityExtension;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
 final class SecurityConfigurationTest extends TestCase
@@ -28,74 +32,19 @@ final class SecurityConfigurationTest extends TestCase
     /**
      * @return array<string, mixed>
      */
-    private function loadSecurityConfiguration(): array
+    private function loadSecurityConfiguration(string $environment = 'dev'): array
     {
-        return [
-            'password_hashers' => [
-                Account::class => [
-                    'id' => 'app.sha256salted_encoder',
-                ],
-            ],
-            'providers' => [
-                'runalyzeuser' => [
-                    'entity' => [
-                        'class' => Account::class,
-                    ],
-                ],
-            ],
-            'role_hierarchy' => [
-                'ROLE_ADMIN' => 'ROLE_USER',
-            ],
-            'firewalls' => [
-                'dev' => [
-                    'pattern' => '^/(_(profiler|wdt)|css|images|js)/',
-                    'security' => false,
-                ],
-                'setup' => [
-                    'pattern' => '^/(update|install)',
-                    'security' => false,
-                ],
-                'externalapi' => [
-                    'pattern' => '^/api',
-                    'http_basic' => true,
-                    'provider' => 'runalyzeuser',
-                    'stateless' => true,
-                    'user_checker' => AccountChecker::class,
-                ],
-                'default' => [
-                    'entry_point' => 'form_login',
-                    'http_basic' => null,
-                    'provider' => 'runalyzeuser',
-                    'switch_user' => [
-                        'role' => 'ROLE_ADMIN',
-                        'parameter' => '_switch_user',
-                    ],
-                    'user_checker' => AccountChecker::class,
-                    'logout' => [
-                        'path' => '/logout',
-                        'target' => '/',
-                    ],
-                    'stateless' => false,
-                    'form_login' => [
-                        'login_path' => 'login',
-                        'check_path' => 'login_check',
-                        'enable_csrf' => true,
-                        'use_referer' => true,
-                    ],
-                    'remember_me' => [
-                        'secret' => '%app.secret%',
-                        'lifetime' => 604800,
-                        'path' => '/',
-                    ],
-                ],
-            ],
-            'access_control' => [
-                [
-                    'path' => '^/api',
-                    'roles' => 'ROLE_USER',
-                ],
-            ],
-        ];
+        $container = new ContainerBuilder();
+        $container->registerExtension(new SecurityExtension());
+
+        $loader = new PhpFileLoader(
+            $container,
+            new FileLocator(dirname(__DIR__, 3) . '/config/packages'),
+            $environment
+        );
+        $loader->load('security.php');
+
+        return array_replace_recursive([], ...$container->getExtensionConfig('security'));
     }
 
     /**
@@ -204,19 +153,28 @@ final class SecurityConfigurationTest extends TestCase
         $this->assertSame('ROLE_USER', $this->security['role_hierarchy']['ROLE_ADMIN']);
     }
 
-    public function testPasswordsOfAccountsAreHashedByTheLegacyEncoder(): void
+    public function testAccountPasswordsUseModernHashingWithLegacyMigration(): void
     {
-        $this->assertSame(
-            'app.sha256salted_encoder',
-            $this->security['password_hashers'][Account::class]['id']
-        );
+        $hashers = $this->security['password_hashers'];
+
+        $this->assertSame('auto', $hashers[Account::class]['algorithm']);
+        $this->assertSame(['legacy_sha256salted'], $hashers[Account::class]['migrate_from']);
+        $this->assertSame(Sha256SaltedEncoder::class, $hashers['legacy_sha256salted']['id']);
     }
 
-    public function testPasswordHashingIsMadeCheapInTheTestEnvironmentOnly(): void
+    public function testPasswordHashingCostsAreReducedOnlyInTheTestEnvironment(): void
     {
-        $this->assertArrayNotHasKey(
-            PasswordAuthenticatedUserInterface::class,
-            $this->security['password_hashers']
-        );
+        $developmentHasher = $this->security['password_hashers'][Account::class];
+        $testHasher = $this->loadSecurityConfiguration('test')['password_hashers'][Account::class];
+
+        $this->assertArrayNotHasKey('cost', $developmentHasher);
+        $this->assertArrayNotHasKey('time_cost', $developmentHasher);
+        $this->assertArrayNotHasKey('memory_cost', $developmentHasher);
+
+        $this->assertSame('auto', $testHasher['algorithm']);
+        $this->assertSame(['legacy_sha256salted'], $testHasher['migrate_from']);
+        $this->assertSame(4, $testHasher['cost']);
+        $this->assertSame(3, $testHasher['time_cost']);
+        $this->assertSame(10, $testHasher['memory_cost']);
     }
 }
