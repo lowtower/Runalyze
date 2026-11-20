@@ -77,6 +77,8 @@ final readonly class PrognoseTrendPlotRenderer
             $plot->raiseError(__('No data available.'));
         }
 
+        $html = Plot::getDivFor($plotId, 800, 450);
+
         ob_start();
 
         try {
@@ -90,7 +92,7 @@ final readonly class PrognoseTrendPlotRenderer
 
         return [
             'plot_id' => $plotId,
-            'html' => Plot::getDivFor($plotId, 800, 450),
+            'html' => $html,
             'javascript' => $javascript === false ? '' : $javascript,
         ];
     }
