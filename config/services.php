@@ -657,11 +657,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(FileImporter::class, 'app.file_importer');
 
-    $services->set('app.activity_data_container.converter', ActivityDataContainerToActivityContextConverter::class)
-        ->arg('$SportRepository', service(SportRepository::class))
-        ->arg('$TypeRepository', service(TypeRepository::class))
-        ->arg('$EquipmentRepository', service(EquipmentRepository::class))
-        ->arg('$ConfigurationManager', service(ConfigurationManager::class));
+    $services->set('app.activity_data_container.converter', ActivityDataContainerToActivityContextConverter::class);
 
     $services->alias(ActivityDataContainerToActivityContextConverter::class, 'app.activity_data_container.converter');
 
