@@ -422,9 +422,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(PosterType::class, 'app.form.poster');
 
-    $services->set('app.form.equipment', EquipmentFormType::class);
-
-    $services->alias(EquipmentFormType::class, 'app.form.equipment');
+    $services->set(EquipmentFormType::class);
 
     $services->set(EquipmentCategoryType::class);
 
