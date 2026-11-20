@@ -396,7 +396,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set('app.form.activity.equipment', ActivityEquipmentType::class)
         ->call('setConfigurationManager', [
-            service('app.configuration_manager'),
+            service(ConfigurationManager::class),
         ])
         ->tag('form.type');
 
@@ -406,7 +406,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$SportRepository', service(SportRepository::class))
         ->arg('$TypeRepository', service(TypeRepository::class))
         ->arg('$EquipmentTypeRepository', service(EquipmentTypeRepository::class))
-        ->arg('$ConfigurationManager', service('app.configuration_manager'))
+        ->arg('$ConfigurationManager', service(ConfigurationManager::class))
         ->tag('form.type');
 
     $services->alias(AnovaType::class, 'app.form.anova');
@@ -414,7 +414,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set('app.form.trend_analysis', TrendAnalysisType::class)
         ->arg('$SportRepository', service(SportRepository::class))
         ->arg('$TypeRepository', service(TypeRepository::class))
-        ->arg('$ConfigurationManager', service('app.configuration_manager'))
+        ->arg('$ConfigurationManager', service(ConfigurationManager::class))
         ->tag('form.type');
 
     $services->alias(TrendAnalysisType::class, 'app.form.trend_analysis');
@@ -464,7 +464,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set('app.form.type.sport', SportChoiceType::class)
         ->arg('$SportRepository', service(SportRepository::class))
         ->call('setConfigurationManager', [
-            service('app.configuration_manager'),
+            service(ConfigurationManager::class),
         ])
         ->tag('form.type');
 
@@ -472,7 +472,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set('app.form.type.activity_type', ActivityTypeChoiceType::class)
         ->call('setConfigurationManager', [
-            service('app.configuration_manager'),
+            service(ConfigurationManager::class),
         ])
         ->tag('form.type');
 
@@ -480,7 +480,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set('app.form.type.activity_lapintensity', ActivityLapIntensityChoiceType::class)
         ->call('setConfigurationManager', [
-            service('app.configuration_manager'),
+            service(ConfigurationManager::class),
         ])
         ->tag('form.type');
 
@@ -497,7 +497,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(AutomaticReloadFlagSetter::class, 'app.automatic_reload_flag_setter');
 
     $services->set('app.privacy_guard', PrivacyGuard::class)
-        ->arg('$ConfigurationManager', service('app.configuration_manager'));
+        ->arg('$ConfigurationManager', service(ConfigurationManager::class));
 
     $services->alias(PrivacyGuard::class, 'app.privacy_guard');
 
@@ -507,16 +507,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(ConfigurationManager::class);
 
-    $services->alias('app.configuration_manager', ConfigurationManager::class);
-
-    $services->set('app.configuration_updater', ConfigurationUpdater::class)
+    $services->set(ConfigurationUpdater::class)
         ->lazy(true);
 
-    $services->alias(ConfigurationUpdater::class, 'app.configuration_updater');
-
     $services->set('app.recalculation_manager', RecalculationManager::class)
-        ->arg('$ConfigurationManager', service('app.configuration_manager'))
-        ->arg('$ConfigurationUpdater', service('app.configuration_updater'))
+        ->arg('$ConfigurationManager', service(ConfigurationManager::class))
+        ->arg('$ConfigurationUpdater', service(ConfigurationUpdater::class))
         ->arg('$TrainingRepository', service(TrainingRepository::class))
         ->arg('$RaceResultRepository', service(RaceresultRepository::class))
         ->lazy(true);
@@ -525,7 +521,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set('app.sport_selection_factory', SportSelectionFactory::class)
         ->arg('$SportRepository', service(SportRepository::class))
-        ->arg('$ConfigurationManager', service('app.configuration_manager'));
+        ->arg('$ConfigurationManager', service(ConfigurationManager::class));
 
     $services->alias(SportSelectionFactory::class, 'app.sport_selection_factory');
 
@@ -539,7 +535,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'getDistanceUnit',
         ])
         ->args([
-            service('app.configuration_manager'),
+            service(ConfigurationManager::class),
         ]);
 
     $services->set('app.unit_system.elevation', AbstractDistanceUnit::class)
@@ -548,7 +544,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'getElevationUnit',
         ])
         ->args([
-            service('app.configuration_manager'),
+            service(ConfigurationManager::class),
         ]);
 
     $services->alias(AbstractDistanceUnit::class . ' $distanceUnit', 'app.unit_system.distance');
@@ -561,7 +557,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'getEnergyUnit',
         ])
         ->args([
-            service('app.configuration_manager'),
+            service(ConfigurationManager::class),
         ]);
 
     $services->alias(AbstractEnergyUnit::class . ' $energyUnit', 'app.unit_system.energy');
@@ -572,7 +568,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'getTemperatureUnit',
         ])
         ->args([
-            service('app.configuration_manager'),
+            service(ConfigurationManager::class),
         ]);
 
     $services->alias(AbstractTemperatureUnit::class . ' $temperatureUnit', 'app.unit_system.temperature');
@@ -583,7 +579,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'getWindSpeedUnit',
         ])
         ->args([
-            service('app.configuration_manager'),
+            service(ConfigurationManager::class),
         ]);
 
     $services->alias(AbstractPaceInDecimalFormatUnit::class . ' $velocityUnit', 'app.unit_system.wind_speed');
@@ -594,7 +590,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'getWeightUnit',
         ])
         ->args([
-            service('app.configuration_manager'),
+            service(ConfigurationManager::class),
         ]);
 
     $services->alias(AbstractWeightUnit::class . ' $weightUnit', 'app.unit_system.weight');
@@ -693,7 +689,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$SportRepository', service(SportRepository::class))
         ->arg('$TypeRepository', service(TypeRepository::class))
         ->arg('$EquipmentRepository', service(EquipmentRepository::class))
-        ->arg('$ConfigurationManager', service('app.configuration_manager'));
+        ->arg('$ConfigurationManager', service(ConfigurationManager::class));
 
     $services->alias(ActivityDataContainerToActivityContextConverter::class, 'app.activity_data_container.converter');
 
