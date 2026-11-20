@@ -215,7 +215,7 @@ class Prognose_PrognosisWindow
             $VO2maxprognosis->fromPace($km, (int) $Prognosis);
 
             $VO2maxpb = new EffectiveVO2max();
-            $VO2maxpb->fromPace($km, $pbSeconds);
+            $VO2maxpb->fromPace($km, (int) $pbSeconds);
 
             $PacePrognosis = new Pace($Prognosis, $km, \Runalyze\Context::Factory()->sport(Configuration::General()->runningSport())->getLegacyPaceUnitEnum());
             $PacePB = new Pace($pbSeconds, $km, \Runalyze\Context::Factory()->sport(Configuration::General()->runningSport())->getLegacyPaceUnitEnum());
