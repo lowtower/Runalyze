@@ -429,8 +429,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(UnitSystemFactory::class);
 
-    $services->alias('app.unit_system_factory', UnitSystemFactory::class);
-
     $services->set('app.unit_system.distance', AbstractDistanceUnit::class)
         ->factory([
             service(UnitSystemFactory::class),
