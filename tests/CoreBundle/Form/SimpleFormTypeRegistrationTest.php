@@ -17,6 +17,7 @@ use Runalyze\Bundle\CoreBundle\Form\Settings\SportTypeType;
 use Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaType;
 use Runalyze\Bundle\CoreBundle\Form\Tools\PosterType;
 use Runalyze\Bundle\CoreBundle\Form\Tools\TrendAnalysis\TrendAnalysisType;
+use Runalyze\Bundle\CoreBundle\Form\Type\ActivityEquipmentType;
 use Runalyze\Bundle\CoreBundle\Form\Type\ActivityLapIntensityChoiceType;
 use Runalyze\Bundle\CoreBundle\Form\Type\ActivityTypeChoiceType;
 use Runalyze\Bundle\CoreBundle\Form\Type\HrZoneBoundType;
@@ -40,6 +41,7 @@ final class SimpleFormTypeRegistrationTest extends KernelTestCase
     public static function formTypes(): iterable
     {
         yield 'activity' => [ActivityType::class];
+        yield 'activity equipment' => [ActivityEquipmentType::class];
         yield 'activity lap intensity' => [ActivityLapIntensityChoiceType::class];
         yield 'activity type choice' => [ActivityTypeChoiceType::class];
         yield 'anova' => [AnovaType::class];
