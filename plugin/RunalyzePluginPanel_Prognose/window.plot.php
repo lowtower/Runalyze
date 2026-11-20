@@ -6,8 +6,7 @@
 
 use Runalyze\Activity\Distance;
 
-/** @var RunalyzePluginPanel_Prognose $Plugin */
-$distances = $Plugin->getDistances();
+/** @var list<float> $distances */
 
 if (! isset($_GET['distance'])) {
     $distance = (in_array(10, $distances)) ? 10 : trim($distances[0]);
