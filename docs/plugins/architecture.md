@@ -182,9 +182,12 @@ account-scoped `RaceresultRepository` instead of direct SQL and a cache key
 shared across accounts. The training-history query also comes from the
 account-scoped `TrainingRepository`, preserving the legacy VO2max weighting
 and date-based rows. `PrognoseTrendSeriesCalculator` computes the two historical
-prediction series from explicitly supplied inputs, while the legacy include
-still loads configuration values and renders the JavaScript plot. The
-configuration and output boundaries remain for later migration.
+prediction series from explicitly supplied inputs. The
+`PrognoseTrendDataProvider` now reads VO2max and marathon-shape settings from
+the account-scoped `ConfigurationManager`, constructs an isolated endurance
+model, and invokes the calculator. The legacy plot include retains only the
+optional Wettkampf filtering and JavaScript plot rendering. These presentation
+boundaries and the remaining legacy endurance model require later migration.
 
 Before deleting another legacy class, verify installation, settings metadata,
 configuration POST/defaults, activation/deactivation, optional plot/window routes,

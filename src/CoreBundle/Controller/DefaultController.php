@@ -30,7 +30,7 @@ use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorPersonalBestProvider;
 use Runalyze\Plugins\Prognose\PrognosePanelPresenter;
-use Runalyze\Plugins\Prognose\PrognoseTrendSeriesCalculator;
+use Runalyze\Plugins\Prognose\PrognoseTrendDataProvider;
 use Runalyze\View\Activity\Context as ActivityContext;
 use RunalyzePluginPanel_Rechenspiele;
 use RunalyzePluginStat_Wettkampf;
@@ -351,8 +351,7 @@ class DefaultController extends AbstractPluginsAwareController
     public function prognosisPlotWindowAction(
         PrognosePanelPresenter $prognosePanelPresenter,
         RaceresultRepository $raceResultRepository,
-        TrainingRepository $trainingRepository,
-        PrognoseTrendSeriesCalculator $trendSeriesCalculator,
+        PrognoseTrendDataProvider $trendDataProvider,
         ?Account $account = null
     ): Response {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -384,7 +383,7 @@ class DefaultController extends AbstractPluginsAwareController
         }
 
         return $this->legacyContentResponseFactory->create(
-            $this->legacyPluginOutputRenderer->render(function () use ($distances, $WKplugin, $account, $runningSportId, $raceResultRepository, $trainingRepository, $trendSeriesCalculator): void {
+            $this->legacyPluginOutputRenderer->render(function () use ($distances, $WKplugin, $account, $runningSportId, $raceResultRepository, $trendDataProvider): void {
                 include FRONTEND_PATH . '../plugin/RunalyzePluginPanel_Prognose/window.plot.php';
             })->getContent(),
             $this->requestStack->getCurrentRequest()
