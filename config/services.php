@@ -46,7 +46,6 @@ use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Repository\EquipmentTypeRepository;
 use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
 use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
-use Runalyze\Bundle\CoreBundle\Repository\TagRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TypeRepository;
 use Runalyze\Bundle\CoreBundle\Repository\WeathercacheRepository;
@@ -383,11 +382,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\Type\\', __DIR__ . '/../src/CoreBundle/Form/Type/{DistanceType,ElevationType,EnergyType,EnergyKcalType,HrZoneBoundType,PowerType,TemperatureType,WeightType,WindSpeedType}.php');
 
-    $services->set('app.form.activity', ActivityType::class)
-        ->arg('$TagRepository', service(TagRepository::class))
-        ->tag('form.type');
-
-    $services->alias(ActivityType::class, 'app.form.activity');
+    $services->set(ActivityType::class);
 
 
     $services->set('app.form.activity.equipment', ActivityEquipmentType::class)

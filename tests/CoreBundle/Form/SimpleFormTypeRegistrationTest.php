@@ -6,6 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Form;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
+use Runalyze\Bundle\CoreBundle\Form\ActivityType;
 use Runalyze\Bundle\CoreBundle\Form\BodyValuesType;
 use Runalyze\Bundle\CoreBundle\Form\EquipmentCategoryType;
 use Runalyze\Bundle\CoreBundle\Form\EquipmentType as EquipmentFormType;
@@ -31,6 +32,7 @@ final class SimpleFormTypeRegistrationTest extends KernelTestCase
 
     public static function formTypes(): iterable
     {
+        yield 'activity' => [ActivityType::class];
         yield 'body values' => [BodyValuesType::class];
         yield 'equipment category' => [EquipmentCategoryType::class];
         yield 'equipment' => [EquipmentFormType::class];
