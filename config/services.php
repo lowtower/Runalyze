@@ -407,11 +407,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 
     $services->set('app.form.type.sport', SportChoiceType::class)
-        ->arg('$SportRepository', service(SportRepository::class))
         ->call('setConfigurationManager', [
             service(ConfigurationManager::class),
-        ])
-        ->tag('form.type');
+        ]);
 
     $services->alias(SportChoiceType::class, 'app.form.type.sport');
 
