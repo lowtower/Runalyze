@@ -383,11 +383,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(ActivityType::class);
 
 
-    $services->set('app.form.activity.equipment', ActivityEquipmentType::class)
-        ->call('setConfigurationManager', [
-            service(ConfigurationManager::class),
-        ])
-        ->tag('form.type');
+    $services->set('app.form.activity.equipment', ActivityEquipmentType::class);
 
     $services->alias(ActivityEquipmentType::class, 'app.form.activity.equipment');
 
