@@ -372,7 +372,7 @@ class DefaultController extends AbstractPluginsAwareController
         }
 
         $distances = $prognosePanelPresenter->getPredictionDistances($account, $installation);
-        $defaultDistance = in_array(10.0, $distances, true) ? 10.0 : (float) $distances[0];
+        $defaultDistance = in_array(10, $distances) ? 10.0 : (float) $distances[0];
         $requestedDistance = $request->query->get('distance');
         $distance = is_numeric($requestedDistance) && is_finite((float) $requestedDistance) && (float) $requestedDistance > 0
             ? (float) $requestedDistance
