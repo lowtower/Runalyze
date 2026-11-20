@@ -381,6 +381,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 
 
+    $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\', __DIR__ . '/../src/CoreBundle/Form/{BodyValuesType,MultiImporterType,RaceResultType}.php');
+
     $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\Type\\', __DIR__ . '/../src/CoreBundle/Form/Type/{DistanceType,ElevationType,EnergyType,EnergyKcalType,PowerType,TemperatureType,WeightType,WindSpeedType}.php');
 
     $services->set('app.form.activity', ActivityType::class)
@@ -389,10 +391,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(ActivityType::class, 'app.form.activity');
 
-    $services->set('app.form.multi_importer', MultiImporterType::class)
-        ->tag('form.type');
-
-    $services->alias(MultiImporterType::class, 'app.form.multi_importer');
+    $services->alias('app.form.multi_importer', MultiImporterType::class);
 
     $services->set('app.form.activity.equipment', ActivityEquipmentType::class)
         ->call('setConfigurationManager', [
@@ -451,15 +450,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(SportTypeType::class, 'app.form.sport_types_setting');
 
-    $services->set('app.form.race_result', RaceResultType::class)
-        ->tag('form.type');
+    $services->alias('app.form.race_result', RaceResultType::class);
 
-    $services->alias(RaceResultType::class, 'app.form.race_result');
-
-    $services->set('app.form.type.body_values', BodyValuesType::class)
-        ->tag('form.type');
-
-    $services->alias(BodyValuesType::class, 'app.form.type.body_values');
+    $services->alias('app.form.type.body_values', BodyValuesType::class);
 
     $services->set('app.form.type.sport', SportChoiceType::class)
         ->arg('$SportRepository', service(SportRepository::class))
