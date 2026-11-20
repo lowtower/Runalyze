@@ -423,11 +423,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(ActivityTypeChoiceType::class, 'app.form.type.activity_type');
 
-    $services->set('app.form.type.activity_lapintensity', ActivityLapIntensityChoiceType::class)
-        ->call('setConfigurationManager', [
-            service(ConfigurationManager::class),
-        ])
-        ->tag('form.type');
+    $services->set('app.form.type.activity_lapintensity', ActivityLapIntensityChoiceType::class);
 
     $services->alias(ActivityLapIntensityChoiceType::class, 'app.form.type.activity_lapintensity');
 
