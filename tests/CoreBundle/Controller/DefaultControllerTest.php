@@ -645,6 +645,29 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPrognosisPlotWindowRequiresAuthentication(): void
+    {
+        $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.plot.php');
+
+        $this->isSuccessful($this->Client->getResponse(), false);
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPrognosisPlotWindowUsesTenKilometersAsDefaultWhenConfigured(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        /** @var PluginInstallationManager $installationManager */
+        $installationManager = self::getContainer()->get(PluginInstallationManager::class);
+        $installationManager->install('RunalyzePluginPanel_Prognose');
+
+        $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.plot.php');
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('formverlauf_10', (string) $this->Client->getResponse()->getContent());
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testPrognosisPlotWindowWorksWithoutTheOptionalRacePlugin(): void
     {
         $this->loginClient($this->Client, $this->Account, 'default');
