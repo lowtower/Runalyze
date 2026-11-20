@@ -393,9 +393,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(ActivityEquipmentType::class, 'app.form.activity.equipment');
 
-    $services->set('app.form.anova', AnovaType::class);
-
-    $services->alias(AnovaType::class, 'app.form.anova');
+    $services->set(AnovaType::class);
 
     $services->set('app.form.trend_analysis', TrendAnalysisType::class)
         ->arg('$SportRepository', service(SportRepository::class))
