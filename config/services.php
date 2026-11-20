@@ -324,10 +324,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(AccountMailer::class);
 
-    $services->set('app.legacy_cache', LegacyCache::class)
+    $services->set(LegacyCache::class)
         ->arg('$path', '%app.data_directory%');
 
-    $services->alias(LegacyCache::class, 'app.legacy_cache');
+    $services->alias('app.legacy_cache', LegacyCache::class);
 
     $services->set(LoadAccountData::class)
         ->arg('$passwordHasher', service('security.user_password_hasher'))
