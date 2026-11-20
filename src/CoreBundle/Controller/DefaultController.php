@@ -393,13 +393,19 @@ class DefaultController extends AbstractPluginsAwareController
 
         $trendData = $trendDataProvider->getSeries($account, $runningSportId, $distance);
         $races = $raceResultRepository->findTrendResultsForDistance($account, $runningSportId, $distance);
+        $isFunCompetition = null;
+
+        if ($WKplugin !== null) {
+            $isFunCompetition = $WKplugin->isFunCompetition(...);
+        }
+
         $plot = $trendPlotRenderer->render(
             $distance,
             $trendData['prognosis'],
             $trendData['prognosis_with_basic_endurance'],
             $races,
             $trendData['has_history'],
-            $WKplugin === null ? null : $WKplugin->isFunCompetition(...)
+            $isFunCompetition
         );
 
         $content = $this->renderView('@Prognose/trend_window.html.twig', [
