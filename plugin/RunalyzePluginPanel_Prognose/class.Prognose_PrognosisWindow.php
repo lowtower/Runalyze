@@ -9,10 +9,10 @@ use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\Pace;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Model\Prognosis\PrognosisModel;
 use Runalyze\Calculation\BasicEndurance;
 use Runalyze\Configuration;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
+use Runalyze\Plugins\Prognose\PrognoseCalculatorModelFactory;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorPersonalBestProvider;
 use Runalyze\Sports\Running\Prognosis\Bock;
 use Runalyze\Sports\Running\Prognosis\PrognosisInterface;
@@ -61,7 +61,8 @@ class Prognose_PrognosisWindow
         private readonly array $distances,
         private readonly Account $account,
         private readonly int $runningSportId,
-        private readonly PrognoseCalculatorPersonalBestProvider $personalBestProvider
+        private readonly PrognoseCalculatorPersonalBestProvider $personalBestProvider,
+        private readonly PrognoseCalculatorModelFactory $modelFactory
     ) {
         $this->setDefaultValues();
         $this->readPostData();
@@ -131,41 +132,8 @@ class Prognose_PrognosisWindow
 
     protected function readPostData(): void
     {
-        $_POST['model'] = match ($_POST['model'] ?? null) {
-            'robert-bock', 'herbert-steffny', 'david-cameron' => $_POST['model'],
-            default => 'vo2max',
-        };
-
-        $model = match ($_POST['model']) {
-            'robert-bock' => 'cpp',
-            'herbert-steffny' => 'steffny',
-            'david-cameron' => 'cameron',
-            default => 'vo2max',
-        };
-
-        $results = [];
-
-        if ($model !== 'vo2max') {
-            $results[] = [
-                'distance' => (float) Helper::CommaToPoint($_POST['best-result-km']),
-                's' => new Duration($_POST['best-result-time'])->seconds(),
-            ];
-
-            if ($model === 'cpp') {
-                $results[] = [
-                    'distance' => (float) Helper::CommaToPoint($_POST['second-best-result-km']),
-                    's' => new Duration($_POST['second-best-result-time'])->seconds(),
-                ];
-            }
-        }
-
-        $this->PrognosisObject = new PrognosisModel(
-            $model,
-            $results,
-            (float) Helper::CommaToPoint($_POST['vo2max'] ?? 0),
-            (int) ($_POST['endurance-value'] ?? 0),
-            isset($_POST['endurance'])
-        )->getPrognosisObject();
+        $_POST['model'] = $this->modelFactory->normalizeModel((string) ($_POST['model'] ?? ''));
+        $this->PrognosisObject = $this->modelFactory->create($_POST);
 
         $this->Distances = $this->distanceValuesToKm(Helper::arrayTrim(explode(',', $_POST['distances'])));
     }
