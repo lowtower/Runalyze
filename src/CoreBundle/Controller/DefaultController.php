@@ -351,8 +351,7 @@ class DefaultController extends AbstractPluginsAwareController
         PrognosePanelPresenter $prognosePanelPresenter,
         RaceresultRepository $raceResultRepository,
         ?Account $account = null
-    ): Response
-    {
+    ): Response {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         if (! $account instanceof Account) {
