@@ -14,7 +14,6 @@ use Runalyze\Sports\Running\Prognosis;
 use Runalyze\Util\LocalTime;
 
 /** @var list<array{time: int, id: int, official_time: float}> $raceResultsData */
-
 $WKplugin ??= null;
 
 $distance ??= 10;
