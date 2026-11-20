@@ -8,18 +8,14 @@
 
 use Runalyze\Activity\Distance;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
-use Runalyze\Calculation\BasicEndurance;
-use Runalyze\Configuration;
-use Runalyze\Plugins\Prognose\PrognoseTrendSeriesCalculator;
+use Runalyze\Plugins\Prognose\PrognoseTrendDataProvider;
 use Runalyze\Util\LocalTime;
 
 /**
  * @var list<array{time: int, id: int, official_time: float}> $raceResultsData
- * @var TrainingRepository $trainingRepository
  * @var Account $account
  * @var int $runningSportId
- * @var PrognoseTrendSeriesCalculator $trendSeriesCalculator
+ * @var PrognoseTrendDataProvider $trendDataProvider
  */
 $WKplugin ??= null;
 
@@ -31,34 +27,17 @@ $PrognosisWithBasicEndurance = [];
 $BasicEndurance = [];
 $Results = [];
 
-$BasicEnduranceObj = new BasicEndurance();
-$BasicEnduranceObj->readSettingsFromConfiguration();
+$trendData = $trendDataProvider->getSeries($account, $runningSportId, (float) $distance);
 
-if (time() != START_TIME) {
-    $withElevation = Configuration::VO2max()->useElevationCorrection();
-
-    $Data = $trainingRepository->findPrognosisTrendHistory($account, $runningSportId, $withElevation);
-
-    if ($Data !== []) {
-        $series = $trendSeriesCalculator->calculate(
-            $Data,
-            (float) $distance,
-            $BasicEnduranceObj,
-            Configuration::Data()->vo2maxCorrectionFactor(),
-            Configuration::VO2max()->days(),
-            date('Y-m-d')
-        );
-        $Prognosis = $series['prognosis'];
-        $PrognosisWithBasicEndurance = $series['prognosis_with_basic_endurance'];
+if ($trendData['has_history']) {
+    $Prognosis = $trendData['prognosis'];
+    $PrognosisWithBasicEndurance = $trendData['prognosis_with_basic_endurance'];
 
         foreach ($raceResultsData as $dat) {
             if ($WKplugin === null || ! $WKplugin->isFunCompetition($dat['id'])) {
                 $Results[new LocalTime($dat['time'])->toServerTimestamp() . '000'] = $dat['official_time'] * 1000;
             }
         }
-    } else {
-        $DataFailed = true;
-    }
 } else {
     $DataFailed = true;
 }
