@@ -42,7 +42,6 @@ use Runalyze\Bundle\CoreBundle\MessageHandler\BackupGenerationMessageHandler;
 use Runalyze\Bundle\CoreBundle\MessageHandler\PosterGenerationMessageHandler;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
 use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
-use Runalyze\Bundle\CoreBundle\Repository\EquipmentRepository;
 use Runalyze\Bundle\CoreBundle\Repository\EquipmentTypeRepository;
 use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
 use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
@@ -657,13 +656,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(FileImporter::class, 'app.file_importer');
 
-    $services->set('app.activity_data_container.converter', ActivityDataContainerToActivityContextConverter::class)
-        ->arg('$SportRepository', service(SportRepository::class))
-        ->arg('$TypeRepository', service(TypeRepository::class))
-        ->arg('$EquipmentRepository', service(EquipmentRepository::class))
-        ->arg('$ConfigurationManager', service(ConfigurationManager::class));
-
-    $services->alias(ActivityDataContainerToActivityContextConverter::class, 'app.activity_data_container.converter');
+    $services->set(ActivityDataContainerToActivityContextConverter::class);
 
     $services->set('app.activity_data_container.filter', ActivityDataContainerFilter::class)
         ->arg('$logger', service('logger'))
