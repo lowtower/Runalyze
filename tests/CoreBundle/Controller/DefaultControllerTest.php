@@ -645,6 +645,38 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPrognoseCalculatorWindowRendersValidCustomDistancePredictionWithoutPersonalBest(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $originalPost = $_POST;
+        $_POST = [
+            'model' => 'vo2max',
+            'distances' => '5.72',
+            'best-result-km' => '5.72',
+            'best-result-time' => '34:24',
+            'second-best-result-km' => '8.9',
+            'second-best-result-time' => '53:16',
+            'vo2max' => '50',
+            'endurance' => '1',
+            'endurance-value' => '80',
+        ];
+
+        try {
+            $this->Client->request('POST', '/plugin/RunalyzePluginPanel_Prognose/window.php', $_POST);
+
+            $this->assertStatusCode(200, $this->Client);
+            $content = (string) $this->Client->getResponse()->getContent();
+            $this->assertStringContainsString('id="prognosis-calculator"', $content);
+            $this->assertStringContainsString('5.72', $content);
+            $this->assertStringContainsString('Personal best', $content);
+            $this->assertStringNotContainsString('Your input is invalid', $content);
+        } finally {
+            $_POST = $originalPost;
+        }
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testPrognosisPlotWindowRequiresAuthentication(): void
     {
         $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.plot.php');
