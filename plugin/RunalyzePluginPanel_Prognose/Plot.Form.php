@@ -11,7 +11,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Calculation\BasicEndurance;
 use Runalyze\Configuration;
-use Runalyze\Sports\Running\Prognosis;
+use Runalyze\Plugins\Prognose\PrognoseTrendSeriesCalculator;
 use Runalyze\Util\LocalTime;
 
 /**
@@ -19,6 +19,7 @@ use Runalyze\Util\LocalTime;
  * @var TrainingRepository $trainingRepository
  * @var Account $account
  * @var int $runningSportId
+ * @var PrognoseTrendSeriesCalculator $trendSeriesCalculator
  */
 $WKplugin ??= null;
 
@@ -30,8 +31,6 @@ $PrognosisWithBasicEndurance = [];
 $BasicEndurance = [];
 $Results = [];
 
-$PrognosisObj = new Prognosis\VO2max();
-
 $BasicEnduranceObj = new BasicEndurance();
 $BasicEnduranceObj->readSettingsFromConfiguration();
 
@@ -41,82 +40,16 @@ if (time() != START_TIME) {
     $Data = $trainingRepository->findPrognosisTrendHistory($account, $runningSportId, $withElevation);
 
     if ($Data !== []) {
-        $currentFirstIndexForVO2max = 0;
-        $currentFirstIndexForKm = 0;
-        $currentFirstIndexForLongJogs = 0;
-
-        $currentVO2maxWeightedSum = $Data[0]['vo2max_weighted'];
-        $currentVO2maxTimeSum = $Data[0]['vo2max_sum_time'];
-        $currentKmSum = $Data[0]['distance'];
-
-        $vo2maxFactor = Configuration::Data()->vo2maxCorrectionFactor();
-        $maxAgeOfVO2max = Configuration::VO2max()->days();
-        $maxAgeOfKm = $BasicEnduranceObj->getDaysForWeekKm();
-        $maxAgeOfLongJogs = $BasicEnduranceObj->getDaysToRecognizeForLongjogs();
-        $minKmOfLongJogs = $BasicEnduranceObj->getMinimalDistanceForLongjogs();
-
-        if ($Data[count($Data) - 1]['date_age'] < 0) {
-            $Data[] = [
-                'date_age' => 0,
-                'date' => date('Y-m-d'),
-                'distance' => 0,
-                'vo2max_weighted' => 0,
-                'vo2max_sum_time' => 0,
-            ];
-        }
-
-        // Due to performance reasons, this is not clean code
-        // To check values, use Runalyze\Calculation\JD\VO2maxShape::calculateAt($index)
-        foreach ($Data as $currentIndex => $currentData) {
-            while ($currentFirstIndexForVO2max < $currentIndex && $maxAgeOfVO2max <= $currentData['date_age'] - $Data[$currentFirstIndexForVO2max]['date_age']) {
-                $currentVO2maxWeightedSum -= $Data[$currentFirstIndexForVO2max]['vo2max_weighted'];
-                $currentVO2maxTimeSum -= $Data[$currentFirstIndexForVO2max]['vo2max_sum_time'];
-                $currentFirstIndexForVO2max++;
-            }
-
-            while ($currentFirstIndexForKm < $currentIndex && $maxAgeOfKm <= $currentData['date_age'] - $Data[$currentFirstIndexForKm]['date_age']) {
-                $currentKmSum -= $Data[$currentFirstIndexForKm]['distance'];
-                $currentFirstIndexForKm++;
-            }
-
-            while ($currentFirstIndexForLongJogs < $currentIndex && $maxAgeOfLongJogs <= $currentData['date_age'] - $Data[$currentFirstIndexForLongJogs]['date_age']) {
-                $currentFirstIndexForLongJogs++;
-            }
-
-            $currentVO2maxWeightedSum += $currentData['vo2max_weighted'];
-            $currentVO2maxTimeSum += $currentData['vo2max_sum_time'];
-            $currentKmSum += $currentData['distance'];
-
-            $Data[$currentIndex]['vo2max'] = ($currentVO2maxTimeSum > 0) ? $vo2maxFactor * $currentVO2maxWeightedSum / $currentVO2maxTimeSum : 0;
-
-            if ($Data[$currentIndex]['vo2max'] > Prognosis\VO2max::REASONABLE_VO2MAX_MINIMUM && $Data[$currentIndex]['vo2max'] < Prognosis\VO2max::REASONABLE_VO2MAX_MAXIMUM) {
-                $index = strtotime($currentData['date'] . ' 12:00') . '000';
-                $longJogPoints = 0;
-
-                for ($i = $currentFirstIndexForLongJogs; $i <= $currentIndex; ++$i) {
-                    $longJogPoints += 2 * (1 - ($currentData['date_age'] - $Data[$i]['date_age']) / $maxAgeOfLongJogs) * max(0, $Data[$i]['distance'] - $minKmOfLongJogs) ** 2;
-                }
-
-                $BasicEnduranceObj->setEffectiveVO2max($Data[$currentIndex]['vo2max']);
-                $longJogPoints /= $BasicEnduranceObj->getTargetLongjogKmPerWeek() ** 2;
-                $BasicEndurance[$index] = $BasicEnduranceObj->asArray(0, [
-                    'km' => $currentKmSum,
-                    'sum' => $longJogPoints,
-                ])['percentage'];
-
-                $PrognosisObj->setEffectiveVO2max($Data[$currentIndex]['vo2max']);
-                $PrognosisObj->setMarathonShape($BasicEndurance[$index]);
-                $PrognosisObj->adjustForMarathonShape(true);
-                $prognosisInSecondsWithBasicEndurance = $PrognosisObj->getSeconds($distance);
-
-                if ($prognosisInSecondsWithBasicEndurance > 0) {
-                    $PrognosisWithBasicEndurance[$index] = $prognosisInSecondsWithBasicEndurance * 1000;
-
-                    $PrognosisObj->adjustForMarathonShape(false);
-                    $Prognosis[$index] = $PrognosisObj->getSeconds($distance) * 1000;
-                }
-            }
-        }
+        $series = $trendSeriesCalculator->calculate(
+            $Data,
+            (float) $distance,
+            $BasicEnduranceObj,
+            Configuration::Data()->vo2maxCorrectionFactor(),
+            Configuration::VO2max()->days(),
+            date('Y-m-d')
+        );
+        $Prognosis = $series['prognosis'];
+        $PrognosisWithBasicEndurance = $series['prognosis_with_basic_endurance'];
 
         foreach ($raceResultsData as $dat) {
             if ($WKplugin === null || ! $WKplugin->isFunCompetition($dat['id'])) {
