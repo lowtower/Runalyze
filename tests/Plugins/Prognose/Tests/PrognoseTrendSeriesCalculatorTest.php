@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Calculation\BasicEndurance;
 use Runalyze\Plugins\Prognose\PrognoseTrendSeriesCalculator;
+use Runalyze\Sports\Running\Prognosis\VO2max;
 
 #[Group('plugin')]
 final class PrognoseTrendSeriesCalculatorTest extends TestCase
@@ -60,6 +61,30 @@ final class PrognoseTrendSeriesCalculatorTest extends TestCase
         $this->assertArrayHasKey($key, $result['prognosis_with_basic_endurance']);
         $this->assertGreaterThan(0, $result['prognosis'][$key]);
         $this->assertGreaterThan(0, $result['prognosis_with_basic_endurance'][$key]);
+    }
+
+    public function testInitialTrainingContributesOnlyOnceToTheWeightedVO2maxAverage(): void
+    {
+        $today = date('Y-m-d');
+        $yesterday = date('Y-m-d', strtotime('-1 day'));
+        $key = strtotime($today . ' 12:00') . '000';
+
+        $result = new PrognoseTrendSeriesCalculator()->calculate(
+            [
+                $this->row($yesterday, -1, 10.0, 45.0 * 3600, 3600.0),
+                $this->row($today, 0, 10.0, 55.0 * 3600, 3600.0),
+            ],
+            10.0,
+            new BasicEndurance(),
+            1.0,
+            30,
+            $today
+        );
+
+        $expectedSeconds = VO2max::getPrognosisInSecondsFor(50.0, 10.0);
+        $this->assertNotNull($expectedSeconds);
+        $this->assertArrayHasKey($key, $result['prognosis']);
+        $this->assertEqualsWithDelta($expectedSeconds * 1000, $result['prognosis'][$key], 0.1);
     }
 
     public function testOlderHistoryAppendsCurrentDayAndExpiresVO2maxWindow(): void
