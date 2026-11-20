@@ -7,7 +7,6 @@
 use Runalyze\Activity\Distance;
 
 /** @var list<float> $distances */
-
 if (! isset($_GET['distance'])) {
     $distance = (in_array(10, $distances)) ? 10 : trim($distances[0]);
 } else {

@@ -30,7 +30,6 @@ use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorPersonalBestProvider;
 use Runalyze\Plugins\Prognose\PrognosePanelPresenter;
 use Runalyze\View\Activity\Context as ActivityContext;
-use RunalyzePluginPanel_Prognose;
 use RunalyzePluginPanel_Rechenspiele;
 use RunalyzePluginStat_Wettkampf;
 use SessionAccountHandler;
