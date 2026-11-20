@@ -312,8 +312,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(Sha256SaltedEncoder::class);
 
-    $services->alias('app.sha256salted_encoder', Sha256SaltedEncoder::class);
-
     $services->set(UnsubscribeHashGenerator::class)
         ->arg('$appSecret', '%app.secret%');
 
