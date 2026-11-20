@@ -46,7 +46,6 @@ use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
 use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
-use Runalyze\Bundle\CoreBundle\Repository\TypeRepository;
 use Runalyze\Bundle\CoreBundle\Repository\WeathercacheRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountChecker;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
@@ -394,13 +393,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(AnovaType::class);
 
-    $services->set('app.form.trend_analysis', TrendAnalysisType::class)
-        ->arg('$SportRepository', service(SportRepository::class))
-        ->arg('$TypeRepository', service(TypeRepository::class))
-        ->arg('$ConfigurationManager', service(ConfigurationManager::class))
-        ->tag('form.type');
-
-    $services->alias(TrendAnalysisType::class, 'app.form.trend_analysis');
+    $services->set(TrendAnalysisType::class);
 
     $services->set(PosterType::class);
 
