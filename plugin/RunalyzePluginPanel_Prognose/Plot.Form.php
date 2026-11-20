@@ -7,9 +7,9 @@
  */
 
 use Runalyze\Activity\Distance;
-use Runalyze\Calculation\BasicEndurance;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
+use Runalyze\Calculation\BasicEndurance;
 use Runalyze\Configuration;
 use Runalyze\Sports\Running\Prognosis;
 use Runalyze\Util\LocalTime;

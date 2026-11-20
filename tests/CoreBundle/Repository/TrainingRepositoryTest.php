@@ -123,9 +123,9 @@ final class TrainingRepositoryTest extends AbstractRepositoryTestCase
         ], $this->TrainingRepository->findPrognosisTrendHistory($this->Account, $runningSport->getId(), false));
 
         $elevationHistory = $this->TrainingRepository->findPrognosisTrendHistory($this->Account, $runningSport->getId(), true);
-        $this->assertSame(180000.0, $elevationHistory[0]['vo2max_weighted']);
-        $this->assertSame(3600.0, $elevationHistory[0]['vo2max_sum_time']);
-        $this->assertSame(0.0, $elevationHistory[1]['vo2max_weighted']);
+        $this->assertEqualsWithDelta(180000.0, $elevationHistory[0]['vo2max_weighted'], PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(3600.0, $elevationHistory[0]['vo2max_sum_time'], PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(0.0, $elevationHistory[1]['vo2max_weighted'], PHP_FLOAT_EPSILON);
     }
 
     public function testPrognosisTrendHistoryIsScopedToAccountAndHandlesMissingVO2max(): void
@@ -143,8 +143,8 @@ final class TrainingRepositoryTest extends AbstractRepositoryTestCase
 
         $history = $this->TrainingRepository->findPrognosisTrendHistory($this->Account, $runningSport->getId(), false);
         $this->assertCount(1, $history);
-        $this->assertSame(0.0, $history[0]['vo2max_weighted']);
-        $this->assertSame(0.0, $history[0]['vo2max_sum_time']);
+        $this->assertEqualsWithDelta(0.0, $history[0]['vo2max_weighted'], PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(0.0, $history[0]['vo2max_sum_time'], PHP_FLOAT_EPSILON);
     }
 
     protected function insertActivityForDefaultAccount(
