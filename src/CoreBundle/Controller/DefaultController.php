@@ -27,8 +27,8 @@ use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
-use Runalyze\View\Activity\Context as ActivityContext;
 use Runalyze\Plugins\Prognose\PrognosePanelPresenter;
+use Runalyze\View\Activity\Context as ActivityContext;
 use RunalyzePluginPanel_Prognose;
 use RunalyzePluginPanel_Rechenspiele;
 use RunalyzePluginStat_Wettkampf;
@@ -310,7 +310,7 @@ class DefaultController extends AbstractPluginsAwareController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        if ($account === null) {
+        if (! $account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account) {
             throw $this->createAccessDeniedException();
         }
 

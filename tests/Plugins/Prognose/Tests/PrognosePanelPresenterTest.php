@@ -70,7 +70,9 @@ final class PrognosePanelPresenterTest extends TestCase
     {
         $account = $this->account(12);
         $presenter = $this->presenter([
-            5 => ['distances' => '5, 10, invalid, -2, 21.1'],
+            5 => [
+                'distances' => '5, 10, invalid, -2, 21.1',
+            ],
         ], new Miles());
 
         $this->assertSame(
@@ -94,7 +96,9 @@ final class PrognosePanelPresenterTest extends TestCase
     {
         $account = $this->account(12);
         $presenter = $this->presenter([
-            5 => ['distances' => '3, 7'],
+            5 => [
+                'distances' => '3, 7',
+            ],
         ], new Kilometer());
 
         $this->assertSame([3.0, 7.0], $presenter->getPredictionDistances($account, $this->installation($account, true)));
