@@ -391,7 +391,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(ActivityType::class, 'app.form.activity');
 
-    $services->alias('app.form.multi_importer', MultiImporterType::class);
 
     $services->set('app.form.activity.equipment', ActivityEquipmentType::class)
         ->call('setConfigurationManager', [
@@ -450,9 +449,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(SportTypeType::class, 'app.form.sport_types_setting');
 
-    $services->alias('app.form.race_result', RaceResultType::class);
 
-    $services->alias('app.form.type.body_values', BodyValuesType::class);
 
     $services->set('app.form.type.sport', SportChoiceType::class)
         ->arg('$SportRepository', service(SportRepository::class))
