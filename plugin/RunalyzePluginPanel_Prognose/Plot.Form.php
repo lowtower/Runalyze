@@ -13,6 +13,7 @@ use Runalyze\Configuration;
 use Runalyze\Sports\Running\Prognosis;
 use Runalyze\Util\LocalTime;
 
+/** @var list<array{time: int, id: int, official_time: float}> $raceResultsData */
 $WKplugin ??= null;
 
 $distance ??= 10;
@@ -122,26 +123,7 @@ if (time() != START_TIME) {
             }
         }
 
-        $ResultsData = Cache::get('prognosePlotDistanceData' . $distance);
-        if ($ResultsData === null) {
-            $ResultsData = DB::getInstance()->query('
-                SELECT
-                    `time`,
-                    `id`,
-                    `official_time`
-                FROM `' . PREFIX . 'raceresult` r
-                    LEFT JOIN `' . PREFIX . 'training` tr ON r.activity_id=tr.id
-                WHERE
-                    r.`accountid`=' . \SessionAccountHandler::getId() . ' AND
-                    tr.`sportid`="' . Configuration::General()->runningSport() . '"
-                    AND r.`official_distance`="' . $distance . '"
-                ORDER BY
-                    `time` ASC')->fetchAll();
-
-            Cache::set('prognosePlotDistanceData' . $distance, $ResultsData, 600);
-        }
-
-        foreach ($ResultsData as $dat) {
+        foreach ($raceResultsData as $dat) {
             if ($WKplugin === null || ! $WKplugin->isFunCompetition($dat['id'])) {
                 $Results[new LocalTime($dat['time'])->toServerTimestamp() . '000'] = $dat['official_time'] * 1000;
             }

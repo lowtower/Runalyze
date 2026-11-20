@@ -16,6 +16,7 @@ use Runalyze\Bundle\CoreBundle\Form\RegistrationType;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
 use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
+use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
@@ -346,8 +347,11 @@ class DefaultController extends AbstractPluginsAwareController
      * @throws Throwable if the legacy prognosis plot throws
      */
     #[Route(path: '/plugin/RunalyzePluginPanel_Prognose/window.plot.php', methods: ['GET'], priority: 10)]
-    public function prognosisPlotWindowAction(PrognosePanelPresenter $prognosePanelPresenter, ?Account $account = null): Response
-    {
+    public function prognosisPlotWindowAction(
+        PrognosePanelPresenter $prognosePanelPresenter,
+        RaceresultRepository $raceResultRepository,
+        ?Account $account = null
+    ): Response {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         if (! $account instanceof Account) {
@@ -363,6 +367,7 @@ class DefaultController extends AbstractPluginsAwareController
         }
 
         $distances = $prognosePanelPresenter->getPredictionDistances($account, $installation);
+        $runningSportId = $this->configurationManager->getList($account)->getGeneral()->getRunningSport();
 
         new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
@@ -376,7 +381,7 @@ class DefaultController extends AbstractPluginsAwareController
         }
 
         return $this->legacyContentResponseFactory->create(
-            $this->legacyPluginOutputRenderer->render(function () use ($distances, $WKplugin): void {
+            $this->legacyPluginOutputRenderer->render(function () use ($distances, $WKplugin, $account, $runningSportId, $raceResultRepository): void {
                 include FRONTEND_PATH . '../plugin/RunalyzePluginPanel_Prognose/window.plot.php';
             })->getContent(),
             $this->requestStack->getCurrentRequest()

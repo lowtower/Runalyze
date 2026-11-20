@@ -84,6 +84,36 @@ class RaceresultRepository extends ServiceEntityRepository
         return $personalBests;
     }
 
+    /**
+     * @return list<array{time: int, id: int, official_time: float}>
+     */
+    public function findTrendResultsForDistance(Account $account, int $sportId, float $distance): array
+    {
+        $rows = $this->createQueryBuilder('race')
+            ->select('activity.time AS time')
+            ->addSelect('activity.id AS id')
+            ->addSelect('race.officialTime AS officialTime')
+            ->join('race.activity', 'activity')
+            ->where('race.account = :account')
+            ->andWhere('activity.sport = :sport')
+            ->andWhere('race.officialDistance = :distance')
+            ->setParameter('account', $account)
+            ->setParameter('sport', $sportId)
+            ->setParameter('distance', $distance)
+            ->orderBy('activity.time', \SortDirection::Ascending)
+            ->getQuery()
+            ->getArrayResult();
+
+        return array_map(
+            static fn (array $row): array => [
+                'time' => (int) $row['time'],
+                'id' => (int) $row['id'],
+                'official_time' => (float) $row['officialTime'],
+            ],
+            $rows
+        );
+    }
+
     public function findForSportAndYear(Account $account, Sport $sport, int $year): array
     {
         return $this->getEntityManager()->createQueryBuilder()

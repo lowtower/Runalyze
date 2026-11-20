@@ -114,6 +114,55 @@ final class RaceresultRepositoryTest extends AbstractRepositoryTestCase
         $this->assertSame([], $this->RaceresultRepository->findPersonalBestDetailsForDistances($this->Account, 1, ['invalid']));
     }
 
+    public function testFindTrendResultsForDistanceFiltersAccountSportAndDistanceInChronologicalOrder(): void
+    {
+        $runningSport = $this->getDefaultAccountsRunningSport();
+        $cyclingSport = $this->getDefaultAccountsCyclingSport();
+
+        $laterActivity = $this->getActivityForDefaultAccount(1700000200, 2064, 5.72, $runningSport);
+        $this->insertRace('Later race', $laterActivity);
+
+        $earlierActivity = $this->getActivityForDefaultAccount(1700000100, 2100, 5.72, $runningSport);
+        $this->insertRace('Earlier race', $earlierActivity);
+
+        $this->insertRace('Different distance', $this->getActivityForDefaultAccount(1700000050, 1200, 5.0, $runningSport));
+        $this->insertRace('Different sport', $this->getActivityForDefaultAccount(1700000050, 2000, 5.72, $cyclingSport));
+
+        $otherAccountActivity = new Training()
+            ->setS(1800)
+            ->setTime(1700000000)
+            ->setDistance(5.72)
+            ->setSport($runningSport)
+            ->setAccount($this->getEmptyAccount());
+        $this->insertRace('Different account', $otherAccountActivity);
+
+        $this->assertSame([
+            [
+                'time' => 1700000100,
+                'id' => $earlierActivity->getId(),
+                'official_time' => 2100.0,
+            ],
+            [
+                'time' => 1700000200,
+                'id' => $laterActivity->getId(),
+                'official_time' => 2064.0,
+            ],
+        ], $this->RaceresultRepository->findTrendResultsForDistance(
+            $this->Account,
+            $runningSport->getId(),
+            5.72
+        ));
+    }
+
+    public function testFindTrendResultsForDistanceReturnsEmptyForNoMatchingRace(): void
+    {
+        $this->assertSame([], $this->RaceresultRepository->findTrendResultsForDistance(
+            $this->Account,
+            $this->getDefaultAccountsRunningSport()->getId(),
+            5.72
+        ));
+    }
+
     public function testSingleRace(): void
     {
         $raceActivity = $this->getActivityForDefaultAccount(mktime(3, 14, 15, 9, 26, 2016), 2400, 10.0);
