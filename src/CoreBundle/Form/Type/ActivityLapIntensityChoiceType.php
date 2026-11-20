@@ -6,7 +6,6 @@ namespace Runalyze\Bundle\CoreBundle\Form\Type;
 
 use Runalyze\Activity\LapIntensity;
 use Runalyze\Bundle\CoreBundle\Form\AbstractTokenStorageAwareType;
-use Runalyze\Bundle\CoreBundle\Form\ConfigurationManagerAwareTrait;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,8 +15,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class ActivityLapIntensityChoiceType extends AbstractTokenStorageAwareType
 {
-    use ConfigurationManagerAwareTrait;
-
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
