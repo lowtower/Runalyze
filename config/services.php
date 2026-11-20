@@ -406,9 +406,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 
 
-    $services->set('app.form.type.sport', SportChoiceType::class);
-
-    $services->alias(SportChoiceType::class, 'app.form.type.sport');
+    $services->set(SportChoiceType::class);
 
     $services->set(ActivityTypeChoiceType::class);
 
