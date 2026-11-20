@@ -1,0 +1,22 @@
+<div class="panel-heading">
+    <div class="panel-menu">
+        <ul>
+            <li class="with-submenu">
+                <span class="link">{{ distance(selected_distance) }}</span>
+                <ul class="submenu">
+                    {% for km in distances %}
+                        <li{% if km == selected_distance %} class="active"{% endif %}>
+                            <a class="window" href="{{ path('prognosis-trend-window', {distance: km}) }}">{{ distance(km) }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <h1>{{ 'Prognosis calculator: form trend'|trans }}</h1>
+</div>
+
+<div class="panel-content">
+    {{ plot_html|raw }}
+    {{ plot_javascript|raw }}
+</div>
