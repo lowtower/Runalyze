@@ -168,15 +168,16 @@ presenter, and its panel configuration now uses
 settings remain stored in kilometers and are converted to/from the account's
 preferred display unit only at the configuration boundary; prediction model
 and marathon-shape settings retain their existing keys and defaults. The
-legacy Prognose plugin class is intentionally retained for its prognosis-trend
-window and interactive calculator, whose remaining code and routes must be
-migrated before that class can be deleted.
+legacy `RunalyzePluginPanel_Prognose` class has been removed after migrating
+both window routes to use the modern account-scoped presenter for their
+configuration. The stable plugin key and legacy window URLs are unchanged.
 
-The interactive calculator now reuses `src/CoreBundle/Model/Prognosis/PrognosisModel`
-for constructing the four prediction models. Legacy form identifiers are mapped
-at the window boundary; one reference result is sufficient for Steffny and
-Cameron. The calculator's HTML, POST input processing and personal-best lookup,
-and the trend window's legacy data access, remain for subsequent migration.
+The interactive calculator reuses `src/CoreBundle/Model/Prognosis/PrognosisModel`
+for constructing the four prediction models and uses an account-scoped
+personal-best provider. Legacy form identifiers are mapped at the window
+boundary; one reference result is sufficient for Steffny and Cameron. The
+calculator's HTML and POST input processing, and the trend window's legacy
+data access and plot rendering, remain for subsequent migration.
 
 Before deleting another legacy class, verify installation, settings metadata,
 configuration POST/defaults, activation/deactivation, optional plot/window routes,
