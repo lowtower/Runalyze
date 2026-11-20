@@ -427,8 +427,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(\Runalyze\Bundle\CoreBundle\Form\EquipmentType::class, 'app.form.equipment');
 
-    $services->set('app.form.equipment_category', EquipmentCategoryType::class)
-        ->tag('form.type');
+    $services->set('app.form.equipment_category', EquipmentCategoryType::class);
 
     $services->alias(EquipmentCategoryType::class, 'app.form.equipment_category');
 
