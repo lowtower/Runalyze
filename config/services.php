@@ -317,8 +317,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(TablePrefixSubscriber::class)
         ->arg('$prefix', '%app.database_prefix%');
 
-    $services->alias('app.event.doctrine.table_prefix_subscriber', TablePrefixSubscriber::class);
-
     $services->alias('app.listener.maintenance', MaintenanceListener::class);
 
     $services->set(AccountMailer::class);
