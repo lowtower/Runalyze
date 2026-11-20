@@ -43,7 +43,6 @@ use Runalyze\Bundle\CoreBundle\MessageHandler\BackupGenerationMessageHandler;
 use Runalyze\Bundle\CoreBundle\MessageHandler\PosterGenerationMessageHandler;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
 use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
-use Runalyze\Bundle\CoreBundle\Repository\EquipmentTypeRepository;
 use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
 use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
@@ -393,14 +392,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(ActivityEquipmentType::class, 'app.form.activity.equipment');
 
-    $services->set('app.form.anova', AnovaType::class)
-        ->arg('$SportRepository', service(SportRepository::class))
-        ->arg('$TypeRepository', service(TypeRepository::class))
-        ->arg('$EquipmentTypeRepository', service(EquipmentTypeRepository::class))
-        ->arg('$ConfigurationManager', service(ConfigurationManager::class))
-        ->tag('form.type');
-
-    $services->alias(AnovaType::class, 'app.form.anova');
+    $services->set(AnovaType::class);
 
     $services->set('app.form.trend_analysis', TrendAnalysisType::class)
         ->arg('$SportRepository', service(SportRepository::class))
