@@ -84,6 +84,30 @@ final class RaceresultRepositoryTest extends AbstractRepositoryTestCase
         ], $personalBests);
     }
 
+    public function testFindPersonalBestDetailsForCustomDistances(): void
+    {
+        $runningSport = $this->getDefaultAccountsRunningSport();
+        $firstRace = $this->getActivityForDefaultAccount(null, 2064, 5.72, $runningSport);
+        $this->insertRace('Custom 5.72 km race', $firstRace);
+        $secondRace = $this->getActivityForDefaultAccount(null, 3196, 8.9, $runningSport);
+        $this->insertRace('Custom 8.9 km race', $secondRace);
+
+        $this->assertSame([
+            '5.72' => [
+                'activity_id' => $firstRace->getId(),
+                'seconds' => 2064.0,
+            ],
+            '8.90' => [
+                'activity_id' => $secondRace->getId(),
+                'seconds' => 3196.0,
+            ],
+        ], $this->RaceresultRepository->findPersonalBestDetailsForDistances(
+            $this->Account,
+            $runningSport->getId(),
+            [5.72, 8.9, 10.0]
+        ));
+    }
+
     public function testFindPersonalBestDetailsForDistancesReturnsNoResultsForInvalidDistances(): void
     {
         $this->assertSame([], $this->RaceresultRepository->findPersonalBestDetailsForDistances($this->Account, 1, []));
