@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Repository;
 
+use DateTimeImmutable;
+use DateTimeZone;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\BasicEndurance;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\VO2max;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -99,9 +101,9 @@ final class TrainingRepositoryTest extends AbstractRepositoryTestCase
 
         $this->insertActivityForDefaultAccount($earlyTimestamp, 1800, 20.0, $this->getDefaultAccountsCyclingSport());
 
-        $today = new \DateTimeImmutable('today', new \DateTimeZone('UTC'));
-        $earlyAge = (int) $today->diff(new \DateTimeImmutable('2026-01-10', new \DateTimeZone('UTC')))->format('%r%a');
-        $laterAge = (int) $today->diff(new \DateTimeImmutable('2026-01-11', new \DateTimeZone('UTC')))->format('%r%a');
+        $today = new DateTimeImmutable('today', new DateTimeZone('UTC'));
+        $earlyAge = (int) $today->diff(new DateTimeImmutable('2026-01-10', new DateTimeZone('UTC')))->format('%r%a');
+        $laterAge = (int) $today->diff(new DateTimeImmutable('2026-01-11', new DateTimeZone('UTC')))->format('%r%a');
 
         $this->assertSame([
             [
