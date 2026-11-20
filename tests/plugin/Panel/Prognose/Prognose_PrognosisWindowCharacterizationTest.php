@@ -22,8 +22,8 @@ final class Prognose_PrognosisWindowCharacterizationTest extends TestCase
     {
         $this->window = new \ReflectionClass(Prognose_PrognosisWindow::class)
             ->newInstanceWithoutConstructor();
-        new \ReflectionProperty(Prognose_PrognosisWindow::class, 'modelFactory')
-            ->setValue($this->window, new PrognoseCalculatorModelFactory());
+        $modelFactoryProperty = new \ReflectionProperty(Prognose_PrognosisWindow::class, 'modelFactory');
+        $modelFactoryProperty->setValue($this->window, new PrognoseCalculatorModelFactory());
 
         $this->originalPost = $_POST;
     }
