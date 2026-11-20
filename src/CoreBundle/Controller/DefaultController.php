@@ -9,11 +9,13 @@ use Plugin;
 use Runalyze\Activity\Distance;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Form\FeedbackType;
 use Runalyze\Bundle\CoreBundle\Form\RegistrationType;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
 use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
+use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
@@ -25,6 +27,8 @@ use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
+use Runalyze\Plugins\Prognose\PrognoseCalculatorPersonalBestProvider;
+use Runalyze\Plugins\Prognose\PrognosePanelPresenter;
 use Runalyze\View\Activity\Context as ActivityContext;
 use RunalyzePluginPanel_Prognose;
 use RunalyzePluginPanel_Rechenspiele;
@@ -303,26 +307,37 @@ class DefaultController extends AbstractPluginsAwareController
      * @throws Throwable if the legacy prognosis calculator window throws
      */
     #[Route(path: '/plugin/RunalyzePluginPanel_Prognose/window.php', methods: ['GET', 'POST'], priority: 10)]
-    public function prognoseCalculatorWindowAction(?Account $account = null): Response
-    {
+    public function prognoseCalculatorWindowAction(
+        PrognosePanelPresenter $prognosePanelPresenter,
+        PrognoseCalculatorPersonalBestProvider $personalBestProvider,
+        ?Account $account = null
+    ): Response {
         $this->denyAccessUnlessGranted('ROLE_USER');
+
+        if (! $account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account) {
+            throw $this->createAccessDeniedException();
+        }
+
+        /** @var PluginRepository $pluginRepository */
+        $pluginRepository = $this->doctrine->getRepository(PluginInstallation::class);
+        $installation = $pluginRepository->findForAccountAndKey($account, $prognosePanelPresenter->getKey());
+
+        if ($installation === null) {
+            throw $this->createNotFoundException('The Prognose panel is not installed.');
+        }
+
+        $distances = $prognosePanelPresenter->getPredictionDistances($account, $installation);
 
         new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
         /** @var TrainingRepository $trainingRepository */
         $trainingRepository = $this->doctrine->getRepository(Training::class);
-        $topResults = $trainingRepository->findTopResults(
-            $account,
-            $this->configurationManager->getList()->getGeneral()->getRunningSport(),
-            2
-        );
-
-        /** @var RunalyzePluginPanel_Prognose $prognosePlugin */
-        $prognosePlugin = $this->instantiatePluginByKey('RunalyzePluginPanel_Prognose');
+        $runningSportId = $this->configurationManager->getList()->getGeneral()->getRunningSport();
+        $topResults = $trainingRepository->findTopResults($account, $runningSportId, 2);
 
         return $this->legacyContentResponseFactory->create(
-            $this->legacyPluginOutputRenderer->render(function () use ($topResults, $prognosePlugin): void {
-                new \Prognose_PrognosisWindow($topResults, $prognosePlugin->getDistances())->display();
+            $this->legacyPluginOutputRenderer->render(function () use ($topResults, $distances, $account, $runningSportId, $personalBestProvider): void {
+                new \Prognose_PrognosisWindow($topResults, $distances, $account, $runningSportId, $personalBestProvider)->display();
             })->getContent(),
             $this->requestStack->getCurrentRequest()
         );

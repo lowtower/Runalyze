@@ -8,11 +8,12 @@
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\Pace;
-use Runalyze\Activity\PersonalBest;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Model\Prognosis\PrognosisModel;
 use Runalyze\Calculation\BasicEndurance;
 use Runalyze\Configuration;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
+use Runalyze\Plugins\Prognose\PrognoseCalculatorPersonalBestProvider;
 use Runalyze\Sports\Running\Prognosis\Bock;
 use Runalyze\Sports\Running\Prognosis\PrognosisInterface;
 use Runalyze\Sports\Running\Prognosis\VO2max;
@@ -57,7 +58,10 @@ class Prognose_PrognosisWindow
      */
     public function __construct(
         private readonly array $topResults,
-        private readonly array $distances
+        private readonly array $distances,
+        private readonly Account $account,
+        private readonly int $runningSportId,
+        private readonly PrognoseCalculatorPersonalBestProvider $personalBestProvider
     ) {
         $this->setDefaultValues();
         $this->readPostData();
@@ -196,23 +200,28 @@ class Prognose_PrognosisWindow
             return;
         }
 
+        $personalBests = $this->personalBestProvider->findForDistances(
+            $this->account,
+            $this->runningSportId,
+            $this->Distances
+        );
+
         foreach ($this->Distances as $km) {
             $Prognosis = $this->PrognosisObject->getSeconds($km);
-
-            $PB = new PersonalBest($km, Configuration::General()->runningSport(), DB::getInstance(), false);
-            $PB->lookupWithDetails();
+            $personalBest = $personalBests[sprintf('%.2f', (float) $km)] ?? null;
+            $pbSeconds = $personalBest['seconds'] ?? 0.0;
 
             $VO2maxprognosis = new EffectiveVO2max();
             $VO2maxprognosis->fromPace($km, (int) $Prognosis);
 
             $VO2maxpb = new EffectiveVO2max();
-            $VO2maxpb->fromPace($km, $PB->seconds());
+            $VO2maxpb->fromPace($km, (int) $pbSeconds);
 
             $PacePrognosis = new Pace($Prognosis, $km, \Runalyze\Context::Factory()->sport(Configuration::General()->runningSport())->getLegacyPaceUnitEnum());
-            $PacePB = new Pace($PB->seconds(), $km, \Runalyze\Context::Factory()->sport(Configuration::General()->runningSport())->getLegacyPaceUnitEnum());
+            $PacePB = new Pace($pbSeconds, $km, \Runalyze\Context::Factory()->sport(Configuration::General()->runningSport())->getLegacyPaceUnitEnum());
 
-            $DateWithLink = $PB->seconds() > 0
-                ? Ajax::trainingLink($PB->activityId(), new LocalTime($PB->timestamp())->format('d.m.Y'), true)
+            $DateWithLink = $personalBest !== null
+                ? Ajax::trainingLink($personalBest['activity_id'], new LocalTime($personalBest['timestamp'])->format('d.m.Y'), true)
                 : '-';
 
             $this->Prognoses[] = [
@@ -220,11 +229,11 @@ class Prognose_PrognosisWindow
                 'prognosis' => $Prognosis > 0 ? Duration::format($Prognosis) : '-',
                 'prognosis-pace' => $PacePrognosis->valueWithAppendix(),
                 'prognosis-vo2max' => $Prognosis > 0 ? $VO2maxprognosis->uncorrectedValue() : '-',
-                'diff' => ! $PB->exists() || $Prognosis == 0 ? '-' : ($PB->seconds() > $Prognosis ? '+ ' : '- ') . Duration::format(abs(round($PB->seconds() - $Prognosis))),
-                'diff-class' => $PB->seconds() > $Prognosis ? 'plus' : 'minus',
-                'pb' => $PB->seconds() > 0 ? Duration::format($PB->seconds()) : '-',
-                'pb-pace' => $PB->seconds() > 0 ? $PacePB->valueWithAppendix() : '-',
-                'pb-vo2max' => $PB->seconds() > 0 ? $VO2maxpb->uncorrectedValue() : '-',
+                'diff' => $personalBest === null || $Prognosis == 0 ? '-' : ($pbSeconds > $Prognosis ? '+ ' : '- ') . Duration::format(abs(round($pbSeconds - $Prognosis))),
+                'diff-class' => $pbSeconds > $Prognosis ? 'plus' : 'minus',
+                'pb' => $pbSeconds > 0 ? Duration::format($pbSeconds) : '-',
+                'pb-pace' => $pbSeconds > 0 ? $PacePB->valueWithAppendix() : '-',
+                'pb-vo2max' => $pbSeconds > 0 ? $VO2maxpb->uncorrectedValue() : '-',
                 'pb-date' => $DateWithLink,
             ];
         }
