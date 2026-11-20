@@ -685,6 +685,28 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPrognosisPlotWindowReturnsTwigFragmentForAjaxRequests(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        /** @var PluginInstallationManager $installationManager */
+        $installationManager = self::getContainer()->get(PluginInstallationManager::class);
+        $installationManager->install('RunalyzePluginPanel_Prognose');
+
+        $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.plot.php?distance=10', [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ]);
+
+        $this->assertStatusCode(200, $this->Client);
+        $content = (string) $this->Client->getResponse()->getContent();
+
+        $this->assertStringContainsString('formverlauf_10', $content);
+        $this->assertStringContainsString('panel-heading', $content);
+        $this->assertStringContainsString('class="window"', $content);
+        $this->assertStringNotContainsString('<html', $content);
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testPrognosisPlotWindowUsesTenKilometersAsDefaultWhenConfigured(): void
     {
         $this->loginClient($this->Client, $this->Account, 'default');

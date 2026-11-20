@@ -185,9 +185,14 @@ and date-based rows. `PrognoseTrendSeriesCalculator` computes the two historical
 prediction series from explicitly supplied inputs. The
 `PrognoseTrendDataProvider` now reads VO2max and marathon-shape settings from
 the account-scoped `ConfigurationManager`, constructs an isolated endurance
-model, and invokes the calculator. The legacy plot include retains only the
-optional Wettkampf filtering and JavaScript plot rendering. These presentation
-boundaries and the remaining legacy endurance model require later migration.
+model, and invokes the calculator. The legacy plot includes
+(`plugin/RunalyzePluginPanel_Prognose/window.plot.php` and `Plot.Form.php`)
+have been removed. The existing Symfony route now renders
+`@Prognose/trend_window.html.twig`, and `PrognoseTrendPlotRenderer` assembles
+the existing Plot JavaScript and filters optional Wettkampf results. The
+stable AJAX URL and full-page compatibility wrapper remain. The underlying
+global `Plot` class and legacy `BasicEndurance` model are still compatibility
+boundaries for subsequent modernization.
 
 Before deleting another legacy class, verify installation, settings metadata,
 configuration POST/defaults, activation/deactivation, optional plot/window routes,

@@ -31,6 +31,7 @@ use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorPersonalBestProvider;
 use Runalyze\Plugins\Prognose\PrognosePanelPresenter;
 use Runalyze\Plugins\Prognose\PrognoseTrendDataProvider;
+use Runalyze\Plugins\Prognose\PrognoseTrendPlotRenderer;
 use Runalyze\View\Activity\Context as ActivityContext;
 use RunalyzePluginPanel_Rechenspiele;
 use RunalyzePluginStat_Wettkampf;
@@ -345,13 +346,15 @@ class DefaultController extends AbstractPluginsAwareController
     }
 
     /**
-     * @throws Throwable if the legacy prognosis plot throws
+     * @throws Throwable if the plot renderer fails
      */
-    #[Route(path: '/plugin/RunalyzePluginPanel_Prognose/window.plot.php', methods: ['GET'], priority: 10)]
+    #[Route(path: '/plugin/RunalyzePluginPanel_Prognose/window.plot.php', name: 'prognosis-trend-window', methods: ['GET'], priority: 10)]
     public function prognosisPlotWindowAction(
+        Request $request,
         PrognosePanelPresenter $prognosePanelPresenter,
         RaceresultRepository $raceResultRepository,
         PrognoseTrendDataProvider $trendDataProvider,
+        PrognoseTrendPlotRenderer $trendPlotRenderer,
         ?Account $account = null
     ): Response {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -369,6 +372,12 @@ class DefaultController extends AbstractPluginsAwareController
         }
 
         $distances = $prognosePanelPresenter->getPredictionDistances($account, $installation);
+        $defaultDistance = in_array(10, $distances) ? 10.0 : (float) $distances[0];
+        $requestedDistance = $request->query->get('distance');
+        $distance = is_numeric($requestedDistance) && is_finite((float) $requestedDistance) && (float) $requestedDistance > 0
+            ? (float) $requestedDistance
+            : $defaultDistance;
+
         $runningSportId = $this->configurationManager->getList($account)->getGeneral()->getRunningSport();
 
         new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
@@ -382,12 +391,31 @@ class DefaultController extends AbstractPluginsAwareController
             $WKplugin = $this->instantiatePluginByKey('RunalyzePluginStat_Wettkampf');
         }
 
-        return $this->legacyContentResponseFactory->create(
-            $this->legacyPluginOutputRenderer->render(function () use ($distances, $WKplugin, $account, $runningSportId, $raceResultRepository, $trendDataProvider): void {
-                include FRONTEND_PATH . '../plugin/RunalyzePluginPanel_Prognose/window.plot.php';
-            })->getContent(),
-            $this->requestStack->getCurrentRequest()
+        $trendData = $trendDataProvider->getSeries($account, $runningSportId, $distance);
+        $races = $raceResultRepository->findTrendResultsForDistance($account, $runningSportId, $distance);
+        $isFunCompetition = null;
+
+        if ($WKplugin !== null) {
+            $isFunCompetition = $WKplugin->isFunCompetition(...);
+        }
+
+        $plot = $trendPlotRenderer->render(
+            $distance,
+            $trendData['prognosis'],
+            $trendData['prognosis_with_basic_endurance'],
+            $races,
+            $trendData['has_history'],
+            $isFunCompetition
         );
+
+        $content = $this->renderView('@Prognose/trend_window.html.twig', [
+            'distances' => $distances,
+            'selected_distance' => $distance,
+            'plot_html' => $plot['html'],
+            'plot_javascript' => $plot['javascript'],
+        ]);
+
+        return $this->legacyContentResponseFactory->create($content, $request);
     }
 
     /**
