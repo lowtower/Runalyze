@@ -29,7 +29,7 @@
             <div class="w100 block">
                 <label for="prognose-use-be">{{ 'Use marathon shape'|trans }}</label>
                 <input type="checkbox" name="use_be" id="prognose-use-be" value="1"{% if config_data.use_be %} checked{% endif %}>
-                <small>{{ 'Use marathon shape factor to adapt prognosis for long distances (VO2max only).'|trans }}</small>
+                <small>{{ 'Use marathon shape factor to adapt prognosis for long distances (VO2max only).'|trans|raw }}</small>
             </div>
             <div class="w100 block">
                 <input type="submit" value="{{ 'Save'|trans }}">

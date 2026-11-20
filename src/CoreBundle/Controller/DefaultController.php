@@ -30,7 +30,6 @@ use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorPersonalBestProvider;
 use Runalyze\Plugins\Prognose\PrognosePanelPresenter;
 use Runalyze\View\Activity\Context as ActivityContext;
-use RunalyzePluginPanel_Prognose;
 use RunalyzePluginPanel_Rechenspiele;
 use RunalyzePluginStat_Wettkampf;
 use SessionAccountHandler;
@@ -347,14 +346,25 @@ class DefaultController extends AbstractPluginsAwareController
      * @throws Throwable if the legacy prognosis plot throws
      */
     #[Route(path: '/plugin/RunalyzePluginPanel_Prognose/window.plot.php', methods: ['GET'], priority: 10)]
-    public function prognosisPlotWindowAction(): Response
+    public function prognosisPlotWindowAction(PrognosePanelPresenter $prognosePanelPresenter, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
+        if (! $account instanceof Account) {
+            throw $this->createAccessDeniedException();
+        }
 
-        /** @var RunalyzePluginPanel_Prognose $Plugin */
-        $Plugin = $this->instantiatePluginByKey('RunalyzePluginPanel_Prognose');
+        /** @var PluginRepository $pluginRepository */
+        $pluginRepository = $this->doctrine->getRepository(PluginInstallation::class);
+        $installation = $pluginRepository->findForAccountAndKey($account, $prognosePanelPresenter->getKey());
+
+        if ($installation === null) {
+            throw $this->createNotFoundException('The Prognose panel is not installed.');
+        }
+
+        $distances = $prognosePanelPresenter->getPredictionDistances($account, $installation);
+
+        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
         $WKplugin = null;
         if (
@@ -366,7 +376,7 @@ class DefaultController extends AbstractPluginsAwareController
         }
 
         return $this->legacyContentResponseFactory->create(
-            $this->legacyPluginOutputRenderer->render(function () use ($Plugin, $WKplugin): void {
+            $this->legacyPluginOutputRenderer->render(function () use ($distances, $WKplugin): void {
                 include FRONTEND_PATH . '../plugin/RunalyzePluginPanel_Prognose/window.plot.php';
             })->getContent(),
             $this->requestStack->getCurrentRequest()

@@ -6,18 +6,15 @@
 
 use Runalyze\Activity\Distance;
 
-/** @var RunalyzePluginPanel_Prognose $Plugin */
-$distances = $Plugin->getDistances();
-
+/** @var list<float> $distances */
 if (! isset($_GET['distance'])) {
-    $distance = (in_array(10, $distances)) ? 10 : trim($distances[0]);
+    $distance = in_array(10, $distances) ? 10 : $distances[0];
 } else {
     $distance = (float) $_GET['distance'];
 }
 
 $Submenu = '';
 foreach ($distances as $km) {
-    $km = (float) trim($km);
     $link = 'plugin/RunalyzePluginPanel_Prognose/window.plot.php?distance=' . $km;
     $Submenu .= '<li' . ($km == $distance ? ' class="active"' : '') . '>' . Ajax::window('<a href="' . $link . '">' . (new Distance($km)->stringAuto()) . '</a>') . '</li>';
 }
@@ -33,7 +30,7 @@ foreach ($distances as $km) {
 
 <div class="panel-content">
     <?php
-    echo Plot::getDivFor('formverlauf_' . str_replace('.', '_', $distance), 800, 450);
+    echo Plot::getDivFor('formverlauf_' . str_replace('.', '_', (string) $distance), 800, 450);
     include FRONTEND_PATH . '../plugin/RunalyzePluginPanel_Prognose/Plot.Form.php';
     ?>
 </div>

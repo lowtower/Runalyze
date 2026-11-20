@@ -645,6 +645,61 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPrognoseCalculatorWindowRendersValidCustomDistancePredictionWithoutPersonalBest(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $originalPost = $_POST;
+        $_POST = [
+            'model' => 'vo2max',
+            'distances' => '5.72',
+            'best-result-km' => '5.72',
+            'best-result-time' => '34:24',
+            'second-best-result-km' => '8.9',
+            'second-best-result-time' => '53:16',
+            'vo2max' => '50',
+            'endurance' => '1',
+            'endurance-value' => '80',
+        ];
+
+        try {
+            $this->Client->request('POST', '/plugin/RunalyzePluginPanel_Prognose/window.php', $_POST);
+
+            $this->assertStatusCode(200, $this->Client);
+            $content = (string) $this->Client->getResponse()->getContent();
+            $this->assertStringContainsString('id="prognosis-calculator"', $content);
+            $this->assertStringContainsString('5.72', $content);
+            $this->assertStringContainsString('Personal best', $content);
+            $this->assertStringNotContainsString('Your input is invalid', $content);
+        } finally {
+            $_POST = $originalPost;
+        }
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPrognosisPlotWindowRequiresAuthentication(): void
+    {
+        $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.plot.php');
+
+        $this->isSuccessful($this->Client->getResponse(), false);
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPrognosisPlotWindowUsesTenKilometersAsDefaultWhenConfigured(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        /** @var PluginInstallationManager $installationManager */
+        $installationManager = self::getContainer()->get(PluginInstallationManager::class);
+        $installationManager->install('RunalyzePluginPanel_Prognose');
+
+        $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.plot.php');
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('formverlauf_10', (string) $this->Client->getResponse()->getContent());
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testPrognosisPlotWindowWorksWithoutTheOptionalRacePlugin(): void
     {
         $this->loginClient($this->Client, $this->Account, 'default');
@@ -657,6 +712,98 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
 
         $this->assertStatusCode(200, $this->Client);
         $this->assertStringContainsString('formverlauf_10', (string) $this->Client->getResponse()->getContent());
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPrognosisPlotWindowUsesCustomConfiguredDistances(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        /** @var PluginInstallationManager $installationManager */
+        $installationManager = self::getContainer()->get(PluginInstallationManager::class);
+        $installationManager->install('RunalyzePluginPanel_Prognose');
+
+        $entityManager = $this->getEntityManager();
+        $plugin = $entityManager->getRepository(PluginEntity::class)->findOneBy([
+            'account' => $this->Account,
+            'key' => 'RunalyzePluginPanel_Prognose',
+        ]);
+        $this->assertInstanceOf(PluginEntity::class, $plugin);
+
+        $configuration = new PluginConf()
+            ->setPlugin($plugin)
+            ->setConfig('distances')
+            ->setValue('5.72,8.9');
+        $entityManager->persist($configuration);
+        $entityManager->flush();
+
+        try {
+            $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.plot.php?distance=5.72');
+
+            $this->assertStatusCode(200, $this->Client);
+            $content = (string) $this->Client->getResponse()->getContent();
+            $this->assertStringContainsString('formverlauf_5_72', $content);
+            $this->assertStringContainsString('distance=8.9', $content);
+        } finally {
+            $entityManager->remove($configuration);
+            $entityManager->flush();
+        }
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPrognosisPlotWindowDefaultsToFirstCustomDistance(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        /** @var PluginInstallationManager $installationManager */
+        $installationManager = self::getContainer()->get(PluginInstallationManager::class);
+        $installationManager->install('RunalyzePluginPanel_Prognose');
+
+        $entityManager = $this->getEntityManager();
+        $plugin = $entityManager->getRepository(PluginEntity::class)->findOneBy([
+            'account' => $this->Account,
+            'key' => 'RunalyzePluginPanel_Prognose',
+        ]);
+        $this->assertInstanceOf(PluginEntity::class, $plugin);
+
+        $configuration = new PluginConf()
+            ->setPlugin($plugin)
+            ->setConfig('distances')
+            ->setValue('5.72,8.9');
+        $entityManager->persist($configuration);
+        $entityManager->flush();
+
+        try {
+            $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.plot.php');
+
+            $this->assertStatusCode(200, $this->Client);
+            $content = (string) $this->Client->getResponse()->getContent();
+            $this->assertStringContainsString('formverlauf_5_72', $content);
+            $this->assertStringContainsString('distance=8.9', $content);
+        } finally {
+            $entityManager->remove($configuration);
+            $entityManager->flush();
+        }
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPrognosisPlotWindowRequiresInstalledPanel(): void
+    {
+        $entityManager = $this->getEntityManager();
+        $plugin = $entityManager->getRepository(PluginEntity::class)->findOneBy([
+            'account' => $this->Account,
+            'key' => 'RunalyzePluginPanel_Prognose',
+        ]);
+        $this->assertInstanceOf(PluginEntity::class, $plugin);
+
+        $entityManager->remove($plugin);
+        $entityManager->flush();
+
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.plot.php');
+
+        $this->assertStatusCode(404, $this->Client);
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
