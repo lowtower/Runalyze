@@ -127,6 +127,11 @@ class Prognose_PrognosisWindow
 
     protected function readPostData(): void
     {
+        $_POST['model'] = match ($_POST['model'] ?? null) {
+            'robert-bock', 'herbert-steffny', 'david-cameron' => $_POST['model'],
+            default => 'vo2max',
+        };
+
         $model = match ($_POST['model']) {
             'robert-bock' => 'cpp',
             'herbert-steffny' => 'steffny',
