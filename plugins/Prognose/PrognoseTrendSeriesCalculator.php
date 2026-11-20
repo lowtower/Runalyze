@@ -42,9 +42,9 @@ final readonly class PrognoseTrendSeriesCalculator
         $firstVO2max = 0;
         $firstKm = 0;
         $firstLongJog = 0;
-        $weightedSum = (float) $history[0]['vo2max_weighted'];
-        $timeSum = (float) $history[0]['vo2max_sum_time'];
-        $kmSum = (float) $history[0]['distance'];
+        $weightedSum = 0.0;
+        $timeSum = 0.0;
+        $kmSum = 0.0;
 
         $kmDays = $endurance->getDaysForWeekKm();
         $longJogDays = $endurance->getDaysToRecognizeForLongjogs();
