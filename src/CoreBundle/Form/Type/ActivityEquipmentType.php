@@ -7,18 +7,24 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
+use Runalyze\Bundle\CoreBundle\Form\AbstractTokenStorageAwareType;
 use Runalyze\Bundle\CoreBundle\Form\ConfigurationManagerAwareTrait;
-use Runalyze\Bundle\CoreBundle\Form\TokenStorageAwareTypeTrait;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class ActivityEquipmentType extends AbstractType implements DataTransformerInterface
+class ActivityEquipmentType extends AbstractTokenStorageAwareType implements DataTransformerInterface
 {
     use ConfigurationManagerAwareTrait;
-    use TokenStorageAwareTypeTrait;
+
+    public function __construct(TokenStorageInterface $tokenStorage, ConfigurationManager $configurationManager)
+    {
+        parent::__construct($tokenStorage);
+        $this->setConfigurationManager($configurationManager);
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
