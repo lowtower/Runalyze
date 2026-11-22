@@ -16,8 +16,6 @@ final class Prognose_PrognosisWindowCharacterizationTest extends TestCase
 {
     private Prognose_PrognosisWindow $window;
 
-    private array $originalPost;
-
     protected function setUp(): void
     {
         $this->window = new \ReflectionClass(Prognose_PrognosisWindow::class)
@@ -25,12 +23,6 @@ final class Prognose_PrognosisWindowCharacterizationTest extends TestCase
         $modelFactoryProperty = new \ReflectionProperty(Prognose_PrognosisWindow::class, 'modelFactory');
         $modelFactoryProperty->setValue($this->window, new PrognoseCalculatorModelFactory());
 
-        $this->originalPost = $_POST;
-    }
-
-    protected function tearDown(): void
-    {
-        $_POST = $this->originalPost;
     }
 
     #[DataProvider('provideMetricDistanceValues')]
@@ -83,12 +75,12 @@ final class Prognose_PrognosisWindowCharacterizationTest extends TestCase
     public function testReadPostDataParsesAndTrimsCommaSeparatedDistances(): void
     {
         $this->setUnitSystem(DistanceUnitSystem::METRIC);
-        $_POST = [
+        $this->setProtectedProperty('Input', [
             'model' => 'vo2max',
             'distances' => ' 1, 3, 5 , 10',
             'vo2max' => '50',
             'endurance-value' => '80',
-        ];
+        ]);
 
         $this->callProtectedMethod('readPostData');
 
@@ -98,13 +90,13 @@ final class Prognose_PrognosisWindowCharacterizationTest extends TestCase
     public function testReadPostDataUsesVO2maxForVo2maxModel(): void
     {
         $this->setUnitSystem(DistanceUnitSystem::METRIC);
-        $_POST = [
+        $this->setProtectedProperty('Input', [
             'model' => 'vo2max',
             'distances' => '5',
             'vo2max' => '50',
             'endurance' => true,
             'endurance-value' => '80',
-        ];
+        ]);
 
         $this->callProtectedMethod('readPostData');
 
@@ -117,12 +109,12 @@ final class Prognose_PrognosisWindowCharacterizationTest extends TestCase
     public function testReadPostDataUsesVO2maxAsDefaultForUnknownModel(): void
     {
         $this->setUnitSystem(DistanceUnitSystem::METRIC);
-        $_POST = [
+        $this->setProtectedProperty('Input', [
             'model' => 'some_unknown_model',
             'distances' => '5',
             'vo2max' => '50',
             'endurance-value' => '80',
-        ];
+        ]);
 
         $this->callProtectedMethod('readPostData');
 
@@ -130,22 +122,22 @@ final class Prognose_PrognosisWindowCharacterizationTest extends TestCase
             \Runalyze\Sports\Running\Prognosis\VO2max::class,
             $this->getProtectedProperty('PrognosisObject')
         );
-        $this->assertSame('vo2max', $_POST['model']);
+        $this->assertSame('vo2max', $this->getProtectedProperty('Input')['model']);
     }
 
     public function testReadPostDataNormalizesUntrustedModelBeforeRendering(): void
     {
         $this->setUnitSystem(DistanceUnitSystem::METRIC);
-        $_POST = [
+        $this->setProtectedProperty('Input', [
             'model' => "vo2max');alert(1);//",
             'distances' => '5',
             'vo2max' => '50',
             'endurance-value' => '80',
-        ];
+        ]);
 
         $this->callProtectedMethod('readPostData');
 
-        $this->assertSame('vo2max', $_POST['model']);
+        $this->assertSame('vo2max', $this->getProtectedProperty('Input')['model']);
         $this->assertInstanceOf(
             \Runalyze\Sports\Running\Prognosis\VO2max::class,
             $this->getProtectedProperty('PrognosisObject')
@@ -155,14 +147,14 @@ final class Prognose_PrognosisWindowCharacterizationTest extends TestCase
     public function testReadPostDataUsesBockForRobertBockModelWithValidResults(): void
     {
         $this->setUnitSystem(DistanceUnitSystem::METRIC);
-        $_POST = [
+        $this->setProtectedProperty('Input', [
             'model' => 'robert-bock',
             'distances' => '5',
             'best-result-km' => '5.0',
             'best-result-time' => '20:00',
             'second-best-result-km' => '10.0',
             'second-best-result-time' => '42:30',
-        ];
+        ]);
 
         $this->callProtectedMethod('readPostData');
         $prognosis = $this->getProtectedProperty('PrognosisObject');
@@ -174,12 +166,12 @@ final class Prognose_PrognosisWindowCharacterizationTest extends TestCase
     public function testReadPostDataUsesSteffnyForHerbertSteffnyModel(): void
     {
         $this->setUnitSystem(DistanceUnitSystem::METRIC);
-        $_POST = [
+        $this->setProtectedProperty('Input', [
             'model' => 'herbert-steffny',
             'distances' => '5',
             'best-result-km' => '10.0',
             'best-result-time' => '42:30',
-        ];
+        ]);
 
         $this->callProtectedMethod('readPostData');
         $prognosis = $this->getProtectedProperty('PrognosisObject');
@@ -192,12 +184,12 @@ final class Prognose_PrognosisWindowCharacterizationTest extends TestCase
     public function testReadPostDataUsesCameronForDavidCameronModel(): void
     {
         $this->setUnitSystem(DistanceUnitSystem::METRIC);
-        $_POST = [
+        $this->setProtectedProperty('Input', [
             'model' => 'david-cameron',
             'distances' => '5',
             'best-result-km' => '10.0',
             'best-result-time' => '42:30',
-        ];
+        ]);
 
         $this->callProtectedMethod('readPostData');
         $prognosis = $this->getProtectedProperty('PrognosisObject');
