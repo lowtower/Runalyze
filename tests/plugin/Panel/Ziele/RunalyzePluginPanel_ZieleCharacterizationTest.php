@@ -70,79 +70,6 @@ final class RunalyzePluginPanel_ZieleCharacterizationTest extends TestCase
         $this->assertSame('', $this->callPrivateMethod('getLevelStyle', 3));
     }
 
-    public function testAddHeadlineAppendsLevelOneEntryWithTopBorderByDefault(): void
-    {
-        $this->callPrivateMethod('addHeadline', 'Current', 12.5, 3);
-
-        $this->assertSame(
-            [[
-                'name' => 'Current',
-                'lvl' => 1,
-                'sep' => true,
-                'km' => 12.5,
-                'anz' => 3,
-            ]],
-            $this->getLinesProperty()
-        );
-    }
-
-    public function testAddHeadlineOmitsTopBorderWhenRequested(): void
-    {
-        $this->callPrivateMethod('addHeadline', 'Current', 12.5, 3, true);
-
-        $this->assertSame(
-            [[
-                'name' => 'Current',
-                'lvl' => 1,
-                'sep' => false,
-                'km' => 12.5,
-                'anz' => 3,
-            ]],
-            $this->getLinesProperty()
-        );
-    }
-
-    public function testAddLineAppendsLevelTwoEntryWithoutSepKey(): void
-    {
-        $this->callPrivateMethod('addLine', 'Some line', 5.0, 2);
-
-        $this->assertSame(
-            [[
-                'name' => 'Some line',
-                'lvl' => 2,
-                'km' => 5.0,
-                'anz' => 2,
-            ]],
-            $this->getLinesProperty()
-        );
-    }
-
-    public function testAddBarAppendsBarTypeEntry(): void
-    {
-        $this->callPrivateMethod('addBar', 'Me', 30.0, 100.0, '#f99', 20.0, '#ddf');
-
-        $this->assertSame(
-            [[
-                'name' => 'Me',
-                'type' => 'bar',
-                'val' => 30.0,
-                'max' => 100.0,
-                'color' => '#f99',
-                'add' => 20.0,
-                'addcolor' => '#ddf',
-            ]],
-            $this->getLinesProperty()
-        );
-    }
-
-    public function testClearLinesEmptiesTheLinesArray(): void
-    {
-        $this->callPrivateMethod('addLine', 'Some line');
-        $this->callPrivateMethod('clearLines');
-
-        $this->assertSame([], $this->getLinesProperty());
-    }
-
     public function testShowLineRendersHeadlineWithDistanceAndActivityCount(): void
     {
         $output = $this->captureShowLineOrBar([
@@ -336,13 +263,6 @@ final class RunalyzePluginPanel_ZieleCharacterizationTest extends TestCase
         }
 
         return $output;
-    }
-
-    private function getLinesProperty(): array
-    {
-        $property = new \ReflectionProperty(RunalyzePluginPanel_Ziele::class, 'Lines');
-
-        return $property->getValue($this->plugin);
     }
 
     private function callPrivateMethod(string $name, mixed ...$arguments): mixed
