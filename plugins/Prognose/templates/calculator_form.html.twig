@@ -1,0 +1,61 @@
+<div class="panel-heading">
+    <h1>{{ 'Prognosis calculator'|trans }}</h1>
+</div>
+<div class="panel-content">
+    <form id="prognosis-calculator" class="ajax no-automatic-reload" method="post">
+        <fieldset>
+            <legend>{{ 'Input'|trans }}</legend>
+            {% for info in info_lines %}
+                <p class="info">{{ info|raw }}</p>
+            {% endfor %}
+            <div class="w50 block">
+                <label for="prognosis-model">{{ 'Model'|trans }}</label>
+                <select name="model" id="prognosis-model">
+                    <option value="vo2max"{% if input.model == 'vo2max' %} selected{% endif %}>Effective VO2max</option>
+                    <option value="robert-bock"{% if input.model == 'robert-bock' %} selected{% endif %}>Robert Bock (CPP)</option>
+                    <option value="herbert-steffny"{% if input.model == 'herbert-steffny' %} selected{% endif %}>Herbert Steffny</option>
+                    <option value="david-cameron"{% if input.model == 'david-cameron' %} selected{% endif %}>David Cameron</option>
+                </select>
+            </div>
+            <div class="w50 block">
+                <label for="prognosis-distances">{{ 'Distances'|trans }} ({{ distance_unit }})</label>
+                <input type="text" id="prognosis-distances" name="distances" value="{{ input.distances }}">
+            </div>
+            <div class="w50 block">
+                <label for="prognosis-vo2max">{{ 'Effective VO2max'|trans }}</label>
+                <input type="text" class="hide-on-model-change only-vo2max" id="prognosis-vo2max" name="vo2max" value="{{ input.vo2max|default('') }}">
+            </div>
+            <div class="w50 block">
+                <label for="prognosis-endurance-value">{{ 'Marathon Shape'|trans }} (%)</label>
+                <input type="text" class="hide-on-model-change only-vo2max" id="prognosis-endurance-value" name="endurance-value" value="{{ input['endurance-value']|default('') }}">
+            </div>
+            <div class="w50 block">
+                <label for="prognosis-endurance">{{ 'Use Marathon Shape'|trans }}</label>
+                <input type="checkbox" class="hide-on-model-change only-vo2max" id="prognosis-endurance" name="endurance" value="1"{% if input.endurance is defined and input.endurance %} checked{% endif %}>
+            </div>
+            <div class="w50 block">
+                <label for="prognosis-best-result">{{ 'Best result'|trans }} ({{ distance_unit }})</label>
+                <input type="text" class="hide-on-model-change only-robert-bock only-herbert-steffny only-david-cameron" id="prognosis-best-result" name="best-result-km" value="{{ input['best-result-km'] }}">
+            </div>
+            <div class="w50 block">
+                <label for="prognosis-best-time">{{ 'in'|trans }}</label>
+                <input type="text" class="hide-on-model-change only-robert-bock only-herbert-steffny only-david-cameron" id="prognosis-best-time" name="best-result-time" value="{{ input['best-result-time'] }}">
+            </div>
+            <div class="w50 block">
+                <label for="prognosis-second-result">{{ 'Second best result'|trans }} ({{ distance_unit }})</label>
+                <input type="text" class="hide-on-model-change only-robert-bock" id="prognosis-second-result" name="second-best-result-km" value="{{ input['second-best-result-km'] }}">
+            </div>
+            <div class="w50 block">
+                <label for="prognosis-second-time">{{ 'in'|trans }}</label>
+                <input type="text" class="hide-on-model-change only-robert-bock" id="prognosis-second-time" name="second-best-result-time" value="{{ input['second-best-result-time'] }}">
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>{{ 'Prognosis'|trans }}</legend>
+            {{ result_table|raw }}
+        </fieldset>
+        <div class="w100 block">
+            <input type="submit" value="{{ 'Show prognosis'|trans }}">
+        </div>
+    </form>
+</div>
