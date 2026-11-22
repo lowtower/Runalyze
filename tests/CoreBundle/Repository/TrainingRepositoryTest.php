@@ -45,6 +45,54 @@ final class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertSame(0, $this->TrainingRepository->getNumberOfActivitiesFor(new Account()));
     }
 
+    public function testTrainingTotalsSinceAreScopedByAccountSportAndInclusiveStart(): void
+    {
+        $runningSport = $this->getDefaultAccountsRunningSport();
+        $cyclingSport = $this->getDefaultAccountsCyclingSport();
+        $start = strtotime('2026-04-01 00:00:00 UTC');
+
+        $this->insertActivityForDefaultAccount($start - 1, 1800, 3.0, $runningSport);
+        $this->insertActivityForDefaultAccount($start, 1800, 5.5, $runningSport);
+        $this->insertActivityForDefaultAccount($start + 3600, 2400, 10.25, $runningSport);
+        $this->insertActivityForDefaultAccount($start + 7200, 3600, 25.0, $cyclingSport);
+
+        $this->assertSame([
+            'activity_count' => 2,
+            'distance_sum' => 15.75,
+        ], $this->TrainingRepository->findTrainingTotalsSince(
+            $this->Account,
+            $runningSport->getId(),
+            $start
+        ));
+
+        $this->assertSame([
+            'activity_count' => 1,
+            'distance_sum' => 25.0,
+        ], $this->TrainingRepository->findTrainingTotalsSince(
+            $this->Account,
+            $cyclingSport->getId(),
+            $start
+        ));
+
+        $this->assertSame([
+            'activity_count' => 0,
+            'distance_sum' => 0.0,
+        ], $this->TrainingRepository->findTrainingTotalsSince(
+            $this->getEmptyAccount(),
+            $runningSport->getId(),
+            $start
+        ));
+
+        $this->assertSame([
+            'activity_count' => 0,
+            'distance_sum' => 0.0,
+        ], $this->TrainingRepository->findTrainingTotalsSince(
+            $this->Account,
+            $runningSport->getId(),
+            $start + 86400
+        ));
+    }
+
     public function testDailyTrimpAggregationRespectsAccountAndTimestampBounds(): void
     {
         $firstDay = strtotime('2026-01-10 08:00:00 UTC');
