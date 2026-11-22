@@ -86,7 +86,7 @@ final class GoalsTimeRangeProviderTest extends TestCase
 
     public function testDateRangesRetainTheProvidedTimezone(): void
     {
-        $timezone = new \\DateTimeZone('Pacific/Auckland');
+        $timezone = new \DateTimeZone('Pacific/Auckland');
         $ranges = new GoalsTimeRangeProvider()->getRanges(
             new DateTimeImmutable('2026-08-20 12:00:00', $timezone),
             true
