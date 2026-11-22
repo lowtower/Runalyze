@@ -346,7 +346,15 @@ class DefaultController extends AbstractPluginsAwareController
 
         return $this->legacyContentResponseFactory->create(
             $this->legacyPluginOutputRenderer->render(function () use ($topResults, $distances, $account, $runningSportId, $personalBestProvider, $modelFactory, $formInput, $submittedInput): void {
-                new \Prognose_PrognosisWindow($topResults, $distances, $account, $runningSportId, $personalBestProvider, $modelFactory, $formInput, $submittedInput)->display();
+                // Legacy Formular fields may inspect POST during construction.
+                $previousPost = $_POST;
+                $_POST = $submittedInput;
+
+                try {
+                    new \Prognose_PrognosisWindow($topResults, $distances, $account, $runningSportId, $personalBestProvider, $modelFactory, $formInput, $submittedInput)->display();
+                } finally {
+                    $_POST = $previousPost;
+                }
             })->getContent(),
             $request
         );
