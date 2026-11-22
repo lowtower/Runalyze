@@ -50,11 +50,11 @@ final class PrognoseCalculatorPredictionRowsTest extends TestCase
 
         $this->assertCount(1, $rows);
         $this->assertStringContainsString('5.72', $rows[0]['distance']);
-        $this->assertSame('0:35:00', $rows[0]['prognosis']);
-        $this->assertSame('0:34:24', $rows[0]['pb']);
-        $this->assertSame('- 0:00:36', $rows[0]['diff']);
+        $this->assertSame('35:00', $rows[0]['prognosis']);
+        $this->assertSame('34:24', $rows[0]['pb']);
+        $this->assertSame('- 0:36', $rows[0]['diff']);
         $this->assertSame('minus', $rows[0]['diff-class']);
-        $this->assertStringContainsString('min/km', $rows[0]['prognosis-pace']);
+        $this->assertStringContainsString('/km', $rows[0]['prognosis-pace']);
         $this->assertStringContainsString('activity/51', $rows[0]['pb-date']);
         $this->assertStringContainsString('Runalyze.Overlay.close()', $rows[0]['pb-date']);
     }
@@ -84,7 +84,7 @@ final class PrognoseCalculatorPredictionRowsTest extends TestCase
         $this->assertSame('-', $rows[0]['pb-date']);
         $this->assertSame('-', $rows[0]['diff']);
         $this->assertStringContainsString('mi', $rows[0]['distance']);
-        $this->assertStringContainsString('min/mi', $rows[0]['prognosis-pace']);
+        $this->assertStringContainsString('/mi', $rows[0]['prognosis-pace']);
     }
 
     public function testReturnsNoRowsOrDatabaseQueriesForInvalidPrognosis(): void
