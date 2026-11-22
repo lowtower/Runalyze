@@ -198,6 +198,35 @@ final class Prognose_PrognosisWindowCharacterizationTest extends TestCase
         $this->assertEqualsWithDelta(2550.0, $prognosis->getSeconds(10.0), 0.01);
     }
 
+    public function testRobertBockHintShowsFittedConstantsForValidReferenceResults(): void
+    {
+        $prognosis = new \Runalyze\Sports\Running\Prognosis\Bock(5.0, 1200.0, 10.0, 2600.0);
+        $this->assertTrue($prognosis->areValuesValid());
+        $this->setProtectedProperty('PrognosisObject', $prognosis);
+        $this->setProtectedProperty('ResultTable', '');
+
+        $this->callProtectedMethod('addHintsForRobertBock', $prognosis);
+
+        $html = (string) $this->getProtectedProperty('ResultTable');
+        $this->assertStringContainsString('K =', $html);
+        $this->assertStringContainsString('e =', $html);
+        $this->assertStringNotContainsString('K must be between', $html);
+    }
+
+    public function testRobertBockHintExplainsInvalidReferenceResults(): void
+    {
+        $prognosis = new \Runalyze\Sports\Running\Prognosis\Bock();
+        $this->assertFalse($prognosis->areValuesValid());
+        $this->setProtectedProperty('PrognosisObject', $prognosis);
+        $this->setProtectedProperty('ResultTable', '');
+
+        $this->callProtectedMethod('addHintsForRobertBock', $prognosis);
+
+        $html = (string) $this->getProtectedProperty('ResultTable');
+        $this->assertStringContainsString('K =', $html);
+        $this->assertStringContainsString('K must be between', $html);
+    }
+
     private function setUnitSystem(string $system): void
     {
         $this->setProtectedProperty('UnitSystem', new DistanceUnitSystem($system));
