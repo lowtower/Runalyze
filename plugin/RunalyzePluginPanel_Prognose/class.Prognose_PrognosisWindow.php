@@ -249,11 +249,11 @@ class Prognose_PrognosisWindow
         ]);
 
         echo Ajax::wrapJSasFunction(
-            "$('#prognosis-calculator .hide-on-model-change:not(.only-" . $this->Input['model'] . ")').closest('div').hide();" .
-            "$('#prognosis-model').on('change',function(){" .
-            "$('#prognosis-calculator .hide-on-model-change').closest('div').hide();" .
-            "$('#prognosis-calculator .only-'+$(this).val()).closest('div').show();" .
-            "});"
+            "$('#prognosis-calculator .hide-on-model-change:not(.only-" . $this->Input['model'] . ")').closest('div').hide();"
+            . "$('#prognosis-model').on('change',function(){"
+            . "$('#prognosis-calculator .hide-on-model-change').closest('div').hide();"
+            . "$('#prognosis-calculator .only-'+$(this).val()).closest('div').show();"
+            . '});'
         );
     }
 }
