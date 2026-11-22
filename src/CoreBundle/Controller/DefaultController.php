@@ -311,7 +311,7 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @throws Throwable if the legacy prognosis calculator window throws
      */
-    #[Route(path: '/plugin/RunalyzePluginPanel_Prognose/window.php', methods: ['GET', 'POST'], priority: 10)]
+    #[Route(path: '/plugin/RunalyzePluginPanel_Prognose/window.php', name: 'prognosis-calculator-window', methods: ['GET', 'POST'], priority: 10)]
     public function prognoseCalculatorWindowAction(
         Request $request,
         PrognosePanelPresenter $prognosePanelPresenter,
@@ -319,6 +319,7 @@ class DefaultController extends AbstractPluginsAwareController
         PrognoseCalculatorModelFactory $modelFactory,
         PrognoseCalculatorFormInput $formInput,
         PrognoseCalculatorResultTableRenderer $resultTableRenderer,
+        Environment $twig,
         ?Account $account = null
     ): Response {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -347,16 +348,8 @@ class DefaultController extends AbstractPluginsAwareController
         $submittedInput = $request->isMethod('POST') ? $request->request->all() : [];
 
         return $this->legacyContentResponseFactory->create(
-            $this->legacyPluginOutputRenderer->render(function () use ($topResults, $distances, $account, $runningSportId, $personalBestProvider, $modelFactory, $formInput, $resultTableRenderer, $submittedInput): void {
-                // Legacy Formular fields may inspect POST during construction.
-                $previousPost = $_POST;
-                $_POST = $submittedInput;
-
-                try {
-                    new \Prognose_PrognosisWindow($topResults, $distances, $account, $runningSportId, $personalBestProvider, $modelFactory, $formInput, $resultTableRenderer, $submittedInput)->display();
-                } finally {
-                    $_POST = $previousPost;
-                }
+            $this->legacyPluginOutputRenderer->render(function () use ($topResults, $distances, $account, $runningSportId, $personalBestProvider, $modelFactory, $formInput, $resultTableRenderer, $twig, $submittedInput): void {
+                new \Prognose_PrognosisWindow($topResults, $distances, $account, $runningSportId, $personalBestProvider, $modelFactory, $formInput, $resultTableRenderer, $twig, $submittedInput)->display();
             })->getContent(),
             $request
         );

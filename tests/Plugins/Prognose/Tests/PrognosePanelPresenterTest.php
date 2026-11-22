@@ -30,6 +30,7 @@ final class PrognosePanelPresenterTest extends TestCase
 
         $this->assertSame('RunalyzePluginPanel_Prognose', $presenter->getKey());
         $this->assertSame('Prognosis', $presenter->getName());
+        $this->assertSame('Predict your race performance on various distances.', $presenter->getDescription());
         $this->assertSame('@Prognose/configuration.html.twig', $presenter->getConfigurationTemplate());
 
         $data = $presenter->getConfigurationData($account, $this->installation($account));
