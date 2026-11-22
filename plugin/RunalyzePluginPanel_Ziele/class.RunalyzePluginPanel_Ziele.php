@@ -6,9 +6,9 @@
  */
 
 use Runalyze\Activity\Distance;
+use Runalyze\Plugins\Goals\GoalsTimeRangeProvider;
 use Runalyze\Configuration;
 use Runalyze\Util\LocalTime;
-use Runalyze\Util\Time;
 
 $PLUGINKEY = 'RunalyzePluginPanel_Ziele';
 
@@ -341,53 +341,9 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 
     private function getTimeset(): array
     {
-        $timeset = [];
-
-        // km-Spiel Saisonen
-        $kmstart = new DateTime();
-        $kmstart->setTime(0, 0, 0);
-
-        $kmend = new DateTime();
-        $kmend->setTime(0, 0, 0);
-
-        $now = new DateTime('now');
-        $kmstart->setISODate((int) date('Y'), 27, 1);
-
-        if ($kmstart > $now) {
-            $kmstart->setISODate((int) date('Y'), 1, 1);
-            $kmend->setISODate((int) date('Y'), 26, 7);
-        } else {
-            $weeks = date('W', strtotime(date('Y') . '-12-31'));
-            $kmend->setISODate((int) date('Y'), $weeks == 53 ? 53 : 52, 7);
-        }
-
-        $timeset['woche'] = [
-            'name' => __('Week'),
-            'start' => new DateTime()->setTimestamp(Time::weekstart(time())),
-            'end' => new DateTime()->setTimestamp(Time::weekend(time())),
-        ];
-        $timeset['mon'] = [
-            'name' => __('Month'),
-            'start' => new DateTime(date('Y-m-01')),
-            'end' => new DateTime(date('Y-m-t')),
-        ];
-        $timeset['hj'] = [
-            'name' => __('Half-Year'),
-            'start' => new DateTime(date('m') < 7 ? date('Y-01-01') : date('Y-07-01')),
-            'end' => new DateTime(date('m') < 7 ? date('Y-06-30') : date('Y-12-31')),
-        ];
-        $timeset['saison'] = [
-            'name' => __('Season'),
-            'start' => $kmstart,
-            'end' => $kmend,
-            'note' => __('Note: Season means the current season in the german &quot;kmspiel&quot;'),
-        ];
-        $timeset['jahr'] = [
-            'name' => __('Year'),
-            'start' => new DateTime(date('Y-01-01')),
-            'end' => new DateTime(date('Y-12-31')),
-        ];
-
-        return $timeset;
+        return new GoalsTimeRangeProvider()->getRanges(
+            new DateTimeImmutable(),
+            Configuration::General()->weekStart()->isMonday()
+        );
     }
 }
