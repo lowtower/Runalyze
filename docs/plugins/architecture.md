@@ -182,8 +182,11 @@ instead of implementing prognosis formulas. The calculator route now passes subm
 conversion and filters malformed request fields. The legacy window stores
 form state locally instead of reading global `$_POST` for calculations. A scoped
 POST compatibility bridge remains around legacy field construction and rendering;
-the original superglobal is restored after each scoped operation. The HTML fieldsets and result table still
-require migration; the existing route and AJAX contract are retained.
+the original superglobal is restored after each scoped operation. The result table is now rendered by `PrognoseCalculatorResultTableRenderer`
+using `@Prognose/calculator_result_table.html.twig`, with ordinary values
+HTML-escaped and only the server-generated personal-best activity link treated
+as trusted markup. Legacy model hints and HTML fieldsets still require
+migration; the existing route and AJAX contract are retained.
 The trend window now loads its official race-result series through the
 account-scoped `RaceresultRepository` instead of direct SQL and a cache key
 shared across accounts. The training-history query also comes from the
