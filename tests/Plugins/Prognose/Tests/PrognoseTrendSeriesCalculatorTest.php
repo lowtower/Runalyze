@@ -106,6 +106,29 @@ final class PrognoseTrendSeriesCalculatorTest extends TestCase
         $this->assertArrayNotHasKey($currentKey, $result['prognosis']);
     }
 
+    public function testExpiredMileageAndLongJogWindowsKeepCurrentPredictionValid(): void
+    {
+        $today = date('Y-m-d');
+        $olderDate = date('Y-m-d', strtotime('-50 days'));
+        $currentKey = strtotime($today . ' 12:00') . '000';
+
+        $result = new PrognoseTrendSeriesCalculator()->calculate(
+            [
+                $this->row($olderDate, -50, 25.0, 50.0 * 3600, 3600.0),
+                $this->row($today, 0, 10.0, 50.0 * 3600, 3600.0),
+            ],
+            10.0,
+            new BasicEndurance(),
+            1.0,
+            100,
+            $today
+        );
+
+        $this->assertArrayHasKey($currentKey, $result['prognosis']);
+        $this->assertArrayHasKey($currentKey, $result['prognosis_with_basic_endurance']);
+        $this->assertGreaterThan(0, $result['prognosis'][$currentKey]);
+    }
+
     /**
      * @return array{date_age: int, date: string, distance: float, vo2max_weighted: float, vo2max_sum_time: float}
      */
