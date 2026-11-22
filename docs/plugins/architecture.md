@@ -180,13 +180,16 @@ boundary; one reference result is sufficient for Steffny and Cameron. The calcul
 instead of implementing prognosis formulas. The calculator route now passes submitted values from Symfony's Request to
 `PrognoseCalculatorFormInput`, which supplies GET defaults, handles distance-unit
 conversion and filters malformed request fields. The legacy window stores
-form state locally instead of reading global `$_POST` for calculations. A scoped
-POST compatibility bridge remains around legacy field construction and rendering;
-the original superglobal is restored after each scoped operation. The result table is now rendered by `PrognoseCalculatorResultTableRenderer`
-using `@Prognose/calculator_result_table.html.twig`, with ordinary values
-HTML-escaped and only the server-generated personal-best activity link treated
-as trusted markup. Legacy model hints and HTML fieldsets still require
-migration; the existing route and AJAX contract are retained.
+form state locally instead of reading global `$_POST` for calculations.
+The calculator form is now `@Prognose/calculator_form.html.twig`, retaining
+legacy field names, model visibility classes and the AJAX/no-automatic-reload
+form contract. The calculator controller and window no longer access global
+`$_POST`; the window still assembles prediction rows and model-specific hints.
+The result table is rendered by `PrognoseCalculatorResultTableRenderer` using
+`@Prognose/calculator_result_table.html.twig`. Ordinary values are escaped;
+the server-generated personal-best activity link is treated as trusted markup.
+The stable calculator URL is retained. Moving the remaining calculation and
+hints into services is a subsequent step.
 The trend window now loads its official race-result series through the
 account-scoped `RaceresultRepository` instead of direct SQL and a cache key
 shared across accounts. The training-history query also comes from the
