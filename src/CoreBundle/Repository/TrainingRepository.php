@@ -55,6 +55,31 @@ class TrainingRepository extends ServiceEntityRepository
     }
 
     /**
+     * Aggregate running activity counts and distances for one account since a
+     * timestamp in the storage's timezone-neutral format.
+     *
+     * @return array{activity_count: int, distance_sum: float}
+     */
+    public function findTrainingTotalsSince(Account $account, int $sportId, int $fromTimestamp): array
+    {
+        $totals = $this->createQueryBuilder('t')
+            ->select('COUNT(t.id) AS activity_count, SUM(t.distance) AS distance_sum')
+            ->where('t.account = :account')
+            ->andWhere('t.sport = :sport')
+            ->andWhere('t.time >= :fromTimestamp')
+            ->setParameter('account', $account)
+            ->setParameter('sport', $sportId)
+            ->setParameter('fromTimestamp', $fromTimestamp)
+            ->getQuery()
+            ->getSingleResult();
+
+        return [
+            'activity_count' => (int) $totals['activity_count'],
+            'distance_sum' => (float) ($totals['distance_sum'] ?? 0.0),
+        ];
+    }
+
+    /**
      * Return daily TRIMP totals for an account. Training timestamps are stored
      * as timezone-neutral UTC values, so UTC dates match the legacy grouping.
      *
