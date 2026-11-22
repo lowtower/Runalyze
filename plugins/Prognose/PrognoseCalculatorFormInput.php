@@ -62,8 +62,28 @@ final readonly class PrognoseCalculatorFormInput
             }
         }
 
+        $input['model'] ??= 'vo2max';
+        $input['distances'] ??= implode(', ', $distances);
+        $input['best-result-time'] ??= '0:26:00';
+        $input['second-best-result-time'] ??= '1:00:00';
+
+        $values = array_map(trim(...), explode(',', (string) $input['distances']));
+        if (
+            count($values) > 30
+            || $values === []
+            || ! array_reduce(
+                $values,
+                static fn (bool $valid, string $value): bool => $valid
+                    && is_numeric($value) && is_finite((float) $value) && (float) $value > 0,
+                true
+            )
+        ) {
+            $input['distances'] = implode(', ', $distances);
+        }
+
         foreach (['best-result-km', 'second-best-result-km'] as $key) {
-            $distance = (float) str_replace(',', '.', (string) ($input[$key] ?? 0));
+            $value = str_replace(',', '.', (string) ($input[$key] ?? 0));
+            $distance = is_numeric($value) && is_finite((float) $value) ? (float) $value : 0.0;
             $input[$key] = $unitSystem->isImperial()
                 ? round($distance / DistanceUnitSystem::MILE_MULTIPLIER, 2)
                 : $distance;
