@@ -50,6 +50,54 @@ final class GoalsTimeRangeProviderTest extends TestCase
         $this->assertSame('2026-06-28', $ranges['saison']['end']->format('Y-m-d'));
     }
 
+    public function testSeasonWithoutIsoWeekFiftyThreeEndsOnLastSundayOfWeekFiftyTwo(): void
+    {
+        $ranges = new GoalsTimeRangeProvider()->getRanges(new DateTimeImmutable('2025-11-15 12:00:00'), true);
+
+        $this->assertSame('2025-06-30', $ranges['saison']['start']->format('Y-m-d'));
+        $this->assertSame('2025-12-28', $ranges['saison']['end']->format('Y-m-d'));
+        $this->assertArrayNotHasKey('note', $ranges['jahr']);
+    }
+
+    public function testWeekStartIsStableAcrossYearBoundary(): void
+    {
+        $provider = new GoalsTimeRangeProvider();
+        $now = new DateTimeImmutable('2027-01-01 12:00:00');
+
+        $mondayRanges = $provider->getRanges($now, true);
+        $sundayRanges = $provider->getRanges($now, false);
+
+        $this->assertSame('2026-12-28', $mondayRanges['woche']['start']->format('Y-m-d'));
+        $this->assertSame('2027-01-03', $mondayRanges['woche']['end']->format('Y-m-d'));
+        $this->assertSame('2026-12-27', $sundayRanges['woche']['start']->format('Y-m-d'));
+        $this->assertSame('2027-01-02', $sundayRanges['woche']['end']->format('Y-m-d'));
+        $this->assertSame('2027-01-01', $mondayRanges['jahr']['start']->format('Y-m-d'));
+    }
+
+    public function testLeapYearFebruaryAndFirstSeasonAreHandled(): void
+    {
+        $ranges = new GoalsTimeRangeProvider()->getRanges(new DateTimeImmutable('2024-02-29 12:00:00'), true);
+
+        $this->assertSame('2024-02-01', $ranges['mon']['start']->format('Y-m-d'));
+        $this->assertSame('2024-02-29', $ranges['mon']['end']->format('Y-m-d'));
+        $this->assertSame('2024-01-01', $ranges['saison']['start']->format('Y-m-d'));
+        $this->assertSame('2024-06-30', $ranges['saison']['end']->format('Y-m-d'));
+    }
+
+    public function testDateRangesRetainTheProvidedTimezone(): void
+    {
+        $timezone = new \\DateTimeZone('Pacific/Auckland');
+        $ranges = new GoalsTimeRangeProvider()->getRanges(
+            new DateTimeImmutable('2026-08-20 12:00:00', $timezone),
+            true
+        );
+
+        foreach ($ranges as $range) {
+            $this->assertSame($timezone->getName(), $range['start']->getTimezone()->getName());
+            $this->assertSame($timezone->getName(), $range['end']->getTimezone()->getName());
+        }
+    }
+
     public function testSecondSeasonStartsWithIsoWeekTwentySeven(): void
     {
         $ranges = new GoalsTimeRangeProvider()->getRanges(new DateTimeImmutable('2026-11-22 12:00:00'), true);
