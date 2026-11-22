@@ -21,6 +21,7 @@ use Runalyze\Sports\Running\Prognosis\PrognosisInterface;
 use Runalyze\Sports\Running\Prognosis\VO2max;
 use Runalyze\Sports\Running\VO2max\EffectiveVO2max;
 use Runalyze\Util\LocalTime;
+use Twig\Environment;
 
 /**
  * Prognosis calculator window
@@ -32,12 +33,6 @@ use Runalyze\Util\LocalTime;
 class Prognose_PrognosisWindow
 {
     public const int DISTANCE_PRECISION = 2;
-
-    protected Formular $Formular;
-
-    protected FormularFieldset $FieldsetInput;
-
-    protected FormularFieldset $FieldsetResult;
 
     protected PrognosisInterface $PrognosisObject;
 
@@ -72,23 +67,13 @@ class Prognose_PrognosisWindow
         private readonly PrognoseCalculatorModelFactory $modelFactory,
         private readonly PrognoseCalculatorFormInput $formInput,
         private readonly PrognoseCalculatorResultTableRenderer $resultTableRenderer,
+        private readonly Environment $twig,
         private readonly array $submittedInput
     ) {
         $this->setDefaultValues();
         $this->readPostData();
         $this->runCalculations();
         $this->fillResultTable();
-
-        // Legacy Formular fields capture their values during construction.
-        $previousPost = $_POST;
-        $_POST = $this->Input;
-
-        try {
-            $this->initFieldsets();
-            $this->initFormular();
-        } finally {
-            $_POST = $previousPost;
-        }
     }
 
     protected function setDefaultValues()
@@ -254,147 +239,21 @@ class Prognose_PrognosisWindow
         }
     }
 
-    /**
-     * Init fields
-     */
-    protected function initFieldsets()
-    {
-        $this->initFieldsetForInputData();
-        $this->initFieldsetForResults();
-    }
-
-    protected function initFieldsetForInputData()
-    {
-        $this->FieldsetInput = new FormularFieldset(__('Input'));
-
-        foreach ($this->InfoLines as $InfoMessage) {
-            $this->FieldsetInput->addInfo($InfoMessage);
-        }
-
-        $FieldModel = new FormularSelectBox('model', __('Model'));
-        $FieldModel->addOption('vo2max', 'Effective VO2max');
-        $FieldModel->addOption('robert-bock', 'Robert Bock (CPP)');
-        $FieldModel->addOption('herbert-steffny', 'Herbert Steffny');
-        $FieldModel->addOption('david-cameron', 'David Cameron');
-        $FieldModel->addAttribute('onchange', '$(\'#prognosis-calculator .only-\'+$(this).val()).closest(\'div\').show();$(\'#prognosis-calculator .hide-on-model-change:not(.only-\'+$(this).val()+\')\').closest(\'div\').hide();');
-        $FieldModel->setLayout(FormularFieldset::$LAYOUT_FIELD_W50_AS_W100);
-
-        $FieldDistances = new FormularInput('distances', __('Distances'));
-        $FieldDistances->setLayout(FormularFieldset::$LAYOUT_FIELD_W50_AS_W100);
-        $FieldDistances->setSize(FormularInput::$SIZE_FULL_INLINE);
-        $FieldDistances->setUnit($this->UnitSystem->distanceUnit());
-
-        $this->FieldsetInput->addField($FieldModel);
-        $this->FieldsetInput->addField($FieldDistances);
-
-        $this->addFieldsForEffectiveVO2max();
-        $this->addFieldsForBockAndSteffny();
-    }
-
-    protected function addFieldsForEffectiveVO2max()
-    {
-        $FieldVO2max = new FormularInput('vo2max', __('Effective VO2max'));
-        $FieldVO2max->setLayout(FormularFieldset::$LAYOUT_FIELD_W50_AS_W100);
-        $FieldVO2max->addCSSclass('hide-on-model-change');
-        $FieldVO2max->addCSSclass('only-vo2max');
-
-        $FieldEndurance = new FormularCheckbox('endurance', __('Use Marathon Shape'));
-        $FieldEndurance->setLayout(FormularFieldset::$LAYOUT_FIELD_W50);
-        $FieldEndurance->addCSSclass('hide-on-model-change');
-        $FieldEndurance->addCSSclass('only-vo2max');
-
-        $FieldEnduranceValue = new FormularInput('endurance-value', __('Marathon Shape'));
-        $FieldEnduranceValue->setLayout(FormularFieldset::$LAYOUT_FIELD_W50);
-        $FieldEnduranceValue->addCSSclass('hide-on-model-change');
-        $FieldEnduranceValue->addCSSclass('only-vo2max');
-        $FieldEnduranceValue->setUnit(FormularUnit::$PERCENT);
-
-        $this->FieldsetInput->addField($FieldVO2max);
-        $this->FieldsetInput->addField($FieldEnduranceValue);
-        $this->FieldsetInput->addField($FieldEndurance);
-    }
-
-    /**
-     * Add fields for robert bock and herbert steffny
-     */
-    protected function addFieldsForBockAndSteffny()
-    {
-        $BestResult = new FormularInput('best-result-km', __('Best result'));
-        $BestResult->setLayout(FormularFieldset::$LAYOUT_FIELD_W50);
-        $BestResult->addCSSclass('hide-on-model-change');
-        $BestResult->addCSSclass('only-robert-bock');
-        $BestResult->addCSSclass('only-herbert-steffny');
-        $BestResult->addCSSclass('only-david-cameron');
-        $BestResult->setUnit($this->UnitSystem->distanceUnit());
-
-        $BestResultTime = new FormularInput('best-result-time', __('in'));
-        $BestResultTime->setLayout(FormularFieldset::$LAYOUT_FIELD_W50);
-        $BestResultTime->addCSSclass('hide-on-model-change');
-        $BestResultTime->addCSSclass('only-robert-bock');
-        $BestResultTime->addCSSclass('only-herbert-steffny');
-        $BestResultTime->addCSSclass('only-david-cameron');
-
-        $SecondBestResult = new FormularInput('second-best-result-km', __('Second best result'));
-        $SecondBestResult->setLayout(FormularFieldset::$LAYOUT_FIELD_W50);
-        $SecondBestResult->addCSSclass('hide-on-model-change');
-        $SecondBestResult->addCSSclass('only-robert-bock');
-        $SecondBestResult->setUnit($this->UnitSystem->distanceUnit());
-
-        $SecondBestResultTime = new FormularInput('second-best-result-time', __('in'));
-        $SecondBestResultTime->setLayout(FormularFieldset::$LAYOUT_FIELD_W50);
-        $SecondBestResultTime->addCSSclass('hide-on-model-change');
-        $SecondBestResultTime->addCSSclass('only-robert-bock');
-
-        $this->FieldsetInput->addField($BestResult);
-        $this->FieldsetInput->addField($BestResultTime);
-        $this->FieldsetInput->addField($SecondBestResult);
-        $this->FieldsetInput->addField($SecondBestResultTime);
-    }
-
-    protected function initFieldsetForResults()
-    {
-        $this->FieldsetResult = new FormularFieldset(__('Prognosis'));
-        $this->FieldsetResult->addBlock($this->ResultTable);
-    }
-
-    protected function initFormular()
-    {
-        $this->Formular = new Formular();
-        $this->Formular->setId('prognosis-calculator');
-        $this->Formular->addCSSclass('ajax');
-        $this->Formular->addCSSclass('no-automatic-reload');
-        $this->Formular->addFieldset($this->FieldsetInput);
-        $this->Formular->addFieldset($this->FieldsetResult);
-        $this->Formular->addSubmitButton(__('Show prognosis'));
-    }
-
     public function display(): void
     {
-        echo '<div class="panel-heading">';
-        $this->displayHeading();
-        echo '</div>';
-        echo '<div class="panel-content">';
-        $this->displayFormular();
-        echo '</div>';
-    }
+        echo $this->twig->render('@Prognose/calculator_form.html.twig', [
+            'input' => $this->Input,
+            'distance_unit' => $this->UnitSystem->distanceUnit(),
+            'info_lines' => $this->InfoLines,
+            'result_table' => $this->ResultTable,
+        ]);
 
-    protected function displayHeading()
-    {
-        echo HTML::h1(__('Prognosis calculator'));
-    }
-
-    protected function displayFormular()
-    {
-        // The legacy Formular implementation still reads POST values when rendering.
-        $previousPost = $_POST;
-        $_POST = $this->Input;
-
-        try {
-            $this->Formular->display();
-        } finally {
-            $_POST = $previousPost;
-        }
-
-        echo Ajax::wrapJSasFunction('$(\'#prognosis-calculator .hide-on-model-change:not(.only-' . $this->Input['model'] . ")').closest('div').hide();");
+        echo Ajax::wrapJSasFunction(
+            "$('#prognosis-calculator .hide-on-model-change:not(.only-" . $this->Input['model'] . ")').closest('div').hide();" .
+            "$('#prognosis-model').on('change',function(){" .
+            "$('#prognosis-calculator .hide-on-model-change').closest('div').hide();" .
+            "$('#prognosis-calculator .only-'+$(this).val()).closest('div').show();" .
+            "});"
+        );
     }
 }
