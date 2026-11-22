@@ -175,25 +175,28 @@ configuration. The stable plugin key and legacy window URLs are unchanged.
 The interactive calculator reuses `src/CoreBundle/Model/Prognosis/PrognosisModel`
 for constructing the four prediction models and uses an account-scoped
 personal-best provider. Legacy form identifiers are mapped at the window
-boundary; one reference result is sufficient for Steffny and Cameron. The calculator now delegates model selection and input conversion to
-`PrognoseCalculatorModelFactory`, which reuses the existing `PrognosisModel`
-instead of implementing prognosis formulas. The calculator route now passes submitted values from Symfony's Request to
-`PrognoseCalculatorFormInput`, which supplies GET defaults, handles distance-unit
-conversion and filters malformed request fields. The legacy window stores
-form state locally instead of reading global `$_POST` for calculations.
-The calculator form is now `@Prognose/calculator_form.html.twig`, retaining
-legacy field names, fieldset column wrappers (`w50`, `marginr50`),
-input-size and unit wrappers, model visibility classes, the original placement
-of fieldset info messages, and the AJAX/no-automatic-reload form contract. The calculator controller and window no longer access global
-`$_POST`; the window delegates prediction row calculation to `PrognoseCalculatorPredictionRows`, which uses the existing account-scoped personal-best provider. Pace and distance units are supplied explicitly so that result formatting no longer accesses global configuration inside the row calculator. Model-specific hints are now
-rendered by `PrognoseCalculatorModelHintRenderer`, using the existing legacy
-HTML helpers for visual compatibility. Its valid/invalid VO2max and Robert
-Bock branches have dedicated tests.
-The result table is rendered by `PrognoseCalculatorResultTableRenderer` using
-`@Prognose/calculator_result_table.html.twig`. Ordinary values are escaped;
-the server-generated personal-best activity link is treated as trusted markup.
-The stable calculator URL is retained. Moving the remaining calculation and
-hints into services is a subsequent step.
+boundary; one reference result is sufficient for Steffny and Cameron. The calculator uses `PrognoseCalculatorWindowRenderer` as its modern entry point.
+The legacy `Prognose_PrognosisWindow` class has been removed. The Symfony
+controller retains the existing calculator URL and account-scoped installation
+checks, initializes the legacy frontend configuration boundary, and explicitly
+passes the effective VO2max shape, marathon shape, pace unit, and distance unit
+to the renderer. The renderer prepares GET defaults and POST values through
+`PrognoseCalculatorFormInput`, creates the selected model through
+`PrognoseCalculatorModelFactory`, and delegates row calculations to
+`PrognoseCalculatorPredictionRows`. The account-scoped
+`PrognoseCalculatorPersonalBestProvider` supplies activity details.
+`PrognoseCalculatorResultTableRenderer` renders the results, and
+`PrognoseCalculatorModelHintRenderer` preserves the model-specific notices.
+
+The calculator uses `@Prognose/calculator_form.html.twig` and
+`@Prognose/calculator_result_table.html.twig`. These retain the original
+AJAX/no-automatic-reload behavior, submitted field names, model visibility
+JavaScript, column layout classes, and unit wrappers. Only trusted, generated
+activity links are inserted as raw HTML in the result table. The window renderer
+also formats reference-result summaries from explicit units rather than reading
+global distance settings. The legacy output response factory remains in the
+controller to preserve the HTTP/AJAX response contract until that cross-cutting
+integration is separately modernized.
 The trend window now loads its official race-result series through the
 account-scoped `RaceresultRepository` instead of direct SQL and a cache key
 shared across accounts. The training-history query also comes from the

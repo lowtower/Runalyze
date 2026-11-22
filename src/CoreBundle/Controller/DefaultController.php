@@ -28,11 +28,10 @@ use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
-use Runalyze\Plugins\Prognose\PrognoseCalculatorFormInput;
-use Runalyze\Plugins\Prognose\PrognoseCalculatorModelFactory;
-use Runalyze\Plugins\Prognose\PrognoseCalculatorModelHintRenderer;
-use Runalyze\Plugins\Prognose\PrognoseCalculatorPredictionRows;
-use Runalyze\Plugins\Prognose\PrognoseCalculatorResultTableRenderer;
+use Runalyze\Calculation\BasicEndurance;
+use Runalyze\Configuration;
+use Runalyze\Context;
+use Runalyze\Plugins\Prognose\PrognoseCalculatorWindowRenderer;
 use Runalyze\Plugins\Prognose\PrognosePanelPresenter;
 use Runalyze\Plugins\Prognose\PrognoseTrendDataProvider;
 use Runalyze\Plugins\Prognose\PrognoseTrendPlotRenderer;
@@ -310,18 +309,13 @@ class DefaultController extends AbstractPluginsAwareController
     }
 
     /**
-     * @throws Throwable if the legacy prognosis calculator window throws
+     * @throws Throwable if prognosis calculator rendering fails
      */
     #[Route(path: '/plugin/RunalyzePluginPanel_Prognose/window.php', name: 'prognosis-calculator-window', methods: ['GET', 'POST'], priority: 10)]
     public function prognoseCalculatorWindowAction(
         Request $request,
         PrognosePanelPresenter $prognosePanelPresenter,
-        PrognoseCalculatorPredictionRows $predictionRows,
-        PrognoseCalculatorModelFactory $modelFactory,
-        PrognoseCalculatorFormInput $formInput,
-        PrognoseCalculatorResultTableRenderer $resultTableRenderer,
-        PrognoseCalculatorModelHintRenderer $modelHintRenderer,
-        Environment $twig,
+        PrognoseCalculatorWindowRenderer $windowRenderer,
         ?Account $account = null
     ): Response {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -349,10 +343,22 @@ class DefaultController extends AbstractPluginsAwareController
 
         $submittedInput = $request->isMethod('POST') ? $request->request->all() : [];
 
+        $paceUnit = Context::Factory()
+            ->sport(Configuration::General()->runningSport())
+            ->getLegacyPaceUnitEnum();
+
         return $this->legacyContentResponseFactory->create(
-            $this->legacyPluginOutputRenderer->render(function () use ($topResults, $distances, $account, $runningSportId, $predictionRows, $modelFactory, $formInput, $resultTableRenderer, $modelHintRenderer, $twig, $submittedInput): void {
-                new \Prognose_PrognosisWindow($topResults, $distances, $account, $runningSportId, $predictionRows, $modelFactory, $formInput, $resultTableRenderer, $modelHintRenderer, $twig, $submittedInput)->display();
-            })->getContent(),
+            $windowRenderer->render(
+                $account,
+                $runningSportId,
+                $topResults,
+                $distances,
+                $submittedInput,
+                Configuration::Data()->vo2maxShape(),
+                (int) BasicEndurance::getConst(),
+                Configuration::General()->distanceUnitSystem(),
+                $paceUnit
+            ),
             $request
         );
     }
