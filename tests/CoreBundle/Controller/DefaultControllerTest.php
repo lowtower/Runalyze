@@ -607,6 +607,10 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
 
             $this->assertStatusCode(200, $this->Client);
             $this->assertStringContainsString('id="prognosis-calculator"', (string) $this->Client->getResponse()->getContent());
+            $this->assertSame('vo2max', $this->Client->getCrawler()->filter('select[name="model"] option[selected]')->attr('value'));
+            $this->assertCount(1, $this->Client->getCrawler()->filter('input[name="distances"]'));
+            $this->assertCount(1, $this->Client->getCrawler()->filter('input[name="endurance"][checked]'));
+            $this->assertStringContainsString('ajax no-automatic-reload', (string) $this->Client->getResponse()->getContent());
         } finally {
             $_POST = $post;
         }
@@ -701,11 +705,34 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             $this->assertStringContainsString('id="prognosis-calculator"', $content);
             $this->assertStringContainsString('5.72', $content);
             $this->assertSame('5.72', $this->Client->getCrawler()->filter('input[name="distances"]')->attr('value'));
+            $this->assertSame('50', $this->Client->getCrawler()->filter('input[name="vo2max"]')->attr('value'));
+            $this->assertCount(1, $this->Client->getCrawler()->filter('input[name="endurance"][checked]'));
             $this->assertStringContainsString('Personal best', $content);
             $this->assertStringNotContainsString('Your input is invalid', $content);
         } finally {
             $_POST = $originalPost;
         }
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPrognoseCalculatorTwigFormEscapesSubmittedFieldsAndKeepsCheckboxUnset(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $this->Client->request('POST', '/plugin/RunalyzePluginPanel_Prognose/window.php', [
+            'model' => 'vo2max',
+            'distances' => '5',
+            'vo2max' => '50',
+            'endurance-value' => '80',
+            'best-result-time' => '<script>alert(1)</script>',
+        ]);
+
+        $this->assertStatusCode(200, $this->Client);
+        $content = (string) $this->Client->getResponse()->getContent();
+        $this->assertStringNotContainsString('value="<script>', $content);
+        $this->assertStringContainsString('&lt;script&gt;', $content);
+        $this->assertCount(0, $this->Client->getCrawler()->filter('input[name="endurance"][checked]'));
+        $this->assertSame('vo2max', $this->Client->getCrawler()->filter('select[name="model"] option[selected]')->attr('value'));
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
