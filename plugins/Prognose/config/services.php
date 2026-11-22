@@ -8,6 +8,7 @@ use Runalyze\Plugins\Prognose\PrognoseCalculatorModelHintRenderer;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorPersonalBestProvider;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorPredictionRows;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorResultTableRenderer;
+use Runalyze\Plugins\Prognose\PrognoseCalculatorWindowRenderer;
 use Runalyze\Plugins\Prognose\PrognosePanelPresenter;
 use Runalyze\Plugins\Prognose\PrognoseTrendDataProvider;
 use Runalyze\Plugins\Prognose\PrognoseTrendPlotRenderer;
@@ -28,6 +29,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(PrognoseCalculatorPersonalBestProvider::class);
     $services->set(PrognoseCalculatorPredictionRows::class);
     $services->set(PrognoseCalculatorResultTableRenderer::class);
+    $services->set(PrognoseCalculatorWindowRenderer::class);
     $services->set(PrognoseTrendSeriesCalculator::class);
     $services->set(PrognoseTrendDataProvider::class);
     $services->set(PrognoseTrendPlotRenderer::class);
