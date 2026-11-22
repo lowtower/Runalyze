@@ -62,7 +62,7 @@ final readonly class PrognoseCalculatorPredictionRows
                 : '-';
 
             $rows[] = [
-                'distance' => new Distance($distance, $distanceUnitSystem)->stringAuto(),
+                'distance' => str_replace('&nbsp;', "\u{00A0}", new Distance($distance, $distanceUnitSystem)->stringAuto()),
                 'prognosis' => $seconds > 0 ? Duration::format($seconds) : '-',
                 'prognosis-pace' => $predictionPace->valueWithAppendix(),
                 'prognosis-vo2max' => $seconds > 0 ? $predictionVO2max->uncorrectedValue() : '-',
