@@ -602,9 +602,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(ActivityContextAdapterFactory::class, 'app.activity_context_adapter_factory');
 
-    $services->set('app.data_series_remover', DataSeriesRemover::class);
-
-    $services->alias(DataSeriesRemover::class, 'app.data_series_remover');
+    $services->set(DataSeriesRemover::class);
 
     $services->set('app.age_grade_lookup', AgeGradeLookup::class);
 
