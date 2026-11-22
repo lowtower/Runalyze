@@ -615,6 +615,22 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
                 '/plugin/RunalyzePluginPanel_Prognose/window.php',
                 $this->Client->getCrawler()->filter('form#prognosis-calculator')->attr('action')
             );
+            $fieldNames = $this->Client->getCrawler()
+                ->filter('#prognosis-calculator fieldset')
+                ->first()
+                ->filter('input[name], select[name]')
+                ->each(static fn ($node): ?string => $node->attr('name'));
+            $this->assertSame([
+                'model',
+                'distances',
+                'vo2max',
+                'endurance-value',
+                'endurance',
+                'best-result-km',
+                'best-result-time',
+                'second-best-result-km',
+                'second-best-result-time',
+            ], $fieldNames);
         } finally {
             $_POST = $post;
         }
