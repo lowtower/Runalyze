@@ -53,6 +53,8 @@ final class PrognoseCalculatorPredictionRowsTest extends TestCase
 
         $this->assertCount(1, $rows);
         $this->assertStringContainsString('5.72', $rows[0]['distance']);
+        $this->assertStringNotContainsString('&nbsp;', $rows[0]['distance']);
+        $this->assertStringContainsString("\u{00A0}km", $rows[0]['distance']);
         $this->assertSame('35:00', $rows[0]['prognosis']);
         $this->assertSame('34:24', $rows[0]['pb']);
         $this->assertSame('- 0:36', $rows[0]['diff']);
@@ -87,6 +89,8 @@ final class PrognoseCalculatorPredictionRowsTest extends TestCase
         $this->assertSame('-', $rows[0]['pb-date']);
         $this->assertSame('-', $rows[0]['diff']);
         $this->assertStringContainsString('mi', $rows[0]['distance']);
+        $this->assertStringNotContainsString('&nbsp;', $rows[0]['distance']);
+        $this->assertStringContainsString("\u{00A0}mi", $rows[0]['distance']);
         $this->assertStringContainsString('/mi', $rows[0]['prognosis-pace']);
     }
 
