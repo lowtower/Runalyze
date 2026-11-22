@@ -14,11 +14,10 @@ use Runalyze\Configuration;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorFormInput;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorModelFactory;
+use Runalyze\Plugins\Prognose\PrognoseCalculatorModelHintRenderer;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorPersonalBestProvider;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorResultTableRenderer;
-use Runalyze\Sports\Running\Prognosis\Bock;
 use Runalyze\Sports\Running\Prognosis\PrognosisInterface;
-use Runalyze\Sports\Running\Prognosis\VO2max;
 use Runalyze\Sports\Running\VO2max\EffectiveVO2max;
 use Runalyze\Util\LocalTime;
 use Twig\Environment;
@@ -67,6 +66,7 @@ class Prognose_PrognosisWindow
         private readonly PrognoseCalculatorModelFactory $modelFactory,
         private readonly PrognoseCalculatorFormInput $formInput,
         private readonly PrognoseCalculatorResultTableRenderer $resultTableRenderer,
+        private readonly PrognoseCalculatorModelHintRenderer $modelHintRenderer,
         private readonly Environment $twig,
         private readonly array $submittedInput
     ) {
@@ -206,37 +206,10 @@ class Prognose_PrognosisWindow
             $this->PrognosisObject->areValuesValid()
         );
 
-        if ($this->Input['model'] === 'robert-bock' && $this->PrognosisObject instanceof Bock) {
-            $this->addHintsForRobertBock($this->PrognosisObject);
-        } elseif ($this->Input['model'] === 'vo2max' && $this->PrognosisObject instanceof VO2max) {
-            $this->addHintsForEffectiveVO2max();
-        }
-    }
-
-    protected function addHintsForRobertBock(Bock $prognosis)
-    {
-        $this->ResultTable .= HTML::info(sprintf(__('The results give the constants K = %f and e = %f.'), $prognosis->getK(), $prognosis->getE())) . '<br>';
-
-        if (! $this->PrognosisObject->areValuesValid()) {
-            $this->ResultTable .= HTML::warning(sprintf(
-                __('K must be between %u and %u, e between %f and %f.'),
-                Bock::K_LOWER_BOUND,
-                Bock::K_UPPER_BOUND,
-                Bock::E_LOWER_BOUND,
-                Bock::E_UPPER_BOUND
-            ));
-        }
-    }
-
-    protected function addHintsForEffectiveVO2max()
-    {
-        if (! $this->PrognosisObject->areValuesValid()) {
-            $this->ResultTable .= HTML::warning(sprintf(
-                __('Effective VO2max must be between %u and %u.'),
-                VO2max::REASONABLE_VO2MAX_MINIMUM,
-                VO2max::REASONABLE_VO2MAX_MAXIMUM
-            ));
-        }
+        $this->ResultTable .= $this->modelHintRenderer->render(
+            $this->Input['model'],
+            $this->PrognosisObject
+        );
     }
 
     public function display(): void
