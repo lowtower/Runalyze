@@ -31,7 +31,7 @@ use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorFormInput;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorModelFactory;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorModelHintRenderer;
-use Runalyze\Plugins\Prognose\PrognoseCalculatorPersonalBestProvider;
+use Runalyze\Plugins\Prognose\PrognoseCalculatorPredictionRows;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorResultTableRenderer;
 use Runalyze\Plugins\Prognose\PrognosePanelPresenter;
 use Runalyze\Plugins\Prognose\PrognoseTrendDataProvider;
@@ -316,7 +316,7 @@ class DefaultController extends AbstractPluginsAwareController
     public function prognoseCalculatorWindowAction(
         Request $request,
         PrognosePanelPresenter $prognosePanelPresenter,
-        PrognoseCalculatorPersonalBestProvider $personalBestProvider,
+        PrognoseCalculatorPredictionRows $predictionRows,
         PrognoseCalculatorModelFactory $modelFactory,
         PrognoseCalculatorFormInput $formInput,
         PrognoseCalculatorResultTableRenderer $resultTableRenderer,
@@ -350,8 +350,8 @@ class DefaultController extends AbstractPluginsAwareController
         $submittedInput = $request->isMethod('POST') ? $request->request->all() : [];
 
         return $this->legacyContentResponseFactory->create(
-            $this->legacyPluginOutputRenderer->render(function () use ($topResults, $distances, $account, $runningSportId, $personalBestProvider, $modelFactory, $formInput, $resultTableRenderer, $modelHintRenderer, $twig, $submittedInput): void {
-                new \Prognose_PrognosisWindow($topResults, $distances, $account, $runningSportId, $personalBestProvider, $modelFactory, $formInput, $resultTableRenderer, $modelHintRenderer, $twig, $submittedInput)->display();
+            $this->legacyPluginOutputRenderer->render(function () use ($topResults, $distances, $account, $runningSportId, $predictionRows, $modelFactory, $formInput, $resultTableRenderer, $modelHintRenderer, $twig, $submittedInput): void {
+                new \Prognose_PrognosisWindow($topResults, $distances, $account, $runningSportId, $predictionRows, $modelFactory, $formInput, $resultTableRenderer, $modelHintRenderer, $twig, $submittedInput)->display();
             })->getContent(),
             $request
         );

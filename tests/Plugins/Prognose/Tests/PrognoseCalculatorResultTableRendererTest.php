@@ -56,6 +56,26 @@ final class PrognoseCalculatorResultTableRendererTest extends TestCase
         $this->assertStringContainsString('class="small minus"', $html);
     }
 
+    public function testRendersNonbreakingDistanceSpaceWithoutLiteralHtmlEntity(): void
+    {
+        $html = $this->renderer()->render([[
+            'distance' => "5,000\u{00A0}km",
+            'prognosis' => '-',
+            'prognosis-pace' => '-',
+            'prognosis-vo2max' => '-',
+            'diff' => '-',
+            'diff-class' => 'minus',
+            'pb' => '-',
+            'pb-pace' => '-',
+            'pb-vo2max' => '-',
+            'pb-date' => '-',
+        ]], true);
+
+        $this->assertStringContainsString("5,000\u{00A0}km", $html);
+        $this->assertStringNotContainsString('&amp;nbsp;', $html);
+        $this->assertStringNotContainsString('&nbsp;', $html);
+    }
+
     public function testRendersInvalidInputInsteadOfResults(): void
     {
         $html = $this->renderer()->render([], false);
