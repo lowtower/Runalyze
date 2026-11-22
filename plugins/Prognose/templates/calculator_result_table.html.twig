@@ -1,0 +1,36 @@
+<table class="fullwidth zebra-style">
+    <thead>
+        <tr>
+            <th>{{ headings.distance }}</th>
+            <th>{{ headings.prognosis }}</th>
+            <th class="small">{{ headings.pace }}</th>
+            <th class="small">VO2max</th>
+            <th>{{ headings.difference }}</th>
+            <th>{{ headings.personal_best }}</th>
+            <th class="small">{{ headings.pace }}</th>
+            <th class="small">VO2max</th>
+            <th class="small">{{ headings.date }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if is_valid %}
+            {% for prognosis in prognoses %}
+                <tr class="r">
+                    <td class="c">{{ prognosis.distance }}</td>
+                    <td class="b">{{ prognosis.prognosis }}</td>
+                    <td class="small">{{ prognosis['prognosis-pace'] }}</td>
+                    <td class="small">{{ prognosis['prognosis-vo2max'] }}</td>
+                    <td class="small {{ prognosis['diff-class'] == 'plus' ? 'plus' : 'minus' }}">{{ prognosis.diff }}</td>
+                    <td class="b">{{ prognosis.pb }}</td>
+                    <td class="small">{{ prognosis['pb-pace'] }}</td>
+                    <td class="small">{{ prognosis['pb-vo2max'] }}</td>
+                    <td class="small">{{ prognosis['pb-date']|raw }}</td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr class="c">
+                <td colspan="9"><em>{{ headings.invalid_input }}</em></td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>

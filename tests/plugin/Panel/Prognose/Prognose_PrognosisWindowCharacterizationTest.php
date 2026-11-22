@@ -198,30 +198,33 @@ final class Prognose_PrognosisWindowCharacterizationTest extends TestCase
         $this->assertEqualsWithDelta(2550.0, $prognosis->getSeconds(10.0), 0.01);
     }
 
-    public function testPersonalBestTableRendersTimeAndActivityLink(): void
+    public function testRobertBockHintShowsFittedConstantsForValidReferenceResults(): void
     {
-        $this->setProtectedProperty('Prognoses', [[
-            'distance' => '5.72 km',
-            'prognosis' => '0:35:00',
-            'prognosis-pace' => '6:07 min/km',
-            'prognosis-vo2max' => '40',
-            'diff' => '+ 0:01:00',
-            'diff-class' => 'plus',
-            'pb' => '0:34:00',
-            'pb-pace' => '5:57 min/km',
-            'pb-vo2max' => '42',
-            'pb-date' => '<a href="/activity/51">14.11.2023</a>',
-        ]]);
+        $prognosis = new \Runalyze\Sports\Running\Prognosis\Bock(5.0, 1200.0, 10.0, 2600.0);
+        $this->assertTrue($prognosis->areValuesValid());
+        $this->setProtectedProperty('PrognosisObject', $prognosis);
+        $this->setProtectedProperty('ResultTable', '');
 
-        $this->callProtectedMethod('startResultTable');
-        $this->callProtectedMethod('fillResultTableWithResults');
+        $this->callProtectedMethod('addHintsForRobertBock', $prognosis);
 
-        $html = $this->getProtectedProperty('ResultTable');
+        $html = (string) $this->getProtectedProperty('ResultTable');
+        $this->assertStringContainsString('K =', $html);
+        $this->assertStringContainsString('e =', $html);
+        $this->assertStringNotContainsString('K must be between', $html);
+    }
 
-        $this->assertStringContainsString('5.72 km', (string) $html);
-        $this->assertStringContainsString('0:34:00', (string) $html);
-        $this->assertStringContainsString('/activity/51', (string) $html);
-        $this->assertStringContainsString('14.11.2023', (string) $html);
+    public function testRobertBockHintExplainsInvalidReferenceResults(): void
+    {
+        $prognosis = new \Runalyze\Sports\Running\Prognosis\Bock();
+        $this->assertFalse($prognosis->areValuesValid());
+        $this->setProtectedProperty('PrognosisObject', $prognosis);
+        $this->setProtectedProperty('ResultTable', '');
+
+        $this->callProtectedMethod('addHintsForRobertBock', $prognosis);
+
+        $html = (string) $this->getProtectedProperty('ResultTable');
+        $this->assertStringContainsString('K =', $html);
+        $this->assertStringContainsString('K must be between', $html);
     }
 
     private function setUnitSystem(string $system): void

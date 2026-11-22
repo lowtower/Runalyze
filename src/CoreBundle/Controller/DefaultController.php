@@ -31,6 +31,7 @@ use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorFormInput;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorModelFactory;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorPersonalBestProvider;
+use Runalyze\Plugins\Prognose\PrognoseCalculatorResultTableRenderer;
 use Runalyze\Plugins\Prognose\PrognosePanelPresenter;
 use Runalyze\Plugins\Prognose\PrognoseTrendDataProvider;
 use Runalyze\Plugins\Prognose\PrognoseTrendPlotRenderer;
@@ -317,6 +318,7 @@ class DefaultController extends AbstractPluginsAwareController
         PrognoseCalculatorPersonalBestProvider $personalBestProvider,
         PrognoseCalculatorModelFactory $modelFactory,
         PrognoseCalculatorFormInput $formInput,
+        PrognoseCalculatorResultTableRenderer $resultTableRenderer,
         ?Account $account = null
     ): Response {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -345,13 +347,13 @@ class DefaultController extends AbstractPluginsAwareController
         $submittedInput = $request->isMethod('POST') ? $request->request->all() : [];
 
         return $this->legacyContentResponseFactory->create(
-            $this->legacyPluginOutputRenderer->render(function () use ($topResults, $distances, $account, $runningSportId, $personalBestProvider, $modelFactory, $formInput, $submittedInput): void {
+            $this->legacyPluginOutputRenderer->render(function () use ($topResults, $distances, $account, $runningSportId, $personalBestProvider, $modelFactory, $formInput, $resultTableRenderer, $submittedInput): void {
                 // Legacy Formular fields may inspect POST during construction.
                 $previousPost = $_POST;
                 $_POST = $submittedInput;
 
                 try {
-                    new \Prognose_PrognosisWindow($topResults, $distances, $account, $runningSportId, $personalBestProvider, $modelFactory, $formInput, $submittedInput)->display();
+                    new \Prognose_PrognosisWindow($topResults, $distances, $account, $runningSportId, $personalBestProvider, $modelFactory, $formInput, $resultTableRenderer, $submittedInput)->display();
                 } finally {
                     $_POST = $previousPost;
                 }

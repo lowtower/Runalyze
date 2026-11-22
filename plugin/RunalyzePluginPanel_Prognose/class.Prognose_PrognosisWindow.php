@@ -15,6 +15,7 @@ use Runalyze\Parameter\Application\DistanceUnitSystem;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorFormInput;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorModelFactory;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorPersonalBestProvider;
+use Runalyze\Plugins\Prognose\PrognoseCalculatorResultTableRenderer;
 use Runalyze\Sports\Running\Prognosis\Bock;
 use Runalyze\Sports\Running\Prognosis\PrognosisInterface;
 use Runalyze\Sports\Running\Prognosis\VO2max;
@@ -70,6 +71,7 @@ class Prognose_PrognosisWindow
         private readonly PrognoseCalculatorPersonalBestProvider $personalBestProvider,
         private readonly PrognoseCalculatorModelFactory $modelFactory,
         private readonly PrognoseCalculatorFormInput $formInput,
+        private readonly PrognoseCalculatorResultTableRenderer $resultTableRenderer,
         private readonly array $submittedInput
     ) {
         $this->setDefaultValues();
@@ -212,67 +214,16 @@ class Prognose_PrognosisWindow
         }
     }
 
-    protected function fillResultTable()
+    protected function fillResultTable(): void
     {
-        $this->startResultTable();
+        $this->ResultTable = $this->resultTableRenderer->render(
+            $this->Prognoses,
+            $this->PrognosisObject->areValuesValid()
+        );
 
-        if ($this->PrognosisObject->areValuesValid()) {
-            $this->fillResultTableWithResults();
-        } else {
-            $this->fillResultTableWithInvalidMessage();
-        }
-
-        $this->finishResultTable();
-    }
-
-    protected function startResultTable()
-    {
-        $this->ResultTable = '<table class="fullwidth zebra-style"><thead><tr>
-                    <th>' . __('Distance') . '</th>
-                    <th>' . __('Prognosis') . '</th>
-                    <th class="small">' . __('Pace') . '</th>
-                    <th class="small">VO2max</th>
-                    <th>' . __('Difference') . '</th>
-                    <th>' . __('Personal best') . '</th>
-                    <th class="small">' . __('Pace') . '</th>
-                    <th class="small">VO2max</th>
-                    <th class="small">' . __('Date') . '</th>
-                </tr></thead><tbody>';
-    }
-
-    protected function fillResultTableWithResults()
-    {
-        foreach ($this->Prognoses as $Prognosis) {
-            $this->ResultTable .= '
-                <tr class="r">
-                    <td class="c">' . $Prognosis['distance'] . '</td>
-                    <td class="b">' . $Prognosis['prognosis'] . '</td>
-                    <td class="small">' . $Prognosis['prognosis-pace'] . '</td>
-                    <td class="small">' . $Prognosis['prognosis-vo2max'] . '</td>
-                    <td class="small ' . $Prognosis['diff-class'] . '">' . $Prognosis['diff'] . '</td>
-                    <td class="b">' . $Prognosis['pb'] . '</td>
-                    <td class="small">' . $Prognosis['pb-pace'] . '</td>
-                    <td class="small">' . $Prognosis['pb-vo2max'] . '</td>
-                    <td class="small">' . $Prognosis['pb-date'] . '</td>
-                </tr>';
-        }
-    }
-
-    /**
-     * Set invalid message to table
-     */
-    protected function fillResultTableWithInvalidMessage()
-    {
-        $this->ResultTable .= '<tr class="c"><td colspan="9"><em>' . __('Your input is invalid') . '</em></td></tr>';
-    }
-
-    protected function finishResultTable()
-    {
-        $this->ResultTable .= '</tbody></table>';
-
-        if ($this->Input['model'] == 'robert-bock' && $this->PrognosisObject instanceof Bock) {
+        if ($this->Input['model'] === 'robert-bock' && $this->PrognosisObject instanceof Bock) {
             $this->addHintsForRobertBock($this->PrognosisObject);
-        } elseif ($this->Input['model'] == 'vo2max' && $this->PrognosisObject instanceof VO2max) {
+        } elseif ($this->Input['model'] === 'vo2max' && $this->PrognosisObject instanceof VO2max) {
             $this->addHintsForEffectiveVO2max();
         }
     }
