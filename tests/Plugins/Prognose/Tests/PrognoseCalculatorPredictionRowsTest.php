@@ -94,6 +94,31 @@ final class PrognoseCalculatorPredictionRowsTest extends TestCase
         $this->assertStringContainsString('/mi', $rows[0]['prognosis-pace']);
     }
 
+    public function testFormatsTrackDistancesWithNonbreakingSpaceBeforeMeters(): void
+    {
+        $raceResults = $this->createMock(RaceresultRepository::class);
+        $raceResults->expects($this->once())
+            ->method('findPersonalBestDetailsForDistances')
+            ->with($this->isInstanceOf(Account::class), 3, [1.0, 3.0, 5.0])
+            ->willReturn([]);
+
+        $trainings = $this->createMock(TrainingRepository::class);
+        $trainings->expects($this->never())->method('findForAccount');
+
+        $rows = $this->calculator($raceResults, $trainings)->calculate(
+            $this->account(),
+            3,
+            [1.0, 3.0, 5.0],
+            $this->prognosis(1200.0),
+            PaceUnit::MIN_PER_KM,
+            new DistanceUnitSystem(DistanceUnitSystem::METRIC)
+        );
+
+        $this->assertSame("1.000\u{00A0}m", $rows[0]['distance']);
+        $this->assertSame("3.000\u{00A0}m", $rows[1]['distance']);
+        $this->assertSame("5,000\u{00A0}km", $rows[2]['distance']);
+    }
+
     public function testReturnsNoRowsOrDatabaseQueriesForInvalidPrognosis(): void
     {
         $raceResults = $this->createMock(RaceresultRepository::class);
