@@ -700,6 +700,7 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             $content = (string) $this->Client->getResponse()->getContent();
             $this->assertStringContainsString('id="prognosis-calculator"', $content);
             $this->assertStringContainsString('5.72', $content);
+            $this->assertSame('5.72', $this->Client->getCrawler()->filter('input[name="distances"]')->attr('value'));
             $this->assertStringContainsString('Personal best', $content);
             $this->assertStringNotContainsString('Your input is invalid', $content);
         } finally {
