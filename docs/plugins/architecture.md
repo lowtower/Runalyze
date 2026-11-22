@@ -182,8 +182,9 @@ instead of implementing prognosis formulas. The calculator route now passes subm
 conversion and filters malformed request fields. The legacy window stores
 form state locally instead of reading global `$_POST` for calculations.
 The calculator form is now `@Prognose/calculator_form.html.twig`, retaining
-legacy field names, model visibility classes and the AJAX/no-automatic-reload
-form contract. The calculator controller and window no longer access global
+legacy field names, fieldset column wrappers (`w50`, `marginr50`),
+input-size and unit wrappers, model visibility classes, the original placement
+of fieldset info messages, and the AJAX/no-automatic-reload form contract. The calculator controller and window no longer access global
 `$_POST`; the window still assembles prediction rows and model-specific hints.
 The result table is rendered by `PrognoseCalculatorResultTableRenderer` using
 `@Prognose/calculator_result_table.html.twig`. Ordinary values are escaped;
