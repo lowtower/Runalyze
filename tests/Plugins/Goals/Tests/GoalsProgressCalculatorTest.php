@@ -105,7 +105,7 @@ final class GoalsProgressCalculatorTest extends TestCase
             true
         );
 
-        $this->assertCount(2, array_filter(
+        $this->assertCount(3, array_filter(
             $rows,
             static fn (array $row): bool => $row['name'] === 'avg. Day'
         ));
