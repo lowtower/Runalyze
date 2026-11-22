@@ -9,7 +9,7 @@ Only two legacy panel directories remain:
 
 | Stable installation key | Legacy directory | Modern implementation | Remaining work |
 | --- | --- | --- | --- |
-| `RunalyzePluginPanel_Ziele` | `plugin/RunalyzePluginPanel_Ziele/` | `plugins/Goals/` (calendar ranges and account-scoped totals provider) | Wire modern totals into goal calculations, configuration persistence, Twig view, metadata and removal of legacy panel |
+| `RunalyzePluginPanel_Ziele` | `plugin/RunalyzePluginPanel_Ziele/` | `plugins/Goals/` (calendar, account-scoped totals, progress calculator) | Wire modern totals into goal calculations, configuration persistence, Twig view, metadata and removal of legacy panel |
 | `RunalyzePluginPanel_Rechenspiele` | `plugin/RunalyzePluginPanel_Rechenspiele/` | `plugins/Rechenspiele/` (dashboard presenter, data provider, calculator) | Migrate configuration fields and explanation/plot windows, remove the old class and PHP includes |
 
 The `RunalyzePluginStat_*` directories are **statistics plugins**, not panels.
@@ -34,12 +34,15 @@ them under `plugins/` as though they were panels would break their lifecycle.
 
 1. **Goals calendar ranges:** extract time ranges to `GoalsTimeRangeProvider`
    and retain the existing panel through a compatibility delegation.
-2. **Goals dashboard:** use `GoalsTrainingDataProvider` and the account-scoped
-   `TrainingRepository::findTrainingTotalsSince()` aggregate, then extract goal
-   computations and pace-bunny bars into modern services and a Twig template.
-   The provider converts range-start wall-clock times to the timezone-neutral
-   timestamp representation used by `Training.time`. The legacy SQL path remains
-   in use until the modern presenter replaces the panel.
+2. **Goals dashboard:** `GoalsProgressCalculator` computes the existing
+   distance averages, projected totals, remaining targets, and Pace Bunny rows
+   without database or global configuration access. The legacy panel now
+   delegates its row calculations to this service while keeping its existing
+   HTML renderer. `GoalsTrainingDataProvider` and the account-scoped
+   `TrainingRepository::findTrainingTotalsSince()` are ready, but the legacy
+   SQL path remains until a modern presenter wires the provider into a
+   plugin-owned Twig template. Preserve the existing five time ranges and
+   legacy layout during the subsequent presentation migration.
 3. **Goals administration:** implement metadata and configuration interfaces,
    preserving `ziel_show_*`, `ziel_*`, and `details` keys. Remove the
    legacy class and characterize the new presenter/configuration behavior.
