@@ -17,7 +17,7 @@ final class DisplayableVO2maxTest extends TestCase
         $configuration = $this->configuration(1.0, $shape);
         $value = new DisplayableVO2max(50.0, $configuration);
 
-        $this->assertSame(50.0, $value->getUncorrectedValue());
+        $this->assertEqualsWithDelta(50.0, $value->getUncorrectedValue(), PHP_FLOAT_EPSILON);
         $this->assertSame('50.00', $value->getValue());
         $this->assertSame('vo2max-icon small ' . $expectedDirection, $value->getIconClass());
     }
@@ -38,8 +38,8 @@ final class DisplayableVO2maxTest extends TestCase
     {
         $value = new DisplayableVO2max(50.0, $this->configuration(1.2, 56.0));
 
-        $this->assertSame(50.0, $value->getUncorrectedValue());
-        $this->assertSame(60.0, $value->getRawValue());
+        $this->assertEqualsWithDelta(50.0, $value->getUncorrectedValue(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(60.0, $value->getRawValue(), PHP_FLOAT_EPSILON);
         $this->assertSame('60.00', $value->getValue());
         $this->assertSame('vo2max-icon small fa-arrow-up', $value->getIconClass());
     }
