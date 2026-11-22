@@ -11,7 +11,7 @@ final readonly class PrognoseCalculatorResultTableRenderer
     public function __construct(private Environment $twig) {}
 
     /**
-     * @param list<array<string, string>> $prognoses
+     * @param array<array-key, array<string, mixed>> $prognoses
      */
     public function render(array $prognoses, bool $isValid): string
     {
