@@ -613,6 +613,31 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testPrognoseCalculatorGetIgnoresStaleGlobalPostValues(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        /** @var PluginInstallationManager $installationManager */
+        $installationManager = self::getContainer()->get(PluginInstallationManager::class);
+        $installationManager->install('RunalyzePluginPanel_Prognose');
+
+        $originalPost = $_POST;
+        $_POST = ['model' => 'robert-bock', 'distances' => '999'];
+
+        try {
+            $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.php');
+
+            $this->assertStatusCode(200, $this->Client);
+            $content = (string) $this->Client->getResponse()->getContent();
+            $this->assertStringContainsString('id="prognosis-calculator"', $content);
+            $this->assertStringNotContainsString('value="999"', $content);
+            $this->assertSame(['model' => 'robert-bock', 'distances' => '999'], $_POST);
+        } finally {
+            $_POST = $originalPost;
+        }
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testRechenspieleWindowUsesTheInstalledPlugin(): void
     {
         $this->loginClient($this->Client, $this->Account, 'default');
