@@ -43,7 +43,7 @@ final class RunalyzePluginPanel_ZieleCharacterizationTest extends TestCase
         ob_start();
 
         try {
-            new \\ReflectionMethod(RunalyzePluginPanel_Ziele::class, 'displayLongDescription')
+            new \ReflectionMethod(RunalyzePluginPanel_Ziele::class, 'displayLongDescription')
                 ->invoke($this->plugin);
         } finally {
             $html = ob_get_clean();
