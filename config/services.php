@@ -526,10 +526,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(Availability::class, 'app.poster.availability');
 
-    $services->set('app.poster.filehandler', FileHandler::class)
+    $services->set(FileHandler::class)
         ->arg('$DataDir', '%app.data_directory%');
 
-    $services->alias(FileHandler::class, 'app.poster.filehandler');
+    $services->alias('app.poster.filehandler', FileHandler::class);
 
     $services->set(BackupGenerationMessageHandler::class)
         ->arg('$accountRepository', service(AccountRepository::class))
