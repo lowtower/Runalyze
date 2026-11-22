@@ -7,6 +7,7 @@
 
 use Runalyze\Activity\Distance;
 use Runalyze\Configuration;
+use Runalyze\Plugins\Goals\GoalsProgressCalculator;
 use Runalyze\Plugins\Goals\GoalsTimeRangeProvider;
 use Runalyze\Util\LocalTime;
 
@@ -127,71 +128,22 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
      */
     private function showTimeset(array &$Timeset, int|float $goal): void
     {
-        $this->clearLines();
-
-        $showDetails = $this->Configuration()
-            ->value('details');
-
-        // Some Numbers we need
         $start = $Timeset['start'];
-        $now = new DateTime(date('Y-m-d'));
         $end = $Timeset['end'];
-        $days = 1 + (int) date_diff($start, $now)
-            ->format('%a');
-        $dauer = 1 + (int) date_diff($start, $end)
-            ->format('%a');
-        $rest = $dauer - $days;
+        $today = new DateTime(date('Y-m-d'));
+        $totals = $this->fetchDataSince($start->getTimestamp());
 
-        $dat = $this->fetchDataSince($start->getTimestamp());
-        if ($dat['distanz_sum'] > 0) {
-            $this->addHeadline(__('Current'), $dat['distanz_sum'], $dat['anzahl'], true);
-            if ($showDetails) {
-                $this->addLine(__('avg.') . ' ' . __('Day'), $days > 0 ? $dat['distanz_sum'] / $days : 0);
+        $this->Lines = new GoalsProgressCalculator()->calculate(
+            $start,
+            $end,
+            $today,
+            (float) $totals['distanz_sum'],
+            (int) $totals['anzahl'],
+            (float) $goal,
+            (bool) $this->Configuration()->value('details')
+        );
 
-                if ($days > 7) {
-                    $this->addLine(__('avg.') . ' ' . __('Week'), 7 * $dat['distanz_sum'] / $days, $dat['anzahl'] / $days * 7);
-                }
-
-                if ($days > 0) {
-                    $this->addHeadline(__('Prognosis'), $dat['distanz_sum'] / $days * $dauer, $dat['anzahl'] / $days * $dauer);
-                }
-            }
-        }
-
-        if ($goal > 0) {
-            $this->addHeadline(__('Goal'), $goal);
-            if ($dat['distanz_sum'] < $goal) {
-                $togo = $goal - $dat['distanz_sum'];
-                $this->addLine(sprintf(__('%d days left'), $rest), $togo);
-                if ($showDetails) {
-                    $this->addLine(__('avg.') . ' ' . __('Day'), $rest > 0 ? $togo / $rest : 0);
-
-                    if ($rest > 7) {
-                        $this->addLine(__('avg.') . ' ' . __('Week'), 7 * $togo / $rest);
-                    }
-                }
-            } else {
-                $this->addLine(__('Goal reached.'));
-            }
-
-            $diff = $goal / $dauer * $days - $dat['distanz_sum'];
-
-            if ($showDetails) {
-                $this->addHeadline(__('Pace Bunny'), $goal / $dauer * $days);
-                $this->addLine(__('avg.') . ' ' . __('Day'), $goal / $dauer);
-
-                if ($diff > 0) {
-                    $this->addLine(__('Behind'), abs($diff));
-                } else {
-                    $this->addLine(__('Ahead'), abs($diff));
-                }
-
-                $this->addHeadline(__('Head 2 Head'));
-            }
-
-            $this->addBar(__('Me'), $dat['distanz_sum'], $goal, $diff > 0 ? '#f99' : '#9f9');
-            $this->addBar(__('Pace&nbsp;Bunny'), $goal / $dauer * ($days - 1), $goal, '#ccf', $goal / $dauer, '#ddf');
-        }
+        $dauer = 1 + (int) date_diff($start, $end)->format('%a');
 
         foreach ($this->Lines as $Line) {
             $this->showLineOrBar($Line);
