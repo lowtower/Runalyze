@@ -6,8 +6,8 @@
  */
 
 use Runalyze\Activity\Distance;
-use Runalyze\Plugins\Goals\GoalsTimeRangeProvider;
 use Runalyze\Configuration;
+use Runalyze\Plugins\Goals\GoalsTimeRangeProvider;
 use Runalyze\Util\LocalTime;
 
 $PLUGINKEY = 'RunalyzePluginPanel_Ziele';
