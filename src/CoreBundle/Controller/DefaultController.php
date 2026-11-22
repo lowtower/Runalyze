@@ -311,7 +311,7 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @throws Throwable if the legacy prognosis calculator window throws
      */
-    #[Route(path: '/plugin/RunalyzePluginPanel_Prognose/window.php', methods: ['GET', 'POST'], priority: 10)]
+    #[Route(path: '/plugin/RunalyzePluginPanel_Prognose/window.php', name: 'prognosis-calculator-window', methods: ['GET', 'POST'], priority: 10)]
     public function prognoseCalculatorWindowAction(
         Request $request,
         PrognosePanelPresenter $prognosePanelPresenter,
