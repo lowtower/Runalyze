@@ -38,6 +38,23 @@ final class RunalyzePluginPanel_ZieleCharacterizationTest extends TestCase
         Distance::$ThousandsSeparator = $this->originalThousandsSeparator;
     }
 
+    public function testLongDescriptionExplainsGoalsAndPaceBunny(): void
+    {
+        ob_start();
+
+        try {
+            new \ReflectionMethod(RunalyzePluginPanel_Ziele::class, 'displayLongDescription')
+                ->invoke($this->plugin);
+        } finally {
+            $html = ob_get_clean();
+        }
+
+        $this->assertIsString($html);
+        $this->assertStringContainsString('tracks your distances', $html);
+        $this->assertStringContainsString('virtual Pace Bunny', $html);
+        $this->assertStringContainsString('kmspiel', $html);
+    }
+
     public function testGetLevelStyleForHeadlineLevel(): void
     {
         $this->assertSame(' style="font-weight:bold;"', $this->callPrivateMethod('getLevelStyle', 1));

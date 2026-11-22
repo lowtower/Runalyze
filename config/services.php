@@ -237,6 +237,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$panels', tagged_iterator('runalyze.modern_panel'));
 
     $containerConfigurator->import(__DIR__ . '/../plugins/Equipment/config/services.php');
+    $containerConfigurator->import(__DIR__ . '/../plugins/Goals/config/services.php');
     $containerConfigurator->import(__DIR__ . '/../plugins/Sportler/config/services.php');
     $containerConfigurator->import(__DIR__ . '/../plugins/Sports/config/services.php');
     $containerConfigurator->import(__DIR__ . '/../plugins/Prognose/config/services.php');
