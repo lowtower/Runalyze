@@ -611,6 +611,10 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             $this->assertCount(1, $this->Client->getCrawler()->filter('input[name="distances"]'));
             $this->assertCount(1, $this->Client->getCrawler()->filter('input[name="endurance"][checked]'));
             $this->assertStringContainsString('ajax no-automatic-reload', (string) $this->Client->getResponse()->getContent());
+            $this->assertSame(
+                '/plugin/RunalyzePluginPanel_Prognose/window.php',
+                $this->Client->getCrawler()->filter('form#prognosis-calculator')->attr('action')
+            );
         } finally {
             $_POST = $post;
         }
@@ -705,6 +709,10 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             $this->assertStringContainsString('id="prognosis-calculator"', $content);
             $this->assertStringContainsString('5.72', $content);
             $this->assertSame('5.72', $this->Client->getCrawler()->filter('input[name="distances"]')->attr('value'));
+            $this->assertSame(
+                '/plugin/RunalyzePluginPanel_Prognose/window.php',
+                $this->Client->getCrawler()->filter('form#prognosis-calculator')->attr('action')
+            );
             $this->assertSame('50', $this->Client->getCrawler()->filter('input[name="vo2max"]')->attr('value'));
             $this->assertCount(1, $this->Client->getCrawler()->filter('input[name="endurance"][checked]'));
             $this->assertStringContainsString('Personal best', $content);
