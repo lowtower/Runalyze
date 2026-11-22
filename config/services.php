@@ -355,14 +355,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->load('Runalyze\\Bundle\\CoreBundle\\EntityListener\\', __DIR__ . '/../src/CoreBundle/EntityListener/{ActivityListener,RaceResultListener,RouteListener,UserListener}.php');
 
-    $services->set('app.entity_subscriber.equipment_update', EquipmentUpdateSubscriber::class)
+    $services->set(EquipmentUpdateSubscriber::class)
         ->tag('doctrine.event_listener', [
             'event' => 'onFlush',
             'connection' => 'default',
             'lazy' => true,
         ]);
-
-    $services->alias(EquipmentUpdateSubscriber::class, 'app.entity_subscriber.equipment_update');
 
 
 

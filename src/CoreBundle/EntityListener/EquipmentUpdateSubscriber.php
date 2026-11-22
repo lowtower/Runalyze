@@ -9,7 +9,6 @@ use Runalyze\Bundle\CoreBundle\Entity\Equipment;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Repository\EquipmentRepository;
 
-#[\Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener(event: 'onFlush')]
 class EquipmentUpdateSubscriber
 {
     protected EquipmentRepository $EquipmentRepository;
