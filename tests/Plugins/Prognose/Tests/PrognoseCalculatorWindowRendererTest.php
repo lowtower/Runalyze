@@ -57,8 +57,16 @@ final class PrognoseCalculatorWindowRendererTest extends TestCase
             $this->account(),
             3,
             [
-                ['distance' => 5.0, 's' => 1200.0, 'time' => 1700000000],
-                ['distance' => 10.0, 's' => 2600.0, 'time' => 1700001000],
+                [
+                    'distance' => 5.0,
+                    's' => 1200.0,
+                    'time' => 1700000000,
+                ],
+                [
+                    'distance' => 10.0,
+                    's' => 2600.0,
+                    'time' => 1700001000,
+                ],
             ],
             [5.0],
             [
@@ -89,7 +97,11 @@ final class PrognoseCalculatorWindowRendererTest extends TestCase
         $html = $this->renderer()->render(
             $this->account(),
             3,
-            [['distance' => 5.0, 's' => 1200.0, 'time' => 1700000000]],
+            [[
+                'distance' => 5.0,
+                's' => 1200.0,
+                'time' => 1700000000,
+            ]],
             [5.0],
             [],
             50.0,
