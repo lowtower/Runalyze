@@ -185,7 +185,7 @@ The calculator form is now `@Prognose/calculator_form.html.twig`, retaining
 legacy field names, fieldset column wrappers (`w50`, `marginr50`),
 input-size and unit wrappers, model visibility classes, the original placement
 of fieldset info messages, and the AJAX/no-automatic-reload form contract. The calculator controller and window no longer access global
-`$_POST`; the window still assembles prediction rows. Model-specific hints are now
+`$_POST`; the window delegates prediction row calculation to `PrognoseCalculatorPredictionRows`, which uses the existing account-scoped personal-best provider. Pace and distance units are supplied explicitly so that result formatting no longer accesses global configuration inside the row calculator. Model-specific hints are now
 rendered by `PrognoseCalculatorModelHintRenderer`, using the existing legacy
 HTML helpers for visual compatibility. Its valid/invalid VO2max and Robert
 Bock branches have dedicated tests.
