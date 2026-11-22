@@ -55,6 +55,6 @@ final class GoalsTimeRangeProviderTest extends TestCase
         $ranges = new GoalsTimeRangeProvider()->getRanges(new DateTimeImmutable('2026-11-22 12:00:00'), true);
 
         $this->assertSame('2026-06-29', $ranges['saison']['start']->format('Y-m-d'));
-        $this->assertSame('2026-12-27', $ranges['saison']['end']->format('Y-m-d'));
+        $this->assertSame('2027-01-03', $ranges['saison']['end']->format('Y-m-d'));
     }
 }
