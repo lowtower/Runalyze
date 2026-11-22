@@ -27,7 +27,10 @@ final class PrognoseCalculatorPredictionRowsTest extends TestCase
             ->method('findPersonalBestDetailsForDistances')
             ->with($account, 3, [5.72])
             ->willReturn([
-                '5.72' => ['activity_id' => 51, 'seconds' => 2064.0],
+                '5.72' => [
+                    'activity_id' => 51,
+                    'seconds' => 2064.0,
+                ],
             ]);
 
         $activity = $this->createStub(Training::class);

@@ -31,7 +31,6 @@ use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorFormInput;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorModelFactory;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorModelHintRenderer;
-use Runalyze\Plugins\Prognose\PrognoseCalculatorPersonalBestProvider;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorPredictionRows;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorResultTableRenderer;
 use Runalyze\Plugins\Prognose\PrognosePanelPresenter;
