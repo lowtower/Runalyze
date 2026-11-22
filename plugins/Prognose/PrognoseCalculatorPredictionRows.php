@@ -61,8 +61,18 @@ final readonly class PrognoseCalculatorPredictionRows
                 )
                 : '-';
 
+            $formattedDistance = str_replace(
+                '&nbsp;',
+                "\u{00A0}",
+                new Distance($distance, $distanceUnitSystem)->stringAuto()
+            );
+
+            if (str_ends_with($formattedDistance, 'm') && ! str_ends_with($formattedDistance, 'km')) {
+                $formattedDistance = substr($formattedDistance, 0, -1) . "\u{00A0}m";
+            }
+
             $rows[] = [
-                'distance' => str_replace('&nbsp;', "\u{00A0}", new Distance($distance, $distanceUnitSystem)->stringAuto()),
+                'distance' => $formattedDistance,
                 'prognosis' => $seconds > 0 ? Duration::format($seconds) : '-',
                 'prognosis-pace' => $predictionPace->valueWithAppendix(),
                 'prognosis-vo2max' => $seconds > 0 ? $predictionVO2max->uncorrectedValue() : '-',
