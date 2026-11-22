@@ -28,6 +28,7 @@ use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
+use Runalyze\Plugins\Prognose\PrognoseCalculatorFormInput;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorModelFactory;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorPersonalBestProvider;
 use Runalyze\Plugins\Prognose\PrognosePanelPresenter;
@@ -311,9 +312,11 @@ class DefaultController extends AbstractPluginsAwareController
      */
     #[Route(path: '/plugin/RunalyzePluginPanel_Prognose/window.php', methods: ['GET', 'POST'], priority: 10)]
     public function prognoseCalculatorWindowAction(
+        Request $request,
         PrognosePanelPresenter $prognosePanelPresenter,
         PrognoseCalculatorPersonalBestProvider $personalBestProvider,
         PrognoseCalculatorModelFactory $modelFactory,
+        PrognoseCalculatorFormInput $formInput,
         ?Account $account = null
     ): Response {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -336,14 +339,24 @@ class DefaultController extends AbstractPluginsAwareController
 
         /** @var TrainingRepository $trainingRepository */
         $trainingRepository = $this->doctrine->getRepository(Training::class);
-        $runningSportId = $this->configurationManager->getList()->getGeneral()->getRunningSport();
+        $runningSportId = $this->configurationManager->getList($account)->getGeneral()->getRunningSport();
         $topResults = $trainingRepository->findTopResults($account, $runningSportId, 2);
 
+        $submittedInput = $request->isMethod('POST') ? $request->request->all() : [];
+
         return $this->legacyContentResponseFactory->create(
-            $this->legacyPluginOutputRenderer->render(function () use ($topResults, $distances, $account, $runningSportId, $personalBestProvider, $modelFactory): void {
-                new \Prognose_PrognosisWindow($topResults, $distances, $account, $runningSportId, $personalBestProvider, $modelFactory)->display();
+            $this->legacyPluginOutputRenderer->render(function () use ($topResults, $distances, $account, $runningSportId, $personalBestProvider, $modelFactory, $formInput, $submittedInput): void {
+                // Legacy Formular fields may inspect POST during construction.
+                $previousPost = $_POST;
+                $_POST = $submittedInput;
+
+                try {
+                    new \Prognose_PrognosisWindow($topResults, $distances, $account, $runningSportId, $personalBestProvider, $modelFactory, $formInput, $submittedInput)->display();
+                } finally {
+                    $_POST = $previousPost;
+                }
             })->getContent(),
-            $this->requestStack->getCurrentRequest()
+            $request
         );
     }
 

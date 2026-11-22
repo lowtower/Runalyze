@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Runalyze\Plugins\Prognose\PrognoseCalculatorFormInput;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorModelFactory;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorPersonalBestProvider;
 use Runalyze\Plugins\Prognose\PrognosePanelPresenter;
@@ -18,6 +19,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autoconfigure(true)
         ->public();
 
+    $services->set(PrognoseCalculatorFormInput::class);
     $services->set(PrognoseCalculatorModelFactory::class);
     $services->set(PrognoseCalculatorPersonalBestProvider::class);
     $services->set(PrognoseTrendSeriesCalculator::class);

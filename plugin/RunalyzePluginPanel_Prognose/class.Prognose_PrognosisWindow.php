@@ -12,6 +12,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Calculation\BasicEndurance;
 use Runalyze\Configuration;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
+use Runalyze\Plugins\Prognose\PrognoseCalculatorFormInput;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorModelFactory;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorPersonalBestProvider;
 use Runalyze\Sports\Running\Prognosis\Bock;
@@ -53,6 +54,11 @@ class Prognose_PrognosisWindow
     protected DistanceUnitSystem $UnitSystem;
 
     /**
+     * @var array<string, mixed>
+     */
+    protected array $Input = [];
+
+    /**
      * @param array<int, array<string, int|float|null>> $topResults rows as returned by TrainingRepository::findTopResults()
      * @param array<int, mixed> $distances
      */
@@ -62,14 +68,25 @@ class Prognose_PrognosisWindow
         private readonly Account $account,
         private readonly int $runningSportId,
         private readonly PrognoseCalculatorPersonalBestProvider $personalBestProvider,
-        private readonly PrognoseCalculatorModelFactory $modelFactory
+        private readonly PrognoseCalculatorModelFactory $modelFactory,
+        private readonly PrognoseCalculatorFormInput $formInput,
+        private readonly array $submittedInput
     ) {
         $this->setDefaultValues();
         $this->readPostData();
         $this->runCalculations();
         $this->fillResultTable();
-        $this->initFieldsets();
-        $this->initFormular();
+
+        // Legacy Formular fields capture their values during construction.
+        $previousPost = $_POST;
+        $_POST = $this->Input;
+
+        try {
+            $this->initFieldsets();
+            $this->initFormular();
+        } finally {
+            $_POST = $previousPost;
+        }
     }
 
     protected function setDefaultValues()
@@ -79,26 +96,14 @@ class Prognose_PrognosisWindow
         $TopResults = $this->topResults;
         $CurrentShape = Configuration::Data()->vo2maxShape();
 
-        if (empty($_POST)) {
-            $_POST['model'] = 'vo2max';
-            $_POST['distances'] = implode(', ', $this->distanceValuesToMiles($this->distances));
-
-            $_POST['vo2max'] = $CurrentShape;
-            $_POST['endurance'] = true;
-            $_POST['endurance-value'] = BasicEndurance::getConst();
-
-            $hasFirstTopResult = count($TopResults) >= 1;
-            $hasSecondTopResult = count($TopResults) >= 2;
-            $_POST['best-result-km'] = $hasFirstTopResult ? $TopResults[0]['distance'] : '5.0';
-            $_POST['best-result-time'] = $hasFirstTopResult ? Duration::format($TopResults[0]['s']) : '0:26:00';
-            $_POST['second-best-result-km'] = $hasSecondTopResult ? $TopResults[1]['distance'] : '10.0';
-            $_POST['second-best-result-time'] = $hasSecondTopResult ? Duration::format($TopResults[1]['s']) : '1:00:00';
-        } else {
-            [$_POST['best-result-km'], $_POST['second-best-result-km']] = $this->distanceValuesToKm([
-                str_replace(',', '.', $_POST['best-result-km']),
-                str_replace(',', '.', $_POST['second-best-result-km']),
-            ]);
-        }
+        $this->Input = $this->formInput->prepare(
+            $this->submittedInput,
+            $TopResults,
+            $this->distances,
+            $CurrentShape,
+            (int) BasicEndurance::getConst(),
+            $this->UnitSystem
+        );
 
         $this->InfoLines['vo2max'] = __('Your current effective VO2max:') . ' ' . $CurrentShape . '. ';
         $this->InfoLines['vo2max'] .= __('Your current marathon shape:') . ' ' . BasicEndurance::getConst() . ' %.';
@@ -126,16 +131,16 @@ class Prognose_PrognosisWindow
 
         $this->InfoLines['robert-bock'] = __('Your two best results:') . ' ' . $ResultLine;
 
-        $_POST['best-result-km'] = Distance::format($_POST['best-result-km'], false, self::DISTANCE_PRECISION);
-        $_POST['second-best-result-km'] = Distance::format($_POST['second-best-result-km'], false, self::DISTANCE_PRECISION);
+        $this->Input['best-result-km'] = Distance::format($this->Input['best-result-km'], false, self::DISTANCE_PRECISION);
+        $this->Input['second-best-result-km'] = Distance::format($this->Input['second-best-result-km'], false, self::DISTANCE_PRECISION);
     }
 
     protected function readPostData(): void
     {
-        $_POST['model'] = $this->modelFactory->normalizeModel((string) ($_POST['model'] ?? ''));
-        $this->PrognosisObject = $this->modelFactory->create($_POST);
+        $this->Input['model'] = $this->modelFactory->normalizeModel((string) ($this->Input['model'] ?? ''));
+        $this->PrognosisObject = $this->modelFactory->create($this->Input);
 
-        $this->Distances = $this->distanceValuesToKm(Helper::arrayTrim(explode(',', $_POST['distances'])));
+        $this->Distances = $this->distanceValuesToKm(Helper::arrayTrim(explode(',', (string) ($this->Input['distances'] ?? ''))));
     }
 
     /**
@@ -265,9 +270,9 @@ class Prognose_PrognosisWindow
     {
         $this->ResultTable .= '</tbody></table>';
 
-        if ($_POST['model'] == 'robert-bock' && $this->PrognosisObject instanceof Bock) {
+        if ($this->Input['model'] == 'robert-bock' && $this->PrognosisObject instanceof Bock) {
             $this->addHintsForRobertBock($this->PrognosisObject);
-        } elseif ($_POST['model'] == 'vo2max' && $this->PrognosisObject instanceof VO2max) {
+        } elseif ($this->Input['model'] == 'vo2max' && $this->PrognosisObject instanceof VO2max) {
             $this->addHintsForEffectiveVO2max();
         }
     }
@@ -429,8 +434,16 @@ class Prognose_PrognosisWindow
 
     protected function displayFormular()
     {
-        $this->Formular->display();
+        // The legacy Formular implementation still reads POST values when rendering.
+        $previousPost = $_POST;
+        $_POST = $this->Input;
 
-        echo Ajax::wrapJSasFunction('$(\'#prognosis-calculator .hide-on-model-change:not(.only-' . $_POST['model'] . ")').closest('div').hide();");
+        try {
+            $this->Formular->display();
+        } finally {
+            $_POST = $previousPost;
+        }
+
+        echo Ajax::wrapJSasFunction('$(\'#prognosis-calculator .hide-on-model-change:not(.only-' . $this->Input['model'] . ")').closest('div').hide();");
     }
 }
