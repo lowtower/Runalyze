@@ -181,8 +181,8 @@ instead of implementing prognosis formulas. The calculator route now passes subm
 `PrognoseCalculatorFormInput`, which supplies GET defaults, handles distance-unit
 conversion and filters malformed request fields. The legacy window stores
 form state locally instead of reading global `$_POST` for calculations. A scoped
-POST bridge remains only while rendering old `Formular` components and restores
-the original global after rendering. The HTML fieldsets and result table still
+POST compatibility bridge remains around legacy field construction and rendering;
+the original superglobal is restored after each scoped operation. The HTML fieldsets and result table still
 require migration; the existing route and AJAX contract are retained.
 The trend window now loads its official race-result series through the
 account-scoped `RaceresultRepository` instead of direct SQL and a cache key
