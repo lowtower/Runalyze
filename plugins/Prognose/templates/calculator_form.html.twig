@@ -2,7 +2,7 @@
     <h1>{{ 'Prognosis calculator'|trans }}</h1>
 </div>
 <div class="panel-content">
-    <form id="prognosis-calculator" class="ajax no-automatic-reload" method="post">
+    <form id="prognosis-calculator" class="ajax no-automatic-reload" action="{{ path('prognosis-calculator-window') }}" method="post">
         <fieldset>
             <legend>{{ 'Input'|trans }}</legend>
             {% for info in info_lines %}
