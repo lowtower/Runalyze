@@ -36,10 +36,10 @@ final class GoalsProgressCalculatorTest extends TestCase
             'km' => 28.0,
             'anz' => 4.0,
         ], $rows[0]);
-        $this->assertSame(2.0, $rows[1]['km']);
-        $this->assertSame(14.0, $rows[2]['km']);
-        $this->assertSame(2.0, $rows[2]['anz']);
-        $this->assertSame(60.0, $rows[3]['km']);
+        $this->assertEqualsWithDelta(2.0, $rows[1]['km'], PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(14.0, $rows[2]['km'], PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(2.0, $rows[2]['anz'], PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(60.0, $rows[3]['km'], PHP_FLOAT_EPSILON);
         $this->assertEqualsWithDelta(60.0 / 28.0 * 4.0, $rows[3]['anz'], 0.00001);
     }
 
@@ -63,8 +63,8 @@ final class GoalsProgressCalculatorTest extends TestCase
         $me = $rows[count($rows) - 2];
         $bunny = $rows[count($rows) - 1];
         $this->assertSame('#f99', $me['color']);
-        $this->assertSame(28.0, $me['val']);
-        $this->assertSame(100.0, $me['max']);
+        $this->assertEqualsWithDelta(28.0, $me['val'], PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(100.0, $me['max'], PHP_FLOAT_EPSILON);
         $this->assertSame('#ccf', $bunny['color']);
         $this->assertSame('#ddf', $bunny['addcolor']);
         $this->assertEqualsWithDelta(100.0 / 30.0, $bunny['add'], 0.00001);
@@ -105,10 +105,10 @@ final class GoalsProgressCalculatorTest extends TestCase
             true
         );
 
-        $this->assertSame(2, count(array_filter(
+        $this->assertCount(2, array_filter(
             $rows,
             static fn (array $row): bool => $row['name'] === 'avg. Day'
-        )));
+        ));
         $this->assertNotContains('avg. Week', array_column($rows, 'name'));
     }
 
@@ -129,7 +129,7 @@ final class GoalsProgressCalculatorTest extends TestCase
             $rows,
             static fn (array $row): bool => $row['name'] === 'avg. Day'
         ));
-        $this->assertSame(0.0, $dayTargets[1]['km']);
+        $this->assertEqualsWithDelta(0.0, $dayTargets[1]['km'], PHP_FLOAT_EPSILON);
     }
 
     public function testGoalWithNoActivitiesStillShowsProgressBars(): void
@@ -137,7 +137,7 @@ final class GoalsProgressCalculatorTest extends TestCase
         $rows = $this->calculate(distanceSum: 0, goal: 100.0, showDetails: false);
 
         $this->assertSame(['Goal', '16 days left', 'Me', 'Pace&nbsp;Bunny'], array_column($rows, 'name'));
-        $this->assertSame(0.0, $rows[2]['val']);
+        $this->assertEqualsWithDelta(0.0, $rows[2]['val'], PHP_FLOAT_EPSILON);
     }
 
     /**

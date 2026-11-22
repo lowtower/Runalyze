@@ -152,45 +152,6 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
         echo '<small class="right">' . sprintf(__('%s to %s (%d days)'), $start->format('d.m.Y'), $end->format('d.m.Y'), $dauer) . '</small>';
     }
 
-    private function clearLines(): void
-    {
-        $this->Lines = [];
-    }
-
-    private function addHeadline(string $name, int|float $distance = 0, int|float $num = 0, bool $noTopBorder = false): void
-    {
-        $this->Lines[] = [
-            'name' => $name,
-            'lvl' => 1,
-            'sep' => ! $noTopBorder,
-            'km' => $distance,
-            'anz' => $num,
-        ];
-    }
-
-    private function addLine(string $name, int|float $distance = 0, int|float $num = 0): void
-    {
-        $this->Lines[] = [
-            'name' => $name,
-            'lvl' => 2,
-            'km' => $distance,
-            'anz' => $num,
-        ];
-    }
-
-    private function addBar(string $name, int|float $val, int|float $max, string $color, int|float|null $add = null, ?string $addcolor = null): void
-    {
-        $this->Lines[] = [
-            'name' => $name,
-            'type' => 'bar',
-            'val' => $val,
-            'max' => $max,
-            'color' => $color,
-            'add' => $add,
-            'addcolor' => $addcolor,
-        ];
-    }
-
     /**
      * @param array<string, mixed> $Array
      */
