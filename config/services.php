@@ -606,8 +606,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(AgeGradeLookup::class);
 
-    $services->alias('app.age_grade_lookup', AgeGradeLookup::class);
-
     $services->set('app.weather_forecast.darksky', DarkSky::class)
         ->arg('$ApiKey', '%app.darksky_api_key%')
         ->arg('$HttpClient', service('app.http_client'))
