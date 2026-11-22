@@ -604,8 +604,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(DataSeriesRemover::class);
 
-    $services->alias('app.data_series_remover', DataSeriesRemover::class);
-
     $services->set('app.age_grade_lookup', AgeGradeLookup::class);
 
     $services->alias(AgeGradeLookup::class, 'app.age_grade_lookup');
