@@ -76,8 +76,17 @@ class Prognose_PrognosisWindow
         $this->readPostData();
         $this->runCalculations();
         $this->fillResultTable();
-        $this->initFieldsets();
-        $this->initFormular();
+
+        // Legacy Formular fields capture their values during construction.
+        $previousPost = $_POST;
+        $_POST = $this->Input;
+
+        try {
+            $this->initFieldsets();
+            $this->initFormular();
+        } finally {
+            $_POST = $previousPost;
+        }
     }
 
     protected function setDefaultValues()
