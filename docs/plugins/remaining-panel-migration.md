@@ -9,7 +9,7 @@ Only two legacy panel directories remain:
 
 | Stable installation key | Legacy directory | Modern implementation | Remaining work |
 | --- | --- | --- | --- |
-| `RunalyzePluginPanel_Ziele` | `plugin/RunalyzePluginPanel_Ziele/` | `plugins/Goals/` (calendar ranges only) | Account-scoped training totals, goal calculations, configuration persistence, Twig view, metadata and removal of legacy panel |
+| `RunalyzePluginPanel_Ziele` | `plugin/RunalyzePluginPanel_Ziele/` | `plugins/Goals/` (calendar ranges and account-scoped totals provider) | Wire modern totals into goal calculations, configuration persistence, Twig view, metadata and removal of legacy panel |
 | `RunalyzePluginPanel_Rechenspiele` | `plugin/RunalyzePluginPanel_Rechenspiele/` | `plugins/Rechenspiele/` (dashboard presenter, data provider, calculator) | Migrate configuration fields and explanation/plot windows, remove the old class and PHP includes |
 
 The `RunalyzePluginStat_*` directories are **statistics plugins**, not panels.
@@ -34,8 +34,12 @@ them under `plugins/` as though they were panels would break their lifecycle.
 
 1. **Goals calendar ranges:** extract time ranges to `GoalsTimeRangeProvider`
    and retain the existing panel through a compatibility delegation.
-2. **Goals dashboard:** extract account-specific distance aggregates, goal
-   computations, and pace-bunny bars into modern services and a Twig template.
+2. **Goals dashboard:** use `GoalsTrainingDataProvider` and the account-scoped
+   `TrainingRepository::findTrainingTotalsSince()` aggregate, then extract goal
+   computations and pace-bunny bars into modern services and a Twig template.
+   The provider converts range-start wall-clock times to the timezone-neutral
+   timestamp representation used by `Training.time`. The legacy SQL path remains
+   in use until the modern presenter replaces the panel.
 3. **Goals administration:** implement metadata and configuration interfaces,
    preserving `ziel_show_*`, `ziel_*`, and `details` keys. Remove the
    legacy class and characterize the new presenter/configuration behavior.
