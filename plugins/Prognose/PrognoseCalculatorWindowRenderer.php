@@ -72,10 +72,10 @@ final readonly class PrognoseCalculatorWindowRenderer
         $resultTable = $this->resultTableRenderer->render($rows, $prognosis->areValuesValid());
         $resultTable .= $this->modelHintRenderer->render($input['model'], $prognosis);
 
-        $infoLines = $this->buildInfoLines($topResults, $currentShape, $marathonShape);
+        $infoLines = $this->buildInfoLines($topResults, $currentShape, $marathonShape, $unitSystem);
 
-        $input['best-result-km'] = Distance::format((float) ($input['best-result-km'] ?? 0), false, self::DISTANCE_PRECISION);
-        $input['second-best-result-km'] = Distance::format((float) ($input['second-best-result-km'] ?? 0), false, self::DISTANCE_PRECISION);
+        $input['best-result-km'] = new Distance((float) ($input['best-result-km'] ?? 0), $unitSystem)->string(false, self::DISTANCE_PRECISION);
+        $input['second-best-result-km'] = new Distance((float) ($input['second-best-result-km'] ?? 0), $unitSystem)->string(false, self::DISTANCE_PRECISION);
 
         $html = $this->twig->render('@Prognose/calculator_form.html.twig', [
             'input' => $input,
@@ -98,7 +98,7 @@ final readonly class PrognoseCalculatorWindowRenderer
      *
      * @return array<string, string>
      */
-    private function buildInfoLines(array $topResults, float $currentShape, int $marathonShape): array
+    private function buildInfoLines(array $topResults, float $currentShape, int $marathonShape, DistanceUnitSystem $unitSystem): array
     {
         $infoLines = [
             'vo2max' => __('Your current effective VO2max:') . ' ' . $currentShape . '. '
@@ -108,17 +108,17 @@ final readonly class PrognoseCalculatorWindowRenderer
         if (count($topResults) >= 2) {
             $resultLine = sprintf(
                 __('%s in %s <small>(%s)</small> and %s in %s <small>(%s)</small>'),
-                Distance::format($topResults[0]['distance']),
+                new Distance((float) $topResults[0]['distance'], $unitSystem)->string(),
                 Duration::format($topResults[0]['s']),
                 new LocalTime($topResults[0]['time'])->format('d.m.Y'),
-                Distance::format($topResults[1]['distance']),
+                new Distance((float) $topResults[1]['distance'], $unitSystem)->string(),
                 Duration::format($topResults[1]['s']),
                 new LocalTime($topResults[1]['time'])->format('d.m.Y')
             );
         } elseif (count($topResults) === 1) {
             $resultLine = sprintf(
                 __('%s in %s <small>(%s)</small>'),
-                Distance::format($topResults[0]['distance']),
+                new Distance((float) $topResults[0]['distance'], $unitSystem)->string(),
                 Duration::format($topResults[0]['s']),
                 new LocalTime($topResults[0]['time'])->format('d.m.Y')
             );
