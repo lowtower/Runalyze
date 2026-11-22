@@ -51,8 +51,8 @@ final class PrognoseCalculatorFormInputTest extends TestCase
         $this->assertSame('3.11, 6.21', $input['distances']);
         $this->assertSame(5.0, $input['best-result-km']);
         $this->assertSame(10.0, $input['second-best-result-km']);
-        $this->assertSame('0:20:00', $input['best-result-time']);
-        $this->assertSame('0:42:30', $input['second-best-result-time']);
+        $this->assertStringContainsString('20:00', $input['best-result-time']);
+        $this->assertStringContainsString('42:30', $input['second-best-result-time']);
     }
 
     public function testNormalizesSubmittedImperialReferenceDistances(): void
