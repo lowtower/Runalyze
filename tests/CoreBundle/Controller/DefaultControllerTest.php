@@ -608,6 +608,14 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             $this->assertStatusCode(200, $this->Client);
             $this->assertStringContainsString('id="prognosis-calculator"', (string) $this->Client->getResponse()->getContent());
             $this->assertSame('vo2max', $this->Client->getCrawler()->filter('select[name="model"] option[selected]')->attr('value'));
+            $crawler = $this->Client->getCrawler();
+            $this->assertCount(2, $crawler->filter('#prognosis-calculator fieldset:first-of-type > div.w50.marginr50'));
+            $this->assertCount(3, $crawler->filter('#prognosis-calculator fieldset:first-of-type > div.w50.hide-on-model-change.only-vo2max'));
+            $this->assertCount(2, $crawler->filter('#prognosis-calculator fieldset:first-of-type > div.w50.hide-on-model-change.only-robert-bock:not(.only-herbert-steffny)'));
+            $this->assertCount(1, $crawler->filter('span.input-with-unit > input[name="distances"].full-size'));
+            $this->assertCount(1, $crawler->filter('span.input-with-unit > input[name="best-result-km"].small-size'));
+            $this->assertCount(1, $crawler->filter('span.input-with-unit > input[name="endurance-value"].small-size'));
+            $this->assertCount(1, $crawler->filter('#prognosis-calculator fieldset:first-of-type > div.fieldset-messages'));
             $this->assertCount(1, $this->Client->getCrawler()->filter('input[name="distances"]'));
             $this->assertCount(1, $this->Client->getCrawler()->filter('input[name="endurance"][checked]'));
             $this->assertStringContainsString('ajax no-automatic-reload', (string) $this->Client->getResponse()->getContent());
