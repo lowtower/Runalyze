@@ -22,7 +22,6 @@ final class Prognose_PrognosisWindowCharacterizationTest extends TestCase
             ->newInstanceWithoutConstructor();
         $modelFactoryProperty = new \ReflectionProperty(Prognose_PrognosisWindow::class, 'modelFactory');
         $modelFactoryProperty->setValue($this->window, new PrognoseCalculatorModelFactory());
-
     }
 
     #[DataProvider('provideMetricDistanceValues')]

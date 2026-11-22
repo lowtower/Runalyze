@@ -53,7 +53,9 @@ class Prognose_PrognosisWindow
 
     protected DistanceUnitSystem $UnitSystem;
 
-    /** @var array<string, mixed> */
+    /**
+     * @var array<string, mixed>
+     */
     protected array $Input = [];
 
     /**
@@ -89,7 +91,7 @@ class Prognose_PrognosisWindow
             $this->submittedInput,
             $TopResults,
             $this->distances,
-            (float) $CurrentShape,
+            $CurrentShape,
             (int) BasicEndurance::getConst(),
             $this->UnitSystem
         );

@@ -622,7 +622,10 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $installationManager->install('RunalyzePluginPanel_Prognose');
 
         $originalPost = $_POST;
-        $_POST = ['model' => 'robert-bock', 'distances' => '999'];
+        $_POST = [
+            'model' => 'robert-bock',
+            'distances' => '999',
+        ];
 
         try {
             $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.php');
@@ -631,7 +634,10 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             $content = (string) $this->Client->getResponse()->getContent();
             $this->assertStringContainsString('id="prognosis-calculator"', $content);
             $this->assertStringNotContainsString('value="999"', $content);
-            $this->assertSame(['model' => 'robert-bock', 'distances' => '999'], $_POST);
+            $this->assertSame([
+                'model' => 'robert-bock',
+                'distances' => '999',
+            ], $_POST);
         } finally {
             $_POST = $originalPost;
         }

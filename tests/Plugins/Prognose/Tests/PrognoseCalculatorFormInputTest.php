@@ -25,7 +25,7 @@ final class PrognoseCalculatorFormInputTest extends TestCase
 
         $this->assertSame('vo2max', $input['model']);
         $this->assertSame('5, 10, 21.1', $input['distances']);
-        $this->assertSame(48.5, $input['vo2max']);
+        $this->assertEqualsWithDelta(48.5, $input['vo2max'], PHP_FLOAT_EPSILON);
         $this->assertTrue($input['endurance']);
         $this->assertSame(78, $input['endurance-value']);
         $this->assertSame('5.0', $input['best-result-km']);
@@ -39,8 +39,16 @@ final class PrognoseCalculatorFormInputTest extends TestCase
         $input = new PrognoseCalculatorFormInput()->prepare(
             [],
             [
-                ['distance' => 5.0, 's' => 1200, 'time' => 1740000000],
-                ['distance' => 10.0, 's' => 2550, 'time' => 1740000001],
+                [
+                    'distance' => 5.0,
+                    's' => 1200,
+                    'time' => 1740000000,
+                ],
+                [
+                    'distance' => 10.0,
+                    's' => 2550,
+                    'time' => 1740000001,
+                ],
             ],
             [5, 10],
             50.0,
@@ -49,10 +57,10 @@ final class PrognoseCalculatorFormInputTest extends TestCase
         );
 
         $this->assertSame('3.11, 6.21', $input['distances']);
-        $this->assertSame(5.0, $input['best-result-km']);
-        $this->assertSame(10.0, $input['second-best-result-km']);
-        $this->assertStringContainsString('20:00', $input['best-result-time']);
-        $this->assertStringContainsString('42:30', $input['second-best-result-time']);
+        $this->assertEqualsWithDelta(5.0, $input['best-result-km'], PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(10.0, $input['second-best-result-km'], PHP_FLOAT_EPSILON);
+        $this->assertStringContainsString('20:00', (string) $input['best-result-time']);
+        $this->assertStringContainsString('42:30', (string) $input['second-best-result-time']);
     }
 
     public function testNormalizesSubmittedImperialReferenceDistances(): void
@@ -75,8 +83,8 @@ final class PrognoseCalculatorFormInputTest extends TestCase
 
         $this->assertSame('robert-bock', $input['model']);
         $this->assertSame('3.1, 6.2', $input['distances']);
-        $this->assertSame(4.99, $input['best-result-km']);
-        $this->assertSame(9.98, $input['second-best-result-km']);
+        $this->assertEqualsWithDelta(4.99, $input['best-result-km'], PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(9.98, $input['second-best-result-km'], PHP_FLOAT_EPSILON);
         $this->assertArrayNotHasKey('endurance', $input);
     }
 
@@ -84,7 +92,9 @@ final class PrognoseCalculatorFormInputTest extends TestCase
     {
         $input = new PrognoseCalculatorFormInput()->prepare(
             [
-                'model' => ['unexpected' => 'value'],
+                'model' => [
+                    'unexpected' => 'value',
+                ],
                 'distances' => '5, invalid',
                 'best-result-km' => ['invalid'],
                 'endurance' => ['invalid'],
@@ -98,7 +108,7 @@ final class PrognoseCalculatorFormInputTest extends TestCase
 
         $this->assertSame('vo2max', $input['model']);
         $this->assertSame('5, 10', $input['distances']);
-        $this->assertSame(0.0, $input['best-result-km']);
+        $this->assertEqualsWithDelta(0.0, $input['best-result-km'], PHP_FLOAT_EPSILON);
         $this->assertArrayNotHasKey('endurance', $input);
     }
 
@@ -109,7 +119,9 @@ final class PrognoseCalculatorFormInputTest extends TestCase
 
         foreach (['-5', '0', '1e999', '1, 0'] as $invalidDistances) {
             $input = $service->prepare(
-                ['distances' => $invalidDistances],
+                [
+                    'distances' => $invalidDistances,
+                ],
                 [],
                 [5, 10],
                 50.0,
