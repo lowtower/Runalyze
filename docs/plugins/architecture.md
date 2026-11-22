@@ -177,9 +177,13 @@ for constructing the four prediction models and uses an account-scoped
 personal-best provider. Legacy form identifiers are mapped at the window
 boundary; one reference result is sufficient for Steffny and Cameron. The calculator now delegates model selection and input conversion to
 `PrognoseCalculatorModelFactory`, which reuses the existing `PrognosisModel`
-instead of implementing prognosis formulas. The legacy window still owns POST
-state, distance-unit conversion, HTML fieldsets and the result table; those
-boundaries remain for subsequent migration.
+instead of implementing prognosis formulas. The calculator route now passes submitted values from Symfony's Request to
+`PrognoseCalculatorFormInput`, which supplies GET defaults, handles distance-unit
+conversion and filters malformed request fields. The legacy window stores
+form state locally instead of reading global `$_POST` for calculations. A scoped
+POST bridge remains only while rendering old `Formular` components and restores
+the original global after rendering. The HTML fieldsets and result table still
+require migration; the existing route and AJAX contract are retained.
 The trend window now loads its official race-result series through the
 account-scoped `RaceresultRepository` instead of direct SQL and a cache key
 shared across accounts. The training-history query also comes from the
