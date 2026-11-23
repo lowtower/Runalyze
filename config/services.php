@@ -545,9 +545,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(Feed::class);
 
-    $services->set('app.http_client', Client::class);
+    $services->set(Client::class);
 
-    $services->alias(Client::class, 'app.http_client');
+    $services->alias('app.http_client', Client::class);
 
     $services->set('app.file_converter.fit', FitConverter::class)
         ->arg('$PathToPerl', '%app.perl_path%')
