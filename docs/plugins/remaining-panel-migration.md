@@ -74,9 +74,12 @@ them under `plugins/` as though they were panels would break their lifecycle.
    and its Symfony BasicEndurance configuration. The legacy plot remains
    unchanged. A standalone `RechenspieleShapePlotRenderer` now retains the
    legacy series, axis configuration, colors and plot ID using the existing
-   `Plot` implementation. Activating it through the Symfony window route,
-   verifying timezone parity in the live legacy environment, and preserving
-   historical maxima persistence remain follow-ups.
+   `Plot` implementation. The staged `RechenspieleShapePlotDateRange`
+   now provides validated period boundaries, warmup and daily array indices
+   for all years, recent windows and individual years, including DST-safe
+   calendar arithmetic. Activating the pipeline through the Symfony window
+   route, verifying database timezone parity against the live legacy output,
+   and preserving historical maxima persistence remain follow-ups.
 5. **Calculations administration:** migrate the four existing configuration
    keys, provide modern metadata, and remove the final panel directory.
 6. **Final audit:** verify no `plugin/RunalyzePluginPanel_*` directories
