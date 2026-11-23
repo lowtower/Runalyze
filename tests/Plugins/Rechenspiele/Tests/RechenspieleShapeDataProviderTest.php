@@ -117,8 +117,8 @@ final class RechenspieleShapeDataProviderTest extends TestCase
             false
         );
 
-        $this->assertSame([5.0, 10.0, 0.0, 0.0, 0.0], $result['trimp']);
-        $this->assertSame([0.0, 4.0, 0.0, 0.0, 0.0], $result['distance']);
+        $this->assertSame([5.0, 10.0, 0.0, 0.0], $result['trimp']);
+        $this->assertSame([0.0, 4.0, 0.0, 0.0], $result['distance']);
     }
 
     public function testRejectsAnInvertedDateRangeWithoutQueryingDatabase(): void
