@@ -121,6 +121,63 @@ class TrainingRepository extends ServiceEntityRepository
     }
 
     /**
+     * Fetch bounded shape-plot inputs for one account, preserving the legacy
+     * duration-weighted VO2max calculation and including TRIMP from all sports.
+     *
+     * @return list<array{
+     *     day: string,
+     *     trimp: float,
+     *     distance: float,
+     *     vo2max_weighted: float,
+     *     vo2max_sum_time: float,
+     *     is_running: bool
+     * }>
+     */
+    public function findShapePlotTrainingData(
+        Account $account,
+        int $runningSportId,
+        int $fromTimestamp,
+        int $toTimestamp,
+        bool $withElevation
+    ): array {
+        $vo2maxColumn = $withElevation ? 'vo2maxWithElevation' : 'vo2max';
+
+        $rows = $this->createQueryBuilder('t')
+            ->select('t.time AS time, t.trimp AS trimp, t.distance AS distance')
+            ->addSelect('t.s AS duration, t.useVO2max AS useVO2max')
+            ->addSelect('t.' . $vo2maxColumn . ' AS vo2max')
+            ->addSelect('IDENTITY(t.sport) AS sport_id')
+            ->where('t.account = :account')
+            ->andWhere('t.time BETWEEN :fromTimestamp AND :toTimestamp')
+            ->setParameter('account', $account)
+            ->setParameter('fromTimestamp', $fromTimestamp)
+            ->setParameter('toTimestamp', $toTimestamp)
+            ->orderBy('t.time', \SortDirection::Ascending)
+            ->getQuery()
+            ->toIterable();
+
+        $result = [];
+
+        foreach ($rows as $row) {
+            $isRunning = (int) $row['sport_id'] === $runningSportId;
+            $duration = (float) ($row['duration'] ?? 0);
+            $vo2max = (float) ($row['vo2max'] ?? 0);
+            $useVO2max = (bool) $row['useVO2max'];
+
+            $result[] = [
+                'day' => gmdate('Y-m-d', (int) $row['time']),
+                'trimp' => (float) ($row['trimp'] ?? 0),
+                'distance' => (float) ($row['distance'] ?? 0),
+                'vo2max_weighted' => $isRunning && $useVO2max ? $vo2max * $duration : 0.0,
+                'vo2max_sum_time' => $isRunning && $useVO2max && $vo2max > 0 ? $duration : 0.0,
+                'is_running' => $isRunning,
+            ];
+        }
+
+        return $result;
+    }
+
+    /**
      * Return training rows for the prognosis trend, preserving the legacy
      * VO2max duration weighting and ordering by activity date.
      *

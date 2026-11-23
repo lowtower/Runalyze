@@ -54,6 +54,8 @@ them under `plugins/` as though they were panels would break their lifecycle.
    `lasthalf` and `tsb`. Next, move the explanation fieldsets and shape plot
    from the Rechenspiele PHP includes to dedicated modern services/templates.
    Retain their URLs and model/time-range selections.
+   A new account-scoped repository method provides bounded plot activity
+   inputs but is not active in the legacy chart yet.
 5. **Calculations administration:** migrate the four existing configuration
    keys, provide modern metadata, and remove the final panel directory.
 6. **Final audit:** verify no `plugin/RunalyzePluginPanel_*` directories
