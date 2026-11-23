@@ -107,7 +107,6 @@ final class RechenspieleShapeSeriesCalculatorTest extends TestCase
         $this->assertSame(max(1, $model->maxFitness()), $result['max_ctl']);
     }
 
-    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testRejectsInvalidModelAndIncompleteDailyHistory(): void
     {
         foreach (['other', 'TSB'] as $model) {
