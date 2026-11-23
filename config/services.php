@@ -511,8 +511,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$RaceresultRepository', service(RaceresultRepository::class))
         ->arg('$projectDir', '%kernel.project_dir%');
 
-    $services->alias('app.poster.generate_json', GenerateJsonData::class);
-
     $services->set(GeneratePoster::class)
         ->arg('$projectDir', '%kernel.project_dir%')
         ->arg('$Python3Path', '%app.python3_path%')
@@ -538,7 +536,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$logger', service('monolog.logger.queue'))
         ->arg('$accountRepository', service(AccountRepository::class))
         ->arg('$sportRepository', service(SportRepository::class))
-        ->arg('$generateJsonData', service('app.poster.generate_json'))
+        ->arg('$generateJsonData', service(GenerateJsonData::class))
         ->arg('$generatePoster', service(GeneratePoster::class))
         ->arg('$fileHandler', service(FileHandler::class))
         ->arg('$stateResolver', service(PosterGenerationStateResolver::class))
