@@ -70,8 +70,11 @@ them under `plugins/` as though they were panels would break their lifecycle.
    weighted long-jog points and preceding mileage windows, delegating the
    percentage calculation to the existing `Runalyze\\Sports\\Running\\MarathonShape`
    and its Symfony BasicEndurance configuration. The legacy plot remains
-   unchanged; integrating the full plot rendering, timezone parity and
-   persistence of updated historical maxima are still follow-ups.
+   unchanged. A standalone `RechenspieleShapePlotRenderer` now retains the
+   legacy series, axis configuration, colors and plot ID using the existing
+   `Plot` implementation. Activating it through the Symfony window route,
+   reconciling timezone boundaries, and preserving historical maxima
+   persistence remain follow-ups.
 5. **Calculations administration:** migrate the four existing configuration
    keys, provide modern metadata, and remove the final panel directory.
 6. **Final audit:** verify no `plugin/RunalyzePluginPanel_*` directories
