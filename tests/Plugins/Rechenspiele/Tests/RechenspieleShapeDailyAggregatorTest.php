@@ -64,6 +64,17 @@ final class RechenspieleShapeDailyAggregatorTest extends TestCase
         $this->assertSame([20.0, 0.0], $result['vo2max_sum_time']);
     }
 
+    public function testUsesStartCalendarDateAcrossTimezones(): void
+    {
+        $startDay = new DateTimeImmutable('2026-11-21 00:00:00', new DateTimeZone('Europe/Berlin'));
+
+        $result = $this->aggregator()->aggregate([
+            $this->activity('2026-11-21', 12.0),
+        ], $startDay, 1, 0, 10.0);
+
+        $this->assertSame([0.0, 12.0, 0.0], $result['trimp']);
+    }
+
     public function testReturnsZeroFilledArraysForMissingTraining(): void
     {
         $result = $this->aggregator()->aggregate([], $this->day('2026-11-21'), 2, 1, 10.0);
