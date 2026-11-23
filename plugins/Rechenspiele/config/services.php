@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Runalyze\Plugins\Rechenspiele\RechenspielePanelPresenter;
 use Runalyze\Plugins\Rechenspiele\RechenspieleShapeDailyAggregator;
+use Runalyze\Plugins\Rechenspiele\RechenspieleShapeSeriesCalculator;
 use Runalyze\Plugins\Rechenspiele\RechenspieleShapeDataProvider;
 use Runalyze\Plugins\Rechenspiele\RechenspieleTrainingLoadCalculator;
 use Runalyze\Plugins\Rechenspiele\RechenspieleTrimpDataProvider;
@@ -23,7 +24,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(RechenspieleTrainingLoadCalculator::class);
     $services->set(RechenspieleShapeDailyAggregator::class);
     $services->set(RechenspieleShapeDataProvider::class);
-
+    $services->set(RechenspieleShapeSeriesCalculator::class);
 
     $services->set(RechenspieleTrimpDataProvider::class)
         ->autowire()
