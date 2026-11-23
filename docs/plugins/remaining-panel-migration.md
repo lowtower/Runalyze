@@ -9,7 +9,7 @@ Only two legacy panel directories remain:
 
 | Stable installation key | Legacy directory | Modern implementation | Remaining work |
 | --- | --- | --- | --- |
-| `RunalyzePluginPanel_Ziele` | `plugin/RunalyzePluginPanel_Ziele/` | `plugins/Goals/` (calendar, account-scoped totals, progress calculator) | Wire modern totals into goal calculations, configuration persistence, Twig view, metadata and removal of legacy panel |
+| `RunalyzePluginPanel_Ziele` | `plugin/RunalyzePluginPanel_Ziele/` | `plugins/Goals/` (calendar, totals, progress calculator, staged presenter) | Wire modern totals into goal calculations, configuration persistence, Twig view, metadata and removal of legacy panel |
 | `RunalyzePluginPanel_Rechenspiele` | `plugin/RunalyzePluginPanel_Rechenspiele/` | `plugins/Rechenspiele/` (dashboard presenter, data provider, calculator) | Migrate configuration fields and explanation/plot windows, remove the old class and PHP includes |
 
 The `RunalyzePluginStat_*` directories are **statistics plugins**, not panels.
@@ -43,6 +43,12 @@ them under `plugins/` as though they were panels would break their lifecycle.
    SQL path remains until a modern presenter wires the provider into a
    plugin-owned Twig template. Preserve the existing five time ranges and
    legacy layout during the subsequent presentation migration.
+   A staged `GoalsPanelPresenter` now assembles account-scoped ranges and
+   progress rows from these services, respecting `ziel_show_*`, `ziel_*`
+   and `details` without reading global session state. It is deliberately
+   registered without the `runalyze.modern_panel` tag: dashboard routing
+   must not switch until its Twig template and modern configuration editor
+   are complete and tested.
 3. **Goals administration:** implement metadata and configuration interfaces,
    preserving `ziel_show_*`, `ziel_*`, and `details` keys. Remove the
    legacy class and characterize the new presenter/configuration behavior.
