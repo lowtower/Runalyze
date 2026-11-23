@@ -63,7 +63,11 @@ them under `plugins/` as though they were panels would break their lifecycle.
    account-scoped repository, validates date ranges, and applies UTC calendar
    boundaries including warmup days. It is intentionally not used by the
    existing PHP plot window yet: verify legacy database-timezone semantics
-   before activating the new data path and implementing the plot calculation.
+   before activating the new data path. A staged
+   `RechenspieleShapeSeriesCalculator` now reuses the existing TSB/Banister
+   models to calculate ATL, CTL, TSB, TRIMP and rolling/daily VO2max series.
+   The marathon shape series, plot renderer, and persistence of updated
+   historical maxima still need migration; the legacy plot is unchanged.
 5. **Calculations administration:** migrate the four existing configuration
    keys, provide modern metadata, and remove the final panel directory.
 6. **Final audit:** verify no `plugin/RunalyzePluginPanel_*` directories
