@@ -43,7 +43,7 @@ final readonly class RechenspieleShapeDailyAggregator
         $vo2maxSumTime = array_fill(0, $length, 0.0);
         $longjogs = array_fill(0, $length, []);
 
-        $start = $startDay->setTimezone(new DateTimeZone('UTC'))->setTime(0, 0);
+        $start = new DateTimeImmutable($startDay->format('Y-m-d'), new DateTimeZone('UTC'));
 
         foreach ($activities as $activity) {
             $day = DateTimeImmutable::createFromFormat('!Y-m-d', $activity['day'], new DateTimeZone('UTC'));
