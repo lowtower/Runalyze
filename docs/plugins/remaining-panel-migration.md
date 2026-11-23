@@ -48,7 +48,9 @@ them under `plugins/` as though they were panels would break their lifecycle.
    and `details` without reading global session state. It is deliberately
    registered without the `runalyze.modern_panel` tag: dashboard routing
    must not switch until its Twig template and modern configuration editor
-   are complete and tested.
+   are complete and tested. The staged `@Goals/panel.html.twig` now preserves
+   legacy range toggling, progress rows, and Pace Bunny bars. Its namespace is
+   registered, but the panel is still not tagged for modern dashboard routing.
 3. **Goals administration:** implement metadata and configuration interfaces,
    preserving `ziel_show_*`, `ziel_*`, and `details` keys. Remove the
    legacy class and characterize the new presenter/configuration behavior.

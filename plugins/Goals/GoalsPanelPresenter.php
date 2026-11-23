@@ -43,7 +43,7 @@ final readonly class GoalsPanelPresenter implements ModernPanelInterface
     }
 
     /**
-     * @return array{ranges: list<array{key: string, name: string, start: string, end: string, rows: list<array<string, int|float|string|bool|null>>}>, show_details: bool}
+     * @return array{ranges: list<array{key: string, name: string, start: string, end: string, duration_days: int, rows: list<array<string, int|float|string|bool|null>>}>, show_details: bool}
      *
      * @throws InvalidArgumentException if the panel installation is not available for the account
      */
@@ -88,6 +88,7 @@ final readonly class GoalsPanelPresenter implements ModernPanelInterface
                 'name' => $range['name'],
                 'start' => $range['start']->format('d.m.Y'),
                 'end' => $range['end']->format('d.m.Y'),
+                'duration_days' => 1 + (int) $range['start']->diff($range['end'])->format('%a'),
                 'rows' => $this->calculator->calculate(
                     $range['start'],
                     $range['end'],

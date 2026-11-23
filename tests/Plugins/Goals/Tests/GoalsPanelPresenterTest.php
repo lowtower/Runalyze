@@ -42,6 +42,7 @@ final class GoalsPanelPresenterTest extends TestCase
         $this->assertSame('Week', $result['ranges'][0]['name']);
         $this->assertSame('16.11.2026', $result['ranges'][0]['start']);
         $this->assertSame('22.11.2026', $result['ranges'][0]['end']);
+        $this->assertSame(7, $result['ranges'][0]['duration_days']);
         $this->assertSame('Current', $result['ranges'][0]['rows'][0]['name']);
         $this->assertNotContains('Goal', array_column($result['ranges'][0]['rows'], 'name'));
     }
