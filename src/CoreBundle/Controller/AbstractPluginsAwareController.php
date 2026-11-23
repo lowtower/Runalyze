@@ -9,21 +9,17 @@ use InvalidArgumentException;
 use Plugin as LegacyPlugin;
 use PluginPanel;
 use PluginType;
-use Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisData;
-use Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisSelection;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
-use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRequestHandlerInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\LegacyContentResponseFactory;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
-use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
-use Runalyze\Bundle\CoreBundle\Twig\ValueExtension;
-use RunalyzePluginStat_MonthlyStats;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,7 +42,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
         protected PluginSettingsProvider $pluginSettingsProvider,
         protected ModernPanelRegistry $modernPanelRegistry,
         protected ConfigurationManager $configurationManager,
-        protected SportSelectionFactory $sportSelectionFactory,
+        protected ModernStatisticsRegistry $modernStatisticsRegistry,
         protected TokenStorageInterface $tokenStorage,
         protected ParameterBagInterface $parameterBag,
         protected RequestStack $requestStack
@@ -79,7 +75,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
             }
 
             $panel = $this->pluginSettingsProvider->getInstalledPluginById($pluginData['id']);
-            $panelContent = $this->getResponseForPlugin($panel, $request, $account)->getContent();
+            $panelContent = $this->getResponseForPlugin($panel)->getContent();
 
             $content .= $panelContent;
         }
@@ -103,6 +99,14 @@ abstract class AbstractPluginsAwareController extends AbstractController
             return $this->getResponseForModernPanel($account, $installation, $request);
         }
 
+        if ($installation instanceof PluginInstallation && $installation->isStatistic()) {
+            $statistic = $this->modernStatisticsRegistry->find($installation->getKey());
+
+            if ($statistic instanceof ModernStatisticsInterface) {
+                return $this->render($statistic->getTemplate(), $statistic->present($account, $installation, $request->query));
+            }
+        }
+
         $content = '';
 
         try {
@@ -116,7 +120,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
             return new Response()->setContent($content);
         }
 
-        return $this->getResponseForPlugin($plugin, $request, $account);
+        return $this->getResponseForPlugin($plugin);
     }
 
     /**
@@ -140,12 +144,8 @@ abstract class AbstractPluginsAwareController extends AbstractController
     /**
      * @throws Throwable if a legacy plugin throws
      */
-    protected function getResponseForPlugin(LegacyPlugin $plugin, Request $request, Account $account): Response
+    protected function getResponseForPlugin(LegacyPlugin $plugin): Response
     {
-        if ($plugin instanceof RunalyzePluginStat_MonthlyStats) {
-            return $this->getResponseForMonthlyStats($request, $account, $plugin->id());
-        }
-
         if ($plugin instanceof PluginPanel) {
             $plugin->setSurroundingDivVisible($this->IsShowingAllPanels);
         }
@@ -169,29 +169,5 @@ abstract class AbstractPluginsAwareController extends AbstractController
     protected function instantiatePluginByKey(string $pluginKey): LegacyPlugin
     {
         return $this->pluginSettingsProvider->getInstalledPluginByKey($pluginKey);
-    }
-
-    protected function getResponseForMonthlyStats(Request $request, Account $account, int $pluginId): Response
-    {
-        $valueExtension = new ValueExtension($this->configurationManager);
-        $sportSelection = $this->sportSelectionFactory->getSelection($request->query->get('sport'));
-        $analysisList = new AnalysisSelection($request->query->get('dat'));
-
-        if (! $analysisList->hasCurrentKey()) {
-            $analysisList->setCurrentKey(AnalysisSelection::DISTANCE);
-        }
-
-        $analysisData = new AnalysisData(
-            $sportSelection,
-            $analysisList,
-            $this->doctrine->getRepository(Training::class),
-            $account
-        );
-        $analysisData->setValueExtension($valueExtension);
-
-        return $this->render('my/statistics/monthly-stats/base.html.twig', [
-            'pluginId' => $pluginId,
-            'analysisData' => $analysisData,
-        ]);
     }
 }

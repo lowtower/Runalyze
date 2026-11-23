@@ -14,6 +14,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Form\FeedbackType;
 use Runalyze\Bundle\CoreBundle\Form\RegistrationType;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
 use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
 use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
@@ -26,7 +27,6 @@ use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
-use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\Calculation\BasicEndurance;
 use Runalyze\Configuration;
@@ -73,7 +73,7 @@ class DefaultController extends AbstractPluginsAwareController
         ParameterBagInterface $parameterBag,
         private readonly AccountMailer $accountMailer,
         ConfigurationManager $configurationManager,
-        SportSelectionFactory $sportSelectionFactory,
+        ModernStatisticsRegistry $modernStatisticsRegistry,
         RequestStack $requestStack
     ) {
         parent::__construct(
@@ -84,7 +84,7 @@ class DefaultController extends AbstractPluginsAwareController
             $pluginSettingsProvider,
             $modernPanelRegistry,
             $configurationManager,
-            $sportSelectionFactory,
+            $modernStatisticsRegistry,
             $tokenStorage,
             $parameterBag,
             $requestStack
@@ -133,14 +133,18 @@ class DefaultController extends AbstractPluginsAwareController
         if ($statistics->activityId !== null) {
             $trainingView = new TrainingView(new ActivityContext($statistics->activityId, SessionAccountHandler::getId()));
             $content = $this->renderView('activity/training_view.html.twig', $trainingView->templateData());
-        } elseif ($statistics->plugin instanceof Plugin) {
+        } elseif ($statistics->plugin !== null) {
+            assert($account instanceof Account);
             $fragmentRequest = $request->duplicate();
             $fragmentRequest->headers->set('X-Requested-With', 'XMLHttpRequest');
 
             $this->requestStack->push($fragmentRequest);
 
             try {
-                $content = $this->getResponseForPlugin($statistics->plugin, $fragmentRequest, $account)->getContent() ?: '';
+                $response = $statistics->plugin instanceof Plugin
+                    ? $this->getResponseForPlugin($statistics->plugin)
+                    : $this->getResponseFor($statistics->plugin, $fragmentRequest, $account);
+                $content = $response->getContent() ?: '';
             } finally {
                 $this->requestStack->pop();
             }

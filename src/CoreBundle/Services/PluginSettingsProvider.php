@@ -14,6 +14,8 @@ use PluginType;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelConfigurationInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
 
 final readonly class PluginSettingsProvider
 {
@@ -21,7 +23,8 @@ final readonly class PluginSettingsProvider
         private PluginInstallationManager $installationManager,
         private LegacyPluginInstantiator $pluginInstantiator,
         private PluginDiscovery $pluginDiscovery,
-        private ?ModernPanelRegistry $modernPanelRegistry = null
+        private ?ModernPanelRegistry $modernPanelRegistry = null,
+        private ?ModernStatisticsRegistry $modernStatisticsRegistry = null
     ) {}
 
     /**
@@ -49,6 +52,25 @@ final readonly class PluginSettingsProvider
                 continue;
             }
 
+            $statistic = $data['type'] === PluginType::string(PluginType::STAT)
+                ? $this->modernStatisticsRegistry?->find($data['key'])
+                : null;
+
+            if ($statistic instanceof ModernStatisticsInterface) {
+                $entries[] = [
+                    'id' => $data['id'],
+                    'key' => $data['key'],
+                    'name' => $statistic->getName(),
+                    'description' => $statistic->getDescription(),
+                    'type' => PluginType::STAT,
+                    'active' => $data['active'],
+                    'order' => $data['order'],
+                    'config_link' => null,
+                ];
+
+                continue;
+            }
+
             $modern = $this->modernPanelMetadataFor($data['key']);
 
             if ($modern instanceof \Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface) {
@@ -71,7 +93,7 @@ final readonly class PluginSettingsProvider
                 continue;
             }
 
-            $legacy = $this->pluginInstantiator->instantiate($data['key'], $data['id'], $data);
+            $legacy = $this->instantiateLegacyPlugin($data);
             $entries[] = [
                 'id' => $legacy->id(),
                 'key' => $legacy->key(),
@@ -97,6 +119,19 @@ final readonly class PluginSettingsProvider
 
         foreach ($this->pluginDiscovery->findAvailablePluginKeys() as $key) {
             if (in_array($key, $installed, true)) {
+                continue;
+            }
+
+            $statistic = $this->modernStatisticsRegistry?->find($key);
+
+            if ($statistic instanceof ModernStatisticsInterface) {
+                $entries[] = [
+                    'key' => $key,
+                    'name' => $statistic->getName(),
+                    'description' => $statistic->getDescription(),
+                    'type' => PluginType::STAT,
+                ];
+
                 continue;
             }
 
@@ -148,7 +183,11 @@ final readonly class PluginSettingsProvider
                 continue;
             }
 
-            $plugins[] = $this->pluginInstantiator->instantiate($data['key'], $data['id'], $data);
+            if ($this->modernStatisticsRegistry?->find($data['key']) instanceof ModernStatisticsInterface) {
+                continue;
+            }
+
+            $plugins[] = $this->instantiateLegacyPlugin($data);
         }
 
         return $plugins;
@@ -166,10 +205,22 @@ final readonly class PluginSettingsProvider
                 continue;
             }
 
-            $plugins[] = $this->pluginInstantiator->instantiate($data['key'], $data['id'], $data);
+            if ($this->modernStatisticsRegistry?->find($data['key']) instanceof ModernStatisticsInterface) {
+                continue;
+            }
+
+            $plugins[] = $this->instantiateLegacyPlugin($data);
         }
 
         return $plugins;
+    }
+
+    /**
+     * @param array{id: int, key: string, type: string, active: int, order: int} $data
+     */
+    public function instantiateLegacyPlugin(array $data): Plugin
+    {
+        return $this->pluginInstantiator->instantiate($data['key'], $data['id'], $data);
     }
 
     /**
@@ -180,7 +231,7 @@ final readonly class PluginSettingsProvider
     {
         foreach ($this->getInstalledPluginData() as $data) {
             if ($data['id'] === $id) {
-                return $this->pluginInstantiator->instantiate($data['key'], $id, $data);
+                return $this->instantiateLegacyPlugin($data);
             }
         }
 
@@ -195,7 +246,7 @@ final readonly class PluginSettingsProvider
     {
         foreach ($this->getInstalledPluginData() as $data) {
             if ($data['key'] === $key) {
-                return $this->pluginInstantiator->instantiate($key, $data['id'], $data);
+                return $this->instantiateLegacyPlugin($data);
             }
         }
 
@@ -211,7 +262,7 @@ final readonly class PluginSettingsProvider
         $plugins = [];
 
         foreach ($this->pluginDiscovery->findAvailablePluginKeys() as $key) {
-            if (! in_array($key, $installedKeys, true)) {
+            if (! in_array($key, $installedKeys, true) && ! $this->modernStatisticsRegistry?->find($key) instanceof ModernStatisticsInterface) {
                 $plugins[] = $this->pluginInstantiator->instantiate($key, PluginInstaller::ID);
             }
         }
