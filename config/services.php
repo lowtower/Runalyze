@@ -616,8 +616,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'channel' => 'external_services',
         ]);
 
-    $services->alias('app.weather_forecast.meteostatnet', MeteostatNet::class);
-
     $services->set('app.weather_forecast.cache', DatabaseCache::class)
         ->arg('$Cache', service(WeathercacheRepository::class));
 
@@ -626,7 +624,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set('app.weather_forecast', WeatherForecast::class)
         ->arg('$cache', service('app.weather_forecast.cache'))
         ->arg('$openWeatherMap', service(OpenWeatherMap::class))
-        ->arg('$meteostatNet', service('app.weather_forecast.meteostatnet'))
+        ->arg('$meteostatNet', service(MeteostatNet::class))
         ->arg('$DatabaseCache', service(WeathercacheRepository::class));
 
     $services->alias(WeatherForecast::class, 'app.weather_forecast');
