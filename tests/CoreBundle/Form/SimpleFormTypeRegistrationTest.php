@@ -6,6 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Form;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
+use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList;
 use Runalyze\Bundle\CoreBundle\Form\ActivityType;
 use Runalyze\Bundle\CoreBundle\Form\BodyValuesType;
 use Runalyze\Bundle\CoreBundle\Form\EquipmentCategoryType;
@@ -20,9 +21,16 @@ use Runalyze\Bundle\CoreBundle\Form\Tools\TrendAnalysis\TrendAnalysisType;
 use Runalyze\Bundle\CoreBundle\Form\Type\ActivityEquipmentType;
 use Runalyze\Bundle\CoreBundle\Form\Type\ActivityLapIntensityChoiceType;
 use Runalyze\Bundle\CoreBundle\Form\Type\ActivityTypeChoiceType;
+use Runalyze\Bundle\CoreBundle\Form\Type\DistanceType;
+use Runalyze\Bundle\CoreBundle\Form\Type\ElevationType;
+use Runalyze\Bundle\CoreBundle\Form\Type\EnergyType;
 use Runalyze\Bundle\CoreBundle\Form\Type\HrZoneBoundType;
 use Runalyze\Bundle\CoreBundle\Form\Type\SportChoiceType;
+use Runalyze\Bundle\CoreBundle\Form\Type\TemperatureType;
+use Runalyze\Bundle\CoreBundle\Form\Type\WeightType;
+use Runalyze\Bundle\CoreBundle\Form\Type\WindSpeedType;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormRegistryInterface;
 
 #[Group('requiresKernel')]
@@ -36,6 +44,28 @@ final class SimpleFormTypeRegistrationTest extends KernelTestCase
         $registry = self::getContainer()->get(FormRegistryInterface::class);
 
         $this->assertInstanceOf($type, $registry->getType($type)->getInnerType());
+    }
+
+    public function testUnitFormTypesDisplayTheirNamedUnits(): void
+    {
+        self::bootKernel();
+
+        /** @var FormFactoryInterface $formFactory */
+        $formFactory = self::getContainer()->get('form.factory');
+        $units = new RunalyzeConfigurationList()->getUnitSystem();
+
+        foreach ([
+            DistanceType::class => $units->getDistanceUnit(),
+            ElevationType::class => $units->getElevationUnit(),
+            EnergyType::class => $units->getEnergyUnit(),
+            TemperatureType::class => $units->getTemperatureUnit(),
+            WeightType::class => $units->getWeightUnit(),
+            WindSpeedType::class => $units->getWindSpeedUnit(),
+        ] as $formType => $unit) {
+            $view = $formFactory->create($formType, 1)->createView();
+
+            $this->assertSame($unit->getAppendix(), $view->vars['input_unit'], $formType);
+        }
     }
 
     public static function formTypes(): iterable

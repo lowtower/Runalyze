@@ -6,6 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Form\Type;
 
 use Runalyze\Metrics\Temperature\Unit\AbstractTemperatureUnit;
 use Runalyze\Metrics\Temperature\Unit\Fahrenheit;
+use Symfony\Component\DependencyInjection\Attribute\Target;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 
@@ -14,7 +15,7 @@ class TemperatureType extends AbstractUnitBasedType
     #[\Override]
     protected int $ViewPrecision = 0;
 
-    public function __construct(AbstractTemperatureUnit $temperatureUnit, int $modelPrecision = 0)
+    public function __construct(#[Target('temperatureUnit')] AbstractTemperatureUnit $temperatureUnit, int $modelPrecision = 0)
     {
         $this->ModelPrecision = $modelPrecision;
 
