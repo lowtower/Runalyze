@@ -554,7 +554,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(TtbinConverter::class)
         ->arg('$PathToConverter', '%kernel.project_dir%/%app.ttbin_path%');
 
-    $services->set('app.file_importer', FileImporter::class)
+    $services->set(FileImporter::class)
         ->arg('$fitConverter', service(FitConverter::class))
         ->arg('$ttbinConverter', service(TtbinConverter::class))
         ->arg('$DirectoryForFailedImports', '%app.data_directory%/import/activity/failed')
@@ -562,8 +562,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->tag('monolog.logger', [
             'channel' => 'activity_uploads',
         ]);
-
-    $services->alias(FileImporter::class, 'app.file_importer');
 
     $services->set(ActivityDataContainerToActivityContextConverter::class);
 
