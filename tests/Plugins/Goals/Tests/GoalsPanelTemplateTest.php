@@ -80,7 +80,9 @@ final class GoalsPanelTemplateTest extends TestCase
     {
         $html = $this->twig()->render('@Goals/panel.html.twig', [
             'plugin_id' => 5,
-            'panel_data' => ['ranges' => []],
+            'panel_data' => [
+                'ranges' => [],
+            ],
         ]);
 
         $this->assertStringContainsString('id="bunny"', $html);
@@ -93,7 +95,9 @@ final class GoalsPanelTemplateTest extends TestCase
         $loader = new FilesystemLoader($projectDirectory . '/templates');
         $loader->addPath($projectDirectory . '/plugins/Goals/templates', 'Goals');
 
-        $twig = new Environment($loader, ['strict_variables' => true]);
+        $twig = new Environment($loader, [
+            'strict_variables' => true,
+        ]);
         $twig->addFilter(new TwigFilter('trans', static fn (string $message): string => $message));
         $twig->addFunction(new TwigFunction('url', static fn (string $route, array $parameters = []): string => '/plugin/config?id=' . ($parameters['id'] ?? 0)));
         $twig->addFunction(new TwigFunction('distance', static fn (float $km, mixed $unit = null, int $decimals = 2): string => number_format($km, $decimals) . ' km'));
