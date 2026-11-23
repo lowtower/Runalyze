@@ -597,7 +597,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'channel' => 'external_services',
         ]);
 
-    $services->set('app.weather_forecast.openweathermap', OpenWeatherMap::class)
+    $services->set(OpenWeatherMap::class)
         ->arg('$ApiKey', '%app.openweathermap_api_key%')
         ->arg('$Proxy', '%app.weather_proxy%')
         ->arg('$HttpClient', service(Client::class))
@@ -607,7 +607,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'channel' => 'external_services',
         ]);
 
-    $services->alias(OpenWeatherMap::class, 'app.weather_forecast.openweathermap');
+    $services->alias('app.weather_forecast.openweathermap', OpenWeatherMap::class);
 
     $services->set('app.weather_forecast.meteostatnet', MeteostatNet::class)
         ->arg('$ApiKey', '%app.meteostatnet_api_key%')
