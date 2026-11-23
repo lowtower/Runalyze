@@ -545,8 +545,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(Feed::class);
 
-    $services->alias('app.activity.feed', Feed::class);
-
     $services->set('app.http_client', Client::class);
 
     $services->alias(Client::class, 'app.http_client');
