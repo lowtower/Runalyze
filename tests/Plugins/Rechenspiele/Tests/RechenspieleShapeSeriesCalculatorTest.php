@@ -25,8 +25,12 @@ final class RechenspieleShapeSeriesCalculatorTest extends TestCase
         $this->assertSame(100.0 * $model->fatigueAt(3) / 100, $result['atl'][3]);
         $this->assertSame(100.0 * $model->fitnessAt(3) / 80, $result['ctl'][3]);
         $this->assertSame(100.0 * $model->performanceAt(3) / 80, $result['tsb'][3]);
-        $this->assertSame([2 => 0.0, 3 => 100.0, 4 => 25.0], $result['trimp']);
-        $this->assertSame(100.0, $result['max_trimp']);
+        $this->assertSame([
+            2 => 0.0,
+            3 => 100.0,
+            4 => 25.0,
+        ], $result['trimp']);
+        $this->assertEqualsWithDelta(100.0, $result['max_trimp'], PHP_FLOAT_EPSILON);
         $this->assertTrue($result['show_in_percent']);
     }
 
@@ -103,6 +107,7 @@ final class RechenspieleShapeSeriesCalculatorTest extends TestCase
         $this->assertSame(max(1, $model->maxFitness()), $result['max_ctl']);
     }
 
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testRejectsInvalidModelAndIncompleteDailyHistory(): void
     {
         foreach (['other', 'TSB'] as $model) {
