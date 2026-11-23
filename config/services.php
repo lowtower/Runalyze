@@ -543,9 +543,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$dataDirectory', '%app.data_directory%')
         ->arg('$rsvgPath', '%app.rsvg_path%');
 
-    $services->set('app.activity.feed', Feed::class);
+    $services->set(Feed::class);
 
-    $services->alias(Feed::class, 'app.activity.feed');
+    $services->alias('app.activity.feed', Feed::class);
 
     $services->set('app.http_client', Client::class);
 
