@@ -92,9 +92,6 @@ class LapIntensity extends AbstractEnum
             4 => new self(self::RECOVERY),
             5 => new self(self::INTERVAL),
             6 => new self(self::OTHER),
-            // @codeCoverageIgnoreStart
-            default => throw new \InvalidArgumentException(sprintf('Provided workout_step intensity %s is invalid.', $fitValue)),
-            // @codeCoverageIgnoreEnd
         };
     }
 
