@@ -520,12 +520,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(GeneratePoster::class, 'app.poster.generate_poster');
 
-    $services->set('app.poster.availability', Availability::class)
+    $services->set(Availability::class)
         ->arg('$RsvgPath', '%app.rsvg_path%')
         ->arg('$InkscapePath', '%app.inkscape_path%')
         ->arg('$Python3Path', '%app.python3_path%');
 
-    $services->alias(Availability::class, 'app.poster.availability');
+    $services->alias('app.poster.availability', Availability::class);
 
     $services->set(FileHandler::class)
         ->arg('$DataDir', '%app.data_directory%');
