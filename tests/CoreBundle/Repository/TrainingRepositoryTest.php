@@ -195,7 +195,7 @@ final class TrainingRepositoryTest extends AbstractRepositoryTestCase
             $end,
             true
         );
-        $this->assertSame(180000.0, $elevation[0]['vo2max_weighted']);
+        $this->assertEqualsWithDelta(180000.0, $elevation[0]['vo2max_weighted'], PHP_FLOAT_EPSILON);
 
         $this->assertSame([], $this->TrainingRepository->findShapePlotTrainingData(
             $this->getEmptyAccount(),
