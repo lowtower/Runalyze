@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Runalyze\Plugins\Rechenspiele\Tests;
 
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Plugins\Rechenspiele\RechenspieleShapeSeriesCalculator;
@@ -107,23 +108,13 @@ final class RechenspieleShapeSeriesCalculatorTest extends TestCase
         $this->assertSame(max(1, $model->maxFitness()), $result['max_ctl']);
     }
 
-    public function testRejectsInvalidModelAndIncompleteDailyHistory(): void
-    {
-        foreach (['other', 'TSB'] as $model) {
-            $this->expectInvalidInput([1.0, 2.0], [0.0, 0.0], [0.0, 0.0], $model, 0, 1);
-        }
-
-        $this->expectInvalidInput([1.0, 2.0], [0.0], [0.0, 0.0], 'tsb', 0, 1);
-        $this->expectInvalidInput([1.0, 2.0], [0.0, 0.0], [0.0], 'tsb', 0, 1);
-        $this->expectInvalidInput([1.0, 2.0], [0.0, 0.0], [0.0, 0.0], 'tsb', 0, 2);
-    }
-
     /**
      * @param list<float> $trimp
      * @param list<float> $weighted
      * @param list<float> $durations
      */
-    private function expectInvalidInput(
+    #[DataProvider('invalidInputs')]
+    public function testRejectsInvalidModelAndIncompleteDailyHistory(
         array $trimp,
         array $weighted,
         array $durations,
@@ -131,28 +122,36 @@ final class RechenspieleShapeSeriesCalculatorTest extends TestCase
         int $first,
         int $last
     ): void {
-        try {
-            new RechenspieleShapeSeriesCalculator()->calculate(
-                $trimp,
-                $weighted,
-                $durations,
-                $model,
-                42,
-                7,
-                2,
-                $first,
-                $last,
-                100,
-                80,
-                false,
-                true,
-                1.0
-            );
+        $this->expectException(InvalidArgumentException::class);
 
-            self::fail('Expected invalid input to be rejected.');
-        } catch (InvalidArgumentException) {
-            $this->addToAssertionCount(1);
-        }
+        new RechenspieleShapeSeriesCalculator()->calculate(
+            $trimp,
+            $weighted,
+            $durations,
+            $model,
+            42,
+            7,
+            2,
+            $first,
+            $last,
+            100,
+            80,
+            false,
+            true,
+            1.0
+        );
+    }
+
+    /**
+     * @return iterable<string, array{list<float>, list<float>, list<float>, string, int, int}>
+     */
+    public static function invalidInputs(): iterable
+    {
+        yield 'unknown model' => [[1.0, 2.0], [0.0, 0.0], [0.0, 0.0], 'other', 0, 1];
+        yield 'incorrect model case' => [[1.0, 2.0], [0.0, 0.0], [0.0, 0.0], 'TSB', 0, 1];
+        yield 'missing weighted values' => [[1.0, 2.0], [0.0], [0.0, 0.0], 'tsb', 0, 1];
+        yield 'missing durations' => [[1.0, 2.0], [0.0, 0.0], [0.0], 'tsb', 0, 1];
+        yield 'range exceeds history' => [[1.0, 2.0], [0.0, 0.0], [0.0, 0.0], 'tsb', 0, 2];
     }
 
     /**
