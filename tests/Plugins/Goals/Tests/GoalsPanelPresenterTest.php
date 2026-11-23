@@ -30,7 +30,10 @@ final class GoalsPanelPresenterTest extends TestCase
         $repository = $this->createMock(TrainingRepository::class);
         $repository->expects($this->exactly(5))
             ->method('findTrainingTotalsSince')
-            ->willReturn(['activity_count' => 2, 'distance_sum' => 10.0]);
+            ->willReturn([
+                'activity_count' => 2,
+                'distance_sum' => 10.0,
+            ]);
 
         $result = $this->presenter($repository)->present($account, $this->installation($account));
 
@@ -50,7 +53,10 @@ final class GoalsPanelPresenterTest extends TestCase
         $repository->expects($this->once())
             ->method('findTrainingTotalsSince')
             ->with($account, 7, strtotime('2026-11-22 00:00:00 UTC'))
-            ->willReturn(['activity_count' => 0, 'distance_sum' => 0.0]);
+            ->willReturn([
+                'activity_count' => 0,
+                'distance_sum' => 0.0,
+            ]);
 
         $settings = [
             'ziel_show_woche' => '1',
@@ -113,7 +119,9 @@ final class GoalsPanelPresenterTest extends TestCase
     ): GoalsPanelPresenter {
         $repository ??= $this->createStub(TrainingRepository::class);
         $storage ??= $this->createStub(PluginConfigurationStorageInterface::class);
-        $storage->method('loadForPlugins')->willReturn([5 => $settings]);
+        $storage->method('loadForPlugins')->willReturn([
+            5 => $settings,
+        ]);
 
         $general = $this->createStub(General::class);
         $general->method('getRunningSport')->willReturn(7);
