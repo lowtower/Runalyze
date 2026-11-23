@@ -109,7 +109,12 @@ final class GoalsProgressCalculatorTest extends TestCase
             $rows,
             static fn (array $row): bool => $row['name'] === 'avg. Day'
         ));
-        $this->assertNotContains('avg. Week', array_column($rows, 'name'));
+        $weeklyTargets = array_values(array_filter(
+            $rows,
+            static fn (array $row): bool => $row['name'] === 'avg. Week'
+        ));
+        $this->assertCount(1, $weeklyTargets);
+        $this->assertEqualsWithDelta(7 * 86.0 / 23, $weeklyTargets[0]['km'], 0.00001);
     }
 
     public function testPastGoalAvoidsDivisionByZeroForRemainingDailyTarget(): void
