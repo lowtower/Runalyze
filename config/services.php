@@ -597,8 +597,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'channel' => 'external_services',
         ]);
 
-    $services->alias('app.weather_forecast.darksky', DarkSky::class);
-
     $services->set('app.weather_forecast.openweathermap', OpenWeatherMap::class)
         ->arg('$ApiKey', '%app.openweathermap_api_key%')
         ->arg('$Proxy', '%app.weather_proxy%')
