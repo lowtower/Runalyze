@@ -545,9 +545,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(Feed::class);
 
-    $services->set('app.http_client', Client::class);
-
-    $services->alias(Client::class, 'app.http_client');
+    $services->set(Client::class);
 
     $services->set('app.file_converter.fit', FitConverter::class)
         ->arg('$PathToPerl', '%app.perl_path%')
@@ -599,7 +597,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set('app.weather_forecast.darksky', DarkSky::class)
         ->arg('$ApiKey', '%app.darksky_api_key%')
-        ->arg('$HttpClient', service('app.http_client'))
+        ->arg('$HttpClient', service(Client::class))
         ->arg('$logger', service('logger'))
         ->tag('monolog.logger', [
             'channel' => 'external_services',
@@ -610,7 +608,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set('app.weather_forecast.openweathermap', OpenWeatherMap::class)
         ->arg('$ApiKey', '%app.openweathermap_api_key%')
         ->arg('$Proxy', '%app.weather_proxy%')
-        ->arg('$HttpClient', service('app.http_client'))
+        ->arg('$HttpClient', service(Client::class))
         ->arg('$logger', service('logger'))
         ->arg('$maxAgeInSeconds', '%app.weather_max_age_for_current_conditions%')
         ->tag('monolog.logger', [
@@ -622,7 +620,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set('app.weather_forecast.meteostatnet', MeteostatNet::class)
         ->arg('$ApiKey', '%app.meteostatnet_api_key%')
         ->arg('$Proxy', '%app.weather_proxy%')
-        ->arg('$HttpClient', service('app.http_client'))
+        ->arg('$HttpClient', service(Client::class))
         ->arg('$logger', service('logger'))
         ->tag('monolog.logger', [
             'channel' => 'external_services',
@@ -655,7 +653,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set('app.elevation_correction.geonames', Geonames::class)
         ->arg('$GeonamesUsername', '%app.geonames_username%')
-        ->arg('$client', service('app.http_client'))
+        ->arg('$client', service(Client::class))
         ->arg('$logger', service('logger'))
         ->tag('monolog.logger', [
             'channel' => 'external_services',
@@ -664,7 +662,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(Geonames::class, 'app.elevation_correction.geonames');
 
     $services->set('app.elevation_correction.google_maps', GoogleMaps::class)
-        ->arg('$HttpClient', service('app.http_client'))
+        ->arg('$HttpClient', service(Client::class))
         ->arg('$logger', service('logger'))
         ->tag('monolog.logger', [
             'channel' => 'external_services',
@@ -690,7 +688,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set('app.routename_evaluation.routename_evaluation_osm', RouteNameEvalOsm::class)
         ->arg('$Url', '%app.osm_overpass_url%')
         ->arg('$Proxy', '%app.osm_overpass_proxy%')
-        ->arg('$HttpClient', service('app.http_client'))
+        ->arg('$HttpClient', service(Client::class))
         ->arg('$logger', service('logger'))
         ->tag('monolog.logger', [
             'channel' => 'external_services',
