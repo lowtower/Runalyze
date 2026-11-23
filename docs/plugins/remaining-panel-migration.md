@@ -59,7 +59,11 @@ them under `plugins/` as though they were panels would break their lifecycle.
    `RechenspieleShapeDailyAggregator` converts repository rows into
    zero-filled daily TRIMP, distance, weighted VO2max and long-jog arrays,
    including the historical warmup period. It is covered by isolated tests;
-   wiring the modern data provider to plot calculation is the next step.
+   `RechenspieleShapeDataProvider` now connects that aggregator to the
+   account-scoped repository, validates date ranges, and applies UTC calendar
+   boundaries including warmup days. It is intentionally not used by the
+   existing PHP plot window yet: verify legacy database-timezone semantics
+   before activating the new data path and implementing the plot calculation.
 5. **Calculations administration:** migrate the four existing configuration
    keys, provide modern metadata, and remove the final panel directory.
 6. **Final audit:** verify no `plugin/RunalyzePluginPanel_*` directories
