@@ -9,6 +9,7 @@ use DateTimeZone;
 use InvalidArgumentException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
+use Runalyze\Parameter\Application\Timezone as TimezoneEnum;
 
 /**
  * Connects account-scoped shape history to the daily plot model inputs.
@@ -40,9 +41,9 @@ final readonly class RechenspieleShapeDataProvider
         float $minimalLongJogDistance,
         bool $withElevation
     ): array {
-        $utc = new DateTimeZone('UTC');
-        $start = new DateTimeImmutable($startDay->format('Y-m-d'), $utc);
-        $end = new DateTimeImmutable($endDay->format('Y-m-d'), $utc);
+        $timezone = new DateTimeZone(TimezoneEnum::getFullNameByEnum($account->getTimezone()));
+        $start = new DateTimeImmutable($startDay->format('Y-m-d'), $timezone);
+        $end = new DateTimeImmutable($endDay->format('Y-m-d'), $timezone);
 
         if ($end < $start || $warmupDays < 0) {
             throw new InvalidArgumentException('The shape plot date range and warmup must be valid.');
@@ -57,7 +58,8 @@ final readonly class RechenspieleShapeDataProvider
             $runningSportId,
             $fromTimestamp,
             $toTimestamp,
-            $withElevation
+            $withElevation,
+            $timezone
         );
 
         return $this->aggregator->aggregate(
