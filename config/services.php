@@ -589,15 +589,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(AgeGradeLookup::class);
 
-    $services->set('app.weather_forecast.darksky', DarkSky::class)
+    $services->set(DarkSky::class)
         ->arg('$ApiKey', '%app.darksky_api_key%')
         ->arg('$HttpClient', service(Client::class))
         ->arg('$logger', service('logger'))
         ->tag('monolog.logger', [
             'channel' => 'external_services',
         ]);
-
-    $services->alias(DarkSky::class, 'app.weather_forecast.darksky');
 
     $services->set('app.weather_forecast.openweathermap', OpenWeatherMap::class)
         ->arg('$ApiKey', '%app.openweathermap_api_key%')
