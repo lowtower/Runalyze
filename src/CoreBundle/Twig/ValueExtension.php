@@ -5,6 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Twig;
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Metrics\Common\JavaScriptFormatter;
 use Runalyze\Metrics\Common\UnitInterface;
@@ -21,9 +22,9 @@ class ValueExtension
 {
     protected UnitSystem $UnitSystem;
 
-    public function __construct(ConfigurationManager $configurationManager)
+    public function __construct(ConfigurationManager $configurationManager, ?Account $account = null)
     {
-        $this->UnitSystem = new UnitSystem($configurationManager->getList());
+        $this->UnitSystem = new UnitSystem($configurationManager->getList($account));
     }
 
     #[\Twig\Attribute\AsTwigFunction(name: 'value', isSafe: ['html'])]

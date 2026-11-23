@@ -10,6 +10,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'paths' => [
             '%kernel.project_dir%/plugins/Equipment/templates' => 'Equipment',
             '%kernel.project_dir%/plugins/Goals/templates' => 'Goals',
+            '%kernel.project_dir%/plugins/Statistics/MonthlyStats/templates' => 'MonthlyStats',
             '%kernel.project_dir%/plugins/Sportler/templates' => 'Sportler',
             '%kernel.project_dir%/plugins/Sports/templates' => 'Sports',
             '%kernel.project_dir%/plugins/Prognose/templates' => 'Prognose',

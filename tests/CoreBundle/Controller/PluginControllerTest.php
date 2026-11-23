@@ -69,6 +69,72 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->isSuccessful($this->Client->getResponse(), false);
     }
 
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testMonthlyStatisticsCanBeInstalledConfiguredAndReloaded(): void
+    {
+        $key = 'RunalyzePluginStat_MonthlyStats';
+        $overview = '/settings?key=config_tab_plugins&external=true';
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $this->request('GET', $overview);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('key=' . $key, (string) $this->Client->getResponse()->getContent());
+
+        $this->request('GET', '/call/call.Plugin.install.php?key=' . $key);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('successfully installed', (string) $this->Client->getResponse()->getContent());
+
+        $plugin = $this->getEntityManager()->getRepository(Plugin::class)->findOneBy([
+            'account' => $this->Account,
+            'key' => $key,
+        ]);
+        $this->assertInstanceOf(Plugin::class, $plugin);
+        $this->assertSame(Plugin::TYPE_STAT, $plugin->getType());
+        $id = $plugin->getId();
+        $configuration = '/call/call.Plugin.config.php?id=' . $id;
+
+        $this->request('GET', $overview);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('plugin_modus_' . $id, (string) $this->Client->getResponse()->getContent());
+
+        $this->request('GET', $configuration . '&active=0');
+        $this->assertStatusCode(200, $this->Client);
+        $html = (string) $this->Client->getResponse()->getContent();
+        $this->assertStringContainsString('There are no settings.', $html);
+        $this->assertStringContainsString('Activate plugin', $html);
+        $this->assertStringContainsString('Runalyze.reload', $html);
+
+        $this->request('GET', $configuration . '&active=99');
+        $this->assertStatusCode(400, $this->Client);
+
+        $this->request('GET', $configuration . '&active=2');
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('Deactivate plugin', (string) $this->Client->getResponse()->getContent());
+
+        $this->request('GET', '/dashboard?pluginid=' . $id);
+        $this->assertStatusCode(200, $this->Client);
+        $html = (string) $this->Client->getResponse()->getContent();
+        $this->assertStringContainsString('Miscellaneous', $html);
+        $this->assertStringContainsString('analysis-table', $html);
+
+        $this->Client->xmlHttpRequest('GET', '/my/plugin/' . $id . '?sport=all&dat=n');
+        $this->assertStatusCode(200, $this->Client);
+        $html = (string) $this->Client->getResponse()->getContent();
+        $this->assertStringContainsString('analysis-table', $html);
+        $this->assertStringContainsString('target="statistics-inner"', $html);
+        $this->assertStringNotContainsString('<!DOCTYPE html>', $html);
+
+        $this->Client->xmlHttpRequest('GET', '/my/plugin/' . $id . '?sport[]=all');
+        $this->assertStatusCode(400, $this->Client);
+
+        $this->loginClient($this->Client, $this->registerUniqueAccount(), 'default');
+        $this->Client->xmlHttpRequest('GET', '/my/plugin/' . $id);
+        $this->assertStatusCode(200, $this->Client);
+        $html = (string) $this->Client->getResponse()->getContent();
+        $this->assertStringContainsString('The plugin could not be found.', $html);
+        $this->assertStringNotContainsString('analysis-table', $html);
+    }
+
     public function testPluginInstallActionRejectsAnUnrecognizedKey(): void
     {
         $this->loginClient($this->Client, $this->Account, 'default');
