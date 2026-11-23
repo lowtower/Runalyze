@@ -109,6 +109,115 @@ final class GoalsPanelPresenterTest extends TestCase
         $this->assertTrue($presenter->shouldReloadAfterTraining());
     }
 
+    public function testConfigurationExposesExistingGoalsAndVisibility(): void
+    {
+        $account = $this->account(12);
+        $presenter = $this->presenter(null, [
+            'ziel_woche' => '120',
+            'ziel_show_mon' => '0',
+            'details' => '0',
+        ]);
+
+        $configuration = $presenter->getConfigurationData($account, $this->installation($account, true));
+
+        $this->assertSame('Goals', $presenter->getName());
+        $this->assertSame('@Goals/configuration.html.twig', $presenter->getConfigurationTemplate());
+        $this->assertSame(['woche', 'mon', 'hj', 'saison', 'jahr'], array_column($configuration['ranges'], 'key'));
+        $this->assertSame(120, $configuration['ranges'][0]['goal']);
+        $this->assertTrue($configuration['ranges'][0]['show']);
+        $this->assertFalse($configuration['ranges'][1]['show']);
+        $this->assertSame(0, $configuration['ranges'][1]['goal']);
+        $this->assertFalse($configuration['show_details']);
+        $this->assertSame(0, $configuration['active']);
+    }
+
+    public function testConfigurationRejectsAnotherAccountsInstallation(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->presenter()->getConfigurationData(
+            $this->account(12),
+            $this->installation($this->account(13))
+        );
+    }
+
+    public function testConfigurationUpdatesStoredGoalsAndUncheckedCheckboxes(): void
+    {
+        $account = $this->account(12);
+        $stored = [
+            'ziel_woche' => '10',
+            'details' => '1',
+        ];
+        $writes = [];
+
+        $storage = $this->createStub(PluginConfigurationStorageInterface::class);
+        $storage->method('loadForPlugins')->willReturn([
+            5 => $stored,
+        ]);
+        $storage->method('insert')->willReturnCallback(
+            static function (int $id, string $key, string $value) use (&$writes): void {
+                self::assertSame(5, $id);
+                $writes[$key] = ['insert', $value];
+            }
+        );
+        $storage->method('update')->willReturnCallback(
+            static function (int $id, string $key, string $value) use (&$writes): void {
+                self::assertSame(5, $id);
+                $writes[$key] = ['update', $value];
+            }
+        );
+
+        $this->presenter(null, [], true, $storage)->updateConfiguration(
+            $account,
+            $this->installation($account, true),
+            [
+                'edit' => 'true',
+                'ziel_show_woche' => '1',
+                'ziel_woche' => '120',
+                'ziel_mon' => '25',
+                'ziel_hj' => 'not-a-number',
+            ]
+        );
+
+        $this->assertSame(['update', '120'], $writes['ziel_woche']);
+        $this->assertSame(['insert', '25'], $writes['ziel_mon']);
+        $this->assertArrayNotHasKey('ziel_hj', $writes);
+        $this->assertSame(['update', '0'], $writes['details']);
+        $this->assertSame(['insert', '1'], $writes['ziel_show_woche']);
+        $this->assertSame(['insert', '0'], $writes['ziel_show_mon']);
+        $this->assertSame(['insert', '0'], $writes['ziel_show_jahr']);
+    }
+
+    public function testConfigurationIgnoresRequestsWithoutEditMarker(): void
+    {
+        $account = $this->account(12);
+        $storage = $this->createMock(PluginConfigurationStorageInterface::class);
+        $storage->expects($this->never())->method('insert');
+        $storage->expects($this->never())->method('update');
+
+        $this->presenter(null, [], true, $storage)->updateConfiguration(
+            $account,
+            $this->installation($account),
+            [
+                'ziel_woche' => '900',
+            ]
+        );
+    }
+
+    public function testConfigurationUpdateRejectsAnotherAccountsInstallation(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->presenter()->updateConfiguration(
+            $this->account(12),
+            $this->installation($this->account(13)),
+            [
+                'edit' => 'true',
+                'ziel_woche' => '200',
+            ]
+        );
+    }
+
     /**
      * @param array<string, string> $settings
      */
@@ -119,10 +228,12 @@ final class GoalsPanelPresenterTest extends TestCase
         ?PluginConfigurationStorageInterface $storage = null
     ): GoalsPanelPresenter {
         $repository ??= $this->createStub(TrainingRepository::class);
-        $storage ??= $this->createStub(PluginConfigurationStorageInterface::class);
-        $storage->method('loadForPlugins')->willReturn([
-            5 => $settings,
-        ]);
+        if (! $storage instanceof \Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface) {
+            $storage = $this->createStub(PluginConfigurationStorageInterface::class);
+            $storage->method('loadForPlugins')->willReturn([
+                5 => $settings,
+            ]);
+        }
 
         $general = $this->createStub(General::class);
         $general->method('getRunningSport')->willReturn(7);
@@ -163,6 +274,7 @@ final class GoalsPanelPresenterTest extends TestCase
         $installation->method('getKey')->willReturn('RunalyzePluginPanel_Ziele');
         $installation->method('isPanel')->willReturn(true);
         $installation->method('isInactive')->willReturn($inactive);
+        $installation->method('getActive')->willReturn($inactive ? Plugin::STATE_INACTIVE : Plugin::STATE_ACTIVE);
 
         return $installation;
     }

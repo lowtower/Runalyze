@@ -89,6 +89,45 @@ final class GoalsPanelTemplateTest extends TestCase
         $this->assertStringNotContainsString('target="bunny"', $html);
     }
 
+    public function testConfigurationFormPreservesLegacySettingNames(): void
+    {
+        $html = $this->twig()->render('@Goals/configuration.html.twig', [
+            'plugin_id' => 5,
+            'config_data' => [
+                'ranges' => [
+                    [
+                        'key' => 'woche',
+                        'name' => 'Week',
+                        'start' => '16.11.2026',
+                        'end' => '22.11.2026',
+                        'note' => null,
+                        'show' => true,
+                        'goal' => 120,
+                    ],
+                    [
+                        'key' => 'mon',
+                        'name' => 'Month',
+                        'start' => '01.11.2026',
+                        'end' => '30.11.2026',
+                        'note' => null,
+                        'show' => false,
+                        'goal' => 0,
+                    ],
+                ],
+                'show_details' => false,
+                'active' => 1,
+            ],
+        ]);
+
+        $this->assertStringContainsString('name="ziel_show_woche" value="1" checked', $html);
+        $this->assertStringContainsString('name="ziel_woche" min="0" step="1" value="120"', $html);
+        $this->assertStringContainsString('name="ziel_show_mon" value="1"', $html);
+        $this->assertStringNotContainsString('name="ziel_show_mon" value="1" checked', $html);
+        $this->assertStringContainsString('name="details" value="1"', $html);
+        $this->assertStringNotContainsString('name="details" value="1" checked', $html);
+        $this->assertStringContainsString('name="edit" value="true"', $html);
+    }
+
     private function twig(): Environment
     {
         $projectDirectory = dirname(__DIR__, 4);
@@ -99,6 +138,7 @@ final class GoalsPanelTemplateTest extends TestCase
             'strict_variables' => true,
         ]);
         $twig->addFilter(new TwigFilter('trans', static fn (string $message): string => $message));
+        $twig->addFunction(new TwigFunction('path', static fn (string $route, array $parameters = []): string => '/plugin/config?id=' . ($parameters['id'] ?? 0)));
         $twig->addFunction(new TwigFunction('url', static fn (string $route, array $parameters = []): string => '/plugin/config?id=' . ($parameters['id'] ?? 0)));
         $twig->addFunction(new TwigFunction('distance', static fn (float $km, mixed $unit = null, int $decimals = 2): string => number_format($km, $decimals) . ' km'));
 

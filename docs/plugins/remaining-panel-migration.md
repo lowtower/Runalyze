@@ -9,7 +9,7 @@ Only two legacy panel directories remain:
 
 | Stable installation key | Legacy directory | Modern implementation | Remaining work |
 | --- | --- | --- | --- |
-| `RunalyzePluginPanel_Ziele` | `plugin/RunalyzePluginPanel_Ziele/` | `plugins/Goals/` (calendar, totals, progress calculator, staged presenter) | Wire modern totals into goal calculations, configuration persistence, Twig view, metadata and removal of legacy panel |
+| `RunalyzePluginPanel_Ziele` | `plugin/RunalyzePluginPanel_Ziele/` | `plugins/Goals/` (calendar, totals, progress calculator, staged presenter and configuration) | Activate modern panel, verify browser parity, remove legacy panel and SQL |
 | `RunalyzePluginPanel_Rechenspiele` | `plugin/RunalyzePluginPanel_Rechenspiele/` | `plugins/Rechenspiele/` (dashboard presenter, data provider, calculator) | Migrate configuration fields and explanation/plot windows, remove the old class and PHP includes |
 
 The `RunalyzePluginStat_*` directories are **statistics plugins**, not panels.
@@ -51,9 +51,11 @@ them under `plugins/` as though they were panels would break their lifecycle.
    are complete and tested. The staged `@Goals/panel.html.twig` now preserves
    legacy range toggling, progress rows, and Pace Bunny bars. Its namespace is
    registered, but the panel is still not tagged for modern dashboard routing.
-3. **Goals administration:** implement metadata and configuration interfaces,
-   preserving `ziel_show_*`, `ziel_*`, and `details` keys. Remove the
-   legacy class and characterize the new presenter/configuration behavior.
+3. **Goals administration:** modern metadata, configuration interface, and
+   `@Goals/configuration.html.twig` now preserve `ziel_show_*`, `ziel_*`, and
+   `details` keys and defaults. The presenter remains untagged until the
+   final browser/CI parity check and removal of the legacy panel, including
+   its raw SQL query.
 4. **Calculations windows:** move the explanation fieldsets and shape plot
    from the Rechenspiele PHP includes to dedicated modern services/templates.
    Retain their URLs and model/time-range selections.
