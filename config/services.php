@@ -579,8 +579,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$TrainingRepository', service(TrainingRepository::class))
         ->arg('$routeNameEvalFactory', service('app.routename_evaluation.routename_evaluation_factory'));
 
-    $services->alias('app.activity_context_adapter_factory', ActivityContextAdapterFactory::class);
-
     $services->set(DataSeriesRemover::class);
 
     $services->set(AgeGradeLookup::class);
