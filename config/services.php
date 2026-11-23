@@ -574,8 +574,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(ActivityCache::class)
         ->arg('$Cache', service('app.cache.activity_uploads'));
 
-    $services->alias('app.activity_context.cache', ActivityCache::class);
-
     $services->set('app.activity_context_adapter_factory', ActivityContextAdapterFactory::class)
         ->arg('$WeatherForecast', service('app.weather_forecast'))
         ->arg('$TrainingRepository', service(TrainingRepository::class))
