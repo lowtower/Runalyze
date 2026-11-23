@@ -362,14 +362,16 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testGoalsPanelRendersAndPersistsLegacySettingsViaModernRoutes(): void
     {
-        $plugin = new Plugin()
-            ->setAccount($this->Account)
-            ->setKey('RunalyzePluginPanel_Ziele')
-            ->setType(Plugin::TYPE_PANEL)
-            ->setActive(Plugin::STATE_ACTIVE)
-            ->setOrder(1);
+        $plugin = $this->getEntityManager()
+            ->getRepository(Plugin::class)
+            ->findOneBy([
+                'account' => $this->Account,
+                'key' => 'RunalyzePluginPanel_Ziele',
+            ]);
+        $this->assertInstanceOf(Plugin::class, $plugin);
+        $this->assertSame(Plugin::STATE_INACTIVE, $plugin->getActive());
 
-        $this->getEntityManager()->persist($plugin);
+        $plugin->setActive(Plugin::STATE_ACTIVE);
         $this->getEntityManager()->flush();
 
         $pluginId = (int) $plugin->getId();
