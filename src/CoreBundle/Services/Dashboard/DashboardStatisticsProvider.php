@@ -60,7 +60,10 @@ final readonly class DashboardStatisticsProvider
                 continue;
             }
 
-            $navigation[] = $link + ['active' => $firstActive === null, 'children' => []];
+            $navigation[] = $link + [
+                'active' => $firstActive === null,
+                'children' => [],
+            ];
             $firstActive ??= $plugin;
         }
 
