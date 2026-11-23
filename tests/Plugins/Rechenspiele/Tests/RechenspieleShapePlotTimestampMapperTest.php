@@ -40,8 +40,8 @@ final class RechenspieleShapePlotTimestampMapperTest extends TestCase
         $second = (int) $mapper->timestampForIndex($day, 0, 1);
         $third = (int) $mapper->timestampForIndex($day, 0, 2);
 
-        $this->assertSame(86400000, $second - $first);
-        $this->assertSame(82800000, $third - $second);
+        $this->assertSame(82800000, $second - $first);
+        $this->assertSame(86400000, $third - $second);
         $this->assertSame(
             new DateTimeImmutable('2026-03-30 12:00:00', new DateTimeZone('Europe/Berlin'))->getTimestamp() * 1000,
             $third
