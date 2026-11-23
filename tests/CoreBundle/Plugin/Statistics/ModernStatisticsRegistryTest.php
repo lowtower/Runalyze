@@ -17,7 +17,7 @@ final class ModernStatisticsRegistryTest extends TestCase
         $statistic->method('getKey')->willReturn('RunalyzePluginStat_MonthlyStats');
 
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('already registered');
+        $this->expectExceptionMessageIsOrContains('already registered');
         new ModernStatisticsRegistry([$statistic, $statistic]);
     }
 }
