@@ -55,7 +55,11 @@ them under `plugins/` as though they were panels would break their lifecycle.
    from the Rechenspiele PHP includes to dedicated modern services/templates.
    Retain their URLs and model/time-range selections.
    A new account-scoped repository method provides bounded plot activity
-   inputs but is not active in the legacy chart yet.
+   inputs but is not active in the legacy chart yet. The new
+   `RechenspieleShapeDailyAggregator` converts repository rows into
+   zero-filled daily TRIMP, distance, weighted VO2max and long-jog arrays,
+   including the historical warmup period. It is covered by isolated tests;
+   wiring the modern data provider to plot calculation is the next step.
 5. **Calculations administration:** migrate the four existing configuration
    keys, provide modern metadata, and remove the final panel directory.
 6. **Final audit:** verify no `plugin/RunalyzePluginPanel_*` directories
