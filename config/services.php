@@ -506,12 +506,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias('app.twig_value_extension', ValueExtension::class);
     $services->alias('app.twig_automatic_reload_flag_extension', AutomaticReloadFlagExtension::class);
 
-    $services->set('app.poster.generate_json', GenerateJsonData::class)
+    $services->set(GenerateJsonData::class)
         ->arg('$TrainingRepository', service(TrainingRepository::class))
         ->arg('$RaceresultRepository', service(RaceresultRepository::class))
         ->arg('$projectDir', '%kernel.project_dir%');
-
-    $services->alias(GenerateJsonData::class, 'app.poster.generate_json');
 
     $services->set(GeneratePoster::class)
         ->arg('$projectDir', '%kernel.project_dir%')
@@ -538,7 +536,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$logger', service('monolog.logger.queue'))
         ->arg('$accountRepository', service(AccountRepository::class))
         ->arg('$sportRepository', service(SportRepository::class))
-        ->arg('$generateJsonData', service('app.poster.generate_json'))
+        ->arg('$generateJsonData', service(GenerateJsonData::class))
         ->arg('$generatePoster', service(GeneratePoster::class))
         ->arg('$fileHandler', service(FileHandler::class))
         ->arg('$stateResolver', service(PosterGenerationStateResolver::class))
