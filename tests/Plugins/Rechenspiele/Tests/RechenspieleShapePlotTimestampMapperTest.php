@@ -19,7 +19,11 @@ final class RechenspieleShapePlotTimestampMapperTest extends TestCase
     {
         $day = $this->day('2026-11-23', 'UTC');
         $result = new RechenspieleShapePlotTimestampMapper()->map(
-            [181 => 12.0, 182 => 24.0, 184 => -3],
+            [
+                181 => 12.0,
+                182 => 24.0,
+                184 => -3,
+            ],
             $day,
             182
         );
