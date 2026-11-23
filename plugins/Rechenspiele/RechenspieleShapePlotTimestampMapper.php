@@ -13,8 +13,9 @@ use InvalidArgumentException;
 final readonly class RechenspieleShapePlotTimestampMapper
 {
     /**
-     * @param array<int, int|float> $series
-     * @return array<string, int|float>
+     * @template TValue of int|float
+     * @param array<int, TValue> $series
+     * @return array<string, TValue>
      *
      * @throws InvalidArgumentException if a daily index or warmup is invalid
      */
