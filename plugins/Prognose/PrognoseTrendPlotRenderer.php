@@ -35,7 +35,7 @@ final readonly class PrognoseTrendPlotRenderer
                     continue;
                 }
 
-                $results[(new LocalTime($result['time']))->toServerTimestamp() . '000'] = $result['official_time'] * 1000;
+                $results[new LocalTime($result['time'])->toServerTimestamp() . '000'] = $result['official_time'] * 1000;
             }
         }
 
@@ -46,25 +46,43 @@ final readonly class PrognoseTrendPlotRenderer
             'label' => __('Prognosis'),
             'color' => '#880000',
             'data' => $prognosis,
-            'lines' => ['show' => true],
-            'points' => ['show' => false],
-            'curvedLines' => ['apply' => false],
+            'lines' => [
+                'show' => true,
+            ],
+            'points' => [
+                'show' => false,
+            ],
+            'curvedLines' => [
+                'apply' => false,
+            ],
         ];
         $plot->Data[] = [
             'label' => __('Prognosis with marathon shape'),
             'color' => '#000088',
             'data' => $prognosisWithEndurance,
-            'lines' => ['show' => true],
-            'points' => ['show' => false],
-            'curvedLines' => ['apply' => false],
+            'lines' => [
+                'show' => true,
+            ],
+            'points' => [
+                'show' => false,
+            ],
+            'curvedLines' => [
+                'apply' => false,
+            ],
         ];
         $plot->Data[] = [
             'label' => __('Result'),
             'color' => '#000000',
             'data' => $results,
-            'lines' => ['show' => false],
-            'points' => ['show' => true],
-            'curvedLines' => ['apply' => false],
+            'lines' => [
+                'show' => false,
+            ],
+            'points' => [
+                'show' => true,
+            ],
+            'curvedLines' => [
+                'apply' => false,
+            ],
         ];
 
         $plot->setZeroPointsToNull();
@@ -84,10 +102,10 @@ final readonly class PrognoseTrendPlotRenderer
         try {
             $plot->outputJavaScript();
             $javascript = ob_get_clean();
-        } catch (Throwable $exception) {
+        } catch (Throwable $throwable) {
             ob_end_clean();
 
-            throw $exception;
+            throw $throwable;
         }
 
         return [

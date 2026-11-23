@@ -34,7 +34,7 @@ final readonly class PrognoseCalculatorPersonalBestProvider
         foreach ($results as $distance => $result) {
             $activity = $this->trainingRepository->findForAccount($result['activity_id'], $accountId);
 
-            if ($activity === null) {
+            if (! $activity instanceof \Runalyze\Bundle\CoreBundle\Entity\Training) {
                 continue;
             }
 

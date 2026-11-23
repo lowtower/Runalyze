@@ -21,6 +21,7 @@ parameters:
         - inc/
         - lib/
         - plugin/
+        - plugins/
         - public/
         - src/
 #        - tests/

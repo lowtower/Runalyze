@@ -27,14 +27,14 @@ final readonly class GoalsTimeRangeProvider
         $weekStart = (clone $today)->modify(sprintf('-%d days', $daysSinceWeekStart));
         $weekEnd = (clone $weekStart)->modify('+6 days')->setTime(23, 59, 50);
 
-        $seasonStart = (new DateTime('now', $timezone))->setTime(0, 0)->setISODate($year, 27, 1);
-        $seasonEnd = (new DateTime('now', $timezone))->setTime(0, 0);
+        $seasonStart = new DateTime('now', $timezone)->setTime(0, 0)->setISODate($year, 27, 1);
+        $seasonEnd = new DateTime('now', $timezone)->setTime(0, 0);
 
         if ($seasonStart > $now) {
             $seasonStart->setISODate($year, 1, 1);
             $seasonEnd->setISODate($year, 26, 7);
         } else {
-            $lastWeek = (int) (new DateTimeImmutable($year . '-12-31', $timezone))->format('W');
+            $lastWeek = (int) new DateTimeImmutable($year . '-12-31', $timezone)->format('W');
             $seasonEnd->setISODate($year, $lastWeek === 53 ? 53 : 52, 7);
         }
 

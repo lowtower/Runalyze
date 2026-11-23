@@ -111,7 +111,9 @@ final readonly class GoalsPanelPresenter implements ModernPanelInterface, Modern
         $weekStartsOnMonday = (int) $configuration->get('general.WEEK_START') === 1;
         $now = DateTimeImmutable::createFromInterface($this->clock->now());
 
-        $settings = ['details' => ($data['details'] ?? null) === '1' ? '1' : '0'];
+        $settings = [
+            'details' => ($data['details'] ?? null) === '1' ? '1' : '0',
+        ];
 
         foreach ($this->timeRanges->getRanges($now, $weekStartsOnMonday) as $key => $range) {
             $settings['ziel_show_' . $key] = ($data['ziel_show_' . $key] ?? null) === '1' ? '1' : '0';
@@ -211,6 +213,9 @@ final readonly class GoalsPanelPresenter implements ModernPanelInterface, Modern
             ];
         }
 
-        return ['ranges' => $ranges, 'show_details' => $showDetails];
+        return [
+            'ranges' => $ranges,
+            'show_details' => $showDetails,
+        ];
     }
 }

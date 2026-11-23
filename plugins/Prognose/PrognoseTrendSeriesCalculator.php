@@ -111,7 +111,7 @@ final readonly class PrognoseTrendSeriesCalculator
                     continue;
                 }
 
-                $plotIndex = (string) $timestamp . '000';
+                $plotIndex = $timestamp . '000';
                 $withEndurance[$plotIndex] = $secondsWithEndurance * 1000;
 
                 $model->adjustForMarathonShape(false);

@@ -16,7 +16,9 @@ use Runalyze\Util\LocalTime;
 
 final readonly class PrognoseCalculatorPredictionRows
 {
-    public function __construct(private PrognoseCalculatorPersonalBestProvider $personalBestProvider) {}
+    public function __construct(
+        private PrognoseCalculatorPersonalBestProvider $personalBestProvider
+    ) {}
 
     /**
      * @param list<float|string> $distances Distances in kilometers

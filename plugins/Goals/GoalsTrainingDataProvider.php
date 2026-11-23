@@ -12,7 +12,9 @@ use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 
 final readonly class GoalsTrainingDataProvider
 {
-    public function __construct(private TrainingRepository $trainingRepository) {}
+    public function __construct(
+        private TrainingRepository $trainingRepository
+    ) {}
 
     /**
      * @return array{activity_count: int, distance_sum: float}
