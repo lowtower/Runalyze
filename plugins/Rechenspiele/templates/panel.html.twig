@@ -21,7 +21,7 @@
                     {% endif %}
                 </td>
                 <td class="nowrap">
-                    <strong>{{ row.label|trans }}</strong>
+                    <strong>{{ row.label|trans|replace({'&nbsp;': ' '}) }}</strong>
                     {% if row.abbreviation %}<small>({{ row.abbreviation }})</small>{% endif %}
                 </td>
                 <td style="width:99%;vertical-align:middle;">
