@@ -123,6 +123,8 @@ class TrainingRepository extends ServiceEntityRepository
     /**
      * Fetch bounded shape-plot inputs for one account, preserving the legacy
      * duration-weighted VO2max calculation and including TRIMP from all sports.
+     * Activity calendar dates use the supplied timezone, defaulting to UTC for
+     * existing callers.
      *
      * @return list<array{
      *     day: string,
@@ -138,9 +140,11 @@ class TrainingRepository extends ServiceEntityRepository
         int $runningSportId,
         int $fromTimestamp,
         int $toTimestamp,
-        bool $withElevation
+        bool $withElevation,
+        ?DateTimeZone $timezone = null
     ): array {
         $vo2maxColumn = $withElevation ? 'vo2maxWithElevation' : 'vo2max';
+        $timezone ??= new DateTimeZone('UTC');
 
         $rows = $this->createQueryBuilder('t')
             ->select('t.time AS time, t.trimp AS trimp, t.distance AS distance')
@@ -165,7 +169,7 @@ class TrainingRepository extends ServiceEntityRepository
             $useVO2max = (bool) $row['useVO2max'];
 
             $result[] = [
-                'day' => gmdate('Y-m-d', (int) $row['time']),
+                'day' => new DateTimeImmutable('@' . $row['time'])->setTimezone($timezone)->format('Y-m-d'),
                 'trimp' => (float) ($row['trimp'] ?? 0),
                 'distance' => (float) ($row['distance'] ?? 0),
                 'vo2max_weighted' => $isRunning && $useVO2max ? $vo2max * $duration : 0.0,
