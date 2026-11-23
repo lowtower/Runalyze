@@ -4,13 +4,15 @@ namespace Runalyze\Bundle\CoreBundle\Services;
 
 use FilesystemIterator;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
 use RuntimeException;
 
 final readonly class PluginDiscovery
 {
     public function __construct(
         private string $pluginDirectory,
-        private ?ModernPanelRegistry $modernPanelRegistry = null
+        private ?ModernPanelRegistry $modernPanelRegistry = null,
+        private ?ModernStatisticsRegistry $modernStatisticsRegistry = null
     ) {}
 
     /**
@@ -39,6 +41,7 @@ final readonly class PluginDiscovery
             $keys = array_values(array_unique([...$keys, ...$this->modernPanelRegistry->getKeys()]));
         }
 
+        $keys = array_values(array_unique([...$keys, ...($this->modernStatisticsRegistry?->getKeys() ?? [])]));
         sort($keys, SORT_STRING);
 
         return $keys;

@@ -12,6 +12,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelConfigurationInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -64,8 +65,9 @@ class PluginController extends AbstractPluginsAwareController
                             break;
                         }
                     }
-                } elseif (! $this->modernPanelRegistry->has($pluginKey)
-                    || ! $this->modernPanelRegistry->get($pluginKey) instanceof ModernPanelMetadataInterface
+                } elseif (! $this->modernStatisticsRegistry->find($pluginKey) instanceof ModernStatisticsInterface
+                    && (! $this->modernPanelRegistry->has($pluginKey)
+                        || ! $this->modernPanelRegistry->get($pluginKey) instanceof ModernPanelMetadataInterface)
                 ) {
                     $plugin = $this->instantiatePluginByKey($pluginKey);
                     $configLink = $plugin->getConfigLink(Icon::$CONF . ' ' . __('Configuration'));
@@ -120,6 +122,14 @@ class PluginController extends AbstractPluginsAwareController
 
         if (is_scalar($id) && ctype_digit((string) $id) && $account instanceof Account) {
             $installation = $this->pluginInstallationManager->getInstallationForAccount($account, (int) $id);
+
+            if ($installation instanceof PluginInstallation && $installation->isStatistic()) {
+                $statistic = $this->modernStatisticsRegistry->find($installation->getKey());
+
+                if ($statistic instanceof ModernStatisticsInterface) {
+                    return $this->getStatisticsConfigurationResponse($request, $account, $installation, $statistic);
+                }
+            }
 
             if ($installation instanceof PluginInstallation
                 && $this->modernPanelRegistry->has($installation->getKey())
@@ -220,5 +230,45 @@ class PluginController extends AbstractPluginsAwareController
         })->getContent();
 
         return $this->legacyContentResponseFactory->create($legacyContent, $this->requestStack->getCurrentRequest());
+    }
+
+    private function getStatisticsConfigurationResponse(
+        Request $request,
+        Account $account,
+        PluginInstallation $installation,
+        ModernStatisticsInterface $statistic
+    ): Response {
+        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
+
+        $id = $installation->getId();
+        assert($id !== null);
+
+        $active = $request->query->get('active');
+        if ($active !== null) {
+            if (! is_string($active) || ! ctype_digit($active)) {
+                throw new BadRequestHttpException('Invalid plugin activation state.');
+            }
+
+            try {
+                $this->pluginInstallationManager->setInstalledPluginActive($id, (int) $active);
+            } catch (InvalidArgumentException $exception) {
+                throw new BadRequestHttpException('Invalid plugin activation state.', $exception);
+            }
+
+            Ajax::setReloadFlag(Ajax::$RELOAD_ALL);
+        }
+
+        $content = $this->renderView('my/statistics/configuration.html.twig', [
+            'plugin_id' => $id,
+            'name' => $statistic->getName(),
+            'description' => $statistic->getDescription($account),
+            'inactive' => $installation->isInactive(),
+        ]);
+
+        if ($active !== null) {
+            $content .= Ajax::getReloadCommand();
+        }
+
+        return $this->legacyContentResponseFactory->create($content, $request);
     }
 }
