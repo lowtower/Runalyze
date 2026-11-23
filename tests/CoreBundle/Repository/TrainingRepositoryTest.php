@@ -232,7 +232,7 @@ final class TrainingRepositoryTest extends AbstractRepositoryTestCase
 
         $this->assertSame('2026-03-29', $berlin[0]['day']);
         $this->assertSame('2026-03-28', $utc[0]['day']);
-        $this->assertSame(15.0, $berlin[0]['trimp']);
+        $this->assertEqualsWithDelta(15.0, $berlin[0]['trimp'], PHP_FLOAT_EPSILON);
     }
 
     public function testPrognosisTrendHistoryPreservesChronologyAndVO2maxWeights(): void

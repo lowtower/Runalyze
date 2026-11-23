@@ -89,6 +89,7 @@ final class RechenspieleShapeDataProviderTest extends TestCase
     {
         $account = new Account();
         $account->setTimezone(TimezoneEnum::BERLIN);
+
         $timezone = new DateTimeZone('Europe/Berlin');
         $repository = $this->createMock(TrainingRepository::class);
         $repository->expects($this->once())
