@@ -565,13 +565,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(ActivityDataContainerToActivityContextConverter::class);
 
-    $services->set('app.activity_data_container.filter', ActivityDataContainerFilter::class)
+    $services->set(ActivityDataContainerFilter::class)
         ->arg('$logger', service('logger'))
         ->tag('monolog.logger', [
             'channel' => 'activity_uploads',
         ]);
-
-    $services->alias(ActivityDataContainerFilter::class, 'app.activity_data_container.filter');
 
     $services->set('app.activity_context.cache', ActivityCache::class)
         ->arg('$Cache', service('app.cache.activity_uploads'));
