@@ -529,8 +529,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(FileHandler::class)
         ->arg('$DataDir', '%app.data_directory%');
 
-    $services->alias('app.poster.filehandler', FileHandler::class);
-
     $services->set(BackupGenerationMessageHandler::class)
         ->arg('$accountRepository', service(AccountRepository::class))
         ->arg('$dataDirectory', '%app.data_directory%')
@@ -545,7 +543,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$sportRepository', service(SportRepository::class))
         ->arg('$generateJsonData', service('app.poster.generate_json'))
         ->arg('$generatePoster', service('app.poster.generate_poster'))
-        ->arg('$fileHandler', service('app.poster.filehandler'))
+        ->arg('$fileHandler', service(FileHandler::class))
         ->arg('$stateResolver', service(PosterGenerationStateResolver::class))
         ->arg('$dataDirectory', '%app.data_directory%')
         ->arg('$rsvgPath', '%app.rsvg_path%');
