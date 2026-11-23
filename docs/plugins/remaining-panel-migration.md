@@ -66,8 +66,12 @@ them under `plugins/` as though they were panels would break their lifecycle.
    before activating the new data path. A staged
    `RechenspieleShapeSeriesCalculator` now reuses the existing TSB/Banister
    models to calculate ATL, CTL, TSB, TRIMP and rolling/daily VO2max series.
-   The marathon shape series, plot renderer, and persistence of updated
-   historical maxima still need migration; the legacy plot is unchanged.
+   A staged `RechenspieleMarathonShapeSeriesCalculator` now prepares
+   weighted long-jog points and preceding mileage windows, delegating the
+   percentage calculation to the existing `Runalyze\\Sports\\Running\\MarathonShape`
+   and its Symfony BasicEndurance configuration. The legacy plot remains
+   unchanged; integrating the full plot rendering, timezone parity and
+   persistence of updated historical maxima are still follow-ups.
 5. **Calculations administration:** migrate the four existing configuration
    keys, provide modern metadata, and remove the final panel directory.
 6. **Final audit:** verify no `plugin/RunalyzePluginPanel_*` directories
