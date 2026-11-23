@@ -51,7 +51,7 @@ final readonly class RechenspieleShapePlotDateRange
         $year = (int) $currentDay->format('Y');
         $firstYear = (int) $firstDay->format('Y');
 
-        if ($firstDay > $currentDay || ($range !== 'all' && $range !== 'lasthalf' && $range !== 'lastyear'
+        if ($firstDay > $currentDay || (! in_array($range, ['all', 'lasthalf', 'lastyear'], true)
             && ((int) $range < $firstYear || (int) $range > $year))
         ) {
             throw new InvalidArgumentException('The selected shape plot period lies outside the available history.');
