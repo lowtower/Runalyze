@@ -128,7 +128,7 @@ final class GoalsPanelPresenterTest extends TestCase
         $this->assertFalse($configuration['ranges'][1]['show']);
         $this->assertSame(0, $configuration['ranges'][1]['goal']);
         $this->assertFalse($configuration['show_details']);
-        $this->assertSame(1, $configuration['active']);
+        $this->assertSame(0, $configuration['active']);
     }
 
     public function testConfigurationRejectsAnotherAccountsInstallation(): void
@@ -274,6 +274,7 @@ final class GoalsPanelPresenterTest extends TestCase
         $installation->method('getKey')->willReturn('RunalyzePluginPanel_Ziele');
         $installation->method('isPanel')->willReturn(true);
         $installation->method('isInactive')->willReturn($inactive);
+        $installation->method('getActive')->willReturn($inactive ? Plugin::STATE_INACTIVE : Plugin::STATE_ACTIVE);
 
         return $installation;
     }
