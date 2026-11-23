@@ -1,0 +1,48 @@
+<div class="panel-heading">
+    <div class="panel-menu">
+        <ul><li><a class="window" href="settings?key=config_tab_plugins&amp;external=true">{{ 'back to overview'|trans }}</a></li></ul>
+    </div>
+    <h1>{{ 'Plugin configuration'|trans }}: {{ 'Goals'|trans }}</h1>
+</div>
+<div class="panel-content">
+    <form class="ajax no-automatic-reload" action="{{ path('plugin-config', {'id': plugin_id}) }}" method="post">
+        <input type="hidden" name="edit" value="true">
+        <fieldset>
+            <legend>{{ 'Description'|trans }}</legend>
+            <p>{{ 'This plugin tracks your distances for chosen time ranges.'|trans }}</p>
+            <p>{{ 'You can set a goal (value > 0) for every time range. If it is set, you will see how much you have to run to reach it.'|trans }}</p>
+            <p>{{ 'A virtual Pace Bunny reaches the goal with a steady performance - you can see how far you are ahead or behind.'|trans }}</p>
+        </fieldset>
+        <fieldset>
+            <legend>{{ 'Configuration'|trans }}</legend>
+            {% for range in config_data.ranges %}
+                <div class="w100 block">
+                    <label for="goals-show-{{ range.key }}">{{ '%s: show'|trans|format(range.name) }}</label>
+                    <input type="checkbox" id="goals-show-{{ range.key }}" name="ziel_show_{{ range.key }}" value="1"{% if range.show %} checked{% endif %}>
+                    <small>{{ 'Show a prognosis for the current %s'|trans|format(range.name) }}</small>
+                </div>
+                <div class="w100 block">
+                    <label for="goals-value-{{ range.key }}">{{ '%s: goal'|trans|format(range.name) }}</label>
+                    <input type="number" id="goals-value-{{ range.key }}" name="ziel_{{ range.key }}" min="0" step="1" value="{{ range.goal }}">
+                    <small>{{ 'Current time range: %s to %s'|trans|format(range.start, range.end) }}</small>
+                    {% if range.note %}<small>{{ range.note }}</small>{% endif %}
+                </div>
+            {% endfor %}
+            <div class="w100 block">
+                <label for="goals-details">{{ 'Show details'|trans }}</label>
+                <input type="checkbox" id="goals-details" name="details" value="1"{% if config_data.show_details %} checked{% endif %}>
+            </div>
+            <div class="w100 block">
+                <input type="submit" value="{{ 'Save'|trans }}">
+            </div>
+        </fieldset>
+    </form>
+    <fieldset>
+        <legend>{{ 'Activation'|trans }}</legend>
+        {% if config_data.active == 0 %}
+            <a class="window" href="{{ path('plugin-config', {'id': plugin_id, 'active': 1}) }}">{{ 'Activate plugin'|trans }}</a>
+        {% else %}
+            <a class="window" href="{{ path('plugin-config', {'id': plugin_id, 'active': 0}) }}">{{ 'Deactivate plugin'|trans }}</a>
+        {% endif %}
+    </fieldset>
+</div>
