@@ -30,14 +30,18 @@ final class RechenspieleMarathonShapeSeriesCalculatorTest extends TestCase
         $result = $this->calculator()->calculate(
             $distances,
             $longjogs,
-            [3 => 50.0],
+            [
+                3 => 50.0,
+            ],
             $configuration,
             1,
             4,
             100
         );
 
-        $this->assertSame([3 => $shape->getShapeFor(35.0, $longJogPoints, 100)], $result);
+        $this->assertSame([
+            3 => $shape->getShapeFor(35.0, $longJogPoints, 100),
+        ], $result);
     }
 
     public function testDaysWithNoRollingVo2maxAreOmitted(): void
@@ -64,7 +68,9 @@ final class RechenspieleMarathonShapeSeriesCalculatorTest extends TestCase
         $result = $this->calculator()->calculate(
             [0.0, 0.0, 20.0, 30.0],
             [[], [], [], [30.0]],
-            [3 => 50.0],
+            [
+                3 => 50.0,
+            ],
             $configuration,
             3,
             3,
@@ -82,12 +88,15 @@ final class RechenspieleMarathonShapeSeriesCalculatorTest extends TestCase
         $configuration = $this->configuration();
         $configuration->set('BE_DAYS_FOR_WEEK_KM', '10');
         $configuration->set('BE_DAYS_FOR_WEEK_KM_MIN', '2');
+
         $shape = new MarathonShape(40.0, $configuration);
 
         $result = $this->calculator()->calculate(
             [10.0, 20.0, 30.0, 40.0, 50.0],
             [[], [], [], [], []],
-            [4 => 40.0],
+            [
+                4 => 40.0,
+            ],
             $configuration,
             4,
             4,
@@ -129,11 +138,21 @@ final class RechenspieleMarathonShapeSeriesCalculatorTest extends TestCase
      */
     public static function invalidInputs(): iterable
     {
-        yield 'missing long jog day' => [[0.0, 0.0], [[]], [1 => 50.0], 1, 1, 100];
-        yield 'negative index' => [[0.0, 0.0], [[], []], [1 => 50.0], -1, 1, 100];
-        yield 'reversed range' => [[0.0, 0.0], [[], []], [1 => 50.0], 1, 0, 100];
-        yield 'index past history' => [[0.0, 0.0], [[], []], [1 => 50.0], 1, 2, 100];
-        yield 'negative account age' => [[0.0, 0.0], [[], []], [1 => 50.0], 1, 1, -1];
+        yield 'missing long jog day' => [[0.0, 0.0], [[]], [
+            1 => 50.0,
+        ], 1, 1, 100];
+        yield 'negative index' => [[0.0, 0.0], [[], []], [
+            1 => 50.0,
+        ], -1, 1, 100];
+        yield 'reversed range' => [[0.0, 0.0], [[], []], [
+            1 => 50.0,
+        ], 1, 0, 100];
+        yield 'index past history' => [[0.0, 0.0], [[], []], [
+            1 => 50.0,
+        ], 1, 2, 100];
+        yield 'negative account age' => [[0.0, 0.0], [[], []], [
+            1 => 50.0,
+        ], 1, 1, -1];
     }
 
     public function testRejectsZeroLongJogPeriod(): void
@@ -143,7 +162,9 @@ final class RechenspieleMarathonShapeSeriesCalculatorTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
 
-        $this->calculator()->calculate([0.0], [[]], [0 => 40.0], $configuration, 0, 0, 100);
+        $this->calculator()->calculate([0.0], [[]], [
+            0 => 40.0,
+        ], $configuration, 0, 0, 100);
     }
 
     private function configuration(): BasicEndurance
