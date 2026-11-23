@@ -1,9 +1,12 @@
 <?php
+
+use Runalyze\Plugins\Rechenspiele\RechenspielePlotSelection;
+
 /**
  * Window: plot for calculations
  * @package Runalyze\Plugins\Panels
  */
-$selection = \Runalyze\Plugins\Rechenspiele\RechenspielePlotSelection::fromQuery(
+$selection = RechenspielePlotSelection::fromQuery(
     $_GET,
     START_YEAR,
     (int) date('Y')
