@@ -4,6 +4,7 @@ namespace Runalyze\Bundle\CoreBundle\Form\Type;
 
 use Runalyze\Metrics\Velocity\Unit\AbstractPaceInDecimalFormatUnit;
 use Runalyze\Metrics\Velocity\Unit\KilometerPerHour;
+use Symfony\Component\DependencyInjection\Attribute\Target;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -15,7 +16,7 @@ class WindSpeedType extends AbstractUnitBasedType
 
     protected KilometerPerHour $ModelUnit;
 
-    public function __construct(AbstractPaceInDecimalFormatUnit $velocityUnit)
+    public function __construct(#[Target('velocityUnit')] AbstractPaceInDecimalFormatUnit $velocityUnit)
     {
         $this->ModelUnit = new KilometerPerHour();
 
