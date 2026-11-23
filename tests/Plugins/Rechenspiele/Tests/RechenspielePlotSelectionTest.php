@@ -22,7 +22,9 @@ final class RechenspielePlotSelectionTest extends TestCase
     public function testAcceptsEverySupportedNamedTimeRange(): void
     {
         foreach (['all', 'lasthalf', 'lastyear'] as $range) {
-            $selection = RechenspielePlotSelection::fromQuery(['y' => $range], 2014, 2026);
+            $selection = RechenspielePlotSelection::fromQuery([
+                'y' => $range,
+            ], 2014, 2026);
 
             $this->assertSame($range, $selection->range);
         }
@@ -30,14 +32,20 @@ final class RechenspielePlotSelectionTest extends TestCase
 
     public function testAcceptsTheFirstAndLastAvailableYear(): void
     {
-        $this->assertSame('2014', RechenspielePlotSelection::fromQuery(['y' => '2014'], 2014, 2026)->range);
-        $this->assertSame('2026', RechenspielePlotSelection::fromQuery(['y' => '2026'], 2014, 2026)->range);
+        $this->assertSame('2014', RechenspielePlotSelection::fromQuery([
+            'y' => '2014',
+        ], 2014, 2026)->range);
+        $this->assertSame('2026', RechenspielePlotSelection::fromQuery([
+            'y' => '2026',
+        ], 2014, 2026)->range);
     }
 
     public function testRejectsYearsOutsideAccountRange(): void
     {
         foreach (['2013', '2027', '0000', '9999', '2026abc', '-1', '2026.0'] as $range) {
-            $selection = RechenspielePlotSelection::fromQuery(['y' => $range], 2014, 2026);
+            $selection = RechenspielePlotSelection::fromQuery([
+                'y' => $range,
+            ], 2014, 2026);
 
             $this->assertSame('lasthalf', $selection->range);
         }
@@ -45,7 +53,15 @@ final class RechenspielePlotSelectionTest extends TestCase
 
     public function testRejectsUnexpectedParameterTypesWithoutWarnings(): void
     {
-        foreach ([['y' => ['all']], ['y' => 2026], ['y' => null], ['y' => new \stdClass()]] as $query) {
+        foreach ([[
+            'y' => ['all'],
+        ], [
+            'y' => 2026,
+        ], [
+            'y' => null,
+        ], [
+            'y' => new \stdClass(),
+        ]] as $query) {
             $selection = RechenspielePlotSelection::fromQuery($query, 2014, 2026);
 
             $this->assertSame('lasthalf', $selection->range);
@@ -54,14 +70,20 @@ final class RechenspielePlotSelectionTest extends TestCase
 
     public function testSupportsTsbAndBanisterModels(): void
     {
-        $this->assertSame('tsb', RechenspielePlotSelection::fromQuery(['m' => 'tsb'], 2014, 2026)->model);
-        $this->assertSame('banister', RechenspielePlotSelection::fromQuery(['m' => 'banister'], 2014, 2026)->model);
+        $this->assertSame('tsb', RechenspielePlotSelection::fromQuery([
+            'm' => 'tsb',
+        ], 2014, 2026)->model);
+        $this->assertSame('banister', RechenspielePlotSelection::fromQuery([
+            'm' => 'banister',
+        ], 2014, 2026)->model);
     }
 
     public function testRejectsUnsupportedModelsAndNonStringValues(): void
     {
         foreach (['invalid', 'Banister', '', ['tsb'], null, 4] as $model) {
-            $selection = RechenspielePlotSelection::fromQuery(['m' => $model], 2014, 2026);
+            $selection = RechenspielePlotSelection::fromQuery([
+                'm' => $model,
+            ], 2014, 2026);
 
             $this->assertSame('tsb', $selection->model);
         }
