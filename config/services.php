@@ -563,8 +563,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'channel' => 'activity_uploads',
         ]);
 
-    $services->alias('app.file_importer', FileImporter::class);
-
     $services->set(ActivityDataContainerToActivityContextConverter::class);
 
     $services->set('app.activity_data_container.filter', ActivityDataContainerFilter::class)
