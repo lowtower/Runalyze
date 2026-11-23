@@ -8,6 +8,7 @@ use Runalyze\Plugins\Rechenspiele\RechenspieleShapeDailyAggregator;
 use Runalyze\Plugins\Rechenspiele\RechenspieleShapeDataProvider;
 use Runalyze\Plugins\Rechenspiele\RechenspieleShapePlotDateRange;
 use Runalyze\Plugins\Rechenspiele\RechenspieleShapePlotRenderer;
+use Runalyze\Plugins\Rechenspiele\RechenspieleShapePlotTimestampMapper;
 use Runalyze\Plugins\Rechenspiele\RechenspieleShapeSeriesCalculator;
 use Runalyze\Plugins\Rechenspiele\RechenspieleTrainingLoadCalculator;
 use Runalyze\Plugins\Rechenspiele\RechenspieleTrimpDataProvider;
@@ -30,6 +31,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(RechenspieleShapeSeriesCalculator::class);
     $services->set(RechenspieleShapePlotRenderer::class);
     $services->set(RechenspieleShapePlotDateRange::class);
+    $services->set(RechenspieleShapePlotTimestampMapper::class);
     $services->set(RechenspieleMarathonShapeSeriesCalculator::class);
 
     $services->set(RechenspieleTrimpDataProvider::class)
