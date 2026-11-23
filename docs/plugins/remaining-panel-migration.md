@@ -77,7 +77,9 @@ them under `plugins/` as though they were panels would break their lifecycle.
    `Plot` implementation. The staged `RechenspieleShapePlotDateRange`
    now provides validated period boundaries, warmup and daily array indices
    for all years, recent windows and individual years, including DST-safe
-   calendar arithmetic. Activating the pipeline through the Symfony window
+   calendar arithmetic. `RechenspieleShapePlotTimestampMapper` maps the
+   daily-index series into local-noon Flot milliseconds, preserving calendar
+   days when clocks change. Activating the pipeline through the Symfony window
    route, verifying database timezone parity against the live legacy output,
    and preserving historical maxima persistence remain follow-ups.
 5. **Calculations administration:** migrate the four existing configuration
