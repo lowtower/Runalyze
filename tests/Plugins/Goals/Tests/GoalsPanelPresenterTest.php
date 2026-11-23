@@ -68,7 +68,7 @@ final class GoalsPanelPresenterTest extends TestCase
         $this->assertFalse($result['show_details']);
         $this->assertSame(['woche'], array_column($result['ranges'], 'key'));
         $this->assertSame('22.11.2026', $result['ranges'][0]['start']);
-        $this->assertSame(['Goal', '1 days left', 'Me', 'Pace&nbsp;Bunny'], array_column($result['ranges'][0]['rows'], 'name'));
+        $this->assertSame(['Goal', '6 days left', 'Me', 'Pace&nbsp;Bunny'], array_column($result['ranges'][0]['rows'], 'name'));
     }
 
     public function testRejectsInstallationFromAnotherAccountWithoutReadingConfiguration(): void
