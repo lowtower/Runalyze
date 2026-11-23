@@ -8,7 +8,9 @@ use Twig\Environment;
 
 final readonly class PrognoseCalculatorResultTableRenderer
 {
-    public function __construct(private Environment $twig) {}
+    public function __construct(
+        private Environment $twig
+    ) {}
 
     /**
      * @param array<array-key, array<string, mixed>> $prognoses

@@ -46,25 +46,43 @@ final readonly class PrognoseTrendPlotRenderer
             'label' => __('Prognosis'),
             'color' => '#880000',
             'data' => $prognosis,
-            'lines' => ['show' => true],
-            'points' => ['show' => false],
-            'curvedLines' => ['apply' => false],
+            'lines' => [
+                'show' => true,
+            ],
+            'points' => [
+                'show' => false,
+            ],
+            'curvedLines' => [
+                'apply' => false,
+            ],
         ];
         $plot->Data[] = [
             'label' => __('Prognosis with marathon shape'),
             'color' => '#000088',
             'data' => $prognosisWithEndurance,
-            'lines' => ['show' => true],
-            'points' => ['show' => false],
-            'curvedLines' => ['apply' => false],
+            'lines' => [
+                'show' => true,
+            ],
+            'points' => [
+                'show' => false,
+            ],
+            'curvedLines' => [
+                'apply' => false,
+            ],
         ];
         $plot->Data[] = [
             'label' => __('Result'),
             'color' => '#000000',
             'data' => $results,
-            'lines' => ['show' => false],
-            'points' => ['show' => true],
-            'curvedLines' => ['apply' => false],
+            'lines' => [
+                'show' => false,
+            ],
+            'points' => [
+                'show' => true,
+            ],
+            'curvedLines' => [
+                'apply' => false,
+            ],
         ];
 
         $plot->setZeroPointsToNull();

@@ -71,7 +71,10 @@ final readonly class TagsSummaryPanelPresenter implements ModernPanelInterface, 
             $id = $sport->getId();
 
             if ($id !== null) {
-                $sports[] = ['id' => $id, 'name' => $sport->getName()];
+                $sports[] = [
+                    'id' => $id,
+                    'name' => $sport->getName(),
+                ];
             }
         }
 
@@ -145,7 +148,10 @@ final readonly class TagsSummaryPanelPresenter implements ModernPanelInterface, 
         foreach ($this->sportRepository->findAllFor($account) as $sport) {
             $id = $sport->getId();
             if ($id !== null) {
-                $sports[] = ['id' => $id, 'name' => $sport->getName()];
+                $sports[] = [
+                    'id' => $id,
+                    'name' => $sport->getName(),
+                ];
             }
         }
 

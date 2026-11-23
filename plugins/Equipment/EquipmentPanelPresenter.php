@@ -78,7 +78,10 @@ final readonly class EquipmentPanelPresenter implements ModernPanelInterface, Mo
             $id = $type->getId();
 
             if ($id !== null) {
-                $types[] = ['id' => $id, 'name' => $type->getName()];
+                $types[] = [
+                    'id' => $id,
+                    'name' => $type->getName(),
+                ];
             }
         }
 
