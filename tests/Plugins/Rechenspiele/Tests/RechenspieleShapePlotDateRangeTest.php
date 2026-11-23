@@ -79,9 +79,6 @@ final class RechenspieleShapePlotDateRangeTest extends TestCase
         $this->assertSame(210, $range['number_of_days']);
     }
 
-    /**
-     * @param string $rangeName
-     */
     #[DataProvider('invalidSelections')]
     public function testRejectsInvalidRanges(string $rangeName, int $atlDays): void
     {
