@@ -513,12 +513,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(GenerateJsonData::class, 'app.poster.generate_json');
 
-    $services->set('app.poster.generate_poster', GeneratePoster::class)
+    $services->set(GeneratePoster::class)
         ->arg('$projectDir', '%kernel.project_dir%')
         ->arg('$Python3Path', '%app.python3_path%')
         ->arg('$TrainingRepository', service(TrainingRepository::class));
 
-    $services->alias(GeneratePoster::class, 'app.poster.generate_poster');
+    $services->alias('app.poster.generate_poster', GeneratePoster::class);
 
     $services->set(Availability::class)
         ->arg('$RsvgPath', '%app.rsvg_path%')
