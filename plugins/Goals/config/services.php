@@ -16,8 +16,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autoconfigure(true)
         ->public();
 
-    // The presenter is not tagged until its Twig and configuration paths replace the legacy panel.
-    $services->set(GoalsPanelPresenter::class);
+    $services->set(GoalsPanelPresenter::class)
+        ->tag('runalyze.modern_panel');
     $services->set(GoalsProgressCalculator::class);
     $services->set(GoalsTimeRangeProvider::class);
     $services->set(GoalsTrainingDataProvider::class);
