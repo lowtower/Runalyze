@@ -360,6 +360,57 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testGoalsPanelRendersAndPersistsLegacySettingsViaModernRoutes(): void
+    {
+        $plugin = new Plugin()
+            ->setAccount($this->Account)
+            ->setKey('RunalyzePluginPanel_Ziele')
+            ->setType(Plugin::TYPE_PANEL)
+            ->setActive(Plugin::STATE_ACTIVE)
+            ->setOrder(1);
+
+        $this->getEntityManager()->persist($plugin);
+        $this->getEntityManager()->flush();
+
+        $pluginId = (int) $plugin->getId();
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        $this->request('GET', '/call/call.Plugin.config.php?id=' . $pluginId);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString(
+            'name="ziel_woche"',
+            (string) $this->Client->getResponse()->getContent()
+        );
+
+        $this->Client->request('POST', '/call/call.Plugin.config.php?id=' . $pluginId, [
+            'edit' => 'true',
+            'ziel_show_woche' => '1',
+            'ziel_woche' => '100',
+            'details' => '0',
+        ]);
+        $this->assertStatusCode(200, $this->Client);
+
+        $goal = $this->getEntityManager()
+            ->getRepository(PluginConf::class)
+            ->findForPluginAndKey($pluginId, 'ziel_woche');
+        $this->assertInstanceOf(PluginConf::class, $goal);
+        $this->assertSame('100', $goal->getValue());
+
+        $hiddenMonth = $this->getEntityManager()
+            ->getRepository(PluginConf::class)
+            ->findForPluginAndKey($pluginId, 'ziel_show_mon');
+        $this->assertInstanceOf(PluginConf::class, $hiddenMonth);
+        $this->assertSame('0', $hiddenMonth->getValue());
+
+        $this->request('GET', '/my/plugin/' . $pluginId);
+        $this->assertStatusCode(200, $this->Client);
+        $html = (string) $this->Client->getResponse()->getContent();
+        $this->assertStringContainsString('id="bunny_woche"', $html);
+        $this->assertStringNotContainsString('id="bunny_mon"', $html);
+        $this->assertStringContainsString('Pace', $html);
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testEquipmentConfigurationPersistsSelectedTypeWithoutLegacyPanel(): void
     {
         $plugin = new Plugin()
