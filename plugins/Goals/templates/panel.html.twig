@@ -1,0 +1,59 @@
+{% extends 'my/panels/base.html.twig' %}
+
+{% block pluginTitle %}{{ 'Goals'|trans }}{% endblock %}
+
+{% block panelHeadingMenu %}
+    {% if panel_data.ranges is not empty %}
+        <ul>
+            <li class="with-submenu">
+                <span class="link">{{ panel_data.ranges[0].name }}</span>
+                <ul class="submenu">
+                    {% for range in panel_data.ranges %}
+                        <li><a class="change" target="bunny" href="#bunny_{{ range.key }}">{{ range.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+        </ul>
+    {% endif %}
+{% endblock %}
+
+{% block panelContent %}
+    <div id="bunny">
+        {% for range in panel_data.ranges %}
+            <div id="bunny_{{ range.key }}" class="change"{% if not loop.first %} style="display:none;"{% endif %}>
+                {% for row in range.rows %}
+                    {% if row.type is defined and row.type == 'bar' %}
+                        {% set percentage = row.max > 0 ? min(100, 100 * row.val / row.max) : 0 %}
+                        {% set additional_percentage = row.max > 0 and row.add is not null ? 100 * row.add / row.max : 0 %}
+                        <div style="padding-left:5px; padding-right:7px; padding-bottom:2px">
+                            <div style="border:1px solid black; padding:1px; background-color:transparent; width:100%; height:15px">
+                                <span style="position:absolute; right:15px">{{ (percentage + additional_percentage)|round(1) }}%&nbsp;</span>
+                                <span style="position:absolute; left:15px">{{ row.name|replace({'&nbsp;': ' '}) }}</span>
+                                <div class="progress_bar" style="float:left; background-color:{{ row.color }}; width:{{ percentage|round }}%;">&nbsp;</div>
+                                {% if row.add is not null and row.add != 0 %}
+                                    <div class="progress_bar" style="float:left; background-color:{{ row.addcolor }}; width:{{ additional_percentage|round }}%;">&nbsp;</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% else %}
+                        <p{% if row.sep is defined and row.sep %} style="border-top:1px solid #ccc;"{% endif %}>
+                            <span class="right">
+                                {% if row.anz is defined and row.anz > 0 %}
+                                    <small><small>({{ row.anz|round(1) }}x)</small></small>
+                                {% endif %}
+                                {% if row.km is defined and row.km > 0 %}
+                                    {% if row.lvl is defined and row.lvl == 1 %}<strong>{% endif %}
+                                    {{ distance(row.km, null, 1) }}
+                                    {% if row.lvl is defined and row.lvl == 1 %}</strong>{% endif %}
+                                {% endif %}
+                            </span>
+                            <span{% if row.lvl is defined and row.lvl == 1 %} style="font-weight:bold;"{% elseif row.lvl is defined and row.lvl == 2 %} style="padding-left:10px;"{% endif %}>{{ row.name }}</span>
+                        </p>
+                    {% endif %}
+                {% endfor %}
+                <div class="clear"></div>
+                <small class="right">{{ '%s to %s (%d days)'|trans|format(range.start, range.end, range.duration_days) }}</small>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
