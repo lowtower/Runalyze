@@ -133,6 +133,79 @@ final class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertSame([], $this->TrainingRepository->findDailyTrimpForAccount($this->getEmptyAccount()));
     }
 
+    public function testShapePlotHistoryIncludesAllSportsButWeightsOnlyRunningVo2max(): void
+    {
+        $running = $this->getDefaultAccountsRunningSport();
+        $cycling = $this->getDefaultAccountsCyclingSport();
+        $start = strtotime('2026-01-10 00:00:00 UTC');
+        $end = strtotime('2026-01-11 23:59:59 UTC');
+
+        $before = $this->insertActivityForDefaultAccount($start - 1, 1000, 1.0, $running);
+        $run = $this->insertActivityForDefaultAccount($start, 3600, 10.0, $running);
+        $bike = $this->insertActivityForDefaultAccount($start + 60, 1800, 30.0, $cycling);
+        $excluded = $this->insertActivityForDefaultAccount($end, 1200, 5.0, $running);
+        $after = $this->insertActivityForDefaultAccount($end + 1, 1000, 1.0, $running);
+
+        $before->setTrimp(5);
+        $run->setTrimp(100)->setVO2max(45.0)->setVO2maxWithElevation(50.0)->setUseVO2max(true);
+        $bike->setTrimp(80)->setVO2max(60.0)->setUseVO2max(true);
+        $excluded->setTrimp(20)->setVO2max(48.0)->setUseVO2max(false);
+        $after->setTrimp(5);
+        $this->getEntityManager()->flush();
+
+        $expected = [
+            [
+                'day' => '2026-01-10',
+                'trimp' => 100.0,
+                'distance' => 10.0,
+                'vo2max_weighted' => 162000.0,
+                'vo2max_sum_time' => 3600.0,
+                'is_running' => true,
+            ],
+            [
+                'day' => '2026-01-10',
+                'trimp' => 80.0,
+                'distance' => 30.0,
+                'vo2max_weighted' => 0.0,
+                'vo2max_sum_time' => 0.0,
+                'is_running' => false,
+            ],
+            [
+                'day' => '2026-01-11',
+                'trimp' => 20.0,
+                'distance' => 5.0,
+                'vo2max_weighted' => 0.0,
+                'vo2max_sum_time' => 0.0,
+                'is_running' => true,
+            ],
+        ];
+
+        $this->assertSame($expected, $this->TrainingRepository->findShapePlotTrainingData(
+            $this->Account,
+            (int) $running->getId(),
+            $start,
+            $end,
+            false
+        ));
+
+        $elevation = $this->TrainingRepository->findShapePlotTrainingData(
+            $this->Account,
+            (int) $running->getId(),
+            $start,
+            $end,
+            true
+        );
+        $this->assertSame(180000.0, $elevation[0]['vo2max_weighted']);
+
+        $this->assertSame([], $this->TrainingRepository->findShapePlotTrainingData(
+            $this->getEmptyAccount(),
+            (int) $running->getId(),
+            $start,
+            $end,
+            false
+        ));
+    }
+
     public function testPrognosisTrendHistoryPreservesChronologyAndVO2maxWeights(): void
     {
         $runningSport = $this->getDefaultAccountsRunningSport();
