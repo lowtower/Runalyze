@@ -152,7 +152,7 @@ class TrainingRepository extends ServiceEntityRepository
             ->setParameter('account', $account)
             ->setParameter('fromTimestamp', $fromTimestamp)
             ->setParameter('toTimestamp', $toTimestamp)
-            ->orderBy('t.time', \\SortDirection::Ascending)
+            ->orderBy('t.time', \SortDirection::Ascending)
             ->getQuery()
             ->toIterable();
 
