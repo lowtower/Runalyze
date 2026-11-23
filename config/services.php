@@ -506,12 +506,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias('app.twig_value_extension', ValueExtension::class);
     $services->alias('app.twig_automatic_reload_flag_extension', AutomaticReloadFlagExtension::class);
 
-    $services->set('app.poster.generate_json', GenerateJsonData::class)
+    $services->set(GenerateJsonData::class)
         ->arg('$TrainingRepository', service(TrainingRepository::class))
         ->arg('$RaceresultRepository', service(RaceresultRepository::class))
         ->arg('$projectDir', '%kernel.project_dir%');
 
-    $services->alias(GenerateJsonData::class, 'app.poster.generate_json');
+    $services->alias('app.poster.generate_json', GenerateJsonData::class);
 
     $services->set(GeneratePoster::class)
         ->arg('$projectDir', '%kernel.project_dir%')
