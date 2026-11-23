@@ -551,10 +551,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$PathToPerl', '%app.perl_path%')
         ->arg('$PathToFitPerlScript', '%kernel.project_dir%/call/perl/fittorunalyze.pl');
 
-    $services->set('app.file_converter.ttbin', TtbinConverter::class)
+    $services->set(TtbinConverter::class)
         ->arg('$PathToConverter', '%kernel.project_dir%/%app.ttbin_path%');
 
-    $services->alias(TtbinConverter::class, 'app.file_converter.ttbin');
+    $services->alias('app.file_converter.ttbin', TtbinConverter::class);
 
     $services->set('app.file_importer', FileImporter::class)
         ->arg('$fitConverter', service(FitConverter::class))
