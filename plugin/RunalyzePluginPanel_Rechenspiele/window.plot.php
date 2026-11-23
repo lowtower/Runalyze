@@ -8,7 +8,7 @@ use Runalyze\Plugins\Rechenspiele\RechenspielePlotSelection;
  */
 $selection = RechenspielePlotSelection::fromQuery(
     $_GET,
-    START_YEAR,
+    (int) START_YEAR,
     (int) date('Y')
 );
 $timerange = $selection->range;
