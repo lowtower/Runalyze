@@ -150,7 +150,7 @@ final class GoalsPanelPresenterTest extends TestCase
         ];
         $writes = [];
 
-        $storage = $this->createMock(PluginConfigurationStorageInterface::class);
+        $storage = $this->createStub(PluginConfigurationStorageInterface::class);
         $storage->method('loadForPlugins')->willReturn([
             5 => $stored,
         ]);
