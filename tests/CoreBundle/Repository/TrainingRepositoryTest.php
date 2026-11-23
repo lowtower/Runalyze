@@ -206,6 +206,35 @@ final class TrainingRepositoryTest extends AbstractRepositoryTestCase
         ));
     }
 
+    public function testShapePlotHistoryUsesSuppliedTimezoneForCalendarDay(): void
+    {
+        $running = $this->getDefaultAccountsRunningSport();
+        $timestamp = strtotime('2026-03-28 23:30:00 UTC');
+        $activity = $this->insertActivityForDefaultAccount($timestamp, 1200, 5.0, $running);
+        $activity->setTrimp(15);
+        $this->getEntityManager()->flush();
+
+        $berlin = $this->TrainingRepository->findShapePlotTrainingData(
+            $this->Account,
+            (int) $running->getId(),
+            $timestamp,
+            $timestamp,
+            false,
+            new DateTimeZone('Europe/Berlin')
+        );
+        $utc = $this->TrainingRepository->findShapePlotTrainingData(
+            $this->Account,
+            (int) $running->getId(),
+            $timestamp,
+            $timestamp,
+            false
+        );
+
+        $this->assertSame('2026-03-29', $berlin[0]['day']);
+        $this->assertSame('2026-03-28', $utc[0]['day']);
+        $this->assertSame(15.0, $berlin[0]['trimp']);
+    }
+
     public function testPrognosisTrendHistoryPreservesChronologyAndVO2maxWeights(): void
     {
         $runningSport = $this->getDefaultAccountsRunningSport();
