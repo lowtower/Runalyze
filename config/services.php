@@ -571,8 +571,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'channel' => 'activity_uploads',
         ]);
 
-    $services->alias('app.activity_data_container.filter', ActivityDataContainerFilter::class);
-
     $services->set('app.activity_context.cache', ActivityCache::class)
         ->arg('$Cache', service('app.cache.activity_uploads'));
 
