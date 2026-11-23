@@ -1,19 +1,18 @@
 <?php
+
+use Runalyze\Plugins\Rechenspiele\RechenspielePlotSelection;
+
 /**
  * Window: plot for calculations
  * @package Runalyze\Plugins\Panels
  */
-if (isset($_GET['y'])) {
-    $timerange = $_GET['y'];
-} else {
-    $timerange = 'lasthalf';
-}
-
-if (isset($_GET['m'])) {
-    $perfmodel = $_GET['m'];
-} else {
-    $perfmodel = 'tsb';
-}
+$selection = RechenspielePlotSelection::fromQuery(
+    $_GET,
+    (int) START_YEAR,
+    (int) date('Y')
+);
+$timerange = $selection->range;
+$perfmodel = $selection->model;
 
 $TimeRangeLabels = [
     'all' => __('All years'),
@@ -24,15 +23,15 @@ $TimeRangeLabels = [
 $CurrentYear = $TimeRangeLabels[$timerange] ?? $timerange;
 
 $link = 'plugin/RunalyzePluginPanel_Rechenspiele/window.plot.php?y=all&m=' . $perfmodel;
-$Submenu = '<li' . ($timerange == 'all' ? ' class="active"' : '') . '>' . Ajax::window('<a href="' . $link . '">' . $TimeRangeLabels['all'] . '</a>') . '</li>';
+$Submenu = '<li' . ($timerange === 'all' ? ' class="active"' : '') . '>' . Ajax::window('<a href="' . $link . '">' . $TimeRangeLabels['all'] . '</a>') . '</li>';
 
 $link = 'plugin/RunalyzePluginPanel_Rechenspiele/window.plot.php?y=lasthalf&m=' . $perfmodel;
-$Submenu .= '<li' . ($timerange == 'lasthalf' ? ' class="active"' : '') . '>' . Ajax::window('<a href="' . $link . '">' . $TimeRangeLabels['lasthalf'] . '</a>') . '</li>';
+$Submenu .= '<li' . ($timerange === 'lasthalf' ? ' class="active"' : '') . '>' . Ajax::window('<a href="' . $link . '">' . $TimeRangeLabels['lasthalf'] . '</a>') . '</li>';
 
 $link = 'plugin/RunalyzePluginPanel_Rechenspiele/window.plot.php?y=lastyear&m=' . $perfmodel;
-$Submenu .= '<li' . ($timerange == 'lastyear' ? ' class="active"' : '') . '>' . Ajax::window('<a href="' . $link . '">' . $TimeRangeLabels['lastyear'] . '</a>') . '</li>';
+$Submenu .= '<li' . ($timerange === 'lastyear' ? ' class="active"' : '') . '>' . Ajax::window('<a href="' . $link . '">' . $TimeRangeLabels['lastyear'] . '</a>') . '</li>';
 
-for ($j = date('Y'); $j >= START_YEAR; $j--) {
+for ($j = (int) date('Y'); $j >= START_YEAR; $j--) {
     $link = 'plugin/RunalyzePluginPanel_Rechenspiele/window.plot.php?y=' . $j . '&m=' . $perfmodel;
     $Submenu .= '<li' . ($j == $timerange ? ' class="active"' : '') . '>' . Ajax::window('<a href="' . $link . '">' . $j . '</a>') . '</li>';
 }
@@ -45,10 +44,10 @@ $ModelLabels = [
 $CurrentModel = $ModelLabels[$perfmodel];
 
 $link = 'plugin/RunalyzePluginPanel_Rechenspiele/window.plot.php?y=' . $timerange . '&m=tsb';
-$perfmodelsmenu = '<li' . ($perfmodel == 'tsb' ? ' class="active"' : '') . '>' . Ajax::window('<a href="' . $link . '">' . $ModelLabels['tsb'] . '</a>') . '</li>';
+$perfmodelsmenu = '<li' . ($perfmodel === 'tsb' ? ' class="active"' : '') . '>' . Ajax::window('<a href="' . $link . '">' . $ModelLabels['tsb'] . '</a>') . '</li>';
 
 $link = 'plugin/RunalyzePluginPanel_Rechenspiele/window.plot.php?y=' . $timerange . '&m=banister';
-$perfmodelsmenu .= '<li' . ($perfmodel == 'banister' ? ' class="active"' : '') . '>' . Ajax::window('<a href="' . $link . '">' . $ModelLabels['banister'] . '</a>') . '</li>';
+$perfmodelsmenu .= '<li' . ($perfmodel === 'banister' ? ' class="active"' : '') . '>' . Ajax::window('<a href="' . $link . '">' . $ModelLabels['banister'] . '</a>') . '</li>';
 
 ?>
 <div class="panel-heading">

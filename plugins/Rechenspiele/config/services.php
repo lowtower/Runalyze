@@ -20,6 +20,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(RechenspieleTrainingLoadCalculator::class);
 
+
     $services->set(RechenspieleTrimpDataProvider::class)
         ->autowire()
         ->autoconfigure();
