@@ -19,12 +19,14 @@ final class RechenspielePanelTemplateTest extends TestCase
             dirname(__DIR__, 4) . '/plugins/Rechenspiele/templates/panel.html.twig'
         );
 
-        self::assertIsString($template);
+        $this->assertIsString($template);
 
         $twig = new Environment(new ArrayLoader([
             'my/panels/base.html.twig' => '{% block panelContent %}{% endblock %}',
             '@Rechenspiele/panel.html.twig' => $template,
-        ]), ['autoescape' => 'html']);
+        ]), [
+            'autoescape' => 'html',
+        ]);
 
         $twig->addFilter(new TwigFilter('trans', static fn (string $label): string => $label === 'Easy TRIMP'
             ? 'Entspannter&nbsp;TRIMP'
