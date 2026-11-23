@@ -525,8 +525,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$InkscapePath', '%app.inkscape_path%')
         ->arg('$Python3Path', '%app.python3_path%');
 
-    $services->alias('app.poster.availability', Availability::class);
-
     $services->set(FileHandler::class)
         ->arg('$DataDir', '%app.data_directory%');
 
