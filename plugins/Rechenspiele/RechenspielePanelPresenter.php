@@ -130,7 +130,7 @@ final readonly class RechenspielePanelPresenter implements ModernPanelInterface
 
         return [
             'rows' => $rows,
-            'missing_vo2max' => $showVO2max && $vo2max == 0.0,
+            'missing_vo2max' => $showVO2max && $vo2max === 0.0,
             'insufficient_activities' => $startTime > 0
                 && $this->clock->now()->getTimestamp() - $startTime < 70 * 86400,
         ];

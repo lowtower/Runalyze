@@ -35,23 +35,23 @@ final readonly class PrognoseCalculatorModelFactory
         if ($model !== 'vo2max') {
             $results[] = [
                 'distance' => (float) str_replace(',', '.', (string) $input['best-result-km']),
-                's' => (new Duration($input['best-result-time']))->seconds(),
+                's' => new Duration($input['best-result-time'])->seconds(),
             ];
 
             if ($model === 'cpp') {
                 $results[] = [
                     'distance' => (float) str_replace(',', '.', (string) $input['second-best-result-km']),
-                    's' => (new Duration($input['second-best-result-time']))->seconds(),
+                    's' => new Duration($input['second-best-result-time'])->seconds(),
                 ];
             }
         }
 
-        return (new PrognosisModel(
+        return new PrognosisModel(
             $model,
             $results,
             (float) str_replace(',', '.', (string) ($input['vo2max'] ?? 0)),
             (int) ($input['endurance-value'] ?? 0),
             isset($input['endurance'])
-        ))->getPrognosisObject();
+        )->getPrognosisObject();
     }
 }

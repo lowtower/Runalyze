@@ -30,7 +30,7 @@ final readonly class TagsSummaryPanelSelectionHandler
         assert($pluginId !== null);
 
         $sports = $this->sportRepository->findAllFor($account);
-        $validSportIds = array_map(static fn ($sport): ?int => $sport->getId(), $sports);
+        $validSportIds = array_map(static fn (\Runalyze\Bundle\CoreBundle\Entity\Sport $sport): ?int => $sport->getId(), $sports);
 
         foreach (['sport', 'tagssummary_timescale'] as $key) {
             $requested = $queryParameters[$key] ?? null;

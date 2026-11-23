@@ -35,7 +35,7 @@ final readonly class PrognoseTrendPlotRenderer
                     continue;
                 }
 
-                $results[(new LocalTime($result['time']))->toServerTimestamp() . '000'] = $result['official_time'] * 1000;
+                $results[new LocalTime($result['time'])->toServerTimestamp() . '000'] = $result['official_time'] * 1000;
             }
         }
 
@@ -102,10 +102,10 @@ final readonly class PrognoseTrendPlotRenderer
         try {
             $plot->outputJavaScript();
             $javascript = ob_get_clean();
-        } catch (Throwable $exception) {
+        } catch (Throwable $throwable) {
             ob_end_clean();
 
-            throw $exception;
+            throw $throwable;
         }
 
         return [

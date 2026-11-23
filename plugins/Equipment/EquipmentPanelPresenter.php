@@ -153,14 +153,7 @@ final readonly class EquipmentPanelPresenter implements ModernPanelInterface, Mo
         $equipmentTypes = $this->equipmentTypeRepository->findAllForPanel($account);
 
         $selectedTypeId = (int) ($configuration['type'] ?? 0);
-        $selectedType = null;
-
-        foreach ($equipmentTypes as $equipmentType) {
-            if ($equipmentType->getId() === $selectedTypeId) {
-                $selectedType = $equipmentType;
-                break;
-            }
-        }
+        $selectedType = array_find($equipmentTypes, fn ($equipmentType): bool => $equipmentType->getId() === $selectedTypeId);
 
         if (! $selectedType instanceof EquipmentType) {
             return [
@@ -254,7 +247,7 @@ final readonly class EquipmentPanelPresenter implements ModernPanelInterface, Mo
                 'search_url' => 'my/search?get=true&equipmentid=' . (int) $id,
                 'display_value' => $distanceUnit instanceof AbstractDistanceUnit
                     ? $this->formatDistance($item->getTotalDistance(), $distanceUnit)
-                    : (new Duration($item->getTime()))->string(),
+                    : new Duration($item->getTime())->string(),
                 'usage_width' => (int) round($percentage * self::USAGE_BAR_MAX_WIDTH_PX),
                 'is_active' => $item->isActive(),
             ];
