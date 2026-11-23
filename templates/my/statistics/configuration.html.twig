@@ -1,0 +1,27 @@
+<div class="panel-heading">
+    <div class="panel-menu">
+        <ul><li><a class="window" href="settings?key=config_tab_plugins&amp;external=true">{{ 'back to overview'|trans }}</a></li></ul>
+    </div>
+    <h1>{{ 'Plugin configuration'|trans }}: {{ name }}</h1>
+</div>
+<div class="panel-content">
+    <fieldset>
+        <legend>{{ 'Description'|trans }}</legend>
+        <p>{{ description }}</p>
+        {% if inactive %}
+            <p class="warning">{{ 'The plugin is deactivated.'|trans }}</p>
+        {% endif %}
+    </fieldset>
+    <fieldset>
+        <legend>{{ 'Configuration'|trans }}</legend>
+        <p class="info">{{ 'There are no settings.'|trans }}</p>
+    </fieldset>
+    <fieldset>
+        <legend>{{ 'Activation'|trans }}</legend>
+        {% if inactive %}
+            <a class="window" href="{{ path('plugin-config', {'id': plugin_id, 'active': 1}) }}">{{ 'Activate plugin'|trans }}</a>
+        {% else %}
+            <a class="window" href="{{ path('plugin-config', {'id': plugin_id, 'active': 0}) }}">{{ 'Deactivate plugin'|trans }}</a>
+        {% endif %}
+    </fieldset>
+</div>

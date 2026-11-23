@@ -7,14 +7,17 @@ namespace Runalyze\Bundle\CoreBundle\Services\Dashboard;
 use InvalidArgumentException;
 use LogicException;
 use Plugin;
-use PluginType;
+use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Symfony\Component\HttpFoundation\Request;
 
 final readonly class DashboardStatisticsProvider
 {
     public function __construct(
-        private PluginSettingsProvider $pluginSettingsProvider
+        private PluginSettingsProvider $pluginSettingsProvider,
+        private ?ModernStatisticsRegistry $modernStatisticsRegistry = null
     ) {}
 
     /**
@@ -23,71 +26,68 @@ final readonly class DashboardStatisticsProvider
      */
     public function getStatistics(Request $request): DashboardStatistics
     {
-        $activeStatistics = $this->pluginSettingsProvider->getInstalledPlugins(PluginType::STAT, Plugin::ACTIVE);
-        $variousStatistics = $this->pluginSettingsProvider->getInstalledPlugins(PluginType::STAT, Plugin::ACTIVE_VARIOUS);
+        $installed = array_column($this->pluginSettingsProvider->getInstalledPluginData(), null, 'id');
+        $plugins = [];
         $navigation = [];
+        $miscellaneous = [];
+        $firstActive = null;
 
-        foreach ($activeStatistics as $index => $plugin) {
-            $navigation[] = [
-                'label' => $plugin->name(),
-                'href' => Plugin::$DISPLAY_URL . '/' . $plugin->id(),
-                'active' => $index === 0,
-                'children' => [],
-            ];
-        }
-
-        if ($variousStatistics !== []) {
-            $children = [];
-
-            foreach ($variousStatistics as $plugin) {
-                $children[] = [
-                    'label' => $plugin->name(),
-                    'href' => Plugin::$DISPLAY_URL . '/' . $plugin->id(),
-                ];
+        foreach ($installed as $id => $installation) {
+            if ($installation['type'] !== PluginInstallation::TYPE_STAT
+                || ! in_array($installation['active'], [PluginInstallation::STATE_ACTIVE, PluginInstallation::STATE_HIDDEN], true)
+            ) {
+                continue;
             }
 
+            $modern = $this->modernStatisticsRegistry?->find($installation['key']);
+            if ($modern instanceof ModernStatisticsInterface) {
+                $plugin = $id;
+                $label = $modern->getName();
+            } else {
+                $plugin = $this->pluginSettingsProvider->instantiateLegacyPlugin($installation);
+                $label = $plugin->name();
+            }
+
+            $plugins[$id] = $plugin;
+            $link = [
+                'label' => $label,
+                'href' => Plugin::$DISPLAY_URL . '/' . $id,
+            ];
+
+            if ($installation['active'] === PluginInstallation::STATE_HIDDEN) {
+                $miscellaneous[] = $link;
+
+                continue;
+            }
+
+            $navigation[] = $link + ['active' => $firstActive === null, 'children' => []];
+            $firstActive ??= $plugin;
+        }
+
+        if ($miscellaneous !== []) {
             $navigation[] = [
                 'label' => __('Miscellaneous'),
                 'href' => '#',
                 'active' => false,
-                'children' => $children,
+                'children' => $miscellaneous,
             ];
         }
 
         if ($request->query->has('id')) {
-            return new DashboardStatistics(
-                $navigation,
-                $request->query->getInt('id'),
-                null,
-                $activeStatistics !== []
-            );
+            return new DashboardStatistics($navigation, $request->query->getInt('id'), null, $firstActive !== null);
         }
 
         if ($request->query->has('pluginid')) {
-            $pluginId = $request->query->getInt('pluginid');
-            $plugin = null;
+            $id = $request->query->getInt('pluginid');
+            $installation = $installed[$id] ?? throw new InvalidArgumentException(sprintf('No plugin found for id "%d".', $id));
 
-            foreach ([$activeStatistics, $variousStatistics] as $installedPlugins) {
-                foreach ($installedPlugins as $installedPlugin) {
-                    if ($installedPlugin->id() === $pluginId) {
-                        $plugin = $installedPlugin;
+            if ($installation['active'] !== PluginInstallation::STATE_INACTIVE) {
+                $plugin = $plugins[$id] ?? $this->pluginSettingsProvider->instantiateLegacyPlugin($installation);
 
-                        break 2;
-                    }
-                }
-            }
-
-            $plugin ??= $this->pluginSettingsProvider->getInstalledPluginById($pluginId);
-
-            if (! $plugin->isInActive()) {
-                return new DashboardStatistics($navigation, null, $plugin, $activeStatistics !== []);
+                return new DashboardStatistics($navigation, null, $plugin, $firstActive !== null);
             }
         }
 
-        if ($activeStatistics === []) {
-            return new DashboardStatistics($navigation, null, null, false);
-        }
-
-        return new DashboardStatistics($navigation, null, $activeStatistics[0], true);
+        return new DashboardStatistics($navigation, null, $firstActive, $firstActive !== null);
     }
 }

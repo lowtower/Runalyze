@@ -12,6 +12,8 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
 use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -21,7 +23,8 @@ final readonly class PluginInstallationManager
         private ManagerRegistry $doctrine,
         private TokenStorageInterface $tokenStorage,
         private LegacyPluginInstantiator $pluginInstantiator,
-        private ?ModernPanelRegistry $modernPanelRegistry = null
+        private ?ModernPanelRegistry $modernPanelRegistry = null,
+        private ?ModernStatisticsRegistry $modernStatisticsRegistry = null
     ) {}
 
     /**
@@ -121,6 +124,12 @@ final readonly class PluginInstallationManager
             && $this->modernPanelRegistry->get($key) instanceof ModernPanelMetadataInterface
         ) {
             $this->getPluginRepository()->installForAccount($account, $key, Plugin::TYPE_PANEL);
+
+            return true;
+        }
+
+        if ($this->modernStatisticsRegistry?->find($key) instanceof ModernStatisticsInterface) {
+            $this->getPluginRepository()->installForAccount($account, $key, Plugin::TYPE_STAT);
 
             return true;
         }
