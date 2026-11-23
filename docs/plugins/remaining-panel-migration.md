@@ -47,7 +47,11 @@ them under `plugins/` as though they were panels would break their lifecycle.
    `ziel_*`, and `details`, including checkbox defaults and active-state
    management. Confirm the dashboard and configuration behavior in a real
    browser before merging the activation PR.
-4. **Calculations windows:** move the explanation fieldsets and shape plot
+4. **Calculations windows:** the legacy shape-plot window now delegates
+   its `y` (time range) and `m` (performance model) query validation to
+   `RechenspielePlotSelection`. Its URLs, menus, and rendering remain in
+   the original PHP window; invalid or non-string parameters fall back to
+   `lasthalf` and `tsb`. Next, move the explanation fieldsets and shape plot
    from the Rechenspiele PHP includes to dedicated modern services/templates.
    Retain their URLs and model/time-range selections.
 5. **Calculations administration:** migrate the four existing configuration
