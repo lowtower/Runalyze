@@ -61,9 +61,11 @@ them under `plugins/` as though they were panels would break their lifecycle.
    including the historical warmup period. It is covered by isolated tests;
    `RechenspieleShapeDataProvider` now connects that aggregator to the
    account-scoped repository, validates date ranges, and applies UTC calendar
-   boundaries including warmup days. It is intentionally not used by the
-   existing PHP plot window yet: verify legacy database-timezone semantics
-   before activating the new data path. A staged
+   bounds and activity calendar dates in the account's timezone, including
+   DST changes and warmup days. It is intentionally not used by the
+   existing PHP plot window yet: verify the database session timezone and
+   legacy `FROM_UNIXTIME()` behavior against the account timezone before
+   activating the new data path. A staged
    `RechenspieleShapeSeriesCalculator` now reuses the existing TSB/Banister
    models to calculate ATL, CTL, TSB, TRIMP and rolling/daily VO2max series.
    A staged `RechenspieleMarathonShapeSeriesCalculator` now prepares
@@ -73,8 +75,8 @@ them under `plugins/` as though they were panels would break their lifecycle.
    unchanged. A standalone `RechenspieleShapePlotRenderer` now retains the
    legacy series, axis configuration, colors and plot ID using the existing
    `Plot` implementation. Activating it through the Symfony window route,
-   reconciling timezone boundaries, and preserving historical maxima
-   persistence remain follow-ups.
+   verifying timezone parity in the live legacy environment, and preserving
+   historical maxima persistence remain follow-ups.
 5. **Calculations administration:** migrate the four existing configuration
    keys, provide modern metadata, and remove the final panel directory.
 6. **Final audit:** verify no `plugin/RunalyzePluginPanel_*` directories

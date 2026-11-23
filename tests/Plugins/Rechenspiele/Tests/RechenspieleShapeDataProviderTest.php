@@ -11,6 +11,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
+use Runalyze\Parameter\Application\Timezone as TimezoneEnum;
 use Runalyze\Plugins\Rechenspiele\RechenspieleShapeDailyAggregator;
 use Runalyze\Plugins\Rechenspiele\RechenspieleShapeDataProvider;
 
@@ -28,7 +29,8 @@ final class RechenspieleShapeDataProviderTest extends TestCase
                 7,
                 $this->day('2026-11-18')->getTimestamp(),
                 $this->day('2026-11-21')->setTime(23, 59, 59)->getTimestamp(),
-                true
+                true,
+                new DateTimeZone('UTC')
             )
             ->willReturn([
                 $this->activity('2026-11-18', 5.0, 0.0, 0.0, 0.0, false),
@@ -64,7 +66,8 @@ final class RechenspieleShapeDataProviderTest extends TestCase
                 1,
                 $this->day('2026-03-27')->getTimestamp(),
                 $this->day('2026-03-30')->setTime(23, 59, 59)->getTimestamp(),
-                false
+                false,
+                new DateTimeZone('UTC')
             )
             ->willReturn([]);
 
@@ -80,6 +83,42 @@ final class RechenspieleShapeDataProviderTest extends TestCase
 
         $this->assertCount(5, $result['trimp']);
         $this->assertSame([0.0, 0.0, 0.0, 0.0, 0.0], $result['trimp']);
+    }
+
+    public function testAccountTimezoneDeterminesHistoryBoundsAcrossDaylightSavingChange(): void
+    {
+        $account = new Account();
+        $account->setTimezone(TimezoneEnum::BERLIN);
+
+        $timezone = new DateTimeZone('Europe/Berlin');
+        $repository = $this->createMock(TrainingRepository::class);
+        $repository->expects($this->once())
+            ->method('findShapePlotTrainingData')
+            ->with(
+                $account,
+                1,
+                new DateTimeImmutable('2026-03-28 00:00:00', $timezone)->getTimestamp(),
+                new DateTimeImmutable('2026-03-30 23:59:59', $timezone)->getTimestamp(),
+                false,
+                $timezone
+            )
+            ->willReturn([
+                $this->activity('2026-03-28', 5.0, 0.0, 0.0, 0.0, false),
+                $this->activity('2026-03-29', 10.0, 4.0, 0.0, 0.0, true),
+            ]);
+
+        $result = $this->provider($repository)->getDailyData(
+            $account,
+            1,
+            $this->day('2026-03-29'),
+            $this->day('2026-03-30'),
+            1,
+            10.0,
+            false
+        );
+
+        $this->assertSame([5.0, 10.0, 0.0, 0.0], $result['trimp']);
+        $this->assertSame([0.0, 4.0, 0.0, 0.0], $result['distance']);
     }
 
     public function testRejectsAnInvertedDateRangeWithoutQueryingDatabase(): void
