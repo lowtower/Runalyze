@@ -221,10 +221,12 @@ final class GoalsPanelPresenterTest extends TestCase
         ?PluginConfigurationStorageInterface $storage = null
     ): GoalsPanelPresenter {
         $repository ??= $this->createStub(TrainingRepository::class);
-        $storage ??= $this->createStub(PluginConfigurationStorageInterface::class);
-        $storage->method('loadForPlugins')->willReturn([
-            5 => $settings,
-        ]);
+        if ($storage === null) {
+            $storage = $this->createStub(PluginConfigurationStorageInterface::class);
+            $storage->method('loadForPlugins')->willReturn([
+                5 => $settings,
+            ]);
+        }
 
         $general = $this->createStub(General::class);
         $general->method('getRunningSport')->willReturn(7);
