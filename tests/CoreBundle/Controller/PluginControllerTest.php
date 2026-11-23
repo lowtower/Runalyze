@@ -360,6 +360,43 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testGoalsPanelCanBeInstalledWithoutItsLegacyClass(): void
+    {
+        $repository = $this->getEntityManager()->getRepository(Plugin::class);
+        $existing = $repository->findOneBy([
+            'account' => $this->Account,
+            'key' => 'RunalyzePluginPanel_Ziele',
+        ]);
+
+        $this->assertInstanceOf(Plugin::class, $existing);
+        $this->getEntityManager()->remove($existing);
+        $this->getEntityManager()->flush();
+
+        $this->loginClient($this->Client, $this->Account, 'default');
+        $this->request('GET', '/call/call.Plugin.install.php?key=RunalyzePluginPanel_Ziele');
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString(
+            'The plugin has been successfully installed.',
+            (string) $this->Client->getResponse()->getContent()
+        );
+
+        $installed = $repository->findOneBy([
+            'account' => $this->Account,
+            'key' => 'RunalyzePluginPanel_Ziele',
+        ]);
+        $this->assertInstanceOf(Plugin::class, $installed);
+        $this->assertSame(Plugin::TYPE_PANEL, $installed->getType());
+
+        $this->request('GET', '/call/call.Plugin.config.php?id=' . $installed->getId());
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString(
+            'name="ziel_woche"',
+            (string) $this->Client->getResponse()->getContent()
+        );
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testGoalsPanelRendersAndPersistsLegacySettingsViaModernRoutes(): void
     {
         $plugin = $this->getEntityManager()
