@@ -151,7 +151,9 @@ final class GoalsPanelPresenterTest extends TestCase
         $writes = [];
 
         $storage = $this->createMock(PluginConfigurationStorageInterface::class);
-        $storage->method('loadForPlugins')->willReturn([5 => $stored]);
+        $storage->method('loadForPlugins')->willReturn([
+            5 => $stored,
+        ]);
         $storage->method('insert')->willReturnCallback(
             static function (int $id, string $key, string $value) use (&$writes): void {
                 self::assertSame(5, $id);
@@ -196,7 +198,9 @@ final class GoalsPanelPresenterTest extends TestCase
         $this->presenter(null, [], true, $storage)->updateConfiguration(
             $account,
             $this->installation($account),
-            ['ziel_woche' => '900']
+            [
+                'ziel_woche' => '900',
+            ]
         );
     }
 
@@ -207,7 +211,10 @@ final class GoalsPanelPresenterTest extends TestCase
         $this->presenter()->updateConfiguration(
             $this->account(12),
             $this->installation($this->account(13)),
-            ['edit' => 'true', 'ziel_woche' => '200']
+            [
+                'edit' => 'true',
+                'ziel_woche' => '200',
+            ]
         );
     }
 
@@ -221,7 +228,7 @@ final class GoalsPanelPresenterTest extends TestCase
         ?PluginConfigurationStorageInterface $storage = null
     ): GoalsPanelPresenter {
         $repository ??= $this->createStub(TrainingRepository::class);
-        if ($storage === null) {
+        if (! $storage instanceof \Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface) {
             $storage = $this->createStub(PluginConfigurationStorageInterface::class);
             $storage->method('loadForPlugins')->willReturn([
                 5 => $settings,
