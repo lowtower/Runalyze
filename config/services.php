@@ -574,12 +574,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(ActivityCache::class)
         ->arg('$Cache', service('app.cache.activity_uploads'));
 
-    $services->set('app.activity_context_adapter_factory', ActivityContextAdapterFactory::class)
+    $services->set(ActivityContextAdapterFactory::class)
         ->arg('$WeatherForecast', service('app.weather_forecast'))
         ->arg('$TrainingRepository', service(TrainingRepository::class))
         ->arg('$routeNameEvalFactory', service('app.routename_evaluation.routename_evaluation_factory'));
 
-    $services->alias(ActivityContextAdapterFactory::class, 'app.activity_context_adapter_factory');
+    $services->alias('app.activity_context_adapter_factory', ActivityContextAdapterFactory::class);
 
     $services->set(DataSeriesRemover::class);
 
