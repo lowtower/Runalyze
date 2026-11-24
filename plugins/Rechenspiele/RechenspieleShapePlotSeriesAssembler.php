@@ -11,7 +11,9 @@ use DateTimeImmutable;
  */
 final readonly class RechenspieleShapePlotSeriesAssembler
 {
-    public function __construct(private RechenspieleShapePlotTimestampMapper $timestampMapper) {}
+    public function __construct(
+        private RechenspieleShapePlotTimestampMapper $timestampMapper
+    ) {}
 
     /**
      * @param array{
