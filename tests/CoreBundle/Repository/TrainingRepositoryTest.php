@@ -21,8 +21,8 @@ use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\Task\MarathonShapeCalculation;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\Task\VO2maxShapeCalculation;
-use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 use Runalyze\Parameter\Application\Timezone as TimezoneEnum;
+use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 use Runalyze\Plugins\Rechenspiele\RechenspieleShapeDailyAggregator;
 use Runalyze\Plugins\Rechenspiele\RechenspieleShapeDataProvider;
 
