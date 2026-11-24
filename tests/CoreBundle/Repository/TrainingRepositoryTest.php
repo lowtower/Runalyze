@@ -301,6 +301,62 @@ final class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertSame([4.0, 18.0, 0.0], $history['distance']);
     }
 
+    public function testShapePlotHistoryKeepsBothRepeatedAutumnHoursOnTheSameDay(): void
+    {
+        $this->Account->setTimezone(TimezoneEnum::BERLIN);
+        $runningSport = $this->getDefaultAccountsRunningSport();
+
+        $beforeLocalMidnight = $this->insertActivityForDefaultAccount(
+            strtotime('2026-10-24 21:59:59 UTC'),
+            1200,
+            2.0,
+            $runningSport
+        );
+        $firstRepeatedHour = $this->insertActivityForDefaultAccount(
+            strtotime('2026-10-25 00:30:00 UTC'),
+            1200,
+            3.0,
+            $runningSport
+        );
+        $secondRepeatedHour = $this->insertActivityForDefaultAccount(
+            strtotime('2026-10-25 01:30:00 UTC'),
+            1200,
+            4.0,
+            $runningSport
+        );
+        $nextLocalMidnight = $this->insertActivityForDefaultAccount(
+            strtotime('2026-10-25 23:00:00 UTC'),
+            1200,
+            5.0,
+            $runningSport
+        );
+
+        $beforeLocalMidnight->setTrimp(2);
+        $firstRepeatedHour->setTrimp(3);
+        $secondRepeatedHour->setTrimp(4);
+        $nextLocalMidnight->setTrimp(5);
+        $this->getEntityManager()->flush();
+
+        $provider = new RechenspieleShapeDataProvider(
+            $this->TrainingRepository,
+            new RechenspieleShapeDailyAggregator()
+        );
+        $timezone = new DateTimeZone('Europe/Berlin');
+
+        $history = $provider->getDailyData(
+            $this->Account,
+            (int) $runningSport->getId(),
+            new DateTimeImmutable('2026-10-25', $timezone),
+            new DateTimeImmutable('2026-10-25', $timezone),
+            1,
+            10.0,
+            false
+        );
+
+        $this->assertSame([2.0, 7.0, 0.0], $history['trimp']);
+        $this->assertSame([2.0, 7.0, 0.0], $history['distance']);
+    }
+
     public function testPrognosisTrendHistoryPreservesChronologyAndVO2maxWeights(): void
     {
         $runningSport = $this->getDefaultAccountsRunningSport();
