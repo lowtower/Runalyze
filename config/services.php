@@ -307,8 +307,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->load('Runalyze\\Bundle\\CoreBundle\\EventListener\\', __DIR__ . '/../src/CoreBundle/EventListener/{AccountLastActionListener,ConsoleExceptionListener,LocaleListener,MaintenanceListener,UserLocaleListener,UserTimezoneListener}.php');
 
-    $services->alias('app.listener.console_exception', ConsoleExceptionListener::class);
-
     $services->alias('app.locale_listener', LocaleListener::class);
 
     $services->alias('app.listener.user_timezone', UserTimezoneListener::class);
