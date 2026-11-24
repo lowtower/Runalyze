@@ -153,21 +153,24 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
     public function testTrainingPartnersFiltersAndRendersAnExistingInstallation(): void
     {
         $entityManager = $this->getEntityManager();
+        $otherAccount = $this->registerUniqueAccount();
+        $account = $entityManager->find(Account::class, $this->Account->getId());
+        $this->assertInstanceOf(Account::class, $account);
+
         $plugin = $entityManager->getRepository(Plugin::class)->findOneBy([
-            'account' => $this->Account,
+            'account' => $account,
             'key' => 'RunalyzePluginStat_Trainingspartner',
         ]);
         $this->assertInstanceOf(Plugin::class, $plugin);
         $this->assertSame(Plugin::TYPE_STAT, $plugin->getType());
 
-        $otherAccount = $this->registerUniqueAccount();
         $sports = $entityManager->getRepository(Sport::class);
         $running = $sports->findOneBy([
-            'account' => $this->Account,
+            'account' => $account,
             'internalSportId' => SportProfile::RUNNING,
         ]);
         $cycling = $sports->findOneBy([
-            'account' => $this->Account,
+            'account' => $account,
             'internalSportId' => SportProfile::CYCLING,
         ]);
         $otherSport = $sports->findOneBy([
@@ -184,17 +187,17 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $nextJanuary = $now->setDate($year + 1, 1, 1)->setTime(0, 0)->getTimestamp();
         $name = 'Chris & <Pat>';
         foreach ([
-            [$this->Account, $running, $january, ' Alice, ' . $name . ', 123'],
-            [$this->Account, $running, $january + 1, 'Alice'],
-            [$this->Account, $running, $january + 2, null],
-            [$this->Account, $running, $january + 3, ''],
-            [$this->Account, $cycling, $january + 4, 'Cycling partner'],
-            [$this->Account, $running, $january - 1, 'Previous year'],
-            [$this->Account, $running, $nextJanuary, 'Next year'],
+            [$account, $running, $january, ' Alice, ' . $name . ', 123'],
+            [$account, $running, $january + 1, 'Alice'],
+            [$account, $running, $january + 2, null],
+            [$account, $running, $january + 3, ''],
+            [$account, $cycling, $january + 4, 'Cycling partner'],
+            [$account, $running, $january - 1, 'Previous year'],
+            [$account, $running, $nextJanuary, 'Next year'],
             [$otherAccount, $otherSport, $january + 5, 'Other account partner'],
-        ] as [$account, $sport, $time, $partner]) {
+        ] as [$owner, $sport, $time, $partner]) {
             $entityManager->persist(new Training()
-                ->setAccount($account)
+                ->setAccount($owner)
                 ->setSport($sport)
                 ->setTime($time)
                 ->setS(3600)
@@ -205,7 +208,7 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
 
         $id = $plugin->getId();
         $runningId = $running->getId();
-        $this->loginClient($this->Client, $this->Account, 'default');
+        $this->loginClient($this->Client, $account, 'default');
         $this->request('GET', '/dashboard?pluginid=' . $id);
         $this->assertStatusCode(200, $this->Client);
         $html = (string) $this->Client->getResponse()->getContent();
