@@ -8,9 +8,11 @@ use DateTimeImmutable;
 use DateTimeZone;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Conf;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Entity\PluginConf;
+use Runalyze\Bundle\CoreBundle\Entity\Route;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Tag;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
@@ -391,6 +393,142 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         ]);
         $this->assertCount(1, $settings);
         $this->assertSame((string) $tag->getId(), $settings[0]->getValue());
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testElevationStatisticsUsesActivityTotalsAndRanksRoutesAcrossPeriods(): void
+    {
+        $entityManager = $this->getEntityManager();
+        $otherAccount = $this->registerUniqueAccount();
+        $account = $entityManager->find(Account::class, $this->Account->getId());
+        $this->assertInstanceOf(Account::class, $account);
+        $plugin = $entityManager->getRepository(Plugin::class)->findOneBy([
+            'account' => $account,
+            'key' => 'RunalyzePluginStat_Hoehenmeter',
+        ]);
+        $this->assertInstanceOf(Plugin::class, $plugin);
+
+        $sports = $entityManager->getRepository(Sport::class);
+        $running = $sports->findInternalIdFor(SportProfile::RUNNING, $account);
+        $cycling = $sports->findInternalIdFor(SportProfile::CYCLING, $account);
+        $otherSport = $sports->findInternalIdFor(SportProfile::RUNNING, $otherAccount);
+        $this->assertInstanceOf(Sport::class, $running);
+        $this->assertInstanceOf(Sport::class, $cycling);
+        $this->assertInstanceOf(Sport::class, $otherSport);
+
+        $steep = new Route()->setAccount($account)->setName('Short & <Steep>')->setDistance(2.0)->setAltitudeBarometric(true);
+        $highest = new Route()->setAccount($account)->setName('Long climb')->setDistance(20.0)->setAltitudeBarometric(true);
+        $zeroDistance = new Route()->setAccount($account)->setName('Zero distance')->setAltitudeBarometric(true);
+        $entityManager->persist($steep);
+        $entityManager->persist($highest);
+        $entityManager->persist($zeroDistance);
+
+        $steep->setElevation(300);
+        $highest->setElevation(1000);
+        $zeroDistance->setElevation(250);
+
+        foreach ([
+            [$account, $running, '2025-01-05 23:30:00', 100, $steep, 'Hill & <repeat>', 12.5],
+            [$account, $running, '2025-01-06 12:00:00', 400, $highest, null, 11.0],
+            [$account, $running, '2025-01-07 12:00:00', 175, $zeroDistance, null, null],
+            [$account, $running, '2025-01-08 12:00:00', 75, null, 'Manual climb', 19.9],
+            [$account, $running, '2024-12-31 23:59:59', 50, null, null, null],
+            [$account, $cycling, '2025-01-09 12:00:00', 600, null, 'Cycling climb', 18.0],
+            [$otherAccount, $otherSport, '2025-01-10 12:00:00', 900, null, 'Other account climb', 80.0],
+            [$account, $running, '2025-01-11 12:00:00', 0, null, 'Flat session', 99.9],
+        ] as [$owner, $sport, $time, $meters, $route, $title, $score]) {
+            $activity = new Training()
+                ->setAccount($owner)
+                ->setSport($sport)
+                ->setTime(strtotime($time . ' UTC'))
+                ->setS(3600)
+                ->setElevation($meters)
+                ->setRoute($route)
+                ->setTitle($title);
+            $entityManager->persist($activity);
+            $activity->setClimbScore($score);
+        }
+
+        $entityManager->flush();
+        $this->loginClient($this->Client, $account, 'default');
+        $id = $plugin->getId();
+        $display = '/my/plugin/' . $id;
+        $page = $this->Client->request('GET', '/dashboard?pluginid=' . $id);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('Elevation: ' . $running->getName() . ', All years', (string) $this->Client->getResponse()->getContent());
+
+        $monthly = $page->filter('.statistics-container > table tbody tr');
+        $this->assertCount(2, $monthly);
+        $january = $monthly->eq(1)->filter('td')->eq(1)->filter('a');
+        $this->assertSame("750\u{00a0}m", $january->text());
+        $this->assertSame("750\u{00a0}m", $monthly->eq(1)->filter('td')->last()->text());
+        parse_str((string) parse_url((string) $january->attr('href'), PHP_URL_QUERY), $search);
+        $this->assertSame('01.01.2025', $search['date-from']);
+        $this->assertSame('31.01.2025', $search['date-to']);
+        $this->assertSame('elevation', $search['search-sort-by']);
+
+        $highestRow = $page->filter('#elevation-ranking-elevation tbody tr')->first();
+        $this->assertSame('Long climb', $highestRow->filter('td')->eq(2)->text());
+        $this->assertStringContainsString("1.000\u{00a0}m", $highestRow->filter('td')->eq(3)->text());
+        $steepestRow = $page->filter('#elevation-ranking-grade tbody tr')->first();
+        $this->assertSame('Short & <Steep> (Hill & <repeat>)', $steepestRow->filter('td')->eq(2)->text());
+        $this->assertStringContainsString("15\u{00a0}%", $steepestRow->filter('td')->eq(3)->text());
+        $weekLink = $steepestRow->filter('a[rel=week-link]');
+        $this->assertSame('05.01.2025', $weekLink->text());
+        $this->assertSame('data-browser-inner', $weekLink->attr('target'));
+        parse_str((string) parse_url((string) $weekLink->attr('href'), PHP_URL_QUERY), $week);
+        $this->assertSame((string) strtotime('2024-12-30 UTC'), $week['start']);
+        $this->assertSame((string) strtotime('2025-01-05 23:59:50 UTC'), $week['end']);
+        $scoreRow = $page->filter('#elevation-ranking-cs tbody tr')->first();
+        $this->assertSame('Manual climb', $scoreRow->filter('td')->eq(2)->text());
+        $this->assertSame('–', $scoreRow->filter('td')->eq(3)->text());
+        $this->assertSame('19.9', $scoreRow->filter('td')->eq(4)->text());
+        $this->assertStringEndsWith('/climb-score', (string) $scoreRow->filter('a.window')->attr('href'));
+
+        $filtered = $this->Client->xmlHttpRequest('GET', $display . '?sport=-1&jahr=2025');
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertCount(0, $filtered->filter('.statistics-container > table'));
+        $this->assertCount(5, $filtered->filter('#elevation-ranking-elevation tbody tr'));
+        $this->assertStringContainsString('Cycling climb', $filtered->filter('#elevation-rankings')->text());
+        $this->assertStringNotContainsString('Other account climb', $filtered->filter('#elevation-rankings')->text());
+        $this->assertStringNotContainsString('Flat session', $filtered->filter('#elevation-rankings')->text());
+
+        $lastSixMonths = $this->Client->xmlHttpRequest('GET', $display . '?sport=-1&jahr=6');
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame('Elevation: Last 6 months', $lastSixMonths->filter('.panel-heading h1')->text());
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testElevationStatisticsRendersEmptyStatesAndTheAccountsUnits(): void
+    {
+        $entityManager = $this->getEntityManager();
+        $plugin = $entityManager->getRepository(Plugin::class)->findOneBy([
+            'account' => $this->Account,
+            'key' => 'RunalyzePluginStat_Hoehenmeter',
+        ]);
+        $this->assertInstanceOf(Plugin::class, $plugin);
+
+        $sports = $entityManager->getRepository(Sport::class);
+        $running = $sports->findInternalIdFor(SportProfile::RUNNING, $this->Account);
+        $cycling = $sports->findInternalIdFor(SportProfile::CYCLING, $this->Account);
+        $this->assertInstanceOf(Sport::class, $running);
+        $this->assertInstanceOf(Sport::class, $cycling);
+        $entityManager->persist(new Conf()->setAccount($this->Account)->setCategory('general')->setKey('DISTANCE_UNIT_SYSTEM')->setValue('imperial'));
+        $entityManager->persist(new Training()->setAccount($this->Account)->setSport($running)->setTime(strtotime('2025-06-01 UTC'))->setS(3600)->setElevation(100));
+        $entityManager->flush();
+
+        $this->loginClient($this->Client, $this->Account, 'default');
+        $display = '/my/plugin/' . $plugin->getId();
+
+        $empty = $this->Client->xmlHttpRequest('GET', $display . '?sport=' . $cycling->getId());
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertCount(4, $empty->filter('.statistics-container tbody em'));
+        $this->assertSame('No routes found.', $empty->filter('.statistics-container > table tbody em')->text());
+
+        $imperial = $this->Client->xmlHttpRequest('GET', $display . '?sport=-1');
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame("328\u{00a0}ft", $imperial->filter('.statistics-container > table tbody a')->text());
+        $this->assertSame('unlabeled', $imperial->filter('#elevation-ranking-elevation tbody td')->eq(2)->text());
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]

@@ -1,0 +1,17 @@
+<ul>
+    <li class="with-submenu">
+        <span class="link">{{ filter.sports[filter.sport] }}</span>
+        <ul class="submenu">
+            {% for id, name in filter.sports %}
+                <li{% if id == filter.sport %} class="active"{% endif %}><a class="ajax" target="statistics-inner" href="{{ path('plugin-display', {id: pluginId, sport: id, jahr: filter.year}) }}">{{ name }}</a></li>
+            {% endfor %}
+        </ul>
+    </li><li class="with-submenu">
+        <span class="link">{{ yearLabel }}</span>
+        <ul class="submenu">
+            {% for year, label in filter.years %}
+                <li{% if year == filter.year %} class="active"{% endif %}><a class="ajax" target="statistics-inner" href="{{ path('plugin-display', {id: pluginId, sport: filter.sport, jahr: year}) }}">{{ label }}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+</ul>
