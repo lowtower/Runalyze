@@ -22,6 +22,9 @@ use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\Task\MarathonShapeCalculation;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\Task\VO2maxShapeCalculation;
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
+use Runalyze\Parameter\Application\Timezone as TimezoneEnum;
+use Runalyze\Plugins\Rechenspiele\RechenspieleShapeDailyAggregator;
+use Runalyze\Plugins\Rechenspiele\RechenspieleShapeDataProvider;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 final class TrainingRepositoryTest extends AbstractRepositoryTestCase
@@ -233,6 +236,69 @@ final class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertSame('2026-03-29', $berlin[0]['day']);
         $this->assertSame('2026-03-28', $utc[0]['day']);
         $this->assertEqualsWithDelta(15.0, $berlin[0]['trimp'], PHP_FLOAT_EPSILON);
+    }
+
+    public function testShapePlotHistoryMatchesAccountCalendarAcrossSpringDstBoundary(): void
+    {
+        $this->Account->setTimezone(TimezoneEnum::BERLIN);
+        $runningSport = $this->getDefaultAccountsRunningSport();
+
+        $activityBeforeMidnight = $this->insertActivityForDefaultAccount(
+            strtotime('2026-03-28 22:59:59 UTC'),
+            1200,
+            4.0,
+            $runningSport
+        );
+        $activityAtMidnight = $this->insertActivityForDefaultAccount(
+            strtotime('2026-03-28 23:00:00 UTC'),
+            1200,
+            5.0,
+            $runningSport
+        );
+        $activityAfterClockChange = $this->insertActivityForDefaultAccount(
+            strtotime('2026-03-29 01:00:00 UTC'),
+            1200,
+            6.0,
+            $runningSport
+        );
+        $activityAtDayEnd = $this->insertActivityForDefaultAccount(
+            strtotime('2026-03-29 21:59:59 UTC'),
+            1200,
+            7.0,
+            $runningSport
+        );
+        $activityOnNextDay = $this->insertActivityForDefaultAccount(
+            strtotime('2026-03-29 22:00:00 UTC'),
+            1200,
+            8.0,
+            $runningSport
+        );
+
+        $activityBeforeMidnight->setTrimp(2);
+        $activityAtMidnight->setTrimp(3);
+        $activityAfterClockChange->setTrimp(5);
+        $activityAtDayEnd->setTrimp(7);
+        $activityOnNextDay->setTrimp(11);
+        $this->getEntityManager()->flush();
+
+        $provider = new RechenspieleShapeDataProvider(
+            $this->TrainingRepository,
+            new RechenspieleShapeDailyAggregator()
+        );
+        $timezone = new DateTimeZone('Europe/Berlin');
+
+        $history = $provider->getDailyData(
+            $this->Account,
+            (int) $runningSport->getId(),
+            new DateTimeImmutable('2026-03-29', $timezone),
+            new DateTimeImmutable('2026-03-29', $timezone),
+            1,
+            10.0,
+            false
+        );
+
+        $this->assertSame([2.0, 15.0, 0.0], $history['trimp']);
+        $this->assertSame([4.0, 18.0, 0.0], $history['distance']);
     }
 
     public function testPrognosisTrendHistoryPreservesChronologyAndVO2maxWeights(): void
