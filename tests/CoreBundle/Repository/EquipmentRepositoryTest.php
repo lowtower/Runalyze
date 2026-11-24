@@ -6,6 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Repository;
 
 use DateTime;
 use DateTimeImmutable;
+use Doctrine\DBAL\Types\Types;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
@@ -76,6 +77,38 @@ final class EquipmentRepositoryTest extends AbstractRepositoryTestCase
             static fn (Equipment $item): ?int => $item->getId(),
             $result
         ));
+    }
+
+    public function testFindForPanelHydratesImmutableEquipmentDates(): void
+    {
+        $equipmentTypeId = (int) $this->getDefaultAccountsClothesType()->getId();
+        $equipment = $this->EquipmentRepository->findForTypeId($equipmentTypeId, $this->Account)[0];
+        $equipmentId = $equipment->getId();
+
+        $equipment->setDateStart(new DateTimeImmutable('2025-11-19'));
+        $equipment->setDateEnd(new DateTimeImmutable('2026-11-19'));
+        $this->getEntityManager()->flush();
+        $this->getEntityManager()->clear();
+
+        $metadata = $this->getEntityManager()->getClassMetadata(Equipment::class);
+        $this->assertSame(Types::DATE_IMMUTABLE, $metadata->getTypeOfField('dateStart'));
+        $this->assertSame(Types::DATE_IMMUTABLE, $metadata->getTypeOfField('dateEnd'));
+
+        $results = $this->EquipmentRepository->findForPanel($equipmentTypeId, $this->Account);
+        $reloaded = null;
+
+        foreach ($results as $candidate) {
+            if ($candidate->getId() === $equipmentId) {
+                $reloaded = $candidate;
+                break;
+            }
+        }
+
+        $this->assertNotNull($reloaded);
+        $this->assertInstanceOf(DateTimeImmutable::class, $reloaded->getDateStart());
+        $this->assertInstanceOf(DateTimeImmutable::class, $reloaded->getDateEnd());
+        $this->assertSame('2025-11-19', $reloaded->getDateStart()->format('Y-m-d'));
+        $this->assertSame('2026-11-19', $reloaded->getDateEnd()->format('Y-m-d'));
     }
 
     public function testEquipmentDatesRoundTripAsImmutableValues(): void
