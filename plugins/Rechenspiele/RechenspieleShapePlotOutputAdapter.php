@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Runalyze\Plugins\Rechenspiele;
 
+use Throwable;
+
 /**
  * Adapts account-scoped shape plot data to the legacy-compatible Plot renderer.
  */
@@ -33,6 +35,8 @@ final readonly class RechenspieleShapePlotOutputAdapter
      *     last_timestamp: string
      * }|null $plotData
      * @return array{plot_id: string, html: string, javascript: string}
+     *
+     * @throws Throwable if the plot renderer fails
      */
     public function render(string $range, string $model, ?array $plotData): array
     {
