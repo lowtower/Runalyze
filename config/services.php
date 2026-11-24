@@ -672,12 +672,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'channel' => 'external_services',
         ]);
 
-    $services->set('app.timezone_lookup', TimezoneLookup::class)
+    $services->set(TimezoneLookup::class)
         ->arg('$PathToTimeZoneDatabase', '%app.data_directory%/timezone.sqlite')
         ->arg('$SpatialiteExtensionName', '%app.sqlite_mod_spatialite%')
         ->arg('$SilentExceptions', true);
-
-    $services->alias(TimezoneLookup::class, 'app.timezone_lookup');
 
     $services->set(SessionRequestProcessor::class)
         ->autowire(true)
