@@ -67,7 +67,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'resolve_target_entities' => null,
             'metadata_cache_driver' => [
                 'type' => 'pool',
-                'pool' => 'doctrine.system_cache_pool',
+                'pool' => 'doctrine.metadata_cache_pool',
             ],
             'query_cache_driver' => [
                 'type' => 'pool',
@@ -97,6 +97,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->extension('framework', [
         'cache' => [
             'pools' => [
+                'doctrine.metadata_cache_pool' => [
+                    'adapter' => 'cache.system',
+                ],
                 'doctrine.result_cache_pool' => [
                     'adapter' => 'cache.app',
                 ],
