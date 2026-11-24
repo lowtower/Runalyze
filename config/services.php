@@ -19,7 +19,6 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\GenerateJsonData;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\GeneratePoster;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\PosterGenerationStateResolver;
 use Runalyze\Bundle\CoreBundle\EntityListener\EquipmentUpdateSubscriber;
-use Runalyze\Bundle\CoreBundle\EventListener\AccountLastActionListener;
 use Runalyze\Bundle\CoreBundle\EventListener\MaintenanceListener;
 use Runalyze\Bundle\CoreBundle\EventListener\RecalculationTasksPerformerListener;
 use Runalyze\Bundle\CoreBundle\EventListener\TablePrefixSubscriber;
