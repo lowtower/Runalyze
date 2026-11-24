@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
+use DateTimeImmutable;
+use DateTimeZone;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Entity\PluginConf;
+use Runalyze\Bundle\CoreBundle\Entity\Sport;
+use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
+use Runalyze\Profile\Sport\SportProfile;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
@@ -142,6 +147,111 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->request('GET', '/call/call.Plugin.install.php?key=ThisPluginDirectoryDoesNotExist');
 
         $this->assertStatusCode(404, $this->Client);
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testTrainingPartnersFiltersAndRendersAnExistingInstallation(): void
+    {
+        $entityManager = $this->getEntityManager();
+        $otherAccount = $this->registerUniqueAccount();
+        $account = $entityManager->find(Account::class, $this->Account->getId());
+        $this->assertInstanceOf(Account::class, $account);
+
+        $plugin = $entityManager->getRepository(Plugin::class)->findOneBy([
+            'account' => $account,
+            'key' => 'RunalyzePluginStat_Trainingspartner',
+        ]);
+        $this->assertInstanceOf(Plugin::class, $plugin);
+        $this->assertSame(Plugin::TYPE_STAT, $plugin->getType());
+
+        $sports = $entityManager->getRepository(Sport::class);
+        $running = $sports->findOneBy([
+            'account' => $account,
+            'internalSportId' => SportProfile::RUNNING,
+        ]);
+        $cycling = $sports->findOneBy([
+            'account' => $account,
+            'internalSportId' => SportProfile::CYCLING,
+        ]);
+        $otherSport = $sports->findOneBy([
+            'account' => $otherAccount,
+            'internalSportId' => SportProfile::RUNNING,
+        ]);
+        $this->assertInstanceOf(Sport::class, $running);
+        $this->assertInstanceOf(Sport::class, $cycling);
+        $this->assertInstanceOf(Sport::class, $otherSport);
+
+        $now = new DateTimeImmutable('now', new DateTimeZone('UTC'));
+        $year = (int) $now->format('Y');
+        $january = $now->setDate($year, 1, 1)->setTime(0, 0)->getTimestamp();
+        $nextJanuary = $now->setDate($year + 1, 1, 1)->setTime(0, 0)->getTimestamp();
+        $name = 'Chris & <Pat>';
+        foreach ([
+            [$account, $running, $january, ' Alice, ' . $name . ', 123'],
+            [$account, $running, $january + 1, 'Alice'],
+            [$account, $running, $january + 2, null],
+            [$account, $running, $january + 3, ''],
+            [$account, $cycling, $january + 4, 'Cycling partner'],
+            [$account, $running, $january - 1, 'Previous year'],
+            [$account, $running, $nextJanuary, 'Next year'],
+            [$otherAccount, $otherSport, $january + 5, 'Other account partner'],
+        ] as [$owner, $sport, $time, $partner]) {
+            $entityManager->persist(new Training()
+                ->setAccount($owner)
+                ->setSport($sport)
+                ->setTime($time)
+                ->setS(3600)
+                ->setPartner($partner));
+        }
+
+        $entityManager->flush();
+
+        $id = $plugin->getId();
+        $runningId = $running->getId();
+        $this->loginClient($this->Client, $account, 'default');
+        $this->request('GET', '/dashboard?pluginid=' . $id);
+        $this->assertStatusCode(200, $this->Client);
+        $html = (string) $this->Client->getResponse()->getContent();
+        $this->assertStringContainsString('Training partner: ' . $year, $html);
+        $this->assertStringContainsString('Cycling partner', $html);
+        $this->assertStringNotContainsString('Other account partner', $html);
+
+        $page = $this->Client->xmlHttpRequest('GET', '/my/plugin/' . $id . '?sport=' . $runningId . '&jahr=' . $year);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame('Training partner: ' . $running->getName() . ', ' . $year, $page->filter('.panel-heading h1')->text());
+        $rows = $page->filter('.statistics-container tbody tr');
+        $this->assertCount(2, $rows);
+        $this->assertSame('2x', $rows->eq(0)->filter('td')->first()->text());
+        $this->assertSame('Alice', $rows->eq(0)->filter('a')->text());
+        $this->assertSame('1x', $rows->eq(1)->filter('td')->first()->text());
+        $this->assertEqualsCanonicalizing([$name, '123'], $rows->eq(1)->filter('a')->each(static fn ($link): string => $link->text()));
+        $link = $rows->eq(1)->selectLink($name)->getNode(0);
+        $this->assertInstanceOf(\DOMElement::class, $link);
+        $this->assertSame('big', $link->getAttribute('data-size'));
+        $uri = $link->getAttribute('href');
+        $this->assertSame('/my/search', parse_url($uri, PHP_URL_PATH));
+        parse_str((string) parse_url($uri, PHP_URL_QUERY), $query);
+        $this->assertSame([
+            'get' => 'true',
+            'partner' => $name,
+            'opt' => [
+                'partner' => 'like',
+            ],
+        ], $query);
+        $this->assertSame(['4x', '2x', '50'], $page->filter('.statistics-container p strong')->each(static fn ($node): string => $node->text()));
+        $this->assertSame([$running->getName(), (string) $year], $page->filter('.panel-menu li.active a')->each(static fn ($node): string => $node->text()));
+
+        $this->Client->xmlHttpRequest('GET', '/my/plugin/' . $id . '?sport=' . $runningId . '&jahr=-1');
+        $this->assertStatusCode(200, $this->Client);
+        $html = (string) $this->Client->getResponse()->getContent();
+        $this->assertStringContainsString('Previous year', $html);
+        $this->assertStringContainsString('Next year', $html);
+
+        $this->Client->xmlHttpRequest('GET', '/my/plugin/' . $id . '?sport=' . $runningId . '&jahr=' . ($year - 2));
+        $this->assertStatusCode(200, $this->Client);
+        $html = (string) $this->Client->getResponse()->getContent();
+        $this->assertStringContainsString('You have only trained on your own.', $html);
+        $this->assertStringContainsString('<strong>0x</strong>', $html);
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]

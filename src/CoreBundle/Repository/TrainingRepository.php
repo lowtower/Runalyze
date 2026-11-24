@@ -80,6 +80,37 @@ class TrainingRepository extends ServiceEntityRepository
     }
 
     /**
+     * Return one partner string per activity, including solo activities in the same result.
+     * The optional timestamp bounds are in the storage's timezone-neutral format.
+     *
+     * @return iterable<string>
+     */
+    public function findTrainingPartnersFor(Account $account, ?int $sport, ?int $from, ?int $until): iterable
+    {
+        $query = $this->createQueryBuilder('t')
+            ->select('CASE WHEN t.partner <> :empty THEN t.partner ELSE :empty END AS partner')
+            ->where('t.account = :account')
+            ->setParameter('account', $account)
+            ->setParameter('empty', '');
+
+        if ($sport !== null) {
+            $query->andWhere('t.sport = :sport')->setParameter('sport', $sport);
+        }
+
+        if ($from !== null) {
+            $query->andWhere('t.time >= :from')->setParameter('from', $from);
+        }
+
+        if ($until !== null) {
+            $query->andWhere('t.time < :until')->setParameter('until', $until);
+        }
+
+        foreach ($query->getQuery()->toIterable() as $row) {
+            yield (string) $row['partner'];
+        }
+    }
+
+    /**
      * Return daily TRIMP totals for an account. Training timestamps are stored
      * as timezone-neutral UTC values, so UTC dates match the legacy grouping.
      *
