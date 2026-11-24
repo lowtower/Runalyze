@@ -19,7 +19,7 @@ final class CastedDecimalScale2TypeTest extends TestCase
 
     protected function setUp(): void
     {
-        $type = CastedDecimalScale2Type::getType(CastedDecimalScale2Type::CASTED_DECIMAL_2);
+        $type = new CastedDecimalScale2Type();
         $this->assertInstanceOf(CastedDecimalScale2Type::class, $type);
 
         $this->type = $type;

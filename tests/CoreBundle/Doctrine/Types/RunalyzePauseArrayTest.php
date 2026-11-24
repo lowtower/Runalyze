@@ -14,8 +14,7 @@ final class RunalyzePauseArrayTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
-        /** @var RunalyzePauseArray $type */
-        $type = RunalyzePauseArray::getType(RunalyzePauseArray::RUNALYZE_PAUSE_ARRAY);
+        $type = new RunalyzePauseArray();
         $this->Type = $type;
     }
 
