@@ -17,7 +17,10 @@ final class ActivityEquipmentTypeChoiceAttributesTest extends TestCase
     public function testMissingEquipmentDatesProduceEmptyChoiceAttributes(): void
     {
         $this->assertSame(
-            ['data-start' => '', 'data-end' => ''],
+            [
+                'data-start' => '',
+                'data-end' => '',
+            ],
             $this->choiceAttributes(new Equipment())
         );
     }
@@ -29,7 +32,10 @@ final class ActivityEquipmentTypeChoiceAttributesTest extends TestCase
         $equipment->setDateEnd(new DateTimeImmutable('2024-10-27'));
 
         $this->assertSame(
-            ['data-start' => '2024-03-29', 'data-end' => '2024-10-27'],
+            [
+                'data-start' => '2024-03-29',
+                'data-end' => '2024-10-27',
+            ],
             $this->choiceAttributes($equipment)
         );
     }
@@ -39,7 +45,7 @@ final class ActivityEquipmentTypeChoiceAttributesTest extends TestCase
      */
     private function choiceAttributes(Equipment $equipment): array
     {
-        $type = new class () extends ActivityEquipmentType {
+        $type = new class() extends ActivityEquipmentType {
             public function __construct() {}
 
             /**
