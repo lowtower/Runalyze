@@ -385,6 +385,9 @@ final class EquipmentControllerTest extends AbstractFixturesAwareWebTestCase
             $newEquipment[0]->getNotes()
         );
         $this->assertTrue($newEquipment[0]->isActive());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $newEquipment[0]->getDateStart());
+        $this->assertSame('2026-01-01', $newEquipment[0]->getDateStart()->format('Y-m-d'));
+        $this->assertNull($newEquipment[0]->getDateEnd());
     }
 
     public function testEquipmentAddActionRerendersFormInsteadOfCrashingWhenAdditionalKmIsEmpty(): void
@@ -473,6 +476,10 @@ final class EquipmentControllerTest extends AbstractFixturesAwareWebTestCase
             $updated->getNotes()
         );
         $this->assertFalse($updated->isActive());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $updated->getDateStart());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $updated->getDateEnd());
+        $this->assertSame('2026-01-01', $updated->getDateStart()->format('Y-m-d'));
+        $this->assertSame('2026-12-31', $updated->getDateEnd()->format('Y-m-d'));
     }
 
     public function testEquipmentEditActionRerendersFormInsteadOfCrashingWhenAdditionalKmIsEmpty(): void

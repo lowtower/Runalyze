@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Repository;
 
+use DateTime;
+use DateTimeImmutable;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
@@ -74,6 +76,29 @@ final class EquipmentRepositoryTest extends AbstractRepositoryTestCase
             static fn (Equipment $item): ?int => $item->getId(),
             $result
         ));
+    }
+
+    public function testEquipmentDatesRoundTripAsImmutableValues(): void
+    {
+        $equipment = $this->EquipmentRepository->findForTypeId(
+            (int) $this->getDefaultAccountsClothesType()->getId(),
+            $this->Account
+        )[0];
+
+        $equipmentId = $equipment->getId();
+        $equipment->setDateStart(new DateTime('2024-03-29'));
+        $equipment->setDateEnd(new DateTimeImmutable('2024-10-27'));
+        $this->getEntityManager()->flush();
+        $this->getEntityManager()->clear();
+
+        $reloaded = $this->EquipmentRepository->find($equipmentId);
+
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Equipment::class, $reloaded);
+        $this->assertInstanceOf(DateTimeImmutable::class, $reloaded->getDateStart());
+        $this->assertInstanceOf(DateTimeImmutable::class, $reloaded->getDateEnd());
+        $this->assertSame('2024-03-29', $reloaded->getDateStart()->format('Y-m-d'));
+        $this->assertSame('2024-10-27', $reloaded->getDateEnd()->format('Y-m-d'));
+        $this->assertFalse($reloaded->isActive());
     }
 
     public function testEquipmentStatistics(): void

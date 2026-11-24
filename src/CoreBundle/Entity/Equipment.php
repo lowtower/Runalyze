@@ -2,6 +2,8 @@
 
 namespace Runalyze\Bundle\CoreBundle\Entity;
 
+use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -51,11 +53,11 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     ])]
     private int $additionalKm = 0;
 
-    #[ORM\Column(name: 'date_start', type: \Doctrine\DBAL\Types\Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTime $dateStart = null;
+    #[ORM\Column(name: 'date_start', type: \Doctrine\DBAL\Types\Types::DATE_IMMUTABLE, nullable: true)]
+    private ?DateTimeImmutable $dateStart = null;
 
-    #[ORM\Column(name: 'date_end', type: \Doctrine\DBAL\Types\Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTime $dateEnd = null;
+    #[ORM\Column(name: 'date_end', type: \Doctrine\DBAL\Types\Types::DATE_IMMUTABLE, nullable: true)]
+    private ?DateTimeImmutable $dateEnd = null;
 
     #[ORM\JoinColumn(name: 'typeid', referencedColumnName: 'id', nullable: false)]
     #[ORM\ManyToOne(targetEntity: EquipmentType::class, inversedBy: 'equipment')]
@@ -209,38 +211,38 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
         return $this->distance + $this->getAdditionalKm();
     }
 
-    public function setDateStart(?\DateTime $dateStart = null): self
+    public function setDateStart(?DateTimeInterface $dateStart = null): self
     {
-        $this->dateStart = $dateStart;
+        $this->dateStart = $dateStart instanceof \DateTimeInterface ? DateTimeImmutable::createFromInterface($dateStart) : null;
 
         return $this;
     }
 
-    public function getDateStart(): ?\DateTime
+    public function getDateStart(): ?DateTimeImmutable
     {
         return $this->dateStart;
     }
 
     public function hasStartDate(): bool
     {
-        return $this->dateStart instanceof \DateTime;
+        return $this->dateStart instanceof \DateTimeImmutable;
     }
 
-    public function setDateEnd(?\DateTime $dateEnd = null): self
+    public function setDateEnd(?DateTimeInterface $dateEnd = null): self
     {
-        $this->dateEnd = $dateEnd;
+        $this->dateEnd = $dateEnd instanceof \DateTimeInterface ? DateTimeImmutable::createFromInterface($dateEnd) : null;
 
         return $this;
     }
 
-    public function getDateEnd(): ?\DateTime
+    public function getDateEnd(): ?DateTimeImmutable
     {
         return $this->dateEnd;
     }
 
     public function isActive(): bool
     {
-        return ! $this->dateEnd instanceof \DateTime;
+        return ! $this->dateEnd instanceof \DateTimeImmutable;
     }
 
     public function setType(EquipmentType $type): self

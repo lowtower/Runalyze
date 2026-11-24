@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Form;
 
+use DateTimeImmutable;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
@@ -66,11 +67,12 @@ class EquipmentType extends AbstractType
             ->add('dateStart', DateType::class, [
                 'label' => 'Start of use',
                 'widget' => 'single_text',
+                'input' => 'datetime_immutable',
                 'format' => 'dd.MM.yyyy',
                 'html5' => false,
                 'required' => false,
                 // #TSC: fix if new equip set current date, else use stored date
-                'data' => ($equipment->getId() === null ? new \DateTime('now') : $equipment->getDateStart()),
+                'data' => ($equipment->getId() === null ? new DateTimeImmutable('now') : $equipment->getDateStart()),
                 'attr' => [
                     'class' => 'pick-a-date small-size',
                     'placeholder' => 'dd.mm.YYYY',
@@ -79,6 +81,7 @@ class EquipmentType extends AbstractType
             ->add('dateEnd', DateType::class, [
                 'label' => 'End of use',
                 'widget' => 'single_text',
+                'input' => 'datetime_immutable',
                 'format' => 'dd.MM.yyyy',
                 'html5' => false,
                 'required' => false,

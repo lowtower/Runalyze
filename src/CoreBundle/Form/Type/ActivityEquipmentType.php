@@ -2,7 +2,6 @@
 
 namespace Runalyze\Bundle\CoreBundle\Form\Type;
 
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
@@ -112,10 +111,8 @@ class ActivityEquipmentType extends AbstractTokenStorageAwareType implements Dat
     protected function getChoiceAttributesForEquipment(Equipment $equipment): array
     {
         return [
-            'data-start' => $equipment->getDateStart() instanceof DateTime ? $equipment->getDateStart()
-                ->format('Y-m-d') : '',
-            'data-end' => $equipment->getDateEnd() instanceof DateTime ? $equipment->getDateEnd()
-                ->format('Y-m-d') : '',
+            'data-start' => $equipment->getDateStart()?->format('Y-m-d') ?? '',
+            'data-end' => $equipment->getDateEnd()?->format('Y-m-d') ?? '',
         ];
     }
 

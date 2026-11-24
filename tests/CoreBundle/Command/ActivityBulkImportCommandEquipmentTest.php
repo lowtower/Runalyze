@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Command;
 
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -70,8 +71,8 @@ final class ActivityBulkImportCommandEquipmentTest extends TestCase
         string $name,
         EquipmentType $type,
         array $sports,
-        ?\DateTime $dateStart = null,
-        ?\DateTime $dateEnd = null
+        ?DateTimeImmutable $dateStart = null,
+        ?DateTimeImmutable $dateEnd = null
     ): Stub&Equipment {
         $equipment = $this->createStub(Equipment::class);
         $equipment->method('getId')
@@ -247,8 +248,8 @@ final class ActivityBulkImportCommandEquipmentTest extends TestCase
             'Road Bike',
             $type,
             [$sport],
-            new \DateTime('2026-01-01'),
-            new \DateTime('2026-12-31')
+            new DateTimeImmutable('2026-01-01'),
+            new DateTimeImmutable('2026-12-31')
         );
 
         $account = $this->createAccount([$equipment]);
@@ -273,8 +274,8 @@ final class ActivityBulkImportCommandEquipmentTest extends TestCase
             'Road Bike',
             $type,
             [$sport],
-            new \DateTime('2026-06-01'),
-            new \DateTime('2026-12-31')
+            new DateTimeImmutable('2026-06-01'),
+            new DateTimeImmutable('2026-12-31')
         );
 
         $account = $this->createAccount([$equipment]);
@@ -298,8 +299,8 @@ final class ActivityBulkImportCommandEquipmentTest extends TestCase
             'Road Bike',
             $type,
             [$sport],
-            new \DateTime('2026-01-01'),
-            new \DateTime('2026-06-01')
+            new DateTimeImmutable('2026-01-01'),
+            new DateTimeImmutable('2026-06-01')
         );
 
         $account = $this->createAccount([$equipment]);
@@ -323,8 +324,8 @@ final class ActivityBulkImportCommandEquipmentTest extends TestCase
             'Road Bike',
             $type,
             [$sport],
-            new \DateTime('2026-01-01'),
-            new \DateTime('2026-06-01')
+            new DateTimeImmutable('2026-01-01'),
+            new DateTimeImmutable('2026-06-01')
         );
 
         $account = $this->createAccount([$equipment]);

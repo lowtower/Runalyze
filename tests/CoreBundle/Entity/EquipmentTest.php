@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Entity;
 
+use DateTime;
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
@@ -141,11 +143,36 @@ final class EquipmentTest extends TestCase
 
     public function testSetDateStartGetDateStart(): void
     {
-        $dateStart = new \DateTime('2024-01-01');
+        $dateStart = new DateTime('2024-01-01');
         $this->equipment->setDateStart($dateStart);
 
         $this->assertTrue($this->equipment->hasStartDate());
-        $this->assertSame($dateStart, $this->equipment->getDateStart());
+        $this->assertEquals(DateTimeImmutable::createFromInterface($dateStart), $this->equipment->getDateStart());
+        $this->assertInstanceOf(DateTimeImmutable::class, $this->equipment->getDateStart());
+    }
+
+    public function testMutableDateIsCopiedBeforeStoring(): void
+    {
+        $dateStart = new DateTime('2024-01-01');
+        $this->equipment->setDateStart($dateStart);
+
+        $dateStart->modify('+1 day');
+
+        $this->assertSame('2024-01-01', $this->equipment->getDateStart()?->format('Y-m-d'));
+    }
+
+    public function testDateFieldsCanBeCleared(): void
+    {
+        $this->equipment->setDateStart(new DateTimeImmutable('2024-01-01'));
+        $this->equipment->setDateEnd(new DateTimeImmutable('2024-06-01'));
+
+        $this->equipment->setDateStart();
+        $this->equipment->setDateEnd();
+
+        $this->assertFalse($this->equipment->hasStartDate());
+        $this->assertNull($this->equipment->getDateStart());
+        $this->assertNull($this->equipment->getDateEnd());
+        $this->assertTrue($this->equipment->isActive());
     }
 
     public function testIsActiveIsTrueByDefault(): void
@@ -155,7 +182,7 @@ final class EquipmentTest extends TestCase
 
     public function testIsActiveIsFalseWhenDateEndIsSet(): void
     {
-        $this->equipment->setDateEnd(new \DateTime('2024-06-01'));
+        $this->equipment->setDateEnd(new DateTimeImmutable('2024-06-01'));
 
         $this->assertFalse($this->equipment->isActive());
     }
