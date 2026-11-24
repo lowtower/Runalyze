@@ -46,7 +46,24 @@ final class RechenspieleShapePlotOutputAdapterTest extends TestCase
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array{
+     *     atl: array<string, float>,
+     *     ctl: array<string, float>,
+     *     tsb: array<string, float>,
+     *     trimp: array<string, float>,
+     *     vo2max: array<string, float>,
+     *     vo2max_day: array<string, float>,
+     *     marathon_shape: array<string, int>,
+     *     max_atl: int,
+     *     max_ctl: int,
+     *     max_trimp: float,
+     *     show_in_percent: bool,
+     *     calculate_maxima: bool,
+     *     limited_year: ?int,
+     *     mark_future: bool,
+     *     today_timestamp: int,
+     *     last_timestamp: string
+     * }
      */
     private function plotData(): array
     {
