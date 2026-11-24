@@ -625,13 +625,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$meteostatNet', service(MeteostatNet::class))
         ->arg('$DatabaseCache', service(WeathercacheRepository::class));
 
-    $services->set('app.elevation_correction.geotiff_reader', GeoTiffReader::class)
+    $services->set(GeoTiffReader::class)
         ->arg('$directory', '%app.data_directory%/srtm');
 
-    $services->alias(GeoTiffReader::class, 'app.elevation_correction.geotiff_reader');
-
     $services->set('app.elevation_correction.geotiff', GeoTiff::class)
-        ->arg('$Reader', service('app.elevation_correction.geotiff_reader'));
+        ->arg('$Reader', service(GeoTiffReader::class));
 
     $services->alias(GeoTiff::class, 'app.elevation_correction.geotiff');
 
