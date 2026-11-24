@@ -308,8 +308,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(RecalculationTasksPerformerListener::class)
         ->arg('$Manager', service('app.recalculation_manager'));
 
-    $services->alias('app.listener.recalculation_tasks_performer_listener', RecalculationTasksPerformerListener::class);
-
     $services->set(Sha256SaltedEncoder::class);
 
     $services->set(UnsubscribeHashGenerator::class)
