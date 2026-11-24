@@ -23,7 +23,6 @@ use Runalyze\Bundle\CoreBundle\EventListener\AccountLastActionListener;
 use Runalyze\Bundle\CoreBundle\EventListener\MaintenanceListener;
 use Runalyze\Bundle\CoreBundle\EventListener\RecalculationTasksPerformerListener;
 use Runalyze\Bundle\CoreBundle\EventListener\TablePrefixSubscriber;
-use Runalyze\Bundle\CoreBundle\EventListener\UserLocaleListener;
 use Runalyze\Bundle\CoreBundle\Form\ActivityType;
 use Runalyze\Bundle\CoreBundle\Form\EquipmentCategoryType;
 use Runalyze\Bundle\CoreBundle\Form\EquipmentType as EquipmentFormType;
