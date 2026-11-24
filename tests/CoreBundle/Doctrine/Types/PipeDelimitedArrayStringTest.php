@@ -19,7 +19,7 @@ final class PipeDelimitedArrayStringTest extends TestCase
 
     protected function setUp(): void
     {
-        $type = PipeDelimitedArrayString::getType(PipeDelimitedArrayString::PIPE_ARRAY);
+        $type = new PipeDelimitedArrayString();
         $this->assertInstanceOf(PipeDelimitedArrayString::class, $type);
 
         $this->type = $type;
