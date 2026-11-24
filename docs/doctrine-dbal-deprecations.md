@@ -23,3 +23,25 @@ remaining callers separately before claiming a deprecation-free suite.
 
 The external `runalyze/dem-reader` library is outside the scope of this
 cleanup.
+
+## Doctrine metadata cache after changing a mapped field type
+
+When an existing installation is upgraded from `DATE_MUTABLE` to
+`DATE_IMMUTABLE`, the PHP property expects `DateTimeImmutable`.
+Stale ORM metadata may still specify `date` and cause Doctrine to hydrate
+`DateTime` directly into the typed property, failing before any entity
+setters are invoked. This is a cache invalidation problem, not a column
+migration.
+
+The metadata cache now uses its own `doctrine.metadata_cache_pool` rather
+than the shared `doctrine.system_cache_pool`. Changing the pool identity
+avoids reusing old field mappings and keeps query and metadata caches
+separate. Clear and warm the Symfony cache during deployment whenever ORM
+mapping attributes change, for example with
+`APP_ENV=prod php bin/console cache:clear --env=prod`.
+
+The repository regression test asserts the effective metadata types and
+hydrates equipment through the dashboard's `findForPanel()` query after
+clearing the identity map. If a running deployment still fails, inspect
+its actual Doctrine metadata and restart long-running PHP processes after
+cache clearing.
