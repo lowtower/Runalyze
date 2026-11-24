@@ -330,12 +330,7 @@ class ActivityBulkImportCommand extends Command
             // got to all equipments for this sport
             // its possible that several equipments exists with different time-ranges
             foreach ($this->sportEquipment[$sportId] as $eqp) {
-                // set the end-date to time 23:59 for the compare
-                $endDate = null;
-                if ($eqp->getDateEnd() !== null) {
-                    $endDate = clone $eqp->getDateEnd();
-                    $endDate->setTime(23, 59, 59);
-                }
+                $endDate = $eqp->getDateEnd()?->setTime(23, 59, 59);
 
                 if (($eqp->getDateStart() === null || $eqp->getDateStart() < $actDate) && ($endDate === null || $actDate <= $endDate)) {
                     // the date fits
