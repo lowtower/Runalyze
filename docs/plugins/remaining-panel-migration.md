@@ -67,9 +67,15 @@ them under `plugins/` as though they were panels would break their lifecycle.
    local hours on the autumn transition. These verify the new pipeline's
    account-local grouping but do not establish visual or numerical parity
    with legacy MySQL `FROM_UNIXTIME()`, which uses the database session
-   timezone. The new path is intentionally not active: verify the deployed
-   database session timezone and compare real legacy plot output before
-   enabling it. A staged
+   timezone. A MySQL-backed regression test now proves this difference
+   for a Berlin account near local midnight: a UTC MySQL session assigns
+   the activity to the previous calendar day while account-local grouping
+   assigns it to the next day. The production Doctrine connection explicitly
+   configures a UTC session timezone. A fixed offset cannot reproduce
+   account-local grouping across DST transitions. The new path remains
+   inactive until the deployed legacy connection timezone is confirmed,
+   the intended account-local behavior is agreed upon and complete plot
+   output is compared. A staged
    `RechenspieleShapeSeriesCalculator` now reuses the existing TSB/Banister
    models to calculate ATL, CTL, TSB, TRIMP and rolling/daily VO2max series.
    A staged `RechenspieleMarathonShapeSeriesCalculator` now prepares
