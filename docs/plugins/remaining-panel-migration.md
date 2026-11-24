@@ -87,6 +87,10 @@ them under `plugins/` as though they were panels would break their lifecycle.
    configuration, time selection, daily history, both calculation services
    and timestamped series into one DI-backed, independently testable result.
    The provider is read-only and does not persist recomputed ATL/CTL maxima.
+   `RechenspieleShapePlotOutputAdapter` now passes provider results to
+   the existing Flot renderer, including the legacy plot ID, selected
+   model, year bounds and future marking timestamps. This adapter is
+   staged and does not change the active HTTP route.
    Activating the pipeline through the Symfony window route, verifying
    database timezone parity against the live legacy output, and deciding
    where historical maxima are persisted remain follow-ups.
