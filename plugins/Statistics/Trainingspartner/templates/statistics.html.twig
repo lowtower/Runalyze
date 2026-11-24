@@ -1,0 +1,46 @@
+{% extends 'my/statistics/base.html.twig' %}
+
+{% block pluginTitle %}
+    {{ title }}
+{% endblock %}
+
+{% block panelHeadingMenu %}
+    <ul>
+        <li class="with-submenu">
+            <span class="link">{{ filter.sports[filter.sport] }}</span>
+            <ul class="submenu">
+                {% for id, name in filter.sports %}
+                    <li{% if id == filter.sport %} class="active"{% endif %}><a class="ajax" target="statistics-inner" href="{{ path('plugin-display', {id: pluginId, sport: id, jahr: filter.year}) }}">{{ name }}</a></li>
+                {% endfor %}
+            </ul>
+        </li><li class="with-submenu">
+            <span class="link">{{ yearLabel }}</span>
+            <ul class="submenu">
+                {% for year, label in filter.years %}
+                    <li{% if year == filter.year %} class="active"{% endif %}><a class="ajax" target="statistics-inner" href="{{ path('plugin-display', {id: pluginId, sport: filter.sport, jahr: year}) }}">{{ label }}</a></li>
+                {% endfor %}
+            </ul>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block panelContent %}
+    <table class="fullwidth zebra-style">
+        <thead><tr><th colspan="2">{{ tableTitle }}</th></tr></thead>
+        <tbody>
+            {% for count, names in rows %}
+                <tr>
+                    <td class="b">{{ count }}x</td>
+                    <td>
+                        {%- for name in names -%}
+                            <a data-size="big" class="window" href="{{ path('my-search', {get: 'true', partner: name, opt: {partner: 'like'}}) }}">{{ name }}</a>{{ not loop.last ? ', ' : '' }}
+                        {%- endfor -%}
+                    </td>
+                </tr>
+            {% else %}
+                <tr><td class="b">0x</td><td><em>{{ emptyMessage }}</em></td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p class="text">{{ summary|raw }}</p>
+{% endblock %}

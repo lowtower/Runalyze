@@ -43,6 +43,7 @@ use Runalyze\Bundle\CoreBundle\MessageHandler\BackupGenerationMessageHandler;
 use Runalyze\Bundle\CoreBundle\MessageHandler\PosterGenerationMessageHandler;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsFilterFactory;
 use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
 use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
@@ -240,7 +241,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(ModernStatisticsRegistry::class)
         ->arg('$statistics', tagged_iterator('runalyze.modern_stat'));
 
+    $services->set(StatisticsFilterFactory::class);
+
     $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/MonthlyStats/config/services.php');
+    $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Trainingspartner/config/services.php');
 
     $containerConfigurator->import(__DIR__ . '/../plugins/Equipment/config/services.php');
     $containerConfigurator->import(__DIR__ . '/../plugins/Goals/config/services.php');
