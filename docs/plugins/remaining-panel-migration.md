@@ -68,11 +68,13 @@ them under `plugins/` as though they were panels would break their lifecycle.
    account-local grouping but do not establish visual or numerical parity
    with legacy MySQL `FROM_UNIXTIME()`, which uses the database session
    timezone. A MySQL-backed regression test now proves this difference
-   for a Berlin account near local midnight: a UTC MySQL session assigns
-   the activity to the previous calendar day while account-local grouping
-   assigns it to the next day. The production Doctrine connection explicitly
-   configures a UTC session timezone. A fixed offset cannot reproduce
-   account-local grouping across DST transitions. The new path remains
+   for a Berlin account near local midnight at the spring DST transition
+   and during a historical summer. A UTC session assigns the activity to
+   the previous calendar day. The legacy route initializes `Frontend`,
+   which sets the legacy PDO session to UTC via `Timezone::setMysql()`.
+   The production Doctrine connection also sets its own session to UTC.
+   A fixed `+01:00` offset matches the spring example but misses the
+   summer day boundary. The new path remains
    inactive until the deployed legacy connection timezone is confirmed,
    the intended account-local behavior is agreed upon and complete plot
    output is compared. A staged
