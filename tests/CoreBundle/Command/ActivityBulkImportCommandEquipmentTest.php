@@ -300,7 +300,7 @@ final class ActivityBulkImportCommandEquipmentTest extends TestCase
             $type,
             [$sport],
             new DateTimeImmutable('2026-01-01'),
-            new \DateTime('2026-06-01')
+            new DateTimeImmutable('2026-06-01')
         );
 
         $account = $this->createAccount([$equipment]);
@@ -325,7 +325,7 @@ final class ActivityBulkImportCommandEquipmentTest extends TestCase
             $type,
             [$sport],
             new DateTimeImmutable('2026-01-01'),
-            new \DateTime('2026-06-01')
+            new DateTimeImmutable('2026-06-01')
         );
 
         $account = $this->createAccount([$equipment]);
