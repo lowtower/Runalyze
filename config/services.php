@@ -643,14 +643,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'channel' => 'external_services',
         ]);
 
-    $services->set('app.elevation_correction.google_maps', GoogleMaps::class)
+    $services->set(GoogleMaps::class)
         ->arg('$HttpClient', service(Client::class))
         ->arg('$logger', service('logger'))
         ->tag('monolog.logger', [
             'channel' => 'external_services',
         ]);
 
-    $services->alias(GoogleMaps::class, 'app.elevation_correction.google_maps');
+    $services->alias('app.elevation_correction.google_maps', GoogleMaps::class);
 
     $services->set('app.elevation_correction', ElevationCorrection::class)
         ->arg('$geoTiff', service(GeoTiff::class))
