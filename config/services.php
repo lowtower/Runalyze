@@ -628,10 +628,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(GeoTiffReader::class)
         ->arg('$directory', '%app.data_directory%/srtm');
 
-    $services->set('app.elevation_correction.geotiff', GeoTiff::class)
+    $services->set(GeoTiff::class)
         ->arg('$Reader', service(GeoTiffReader::class));
 
-    $services->alias(GeoTiff::class, 'app.elevation_correction.geotiff');
+    $services->alias('app.elevation_correction.geotiff', GeoTiff::class);
 
     $services->set('app.elevation_correction.geonames', Geonames::class)
         ->arg('$GeonamesUsername', '%app.geonames_username%')
