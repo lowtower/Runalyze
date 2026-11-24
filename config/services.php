@@ -20,7 +20,6 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\GeneratePoster;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\PosterGenerationStateResolver;
 use Runalyze\Bundle\CoreBundle\EntityListener\EquipmentUpdateSubscriber;
 use Runalyze\Bundle\CoreBundle\EventListener\AccountLastActionListener;
-use Runalyze\Bundle\CoreBundle\EventListener\ConsoleExceptionListener;
 use Runalyze\Bundle\CoreBundle\EventListener\LocaleListener;
 use Runalyze\Bundle\CoreBundle\EventListener\MaintenanceListener;
 use Runalyze\Bundle\CoreBundle\EventListener\RecalculationTasksPerformerListener;
@@ -307,8 +306,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ]);
 
     $services->load('Runalyze\\Bundle\\CoreBundle\\EventListener\\', __DIR__ . '/../src/CoreBundle/EventListener/{AccountLastActionListener,ConsoleExceptionListener,LocaleListener,MaintenanceListener,UserLocaleListener,UserTimezoneListener}.php');
-
-    $services->alias('app.listener.console_exception', ConsoleExceptionListener::class);
 
     $services->alias('app.locale_listener', LocaleListener::class);
 
