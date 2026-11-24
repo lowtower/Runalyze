@@ -60,12 +60,16 @@ them under `plugins/` as though they were panels would break their lifecycle.
    zero-filled daily TRIMP, distance, weighted VO2max and long-jog arrays,
    including the historical warmup period. It is covered by isolated tests;
    `RechenspieleShapeDataProvider` now connects that aggregator to the
-   account-scoped repository, validates date ranges, and applies UTC calendar
-   bounds and activity calendar dates in the account's timezone, including
-   DST changes and warmup days. It is intentionally not used by the
-   existing PHP plot window yet: verify the database session timezone and
-   legacy `FROM_UNIXTIME()` behavior against the account timezone before
-   activating the new data path. A staged
+   account-scoped repository, validates date ranges, and applies calendar
+   bounds and activity dates in the account's timezone, including DST
+   changes and warmup days. Repository-backed regression tests now cover
+   local-midnight boundaries on the spring DST transition and both repeated
+   local hours on the autumn transition. These verify the new pipeline's
+   account-local grouping but do not establish visual or numerical parity
+   with legacy MySQL `FROM_UNIXTIME()`, which uses the database session
+   timezone. The new path is intentionally not active: verify the deployed
+   database session timezone and compare real legacy plot output before
+   enabling it. A staged
    `RechenspieleShapeSeriesCalculator` now reuses the existing TSB/Banister
    models to calculate ATL, CTL, TSB, TRIMP and rolling/daily VO2max series.
    A staged `RechenspieleMarathonShapeSeriesCalculator` now prepares
