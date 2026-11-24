@@ -15,7 +15,7 @@ final class RunalyzeRoundArrayTest extends \PHPUnit\Framework\TestCase
     protected function setUp(): void
     {
         /** @var RunalyzeRoundArray $type */
-        $type = RunalyzeRoundArray::getType(RunalyzeRoundArray::RUNALYZE_ROUND_ARRAY);
+        $type = new RunalyzeRoundArray();
         $this->Type = $type;
     }
 
