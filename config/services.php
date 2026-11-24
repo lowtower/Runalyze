@@ -657,13 +657,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$geonames', service(Geonames::class))
         ->arg('$googleMaps', service(GoogleMaps::class));
 
-    $services->set('app.routename_evaluation.routename_evaluation_factory', RouteNameEvalFactory::class)
+    $services->set(RouteNameEvalFactory::class)
         ->arg('$RouteNameEval', service('app.routename_evaluation.routename_evaluation_osm'))
         ->tag('monolog.logger', [
             'channel' => 'external_services',
         ]);
 
-    $services->alias(RouteNameEvalFactory::class, 'app.routename_evaluation.routename_evaluation_factory');
+    $services->alias('app.routename_evaluation.routename_evaluation_factory', RouteNameEvalFactory::class);
 
     $services->set('app.routename_evaluation.routename_evaluation_osm', RouteNameEvalOsm::class)
         ->arg('$Url', '%app.osm_overpass_url%')
