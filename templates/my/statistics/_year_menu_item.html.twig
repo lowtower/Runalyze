@@ -1,0 +1,8 @@
+<li class="with-submenu">
+    <span class="link">{{ yearLabel }}</span>
+    <ul class="submenu">
+        {% for year, label in period.years %}
+            <li{% if year == period.year %} class="active"{% endif %}><a class="ajax" target="statistics-inner" href="{{ path('plugin-display', {id: pluginId, sport: sport, jahr: year}) }}">{{ label }}</a></li>
+        {% endfor %}
+    </ul>
+</li>

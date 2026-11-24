@@ -1,0 +1,59 @@
+{% extends 'my/statistics/base.html.twig' %}
+
+{% block pluginTitle %}
+    {{ title }}
+{% endblock %}
+
+{% block panelHeadingMenu %}
+    <ul>
+        {% include 'my/statistics/_year_menu_item.html.twig' with {pluginId: pluginId, sport: -1, period: period, yearLabel: yearLabel} only %}
+    </ul>
+{% endblock %}
+
+{% block panelContent %}
+    {% for type, sports in activityRecords %}
+        <table class="fullwidth zebra-style">
+            <thead><tr><th colspan="11" class="l">{{ recordTitles[type] }}</th></tr></thead>
+            <tbody>
+                {% for row in sports %}
+                    <tr class="r">
+                        <td class="b l"><i class="{{ row.sport.img }}"></i> {{ row.sport.name }}</td>
+                        {% for i in 0..9 %}
+                            {% if row.records[i] is defined %}
+                                {% set record = row.records[i] %}
+                                <td class="small"><span title="{{ record.date }}"><a class="training" rel="{{ record.id }}" href="{{ path('ActivityShow', {id: record.id}) }}">{{ record.value|raw }}</a></span></td>
+                            {% else %}
+                                <td>&nbsp;</td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% else %}
+                    <tr><td colspan="11"><em>{{ emptyMessage }}</em></td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endfor %}
+
+    <table class="fullwidth zebra-style">
+        <thead><tr><th colspan="11" class="l">{{ recordTitles.distance }}</th></tr></thead>
+        <tbody>
+            {% if distanceRecords.week is empty %}
+                <tr><td colspan="11"><em>{{ emptyMessage }}</em></td></tr>
+            {% else %}
+                {% for type, records in distanceRecords %}
+                    <tr class="r">
+                        <td class="c b">{{ periodLabels[type] }}</td>
+                        {% for i in 0..9 %}
+                            {% if records[i] is defined %}
+                                {% set record = records[i] %}
+                                <td class="small"><span title="{{ record.label }}"><a class="ajax" target="data-browser-inner" rel="{{ type }}-link" href="{{ path('databrowser', {start: record.start, end: record.end}) }}" onclick="Pace.restart()">{{ record.value|raw }}</a></span></td>
+                            {% else %}
+                                <td>&nbsp;</td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+{% endblock %}

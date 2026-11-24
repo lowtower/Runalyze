@@ -88,22 +88,12 @@ class TrainingRepository extends ServiceEntityRepository
      */
     public function findTrainingPartnersFor(Account $account, ?int $sport, ?int $from, ?int $until): iterable
     {
-        $query = $this->createQueryBuilder('t')
+        $query = $this->activityPeriodQuery($account, $from, $until)
             ->select('CASE WHEN t.partner <> :empty THEN t.partner ELSE :empty END AS partner')
-            ->where('t.account = :account')
-            ->setParameter('account', $account)
             ->setParameter('empty', '');
 
         if ($sport !== null) {
             $query->andWhere('t.sport = :sport')->setParameter('sport', $sport);
-        }
-
-        if ($from !== null) {
-            $query->andWhere('t.time >= :from')->setParameter('from', $from);
-        }
-
-        if ($until !== null) {
-            $query->andWhere('t.time < :until')->setParameter('until', $until);
         }
 
         foreach ($query->getQuery()->toIterable() as $row) {
@@ -170,14 +160,91 @@ class TrainingRepository extends ServiceEntityRepository
 
     private function elevationQuery(Account $account, ?int $sport, ?int $from = null, ?int $until = null): QueryBuilder
     {
-        $query = $this->createQueryBuilder('t')
-            ->where('t.account = :account')
-            ->andWhere('t.elevation > 0')
-            ->setParameter('account', $account);
+        $query = $this->activityPeriodQuery($account, $from, $until)
+            ->andWhere('t.elevation > 0');
 
         if ($sport !== null) {
             $query->andWhere('t.sport = :sport')->setParameter('sport', $sport);
         }
+
+        return $query;
+    }
+
+    /**
+     * @return array{fastest: list<array{id: int, time: int, duration: ?float, distance: ?float}>, longest: list<array{id: int, time: int, duration: ?float, distance: ?float}>}
+     */
+    public function findActivityRecordsFor(Account $account, int $sportId, ?int $from, ?int $until): array
+    {
+        $query = $this->activityPeriodQuery($account, $from, $until)
+            ->select('t.id AS id, t.time AS time, t.s AS duration, t.distance AS distance')
+            ->andWhere('t.sport = :sport')
+            ->setParameter('sport', $sportId)
+            ->setMaxResults(10);
+
+        return [
+            'fastest' => (clone $query)
+                ->addSelect('t.distance * 1.0 / NULLIF(t.s, 0) AS HIDDEN speed')
+                ->andWhere('t.distance > 0')
+                ->orderBy('speed', \SortDirection::Descending)
+                ->addOrderBy('t.s', \SortDirection::Descending)
+                ->addOrderBy('t.id', \SortDirection::Ascending)
+                ->getQuery()
+                ->getArrayResult(),
+            'longest' => $query
+                ->orderBy('t.distance', \SortDirection::Descending)
+                ->addOrderBy('t.s', \SortDirection::Descending)
+                ->addOrderBy('t.id', \SortDirection::Ascending)
+                ->getQuery()
+                ->getArrayResult(),
+        ];
+    }
+
+    /**
+     * @return array<string, list<array{time: int, distance: int|float|string}>>
+     */
+    public function findDistanceRecordsFor(Account $account, int $sportId, ?int $from, ?int $until, bool $mondayStart): array
+    {
+        $query = $this->activityPeriodQuery($account, $from, $until)
+            ->select('COALESCE(SUM(t.distance), 0) AS distance', 'MIN(t.time) AS time')
+            ->andWhere('t.sport = :sport')
+            ->setParameter('sport', $sportId)
+            ->orderBy('distance', \SortDirection::Descending)
+            ->addOrderBy('time', \SortDirection::Ascending)
+            ->setMaxResults(10);
+
+        $records = [];
+        if ($from === null && $until === null) {
+            $records['year'] = (clone $query)
+                ->addSelect('YEAR(FROM_UNIXTIME(t.time)) AS HIDDEN calendarYear')
+                ->groupBy('calendarYear')
+                ->getQuery()
+                ->getArrayResult();
+        }
+
+        $records['month'] = (clone $query)
+            ->addSelect('YEAR(FROM_UNIXTIME(t.time)) AS HIDDEN calendarYear', 'MONTH(FROM_UNIXTIME(t.time)) AS HIDDEN calendarMonth')
+            ->groupBy('calendarYear')
+            ->addGroupBy('calendarMonth')
+            ->getQuery()
+            ->getArrayResult();
+
+        // Unix time starts on a Thursday. Subtract the elapsed part of each
+        // Monday- or Sunday-based week in the timezone-neutral activity calendar.
+        $records['week'] = $query
+            ->addSelect('t.time - (MOD((MOD((t.time + :offset), 604800) + 604800), 604800)) AS HIDDEN weekStart')
+            ->setParameter('offset', ($mondayStart ? 3 : 4) * 86400)
+            ->groupBy('weekStart')
+            ->getQuery()
+            ->getArrayResult();
+
+        return $records;
+    }
+
+    private function activityPeriodQuery(Account $account, ?int $from, ?int $until): QueryBuilder
+    {
+        $query = $this->createQueryBuilder('t')
+            ->where('t.account = :account')
+            ->setParameter('account', $account);
 
         if ($from !== null) {
             $query->andWhere('t.time >= :from')->setParameter('from', $from);

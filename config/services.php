@@ -245,6 +245,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Hoehenmeter/config/services.php');
     $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/MonthlyStats/config/services.php');
+    $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Rekorde/config/services.php');
     $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Tag/config/services.php');
     $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Trainingspartner/config/services.php');
 
