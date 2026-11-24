@@ -67,9 +67,17 @@ them under `plugins/` as though they were panels would break their lifecycle.
    local hours on the autumn transition. These verify the new pipeline's
    account-local grouping but do not establish visual or numerical parity
    with legacy MySQL `FROM_UNIXTIME()`, which uses the database session
-   timezone. The new path is intentionally not active: verify the deployed
-   database session timezone and compare real legacy plot output before
-   enabling it. A staged
+   timezone. A MySQL-backed regression test now proves this difference
+   for a Berlin account near local midnight at the spring DST transition
+   and during a historical summer. A UTC session assigns the activity to
+   the previous calendar day. The legacy route initializes `Frontend`,
+   which sets the legacy PDO session to UTC via `Timezone::setMysql()`.
+   The production Doctrine connection also sets its own session to UTC.
+   A fixed `+01:00` offset matches the spring example but misses the
+   summer day boundary. The new path remains
+   inactive until the deployed legacy connection timezone is confirmed,
+   the intended account-local behavior is agreed upon and complete plot
+   output is compared. A staged
    `RechenspieleShapeSeriesCalculator` now reuses the existing TSB/Banister
    models to calculate ATL, CTL, TSB, TRIMP and rolling/daily VO2max series.
    A staged `RechenspieleMarathonShapeSeriesCalculator` now prepares

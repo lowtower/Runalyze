@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Doctrine\DBAL\Types\DateTimeImmutableType;
 use DoctrineExtensions\Query\Mysql\FromUnixtime;
 use DoctrineExtensions\Query\Mysql\Month;
 use DoctrineExtensions\Query\Mysql\Round;
@@ -42,6 +43,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 ],
             ],
             'types' => [
+                // Doctrine Migrations 3.9 uses this type name for its executed_at column.
+                'datetime' => DateTimeImmutableType::class,
                 'casted_decimal_1' => CastedDecimalScale1Type::class,
                 'casted_decimal_2' => CastedDecimalScale2Type::class,
                 'tinyint' => TinyIntType::class,
