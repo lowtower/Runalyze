@@ -1,0 +1,42 @@
+{% extends 'my/statistics/base.html.twig' %}
+
+{% block pluginTitle %}
+    {{ title }}
+{% endblock %}
+
+{% block panelHeadingMenu %}
+    {% include 'my/statistics/_sport_and_year_menu.html.twig' with {pluginId: pluginId, filter: filter, yearLabel: yearLabel} only %}
+{% endblock %}
+
+{% block panelContent %}
+    <div style="max-width:750px;margin:0 auto;">
+        <span class="right">{{ weekday.html|raw }}</span>
+        <span class="left">{{ daytime.html|raw }}</span>
+        <br class="clear">
+    </div>
+    {{ daytime.script|raw }}
+    {{ weekday.script|raw }}
+
+    {% if nights is not empty %}
+        <table class="fullwidth zebra-style">
+            <thead><tr class="b c"><th colspan="8">{{ nightTitle }}</th></tr></thead>
+            <tbody>
+                {% for pair in nights|batch(2) %}
+                    <tr>
+                        {% for row in pair %}
+                            <td class="b">{{ row.time }}</td>
+                            <td>
+                                <a class="training" rel="{{ row.id }}" href="{{ path('ActivityShow', {id: row.id}) }}">
+                                    <span rel="tooltip" title="{{ row.sportName }}{% if row.duration > 0 %}: {{ row.duration|duration }}{% endif %}"><i class="{{ row.sportIcon }}"></i></span>
+                                </a>
+                            </td>
+                            <td>{{ row.value|raw }} {{ row.sportName }}</td>
+                            <td><a class="ajax" target="data-browser-inner" rel="week-link" href="{{ path('databrowser', {start: row.weekStart, end: row.weekEnd}) }}" onclick="Pace.restart()">{{ row.date }}</a></td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p class="text">{{ nightDescription|raw }}</p>
+    {% endif %}
+{% endblock %}
