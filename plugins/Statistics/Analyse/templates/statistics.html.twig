@@ -1,0 +1,108 @@
+{% extends 'my/statistics/base.html.twig' %}
+
+{% macro cell(totals, column, metric) %}
+    <td>
+        {% if totals is not null %}
+            {% set basis = metric == 'km' ? 'distance' : 'duration' %}
+            {% set percent = column[basis] > 0 ? (100 * totals[basis] / column[basis])|round(1) : 0 %}
+            {% set duration = totals.duration|duration %}
+            <span rel="tooltip" title="{{ totals.count }}x{% if metric != 's' %}, {{ duration }}{% endif %}">
+                {% if metric == 'km' %}
+                    {{ distance(totals.distance, decimals: 0).getWithUnit(0, ',', '.')|raw }}
+                {% elseif metric == 's' %}
+                    {{ duration }}
+                {% else %}
+                    {{ percent|number_format(1) }} %
+                {% endif %}
+            </span>
+            <div class="analysis-bar" style="width:{{ min(95, percent|round) }}%;opacity:{{ (percent / 100)|round(2) }};"></div>
+        {% else %}
+            &nbsp;
+        {% endif %}
+    </td>
+{% endmacro %}
+
+{% macro total(totals, useDistance) %}
+    <td>
+        {% if totals is null %}
+            &nbsp;
+        {% elseif useDistance %}
+            {{ distance(totals.distance, decimals: 0).getWithUnit(0, ',', '.')|raw }}
+        {% else %}
+            {{ totals.duration|duration }}
+        {% endif %}
+    </td>
+{% endmacro %}
+
+{% block pluginTitle %}{{ title }}{% endblock %}
+
+{% block panelHeadingMenu %}
+    {% set parameters = {id: pluginId, sport: filter.sport, jahr: filter.year, dat: metric} %}
+    {% set menus = [
+        {key: 'dat', label: metrics[metric], options: metrics},
+        {key: 'sport', label: filter.sports[filter.sport] ?? '', options: filter.sports},
+        {key: 'jahr', label: yearLabel, options: filter.years},
+    ] %}
+    <ul>
+        {% for menu in menus %}
+            {% if menu.options is not empty %}
+                <li class="with-submenu">
+                    <span class="link">{{ menu.label }}</span>
+                    <ul class="submenu">
+                        {% for id, label in menu.options %}
+                            <li{% if id is same as(parameters[menu.key]) %} class="active"{% endif %}>
+                                <a class="ajax" target="statistics-inner" href="{{ path('plugin-display', parameters|merge({(menu.key): id})) }}">{{ label }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block panelContent %}
+    <style>
+        .analysis-table td { position: relative; }
+        .analysis-table td .analysis-bar { position: absolute; right: 3px; bottom: 2px; height: 2px; max-width: 100%; background-color: #800; }
+    </style>
+    {% for table in tables %}
+        <table class="fullwidth zebra-style analysis-table small r">
+            <thead>
+                <tr class="c b">
+                    <th>{{ table.name }}</th>
+                    {% for label in periods %}
+                        <th{% if periods|length <= 12 %} style="width:7%"{% endif %}>{{ label }}</th>
+                    {% endfor %}
+                    <th>{{ 'In total'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if table.data.total.count > 0 %}
+                    {% for group, label in table.labels %}
+                        <tr>
+                            <td class="c{% if label.text != 'without'|trans %} b{% endif %}"{% if label.title is defined %} title="{{ label.title }}"{% endif %}>{{ label.text }}</td>
+                            {% for period in periods|keys %}
+                                {{ _self.cell(table.data.cells[group][period] ?? null, table.data.columns[period] ?? null, metric) }}
+                            {% endfor %}
+                            {{ _self.cell(table.data.rows[group] ?? null, table.data.total, metric) }}
+                        </tr>
+                    {% endfor %}
+                    <tr class="top-spacer no-zebra">
+                        <td class="c b">{{ 'Total'|trans }}</td>
+                        {% for period in periods|keys %}
+                            {{ _self.total(table.data.columns[period] ?? null, hasDistances and metric != 's') }}
+                        {% endfor %}
+                        {{ _self.total(table.data.total, hasDistances and metric != 's') }}
+                    </tr>
+                {% else %}
+                    <tr class="c"><td colspan="{{ periods|length + 2 }}"><em>{{ 'No data available.'|trans }}</em></td></tr>
+                {% endif %}
+            </tbody>
+        </table>
+        <div class="clear"></div>
+    {% else %}
+        <p class="info">{{ 'There is no data for this sport.'|trans }}</p>
+    {% endfor %}
+    <p class="info">* {{ note }}</p>
+{% endblock %}

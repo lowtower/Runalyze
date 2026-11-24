@@ -271,6 +271,41 @@ class TrainingRepository extends ServiceEntityRepository
         return $records;
     }
 
+    /**
+     * @return iterable<array{time: int, duration: ?float, distance: ?float, heartRate: ?int, typeId: ?int}>
+     */
+    public function iterateActivityAnalysisSamples(Account $account, int $sportId, ?int $from, ?int $until): iterable
+    {
+        return $this->activityPeriodQuery($account, $from, $until)
+            ->select('t.time AS time, t.s AS duration, t.distance AS distance, t.pulseAvg AS heartRate, IDENTITY(t.type) AS typeId')
+            ->andWhere('t.sport = :sport')
+            ->setParameter('sport', $sportId)
+            ->getQuery()
+            ->toIterable();
+    }
+
+    /**
+     * @return array{slowest: int, fastest: int}|null
+     */
+    public function findActivityAnalysisPaceLimits(Account $account, int $sportId, ?int $from, ?int $until): ?array
+    {
+        $limits = $this->activityPeriodQuery($account, $from, $until)
+            ->select('MAX(t.s / t.distance) AS slowest, MIN(t.s / t.distance) AS fastest')
+            ->andWhere('t.sport = :sport AND t.distance > 0 AND t.s > 0')
+            ->setParameter('sport', $sportId)
+            ->getQuery()
+            ->getSingleResult();
+
+        if ($limits['slowest'] === null) {
+            return null;
+        }
+
+        return [
+            'slowest' => (int) round((float) $limits['slowest']),
+            'fastest' => (int) round((float) $limits['fastest']),
+        ];
+    }
+
     private function activityPeriodQuery(Account $account, ?int $from, ?int $until): QueryBuilder
     {
         $query = $this->createQueryBuilder('t')
