@@ -24,7 +24,8 @@ final readonly class RechenspieleShapePlotDataProvider
         private RechenspieleShapeDataProvider $dailyDataProvider,
         private RechenspieleShapeSeriesCalculator $seriesCalculator,
         private RechenspieleMarathonShapeSeriesCalculator $marathonShapeCalculator,
-        private RechenspieleShapePlotSeriesAssembler $seriesAssembler
+        private RechenspieleShapePlotSeriesAssembler $seriesAssembler,
+        private RechenspieleShapePlotTimestampMapper $timestampMapper
     ) {}
 
     /**
@@ -128,15 +129,13 @@ final readonly class RechenspieleShapePlotDataProvider
             $period['warmup_days']
         );
 
-        $timestampMapper = new RechenspieleShapePlotTimestampMapper();
-
         return [
             ...$series,
             'calculate_maxima' => $period['calculate_maxima'],
             'limited_year' => $period['limited_year'],
             'mark_future' => $period['mark_future'],
             'today_timestamp' => $today->getTimestamp(),
-            'last_timestamp' => $timestampMapper->timestampForIndex(
+            'last_timestamp' => $this->timestampMapper->timestampForIndex(
                 $period['start_day'],
                 $period['warmup_days'],
                 $period['highest_index']
