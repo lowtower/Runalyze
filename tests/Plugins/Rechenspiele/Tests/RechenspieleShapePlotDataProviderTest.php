@@ -32,6 +32,7 @@ final class RechenspieleShapePlotDataProviderTest extends TestCase
     {
         $account = new Account();
         $account->setTimezone(Timezone::BERLIN);
+
         $repository = $this->createMock(TrainingRepository::class);
         $timezone = new DateTimeZone('Europe/Berlin');
 
@@ -40,8 +41,8 @@ final class RechenspieleShapePlotDataProviderTest extends TestCase
             ->with(
                 $account,
                 7,
-                $this->isType('int'),
-                $this->isType('int'),
+                $this->isInt(),
+                $this->isInt(),
                 false,
                 $timezone
             )
@@ -65,11 +66,11 @@ final class RechenspieleShapePlotDataProviderTest extends TestCase
         ]);
         $result = $provider->getPlotData($account, 'all', 'tsb');
 
-        self::assertNotNull($result);
+        $this->assertNotNull($result);
         $timestamp = (string) (new DateTimeImmutable('2026-11-23 12:00:00', $timezone)->getTimestamp() * 1000);
         $tomorrow = (string) (new DateTimeImmutable('2026-11-24 12:00:00', $timezone)->getTimestamp() * 1000);
 
-        $this->assertSame(80.0, $result['trimp'][$timestamp]);
+        $this->assertEqualsWithDelta(80.0, $result['trimp'][$timestamp], PHP_FLOAT_EPSILON);
         $this->assertEqualsWithDelta(50.0, $result['vo2max'][$tomorrow], 0.00001);
         $this->assertEqualsWithDelta(50.0, $result['vo2max_day'][$timestamp], 0.00001);
         $this->assertArrayHasKey($tomorrow, $result['marathon_shape']);
