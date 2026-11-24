@@ -677,8 +677,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$SpatialiteExtensionName', '%app.sqlite_mod_spatialite%')
         ->arg('$SilentExceptions', true);
 
-    $services->alias('app.timezone_lookup', TimezoneLookup::class);
-
     $services->set(SessionRequestProcessor::class)
         ->autowire(true)
         ->tag('monolog.processor', [
