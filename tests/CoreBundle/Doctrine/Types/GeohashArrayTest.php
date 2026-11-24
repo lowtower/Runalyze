@@ -13,7 +13,7 @@ final class GeohashArrayTest extends \PHPUnit\Framework\TestCase
     protected function setUp(): void
     {
         /** @var GeohashArray $type */
-        $type = GeohashArray::getType(GeohashArray::GEOHASH_ARRAY);
+        $type = new GeohashArray();
         $this->Type = $type;
     }
 
