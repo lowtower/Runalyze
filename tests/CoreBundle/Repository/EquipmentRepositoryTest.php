@@ -95,16 +95,9 @@ final class EquipmentRepositoryTest extends AbstractRepositoryTestCase
         $this->assertSame(Types::DATE_IMMUTABLE, $metadata->getTypeOfField('dateEnd'));
 
         $results = $this->EquipmentRepository->findForPanel($equipmentTypeId, $this->Account);
-        $reloaded = null;
+        $reloaded = array_find($results, fn ($candidate): bool => $candidate->getId() === $equipmentId);
 
-        foreach ($results as $candidate) {
-            if ($candidate->getId() === $equipmentId) {
-                $reloaded = $candidate;
-                break;
-            }
-        }
-
-        $this->assertNotNull($reloaded);
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Equipment::class, $reloaded);
         $this->assertInstanceOf(DateTimeImmutable::class, $reloaded->getDateStart());
         $this->assertInstanceOf(DateTimeImmutable::class, $reloaded->getDateEnd());
         $this->assertSame('2025-11-19', $reloaded->getDateStart()->format('Y-m-d'));
