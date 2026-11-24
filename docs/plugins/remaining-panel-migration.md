@@ -82,9 +82,14 @@ them under `plugins/` as though they were panels would break their lifecycle.
    days when clocks change.
    `RechenspieleShapePlotSeriesAssembler` now aligns all calculated model,
    VO2max and marathon-shape series to those timestamps without introducing
-   HTTP, database or presentation dependencies. Activating the pipeline through the Symfony window
-   route, verifying database timezone parity against the live legacy output,
-   and preserving historical maxima persistence remain follow-ups.
+   HTTP, database or presentation dependencies.
+   `RechenspieleShapePlotDataProvider` now coordinates account-specific
+   configuration, time selection, daily history, both calculation services
+   and timestamped series into one DI-backed, independently testable result.
+   The provider is read-only and does not persist recomputed ATL/CTL maxima.
+   Activating the pipeline through the Symfony window route, verifying
+   database timezone parity against the live legacy output, and deciding
+   where historical maxima are persisted remain follow-ups.
 5. **Calculations administration:** migrate the four existing configuration
    keys, provide modern metadata, and remove the final panel directory.
 6. **Final audit:** verify no `plugin/RunalyzePluginPanel_*` directories
