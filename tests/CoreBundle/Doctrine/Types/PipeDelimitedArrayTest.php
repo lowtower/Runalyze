@@ -16,10 +16,10 @@ final class PipeDelimitedArrayTest extends \PHPUnit\Framework\TestCase
     protected function setUp(): void
     {
         /** @var PipeDelimitedArray $typeNumber */
-        $typeNumber = PipeDelimitedArray::getType(PipeDelimitedArray::PIPE_ARRAY);
+        $typeNumber = new PipeDelimitedArray();
         $this->TypeNumber = $typeNumber;
         /** @var PipeDelimitedArrayString $typeString */
-        $typeString = PipeDelimitedArrayString::getType(PipeDelimitedArrayString::PIPE_ARRAY);
+        $typeString = new PipeDelimitedArrayString();
         $this->TypeString = $typeString;
     }
 
