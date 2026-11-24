@@ -19,7 +19,7 @@ final class CastedDecimalScale1TypeTest extends TestCase
 
     protected function setUp(): void
     {
-        $type = CastedDecimalScale1Type::getType(CastedDecimalScale1Type::CASTED_DECIMAL_1);
+        $type = new CastedDecimalScale1Type();
         $this->assertInstanceOf(CastedDecimalScale1Type::class, $type);
 
         $this->type = $type;
