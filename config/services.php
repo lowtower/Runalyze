@@ -658,12 +658,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$googleMaps', service(GoogleMaps::class));
 
     $services->set(RouteNameEvalFactory::class)
-        ->arg('$RouteNameEval', service('app.routename_evaluation.routename_evaluation_osm'))
+        ->arg('$RouteNameEval', service(RouteNameEvalOsm::class))
         ->tag('monolog.logger', [
             'channel' => 'external_services',
         ]);
 
-    $services->set('app.routename_evaluation.routename_evaluation_osm', RouteNameEvalOsm::class)
+    $services->set(RouteNameEvalOsm::class)
         ->arg('$Url', '%app.osm_overpass_url%')
         ->arg('$Proxy', '%app.osm_overpass_proxy%')
         ->arg('$HttpClient', service(Client::class))
@@ -671,8 +671,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->tag('monolog.logger', [
             'channel' => 'external_services',
         ]);
-
-    $services->alias(RouteNameEvalOsm::class, 'app.routename_evaluation.routename_evaluation_osm');
 
     $services->set('app.timezone_lookup', TimezoneLookup::class)
         ->arg('$PathToTimeZoneDatabase', '%app.data_directory%/timezone.sqlite')
