@@ -22,7 +22,7 @@ final class TinyIntTypeTest extends TestCase
 
     protected function setUp(): void
     {
-        $type = TinyIntType::getType(TinyIntType::TINYINT);
+        $type = new TinyIntType();
         $this->assertInstanceOf(TinyIntType::class, $type);
 
         $this->Type = $type;
