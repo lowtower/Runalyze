@@ -15,10 +15,8 @@ final class PipeDelimitedArrayTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
-        /** @var PipeDelimitedArray $typeNumber */
         $typeNumber = new PipeDelimitedArray();
         $this->TypeNumber = $typeNumber;
-        /** @var PipeDelimitedArrayString $typeString */
         $typeString = new PipeDelimitedArrayString();
         $this->TypeString = $typeString;
     }
