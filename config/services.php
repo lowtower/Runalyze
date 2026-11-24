@@ -687,7 +687,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(DisposableDomainProvider::class)
         ->arg('$projectDir', '%kernel.project_dir%');
 
-    $services->alias('app.disposable_domain_provider', DisposableDomainProvider::class);
-
     $services->load('Runalyze\\Bundle\\CoreBundle\\Validator\\Constraints\\', __DIR__ . '/../src/CoreBundle/Validator/Constraints/*Validator.php');
 };
