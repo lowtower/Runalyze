@@ -1,0 +1,24 @@
+{% extends 'my/statistics/configuration.html.twig' %}
+
+{% block pluginConfiguration %}
+    <form class="ajax no-automatic-reload" action="{{ path('plugin-config', {id: plugin_id}) }}" method="post">
+        <input type="hidden" name="edit" value="true">
+        <fieldset>
+            <legend>{{ 'Configuration'|trans }}</legend>
+            <div class="w100 block">
+                <label for="statistics-tag">{{ config_data.fieldLabel }}</label>
+                <select id="statistics-tag" name="tag">
+                    {% if config_data.selectedTagId is null %}
+                        <option value="" disabled selected>{{ config_data.chooseTag }}</option>
+                    {% endif %}
+                    {% for id, name in config_data.tags %}
+                        <option value="{{ id }}"{% if id == config_data.selectedTagId %} selected{% endif %}>{{ name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="w100 block">
+                <input type="submit" value="{{ 'Save'|trans }}">
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'my/statistics/base.html.twig' %}
+
+{% from '_macro/utilities.html.twig' import tableHeadMonths %}
+
+{% block pluginTitle %}
+    {{ title }}
+{% endblock %}
+
+{% block panelHeadingMenu %}
+    <ul>
+        {% if selectedTagId is not null %}
+            <li class="with-submenu">
+                <span class="link">{{ tags[selectedTagId] }}</span>
+                <ul class="submenu">
+                    {% for id, name in tags %}
+                        <li{% if id == selectedTagId %} class="active"{% endif %}><a class="ajax" target="statistics-inner" href="{{ path('plugin-display', {id: pluginId, sport: filter.sport, jahr: filter.year, dat: id}) }}">{{ name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endif %}
+        <li class="with-submenu">
+            <span class="link">{{ filter.sports[filter.sport] }}</span>
+            <ul class="submenu">
+                {% for id, name in filter.sports %}
+                    <li{% if id == filter.sport %} class="active"{% endif %}><a class="ajax" target="statistics-inner" href="{{ path('plugin-display', {id: pluginId, sport: id, jahr: filter.year}) }}">{{ name }}</a></li>
+                {% endfor %}
+            </ul>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block panelContent %}
+    {% if selectedTagId is null %}
+        <p class="warning"><em>{{ chooseTag }}</em></p>
+    {% else %}
+        <p><strong>{{ tagLabel }}:</strong> {{ tags[selectedTagId] }}</p>
+        <table class="fullwidth zebra-style r">
+            <thead>{{ tableHeadMonths(8, 1) }}</thead>
+            <tbody>
+                {% for year, months in counts %}
+                    <tr>
+                        <td class="b l">{{ year }}</td>
+                        {% for month in 1..12 %}
+                            <td>{% if months[month] is defined %}{{ months[month] }}x{% else %}&nbsp;{% endif %}</td>
+                        {% endfor %}
+                    </tr>
+                {% else %}
+                    <tr><td colspan="13" class="c"><em>{{ emptyMessage }}</em></td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

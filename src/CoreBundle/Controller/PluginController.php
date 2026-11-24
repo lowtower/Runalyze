@@ -12,6 +12,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelConfigurationInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsConfigurationInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Symfony\Component\HttpFoundation\Request;
@@ -258,14 +259,32 @@ class PluginController extends AbstractPluginsAwareController
             Ajax::setReloadFlag(Ajax::$RELOAD_ALL);
         }
 
-        $content = $this->renderView('my/statistics/configuration.html.twig', [
+        $template = 'my/statistics/configuration.html.twig';
+        $view = [
             'plugin_id' => $id,
             'name' => $statistic->getName(),
             'description' => $statistic->getDescription($account),
             'inactive' => $installation->isInactive(),
-        ]);
+        ];
+        $reloadRequired = $active !== null;
 
-        if ($active !== null) {
+        if ($statistic instanceof ModernStatisticsConfigurationInterface) {
+            if ($request->isMethod('POST') && $request->request->get('edit') === 'true') {
+                $statistic->updateConfiguration($account, $installation, $request->request->all());
+                if (! $reloadRequired) {
+                    Ajax::setPluginIDtoReload($id);
+                    Ajax::setReloadFlag(Ajax::$RELOAD_PLUGINS);
+                    $reloadRequired = true;
+                }
+            }
+
+            $template = $statistic->getConfigurationTemplate();
+            $view['config_data'] = $statistic->getConfigurationData($account, $installation);
+        }
+
+        $content = $this->renderView($template, $view);
+
+        if ($reloadRequired) {
             $content .= Ajax::getReloadCommand();
         }
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Services;
 
+use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManagerInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Entity\PluginConf;
@@ -47,5 +48,28 @@ final readonly class DoctrinePluginConfigurationStorage implements PluginConfigu
             $configuration->setValue($value);
             $this->repository->save($configuration);
         }
+    }
+
+    public function saveValue(Plugin $installation, string $key, string $value): void
+    {
+        $this->entityManager->wrapInTransaction(function (EntityManagerInterface $entityManager) use ($installation, $key, $value): void {
+            // A setting may not exist yet. Lock the installation before looking up its settings.
+            $entityManager->lock($installation, LockMode::PESSIMISTIC_WRITE);
+            $settings = $this->repository->findBy([
+                'plugin' => $installation,
+                'config' => $key,
+            ]);
+
+            if ($settings === []) {
+                $entityManager->persist(new PluginConf()
+                    ->setPlugin($installation)
+                    ->setConfig($key)
+                    ->setValue($value));
+            }
+
+            foreach ($settings as $setting) {
+                $setting->setValue($value);
+            }
+        });
     }
 }

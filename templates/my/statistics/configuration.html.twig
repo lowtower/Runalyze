@@ -12,10 +12,12 @@
             <p class="warning">{{ 'The plugin is deactivated.'|trans }}</p>
         {% endif %}
     </fieldset>
-    <fieldset>
-        <legend>{{ 'Configuration'|trans }}</legend>
-        <p class="info">{{ 'There are no settings.'|trans }}</p>
-    </fieldset>
+    {% block pluginConfiguration %}
+        <fieldset>
+            <legend>{{ 'Configuration'|trans }}</legend>
+            <p class="info">{{ 'There are no settings.'|trans }}</p>
+        </fieldset>
+    {% endblock %}
     <fieldset>
         <legend>{{ 'Activation'|trans }}</legend>
         {% if inactive %}

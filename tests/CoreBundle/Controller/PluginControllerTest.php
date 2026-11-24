@@ -12,6 +12,7 @@ use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Entity\PluginConf;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
+use Runalyze\Bundle\CoreBundle\Entity\Tag;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
@@ -252,6 +253,144 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $html = (string) $this->Client->getResponse()->getContent();
         $this->assertStringContainsString('You have only trained on your own.', $html);
         $this->assertStringContainsString('<strong>0x</strong>', $html);
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testTagStatisticsLoadsAnExistingSelectionAndValidatesChanges(): void
+    {
+        $entityManager = $this->getEntityManager();
+        $otherAccount = $this->registerUniqueAccount();
+        $account = $entityManager->find(Account::class, $this->Account->getId());
+        $this->assertInstanceOf(Account::class, $account);
+        $plugin = $entityManager->getRepository(Plugin::class)->findOneBy([
+            'account' => $account,
+            'key' => 'RunalyzePluginStat_Tag',
+        ]);
+        $this->assertInstanceOf(Plugin::class, $plugin);
+
+        $sports = $entityManager->getRepository(Sport::class);
+        $running = $sports->findInternalIdFor(SportProfile::RUNNING, $account);
+        $cycling = $sports->findInternalIdFor(SportProfile::CYCLING, $account);
+        $otherSport = $sports->findInternalIdFor(SportProfile::RUNNING, $otherAccount);
+        $this->assertInstanceOf(Sport::class, $running);
+        $this->assertInstanceOf(Sport::class, $cycling);
+        $this->assertInstanceOf(Sport::class, $otherSport);
+
+        $trail = new Tag()->setAccount($account)->setTag('Trail & <Hill>');
+        $intervals = new Tag()->setAccount($account)->setTag('Intervals');
+        $foreign = new Tag()->setAccount($otherAccount)->setTag('Foreign tag');
+        $entityManager->persist($trail);
+        $entityManager->persist($intervals);
+        $entityManager->persist($foreign);
+        $entityManager->flush();
+
+        $configuration = new PluginConf()->setPlugin($plugin)->setConfig('tag')->setValue((string) $trail->getId());
+        $entityManager->persist($configuration);
+        foreach ([
+            [$account, $running, '2024-02-02', $trail],
+            [$account, $running, '2025-10-03', $trail],
+            [$account, $running, '2025-10-04', $trail],
+            [$account, $cycling, '2025-10-05', $trail],
+            [$account, $running, '2025-10-06', $foreign],
+            [$otherAccount, $otherSport, '2025-10-07', $trail],
+        ] as [$owner, $sport, $date, $tag]) {
+            $entityManager->persist(new Training()
+                ->setAccount($owner)
+                ->setSport($sport)
+                ->setTime(strtotime($date . ' 12:00:00 UTC'))
+                ->setS(3600)
+                ->addTag($tag));
+        }
+
+        $entityManager->flush();
+        $id = $plugin->getId();
+        $display = '/my/plugin/' . $id;
+        $config = '/call/call.Plugin.config.php?id=' . $id;
+        $settings = $entityManager->getRepository(PluginConf::class);
+        $savedTag = static fn (): string => $settings->findValuesForPlugins([$id])[$id]['tag'];
+        $this->loginClient($this->Client, $account, 'default');
+        $dashboard = $this->Client->request('GET', '/dashboard?pluginid=' . $id);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('Tag analysis: ' . $running->getName(), (string) $this->Client->getResponse()->getContent());
+        $rows = $dashboard->filter('.statistics-container tbody tr');
+        $this->assertCount(2, $rows);
+        $this->assertSame('2025', $rows->eq(0)->filter('td')->eq(0)->text());
+        $this->assertSame('2x', $rows->eq(0)->filter('td')->eq(10)->text());
+        $this->assertSame('2024', $rows->eq(1)->filter('td')->eq(0)->text());
+        $this->assertSame('1x', $rows->eq(1)->filter('td')->eq(2)->text());
+        $this->assertSame('Tag: Trail & <Hill>', $dashboard->filter('.statistics-container p')->text());
+
+        $filtered = $this->Client->xmlHttpRequest('GET', $display . '?sport=-1&jahr=2025');
+        $this->assertStatusCode(200, $this->Client);
+        $rows = $filtered->filter('.statistics-container tbody tr');
+        $this->assertCount(1, $rows);
+        $this->assertSame('3x', $rows->filter('td')->eq(10)->text());
+
+        $tagLink = $filtered->filter('.panel-menu')->selectLink('Intervals');
+        $this->assertSame('statistics-inner', $tagLink->attr('target'));
+        $changed = $this->Client->xmlHttpRequest('GET', (string) $tagLink->attr('href'));
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame('No activities found.', $changed->filter('.statistics-container tbody td')->text());
+        $this->assertSame('Intervals', $changed->filter('.panel-menu li.active a')->first()->text());
+        $this->assertSame((string) $intervals->getId(), $savedTag());
+
+        foreach (['dat=' . $foreign->getId(), 'dat[]=1', 'dat=invalid'] as $query) {
+            $this->Client->xmlHttpRequest('GET', $display . '?' . $query);
+            $this->assertStatusCode(200, $this->Client);
+            $this->assertSame((string) $intervals->getId(), $savedTag());
+        }
+
+        $options = $this->Client->xmlHttpRequest('GET', $config . '&active=0');
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('Activate plugin', $options->filter('.panel-content')->text());
+        $this->assertSame(['Intervals', 'Trail & <Hill>'], $options->filter('select[name=tag] option')->each(static fn ($option): string => $option->text()));
+        $this->assertSame((string) $intervals->getId(), $options->filter('select[name=tag] option[selected]')->attr('value'));
+
+        $this->Client->xmlHttpRequest('POST', $config, [
+            'edit' => 'true',
+            'tag' => (string) $foreign->getId(),
+        ]);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame((string) $intervals->getId(), $savedTag());
+
+        $this->Client->xmlHttpRequest('POST', $config, [
+            'edit' => 'true',
+            'tag' => (string) $trail->getId(),
+        ]);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame((string) $trail->getId(), $savedTag());
+        $this->assertStringContainsString('Runalyze.reload', (string) $this->Client->getResponse()->getContent());
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testTagStatisticsSavesTheFirstSelection(): void
+    {
+        $entityManager = $this->getEntityManager();
+        $plugin = $entityManager->getRepository(Plugin::class)->findOneBy([
+            'account' => $this->Account,
+            'key' => 'RunalyzePluginStat_Tag',
+        ]);
+        $this->assertInstanceOf(Plugin::class, $plugin);
+        $this->loginClient($this->Client, $this->Account, 'default');
+        $display = '/my/plugin/' . $plugin->getId();
+
+        $page = $this->Client->xmlHttpRequest('GET', $display);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame('Please choose a tag.', $page->filter('.statistics-container .warning')->text());
+        $this->assertCount(1, $page->filter('.panel-menu .with-submenu'));
+
+        $tag = new Tag()->setAccount($this->Account)->setTag('Intervals');
+        $entityManager->persist($tag);
+        $entityManager->flush();
+
+        $this->Client->xmlHttpRequest('GET', $display . '?dat=' . $tag->getId());
+        $this->assertStatusCode(200, $this->Client);
+        $settings = $entityManager->getRepository(PluginConf::class)->findBy([
+            'plugin' => $plugin,
+            'config' => 'tag',
+        ]);
+        $this->assertCount(1, $settings);
+        $this->assertSame((string) $tag->getId(), $settings[0]->getValue());
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
