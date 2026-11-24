@@ -26,11 +26,15 @@ final readonly class StatisticsFilterFactory
     /**
      * @return array{sport: int, year: int, sports: array<int, string>, years: array<int, string>, from: ?int, until: ?int}
      */
-    public function fromQuery(Account $account, InputBag $query): array
-    {
+    public function fromQuery(
+        Account $account,
+        InputBag $query,
+        int $defaultSport = self::ALL,
+        ?int $defaultYear = null
+    ): array {
         $sportParameter = $query->getString('sport');
         $yearParameter = $query->getString('jahr');
-        $sport = is_numeric($sportParameter) ? (int) $sportParameter : self::ALL;
+        $sport = is_numeric($sportParameter) ? (int) $sportParameter : $defaultSport;
 
         $sports = [
             self::ALL => __('All'),
@@ -63,9 +67,10 @@ final readonly class StatisticsFilterFactory
             $years[$availableYear] = (string) $availableYear;
         }
 
-        $year = is_numeric($yearParameter) ? (int) $yearParameter : $currentYear;
+        $defaultYear ??= $currentYear;
+        $year = is_numeric($yearParameter) ? (int) $yearParameter : $defaultYear;
         if (! isset($years[$year]) && ($year < 1000 || $year > 9999)) {
-            $year = $currentYear;
+            $year = $defaultYear;
         }
 
         $from = null;

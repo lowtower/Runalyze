@@ -15,6 +15,7 @@ use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRequestHandlerInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRequestHandlerInterface;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\LegacyContentResponseFactory;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
@@ -103,6 +104,10 @@ abstract class AbstractPluginsAwareController extends AbstractController
             $statistic = $this->modernStatisticsRegistry->find($installation->getKey());
 
             if ($statistic instanceof ModernStatisticsInterface) {
+                if ($statistic instanceof ModernStatisticsRequestHandlerInterface) {
+                    $statistic->handleRequest($account, $installation, $request->query);
+                }
+
                 return $this->render($statistic->getTemplate(), $statistic->present($account, $installation, $request->query));
             }
         }

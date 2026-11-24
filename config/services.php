@@ -244,6 +244,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(StatisticsFilterFactory::class);
 
     $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/MonthlyStats/config/services.php');
+    $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Tag/config/services.php');
     $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Trainingspartner/config/services.php');
 
     $containerConfigurator->import(__DIR__ . '/../plugins/Equipment/config/services.php');
