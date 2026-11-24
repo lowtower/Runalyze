@@ -631,8 +631,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(GeoTiff::class)
         ->arg('$Reader', service(GeoTiffReader::class));
 
-    $services->alias('app.elevation_correction.geotiff', GeoTiff::class);
-
     $services->set('app.elevation_correction.geonames', Geonames::class)
         ->arg('$GeonamesUsername', '%app.geonames_username%')
         ->arg('$client', service(Client::class))
@@ -653,7 +651,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(GoogleMaps::class, 'app.elevation_correction.google_maps');
 
     $services->set('app.elevation_correction', ElevationCorrection::class)
-        ->arg('$geoTiff', service('app.elevation_correction.geotiff'))
+        ->arg('$geoTiff', service(GeoTiff::class))
         ->arg('$geonames', service('app.elevation_correction.geonames'))
         ->arg('$googleMaps', service('app.elevation_correction.google_maps'));
 
