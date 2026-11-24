@@ -15,6 +15,8 @@ class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
+    private ?string $serviceConfigurationHash = null;
+
     /**
      * @return list<string> An array of allowed values for APP_ENV
      */
@@ -36,6 +38,23 @@ class Kernel extends BaseKernel
     public function getLogDir(): string
     {
         return $this->getProjectDir() . '/var/log';
+    }
+
+    protected function getContainerClass(): string
+    {
+        $class = parent::getContainerClass();
+        if ($this->debug) {
+            return $class;
+        }
+
+        // Non-debug containers skip resource freshness checks. Use the service
+        // imports to distinguish containers across plugin migrations.
+        if ($this->serviceConfigurationHash === null) {
+            $file = $this->getProjectDir() . '/config/services.php';
+            $this->serviceConfigurationHash = is_file($file) ? (string) hash_file('sha256', $file) : '';
+        }
+
+        return $this->serviceConfigurationHash === '' ? $class : $class . '_' . $this->serviceConfigurationHash;
     }
 
     public function registerBundles(): iterable

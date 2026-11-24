@@ -532,6 +532,145 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testRecordStatisticsRanksEachSportAndTotalsConfiguredRunningDistance(): void
+    {
+        $entityManager = $this->getEntityManager();
+        $otherAccount = $this->registerUniqueAccount();
+        $account = $entityManager->find(Account::class, $this->Account->getId());
+        $this->assertInstanceOf(Account::class, $account);
+        $plugin = $entityManager->getRepository(Plugin::class)->findOneBy([
+            'account' => $account,
+            'key' => 'RunalyzePluginStat_Rekorde',
+        ]);
+        $this->assertInstanceOf(Plugin::class, $plugin);
+
+        $sports = $entityManager->getRepository(Sport::class);
+        $running = $sports->findInternalIdFor(SportProfile::RUNNING, $account);
+        $cycling = $sports->findInternalIdFor(SportProfile::CYCLING, $account);
+        $otherSport = $sports->findInternalIdFor(SportProfile::RUNNING, $otherAccount);
+        $this->assertInstanceOf(Sport::class, $running);
+        $this->assertInstanceOf(Sport::class, $cycling);
+        $this->assertInstanceOf(Sport::class, $otherSport);
+
+        $year = (int) gmdate('Y');
+        $activities = [];
+        foreach ([
+            ['longer_fast', $account, $running, $year . '-01-05', 10.0, 2400],
+            ['shorter_fast', $account, $running, $year . '-01-06', 5.0, 1200],
+            ['longest', $account, $running, $year . '-01-07', 18.0, 7200],
+            ['duration_only', $account, $running, $year . '-01-08', 0.0, 1800],
+            ['cycling', $account, $cycling, $year . '-01-09', 50.0, 6000],
+            ['previous_year', $account, $running, ($year - 1) . '-12-31', 40.0, 7200],
+            ['other_account', $otherAccount, $otherSport, $year . '-01-09', 100.0, 3600],
+        ] as [$key, $owner, $sport, $date, $distance, $duration]) {
+            $activity = new Training()
+                ->setAccount($owner)
+                ->setSport($sport)
+                ->setTime(strtotime($date . ' 12:00:00 UTC'))
+                ->setDistance($distance)
+                ->setS($duration);
+            $entityManager->persist($activity);
+            $activities[$key] = $activity;
+        }
+
+        $entityManager->flush();
+
+        $this->loginClient($this->Client, $account, 'default');
+        $id = $plugin->getId();
+        $view = $this->Client->request('GET', '/dashboard?pluginid=' . $id);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame('Records: ' . $year, $view->filter('#statistics-inner .panel-heading h1')->text());
+        $tables = $view->filter('.statistics-container table');
+        $this->assertSame(
+            ['Fastest activities', 'Longest activities', 'Most kilometers'],
+            $tables->filter('thead th')->each(static fn ($node): string => $node->text())
+        );
+        $fastest = $tables->eq(0)->filter('tbody tr')->first()->filter('a.training');
+        $this->assertSame(
+            array_map(static fn (string $key): string => (string) $activities[$key]->getId(), ['longer_fast', 'shorter_fast', 'longest']),
+            $fastest->each(static fn ($node): ?string => $node->attr('rel'))
+        );
+        $this->assertSame('4:00/km', $fastest->first()->text());
+        $this->assertSame('/activity/' . $activities['longer_fast']->getId(), $fastest->first()->attr('href'));
+        $this->assertSame((string) $activities['cycling']->getId(), $tables->eq(0)->filter('tbody tr')->eq(1)->filter('a.training')->attr('rel'));
+
+        $longest = $tables->eq(1)->filter('tbody tr')->first()->filter('a.training');
+        $this->assertSame((string) $activities['longest']->getId(), $longest->first()->attr('rel'));
+        $this->assertSame('30:00', $longest->last()->text());
+        $this->assertCount(0, $tables->filter('a[rel=year-link]'));
+        $this->assertSame("33,000\u{00a0}km", $tables->filter('a[rel=month-link]')->first()->text());
+
+        $allYears = $view->filter('.panel-menu')->selectLink('All years');
+        $this->assertSame('statistics-inner', $allYears->attr('target'));
+        $all = $this->Client->xmlHttpRequest('GET', (string) $allYears->attr('href'));
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame("40,000\u{00a0}km", $all->filter('.statistics-container a[rel=year-link]')->first()->text());
+        $this->assertCount(0, $all->filter('.statistics-container .training[rel="' . $activities['other_account']->getId() . '"]'));
+
+        $empty = $this->Client->xmlHttpRequest('GET', '/my/plugin/' . $id . '?jahr=' . ($year - 2));
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertCount(3, $empty->filter('.statistics-container tbody em'));
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testRecordStatisticsGroupsSundayWeeksAcrossNewYear(): void
+    {
+        $entityManager = $this->getEntityManager();
+        $plugin = $entityManager->getRepository(Plugin::class)->findOneBy([
+            'account' => $this->Account,
+            'key' => 'RunalyzePluginStat_Rekorde',
+        ]);
+        $this->assertInstanceOf(Plugin::class, $plugin);
+        $sports = $entityManager->getRepository(Sport::class);
+        $running = $sports->findInternalIdFor(SportProfile::RUNNING, $this->Account);
+        $cycling = $sports->findInternalIdFor(SportProfile::CYCLING, $this->Account);
+        $this->assertInstanceOf(Sport::class, $running);
+        $this->assertInstanceOf(Sport::class, $cycling);
+        $entityManager->persist(new Conf()->setAccount($this->Account)->setCategory('general')->setKey('WEEK_START')->setValue('0'));
+
+        $runningSport = $entityManager->getRepository(Conf::class)->findOneBy([
+            'account' => $this->Account,
+            'category' => 'general',
+            'key' => 'RUNNINGSPORT',
+        ]);
+        $this->assertInstanceOf(Conf::class, $runningSport);
+        $runningSport->setValue((string) $cycling->getId());
+
+        foreach ([
+            [$cycling, '2024-12-28 23:59:59', 6.0],
+            [$cycling, '2024-12-29 00:00:00', 10.0],
+            [$cycling, '2025-01-01 00:00:00', 11.0],
+            [$running, '2025-01-01 12:00:00', 28.0],
+        ] as [$sport, $time, $distance]) {
+            $entityManager->persist(new Training()
+                ->setAccount($this->Account)
+                ->setSport($sport)
+                ->setTime(strtotime($time . ' UTC'))
+                ->setDistance($distance)
+                ->setS(3600));
+        }
+
+        $entityManager->flush();
+
+        $this->loginClient($this->Client, $this->Account, 'default');
+        $display = '/my/plugin/' . $plugin->getId();
+        $allYears = $this->Client->xmlHttpRequest('GET', $display . '?jahr=-1');
+        $this->assertStatusCode(200, $this->Client);
+        $week = $allYears->filter('.statistics-container a[rel=week-link]')->first();
+        $this->assertSame("21,000\u{00a0}km", $week->text());
+        $this->assertSame('Week 1 2025', $week->closest('span')->attr('title'));
+        $this->assertSame('data-browser-inner', $week->attr('target'));
+        parse_str((string) parse_url((string) $week->attr('href'), PHP_URL_QUERY), $weekBounds);
+        $this->assertSame((string) strtotime('2024-12-29 UTC'), $weekBounds['start']);
+        $this->assertSame((string) strtotime('2025-01-04 23:59:50 UTC'), $weekBounds['end']);
+
+        $calendarYear = $this->Client->xmlHttpRequest('GET', $display . '?jahr=2025');
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame("11,000\u{00a0}km", $calendarYear->filter('.statistics-container a[rel=week-link]')->text());
+        $this->assertCount(0, $calendarYear->filter('.statistics-container a[rel=year-link]'));
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testPluginInstallActionPersistsPluginForAuthenticatedAccount(): void
     {
         $pluginKey = 'RunalyzePluginPanel_TagsSummary';

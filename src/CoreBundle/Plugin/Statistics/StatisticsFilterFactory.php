@@ -33,7 +33,6 @@ final readonly class StatisticsFilterFactory
         ?int $defaultYear = null
     ): array {
         $sportParameter = $query->getString('sport');
-        $yearParameter = $query->getString('jahr');
         $sport = is_numeric($sportParameter) ? (int) $sportParameter : $defaultSport;
 
         $sports = [
@@ -46,6 +45,19 @@ final readonly class StatisticsFilterFactory
         if (! isset($sports[$sport])) {
             $sport = self::ALL;
         }
+
+        return [
+            'sport' => $sport,
+            'sports' => $sports,
+        ] + $this->periodFromQuery($account, $query, $defaultYear);
+    }
+
+    /**
+     * @return array{year: int, years: array<int, string>, from: ?int, until: ?int}
+     */
+    public function periodFromQuery(Account $account, InputBag $query, ?int $defaultYear = null): array
+    {
+        $yearParameter = $query->getString('jahr');
 
         // Activity timestamps represent local calendar dates in UTC, without an offset.
         $timezone = $account->getTimezone();
@@ -84,9 +96,7 @@ final readonly class StatisticsFilterFactory
         }
 
         return [
-            'sport' => $sport,
             'year' => $year,
-            'sports' => $sports,
             'years' => $years,
             'from' => $from,
             'until' => $until,
