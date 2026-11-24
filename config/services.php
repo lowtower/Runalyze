@@ -655,8 +655,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$geonames', service(Geonames::class))
         ->arg('$googleMaps', service(GoogleMaps::class));
 
-    $services->alias('app.elevation_correction', ElevationCorrection::class);
-
     $services->set('app.routename_evaluation.routename_evaluation_factory', RouteNameEvalFactory::class)
         ->arg('$RouteNameEval', service('app.routename_evaluation.routename_evaluation_osm'))
         ->tag('monolog.logger', [
