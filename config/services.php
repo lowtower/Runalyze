@@ -417,8 +417,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(ActivityContextFactory::class);
 
-    $services->alias('app.activity_context.factory', ActivityContextFactory::class);
-
     $services->set(ConfigurationManager::class);
 
     $services->set(ConfigurationUpdater::class)
