@@ -35,7 +35,7 @@ final class ActivityEquipmentTypeChoiceAttributesTest extends TestCase
     }
 
     /**
-     * @return array{data-start: string, data-end: string}
+     * @return array<string, string>
      */
     private function choiceAttributes(Equipment $equipment): array
     {
