@@ -16,7 +16,9 @@ final class LegacyShapePlotTimezoneTest extends KernelTestCase
 {
     public function testLegacyFromUnixtimeUsesMysqlSessionTimezoneInsteadOfAccountTimezone(): void
     {
-        self::bootKernel(['environment' => 'test_empty']);
+        self::bootKernel([
+            'environment' => 'test_empty',
+        ]);
 
         /** @var ManagerRegistry $doctrine */
         $doctrine = self::getContainer()->get('doctrine');
@@ -32,7 +34,9 @@ final class LegacyShapePlotTimezoneTest extends KernelTestCase
 
             $legacyUtcDay = $connection->fetchOne(
                 'SELECT DATE(FROM_UNIXTIME(:timestamp))',
-                ['timestamp' => $timestamp]
+                [
+                    'timestamp' => $timestamp,
+                ]
             );
 
             $this->assertSame('2026-03-28', $legacyUtcDay);
@@ -43,14 +47,18 @@ final class LegacyShapePlotTimezoneTest extends KernelTestCase
 
             $legacyBerlinWinterOffsetDay = $connection->fetchOne(
                 'SELECT DATE(FROM_UNIXTIME(:timestamp))',
-                ['timestamp' => $timestamp]
+                [
+                    'timestamp' => $timestamp,
+                ]
             );
 
             $this->assertSame($accountDay, $legacyBerlinWinterOffsetDay);
         } finally {
             $connection->executeStatement(
                 'SET time_zone = :original_timezone',
-                ['original_timezone' => $originalTimezone]
+                [
+                    'original_timezone' => $originalTimezone,
+                ]
             );
         }
     }
