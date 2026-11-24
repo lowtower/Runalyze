@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Tests\Doctrine\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\Type;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
@@ -43,7 +42,11 @@ final class ResourceValueConversionTest extends TestCase
     #[DataProvider('storedValues')]
     public function testResourceIsConvertedLikeTheSameText(string $typeName, string $storedValue, array $expected): void
     {
-        $type = Type::getType($typeName);
+        $type = match ($typeName) {
+            GeohashArray::GEOHASH_ARRAY => new GeohashArray(),
+            PipeDelimitedArray::PIPE_ARRAY => new PipeDelimitedArray(),
+            PipeDelimitedArrayString::PIPE_ARRAY => new PipeDelimitedArrayString(),
+        };
 
         $this->assertEquals($expected, $type->convertToPHPValue($this->createStream($storedValue), $this->platform));
         $this->assertEquals($expected, $type->convertToPHPValue($storedValue, $this->platform));
@@ -63,7 +66,11 @@ final class ResourceValueConversionTest extends TestCase
     #[DataProvider('typeNames')]
     public function testEmptyResourceIsConvertedToNull(string $typeName): void
     {
-        $type = Type::getType($typeName);
+        $type = match ($typeName) {
+            GeohashArray::GEOHASH_ARRAY => new GeohashArray(),
+            PipeDelimitedArray::PIPE_ARRAY => new PipeDelimitedArray(),
+            PipeDelimitedArrayString::PIPE_ARRAY => new PipeDelimitedArrayString(),
+        };
 
         $this->assertNull($type->convertToPHPValue($this->createStream(''), $this->platform));
     }
