@@ -1,0 +1,19 @@
+{% extends 'my/statistics/configuration.html.twig' %}
+
+{% block pluginConfiguration %}
+    <form class="ajax no-automatic-reload" action="{{ path('plugin-config', {id: plugin_id}) }}" method="post">
+        <input type="hidden" name="edit" value="true">
+        <fieldset>
+            <legend>{{ 'Configuration'|trans }}</legend>
+            <div class="w100 block">
+                <label for="training-times-show-nights">
+                    <input type="checkbox" id="training-times-show-nights" name="show_extreme_times" value="1"{% if config_data.showNights %} checked{% endif %}>
+                    {{ config_data.label }}
+                </label>
+            </div>
+            <div class="w100 block">
+                <input type="submit" value="{{ 'Save'|trans }}">
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}

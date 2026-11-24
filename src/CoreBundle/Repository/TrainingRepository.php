@@ -28,6 +28,7 @@ use Runalyze\Util\Time;
 
 /**
  * @extends ServiceEntityRepository<Training>
+ * @phpstan-type TrainingTimeSample array{id: int, time: int, sportId: int, duration: float, distance: float, isTrack: bool, shortSport: bool, sportIcon: string}
  */
 class TrainingRepository extends ServiceEntityRepository
 {
@@ -98,6 +99,36 @@ class TrainingRepository extends ServiceEntityRepository
 
         foreach ($query->getQuery()->toIterable() as $row) {
             yield (string) $row['partner'];
+        }
+    }
+
+    /**
+     * @return iterable<TrainingTimeSample>
+     */
+    public function findTrainingTimesFor(Account $account, ?int $sport, ?int $from, ?int $until): iterable
+    {
+        $query = $this->activityPeriodQuery($account, $from, $until)
+            ->select(
+                't.id AS id, t.time AS time, t.s AS duration, t.distance AS distance, t.isTrack AS isTrack',
+                's.id AS sportId, s.short AS shortSport, s.img AS sportIcon'
+            )
+            ->innerJoin('t.sport', 's', 'WITH', 's.account = :account');
+
+        if ($sport !== null) {
+            $query->andWhere('t.sport = :sport')->setParameter('sport', $sport);
+        }
+
+        foreach ($query->getQuery()->toIterable() as $row) {
+            yield [
+                'id' => (int) $row['id'],
+                'time' => (int) $row['time'],
+                'sportId' => (int) $row['sportId'],
+                'duration' => (float) ($row['duration'] ?? 0),
+                'distance' => (float) ($row['distance'] ?? 0),
+                'isTrack' => (bool) $row['isTrack'],
+                'shortSport' => (bool) $row['shortSport'],
+                'sportIcon' => (string) $row['sportIcon'],
+            ];
         }
     }
 
