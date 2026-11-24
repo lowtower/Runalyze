@@ -671,6 +671,108 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testTrainingTimesRendersTheChartsAndPersistsTheNightlyActivitiesSetting(): void
+    {
+        $entityManager = $this->getEntityManager();
+        $otherAccount = $this->registerUniqueAccount();
+        $account = $entityManager->find(Account::class, $this->Account->getId());
+        $this->assertInstanceOf(Account::class, $account);
+        $plugin = $entityManager->getRepository(Plugin::class)->findOneBy([
+            'account' => $account,
+            'key' => 'RunalyzePluginStat_Trainingszeiten',
+        ]);
+        $this->assertInstanceOf(Plugin::class, $plugin);
+        $sports = $entityManager->getRepository(Sport::class);
+        $running = $sports->findInternalIdFor(SportProfile::RUNNING, $account);
+        $cycling = $sports->findInternalIdFor(SportProfile::CYCLING, $account);
+        $otherSport = $sports->findInternalIdFor(SportProfile::RUNNING, $otherAccount);
+        $this->assertInstanceOf(Sport::class, $running);
+        $this->assertInstanceOf(Sport::class, $cycling);
+        $this->assertInstanceOf(Sport::class, $otherSport);
+        $cycling->setShort(true);
+        $cycling->setName('Ride & <Hill>');
+
+        foreach ([
+            [$account, $running, '2025-01-06 23:30:00', 3600],
+            [$account, $running, '2025-01-07 00:00:45', 1800],
+            [$account, $running, '2025-01-08 02:00:00', 1800],
+            [$account, $cycling, '2025-01-08 02:10:00', 900],
+            [$account, $running, '2024-12-31 01:00:00', 3600],
+            [$otherAccount, $otherSport, '2025-01-08 03:15:00', 3600],
+        ] as [$owner, $sport, $startsAt, $duration]) {
+            $entityManager->persist(new Training()
+                ->setAccount($owner)
+                ->setSport($sport)
+                ->setTime(strtotime($startsAt . ' UTC'))
+                ->setS($duration));
+        }
+
+        $entityManager->flush();
+        $id = $plugin->getId();
+        $this->loginClient($this->Client, $account, 'default');
+        $dashboard = $this->Client->request('GET', '/dashboard?pluginid=' . $id . '&jahr=2025');
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame('Training times: 2025', $dashboard->filter('#statistics-inner .panel-heading h1')->text());
+        $this->assertCount(2, $dashboard->filter('#daytime, #weekday'));
+        $html = (string) $this->Client->getResponse()->getContent();
+        $daytime = $this->trainingTimePlotData($html, 'daytime');
+        $weekday = $this->trainingTimePlotData($html, 'weekday');
+        $runningHours = $daytime[$running->getName()];
+        $this->assertSame([0, 0.5], $runningHours[0]);
+        $this->assertSame([23, 0.5], $runningHours[23]);
+        $this->assertEqualsWithDelta(1.5, array_sum(array_column($runningHours, 1)), PHP_FLOAT_EPSILON);
+        $this->assertSame([[0, 1], [1, 0.5], [2, 0.5]], array_slice($weekday[$running->getName()], 0, 3));
+        $this->assertSame([2, 0.25], $daytime['Ride &amp; &lt;Hill&gt;'][2]);
+        $this->assertSame(['23:30', '02:00'], $dashboard->filter('.statistics-container tbody td.b')->each(static fn ($node): string => $node->text()));
+        $this->assertCount(1, $dashboard->filter('.statistics-container tbody tr'));
+        $this->assertSame('data-browser-inner', $dashboard->filter('.statistics-container a[rel=week-link]')->first()->attr('target'));
+
+        $display = '/my/plugin/' . $id . '?jahr=2025&sport=' . $cycling->getId();
+        $shortSport = $this->Client->xmlHttpRequest('GET', $display);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame('02:10', $shortSport->filter('.statistics-container tbody td.b')->text());
+        $this->assertCount(1, $this->trainingTimePlotData((string) $this->Client->getResponse()->getContent(), 'daytime'));
+
+        $config = '/call/call.Plugin.config.php?id=' . $id;
+        $configuration = $this->Client->xmlHttpRequest('GET', $config);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertCount(1, $configuration->filter('input[name=show_extreme_times][checked]'));
+        $this->Client->xmlHttpRequest('POST', $config, [
+            'edit' => 'true',
+        ]);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('Runalyze.reload', (string) $this->Client->getResponse()->getContent());
+        $settings = $entityManager->getRepository(PluginConf::class);
+        $this->assertSame('0', $settings->findValuesForPlugins([$id])[$id]['show_extreme_times']);
+
+        $withoutNightList = $this->Client->xmlHttpRequest('GET', $display);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertCount(0, $withoutNightList->filter('.statistics-container table'));
+        $this->assertStringContainsString('RunalyzePlot.addPlot("daytime"', (string) $this->Client->getResponse()->getContent());
+        $this->Client->xmlHttpRequest('POST', $config, [
+            'edit' => 'true',
+            'show_extreme_times' => '1',
+        ]);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame('1', $settings->findValuesForPlugins([$id])[$id]['show_extreme_times']);
+
+        $empty = $this->Client->xmlHttpRequest('GET', '/my/plugin/' . $id . '?jahr=2023');
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertCount(0, $empty->filter('.statistics-container table'));
+        $this->assertSame(2, substr_count((string) $this->Client->getResponse()->getContent(), 'No data available.'));
+    }
+
+    /**
+     * @return array<string, list<array{int, int|float}>>
+     */
+    private function trainingTimePlotData(string $html, string $plot): array
+    {
+        $this->assertSame(1, preg_match('/RunalyzePlot\.addPlot\("' . preg_quote($plot, '/') . '", (\[.*?\]), \{/', $html, $match));
+
+        return array_column(json_decode($match[1], true, flags: JSON_THROW_ON_ERROR), 'data', 'label');
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testPluginInstallActionPersistsPluginForAuthenticatedAccount(): void
     {
         $pluginKey = 'RunalyzePluginPanel_TagsSummary';
