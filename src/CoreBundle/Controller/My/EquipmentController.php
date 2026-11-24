@@ -2,6 +2,8 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\My;
 
+use DateTimeImmutable;
+
 use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -207,7 +209,7 @@ class EquipmentController extends AbstractController
         $equipment = new Equipment();
         $equipment->setAccount($account);
         $equipment->setType($equipmentType);
-        $equipment->setDateStart(new \DateTime('now'));
+        $equipment->setDateStart(new DateTimeImmutable('now'));
 
         $form = $this->createForm(Form\EquipmentType::class, $equipment, [
             'action' => $this->generateUrl('equipment-add', [
