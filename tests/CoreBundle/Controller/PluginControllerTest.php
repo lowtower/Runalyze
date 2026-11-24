@@ -16,8 +16,10 @@ use Runalyze\Bundle\CoreBundle\Entity\Route;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Tag;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
+use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
+use Runalyze\Parameter\Application\Timezone;
 use Runalyze\Profile\Sport\SportProfile;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -760,6 +762,169 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStatusCode(200, $this->Client);
         $this->assertCount(0, $empty->filter('.statistics-container table'));
         $this->assertSame(2, substr_count((string) $this->Client->getResponse()->getContent(), 'No data available.'));
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testAnalysisUsesExistingSettingsAndAggregatesAccountActivities(): void
+    {
+        $entityManager = $this->getEntityManager();
+        $otherAccount = $this->registerUniqueAccount();
+        $account = $entityManager->find(Account::class, $this->Account->getId());
+        $plugin = $entityManager->getRepository(Plugin::class)->findOneBy([
+            'account' => $account,
+            'key' => 'RunalyzePluginStat_Analyse',
+        ]);
+        $sports = $entityManager->getRepository(Sport::class);
+        $running = $sports->findInternalIdFor(SportProfile::RUNNING, $account);
+        $cycling = $sports->findInternalIdFor(SportProfile::CYCLING, $account);
+        $otherRunning = $sports->findInternalIdFor(SportProfile::RUNNING, $otherAccount);
+        $type = new Type()->setAccount($account)->setSport($running)->setName('Run & <fast>')->setAbbr('Fast')->setHrAvg(80);
+        $entityManager->persist($type);
+        $entityManager->persist(new Conf()->setAccount($account)->setCategory('data')->setKey('HF_MAX')->setValue('200'));
+        foreach ([
+            'lowest_pacegroup' => '435',
+            'lowest_pulsegroup' => '68',
+            'pulsegroup_step' => '6',
+        ] as $key => $value) {
+            $entityManager->persist(new PluginConf()->setPlugin($plugin)->setConfig($key)->setValue($value));
+        }
+
+        foreach ([
+            [$account, $running, '2024-12-31 23:59:59', 600, 2, 0, null],
+            [$account, $running, '2025-01-01 00:00:00', 600, 2, 150, $type],
+            [$account, $running, '2025-01-31 23:59:59', 900, 2, 130, null],
+            [$account, $running, '2025-02-01 00:00:00', 420, 1, 150, $type],
+            [$account, $cycling, '2025-01-31 04:15:00', 800, 10, 140, null],
+            [$account, $cycling, '2025-01-31 05:15:00', 1000, 10, 150, null],
+            [$otherAccount, $otherRunning, '2025-01-31 03:15:00', 3000, 10, 175, null],
+        ] as [$owner, $sport, $startsAt, $duration, $distance, $heartRate, $activityType]) {
+            $entityManager->persist(new Training()
+                ->setAccount($owner)
+                ->setSport($sport)
+                ->setTime(strtotime($startsAt . ' UTC'))
+                ->setS($duration)
+                ->setDistance($distance)
+                ->setPulseAvg($heartRate)
+                ->setType($activityType));
+        }
+
+        $entityManager->flush();
+
+        $id = $plugin->getId();
+        $this->loginClient($this->Client, $account, 'default');
+        $dashboard = $this->Client->request('GET', '/dashboard?pluginid=' . $id . '&jahr=2025');
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame($running->getName() . ' 2025', $dashboard->filter('#statistics-inner h1')->text());
+        $tables = $dashboard->filter('.analysis-table');
+        $this->assertSame(['Training types', 'Pace Zones*', 'Heart Rate Zones*'], $tables->filter('th:first-child')->each(static fn ($node): string => $node->text()));
+        $this->assertSame('Run & <fast>', $tables->eq(0)->filter('td[title="Run & <fast>"]')->attr('title'));
+        $this->assertSame('40.0 %', $tables->eq(0)->filter('td[title="Run & <fast>"] + td span')->text());
+        $this->assertSame('width:40%;opacity:0.4;', $tables->eq(0)->filter('td[title="Run & <fast>"] + td .analysis-bar')->attr('style'));
+        $this->assertStringContainsString('up to 7:15', $tables->eq(1)->filter('tbody tr')->first()->text());
+        $pulseRows = $tables->eq(2)->filter('tbody tr')->each(static fn ($node): array => [
+            $node->filter('td')->first()->text(),
+            $node->filter('td span')->each(static fn ($cell): string => $cell->text()),
+        ]);
+        $this->assertContains(['0 to 68 %', ['60.0 %', '46.9 %']], $pulseRows);
+        $this->assertContains(['74 to 80 %', ['40.0 %', '100.0 %', '53.1 %']], $pulseRows);
+
+        $display = '/my/plugin/' . $id;
+        $distances = $this->Client->xmlHttpRequest('GET', $display . '?jahr=2025&sport=' . $running->getId() . '&dat=km');
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame("2\u{00a0}km", $distances->filter('td[title="Run & <fast>"] + td span')->text());
+        $this->assertSame('width:50%;opacity:0.5;', $distances->filter('td[title="Run & <fast>"] + td .analysis-bar')->attr('style'));
+        $this->assertStringContainsString('dat=km', $distances->selectLink('Year on year')->link()->getUri());
+        $cyclingAnalysis = $this->Client->xmlHttpRequest('GET', $distances->selectLink($cycling->getName())->link()->getUri());
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame(
+            ['1x, 16:40', '1x, 13:20'],
+            $cyclingAnalysis->filter('.analysis-table')->eq(1)->filter('tbody td:nth-child(2) span')->each(static fn ($node): ?string => $node->attr('title'))
+        );
+
+        $years = $this->Client->xmlHttpRequest('GET', $display . '?jahr=-1&dat=s');
+        $this->assertStatusCode(200, $this->Client);
+        $headers = $years->filter('.analysis-table')->first()->filter('thead th');
+        $this->assertSame(['2024', '2025'], $headers->slice(1, 2)->each(static fn ($node): string => $node->text()));
+        $this->assertSame('10:00', $years->filter('.analysis-table')->first()->filter('tbody tr')->first()->filter('td')->eq(1)->text());
+
+        $config = '/call/call.Plugin.config.php?id=' . $id;
+        $configuration = $this->Client->xmlHttpRequest('GET', $config);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame('435', $configuration->filter('input[name=lowest_pacegroup]')->attr('value'));
+        $this->assertCount(3, $configuration->filter('input[type=checkbox][checked]'));
+        $this->Client->xmlHttpRequest('POST', $config, [
+            'edit' => 'true',
+            'use_pace' => '1',
+            'lowest_pacegroup' => '420',
+            'pacegroup_step' => '0',
+        ]);
+        $this->assertStatusCode(200, $this->Client);
+        $settings = $entityManager->getRepository(PluginConf::class)->findValuesForPlugins([$id])[$id];
+        $this->assertSame(['420', '0', '68', '0', '0', '1'], [
+            $settings['lowest_pacegroup'], $settings['pacegroup_step'], $settings['lowest_pulsegroup'],
+            $settings['use_type'], $settings['use_pulse'], $settings['use_pace'],
+        ]);
+        $paceOnly = $this->Client->xmlHttpRequest('GET', $display . '?jahr=2025');
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame('Pace Zones*', $paceOnly->filter('.analysis-table th:first-child')->text());
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testAnalysisRollingWindowWithHeartRateReserveAndWithoutDistances(): void
+    {
+        $account = $this->Account->setTimezone(Timezone::UTC);
+        $entityManager = $this->getEntityManager();
+        $plugin = $entityManager->getRepository(Plugin::class)->findOneBy([
+            'account' => $account,
+            'key' => 'RunalyzePluginStat_Analyse',
+        ]);
+        $sport = $entityManager->getRepository(Sport::class)->findInternalIdFor(SportProfile::CYCLING, $account);
+        $sport->setDistances(false);
+        foreach ([
+            ['data', 'HF_MAX', '200'],
+            ['data', 'HF_REST', '50'],
+            ['general', 'HEART_RATE_UNIT', 'hfres'],
+        ] as [$category, $key, $value]) {
+            $entityManager->persist(new Conf()->setAccount($account)->setCategory($category)->setKey($key)->setValue($value));
+        }
+
+        $today = new DateTimeImmutable('today', new DateTimeZone('UTC'));
+        $start = $today->modify('first day of -5 months');
+        foreach ([
+            [$start, 1200],
+            [$start->modify('+1 second'), 900],
+            [$today, 600],
+        ] as [$date, $duration]) {
+            $entityManager->persist(new Training()
+                ->setAccount($account)
+                ->setSport($sport)
+                ->setTime($date->getTimestamp())
+                ->setS($duration)
+                ->setPulseAvg(155));
+        }
+
+        $entityManager->flush();
+        $this->loginClient($this->Client, $account, 'default');
+        $url = '/my/plugin/' . $plugin->getId() . '?sport=' . $sport->getId();
+        $analysis = $this->Client->xmlHttpRequest('GET', $url . '&jahr=6&dat=km');
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertCount(0, $analysis->selectLink('by distance'));
+        $this->assertCount(2, $analysis->filter('.analysis-table'));
+        $pulseTable = $analysis->filter('.analysis-table')->eq(1);
+        $this->assertCount(14, $pulseTable->filter('thead th'));
+        $this->assertSame($start->format('M'), $pulseTable->filter('thead th')->eq(1)->text());
+        $this->assertSame($today->format('M'), $pulseTable->filter('thead th')->eq(6)->text());
+        $rows = $pulseTable->filter('tbody tr')->reduce(static fn ($node): bool => $node->filter('td')->first()->text() === '65 to 70 %');
+        $this->assertSame('1x, 15:00', $rows->filter('td')->eq(1)->filter('span')->attr('title'));
+        $this->assertSame('1x, 10:00', $rows->filter('td')->eq(6)->filter('span')->attr('title'));
+        $this->assertSame('2x, 25:00', $rows->filter('td')->last()->filter('span')->attr('title'));
+
+        $empty = $this->Client->xmlHttpRequest('GET', $url . '&jahr=2000&dat=invalid');
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame(
+            ['No data available.', 'No data available.'],
+            $empty->filter('.analysis-table em')->each(static fn ($node): string => $node->text())
+        );
     }
 
     /**

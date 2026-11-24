@@ -52,23 +52,40 @@ final readonly class DoctrinePluginConfigurationStorage implements PluginConfigu
 
     public function saveValue(Plugin $installation, string $key, string $value): void
     {
-        $this->entityManager->wrapInTransaction(function (EntityManagerInterface $entityManager) use ($installation, $key, $value): void {
+        $this->saveValues($installation, [
+            $key => $value,
+        ]);
+    }
+
+    /**
+     * @param array<string, string> $values
+     */
+    public function saveValues(Plugin $installation, array $values): void
+    {
+        if ($values === []) {
+            return;
+        }
+
+        $this->entityManager->wrapInTransaction(function (EntityManagerInterface $entityManager) use ($installation, $values): void {
             // A setting may not exist yet. Lock the installation before looking up its settings.
             $entityManager->lock($installation, LockMode::PESSIMISTIC_WRITE);
             $settings = $this->repository->findBy([
                 'plugin' => $installation,
-                'config' => $key,
+                'config' => array_keys($values),
             ]);
 
-            if ($settings === []) {
+            $existing = [];
+            foreach ($settings as $setting) {
+                $key = $setting->getConfig();
+                $setting->setValue($values[$key]);
+                $existing[$key] = true;
+            }
+
+            foreach (array_diff_key($values, $existing) as $key => $value) {
                 $entityManager->persist(new PluginConf()
                     ->setPlugin($installation)
                     ->setConfig($key)
                     ->setValue($value));
-            }
-
-            foreach ($settings as $setting) {
-                $setting->setValue($value);
             }
         });
     }

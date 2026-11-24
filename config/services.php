@@ -239,6 +239,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(StatisticsFilterFactory::class);
 
+    $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Analyse/config/services.php');
     $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Hoehenmeter/config/services.php');
     $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/MonthlyStats/config/services.php');
     $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Rekorde/config/services.php');
