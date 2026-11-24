@@ -69,7 +69,9 @@ final class LegacyShapePlotTimezoneTest extends KernelTestCase
         }
     }
 
-    /** @return iterable<string, array{string, string, string, string}> */
+    /**
+     * @return iterable<string, array{string, string, string, string}>
+     */
     public static function calendarBoundaries(): iterable
     {
         yield 'spring transition' => ['2026-03-28 23:30:00', '2026-03-28', '2026-03-29', '2026-03-29'];
