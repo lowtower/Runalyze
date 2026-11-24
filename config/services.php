@@ -589,7 +589,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(ActivityContextAdapterFactory::class)
         ->arg('$WeatherForecast', service(WeatherForecast::class))
         ->arg('$TrainingRepository', service(TrainingRepository::class))
-        ->arg('$routeNameEvalFactory', service('app.routename_evaluation.routename_evaluation_factory'));
+        ->arg('$routeNameEvalFactory', service(RouteNameEvalFactory::class));
 
     $services->set(DataSeriesRemover::class);
 
@@ -657,13 +657,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$geonames', service(Geonames::class))
         ->arg('$googleMaps', service(GoogleMaps::class));
 
-    $services->set('app.routename_evaluation.routename_evaluation_factory', RouteNameEvalFactory::class)
+    $services->set(RouteNameEvalFactory::class)
         ->arg('$RouteNameEval', service('app.routename_evaluation.routename_evaluation_osm'))
         ->tag('monolog.logger', [
             'channel' => 'external_services',
         ]);
-
-    $services->alias(RouteNameEvalFactory::class, 'app.routename_evaluation.routename_evaluation_factory');
 
     $services->set('app.routename_evaluation.routename_evaluation_osm', RouteNameEvalOsm::class)
         ->arg('$Url', '%app.osm_overpass_url%')
