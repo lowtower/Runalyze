@@ -1,0 +1,88 @@
+{% extends 'my/statistics/base.html.twig' %}
+
+{% from '_macro/utilities.html.twig' import tableHeadMonths %}
+
+{% block pluginTitle %}
+    {{ title }}
+{% endblock %}
+
+{% block panelHeadingMenu %}
+    {% include 'my/statistics/_sport_and_year_menu.html.twig' with {pluginId: pluginId, filter: filter, yearLabel: yearLabel} only %}
+{% endblock %}
+
+{% block panelContent %}
+    {% if showMonthlyTotals %}
+        <table class="fullwidth zebra-style r">
+            <thead>{{ tableHeadMonths(8, 1, 'td', true) }}</thead>
+            <tbody>
+                {% for year, row in monthlyTotals %}
+                    <tr>
+                        <td class="b l">{{ year }}</td>
+                        {% for month in 1..12 %}
+                            <td>
+                                {% if row.months[month] is defined %}
+                                    {% set total = row.months[month] %}
+                                    <a data-size="big" class="window" href="{{ path('my-search', {get: 'true', 'date-from': total.from, 'date-to': total.until, 'search-sort-by': 'elevation', 'search-sort-order': 'DESC'}) }}">{{ total.value|raw }}</a>
+                                {% else %}
+                                    &nbsp;
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                        <td>{{ row.total|raw }}</td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="14" class="l"><em>{{ emptyMessage }}</em></td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    {% set icons = {elevation: 'fa far fa-fw fa-chart-area', grade: 'fa far fa-fw fa-chart-line', cs: 'fa fa-fw fa-trophy'} %}
+    <div class="c blocklist blocklist-change-menu blocklist-width-auto margin-top-4x">
+        {% for key, label in rankingLabels %}
+            <a class="change{% if loop.first %} triggered{% endif %}" href="#elevation-ranking-{{ key }}" target="elevation-rankings"><strong><i class="{{ icons[key] }}"></i> {{ label }}</strong></a>
+        {% endfor %}
+    </div>
+
+    <div id="elevation-rankings">
+        {% for key, label in rankingLabels %}
+            <table class="fullwidth zebra-style more-padding change" id="elevation-ranking-{{ key }}"{% if not loop.first %} style="display:none;"{% endif %}>
+                <thead><tr class="b c"><th colspan="4">{{ label }}</th><th><abbr title="{{ climbScoreLabel }}">CS</abbr></th></tr></thead>
+                <tbody>
+                    {% for row in rankings[key] %}
+                        <tr>
+                            <td class="small"><a class="ajax" target="data-browser-inner" rel="week-link" href="{{ path('databrowser', {start: row.weekStart, end: row.weekEnd}) }}" onclick="Pace.restart()">{{ row.date }}</a></td>
+                            <td>
+                                <a class="training" rel="{{ row.id }}" href="{{ path('ActivityShow', {id: row.id}) }}">
+                                    <span rel="tooltip" title="{{ row.sportName }}{% if row.duration > 0 %}: {{ row.duration|duration }}{% endif %}"><i class="{{ row.sportIcon }}"></i></span>
+                                </a>
+                            </td>
+                            <td>
+                                {%- if row.route is not empty -%}
+                                    {{ row.route }}{% if row.title is not empty %} (<em>{{ row.title }}</em>){% endif %}
+                                {%- else -%}
+                                    <em>{{ row.title is not empty ? row.title : unlabeled }}</em>
+                                {%- endif -%}
+                            </td>
+                            <td class="r">
+                                {% if row.elevation is null %}
+                                    &ndash;
+                                {% elseif key == 'elevation' %}
+                                    {{ row.elevation|raw }}<br><small>{{ row.grade }}&nbsp;%,&nbsp;{{ row.distance|raw }}</small>
+                                {% elseif key == 'grade' %}
+                                    {{ row.grade }}&nbsp;%<br><small>{{ row.elevation|raw }},&nbsp;{{ row.distance|raw }}</small>
+                                {% else %}
+                                    <small>{{ row.grade }}&nbsp;%<br>{{ row.elevation|raw }},&nbsp;{{ row.distance|raw }}</small>
+                                {% endif %}
+                            </td>
+                            <td class="r vc"><a class="window" href="{{ path('activity-tool-climb-score', {id: row.id}) }}">{{ row.climbScore }}</a></td>
+                        </tr>
+                    {% else %}
+                        <tr><td colspan="5"><em>{{ emptyMessage }}</em></td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endfor %}
+    </div>
+    <br class="clear">
+{% endblock %}

@@ -9,6 +9,7 @@ use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\BasicEndurance;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\VO2max;
@@ -108,6 +109,85 @@ class TrainingRepository extends ServiceEntityRepository
         foreach ($query->getQuery()->toIterable() as $row) {
             yield (string) $row['partner'];
         }
+    }
+
+    /**
+     * @return array<int, array<int, int>> Activity elevation in meters, indexed by year and month
+     */
+    public function findMonthlyElevationFor(Account $account, ?int $sport): array
+    {
+        $rows = $this->elevationQuery($account, $sport)
+            ->select('YEAR(FROM_UNIXTIME(t.time)) AS year, MONTH(FROM_UNIXTIME(t.time)) AS month, SUM(t.elevation) AS elevation')
+            ->groupBy('year')
+            ->addGroupBy('month')
+            ->orderBy('year', \SortDirection::Ascending)
+            ->addOrderBy('month', \SortDirection::Ascending)
+            ->getQuery()
+            ->getArrayResult();
+
+        $totals = [];
+        foreach ($rows as $row) {
+            $totals[(int) $row['year']][(int) $row['month']] = (int) $row['elevation'];
+        }
+
+        return $totals;
+    }
+
+    /**
+     * Return the ten highest activities for each ranking. The legacy rankings use route
+     * elevation/distance and activity climb score, while activity elevation controls eligibility.
+     *
+     * @return array{elevation: list<array<string, mixed>>, grade: list<array<string, mixed>>, cs: list<array<string, mixed>>}
+     */
+    public function findElevationRankingsFor(Account $account, ?int $sport, ?int $from, ?int $until): array
+    {
+        $query = $this->elevationQuery($account, $sport, $from, $until)
+            ->select(
+                't.id AS id, t.time AS time, t.title AS title, t.s AS duration, t.climbScore AS climbScore',
+                's.name AS sportName, s.img AS sportIcon',
+                'r.name AS route, r.elevation AS elevation, r.distance AS distance',
+                'r.elevation * 0.1 / NULLIF(r.distance, 0) AS grade'
+            )
+            ->leftJoin('t.route', 'r', 'WITH', 'r.account = :account')
+            ->leftJoin('t.sport', 's', 'WITH', 's.account = :account')
+            ->setMaxResults(10);
+
+        $rankings = [];
+        foreach ([
+            'elevation' => 'r.elevation',
+            'grade' => 'grade',
+            'cs' => 't.climbScore',
+        ] as $key => $order) {
+            $rankings[$key] = (clone $query)
+                ->orderBy($order, \SortDirection::Descending)
+                ->addOrderBy('t.id', \SortDirection::Ascending)
+                ->getQuery()
+                ->getArrayResult();
+        }
+
+        return $rankings;
+    }
+
+    private function elevationQuery(Account $account, ?int $sport, ?int $from = null, ?int $until = null): QueryBuilder
+    {
+        $query = $this->createQueryBuilder('t')
+            ->where('t.account = :account')
+            ->andWhere('t.elevation > 0')
+            ->setParameter('account', $account);
+
+        if ($sport !== null) {
+            $query->andWhere('t.sport = :sport')->setParameter('sport', $sport);
+        }
+
+        if ($from !== null) {
+            $query->andWhere('t.time >= :from')->setParameter('from', $from);
+        }
+
+        if ($until !== null) {
+            $query->andWhere('t.time < :until')->setParameter('until', $until);
+        }
+
+        return $query;
     }
 
     /**
