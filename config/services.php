@@ -304,8 +304,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->load('Runalyze\\Bundle\\CoreBundle\\EventListener\\', __DIR__ . '/../src/CoreBundle/EventListener/{AccountLastActionListener,ConsoleExceptionListener,LocaleListener,MaintenanceListener,UserLocaleListener,UserTimezoneListener}.php');
 
-    $services->alias('app.account_last_action_listener', AccountLastActionListener::class);
-
     $services->set(RecalculationTasksPerformerListener::class)
         ->arg('$Manager', service('app.recalculation_manager'));
 
