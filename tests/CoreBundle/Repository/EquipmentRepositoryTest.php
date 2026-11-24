@@ -6,7 +6,6 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Repository;
 
 use DateTime;
 use DateTimeImmutable;
-
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
@@ -94,7 +93,7 @@ final class EquipmentRepositoryTest extends AbstractRepositoryTestCase
 
         $reloaded = $this->EquipmentRepository->find($equipmentId);
 
-        $this->assertNotNull($reloaded);
+        $this->assertInstanceOf(\Runalyze\Bundle\CoreBundle\Entity\Equipment::class, $reloaded);
         $this->assertInstanceOf(DateTimeImmutable::class, $reloaded->getDateStart());
         $this->assertInstanceOf(DateTimeImmutable::class, $reloaded->getDateEnd());
         $this->assertSame('2024-03-29', $reloaded->getDateStart()->format('Y-m-d'));

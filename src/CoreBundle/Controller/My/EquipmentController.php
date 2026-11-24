@@ -3,7 +3,6 @@
 namespace Runalyze\Bundle\CoreBundle\Controller\My;
 
 use DateTimeImmutable;
-
 use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;

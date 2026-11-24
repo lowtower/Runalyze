@@ -213,7 +213,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
 
     public function setDateStart(?DateTimeInterface $dateStart = null): self
     {
-        $this->dateStart = $dateStart === null ? null : DateTimeImmutable::createFromInterface($dateStart);
+        $this->dateStart = $dateStart instanceof \DateTimeInterface ? DateTimeImmutable::createFromInterface($dateStart) : null;
 
         return $this;
     }
@@ -225,12 +225,12 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
 
     public function hasStartDate(): bool
     {
-        return $this->dateStart !== null;
+        return $this->dateStart instanceof \DateTimeImmutable;
     }
 
     public function setDateEnd(?DateTimeInterface $dateEnd = null): self
     {
-        $this->dateEnd = $dateEnd === null ? null : DateTimeImmutable::createFromInterface($dateEnd);
+        $this->dateEnd = $dateEnd instanceof \DateTimeInterface ? DateTimeImmutable::createFromInterface($dateEnd) : null;
 
         return $this;
     }
@@ -242,7 +242,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
 
     public function isActive(): bool
     {
-        return $this->dateEnd === null;
+        return ! $this->dateEnd instanceof \DateTimeImmutable;
     }
 
     public function setType(EquipmentType $type): self
