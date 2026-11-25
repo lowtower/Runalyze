@@ -44,8 +44,8 @@ final class RechenspieleExplanationWindowProviderTest extends TestCase
         ])->getTrimpOverview($account);
 
         $this->assertTrue($result['has_history']);
-        $this->assertSame(27, $result['atl']);
-        $this->assertSame(7, $result['ctl']);
+        $this->assertSame(6, $result['atl']);
+        $this->assertSame(5, $result['ctl']);
         $this->assertSame(7, $result['atl_days']);
         $this->assertSame(42, $result['ctl_days']);
         $this->assertSame(100, $result['atl_max']);

@@ -128,7 +128,7 @@ final readonly class RechenspieleExplanationWindowProvider
                 'id' => $row['id'],
                 'date' => $date,
                 'distance' => $distance,
-                'vo2max' => number_format($effective->value(), 2),
+                'vo2max' => number_format($effective->exactValue(), 2),
                 'tooltip' => $date . ': ' . $distance,
             ];
         }
