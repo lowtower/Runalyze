@@ -1,0 +1,19 @@
+{% extends 'my/statistics/configuration.html.twig' %}
+
+{% block pluginConfiguration %}
+    <form class="ajax no-automatic-reload" action="{{ path('plugin-config', {id: plugin_id}) }}" method="post">
+        <input type="hidden" name="edit" value="true">
+        <fieldset>
+            <legend>{{ 'Configuration'|trans }}</legend>
+            <div class="w100 block">
+                <label for="route-statistics-show-cities">
+                    <input type="checkbox" id="route-statistics-show-cities" name="analyze_cities" value="1"{% if config_data.showCities %} checked{% endif %}>
+                    {{ 'Show visited cities'|trans }}
+                </label>
+            </div>
+            <div class="w100 block">
+                <input type="submit" value="{{ 'Save'|trans }}">
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}

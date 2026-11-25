@@ -103,6 +103,87 @@ class TrainingRepository extends ServiceEntityRepository
     }
 
     /**
+     * @return list<array{name: string, count: int, distance: float}>
+     */
+    public function findFrequentRoutesFor(Account $account, ?int $sport, ?int $from, ?int $until): array
+    {
+        $rows = $this->routeStatisticsQuery($account, $sport, $from, $until)
+            ->select('r.name AS name, COUNT(t.id) AS routeCount, SUM(t.distance) AS distance')
+            ->andWhere('r.name <> :empty')
+            ->setParameter('empty', '')
+            ->groupBy('r.name')
+            ->orderBy('routeCount', \SortDirection::Descending)
+            ->addOrderBy('r.name', \SortDirection::Ascending)
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getArrayResult();
+
+        return array_map(static fn (array $row): array => [
+            'name' => (string) $row['name'],
+            'count' => (int) $row['routeCount'],
+            'distance' => (float) ($row['distance'] ?? 0),
+        ], $rows);
+    }
+
+    /**
+     * @return iterable<string>
+     */
+    public function iterateVisitedRouteCitiesFor(Account $account, ?int $sport, ?int $from, ?int $until): iterable
+    {
+        // With no filters, each stored route contributes once, including routes without an activity.
+        $query = $sport === null && $from === null && $until === null
+            ? $this->getEntityManager()->createQueryBuilder()
+                ->from(Route::class, 'r')
+                ->where('r.account = :account')
+                ->setParameter('account', $account)
+            : $this->routeStatisticsQuery($account, $sport, $from, $until);
+
+        foreach ($query->select('r.cities AS cities')->andWhere('r.cities <> :empty')->setParameter('empty', '')->getQuery()->toIterable() as $row) {
+            yield (string) $row['cities'];
+        }
+    }
+
+    /**
+     * @return iterable<array{id: int, name: string, time: int, distance: float, sportIcon: string, geohashes: list<string>|null}>
+     */
+    public function iterateRecentMappedRoutesFor(Account $account, ?int $sport, ?int $from, ?int $until, int $limit): iterable
+    {
+        $rows = $this->routeStatisticsQuery($account, $sport, $from, $until)
+            ->select('t.id AS id, r.name AS name, t.time AS time, t.distance AS distance, s.img AS sportIcon, r.geohashes AS geohashes')
+            ->innerJoin('t.sport', 's', 'WITH', 's.account = :account')
+            ->andWhere('r.geohashes IS NOT NULL AND r.geohashes <> :empty')
+            ->setParameter('empty', '')
+            ->orderBy('t.time', \SortDirection::Descending)
+            ->addOrderBy('t.id', \SortDirection::Descending)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->toIterable();
+
+        foreach ($rows as $row) {
+            yield [
+                'id' => (int) $row['id'],
+                'name' => (string) $row['name'],
+                'time' => (int) $row['time'],
+                'distance' => (float) ($row['distance'] ?? 0),
+                'sportIcon' => (string) $row['sportIcon'],
+                'geohashes' => $row['geohashes'],
+            ];
+        }
+    }
+
+    private function routeStatisticsQuery(Account $account, ?int $sport, ?int $from, ?int $until): QueryBuilder
+    {
+        $query = $this->activityPeriodQuery($account, $from, $until)
+            ->innerJoin('t.route', 'r', 'WITH', 'r.account = :account');
+
+        if ($sport !== null) {
+            $query->andWhere('t.sport = :sport')->setParameter('sport', $sport);
+        }
+
+        return $query;
+    }
+
+    /**
      * @return iterable<TrainingTimeSample>
      */
     public function findTrainingTimesFor(Account $account, ?int $sport, ?int $from, ?int $until): iterable
