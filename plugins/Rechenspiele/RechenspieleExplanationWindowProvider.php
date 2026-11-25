@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\Plugins\Rechenspiele;
+namespace RunalyzePluginsRechenspiele;
 
 use DateTimeImmutable;
 use DateTimeZone;
-use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
-use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
-use Runalyze\Parameter\Application\Timezone as TimezoneEnum;
-use Runalyze\Sports\Performance\Model\TsbModel;
-use Runalyze\Sports\Running\MarathonShape;
-use Runalyze\Sports\Running\Prognosis\VO2max as Vo2maxPrognosis;
-use Runalyze\Sports\Running\VO2max\EffectiveVO2max;
-use Runalyze\Sports\Running\VO2max\EffectiveVO2maxCorrector;
-use Symfony\Component\Clock\ClockInterface;
+use RunalyzeBundleCoreBundleEntityAccount;
+use RunalyzeBundleCoreBundleRepositoryTrainingRepository;
+use RunalyzeBundleCoreBundleServicesConfigurationConfigurationManager;
+use RunalyzeParameterApplicationTimezone as TimezoneEnum;
+use RunalyzeSportsPerformanceModelTsbModel;
+use RunalyzeSportsRunningMarathonShape;
+use RunalyzeSportsRunningPrognosisVO2max as Vo2maxPrognosis;
+use RunalyzeSportsRunningVO2maxEffectiveVO2max;
+use RunalyzeSportsRunningVO2maxEffectiveVO2maxCorrector;
+use SymfonyComponentClockClockInterface;
 
 /**
  * Prepares all data for the Rechenspiele explanation window, account-scoped
@@ -102,9 +102,7 @@ final readonly class RechenspieleExplanationWindowProvider
     {
         $configuration = $this->configurationManager->getList($account);
         $vo2maxCategory = $configuration->getVO2max();
-        $vo2max = $vo2maxCategory->useManualValue()
-            ? $vo2maxCategory->getManualValue()
-            : $configuration->getData()->getVO2maxShape();
+        $vo2max = $configuration->getCurrentVO2maxShape();
         $days = $vo2maxCategory->getNumberOfDaysToConsider();
         $effective = new EffectiveVO2max(
             0,
@@ -118,9 +116,8 @@ final readonly class RechenspieleExplanationWindowProvider
         foreach (
             $this->trainingRepository->findEffectiveVo2maxHistoryFor(
                 $account,
-                $days,
-                $vo2maxCategory->useVO2maxCorrectionForElevation(),
-                $fromTimestamp - 86400
+                $configuration->useVO2maxCorrectionForElevation(),
+                $fromTimestamp
             ) as $row
         ) {
             $date = (new DateTimeImmutable('@' . $row['time']))->setTimezone($timezone)->format('d.m.Y');
@@ -172,14 +169,12 @@ final readonly class RechenspieleExplanationWindowProvider
     {
         $configuration = $this->configurationManager->getList($account);
         $basicEndurance = $configuration->getBasicEndurance();
-        $vo2max = $configuration->getVO2max()->useManualValue()
-            ? $configuration->getVO2max()->getManualValue()
-            : $configuration->getData()->getVO2maxShape();
+        $vo2max = $configuration->getCurrentVO2maxShape();
         $usedVO2max = max($vo2max, (float) $basicEndurance::MINIMAL_EFFECTIVE_VO2MAX);
 
         $timezone = $this->timezoneFor($account);
         $today = $this->clock->now()->setTimezone($timezone);
-        $startTimestamp = (int) $configuration->get('data.START_TIME');
+        $startTimestamp = (int) $configuration->getData()->getStartTime();
         $accountAgeDays = 0;
 
         if ($startTimestamp > 0) {
