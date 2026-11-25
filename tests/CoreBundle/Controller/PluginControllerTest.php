@@ -9,6 +9,7 @@ use DateTimeZone;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Conf;
+use Runalyze\Bundle\CoreBundle\Entity\Equipment;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Entity\PluginConf;
@@ -21,6 +22,7 @@ use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
 use Runalyze\Parameter\Application\Timezone;
 use Runalyze\Profile\Sport\SportProfile;
+use Runalyze\Profile\Weather\WeatherConditionProfile;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
@@ -717,8 +719,8 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertSame('Training times: 2025', $dashboard->filter('#statistics-inner .panel-heading h1')->text());
         $this->assertCount(2, $dashboard->filter('#daytime, #weekday'));
         $html = (string) $this->Client->getResponse()->getContent();
-        $daytime = $this->trainingTimePlotData($html, 'daytime');
-        $weekday = $this->trainingTimePlotData($html, 'weekday');
+        $daytime = $this->plotData($html, 'daytime');
+        $weekday = $this->plotData($html, 'weekday');
         $runningHours = $daytime[$running->getName()];
         $this->assertSame([0, 0.5], $runningHours[0]);
         $this->assertSame([23, 0.5], $runningHours[23]);
@@ -733,7 +735,7 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $shortSport = $this->Client->xmlHttpRequest('GET', $display);
         $this->assertStatusCode(200, $this->Client);
         $this->assertSame('02:10', $shortSport->filter('.statistics-container tbody td.b')->text());
-        $this->assertCount(1, $this->trainingTimePlotData((string) $this->Client->getResponse()->getContent(), 'daytime'));
+        $this->assertCount(1, $this->plotData((string) $this->Client->getResponse()->getContent(), 'daytime'));
 
         $config = '/call/call.Plugin.config.php?id=' . $id;
         $configuration = $this->Client->xmlHttpRequest('GET', $config);
@@ -1076,10 +1078,146 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertSame('There are no routes matching the criterias.', $empty->filter('.panel-content .error')->text());
     }
 
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testWeatherShowsMonthlyStatisticsAndPersistsOwnedEquipmentSelections(): void
+    {
+        $entityManager = $this->getEntityManager();
+        $other = $this->registerUniqueAccount();
+        $account = $entityManager->find(Account::class, $this->Account->getId());
+        $plugin = $entityManager->getRepository(Plugin::class)->findOneBy([
+            'account' => $account,
+            'key' => 'RunalyzePluginStat_Wetter',
+        ]);
+        $sports = $entityManager->getRepository(Sport::class);
+        $running = $sports->findInternalIdFor(SportProfile::RUNNING, $account);
+        $cycling = $sports->findInternalIdFor(SportProfile::CYCLING, $account);
+        $foreignRunning = $sports->findInternalIdFor(SportProfile::RUNNING, $other);
+        $type = new EquipmentType()->setAccount($account)->setName('Winter & road');
+        $foreignType = new EquipmentType()->setAccount($other)->setName('Private equipment');
+        $shoes = new Equipment()->setAccount($account)->setType($type)->setName('Shoes <winter>');
+        foreach ([$type, $foreignType, $shoes] as $entity) {
+            $entityManager->persist($entity);
+        }
+
+        $activities = [];
+        foreach ([
+            [$account, $running, '2025-01-01 00:00:00', 0, 20, 45, WeatherConditionProfile::SUNNY, $shoes],
+            [$account, $running, '2025-01-01 23:59:59', 10, 40, 80, WeatherConditionProfile::RAINY, $shoes],
+            [$account, $running, '2025-02-01 00:00:00', -5, null, null, WeatherConditionProfile::SNOWING, $shoes],
+            [$account, $running, '2025-02-04 00:00:00', null, null, null, WeatherConditionProfile::SUNNY, $shoes],
+            [$account, $cycling, '2025-01-01 00:00:00', 35, 60, 90, WeatherConditionProfile::RAINY, null],
+            [$account, $running, '2024-12-31 23:59:59', 25, null, null, WeatherConditionProfile::SUNNY, $shoes],
+            [$other, $foreignRunning, '2025-01-01 00:00:00', 99, 90, 99, WeatherConditionProfile::SUNNY, null],
+        ] as [$owner, $sport, $date, $temperature, $wind, $humidity, $condition, $equipment]) {
+            $activity = new Training()->setAccount($owner)->setSport($sport)->setTime(strtotime($date . ' UTC'))
+                ->setS(1800)->setTemperature($temperature)->setWindSpeed($wind)->setHumidity($humidity)->setWeatherid($condition);
+            if ($equipment instanceof \Runalyze\Bundle\CoreBundle\Entity\Equipment) {
+                $activity->addEquipment($equipment);
+            }
+
+            $entityManager->persist($activity);
+            $activities[] = $activity;
+        }
+
+        $entityManager->flush();
+        $typeId = (string) $type->getId();
+        $entityManager->persist(new PluginConf()->setPlugin($plugin)->setConfig('equipment_type')->setValue($typeId));
+        $entityManager->flush();
+
+        $id = $plugin->getId();
+        $this->loginClient($this->Client, $account, 'default');
+        $dashboard = $this->Client->request('GET', '/dashboard?pluginid=' . $id . '&jahr=2025&sport=' . $running->getId());
+        $this->assertStatusCode(200, $this->Client);
+        $monthly = $dashboard->filter('#statistics-inner .weather-monthly');
+        $this->assertSame(['°C', '5', '-5'], $monthly->filter('tbody tr')->first()->filter('td')->slice(0, 3)->each(static fn ($cell): string => $cell->text()));
+        $sunny = $monthly->filter('tbody tr')->reduce(static fn ($row): bool => $row->filter('i.weather-sun')->count() > 0);
+        $this->assertSame(['1x', '1x'], $sunny->filter('td')->slice(1, 2)->each(static fn ($cell): string => $cell->text()));
+        $equipment = $monthly->filter('tbody tr')->last()->filter('td')->slice(0, 3)->each(static fn ($cell): string => $cell->text());
+        $this->assertSame(['Shoes <winter>', '2x', '2x'], $equipment);
+        $this->assertSame(
+            ['Shoes <winter>', "-5\u{00a0}°C to 10\u{00a0}°C", "2\u{00a0}°C"],
+            $dashboard->filter('.weather-equipment tbody td')->slice(0, 3)->each(static fn ($cell): string => $cell->text())
+        );
+        $extremes = $dashboard->filter('.weather-extremes a.training');
+        $this->assertSame((string) $activities[1]->getId(), $extremes->first()->attr('rel'));
+        $this->assertSame('01.01.2025', $extremes->first()->text());
+        $this->assertStringNotContainsString('99', $dashboard->filter('.weather-extremes')->text());
+        $this->assertSame('/plugin/RunalyzePluginStat_Wetter/window.php', $dashboard->filter('a[aria-label="Show temperature plots"]')->attr('href'));
+
+        $display = '/my/plugin/' . $id . '?jahr=2025';
+        $settings = $entityManager->getRepository(PluginConf::class);
+        $this->Client->xmlHttpRequest('GET', $display . '&dat=' . $foreignType->getId());
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame($typeId, $settings->findValuesForPlugins([$id])[$id]['equipment_type']);
+        $this->assertStringNotContainsString('Private equipment', (string) $this->Client->getResponse()->getContent());
+        $cleared = $this->Client->xmlHttpRequest('GET', $display . '&dat=0');
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertCount(0, $cleared->filter('.weather-equipment'));
+        $this->assertSame('0', $settings->findValuesForPlugins([$id])[$id]['equipment_type']);
+        $this->Client->xmlHttpRequest('POST', '/call/call.Plugin.config.php?id=' . $id, [
+            'edit' => 'true',
+            'equipment_type' => $typeId,
+        ]);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame($typeId, $settings->findValuesForPlugins([$id])[$id]['equipment_type']);
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testTemperatureWindowShowsAccountAveragesAndChangesYearAtTheOriginalUrl(): void
+    {
+        $entityManager = $this->getEntityManager();
+        $other = $this->registerUniqueAccount();
+        $account = $entityManager->find(Account::class, $this->Account->getId());
+        $sports = $entityManager->getRepository(Sport::class);
+        $running = $sports->findInternalIdFor(SportProfile::RUNNING, $account);
+        $foreignRunning = $sports->findInternalIdFor(SportProfile::RUNNING, $other);
+        $entityManager->persist(new Conf()->setAccount($account)->setCategory('general')->setKey('TEMPERATURE_UNIT')->setValue('°F'));
+        foreach ([
+            [$account, $running, '2025-01-01 08:00:00', 0],
+            [$account, $running, '2025-01-01 23:59:59', 10],
+            [$account, $running, '2025-01-02 00:00:00', 0],
+            [$account, $running, '2024-12-31 23:59:59', 20],
+            [$other, $foreignRunning, '2025-01-01 12:00:00', 95],
+        ] as [$owner, $sport, $date, $temperature]) {
+            $entityManager->persist(new Training()->setAccount($owner)->setSport($sport)->setTime(strtotime($date . ' UTC'))
+                ->setS(1800)->setTemperature($temperature));
+        }
+
+        $entityManager->flush();
+
+        $url = '/plugin/RunalyzePluginStat_Wetter/window.php';
+        $this->Client->request('GET', $url);
+        $this->assertStatusCode(302, $this->Client);
+        $this->loginClient($this->Client, $account, 'default');
+        $window = $this->Client->xmlHttpRequest('GET', $url . '?y=2025');
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame('Temperatures', $window->filter('h1')->text());
+        $this->assertCount(2, $window->filter('#average, #year2025'));
+        $html = (string) $this->Client->getResponse()->getContent();
+        $daily = $this->plotData($html, 'year2025');
+        $this->assertSame([[1735689600000, 41], [1735776000000, 32]], $daily['Temperatures 2025']);
+        $average = $this->plotData($html, 'average');
+        $this->assertSame([0, 38], $average[2025][0]);
+        $this->assertSame([1, null], $average[2025][1]);
+        $this->assertSame([11, 68], $average[2024][11]);
+        $this->assertStringContainsString('"yaxis":{"from":32,"to":32}', $html);
+
+        $previous = $window->selectLink('2024')->link()->getUri();
+        $this->assertStringEndsWith('?y=2024', $previous);
+        $direct = $this->Client->request('GET', $previous);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertCount(1, $direct->filter('html #year2024'));
+        $this->assertSame([[1735603200000, 68]], $this->plotData((string) $this->Client->getResponse()->getContent(), 'year2024')['Temperatures 2024']);
+        $empty = $this->Client->xmlHttpRequest('GET', $url . '?y=2000');
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertCount(1, $empty->filter('#year2000'));
+        $this->assertStringContainsString('No data available.', (string) $this->Client->getResponse()->getContent());
+    }
+
     /**
-     * @return array<string, list<array{int, int|float}>>
+     * @return array<int|string, list<array{int, int|float|null}>>
      */
-    private function trainingTimePlotData(string $html, string $plot): array
+    private function plotData(string $html, string $plot): array
     {
         $this->assertSame(1, preg_match('/RunalyzePlot\.addPlot\("' . preg_quote($plot, '/') . '", (\[.*?\]), \{/', $html, $match));
 
