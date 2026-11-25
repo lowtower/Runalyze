@@ -280,7 +280,7 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException if the Rechenspiele panel is not installed
      */
-    #[Route(path: '/plugin/RunalyzePluginPanel_Rechenspiele/window.php', name: 'rechenspiele-explanation-window', methods: ['GET'], priority: 10)]
+    #[Route(path: '/plugin/RunalyzePluginPanel_Rechenspiele/window.php', name: 'rechenspiele-explanation-window', methods: ['GET', 'POST'], priority: 10)]
     public function rechenspieleWindowAction(
         Request $request,
         Environment $twig,
@@ -527,7 +527,10 @@ class DefaultController extends AbstractPluginsAwareController
         ]);
 
         if ($account !== null && $unsubscribeHashGenerator->isValid($account->getUsername(), $hash)) {
-            return $this->render('account/unsubscribe_info.html.twig');
+            return $this->render('account/unsubscribe_info.html.twig', [
+                'mail' => $mail,
+                'hash' => $hash,
+            ]);
         }
 
         return $this->render('account/unsubscribe_failure.html.twig');
