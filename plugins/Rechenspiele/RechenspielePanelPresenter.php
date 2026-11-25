@@ -7,15 +7,24 @@ namespace Runalyze\Plugins\Rechenspiele;
 use InvalidArgumentException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelConfigurationInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 use Runalyze\Calculation\BasicEndurance;
 use Symfony\Component\Clock\ClockInterface;
 
-final readonly class RechenspielePanelPresenter implements ModernPanelInterface
+final readonly class RechenspielePanelPresenter implements ModernPanelInterface, ModernPanelMetadataInterface, ModernPanelConfigurationInterface
 {
     private const string PLUGIN_KEY = 'RunalyzePluginPanel_Rechenspiele';
+
+    private const array SETTING_KEYS = [
+        'show_trimpvalues',
+        'show_trimpvalues_extra',
+        'show_vo2max',
+        'show_basicendurance',
+    ];
 
     public function __construct(
         private RechenspieleTrimpDataProvider $trimpDataProvider,
@@ -30,14 +39,97 @@ final readonly class RechenspielePanelPresenter implements ModernPanelInterface
         return self::PLUGIN_KEY;
     }
 
+    public function getName(): string
+    {
+        return __('Calculations');
+    }
+
+    public function getDescription(): string
+    {
+        return __('Calculate experimental values as shape and fatigue based on TRIMP, marathon shape and your VO<sub>2</sub>max shape.');
+    }
+
     public function getTemplate(): string
     {
         return '@Rechenspiele/panel.html.twig';
     }
 
+    public function getConfigurationTemplate(): string
+    {
+        return '@Rechenspiele/configuration.html.twig';
+    }
+
     public function shouldReloadAfterTraining(): bool
     {
         return true;
+    }
+
+    /**
+     * @return array<string, mixed>
+     *
+     * @throws InvalidArgumentException if the installation is not available for the account
+     */
+    public function getConfigurationData(Account $account, Plugin $installation): array
+    {
+        self::validateInstallation($account, $installation, true);
+
+        $id = $installation->getId();
+        assert($id !== null);
+
+        $stored = $this->configurationStorage->loadForPlugins([$id])[$id] ?? [];
+        $settings = [];
+
+        foreach (self::SETTING_KEYS as $key) {
+            $settings[$key] = ($stored[$key] ?? '1') === '1';
+        }
+
+        return $settings + [
+            'active' => $installation->getActive(),
+        ];
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     *
+     * @throws InvalidArgumentException if the installation is not available for the account
+     */
+    public function updateConfiguration(Account $account, Plugin $installation, array $data): void
+    {
+        self::validateInstallation($account, $installation, true);
+
+        $id = $installation->getId();
+        assert($id !== null);
+
+        $stored = $this->configurationStorage->loadForPlugins([$id])[$id] ?? [];
+
+        foreach (self::SETTING_KEYS as $key) {
+            $value = isset($data[$key]) && $data[$key] === '1' ? '1' : '0';
+
+            if (array_key_exists($key, $stored)) {
+                $this->configurationStorage->update($id, $key, $value);
+            } else {
+                $this->configurationStorage->insert($id, $key, $value);
+            }
+        }
+    }
+
+    /**
+     * @throws InvalidArgumentException if the installation is not available for the account
+     */
+    public static function validateInstallation(Account $account, Plugin $installation, bool $allowInactive = false): void
+    {
+        $accountId = $account->getId();
+
+        if (
+            $installation->getId() === null
+            || $accountId === null
+            || $installation->getAccount()->getId() !== $accountId
+            || $installation->getKey() !== self::PLUGIN_KEY
+            || ! $installation->isPanel()
+            || (! $allowInactive && $installation->isInactive())
+        ) {
+            throw new InvalidArgumentException('The Rechenspiele panel installation is not available for this account.');
+        }
     }
 
     /**
@@ -51,19 +143,10 @@ final readonly class RechenspielePanelPresenter implements ModernPanelInterface
      */
     public function present(Account $account, Plugin $installation): array
     {
-        $pluginId = $installation->getId();
-        $accountId = $account->getId();
+        self::validateInstallation($account, $installation);
 
-        if (
-            $pluginId === null
-            || $accountId === null
-            || $installation->getAccount()->getId() !== $accountId
-            || $installation->getKey() !== self::PLUGIN_KEY
-            || ! $installation->isPanel()
-            || $installation->isInactive()
-        ) {
-            throw new InvalidArgumentException('The Rechenspiele panel installation is not available for this account.');
-        }
+        $pluginId = $installation->getId();
+        assert($pluginId !== null);
 
         $configuration = $this->configurationStorage->loadForPlugins([$pluginId])[$pluginId] ?? [];
         $accountConfiguration = $this->configurationManager->getList($account);
