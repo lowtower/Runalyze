@@ -736,6 +736,7 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             ->setAccount($this->Account);
         $entityManager->persist($training);
         $entityManager->flush();
+
         $training->setTrimp(100);
         $entityManager->flush();
 
