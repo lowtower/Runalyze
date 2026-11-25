@@ -1,0 +1,33 @@
+{% set range_labels = {
+    'all': 'All years'|trans,
+    'lasthalf': 'Last half year'|trans,
+    'lastyear': 'Last year'|trans
+} %}
+{% set model_labels = {'tsb': 'TSB'|trans, 'banister': 'Banister'} %}
+<div class="panel-heading">
+    <div class="panel-menu">
+        <ul>
+            <li class="with-submenu">
+                <span class="link">{{ model_labels[model] }}</span>
+                <ul class="submenu">
+                    {% for key in models %}
+                        <li{% if key == model %} class="active"{% endif %}><a class="window" href="{{ path('rechenspiele-shape-window', {y: range, m: key}) }}">{{ model_labels[key] }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li class="with-submenu">
+                <span class="link">{{ range_labels[range] ?? range }}</span>
+                <ul class="submenu">
+                    {% for key in ranges %}
+                        <li{% if key == range %} class="active"{% endif %}><a class="window" href="{{ path('rechenspiele-shape-window', {y: key, m: model}) }}">{{ range_labels[key] ?? key }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <h1>{{ 'Shape'|trans }}</h1>
+</div>
+<div class="panel-content">
+    {{ plot.html|raw }}
+    {{ plot.javascript|raw }}
+</div>

@@ -708,6 +708,25 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testRechenspieleShapePlotPreservesAjaxMenuAndValidatesQuery(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        /** @var PluginInstallationManager $installationManager */
+        $installationManager = self::getContainer()->get(PluginInstallationManager::class);
+        $installationManager->install('RunalyzePluginPanel_Rechenspiele');
+
+        $this->Client->xmlHttpRequest('GET', '/plugin/RunalyzePluginPanel_Rechenspiele/window.plot.php?y[]=invalid&m=banister');
+
+        $this->assertStatusCode(200, $this->Client);
+        $content = (string) $this->Client->getResponse()->getContent();
+        $this->assertStringStartsWith('<div class="panel-heading">', $content);
+        $this->assertStringContainsString('formlasthalfbanister', $content);
+        $this->assertStringContainsString('class="submenu"', $content);
+        $this->assertStringContainsString('class="window" href="/plugin/RunalyzePluginPanel_Rechenspiele/window.plot.php?y=all&amp;m=banister"', $content);
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testPrognoseCalculatorWindowRendersValidCustomDistancePredictionWithoutPersonalBest(): void
     {
         $this->loginClient($this->Client, $this->Account, 'default');

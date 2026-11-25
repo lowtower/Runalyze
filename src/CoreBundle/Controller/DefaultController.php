@@ -3,6 +3,8 @@
 namespace Runalyze\Bundle\CoreBundle\Controller;
 
 use DataBrowser;
+use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\Persistence\ManagerRegistry;
 use Frontend;
 use Plugin;
@@ -31,14 +33,20 @@ use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\Calculation\BasicEndurance;
 use Runalyze\Configuration;
 use Runalyze\Context;
+use Runalyze\Parameter\Application\Timezone as TimezoneEnum;
 use Runalyze\Plugins\Prognose\PrognoseCalculatorWindowRenderer;
 use Runalyze\Plugins\Prognose\PrognosePanelPresenter;
 use Runalyze\Plugins\Prognose\PrognoseTrendDataProvider;
 use Runalyze\Plugins\Prognose\PrognoseTrendPlotRenderer;
+use Runalyze\Plugins\Rechenspiele\RechenspielePlotSelection;
+use Runalyze\Plugins\Rechenspiele\RechenspieleShapePlotDataProvider;
+use Runalyze\Plugins\Rechenspiele\RechenspieleShapePlotMaximaUpdater;
+use Runalyze\Plugins\Rechenspiele\RechenspieleShapePlotOutputAdapter;
 use Runalyze\View\Activity\Context as ActivityContext;
 use RunalyzePluginPanel_Rechenspiele;
 use RunalyzePluginStat_Wettkampf;
 use SessionAccountHandler;
+use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -292,24 +300,55 @@ class DefaultController extends AbstractPluginsAwareController
     }
 
     /**
-     * @throws Throwable if the legacy calculations plot throws
+     * @throws Throwable if the calculations plot throws
      */
-    #[Route(path: '/plugin/RunalyzePluginPanel_Rechenspiele/window.plot.php', methods: ['GET'], priority: 10)]
-    public function rechenspielePlotWindowAction(): Response
-    {
+    #[Route(path: '/plugin/RunalyzePluginPanel_Rechenspiele/window.plot.php', name: 'rechenspiele-shape-window', methods: ['GET'], priority: 10)]
+    public function rechenspielePlotWindowAction(
+        Request $request,
+        Environment $twig,
+        ClockInterface $clock,
+        RechenspieleShapePlotDataProvider $dataProvider,
+        RechenspieleShapePlotOutputAdapter $outputAdapter,
+        RechenspieleShapePlotMaximaUpdater $maximaUpdater,
+        ?Account $account = null
+    ): Response {
         $this->denyAccessUnlessGranted('ROLE_USER');
+
+        if (! $account instanceof Account) {
+            throw $this->createAccessDeniedException();
+        }
+
+        /** @var PluginRepository $pluginRepository */
+        $pluginRepository = $this->doctrine->getRepository(PluginInstallation::class);
+
+        if ($pluginRepository->findForAccountAndKey($account, 'RunalyzePluginPanel_Rechenspiele') === null) {
+            throw $this->createNotFoundException('The Rechenspiele panel is not installed.');
+        }
+
+        $timezone = new DateTimeZone(TimezoneEnum::getFullNameByEnum($account->getTimezone()));
+        $today = $clock->now()->setTimezone($timezone);
+        $startTimestamp = $this->configurationManager->getList($account)->getData()->getStartTime();
+        $firstActivity = new DateTimeImmutable('@' . $startTimestamp)->setTimezone($timezone);
+        $hasHistory = $startTimestamp > 0 && $firstActivity->setTime(0, 0) <= $today->setTime(0, 0);
+        $currentYear = (int) $today->format('Y');
+        $startYear = $hasHistory ? (int) $firstActivity->format('Y') : $currentYear;
+        $selection = RechenspielePlotSelection::fromQuery($request->query->all(), $startYear, $currentYear);
 
         new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
-        /** @var RunalyzePluginPanel_Rechenspiele $Plugin */
-        $Plugin = $this->instantiatePluginByKey('RunalyzePluginPanel_Rechenspiele');
+        $data = $hasHistory ? $dataProvider->getPlotData($account, $selection->range, $selection->model) : null;
+        $plot = $outputAdapter->render($selection->range, $selection->model, $data);
+        $content = $twig->render('@Rechenspiele/shape-window.html.twig', [
+            'range' => $selection->range,
+            'model' => $selection->model,
+            'ranges' => RechenspielePlotSelection::availableRanges($startYear, $currentYear),
+            'models' => RechenspielePlotSelection::availableModels(),
+            'plot' => $plot,
+        ]);
 
-        return $this->legacyContentResponseFactory->create(
-            $this->legacyPluginOutputRenderer->render(function () use ($Plugin): void {
-                include FRONTEND_PATH . '../plugin/RunalyzePluginPanel_Rechenspiele/window.plot.php';
-            })->getContent(),
-            $this->requestStack->getCurrentRequest()
-        );
+        $maximaUpdater->update($account, $data['recomputed_maxima'] ?? null);
+
+        return $this->legacyContentResponseFactory->create($content, $request);
     }
 
     /**
