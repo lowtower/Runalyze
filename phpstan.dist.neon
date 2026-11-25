@@ -20,6 +20,7 @@ parameters:
         - config/
         - inc/
         - lib/
+        - plugin/
         - plugins/
         - public/
         - src/

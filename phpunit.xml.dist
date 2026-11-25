@@ -52,6 +52,7 @@
     <source baseline="phpunit-baseline.xml"  ignoreSuppressionOfDeprecations="true" restrictNotices="true" restrictWarnings="true">
         <include>
             <directory suffix=".php">inc</directory>
+            <directory suffix=".php">plugin</directory>
             <directory suffix=".php">plugins</directory>
             <directory suffix=".php">src</directory>
         </include>
