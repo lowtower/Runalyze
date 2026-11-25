@@ -1128,21 +1128,23 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->loginClient($this->Client, $account, 'default');
         $dashboard = $this->Client->request('GET', '/dashboard?pluginid=' . $id . '&jahr=2025&sport=' . $running->getId());
         $this->assertStatusCode(200, $this->Client);
-        $monthly = $dashboard->filter('#statistics-inner .weather-monthly');
-        $this->assertSame(['°C', '5', '-5'], $monthly->filter('tbody tr')->first()->filter('td')->slice(0, 3)->each(static fn ($cell): string => $cell->text()));
+        $monthly = $dashboard->filter('#statistics-inner .statistics-weather-monthly');
+        $this->assertSame(['°C', "5\u{00a0}°C", "-5\u{00a0}°C"], $monthly->filter('tbody tr')->first()->filter('td')->slice(0, 3)->each(static fn ($cell): string => $cell->text()));
         $sunny = $monthly->filter('tbody tr')->reduce(static fn ($row): bool => $row->filter('i.weather-sun')->count() > 0);
         $this->assertSame(['1x', '1x'], $sunny->filter('td')->slice(1, 2)->each(static fn ($cell): string => $cell->text()));
         $equipment = $monthly->filter('tbody tr')->last()->filter('td')->slice(0, 3)->each(static fn ($cell): string => $cell->text());
         $this->assertSame(['Shoes <winter>', '2x', '2x'], $equipment);
         $this->assertSame(
             ['Shoes <winter>', "-5\u{00a0}°C to 10\u{00a0}°C", "2\u{00a0}°C"],
-            $dashboard->filter('.weather-equipment tbody td')->slice(0, 3)->each(static fn ($cell): string => $cell->text())
+            $dashboard->filter('.statistics-weather-equipment tbody td')->slice(0, 3)->each(static fn ($cell): string => $cell->text())
         );
-        $extremes = $dashboard->filter('.weather-extremes a.training');
+        $extremes = $dashboard->filter('.statistics-weather-extremes a.training');
         $this->assertSame((string) $activities[1]->getId(), $extremes->first()->attr('rel'));
         $this->assertSame('01.01.2025', $extremes->first()->text());
-        $this->assertStringNotContainsString('99', $dashboard->filter('.weather-extremes')->text());
+        $this->assertStringNotContainsString('99', $dashboard->filter('.statistics-weather-extremes')->text());
         $this->assertSame('/plugin/RunalyzePluginStat_Wetter/window.php', $dashboard->filter('a[aria-label="Show temperature plots"]')->attr('href'));
+        $this->assertCount(1, $dashboard->filter('#statistics-inner .panel-menu > ul'));
+        $this->assertCount(4, $dashboard->filter('#statistics-inner .panel-menu > ul > li'));
 
         $display = '/my/plugin/' . $id . '?jahr=2025';
         $settings = $entityManager->getRepository(PluginConf::class);
@@ -1152,7 +1154,7 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStringNotContainsString('Private equipment', (string) $this->Client->getResponse()->getContent());
         $cleared = $this->Client->xmlHttpRequest('GET', $display . '&dat=0');
         $this->assertStatusCode(200, $this->Client);
-        $this->assertCount(0, $cleared->filter('.weather-equipment'));
+        $this->assertCount(0, $cleared->filter('.statistics-weather-equipment'));
         $this->assertSame('0', $settings->findValuesForPlugins([$id])[$id]['equipment_type']);
         $this->Client->xmlHttpRequest('POST', '/call/call.Plugin.config.php?id=' . $id, [
             'edit' => 'true',
