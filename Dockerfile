@@ -56,12 +56,12 @@ WORKDIR /var/www/html
 
 # Composer: dependencies are installed before the sources are copied, so the
 # expensive vendor layer stays cached when only the sources change. Autoload
-# generation is skipped here: the classmap needs inc/ and plugin/, which only
+# generation is skipped here: the classmap needs inc/, which only
 # exist once the sources are copied (see the dump-autoload step below).
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY --link composer.* ./
 RUN set -eux; \
-    mkdir -p inc plugin; \
+    mkdir -p inc; \
     if [ "$APP_ENV" = "dev" ]; then \
       composer install --no-interaction --no-progress --prefer-dist --no-scripts --no-autoloader; \
     else \
@@ -73,7 +73,7 @@ RUN set -eux; \
 COPY --link . ./
 
 # The autoloader can only be dumped now that the classmap directories
-# (inc/, plugin/) exist in the image.
+# (inc/) exist in the image.
 RUN set -eux; \
     if [ "$APP_ENV" = "prod" ]; then \
       composer dump-autoload --no-dev --no-interaction; \
@@ -227,12 +227,12 @@ WORKDIR /var/www/html
 
 # Composer: dependencies before the sources (layer caching), --no-dev for
 # prod, and no swallowed failures (set -eux). Autoload generation is
-# skipped here: the classmap needs inc/ and plugin/, which only exist
+# skipped here: the classmap needs inc/, which only exist
 # once the sources are copied (see the dump-autoload step below).
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY --link composer.* ./
 RUN set -eux; \
-    mkdir -p inc plugin; \
+    mkdir -p inc; \
     if [ "$APP_ENV" = "dev" ]; then \
       composer install --no-interaction --no-progress --prefer-dist --no-scripts --no-autoloader; \
     else \
@@ -244,7 +244,7 @@ RUN set -eux; \
 COPY --link . ./
 
 # The autoloader can only be dumped now that the classmap directories
-# (inc/, plugin/) exist in the image.
+# (inc/) exist in the image.
 RUN set -eux; \
     if [ "$APP_ENV" = "prod" ]; then \
       composer dump-autoload --no-dev --no-interaction; \

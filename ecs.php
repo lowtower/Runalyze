@@ -15,7 +15,6 @@ return ECSConfig::configure()
         __DIR__ . '/config',
         __DIR__ . '/inc',
         __DIR__ . '/lib',
-        __DIR__ . '/plugin',
         __DIR__ . '/plugins',
         __DIR__ . '/public',
         __DIR__ . '/src',
@@ -46,8 +45,6 @@ return ECSConfig::configure()
         PhpdocNoPackageFixer::class,
         RemoveDeadVarThisFixer::class => [
             __DIR__ . '/inc/tpl/*.php',
-            __DIR__ . '/plugin/RunalyzePluginStat_Trainingszeiten/Plot.Daytime.php',
-            __DIR__ . '/plugin/RunalyzePluginStat_Trainingszeiten/Plot.Weekday.php',
         ],
     ])
 ;
