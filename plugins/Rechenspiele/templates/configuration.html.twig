@@ -1,0 +1,49 @@
+<div class="panel-heading">
+    <div class="panel-menu">
+        <ul><li><a class="window" href="settings?key=config_tab_plugins&amp;external=true">{{ 'back to overview'|trans }}</a></li></ul>
+    </div>
+    <h1>{{ 'Plugin configuration'|trans }}: {{ 'Calculations'|trans }}</h1>
+</div>
+<div class="panel-content">
+    <form class="ajax no-automatic-reload" action="{{ path('plugin-config', {'id': plugin_id}) }}" method="post">
+        <input type="hidden" name="edit" value="true">
+        <fieldset>
+            <legend>{{ 'Description'|trans }}</legend>
+            <p>{{ 'Calculate experimental values as shape and fatigue based on TRIMP, marathon shape and your VO&lt;sub&gt;2&lt;/sub&gt;max shape.'|trans|raw }}</p>
+        </fieldset>
+        <fieldset>
+            <legend>{{ 'Configuration'|trans }}</legend>
+            <div class="w100 block">
+                <label for="rechenspiele-show-trimpvalues">{{ 'Show: ATL/CTL/TSB'|trans }}</label>
+                <input type="checkbox" name="show_trimpvalues" id="rechenspiele-show-trimpvalues" value="1"{% if config_data.show_trimpvalues %} checked{% endif %}>
+                <small>{{ 'Show actual/chronical training load and stress balance (based on TRIMP)'|trans }}</small>
+            </div>
+            <div class="w100 block">
+                <label for="rechenspiele-show-trimpvalues-extra">{{ 'Show: Monotony/TS'|trans }}</label>
+                <input type="checkbox" name="show_trimpvalues_extra" id="rechenspiele-show-trimpvalues-extra" value="1"{% if config_data.show_trimpvalues_extra %} checked{% endif %}>
+                <small>{{ 'Show monotony and training strain (based on TRIMP)'|trans }}</small>
+            </div>
+            <div class="w100 block">
+                <label for="rechenspiele-show-vo2max">{{ 'Show: VO2max shape'|trans }}</label>
+                <input type="checkbox" name="show_vo2max" id="rechenspiele-show-vo2max" value="1"{% if config_data.show_vo2max %} checked{% endif %}>
+                <small>{{ 'Predict current effective VO2max'|trans }}</small>
+            </div>
+            <div class="w100 block">
+                <label for="rechenspiele-show-basicendurance">{{ 'Show: Marathon shape'|trans }}</label>
+                <input type="checkbox" name="show_basicendurance" id="rechenspiele-show-basicendurance" value="1"{% if config_data.show_basicendurance %} checked{% endif %}>
+                <small>{{ 'Guess current marathon shape'|trans }}</small>
+            </div>
+            <div class="w100 block">
+                <input type="submit" value="{{ 'Save'|trans }}">
+            </div>
+        </fieldset>
+    </form>
+    <fieldset>
+        <legend>{{ 'Activation'|trans }}</legend>
+        {% if config_data.active == 0 %}
+            <a class="window" href="{{ path('plugin-config', {'id': plugin_id, 'active': 1}) }}">{{ 'Activate plugin'|trans }}</a>
+        {% else %}
+            <a class="window" href="{{ path('plugin-config', {'id': plugin_id, 'active': 0}) }}">{{ 'Deactivate plugin'|trans }}</a>
+        {% endif %}
+    </fieldset>
+</div>

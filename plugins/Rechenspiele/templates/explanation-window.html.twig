@@ -1,0 +1,144 @@
+<div class="panel-heading">
+    <h1>{{ 'Explanation: How are these experimental values calculated?'|trans }}</h1>
+</div>
+<div class="panel-content">
+    <form id="rechenspiele-calculator" class="ajax no-automatic-reload" action="/plugin/RunalyzePluginPanel_Rechenspiele/window.php" method="get">
+        <fieldset>
+            <legend>ATL/CTL/TSB</legend>
+            <p>{{ 'ATL/CTL are based on the TRIMP-concept, which adresses an impulse value to every activity. ATL and CTL are averaged values over a given time range.'|trans }}</p>
+            <table class="fullwidth zebra-style">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>{{ 'Name'|trans }}</th>
+                        <th>{{ 'in %'|trans }}</th>
+                        <th>{{ 'Time range'|trans }}</th>
+                        <th>{{ 'avg.'|trans }} {{ 'value/day'|trans }}</th>
+                        <th>{{ 'max. value'|trans }}</th>
+                        <th class="small">{{ 'Description'|trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="b">ATL</td>
+                        <td>{{ 'Acute Training Load'|trans }}</td>
+                        <td class="c">{{ trimp.atl }}&nbsp;&#37;</td>
+                        <td class="c small">{{ '%days% days'|trans({'%days%': trimp.atl_days}) }}</td>
+                        <td class="c">{{ trimp.atl_absolute }}</td>
+                        <td class="c">{{ trimp.atl_max }}</td>
+                        <td class="small">{{ 'Training impulse over a short period'|trans }}</td>
+                    </tr>
+                    <tr>
+                        <td class="b">CTL</td>
+                        <td>{{ 'Chronical Training Load'|trans }}</td>
+                        <td class="c">{{ trimp.ctl }}&nbsp;&#37;</td>
+                        <td class="c small">{{ '%days% days'|trans({'%days%': trimp.ctl_days}) }}</td>
+                        <td class="c">{{ trimp.ctl_absolute }}</td>
+                        <td class="c">{{ trimp.ctl_max }}</td>
+                        <td class="small">{{ 'Training impulse over a long period'|trans }}</td>
+                    </tr>
+                    <tr>
+                        <td class="b">TSB</td>
+                        <td>{{ 'Training Stress Balance'|trans }}</td>
+                        <td class="c">{{ trimp.tsb }}</td>
+                        <td colspan="3" class="c">{{ trimp.tsb_equation }}</td>
+                        <td class="small">{{ 'Current impulse<br>positive: recovery<br>negative: hard training'|trans }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="small"><a href="http://www.netzathleten.de/fitness/richtig-trainieren/item/1481-trainingstagebuch-sinnvoll-oder-nicht" title="Das TRIMP-Konzept">The TRIMP-concept</a> (german, netzathleten.de)<br><a href="http://fellrnr.com/wiki/TRIMP">TRIMP</a> and <a href="http://fellrnr.com/wiki/Modeling_Human_Performance#The_TSB_Formulas">Modeling Human Performance</a> on fellrnr.com</p>
+        </fieldset>
+        <fieldset>
+            <legend>{{ 'Effective VO2max'|trans }}</legend>
+            <p>{{ 'The VO&lt;sub&gt;2&lt;/sub&gt;max shape is calculated as the average, weighted by time, of estimated VO&lt;sub&gt;2&lt;/sub&gt;max values of your activities in the last %days% days.'|trans({'%days%': vo2max.days})|raw }}</p>
+            <p>{{ 'Your current VO&lt;sub&gt;2&lt;/sub&gt;max shape:'|trans|raw }} <strong>{{ vo2max.current }}</strong></p>
+            {% if vo2max.values is empty %}
+                <p class="error">
+                    {{ 'There are no current activities with an estimated VO&lt;sub&gt;2&lt;/sub&gt;max value.'|trans|raw }}<br>
+                    {{ 'VO&lt;sub&gt;2&lt;/sub&gt;max can only be estimated for runs with heart rate data.'|trans|raw }}
+                </p>
+            {% else %}
+                <table class="fullwidth zebra-style">
+                    <thead>
+                        <tr><th colspan="10">{{ 'Effective VO&lt;sub&gt;2&lt;/sub&gt;max values of the last %days% days'|trans({'%days%': vo2max.days})|raw }}</th></tr>
+                    </thead>
+                    <tbody class="top-and-bottom-border">
+                        {% for value in vo2max.values %}
+                            {% if loop.index0 % 10 == 0 %}<tr>{% endif %}
+                            <td rel="tooltip" title="{{ value.tooltip }}">
+                                <a class="training" href="activity/{{ value.id }}" rel="{{ value.id }}">{{ value.vo2max }}</a>
+                            </td>
+                            {% if loop.index % 10 == 0 %}</tr>{% endif %}
+                        {% endfor %}
+                        {% if vo2max.values|length % 10 != 0 %}
+                            <td colspan="{{ 10 - vo2max.values|length % 10 }}"></td></tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            {% endif %}
+            <p class="small">{{ 'VO&lt;sub&gt;2&lt;/sub&gt;max itself is a scientific metric for the maximal oxygen consumption that can be measured in the laboratory.&lt;br&gt;Two runners with equal VO&lt;sub&gt;2&lt;/sub&gt;max values do not need to perform equally, as running efficiency plays an additional role. To overcome the issue of specifying running efficiency, one can ignore the efficiency and therefore call it effective VO&lt;sub&gt;2&lt;/sub&gt;max.'|trans|raw }}</p>
+        </fieldset>
+        <fieldset>
+            <legend>{{ 'Marathon shape'|trans }}</legend>
+            <p>{{ 'Your marathon shape is based on your weekly kilometers and your long jogs.&lt;br&gt;The target is derived from the possible marathon time based on your current shape.'|trans|raw }}</p>
+            {% if not basic_endurance.has_vo2max %}
+                <p class="error">
+                    {{ 'There are no current activities with an estimated VO&lt;sub&gt;2&lt;/sub&gt;max value.'|trans|raw }}<br>
+                    {{ 'VO&lt;sub&gt;2&lt;/sub&gt;max can only be estimated for runs with heart rate data.'|trans|raw }}
+                </p>
+            {% endif %}
+            <table class="fullwidth zebra-style">
+                <tbody class="top-and-bottom-border">
+                    <tr>
+                        <td><strong>{{ 'Current Effective VO&lt;sub&gt;2&lt;/sub&gt;max'|trans|raw }}</strong> <small>({{ 'based on heart rate'|trans }})</small></td>
+                        <td class="r">{{ basic_endurance.vo2max }}</td>
+                        <td>&nbsp;</td>
+                        <td><strong>{{ 'Target kilometer per week'|trans }}</strong> <small>{{ '%weeks% weeks'|trans({'%weeks%': basic_endurance.week_weeks}) }}</small></td>
+                        <td class="r">{{ basic_endurance.week_target_km }}{{ basic_endurance.unit }}</td>
+                        <td class="small">{{ 'done by %d%'|trans }}&nbsp;</td>
+                        <td class="small">({{ 'avg.'|trans }} {{ basic_endurance.week_avg_km }}{{ basic_endurance.unit }})</td>
+                        <td class="small">x{{ basic_endurance.week_factor }}</td>
+                        <td rowspan="2" class="bottom-spacer b" style="vertical-align:middle;">= {{ basic_endurance.percentage }}&#37;</td>
+                    </tr>
+                    <tr>
+                        <td><strong>{{ 'Marathon time'|trans }}</strong> <small>({{ 'optimal'|trans }})</small></td>
+                        <td class="r">{{ basic_endurance.marathon_time }}</td>
+                        <td>&nbsp;</td>
+                        <td>{{ '&lt;strong&gt;Target long run&lt;/strong&gt; &lt;small&gt;(%weeks% weeks)&lt;/small&gt;'|trans({'%weeks%': basic_endurance.longjog_weeks})|raw }}</td>
+                        <td class="r">{{ basic_endurance.longjog_target_km }}{{ basic_endurance.unit }}</td>
+                        <td class="small">{{ 'done by %d%'|trans }}&nbsp;</td>
+                        <td class="small">({{ basic_endurance.longjog_percentage }}&nbsp;&#37;)</td>
+                        <td class="small">x{{ basic_endurance.longjog_factor }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>{{ 'The points for your long runs are weighted by time and quadratic in distance. That means, a long jog yesterday gives more points than a long jog two weeks ago and a 30k-jog gives more points than two 20k-jogs.'|trans }}</p>
+            <table class="fullwidth zebra-style c">
+                <thead>
+                    <tr>
+                        <th>{{ 'Date'|trans }}*</th>
+                        <th>{{ 'Distance'|trans }}</th>
+                        <th>{{ 'Points'|trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for run in basic_endurance.runs %}
+                        <tr>
+                            <td><a class="training" href="activity/{{ run.id }}" rel="{{ run.id }}">{{ run.date }}</a></td>
+                            <td>{{ run.distance }}{{ basic_endurance.unit }}</td>
+                            <td>{{ run.points }} {{ 'points'|trans }}</td>
+                        </tr>
+                    {% endfor %}
+                    <tr class="top-spacer no-zebra">
+                        <td></td>
+                        <td></td>
+                        <td class="b">= {{ basic_endurance.longjog_points }} {{ 'points'|trans }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="small">* {{ '* %d% &quot;long&quot; jogs do not show up, because they have less than 0.2 points.'|trans({'%d%': basic_endurance.ignored_runs})|raw }}</p>
+            <p class="small">* {{ 'In general, all runs with more than %distance%%unit% are being considered.'|trans({'%distance%': basic_endurance.minimal_longjog_km, '%unit%': basic_endurance.unit})|raw }}</p>
+            <p>{{ 'The marathon shape is &lt;strong&gt;not&lt;/strong&gt; scientifically based.&lt;br&gt;It\'s our own attempt to adjust the prognosis for long distances based on your current endurance.'|trans|raw }}</p>
+        </fieldset>
+    </form>
+</div>

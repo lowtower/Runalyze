@@ -146,8 +146,98 @@ final class RechenspielePanelPresenterTest extends TestCase
         $presenter = $this->presenter();
 
         $this->assertSame('RunalyzePluginPanel_Rechenspiele', $presenter->getKey());
+        $this->assertSame('Calculations', $presenter->getName());
+        $this->assertSame('Calculate experimental values as shape and fatigue based on TRIMP, marathon shape and your VO<sub>2</sub>max shape.', $presenter->getDescription());
         $this->assertSame('@Rechenspiele/panel.html.twig', $presenter->getTemplate());
+        $this->assertSame('@Rechenspiele/configuration.html.twig', $presenter->getConfigurationTemplate());
         $this->assertTrue($presenter->shouldReloadAfterTraining());
+    }
+
+    public function testExposesConfigurationDataWithLegacyKeysAndDefaults(): void
+    {
+        $account = $this->account(12);
+
+        $result = $this->presenter()->getConfigurationData($account, $this->installation($account));
+
+        $this->assertTrue($result['show_trimpvalues']);
+        $this->assertTrue($result['show_trimpvalues_extra']);
+        $this->assertTrue($result['show_vo2max']);
+        $this->assertTrue($result['show_basicendurance']);
+        $this->assertSame(Plugin::STATE_ACTIVE, $result['active']);
+    }
+
+    public function testExposesConfiguredBooleanValuesAndActiveState(): void
+    {
+        $account = $this->account(12);
+        $installation = $this->installation($account, Plugin::STATE_INACTIVE);
+
+        $result = $this->presenter(null, [
+            'show_trimpvalues' => '0',
+            'show_trimpvalues_extra' => '1',
+            'show_vo2max' => '0',
+            'show_basicendurance' => '0',
+        ])->getConfigurationData($account, $installation);
+
+        $this->assertFalse($result['show_trimpvalues']);
+        $this->assertTrue($result['show_trimpvalues_extra']);
+        $this->assertFalse($result['show_vo2max']);
+        $this->assertFalse($result['show_basicendurance']);
+        $this->assertSame(Plugin::STATE_INACTIVE, $result['active']);
+    }
+
+    public function testConfigurationDataRejectsAnotherAccountsInstallation(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->presenter()->getConfigurationData($this->account(12), $this->installation($this->account(13)));
+    }
+
+    public function testPersistsSubmittedConfigurationValues(): void
+    {
+        $account = $this->account(12);
+        $installation = $this->installation($account);
+        $storage = $this->createMock(PluginConfigurationStorageInterface::class);
+        $storage->method('loadForPlugins')->willReturn([
+            5 => [
+                'show_trimpvalues' => '1',
+            ],
+        ]);
+        $storage->expects($this->once())
+            ->method('update')
+            ->with(5, 'show_trimpvalues', '0');
+        $inserted = [];
+        $storage->expects($this->exactly(3))
+            ->method('insert')
+            ->willReturnCallback(static function (int $pluginId, string $key, string $value) use (&$inserted): void {
+                $inserted[] = [$pluginId, $key, $value];
+            });
+
+        $this->presenter(null, [], [], $storage)->updateConfiguration($account, $installation, [
+            'show_trimpvalues_extra' => '1',
+        ]);
+
+        $this->assertSame([
+            [5, 'show_trimpvalues_extra', '1'],
+            [5, 'show_vo2max', '0'],
+            [5, 'show_basicendurance', '0'],
+        ], $inserted);
+    }
+
+    public function testUpdateConfigurationRejectsAnotherAccountsInstallation(): void
+    {
+        $storage = $this->createMock(PluginConfigurationStorageInterface::class);
+        $storage->expects($this->never())->method('update');
+        $storage->expects($this->never())->method('insert');
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->presenter(null, [], [], $storage)->updateConfiguration(
+            $this->account(12),
+            $this->installation($this->account(13)),
+            [
+                'show_vo2max' => '1',
+            ]
+        );
     }
 
     /**
@@ -157,7 +247,8 @@ final class RechenspielePanelPresenterTest extends TestCase
     private function presenter(
         ?TrainingRepository $repository = null,
         array $pluginOptions = [],
-        array $configurationOptions = []
+        array $configurationOptions = [],
+        ?PluginConfigurationStorageInterface $storage = null
     ): RechenspielePanelPresenter {
         $repository ??= $this->createStub(TrainingRepository::class);
         $clock = $this->createStub(ClockInterface::class);
@@ -166,7 +257,7 @@ final class RechenspielePanelPresenterTest extends TestCase
         $manager = $this->createStub(ConfigurationManager::class);
         $manager->method('getList')->willReturn(new RunalyzeConfigurationList($configurationOptions));
 
-        $storage = $this->createStub(PluginConfigurationStorageInterface::class);
+        $storage ??= $this->createStub(PluginConfigurationStorageInterface::class);
         $storage->method('loadForPlugins')->willReturn([
             5 => $pluginOptions,
         ]);
@@ -189,14 +280,15 @@ final class RechenspielePanelPresenterTest extends TestCase
         return $account;
     }
 
-    private function installation(Account $account): Plugin
+    private function installation(Account $account, int $active = Plugin::STATE_ACTIVE): Plugin
     {
         $installation = $this->createStub(Plugin::class);
         $installation->method('getId')->willReturn(5);
         $installation->method('getAccount')->willReturn($account);
         $installation->method('getKey')->willReturn('RunalyzePluginPanel_Rechenspiele');
         $installation->method('isPanel')->willReturn(true);
-        $installation->method('isInactive')->willReturn(false);
+        $installation->method('isInactive')->willReturn($active === Plugin::STATE_INACTIVE);
+        $installation->method('getActive')->willReturn($active);
 
         return $installation;
     }

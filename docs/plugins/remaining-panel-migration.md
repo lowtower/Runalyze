@@ -5,12 +5,12 @@ This checklist tracks the remaining legacy panel migration.
 
 ## Scope
 
-The Goals panel now uses the modern runtime; one legacy panel directory remains:
+The Goals and Rechenspiele panels now use the modern runtime; no legacy panel directory remains:
 
 | Stable installation key | Legacy directory | Modern implementation | Remaining work |
 | --- | --- | --- | --- |
 | `RunalyzePluginPanel_Ziele` | Removed | `plugins/Goals/` (calendar, totals, progress calculator, presenter, Twig and configuration) | Verify display and settings parity in browser |
-| `RunalyzePluginPanel_Rechenspiele` | `plugin/RunalyzePluginPanel_Rechenspiele/` | `plugins/Rechenspiele/` (dashboard presenter, data provider, calculator) | Migrate configuration fields and explanation/plot windows, remove the old class and PHP includes |
+| `RunalyzePluginPanel_Rechenspiele` | Removed | `plugins/Rechenspiele/` (dashboard presenter, data provider, calculator, explanation-window provider, configuration) | Verify display and settings parity in browser |
 
 All eleven built-in statistics plugins have migrated to `plugins/Statistics/`.
 The remaining legacy panel is the last on-disk implementation using the shared
@@ -48,70 +48,31 @@ The remaining legacy panel is the last on-disk implementation using the shared
    `ziel_*`, and `details`, including checkbox defaults and active-state
    management. Confirm the dashboard and configuration behavior in a real
    browser before merging the activation PR.
-4. **Calculations windows:** the legacy shape-plot window now delegates
-   its `y` (time range) and `m` (performance model) query validation to
-   `RechenspielePlotSelection`. Its URLs, menus, and rendering remain in
-   the original PHP window; invalid or non-string parameters fall back to
-   `lasthalf` and `tsb`. Next, move the explanation fieldsets and shape plot
-   from the Rechenspiele PHP includes to dedicated modern services/templates.
-   Retain their URLs and model/time-range selections.
-   A new account-scoped repository method provides bounded plot activity
-   inputs but is not active in the legacy chart yet. The new
-   `RechenspieleShapeDailyAggregator` converts repository rows into
-   zero-filled daily TRIMP, distance, weighted VO2max and long-jog arrays,
-   including the historical warmup period. It is covered by isolated tests;
-   `RechenspieleShapeDataProvider` now connects that aggregator to the
-   account-scoped repository, validates date ranges, and applies calendar
-   bounds and activity dates in the account's timezone, including DST
-   changes and warmup days. Repository-backed regression tests now cover
-   local-midnight boundaries on the spring DST transition and both repeated
-   local hours on the autumn transition. These verify the new pipeline's
-   account-local grouping but do not establish visual or numerical parity
-   with legacy MySQL `FROM_UNIXTIME()`, which uses the database session
-   timezone. A MySQL-backed regression test now proves this difference
-   for a Berlin account near local midnight at the spring DST transition
-   and during a historical summer. A UTC session assigns the activity to
-   the previous calendar day. The legacy route initializes `Frontend`,
-   which sets the legacy PDO session to UTC via `Timezone::setMysql()`.
-   The production Doctrine connection also sets its own session to UTC.
-   A fixed `+01:00` offset matches the spring example but misses the
-   summer day boundary. The new path remains
-   inactive until the deployed legacy connection timezone is confirmed,
-   the intended account-local behavior is agreed upon and complete plot
-   output is compared. A staged
-   `RechenspieleShapeSeriesCalculator` now reuses the existing TSB/Banister
-   models to calculate ATL, CTL, TSB, TRIMP and rolling/daily VO2max series.
-   A staged `RechenspieleMarathonShapeSeriesCalculator` now prepares
-   weighted long-jog points and preceding mileage windows, delegating the
-   percentage calculation to the existing `Runalyze\\Sports\\Running\\MarathonShape`
-   and its Symfony BasicEndurance configuration. The legacy plot remains
-   unchanged. A standalone `RechenspieleShapePlotRenderer` now retains the
-   legacy series, axis configuration, colors and plot ID using the existing
-   `Plot` implementation. The staged `RechenspieleShapePlotDateRange`
-   now provides validated period boundaries, warmup and daily array indices
-   for all years, recent windows and individual years, including DST-safe
-   calendar arithmetic. `RechenspieleShapePlotTimestampMapper` maps the
-   daily-index series into local-noon Flot milliseconds, preserving calendar
-   days when clocks change.
-   `RechenspieleShapePlotSeriesAssembler` now aligns all calculated model,
-   VO2max and marathon-shape series to those timestamps without introducing
-   HTTP, database or presentation dependencies.
-   `RechenspieleShapePlotDataProvider` now coordinates account-specific
-   configuration, time selection, daily history, both calculation services
-   and timestamped series into one DI-backed, independently testable result.
-   The provider is read-only and does not persist recomputed ATL/CTL maxima.
-   `RechenspieleShapePlotOutputAdapter` now passes provider results to
-   the existing Flot renderer, including the legacy plot ID, selected
-   model, year bounds and future marking timestamps. This adapter is
-   staged and does not change the active HTTP route.
-   Activating the pipeline through the Symfony window route, verifying
-   database timezone parity against the live legacy output, and deciding
-   where historical maxima are persisted remain follow-ups.
-5. **Calculations administration:** migrate the four existing configuration
-   keys, provide modern metadata, and remove the final panel directory.
+4. **Calculations windows:** the shape-plot window is served by the Symfony
+   route `rechenspiele-shape-window` through `RechenspielePlotSelection`,
+   the account-scoped plot data provider chain and the
+   `RechenspieleShapePlotOutputAdapter`, retaining the legacy URLs, menus
+   and rendering. The explanation window is now served by the Symfony route
+   `rechenspiele-explanation-window` and renders
+   `@Rechenspiele/explanation-window.html.twig`; all three legacy fieldsets
+   (ATL/CTL/TSB, effective VO2max grid, marathon shape) are reproduced by
+   `RechenspieleExplanationWindowProvider` and the account-scoped
+   `TrainingRepository::findEffectiveVo2maxHistoryFor()` /
+   `findBasicEnduranceRunsFor()` queries, without legacy `Formular`
+   includes or direct database access.
+5. **Calculations administration:** `RechenspielePanelPresenter` implements
+   modern metadata and configuration interfaces with the stable plugin key.
+   The `@Rechenspiele/configuration.html.twig` editor preserves the four
+   boolean keys `show_trimpvalues`, `show_trimpvalues_extra`,
+   `show_vo2max` and `show_basicendurance`, including their defaults and
+   active-state management. The legacy panel directory, its class, its window
+   scripts and the superseded characterization test are removed; provider,
+   presenter, template, repository and controller tests cover the
+   replacement.
 6. **Final audit:** verify no `plugin/RunalyzePluginPanel_*` directories
    remain, check discovery/installation/configuration, run all plugin tests,
    `composer qa`, container linting, browser smoke checks and coverage gate.
 
-These phases may span multiple PRs. The Goals migration is implemented;
-Rechenspiele remains the last legacy panel.
+These phases may span multiple PRs. The Goals and Rechenspiele migrations are
+implemented; no `plugin/RunalyzePluginPanel_*` directories remain. The final
+audit (phase 6) is pending.
