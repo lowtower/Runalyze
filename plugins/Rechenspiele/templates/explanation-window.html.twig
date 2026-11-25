@@ -2,7 +2,7 @@
     <h1>{{ 'Explanation: How are these experimental values calculated?'|trans }}</h1>
 </div>
 <div class="panel-content">
-    <form id="rechenspiele-calculator" class="ajax no-automatic-reload" action="{{ path('rechenspiele-explanation-window') }}" method="get">
+    <form id="rechenspiele-calculator" class="ajax no-automatic-reload" action="/plugin/RunalyzePluginPanel_Rechenspiele/window.php" method="get">
         <fieldset>
             <legend>ATL/CTL/TSB</legend>
             <p>{{ 'ATL/CTL are based on the TRIMP-concept, which adresses an impulse value to every activity. ATL and CTL are averaged values over a given time range.'|trans }}</p>
@@ -42,7 +42,7 @@
                         <td>{{ 'Training Stress Balance'|trans }}</td>
                         <td class="c">{{ trimp.tsb }}</td>
                         <td colspan="3" class="c">{{ trimp.tsb_equation }}</td>
-                        <td class="small">{{ 'Current impulse<br>positive: recovery<br>negative: hard training'|trans|raw }}</td>
+                        <td class="small">{{ 'Current impulse<br>positive: recovery<br>negative: hard training'|trans }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -95,7 +95,7 @@
                         <td>&nbsp;</td>
                         <td><strong>{{ 'Target kilometer per week'|trans }}</strong> <small>{{ '%weeks% weeks'|trans({'%weeks%': basic_endurance.week_weeks}) }}</small></td>
                         <td class="r">{{ basic_endurance.week_target_km }}{{ basic_endurance.unit }}</td>
-                        <td class="small">{{ 'done by %d&#37;'|trans }}&nbsp;</td>
+                        <td class="small">{{ 'done by %d%'|trans }}&nbsp;</td>
                         <td class="small">({{ 'avg.'|trans }} {{ basic_endurance.week_avg_km }}{{ basic_endurance.unit }})</td>
                         <td class="small">x{{ basic_endurance.week_factor }}</td>
                         <td rowspan="2" class="bottom-spacer b" style="vertical-align:middle;">= {{ basic_endurance.percentage }}&#37;</td>
@@ -106,7 +106,7 @@
                         <td>&nbsp;</td>
                         <td>{{ '&lt;strong&gt;Target long run&lt;/strong&gt; &lt;small&gt;(%weeks% weeks)&lt;/small&gt;'|trans({'%weeks%': basic_endurance.longjog_weeks})|raw }}</td>
                         <td class="r">{{ basic_endurance.longjog_target_km }}{{ basic_endurance.unit }}</td>
-                        <td class="small">{{ 'done by %d&#37;'|trans }}&nbsp;</td>
+                        <td class="small">{{ 'done by %d%'|trans }}&nbsp;</td>
                         <td class="small">({{ basic_endurance.longjog_percentage }}&nbsp;&#37;)</td>
                         <td class="small">x{{ basic_endurance.longjog_factor }}</td>
                     </tr>
@@ -138,7 +138,7 @@
             </table>
             <p class="small">* {{ '* %d% &quot;long&quot; jogs do not show up, because they have less than 0.2 points.'|trans({'%d%': basic_endurance.ignored_runs})|raw }}</p>
             <p class="small">* {{ 'In general, all runs with more than %distance%%unit% are being considered.'|trans({'%distance%': basic_endurance.minimal_longjog_km, '%unit%': basic_endurance.unit})|raw }}</p>
-            <p>{{ 'The marathon shape is &lt;strong&gt;not&lt;/strong&gt; scientifically based.&lt;br&gt;It's our own attempt to adjust the prognosis for long distances based on your current endurance.'|trans|raw }}</p>
+            <p>{{ 'The marathon shape is &lt;strong&gt;not&lt;/strong&gt; scientifically based.&lt;br&gt;It\'s our own attempt to adjust the prognosis for long distances based on your current endurance.'|trans|raw }}</p>
         </fieldset>
     </form>
 </div>
