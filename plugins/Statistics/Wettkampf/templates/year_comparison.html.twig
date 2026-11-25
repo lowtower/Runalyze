@@ -1,0 +1,36 @@
+{% if comparison is not null %}
+    <table class="fullwidth zebra-style" id="race-year-comparison">
+        <thead>
+            <tr>
+                <th></th>
+                {% for year in comparison.totals|keys %}
+                    <th>{{ year }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for distance in comparison.distances %}
+                <tr class="r">
+                    <td class="b">{{ distance.label|raw }}</td>
+                    {% for year in comparison.totals|keys %}
+                        {% set cell = distance.cells[year] ?? null %}
+                        <td>
+                            {% if cell is null %}
+                                <em><small>---</small></em>
+                            {% else %}
+                                {% if cell.best %}<strong>{{ cell.time }}</strong>{% else %}{{ cell.time }}{% endif %}
+                                <small>{{ cell.count }}x</small>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            <tr class="top-spacer no-zebra r">
+                <td class="b">{{ 'In total'|trans }} <i class="fa fa-fw fa-info-circle" rel="tooltip" title="{{ 'This includes races of all distances, not only those selected for yearly comparison.'|trans }}"></i></td>
+                {% for total in comparison.totals %}
+                    <td>{{ total }}x</td>
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+{% endif %}

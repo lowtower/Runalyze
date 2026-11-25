@@ -1,0 +1,62 @@
+{% extends 'my/statistics/base.html.twig' %}
+
+{% block pluginTitle %}{{ 'Race results'|trans }}{% endblock %}
+
+{% block panelHeadingMenu %}
+    <ul>
+        <li><a class="triggered change" target="statistics-inner" href="#personal-bests">{{ 'Personal bests'|trans }}</a></li>
+        <li><a class="triggered change" target="statistics-inner" href="#all-competitions">{{ 'All race results'|trans }}</a></li>
+        {% if sport is not null %}
+            <li class="with-submenu">
+                <span class="link">{{ sport.name }}</span>
+                <ul class="submenu">
+                    {% for option in sports %}
+                        <li{% if option.id == sport.id %} class="active"{% endif %}>
+                            <a class="ajax" target="statistics-inner" href="{{ path('plugin-display', {id: pluginId, sport: option.id}) }}">{{ option.name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endif %}
+    </ul>
+{% endblock %}
+
+{% block panelContent %}
+    <div id="personal-bests" class="change">
+        {% include '@Wettkampf/race_table.html.twig' with {
+            tableId: 'pb-table', rows: bests, sport, pluginId, hasAgeGrade,
+            showHelp: races|length < 5, emptyMessage: 'There are no race results for the given distances.'|trans,
+        } only %}
+        <p class="info">
+            {{ 'This list shows all distances selected for yearly comparison or with at least two results.'|trans }}<br>
+            {{ 'Distances have to match exactly, especially 21.10 km and 42.20 km for (half-)marathons.'|trans }}
+        </p>
+        {% if isRunning %}
+            <div class="c blocklist blocklist-width-auto margin-top">
+                <a class="window" href="{{ path('race-results-performance-chart') }}"><i class="fa far fa-fw fa-tachometer-alt"></i> <strong>{{ 'Performance chart'|trans }}</strong></a>
+            </div>
+        {% endif %}
+        {% if plots is not empty %}
+            {% include '@Wettkampf/results_trend.html.twig' with {plots, activePlot} only %}
+        {% endif %}
+        {% include '@Wettkampf/year_comparison.html.twig' with {comparison} only %}
+    </div>
+    <div id="all-competitions" class="change" style="display:none;">
+        {% include '@Wettkampf/race_table.html.twig' with {
+            tableId: 'all-competitions-table', rows: races, sport, pluginId, hasAgeGrade,
+            showHelp: races|length < 5, emptyMessage: 'There are no races.'|trans,
+        } only %}
+        {% if weather is not empty %}
+            <strong>{{ 'Weather statistics'|trans }}:</strong>
+            {% for condition in weather %}
+                {{ condition.count }}x {{ condition.icon|raw }}{% if not loop.last %}, {% endif %}
+            {% endfor %}
+            <br><br>
+        {% endif %}
+    </div>
+    <script>
+        $(function() {
+            $("#pb-table, #all-competitions-table").tablesorterAutosort(true);
+        });
+    </script>
+{% endblock %}

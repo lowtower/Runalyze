@@ -1,0 +1,63 @@
+<table class="fullwidth zebra-style" id="{{ tableId }}">
+    <thead>
+        <tr class="c">
+            <th class="{sorter: false}" colspan="{{ hasAgeGrade ? 7 : 6 }}">{{ 'Official distance & time'|trans }}</th>
+            <th class="{sorter: false}" colspan="3">{{ 'Activity details'|trans }}</th>
+            <th class="{sorter: false}" colspan="3">{{ 'Placement'|trans }}</th>
+            <th class="{sorter: false}">&nbsp;</th>
+        </tr>
+        <tr class="c">
+            <th class="{sorter: false}">&nbsp;</th>
+            <th class="{sorter: 'germandate'}">{{ 'Date'|trans }}</th>
+            <th colspan="2">{{ 'Name'|trans }}</th>
+            <th class="{sorter: 'distance'}">{{ 'Distance'|trans }}</th>
+            <th class="{sorter: 'resulttime'}">{{ 'Time'|trans }}</th>
+            {% if hasAgeGrade %}
+                <th rel="tooltip" title="{{ 'Your result in proportion to the world best performance in your age/gender.'|trans }}">{{ 'Age grade'|trans }} <i class="fa fa-fw fa-info-circle"></i></th>
+            {% endif %}
+            <th>{{ 'Pace'|trans }}</th>
+            <th rel="tooltip" title="{{ 'Heart rate'|trans }}">{{ 'HR'|trans }}</th>
+            <th class="{sorter: 'temperature'}">{{ 'Weather'|trans }}</th>
+            <th>{{ 'Overall'|trans }}</th>
+            <th rel="tooltip" title="{{ 'Age group'|trans }}">{{ 'AG'|trans }}</th>
+            <th rel="tooltip" title="{{ 'male/female'|trans }}">{{ 'M/F'|trans }}</th>
+            <th class="{sorter: false}">&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in rows %}
+            <tr class="r">
+                <td>
+                    <a class="window" href="{{ path('raceresult-form', {activityId: row.id}) }}"><i class="fa fa-fw far fa-pencil-alt" rel="tooltip" title="{{ 'Edit the race result details'|trans }}"></i></a>
+                </td>
+                <td class="c small">{{ row.dateLink|raw }}</td>
+                <td>
+                    <a class="window" data-size="small" href="{{ path('activity-edit', {id: row.id}) }}"><i class="{{ sport.img }}" rel="tooltip" title="{{ 'Edit the activity'|trans }}"></i></a>
+                </td>
+                <td class="l"><strong><a class="training" href="{{ path('ActivityShow', {id: row.id}) }}" rel="{{ row.id }}">{{ row.name }}</a></strong></td>
+                <td>{{ row.distance|raw }}</td>
+                <td>{{ row.time }}</td>
+                {% if hasAgeGrade %}
+                    <td class="small"{% if row.gradeTooltip is not empty %} rel="tooltip" title="{{ row.gradeTooltip }}"{% endif %}>{{ row.grade }}</td>
+                {% endif %}
+                <td class="small">{{ row.pace|raw }}</td>
+                <td class="small">{{ row.heartRate }}</td>
+                <td class="small">{{ row.weather|raw }}</td>
+                <td>{{ row.overall|raw }}</td>
+                <td>{{ row.ageGroup|raw }}</td>
+                <td>{{ row.gender|raw }}</td>
+                <td>
+                    {% set toggle = (row.fun ? 'nofun-' : 'fun-') ~ row.id %}
+                    <a class="ajax" target="statistics-inner" href="{{ path('plugin-display', {id: pluginId, sport: sport.id, dat: toggle}) }}">
+                        <i class="fa fa-fw far fa-clock{% if row.fun %} unimportant{% endif %}" rel="tooltip" title="{{ row.fun ? "Fun race | Click to mark this activity as a 'normal race'."|trans : "Race | Click to mark this activity as a 'fun race'."|trans }}"></i>
+                    </a>
+                </td>
+            </tr>
+        {% else %}
+            <tr class="a"><td colspan="{{ hasAgeGrade ? 14 : 13 }}"><em>{{ emptyMessage }}</em></td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% if showHelp %}
+    <p class="info">{{ "You can mark any activity as race by checking the respective checkbox in the activity's form."|trans }}</p>
+{% endif %}

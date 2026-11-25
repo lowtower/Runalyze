@@ -58,6 +58,30 @@ final readonly class DoctrinePluginConfigurationStorage implements PluginConfigu
     }
 
     /**
+     * @param callable(string): string $change
+     */
+    public function changeValue(Plugin $installation, string $key, callable $change): void
+    {
+        $this->entityManager->wrapInTransaction(function (EntityManagerInterface $entityManager) use ($installation, $key, $change): void {
+            $entityManager->lock($installation, LockMode::PESSIMISTIC_WRITE);
+            $setting = $this->repository->findOneBy([
+                'plugin' => $installation,
+                'config' => $key,
+            ]);
+
+            if ($setting instanceof PluginConf) {
+                $entityManager->refresh($setting);
+                $setting->setValue($change($setting->getValue()));
+            } else {
+                $entityManager->persist(new PluginConf()
+                    ->setPlugin($installation)
+                    ->setConfig($key)
+                    ->setValue($change('')));
+            }
+        });
+    }
+
+    /**
      * @param array<string, string> $values
      */
     public function saveValues(Plugin $installation, array $values): void

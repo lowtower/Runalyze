@@ -10,6 +10,13 @@ use Runalyze\Bundle\CoreBundle\Entity\Sport;
 
 /**
  * @extends ServiceEntityRepository<Raceresult>
+ * @phpstan-type RaceStatisticsRow array{
+ *     officialTime: float, officialDistance: ?float, name: string,
+ *     placeTotal: ?int, placeGender: ?int, placeAgeclass: ?int,
+ *     participantsTotal: ?int, participantsGender: ?int, participantsAgeclass: ?int,
+ *     id: int, time: int, isTrack: bool, pulseAvg: ?int, pulseMax: ?int,
+ *     weatherid: int, temperature: ?int, isNight: ?bool
+ * }
  */
 class RaceresultRepository extends ServiceEntityRepository
 {
@@ -112,6 +119,77 @@ class RaceresultRepository extends ServiceEntityRepository
             ],
             $rows
         );
+    }
+
+    /**
+     * @return list<RaceStatisticsRow>
+     */
+    public function findForStatistics(Account $account, int $sportId): array
+    {
+        return $this->createQueryBuilder('race')
+            ->select(
+                'race.officialTime AS officialTime',
+                'race.officialDistance AS officialDistance',
+                'race.name AS name',
+                'race.placeTotal AS placeTotal',
+                'race.placeGender AS placeGender',
+                'race.placeAgeclass AS placeAgeclass',
+                'race.participantsTotal AS participantsTotal',
+                'race.participantsGender AS participantsGender',
+                'race.participantsAgeclass AS participantsAgeclass',
+                'activity.id AS id',
+                'activity.time AS time',
+                'activity.isTrack AS isTrack',
+                'activity.pulseAvg AS pulseAvg',
+                'activity.pulseMax AS pulseMax',
+                'activity.weatherid AS weatherid',
+                'activity.temperature AS temperature',
+                'activity.isNight AS isNight'
+            )
+            ->join('race.activity', 'activity')
+            ->where('race.account = :account')
+            ->andWhere('activity.account = :account')
+            ->andWhere('activity.sport = :sport')
+            ->setParameter('account', $account)
+            ->setParameter('sport', $sportId)
+            ->orderBy('activity.time', \SortDirection::Descending)
+            ->getQuery()
+            ->getArrayResult();
+    }
+
+    /**
+     * @return array<int, int>
+     */
+    public function countWeatherConditionsForStatistics(Account $account): array
+    {
+        $rows = $this->createQueryBuilder('race')
+            ->select('activity.weatherid AS condition', 'COUNT(activity.id) AS total')
+            ->join('race.activity', 'activity')
+            ->where('race.account = :account')
+            ->andWhere('activity.account = :account')
+            ->andWhere('activity.weatherid <> :unknown')
+            ->setParameter('account', $account)
+            ->setParameter('unknown', \Runalyze\Profile\Weather\WeatherConditionProfile::UNKNOWN)
+            ->groupBy('activity.weatherid')
+            ->orderBy('activity.weatherid', \SortDirection::Ascending)
+            ->getQuery()
+            ->getArrayResult();
+
+        return array_column($rows, 'total', 'condition');
+    }
+
+    public function hasRaceForActivity(Account $account, int $activityId): bool
+    {
+        return (bool) $this->createQueryBuilder('race')
+            ->select('COUNT(activity.id)')
+            ->join('race.activity', 'activity')
+            ->where('race.account = :account')
+            ->andWhere('activity.account = :account')
+            ->andWhere('activity.id = :activity')
+            ->setParameter('account', $account)
+            ->setParameter('activity', $activityId)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     public function findForSportAndYear(Account $account, Sport $sport, int $year): array

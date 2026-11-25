@@ -14,6 +14,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Equipment;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Entity\PluginConf;
+use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
 use Runalyze\Bundle\CoreBundle\Entity\Route;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Tag;
@@ -23,6 +24,7 @@ use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
 use Runalyze\Dataset\Keys;
 use Runalyze\Parameter\Application\Timezone;
+use Runalyze\Profile\Athlete\Gender;
 use Runalyze\Profile\Sport\SportProfile;
 use Runalyze\Profile\Weather\WeatherConditionProfile;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -1389,6 +1391,138 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $page = $this->Client->request('GET', $url);
         $this->assertStatusCode(200, $this->Client);
         $this->assertCount(0, $page->filter('#statistics-years'));
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testRaceStatisticsPreserveBestsTrendsSettingsAndOwnedFunRaceMarkers(): void
+    {
+        $entityManager = $this->getEntityManager();
+        $other = $this->registerUniqueAccount();
+        $account = $entityManager->find(Account::class, $this->Account->getId());
+        $account->setGender(Gender::FEMALE)->setBirthyear(1985);
+        $sports = $entityManager->getRepository(Sport::class);
+        $running = $sports->findInternalIdFor(SportProfile::RUNNING, $account);
+        $cycling = $sports->findInternalIdFor(SportProfile::CYCLING, $account);
+        $foreignRunning = $sports->findInternalIdFor(SportProfile::RUNNING, $other);
+        $plugin = $entityManager->getRepository(Plugin::class)->findForAccountAndKey($account, 'RunalyzePluginStat_Wettkampf');
+        $id = $plugin->getId();
+        $activities = [];
+        foreach ([
+            [$account, $running, '2025-02-09', 10.0, 3200.0, 'Spring <race>'],
+            [$account, $running, '2024-01-01', 10.0, 3500.0, 'Winter race'],
+            [$account, $running, '2025-02-10', 7.0, 2400.0, 'Single distance'],
+            [$account, $cycling, '2025-02-09', 10.0, 1600.0, 'Cycling race'],
+            [$other, $foreignRunning, '2025-02-10', 10.0, 1950.0, 'Foreign race'],
+        ] as [$owner, $sport, $date, $km, $seconds, $name]) {
+            $activity = new Training()->setAccount($owner)->setSport($sport)->setTime(strtotime($date . ' UTC'))
+                ->setS($seconds)->setDistance($km)->setWeatherid(WeatherConditionProfile::SUNNY);
+            $race = new Raceresult()->fillFromActivity($activity)->setName($name)->setPlaceTotal(3)->setParticipantsTotal(100);
+            $entityManager->persist($activity);
+            $entityManager->persist($race);
+            $activities[] = $activity;
+        }
+
+        $entityManager->flush();
+        $otherResult = $activities[4]->getId();
+        $funId = $activities[0]->getId();
+        $winterId = $activities[1]->getId();
+        $configuration = $entityManager->getRepository(PluginConf::class);
+        $entityManager->persist(new PluginConf()->setPlugin($plugin)->setConfig('fun_ids')->setValue((string) $winterId));
+        $entityManager->flush();
+
+        $this->loginClient($this->Client, $account, 'default');
+        $url = '/my/plugin/' . $id;
+        $dashboard = $this->Client->request('GET', '/dashboard?pluginid=' . $id);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame('Spring <race>', $dashboard->filter('#pb-table a.training')->text());
+        $this->assertCount(3, $dashboard->filter('#all-competitions-table a.training'));
+        $this->assertStringContainsString('Age grade', $dashboard->filter('#pb-table thead')->text());
+        $this->assertStringContainsString('3.', $dashboard->filter('#pb-table tbody')->text());
+        $this->assertSame('53:20', $dashboard->filter('#race-year-comparison td strong')->text());
+        $this->assertSame('2x', $dashboard->filter('#race-year-comparison tr.no-zebra td')->last()->text());
+        $this->assertStringContainsString('4x', $dashboard->filter('#all-competitions')->text());
+        $points = $this->plotData((string) $this->Client->getResponse()->getContent(), 'bestzeit10000');
+        $this->assertSame([[strtotime('2025-02-09 UTC') * 1000, 3200000]], array_first($points));
+
+        $fragment = $this->Client->xmlHttpRequest('GET', $url . '?sport=' . $cycling->getId());
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame('Cycling race', $fragment->filter('#all-competitions-table a.training')->text());
+        $this->assertStringNotContainsString('Age grade', $fragment->filter('#pb-table thead')->text());
+
+        foreach (['fun-' . $otherResult, 'fun-abc', 'fun-' . $funId . '-extra'] as $invalid) {
+            $this->Client->xmlHttpRequest('GET', $url . '?dat=' . $invalid);
+            $this->assertStatusCode(200, $this->Client);
+        }
+
+        $this->assertSame((string) $winterId, $configuration->findValuesForPlugins([$id])[$id]['fun_ids']);
+
+        for ($attempt = 0; $attempt < 2; ++$attempt) {
+            $fragment = $this->Client->xmlHttpRequest('GET', $url . '?dat=fun-' . $funId);
+            $this->assertStatusCode(200, $this->Client);
+            $this->assertCount(2, $fragment->filter('#pb-table a[href*="dat=nofun-"], #all-competitions-table a[href*="dat=nofun-' . $funId . '"]'));
+        }
+
+        $this->assertSame($winterId . ', ' . $funId, $configuration->findValuesForPlugins([$id])[$id]['fun_ids']);
+        $points = $this->plotData((string) $this->Client->getResponse()->getContent(), 'bestzeit10000');
+        $this->assertSame([], array_first($points));
+
+        $this->Client->xmlHttpRequest('GET', $url . '?dat=nofun-' . $winterId);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame((string) $funId, $configuration->findValuesForPlugins([$id])[$id]['fun_ids']);
+
+        $this->Client->xmlHttpRequest('POST', '/call/call.Plugin.config.php?id=' . $id, [
+            'edit' => 'true',
+            'main_distance' => '7',
+            'pb_distances' => '7, 10',
+        ]);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame('7, 10', $configuration->findValuesForPlugins([$id])[$id]['pb_distances']);
+
+        $fragment = $this->Client->xmlHttpRequest('GET', $url);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertCount(2, $fragment->filter('#pb-table a.training'));
+        $this->assertCount(1, $fragment->filter('#bestzeit7000:not(.flot-hide)'));
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testSharedRaceComparisonUsesTheOwnerAndRequiresTheRacePlugin(): void
+    {
+        $entityManager = $this->getEntityManager();
+        $visitor = $this->registerUniqueAccount();
+        $owner = $entityManager->find(Account::class, $this->Account->getId());
+        $sports = $entityManager->getRepository(Sport::class);
+        $ownerSport = $sports->findInternalIdFor(SportProfile::RUNNING, $owner);
+        $visitorSport = $sports->findInternalIdFor(SportProfile::RUNNING, $visitor);
+        $plugin = $entityManager->getRepository(Plugin::class)->findForAccountAndKey($owner, 'RunalyzePluginStat_Wettkampf');
+        $entityManager->persist(new PluginConf()->setPlugin($plugin)->setConfig('pb_distances')->setValue('10'));
+        foreach (['TRAINING_LIST_PUBLIC', 'TRAINING_LIST_STATISTICS'] as $key) {
+            $entityManager->persist(new Conf()->setAccount($owner)->setCategory('privacy')->setKey($key)->setValue('true'));
+        }
+
+        foreach ([[$owner, $ownerSport, 3300.0], [$visitor, $visitorSport, 1800.0]] as [$account, $sport, $seconds]) {
+            $activity = new Training()->setAccount($account)->setSport($sport)->setTime(strtotime('2025-01-01 UTC'))
+                ->setS($seconds)->setDistance(10.0);
+            $entityManager->persist($activity);
+            $entityManager->persist(new Raceresult()->fillFromActivity($activity)->setName('Private race name'));
+        }
+
+        $entityManager->flush();
+        $url = '/athlete/' . $owner->getUserIdentifier();
+        $this->loginClient($this->Client, $visitor, 'default');
+        $page = $this->Client->request('GET', $url . '?sport=' . $visitorSport->getId());
+        $this->assertStatusCode(200, $this->Client);
+        $comparison = $page->filter('#statistics-years #race-year-comparison');
+        $this->assertSame('55:00', $comparison->filter('strong')->text());
+        $this->assertSame('1x', $comparison->filter('tr.no-zebra td')->last()->text());
+        $this->assertStringNotContainsString('Private race name', $comparison->text());
+
+        $entityManager->remove($entityManager->find(Plugin::class, $plugin->getId()));
+        $entityManager->flush();
+
+        $page = $this->Client->request('GET', $url);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertCount(0, $page->filter('#race-year-comparison'));
+        $this->assertStringContainsString('No data available.', $page->filter('#statistics-years')->text());
     }
 
     /**
