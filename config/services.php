@@ -247,6 +247,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Trainingspartner/config/services.php');
     $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Trainingszeiten/config/services.php');
     $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Wetter/config/services.php');
+    $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Wettkampf/config/services.php');
 
     $containerConfigurator->import(__DIR__ . '/../plugins/Equipment/config/services.php');
     $containerConfigurator->import(__DIR__ . '/../plugins/Goals/config/services.php');

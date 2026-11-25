@@ -61,6 +61,9 @@ class PluginConfRepository extends EntityRepository
         $this->getEntityManager()->flush();
     }
 
+    /**
+     * @return list<int>
+     */
     public function getAllActivityIdsOfFunRaces(Account $account): array
     {
         try {
@@ -79,8 +82,16 @@ class PluginConfRepository extends EntityRepository
             return [];
         }
 
-        return array_filter(
-            array_map(fn ($id): int => (int) trim($id), explode(',', $result))
-        );
+        return self::parseActivityIds($result);
+    }
+
+    /**
+     * @return list<int>
+     */
+    public static function parseActivityIds(string $value): array
+    {
+        $ids = array_map(static fn (string $id): int => (int) trim($id), explode(',', $value));
+
+        return array_values(array_unique(array_filter($ids, static fn (int $id): bool => $id > 0)));
     }
 }

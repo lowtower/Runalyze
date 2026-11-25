@@ -1,0 +1,21 @@
+{% extends 'my/statistics/configuration.html.twig' %}
+
+{% block pluginConfiguration %}
+    <form class="ajax no-automatic-reload" action="{{ path('plugin-config', {id: plugin_id}) }}" method="post">
+        <input type="hidden" name="edit" value="true">
+        <fieldset>
+            <legend>{{ 'Configuration'|trans }}</legend>
+            <div class="w100 block">
+                <label for="race-main-distance">{{ 'Main distance'|trans }} ({{ config_data.unit }})</label>
+                <input id="race-main-distance" name="main_distance" value="{{ config_data.mainDistance }}" type="number" min="0.01" step="0.01">
+            </div>
+            <div class="w100 block">
+                <label for="race-pb-distances">{{ 'Distances for yearly comparison'|trans }} ({{ config_data.unit }})</label>
+                <input id="race-pb-distances" name="pb_distances" value="{{ config_data.distances }}" type="text">
+            </div>
+            <div class="w100 block">
+                <input type="submit" value="{{ 'Save'|trans }}">
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}

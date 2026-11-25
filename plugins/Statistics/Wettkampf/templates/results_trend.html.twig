@@ -1,0 +1,27 @@
+<div class="databox" style="float:none;padding:0;width:490px;margin:20px auto;">
+    <div class="panel-heading">
+        <div class="panel-menu">
+            <ul>
+                <li class="with-submenu">
+                    {% for plot in plots %}
+                        {% if plot.km == activePlot %}<span class="link">{{ plot.name|raw }}</span>{% endif %}
+                    {% endfor %}
+                    <ul class="submenu">
+                        {% for plot in plots %}
+                            <li><span class="link flotChanger-bestzeitenFlots flotChanger-id-{{ plot.id }}" onclick="Runalyze.flotChange('bestzeitenFlots','{{ plot.id }}')">{{ plot.name|raw }}</span></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <h1>{{ 'Results trend'|trans }}</h1>
+    </div>
+    <div class="panel-content">
+        <div id="bestzeitenFlots" class="flot-changeable" style="position:relative;width:482px;height:192px;">
+            {% for plot in plots %}
+                <div id="{{ plot.id }}" class="flot wait-img{% if plot.km != activePlot %} flot-hide{% endif %}" style="position:absolute;width:480px;height:190px;"></div>
+                {{ plot.javascript|raw }}
+            {% endfor %}
+        </div>
+    </div>
+</div>

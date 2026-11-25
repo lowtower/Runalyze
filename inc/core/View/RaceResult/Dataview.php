@@ -65,7 +65,7 @@ class Dataview
      */
     public function placementTotalWithTooltip(): string
     {
-        return $this->placementWithTooltip(
+        return self::placementWithTooltip(
             (int) $this->RaceResult->placeTotal(),
             (int) $this->RaceResult->participantsTotal(),
             __('of %u overall')
@@ -77,7 +77,7 @@ class Dataview
      */
     public function placementAgeClassWithTooltip(): string
     {
-        return $this->placementWithTooltip(
+        return self::placementWithTooltip(
             (int) $this->RaceResult->placeAgeclass(),
             (int) $this->RaceResult->participantsAgeclass(),
             __('of %u in your age group')
@@ -89,7 +89,7 @@ class Dataview
      */
     public function placementGenderWithTooltip(): string
     {
-        return $this->placementWithTooltip(
+        return self::placementWithTooltip(
             (int) $this->RaceResult->placeGender(),
             (int) $this->RaceResult->participantsGender(),
             __('of %u men/women')
@@ -133,7 +133,7 @@ class Dataview
      * Place with tooltip "of x"
      * @param string $sprintfString must contain "%u"
      */
-    public function placementWithTooltip(?int $place, ?int $participants, string $sprintfString, string $unknownString = '-'): string
+    public static function placementWithTooltip(?int $place, ?int $participants, string $sprintfString, string $unknownString = '-'): string
     {
         if ($place === null) {
             return $unknownString;
