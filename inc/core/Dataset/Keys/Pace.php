@@ -130,7 +130,7 @@ class Pace extends AbstractKey
      */
     public function valueDependendCssStyle(Context $context): ?array
     {
-        if (! array_key_exists($context->Sport()->getInternalProfileEnum(), self::P_MIN_MAX)) {
+        if (! $context->hasSport() || ! array_key_exists($context->sport()->getInternalProfileEnum(), self::P_MIN_MAX)) {
             return null;
         }
 

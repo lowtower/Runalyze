@@ -17,10 +17,12 @@ use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\PrivacyGuard;
 use Runalyze\Bundle\CoreBundle\Services\SharedAthleteStatisticsProvider;
 use Runalyze\Export\Share\Facebook;
+use Runalyze\Plugins\Statistics\Statistiken\SummaryTableProvider;
 use Runalyze\View\Activity\Context;
 use Runalyze\View\Activity\Feed;
 use Runalyze\View\Activity\Linker;
 use Runalyze\View\Leaflet\Activity;
+use SharedLinker;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -132,21 +134,21 @@ class SharedController extends AbstractController
     }
 
     #[Route(path: '/athlete/{username}', name: 'shared-athlete', methods: ['GET'])]
-    public function sharedUserAction(string $username, Request $request): Response
+    public function sharedUserAction(string $username, Request $request, SummaryTableProvider $summaryTables): Response
     {
         /** @var AccountRepository $repository */
         $repository = $this->doctrine
             ->getRepository(Account::class);
         $account = $repository->findForUsername($username);
-        $privacy = $this->configurationManager
-            ->getList($account)
-            ->getPrivacy();
+        $configuration = $this->configurationManager->getList($account);
+        $privacy = $configuration->getPrivacy();
 
         if ($account === null || ! $privacy->isListPublic()) {
             return $this->render('shared/invalid_athlete.html.twig');
         }
 
         $request->query->set('user', $username);
+        $request->attributes->set(SharedLinker::ACCOUNT_ATTRIBUTE, $account->getId());
 
         new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack, isSharedPage: true);
 
@@ -160,7 +162,7 @@ class SharedController extends AbstractController
         if ($privacy->isListWithStatistics()) {
             $accountStatistics = $this->getTrainingRepository()
                 ->getAccountStatistics($account);
-            $yearComparisonTable = $this->sharedAthleteStatisticsProvider->getYearComparisonTable($account);
+            $yearComparisonTable = $summaryTables->years($account, $configuration->getGeneral()->getRunningSport(), public: true);
             $tabForComparisonOfYears = $this->sharedAthleteStatisticsProvider->getTabForComparisonOfYears($account);
             $publicList = $this->configurationManager
                 ->getList($account)

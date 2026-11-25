@@ -59,13 +59,7 @@ final readonly class StatisticsFilterFactory
     {
         $yearParameter = $query->getString('jahr');
 
-        // Activity timestamps represent local calendar dates in UTC, without an offset.
-        $timezone = $account->getTimezone();
-        $timezoneName = Timezone::isValidValue($timezone) ? Timezone::getFullNameByEnum($timezone) : date_default_timezone_get();
-        $localDate = $this->clock->now()
-            ->setTimezone(new DateTimeZone($timezoneName))
-            ->format('Y-m-d');
-        $today = new DateTimeImmutable($localDate, new DateTimeZone('UTC'));
+        $today = $this->todayFor($account);
         $currentYear = (int) $today->format('Y');
         $firstActivity = $this->trainingRepository->getStartTime($account);
         $firstYear = $firstActivity === null ? $currentYear : min($currentYear, (int) gmdate('Y', $firstActivity));
@@ -101,5 +95,15 @@ final readonly class StatisticsFilterFactory
             'from' => $from,
             'until' => $until,
         ];
+    }
+
+    public function todayFor(Account $account): DateTimeImmutable
+    {
+        // Activity timestamps represent local calendar dates in UTC, without an offset.
+        $timezone = $account->getTimezone();
+        $timezoneName = Timezone::isValidValue($timezone) ? Timezone::getFullNameByEnum($timezone) : date_default_timezone_get();
+        $localDate = $this->clock->now()->setTimezone(new DateTimeZone($timezoneName))->format('Y-m-d');
+
+        return new DateTimeImmutable($localDate, new DateTimeZone('UTC'));
     }
 }

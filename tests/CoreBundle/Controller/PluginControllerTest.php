@@ -9,6 +9,7 @@ use DateTimeZone;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Conf;
+use Runalyze\Bundle\CoreBundle\Entity\Dataset;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
@@ -20,6 +21,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
+use Runalyze\Dataset\Keys;
 use Runalyze\Parameter\Application\Timezone;
 use Runalyze\Profile\Sport\SportProfile;
 use Runalyze\Profile\Weather\WeatherConditionProfile;
@@ -1214,6 +1216,179 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStatusCode(200, $this->Client);
         $this->assertCount(1, $empty->filter('#year2000'));
         $this->assertStringContainsString('No data available.', (string) $this->Client->getResponse()->getContent());
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testSummaryStatisticsUseCalendarMonthsAndYearsAndPreserveDatasetColumns(): void
+    {
+        $entityManager = $this->getEntityManager();
+        $other = $this->registerUniqueAccount();
+        $account = $entityManager->find(Account::class, $this->Account->getId());
+        $plugin = $entityManager->getRepository(Plugin::class)->findOneBy([
+            'account' => $account,
+            'key' => 'RunalyzePluginStat_Statistiken',
+        ]);
+        $sports = $entityManager->getRepository(Sport::class);
+        $running = $sports->findInternalIdFor(SportProfile::RUNNING, $account);
+        $cycling = $sports->findInternalIdFor(SportProfile::CYCLING, $account);
+        $foreign = $sports->findInternalIdFor(SportProfile::RUNNING, $other);
+        $entityManager->persist(new Dataset()->setAccount($account)->setKeyId(Keys::DISTANCE)->setStyle('font-weight:bold;'));
+        $entityManager->persist(new Dataset()->setAccount($account)->setKeyId(Keys::HEARTRATE_AVG)->setPosition(1));
+        $entityManager->persist(new Dataset()->setAccount($account)->setKeyId(Keys::PACE)->setPosition(2));
+        $entityManager->persist(new Dataset()->setAccount($account)->setKeyId(Keys::TEMPERATURE)->setActive(false)->setPosition(3));
+
+        foreach ([
+            [$account, $running, '2024-12-31 23:59:59', 24.0, 3000, null],
+            [$account, $running, '2025-01-01 00:00:00', 10.0, 1000, 101],
+            [$account, $running, '2025-01-31 23:59:59', 20.0, 2000, 151],
+            [$account, $running, '2025-02-01 00:00:00', 45.0, 4500, null],
+            [$account, $cycling, '2025-01-01 00:00:00', 99.0, 9900, null],
+            [$other, $foreign, '2025-01-01 12:00:00', 500.0, 10000, null],
+        ] as [$owner, $sport, $date, $distance, $duration, $heartRate]) {
+            $entityManager->persist(new Training()->setAccount($owner)->setSport($sport)->setTime(strtotime($date . ' UTC'))
+                ->setS($duration)->setDistance($distance)->setPulseAvg($heartRate));
+        }
+
+        $entityManager->flush();
+        $id = $plugin->getId();
+        $this->loginClient($this->Client, $account, 'default');
+        $dashboard = $this->Client->request('GET', '/dashboard?pluginid=' . $id . '&jahr=2025');
+        $this->assertStatusCode(200, $this->Client);
+        $monthly = $dashboard->filter('#statistics-inner .summary-month');
+        $this->assertCount(12, $monthly->filter('tbody tr'));
+        $this->assertCount(0, $dashboard->filter('#statistics-inner .summary-week'));
+        $january = $monthly->filter('tbody tr')->last();
+        $this->assertSame('January', $january->filter('a')->text());
+        $this->assertSame('2x', $january->filter('td')->eq(1)->text());
+        $this->assertStringContainsString('30,0', $january->filter('td[style="font-weight:bold;"]')->text());
+        $this->assertSame("67\u{00a0}%", $january->filter('td')->eq(3)->text());
+        $february = $monthly->filter('tbody tr')->eq(10);
+        $this->assertStringContainsString('+50', $february->filter('td')->eq(2)->text());
+        parse_str((string) parse_url($january->filter('a')->link()->getUri(), PHP_URL_QUERY), $parameters);
+        $this->assertSame((string) strtotime('2025-01-01 UTC'), $parameters['start']);
+        $this->assertSame((string) strtotime('2025-01-31 23:59:59 UTC'), $parameters['end']);
+        $this->assertSame((string) $running->getId(), $parameters['sport']);
+
+        $display = '/my/plugin/' . $id;
+        $all = $this->Client->xmlHttpRequest('GET', $display . '?jahr=2025&sport=-1');
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('129,0', $all->filter('.summary-month tbody tr')->last()->text());
+        $years = $this->Client->xmlHttpRequest('GET', $display . '?jahr=-1');
+        $this->assertStatusCode(200, $this->Client);
+        $yearRows = $years->filter('.summary-year tbody tr');
+        $this->assertStringContainsString('24,0', $yearRows->last()->text());
+        $this->assertStringContainsString('75,0', $yearRows->reduce(static fn ($row): bool => $row->filter('a')->text() === '2025')->text());
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testSummaryStatisticsSupportTrainingWeeksStreaksAndSavedSettings(): void
+    {
+        $account = $this->Account->setTimezone(Timezone::UTC);
+        $entityManager = $this->getEntityManager();
+        $plugin = $entityManager->getRepository(Plugin::class)->findOneBy([
+            'account' => $account,
+            'key' => 'RunalyzePluginStat_Statistiken',
+        ]);
+        $sports = $entityManager->getRepository(Sport::class);
+        $running = $sports->findInternalIdFor(SportProfile::RUNNING, $account);
+        $cycling = $sports->findInternalIdFor(SportProfile::CYCLING, $account);
+        $entityManager->persist(new PluginConf()->setPlugin($plugin)->setConfig('show_streak_days')->setValue('3'));
+        $entityManager->persist(new Conf()->setAccount($account)->setCategory('general')->setKey('WEEK_START')->setValue('0'));
+
+        $today = new DateTimeImmutable('today', new DateTimeZone('UTC'));
+        foreach ([
+            [$running, $today->modify('-2 days')->getTimestamp()],
+            [$running, $today->modify('-1 day')->getTimestamp()],
+            [$running, $today->modify('-1 day +12 hours')->getTimestamp()],
+            [$running, $today->modify('+1 day')->getTimestamp()],
+            [$cycling, $today->getTimestamp()],
+            [$running, strtotime('2024-12-29 00:00:00 UTC')],
+            [$running, strtotime('2025-01-04 23:59:59 UTC')],
+            [$running, strtotime('2025-01-05 00:00:00 UTC')],
+        ] as [$sport, $time]) {
+            $entityManager->persist(new Training()->setAccount($account)->setSport($sport)->setTime($time)->setS(1800)->setDistance(5.0));
+        }
+
+        $entityManager->flush();
+        $id = $plugin->getId();
+        $this->loginClient($this->Client, $account, 'default');
+        $url = '/my/plugin/' . $id;
+        $overview = $this->Client->xmlHttpRequest('GET', $url);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertCount(6, $overview->filter('.summary-month tbody tr'));
+        $this->assertCount(10, $overview->filter('.summary-week tbody tr'));
+        $this->assertSame('If you run today: 3 days of running since ' . $today->modify('-2 days')->format('d.m.Y'), $overview->filter('.summary-streak')->text());
+        $weeks = $this->Client->xmlHttpRequest('GET', $url . '?jahr=2025&dat=allWeeks');
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertCount(0, $weeks->filter('.summary-month, .summary-streak'));
+        $this->assertSame('All training weeks 2025', $weeks->filter('.summary-week th')->text());
+        $first = $weeks->filter('.summary-week tbody tr')->last();
+        $this->assertSame('Week 1', $first->filter('a')->text());
+        $this->assertSame('29.12 - 04.01', $first->filter('td')->first()->filter('span')->text());
+        $this->assertSame('2x', $first->filter('td')->eq(1)->text());
+
+        $config = '/call/call.Plugin.config.php?id=' . $id;
+        $configuration = $this->Client->xmlHttpRequest('GET', $config);
+        $this->assertSame('3', $configuration->filter('input[name=show_streak_days]')->attr('value'));
+        $this->Client->xmlHttpRequest('POST', $config, [
+            'edit' => 'true',
+            'show_streak_days' => '7',
+        ]);
+        $this->assertStatusCode(200, $this->Client);
+        $settings = $entityManager->getRepository(PluginConf::class)->findValuesForPlugins([$id])[$id];
+        $this->assertSame('0', $settings['compare_weeks']);
+        $this->assertSame('0', $settings['show_streak']);
+        $this->assertSame('7', $settings['show_streak_days']);
+        $overview = $this->Client->xmlHttpRequest('GET', $url);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertCount(0, $overview->filter('.summary-streak, .summary-table td small'));
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testSharedAthleteYearSummaryUsesTheOwnersDatasetAndSharingSettings(): void
+    {
+        $entityManager = $this->getEntityManager();
+        $visitor = $this->registerUniqueAccount();
+        $owner = $entityManager->find(Account::class, $this->Account->getId());
+        $sports = $entityManager->getRepository(Sport::class);
+        $running = $sports->findInternalIdFor(SportProfile::RUNNING, $owner);
+        $cycling = $sports->findInternalIdFor(SportProfile::CYCLING, $owner);
+        $visitorRunning = $sports->findInternalIdFor(SportProfile::RUNNING, $visitor);
+        $sharing = new Conf()->setAccount($owner)->setCategory('privacy')->setKey('TRAINING_LIST_STATISTICS')->setValue('true');
+        $entityManager->persist($sharing);
+        $entityManager->persist(new Conf()->setAccount($owner)->setCategory('privacy')->setKey('TRAINING_LIST_PUBLIC')->setValue('true'));
+        $entityManager->persist(new Dataset()->setAccount($owner)->setKeyId(Keys::DISTANCE)->setPrivacy(true));
+        $entityManager->persist(new Dataset()->setAccount($owner)->setKeyId(Keys::DURATION)->setPrivacy(false)->setPosition(1));
+
+        foreach ([
+            [$owner, $running, 3.0, true],
+            [$owner, $running, 7.0, false],
+            [$owner, $cycling, 99.0, true],
+            [$visitor, $visitorRunning, 50.0, true],
+        ] as [$account, $sport, $distance, $public]) {
+            $entityManager->persist(new Training()->setAccount($account)->setSport($sport)->setTime(strtotime('2025-01-01 08:00:00 UTC'))
+                ->setS(1800)->setDistance($distance)->setIsPublic($public));
+        }
+
+        $entityManager->flush();
+        $url = '/athlete/' . $owner->getUserIdentifier();
+        $this->loginClient($this->Client, $visitor, 'default');
+        $page = $this->Client->request('GET', $url . '?_shared_athlete_account_id=' . $visitor->getId());
+        $this->assertStatusCode(200, $this->Client);
+        $year = $page->filter('#statistics-years .summary-year tbody tr')->reduce(static fn ($row): bool => $row->filter('a')->text() === '2025');
+        $this->assertSame('publicList', $year->filter('a')->attr('target'));
+        $this->assertStringContainsString($url, (string) $year->filter('a')->attr('href'));
+        $this->assertSame('2x', $year->filter('td')->eq(1)->text());
+        $this->assertCount(4, $year->filter('td'));
+        $this->assertStringContainsString('10,0', $year->filter('td')->last()->text());
+
+        $sharing = $entityManager->find(Conf::class, $sharing->getId());
+        $sharing->setValue('false');
+
+        $entityManager->flush();
+        $page = $this->Client->request('GET', $url);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertCount(0, $page->filter('#statistics-years'));
     }
 
     /**

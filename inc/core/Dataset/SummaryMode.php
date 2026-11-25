@@ -64,7 +64,7 @@ final class SummaryMode extends AbstractEnum
      * @param string $key key of database column
      * @return string query part to select column
      */
-    public static function query(int $mode, string $key): string
+    public static function query(int $mode, string $key, ?bool $elevationCorrection = null): string
     {
         return match ($mode) {
             self::AVG => self::queryForAvg($key),
@@ -72,7 +72,7 @@ final class SummaryMode extends AbstractEnum
             self::MAX => self::queryForMax($key),
             self::MIN => self::queryForMin($key),
             self::AVG_WITHOUT_NULL => self::queryForAvgWithoutNull($key),
-            self::VO2MAX => self::queryForVO2max($key),
+            self::VO2MAX => self::queryForVO2max($key, $elevationCorrection ?? \Runalyze\Configuration::VO2max()->useElevationCorrection()),
             self::AVG_WITH_ZERO => self::queryForAvgWithZero($key),
             default => '',
         };
@@ -84,7 +84,7 @@ final class SummaryMode extends AbstractEnum
             return implode(', ', array_map(self::queryForAvg(...), $key));
         }
 
-        return 'SUM(`s`*`' . $key . '`*(`' . $key . '` != 0))/SUM(`s`*(`' . $key . '` != 0)) as `' . $key . '`';
+        return '1.0*SUM(`s`*`' . $key . '`*(`' . $key . '` != 0))/NULLIF(SUM(`s`*(`' . $key . '` != 0)),0) as `' . $key . '`';
     }
 
     private static function queryForSum(string $key): string
@@ -113,13 +113,14 @@ final class SummaryMode extends AbstractEnum
             return implode(', ', array_map(self::queryForAvgWithZero(...), $key));
         }
 
-        return 'SUM(`s`*`' . $key . '`)/SUM(`s`) as `' . $key . '`';
+        return '1.0*SUM(`s`*`' . $key . '`)/NULLIF(SUM(`s`),0) as `' . $key . '`';
     }
 
-    private static function queryForVO2max(string $key): string
+    private static function queryForVO2max(string $key, bool $elevationCorrection): string
     {
-        $Sum = \Runalyze\Configuration::VO2max()->useElevationCorrection() ? 'IF(`vo2max_with_elevation`>0,`vo2max_with_elevation`,`vo2max`)*`s`' : '`vo2max`*`s`';
+        $value = $elevationCorrection ? 'CASE WHEN `vo2max_with_elevation`>0 THEN `vo2max_with_elevation` ELSE `vo2max` END' : '`vo2max`';
 
-        return 'SUM(IF(`use_vo2max`=1 AND `vo2max`>0,' . $Sum . ',0))/SUM(IF(`use_vo2max`=1 AND `vo2max`>0,`s`,0)) as `' . $key . '`';
+        return '1.0*SUM(CASE WHEN `use_vo2max`=1 AND `vo2max`>0 THEN (' . $value . ')*`s` ELSE 0 END)'
+            . '/NULLIF(SUM(CASE WHEN `use_vo2max`=1 AND `vo2max`>0 THEN `s` ELSE 0 END),0) as `' . $key . '`';
     }
 }

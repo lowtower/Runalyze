@@ -485,6 +485,25 @@ class TrainingRepository extends ServiceEntityRepository
         return $query;
     }
 
+    /**
+     * @return iterable<int> Activity calendar days, most recent first.
+     */
+    public function iterateActivityDaysFor(Account $account, int $sport, int $until): iterable
+    {
+        $rows = $this->activityPeriodQuery($account, null, $until)
+            ->select('t.time - MOD(MOD(t.time, 86400) + 86400, 86400) AS dayStart')
+            ->andWhere('t.sport = :sport')
+            ->setParameter('sport', $sport)
+            ->groupBy('dayStart')
+            ->orderBy('dayStart', \SortDirection::Descending)
+            ->getQuery()
+            ->toIterable();
+
+        foreach ($rows as $row) {
+            yield (int) $row['dayStart'];
+        }
+    }
+
     private function activityPeriodQuery(Account $account, ?int $from, ?int $until): QueryBuilder
     {
         $query = $this->createQueryBuilder('t')

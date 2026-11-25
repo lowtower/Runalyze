@@ -1,0 +1,53 @@
+{% extends 'my/statistics/base.html.twig' %}
+
+{% block pluginTitle %}{{ title }}{% endblock %}
+
+{% block panelHeadingMenu %}
+    {% set parameters = {id: pluginId, sport: filter.sport, jahr: filter.year} %}
+    {% set overview_label = 'General overview'|trans %}
+    {% set weeks_label = 'All training weeks'|trans %}
+    {% if allWeeks %}
+        {% set parameters = parameters|merge({dat: 'allWeeks'}) %}
+    {% endif %}
+    <ul>
+        <li class="with-submenu">
+            <span class="link">{{ allWeeks ? weeks_label : overview_label }}</span>
+            <ul class="submenu">
+                <li{% if not allWeeks %} class="active"{% endif %}>
+                    <a class="ajax" target="statistics-inner" href="{{ path('plugin-display', parameters|merge({dat: ''})) }}">{{ overview_label }}</a>
+                </li>
+                <li{% if allWeeks %} class="active"{% endif %}>
+                    <a class="ajax" target="statistics-inner" href="{{ path('plugin-display', parameters|merge({jahr: weeksYear, dat: 'allWeeks'})) }}">{{ weeks_label }}</a>
+                </li>
+            </ul>
+        </li>
+        {% set menus = [
+            {key: 'sport', label: filter.sports[filter.sport], options: filter.sports},
+            {key: 'jahr', label: yearLabel, options: filter.years},
+        ] %}
+        {% for menu in menus %}
+            <li class="with-submenu">
+                <span class="link">{{ menu.label }}</span>
+                <ul class="submenu">
+                    {% for value, label in menu.options %}
+                        <li{% if value == parameters[menu.key] %} class="active"{% endif %}>
+                            <a class="ajax" target="statistics-inner" href="{{ path('plugin-display', parameters|merge({(menu.key): value})) }}">{{ label }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block panelContent %}
+    {% if overview is not null %}
+        {% include '@Statistiken/summary_table.html.twig' with {table: overview} only %}
+    {% endif %}
+    {% if streak is not empty %}
+        <p class="text c summary-streak"><em>{{ streak }}</em></p>
+    {% endif %}
+    {% if weeks is not null %}
+        {% include '@Statistiken/summary_table.html.twig' with {table: weeks} only %}
+    {% endif %}
+{% endblock %}

@@ -15,6 +15,8 @@ use Runalyze\Configuration;
  */
 class SharedLinker
 {
+    public const string ACCOUNT_ATTRIBUTE = '_shared_athlete_account_id';
+
     /**
      * URL base for shared activities
      * @var string
@@ -71,6 +73,11 @@ class SharedLinker
 
     public static function getUserId(): int
     {
+        $accountId = Request::attribute(self::ACCOUNT_ATTRIBUTE);
+        if (is_int($accountId) && $accountId > 0) {
+            return $accountId;
+        }
+
         if (self::$USER_ID <= 0) {
             if (Request::param('user') !== '') {
                 $Data = DB::getInstance()->query('SELECT * FROM `' . PREFIX . 'account` WHERE `username`=' . DB::getInstance()->escape(Request::param('user')) . ' LIMIT 1')->fetch();

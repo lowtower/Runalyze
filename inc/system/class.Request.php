@@ -27,6 +27,11 @@ class Request
         return self::$RequestStack?->getCurrentRequest();
     }
 
+    public static function attribute(string $key): mixed
+    {
+        return self::current()?->attributes->get($key);
+    }
+
     public static function Uri(): string
     {
         $request = self::current();

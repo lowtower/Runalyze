@@ -1,0 +1,41 @@
+<table class="r fullwidth zebra-style summary-table summary-{{ table.period }}">
+    <thead>
+        <tr><th colspan="{{ table.colspan }}">{{ table.title }}</th></tr>
+    </thead>
+    <tbody>
+        {% for row in table.rows %}
+            {% set parameters = {start: row.start, end: row.end} %}
+            {% if table.sport is not null %}
+                {% set parameters = parameters|merge({sport: table.sport}) %}
+            {% endif %}
+            <tr>
+                <td class="l">
+                    {% if table.publicUsername is not null %}
+                        <a class="ajax b" target="publicList" href="{{ path('shared-athlete', parameters|merge({username: table.publicUsername})) }}">{{ row.label }}</a>
+                    {% else %}
+                        <a class="ajax b" target="data-browser-inner" rel="{{ table.period }}-link" href="{{ path('databrowser', parameters) }}" onclick="Pace.restart()">
+                            {% if table.period == 'week' %}<i class="fa fa-calendar" aria-hidden="true"></i> {% endif %}{{ row.label }}
+                        </a>
+                    {% endif %}
+                    {% if row.range is not empty %}&nbsp;&nbsp;<span class="small">{{ row.range }}</span>{% endif %}
+                </td>
+                {% if row.count > 0 %}
+                    <td class="small">{{ row.count }}x</td>
+                    {% if table.hasRunningAverages %}
+                        <td class="small">
+                            {% if row.averages.weekly > 0 %}
+                                {{ distance(row.averages.weekly, table.distanceUnit, 0).getWithUnit|raw }}{{ '/week'|trans }}<br>
+                                {{ distance(row.averages.monthly, table.distanceUnit, 0).getWithUnit|raw }}{{ '/month'|trans }}
+                            {% endif %}
+                        </td>
+                    {% endif %}
+                    {% for cell in row.cells %}
+                        <td{% if cell.class is not empty %} class="{{ cell.class }}"{% endif %}{% if cell.style is not empty %} style="{{ cell.style }}"{% endif %}>{{ cell.html|raw }}</td>
+                    {% endfor %}
+                {% else %}
+                    <td colspan="{{ table.colspan - 1 }}" class="c small"><em>{{ 'No activities'|trans }}</em></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
