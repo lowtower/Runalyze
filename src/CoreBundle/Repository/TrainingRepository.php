@@ -676,6 +676,69 @@ class TrainingRepository extends ServiceEntityRepository
     }
 
     /**
+     * Return effective VO2max samples for the explanation window, preserving the
+     * legacy selection of activities with a positive VO2max estimate.
+     *
+     * @return list<array{id: int, time: int, distance: float, vo2max: float}>
+     */
+    public function findEffectiveVo2maxHistoryFor(Account $account, bool $withElevation, int $fromTimestamp): array
+    {
+        $vo2maxColumn = $withElevation
+            ? 'CASE WHEN t.vo2maxWithElevation > 0 THEN t.vo2maxWithElevation ELSE t.vo2max END'
+            : 't.vo2max';
+
+        $rows = $this->createQueryBuilder('t')
+            ->select('t.id AS id, t.time AS time, t.distance AS distance')
+            ->addSelect($vo2maxColumn . ' AS vo2max')
+            ->where('t.account = :account')
+            ->andWhere('t.time >= :fromTimestamp')
+            ->andWhere('t.vo2max > 0')
+            ->andWhere('t.useVO2max = 1')
+            ->setParameter('account', $account)
+            ->setParameter('fromTimestamp', $fromTimestamp)
+            ->orderBy('t.time', \SortDirection::Ascending)
+            ->addOrderBy('t.id', \SortDirection::Ascending)
+            ->getQuery()
+            ->getArrayResult();
+
+        return array_map(static fn (array $row): array => [
+            'id' => (int) $row['id'],
+            'time' => (int) $row['time'],
+            'distance' => (float) ($row['distance'] ?? 0),
+            'vo2max' => (float) $row['vo2max'],
+        ], $rows);
+    }
+
+    /**
+     * Return running activities within the given period for the marathon shape
+     * calculation. The timestamp bounds are in the storage's timezone-neutral format.
+     *
+     * @return list<array{id: int, time: int, distance: float}>
+     */
+    public function findBasicEnduranceRunsFor(Account $account, int $runningSportId, int $from, int $until): array
+    {
+        $rows = $this->createQueryBuilder('t')
+            ->select('t.id AS id, t.time AS time, t.distance AS distance')
+            ->where('t.account = :account')
+            ->andWhere('t.sport = :sport')
+            ->andWhere('t.time BETWEEN :from AND :until')
+            ->setParameter('account', $account)
+            ->setParameter('sport', $runningSportId)
+            ->setParameter('from', $from)
+            ->setParameter('until', $until)
+            ->orderBy('t.time', \SortDirection::Ascending)
+            ->addOrderBy('t.id', \SortDirection::Ascending)
+            ->getQuery()
+            ->getArrayResult();
+
+        return array_map(static fn (array $row): array => [
+            'id' => (int) $row['id'],
+            'time' => (int) $row['time'],
+            'distance' => (float) ($row['distance'] ?? 0),
+        ], $rows);
+    }
+
+    /**
      * Get the best activities according to `vo2max_by_time`, at most one per distance.
      *
      * Replaces the raw SQL query of the deprecated
