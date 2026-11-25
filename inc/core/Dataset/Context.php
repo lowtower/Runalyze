@@ -23,7 +23,7 @@ class Context
     /**
      * Factory
      */
-    protected Model\Factory $Factory;
+    protected ?Model\Factory $Factory = null;
 
     /**
      * Activity
@@ -59,10 +59,11 @@ class Context
      * @param array|Model\Activity\Entity $dataOrObject
      * @throws \InvalidArgumentException
      */
-    public function __construct($dataOrObject, int $accountID)
-    {
-        $this->Factory = new Model\Factory($accountID);
-
+    public function __construct(
+        $dataOrObject,
+        private readonly int $accountID,
+        private readonly ?Model\Sport\Entity $summarySport = null
+    ) {
         if (is_array($dataOrObject)) {
             $this->setActivityData($dataOrObject);
         } elseif ($dataOrObject instanceof Model\Activity\Entity) {
@@ -77,8 +78,8 @@ class Context
         $this->Activity = $object;
         $this->Dataview = new Dataview($object);
         $this->Linker = new Linker($object);
-        $this->Sport = $this->Activity->sportid() > 0 ? $this->Factory->sport($this->Activity->sportid()) : null;
-        $this->Type = $this->Activity->typeid() > 0 ? $this->Factory->type($this->Activity->typeid()) : null;
+        $this->Sport = $this->summarySport ?? ($this->Activity->sportid() > 0 ? $this->factory()->sport($this->Activity->sportid()) : null);
+        $this->Type = $this->Activity->typeid() > 0 ? $this->factory()->type($this->Activity->typeid()) : null;
         $this->ActivityData = $this->Activity->completeData();
         $this->IsRunning = $this->hasSport() && $this->Sport->getInternalProfileEnum() === SportProfile::RUNNING;
     }
@@ -98,7 +99,7 @@ class Context
 
     public function factory(): Model\Factory
     {
-        return $this->Factory;
+        return $this->Factory ??= new Model\Factory($this->accountID);
     }
 
     public function activity(): Model\Activity\Entity

@@ -4,16 +4,11 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Services;
 
-use DB;
 use Doctrine\Persistence\ManagerRegistry;
 use InvalidArgumentException;
-use LogicException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
-use Runalyze\Configuration;
-use Runalyze\Dataset\Configuration as DatasetConfiguration;
-use SummaryTableAllYears;
 
 final readonly class SharedAthleteStatisticsProvider
 {
@@ -23,27 +18,6 @@ final readonly class SharedAthleteStatisticsProvider
         private ManagerRegistry $doctrine,
         private LegacyPluginInstantiator $pluginInstantiator
     ) {}
-
-    /**
-     * @throws LogicException if the account is not persisted
-     */
-    public function getYearComparisonTable(Account $account): SummaryTableAllYears
-    {
-        $accountId = $account->getId();
-
-        if ($accountId === null) {
-            throw new LogicException('Shared athlete statistics require a persisted account.');
-        }
-
-        require_once FRONTEND_PATH . '../plugin/RunalyzePluginStat_Statistiken/class.SummaryTable.php';
-        require_once FRONTEND_PATH . '../plugin/RunalyzePluginStat_Statistiken/class.SummaryTableAllYears.php';
-
-        return new SummaryTableAllYears(
-            new DatasetConfiguration(DB::getInstance(), $accountId),
-            Configuration::General()->runningSport(),
-            -1
-        );
-    }
 
     /**
      * @throws InvalidArgumentException if the installed plugin implementation is invalid
