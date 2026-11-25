@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Runalyze\Plugins\Statistics\Statistiken;
 
 use DateTimeImmutable;
-use InvalidArgumentException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsConfigurationInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsFilterFactory;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsInstallation;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\DoctrinePluginConfigurationStorage;
@@ -55,7 +55,7 @@ final readonly class SummaryStatisticsPresenter implements ModernStatisticsInter
 
     public function getConfigurationData(Account $account, Plugin $installation): array
     {
-        $id = $this->installationId($account, $installation);
+        $id = StatisticsInstallation::requireId($account, $installation, self::KEY);
         $values = $this->configurationStorage->loadForPlugins([$id])[$id] ?? [];
 
         return [
@@ -67,7 +67,7 @@ final readonly class SummaryStatisticsPresenter implements ModernStatisticsInter
 
     public function updateConfiguration(Account $account, Plugin $installation, array $data): void
     {
-        $this->installationId($account, $installation);
+        StatisticsInstallation::requireId($account, $installation, self::KEY);
         $values = [
             'compare_weeks' => isset($data['compare_weeks']) ? '1' : '0',
             'show_streak' => isset($data['show_streak']) ? '1' : '0',
@@ -189,17 +189,5 @@ final readonly class SummaryStatisticsPresenter implements ModernStatisticsInter
 
         return ($prospective ? __('If you run today: ') : '')
             . sprintf(_n('%d day of running since %s', '%d days of running since %s', $days), $days, gmdate('d.m.Y', $start));
-    }
-
-    private function installationId(Account $account, Plugin $installation): int
-    {
-        $id = $installation->getId();
-        if ($id === null || $account->getId() === null || $installation->getAccount()->getId() !== $account->getId()
-            || $installation->getKey() !== self::KEY || ! $installation->isStatistic()
-        ) {
-            throw new InvalidArgumentException('The statistics installation is not available for this account.');
-        }
-
-        return $id;
     }
 }

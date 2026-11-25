@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\Bundle\CoreBundle\Tests\Component\Statistics\MonthlyStats;
+namespace Runalyze\Plugins\Statistics\MonthlyStats\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisData;
-use Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisSelection;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Selection\Selection;
@@ -15,10 +14,12 @@ use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Twig\DisplayableTime;
 use Runalyze\Bundle\CoreBundle\Twig\DisplayableValue;
 use Runalyze\Bundle\CoreBundle\Twig\ValueExtension;
+use Runalyze\Plugins\Statistics\MonthlyStats\MonthlyStatisticsData;
+use Runalyze\Plugins\Statistics\MonthlyStats\MonthlyStatisticsMetricSelection;
 use RuntimeException;
 
 #[\PHPUnit\Framework\Attributes\Group('default')]
-final class AnalysisDataTest extends TestCase
+final class MonthlyStatisticsDataTest extends TestCase
 {
     /**
      * @param array<int, array<string, int|float>> $results
@@ -35,11 +36,11 @@ final class AnalysisDataTest extends TestCase
     /**
      * @param array<int, array<string, int|float>> $results
      */
-    protected function getAnalysisDataWithEmptySelections(array $results = []): AnalysisData
+    protected function dataWithEmptySelections(array $results = []): MonthlyStatisticsData
     {
-        return new AnalysisData(
+        return new MonthlyStatisticsData(
             new Selection([]),
-            new AnalysisSelection(),
+            new MonthlyStatisticsMetricSelection(),
             $this->getTrainingRepositoryMock($results),
             new Account()
         );
@@ -53,9 +54,9 @@ final class AnalysisDataTest extends TestCase
         ], $currentKey);
     }
 
-    public function testEmptyAnalysisData(): void
+    public function testEmptyMonthlyStatistics(): void
     {
-        $data = $this->getAnalysisDataWithEmptySelections();
+        $data = $this->dataWithEmptySelections();
 
         $this->assertTrue($data->isEmpty());
         $this->assertEqualsWithDelta(0.0, $data->getRawValue(1970, 1), PHP_FLOAT_EPSILON);
@@ -64,7 +65,7 @@ final class AnalysisDataTest extends TestCase
 
     public function testYearRange(): void
     {
-        $data = $this->getAnalysisDataWithEmptySelections([
+        $data = $this->dataWithEmptySelections([
             [
                 'year' => 2006,
                 'month' => 7,
@@ -90,7 +91,7 @@ final class AnalysisDataTest extends TestCase
      */
     public function testGetYearsThrowsWhenNoDataIsAvailable(): void
     {
-        $data = $this->getAnalysisDataWithEmptySelections();
+        $data = $this->dataWithEmptySelections();
 
         $this->expectException(RuntimeException::class);
         $data->getYears();
@@ -98,7 +99,7 @@ final class AnalysisDataTest extends TestCase
 
     public function testGetMaximumDefaultsToOneWithoutHigherValues(): void
     {
-        $data = $this->getAnalysisDataWithEmptySelections([
+        $data = $this->dataWithEmptySelections([
             [
                 'year' => 2023,
                 'month' => 5,
@@ -114,7 +115,7 @@ final class AnalysisDataTest extends TestCase
      */
     public function testGetValueThrowsWithoutValueExtensionHavingBeenSet(): void
     {
-        $data = $this->getAnalysisDataWithEmptySelections();
+        $data = $this->dataWithEmptySelections();
 
         $this->expectException(RuntimeException::class);
         $data->getValue(2023, 5);
@@ -122,9 +123,9 @@ final class AnalysisDataTest extends TestCase
 
     public function testGetValueForTimeSelectionReturnsDisplayableTime(): void
     {
-        $data = new AnalysisData(
+        $data = new MonthlyStatisticsData(
             new Selection([]),
-            new AnalysisSelection(AnalysisSelection::TIME),
+            new MonthlyStatisticsMetricSelection(MonthlyStatisticsMetricSelection::TIME),
             $this->getTrainingRepositoryMock([
                 [
                     'year' => 2023,
@@ -139,55 +140,96 @@ final class AnalysisDataTest extends TestCase
         $this->assertInstanceOf(DisplayableTime::class, $data->getValue(2023, 5));
     }
 
-    public function testGetValueForNumberSelectionReturnsDisplayableValueWithEmptyUnit(): void
+    #[DataProvider('metricsWithoutUnits')]
+    public function testGetValueForMetricWithoutUnit(string $metric, ?string $column): void
     {
-        $data = new AnalysisData(
+        $account = new Account();
+        $repository = $this->createMock(TrainingRepository::class);
+        $repository->expects($this->once())
+            ->method('getMonthlyStatsFor')
+            ->with($account, $column, null)
+            ->willReturn([
+                [
+                    'year' => 2023,
+                    'month' => 5,
+                    'value' => 10,
+                ],
+            ]);
+
+        $data = new MonthlyStatisticsData(
             new Selection([]),
-            new AnalysisSelection(AnalysisSelection::NUMBER),
-            $this->getTrainingRepositoryMock(),
-            new Account()
+            new MonthlyStatisticsMetricSelection($metric),
+            $repository,
+            $account
         );
         $data->setValueExtension($this->createStub(ValueExtension::class));
 
         $value = $data->getValue(2023, 5);
-
         $this->assertInstanceOf(DisplayableValue::class, $value);
+        $this->assertEqualsWithDelta(10.0, $value->getRawValue(), PHP_FLOAT_EPSILON);
         $this->assertSame('', $value->getUnit());
     }
 
-    public function testGetValueForDistanceSelectionDelegatesToValueExtension(): void
+    /**
+     * @return iterable<string, array{string, ?string}>
+     */
+    public static function metricsWithoutUnits(): iterable
     {
-        $expected = new DisplayableValue(10.5, 'km');
-        $valueExtension = $this->createMock(ValueExtension::class);
-        $valueExtension->expects($this->once())
-            ->method('distance')
-            ->with(10.5)
-            ->willReturn($expected);
+        yield 'activity count' => [MonthlyStatisticsMetricSelection::NUMBER, null];
+        yield 'TRIMP' => [MonthlyStatisticsMetricSelection::TRIMP, 'trimp'];
+    }
 
-        $data = new AnalysisData(
-            new Selection([]),
-            new AnalysisSelection(AnalysisSelection::DISTANCE),
-            $this->getTrainingRepositoryMock([
+    #[DataProvider('metricsWithUnits')]
+    public function testGetValueUsesTheSelectedMetricFormatter(string $metric, string $column, string $formatter, string $unit): void
+    {
+        $account = new Account();
+        $repository = $this->createMock(TrainingRepository::class);
+        $repository->expects($this->once())
+            ->method('getMonthlyStatsFor')
+            ->with($account, $column, null)
+            ->willReturn([
                 [
                     'year' => 2023,
                     'month' => 5,
                     'value' => 10.5,
                 ],
-            ]),
-            new Account()
+            ]);
+
+        $expected = new DisplayableValue(10.5, $unit);
+        $valueExtension = $this->createMock(ValueExtension::class);
+        $valueExtension->expects($this->once())
+            ->method($formatter)
+            ->with(10.5)
+            ->willReturn($expected);
+
+        $data = new MonthlyStatisticsData(
+            new Selection([]),
+            new MonthlyStatisticsMetricSelection($metric),
+            $repository,
+            $account
         );
         $data->setValueExtension($valueExtension);
 
         $this->assertSame($expected, $data->getValue(2023, 5));
     }
 
+    /**
+     * @return iterable<string, array{string, string, string, string}>
+     */
+    public static function metricsWithUnits(): iterable
+    {
+        yield 'distance' => [MonthlyStatisticsMetricSelection::DISTANCE, 'distance', 'distance', 'km'];
+        yield 'elevation' => [MonthlyStatisticsMetricSelection::ELEVATION, 'elevation', 'elevation', 'm'];
+        yield 'energy' => [MonthlyStatisticsMetricSelection::ENERGY, 'kcal', 'energy', 'kcal'];
+    }
+
     public function testGetSportSelectionReturnsTheProvidedSelection(): void
     {
         $sportSelection = $this->createSportSelection('1');
 
-        $data = new AnalysisData(
+        $data = new MonthlyStatisticsData(
             $sportSelection,
-            new AnalysisSelection(),
+            new MonthlyStatisticsMetricSelection(),
             $this->getTrainingRepositoryMock(),
             new Account()
         );
@@ -195,18 +237,18 @@ final class AnalysisDataTest extends TestCase
         $this->assertSame($sportSelection, $data->getSportSelection());
     }
 
-    public function testGetAnalysisSelectionReturnsTheProvidedSelection(): void
+    public function testGetMetricSelectionReturnsTheProvidedSelection(): void
     {
-        $analysisSelection = new AnalysisSelection(AnalysisSelection::ENERGY);
+        $metricSelection = new MonthlyStatisticsMetricSelection(MonthlyStatisticsMetricSelection::ENERGY);
 
-        $data = new AnalysisData(
+        $data = new MonthlyStatisticsData(
             new Selection([]),
-            $analysisSelection,
+            $metricSelection,
             $this->getTrainingRepositoryMock(),
             new Account()
         );
 
-        $this->assertSame($analysisSelection, $data->getAnalysisSelection());
+        $this->assertSame($metricSelection, $data->getMetricSelection());
     }
 
     public function testConstructorPassesFilteredColumnAndSportIdToRepository(): void
@@ -214,12 +256,12 @@ final class AnalysisDataTest extends TestCase
         $repository = $this->createMock(TrainingRepository::class);
         $repository->expects($this->once())
             ->method('getMonthlyStatsFor')
-            ->with($this->isInstanceOf(Account::class), 'kcal', '1')
+            ->with($this->isInstanceOf(Account::class), 'kcal', 1)
             ->willReturn([]);
 
-        new AnalysisData(
+        new MonthlyStatisticsData(
             $this->createSportSelection('1'),
-            new AnalysisSelection(AnalysisSelection::ENERGY),
+            new MonthlyStatisticsMetricSelection(MonthlyStatisticsMetricSelection::ENERGY),
             $repository,
             new Account()
         );
@@ -233,9 +275,9 @@ final class AnalysisDataTest extends TestCase
             ->with($this->isInstanceOf(Account::class), $this->anything(), null)
             ->willReturn([]);
 
-        new AnalysisData(
+        new MonthlyStatisticsData(
             $this->createSportSelection(SportSelectionFactory::ALL),
-            new AnalysisSelection(AnalysisSelection::DISTANCE),
+            new MonthlyStatisticsMetricSelection(MonthlyStatisticsMetricSelection::DISTANCE),
             $repository,
             new Account()
         );

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Runalyze\Plugins\Statistics\Wettkampf;
 
-use InvalidArgumentException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsInstallation;
 use Runalyze\Bundle\CoreBundle\Repository\PluginConfRepository;
 use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
 use Runalyze\Bundle\CoreBundle\Services\DoctrinePluginConfigurationStorage;
@@ -23,7 +23,7 @@ final readonly class RaceStatisticsSettings
      */
     public function forInstallation(Account $account, Plugin $installation): array
     {
-        $id = $this->installationId($account, $installation);
+        $id = StatisticsInstallation::requireId($account, $installation, RaceStatisticsPresenter::KEY);
         $values = $this->storage->loadForPlugins([$id])[$id] ?? [];
 
         return [
@@ -41,7 +41,7 @@ final readonly class RaceStatisticsSettings
      */
     public function update(Account $account, Plugin $installation, array $data, float $factor): void
     {
-        $this->installationId($account, $installation);
+        StatisticsInstallation::requireId($account, $installation, RaceStatisticsPresenter::KEY);
         $values = [];
         $main = $data['main_distance'] ?? null;
         if (is_string($main) && is_numeric($main) && is_finite((float) $main) && (float) $main > 0) {
@@ -66,7 +66,7 @@ final readonly class RaceStatisticsSettings
 
     public function updateFunRace(Account $account, Plugin $installation, mixed $selection): void
     {
-        $this->installationId($account, $installation);
+        StatisticsInstallation::requireId($account, $installation, RaceStatisticsPresenter::KEY);
         if (! is_string($selection) || preg_match('/\A(fun|nofun)-([1-9][0-9]*)\z/', $selection, $parts) !== 1) {
             return;
         }
@@ -86,17 +86,5 @@ final readonly class RaceStatisticsSettings
 
             return implode(', ', array_keys($ids));
         });
-    }
-
-    private function installationId(Account $account, Plugin $installation): int
-    {
-        $id = $installation->getId();
-        if ($id === null || $account->getId() === null || $installation->getAccount()->getId() !== $account->getId()
-            || $installation->getKey() !== RaceStatisticsPresenter::KEY || ! $installation->isStatistic()
-        ) {
-            throw new InvalidArgumentException('The race statistics installation is not available for this account.');
-        }
-
-        return $id;
     }
 }

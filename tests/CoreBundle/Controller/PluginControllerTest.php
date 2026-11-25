@@ -131,12 +131,12 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStatusCode(200, $this->Client);
         $html = (string) $this->Client->getResponse()->getContent();
         $this->assertStringContainsString('Miscellaneous', $html);
-        $this->assertStringContainsString('analysis-table', $html);
+        $this->assertStringContainsString('monthly-statistics-table', $html);
 
         $this->Client->xmlHttpRequest('GET', '/my/plugin/' . $id . '?sport=all&dat=n');
         $this->assertStatusCode(200, $this->Client);
         $html = (string) $this->Client->getResponse()->getContent();
-        $this->assertStringContainsString('analysis-table', $html);
+        $this->assertStringContainsString('monthly-statistics-table', $html);
         $this->assertStringContainsString('target="statistics-inner"', $html);
         $this->assertStringNotContainsString('<!DOCTYPE html>', $html);
 
@@ -148,7 +148,7 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStatusCode(200, $this->Client);
         $html = (string) $this->Client->getResponse()->getContent();
         $this->assertStringContainsString('The plugin could not be found.', $html);
-        $this->assertStringNotContainsString('analysis-table', $html);
+        $this->assertStringNotContainsString('monthly-statistics-table', $html);
     }
 
     public function testPluginInstallActionRejectsAnUnrecognizedKey(): void

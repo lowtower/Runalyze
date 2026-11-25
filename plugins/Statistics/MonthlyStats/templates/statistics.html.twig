@@ -7,21 +7,21 @@
 {% endblock %}
 
 {% block panelHeadingMenu %}
-{% set analysis_list = analysisData.analysisSelection %}
-{% set sport_list = analysisData.sportSelection %}
+{% set metric_selection = monthlyData.metricSelection %}
+{% set sport_list = monthlyData.sportSelection %}
 <ul>
     <li class="with-submenu">
-        <span class="link">{{ analysis_list.currentLabel|trans }}</span>
+        <span class="link">{{ metric_selection.currentLabel|trans }}</span>
         <ul class="submenu">
-            {% for key, label in analysis_list.list %}
-            <li{% if key == analysis_list.currentKey %} class="active"{% endif %}><a class="ajax" target="statistics-inner" href="{{ url('plugin-display', {'id': pluginId, 'sport': sport_list.currentKey, 'dat': key}) }}">{{ label|trans }}</a></li>
+            {% for key, label in metric_selection.list %}
+            <li{% if key == metric_selection.currentKey %} class="active"{% endif %}><a class="ajax" target="statistics-inner" href="{{ url('plugin-display', {'id': pluginId, 'sport': sport_list.currentKey, 'dat': key}) }}">{{ label|trans }}</a></li>
             {% endfor %}
         </ul>
     </li><li class="with-submenu">
         <span class="link">{{ sport_list.currentLabel|trans }}</span>
         <ul class="submenu">
             {% for id, name in sport_list.list %}
-                <li{% if id == sport_list.currentKey %} class="active"{% endif %}><a class="ajax" target="statistics-inner" href="{{ url('plugin-display', {'id': pluginId, 'sport': id, 'dat': analysis_list.currentKey}) }}">{{ name|trans }}</a></li>
+                <li{% if id == sport_list.currentKey %} class="active"{% endif %}><a class="ajax" target="statistics-inner" href="{{ url('plugin-display', {'id': pluginId, 'sport': id, 'dat': metric_selection.currentKey}) }}">{{ name|trans }}</a></li>
             {% endfor %}
         </ul>
     </li>
@@ -30,23 +30,23 @@
 
 {% block panelContent %}
 <style type="text/css">
-    .analysis-table td { position: relative; vertical-align: top; }
-    .analysis-table td .fa-circle { width: 30px; text-align:center;  color: #800; }
+    .monthly-statistics-table td { position: relative; vertical-align: top; }
+    .monthly-statistics-table td .fa-circle { width: 30px; text-align:center;  color: #800; }
 </style>
 
-<table class="analysis-table fullwidth zebra-style r">
+<table class="monthly-statistics-table fullwidth zebra-style r">
     <thead>{{ tableHeadMonths(8, 1) }}</thead>
     <tbody>
-    {% if analysisData.empty %}
+    {% if monthlyData.empty %}
         <tr><td colspan="13" class="c"><em>{{ 'No activities found.'|trans }}</em></td></tr>
     {% else %}
-        {% set maximum = analysisData.maximum %}
-        {% for year in analysisData.years %}
+        {% set maximum = monthlyData.maximum %}
+        {% for year in monthlyData.years %}
             <tr>
                 <td class="b l">{{ year }}</td>
                 {% for month in range(1, 12) %}
                     {# @var value \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue #}
-                    {% set value = analysisData.value(year, month) %}
+                    {% set value = monthlyData.value(year, month) %}
                     <td>
                         {% if not value.zero %}
                         {{ value.withUnit|nbsp|raw }}<br />

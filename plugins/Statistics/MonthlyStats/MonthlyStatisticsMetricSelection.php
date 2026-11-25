@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats;
+namespace Runalyze\Plugins\Statistics\MonthlyStats;
 
 use Runalyze\Bundle\CoreBundle\Services\Selection\Selection;
 
-class AnalysisSelection extends Selection
+final class MonthlyStatisticsMetricSelection extends Selection
 {
     public const string DISTANCE = 'km';
 

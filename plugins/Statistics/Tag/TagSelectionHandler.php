@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Runalyze\Plugins\Statistics\Tag;
 
-use InvalidArgumentException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Entity\Tag;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsInstallation;
 use Runalyze\Bundle\CoreBundle\Repository\TagRepository;
 use Runalyze\Bundle\CoreBundle\Services\DoctrinePluginConfigurationStorage;
 
@@ -25,7 +25,7 @@ final readonly class TagSelectionHandler
      */
     public function getSelection(Account $account, Plugin $installation): array
     {
-        $pluginId = $this->getInstallationId($account, $installation);
+        $pluginId = StatisticsInstallation::requireId($account, $installation, TagStatisticsPresenter::KEY);
         $tags = [];
         foreach ($this->tagRepository->findAllFor($account) as $tag) {
             $tags[$tag->getId()] = $tag->getTag();
@@ -42,7 +42,7 @@ final readonly class TagSelectionHandler
 
     public function select(Account $account, Plugin $installation, mixed $requestedTag): void
     {
-        $this->getInstallationId($account, $installation);
+        StatisticsInstallation::requireId($account, $installation, TagStatisticsPresenter::KEY);
 
         if (! is_string($requestedTag) || ! ctype_digit($requestedTag)) {
             return;
@@ -57,23 +57,5 @@ final readonly class TagSelectionHandler
         if ($tag instanceof Tag) {
             $this->configurationStorage->saveValue($installation, self::SETTING, (string) $tagId);
         }
-    }
-
-    private function getInstallationId(Account $account, Plugin $installation): int
-    {
-        $pluginId = $installation->getId();
-        $accountId = $account->getId();
-
-        if (
-            $pluginId === null
-            || $accountId === null
-            || $installation->getAccount()->getId() !== $accountId
-            || $installation->getKey() !== TagStatisticsPresenter::KEY
-            || ! $installation->isStatistic()
-        ) {
-            throw new InvalidArgumentException('The Tag statistics installation is not available for this account.');
-        }
-
-        return $pluginId;
     }
 }
