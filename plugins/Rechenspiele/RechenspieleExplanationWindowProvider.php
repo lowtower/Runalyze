@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace RunalyzePluginsRechenspiele;
+namespace Runalyze\Plugins\Rechenspiele;
 
 use DateTimeImmutable;
 use DateTimeZone;
-use RunalyzeBundleCoreBundleEntityAccount;
-use RunalyzeBundleCoreBundleRepositoryTrainingRepository;
-use RunalyzeBundleCoreBundleServicesConfigurationConfigurationManager;
-use RunalyzeParameterApplicationTimezone as TimezoneEnum;
-use RunalyzeSportsPerformanceModelTsbModel;
-use RunalyzeSportsRunningMarathonShape;
-use RunalyzeSportsRunningPrognosisVO2max as Vo2maxPrognosis;
-use RunalyzeSportsRunningVO2maxEffectiveVO2max;
-use RunalyzeSportsRunningVO2maxEffectiveVO2maxCorrector;
-use SymfonyComponentClockClockInterface;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
+use Runalyze\Parameter\Application\Timezone as TimezoneEnum;
+use Runalyze\Sports\Performance\Model\TsbModel;
+use Runalyze\Sports\Running\MarathonShape;
+use Runalyze\Sports\Running\Prognosis\VO2max as Vo2maxPrognosis;
+use Runalyze\Sports\Running\VO2max\EffectiveVO2max;
+use Runalyze\Sports\Running\VO2max\EffectiveVO2maxCorrector;
+use Symfony\Component\Clock\ClockInterface;
 
 /**
  * Prepares all data for the Rechenspiele explanation window, account-scoped
