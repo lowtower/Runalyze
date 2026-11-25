@@ -38,12 +38,12 @@ use Runalyze\Plugins\Prognose\PrognoseCalculatorWindowRenderer;
 use Runalyze\Plugins\Prognose\PrognosePanelPresenter;
 use Runalyze\Plugins\Prognose\PrognoseTrendDataProvider;
 use Runalyze\Plugins\Prognose\PrognoseTrendPlotRenderer;
+use Runalyze\Plugins\Rechenspiele\RechenspieleExplanationWindowProvider;
 use Runalyze\Plugins\Rechenspiele\RechenspielePlotSelection;
 use Runalyze\Plugins\Rechenspiele\RechenspieleShapePlotDataProvider;
 use Runalyze\Plugins\Rechenspiele\RechenspieleShapePlotMaximaUpdater;
 use Runalyze\Plugins\Rechenspiele\RechenspieleShapePlotOutputAdapter;
 use Runalyze\View\Activity\Context as ActivityContext;
-use RunalyzePluginPanel_Rechenspiele;
 use RunalyzePluginStat_Wettkampf;
 use SessionAccountHandler;
 use Symfony\Component\Clock\ClockInterface;
@@ -279,24 +279,33 @@ class DefaultController extends AbstractPluginsAwareController
     }
 
     /**
-     * @throws Throwable if the legacy calculations window throws
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException if the Rechenspiele panel is not installed
      */
-    #[Route(path: '/plugin/RunalyzePluginPanel_Rechenspiele/window.php', methods: ['GET', 'POST'], priority: 10)]
-    public function rechenspieleWindowAction(): Response
-    {
+    #[Route(path: '/plugin/RunalyzePluginPanel_Rechenspiele/window.php', name: 'rechenspiele-explanation-window', methods: ['GET'], priority: 10)]
+    public function rechenspieleWindowAction(
+        Request $request,
+        Environment $twig,
+        RechenspieleExplanationWindowProvider $explanationWindowProvider,
+        ?Account $account = null
+    ): Response {
         $this->denyAccessUnlessGranted('ROLE_USER');
+
+        if (! $account instanceof Account) {
+            throw $this->createAccessDeniedException();
+        }
+
+        /** @var PluginRepository $pluginRepository */
+        $pluginRepository = $this->doctrine->getRepository(PluginInstallation::class);
+
+        if ($pluginRepository->findForAccountAndKey($account, 'RunalyzePluginPanel_Rechenspiele') === null) {
+            throw $this->createNotFoundException('The Rechenspiele panel is not installed.');
+        }
 
         new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
-        /** @var RunalyzePluginPanel_Rechenspiele $Plugin */
-        $Plugin = $this->instantiatePluginByKey('RunalyzePluginPanel_Rechenspiele');
+        $content = $twig->render('@Rechenspiele/explanation-window.html.twig', $explanationWindowProvider->getWindowData($account));
 
-        return $this->legacyContentResponseFactory->create(
-            $this->legacyPluginOutputRenderer->render(function () use ($Plugin): void {
-                include FRONTEND_PATH . '../plugin/RunalyzePluginPanel_Rechenspiele/window.php';
-            })->getContent(),
-            $this->requestStack->getCurrentRequest()
-        );
+        return $this->legacyContentResponseFactory->create($content, $request);
     }
 
     /**
@@ -530,10 +539,7 @@ class DefaultController extends AbstractPluginsAwareController
         ]);
 
         if ($account !== null && $unsubscribeHashGenerator->isValid($account->getUsername(), $hash)) {
-            return $this->render('account/unsubscribe_info.html.twig', [
-                'mail' => $mail,
-                'hash' => $hash,
-            ]);
+            return $this->render('account/unsubscribe_info.html.twig');
         }
 
         return $this->render('account/unsubscribe_failure.html.twig');
