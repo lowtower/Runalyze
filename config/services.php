@@ -80,11 +80,6 @@ use Runalyze\Bundle\CoreBundle\Services\SharedAthleteStatisticsProvider;
 use Runalyze\Bundle\CoreBundle\Services\UnitSystemFactory;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\ORM\LoadAccountData;
-use Runalyze\Bundle\CoreBundle\Twig\AutomaticReloadFlagExtension;
-use Runalyze\Bundle\CoreBundle\Twig\ConfigurationExtension;
-use Runalyze\Bundle\CoreBundle\Twig\HtmlExtension;
-use Runalyze\Bundle\CoreBundle\Twig\UtilityExtension;
-use Runalyze\Bundle\CoreBundle\Twig\ValueExtension;
 use Runalyze\Metrics\Distance\Unit\AbstractDistanceUnit;
 use Runalyze\Metrics\Energy\Unit\AbstractEnergyUnit;
 use Runalyze\Metrics\Temperature\Unit\AbstractTemperatureUnit;
@@ -492,12 +487,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->load('Runalyze\Bundle\CoreBundle\Twig\\', __DIR__ . '/../src/CoreBundle/Twig/*Extension.php')
         ->tag('twig.attribute_extension');
-
-    $services->alias('app.twig_configuration_extension', ConfigurationExtension::class);
-    $services->alias('app.twig_html_extension', HtmlExtension::class);
-    $services->alias('app.twig_utility_extension', UtilityExtension::class);
-    $services->alias('app.twig_value_extension', ValueExtension::class);
-    $services->alias('app.twig_automatic_reload_flag_extension', AutomaticReloadFlagExtension::class);
 
     $services->set(GenerateJsonData::class)
         ->arg('$TrainingRepository', service(TrainingRepository::class))
