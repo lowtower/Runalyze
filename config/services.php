@@ -402,10 +402,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->lazy(true);
 
     $services->set(RecalculationManager::class)
-        ->arg('$ConfigurationManager', service(ConfigurationManager::class))
-        ->arg('$ConfigurationUpdater', service(ConfigurationUpdater::class))
-        ->arg('$TrainingRepository', service(TrainingRepository::class))
-        ->arg('$RaceResultRepository', service(RaceresultRepository::class))
         ->lazy(true);
 
     $services->set(SportSelectionFactory::class);
