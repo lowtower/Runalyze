@@ -1,4 +1,4 @@
-<ul>
+{% if wrapped ?? true %}<ul>{% endif %}
     <li class="with-submenu">
         <span class="link">{{ filter.sports[filter.sport] }}</span>
         <ul class="submenu">
@@ -8,4 +8,4 @@
         </ul>
     </li>
     {% include 'my/statistics/_year_menu_item.html.twig' with {pluginId: pluginId, sport: filter.sport, period: filter, yearLabel: yearLabel} only %}
-</ul>
+{% if wrapped ?? true %}</ul>{% endif %}
