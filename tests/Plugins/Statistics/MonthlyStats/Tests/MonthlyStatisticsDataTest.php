@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Plugins\Statistics\MonthlyStats\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -139,46 +140,87 @@ final class MonthlyStatisticsDataTest extends TestCase
         $this->assertInstanceOf(DisplayableTime::class, $data->getValue(2023, 5));
     }
 
-    public function testGetValueForNumberSelectionReturnsDisplayableValueWithEmptyUnit(): void
+    #[DataProvider('metricsWithoutUnits')]
+    public function testGetValueForMetricWithoutUnit(string $metric, ?string $column): void
     {
+        $account = new Account();
+        $repository = $this->createMock(TrainingRepository::class);
+        $repository->expects($this->once())
+            ->method('getMonthlyStatsFor')
+            ->with($account, $column, null)
+            ->willReturn([
+                [
+                    'year' => 2023,
+                    'month' => 5,
+                    'value' => 10,
+                ],
+            ]);
+
         $data = new MonthlyStatisticsData(
             new Selection([]),
-            new MonthlyStatisticsMetricSelection(MonthlyStatisticsMetricSelection::NUMBER),
-            $this->getTrainingRepositoryMock(),
-            new Account()
+            new MonthlyStatisticsMetricSelection($metric),
+            $repository,
+            $account
         );
         $data->setValueExtension($this->createStub(ValueExtension::class));
 
         $value = $data->getValue(2023, 5);
-
         $this->assertInstanceOf(DisplayableValue::class, $value);
+        $this->assertEqualsWithDelta(10.0, $value->getRawValue(), PHP_FLOAT_EPSILON);
         $this->assertSame('', $value->getUnit());
     }
 
-    public function testGetValueForDistanceSelectionDelegatesToValueExtension(): void
+    /**
+     * @return iterable<string, array{string, ?string}>
+     */
+    public static function metricsWithoutUnits(): iterable
     {
-        $expected = new DisplayableValue(10.5, 'km');
-        $valueExtension = $this->createMock(ValueExtension::class);
-        $valueExtension->expects($this->once())
-            ->method('distance')
-            ->with(10.5)
-            ->willReturn($expected);
+        yield 'activity count' => [MonthlyStatisticsMetricSelection::NUMBER, null];
+        yield 'TRIMP' => [MonthlyStatisticsMetricSelection::TRIMP, 'trimp'];
+    }
 
-        $data = new MonthlyStatisticsData(
-            new Selection([]),
-            new MonthlyStatisticsMetricSelection(MonthlyStatisticsMetricSelection::DISTANCE),
-            $this->getTrainingRepositoryMock([
+    #[DataProvider('metricsWithUnits')]
+    public function testGetValueUsesTheSelectedMetricFormatter(string $metric, string $column, string $formatter, string $unit): void
+    {
+        $account = new Account();
+        $repository = $this->createMock(TrainingRepository::class);
+        $repository->expects($this->once())
+            ->method('getMonthlyStatsFor')
+            ->with($account, $column, null)
+            ->willReturn([
                 [
                     'year' => 2023,
                     'month' => 5,
                     'value' => 10.5,
                 ],
-            ]),
-            new Account()
+            ]);
+
+        $expected = new DisplayableValue(10.5, $unit);
+        $valueExtension = $this->createMock(ValueExtension::class);
+        $valueExtension->expects($this->once())
+            ->method($formatter)
+            ->with(10.5)
+            ->willReturn($expected);
+
+        $data = new MonthlyStatisticsData(
+            new Selection([]),
+            new MonthlyStatisticsMetricSelection($metric),
+            $repository,
+            $account
         );
         $data->setValueExtension($valueExtension);
 
         $this->assertSame($expected, $data->getValue(2023, 5));
+    }
+
+    /**
+     * @return iterable<string, array{string, string, string, string}>
+     */
+    public static function metricsWithUnits(): iterable
+    {
+        yield 'distance' => [MonthlyStatisticsMetricSelection::DISTANCE, 'distance', 'distance', 'km'];
+        yield 'elevation' => [MonthlyStatisticsMetricSelection::ELEVATION, 'elevation', 'elevation', 'm'];
+        yield 'energy' => [MonthlyStatisticsMetricSelection::ENERGY, 'kcal', 'energy', 'kcal'];
     }
 
     public function testGetSportSelectionReturnsTheProvidedSelection(): void
