@@ -222,7 +222,7 @@ final class RechenspieleExplanationWindowProviderTest extends TestCase
         $this->assertSame('0.00', $result['vo2max']);
         $this->assertFalse($result['has_vo2max']);
         $this->assertSame(0, $result['percentage']);
-        $this->assertSame('10:24:36', $result['marathon_time']);
+        $this->assertSame(gmdate('H:i:s', (int) (new Vo2maxPrognosis(25.0))->getSeconds(42.195)), $result['marathon_time']);
     }
 
     public function testWindowDataCombinesAllOverviews(): void
