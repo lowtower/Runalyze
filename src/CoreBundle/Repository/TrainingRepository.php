@@ -387,6 +387,104 @@ class TrainingRepository extends ServiceEntityRepository
         ];
     }
 
+    /**
+     * @return array<string, list<array{id: int, time: int, value: int}>>
+     */
+    public function findWeatherExtremesFor(Account $account, ?int $sport, ?int $from, ?int $until): array
+    {
+        $query = $this->weatherPeriodQuery($account, $sport, $from, $until)->setMaxResults(5);
+        $result = [];
+        foreach ([
+            'hot' => ['temperature', \SortDirection::Descending],
+            'cold' => ['temperature', \SortDirection::Ascending],
+            'wind' => ['windSpeed', \SortDirection::Descending],
+            'humidity' => ['humidity', \SortDirection::Descending],
+        ] as $name => [$property, $direction]) {
+            $result[$name] = (clone $query)
+                ->select('t.id AS id, t.time AS time', 't.' . $property . ' AS value')
+                ->andWhere('t.' . $property . ' IS NOT NULL')
+                ->orderBy('t.' . $property, $direction)
+                ->addOrderBy('t.time', \SortDirection::Descending)
+                ->addOrderBy('t.id', \SortDirection::Descending)
+                ->getQuery()
+                ->getArrayResult();
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return list<array{month: int|string, condition: int, count: int|string, samples: int|string, temperatureSum: int|float|string|null}>
+     */
+    public function findMonthlyWeatherFor(Account $account, ?int $sport, ?int $from, ?int $until): array
+    {
+        return $this->weatherPeriodQuery($account, $sport, $from, $until)
+            ->select(
+                'MONTH(FROM_UNIXTIME(t.time)) AS month, t.weatherid AS condition',
+                'COUNT(t.id) AS count, COUNT(t.temperature) AS samples, SUM(t.temperature) AS temperatureSum'
+            )
+            ->groupBy('month, t.weatherid')
+            ->getQuery()
+            ->getArrayResult();
+    }
+
+    /**
+     * @return list<array{id: int, name: string, month: int|string, count: int|string, samples: int|string, temperatureSum: int|float|string|null, minimum: ?int, maximum: ?int}>
+     */
+    public function findMonthlyEquipmentWeatherFor(Account $account, int $equipmentType, ?int $sport, ?int $from, ?int $until): array
+    {
+        return $this->weatherPeriodQuery($account, $sport, $from, $until)
+            ->innerJoin('t.equipment', 'e', 'WITH', 'e.account = :account AND e.type = :equipmentType')
+            ->setParameter('equipmentType', $equipmentType)
+            ->select(
+                'e.id AS id, e.name AS name, MONTH(FROM_UNIXTIME(t.time)) AS month',
+                'COUNT(t.id) AS count, COUNT(t.temperature) AS samples, SUM(t.temperature) AS temperatureSum',
+                'MIN(t.temperature) AS minimum, MAX(t.temperature) AS maximum'
+            )
+            ->groupBy('e.id, e.name, month')
+            ->orderBy('e.id', \SortDirection::Ascending)
+            ->getQuery()
+            ->getArrayResult();
+    }
+
+    /**
+     * @return list<array{year: int|string, month: int|string, temperature: float|int|string}>
+     */
+    public function findAverageTemperaturesByMonthFor(Account $account): array
+    {
+        return $this->activityPeriodQuery($account, null, null)
+            ->select('YEAR(FROM_UNIXTIME(t.time)) AS year, MONTH(FROM_UNIXTIME(t.time)) AS month, AVG(t.temperature) AS temperature')
+            ->andWhere('t.temperature IS NOT NULL')
+            ->groupBy('year, month')
+            ->orderBy('year', \SortDirection::Ascending)
+            ->getQuery()
+            ->getArrayResult();
+    }
+
+    /**
+     * @return list<array{dayStart: int|string, temperature: float|int|string}>
+     */
+    public function findAverageTemperaturesByDayFor(Account $account, int $from, int $until): array
+    {
+        return $this->activityPeriodQuery($account, $from, $until)
+            ->select('t.time - MOD(MOD(t.time, 86400) + 86400, 86400) AS dayStart, AVG(t.temperature) AS temperature')
+            ->andWhere('t.temperature IS NOT NULL')
+            ->groupBy('dayStart')
+            ->orderBy('dayStart', \SortDirection::Ascending)
+            ->getQuery()
+            ->getArrayResult();
+    }
+
+    private function weatherPeriodQuery(Account $account, ?int $sport, ?int $from, ?int $until): QueryBuilder
+    {
+        $query = $this->activityPeriodQuery($account, $from, $until);
+        if ($sport !== null) {
+            $query->andWhere('t.sport = :sport')->setParameter('sport', $sport);
+        }
+
+        return $query;
+    }
+
     private function activityPeriodQuery(Account $account, ?int $from, ?int $until): QueryBuilder
     {
         $query = $this->createQueryBuilder('t')

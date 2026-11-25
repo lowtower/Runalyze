@@ -1,0 +1,121 @@
+{% extends 'my/statistics/base.html.twig' %}
+
+{% macro counts(months, counts) %}
+    {% for month in months|keys %}
+        <td>{{ counts[month] is defined ? counts[month] ~ 'x' : '' }}</td>
+    {% endfor %}
+{% endmacro %}
+
+{% block pluginTitle %}{{ title }}{% endblock %}
+
+{% block panelHeadingMenu %}
+    <ul>
+        <li>
+            <a class="window" href="{{ path('statistics-temperature-window') }}" title="{{ 'Show temperature plots'|trans }}" aria-label="{{ 'Show temperature plots'|trans }}"><i class="fa fa-chart-line" aria-hidden="true"></i></a>
+        </li>
+        {% if types|length > 1 %}
+            <li class="with-submenu">
+                <span class="link">{{ types[selected] }}</span>
+                <ul class="submenu">
+                    {% for id, name in types %}
+                        <li{% if id == selected %} class="active"{% endif %}>
+                            <a class="ajax" target="statistics-inner" href="{{ path('plugin-display', {id: pluginId, sport: filter.sport, jahr: filter.year, dat: id}) }}">{{ name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endif %}
+    </ul>
+    {% include 'my/statistics/_sport_and_year_menu.html.twig' with {pluginId: pluginId, filter: filter, yearLabel: yearLabel} only %}
+{% endblock %}
+
+{% block panelContent %}
+    {% set labels = {
+        hot: 'Hottest activities'|trans,
+        cold: 'Coldest activities'|trans,
+        wind: 'Most windy activities'|trans,
+        humidity: 'Highest humidity activities'|trans,
+    } %}
+    <p class="weather-extremes">
+        {% for key, rows in extremes %}
+            <strong>{{ labels[key] }}:</strong>
+            {% for row in rows %}
+                {% if key == 'wind' %}
+                    {{ row.formatted }}
+                {% elseif key == 'humidity' %}
+                    {{ row.value }}&nbsp;%
+                {% else %}
+                    {{ temperature(row.value).getWithUnit|raw }}
+                {% endif %}
+                {{ 'on'|trans }}
+                <a class="training" href="{{ path('ActivityShow', {id: row.id}) }}" rel="{{ row.id }}">{{ row.time|date('d.m.Y', 'UTC') }}</a>{{ not loop.last ? ', ' : '' }}
+            {% else %}
+                {{ 'none'|trans }}
+            {% endfor %}
+            <br>
+        {% endfor %}
+    </p>
+
+    <table class="fullwidth zebra-style r weather-monthly">
+        <thead>
+            <tr>
+                <th></th>
+                {% for label in months %}
+                    <th style="width:7.5%">{{ label }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="top-spacer">
+                <td>{{ temperatureUnit }}</td>
+                {% if temperatures is empty %}
+                    <td colspan="{{ months|length }}" class="c"><em>{{ 'No data found.'|trans }}</em></td>
+                {% else %}
+                    {% for month in months|keys %}
+                        <td>{{ temperatures[month] is defined ? temperature(temperatures[month]).getValue : '' }}</td>
+                    {% endfor %}
+                {% endif %}
+            </tr>
+            {% for condition in conditions %}
+                <tr{% if loop.first %} class="top-spacer"{% endif %}>
+                    <td>{{ condition.icon|raw }}</td>
+                    {{ _self.counts(months, condition.counts) }}
+                </tr>
+            {% endfor %}
+            {% for item in equipment %}
+                <tr{% if loop.first %} class="top-spacer"{% endif %}>
+                    <td>{{ item.name }}</td>
+                    {{ _self.counts(months, item.counts) }}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if selected > 0 %}
+        <table class="fullwidth zebra-style weather-equipment">
+            <thead>
+                <tr>
+                    {% for column in 1..3 %}
+                        {% if column > 1 %}<th></th>{% endif %}
+                        <th></th><th>{{ 'Temperatures'|trans }}</th><th>{{ 'avg.'|trans }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in equipmentTemperatures|batch(3) %}
+                    <tr class="r">
+                        {% for item in row %}
+                            {% if not loop.first %}<td>&nbsp;</td>{% endif %}
+                            <td class="l">{{ item.name }}</td>
+                            <td>{{ temperature(item.minimum).getWithUnit|raw }} {{ 'to'|trans }} {{ temperature(item.maximum).getWithUnit|raw }}</td>
+                            <td>{{ temperature(item.average).getWithUnit|raw }}</td>
+                        {% endfor %}
+                        {% if row|length < 3 %}<td colspan="{{ 4 * (3 - row|length) }}"></td>{% endif %}
+                    </tr>
+                {% else %}
+                    <tr><td colspan="11" class="c"><em>{{ 'No data found.'|trans }}</em></td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

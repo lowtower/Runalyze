@@ -1,0 +1,28 @@
+{% extends 'base_logged_in.twig' %}
+
+{% block content %}
+    <div class="panel-heading">
+        <div class="panel-menu">
+            <ul>
+                <li class="with-submenu">
+                    <span class="link">{{ year }}</span>
+                    <ul class="submenu">
+                        {% for value, label in years %}
+                            <li{% if value == year %} class="active"{% endif %}>
+                                <a class="window" href="{{ path('statistics-temperature-window', {y: value}) }}">{{ label }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <h1>{{ 'Temperatures'|trans }}</h1>
+    </div>
+
+    {% for plot in plots %}
+        <div class="panel-content">
+            {{ plot.div|raw }}
+            {{ plot.script|raw }}
+        </div>
+    {% endfor %}
+{% endblock %}
