@@ -17,6 +17,7 @@ use Runalyze\Bundle\CoreBundle\Entity\PluginConf;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\User;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
@@ -743,12 +744,16 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $updater->updateMaximalAtl($this->Account, 100);
         $updater->updateMaximalCtl($this->Account, 100);
 
+        $repository = $entityManager->getRepository(Conf::class);
+        $repository->updateOrInsert($this->Account, 'trimp', 'ATL_DAYS', '7');
+        $repository->updateOrInsert($this->Account, 'trimp', 'CTL_DAYS', '42');
+        self::getContainer()->get(ConfigurationManager::class)->reloadCurrentList();
+
         $this->Client->xmlHttpRequest('GET', '/plugin/RunalyzePluginPanel_Rechenspiele/window.plot.php?y=all&m=tsb');
 
         $this->assertStatusCode(200, $this->Client);
         $this->assertStringContainsString('formalltsb', (string) $this->Client->getResponse()->getContent());
 
-        $repository = $this->getEntityManager()->getRepository(Conf::class);
         $this->assertSame('25', $repository->findForAccountAndKey($this->Account, 'MAX_ATL')?->getValue());
         $this->assertSame('5', $repository->findForAccountAndKey($this->Account, 'MAX_CTL')?->getValue());
     }
