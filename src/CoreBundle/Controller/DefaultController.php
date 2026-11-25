@@ -12,12 +12,14 @@ use Runalyze\Activity\Distance;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
+use Runalyze\Bundle\CoreBundle\Entity\PluginConf;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Form\FeedbackType;
 use Runalyze\Bundle\CoreBundle\Form\RegistrationType;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
 use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
+use Runalyze\Bundle\CoreBundle\Repository\PluginConfRepository;
 use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
 use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
@@ -26,7 +28,6 @@ use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Dashboard\DashboardStatisticsProvider;
 use Runalyze\Bundle\CoreBundle\Services\LegacyContentResponseFactory;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
-use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
@@ -44,7 +45,6 @@ use Runalyze\Plugins\Rechenspiele\RechenspieleShapePlotDataProvider;
 use Runalyze\Plugins\Rechenspiele\RechenspieleShapePlotMaximaUpdater;
 use Runalyze\Plugins\Rechenspiele\RechenspieleShapePlotOutputAdapter;
 use Runalyze\View\Activity\Context as ActivityContext;
-use RunalyzePluginStat_Wettkampf;
 use SessionAccountHandler;
 use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -70,7 +70,6 @@ class DefaultController extends AbstractPluginsAwareController
     public function __construct(
         ManagerRegistry $doctrine,
         PluginInstallationManager $pluginInstallationManager,
-        private readonly PluginDiscovery $pluginDiscovery,
         LegacyPluginOutputRenderer $legacyPluginOutputRenderer,
         LegacyContentResponseFactory $legacyContentResponseFactory,
         PluginSettingsProvider $pluginSettingsProvider,
@@ -452,22 +451,11 @@ class DefaultController extends AbstractPluginsAwareController
 
         new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
-        $WKplugin = null;
-        if (
-            in_array('RunalyzePluginStat_Wettkampf', $this->pluginDiscovery->findAvailablePluginKeys(), true)
-            && $this->pluginInstallationManager->isInstalled('RunalyzePluginStat_Wettkampf')
-        ) {
-            /** @var RunalyzePluginStat_Wettkampf $WKplugin */
-            $WKplugin = $this->instantiatePluginByKey('RunalyzePluginStat_Wettkampf');
-        }
-
+        /** @var PluginConfRepository $configurationRepository */
+        $configurationRepository = $this->doctrine->getRepository(PluginConf::class);
+        $funRaceIds = array_fill_keys($configurationRepository->getAllActivityIdsOfFunRaces($account), true);
         $trendData = $trendDataProvider->getSeries($account, $runningSportId, $distance);
         $races = $raceResultRepository->findTrendResultsForDistance($account, $runningSportId, $distance);
-        $isFunCompetition = null;
-
-        if ($WKplugin !== null) {
-            $isFunCompetition = $WKplugin->isFunCompetition(...);
-        }
 
         $plot = $trendPlotRenderer->render(
             $distance,
@@ -475,7 +463,7 @@ class DefaultController extends AbstractPluginsAwareController
             $trendData['prognosis_with_basic_endurance'],
             $races,
             $trendData['has_history'],
-            $isFunCompetition
+            static fn (int $id): bool => isset($funRaceIds[$id])
         );
 
         $content = $this->renderView('@Prognose/trend_window.html.twig', [

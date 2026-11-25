@@ -48,7 +48,6 @@ return ECSConfig::configure()
             __DIR__ . '/inc/tpl/*.php',
             __DIR__ . '/plugin/RunalyzePluginStat_Trainingszeiten/Plot.Daytime.php',
             __DIR__ . '/plugin/RunalyzePluginStat_Trainingszeiten/Plot.Weekday.php',
-            __DIR__ . '/plugin/RunalyzePluginStat_Wettkampf/Plot.Bestzeit.php',
         ],
     ])
 ;

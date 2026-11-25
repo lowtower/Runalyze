@@ -5,57 +5,39 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Services;
 
 use Doctrine\Persistence\ManagerRegistry;
-use InvalidArgumentException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
+use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
+use Runalyze\Plugins\Statistics\Wettkampf\RaceStatisticsPresenter;
+use Runalyze\Plugins\Statistics\Wettkampf\RaceStatisticsSettings;
+use Runalyze\Plugins\Statistics\Wettkampf\RaceYearComparison;
 
 final readonly class SharedAthleteStatisticsProvider
 {
-    private const string RACE_PLUGIN_KEY = 'RunalyzePluginStat_Wettkampf';
-
     public function __construct(
         private ManagerRegistry $doctrine,
-        private LegacyPluginInstantiator $pluginInstantiator
+        private RaceresultRepository $races,
+        private ConfigurationManager $configurationManager,
+        private RaceStatisticsSettings $settings
     ) {}
 
-    /**
-     * @throws InvalidArgumentException if the installed plugin implementation is invalid
-     */
-    public function getTabForComparisonOfYears(Account $account): string
-    {
-        foreach ($this->getPluginRepository()->findDataForAccount($account) as $pluginData) {
-            if ($pluginData['key'] !== self::RACE_PLUGIN_KEY) {
-                continue;
-            }
-
-            $plugin = $this->pluginInstantiator->instantiate(
-                $pluginData['key'],
-                $pluginData['id'],
-                $pluginData
-            );
-
-            if (! $plugin instanceof \RunalyzePluginStat_Wettkampf) {
-                throw new InvalidArgumentException('The installed race plugin has an invalid implementation.');
-            }
-
-            $content = $plugin->getYearComparisonTable();
-
-            if ($content !== false && $content !== '') {
-                return $content;
-            }
-
-            break;
-        }
-
-        return '<em>' . __('No data available.') . '</em>';
-    }
-
-    private function getPluginRepository(): PluginRepository
+    public function getRaceYearComparison(Account $account): ?array
     {
         $repository = $this->doctrine->getRepository(Plugin::class);
         assert($repository instanceof PluginRepository);
+        $installation = $repository->findForAccountAndKey($account, RaceStatisticsPresenter::KEY);
+        if (! $installation instanceof \Runalyze\Bundle\CoreBundle\Entity\Plugin) {
+            return null;
+        }
 
-        return $repository;
+        $general = $this->configurationManager->getList($account)->getGeneral();
+
+        return RaceYearComparison::table(
+            $this->races->findForStatistics($account, $general->getMainSport()),
+            $this->settings->forInstallation($account, $installation)['distances'],
+            $general->getDistanceUnitSystem()
+        );
     }
 }

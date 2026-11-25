@@ -163,7 +163,7 @@ class SharedController extends AbstractController
             $accountStatistics = $this->getTrainingRepository()
                 ->getAccountStatistics($account);
             $yearComparisonTable = $summaryTables->years($account, $configuration->getGeneral()->getRunningSport(), public: true);
-            $tabForComparisonOfYears = $this->sharedAthleteStatisticsProvider->getTabForComparisonOfYears($account);
+            $raceYearComparison = $this->sharedAthleteStatisticsProvider->getRaceYearComparison($account);
             $publicList = $this->configurationManager
                 ->getList($account)
                 ->getPrivacy()
@@ -171,7 +171,7 @@ class SharedController extends AbstractController
         } else {
             $accountStatistics = null;
             $yearComparisonTable = null;
-            $tabForComparisonOfYears = null;
+            $raceYearComparison = null;
             $publicList = false;
         }
 
@@ -179,7 +179,7 @@ class SharedController extends AbstractController
             'account' => $account,
             'accountStatistics' => $accountStatistics,
             'yearComparisonTable' => $yearComparisonTable,
-            'tabForComparisonOfYears' => $tabForComparisonOfYears,
+            'raceYearComparison' => $raceYearComparison,
             'dataBrowser' => new DataBrowserShared(),
             'username' => $username,
             'hasPublicList' => $publicList,

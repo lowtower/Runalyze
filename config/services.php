@@ -19,7 +19,6 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\GenerateJsonData;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\GeneratePoster;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\PosterGenerationStateResolver;
 use Runalyze\Bundle\CoreBundle\EntityListener\EquipmentUpdateSubscriber;
-use Runalyze\Bundle\CoreBundle\EventListener\MaintenanceListener;
 use Runalyze\Bundle\CoreBundle\EventListener\RecalculationTasksPerformerListener;
 use Runalyze\Bundle\CoreBundle\EventListener\TablePrefixSubscriber;
 use Runalyze\Bundle\CoreBundle\Form\ActivityType;
@@ -248,6 +247,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Trainingspartner/config/services.php');
     $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Trainingszeiten/config/services.php');
     $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Wetter/config/services.php');
+    $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Wettkampf/config/services.php');
 
     $containerConfigurator->import(__DIR__ . '/../plugins/Equipment/config/services.php');
     $containerConfigurator->import(__DIR__ . '/../plugins/Goals/config/services.php');
@@ -317,8 +317,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(TablePrefixSubscriber::class)
         ->arg('$prefix', '%app.database_prefix%');
-
-    $services->alias('app.listener.maintenance', MaintenanceListener::class);
 
     $services->set(AccountMailer::class);
 

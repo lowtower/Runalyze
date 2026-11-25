@@ -50,7 +50,11 @@
                         </div>
                         <div id="statistics-years" class="change" style="display:none;">
                             {% include '@Statistiken/summary_table.html.twig' with {table: yearComparisonTable} only %}
-                            {{ tabForComparisonOfYears|raw }}
+                            {% if raceYearComparison is not null %}
+                                {% include '@Wettkampf/year_comparison.html.twig' with {comparison: raceYearComparison} only %}
+                            {% else %}
+                                <em>{{ 'No data available.'|trans }}</em>
+                            {% endif %}
                         </div>
                     </div>
                 {% endif %}

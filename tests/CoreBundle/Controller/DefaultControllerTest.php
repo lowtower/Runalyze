@@ -4,21 +4,27 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
+use DateTimeImmutable;
 use PluginPanel;
 use PluginStat;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Conf;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginEntity;
 use Runalyze\Bundle\CoreBundle\Entity\PluginConf;
+use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\User;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
 use Runalyze\Model\Account\UserRole;
+use Runalyze\Profile\Sport\SportProfile;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final class DashboardInstantiationTestPanel extends PluginPanel
@@ -708,6 +714,55 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testRechenspieleAllYearsPlotPersistsMaximaFromTrainingHistory(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        /** @var PluginInstallationManager $installationManager */
+        $installationManager = self::getContainer()->get(PluginInstallationManager::class);
+        $installationManager->install('RunalyzePluginPanel_Rechenspiele');
+
+        $entityManager = $this->getEntityManager();
+        $sport = $entityManager->getRepository(Sport::class)->findOneBy([
+            'account' => $this->Account,
+            'img' => 'icons8-Running',
+        ]);
+        $this->assertInstanceOf(Sport::class, $sport);
+
+        $timestamp = new DateTimeImmutable('2025-06-01 12:00:00 UTC')->getTimestamp();
+        $training = new Training()
+            ->setTime($timestamp)
+            ->setS(3600)
+            ->setDistance(10.0)
+            ->setSport($sport)
+            ->setAccount($this->Account);
+        $entityManager->persist($training);
+        $entityManager->flush();
+
+        $training->setTrimp(100);
+        $entityManager->flush();
+
+        /** @var ConfigurationUpdater $updater */
+        $updater = self::getContainer()->get(ConfigurationUpdater::class);
+        $updater->updateStartTime($this->Account, $timestamp);
+        $updater->updateMaximalAtl($this->Account, 100);
+        $updater->updateMaximalCtl($this->Account, 100);
+
+        $repository = $entityManager->getRepository(Conf::class);
+        $repository->updateOrInsert($this->Account, 'trimp', 'ATL_DAYS', '7');
+        $repository->updateOrInsert($this->Account, 'trimp', 'CTL_DAYS', '42');
+        self::getContainer()->get(ConfigurationManager::class)->reloadCurrentList();
+
+        $this->Client->xmlHttpRequest('GET', '/plugin/RunalyzePluginPanel_Rechenspiele/window.plot.php?y=all&m=tsb');
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('formalltsb', (string) $this->Client->getResponse()->getContent());
+
+        $this->assertSame('25', $repository->findForAccountAndKey($this->Account, 'MAX_ATL')?->getValue());
+        $this->assertSame('5', $repository->findForAccountAndKey($this->Account, 'MAX_CTL')?->getValue());
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testRechenspieleShapePlotPreservesAjaxMenuAndValidatesQuery(): void
     {
         $this->loginClient($this->Client, $this->Account, 'default');
@@ -939,19 +994,33 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
-    public function testPrognosisPlotWindowUsesTheInstalledOptionalRacePlugin(): void
+    public function testPrognosisPlotWindowReadsFunRaceSettingsWhenTheRacePluginIsInstalled(): void
     {
+        $entityManager = $this->getEntityManager();
+        $running = $entityManager->getRepository(Sport::class)->findInternalIdFor(SportProfile::RUNNING, $this->Account);
+        $plugin = $entityManager->getRepository(PluginEntity::class)->findForAccountAndKey($this->Account, 'RunalyzePluginStat_Wettkampf');
+        $activity = new Training()->setAccount($this->Account)->setSport($running)->setTime(strtotime('yesterday UTC'))
+            ->setS(2500.25)->setDistance(10.0);
+        $entityManager->persist($activity);
+        $entityManager->persist(new Raceresult()->fillFromActivity($activity));
+        $entityManager->flush();
+        $entityManager->persist(new PluginConf()->setPlugin($plugin)->setConfig('fun_ids')->setValue((string) $activity->getId()));
+        $entityManager->flush();
+
         $this->loginClient($this->Client, $this->Account, 'default');
-
-        /** @var PluginInstallationManager $installationManager */
-        $installationManager = self::getContainer()->get(PluginInstallationManager::class);
-        $installationManager->install('RunalyzePluginPanel_Prognose');
-        $installationManager->install('RunalyzePluginStat_Wettkampf');
-
-        $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.plot.php?distance=10');
-
+        $url = '/plugin/RunalyzePluginPanel_Prognose/window.plot.php?distance=10';
+        $this->Client->request('GET', $url);
         $this->assertStatusCode(200, $this->Client);
-        $this->assertStringContainsString('formverlauf_10', (string) $this->Client->getResponse()->getContent());
+        $content = (string) $this->Client->getResponse()->getContent();
+        $this->assertStringContainsString('formverlauf_10', $content);
+        $this->assertStringNotContainsString('2500250', $content);
+
+        $entityManager->remove($entityManager->find(PluginEntity::class, $plugin->getId()));
+        $entityManager->flush();
+
+        $this->Client->request('GET', $url);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('2500250', (string) $this->Client->getResponse()->getContent());
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
