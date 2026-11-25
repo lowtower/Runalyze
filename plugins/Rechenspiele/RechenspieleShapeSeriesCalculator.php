@@ -74,7 +74,10 @@ final readonly class RechenspieleShapeSeriesCalculator
         $maxAtl = $useCalculatedMaxima ? $performanceModel->maxFatigue() : $storedMaxAtl;
         $maxCtl = $useCalculatedMaxima ? $performanceModel->maxFitness() : $storedMaxCtl;
         $recomputedMaxima = $useCalculatedMaxima && $model === 'tsb'
-            ? ['atl' => $maxAtl, 'ctl' => $maxCtl]
+            ? [
+                'atl' => $maxAtl,
+                'ctl' => $maxCtl,
+            ]
             : null;
         $percent = $showInPercent && $model !== 'banister';
 
