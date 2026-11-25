@@ -484,7 +484,7 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             $content = (string) $this->Client->getResponse()->getContent();
 
             $this->assertStringContainsString('Monthly Stats', $content);
-            $this->assertStringContainsString('analysis-table', $content);
+            $this->assertStringContainsString('monthly-statistics-table', $content);
             $this->assertStringContainsString('colspan="13"', $content);
             $this->assertSame(1, substr_count($content, 'id="headline"'));
         } finally {
@@ -535,7 +535,7 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             $content = (string) $this->Client->getResponse()->getContent();
 
             $this->assertStringContainsString('Monthly Stats', $content);
-            $this->assertStringContainsString('analysis-table', $content);
+            $this->assertStringContainsString('monthly-statistics-table', $content);
             $this->assertStringContainsString('2025', $content);
             $this->assertStringNotContainsString('colspan="13"', $content);
         } finally {

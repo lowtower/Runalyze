@@ -11,7 +11,7 @@ use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsFilterFactory;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Symfony\Component\HttpFoundation\InputBag;
 
-final readonly class TrainingspartnerPresenter implements ModernStatisticsInterface
+final readonly class TrainingPartnerStatisticsPresenter implements ModernStatisticsInterface
 {
     public const string KEY = 'RunalyzePluginStat_Trainingspartner';
 

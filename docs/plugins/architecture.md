@@ -43,7 +43,9 @@ plugins/
 │       └── services.php
 └── Statistics/
     └── MonthlyStats/
-        ├── MonthlyStatsPresenter.php
+        ├── MonthlyStatisticsPresenter.php
+        ├── MonthlyStatisticsData.php
+        ├── MonthlyStatisticsMetricSelection.php
         ├── templates/
         └── config/
             └── services.php
@@ -55,6 +57,7 @@ The directory name and namespace segment are code organization details, not pers
 
 - Keep plugin-specific classes in that namespace or meaningful subnamespaces such as `Configuration`, `Presentation`, or `Infrastructure`.
 - Use PascalCase for plugin directory names and PHP class names.
+- Name each dashboard statistics presenter `<Feature>StatisticsPresenter` using the English feature name. Keep supporting classes named for their own roles, such as `RouteNetworkPresenter` or `TrainingTimeDistribution`. The module directory, namespace segment, and stable installation key retain their established names.
 - Do not introduce a generic `Plugin` namespace shared by unrelated feature code.
 - Do not place plugin-specific providers, presenters, DTOs, or configuration definitions in `Runalyze\Bundle\CoreBundle\`.
 - Keep reusable application services, shared contracts, repositories, and cross-plugin orchestration in the CoreBundle.
@@ -272,25 +275,25 @@ This contract is intentionally not a universal plugin API. Other plugin types sh
 `DashboardStatisticsProvider` builds the active tabs and Miscellaneous menu from installed `stat` records and presenter metadata. The dashboard and `/my/plugin/{id}` share the rendering path in `AbstractPluginsAwareController`, which resolves the installation for the authenticated account. Filter links refresh `statistics-inner` over AJAX. `StatisticsFilterFactory` supplies account-scoped sport and date filters for presenters that use them.
 
 - `ModernStatisticsConfigurationInterface` supplies the optional configuration form, its view data, and its update method. `PluginController` handles it through `/call/call.Plugin.config.php`, including configuration of inactive installations.
-- `ModernStatisticsRequestHandlerInterface` handles validated query-driven changes before rendering. Tag selections and fun-race markers verify ownership before writing to the installation's configuration.
+- `ModernStatisticsRequestHandlerInterface` handles validated query-driven changes before rendering. Tag and weather equipment selections and fun-race markers verify ownership before writing to the installation's configuration. `StatisticsInstallation::requireId()` validates the installation's identity, account, type, and stable key before reading or writing stored settings.
 - Existing installations retain their `RunalyzePluginStat_*` keys, `stat` type, IDs, activation state, order, and saved `plugin_conf` values. The implementation switch requires no database migration.
 - The route-network and temperature windows use Symfony controllers at `/plugin/RunalyzePluginStat_Strecken/window.routenet.php` and `/plugin/RunalyzePluginStat_Wetter/window.php`. Statistiken and Wettkampf also supply the public athlete year summaries through the athlete's sharing settings. Prognose reads the optional Wettkampf `fun_ids` setting as activity IDs through `PluginConfRepository`.
 
 The legacy statistics classes and plugin-specific PHP includes have been removed. The historical keys below still appear in installation records and in compatibility URLs. [Migration issue #282](https://github.com/lowtower/Runalyze/issues/282)
 
-| Implementation under `plugins/Statistics/` | Stable installation key |
-| --- | --- |
-| `Analyse/` | `RunalyzePluginStat_Analyse` |
-| `Hoehenmeter/` | `RunalyzePluginStat_Hoehenmeter` |
-| `MonthlyStats/` | `RunalyzePluginStat_MonthlyStats` |
-| `Rekorde/` | `RunalyzePluginStat_Rekorde` |
-| `Statistiken/` | `RunalyzePluginStat_Statistiken` |
-| `Strecken/` | `RunalyzePluginStat_Strecken` |
-| `Tag/` | `RunalyzePluginStat_Tag` |
-| `Trainingspartner/` | `RunalyzePluginStat_Trainingspartner` |
-| `Trainingszeiten/` | `RunalyzePluginStat_Trainingszeiten` |
-| `Wetter/` | `RunalyzePluginStat_Wetter` |
-| `Wettkampf/` | `RunalyzePluginStat_Wettkampf` |
+| Module under `plugins/Statistics/` | Dashboard presenter | Stable installation key |
+| --- | --- | --- |
+| `Analyse/` | `AnalysisStatisticsPresenter` | `RunalyzePluginStat_Analyse` |
+| `Hoehenmeter/` | `ElevationStatisticsPresenter` | `RunalyzePluginStat_Hoehenmeter` |
+| `MonthlyStats/` | `MonthlyStatisticsPresenter` | `RunalyzePluginStat_MonthlyStats` |
+| `Rekorde/` | `RecordStatisticsPresenter` | `RunalyzePluginStat_Rekorde` |
+| `Statistiken/` | `SummaryStatisticsPresenter` | `RunalyzePluginStat_Statistiken` |
+| `Strecken/` | `RouteStatisticsPresenter` | `RunalyzePluginStat_Strecken` |
+| `Tag/` | `TagStatisticsPresenter` | `RunalyzePluginStat_Tag` |
+| `Trainingspartner/` | `TrainingPartnerStatisticsPresenter` | `RunalyzePluginStat_Trainingspartner` |
+| `Trainingszeiten/` | `TrainingTimeStatisticsPresenter` | `RunalyzePluginStat_Trainingszeiten` |
+| `Wetter/` | `WeatherStatisticsPresenter` | `RunalyzePluginStat_Wetter` |
+| `Wettkampf/` | `RaceStatisticsPresenter` | `RunalyzePluginStat_Wettkampf` |
 
 Inspect registration with `php bin/console debug:container --tag=runalyze.modern_stat`. `composer test:plugin` runs the plugin tests, including statistics dashboard, filter, settings and account-isolation coverage. The CI workflow runs the full PHPUnit suite and compares statement coverage with the base branch.
 

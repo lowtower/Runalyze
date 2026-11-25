@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Runalyze\Plugins\Statistics\Wetter;
 
 use DateTimeImmutable;
-use InvalidArgumentException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsConfigurationInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRequestHandlerInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsFilterFactory;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsInstallation;
 use Runalyze\Bundle\CoreBundle\Repository\EquipmentTypeRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
@@ -21,7 +22,7 @@ use Runalyze\Profile\Weather\WeatherConditionProfile;
 use Runalyze\Util\Time;
 use Symfony\Component\HttpFoundation\InputBag;
 
-final readonly class WeatherStatisticsPresenter implements ModernStatisticsInterface, ModernStatisticsConfigurationInterface
+final readonly class WeatherStatisticsPresenter implements ModernStatisticsInterface, ModernStatisticsConfigurationInterface, ModernStatisticsRequestHandlerInterface
 {
     public const string KEY = 'RunalyzePluginStat_Wetter';
 
@@ -72,14 +73,29 @@ final readonly class WeatherStatisticsPresenter implements ModernStatisticsInter
 
     public function updateConfiguration(Account $account, Plugin $installation, array $data): void
     {
-        $types = $this->equipmentTypes($account);
-        $this->selectedType($account, $installation, $types, $data[self::SETTING] ?? null);
+        $id = StatisticsInstallation::requireId($account, $installation, self::KEY);
+        $requested = $data[self::SETTING] ?? null;
+
+        if (is_string($requested) && ctype_digit($requested) && isset($this->equipmentTypes($account)[$requested])
+            && $requested !== $this->storedType($id)
+        ) {
+            $this->configurationStorage->saveValue($installation, self::SETTING, $requested);
+        }
+    }
+
+    public function handleRequest(Account $account, Plugin $installation, InputBag $query): void
+    {
+        if ($query->has('dat')) {
+            $this->updateConfiguration($account, $installation, [
+                self::SETTING => $query->all()['dat'],
+            ]);
+        }
     }
 
     public function present(Account $account, Plugin $installation, InputBag $query): array
     {
         $types = $this->equipmentTypes($account);
-        $selected = $this->selectedType($account, $installation, $types, $query->all()['dat'] ?? null);
+        $selected = $this->selectedType($account, $installation, $types);
         $filter = $this->filterFactory->fromQuery($account, $query);
         $sport = $filter['sport'] > 0 ? $filter['sport'] : null;
         $from = $filter['from'];
@@ -220,24 +236,16 @@ final readonly class WeatherStatisticsPresenter implements ModernStatisticsInter
     /**
      * @param array<int, string> $types
      */
-    private function selectedType(Account $account, Plugin $installation, array $types, mixed $requested = null): int
+    private function selectedType(Account $account, Plugin $installation, array $types): int
     {
-        $id = $installation->getId();
-        if ($id === null || $account->getId() === null || $installation->getAccount()->getId() !== $account->getId()
-            || $installation->getKey() !== self::KEY || ! $installation->isStatistic()
-        ) {
-            throw new InvalidArgumentException('The weather installation is not available for this account.');
-        }
-
-        $stored = $this->configurationStorage->loadForPlugins([$id])[$id][self::SETTING] ?? '0';
-        if (is_string($requested) && ctype_digit($requested) && isset($types[$requested])) {
-            if ($requested !== $stored) {
-                $this->configurationStorage->saveValue($installation, self::SETTING, $requested);
-            }
-
-            return (int) $requested;
-        }
+        $id = StatisticsInstallation::requireId($account, $installation, self::KEY);
+        $stored = $this->storedType($id);
 
         return isset($types[$stored]) ? (int) $stored : 0;
+    }
+
+    private function storedType(int $id): string
+    {
+        return $this->configurationStorage->loadForPlugins([$id])[$id][self::SETTING] ?? '0';
     }
 }

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Runalyze\Plugins\Statistics\Strecken;
 
-use InvalidArgumentException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsConfigurationInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsFilterFactory;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsInstallation;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\DoctrinePluginConfigurationStorage;
 use Symfony\Component\HttpFoundation\InputBag;
@@ -54,19 +54,19 @@ final readonly class RouteStatisticsPresenter implements ModernStatisticsInterfa
     public function getConfigurationData(Account $account, Plugin $installation): array
     {
         return [
-            'showCities' => $this->showCities($this->installationId($account, $installation)),
+            'showCities' => $this->showCities(StatisticsInstallation::requireId($account, $installation, self::KEY)),
         ];
     }
 
     public function updateConfiguration(Account $account, Plugin $installation, array $data): void
     {
-        $this->installationId($account, $installation);
+        StatisticsInstallation::requireId($account, $installation, self::KEY);
         $this->configurationStorage->saveValue($installation, self::SHOW_CITIES, isset($data[self::SHOW_CITIES]) ? '1' : '0');
     }
 
     public function present(Account $account, Plugin $installation, InputBag $query): array
     {
-        $id = $this->installationId($account, $installation);
+        $id = StatisticsInstallation::requireId($account, $installation, self::KEY);
         $showCities = $this->showCities($id);
         $filter = $this->filterFactory->fromQuery($account, $query);
         $sport = $filter['sport'] > 0 ? $filter['sport'] : null;
@@ -124,17 +124,5 @@ final readonly class RouteStatisticsPresenter implements ModernStatisticsInterfa
     private function showCities(int $id): bool
     {
         return ($this->configurationStorage->loadForPlugins([$id])[$id][self::SHOW_CITIES] ?? '1') === '1';
-    }
-
-    private function installationId(Account $account, Plugin $installation): int
-    {
-        $id = $installation->getId();
-        if ($id === null || $account->getId() === null || $installation->getAccount()->getId() !== $account->getId()
-            || $installation->getKey() !== self::KEY || ! $installation->isStatistic()
-        ) {
-            throw new InvalidArgumentException('The routes installation is not available for this account.');
-        }
-
-        return $id;
     }
 }

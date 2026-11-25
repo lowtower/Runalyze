@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Runalyze\Plugins\Statistics\Analyse;
 
 use DateTimeImmutable;
-use InvalidArgumentException;
 use Runalyze\Activity\Pace;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -15,6 +14,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsConfigurationInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsFilterFactory;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsInstallation;
 use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TypeRepository;
@@ -30,7 +30,7 @@ use Symfony\Component\HttpFoundation\InputBag;
  * @phpstan-type PaceLimits array{slowest: int, fastest: int, step: int}
  * @phpstan-type Filter array{sport: int, year: int, sports: array<int, string>, years: array<int, string>, from: ?int, until: ?int}
  */
-final readonly class AnalysisPresenter implements ModernStatisticsInterface, ModernStatisticsConfigurationInterface
+final readonly class AnalysisStatisticsPresenter implements ModernStatisticsInterface, ModernStatisticsConfigurationInterface
 {
     public const string KEY = 'RunalyzePluginStat_Analyse';
 
@@ -70,7 +70,7 @@ final readonly class AnalysisPresenter implements ModernStatisticsInterface, Mod
 
     public function getConfigurationData(Account $account, Plugin $installation): array
     {
-        $id = $this->installationId($account, $installation);
+        $id = StatisticsInstallation::requireId($account, $installation, self::KEY);
 
         return [
             'settings' => $this->settings($this->configurationStorage->loadForPlugins([$id])[$id] ?? []),
@@ -79,7 +79,7 @@ final readonly class AnalysisPresenter implements ModernStatisticsInterface, Mod
 
     public function updateConfiguration(Account $account, Plugin $installation, array $data): void
     {
-        $this->installationId($account, $installation);
+        StatisticsInstallation::requireId($account, $installation, self::KEY);
         $values = [];
         foreach ($this->settings([]) as $key => $setting) {
             if (is_bool($setting['default'])) {
@@ -94,7 +94,7 @@ final readonly class AnalysisPresenter implements ModernStatisticsInterface, Mod
 
     public function present(Account $account, Plugin $installation, InputBag $query): array
     {
-        $id = $this->installationId($account, $installation);
+        $id = StatisticsInstallation::requireId($account, $installation, self::KEY);
         $configuration = $this->configurationManager->getList($account);
         $general = $configuration->getGeneral();
         $filter = $this->filterFactory->fromQuery($account, $query, $general->getMainSport());
@@ -397,17 +397,5 @@ final readonly class AnalysisPresenter implements ModernStatisticsInterface, Mod
         }
 
         return $labels;
-    }
-
-    private function installationId(Account $account, Plugin $installation): int
-    {
-        $id = $installation->getId();
-        if ($id === null || $account->getId() === null || $installation->getAccount()->getId() !== $account->getId()
-            || $installation->getKey() !== self::KEY || ! $installation->isStatistic()
-        ) {
-            throw new InvalidArgumentException('The analysis installation is not available for this account.');
-        }
-
-        return $id;
     }
 }
