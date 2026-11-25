@@ -145,7 +145,7 @@ final class RechenspieleExplanationWindowProviderTest extends TestCase
         $end = new DateTimeImmutable('2026-11-24 23:59:59 UTC')->getTimestamp();
         $usedVO2max = 48.25;
         $targetWeekKm = $usedVO2max ** 1.135;
-        $targetLongJogKm = max(0.1, (new MarathonShape($usedVO2max, $basicEndurance))->getTargetForLongJogEachWeek() - 13.0);
+        $targetLongJogKm = max(0.1, new MarathonShape($usedVO2max, $basicEndurance)->getTargetForLongJogEachWeek() - 13.0);
         $longJogDays = $basicEndurance->getDaysToConsiderForLongJogs();
         $weekDays = $basicEndurance->getDaysToConsiderForWeeklyMileage(327);
 
@@ -197,7 +197,7 @@ final class RechenspieleExplanationWindowProviderTest extends TestCase
         $this->assertSame(number_format(round($pointsOne + $pointsTwo, 1), 1), $result['longjog_points']);
         $this->assertSame((int) round(100 * $longJogPercentage), $result['longjog_percentage']);
         $this->assertSame(number_format($targetLongJogKm + 13.0, 2), $result['longjog_target_km']);
-        $this->assertSame(gmdate('H:i:s', (int) (new Vo2maxPrognosis($usedVO2max))->getSeconds(42.195)), $result['marathon_time']);
+        $this->assertSame(gmdate('H:i:s', (int) new Vo2maxPrognosis($usedVO2max)->getSeconds(42.195)), $result['marathon_time']);
         $this->assertSame('13.00', $result['minimal_longjog_km']);
         $this->assertSame(1, $result['ignored_runs']);
         $this->assertSame([
@@ -222,7 +222,7 @@ final class RechenspieleExplanationWindowProviderTest extends TestCase
         $this->assertSame('0.00', $result['vo2max']);
         $this->assertFalse($result['has_vo2max']);
         $this->assertSame(0, $result['percentage']);
-        $this->assertSame(gmdate('H:i:s', (int) (new Vo2maxPrognosis(25.0))->getSeconds(42.195)), $result['marathon_time']);
+        $this->assertSame(gmdate('H:i:s', (int) new Vo2maxPrognosis(25.0)->getSeconds(42.195)), $result['marathon_time']);
     }
 
     public function testWindowDataCombinesAllOverviews(): void
@@ -239,6 +239,9 @@ final class RechenspieleExplanationWindowProviderTest extends TestCase
         $this->assertSame(['trimp', 'vo2max', 'basic_endurance'], array_keys($result));
     }
 
+    /**
+     * @param array<string, string> $options
+     */
     private function provider(?TrainingRepository $repository = null, array $options = []): RechenspieleExplanationWindowProvider
     {
         return new RechenspieleExplanationWindowProvider(

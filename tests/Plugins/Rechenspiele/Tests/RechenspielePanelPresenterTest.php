@@ -169,8 +169,7 @@ final class RechenspielePanelPresenterTest extends TestCase
     public function testExposesConfiguredBooleanValuesAndActiveState(): void
     {
         $account = $this->account(12);
-        $installation = $this->installation($account);
-        $installation->method('getActive')->willReturn(Plugin::STATE_INACTIVE);
+        $installation = $this->installation($account, Plugin::STATE_INACTIVE);
 
         $result = $this->presenter(null, [
             'show_trimpvalues' => '0',
@@ -235,7 +234,9 @@ final class RechenspielePanelPresenterTest extends TestCase
         $this->presenter(null, [], [], $storage)->updateConfiguration(
             $this->account(12),
             $this->installation($this->account(13)),
-            ['show_vo2max' => '1']
+            [
+                'show_vo2max' => '1',
+            ]
         );
     }
 
@@ -279,15 +280,15 @@ final class RechenspielePanelPresenterTest extends TestCase
         return $account;
     }
 
-    private function installation(Account $account): Plugin
+    private function installation(Account $account, int $active = Plugin::STATE_ACTIVE): Plugin
     {
         $installation = $this->createStub(Plugin::class);
         $installation->method('getId')->willReturn(5);
         $installation->method('getAccount')->willReturn($account);
         $installation->method('getKey')->willReturn('RunalyzePluginPanel_Rechenspiele');
         $installation->method('isPanel')->willReturn(true);
-        $installation->method('isInactive')->willReturn(false);
-        $installation->method('getActive')->willReturn(Plugin::STATE_ACTIVE);
+        $installation->method('isInactive')->willReturn($active === Plugin::STATE_INACTIVE);
+        $installation->method('getActive')->willReturn($active);
 
         return $installation;
     }

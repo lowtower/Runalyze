@@ -120,7 +120,7 @@ final readonly class RechenspieleExplanationWindowProvider
                 $fromTimestamp
             ) as $row
         ) {
-            $date = (new DateTimeImmutable('@' . $row['time']))->setTimezone($timezone)->format('d.m.Y');
+            $date = new DateTimeImmutable('@' . $row['time'])->setTimezone($timezone)->format('d.m.Y');
             $distance = number_format($configuration->getUnitSystem()->getDistanceUnit()->fromBaseUnit($row['distance']), 2);
             $effective->setValue($row['vo2max']);
 
@@ -170,15 +170,15 @@ final readonly class RechenspieleExplanationWindowProvider
         $configuration = $this->configurationManager->getList($account);
         $basicEndurance = $configuration->getBasicEndurance();
         $vo2max = $configuration->getCurrentVO2maxShape();
-        $usedVO2max = max($vo2max, (float) $basicEndurance::MINIMAL_EFFECTIVE_VO2MAX);
+        $usedVO2max = max($vo2max, $basicEndurance::MINIMAL_EFFECTIVE_VO2MAX);
 
         $timezone = $this->timezoneFor($account);
         $today = $this->clock->now()->setTimezone($timezone);
-        $startTimestamp = (int) $configuration->getData()->getStartTime();
+        $startTimestamp = $configuration->getData()->getStartTime();
         $accountAgeDays = 0;
 
         if ($startTimestamp > 0) {
-            $firstDay = (new DateTimeImmutable('@' . $startTimestamp))->setTimezone($timezone)->setTime(0, 0);
+            $firstDay = new DateTimeImmutable('@' . $startTimestamp)->setTimezone($timezone)->setTime(0, 0);
 
             if ($firstDay <= $today) {
                 $accountAgeDays = (int) $firstDay->diff($today->setTime(0, 0))->format('%r%a');
@@ -189,7 +189,7 @@ final readonly class RechenspieleExplanationWindowProvider
         $longJogDays = $basicEndurance->getDaysToConsiderForLongJogs();
         $minimalLongJogKm = (float) $basicEndurance->getMinimalDistanceForLongJog();
         $targetWeekKm = $usedVO2max ** 1.135;
-        $targetLongJogKm = max(0.1, (new MarathonShape($usedVO2max, $basicEndurance))->getTargetForLongJogEachWeek() - $minimalLongJogKm);
+        $targetLongJogKm = max(0.1, new MarathonShape($usedVO2max, $basicEndurance)->getTargetForLongJogEachWeek() - $minimalLongJogKm);
 
         $endTimestamp = $today->setTime(23, 59, 59)->getTimestamp();
         $distanceUnit = $configuration->getUnitSystem()->getDistanceUnit();
@@ -223,7 +223,7 @@ final readonly class RechenspieleExplanationWindowProvider
             if ($points >= 0.2) {
                 $runs[] = [
                     'id' => $run['id'],
-                    'date' => (new DateTimeImmutable('@' . $run['time']))->setTimezone($timezone)->format('d.m.Y'),
+                    'date' => new DateTimeImmutable('@' . $run['time'])->setTimezone($timezone)->format('d.m.Y'),
                     'distance' => $formatDistance($run['distance']),
                     'points' => number_format(round($points, 1), 1),
                 ];
@@ -234,12 +234,12 @@ final readonly class RechenspieleExplanationWindowProvider
 
         $weekKmPercentage = $kilometers * 7 / $weekDays / $targetWeekKm;
         $longJogPercentage = $longJogPoints * 7 / $longJogDays;
-        $marathonSeconds = (new Vo2maxPrognosis($usedVO2max))->getSeconds(42.195);
+        $marathonSeconds = new Vo2maxPrognosis($usedVO2max)->getSeconds(42.195);
 
         return [
             'unit' => $distanceUnit->getAppendix(),
             'vo2max' => number_format($vo2max, 2),
-            'has_vo2max' => $vo2max != 0.0,
+            'has_vo2max' => $vo2max !== 0.0,
             'percentage' => (int) round(100 * (
                 $weekKmPercentage * $basicEndurance->getPercentageForWeeklyMileage()
                 + $longJogPercentage * $basicEndurance->getPercentageForLongJogs()
