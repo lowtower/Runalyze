@@ -206,17 +206,22 @@ final class RechenspielePanelPresenterTest extends TestCase
         $storage->expects($this->once())
             ->method('update')
             ->with(5, 'show_trimpvalues', '0');
+        $inserted = [];
         $storage->expects($this->exactly(3))
             ->method('insert')
-            ->withConsecutive(
-                [5, 'show_trimpvalues_extra', '1'],
-                [5, 'show_vo2max', '0'],
-                [5, 'show_basicendurance', '0'],
-            );
+            ->willReturnCallback(static function (int $pluginId, string $key, string $value) use (&$inserted): void {
+                $inserted[] = [$pluginId, $key, $value];
+            });
 
         $this->presenter(null, [], [], $storage)->updateConfiguration($account, $installation, [
             'show_trimpvalues_extra' => '1',
         ]);
+
+        $this->assertSame([
+            [5, 'show_trimpvalues_extra', '1'],
+            [5, 'show_vo2max', '0'],
+            [5, 'show_basicendurance', '0'],
+        ], $inserted);
     }
 
     public function testUpdateConfigurationRejectsAnotherAccountsInstallation(): void
