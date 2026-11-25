@@ -232,7 +232,7 @@ Here some fixes/improvements i have done in RUNALYZE (see details in the commits
 * 2023-02-05: Store and show _caloriens_ on details on the UI laps-window table per lap
 * 2023-02-19: New activity-type _E-MTB Mountain_ can be added to your account and are recognised while importing from Garmin Fenix 6
 * 2023-02-25: Increase limit of concurrent Routenets and support of _Position interval_
-	* Limit of shown routes at once is increased from 50 to 250; set this for your fits in `plugin/RunalyzePluginStat_Strecken/class.RunalyzePluginStat_Strecken.php`-`MAX_ROUTES_ON_NET` regarding your concurrent users, memory settings...
+	* The base limit for displayed routes increased from 50 to 250. The modern route-network window uses `ROUTES_PER_INTERVAL` in [RouteNetworkPresenter.php](plugins/Statistics/Strecken/RouteNetworkPresenter.php).
 	* With _Position interval_ you can set to show only _every n GPS route position_ (default=All=1 show every point); this reduce the total number of shown positions and therefore the number of shown routes increases; so it is possible to show in total 1250 routes with every fifth position/point
 	* Add a tooltip on the routenet-page for the routes with date, name and distance
 * 2023-02-26: Fix a mismatch in the lap-table and lap-popup; in some activities a additional (1 second) round is shown in the popup

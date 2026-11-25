@@ -1,8 +1,6 @@
 # Plugin architecture
 
-This document defines the target architecture for new and migrated Runalyze plugins. The panel-specific contract and registry described below are implemented; proposals for other plugin types remain conceptual until a concrete migration requires them. The directory, namespace, Composer, service-registration, and Twig-loading conventions for modern plugins are active.
-
-The existing plugin system remains supported while this target is introduced incrementally. Existing implementations under `plugin/` continue to use the global `Plugin` / `PluginPanel` base classes and their legacy lifecycle. New code must not extend those classes.
+Runalyze uses separate Symfony presenter contracts and registries for panels and statistics. All eleven built-in statistics plugins run from `plugins/Statistics/`. The panel migration examples below describe individual stages of the [remaining panel migration](remaining-panel-migration.md).
 
 ## Goals
 
@@ -15,18 +13,12 @@ The existing plugin system remains supported while this target is introduced inc
 
 ## Current system and migration boundary
 
-Legacy plugin implementations are discovered from `plugin/` through Composer's classmap and instantiated by `LegacyPluginInstantiator`. Their constructors accept a plugin ID and rely on scoped metadata supplied through `LegacyPluginDataContext`. The base class also reads request superglobals and legacy configuration/global services.
-
-The Symfony integration already has useful boundaries that should be reused:
-
-- `PluginDiscovery` discovers legacy plugin directories.
+- `PluginDiscovery` combines the keys from both modern registries with legacy directories.
 - `PluginInstallationManager` owns account-scoped installation and activation state.
-- `PluginSettingsProvider` resolves installed legacy plugin data and instances.
+- `PluginSettingsProvider` provides installed metadata for the dashboard and plugin administration, and resolves legacy instances for compatibility callers.
 - `PluginConfigurationStorageInterface` and its Doctrine implementation persist plugin configuration.
-- `LegacyPluginInstantiator` preserves the legacy constructor contract.
-- `LegacyPluginOutputRenderer` captures output from legacy implementations.
 
-These services are not to be replaced merely to make the new API look different. The new API should coexist with them and use them where their responsibilities match.
+The legacy path uses filesystem discovery in `plugin/` and Composer's classmap to load global classes. `LegacyPluginInstantiator` supplies the installation ID and scoped `LegacyPluginDataContext`. `LegacyPluginOutputRenderer` captures the instance's display output. The final cleanup covers these shared paths and their tests once the [remaining panel migration](remaining-panel-migration.md) is complete.
 
 ## Directory and namespace convention
 
@@ -37,9 +29,9 @@ The repository uses separate roots for the two generations:
 - `plugin/` remains the legacy root. Existing directories, class names, global base classes, and Composer classmap discovery remain supported during migration.
 - `plugins/` is the root for modern plugins. New modern plugin code must not be added to the legacy `plugin/` tree.
 
-Each modern plugin has one directory named after its stable, human-readable plugin name in PascalCase. Its PHP namespace is rooted at `Runalyze\Plugins\<PluginName>\`, mapped by Composer PSR-4 from `Runalyze\Plugins\` to `plugins/`.
+Each modern plugin has one PascalCase directory. Panels live in `plugins/<PluginName>/` with namespace `Runalyze\Plugins\<PluginName>`. Statistics live in `plugins/Statistics/<PluginName>/` with namespace `Runalyze\Plugins\Statistics\<PluginName>`. Both use the Composer PSR-4 prefix `Runalyze\Plugins\`.
 
-A modern plugin should follow this structure where the corresponding concerns exist:
+The panel and statistics directories use the same file conventions.
 
 ```text
 plugins/
@@ -49,18 +41,18 @@ plugins/
 │   ├── templates/
 │   └── config/
 │       └── services.php
-└── Sports/
-    ├── SportsPanelPresenter.php
-    ├── templates/
-    └── config/
-        └── services.php
+└── Statistics/
+    └── MonthlyStats/
+        ├── MonthlyStatsPresenter.php
+        ├── templates/
+        └── config/
+            └── services.php
 ```
 
 The directory name and namespace segment are code organization details, not persisted plugin identifiers. The stable plugin key remains explicit metadata and must not be derived from a PHP class name, namespace, or directory name. Renaming or moving implementation files must not change installed plugin records.
 
 ### PHP namespaces and class names
 
-- Use `Runalyze\\Plugins\\<PluginName>` as the namespace root for the plugin.
 - Keep plugin-specific classes in that namespace or meaningful subnamespaces such as `Configuration`, `Presentation`, or `Infrastructure`.
 - Use PascalCase for plugin directory names and PHP class names.
 - Do not introduce a generic `Plugin` namespace shared by unrelated feature code.
@@ -102,14 +94,14 @@ tests/
 The corresponding namespace is:
 
 ```php
-namespace Runalyze\\Plugins\\Sportler\\Tests;
+namespace Runalyze\Plugins\Sportler\Tests;
 ```
 
-This keeps plugin tests independent of the application's `App\\Tests\\` namespace while retaining the central PHPUnit configuration and test suite. Tests for code that still belongs to shared application infrastructure remain in the corresponding application test namespace.
+Statistics unit tests mirror their source layout under `tests/Plugins/Statistics/<PluginName>/Tests/`. Tests for shared application infrastructure stay in the corresponding application test namespace.
 
 ### Legacy coexistence
 
-A migrated plugin may temporarily contain both its legacy implementation under `plugin/<legacy-directory>/` and its modern implementation under `plugins/<PluginName>/`. The legacy implementation remains the compatibility path until the modern execution and presentation path has been verified. Do not move legacy files merely to make the directory layout look uniform.
+During a staged migration, the legacy and modern implementations may coexist until the modern display, settings and auxiliary routes have been verified. The modern registry resolves the stable installation key during the switch to the new implementation.
 
 ### Removing a migrated legacy panel
 
@@ -273,6 +265,35 @@ interface ModernPanelInterface
 
 This contract is intentionally not a universal plugin API. Other plugin types should receive their own small contracts only when a real migration needs them. The conceptual `PluginDefinition` / `PluginContext` / `PluginResult` design is therefore not implemented and must not be treated as a current runtime API.
 
+### Implemented statistics contract
+
+`ModernStatisticsInterface` exposes the stable key, display name, description and Twig template. Its `present(Account $account, Plugin $installation, InputBag $query)` method returns the template data for a single invocation. `ModernStatisticsRegistry` indexes presenters tagged with `runalyze.modern_stat`. Each plugin registers its services in its own `config/services.php`, imported by the application. Its templates are registered with a plugin-specific Twig namespace.
+
+`DashboardStatisticsProvider` builds the active tabs and Miscellaneous menu from installed `stat` records and presenter metadata. The dashboard and `/my/plugin/{id}` share the rendering path in `AbstractPluginsAwareController`, which resolves the installation for the authenticated account. Filter links refresh `statistics-inner` over AJAX. `StatisticsFilterFactory` supplies account-scoped sport and date filters for presenters that use them.
+
+- `ModernStatisticsConfigurationInterface` supplies the optional configuration form, its view data, and its update method. `PluginController` handles it through `/call/call.Plugin.config.php`, including configuration of inactive installations.
+- `ModernStatisticsRequestHandlerInterface` handles validated query-driven changes before rendering. Tag selections and fun-race markers verify ownership before writing to the installation's configuration.
+- Existing installations retain their `RunalyzePluginStat_*` keys, `stat` type, IDs, activation state, order, and saved `plugin_conf` values. The implementation switch requires no database migration.
+- The route-network and temperature windows use Symfony controllers at `/plugin/RunalyzePluginStat_Strecken/window.routenet.php` and `/plugin/RunalyzePluginStat_Wetter/window.php`. Statistiken and Wettkampf also supply the public athlete year summaries through the athlete's sharing settings. Prognose reads the optional Wettkampf `fun_ids` setting as activity IDs through `PluginConfRepository`.
+
+The legacy statistics classes and plugin-specific PHP includes have been removed. The historical keys below still appear in installation records and in compatibility URLs. [Migration issue #282](https://github.com/lowtower/Runalyze/issues/282)
+
+| Implementation under `plugins/Statistics/` | Stable installation key |
+| --- | --- |
+| `Analyse/` | `RunalyzePluginStat_Analyse` |
+| `Hoehenmeter/` | `RunalyzePluginStat_Hoehenmeter` |
+| `MonthlyStats/` | `RunalyzePluginStat_MonthlyStats` |
+| `Rekorde/` | `RunalyzePluginStat_Rekorde` |
+| `Statistiken/` | `RunalyzePluginStat_Statistiken` |
+| `Strecken/` | `RunalyzePluginStat_Strecken` |
+| `Tag/` | `RunalyzePluginStat_Tag` |
+| `Trainingspartner/` | `RunalyzePluginStat_Trainingspartner` |
+| `Trainingszeiten/` | `RunalyzePluginStat_Trainingszeiten` |
+| `Wetter/` | `RunalyzePluginStat_Wetter` |
+| `Wettkampf/` | `RunalyzePluginStat_Wettkampf` |
+
+Inspect registration with `php bin/console debug:container --tag=runalyze.modern_stat`. `composer test:plugin` runs the plugin tests, including statistics dashboard, filter, settings and account-isolation coverage. The CI workflow runs the full PHPUnit suite and compares statement coverage with the base branch.
+
 ### Execution and account isolation
 
 The execution boundary receives an account and installation identity from the authenticated application flow. It must verify that the installation belongs to that account before loading configuration or invoking a plugin. A plugin must not choose its own account from request parameters.
@@ -317,7 +338,7 @@ The application-owned configuration boundary is responsible for:
 - persisting through Doctrine-backed storage;
 - invalidating only the relevant cache entries.
 
-The existing `PluginConfigurationStorageInterface` is a persistence boundary for the legacy compatibility facade. Do not expose `PluginConfiguration` or legacy value objects as the modern API. The modern configuration contract should be designed alongside the first migrated plugin that needs it.
+The panel and statistics configuration contracts use the existing Doctrine-backed storage. Presenters and request handlers supply defaults and validate changes for their own installation before persisting the existing setting keys.
 
 ## Testing strategy
 
@@ -402,7 +423,7 @@ The Equipment dashboard panel reuses the existing Doctrine entities and reposito
 
 Resolve these against each future concrete migration rather than speculating now:
 
-- The type-specific contracts required for plugin types other than panels.
+- The type-specific contracts required if another plugin type is introduced.
 - Whether configuration for each future plugin type is supplied as an immutable snapshot or a narrow scoped accessor.
 - The typed result/view-model shape for each future plugin type.
 - Whether any legacy installation metadata needs a schema change (prefer not; retain stable keys where possible).

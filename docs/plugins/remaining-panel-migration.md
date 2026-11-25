@@ -12,9 +12,10 @@ The Goals panel now uses the modern runtime; one legacy panel directory remains:
 | `RunalyzePluginPanel_Ziele` | Removed | `plugins/Goals/` (calendar, totals, progress calculator, presenter, Twig and configuration) | Verify display and settings parity in browser |
 | `RunalyzePluginPanel_Rechenspiele` | `plugin/RunalyzePluginPanel_Rechenspiele/` | `plugins/Rechenspiele/` (dashboard presenter, data provider, calculator) | Migrate configuration fields and explanation/plot windows, remove the old class and PHP includes |
 
-The `RunalyzePluginStat_*` directories are **statistics plugins**, not panels.
-They need a separate modernization contract and migration scope; relocating
-them under `plugins/` as though they were panels would break their lifecycle.
+All eleven built-in statistics plugins have migrated to `plugins/Statistics/`.
+The remaining legacy panel is the last on-disk implementation using the shared
+`plugin/` discovery and Composer classmap. See the
+[statistics contract and migration status](architecture.md#implemented-statistics-contract).
 
 ## Migration rules
 
