@@ -81,7 +81,10 @@ final class RechenspieleShapePlotDataProviderTest extends TestCase
         $this->assertSame($tomorrow, $result['last_timestamp']);
         $this->assertGreaterThan(0, $result['max_atl']);
         $this->assertGreaterThan(0, $result['max_ctl']);
-        $this->assertSame(['atl' => 20, 'ctl' => 4], $result['recomputed_maxima']);
+        $this->assertSame([
+            'atl' => 20,
+            'ctl' => 4,
+        ], $result['recomputed_maxima']);
     }
 
     public function testHistoricalYearUsesStoredMaximaAndBanisterAbsoluteMode(): void
