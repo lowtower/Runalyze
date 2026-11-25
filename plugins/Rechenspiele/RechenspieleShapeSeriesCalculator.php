@@ -26,6 +26,7 @@ final readonly class RechenspieleShapeSeriesCalculator
      *     vo2max_day: array<int, float>,
      *     max_atl: int,
      *     max_ctl: int,
+     *     recomputed_maxima: array{atl: int, ctl: int}|null,
      *     max_trimp: float,
      *     show_in_percent: bool
      * }
@@ -72,6 +73,9 @@ final readonly class RechenspieleShapeSeriesCalculator
 
         $maxAtl = $useCalculatedMaxima ? $performanceModel->maxFatigue() : $storedMaxAtl;
         $maxCtl = $useCalculatedMaxima ? $performanceModel->maxFitness() : $storedMaxCtl;
+        $recomputedMaxima = $useCalculatedMaxima && $model === 'tsb'
+            ? ['atl' => $maxAtl, 'ctl' => $maxCtl]
+            : null;
         $percent = $showInPercent && $model !== 'banister';
 
         if (! $percent) {
@@ -119,6 +123,7 @@ final readonly class RechenspieleShapeSeriesCalculator
             'vo2max_day' => $vo2maxDay,
             'max_atl' => $maxAtl,
             'max_ctl' => $maxCtl,
+            'recomputed_maxima' => $recomputedMaxima,
             'max_trimp' => $maxTrimp,
             'show_in_percent' => $percent,
         ];
