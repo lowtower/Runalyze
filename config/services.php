@@ -38,9 +38,7 @@ use Runalyze\Bundle\CoreBundle\MessageHandler\PosterGenerationMessageHandler;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsFilterFactory;
-use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
-use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Repository\WeathercacheRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountChecker;
@@ -508,7 +506,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$DataDir', '%app.data_directory%');
 
     $services->set(BackupGenerationMessageHandler::class)
-        ->arg('$accountRepository', service(AccountRepository::class))
         ->arg('$dataDirectory', '%app.data_directory%')
         ->arg('$databasePrefix', '%app.database_prefix%')
         ->arg('$runalyzeVersion', '%RUNALYZE_VERSION%');
@@ -517,12 +514,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(PosterGenerationMessageHandler::class)
         ->arg('$logger', service('monolog.logger.queue'))
-        ->arg('$accountRepository', service(AccountRepository::class))
-        ->arg('$sportRepository', service(SportRepository::class))
-        ->arg('$generateJsonData', service(GenerateJsonData::class))
-        ->arg('$generatePoster', service(GeneratePoster::class))
-        ->arg('$fileHandler', service(FileHandler::class))
-        ->arg('$stateResolver', service(PosterGenerationStateResolver::class))
         ->arg('$dataDirectory', '%app.data_directory%')
         ->arg('$rsvgPath', '%app.rsvg_path%');
 
