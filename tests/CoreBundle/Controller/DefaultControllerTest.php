@@ -733,9 +733,10 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
             ->setS(3600)
             ->setDistance(10.0)
             ->setSport($sport)
-            ->setAccount($this->Account)
-            ->setTrimp(100);
+            ->setAccount($this->Account);
         $entityManager->persist($training);
+        $entityManager->flush();
+        $training->setTrimp(100);
         $entityManager->flush();
 
         /** @var ConfigurationUpdater $updater */
