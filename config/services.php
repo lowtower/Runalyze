@@ -305,8 +305,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->load('Runalyze\\Bundle\\CoreBundle\\EventListener\\', __DIR__ . '/../src/CoreBundle/EventListener/{AccountLastActionListener,ConsoleExceptionListener,LocaleListener,MaintenanceListener,UserLocaleListener,UserTimezoneListener}.php');
 
-    $services->set(RecalculationTasksPerformerListener::class)
-        ->arg('$Manager', service('app.recalculation_manager'));
+    $services->set(RecalculationTasksPerformerListener::class);
 
     $services->set(Sha256SaltedEncoder::class);
 
@@ -408,14 +407,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(ConfigurationUpdater::class)
         ->lazy(true);
 
-    $services->set('app.recalculation_manager', RecalculationManager::class)
+    $services->set(RecalculationManager::class)
         ->arg('$ConfigurationManager', service(ConfigurationManager::class))
         ->arg('$ConfigurationUpdater', service(ConfigurationUpdater::class))
         ->arg('$TrainingRepository', service(TrainingRepository::class))
         ->arg('$RaceResultRepository', service(RaceresultRepository::class))
         ->lazy(true);
-
-    $services->alias(RecalculationManager::class, 'app.recalculation_manager');
 
     $services->set(SportSelectionFactory::class);
 
