@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
+use DateTimeImmutable;
 use PluginPanel;
 use PluginStat;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Conf;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginEntity;
@@ -16,6 +18,8 @@ use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\User;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
@@ -707,6 +711,55 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $content = (string) $this->Client->getResponse()->getContent();
         $this->assertStringContainsString('Shape', $content);
         $this->assertStringContainsString('formlasthalftsb', $content);
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testRechenspieleAllYearsPlotPersistsMaximaFromTrainingHistory(): void
+    {
+        $this->loginClient($this->Client, $this->Account, 'default');
+
+        /** @var PluginInstallationManager $installationManager */
+        $installationManager = self::getContainer()->get(PluginInstallationManager::class);
+        $installationManager->install('RunalyzePluginPanel_Rechenspiele');
+
+        $entityManager = $this->getEntityManager();
+        $sport = $entityManager->getRepository(Sport::class)->findOneBy([
+            'account' => $this->Account,
+            'img' => 'icons8-Running',
+        ]);
+        $this->assertInstanceOf(Sport::class, $sport);
+
+        $timestamp = new DateTimeImmutable('2025-06-01 12:00:00 UTC')->getTimestamp();
+        $training = new Training()
+            ->setTime($timestamp)
+            ->setS(3600)
+            ->setDistance(10.0)
+            ->setSport($sport)
+            ->setAccount($this->Account);
+        $entityManager->persist($training);
+        $entityManager->flush();
+
+        $training->setTrimp(100);
+        $entityManager->flush();
+
+        /** @var ConfigurationUpdater $updater */
+        $updater = self::getContainer()->get(ConfigurationUpdater::class);
+        $updater->updateStartTime($this->Account, $timestamp);
+        $updater->updateMaximalAtl($this->Account, 100);
+        $updater->updateMaximalCtl($this->Account, 100);
+
+        $repository = $entityManager->getRepository(Conf::class);
+        $repository->updateOrInsert($this->Account, 'trimp', 'ATL_DAYS', '7');
+        $repository->updateOrInsert($this->Account, 'trimp', 'CTL_DAYS', '42');
+        self::getContainer()->get(ConfigurationManager::class)->reloadCurrentList();
+
+        $this->Client->xmlHttpRequest('GET', '/plugin/RunalyzePluginPanel_Rechenspiele/window.plot.php?y=all&m=tsb');
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('formalltsb', (string) $this->Client->getResponse()->getContent());
+
+        $this->assertSame('25', $repository->findForAccountAndKey($this->Account, 'MAX_ATL')?->getValue());
+        $this->assertSame('5', $repository->findForAccountAndKey($this->Account, 'MAX_CTL')?->getValue());
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
