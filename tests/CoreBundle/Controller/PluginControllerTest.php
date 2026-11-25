@@ -1371,7 +1371,7 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $entityManager->flush();
         $url = '/athlete/' . $owner->getUserIdentifier();
         $this->loginClient($this->Client, $visitor, 'default');
-        $page = $this->Client->request('GET', $url);
+        $page = $this->Client->request('GET', $url . '?_shared_athlete_account_id=' . $visitor->getId());
         $this->assertStatusCode(200, $this->Client);
         $year = $page->filter('#statistics-years .summary-year tbody tr')->reduce(static fn ($row): bool => $row->filter('a')->text() === '2025');
         $this->assertSame('publicList', $year->filter('a')->attr('target'));

@@ -148,7 +148,7 @@ class SharedController extends AbstractController
         }
 
         $request->query->set('user', $username);
-        SharedLinker::$USER_ID = (int) $account->getId();
+        $request->attributes->set(SharedLinker::ACCOUNT_ATTRIBUTE, $account->getId());
 
         new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack, isSharedPage: true);
 
