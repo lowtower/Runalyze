@@ -927,6 +927,155 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         );
     }
 
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testRouteStatisticsListsOwnedRoutesAndPreservesTheCitySetting(): void
+    {
+        $entityManager = $this->getEntityManager();
+        $other = $this->registerUniqueAccount();
+        $account = $entityManager->find(Account::class, $this->Account->getId());
+        $plugin = $entityManager->getRepository(Plugin::class)->findOneBy([
+            'account' => $account,
+            'key' => 'RunalyzePluginStat_Strecken',
+        ]);
+        $plugin->setActive(Plugin::STATE_ACTIVE);
+
+        $sports = $entityManager->getRepository(Sport::class);
+        $running = $sports->findInternalIdFor(SportProfile::RUNNING, $account);
+        $cycling = $sports->findInternalIdFor(SportProfile::CYCLING, $account);
+        $foreignSport = $sports->findInternalIdFor(SportProfile::RUNNING, $other);
+        $route = new Route()->setAccount($account)->setName('City & <Park> - Potsdam');
+        $past = new Route()->setAccount($account)->setName('Potsdam - Lake');
+        $private = new Route()->setAccount($other)->setName('Private town');
+        $entityManager->persist(new Route()->setAccount($account)->setName('Saved town'));
+        $entityManager->persist(new Route()->setAccount($account)->setName('Lake - Lake - Lake - Lake'));
+        $entityManager->persist(new PluginConf()->setPlugin($plugin)->setConfig('analyze_cities')->setValue('1'));
+
+        foreach ([
+            [$account, $running, $route, '2025-01-01 00:00:00', 5.0],
+            [$account, $running, $route, '2025-01-02 00:00:00', 7.0],
+            [$account, $cycling, $past, '2024-12-31 23:59:59', 30.0],
+            [$other, $foreignSport, $private, '2025-01-01 00:00:00', 3.0],
+        ] as [$owner, $sport, $course, $date, $distance]) {
+            $entityManager->persist($course);
+            $entityManager->persist(new Training()->setAccount($owner)->setSport($sport)->setRoute($course)
+                ->setTime(strtotime($date . ' UTC'))->setS(1800)->setDistance($distance));
+        }
+
+        $entityManager->flush();
+
+        $id = $plugin->getId();
+        $this->loginClient($this->Client, $account, 'default');
+        $dashboard = $this->Client->request('GET', '/dashboard?pluginid=' . $id . '&jahr=2025&sport=' . $running->getId());
+        $this->assertStatusCode(200, $this->Client);
+        $tables = $dashboard->filter('#statistics-inner .statistics-container table');
+        $this->assertCount(3, $tables);
+        $this->assertSame('2x', $tables->first()->filter('tbody td')->eq(0)->text());
+        $this->assertSame("12.00\u{00a0}km", $tables->first()->filter('tbody td')->eq(2)->text());
+        $search = $tables->first()->selectLink('City & <Park> - Potsdam')->link()->getUri();
+        parse_str((string) parse_url($search, PHP_URL_QUERY), $parameters);
+        $this->assertSame('City & <Park> - Potsdam', $parameters['route']);
+        $this->assertSame(['2x', 'City & <Park>', '2x', 'Potsdam'], $tables->eq(1)->filter('tbody td')->each(static fn ($cell): string => $cell->text()));
+        $networkLink = $dashboard->selectLink('Open route network')->link()->getUri();
+        $this->assertStringContainsString('/plugin/RunalyzePluginStat_Strecken/window.routenet.php', $networkLink);
+        parse_str((string) parse_url($networkLink, PHP_URL_QUERY), $parameters);
+        $this->assertSame([
+            'sport' => (string) $running->getId(),
+            'y' => '2025',
+        ], $parameters);
+
+        $display = '/my/plugin/' . $id;
+        $all = $this->Client->xmlHttpRequest('GET', $display . '?jahr=-1');
+        $this->assertStatusCode(200, $this->Client);
+        $places = $all->filter('.statistics-container table')->eq(1)->filter('tbody td')->each(static fn ($cell): string => $cell->text());
+        $this->assertSame(['5x', 'Lake', '2x', 'Potsdam', '1x', 'City & <Park>', '1x', 'Saved town'], $places);
+        $this->assertStringNotContainsString('Private town', (string) $this->Client->getResponse()->getContent());
+        $rare = $all->filter('.statistics-container table')->eq(2);
+        $this->assertSame(['City & <Park>', 'Saved town'], $rare->filter('tbody tr')->first()->filter('a')->each(static fn ($link): string => $link->text()));
+        $this->assertCount(0, $rare->selectLink('Lake'));
+        $this->assertSame('You have visited 4 different places.', $rare->filter('.no-zebra')->text());
+
+        $config = '/call/call.Plugin.config.php?id=' . $id;
+        $settings = $this->Client->xmlHttpRequest('GET', $config);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertCount(1, $settings->filter('input[name=analyze_cities][checked]'));
+        $this->Client->xmlHttpRequest('POST', $config, [
+            'edit' => 'true',
+        ]);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame('0', $entityManager->getRepository(PluginConf::class)->findValuesForPlugins([$id])[$id]['analyze_cities']);
+        $routesOnly = $this->Client->xmlHttpRequest('GET', $display . '?jahr=2025');
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertCount(1, $routesOnly->filter('.statistics-container table'));
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testRouteNetworkUsesTheOriginalUrlAndFiltersAndDrawsOnlyOwnedTracks(): void
+    {
+        $entityManager = $this->getEntityManager();
+        $other = $this->registerUniqueAccount();
+        $account = $entityManager->find(Account::class, $this->Account->getId());
+        $sports = $entityManager->getRepository(Sport::class);
+        $running = $sports->findInternalIdFor(SportProfile::RUNNING, $account);
+        $cycling = $sports->findInternalIdFor(SportProfile::CYCLING, $account);
+        $foreignSport = $sports->findInternalIdFor(SportProfile::RUNNING, $other);
+        $route = new Route()->setName('Hill <trail>')->setLatitudesAndLongitudes(
+            [52.50, 52.501, 52.502, 52.503, 52.504, 52.505, 52.506],
+            [13.30, 13.301, 13.302, 13.303, 13.304, 13.305, 13.306]
+        );
+        $entityManager->persist(new Conf()->setAccount($account)->setCategory('activity-view')->setKey('GMAP_PATH_PRECISION')->setValue('1'));
+        $entityManager->persist(new Conf()->setAccount($account)->setCategory('activity-view')->setKey('GMAP_PATH_BREAK')->setValue('no'));
+
+        $activities = [];
+        foreach ([
+            [$account, $running, $route, '2025-05-01'],
+            [$account, $running, $route, '2025-05-02'],
+            [$account, $running, (clone $route)->setName('Last year'), '2024-05-02'],
+            [$account, $cycling, (clone $route)->setName('Bike course'), '2025-05-02'],
+            [$other, $foreignSport, (clone $route)->setName('Private waypoint'), '2025-05-03'],
+            [$account, $running, new Route()->setName('No GPS'), '2025-05-04'],
+        ] as [$owner, $sport, $course, $date]) {
+            $activity = new Training()->setAccount($owner)->setSport($sport)->setRoute($course)
+                ->setTime(strtotime($date . ' UTC'))->setS(1800)->setDistance(5.0);
+            $entityManager->persist($course);
+            $entityManager->persist($activity);
+            $activities[] = $activity;
+        }
+
+        $entityManager->flush();
+        $runningId = $running->getId();
+        $url = '/plugin/RunalyzePluginStat_Strecken/window.routenet.php';
+        $this->Client->request('GET', $url);
+        $this->assertStatusCode(302, $this->Client);
+        $this->loginClient($this->Client, $account, 'default');
+        $window = $this->Client->xmlHttpRequest('GET', $url . '?y=2025&posint=2&sport=' . $runningId);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertSame('Route network', $window->filter('h1')->text());
+        $this->assertCount(1, $window->filter('#map-routenet'));
+        $this->assertStringContainsString('Positions 8.', $window->filter('.panel-content .info')->text());
+        $this->assertStringContainsString('Limit 500.', $window->filter('.panel-content .info')->text());
+        $this->assertSame(['2', $running->getName(), '2025'], $window->filter('.panel-menu li.active')->each(static fn ($item): string => $item->text()));
+        $html = (string) $this->Client->getResponse()->getContent();
+        preg_match_all('/RunalyzeLeaflet\.Routes\.addRoute\((\d+),/', $html, $ids);
+        $this->assertSame([(string) $activities[1]->getId(), (string) $activities[0]->getId()], $ids[1]);
+        $this->assertSame(1, preg_match('/\.fitBounds\((\[.*?\])\);/', $html, $bounds));
+        [[, $west], [, $east]] = json_decode($bounds[1], true, flags: JSON_THROW_ON_ERROR);
+        $this->assertGreaterThan($west, $east);
+        $this->assertStringContainsString('Hill', $html);
+        $this->assertStringNotContainsString('<trail>', $html);
+        $this->assertStringNotContainsString('Private waypoint', $html);
+
+        $direct = $this->Client->request('GET', $url . '?y=-1&posint=999');
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertCount(1, $direct->filter('html #map-routenet'));
+        $this->assertStringContainsString('Limit 1250.', $direct->filter('.panel-content .info')->text());
+        $this->assertStringContainsString('Last year', (string) $this->Client->getResponse()->getContent());
+        $this->assertStringContainsString('Bike course', (string) $this->Client->getResponse()->getContent());
+        $empty = $this->Client->xmlHttpRequest('GET', $url . '?y=2000&posint=invalid');
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertCount(0, $empty->filter('#map-routenet'));
+        $this->assertSame('There are no routes matching the criterias.', $empty->filter('.panel-content .error')->text());
+    }
+
     /**
      * @return array<string, list<array{int, int|float}>>
      */

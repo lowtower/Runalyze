@@ -1,0 +1,70 @@
+{% extends 'base_logged_in.twig' %}
+
+{% macro tooltip(route) %}
+    <strong><i class="{{ route.sportIcon }}"></i> {{ 'Date'|trans }}:</strong> {{ route.date }}
+    {% if route.name is not empty %}
+        <br><strong>{{ 'Course'|trans }}:</strong> {{ route.name }}
+    {% endif %}
+    {% if route.distance > 0 %}
+        <br><strong>{{ 'Distance'|trans }}:</strong> {{ distance(route.distance).getWithUnit|raw }}
+    {% endif %}
+{% endmacro %}
+
+{% block content %}
+    <div class="panel-heading">
+        <div class="panel-menu">
+            {% set parameters = {posint: interval, sport: filter.sport, y: filter.year} %}
+            {% set intervals = {1: 'All'|trans, 2: '2', 3: '3', 4: '4', 5: '5'} %}
+            {% set menus = [
+                {key: 'posint', label: 'Position interval'|trans, options: intervals},
+                {key: 'sport', label: 'Choose sport'|trans, options: filter.sports},
+                {key: 'y', label: 'Choose year'|trans, options: filter.years},
+            ] %}
+            <ul>
+                {% for menu in menus %}
+                    <li class="with-submenu">
+                        <span class="link">{{ menu.label }}</span>
+                        <ul class="submenu">
+                            {% for value, label in menu.options %}
+                                <li{% if value is same as(parameters[menu.key]) %} class="active"{% endif %}>
+                                    <a class="window" data-size="big" href="{{ path('statistics-route-network', parameters|merge({(menu.key): value})) }}">{{ label }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <h1>{{ 'Route network'|trans }}</h1>
+    </div>
+    <div class="panel-content">
+        {% if routes is not empty %}
+            <div id="map-routenet" class="map" style="height:600px"></div>
+            {% set json_flags = constant('JSON_HEX_TAG') b-or constant('JSON_HEX_AMP') b-or constant('JSON_HEX_APOS') b-or constant('JSON_HEX_QUOT') b-or constant('JSON_INVALID_UTF8_SUBSTITUTE') %}
+            <script>
+                $(function () {
+                    RunalyzeLeaflet.setDefaultLayer({{ layer|json_encode(json_flags)|raw }});
+                    RunalyzeLeaflet.init('map-routenet', {scrollWheelZoom: {{ scroll|json_encode|raw }}});
+                    RunalyzeLeaflet.map().fitBounds({{ bounds|json_encode|raw }});
+                    {% for route in routes %}
+                        RunalyzeLeaflet.Routes.addRoute({{ route.id }}, {
+                            segments: {{ route.segments|json_encode|raw }},
+                            autofit: false,
+                            options: {color: '#FF5500'},
+                            tooltip: {{ _self.tooltip(route)|trim|json_encode(json_flags)|raw }}
+                        });
+                    {% endfor %}
+                    RunalyzeLeaflet.Routes.routeid = {{ routes[0].id }};
+                });
+            </script>
+        {% else %}
+            <p class="error">{{ 'There are no routes matching the criterias.'|trans }}</p>
+        {% endif %}
+        <p class="info">
+            {{ 'The map contains your %s most recent routes matching the criterias.'|trans|format(routes|length) }}
+            {{ 'Positions'|trans }} {{ pointCount }}.
+            {{ 'More routes are not possible at the moment due to performance issues.'|trans }}
+            {{ 'Limit'|trans }} {{ limit }}.
+        </p>
+    </div>
+{% endblock %}
