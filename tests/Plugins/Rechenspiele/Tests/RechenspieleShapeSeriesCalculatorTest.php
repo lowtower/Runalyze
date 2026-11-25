@@ -33,6 +33,7 @@ final class RechenspieleShapeSeriesCalculatorTest extends TestCase
         ], $result['trimp']);
         $this->assertEqualsWithDelta(100.0, $result['max_trimp'], PHP_FLOAT_EPSILON);
         $this->assertTrue($result['show_in_percent']);
+        $this->assertNull($result['recomputed_maxima']);
     }
 
     public function testBanisterModelUsesFixedNormalizationAndDisablesPercentMode(): void
@@ -41,7 +42,7 @@ final class RechenspieleShapeSeriesCalculatorTest extends TestCase
         $model = new BanisterModel($trimp, 42, 7, 1, 3);
         $model->calculate();
 
-        $result = $this->calculate($trimp, 'banister');
+        $result = $this->calculate($trimp, 'banister', useCalculatedMaxima: true);
 
         $this->assertSame((float) $model->fatigueAt(3), $result['atl'][3]);
         $this->assertSame((float) $model->fitnessAt(3), $result['ctl'][3]);
@@ -49,6 +50,7 @@ final class RechenspieleShapeSeriesCalculatorTest extends TestCase
         $this->assertSame(100, $result['max_atl']);
         $this->assertSame(100, $result['max_ctl']);
         $this->assertFalse($result['show_in_percent']);
+        $this->assertNull($result['recomputed_maxima']);
     }
 
     public function testRollingVo2maxExcludesCurrentDayAndDailyValueUsesCurrentDay(): void
@@ -81,7 +83,8 @@ final class RechenspieleShapeSeriesCalculatorTest extends TestCase
         $this->assertSame([], $result['vo2max_day']);
     }
 
-    public function testAllYearsUsesCalculatedModelMaxima(): void
+    #[DataProvider('plotUnits')]
+    public function testAllYearsKeepsRawTsbMaximaIndependentOfPlotUnits(bool $showInPercent): void
     {
         $trimp = [0.0, 50.0, 0.0, 100.0, 25.0, 0.0];
         $model = new TsbModel($trimp, 42, 7);
@@ -100,12 +103,25 @@ final class RechenspieleShapeSeriesCalculatorTest extends TestCase
             1,
             1,
             true,
-            true,
+            $showInPercent,
             1.0
         );
 
-        $this->assertSame(max(1, $model->maxFatigue()), $result['max_atl']);
-        $this->assertSame(max(1, $model->maxFitness()), $result['max_ctl']);
+        $this->assertSame($showInPercent ? $model->maxFatigue() : 100, $result['max_atl']);
+        $this->assertSame($showInPercent ? $model->maxFitness() : 100, $result['max_ctl']);
+        $this->assertSame([
+            'atl' => $model->maxFatigue(),
+            'ctl' => $model->maxFitness(),
+        ], $result['recomputed_maxima']);
+    }
+
+    /**
+     * @return iterable<string, array{bool}>
+     */
+    public static function plotUnits(): iterable
+    {
+        yield 'percentage' => [true];
+        yield 'absolute' => [false];
     }
 
     /**
@@ -164,7 +180,8 @@ final class RechenspieleShapeSeriesCalculatorTest extends TestCase
         string $model = 'tsb',
         ?array $weighted = null,
         ?array $durations = null,
-        float $correction = 1.0
+        float $correction = 1.0,
+        bool $useCalculatedMaxima = false
     ): array {
         return new RechenspieleShapeSeriesCalculator()->calculate(
             $trimp,
@@ -178,7 +195,7 @@ final class RechenspieleShapeSeriesCalculatorTest extends TestCase
             4,
             100,
             80,
-            false,
+            $useCalculatedMaxima,
             true,
             $correction
         );

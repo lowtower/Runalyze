@@ -39,6 +39,7 @@ final readonly class RechenspieleShapePlotDataProvider
      *     marathon_shape: array<string, int>,
      *     max_atl: int,
      *     max_ctl: int,
+     *     recomputed_maxima: array{atl: int, ctl: int}|null,
      *     max_trimp: float,
      *     show_in_percent: bool,
      *     calculate_maxima: bool,
@@ -131,6 +132,7 @@ final readonly class RechenspieleShapePlotDataProvider
 
         return [
             ...$series,
+            'recomputed_maxima' => $calculated['recomputed_maxima'],
             'calculate_maxima' => $period['calculate_maxima'],
             'limited_year' => $period['limited_year'],
             'mark_future' => $period['mark_future'],
