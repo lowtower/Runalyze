@@ -545,10 +545,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'channel' => 'external_services',
         ]);
 
-    $services->set(ElevationCorrection::class)
-        ->arg('$geoTiff', service(GeoTiff::class))
-        ->arg('$geonames', service(Geonames::class))
-        ->arg('$googleMaps', service(GoogleMaps::class));
+    $services->set(ElevationCorrection::class);
 
     $services->set(RouteNameEvalFactory::class)
         ->arg('$RouteNameEval', service(RouteNameEvalOsm::class))
