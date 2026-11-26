@@ -46,17 +46,17 @@ abstract class TrainingViewSection
      */
     abstract protected function hasRequiredData(): bool;
 
-    final protected function setHeader(string $header)
+    final protected function setHeader(string $header): void
     {
         $this->Header = $header;
     }
 
-    final protected function appendRow(TrainingViewSectionRowAbstract $Row)
+    final protected function appendRow(TrainingViewSectionRowAbstract $Row): void
     {
         $this->Rows[] = $Row;
     }
 
-    final public function setAsFirst()
+    final public function setAsFirst(): void
     {
         $this->isFirst = true;
     }

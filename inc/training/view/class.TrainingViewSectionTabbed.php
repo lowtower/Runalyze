@@ -27,7 +27,7 @@ abstract class TrainingViewSectionTabbed extends TrainingViewSection
     /**
      * Append row
      */
-    final protected function appendRowTabbed(TrainingViewSectionRowAbstract $Row, string $Title)
+    final protected function appendRowTabbed(TrainingViewSectionRowAbstract $Row, string $Title): void
     {
         $this->RowsTabbed[] = $Row;
         $this->RowsTabbedTitle[] = $Title;

@@ -20,7 +20,7 @@
         "monolog/monolog": "^3.13",
         "p3k/picofeed": "^0.1.40",
         "phpfastcache/phpfastcache": "^9.2",
-        "predis/predis": "^3.7",
+        "predis/predis": "^3.8",
         "runalyze/age-grade": "v2.2.0",
         "runalyze/common": "v4.3.0",
         "runalyze/dem-reader": "v1.2.0",
@@ -44,7 +44,7 @@
         "symfony/monolog-bundle": "^4.1",
         "symfony/process": "^8.1",
         "symfony/rate-limiter": "^8.1",
-        "symfony/reprise": "^1.4",
+        "symfony/reprise": "^1.5",
         "symfony/runtime": "^8.1",
         "symfony/security-bundle": "^8.1",
         "symfony/security-core": "^8.1",
@@ -64,7 +64,7 @@
         "phpstan/phpstan-phpunit": "^2.1",
         "phpstan/phpstan-symfony": "^2.1",
         "phpunit/phpunit": "^13.4",
-        "rector/rector": "^2.8",
+        "rector/rector": "^2.9",
         "rector/swiss-knife": "^2.7",
         "sensiolabs/security-advisories": "dev-master",
         "symfony/browser-kit": "^8.1",
@@ -75,7 +75,7 @@
         "symplify/config-transformer": "^12.5",
         "symplify/easy-coding-standard": "^13.3",
         "tomasvotruba/type-coverage": "^2.5",
-        "vincentlanglet/twig-cs-fixer": "^4.1"
+        "vincentlanglet/twig-cs-fixer": "^4.2"
     },
     "autoload": {
         "files": ["src/functions.php"],

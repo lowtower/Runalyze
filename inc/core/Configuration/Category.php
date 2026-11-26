@@ -47,7 +47,7 @@ abstract class Category
     /**
      * @param array $data values from database
      */
-    final public function setUserID(?int $id, ?array $data = null)
+    final public function setUserID(?int $id, ?array $data = null): void
     {
         if ($id !== $this->UserID && $id >= 0) {
             $this->UserID = $id;
@@ -107,7 +107,7 @@ abstract class Category
     /**
      * Add handle
      */
-    final protected function createHandle(string $key, Parameter $Parameter)
+    final protected function createHandle(string $key, Parameter $Parameter): void
     {
         $this->Handles[$key] = new Handle($key, $Parameter);
     }

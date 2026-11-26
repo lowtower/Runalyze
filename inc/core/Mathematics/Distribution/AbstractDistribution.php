@@ -84,7 +84,7 @@ abstract class AbstractDistribution
     /**
      * @param float[] $quantiles
      */
-    final protected function calculateStatisticByHistogram(array $quantiles)
+    final protected function calculateStatisticByHistogram(array $quantiles): void
     {
         $sortedData = $this->histogram();
 
@@ -167,7 +167,7 @@ abstract class AbstractDistribution
         $this->setStatistic(self::VARIANCE, $var / $this->Statistic[self::NUM]);
     }
 
-    final protected function setStatistic(string $key, float $value)
+    final protected function setStatistic(string $key, float $value): void
     {
         $this->Statistic[$key] = $value;
     }

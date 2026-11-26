@@ -62,7 +62,7 @@ abstract class AbstractCadence
         return \Ajax::tooltip($this->unitAsString(), $this->unitExplanation());
     }
 
-    final public function manipulateArray(array &$array)
+    final public function manipulateArray(array &$array): void
     {
         $array = array_map($this->useFactor(...), $array);
     }
