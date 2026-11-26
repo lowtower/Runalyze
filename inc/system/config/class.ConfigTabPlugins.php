@@ -1,5 +1,6 @@
 <?php
 
+use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 
@@ -44,12 +45,12 @@ class ConfigTabPlugins extends ConfigTab
     {
         $Panels = new FormularFieldset(__('Panels'));
         $Panels->addInfo(__('Panels are small statistics always shown on the right side.'));
-        $Panels->setHtmlCode($this->getCodeFor(PluginType::PANEL));
+        $Panels->setHtmlCode($this->getCodeFor(PluginInstallation::TYPE_PANEL));
         $Panels->setCollapsed();
 
         $Stats = new FormularFieldset(__('Statistics'));
         $Stats->addInfo(__('Normal statistics are shown below the activitiy log.'));
-        $Stats->setHtmlCode($this->getCodeFor(PluginType::STAT));
+        $Stats->setHtmlCode($this->getCodeFor(PluginInstallation::TYPE_STAT));
 
         $Install = new FormularFieldset(__('Install a new plugin'));
         $Install->addInfo(__('New plugins can be installed here.'));
@@ -62,7 +63,7 @@ class ConfigTabPlugins extends ConfigTab
         $this->Formular->allowOnlyOneOpenedFieldset();
     }
 
-    private function getCodeFor(?int $PluginType): string
+    private function getCodeFor(string $PluginType): string
     {
         $Plugins = $this->pluginSettingsProvider->getInstalledPluginAdminEntries($PluginType);
 
@@ -74,7 +75,7 @@ class ConfigTabPlugins extends ConfigTab
 			<table class="zebra-style fullwidth more-padding">
 				<thead>
 					<tr class="top b">
-						<th colspan="3">' . PluginType::readableString($PluginType) . '</th>
+						<th colspan="3">' . ($PluginType === PluginInstallation::TYPE_PANEL ? __('Panel') : __('Statistics')) . '</th>
 						<th>' . __('Mode') . '</th>
 						<th>' . __('Order') . '</th>
 					</tr>
@@ -83,14 +84,14 @@ class ConfigTabPlugins extends ConfigTab
 
         foreach ($Plugins as $pos => $Plugin) {
             $Code .= '
-					<tr id="' . $Plugin['id'] . '_tr" class="a' . (($Plugin['active'] === Plugin::ACTIVE_NOT) ? ' unimportant' : '') . '">
+					<tr id="' . $Plugin['id'] . '_tr" class="a' . (($Plugin['active'] === PluginInstallation::STATE_INACTIVE) ? ' unimportant' : '') . '">
 						<td>' . $Plugin['config_link'] . '</td>
 						<td class="b">' . $Plugin['name'] . '</td>
 						<td>' . $Plugin['description'] . '</td>
 						<td><select name="plugin_modus_' . $Plugin['id'] . '">
-								<option value="' . Plugin::ACTIVE . '"' . HTML::Selected(($Plugin['active'] === Plugin::ACTIVE)) . '>' . __('enabled') . '</option>
-								<option value="' . Plugin::ACTIVE_VARIOUS . '"' . HTML::Selected(($Plugin['active'] === Plugin::ACTIVE_VARIOUS)) . '>' . __('hidden*') . '</option>
-								<option value="' . Plugin::ACTIVE_NOT . '"' . HTML::Selected(($Plugin['active'] === Plugin::ACTIVE_NOT)) . '>' . __('not enabled') . '</option>
+								<option value="' . PluginInstallation::STATE_ACTIVE . '"' . HTML::Selected(($Plugin['active'] === PluginInstallation::STATE_ACTIVE)) . '>' . __('enabled') . '</option>
+								<option value="' . PluginInstallation::STATE_HIDDEN . '"' . HTML::Selected(($Plugin['active'] === PluginInstallation::STATE_HIDDEN)) . '>' . __('hidden*') . '</option>
+								<option value="' . PluginInstallation::STATE_INACTIVE . '"' . HTML::Selected(($Plugin['active'] === PluginInstallation::STATE_INACTIVE)) . '>' . __('not enabled') . '</option>
 							</select></td>
 						<td style="white-space:nowrap;">
 							<input class="plugin-position" type="text" name="plugin_order_' . $Plugin['id'] . '" size="3" value="' . ($pos + 1) . '">
@@ -126,8 +127,8 @@ class ConfigTabPlugins extends ConfigTab
 		');
 
         match ($PluginType) {
-            PluginType::PANEL => $Code .= HTML::info(__('* Hidden plugins only show their headings.')),
-            PluginType::STAT => $Code .= HTML::info(__("* Hidden plugins are grouped as 'Miscellaneous'.")),
+            PluginInstallation::TYPE_PANEL => $Code .= HTML::info(__('* Hidden plugins only show their headings.')),
+            PluginInstallation::TYPE_STAT => $Code .= HTML::info(__("* Hidden plugins are grouped as 'Miscellaneous'.")),
             default => $Code .= '',
         };
 
@@ -156,9 +157,9 @@ class ConfigTabPlugins extends ConfigTab
             $Code .= '
 				<tr>
 					<td>' . Icon::$ADD . '</td>
-					<td class="b">' . PluginInstaller::link($Plugin['key'], $Plugin['name']) . '</td>
+					<td class="b">' . Ajax::window('<a href="call/call.Plugin.install.php?key=' . $Plugin['key'] . '">' . Ajax::tooltip($Plugin['name'], __('Install plugin')) . '</a>') . '</td>
 					<td>' . $Plugin['description'] . '</td>
-					<td colspan="2">' . PluginType::readableString($Plugin['type']) . '</td>
+					<td colspan="2">' . ($Plugin['type'] === PluginInstallation::TYPE_PANEL ? __('Panel') : __('Statistics')) . '</td>
 				</tr>';
         }
 

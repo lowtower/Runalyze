@@ -1,6 +1,6 @@
 # Plugin architecture
 
-Runalyze uses separate Symfony presenter contracts and registries for panels and statistics. All eleven built-in statistics plugins run from `plugins/Statistics/`. The panel migration examples below describe individual stages of the [remaining panel migration](remaining-panel-migration.md).
+Runalyze discovers and renders all built-in plugins through separate Symfony registries for panels and statistics. The [panel migration record](remaining-panel-migration.md) describes the final panel cutovers.
 
 ## Goals
 
@@ -9,25 +9,19 @@ Runalyze uses separate Symfony presenter contracts and registries for panels and
 - Keep account-specific state out of shared service instances.
 - Separate plugin metadata, execution, persistence, and presentation.
 - Preserve existing installation, activation, ordering, configuration, route, and AJAX behavior during migration.
-- Keep a narrow compatibility boundary for existing plugins until they can be migrated.
 
-## Current system and migration boundary
+## Registration and installation
 
-- `PluginDiscovery` combines the keys from both modern registries with legacy directories.
+- `PluginDiscovery` returns the sorted keys from the panel and statistics registries.
 - `PluginInstallationManager` owns account-scoped installation and activation state.
-- `PluginSettingsProvider` provides installed metadata for the dashboard and plugin administration, and resolves legacy instances for compatibility callers.
+- `PluginSettingsProvider` provides installed metadata for the dashboard and plugin administration.
 - `PluginConfigurationStorageInterface` and its Doctrine implementation persist plugin configuration.
 
-The legacy path uses filesystem discovery in `plugin/` and Composer's classmap to load global classes. `LegacyPluginInstantiator` supplies the installation ID and scoped `LegacyPluginDataContext`. `LegacyPluginOutputRenderer` captures the instance's display output. The final cleanup covers these shared paths and their tests once the [remaining panel migration](remaining-panel-migration.md) is complete.
+Plugin discovery, installation and display resolve registered presenters by stable key. The old `plugin/` tree, Composer classmap entry and global plugin classes have been retired. Existing installation IDs, keys, states, ordering and saved settings still identify the same registered plugins. Installation rows for unavailable plugins are skipped in the dashboard and settings lists and retained in the database.
 
 ## Directory and namespace convention
 
 Modern plugins are self-contained feature modules. Plugin-specific application code, templates, translations, assets, and plugin-local configuration belong to the plugin; shared infrastructure and cross-plugin contracts remain in the application.
-
-The repository uses separate roots for the two generations:
-
-- `plugin/` remains the legacy root. Existing directories, class names, global base classes, and Composer classmap discovery remain supported during migration.
-- `plugins/` is the root for modern plugins. New modern plugin code must not be added to the legacy `plugin/` tree.
 
 Each modern plugin has one PascalCase directory. Panels live in `plugins/<PluginName>/` with namespace `Runalyze\Plugins\<PluginName>`. Statistics live in `plugins/Statistics/<PluginName>/` with namespace `Runalyze\Plugins\Statistics\<PluginName>`. Both use the Composer PSR-4 prefix `Runalyze\Plugins\`.
 
@@ -102,32 +96,9 @@ namespace Runalyze\Plugins\Sportler\Tests;
 
 Statistics unit tests mirror their source layout under `tests/Plugins/Statistics/<PluginName>/Tests/`. Tests for shared application infrastructure stay in the corresponding application test namespace.
 
-### Legacy coexistence
+### Panel metadata and configuration
 
-During a staged migration, the legacy and modern implementations may coexist until the modern display, settings and auxiliary routes have been verified. The modern registry resolves the stable installation key during the switch to the new implementation.
-
-### Removing a migrated legacy panel
-
-The Sports panel is the first panel to be provided solely through `plugins/`, without a matching
-`plugin/RunalyzePluginPanel_Sports/class.RunalyzePluginPanel_Sports.php`.
-
-A legacy-free panel implements both `ModernPanelInterface` and
-`ModernPanelMetadataInterface`. The metadata contract supplies the display name and
-description for plugin administration. The panel retains its stable key, and the
-`ModernPanelRegistry` exposes registered keys for `PluginDiscovery` alongside
-legacy directories. `PluginInstallationManager` installs metadata-enabled panels
-directly as account-scoped panel records without creating a legacy plugin instance.
-
-`PluginSettingsProvider` exposes administration entries for these panels, so the
-configuration list does not need a legacy `Plugin` object. The existing legacy
-methods remain available for plugins not yet migrated.
-
-**Limitation:** The first metadata-enabled panel (Sports) has no plugin-specific
-configuration fields. Its configuration endpoint displays an informational message.
-Do not mark a panel with legacy configuration fields as legacy-free until its
-configuration editing and default values have an equivalent modern implementation.
-Legacy windows and other dependencies must also be migrated before deleting their
-classes. Merely having a modern Twig presenter is not sufficient.
+Panels implement `ModernPanelInterface` and `ModernPanelMetadataInterface`. The metadata supplies the display name and description for administration. Sports uses the informational configuration window because it has no plugin-specific settings.
 
 TagsSummary is the first legacy-free panel with user configuration. It implements
 `ModernPanelConfigurationInterface` in addition to the panel and metadata
@@ -231,7 +202,6 @@ The plugin service is stateless between invocations. In particular, it must not 
 | Installation manager | Own account-scoped installation, activation and ordering; reuse the existing service where applicable |
 | Configuration | Read and write values through an explicit account/plugin-scoped interface; do not access global configuration or DB directly |
 | Presentation | Convert execution results into view data and render through Twig/controllers; do not echo HTML from business logic |
-| Legacy adapter | Bridge existing `Plugin` implementations into the modern integration boundary without changing their constructors |
 
 The boundaries should remain small. Do not introduce a generic plugin framework, event bus, service locator, or abstraction for capabilities that no current plugin needs.
 
@@ -241,7 +211,7 @@ Modern plugins should be registered as Symfony services and identified by an exp
 
 The registry is the only resolution boundary. It builds a key-to-plugin map, validates duplicate keys during construction, and provides an explicit lookup operation. Callers must not receive the container or a PSR-11 container interface and must not request arbitrary services by class name.
 
-The registry must not silently fall back from a missing modern key to filesystem scanning. Legacy discovery remains the responsibility of `PluginDiscovery`; the compatibility boundary decides which implementation path applies.
+Register each presenter with the service tag for its plugin type. `PluginDiscovery` reads the keys exposed by those registries.
 
 Panels that need request-specific navigation can implement the optional `ModernPanelRequestHandlerInterface`. The controller passes query parameters to that handler before calling `present()`. The handler must validate every parameter it consumes and scope any selected entity to the authenticated account. Presenters remain focused on producing view data and must not read request globals or retain request data on the shared service.
 
@@ -327,7 +297,7 @@ Modern plugin business logic must not echo output, manipulate output buffers, re
 
 Controllers or dedicated presenters translate validated HTTP input into an invocation context, execute the plugin, and render the typed result with Twig. Existing routes and AJAX response contracts remain stable during migration. A new plugin type must define its rendering boundary before the first implementation is migrated.
 
-The legacy adapter may continue to use `LegacyPluginOutputRenderer` for old implementations. The renderer is not part of the modern plugin contract.
+The existing overlay wrapper and AJAX reload commands still serve compatibility URLs such as `/my/plugin/{id}` and `/call/call.Plugin.config.php`.
 
 ### Configuration
 
@@ -353,7 +323,7 @@ Tests are part of the plugin contract, not an afterthought.
 - **Execution tests:** cover account/install ownership, activation rules, and isolation when the same service is invoked for different accounts.
 - **Presentation tests:** test Twig rendering separately from business logic.
 - **Functional tests:** cover the Symfony route, authorization, request validation, and existing AJAX/HTTP contracts.
-- **Compatibility tests:** keep regression coverage for legacy construction, configuration, output capture, and behavior while the adapter is in use.
+- **Compatibility tests:** cover preserved installation keys, routes, account settings, and how the application handles an unavailable installed plugin.
 
 Prefer the existing PHPUnit group conventions. Add a new test class only after checking whether an existing test class already owns the relevant behavior.
 
@@ -374,7 +344,6 @@ Do not bulk-convert plugin directories, change all routes, or migrate the legacy
 ## Non-goals and constraints
 
 - No service locator or direct container access from plugins.
-- No change to legacy plugin constructor contracts.
 - No account-specific mutable state in shared services.
 - No direct global DB access, session singleton, request superglobals, or output buffering in modern plugin code.
 - No requirement to preserve compatibility for third-party plugin implementations.
@@ -394,10 +363,10 @@ The next migration slice routes the installed Sportler panel through the modern 
 - `PluginInstallationManager::getInstallationForAccount()` resolves an installation by both account and installation ID. The repository query applies both predicates.
 - `SportlerPanelPresenter` adapts the provider data for panel presentation and preserves the legacy behavior of duplicating a single history point for Flot.
 - The panel template is owned by `plugins/Sportler/templates/` and loaded through the `@Sportler` Twig namespace.
-- `AbstractPluginsAwareController` selects this path by the stable key `RunalyzePluginPanel_Sportler` before instantiating the legacy panel. Other panel implementations continue through their existing paths.
-- The modern template reuses the common panel wrapper, body-value presentation macros, Flot initialization, chart IDs, and panel interaction hooks. The legacy Sportler implementation and its plot includes remain available as a fallback.
+- `AbstractPluginsAwareController` selects this path by the stable key `RunalyzePluginPanel_Sportler` through the panel registry.
+- The modern template reuses the common panel wrapper, body-value presentation macros, Flot initialization, chart IDs, and panel interaction hooks.
 
-This is deliberately a concrete panel integration, not a general plugin registry or universal presenter contract. Functional coverage belongs in the existing `DefaultControllerTest` suite. The legacy fallback should only be removed in a later step after the modern rendering path has been exercised in the application.
+This is deliberately a concrete panel integration, not a general plugin registry or universal presenter contract. Functional coverage belongs in the existing `DefaultControllerTest` suite.
 
 ## Second validated panel slice: Sports
 
@@ -408,9 +377,8 @@ The Sports dashboard panel is migrated through the existing panel contract:
 - It preserves the legacy week, month, year, and all-time queries, including the configured week start and the server-time conversion already owned by `SportRepository`.
 - Its Twig template lives at `plugins/Sports/templates/panel.html.twig` and is loaded through the `@Sports` namespace.
 - `AbstractPluginsAwareController` resolves the panel by the stable key `RunalyzePluginPanel_Sports`. The dashboard wrapper remains refreshable after training changes; the Sportler panel retains its separate no-reload behavior.
-- The existing legacy class remains in `plugin/` for discovery and persisted installation compatibility. Its old Twig template and controller-specific rendering method are no longer used by the dashboard path.
 
-The presenter test is located at `tests/Plugins/Sports/Tests/SportsPanelPresenterTest.php`; dashboard integration coverage is added to the existing `DefaultControllerTest`. The legacy class should only be removed in a separate step after its discovery and installation responsibilities have been audited.
+The presenter test is located at `tests/Plugins/Sports/Tests/SportsPanelPresenterTest.php`; dashboard integration coverage is added to the existing `DefaultControllerTest`.
 
 ## Third validated panel slice: Equipment
 
@@ -421,7 +389,6 @@ The Equipment dashboard panel reuses the existing Doctrine entities and reposito
 - `ModernPanelRequestHandlerInterface` is an optional extension for panels that need validated query parameters before presentation. The controller invokes it before rendering; panels without request-specific behavior remain unchanged.
 - The panel template is owned by `plugins/Equipment/templates/` and loaded through the `@Equipment` Twig namespace.
 - Presenter and selection-handler coverage lives in `tests/Plugins/Equipment/Tests/EquipmentPanelPresenterTest.php`; repository ordering and account isolation are covered by `EquipmentRepositoryTest`, and the existing `DefaultControllerTest` covers dashboard rendering and type selection through the panel route.
-- The legacy Equipment class remains available for plugin discovery and configuration-window compatibility. Its dashboard rendering path is no longer used.
 ## Open design decisions
 
 Resolve these against each future concrete migration rather than speculating now:

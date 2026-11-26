@@ -14,8 +14,8 @@ use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
 use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
-use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -129,7 +129,7 @@ final class PluginInstallationManagerTest extends TestCase
         $this->createManagerWithAuthenticatedAccount()->setInstalledPluginActive(1, 99);
     }
 
-    public function testInstallsModernPanelWithoutInstantiatingLegacyClass(): void
+    public function testInstallsRegisteredPanel(): void
     {
         $account = new Account();
         $repository = $this->createMock(PluginRepository::class);
@@ -155,8 +155,8 @@ final class PluginInstallationManagerTest extends TestCase
         $manager = new PluginInstallationManager(
             $doctrine,
             $tokenStorage,
-            new LegacyPluginInstantiator(),
-            new ModernPanelRegistry([$panel])
+            new ModernPanelRegistry([$panel]),
+            new ModernStatisticsRegistry([])
         );
 
         $this->assertTrue($manager->install('ModernPanelWithoutLegacyClass'));
@@ -173,7 +173,8 @@ final class PluginInstallationManagerTest extends TestCase
         return new PluginInstallationManager(
             $this->createStub(ManagerRegistry::class),
             $tokenStorage,
-            new LegacyPluginInstantiator()
+            new ModernPanelRegistry([]),
+            new ModernStatisticsRegistry([])
         );
     }
 
@@ -185,7 +186,8 @@ final class PluginInstallationManagerTest extends TestCase
         return new PluginInstallationManager(
             $this->createStub(ManagerRegistry::class),
             $tokenStorage,
-            new LegacyPluginInstantiator()
+            new ModernPanelRegistry([]),
+            new ModernStatisticsRegistry([])
         );
     }
 }

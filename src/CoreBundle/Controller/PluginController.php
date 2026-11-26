@@ -14,6 +14,7 @@ use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelConfigurationInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsConfigurationInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
+use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,14 +27,14 @@ class PluginController extends AbstractPluginsAwareController
 {
     /**
      * @throws NotFoundHttpException if "key" does not match an installable plugin
-     * @throws Throwable if the legacy plugin installer throws
+     * @throws Throwable if plugin installation throws
      */
     #[Route(path: '/call/call.Plugin.install.php', methods: ['GET', 'POST'])]
-    public function pluginInstallAction(Request $request, PluginDiscovery $pluginDiscovery): Response
+    public function pluginInstallAction(Request $request, PluginDiscovery $pluginDiscovery, LegacyPluginOutputRenderer $outputRenderer): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $legacyContent = $this->legacyPluginOutputRenderer->render(function () use ($request, $pluginDiscovery): void {
+        $legacyContent = $outputRenderer->render(function () use ($request, $pluginDiscovery): void {
             $pluginKey = $request->query->get('key');
 
             $availablePluginKeys = $pluginDiscovery->findAvailablePluginKeys();
@@ -66,16 +67,6 @@ class PluginController extends AbstractPluginsAwareController
                             break;
                         }
                     }
-                } elseif (! $this->modernStatisticsRegistry->find($pluginKey) instanceof ModernStatisticsInterface
-                    && (! $this->modernPanelRegistry->has($pluginKey)
-                        || ! $this->modernPanelRegistry->get($pluginKey) instanceof ModernPanelMetadataInterface)
-                ) {
-                    $plugin = $this->instantiatePluginByKey($pluginKey);
-                    $configLink = $plugin->getConfigLink(Icon::$CONF . ' ' . __('Configuration'));
-
-                    if ($configLink !== null) {
-                        echo '<ul class="blocklist"><li>' . $configLink . '</li></ul>';
-                    }
                 }
 
                 Ajax::setReloadFlag(Ajax::$RELOAD_ALL);
@@ -93,7 +84,7 @@ class PluginController extends AbstractPluginsAwareController
     }
 
     /**
-     * @throws Throwable if the legacy plugin throws
+     * @throws Throwable if a plugin throws
      */
     #[Route(path: '/my/plugin/{id}', name: 'plugin-display', requirements: [
         'id' => '\d+',
@@ -112,7 +103,7 @@ class PluginController extends AbstractPluginsAwareController
 
     /**
      * @throws BadRequestHttpException if the activation state is invalid
-     * @throws Throwable if the legacy plugin config window throws
+     * @throws Throwable if a plugin configuration handler throws
      */
     #[Route(path: '/call/call.Plugin.config.php', name: 'plugin-config', methods: ['GET', 'POST'])]
     public function pluginConfigAction(Request $request, ?Account $account = null): Response
@@ -132,7 +123,7 @@ class PluginController extends AbstractPluginsAwareController
                 }
             }
 
-            if ($installation instanceof PluginInstallation
+            if ($installation instanceof PluginInstallation && $installation->isPanel()
                 && $this->modernPanelRegistry->has($installation->getKey())
             ) {
                 $panel = $this->modernPanelRegistry->get($installation->getKey());
@@ -188,49 +179,7 @@ class PluginController extends AbstractPluginsAwareController
             }
         }
 
-        $legacyContent = $this->legacyPluginOutputRenderer->render(function () use ($id, $request): void {
-            if ($id !== null && is_numeric($id)) {
-                new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
-
-                $plugin = $this->instantiatePluginById((int) $id);
-                $active = $request->query->get('active');
-
-                if ($active !== null) {
-                    if (! is_string($active) || ! ctype_digit($active)) {
-                        throw new BadRequestHttpException('Invalid plugin activation state.');
-                    }
-
-                    try {
-                        $this->pluginInstallationManager->setInstalledPluginActive($plugin->id(), (int) $active);
-                    } catch (InvalidArgumentException $exception) {
-                        throw new BadRequestHttpException('Invalid plugin activation state.', $exception);
-                    }
-
-                    $plugin = $this->instantiatePluginById($plugin->id());
-
-                    Ajax::setReloadFlag(Ajax::$RELOAD_ALL);
-                    echo Ajax::getReloadCommand();
-                }
-
-                $postData = $request->request->all();
-
-                if ($postData !== []) {
-                    if (isset($postData['edit']) && $postData['edit'] == 'true') {
-                        $plugin->Configuration()->updateFromPost($postData);
-                    }
-
-                    Ajax::setPluginIDtoReload($plugin->id());
-                    Ajax::setReloadFlag(Ajax::$RELOAD_PLUGINS);
-                    echo Ajax::getReloadCommand();
-                }
-
-                $plugin->displayConfigWindow();
-            } else {
-                echo '<em>' . __('Something went wrong ...') . '</em>';
-            }
-        })->getContent();
-
-        return $this->legacyContentResponseFactory->create($legacyContent, $this->requestStack->getCurrentRequest());
+        return $this->legacyContentResponseFactory->create('<em>' . __('Something went wrong ...') . '</em>', $request);
     }
 
     private function getStatisticsConfigurationResponse(

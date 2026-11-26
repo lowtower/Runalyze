@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
 use DateTimeImmutable;
-use PluginPanel;
-use PluginStat;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Conf;
@@ -26,59 +24,6 @@ use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCa
 use Runalyze\Model\Account\UserRole;
 use Runalyze\Profile\Sport\SportProfile;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-
-final class DashboardInstantiationTestPanel extends PluginPanel
-{
-    public static int $instantiationCount = 0;
-
-    public function __construct(int $id)
-    {
-        ++self::$instantiationCount;
-
-        parent::__construct($id);
-    }
-
-    public function name(): string
-    {
-        return 'Dashboard instantiation test';
-    }
-
-    public function description(): string
-    {
-        return 'Dashboard instantiation test panel.';
-    }
-
-    protected function defaultSport(): int
-    {
-        return -1;
-    }
-
-    protected function displayContent(): void {}
-}
-
-final class DashboardStatisticsInstantiationTestPlugin extends PluginStat
-{
-    public static int $instantiationCount = 0;
-
-    public function __construct(int $id)
-    {
-        ++self::$instantiationCount;
-
-        parent::__construct($id);
-    }
-
-    public function name(): string
-    {
-        return 'Dashboard statistics instantiation test';
-    }
-
-    public function description(): string
-    {
-        return 'Dashboard statistics instantiation test plugin.';
-    }
-
-    protected function displayContent(): void {}
-}
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
@@ -545,54 +490,48 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
-    public function testDashboardInstantiatesEachPanelOnlyOnce(): void
+    public function testDashboardAndPluginSettingsTolerateRetiredInstallations(): void
     {
-        $plugin = new PluginEntity()
-            ->setKey(DashboardInstantiationTestPanel::class)
-            ->setType(PluginEntity::TYPE_PANEL)
-            ->setActive(PluginEntity::STATE_ACTIVE)
-            ->setOrder(1)
-            ->setAccount($this->Account);
-        $this->getEntityManager()->persist($plugin);
-        $this->getEntityManager()->flush();
-
-        DashboardInstantiationTestPanel::$instantiationCount = 0;
-
-        try {
-            $this->loginClient($this->Client, $this->Account, 'default');
-            $this->Client->request('GET', '/dashboard');
-
-            $this->assertStatusCode(200, $this->Client);
-            $this->assertSame(1, DashboardInstantiationTestPanel::$instantiationCount);
-        } finally {
-            $this->getEntityManager()->remove($plugin);
-            $this->getEntityManager()->flush();
+        $repository = $this->getEntityManager()->getRepository(PluginEntity::class);
+        $accountId = $this->Account->getId();
+        $retired = [];
+        foreach ([PluginEntity::TYPE_PANEL, PluginEntity::TYPE_STAT] as $type) {
+            $plugin = new PluginEntity()
+                ->setKey('RetiredPlugin_' . $type)
+                ->setType($type)
+                ->setActive(PluginEntity::STATE_ACTIVE)
+                ->setOrder(0)
+                ->setAccount($this->Account);
+            $this->getEntityManager()->persist($plugin);
+            $retired[$type] = $plugin;
         }
-    }
 
-    #[\PHPUnit\Framework\Attributes\Group('plugin')]
-    public function testDashboardInstantiatesTheSelectedStatisticsPluginOnlyOnce(): void
-    {
-        $plugin = new PluginEntity()
-            ->setKey(DashboardStatisticsInstantiationTestPlugin::class)
-            ->setType(PluginEntity::TYPE_STAT)
-            ->setActive(PluginEntity::STATE_ACTIVE)
-            ->setOrder(0)
-            ->setAccount($this->Account);
-        $this->getEntityManager()->persist($plugin);
         $this->getEntityManager()->flush();
+        $statisticId = $retired[PluginEntity::TYPE_STAT]->getId();
 
-        DashboardStatisticsInstantiationTestPlugin::$instantiationCount = 0;
+        $this->loginClient($this->Client, $this->Account, 'default');
+        $page = $this->Client->request('GET', '/dashboard');
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringNotContainsString('RetiredPlugin_', (string) $this->Client->getResponse()->getContent());
+        $this->assertCount(1, $page->filter('#statistics-inner .summary-month'));
 
-        try {
-            $this->loginClient($this->Client, $this->Account, 'default');
-            $this->Client->request('GET', '/dashboard');
+        $this->Client->xmlHttpRequest('GET', '/my/plugin/' . $statisticId);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('The plugin could not be found.', (string) $this->Client->getResponse()->getContent());
 
-            $this->assertStatusCode(200, $this->Client);
-            $this->assertSame(1, DashboardStatisticsInstantiationTestPlugin::$instantiationCount);
-        } finally {
-            $this->getEntityManager()->remove($plugin);
-            $this->getEntityManager()->flush();
+        $this->Client->request('GET', '/call/call.Plugin.config.php?id=' . $statisticId);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('Something went wrong', (string) $this->Client->getResponse()->getContent());
+
+        $this->Client->request('GET', '/settings?key=config_tab_plugins&external=true');
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringNotContainsString('RetiredPlugin_', (string) $this->Client->getResponse()->getContent());
+
+        foreach ($retired as $type => $plugin) {
+            $this->assertSame($plugin->getId(), $repository->findOneBy([
+                'account' => $accountId,
+                'key' => 'RetiredPlugin_' . $type,
+            ])?->getId());
         }
     }
 

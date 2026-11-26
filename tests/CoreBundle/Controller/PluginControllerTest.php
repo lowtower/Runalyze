@@ -1728,7 +1728,7 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
-    public function testPluginConfigActionPassesPostDataToLegacyConfiguration(): void
+    public function testPluginConfigActionPersistsSubmittedPanelSettings(): void
     {
         $plugin = new Plugin()
             ->setAccount($this->Account)

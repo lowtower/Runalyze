@@ -6,11 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Services;
 
 use Ajax;
 use Icon;
-use InvalidArgumentException;
-use LogicException;
-use Plugin;
-use PluginInstaller;
-use PluginType;
+use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelConfigurationInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
@@ -21,10 +17,9 @@ final readonly class PluginSettingsProvider
 {
     public function __construct(
         private PluginInstallationManager $installationManager,
-        private LegacyPluginInstantiator $pluginInstantiator,
         private PluginDiscovery $pluginDiscovery,
-        private ?ModernPanelRegistry $modernPanelRegistry = null,
-        private ?ModernStatisticsRegistry $modernStatisticsRegistry = null
+        private ModernPanelRegistry $modernPanelRegistry,
+        private ModernStatisticsRegistry $modernStatisticsRegistry
     ) {}
 
     /**
@@ -41,19 +36,19 @@ final readonly class PluginSettingsProvider
     }
 
     /**
-     * @return list<array{id: int, key: string, name: string, description: string, type: int, active: int, order: int, config_link: ?string}>
+     * @return list<array{id: int, key: string, name: string, description: string, type: string, active: int, order: int, config_link: ?string}>
      */
-    public function getInstalledPluginAdminEntries(?int $type = null): array
+    public function getInstalledPluginAdminEntries(?string $type = null): array
     {
         $entries = [];
 
         foreach ($this->getInstalledPluginData() as $data) {
-            if ($type !== null && $data['type'] !== PluginType::string($type)) {
+            if ($type !== null && $data['type'] !== $type) {
                 continue;
             }
 
-            $statistic = $data['type'] === PluginType::string(PluginType::STAT)
-                ? $this->modernStatisticsRegistry?->find($data['key'])
+            $statistic = $data['type'] === Plugin::TYPE_STAT
+                ? $this->modernStatisticsRegistry->find($data['key'])
                 : null;
 
             if ($statistic instanceof ModernStatisticsInterface) {
@@ -62,7 +57,7 @@ final readonly class PluginSettingsProvider
                     'key' => $data['key'],
                     'name' => $statistic->getName(),
                     'description' => $statistic->getDescription(),
-                    'type' => PluginType::STAT,
+                    'type' => Plugin::TYPE_STAT,
                     'active' => $data['active'],
                     'order' => $data['order'],
                     'config_link' => null,
@@ -71,7 +66,7 @@ final readonly class PluginSettingsProvider
                 continue;
             }
 
-            $modern = $this->modernPanelMetadataFor($data['key']);
+            $modern = $data['type'] === Plugin::TYPE_PANEL ? $this->modernPanelMetadataFor($data['key']) : null;
 
             if ($modern instanceof \Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface) {
                 $entries[] = [
@@ -79,38 +74,24 @@ final readonly class PluginSettingsProvider
                     'key' => $data['key'],
                     'name' => $modern->getName(),
                     'description' => $modern->getDescription(),
-                    'type' => PluginType::PANEL,
+                    'type' => Plugin::TYPE_PANEL,
                     'active' => $data['active'],
                     'order' => $data['order'],
                     'config_link' => $modern instanceof ModernPanelConfigurationInterface
                         ? Ajax::window(
-                            '<a href="' . Plugin::$CONFIG_URL . '?id=' . $data['id'] . '">' . Icon::$CONF . '</a>',
+                            '<a href="call/call.Plugin.config.php?id=' . $data['id'] . '">' . Icon::$CONF . '</a>',
                             'small'
                         )
                         : null,
                 ];
-
-                continue;
             }
-
-            $legacy = $this->instantiateLegacyPlugin($data);
-            $entries[] = [
-                'id' => $legacy->id(),
-                'key' => $legacy->key(),
-                'name' => $legacy->name(),
-                'description' => $legacy->description(),
-                'type' => $legacy->type(),
-                'active' => $data['active'],
-                'order' => $data['order'],
-                'config_link' => $legacy->getConfigLink(),
-            ];
         }
 
         return $entries;
     }
 
     /**
-     * @return list<array{key: string, name: string, description: string, type: int}>
+     * @return list<array{key: string, name: string, description: string, type: string}>
      */
     public function getAvailablePluginAdminEntries(): array
     {
@@ -122,14 +103,14 @@ final readonly class PluginSettingsProvider
                 continue;
             }
 
-            $statistic = $this->modernStatisticsRegistry?->find($key);
+            $statistic = $this->modernStatisticsRegistry->find($key);
 
             if ($statistic instanceof ModernStatisticsInterface) {
                 $entries[] = [
                     'key' => $key,
                     'name' => $statistic->getName(),
                     'description' => $statistic->getDescription(),
-                    'type' => PluginType::STAT,
+                    'type' => Plugin::TYPE_STAT,
                 ];
 
                 continue;
@@ -142,19 +123,9 @@ final readonly class PluginSettingsProvider
                     'key' => $key,
                     'name' => $modern->getName(),
                     'description' => $modern->getDescription(),
-                    'type' => PluginType::PANEL,
+                    'type' => Plugin::TYPE_PANEL,
                 ];
-
-                continue;
             }
-
-            $legacy = $this->pluginInstantiator->instantiate($key, PluginInstaller::ID);
-            $entries[] = [
-                'key' => $legacy->key(),
-                'name' => $legacy->name(),
-                'description' => $legacy->description(),
-                'type' => $legacy->type(),
-            ];
         }
 
         return $entries;
@@ -162,111 +133,12 @@ final readonly class PluginSettingsProvider
 
     private function modernPanelMetadataFor(string $key): ?ModernPanelMetadataInterface
     {
-        if (! $this->modernPanelRegistry instanceof \Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry || ! $this->modernPanelRegistry->has($key)) {
+        if (! $this->modernPanelRegistry->has($key)) {
             return null;
         }
 
         $panel = $this->modernPanelRegistry->get($key);
 
         return $panel instanceof ModernPanelMetadataInterface ? $panel : null;
-    }
-
-    /**
-     * @return list<Plugin>
-     */
-    public function getInstalledPlugins(?int $type = null, ?int $active = null): array
-    {
-        $plugins = [];
-
-        foreach ($this->getInstalledPluginData() as $data) {
-            if (($type !== null && $data['type'] !== PluginType::string($type)) || ($active !== null && $data['active'] !== $active)) {
-                continue;
-            }
-
-            if ($this->modernStatisticsRegistry?->find($data['key']) instanceof ModernStatisticsInterface) {
-                continue;
-            }
-
-            $plugins[] = $this->instantiateLegacyPlugin($data);
-        }
-
-        return $plugins;
-    }
-
-    /**
-     * @return list<Plugin>
-     */
-    public function getInstalledPluginsExceptInactive(?int $type = null): array
-    {
-        $plugins = [];
-
-        foreach ($this->getInstalledPluginData() as $data) {
-            if (($type !== null && $data['type'] !== PluginType::string($type)) || $data['active'] === Plugin::ACTIVE_NOT) {
-                continue;
-            }
-
-            if ($this->modernStatisticsRegistry?->find($data['key']) instanceof ModernStatisticsInterface) {
-                continue;
-            }
-
-            $plugins[] = $this->instantiateLegacyPlugin($data);
-        }
-
-        return $plugins;
-    }
-
-    /**
-     * @param array{id: int, key: string, type: string, active: int, order: int} $data
-     */
-    public function instantiateLegacyPlugin(array $data): Plugin
-    {
-        return $this->pluginInstantiator->instantiate($data['key'], $data['id'], $data);
-    }
-
-    /**
-     * @throws InvalidArgumentException if no plugin is installed with the given id
-     * @throws LogicException if there is no authenticated account
-     */
-    public function getInstalledPluginById(int $id): Plugin
-    {
-        foreach ($this->getInstalledPluginData() as $data) {
-            if ($data['id'] === $id) {
-                return $this->instantiateLegacyPlugin($data);
-            }
-        }
-
-        throw new InvalidArgumentException(sprintf('No plugin found for id "%d".', $id));
-    }
-
-    /**
-     * @throws InvalidArgumentException if no plugin is installed with the given key
-     * @throws LogicException if there is no authenticated account
-     */
-    public function getInstalledPluginByKey(string $key): Plugin
-    {
-        foreach ($this->getInstalledPluginData() as $data) {
-            if ($data['key'] === $key) {
-                return $this->instantiateLegacyPlugin($data);
-            }
-        }
-
-        throw new InvalidArgumentException(sprintf('Plugin with key "%s" is not installed.', $key));
-    }
-
-    /**
-     * @return list<Plugin>
-     */
-    public function getAvailablePluginsToInstall(): array
-    {
-        $installedKeys = $this->installationManager->getInstalledPluginKeys();
-        $plugins = [];
-
-        foreach ($this->pluginDiscovery->findAvailablePluginKeys() as $key) {
-            if (! in_array($key, $installedKeys, true) && ! $this->modernStatisticsRegistry?->find($key) instanceof ModernStatisticsInterface) {
-                $plugins[] = $this->pluginInstantiator->instantiate($key, PluginInstaller::ID);
-            }
-        }
-
-        return $plugins;
     }
 }
