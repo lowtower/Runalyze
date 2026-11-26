@@ -7,8 +7,8 @@
 
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
-use Runalyze\Activity\Pace;
-use Runalyze\Parameter\Application\PaceUnit;
+use Runalyze\Bundle\CoreBundle\Component\Activity\TimePaceFormatter;
+use Runalyze\Metrics\Velocity\Unit\SecondsPerKilometer;
 use Runalyze\View\Activity\Context;
 
 /**
@@ -45,8 +45,7 @@ class TablePaceGoal
         $activityTimeS = $this->context->activity()->duration();
         $activityDistanceM = $this->context->activity()->distance() * 1000;
 
-        $paceGoal = new Pace(0, 100 / 1000, PaceUnit::MIN_PER_KM);
-        $paceRun = new Pace(0, 100 / 1000, PaceUnit::MIN_PER_KM);
+        $paceFormatter = new TimePaceFormatter(new SecondsPerKilometer());
         $durationGoal = new Duration(0);
         $durationRun = new Duration(0);
         $sumPpDistM = 0;
@@ -65,8 +64,8 @@ class TablePaceGoal
 
             $durationGoal->fromSeconds($split['pp_t_s']);
             $durationRun->fromSeconds($split['t_s']);
-            $this->setPace($paceGoal, $split['pp_dist_m'], $split['pp_t_s']);
-            $this->setPace($paceRun, $split['dist_m'], $split['t_s']);
+            $paceGoal = TimePaceFormatter::secondsPerKilometer((int) $split['pp_t_s'], (int) $split['pp_dist_m'] / 1000);
+            $paceRun = TimePaceFormatter::secondsPerKilometer((int) $split['t_s'], (int) $split['dist_m'] / 1000);
 
             $rows[] = [
                 'style' => '',
@@ -78,17 +77,17 @@ class TablePaceGoal
                     $this->goalCell($durationGoal->string()),
                     $this->cell($durationRun->string()),
                     $this->cell($durationGoal->compareTo($durationRun)),
-                    $this->goalCell($paceGoal->valueWithAppendix()),
-                    $this->cell($paceRun->valueWithAppendix()),
-                    $this->cell($paceRun->compareTo($paceGoal), 'padding-right: 20px;'),
+                    $this->goalCell($paceFormatter->format($paceGoal)),
+                    $this->cell($paceFormatter->format($paceRun)),
+                    $this->cell($paceFormatter->compare($paceRun, $paceGoal), 'padding-right: 20px;'),
                 ],
             ];
         }
 
         $durationGoal->fromSeconds($sumPpTimeS);
         $durationRun->fromSeconds($sumTimeS);
-        $this->setPace($paceGoal, $sumPpDistM, $sumPpTimeS);
-        $this->setPace($paceRun, $sumDistM, $sumTimeS);
+        $paceGoal = TimePaceFormatter::secondsPerKilometer((int) $sumPpTimeS, (int) $sumPpDistM / 1000);
+        $paceRun = TimePaceFormatter::secondsPerKilometer((int) $sumTimeS, (int) $sumDistM / 1000);
 
         $summaryRow = [
             'style' => 'border-top: 1px solid #666;',
@@ -100,9 +99,9 @@ class TablePaceGoal
                 $this->goalCell($durationGoal->string()),
                 $this->cell($durationRun->string()),
                 $this->cell($durationGoal->compareTo($durationRun)),
-                $this->goalCell($paceGoal->valueWithAppendix()),
-                $this->cell($paceRun->valueWithAppendix()),
-                $this->cell($paceRun->compareTo($paceGoal), 'padding-right: 20px;'),
+                $this->goalCell($paceFormatter->format($paceGoal)),
+                $this->cell($paceFormatter->format($paceRun)),
+                $this->cell($paceFormatter->compare($paceRun, $paceGoal), 'padding-right: 20px;'),
             ],
         ];
 
@@ -167,12 +166,6 @@ class TablePaceGoal
     {
         $this->distance->set($meter / 1000);
         return $this->distance->stringMeter();
-    }
-
-    protected function setPace(Pace $pace, int $meter, int $seconds)
-    {
-        $pace->setTime($seconds);
-        $pace->setDistance($meter / 1000);
     }
 
     /**

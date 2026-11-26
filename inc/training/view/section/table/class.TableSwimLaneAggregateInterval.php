@@ -7,12 +7,12 @@
 
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
-use Runalyze\Activity\Pace;
+use Runalyze\Bundle\CoreBundle\Component\Activity\TimePaceFormatter;
 use Runalyze\Data\Stroketype;
+use Runalyze\Metrics\Velocity\Unit\SecondsPer100m;
 use Runalyze\Model\Activity\Splits;
 use Runalyze\Model\Swimdata;
 use Runalyze\Model\Trackdata;
-use Runalyze\Parameter\Application\PaceUnit;
 
 /**
  * Display swim lanes in details of 100m intervals.
@@ -76,8 +76,8 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract
         $strokes = 0;
         $prevStrokes = 0;
 
-        $pace = new Pace(0, 100 / 1000, PaceUnit::MIN_PER_100M);
-        $prevPace = new Pace(0, 100 / 1000, PaceUnit::MIN_PER_100M);
+        $paceFormatter = new TimePaceFormatter(new SecondsPer100m());
+        $prevPace = 0;
 
         $stroketypePrimary = [];
 
@@ -111,19 +111,18 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract
                     $cells[] = $this->cell($distance100->stringMeter());
 
                     // pace
-                    $pace->setTime($duration->seconds());
-                    $pace->setDistance($distance100->value());
-                    $cells[] = $this->cell($pace->valueWithAppendix());
+                    $pace = TimePaceFormatter::secondsPerKilometer($duration->seconds(), $distance100->value());
+                    $cells[] = $this->cell($paceFormatter->format($pace));
                     // make it very easy: the pace seconds define the bar-width
                     $cells[] = [
                         'class' => '',
                         'style' => 'text-align: left; padding-left: 2%;',
-                        'content' => '<span class="bar-chart-value" style="width:' . ($pace->secondsPerKm() / 10) . 'px; top: 0px;"></span>',
+                        'content' => '<span class="bar-chart-value" style="width:' . ($pace / 10) . 'px; top: 0px;"></span>',
                     ];
                     if ($beginLap && $lap === 1) {
                         $cells[] = $this->cell('');
                     } else {
-                        $cells[] = $this->cell('<span style="opacity: ' . ($beginLap ? '0.5' : '1.0') . '">' . $pace->compareTo($prevPace) . '</span>');
+                        $cells[] = $this->cell('<span style="opacity: ' . ($beginLap ? '0.5' : '1.0') . '">' . $paceFormatter->compare($pace, $prevPace) . '</span>');
                     }
 
                     // swolfs
@@ -160,8 +159,7 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract
                     ];
 
                     // store "previous" values for diff
-                    $prevPace->setTime($duration->seconds());
-                    $prevPace->setDistance($distance100->value());
+                    $prevPace = $pace;
                     $prevSwolfs = $sw;
                     $prevStrokes = $strokes;
 
