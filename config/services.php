@@ -26,7 +26,6 @@ use Runalyze\Bundle\CoreBundle\MessageHandler\PosterGenerationMessageHandler;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsFilterFactory;
-use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Repository\WeathercacheRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountChecker;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
@@ -486,10 +485,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(ActivityCache::class)
         ->arg('$Cache', service('app.cache.activity_uploads'));
 
-    $services->set(ActivityContextAdapterFactory::class)
-        ->arg('$WeatherForecast', service(WeatherForecast::class))
-        ->arg('$TrainingRepository', service(TrainingRepository::class))
-        ->arg('$routeNameEvalFactory', service(RouteNameEvalFactory::class));
+    $services->set(ActivityContextAdapterFactory::class);
 
     $services->set(DataSeriesRemover::class);
 
