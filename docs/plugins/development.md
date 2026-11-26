@@ -17,6 +17,8 @@ Inject repositories and other services in the constructor. Use the `Account` and
 
 Start with the [Sports panel presenter](../../plugins/Panels/Sports/SportsPanelPresenter.php) and its [panel template](../../plugins/Panels/Sports/templates/panel.html.twig), or the [Monthly Stats presenter](../../plugins/Statistics/MonthlyStats/MonthlyStatisticsPresenter.php) and its [statistics template](../../plugins/Statistics/MonthlyStats/templates/statistics.html.twig).
 
+Extend `my/panels/base.html.twig` for a panel and read the presenter data from `panel_data`. The controller also supplies `plugin_id` and `is_hidden`. For statistics, extend `my/statistics/base.html.twig` and read the keys returned from `present()` directly in the template.
+
 ## Register the service and template
 
 Define the presenter and its plugin-specific dependencies in the module's `config/services.php`. The Monthly Stats module registers its presenter with this service definition.
@@ -41,7 +43,7 @@ Import a new module's service file in [the application service configuration](..
 
 ## Verify installation and rendering
 
-The registry lists the registered presenter by its stable key. Install the plugin from the plugin administration and enable it for a test account. Runalyze stores installation and activation state per account and resolves the presenter from that installation when it renders the dashboard or refreshes the plugin via `/my/plugin/{id}`.
+The registry indexes each presenter by its stable key. Install the plugin from the plugin administration and enable it for a test account. Runalyze stores installation and activation state per account and resolves the presenter from that installation when it renders the dashboard or refreshes the plugin via `/my/plugin/{id}`.
 
 When moving an existing plugin, check that its existing installation still renders and that configuration defaults, saved values, and existing URLs still work. Test with two accounts when the plugin reads or writes account-specific data.
 
