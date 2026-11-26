@@ -9,7 +9,6 @@ use InvalidArgumentException;
 use LogicException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
@@ -118,9 +117,7 @@ final readonly class PluginInstallationManager
             return false;
         }
 
-        if ($this->modernPanelRegistry->has($key)
-            && $this->modernPanelRegistry->get($key) instanceof ModernPanelMetadataInterface
-        ) {
+        if ($this->modernPanelRegistry->has($key)) {
             $this->getPluginRepository()->installForAccount($account, $key, Plugin::TYPE_PANEL);
 
             return true;

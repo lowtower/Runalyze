@@ -11,7 +11,6 @@ use InvalidArgumentException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelConfigurationInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsConfigurationInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
@@ -168,14 +167,12 @@ class PluginController extends AbstractPluginsAwareController
                     return $this->legacyContentResponseFactory->create($content, $request);
                 }
 
-                if ($panel instanceof ModernPanelMetadataInterface) {
-                    new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
+                new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
-                    return $this->legacyContentResponseFactory->create(
-                        HTML::info(__('This plugin has no configurable options.')),
-                        $request
-                    );
-                }
+                return $this->legacyContentResponseFactory->create(
+                    HTML::info(__('This plugin has no configurable options.')),
+                    $request
+                );
             }
         }
 

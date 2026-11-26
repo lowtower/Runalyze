@@ -9,7 +9,6 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelConfigurationInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRequestHandlerInterface;
 use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TagRepository;
@@ -17,7 +16,7 @@ use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 use Symfony\Component\Clock\ClockInterface;
 
-final readonly class TagsSummaryPanelPresenter implements ModernPanelInterface, ModernPanelRequestHandlerInterface, ModernPanelMetadataInterface, ModernPanelConfigurationInterface
+final readonly class TagsSummaryPanelPresenter implements ModernPanelInterface, ModernPanelRequestHandlerInterface, ModernPanelConfigurationInterface
 {
     private const string PLUGIN_KEY = 'RunalyzePluginPanel_TagsSummary';
 

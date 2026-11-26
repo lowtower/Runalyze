@@ -50,12 +50,17 @@ final readonly class ModernPanelRegistry
         return isset($this->panels[$key]);
     }
 
+    public function find(string $key): ?ModernPanelInterface
+    {
+        return $this->panels[$key] ?? null;
+    }
+
     /**
      * @throws InvalidArgumentException if no modern panel is registered for the given key
      */
     public function get(string $key): ModernPanelInterface
     {
-        return $this->panels[$key] ?? throw new InvalidArgumentException(
+        return $this->find($key) ?? throw new InvalidArgumentException(
             sprintf('No modern panel is registered for key "%s".', $key)
         );
     }

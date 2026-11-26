@@ -1,6 +1,6 @@
 # Plugin architecture
 
-Runalyze discovers and renders all built-in plugins through separate Symfony registries for panels and statistics. The [panel migration record](remaining-panel-migration.md) describes the final panel cutovers.
+Runalyze discovers and renders all built-in plugins through separate Symfony registries for panels and statistics. See the [plugin development guide](development.md) for registration and testing examples and the [panel migration record](remaining-panel-migration.md) for the final panel cutovers.
 
 ## Goals
 
@@ -100,11 +100,11 @@ Panel tests mirror their source layout under `tests/Plugins/Panels/<PluginName>/
 
 ### Panel metadata and configuration
 
-Panels implement `ModernPanelInterface` and `ModernPanelMetadataInterface`. The metadata supplies the display name and description for administration. Sports uses the informational configuration window because it has no plugin-specific settings.
+`ModernPanelInterface` supplies the stable key, display name, and description for administration as well as the rendering contract. Sports uses the informational configuration window because it has no plugin-specific settings.
 
 TagsSummary is the first legacy-free panel with user configuration. It implements
-`ModernPanelConfigurationInterface` in addition to the panel and metadata
-contracts. The optional configuration contract supplies a plugin-local Twig
+`ModernPanelConfigurationInterface` in addition to the presenter contract.
+The optional configuration contract supplies a plugin-local Twig
 template, account-scoped configuration view data, and a validated update
 operation. The existing `plugin-config` route handles modern configuration,
 activation and AJAX reloads while retaining the legacy URL and form behavior.
@@ -113,7 +113,7 @@ configuration POSTs; inactive installations are accepted only on the explicit
 configuration path. Modern plugins without configuration support continue to
 display the no-options message.
 
-Equipment is another metadata- and configuration-enabled legacy-free panel. It reuses
+Equipment also supports user configuration. It reuses
 `ModernPanelConfigurationInterface` and its existing account-scoped selection
 handler to save the selected equipment type from the Twig configuration form.
 The original equipment-management and table links are part of its modern panel
@@ -227,6 +227,10 @@ The first implemented type-specific contract is `ModernPanelInterface` in `src/C
 interface ModernPanelInterface
 {
     public function getKey(): string;
+
+    public function getName(): string;
+
+    public function getDescription(): string;
 
     public function getTemplate(): string;
 
