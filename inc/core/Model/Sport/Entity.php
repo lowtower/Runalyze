@@ -7,8 +7,12 @@
 
 namespace Runalyze\Model\Sport;
 
+use InvalidArgumentException;
 use Runalyze\Activity\PaceUnit\AbstractUnit;
 use Runalyze\Metrics\LegacyUnitConverter;
+use Runalyze\Metrics\Velocity\Unit\AbstractPaceUnit;
+use Runalyze\Metrics\Velocity\Unit\KilometerPerHour;
+use Runalyze\Metrics\Velocity\Unit\PaceEnum;
 use Runalyze\Model;
 use Runalyze\Profile\Sport\ProfileInterface;
 use Runalyze\Profile\Sport\SportProfile;
@@ -175,6 +179,15 @@ class Entity extends Model\EntityWithID implements ProfileInterface
     public function legacyPaceUnit(): AbstractUnit
     {
         return new LegacyUnitConverter()->getLegacyPaceUnit($this->Data[self::PACE_UNIT]);
+    }
+
+    public function getSpeedUnit(): AbstractPaceUnit
+    {
+        try {
+            return PaceEnum::get($this->Data[self::PACE_UNIT] ?? '');
+        } catch (InvalidArgumentException) {
+            return new KilometerPerHour();
+        }
     }
 
     /**
