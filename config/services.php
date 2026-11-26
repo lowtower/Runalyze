@@ -536,7 +536,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(ElevationCorrection::class);
 
     $services->set(RouteNameEvalFactory::class)
-        ->arg('$RouteNameEval', service(RouteNameEvalOsm::class))
         ->tag('monolog.logger', [
             'channel' => 'external_services',
         ]);
