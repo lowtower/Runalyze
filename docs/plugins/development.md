@@ -1,0 +1,71 @@
+# Developing a Runalyze plugin
+
+## Implement the presenter
+
+| | Dashboard panel | Statistics tab |
+| --- | --- | --- |
+| Module directory | `plugins/Panels/<Feature>/` | `plugins/Statistics/<Feature>/` |
+| PHP namespace | `Runalyze\Plugins\Panels\<Feature>` | `Runalyze\Plugins\Statistics\<Feature>` |
+| Presenter contract | `ModernPanelInterface` | `ModernStatisticsInterface` |
+| Symfony service tag | `runalyze.modern_panel` | `runalyze.modern_stat` |
+
+Both presenters provide `getKey()`, `getName()`, `getDescription()`, and `getTemplate()`. The plugin administration uses the name and description. A statistics description can also accept an account, for example to display the account's preferred units. It must also work when the caller omits the account.
+
+Return the stable installation key from `getKey()`. When moving an existing plugin, keep its key and stored settings so the existing installation continues to resolve. See the installed keys in the [plugin architecture](architecture.md).
+
+Inject repositories and other services in the constructor. Use the `Account` and `Plugin` installation passed to `present()` to scope each call and return the view data for the plugin-owned Twig template. Panels use `shouldReloadAfterTraining()` to tell the dashboard whether to refresh the panel after a training change. Statistics presenters receive the request's `InputBag` in `present()` to apply their filters.
+
+Start with the [Sports panel presenter](../../plugins/Panels/Sports/SportsPanelPresenter.php) and its [panel template](../../plugins/Panels/Sports/templates/panel.html.twig), or the [Monthly Stats presenter](../../plugins/Statistics/MonthlyStats/MonthlyStatisticsPresenter.php) and its [statistics template](../../plugins/Statistics/MonthlyStats/templates/statistics.html.twig).
+
+## Register the service and template
+
+Define the presenter and its plugin-specific dependencies in the module's `config/services.php`. The Monthly Stats module registers its presenter with this service definition.
+
+```php
+<?php
+
+declare(strict_types=1);
+
+use Runalyze\Plugins\Statistics\MonthlyStats\MonthlyStatisticsPresenter;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator->services()
+        ->set(MonthlyStatisticsPresenter::class)
+        ->autowire()
+        ->tag('runalyze.modern_stat');
+};
+```
+
+Import a new module's service file in [the application service configuration](../../config/services.php). Register its `templates/` directory under a Twig namespace in [the Twig configuration](../../config/packages/twig.php) and return the namespaced path from `getTemplate()`, such as `@MonthlyStats/statistics.html.twig`. The [Sports service definition](../../plugins/Panels/Sports/config/services.php) shows the equivalent registration for a panel.
+
+## Verify installation and rendering
+
+The registry lists the registered presenter by its stable key. Install the plugin from the plugin administration and enable it for a test account. Runalyze stores installation and activation state per account and resolves the presenter from that installation when it renders the dashboard or refreshes the plugin via `/my/plugin/{id}`.
+
+When moving an existing plugin, check that its existing installation still renders and that configuration defaults, saved values, and existing URLs still work. Test with two accounts when the plugin reads or writes account-specific data.
+
+## Add configuration or request handling when needed
+
+Implement `ModernPanelConfigurationInterface` or `ModernStatisticsConfigurationInterface` to supply a settings template, view data, and an update method. Use `PluginConfigurationStorageInterface` for installation settings. Validate the installation and check account ownership of any submitted entity IDs before writing.
+
+For query-driven actions, the optional `ModernPanelRequestHandlerInterface` receives a query parameter array and `ModernStatisticsRequestHandlerInterface` receives an `InputBag`. The controller calls the handler before rendering, so the presenter can read the updated state. See the account-scoped selection handling in [TagsSummary](../../plugins/Panels/TagsSummary/TagsSummaryPanelPresenter.php) and [Weather](../../plugins/Statistics/Wetter/WeatherStatisticsPresenter.php).
+
+## Run the tests
+
+Mirror the module's path in `tests/Plugins/<Panels or Statistics>/<Feature>/Tests/` and use PHPUnit's `plugin` group. Test a presenter with injected collaborators and explicit account and installation fixtures. Test calculations directly when the plugin separates them from presentation. The [Sports presenter test](../../tests/Plugins/Panels/Sports/Tests/SportsPanelPresenterTest.php) and [Monthly Stats data test](../../tests/Plugins/Statistics/MonthlyStats/Tests/MonthlyStatisticsDataTest.php) run without booting Symfony.
+
+```bash
+php vendor/bin/phpunit -c phpunit.xml.dist \
+    tests/Plugins/Panels/Sports/Tests/SportsPanelPresenterTest.php \
+    tests/Plugins/Statistics/MonthlyStats/Tests/MonthlyStatisticsDataTest.php
+composer test:plugin
+```
+
+Use the existing [dashboard](../../tests/CoreBundle/Controller/DefaultControllerTest.php) and [plugin controller](../../tests/CoreBundle/Controller/PluginControllerTest.php) tests as examples for exercising registered services through the HTTP entry points. With the application configured, check service discovery for both plugin types and validate the container.
+
+```bash
+php bin/console debug:container --tag=runalyze.modern_panel
+php bin/console debug:container --tag=runalyze.modern_stat
+php bin/console lint:container
+```

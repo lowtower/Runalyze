@@ -13,7 +13,6 @@ use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelConfigurationInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRequestHandlerInterface;
 use Runalyze\Bundle\CoreBundle\Repository\EquipmentRepository;
 use Runalyze\Bundle\CoreBundle\Repository\EquipmentTypeRepository;
@@ -21,7 +20,7 @@ use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 use Runalyze\Metrics\Distance\Unit\AbstractDistanceUnit;
 
-final readonly class EquipmentPanelPresenter implements ModernPanelInterface, ModernPanelRequestHandlerInterface, ModernPanelMetadataInterface, ModernPanelConfigurationInterface
+final readonly class EquipmentPanelPresenter implements ModernPanelInterface, ModernPanelRequestHandlerInterface, ModernPanelConfigurationInterface
 {
     private const string PLUGIN_KEY = 'RunalyzePluginPanel_Equipment';
 

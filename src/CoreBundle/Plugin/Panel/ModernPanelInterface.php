@@ -11,6 +11,10 @@ interface ModernPanelInterface
 {
     public function getKey(): string;
 
+    public function getName(): string;
+
+    public function getDescription(): string;
+
     public function getTemplate(): string;
 
     public function shouldReloadAfterTraining(): bool;

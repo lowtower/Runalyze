@@ -8,7 +8,7 @@ use Ajax;
 use Icon;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelConfigurationInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
@@ -66,18 +66,20 @@ final readonly class PluginSettingsProvider
                 continue;
             }
 
-            $modern = $data['type'] === Plugin::TYPE_PANEL ? $this->modernPanelMetadataFor($data['key']) : null;
+            $panel = $data['type'] === Plugin::TYPE_PANEL
+                ? $this->modernPanelRegistry->find($data['key'])
+                : null;
 
-            if ($modern instanceof \Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface) {
+            if ($panel instanceof ModernPanelInterface) {
                 $entries[] = [
                     'id' => $data['id'],
                     'key' => $data['key'],
-                    'name' => $modern->getName(),
-                    'description' => $modern->getDescription(),
+                    'name' => $panel->getName(),
+                    'description' => $panel->getDescription(),
                     'type' => Plugin::TYPE_PANEL,
                     'active' => $data['active'],
                     'order' => $data['order'],
-                    'config_link' => $modern instanceof ModernPanelConfigurationInterface
+                    'config_link' => $panel instanceof ModernPanelConfigurationInterface
                         ? Ajax::window(
                             '<a href="call/call.Plugin.config.php?id=' . $data['id'] . '">' . Icon::$CONF . '</a>',
                             'small'
@@ -116,29 +118,18 @@ final readonly class PluginSettingsProvider
                 continue;
             }
 
-            $modern = $this->modernPanelMetadataFor($key);
+            $panel = $this->modernPanelRegistry->find($key);
 
-            if ($modern instanceof \Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface) {
+            if ($panel instanceof ModernPanelInterface) {
                 $entries[] = [
                     'key' => $key,
-                    'name' => $modern->getName(),
-                    'description' => $modern->getDescription(),
+                    'name' => $panel->getName(),
+                    'description' => $panel->getDescription(),
                     'type' => Plugin::TYPE_PANEL,
                 ];
             }
         }
 
         return $entries;
-    }
-
-    private function modernPanelMetadataFor(string $key): ?ModernPanelMetadataInterface
-    {
-        if (! $this->modernPanelRegistry->has($key)) {
-            return null;
-        }
-
-        $panel = $this->modernPanelRegistry->get($key);
-
-        return $panel instanceof ModernPanelMetadataInterface ? $panel : null;
     }
 }

@@ -17,7 +17,7 @@ The panel and statistics registries now supply the plugin catalog, installation 
 ## Migration rules
 
 - Preserve each stable `RunalyzePluginPanel_*` key and installed plugin records.
-- Reuse `ModernPanelInterface`, `ModernPanelMetadataInterface`, and
+- Implement `ModernPanelInterface` and add
   `ModernPanelConfigurationInterface` where needed.
 - Keep configuration keys and defaults exactly as stored for existing users.
 - Use account-scoped repositories, not direct `DB::getInstance()` queries.

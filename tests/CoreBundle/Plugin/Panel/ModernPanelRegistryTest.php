@@ -23,6 +23,8 @@ final class ModernPanelRegistryTest extends TestCase
 
         $this->assertTrue($registry->has('example-panel'));
         $this->assertFalse($registry->has('unknown-panel'));
+        $this->assertSame($panel, $registry->find('example-panel'));
+        $this->assertNull($registry->find('unknown-panel'));
         $this->assertSame($panel, $registry->get('example-panel'));
     }
 
