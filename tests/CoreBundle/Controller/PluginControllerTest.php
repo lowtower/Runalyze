@@ -2021,6 +2021,63 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testRechenspieleCanBeInstalledAndConfiguredWithoutItsLegacyClass(): void
+    {
+        $entityManager = $this->getEntityManager();
+        $plugins = $entityManager->getRepository(Plugin::class);
+        $existing = $plugins->findForAccountAndKey($this->Account, 'RunalyzePluginPanel_Rechenspiele');
+        $this->assertInstanceOf(Plugin::class, $existing);
+        $entityManager->remove($existing);
+        $entityManager->flush();
+
+        $this->loginClient($this->Client, $this->Account, 'default');
+        $this->request('GET', '/call/call.Plugin.install.php?key=RunalyzePluginPanel_Rechenspiele');
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('The plugin has been successfully installed.', (string) $this->Client->getResponse()->getContent());
+
+        $plugin = $plugins->findForAccountAndKey($this->Account, 'RunalyzePluginPanel_Rechenspiele');
+        $this->assertInstanceOf(Plugin::class, $plugin);
+        $this->assertSame(Plugin::TYPE_PANEL, $plugin->getType());
+        $id = (int) $plugin->getId();
+        $url = '/call/call.Plugin.config.php?id=' . $id;
+        $settings = [
+            'show_trimpvalues' => '1',
+            'show_trimpvalues_extra' => '0',
+            'show_vo2max' => '1',
+            'show_basicendurance' => '0',
+        ];
+
+        $form = $this->Client->xmlHttpRequest('GET', $url);
+        $this->assertStatusCode(200, $this->Client);
+        foreach (array_keys($settings) as $key) {
+            $this->assertCount(1, $form->filter('input[name="' . $key . '"][checked]'));
+        }
+
+        $this->Client->xmlHttpRequest('POST', $url, [
+            'edit' => 'true',
+            'show_trimpvalues' => '1',
+            'show_vo2max' => '1',
+        ]);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('Runalyze.reload', (string) $this->Client->getResponse()->getContent());
+
+        $configuration = $entityManager->getRepository(PluginConf::class);
+        foreach ($settings as $key => $value) {
+            $this->assertSame($value, $configuration->findForPluginAndKey($id, $key)?->getValue());
+        }
+
+        $this->request('GET', $url . '&active=0');
+        $this->assertStatusCode(200, $this->Client);
+        $entityManager->clear();
+        $this->assertSame(Plugin::STATE_INACTIVE, $plugins->find($id)?->getActive());
+
+        $this->request('GET', $url . '&active=1');
+        $this->assertStatusCode(200, $this->Client);
+        $entityManager->clear();
+        $this->assertSame(Plugin::STATE_ACTIVE, $plugins->find($id)?->getActive());
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
     public function testPrognoseSettingsUseModernConfigurationWithoutBreakingLegacyWindows(): void
     {
         $plugin = $this->getEntityManager()->getRepository(Plugin::class)->findOneBy([
