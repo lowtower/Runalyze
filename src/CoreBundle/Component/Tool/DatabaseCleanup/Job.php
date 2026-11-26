@@ -29,7 +29,7 @@ abstract class Job
 
     abstract public function run();
 
-    final protected function addMessage(string $string)
+    final protected function addMessage(string $string): void
     {
         $this->Messages[] = $string;
     }
@@ -38,7 +38,7 @@ abstract class Job
      * @param mixed $oldValue
      * @param mixed $newValue
      */
-    final protected function addSuccessMessage(string $what, $oldValue, $newValue)
+    final protected function addSuccessMessage(string $what, $oldValue, $newValue): void
     {
         $this->Messages[] = sprintf(
             __('%s has been recalculated. New value: <strong>%s</strong> (old value: %s)'),

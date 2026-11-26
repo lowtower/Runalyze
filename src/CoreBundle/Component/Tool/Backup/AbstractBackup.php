@@ -22,7 +22,7 @@ abstract class AbstractBackup
         $this->Filename = $filename;
     }
 
-    final public function run()
+    final public function run(): void
     {
         if ($this->PDO instanceof \PDOforRunalyze) {
             $this->PDO->stopAddingAccountID();

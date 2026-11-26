@@ -71,7 +71,7 @@ abstract class ConfigTab
     /**
      * Display formular
      */
-    final public function display()
+    final public function display(): void
     {
         echo '<div class="panel-heading">';
         echo '<h1>' . $this->title . '</h1>';

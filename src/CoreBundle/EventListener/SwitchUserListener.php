@@ -143,7 +143,7 @@ class SwitchUserListener implements FirewallListenerInterface
         $this->userChecker->checkPostAuth($user);
 
         $roles = $user->getRoles();
-        $roles[] = 'ROLE_PREVIOUS_ADMIN';
+        $roles[] = 'IS_IMPERSONATOR';
 
         $newToken = new SwitchUserToken(
             $user,

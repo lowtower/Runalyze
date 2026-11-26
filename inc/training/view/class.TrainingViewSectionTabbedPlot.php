@@ -20,7 +20,7 @@ abstract class TrainingViewSectionTabbedPlot extends TrainingViewSection
     /**
      * Append row
      */
-    final protected function appendRowTabbedPlot(TrainingViewSectionRowTabbedPlot $Row)
+    final protected function appendRowTabbedPlot(TrainingViewSectionRowTabbedPlot $Row): void
     {
         $this->Rows[] = $Row;
         $this->Links += $Row->getLinks();

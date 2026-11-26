@@ -43,19 +43,19 @@ abstract class TrainingViewSectionRowTabbedPlot extends TrainingViewSectionRow
         $this->setRightContent();
     }
 
-    final public function setCSSid(string $cssID)
+    final public function setCSSid(string $cssID): void
     {
         $this->cssID = $cssID;
     }
 
-    final protected function setPlot() {}
+    final protected function setPlot(): void {}
 
     abstract protected function setRightContent();
 
     /**
      * @param string|ActivityPlot|array<string, mixed> $content html string, plot or template data (an optional 'template' key selects the twig template, defaults to activity/training_view/table.html.twig)
      */
-    final protected function addRightContent(string $key, string $title, string|ActivityPlot|array $content)
+    final protected function addRightContent(string $key, string $title, string|ActivityPlot|array $content): void
     {
         $this->RightContent[$key] = $content;
         $this->RightContentTitle[$key] = $title;

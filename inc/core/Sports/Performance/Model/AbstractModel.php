@@ -47,7 +47,7 @@ abstract class AbstractModel
         $this->Trimp = $trimpData;
     }
 
-    final public function setRange(int $from, int $to)
+    final public function setRange(int $from, int $to): void
     {
         $this->Range = [
             'from' => $from,
@@ -55,7 +55,7 @@ abstract class AbstractModel
         ];
     }
 
-    final public function calculate()
+    final public function calculate(): void
     {
         if ($this->Range === []) {
             if ($this->Trimp === []) {

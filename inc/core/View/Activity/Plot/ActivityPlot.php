@@ -69,7 +69,7 @@ abstract class ActivityPlot
         }
     }
 
-    final protected function addSeries(\Runalyze\View\Plot\Series $series, int $yAxis = 1, bool $addAnnotations = true)
+    final protected function addSeries(\Runalyze\View\Plot\Series $series, int $yAxis = 1, bool $addAnnotations = true): void
     {
         $series->addTo($this->Plot, $yAxis, $addAnnotations);
     }

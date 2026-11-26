@@ -169,7 +169,7 @@ abstract class FormularField extends HtmlTag
     /**
      * Parse value for display
      */
-    final protected function parseForDisplay()
+    final protected function parseForDisplay(): void
     {
         FormularValueParser::parse($this->value, $this->parser, $this->parserOptions);
 
