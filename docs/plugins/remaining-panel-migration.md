@@ -22,8 +22,8 @@ The panel and statistics registries now supply the plugin catalog, installation 
 - Keep configuration keys and defaults exactly as stored for existing users.
 - Use account-scoped repositories, not direct `DB::getInstance()` queries.
 - Preserve existing window URLs and the current AJAX response behavior.
-- Register new services in the plugin-local `config/services.php`, import it in
-  `config/services.php`, and register namespaced Twig templates.
+- Register new services in the plugin-local `config/services.php` and put Twig
+  templates in the module's `templates/` directory for automatic discovery.
 - Add behavioral regression tests before removing each legacy class.
 - Delete each legacy directory only after its replacement, including windows
   and configuration, has been tested in CI and the browser.

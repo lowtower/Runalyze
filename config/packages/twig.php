@@ -2,31 +2,35 @@
 
 declare(strict_types=1);
 
+use Symfony\Component\Config\Resource\GlobResource;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
+return static function (ContainerConfigurator $containerConfigurator, ContainerBuilder $container): void {
+    $projectDir = $container->getParameter('kernel.project_dir');
+    assert(is_string($projectDir));
+
+    // Track the template directories themselves, including newly added directories.
+    $templateDirectories = new GlobResource($projectDir . '/plugins', '/{Panels,Statistics}/*/templates', false, forExclusion: true);
+    $container->addResource($templateDirectories);
+    $pathsByNamespace = [];
+
+    foreach ($templateDirectories as $path => $directory) {
+        if (! $directory->isDir()) {
+            continue;
+        }
+
+        $namespace = basename(dirname($path));
+        if (isset($pathsByNamespace[$namespace])) {
+            throw new LogicException(sprintf('The plugin Twig namespace "%s" is used by both "%s" and "%s".', $namespace, $pathsByNamespace[$namespace], $path));
+        }
+
+        $pathsByNamespace[$namespace] = $path;
+    }
+
     $containerConfigurator->extension('twig', [
         'file_name_pattern' => '*.twig',
-        'paths' => [
-            '%kernel.project_dir%/plugins/Panels/Equipment/templates' => 'Equipment',
-            '%kernel.project_dir%/plugins/Panels/Goals/templates' => 'Goals',
-            '%kernel.project_dir%/plugins/Panels/Prognose/templates' => 'Prognose',
-            '%kernel.project_dir%/plugins/Panels/Rechenspiele/templates' => 'Rechenspiele',
-            '%kernel.project_dir%/plugins/Panels/Sportler/templates' => 'Sportler',
-            '%kernel.project_dir%/plugins/Panels/Sports/templates' => 'Sports',
-            '%kernel.project_dir%/plugins/Panels/TagsSummary/templates' => 'TagsSummary',
-            '%kernel.project_dir%/plugins/Statistics/Analyse/templates' => 'Analyse',
-            '%kernel.project_dir%/plugins/Statistics/Hoehenmeter/templates' => 'Hoehenmeter',
-            '%kernel.project_dir%/plugins/Statistics/MonthlyStats/templates' => 'MonthlyStats',
-            '%kernel.project_dir%/plugins/Statistics/Rekorde/templates' => 'Rekorde',
-            '%kernel.project_dir%/plugins/Statistics/Statistiken/templates' => 'Statistiken',
-            '%kernel.project_dir%/plugins/Statistics/Strecken/templates' => 'Strecken',
-            '%kernel.project_dir%/plugins/Statistics/Tag/templates' => 'Tag',
-            '%kernel.project_dir%/plugins/Statistics/Trainingspartner/templates' => 'Trainingspartner',
-            '%kernel.project_dir%/plugins/Statistics/Trainingszeiten/templates' => 'Trainingszeiten',
-            '%kernel.project_dir%/plugins/Statistics/Wetter/templates' => 'Wetter',
-            '%kernel.project_dir%/plugins/Statistics/Wettkampf/templates' => 'Wettkampf',
-        ],
+        'paths' => array_flip($pathsByNamespace),
         'debug' => '%kernel.debug%',
         'strict_variables' => '%kernel.debug%',
         'globals' => [

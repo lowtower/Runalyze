@@ -39,7 +39,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 };
 ```
 
-Import a new module's service file in [the application service configuration](../../config/services.php). Register its `templates/` directory under a Twig namespace in [the Twig configuration](../../config/packages/twig.php) and return the namespaced path from `getTemplate()`, such as `@MonthlyStats/statistics.html.twig`. The [Sports service definition](../../plugins/Panels/Sports/config/services.php) shows the equivalent registration for a panel.
+Symfony imports each module's `config/services.php` automatically. The [Sports service definition](../../plugins/Panels/Sports/config/services.php) shows the equivalent registration for a panel.
+
+Put Twig templates in the module's `templates/` directory. Twig uses the module directory name as its namespace, so `MonthlyStats/templates/statistics.html.twig` is available as `@MonthlyStats/statistics.html.twig`. Use distinct names for modules that have templates across `Panels` and `Statistics`.
+
+For a dedicated plugin URL, put the controller in the module's `Controller/` directory and use Symfony `#[Route]` attributes. Controllers in this directory are registered as services and their routes are discovered automatically. See the [Prognose window controller](../../plugins/Panels/Prognose/Controller/PrognoseWindowController.php) for an example with an existing route.
+
+Rebuild the Symfony production cache after deploying a new module or changing its configuration, routes, or template directories.
 
 ## Verify installation and rendering
 
@@ -69,5 +75,6 @@ Use the existing [dashboard](../../tests/CoreBundle/Controller/DefaultController
 ```bash
 php bin/console debug:container --tag=runalyze.modern_panel
 php bin/console debug:container --tag=runalyze.modern_stat
+php bin/console debug:router --show-controllers
 php bin/console lint:container
 ```

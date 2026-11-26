@@ -3,24 +3,17 @@
 namespace Runalyze\Bundle\CoreBundle\Controller;
 
 use DataBrowser;
-use DateTimeImmutable;
-use DateTimeZone;
 use Doctrine\Persistence\ManagerRegistry;
 use Frontend;
 use Runalyze\Activity\Distance;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
-use Runalyze\Bundle\CoreBundle\Entity\PluginConf;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Form\FeedbackType;
 use Runalyze\Bundle\CoreBundle\Form\RegistrationType;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
 use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
-use Runalyze\Bundle\CoreBundle\Repository\PluginConfRepository;
-use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
-use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
@@ -29,22 +22,8 @@ use Runalyze\Bundle\CoreBundle\Services\LegacyContentResponseFactory;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
-use Runalyze\Calculation\BasicEndurance;
-use Runalyze\Configuration;
-use Runalyze\Context;
-use Runalyze\Parameter\Application\Timezone as TimezoneEnum;
-use Runalyze\Plugins\Panels\Prognose\PrognoseCalculatorWindowRenderer;
-use Runalyze\Plugins\Panels\Prognose\PrognosePanelPresenter;
-use Runalyze\Plugins\Panels\Prognose\PrognoseTrendDataProvider;
-use Runalyze\Plugins\Panels\Prognose\PrognoseTrendPlotRenderer;
-use Runalyze\Plugins\Panels\Rechenspiele\RechenspieleExplanationWindowProvider;
-use Runalyze\Plugins\Panels\Rechenspiele\RechenspielePlotSelection;
-use Runalyze\Plugins\Panels\Rechenspiele\RechenspieleShapePlotDataProvider;
-use Runalyze\Plugins\Panels\Rechenspiele\RechenspieleShapePlotMaximaUpdater;
-use Runalyze\Plugins\Panels\Rechenspiele\RechenspieleShapePlotOutputAdapter;
 use Runalyze\View\Activity\Context as ActivityContext;
 use SessionAccountHandler;
-use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -269,205 +248,6 @@ class DefaultController extends AbstractPluginsAwareController
             'user' => (int) $numUser,
             'distance' => Distance::format($numDistance),
         ];
-    }
-
-    /**
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException if the Rechenspiele panel is not installed
-     */
-    #[Route(path: '/plugin/RunalyzePluginPanel_Rechenspiele/window.php', name: 'rechenspiele-explanation-window', methods: ['GET', 'POST'], priority: 10)]
-    public function rechenspieleWindowAction(
-        Request $request,
-        Environment $twig,
-        RechenspieleExplanationWindowProvider $explanationWindowProvider,
-        ?Account $account = null
-    ): Response {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-
-        if (! $account instanceof Account) {
-            throw $this->createAccessDeniedException();
-        }
-
-        /** @var PluginRepository $pluginRepository */
-        $pluginRepository = $this->doctrine->getRepository(PluginInstallation::class);
-
-        if ($pluginRepository->findForAccountAndKey($account, 'RunalyzePluginPanel_Rechenspiele') === null) {
-            throw $this->createNotFoundException('The Rechenspiele panel is not installed.');
-        }
-
-        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
-
-        $content = $twig->render('@Rechenspiele/explanation-window.html.twig', $explanationWindowProvider->getWindowData($account));
-
-        return $this->legacyContentResponseFactory->create($content, $request);
-    }
-
-    /**
-     * @throws Throwable if the calculations plot throws
-     */
-    #[Route(path: '/plugin/RunalyzePluginPanel_Rechenspiele/window.plot.php', name: 'rechenspiele-shape-window', methods: ['GET'], priority: 10)]
-    public function rechenspielePlotWindowAction(
-        Request $request,
-        Environment $twig,
-        ClockInterface $clock,
-        RechenspieleShapePlotDataProvider $dataProvider,
-        RechenspieleShapePlotOutputAdapter $outputAdapter,
-        RechenspieleShapePlotMaximaUpdater $maximaUpdater,
-        ?Account $account = null
-    ): Response {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-
-        if (! $account instanceof Account) {
-            throw $this->createAccessDeniedException();
-        }
-
-        /** @var PluginRepository $pluginRepository */
-        $pluginRepository = $this->doctrine->getRepository(PluginInstallation::class);
-
-        if ($pluginRepository->findForAccountAndKey($account, 'RunalyzePluginPanel_Rechenspiele') === null) {
-            throw $this->createNotFoundException('The Rechenspiele panel is not installed.');
-        }
-
-        $timezone = new DateTimeZone(TimezoneEnum::getFullNameByEnum($account->getTimezone()));
-        $today = $clock->now()->setTimezone($timezone);
-        $startTimestamp = $this->configurationManager->getList($account)->getData()->getStartTime();
-        $firstActivity = new DateTimeImmutable('@' . $startTimestamp)->setTimezone($timezone);
-        $hasHistory = $startTimestamp > 0 && $firstActivity->setTime(0, 0) <= $today->setTime(0, 0);
-        $currentYear = (int) $today->format('Y');
-        $startYear = $hasHistory ? (int) $firstActivity->format('Y') : $currentYear;
-        $selection = RechenspielePlotSelection::fromQuery($request->query->all(), $startYear, $currentYear);
-
-        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
-
-        $data = $hasHistory ? $dataProvider->getPlotData($account, $selection->range, $selection->model) : null;
-        $plot = $outputAdapter->render($selection->range, $selection->model, $data);
-        $content = $twig->render('@Rechenspiele/shape-window.html.twig', [
-            'range' => $selection->range,
-            'model' => $selection->model,
-            'ranges' => RechenspielePlotSelection::availableRanges($startYear, $currentYear),
-            'models' => RechenspielePlotSelection::availableModels(),
-            'plot' => $plot,
-        ]);
-
-        $maximaUpdater->update($account, $data['recomputed_maxima'] ?? null);
-
-        return $this->legacyContentResponseFactory->create($content, $request);
-    }
-
-    /**
-     * @throws Throwable if prognosis calculator rendering fails
-     */
-    #[Route(path: '/plugin/RunalyzePluginPanel_Prognose/window.php', name: 'prognosis-calculator-window', methods: ['GET', 'POST'], priority: 10)]
-    public function prognoseCalculatorWindowAction(
-        Request $request,
-        PrognosePanelPresenter $prognosePanelPresenter,
-        PrognoseCalculatorWindowRenderer $windowRenderer,
-        ?Account $account = null
-    ): Response {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-
-        if (! $account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account) {
-            throw $this->createAccessDeniedException();
-        }
-
-        /** @var PluginRepository $pluginRepository */
-        $pluginRepository = $this->doctrine->getRepository(PluginInstallation::class);
-        $installation = $pluginRepository->findForAccountAndKey($account, $prognosePanelPresenter->getKey());
-
-        if ($installation === null) {
-            throw $this->createNotFoundException('The Prognose panel is not installed.');
-        }
-
-        $distances = $prognosePanelPresenter->getPredictionDistances($account, $installation);
-
-        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
-
-        /** @var TrainingRepository $trainingRepository */
-        $trainingRepository = $this->doctrine->getRepository(Training::class);
-        $runningSportId = $this->configurationManager->getList($account)->getGeneral()->getRunningSport();
-        $topResults = $trainingRepository->findTopResults($account, $runningSportId, 2);
-
-        $submittedInput = $request->isMethod('POST') ? $request->request->all() : [];
-
-        $paceUnit = Context::Factory()
-            ->sport(Configuration::General()->runningSport())
-            ->getLegacyPaceUnitEnum();
-
-        return $this->legacyContentResponseFactory->create(
-            $windowRenderer->render(
-                $account,
-                $runningSportId,
-                $topResults,
-                $distances,
-                $submittedInput,
-                Configuration::Data()->vo2maxShape(),
-                (int) BasicEndurance::getConst(),
-                Configuration::General()->distanceUnitSystem(),
-                $paceUnit
-            ),
-            $request
-        );
-    }
-
-    /**
-     * @throws Throwable if the plot renderer fails
-     */
-    #[Route(path: '/plugin/RunalyzePluginPanel_Prognose/window.plot.php', name: 'prognosis-trend-window', methods: ['GET'], priority: 10)]
-    public function prognosisPlotWindowAction(
-        Request $request,
-        PrognosePanelPresenter $prognosePanelPresenter,
-        RaceresultRepository $raceResultRepository,
-        PrognoseTrendDataProvider $trendDataProvider,
-        PrognoseTrendPlotRenderer $trendPlotRenderer,
-        ?Account $account = null
-    ): Response {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-
-        if (! $account instanceof Account) {
-            throw $this->createAccessDeniedException();
-        }
-
-        /** @var PluginRepository $pluginRepository */
-        $pluginRepository = $this->doctrine->getRepository(PluginInstallation::class);
-        $installation = $pluginRepository->findForAccountAndKey($account, $prognosePanelPresenter->getKey());
-
-        if ($installation === null) {
-            throw $this->createNotFoundException('The Prognose panel is not installed.');
-        }
-
-        $distances = $prognosePanelPresenter->getPredictionDistances($account, $installation);
-        $defaultDistance = in_array(10, $distances) ? 10.0 : (float) $distances[0];
-        $requestedDistance = $request->query->get('distance');
-        $distance = is_numeric($requestedDistance) && is_finite((float) $requestedDistance) && (float) $requestedDistance > 0
-            ? (float) $requestedDistance
-            : $defaultDistance;
-
-        $runningSportId = $this->configurationManager->getList($account)->getGeneral()->getRunningSport();
-
-        new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
-
-        /** @var PluginConfRepository $configurationRepository */
-        $configurationRepository = $this->doctrine->getRepository(PluginConf::class);
-        $funRaceIds = array_fill_keys($configurationRepository->getAllActivityIdsOfFunRaces($account), true);
-        $trendData = $trendDataProvider->getSeries($account, $runningSportId, $distance);
-        $races = $raceResultRepository->findTrendResultsForDistance($account, $runningSportId, $distance);
-
-        $plot = $trendPlotRenderer->render(
-            $distance,
-            $trendData['prognosis'],
-            $trendData['prognosis_with_basic_endurance'],
-            $races,
-            $trendData['has_history'],
-            static fn (int $id): bool => isset($funRaceIds[$id])
-        );
-
-        $content = $this->renderView('@Prognose/trend_window.html.twig', [
-            'distances' => $distances,
-            'selected_distance' => $distance,
-            'plot_html' => $plot['html'],
-            'plot_javascript' => $plot['javascript'],
-        ]);
-
-        return $this->legacyContentResponseFactory->create($content, $request);
     }
 
     /**

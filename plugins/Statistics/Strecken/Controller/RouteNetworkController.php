@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\Bundle\CoreBundle\Controller;
+namespace Runalyze\Plugins\Statistics\Strecken\Controller;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Plugins\Statistics\Strecken\RouteNetworkPresenter;
