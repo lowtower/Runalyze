@@ -21,9 +21,6 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\PosterGenerationStateResolv
 use Runalyze\Bundle\CoreBundle\EntityListener\EquipmentUpdateSubscriber;
 use Runalyze\Bundle\CoreBundle\EventListener\RecalculationTasksPerformerListener;
 use Runalyze\Bundle\CoreBundle\EventListener\TablePrefixSubscriber;
-use Runalyze\Bundle\CoreBundle\Form\ActivityType;
-use Runalyze\Bundle\CoreBundle\Form\EquipmentCategoryType;
-use Runalyze\Bundle\CoreBundle\Form\EquipmentType as EquipmentFormType;
 use Runalyze\Bundle\CoreBundle\Form\Settings\SportType;
 use Runalyze\Bundle\CoreBundle\Form\Settings\SportTypeType;
 use Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaType;
@@ -357,13 +354,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 
 
-    $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\', __DIR__ . '/../src/CoreBundle/Form/{BodyValuesType,MultiImporterType,RaceResultType}.php');
+    $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\', __DIR__ . '/../src/CoreBundle/Form/{ActivityType,BodyValuesType,EquipmentCategoryType,EquipmentType,MultiImporterType,RaceResultType}.php');
 
     $services->set(SportTypeType::class);
 
     $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\Type\\', __DIR__ . '/../src/CoreBundle/Form/Type/{DistanceType,ElevationType,EnergyType,EnergyKcalType,HrZoneBoundType,PowerType,TemperatureType,WeightType,WindSpeedType}.php');
-
-    $services->set(ActivityType::class);
 
 
     $services->set(ActivityEquipmentType::class);
@@ -373,10 +368,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(TrendAnalysisType::class);
 
     $services->set(PosterType::class);
-
-    $services->set(EquipmentFormType::class);
-
-    $services->set(EquipmentCategoryType::class);
 
     $services->set(SportType::class);
 
