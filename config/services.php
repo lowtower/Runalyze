@@ -265,9 +265,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'priority' => 150,
         ]);
 
-    $services->load('Runalyze\\Bundle\\CoreBundle\\EventListener\\', __DIR__ . '/../src/CoreBundle/EventListener/{AccountLastActionListener,ConsoleExceptionListener,LocaleListener,MaintenanceListener,UserLocaleListener,UserTimezoneListener}.php');
+    $services->load('Runalyze\\Bundle\\CoreBundle\\EventListener\\', __DIR__ . '/../src/CoreBundle/EventListener/{AccountLastActionListener,ConsoleExceptionListener,LocaleListener,MaintenanceListener,UserLocaleListener,UserTimezoneListener}.php')
+        ->private();
 
-    $services->set(RecalculationTasksPerformerListener::class);
+    $services->set(RecalculationTasksPerformerListener::class)
+        ->private();
 
     $services->set(Sha256SaltedEncoder::class);
 
