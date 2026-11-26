@@ -23,8 +23,8 @@ use Runalyze\Bundle\CoreBundle\Services\Recalculation\Task\MarathonShapeCalculat
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\Task\VO2maxShapeCalculation;
 use Runalyze\Parameter\Application\Timezone as TimezoneEnum;
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
-use Runalyze\Plugins\Rechenspiele\RechenspieleShapeDailyAggregator;
-use Runalyze\Plugins\Rechenspiele\RechenspieleShapeDataProvider;
+use Runalyze\Plugins\Panels\Rechenspiele\RechenspieleShapeDailyAggregator;
+use Runalyze\Plugins\Panels\Rechenspiele\RechenspieleShapeDataProvider;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresDoctrine')]
 final class TrainingRepositoryTest extends AbstractRepositoryTestCase

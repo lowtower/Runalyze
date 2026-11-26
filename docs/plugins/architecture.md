@@ -23,18 +23,19 @@ Plugin discovery, installation and display resolve registered presenters by stab
 
 Modern plugins are self-contained feature modules. Plugin-specific application code, templates, translations, assets, and plugin-local configuration belong to the plugin; shared infrastructure and cross-plugin contracts remain in the application.
 
-Each modern plugin has one PascalCase directory. Panels live in `plugins/<PluginName>/` with namespace `Runalyze\Plugins\<PluginName>`. Statistics live in `plugins/Statistics/<PluginName>/` with namespace `Runalyze\Plugins\Statistics\<PluginName>`. Both use the Composer PSR-4 prefix `Runalyze\Plugins\`.
+Each modern plugin has one PascalCase directory. Panels live in `plugins/Panels/<PluginName>/` with namespace `Runalyze\Plugins\Panels\<PluginName>`. Statistics live in `plugins/Statistics/<PluginName>/` with namespace `Runalyze\Plugins\Statistics\<PluginName>`. Both use the Composer PSR-4 prefix `Runalyze\Plugins\`.
 
 The panel and statistics directories use the same file conventions.
 
 ```text
 plugins/
-├── Sportler/
-│   ├── SportlerPanelDataProvider.php
-│   ├── SportlerPanelPresenter.php
-│   ├── templates/
-│   └── config/
-│       └── services.php
+├── Panels/
+│   └── Sportler/
+│       ├── SportlerPanelDataProvider.php
+│       ├── SportlerPanelPresenter.php
+│       ├── templates/
+│       └── config/
+│           └── services.php
 └── Statistics/
     └── MonthlyStats/
         ├── MonthlyStatisticsPresenter.php
@@ -51,7 +52,7 @@ The directory name and namespace segment are code organization details, not pers
 
 - Keep plugin-specific classes in that namespace or meaningful subnamespaces such as `Configuration`, `Presentation`, or `Infrastructure`.
 - Use PascalCase for plugin directory names and PHP class names.
-- Name each dashboard statistics presenter `<Feature>StatisticsPresenter` using the English feature name. Keep supporting classes named for their own roles, such as `RouteNetworkPresenter` or `TrainingTimeDistribution`. The module directory, namespace segment, and stable installation key retain their established names.
+- Name a dashboard panel presenter `<Feature>PanelPresenter` and a dashboard statistics presenter `<Feature>StatisticsPresenter`. Use the feature name and name supporting classes for their roles, such as `RouteNetworkPresenter` or `TrainingTimeDistribution`.
 - Do not introduce a generic `Plugin` namespace shared by unrelated feature code.
 - Do not place plugin-specific providers, presenters, DTOs, or configuration definitions in `Runalyze\Bundle\CoreBundle\`.
 - Keep reusable application services, shared contracts, repositories, and cross-plugin orchestration in the CoreBundle.
@@ -78,23 +79,24 @@ Plugin templates, translations, and assets stay within the plugin directory unle
 
 ### Tests
 
-Plugin-specific tests remain in the central `tests/` tree, but use a plugin-owned test namespace. Composer's development autoload maps `Runalyze\\Plugins\\` to `tests/Plugins/`; test classes live below a plugin-specific `Tests/` directory:
+Plugin-specific tests remain in the central `tests/` tree, but use a plugin-owned test namespace. Composer's development autoload maps `Runalyze\Plugins\` to `tests/Plugins/`; test classes live below a plugin-specific `Tests/` directory:
 
 ```text
 tests/
 └── Plugins/
-    └── Sportler/
-        └── Tests/
-            └── SportlerPanelDataProviderTest.php
+    └── Panels/
+        └── Sportler/
+            └── Tests/
+                └── SportlerPanelDataProviderTest.php
 ```
 
 The corresponding namespace is:
 
 ```php
-namespace Runalyze\Plugins\Sportler\Tests;
+namespace Runalyze\Plugins\Panels\Sportler\Tests;
 ```
 
-Statistics unit tests mirror their source layout under `tests/Plugins/Statistics/<PluginName>/Tests/`. Tests for shared application infrastructure stay in the corresponding application test namespace.
+Panel tests mirror their source layout under `tests/Plugins/Panels/<PluginName>/Tests/` and statistics tests under `tests/Plugins/Statistics/<PluginName>/Tests/`. Tests for shared application infrastructure stay in the corresponding application test namespace.
 
 ### Panel metadata and configuration
 
@@ -238,6 +240,18 @@ interface ModernPanelInterface
 
 This contract is intentionally not a universal plugin API. Other plugin types should receive their own small contracts only when a real migration needs them. The conceptual `PluginDefinition` / `PluginContext` / `PluginResult` design is therefore not implemented and must not be treated as a current runtime API.
 
+| Module under `plugins/Panels/` | Dashboard presenter | Stable installation key |
+| --- | --- | --- |
+| `Equipment/` | `EquipmentPanelPresenter` | `RunalyzePluginPanel_Equipment` |
+| `Goals/` | `GoalsPanelPresenter` | `RunalyzePluginPanel_Ziele` |
+| `Prognose/` | `PrognosePanelPresenter` | `RunalyzePluginPanel_Prognose` |
+| `Rechenspiele/` | `RechenspielePanelPresenter` | `RunalyzePluginPanel_Rechenspiele` |
+| `Sportler/` | `SportlerPanelPresenter` | `RunalyzePluginPanel_Sportler` |
+| `Sports/` | `SportsPanelPresenter` | `RunalyzePluginPanel_Sports` |
+| `TagsSummary/` | `TagsSummaryPanelPresenter` | `RunalyzePluginPanel_TagsSummary` |
+
+Inspect panel registration with `php bin/console debug:container --tag=runalyze.modern_panel`.
+
 ### Implemented statistics contract
 
 `ModernStatisticsInterface` exposes the stable key, display name, description and Twig template. Its `present(Account $account, Plugin $installation, InputBag $query)` method returns the template data for a single invocation. `ModernStatisticsRegistry` indexes presenters tagged with `runalyze.modern_stat`. Each plugin registers its services in its own `config/services.php`, imported by the application. Its templates are registered with a plugin-specific Twig namespace.
@@ -352,9 +366,9 @@ Do not bulk-convert plugin directories, change all routes, or migrate the legacy
 
 ## First validated panel slice: Sportler
 
-The first implementation step introduces `plugins/Sportler/SportlerPanelDataProvider.php` as a Symfony-managed, stateless service under the `Runalyze\Plugins\Sportler` namespace. Its invocation receives the authenticated `Account` and the persisted `Plugin` installation explicitly. It rejects installations belonging to another account, installations with a different stable key, non-panel installations, and inactive installations; hidden installations remain executable so the existing hidden-panel behavior can be preserved.
+The first implementation step introduces `plugins/Panels/Sportler/SportlerPanelDataProvider.php` as a Symfony-managed, stateless service under the `Runalyze\Plugins\Panels\Sportler` namespace. Its invocation receives the authenticated `Account` and the persisted `Plugin` installation explicitly. It rejects installations belonging to another account, installations with a different stable key, non-panel installations, and inactive installations; hidden installations remain executable so the existing hidden-panel behavior can be preserved.
 
-The provider reuses `UserRepository` for the latest body values and the account-scoped weight/body-composition histories, and `PluginConfigurationStorageInterface` for the existing `wunschgewicht`, `plot_points`, and `plot_timerange` settings. The legacy defaults are applied at this boundary. The provider returns typed data only; rendering and chart presentation remain outside it. The service is registered through `plugins/Sportler/config/services.php`, which is imported explicitly by the application service configuration. Its unit test lives at `tests/Plugins/Sportler/Tests/SportlerPanelDataProviderTest.php`. This is a panel-specific plugin service, not a generic plugin execution contract.
+The provider reuses `UserRepository` for the latest body values and the account-scoped weight/body-composition histories, and `PluginConfigurationStorageInterface` for the existing `wunschgewicht`, `plot_points`, and `plot_timerange` settings. The legacy defaults are applied at this boundary. The provider returns typed data only; rendering and chart presentation remain outside it. The service is registered through `plugins/Panels/Sportler/config/services.php`, which is imported explicitly by the application service configuration. Its unit test lives at `tests/Plugins/Panels/Sportler/Tests/SportlerPanelDataProviderTest.php`. This is a panel-specific plugin service, not a generic plugin execution contract.
 
 ### Sportler presentation and HTTP integration
 
@@ -362,7 +376,7 @@ The next migration slice routes the installed Sportler panel through the modern 
 
 - `PluginInstallationManager::getInstallationForAccount()` resolves an installation by both account and installation ID. The repository query applies both predicates.
 - `SportlerPanelPresenter` adapts the provider data for panel presentation and preserves the legacy behavior of duplicating a single history point for Flot.
-- The panel template is owned by `plugins/Sportler/templates/` and loaded through the `@Sportler` Twig namespace.
+- The panel template is owned by `plugins/Panels/Sportler/templates/` and loaded through the `@Sportler` Twig namespace.
 - `AbstractPluginsAwareController` selects this path by the stable key `RunalyzePluginPanel_Sportler` through the panel registry.
 - The modern template reuses the common panel wrapper, body-value presentation macros, Flot initialization, chart IDs, and panel interaction hooks.
 
@@ -372,13 +386,13 @@ This is deliberately a concrete panel integration, not a general plugin registry
 
 The Sports dashboard panel is migrated through the existing panel contract:
 
-- `SportsPanelPresenter` is a stateless Symfony service registered from `plugins/Sports/config/services.php` with the `runalyze.modern_panel` tag.
+- `SportsPanelPresenter` is a stateless Symfony service registered from `plugins/Panels/Sports/config/services.php` with the `runalyze.modern_panel` tag.
 - It injects the existing `SportRepository`, `ConfigurationManager`, and Symfony's `ClockInterface`; it does not introduce a new repository, data provider, or statistics abstraction. The week boundary is calculated from the account's modern configuration instead of reading the legacy static configuration facade.
 - It preserves the legacy week, month, year, and all-time queries, including the configured week start and the server-time conversion already owned by `SportRepository`.
-- Its Twig template lives at `plugins/Sports/templates/panel.html.twig` and is loaded through the `@Sports` namespace.
+- Its Twig template lives at `plugins/Panels/Sports/templates/panel.html.twig` and is loaded through the `@Sports` namespace.
 - `AbstractPluginsAwareController` resolves the panel by the stable key `RunalyzePluginPanel_Sports`. The dashboard wrapper remains refreshable after training changes; the Sportler panel retains its separate no-reload behavior.
 
-The presenter test is located at `tests/Plugins/Sports/Tests/SportsPanelPresenterTest.php`; dashboard integration coverage is added to the existing `DefaultControllerTest`.
+The presenter test is located at `tests/Plugins/Panels/Sports/Tests/SportsPanelPresenterTest.php`; dashboard integration coverage is added to the existing `DefaultControllerTest`.
 
 ## Third validated panel slice: Equipment
 
@@ -387,8 +401,8 @@ The Equipment dashboard panel reuses the existing Doctrine entities and reposito
 - `EquipmentPanelPresenter` uses `EquipmentRepository` and the panel-specific, account-scoped `EquipmentTypeRepository::findAllForPanel()` lookup. It preserves active-first and distance-descending equipment ordering, usage bars, and the existing search-window links.
 - `EquipmentPanelSelectionHandler` persists a selected equipment type only after verifying that the type belongs to the authenticated account. It uses `PluginConfigurationStorageInterface`; it does not access the database directly.
 - `ModernPanelRequestHandlerInterface` is an optional extension for panels that need validated query parameters before presentation. The controller invokes it before rendering; panels without request-specific behavior remain unchanged.
-- The panel template is owned by `plugins/Equipment/templates/` and loaded through the `@Equipment` Twig namespace.
-- Presenter and selection-handler coverage lives in `tests/Plugins/Equipment/Tests/EquipmentPanelPresenterTest.php`; repository ordering and account isolation are covered by `EquipmentRepositoryTest`, and the existing `DefaultControllerTest` covers dashboard rendering and type selection through the panel route.
+- The panel template is owned by `plugins/Panels/Equipment/templates/` and loaded through the `@Equipment` Twig namespace.
+- Presenter and selection-handler coverage lives in `tests/Plugins/Panels/Equipment/Tests/EquipmentPanelPresenterTest.php`; repository ordering and account isolation are covered by `EquipmentRepositoryTest`, and the existing `DefaultControllerTest` covers dashboard rendering and type selection through the panel route.
 ## Open design decisions
 
 Resolve these against each future concrete migration rather than speculating now:

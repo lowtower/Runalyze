@@ -221,6 +221,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(StatisticsFilterFactory::class);
 
+    $containerConfigurator->import(__DIR__ . '/../plugins/Panels/Equipment/config/services.php');
+    $containerConfigurator->import(__DIR__ . '/../plugins/Panels/Goals/config/services.php');
+    $containerConfigurator->import(__DIR__ . '/../plugins/Panels/Prognose/config/services.php');
+    $containerConfigurator->import(__DIR__ . '/../plugins/Panels/Rechenspiele/config/services.php');
+    $containerConfigurator->import(__DIR__ . '/../plugins/Panels/Sportler/config/services.php');
+    $containerConfigurator->import(__DIR__ . '/../plugins/Panels/Sports/config/services.php');
+    $containerConfigurator->import(__DIR__ . '/../plugins/Panels/TagsSummary/config/services.php');
+
     $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Analyse/config/services.php');
     $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Hoehenmeter/config/services.php');
     $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/MonthlyStats/config/services.php');
@@ -232,14 +240,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Trainingszeiten/config/services.php');
     $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Wetter/config/services.php');
     $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Wettkampf/config/services.php');
-
-    $containerConfigurator->import(__DIR__ . '/../plugins/Equipment/config/services.php');
-    $containerConfigurator->import(__DIR__ . '/../plugins/Goals/config/services.php');
-    $containerConfigurator->import(__DIR__ . '/../plugins/Sportler/config/services.php');
-    $containerConfigurator->import(__DIR__ . '/../plugins/Sports/config/services.php');
-    $containerConfigurator->import(__DIR__ . '/../plugins/Prognose/config/services.php');
-    $containerConfigurator->import(__DIR__ . '/../plugins/TagsSummary/config/services.php');
-    $containerConfigurator->import(__DIR__ . '/../plugins/Rechenspiele/config/services.php');
 
     $services->set(SharedAthleteStatisticsProvider::class);
 
