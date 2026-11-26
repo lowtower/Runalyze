@@ -6,11 +6,11 @@ namespace Runalyze\View\Window\Laps;
 
 use PHPUnit\Framework\TestCase;
 use Runalyze\Activity\Duration;
-use Runalyze\Activity\Pace;
-use Runalyze\Activity\PaceUnit\KmPerHour;
-use Runalyze\Activity\PaceUnit\MeterPerSecond;
-use Runalyze\Activity\PaceUnit\MinPerKilometer;
 use Runalyze\Data\Laps\Laps;
+use Runalyze\Metrics\Velocity\Unit\AbstractPaceUnit;
+use Runalyze\Metrics\Velocity\Unit\KilometerPerHour;
+use Runalyze\Metrics\Velocity\Unit\MeterPerSecond;
+use Runalyze\Metrics\Velocity\Unit\SecondsPerKilometer;
 use Runalyze\Profile\Sport\SportProfile;
 
 /**
@@ -20,10 +20,10 @@ use Runalyze\Profile\Sport\SportProfile;
 final class TableHeaderTest extends TestCase
 {
     /**
-     * Creates a Table instance with a given DemandedPace unit, without
+     * Creates a Table instance with a given pace unit, without
      * requiring a fully populated Laps object.
      */
-    private function createTable(Pace $demandedPace, int $sportProfileEnum = SportProfile::RUNNING): Table
+    private function createTable(AbstractPaceUnit $paceUnit, int $sportProfileEnum = SportProfile::RUNNING): Table
     {
         $laps = $this->createStub(Laps::class);
         $laps->method('hasMoreThanActiveOrRestLaps')
@@ -36,7 +36,8 @@ final class TableHeaderTest extends TestCase
         return new Table(
             $laps,
             new Duration(0),
-            $demandedPace,
+            0.0,
+            $paceUnit,
             $sportProfileEnum
         );
     }
@@ -53,10 +54,7 @@ final class TableHeaderTest extends TestCase
 
     public function testHeaderShowsPaceLabelForTimeFormatUnit(): void
     {
-        $pace = new Pace(0, 1);
-        $pace->setUnit(new MinPerKilometer());
-
-        $header = $this->renderHeader($this->createTable($pace));
+        $header = $this->renderHeader($this->createTable(new SecondsPerKilometer()));
 
         $this->assertStringContainsString('>' . __('Pace') . '<', $header);
         $this->assertStringNotContainsString('>' . __('Speed') . '<', $header);
@@ -64,11 +62,8 @@ final class TableHeaderTest extends TestCase
 
     public function testHeaderShowsSpeedLabelForKmPerHourUnit(): void
     {
-        $pace = new Pace(0, 1);
-        $pace->setUnit(new KmPerHour());
-
         $header = $this->renderHeader(
-            $this->createTable($pace, SportProfile::CYCLING)
+            $this->createTable(new KilometerPerHour(), SportProfile::CYCLING)
         );
 
         $this->assertStringContainsString('>' . __('Speed') . '<', $header);
@@ -77,11 +72,8 @@ final class TableHeaderTest extends TestCase
 
     public function testHeaderShowsSpeedLabelForMeterPerSecondUnit(): void
     {
-        $pace = new Pace(0, 1);
-        $pace->setUnit(new MeterPerSecond());
-
         $header = $this->renderHeader(
-            $this->createTable($pace, SportProfile::SWIMMING)
+            $this->createTable(new MeterPerSecond(), SportProfile::SWIMMING)
         );
 
         $this->assertStringContainsString('>' . __('Speed') . '<', $header);
@@ -90,10 +82,7 @@ final class TableHeaderTest extends TestCase
 
     public function testHeaderDoesNotShowPaceForBikingActivityWithKmPerHour(): void
     {
-        $demandedPace = new Pace(0, 1);
-        $demandedPace->setUnit(new KmPerHour());
-
-        $table = $this->createTable($demandedPace, SportProfile::CYCLING);
+        $table = $this->createTable(new KilometerPerHour(), SportProfile::CYCLING);
         $header = $this->renderHeader($table);
 
         $this->assertStringNotContainsString(
@@ -105,10 +94,7 @@ final class TableHeaderTest extends TestCase
 
     public function testHeaderLabelIsIndependentOfEmptyPaceValue(): void
     {
-        $emptyPace = new Pace(0, 0); // isEmpty() === true
-        $emptyPace->setUnit(new KmPerHour());
-
-        $header = $this->renderHeader($this->createTable($emptyPace, SportProfile::CYCLING));
+        $header = $this->renderHeader($this->createTable(new KilometerPerHour(), SportProfile::CYCLING));
 
         $this->assertStringContainsString('>' . __('Speed') . '<', $header);
     }

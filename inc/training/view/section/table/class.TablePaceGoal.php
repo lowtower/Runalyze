@@ -7,7 +7,7 @@
 
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
-use Runalyze\Bundle\CoreBundle\Component\Activity\TimePaceFormatter;
+use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
 use Runalyze\Metrics\Velocity\Unit\SecondsPerKilometer;
 use Runalyze\View\Activity\Context;
 
@@ -45,7 +45,7 @@ class TablePaceGoal
         $activityTimeS = $this->context->activity()->duration();
         $activityDistanceM = $this->context->activity()->distance() * 1000;
 
-        $paceFormatter = new TimePaceFormatter(new SecondsPerKilometer());
+        $paceFormatter = new PaceFormatter(new SecondsPerKilometer());
         $durationGoal = new Duration(0);
         $durationRun = new Duration(0);
         $sumPpDistM = 0;
@@ -64,8 +64,8 @@ class TablePaceGoal
 
             $durationGoal->fromSeconds($split['pp_t_s']);
             $durationRun->fromSeconds($split['t_s']);
-            $paceGoal = TimePaceFormatter::secondsPerKilometer((int) $split['pp_t_s'], (int) $split['pp_dist_m'] / 1000);
-            $paceRun = TimePaceFormatter::secondsPerKilometer((int) $split['t_s'], (int) $split['dist_m'] / 1000);
+            $paceGoal = PaceFormatter::secondsPerKilometer((int) $split['pp_t_s'], (int) $split['pp_dist_m'] / 1000);
+            $paceRun = PaceFormatter::secondsPerKilometer((int) $split['t_s'], (int) $split['dist_m'] / 1000);
 
             $rows[] = [
                 'style' => '',
@@ -86,8 +86,8 @@ class TablePaceGoal
 
         $durationGoal->fromSeconds($sumPpTimeS);
         $durationRun->fromSeconds($sumTimeS);
-        $paceGoal = TimePaceFormatter::secondsPerKilometer((int) $sumPpTimeS, (int) $sumPpDistM / 1000);
-        $paceRun = TimePaceFormatter::secondsPerKilometer((int) $sumTimeS, (int) $sumDistM / 1000);
+        $paceGoal = PaceFormatter::secondsPerKilometer((int) $sumPpTimeS, (int) $sumPpDistM / 1000);
+        $paceRun = PaceFormatter::secondsPerKilometer((int) $sumTimeS, (int) $sumDistM / 1000);
 
         $summaryRow = [
             'style' => 'border-top: 1px solid #666;',

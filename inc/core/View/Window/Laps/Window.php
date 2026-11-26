@@ -9,13 +9,12 @@ namespace Runalyze\View\Window\Laps;
 
 use Request;
 use Runalyze\Activity\Duration;
-use Runalyze\Activity\Pace;
+use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
 use Runalyze\Configuration;
 use Runalyze\Data\Laps\Calculator;
 use Runalyze\Data\Laps\Lap;
 use Runalyze\Data\Laps\Laps;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
-use Runalyze\Parameter\Application\PaceUnit;
 use Runalyze\View\Activity\Context;
 
 /**
@@ -52,7 +51,7 @@ class Window
     /**
      * Demanded pace
      */
-    protected Pace $DemandedPace;
+    protected float $demandedSecondsPerKilometer = 0.0;
 
     /**
      * Manual distances
@@ -78,8 +77,6 @@ class Window
     protected function prepareProperties()
     {
         $this->DemandedTime = new Duration();
-        $this->DemandedPace = new Pace(0, 1);
-        $this->DemandedPace->setLegacyUnitEnum(PaceUnit::MIN_PER_KM);
 
         if (isset($_POST['distance'])) {
             $_POST['distance'] = str_replace(',', '.', $_POST['distance']);
@@ -118,19 +115,19 @@ class Window
             $this->DemandedTime->fromString(Request::param('demanded-time'));
 
             if ($this->LapDistance > 0) {
-                $this->DemandedPace->setTime($this->DemandedTime->seconds() / $this->LapDistance);
+                $this->demandedSecondsPerKilometer = $this->DemandedTime->seconds() / $this->LapDistance;
             }
         } elseif ($this->LapDistance > 0) {
             $this->DemandedTime->fromSeconds($this->Context->trackdata()->totalTime() / $this->Context->trackdata()->totalDistance() * $this->LapDistance);
-            $this->DemandedPace->setTime($this->DemandedTime->seconds() / $this->LapDistance);
+            $this->demandedSecondsPerKilometer = $this->DemandedTime->seconds() / $this->LapDistance;
         }
 
         if (Request::param('demanded-pace') !== '') {
-            $this->DemandedPace->fromMinPerKm(Request::param('demanded-pace'));
-            $this->DemandedTime->fromSeconds($this->LapDistance * $this->DemandedPace->secondsPerKm());
-        } elseif ($this->DemandedPace->secondsPerKm() === 0) {
-            $this->DemandedPace = $this->Context->dataview()
-                ->pace();
+            $this->demandedSecondsPerKilometer = new Duration(Request::param('demanded-pace'))->seconds();
+            $this->DemandedTime->fromSeconds($this->LapDistance * round($this->demandedSecondsPerKilometer));
+        } elseif (round($this->demandedSecondsPerKilometer) === 0.0) {
+            $activity = $this->Context->activity();
+            $this->demandedSecondsPerKilometer = $activity->distance() > 0.0 ? $activity->duration() / $activity->distance() : 0.0;
         }
 
         if (Request::param('manual-distances') !== '') {
@@ -331,27 +328,24 @@ class Window
      */
     protected function displayTable()
     {
-        $this->DemandedPace->setUnit($this->Context->sport()->legacyPaceUnit());
-
         $Table = new Table(
             $this->Laps,
             $this->DemandedTime,
-            $this->DemandedPace,
+            $this->demandedSecondsPerKilometer,
+            $this->Context->sport()->getSpeedUnit(),
             $this->Context->sport()
                 ->getInternalProfileEnum(),
             $this->Context->activity()
                 ->splitsAdditional()
         );
 
-        if ($this->LapDistance > 0) {
-            $Table->setAverage(
-                $this->Context->dataview()
-                    ->pace(),
-                new Duration($this->Context->trackdata()->totalTime() / $this->Context->trackdata()->totalDistance() * $this->LapDistance)
-            );
-        } else {
-            $Table->setAverage($this->Context->dataview()->pace());
-        }
+        $activity = $this->Context->activity();
+        $Table->setAverage(
+            PaceFormatter::secondsPerKilometer($activity->duration(), $activity->distance() ?? 0.0),
+            $this->LapDistance > 0
+                ? new Duration($this->Context->trackdata()->totalTime() / $this->Context->trackdata()->totalDistance() * $this->LapDistance)
+                : null
+        );
 
         $Table->display();
     }
