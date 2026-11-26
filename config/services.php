@@ -485,8 +485,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$PathToConverter', '%kernel.project_dir%/%app.ttbin_path%');
 
     $services->set(FileImporter::class)
-        ->arg('$fitConverter', service(FitConverter::class))
-        ->arg('$ttbinConverter', service(TtbinConverter::class))
         ->arg('$DirectoryForFailedImports', '%app.data_directory%/import/activity/failed')
         ->arg('$logger', service('logger'))
         ->tag('monolog.logger', [
