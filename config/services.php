@@ -542,9 +542,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$Cache', service(WeathercacheRepository::class));
 
     $services->set(WeatherForecast::class)
-        ->arg('$cache', service(DatabaseCache::class))
-        ->arg('$openWeatherMap', service(OpenWeatherMap::class))
-        ->arg('$meteostatNet', service(MeteostatNet::class))
         ->arg('$DatabaseCache', service(WeathercacheRepository::class));
 
     $services->set(GeoTiffReader::class)
