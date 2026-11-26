@@ -8,18 +8,18 @@ use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\PanelInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\PanelRegistry;
 
 #[Group('plugin')]
-final class ModernPanelRegistryTest extends TestCase
+final class PanelRegistryTest extends TestCase
 {
     public function testItResolvesRegisteredPanelsByStableKey(): void
     {
-        $panel = $this->createStub(ModernPanelInterface::class);
+        $panel = $this->createStub(PanelInterface::class);
         $panel->method('getKey')->willReturn('example-panel');
 
-        $registry = new ModernPanelRegistry([$panel]);
+        $registry = new PanelRegistry([$panel]);
 
         $this->assertTrue($registry->has('example-panel'));
         $this->assertFalse($registry->has('unknown-panel'));
@@ -28,22 +28,22 @@ final class ModernPanelRegistryTest extends TestCase
         $this->assertSame($panel, $registry->get('example-panel'));
     }
 
-    public function testListsModernPanelKeysInStableSortedOrder(): void
+    public function testListsPanelKeysInStableSortedOrder(): void
     {
-        $lastPanel = $this->createStub(ModernPanelInterface::class);
+        $lastPanel = $this->createStub(PanelInterface::class);
         $lastPanel->method('getKey')->willReturn('ZuluPanel');
 
-        $firstPanel = $this->createStub(ModernPanelInterface::class);
+        $firstPanel = $this->createStub(PanelInterface::class);
         $firstPanel->method('getKey')->willReturn('AlphaPanel');
 
-        $registry = new ModernPanelRegistry([$lastPanel, $firstPanel]);
+        $registry = new PanelRegistry([$lastPanel, $firstPanel]);
 
         $this->assertSame(['AlphaPanel', 'ZuluPanel'], $registry->getKeys());
     }
 
     public function testItRejectsUnknownPanelKeys(): void
     {
-        $registry = new ModernPanelRegistry([]);
+        $registry = new PanelRegistry([]);
 
         $this->expectException(InvalidArgumentException::class);
 
@@ -52,14 +52,14 @@ final class ModernPanelRegistryTest extends TestCase
 
     public function testItRejectsDuplicatePanelKeys(): void
     {
-        $firstPanel = $this->createStub(ModernPanelInterface::class);
+        $firstPanel = $this->createStub(PanelInterface::class);
         $firstPanel->method('getKey')->willReturn('duplicate-panel');
 
-        $secondPanel = $this->createStub(ModernPanelInterface::class);
+        $secondPanel = $this->createStub(PanelInterface::class);
         $secondPanel->method('getKey')->willReturn('duplicate-panel');
 
         $this->expectException(LogicException::class);
 
-        new ModernPanelRegistry([$firstPanel, $secondPanel]);
+        new PanelRegistry([$firstPanel, $secondPanel]);
     }
 }

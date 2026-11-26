@@ -7,14 +7,14 @@ namespace Runalyze\Plugins\Panels\Rechenspiele;
 use InvalidArgumentException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelConfigurationInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\PanelConfigurationInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\PanelInterface;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 use Runalyze\Calculation\BasicEndurance;
 use Symfony\Component\Clock\ClockInterface;
 
-final readonly class RechenspielePanelPresenter implements ModernPanelInterface, ModernPanelConfigurationInterface
+final readonly class RechenspielePanelPresenter implements PanelInterface, PanelConfigurationInterface
 {
     private const string PLUGIN_KEY = 'RunalyzePluginPanel_Rechenspiele';
 

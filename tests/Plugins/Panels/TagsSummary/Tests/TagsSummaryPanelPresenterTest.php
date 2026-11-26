@@ -105,7 +105,7 @@ final class TagsSummaryPanelPresenterTest extends TestCase
         $this->presenter()->present($account, $this->installation($this->account(13)));
     }
 
-    public function testProvidesModernPluginMetadataAndConfigurationSelection(): void
+    public function testProvidesPluginMetadataAndConfigurationSelection(): void
     {
         $account = $this->account(12);
         $sport = $this->sport(7, 'Running');

@@ -23,9 +23,9 @@ use Runalyze\Bundle\CoreBundle\EventListener\RecalculationTasksPerformerListener
 use Runalyze\Bundle\CoreBundle\EventListener\TablePrefixSubscriber;
 use Runalyze\Bundle\CoreBundle\MessageHandler\BackupGenerationMessageHandler;
 use Runalyze\Bundle\CoreBundle\MessageHandler\PosterGenerationMessageHandler;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\PanelRegistry;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsFilterFactory;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsRegistry;
 use Runalyze\Bundle\CoreBundle\Repository\WeathercacheRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountChecker;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
@@ -206,11 +206,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(PluginSettingsProvider::class);
 
-    $services->set(ModernPanelRegistry::class)
-        ->arg('$panels', tagged_iterator('runalyze.modern_panel'));
+    $services->set(PanelRegistry::class)
+        ->arg('$panels', tagged_iterator('runalyze.panel'));
 
-    $services->set(ModernStatisticsRegistry::class)
-        ->arg('$statistics', tagged_iterator('runalyze.modern_stat'));
+    $services->set(StatisticsRegistry::class)
+        ->arg('$statistics', tagged_iterator('runalyze.stat'));
 
     $services->set(StatisticsFilterFactory::class);
 

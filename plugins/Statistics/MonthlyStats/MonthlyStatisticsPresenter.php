@@ -6,14 +6,14 @@ namespace Runalyze\Plugins\Statistics\MonthlyStats;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsInterface;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Twig\ValueExtension;
 use Symfony\Component\HttpFoundation\InputBag;
 
-final readonly class MonthlyStatisticsPresenter implements ModernStatisticsInterface
+final readonly class MonthlyStatisticsPresenter implements StatisticsInterface
 {
     public const string KEY = 'RunalyzePluginStat_MonthlyStats';
 

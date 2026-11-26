@@ -10,14 +10,14 @@ use Runalyze\Activity\Distance;
 use Runalyze\Activity\Elevation;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsFilterFactory;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsInterface;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 use Symfony\Component\HttpFoundation\InputBag;
 
-final readonly class ElevationStatisticsPresenter implements ModernStatisticsInterface
+final readonly class ElevationStatisticsPresenter implements StatisticsInterface
 {
     public const string KEY = 'RunalyzePluginStat_Hoehenmeter';
 

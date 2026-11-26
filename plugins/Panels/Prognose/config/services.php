@@ -35,5 +35,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(PrognoseTrendPlotRenderer::class);
 
     $services->set(PrognosePanelPresenter::class)
-        ->tag('runalyze.modern_panel');
+        ->tag('runalyze.panel');
 };

@@ -7,7 +7,7 @@ namespace Runalyze\Bundle\CoreBundle\Plugin\Panel;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 
-interface ModernPanelRequestHandlerInterface
+interface PanelRequestHandlerInterface
 {
     /**
      * @param array<string, mixed> $queryParameters

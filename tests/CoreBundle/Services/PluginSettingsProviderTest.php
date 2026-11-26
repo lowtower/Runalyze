@@ -9,10 +9,10 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\PanelInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\PanelRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsRegistry;
 use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
@@ -20,7 +20,7 @@ use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-final class ModernPanelMetadataFixture implements ModernPanelInterface
+final class PanelMetadataFixture implements PanelInterface
 {
     public function getKey(): string
     {
@@ -29,17 +29,17 @@ final class ModernPanelMetadataFixture implements ModernPanelInterface
 
     public function getName(): string
     {
-        return 'Modern Panel';
+        return 'Example panel';
     }
 
     public function getDescription(): string
     {
-        return 'Modern panel description';
+        return 'Example panel description';
     }
 
     public function getTemplate(): string
     {
-        return 'modern.html.twig';
+        return 'panel.html.twig';
     }
 
     public function shouldReloadAfterTraining(): bool
@@ -69,11 +69,11 @@ final class PluginSettingsProviderTest extends TestCase
         $entries = $provider->getInstalledPluginAdminEntries(Plugin::TYPE_PANEL);
         $this->assertSame([1, 2, 3], array_column($entries, 'id'));
         $this->assertSame([Plugin::STATE_INACTIVE, Plugin::STATE_HIDDEN, Plugin::STATE_ACTIVE], array_column($entries, 'active'));
-        $this->assertSame('Modern Panel', $entries[0]['name']);
+        $this->assertSame('Example panel', $entries[0]['name']);
 
         $entries = $provider->getInstalledPluginAdminEntries(Plugin::TYPE_STAT);
         $this->assertSame([5], array_column($entries, 'id'));
-        $this->assertSame('Modern Statistic', $entries[0]['name']);
+        $this->assertSame('Example statistic', $entries[0]['name']);
     }
 
     public function testAvailableEntriesExcludeAlreadyInstalledPlugins(): void
@@ -82,8 +82,8 @@ final class PluginSettingsProviderTest extends TestCase
 
         $this->assertSame([[
             'key' => 'RegisteredStatistic',
-            'name' => 'Modern Statistic',
-            'description' => 'Modern statistic description',
+            'name' => 'Example statistic',
+            'description' => 'Example statistic description',
             'type' => Plugin::TYPE_STAT,
         ]], $provider->getAvailablePluginAdminEntries());
     }
@@ -94,8 +94,8 @@ final class PluginSettingsProviderTest extends TestCase
 
         $this->assertSame([[
             'key' => 'RegisteredPanel',
-            'name' => 'Modern Panel',
-            'description' => 'Modern panel description',
+            'name' => 'Example panel',
+            'description' => 'Example panel description',
             'type' => Plugin::TYPE_PANEL,
         ]], $provider->getAvailablePluginAdminEntries());
     }
@@ -119,12 +119,12 @@ final class PluginSettingsProviderTest extends TestCase
         $tokenStorage = $this->createStub(TokenStorageInterface::class);
         $tokenStorage->method('getToken')->willReturn($token);
 
-        $panels = new ModernPanelRegistry([new ModernPanelMetadataFixture()]);
-        $statistic = $this->createStub(ModernStatisticsInterface::class);
+        $panels = new PanelRegistry([new PanelMetadataFixture()]);
+        $statistic = $this->createStub(StatisticsInterface::class);
         $statistic->method('getKey')->willReturn('RegisteredStatistic');
-        $statistic->method('getName')->willReturn('Modern Statistic');
-        $statistic->method('getDescription')->willReturn('Modern statistic description');
-        $statistics = new ModernStatisticsRegistry([$statistic]);
+        $statistic->method('getName')->willReturn('Example statistic');
+        $statistic->method('getDescription')->willReturn('Example statistic description');
+        $statistics = new StatisticsRegistry([$statistic]);
 
         return new PluginSettingsProvider(
             new PluginInstallationManager($doctrine, $tokenStorage, $panels, $statistics),

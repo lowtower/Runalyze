@@ -10,9 +10,9 @@ use Icon;
 use InvalidArgumentException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelConfigurationInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsConfigurationInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\PanelConfigurationInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsConfigurationInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsInterface;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,8 +51,8 @@ class PluginController extends AbstractPluginsAwareController
             if ($this->pluginInstallationManager->install($pluginKey)) {
                 echo HTML::okay(__('The plugin has been successfully installed.'));
 
-                if ($this->modernPanelRegistry->find($pluginKey) instanceof ModernPanelConfigurationInterface
-                    || $this->modernStatisticsRegistry->find($pluginKey) instanceof ModernStatisticsConfigurationInterface
+                if ($this->panelRegistry->find($pluginKey) instanceof PanelConfigurationInterface
+                    || $this->statisticsRegistry->find($pluginKey) instanceof StatisticsConfigurationInterface
                 ) {
                     $installations = $this->pluginSettingsProvider->getInstalledPluginData();
 
@@ -115,19 +115,19 @@ class PluginController extends AbstractPluginsAwareController
             $installation = $this->pluginInstallationManager->getInstallationForAccount($account, (int) $id);
 
             if ($installation instanceof PluginInstallation && $installation->isStatistic()) {
-                $statistic = $this->modernStatisticsRegistry->find($installation->getKey());
+                $statistic = $this->statisticsRegistry->find($installation->getKey());
 
-                if ($statistic instanceof ModernStatisticsInterface) {
+                if ($statistic instanceof StatisticsInterface) {
                     return $this->getStatisticsConfigurationResponse($request, $account, $installation, $statistic);
                 }
             }
 
             if ($installation instanceof PluginInstallation && $installation->isPanel()
-                && $this->modernPanelRegistry->has($installation->getKey())
+                && $this->panelRegistry->has($installation->getKey())
             ) {
-                $panel = $this->modernPanelRegistry->get($installation->getKey());
+                $panel = $this->panelRegistry->get($installation->getKey());
 
-                if ($panel instanceof ModernPanelConfigurationInterface) {
+                if ($panel instanceof PanelConfigurationInterface) {
                     new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
                     $reloadRequired = false;
 
@@ -183,7 +183,7 @@ class PluginController extends AbstractPluginsAwareController
         Request $request,
         Account $account,
         PluginInstallation $installation,
-        ModernStatisticsInterface $statistic
+        StatisticsInterface $statistic
     ): Response {
         new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
@@ -214,7 +214,7 @@ class PluginController extends AbstractPluginsAwareController
         ];
         $reloadRequired = $active !== null;
 
-        if ($statistic instanceof ModernStatisticsConfigurationInterface) {
+        if ($statistic instanceof StatisticsConfigurationInterface) {
             if ($request->isMethod('POST') && $request->request->get('edit') === 'true') {
                 $statistic->updateConfiguration($account, $installation, $request->request->all());
                 if (! $reloadRequired) {

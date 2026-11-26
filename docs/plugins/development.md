@@ -6,8 +6,8 @@
 | --- | --- | --- |
 | Module directory | `plugins/Panels/<Feature>/` | `plugins/Statistics/<Feature>/` |
 | PHP namespace | `Runalyze\Plugins\Panels\<Feature>` | `Runalyze\Plugins\Statistics\<Feature>` |
-| Presenter contract | `ModernPanelInterface` | `ModernStatisticsInterface` |
-| Symfony service tag | `runalyze.modern_panel` | `runalyze.modern_stat` |
+| Presenter contract | `PanelInterface` | `StatisticsInterface` |
+| Symfony service tag | `runalyze.panel` | `runalyze.stat` |
 
 Both presenters provide `getKey()`, `getName()`, `getDescription()`, and `getTemplate()`. The plugin administration uses the name and description. A statistics description can also accept an account, for example to display the account's preferred units. It must also work when the caller omits the account.
 
@@ -35,7 +35,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->services()
         ->set(MonthlyStatisticsPresenter::class)
         ->autowire()
-        ->tag('runalyze.modern_stat');
+        ->tag('runalyze.stat');
 };
 ```
 
@@ -55,9 +55,9 @@ When moving an existing plugin, check that its existing installation still rende
 
 ## Add configuration or request handling when needed
 
-Implement `ModernPanelConfigurationInterface` or `ModernStatisticsConfigurationInterface` to supply a settings template, view data, and an update method. Those interfaces also make the settings window available from the installation confirmation and the plugin administration. Use `PluginConfigurationStorageInterface` for installation settings. Validate the installation and check account ownership of any submitted entity IDs before writing.
+Implement `PanelConfigurationInterface` or `StatisticsConfigurationInterface` to supply a settings template, view data, and an update method. Those interfaces also make the settings window available from the installation confirmation and the plugin administration. Use `PluginConfigurationStorageInterface` for installation settings. Validate the installation and check account ownership of any submitted entity IDs before writing.
 
-For query-driven actions, the optional `ModernPanelRequestHandlerInterface` receives a query parameter array and `ModernStatisticsRequestHandlerInterface` receives an `InputBag`. The controller calls the handler before rendering, so the presenter can read the updated state. See the account-scoped selection handling in [TagsSummary](../../plugins/Panels/TagsSummary/TagsSummaryPanelPresenter.php) and [Weather](../../plugins/Statistics/Wetter/WeatherStatisticsPresenter.php).
+For query-driven actions, the optional `PanelRequestHandlerInterface` receives a query parameter array and `StatisticsRequestHandlerInterface` receives an `InputBag`. The controller calls the handler before rendering, so the presenter can read the updated state. See the account-scoped selection handling in [TagsSummary](../../plugins/Panels/TagsSummary/TagsSummaryPanelPresenter.php) and [Weather](../../plugins/Statistics/Wetter/WeatherStatisticsPresenter.php).
 
 ## Run the tests
 
@@ -73,8 +73,8 @@ composer test:plugin
 Use the existing [dashboard](../../tests/CoreBundle/Controller/DefaultControllerTest.php) and [plugin controller](../../tests/CoreBundle/Controller/PluginControllerTest.php) tests as examples for exercising registered services through the HTTP entry points. With the application configured, check service discovery for both plugin types and validate the container.
 
 ```bash
-php bin/console debug:container --tag=runalyze.modern_panel
-php bin/console debug:container --tag=runalyze.modern_stat
+php bin/console debug:container --tag=runalyze.panel
+php bin/console debug:container --tag=runalyze.stat
 php bin/console debug:router --show-controllers
 php bin/console lint:container
 ```

@@ -1891,7 +1891,7 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
-    public function testGoalsPanelRendersAndPersistsLegacySettingsViaModernRoutes(): void
+    public function testGoalsPanelRendersAndPersistsLegacySettingsViaPluginRoutes(): void
     {
         $plugin = $this->getEntityManager()
             ->getRepository(Plugin::class)
@@ -2115,7 +2115,7 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
-    public function testPrognoseSettingsUseModernConfigurationWithoutBreakingLegacyWindows(): void
+    public function testPrognoseSettingsUsePluginConfigurationWithExistingWindows(): void
     {
         $plugin = $this->getEntityManager()->getRepository(Plugin::class)->findOneBy([
             'account' => $this->Account,

@@ -11,29 +11,29 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\PanelInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\PanelRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsRegistry;
 use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-final class ModernInstallablePanelFixture implements ModernPanelInterface
+final class InstallablePanelFixture implements PanelInterface
 {
     public function getKey(): string
     {
-        return 'ModernPanelWithoutLegacyClass';
+        return 'RegisteredPanel';
     }
 
     public function getName(): string
     {
-        return 'Modern';
+        return 'Example panel';
     }
 
     public function getDescription(): string
     {
-        return 'Modern panel';
+        return 'Example panel';
     }
 
     public function getTemplate(): string
@@ -146,11 +146,11 @@ final class PluginInstallationManagerTest extends TestCase
         $repository = $this->createMock(PluginRepository::class);
         $repository->expects($this->once())
             ->method('findForAccountAndKey')
-            ->with($account, 'ModernPanelWithoutLegacyClass')
+            ->with($account, 'RegisteredPanel')
             ->willReturn(null);
         $repository->expects($this->once())
             ->method('installForAccount')
-            ->with($account, 'ModernPanelWithoutLegacyClass', Plugin::TYPE_PANEL);
+            ->with($account, 'RegisteredPanel', Plugin::TYPE_PANEL);
 
         $doctrine = $this->createStub(ManagerRegistry::class);
         $doctrine->method('getRepository')->willReturn($repository);
@@ -161,16 +161,16 @@ final class PluginInstallationManagerTest extends TestCase
         $tokenStorage = $this->createStub(TokenStorageInterface::class);
         $tokenStorage->method('getToken')->willReturn($token);
 
-        $panel = new ModernInstallablePanelFixture();
+        $panel = new InstallablePanelFixture();
 
         $manager = new PluginInstallationManager(
             $doctrine,
             $tokenStorage,
-            new ModernPanelRegistry([$panel]),
-            new ModernStatisticsRegistry([])
+            new PanelRegistry([$panel]),
+            new StatisticsRegistry([])
         );
 
-        $this->assertTrue($manager->install('ModernPanelWithoutLegacyClass'));
+        $this->assertTrue($manager->install('RegisteredPanel'));
     }
 
     private function createManagerWithAuthenticatedAccount(?PluginRepository $repository = null): PluginInstallationManager
@@ -187,8 +187,8 @@ final class PluginInstallationManagerTest extends TestCase
         return new PluginInstallationManager(
             $doctrine,
             $tokenStorage,
-            new ModernPanelRegistry([]),
-            new ModernStatisticsRegistry([])
+            new PanelRegistry([]),
+            new StatisticsRegistry([])
         );
     }
 
@@ -200,8 +200,8 @@ final class PluginInstallationManagerTest extends TestCase
         return new PluginInstallationManager(
             $this->createStub(ManagerRegistry::class),
             $tokenStorage,
-            new ModernPanelRegistry([]),
-            new ModernStatisticsRegistry([])
+            new PanelRegistry([]),
+            new StatisticsRegistry([])
         );
     }
 }

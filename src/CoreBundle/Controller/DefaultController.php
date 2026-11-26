@@ -11,8 +11,8 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Form\FeedbackType;
 use Runalyze\Bundle\CoreBundle\Form\RegistrationType;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\PanelRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsRegistry;
 use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
@@ -49,14 +49,14 @@ class DefaultController extends AbstractPluginsAwareController
         PluginInstallationManager $pluginInstallationManager,
         LegacyContentResponseFactory $legacyContentResponseFactory,
         PluginSettingsProvider $pluginSettingsProvider,
-        ModernPanelRegistry $modernPanelRegistry,
+        PanelRegistry $panelRegistry,
         private readonly AuthorizationCheckerInterface $authorizationChecker,
         private readonly AuthenticationUtils $authenticationUtils,
         TokenStorageInterface $tokenStorage,
         ParameterBagInterface $parameterBag,
         private readonly AccountMailer $accountMailer,
         ConfigurationManager $configurationManager,
-        ModernStatisticsRegistry $modernStatisticsRegistry,
+        StatisticsRegistry $statisticsRegistry,
         RequestStack $requestStack
     ) {
         parent::__construct(
@@ -64,9 +64,9 @@ class DefaultController extends AbstractPluginsAwareController
             $pluginInstallationManager,
             $legacyContentResponseFactory,
             $pluginSettingsProvider,
-            $modernPanelRegistry,
+            $panelRegistry,
             $configurationManager,
-            $modernStatisticsRegistry,
+            $statisticsRegistry,
             $tokenStorage,
             $parameterBag,
             $requestStack

@@ -14,5 +14,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->public();
 
     $services->set(SportsPanelPresenter::class)
-        ->tag('runalyze.modern_panel');
+        ->tag('runalyze.panel');
 };

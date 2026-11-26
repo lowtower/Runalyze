@@ -9,5 +9,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->services()
         ->set(MonthlyStatisticsPresenter::class)
         ->autowire()
-        ->tag('runalyze.modern_stat');
+        ->tag('runalyze.stat');
 };

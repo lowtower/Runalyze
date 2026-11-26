@@ -7,8 +7,8 @@ namespace Runalyze\Bundle\CoreBundle\Services\Dashboard;
 use InvalidArgumentException;
 use LogicException;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsRegistry;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -16,7 +16,7 @@ final readonly class DashboardStatisticsProvider
 {
     public function __construct(
         private PluginSettingsProvider $pluginSettingsProvider,
-        private ModernStatisticsRegistry $modernStatisticsRegistry
+        private StatisticsRegistry $statisticsRegistry
     ) {}
 
     /**
@@ -37,8 +37,8 @@ final readonly class DashboardStatisticsProvider
                 continue;
             }
 
-            $statistic = $this->modernStatisticsRegistry->find($installation['key']);
-            if (! $statistic instanceof ModernStatisticsInterface) {
+            $statistic = $this->statisticsRegistry->find($installation['key']);
+            if (! $statistic instanceof StatisticsInterface) {
                 continue;
             }
 
