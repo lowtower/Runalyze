@@ -51,8 +51,8 @@ class PluginController extends AbstractPluginsAwareController
             if ($this->pluginInstallationManager->install($pluginKey)) {
                 echo HTML::okay(__('The plugin has been successfully installed.'));
 
-                if ($this->modernPanelRegistry->has($pluginKey)
-                    && $this->modernPanelRegistry->get($pluginKey) instanceof ModernPanelConfigurationInterface
+                if ($this->modernPanelRegistry->find($pluginKey) instanceof ModernPanelConfigurationInterface
+                    || $this->modernStatisticsRegistry->find($pluginKey) instanceof ModernStatisticsConfigurationInterface
                 ) {
                     $installations = $this->pluginSettingsProvider->getInstalledPluginData();
 

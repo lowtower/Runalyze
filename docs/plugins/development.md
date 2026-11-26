@@ -49,7 +49,7 @@ When moving an existing plugin, check that its existing installation still rende
 
 ## Add configuration or request handling when needed
 
-Implement `ModernPanelConfigurationInterface` or `ModernStatisticsConfigurationInterface` to supply a settings template, view data, and an update method. Use `PluginConfigurationStorageInterface` for installation settings. Validate the installation and check account ownership of any submitted entity IDs before writing.
+Implement `ModernPanelConfigurationInterface` or `ModernStatisticsConfigurationInterface` to supply a settings template, view data, and an update method. Those interfaces also make the settings window available from the installation confirmation and the plugin administration. Use `PluginConfigurationStorageInterface` for installation settings. Validate the installation and check account ownership of any submitted entity IDs before writing.
 
 For query-driven actions, the optional `ModernPanelRequestHandlerInterface` receives a query parameter array and `ModernStatisticsRequestHandlerInterface` receives an `InputBag`. The controller calls the handler before rendering, so the presenter can read the updated state. See the account-scoped selection handling in [TagsSummary](../../plugins/Panels/TagsSummary/TagsSummaryPanelPresenter.php) and [Weather](../../plugins/Statistics/Wetter/WeatherStatisticsPresenter.php).
 

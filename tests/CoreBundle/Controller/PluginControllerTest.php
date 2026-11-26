@@ -112,6 +112,7 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $this->request('GET', $overview);
         $this->assertStatusCode(200, $this->Client);
         $this->assertStringContainsString('plugin_modus_' . $id, (string) $this->Client->getResponse()->getContent());
+        $this->assertStringNotContainsString('href="call/call.Plugin.config.php?id=' . $id . '"', (string) $this->Client->getResponse()->getContent());
 
         $this->request('GET', $configuration . '&active=0');
         $this->assertStatusCode(200, $this->Client);
@@ -149,6 +150,42 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $html = (string) $this->Client->getResponse()->getContent();
         $this->assertStringContainsString('The plugin could not be found.', $html);
         $this->assertStringNotContainsString('monthly-statistics-table', $html);
+    }
+
+    #[\PHPUnit\Framework\Attributes\Group('plugin')]
+    public function testConfigurableStatisticsExposeSettingsFromInstallationAndAdministration(): void
+    {
+        $key = 'RunalyzePluginStat_Trainingszeiten';
+        $entityManager = $this->getEntityManager();
+        $repository = $entityManager->getRepository(Plugin::class);
+        $criteria = [
+            'account' => $this->Account,
+            'key' => $key,
+        ];
+        $existing = $repository->findOneBy($criteria);
+        $this->assertInstanceOf(Plugin::class, $existing);
+        $entityManager->remove($existing);
+        $entityManager->flush();
+
+        $this->loginClient($this->Client, $this->Account, 'default');
+        $confirmation = $this->Client->request('GET', '/call/call.Plugin.install.php?key=' . $key);
+        $this->assertStatusCode(200, $this->Client);
+
+        $installed = $repository->findOneBy($criteria);
+        $this->assertInstanceOf(Plugin::class, $installed);
+        $this->assertSame(Plugin::TYPE_STAT, $installed->getType());
+        $id = $installed->getId();
+        $href = 'call/call.Plugin.config.php?id=' . $id;
+        $link = 'a.window[data-size="small"][href="' . $href . '"]';
+        $this->assertCount(1, $confirmation->filter($link));
+
+        $overview = $this->Client->request('GET', '/settings?key=config_tab_plugins&external=true');
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertCount(1, $overview->filter('tr[id="' . $id . '_tr"] ' . $link));
+
+        $configuration = $this->Client->request('GET', '/' . $href);
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertCount(1, $configuration->filter('input[name="show_extreme_times"]'));
     }
 
     public function testPluginInstallActionRejectsAnUnrecognizedKey(): void
