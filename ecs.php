@@ -15,7 +15,6 @@ return ECSConfig::configure()
         __DIR__ . '/config',
         __DIR__ . '/inc',
         __DIR__ . '/lib',
-        __DIR__ . '/plugin',
         __DIR__ . '/plugins',
         __DIR__ . '/public',
         __DIR__ . '/src',

@@ -3,12 +3,8 @@
 namespace Runalyze\Bundle\CoreBundle\Controller;
 
 use Doctrine\Persistence\ManagerRegistry;
-use Exception;
 use HTML;
 use InvalidArgumentException;
-use Plugin as LegacyPlugin;
-use PluginPanel;
-use PluginType;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
@@ -18,7 +14,6 @@ use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRequestHandlerInterface;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\LegacyContentResponseFactory;
-use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,12 +28,9 @@ abstract class AbstractPluginsAwareController extends AbstractController
 {
     use AppServiceSubscriberTrait;
 
-    protected bool $IsShowingAllPanels = false;
-
     public function __construct(
         protected ManagerRegistry $doctrine,
         protected PluginInstallationManager $pluginInstallationManager,
-        protected LegacyPluginOutputRenderer $legacyPluginOutputRenderer,
         protected LegacyContentResponseFactory $legacyContentResponseFactory,
         protected PluginSettingsProvider $pluginSettingsProvider,
         protected ModernPanelRegistry $modernPanelRegistry,
@@ -50,42 +42,34 @@ abstract class AbstractPluginsAwareController extends AbstractController
     ) {}
 
     /**
-     * @throws Throwable if a modern panel or legacy plugin throws
+     * @throws Throwable if a plugin throws
      */
     protected function getResponseForAllEnabledPanels(Request $request, Account $account): Response
     {
-        $this->IsShowingAllPanels = true;
         $content = '';
 
         foreach ($this->pluginSettingsProvider->getInstalledPluginData() as $pluginData) {
-            if ($pluginData['type'] !== PluginType::string(PluginType::PANEL) || $pluginData['active'] === 0) {
+            if ($pluginData['type'] !== PluginInstallation::TYPE_PANEL || $pluginData['active'] === PluginInstallation::STATE_INACTIVE
+                || ! $this->modernPanelRegistry->has($pluginData['key'])
+            ) {
                 continue;
             }
 
-            if ($this->modernPanelRegistry->has($pluginData['key'])) {
-                $installation = $this->pluginInstallationManager->getInstallationForAccount($account, $pluginData['id']);
+            $installation = $this->pluginInstallationManager->getInstallationForAccount($account, $pluginData['id']);
 
-                if ($installation instanceof PluginInstallation) {
-                    $panel = $this->modernPanelRegistry->get($pluginData['key']);
-                    $panelContent = $this->getResponseForModernPanel($account, $installation, $request)->getContent();
-                    $panelClass = $panel->shouldReloadAfterTraining() ? 'panel' : 'panel dont-reload-for-training';
-                    $content .= '<div class="' . $panelClass . '" id="panel-' . $pluginData['id'] . '">' . $panelContent . '</div>';
-
-                    continue;
-                }
+            if ($installation instanceof PluginInstallation) {
+                $panel = $this->modernPanelRegistry->get($pluginData['key']);
+                $panelContent = $this->getResponseForModernPanel($account, $installation, $request)->getContent();
+                $panelClass = $panel->shouldReloadAfterTraining() ? 'panel' : 'panel dont-reload-for-training';
+                $content .= '<div class="' . $panelClass . '" id="panel-' . $pluginData['id'] . '">' . $panelContent . '</div>';
             }
-
-            $panel = $this->pluginSettingsProvider->getInstalledPluginById($pluginData['id']);
-            $panelContent = $this->getResponseForPlugin($panel)->getContent();
-
-            $content .= $panelContent;
         }
 
         return new Response($content);
     }
 
     /**
-     * @throws Throwable if a modern panel or legacy plugin throws
+     * @throws Throwable if a plugin throws
      */
     protected function getResponseFor(int $pluginId, Request $request, Account $account): Response
     {
@@ -112,20 +96,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
             }
         }
 
-        $content = '';
-
-        try {
-            $plugin = $this->instantiatePluginById($pluginId);
-        } catch (Exception) {
-            $plugin = null;
-            $content = HTML::error(__('The plugin could not be found.'));
-        }
-
-        if (! $plugin instanceof LegacyPlugin) {
-            return new Response()->setContent($content);
-        }
-
-        return $this->getResponseForPlugin($plugin);
+        return new Response(HTML::error(__('The plugin could not be found.')));
     }
 
     /**
@@ -144,35 +115,5 @@ abstract class AbstractPluginsAwareController extends AbstractController
             'is_hidden' => $installation->isHidden(),
             'panel_data' => $panel->present($account, $installation),
         ]);
-    }
-
-    /**
-     * @throws Throwable if a legacy plugin throws
-     */
-    protected function getResponseForPlugin(LegacyPlugin $plugin): Response
-    {
-        if ($plugin instanceof PluginPanel) {
-            $plugin->setSurroundingDivVisible($this->IsShowingAllPanels);
-        }
-
-        return $this->legacyPluginOutputRenderer->render(function () use ($plugin): void {
-            $plugin->display();
-        });
-    }
-
-    /**
-     * @throws InvalidArgumentException if no plugin is installed with the given id
-     */
-    protected function instantiatePluginById(int $pluginId): LegacyPlugin
-    {
-        return $this->pluginSettingsProvider->getInstalledPluginById($pluginId);
-    }
-
-    /**
-     * @throws InvalidArgumentException if no plugin is installed with the given key
-     */
-    protected function instantiatePluginByKey(string $pluginKey): LegacyPlugin
-    {
-        return $this->pluginSettingsProvider->getInstalledPluginByKey($pluginKey);
     }
 }

@@ -7,7 +7,6 @@ namespace Runalyze\Bundle\CoreBundle\Services;
 use Doctrine\Persistence\ManagerRegistry;
 use InvalidArgumentException;
 use LogicException;
-use PluginInstaller;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelMetadataInterface;
@@ -22,9 +21,8 @@ final readonly class PluginInstallationManager
     public function __construct(
         private ManagerRegistry $doctrine,
         private TokenStorageInterface $tokenStorage,
-        private LegacyPluginInstantiator $pluginInstantiator,
-        private ?ModernPanelRegistry $modernPanelRegistry = null,
-        private ?ModernStatisticsRegistry $modernStatisticsRegistry = null
+        private ModernPanelRegistry $modernPanelRegistry,
+        private ModernStatisticsRegistry $modernStatisticsRegistry
     ) {}
 
     /**
@@ -120,7 +118,7 @@ final readonly class PluginInstallationManager
             return false;
         }
 
-        if ($this->modernPanelRegistry?->has($key)
+        if ($this->modernPanelRegistry->has($key)
             && $this->modernPanelRegistry->get($key) instanceof ModernPanelMetadataInterface
         ) {
             $this->getPluginRepository()->installForAccount($account, $key, Plugin::TYPE_PANEL);
@@ -128,17 +126,13 @@ final readonly class PluginInstallationManager
             return true;
         }
 
-        if ($this->modernStatisticsRegistry?->find($key) instanceof ModernStatisticsInterface) {
+        if ($this->modernStatisticsRegistry->find($key) instanceof ModernStatisticsInterface) {
             $this->getPluginRepository()->installForAccount($account, $key, Plugin::TYPE_STAT);
 
             return true;
         }
 
-        $plugin = $this->pluginInstantiator->instantiate($key, PluginInstaller::ID);
-
-        $this->getPluginRepository()->installForAccount($account, $plugin->key(), $plugin->typeString());
-
-        return true;
+        throw new InvalidArgumentException(sprintf('Unknown plugin key "%s".', $key));
     }
 
     /**

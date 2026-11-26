@@ -7,14 +7,13 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Services\Dashboard;
 use Doctrine\Persistence\ManagerRegistry;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Plugin;
-use PluginPanel;
-use PluginStat;
-use PluginType;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Plugin;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
 use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
 use Runalyze\Bundle\CoreBundle\Services\Dashboard\DashboardStatisticsProvider;
-use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
@@ -22,57 +21,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-final class DashboardStatisticsProviderTestPlugin extends PluginStat
-{
-    public static int $instantiationCount = 0;
-
-    public function __construct(int $id)
-    {
-        ++self::$instantiationCount;
-
-        parent::__construct($id);
-    }
-
-    public function name(): string
-    {
-        return 'Test statistics';
-    }
-
-    public function description(): string
-    {
-        return 'Test statistics plugin.';
-    }
-
-    protected function displayContent(): void {}
-}
-
-final class DashboardStatisticsProviderTestPanel extends PluginPanel
-{
-    public function name(): string
-    {
-        return 'Test panel';
-    }
-
-    public function description(): string
-    {
-        return 'Test panel plugin.';
-    }
-
-    protected function defaultSport(): int
-    {
-        return -1;
-    }
-
-    protected function displayContent(): void {}
-}
-
 final class DashboardStatisticsProviderTest extends TestCase
 {
     public function testItSelectsTheFirstActivePluginByDefault(): void
     {
-        $provider = new DashboardStatisticsProvider($this->createSettingsProvider([
-            $this->pluginData(17, Plugin::ACTIVE, 1),
-        ]));
+        $provider = $this->createProvider([
+            $this->pluginData(17, Plugin::STATE_ACTIVE, 1),
+        ]);
 
         $statistics = $provider->getStatistics(new Request());
 
@@ -84,56 +39,53 @@ final class DashboardStatisticsProviderTest extends TestCase
                 'children' => [],
             ],
         ], $statistics->navigation);
-        $this->assertSame(17, $statistics->plugin?->id());
+        $this->assertSame(17, $statistics->pluginId);
         $this->assertNull($statistics->activityId);
         $this->assertTrue($statistics->hasActiveStatistics);
     }
 
-    public function testItSelectsTheRequestedActivePluginWithoutInstantiatingItTwice(): void
+    public function testItSelectsTheRequestedActivePlugin(): void
     {
-        DashboardStatisticsProviderTestPlugin::$instantiationCount = 0;
-
-        $provider = new DashboardStatisticsProvider($this->createSettingsProvider([
-            $this->pluginData(23, Plugin::ACTIVE, 1),
-        ]));
+        $provider = $this->createProvider([
+            $this->pluginData(23, Plugin::STATE_ACTIVE, 1),
+        ]);
 
         $statistics = $provider->getStatistics(new Request(query: [
             'pluginid' => '23',
         ]));
 
-        $this->assertSame(23, $statistics->plugin?->id());
-        $this->assertSame(1, DashboardStatisticsProviderTestPlugin::$instantiationCount);
+        $this->assertSame(23, $statistics->pluginId);
     }
 
     public function testItFallsBackToTheFirstActivePluginWhenTheRequestedPluginIsInactive(): void
     {
-        $provider = new DashboardStatisticsProvider($this->createSettingsProvider([
-            $this->pluginData(17, Plugin::ACTIVE, 1),
-            $this->pluginData(23, Plugin::ACTIVE_NOT, 2),
-        ]));
+        $provider = $this->createProvider([
+            $this->pluginData(17, Plugin::STATE_ACTIVE, 1),
+            $this->pluginData(23, Plugin::STATE_INACTIVE, 2),
+        ]);
 
         $statistics = $provider->getStatistics(new Request(query: [
             'pluginid' => '23',
         ]));
 
-        $this->assertSame(17, $statistics->plugin?->id());
+        $this->assertSame(17, $statistics->pluginId);
     }
 
     public function testItReturnsNoPluginWhenNoStatisticsAreActive(): void
     {
-        $provider = new DashboardStatisticsProvider($this->createSettingsProvider([
-            $this->pluginData(17, Plugin::ACTIVE_NOT, 1),
-        ]));
+        $provider = $this->createProvider([
+            $this->pluginData(17, Plugin::STATE_INACTIVE, 1),
+        ]);
 
         $statistics = $provider->getStatistics(new Request());
 
-        $this->assertNull($statistics->plugin);
+        $this->assertNull($statistics->pluginId);
         $this->assertFalse($statistics->hasActiveStatistics);
     }
 
     public function testActivitySelectionTakesPrecedenceOverPluginSelection(): void
     {
-        $provider = new DashboardStatisticsProvider($this->createSettingsProvider([]));
+        $provider = $this->createProvider([]);
 
         $statistics = $provider->getStatistics(new Request(query: [
             'id' => '42',
@@ -141,12 +93,12 @@ final class DashboardStatisticsProviderTest extends TestCase
         ]));
 
         $this->assertSame(42, $statistics->activityId);
-        $this->assertNull($statistics->plugin);
+        $this->assertNull($statistics->pluginId);
     }
 
     public function testUnknownRequestedPluginIsNotSilentlyReplaced(): void
     {
-        $provider = new DashboardStatisticsProvider($this->createSettingsProvider([]));
+        $provider = $this->createProvider([]);
 
         $this->expectException(InvalidArgumentException::class);
 
@@ -157,9 +109,9 @@ final class DashboardStatisticsProviderTest extends TestCase
 
     public function testItGroupsVariousStatisticsInASubmenu(): void
     {
-        $provider = new DashboardStatisticsProvider($this->createSettingsProvider([
-            $this->pluginData(31, Plugin::ACTIVE_VARIOUS, 1),
-        ]));
+        $provider = $this->createProvider([
+            $this->pluginData(31, Plugin::STATE_HIDDEN, 1),
+        ]);
 
         $statistics = $provider->getStatistics(new Request());
 
@@ -180,22 +132,22 @@ final class DashboardStatisticsProviderTest extends TestCase
 
     public function testRequestedInstalledPluginCanBeSelectedEvenWhenItIsNotAStatistic(): void
     {
-        $provider = new DashboardStatisticsProvider($this->createSettingsProvider([
-            $this->pluginData(41, Plugin::ACTIVE, 1, PluginType::string(PluginType::PANEL), DashboardStatisticsProviderTestPanel::class),
-        ]));
+        $provider = $this->createProvider([
+            $this->pluginData(41, Plugin::STATE_ACTIVE, 1, Plugin::TYPE_PANEL, 'TestPanel'),
+        ]);
 
         $statistics = $provider->getStatistics(new Request(query: [
             'pluginid' => '41',
         ]));
 
-        $this->assertSame(41, $statistics->plugin?->id());
+        $this->assertSame(41, $statistics->pluginId);
         $this->assertFalse($statistics->hasActiveStatistics);
     }
 
     /**
      * @param list<array{id: int, key: string, type: string, active: int, order: int}> $data
      */
-    private function createSettingsProvider(array $data): PluginSettingsProvider
+    private function createProvider(array $data): DashboardStatisticsProvider
     {
         $repository = $this->createStub(PluginRepository::class);
         $repository->method('findDataForAccount')->willReturn($data);
@@ -209,12 +161,20 @@ final class DashboardStatisticsProviderTest extends TestCase
         $tokenStorage = $this->createStub(TokenStorageInterface::class);
         $tokenStorage->method('getToken')->willReturn($token);
 
-        $instantiator = new LegacyPluginInstantiator();
+        $panels = new ModernPanelRegistry([]);
+        $statistic = $this->createStub(ModernStatisticsInterface::class);
+        $statistic->method('getKey')->willReturn('TestStatistic');
+        $statistic->method('getName')->willReturn('Test statistics');
+        $statistics = new ModernStatisticsRegistry([$statistic]);
 
-        return new PluginSettingsProvider(
-            new PluginInstallationManager($doctrine, $tokenStorage, $instantiator),
-            $instantiator,
-            new PluginDiscovery(sys_get_temp_dir() . '/runalyze-dashboard-plugins')
+        return new DashboardStatisticsProvider(
+            new PluginSettingsProvider(
+                new PluginInstallationManager($doctrine, $tokenStorage, $panels, $statistics),
+                new PluginDiscovery($panels, $statistics),
+                $panels,
+                $statistics
+            ),
+            $statistics
         );
     }
 
@@ -225,8 +185,8 @@ final class DashboardStatisticsProviderTest extends TestCase
         int $id,
         int $active,
         int $order,
-        string $type = 'stat',
-        string $key = DashboardStatisticsProviderTestPlugin::class
+        string $type = Plugin::TYPE_STAT,
+        string $key = 'TestStatistic'
     ): array {
         return [
             'id' => $id,

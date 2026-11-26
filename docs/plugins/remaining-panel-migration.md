@@ -1,21 +1,18 @@
-# Remaining legacy panel migration
+# Legacy panel migration record
 
 The modern panel architecture is described in [architecture.md](architecture.md).
-This checklist tracks the remaining legacy panel migration.
+This record documents the last two panel cutovers and the removal of shared legacy discovery.
 
 ## Scope
 
-The Goals and Rechenspiele panels now use the modern runtime; no legacy panel directory remains:
+Goals and Rechenspiele completed the panel cutover to Symfony.
 
-| Stable installation key | Legacy directory | Modern implementation | Remaining work |
-| --- | --- | --- | --- |
-| `RunalyzePluginPanel_Ziele` | Removed | `plugins/Goals/` (calendar, totals, progress calculator, presenter, Twig and configuration) | Verify display and settings parity in browser |
-| `RunalyzePluginPanel_Rechenspiele` | Removed | `plugins/Rechenspiele/` (dashboard presenter, data provider, calculator, explanation-window provider, configuration) | Verify display and settings parity in browser |
+| Stable installation key | Modern implementation |
+| --- | --- |
+| `RunalyzePluginPanel_Ziele` | `plugins/Goals/` (calendar, totals, progress calculator, presenter, Twig and configuration) |
+| `RunalyzePluginPanel_Rechenspiele` | `plugins/Rechenspiele/` (dashboard presenter, data provider, calculator, explanation-window provider, configuration) |
 
-All eleven built-in statistics plugins have migrated to `plugins/Statistics/`.
-The remaining legacy panel is the last on-disk implementation using the shared
-`plugin/` discovery and Composer classmap. See the
-[statistics contract and migration status](architecture.md#implemented-statistics-contract).
+The panel and statistics registries now supply the plugin catalog, installation metadata and display paths. The `plugin/` directory, filesystem discovery and Composer classmap entry have been removed. The original window URLs are served by Symfony controllers. See the [plugin architecture](architecture.md).
 
 ## Migration rules
 
@@ -73,6 +70,4 @@ The remaining legacy panel is the last on-disk implementation using the shared
    remain, check discovery/installation/configuration, run all plugin tests,
    `composer qa`, container linting, browser smoke checks and coverage gate.
 
-These phases may span multiple PRs. The Goals and Rechenspiele migrations are
-implemented; no `plugin/RunalyzePluginPanel_*` directories remain. The final
-audit (phase 6) is pending.
+The legacy execution paths and filesystem references were removed after the final panel cutover. The migration is tracked in [issue #103](https://github.com/lowtower/Runalyze/issues/103) and [issue #282](https://github.com/lowtower/Runalyze/issues/282).

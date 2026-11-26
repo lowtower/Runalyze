@@ -4,89 +4,40 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Services;
 
-use FilesystemIterator;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
-use RuntimeException;
 
 #[Group('plugin')]
 final class PluginDiscoveryTest extends TestCase
 {
-    private string $pluginDirectory;
-
-    protected function setUp(): void
+    public function testReturnsSortedKeysFromBothRegistries(): void
     {
-        $this->pluginDirectory = sys_get_temp_dir() . '/runalyze-plugin-discovery-' . bin2hex(random_bytes(8));
-        mkdir($this->pluginDirectory);
-    }
+        $panel = $this->createStub(ModernPanelInterface::class);
+        $panel->method('getKey')->willReturn('Sports');
 
-    protected function tearDown(): void
-    {
-        foreach (new FilesystemIterator($this->pluginDirectory, FilesystemIterator::SKIP_DOTS) as $entry) {
-            if ($entry->isDir()) {
-                rmdir($entry->getPathname());
-            } else {
-                unlink($entry->getPathname());
-            }
-        }
-
-        rmdir($this->pluginDirectory);
-    }
-
-    public function testFindsPluginDirectoriesAndIgnoresFilesAndHiddenEntries(): void
-    {
-        mkdir($this->pluginDirectory . '/RunalyzePluginStat_Weather');
-        mkdir($this->pluginDirectory . '/RunalyzePluginPanel_Sports');
-        mkdir($this->pluginDirectory . '/.git');
-        file_put_contents($this->pluginDirectory . '/README.md', 'Not a plugin directory');
-
-        $discovery = new PluginDiscovery($this->pluginDirectory);
-
-        $this->assertSame([
-            'RunalyzePluginPanel_Sports',
-            'RunalyzePluginStat_Weather',
-        ], $discovery->findAvailablePluginKeys());
-    }
-
-    public function testFindsModernPanelsWithoutLegacyDirectoriesAndDeduplicatesExistingKeys(): void
-    {
-        mkdir($this->pluginDirectory . '/LegacyPanel');
-
-        $modernOnly = $this->createStub(ModernPanelInterface::class);
-        $modernOnly->method('getKey')->willReturn('ModernPanel');
-
-        $alsoLegacy = $this->createStub(ModernPanelInterface::class);
-        $alsoLegacy->method('getKey')->willReturn('LegacyPanel');
+        $statistic = $this->createStub(ModernStatisticsInterface::class);
+        $statistic->method('getKey')->willReturn('Analysis');
 
         $discovery = new PluginDiscovery(
-            $this->pluginDirectory,
-            new ModernPanelRegistry([$modernOnly, $alsoLegacy])
+            new ModernPanelRegistry([$panel]),
+            new ModernStatisticsRegistry([$statistic])
         );
 
-        $this->assertSame(['LegacyPanel', 'ModernPanel'], $discovery->findAvailablePluginKeys());
+        $this->assertSame(['Analysis', 'Sports'], $discovery->findAvailablePluginKeys());
     }
 
-    public function testFindsNewPluginDirectoriesWithoutRecreatingTheService(): void
+    public function testReturnsNoKeysWhenBothRegistriesAreEmpty(): void
     {
-        $discovery = new PluginDiscovery($this->pluginDirectory);
+        $discovery = new PluginDiscovery(
+            new ModernPanelRegistry([]),
+            new ModernStatisticsRegistry([])
+        );
 
-        mkdir($this->pluginDirectory . '/FirstPlugin');
-        $this->assertSame(['FirstPlugin'], $discovery->findAvailablePluginKeys());
-
-        mkdir($this->pluginDirectory . '/SecondPlugin');
-        $this->assertSame(['FirstPlugin', 'SecondPlugin'], $discovery->findAvailablePluginKeys());
-    }
-
-    public function testThrowsWhenPluginDirectoryDoesNotExist(): void
-    {
-        $discovery = new PluginDiscovery($this->pluginDirectory . '/missing');
-
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessageIsOrContains('does not exist or is not readable');
-
-        $discovery->findAvailablePluginKeys();
+        $this->assertSame([], $discovery->findAvailablePluginKeys());
     }
 }

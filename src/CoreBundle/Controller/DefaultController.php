@@ -7,7 +7,6 @@ use DateTimeImmutable;
 use DateTimeZone;
 use Doctrine\Persistence\ManagerRegistry;
 use Frontend;
-use Plugin;
 use Runalyze\Activity\Distance;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -27,7 +26,6 @@ use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Dashboard\DashboardStatisticsProvider;
 use Runalyze\Bundle\CoreBundle\Services\LegacyContentResponseFactory;
-use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
@@ -70,7 +68,6 @@ class DefaultController extends AbstractPluginsAwareController
     public function __construct(
         ManagerRegistry $doctrine,
         PluginInstallationManager $pluginInstallationManager,
-        LegacyPluginOutputRenderer $legacyPluginOutputRenderer,
         LegacyContentResponseFactory $legacyContentResponseFactory,
         PluginSettingsProvider $pluginSettingsProvider,
         ModernPanelRegistry $modernPanelRegistry,
@@ -86,7 +83,6 @@ class DefaultController extends AbstractPluginsAwareController
         parent::__construct(
             $doctrine,
             $pluginInstallationManager,
-            $legacyPluginOutputRenderer,
             $legacyContentResponseFactory,
             $pluginSettingsProvider,
             $modernPanelRegistry,
@@ -140,7 +136,7 @@ class DefaultController extends AbstractPluginsAwareController
         if ($statistics->activityId !== null) {
             $trainingView = new TrainingView(new ActivityContext($statistics->activityId, SessionAccountHandler::getId()));
             $content = $this->renderView('activity/training_view.html.twig', $trainingView->templateData());
-        } elseif ($statistics->plugin !== null) {
+        } elseif ($statistics->pluginId !== null) {
             assert($account instanceof Account);
             $fragmentRequest = $request->duplicate();
             $fragmentRequest->headers->set('X-Requested-With', 'XMLHttpRequest');
@@ -148,9 +144,7 @@ class DefaultController extends AbstractPluginsAwareController
             $this->requestStack->push($fragmentRequest);
 
             try {
-                $response = $statistics->plugin instanceof Plugin
-                    ? $this->getResponseForPlugin($statistics->plugin)
-                    : $this->getResponseFor($statistics->plugin, $fragmentRequest, $account);
+                $response = $this->getResponseFor($statistics->pluginId, $fragmentRequest, $account);
                 $content = $response->getContent() ?: '';
             } finally {
                 $this->requestStack->pop();

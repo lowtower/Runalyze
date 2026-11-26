@@ -63,7 +63,6 @@ use Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookup;
 use Runalyze\Bundle\CoreBundle\Services\Import\WeatherForecast;
 use Runalyze\Bundle\CoreBundle\Services\LegacyCache;
 use Runalyze\Bundle\CoreBundle\Services\LegacyContentResponseFactory;
-use Runalyze\Bundle\CoreBundle\Services\LegacyPluginInstantiator;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
@@ -215,8 +214,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autoconfigure(true)
         ->public();
 
-    $services->set(PluginDiscovery::class)
-        ->arg('$pluginDirectory', '%kernel.project_dir%/plugin');
+    $services->set(PluginDiscovery::class);
 
     $services->set(PluginInstallationManager::class);
 
@@ -259,8 +257,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(LegacyContentResponseFactory::class);
 
-    $services->set(LegacyPluginInstantiator::class)
-        ->arg('$configurationStorage', service(PluginConfigurationStorageInterface::class));
     $services->set(DashboardStatisticsProvider::class);
 
     $services->load('Runalyze\Bundle\CoreBundle\Controller\\', __DIR__ . '/../src/CoreBundle/Controller')
