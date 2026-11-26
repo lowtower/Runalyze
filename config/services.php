@@ -445,6 +445,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$DataDir', '%app.data_directory%');
 
     $services->set(BackupGenerationMessageHandler::class)
+        ->private()
         ->arg('$dataDirectory', '%app.data_directory%')
         ->arg('$databasePrefix', '%app.database_prefix%')
         ->arg('$runalyzeVersion', '%RUNALYZE_VERSION%');
@@ -452,6 +453,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(PosterGenerationStateResolver::class);
 
     $services->set(PosterGenerationMessageHandler::class)
+        ->private()
         ->arg('$logger', service('monolog.logger.queue'))
         ->arg('$dataDirectory', '%app.data_directory%')
         ->arg('$rsvgPath', '%app.rsvg_path%');
