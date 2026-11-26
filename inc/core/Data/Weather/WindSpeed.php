@@ -9,8 +9,9 @@ namespace Runalyze\Data\Weather;
 
 use Runalyze\Activity\ValueInterface;
 use Runalyze\Configuration;
+use Runalyze\Metrics\Velocity\Unit\KilometerPerHour;
+use Runalyze\Metrics\Velocity\Unit\MilesPerHour;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
-use Runalyze\Parameter\Application\PaceUnit;
 
 /**
  * Wind Speed
@@ -157,10 +158,10 @@ class WindSpeed implements ValueInterface
     public function unit(): string
     {
         if ($this->UnitSystem->isImperial()) {
-            return PaceUnit::stringFor(PaceUnit::MILES_PER_H);
+            return new MilesPerHour()->getUnit();
         }
 
-        return PaceUnit::stringFor(PaceUnit::KM_PER_H);
+        return new KilometerPerHour()->getUnit();
     }
 
     public function string(bool $withUnit = true, $decimals = 0): string

@@ -9,9 +9,15 @@ namespace Runalyze\View\Activity\Plot\Series;
 
 use Plot;
 use Runalyze\Configuration;
+use Runalyze\Metrics\Velocity\Unit\AbstractPaceInTimeFormatUnit;
+use Runalyze\Metrics\Velocity\Unit\AbstractPaceUnit;
+use Runalyze\Metrics\Velocity\Unit\SecondsPer100m;
+use Runalyze\Metrics\Velocity\Unit\SecondsPer100y;
+use Runalyze\Metrics\Velocity\Unit\SecondsPer500m;
+use Runalyze\Metrics\Velocity\Unit\SecondsPer500y;
+use Runalyze\Metrics\Velocity\Unit\SecondsPerMile;
 use Runalyze\Model\Trackdata\Entity as Trackdata;
 use Runalyze\Parameter\Application\PaceAxisType;
-use Runalyze\Parameter\Application\PaceUnit;
 use Runalyze\Profile\Sport\SportProfile;
 use Runalyze\View\Activity;
 
@@ -32,9 +38,7 @@ class Pace extends ActivitySeries
 
     protected bool $isRunning;
 
-    protected \Runalyze\Activity\PaceUnit\AbstractUnit $paceUnit;
-
-    protected int $paceUnitEnum;
+    protected AbstractPaceUnit $paceUnit;
 
     protected bool $adjustAxis = true;
 
@@ -43,10 +47,7 @@ class Pace extends ActivitySeries
      */
     public function __construct(Activity\Context $context)
     {
-        $this->paceUnit = $context->sport()
-            ->legacyPaceUnit();
-        $this->paceUnitEnum = $context->sport()
-            ->getLegacyPaceUnitEnum();
+        $this->paceUnit = $context->sport()->getSpeedUnit();
 
         $this->isRunning = ($context->sport()->getInternalProfileEnum() === SportProfile::RUNNING);
 
@@ -60,10 +61,7 @@ class Pace extends ActivitySeries
         $this->Label = __('Pace');
         $this->Color = self::COLOR;
 
-        $pace = new \Runalyze\Activity\Pace(0, 1);
-        $pace->setUnit($this->paceUnit);
-
-        $this->UnitString = ! $this->paceUnit->isTimeFormat() ? str_replace('&nbsp;', '', $pace->appendix()) : '';
+        $this->UnitString = $this->paceUnit instanceof AbstractPaceInTimeFormatUnit ? '' : $this->paceUnit->getAppendix();
         $this->UnitDecimals = 1;
 
         $this->TickSize = null;
@@ -75,14 +73,10 @@ class Pace extends ActivitySeries
 
     protected function manipulateData()
     {
-        if ($this->paceUnit->isTimeFormat()) {
-            $factor = $this->paceUnit->factorForUnit();
-
-            $this->Data = array_map(fn ($v): float|int => ($v == 0) ? 3600 * 1000 : 1000 * round($v * $factor), $this->Data);
+        if ($this->paceUnit instanceof AbstractPaceInTimeFormatUnit) {
+            $this->Data = array_map(fn ($v): float|int => $v == 0 ? 3600 * 1000 : 1000 * round($this->paceUnit->fromBaseUnit($v)), $this->Data);
         } else {
-            $dividend = $this->paceUnit->dividendForUnit();
-
-            $this->Data = array_map(fn ($v): float|int => ($v == 0) ? 0 : round($dividend / $v, 1), $this->Data);
+            $this->Data = array_map(fn ($v): float|int => $v == 0 ? 0 : round($this->paceUnit->fromBaseUnit($v), 1), $this->Data);
         }
     }
 
@@ -97,7 +91,7 @@ class Pace extends ActivitySeries
 
         parent::addTo($Plot, $yAxis, $addAnnotations);
 
-        if ($this->paceUnit->isTimeFormat() && $this->adjustAxis) {
+        if ($this->paceUnit instanceof AbstractPaceInTimeFormatUnit && $this->adjustAxis) {
             $this->adjustAxis($Plot, $yAxis);
         }
     }
@@ -170,11 +164,11 @@ class Pace extends ActivitySeries
 
     private function setYAxisForReversePace(Plot $plot, int $yAxis, int $dataMin, int $dataMax, bool $forceMin, bool $forceMax): void
     {
-        if ($this->paceUnitEnum === PaceUnit::MIN_PER_MILE) {
+        if ($this->paceUnit instanceof SecondsPerMile) {
             $ticks = [240, 300, 360, 450, 600, 900, 3600];
-        } elseif ($this->paceUnitEnum === PaceUnit::MIN_PER_100M || $this->paceUnitEnum === PaceUnit::MIN_PER_100Y) {
+        } elseif ($this->paceUnit instanceof SecondsPer100m || $this->paceUnit instanceof SecondsPer100y) {
             $ticks = [10, 60, 120, 180, 240, 720];
-        } elseif ($this->paceUnitEnum === PaceUnit::MIN_PER_500M || $this->paceUnitEnum === PaceUnit::MIN_PER_500Y) {
+        } elseif ($this->paceUnit instanceof SecondsPer500m || $this->paceUnit instanceof SecondsPer500y) {
             $ticks = [60, 120, 180, 240, 720];
         } else { // defaults to min/km;
             $ticks = [120, 180, 240, 300, 360, 480, 600, 3600];
