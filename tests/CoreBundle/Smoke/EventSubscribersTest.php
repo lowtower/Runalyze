@@ -58,7 +58,7 @@ final class EventSubscribersTest extends KernelTestCase
 
     public function testControllerBuild(): void
     {
-        $controllerCount = 0;
+        $nonPluginControllerCount = 0;
 
         foreach (self::getContainer()->getServiceIds() as $serviceId) {
             if (! str_ends_with($serviceId, 'Controller')) {
@@ -74,9 +74,11 @@ final class EventSubscribersTest extends KernelTestCase
             $controller = self::getContainer()->get($serviceId);
             $this->assertInstanceOf(AbstractController::class, $controller);
 
-            ++$controllerCount;
+            if (! str_starts_with($serviceId, 'Runalyze\\Plugins\\')) {
+                ++$nonPluginControllerCount;
+            }
         }
 
-        $this->assertSame(35, $controllerCount);
+        $this->assertSame(33, $nonPluginControllerCount);
     }
 }
