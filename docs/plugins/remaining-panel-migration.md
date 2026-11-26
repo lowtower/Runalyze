@@ -9,8 +9,8 @@ Goals and Rechenspiele completed the panel cutover to Symfony.
 
 | Stable installation key | Modern implementation |
 | --- | --- |
-| `RunalyzePluginPanel_Ziele` | `plugins/Goals/` (calendar, totals, progress calculator, presenter, Twig and configuration) |
-| `RunalyzePluginPanel_Rechenspiele` | `plugins/Rechenspiele/` (dashboard presenter, data provider, calculator, explanation-window provider, configuration) |
+| `RunalyzePluginPanel_Ziele` | `plugins/Panels/Goals/` (calendar, totals, progress calculator, presenter, Twig and configuration) |
+| `RunalyzePluginPanel_Rechenspiele` | `plugins/Panels/Rechenspiele/` (dashboard presenter, data provider, calculator, explanation-window provider, configuration) |
 
 The panel and statistics registries now supply the plugin catalog, installation metadata and display paths. The `plugin/` directory, filesystem discovery and Composer classmap entry have been removed. The original window URLs are served by Symfony controllers. See the [plugin architecture](architecture.md).
 

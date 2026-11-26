@@ -57,9 +57,9 @@ return RectorConfig::configure()
         ServiceSettersToSettersAutodiscoveryRector::class => [
             __DIR__ . '/config/services.php',
             // These plugins use explicit registrations for classes with a shared name prefix.
-            __DIR__ . '/plugins/Goals/config/services.php',
-            __DIR__ . '/plugins/Prognose/config/services.php',
-            __DIR__ . '/plugins/Rechenspiele/config/services.php',
+            __DIR__ . '/plugins/Panels/Goals/config/services.php',
+            __DIR__ . '/plugins/Panels/Prognose/config/services.php',
+            __DIR__ . '/plugins/Panels/Rechenspiele/config/services.php',
         ],
         ScalarArgumentToExpectedParamTypeRector::class => [
             __DIR__ . '/tests/inc/core/Calculation/NightDetectorTest.php',
