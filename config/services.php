@@ -26,7 +26,6 @@ use Runalyze\Bundle\CoreBundle\MessageHandler\PosterGenerationMessageHandler;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsFilterFactory;
-use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Repository\WeathercacheRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountChecker;
@@ -448,14 +447,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->tag('twig.attribute_extension');
 
     $services->set(GenerateJsonData::class)
-        ->arg('$TrainingRepository', service(TrainingRepository::class))
-        ->arg('$RaceresultRepository', service(RaceresultRepository::class))
         ->arg('$projectDir', '%kernel.project_dir%');
 
     $services->set(GeneratePoster::class)
         ->arg('$projectDir', '%kernel.project_dir%')
-        ->arg('$Python3Path', '%app.python3_path%')
-        ->arg('$TrainingRepository', service(TrainingRepository::class));
+        ->arg('$Python3Path', '%app.python3_path%');
 
     $services->set(Availability::class)
         ->arg('$RsvgPath', '%app.rsvg_path%')
