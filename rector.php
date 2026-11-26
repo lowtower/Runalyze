@@ -7,8 +7,6 @@ use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\PHPUnit\CodeQuality\Rector\MethodCall\ScalarArgumentToExpectedParamTypeRector;
 use Rector\PHPUnit\PHPUnit120\Rector\CallLike\CreateStubOverCreateMockArgRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
-use Rector\Renaming\Rector\String_\RenameStringRector;
-use Rector\Set\ValueObject\LevelSetList;
 use Rector\Symfony\CodeQuality\Rector\Class_\EventSubscriberToAttributeRector;
 use Rector\Symfony\Configs\Rector\Closure\RemoveConstructorAutowireServiceRector;
 use Rector\Symfony\Configs\Rector\Closure\ServiceSetStringNameToClassNameRector;
@@ -32,8 +30,10 @@ return RectorConfig::configure()
     ->withSymfonyContainerXml(
         __DIR__ . '/var/cache/dev/App_KernelDevDebugContainer.xml'
     )
+    ->withPhpSets(
+        php85: true
+    )
     ->withSets([
-        LevelSetList::UP_TO_PHP_85,
         PHPUnitSetList::PHPUNIT_CODE_QUALITY,
         # DoctrineSetList::TYPED_COLLECTIONS,
     ])
@@ -41,12 +41,9 @@ return RectorConfig::configure()
     ->withTypeCoverageDocblockLevel(17) # max level 17
     ->withDeadCodeLevel(72)             # max level 72
     ->withCodeQualityLevel(67)          # max level 67
-    ->withCodingStyleLevel(21)          # max level 21
+    ->withCodingStyleLevel(20)          # max level 20
     ->withRules([])
     ->withSkip([
-        RenameStringRector::class => [
-            __DIR__ . '/src/CoreBundle/EventListener/SwitchUserListener.php',
-        ],
         CreateStubOverCreateMockArgRector::class => [
             __DIR__ . '/tests/CoreBundle/Validator/Constraints/ContainsDisposableMailAddressValidatorTest.php',
             __DIR__ . '/tests/CoreBundle/Validator/Constraints/IsValidTimezoneValidatorTest.php',
