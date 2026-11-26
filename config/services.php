@@ -493,7 +493,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(DarkSky::class)
         ->arg('$ApiKey', '%app.darksky_api_key%')
-        ->arg('$HttpClient', service(Client::class))
         ->arg('$logger', service('logger'))
         ->tag('monolog.logger', [
             'channel' => 'external_services',
@@ -502,7 +501,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(OpenWeatherMap::class)
         ->arg('$ApiKey', '%app.openweathermap_api_key%')
         ->arg('$Proxy', '%app.weather_proxy%')
-        ->arg('$HttpClient', service(Client::class))
         ->arg('$logger', service('logger'))
         ->arg('$maxAgeInSeconds', '%app.weather_max_age_for_current_conditions%')
         ->tag('monolog.logger', [
@@ -512,7 +510,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(MeteostatNet::class)
         ->arg('$ApiKey', '%app.meteostatnet_api_key%')
         ->arg('$Proxy', '%app.weather_proxy%')
-        ->arg('$HttpClient', service(Client::class))
         ->arg('$logger', service('logger'))
         ->tag('monolog.logger', [
             'channel' => 'external_services',
@@ -532,14 +529,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(Geonames::class)
         ->arg('$GeonamesUsername', '%app.geonames_username%')
-        ->arg('$client', service(Client::class))
         ->arg('$logger', service('logger'))
         ->tag('monolog.logger', [
             'channel' => 'external_services',
         ]);
 
     $services->set(GoogleMaps::class)
-        ->arg('$HttpClient', service(Client::class))
         ->arg('$logger', service('logger'))
         ->tag('monolog.logger', [
             'channel' => 'external_services',
@@ -556,7 +551,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(RouteNameEvalOsm::class)
         ->arg('$Url', '%app.osm_overpass_url%')
         ->arg('$Proxy', '%app.osm_overpass_proxy%')
-        ->arg('$HttpClient', service(Client::class))
         ->arg('$logger', service('logger'))
         ->tag('monolog.logger', [
             'channel' => 'external_services',
