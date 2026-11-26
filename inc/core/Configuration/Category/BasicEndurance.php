@@ -9,10 +9,10 @@ declare(strict_types=1);
 
 namespace Runalyze\Configuration\Category;
 
-use FormularUnit;
 use Runalyze\Calculation\BasicEndurance as CalculationBasicEndurance;
 use Runalyze\Configuration\Fieldset;
 use Runalyze\Configuration\Messages;
+use Runalyze\Metrics\Distance\Unit\Kilometer;
 use Runalyze\Parameter\FloatingPoint;
 use Runalyze\Parameter\Integer;
 
@@ -97,7 +97,7 @@ class BasicEndurance extends \Runalyze\Configuration\Category
         $Fieldset->addHandle($this->handle('BE_MIN_KM_FOR_LONGJOG'), [
             'label' => __('Minimal distance for longjogs'),
             'tooltip' => __('Every run above this distance will be rated.'),
-            'unit' => FormularUnit::$KM,
+            'unit' => new Kilometer()->getAppendix(),
         ]);
         $Fieldset->addHandle($this->handle('BE_DAYS_FOR_LONGJOGS'), [
             'label' => __('Days for longjogs'),
