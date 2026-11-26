@@ -73,9 +73,9 @@ The Composer mapping uses a single PSR-4 prefix:
 
 This mapping is active in `composer.json` for application code and plugin tests.
 
-Modern plugin services must be registered explicitly with Symfony dependency injection. A plugin-local `config/services.php` may describe its services, but it must be imported by the application configuration; the directory existing on disk does not make it automatically discoverable. Service registration must not rely on scanning the legacy classmap or on runtime container lookups.
+Each module declares its presenter and supporting services in `config/services.php`. The application imports these files by convention from both plugin trees. Symfony also registers classes in each module's `Controller/` directory and loads routes from their `#[Route]` attributes.
 
-Plugin templates, translations, and assets stay within the plugin directory unless an established Symfony integration requires a deliberate application-level registration step. Their paths and loading mechanisms must be explicit and tested.
+Twig exposes a module's `templates/` directory under the module directory name, such as `@Prognose`. The namespace must be unique across panels and statistics. This discovery runs when Symfony builds its configuration. Plugin translations and assets stay in the module and use their respective Symfony integrations.
 
 ### Tests
 
@@ -372,7 +372,7 @@ Do not bulk-convert plugin directories, change all routes, or migrate the legacy
 
 The first implementation step introduces `plugins/Panels/Sportler/SportlerPanelDataProvider.php` as a Symfony-managed, stateless service under the `Runalyze\Plugins\Panels\Sportler` namespace. Its invocation receives the authenticated `Account` and the persisted `Plugin` installation explicitly. It rejects installations belonging to another account, installations with a different stable key, non-panel installations, and inactive installations; hidden installations remain executable so the existing hidden-panel behavior can be preserved.
 
-The provider reuses `UserRepository` for the latest body values and the account-scoped weight/body-composition histories, and `PluginConfigurationStorageInterface` for the existing `wunschgewicht`, `plot_points`, and `plot_timerange` settings. The legacy defaults are applied at this boundary. The provider returns typed data only; rendering and chart presentation remain outside it. The service is registered through `plugins/Panels/Sportler/config/services.php`, which is imported explicitly by the application service configuration. Its unit test lives at `tests/Plugins/Panels/Sportler/Tests/SportlerPanelDataProviderTest.php`. This is a panel-specific plugin service, not a generic plugin execution contract.
+The provider reuses `UserRepository` for the latest body values and the account-scoped weight/body-composition histories, and `PluginConfigurationStorageInterface` for the existing `wunschgewicht`, `plot_points`, and `plot_timerange` settings. The legacy defaults are applied at this boundary. The provider returns typed data only; rendering and chart presentation remain outside it. The service is registered through the automatically imported `plugins/Panels/Sportler/config/services.php`. Its unit test lives at `tests/Plugins/Panels/Sportler/Tests/SportlerPanelDataProviderTest.php`. This is a panel-specific plugin service, not a generic plugin execution contract.
 
 ### Sportler presentation and HTTP integration
 

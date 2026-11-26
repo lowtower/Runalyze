@@ -215,25 +215,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(StatisticsFilterFactory::class);
 
-    $containerConfigurator->import(__DIR__ . '/../plugins/Panels/Equipment/config/services.php');
-    $containerConfigurator->import(__DIR__ . '/../plugins/Panels/Goals/config/services.php');
-    $containerConfigurator->import(__DIR__ . '/../plugins/Panels/Prognose/config/services.php');
-    $containerConfigurator->import(__DIR__ . '/../plugins/Panels/Rechenspiele/config/services.php');
-    $containerConfigurator->import(__DIR__ . '/../plugins/Panels/Sportler/config/services.php');
-    $containerConfigurator->import(__DIR__ . '/../plugins/Panels/Sports/config/services.php');
-    $containerConfigurator->import(__DIR__ . '/../plugins/Panels/TagsSummary/config/services.php');
+    $services->load('Runalyze\\Plugins\\', __DIR__ . '/../plugins/{Panels,Statistics}/*/Controller/**/*.php');
 
-    $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Analyse/config/services.php');
-    $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Hoehenmeter/config/services.php');
-    $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/MonthlyStats/config/services.php');
-    $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Rekorde/config/services.php');
-    $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Statistiken/config/services.php');
-    $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Strecken/config/services.php');
-    $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Tag/config/services.php');
-    $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Trainingspartner/config/services.php');
-    $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Trainingszeiten/config/services.php');
-    $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Wetter/config/services.php');
-    $containerConfigurator->import(__DIR__ . '/../plugins/Statistics/Wettkampf/config/services.php');
+    $containerConfigurator->import(__DIR__ . '/../plugins/{Panels,Statistics}/*/config/services.php');
 
     $services->set(SharedAthleteStatisticsProvider::class);
 
