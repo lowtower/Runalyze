@@ -11,5 +11,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(TrainingTimeDistribution::class);
     $services->set(TrainingTimeStatisticsPresenter::class)
         ->autowire()
-        ->tag('runalyze.modern_stat');
+        ->tag('runalyze.stat');
 };

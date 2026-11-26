@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Runalyze\Bundle\CoreBundle\Plugin\Statistics;
+namespace Runalyze\Bundle\CoreBundle\Plugin\Panel;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 
-interface ModernStatisticsConfigurationInterface
+interface PanelConfigurationInterface
 {
     public function getConfigurationTemplate(): string;
 

@@ -10,7 +10,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
     $services->set(WeatherStatisticsPresenter::class)
         ->autowire()
-        ->tag('runalyze.modern_stat');
+        ->tag('runalyze.stat');
     $services->set(TemperatureWindowPresenter::class)
         ->autowire();
 };

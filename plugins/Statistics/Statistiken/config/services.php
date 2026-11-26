@@ -13,5 +13,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(SummaryTableProvider::class)->autowire();
     $services->set(SummaryStatisticsPresenter::class)
         ->autowire()
-        ->tag('runalyze.modern_stat');
+        ->tag('runalyze.stat');
 };

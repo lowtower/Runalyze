@@ -17,7 +17,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->public();
 
     $services->set(GoalsPanelPresenter::class)
-        ->tag('runalyze.modern_panel');
+        ->tag('runalyze.panel');
     $services->set(GoalsProgressCalculator::class);
     $services->set(GoalsTimeRangeProvider::class);
     $services->set(GoalsTrainingDataProvider::class);

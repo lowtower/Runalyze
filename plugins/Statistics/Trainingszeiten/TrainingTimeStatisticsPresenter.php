@@ -10,10 +10,10 @@ use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsConfigurationInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsConfigurationInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsFilterFactory;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsInstallation;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsInterface;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\DoctrinePluginConfigurationStorage;
@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\InputBag;
 /**
  * @phpstan-import-type NightActivity from TrainingTimeDistribution
  */
-final readonly class TrainingTimeStatisticsPresenter implements ModernStatisticsInterface, ModernStatisticsConfigurationInterface
+final readonly class TrainingTimeStatisticsPresenter implements StatisticsInterface, StatisticsConfigurationInterface
 {
     public const string KEY = 'RunalyzePluginStat_Trainingszeiten';
 

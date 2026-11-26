@@ -17,5 +17,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(TagsSummaryPanelSelectionHandler::class);
 
     $services->set(TagsSummaryPanelPresenter::class)
-        ->tag('runalyze.modern_panel');
+        ->tag('runalyze.panel');
 };

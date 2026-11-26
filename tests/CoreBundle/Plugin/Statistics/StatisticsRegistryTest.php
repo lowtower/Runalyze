@@ -6,18 +6,18 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Plugin\Statistics;
 
 use LogicException;
 use PHPUnit\Framework\TestCase;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsRegistry;
 
-final class ModernStatisticsRegistryTest extends TestCase
+final class StatisticsRegistryTest extends TestCase
 {
     public function testRejectsDuplicateInstallationKeys(): void
     {
-        $statistic = $this->createStub(ModernStatisticsInterface::class);
+        $statistic = $this->createStub(StatisticsInterface::class);
         $statistic->method('getKey')->willReturn('RunalyzePluginStat_MonthlyStats');
 
         $this->expectException(LogicException::class);
         $this->expectExceptionMessageIsOrContains('already registered');
-        new ModernStatisticsRegistry([$statistic, $statistic]);
+        new StatisticsRegistry([$statistic, $statistic]);
     }
 }

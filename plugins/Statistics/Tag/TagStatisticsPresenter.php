@@ -6,15 +6,15 @@ namespace Runalyze\Plugins\Statistics\Tag;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsConfigurationInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRequestHandlerInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsConfigurationInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsFilterFactory;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsRequestHandlerInterface;
 use Runalyze\Bundle\CoreBundle\Repository\TagRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Symfony\Component\HttpFoundation\InputBag;
 
-final readonly class TagStatisticsPresenter implements ModernStatisticsInterface, ModernStatisticsConfigurationInterface, ModernStatisticsRequestHandlerInterface
+final readonly class TagStatisticsPresenter implements StatisticsInterface, StatisticsConfigurationInterface, StatisticsRequestHandlerInterface
 {
     public const string KEY = 'RunalyzePluginStat_Tag';
 

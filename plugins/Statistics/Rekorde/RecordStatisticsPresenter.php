@@ -10,8 +10,8 @@ use Runalyze\Activity\Duration;
 use Runalyze\Activity\Pace;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsFilterFactory;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsInterface;
 use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
@@ -20,7 +20,7 @@ use Runalyze\Parameter\Application\DistanceUnitSystem;
 use Runalyze\Util\Time;
 use Symfony\Component\HttpFoundation\InputBag;
 
-final readonly class RecordStatisticsPresenter implements ModernStatisticsInterface
+final readonly class RecordStatisticsPresenter implements StatisticsInterface
 {
     public const string KEY = 'RunalyzePluginStat_Rekorde';
 

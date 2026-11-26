@@ -7,13 +7,13 @@ namespace Runalyze\Plugins\Panels\Sports;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Model\Sport\SportStatistics;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\PanelInterface;
 use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Util\LocalTime;
 use Symfony\Component\Clock\ClockInterface;
 
-final readonly class SportsPanelPresenter implements ModernPanelInterface
+final readonly class SportsPanelPresenter implements PanelInterface
 {
     public function __construct(
         private SportRepository $sportRepository,

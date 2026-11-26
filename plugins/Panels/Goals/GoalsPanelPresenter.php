@@ -8,8 +8,8 @@ use DateTimeImmutable;
 use InvalidArgumentException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelConfigurationInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\PanelConfigurationInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\PanelInterface;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 use Symfony\Component\Clock\ClockInterface;
@@ -17,7 +17,7 @@ use Symfony\Component\Clock\ClockInterface;
 /**
  * Prepares the Goals panel view model without changing the active legacy renderer.
  */
-final readonly class GoalsPanelPresenter implements ModernPanelInterface, ModernPanelConfigurationInterface
+final readonly class GoalsPanelPresenter implements PanelInterface, PanelConfigurationInterface
 {
     public function __construct(
         private GoalsTimeRangeProvider $timeRanges,

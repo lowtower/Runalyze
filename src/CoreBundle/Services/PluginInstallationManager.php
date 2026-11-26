@@ -9,9 +9,9 @@ use InvalidArgumentException;
 use LogicException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\PanelRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsRegistry;
 use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -20,8 +20,8 @@ final readonly class PluginInstallationManager
     public function __construct(
         private ManagerRegistry $doctrine,
         private TokenStorageInterface $tokenStorage,
-        private ModernPanelRegistry $modernPanelRegistry,
-        private ModernStatisticsRegistry $modernStatisticsRegistry
+        private PanelRegistry $panelRegistry,
+        private StatisticsRegistry $statisticsRegistry
     ) {}
 
     /**
@@ -117,13 +117,13 @@ final readonly class PluginInstallationManager
             return false;
         }
 
-        if ($this->modernPanelRegistry->has($key)) {
+        if ($this->panelRegistry->has($key)) {
             $this->getPluginRepository()->installForAccount($account, $key, Plugin::TYPE_PANEL);
 
             return true;
         }
 
-        if ($this->modernStatisticsRegistry->find($key) instanceof ModernStatisticsInterface) {
+        if ($this->statisticsRegistry->find($key) instanceof StatisticsInterface) {
             $this->getPluginRepository()->installForAccount($account, $key, Plugin::TYPE_STAT);
 
             return true;

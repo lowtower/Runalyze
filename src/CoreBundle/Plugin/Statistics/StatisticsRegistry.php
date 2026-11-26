@@ -6,15 +6,15 @@ namespace Runalyze\Bundle\CoreBundle\Plugin\Statistics;
 
 use LogicException;
 
-final readonly class ModernStatisticsRegistry
+final readonly class StatisticsRegistry
 {
     /**
-     * @var array<string, ModernStatisticsInterface>
+     * @var array<string, StatisticsInterface>
      */
     private array $statistics;
 
     /**
-     * @param iterable<ModernStatisticsInterface> $statistics
+     * @param iterable<StatisticsInterface> $statistics
      */
     public function __construct(iterable $statistics)
     {
@@ -24,7 +24,7 @@ final readonly class ModernStatisticsRegistry
             $key = $statistic->getKey();
 
             if (isset($registered[$key])) {
-                throw new LogicException(sprintf('A modern statistics plugin with key "%s" is already registered.', $key));
+                throw new LogicException(sprintf('A statistics plugin with key "%s" is already registered.', $key));
             }
 
             $registered[$key] = $statistic;
@@ -41,7 +41,7 @@ final readonly class ModernStatisticsRegistry
         return array_keys($this->statistics);
     }
 
-    public function find(string $key): ?ModernStatisticsInterface
+    public function find(string $key): ?StatisticsInterface
     {
         return $this->statistics[$key] ?? null;
     }

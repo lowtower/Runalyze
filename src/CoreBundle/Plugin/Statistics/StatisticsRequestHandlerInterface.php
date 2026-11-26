@@ -8,7 +8,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Symfony\Component\HttpFoundation\InputBag;
 
-interface ModernStatisticsRequestHandlerInterface
+interface StatisticsRequestHandlerInterface
 {
     public function handleRequest(Account $account, Plugin $installation, InputBag $query): void;
 }

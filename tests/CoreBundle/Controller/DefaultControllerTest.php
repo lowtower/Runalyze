@@ -1129,7 +1129,7 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
-    public function testDashboardRendersSportlerPanelThroughTheModernTwigPath(): void
+    public function testDashboardRendersSportlerPanelThroughTheTwigTemplate(): void
     {
         $plugin = $this->getEntityManager()->getRepository(PluginEntity::class)->findOneBy([
             'account' => $this->Account,
@@ -1179,7 +1179,7 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
-    public function testDashboardRendersSportsPanelThroughTheModernPluginTemplate(): void
+    public function testDashboardRendersSportsPanelThroughThePluginTemplate(): void
     {
         $repository = $this->getEntityManager()->getRepository(PluginEntity::class);
         $plugin = $repository->findOneBy([
@@ -1227,7 +1227,7 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
-    public function testDashboardRendersEquipmentPanelThroughTheModernPluginTemplate(): void
+    public function testDashboardRendersEquipmentPanelThroughThePluginTemplate(): void
     {
         $this->loginClient($this->Client, $this->Account, 'default');
 
@@ -1360,7 +1360,7 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
-    public function testDashboardRendersRechenspieleThroughTheModernPluginTemplate(): void
+    public function testDashboardRendersRechenspieleThroughThePluginTemplate(): void
     {
         $repository = $this->getEntityManager()->getRepository(PluginEntity::class);
         $plugin = $repository->findOneBy([
@@ -1407,7 +1407,7 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
-    public function testDashboardRendersTagsSummaryThroughTheModernPluginTemplate(): void
+    public function testDashboardRendersTagsSummaryThroughThePluginTemplate(): void
     {
         $repository = $this->getEntityManager()->getRepository(PluginEntity::class);
         $plugin = $repository->findOneBy([
@@ -1454,7 +1454,7 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
-    public function testDashboardRendersPrognosisPanelThroughTheModernPluginTemplate(): void
+    public function testDashboardRendersPrognosisPanelThroughThePluginTemplate(): void
     {
         $this->loginClient($this->Client, $this->Account, 'default');
 

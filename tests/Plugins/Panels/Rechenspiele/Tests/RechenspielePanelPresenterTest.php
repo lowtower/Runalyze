@@ -141,7 +141,7 @@ final class RechenspielePanelPresenterTest extends TestCase
         $this->presenter($repository)->present($account, $this->installation($this->account(13)));
     }
 
-    public function testDeclaresModernPanelMetadata(): void
+    public function testDeclaresPanelMetadata(): void
     {
         $presenter = $this->presenter();
 

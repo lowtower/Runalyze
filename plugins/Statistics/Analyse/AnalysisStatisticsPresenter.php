@@ -11,10 +11,10 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Type;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsConfigurationInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsConfigurationInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsFilterFactory;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsInstallation;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsInterface;
 use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TypeRepository;
@@ -30,7 +30,7 @@ use Symfony\Component\HttpFoundation\InputBag;
  * @phpstan-type PaceLimits array{slowest: int, fastest: int, step: int}
  * @phpstan-type Filter array{sport: int, year: int, sports: array<int, string>, years: array<int, string>, from: ?int, until: ?int}
  */
-final readonly class AnalysisStatisticsPresenter implements ModernStatisticsInterface, ModernStatisticsConfigurationInterface
+final readonly class AnalysisStatisticsPresenter implements StatisticsInterface, StatisticsConfigurationInterface
 {
     public const string KEY = 'RunalyzePluginStat_Analyse';
 

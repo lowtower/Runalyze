@@ -7,15 +7,15 @@ namespace Runalyze\Bundle\CoreBundle\Plugin\Panel;
 use InvalidArgumentException;
 use LogicException;
 
-final readonly class ModernPanelRegistry
+final readonly class PanelRegistry
 {
     /**
-     * @var array<string, ModernPanelInterface>
+     * @var array<string, PanelInterface>
      */
     private array $panels;
 
     /**
-     * @param iterable<ModernPanelInterface> $panels
+     * @param iterable<PanelInterface> $panels
      */
     public function __construct(iterable $panels)
     {
@@ -25,7 +25,7 @@ final readonly class ModernPanelRegistry
             $key = $panel->getKey();
 
             if (isset($registeredPanels[$key])) {
-                throw new LogicException(sprintf('A modern panel with key "%s" is already registered.', $key));
+                throw new LogicException(sprintf('A panel with key "%s" is already registered.', $key));
             }
 
             $registeredPanels[$key] = $panel;
@@ -50,18 +50,18 @@ final readonly class ModernPanelRegistry
         return isset($this->panels[$key]);
     }
 
-    public function find(string $key): ?ModernPanelInterface
+    public function find(string $key): ?PanelInterface
     {
         return $this->panels[$key] ?? null;
     }
 
     /**
-     * @throws InvalidArgumentException if no modern panel is registered for the given key
+     * @throws InvalidArgumentException if no panel is registered for the given key
      */
-    public function get(string $key): ModernPanelInterface
+    public function get(string $key): PanelInterface
     {
         return $this->find($key) ?? throw new InvalidArgumentException(
-            sprintf('No modern panel is registered for key "%s".', $key)
+            sprintf('No panel is registered for key "%s".', $key)
         );
     }
 }

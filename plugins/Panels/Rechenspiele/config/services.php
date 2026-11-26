@@ -28,7 +28,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->public();
 
     $services->set(RechenspielePanelPresenter::class)
-        ->tag('runalyze.modern_panel');
+        ->tag('runalyze.panel');
 
     $services->set(RechenspieleExplanationWindowProvider::class);
     $services->set(RechenspieleTrainingLoadCalculator::class);

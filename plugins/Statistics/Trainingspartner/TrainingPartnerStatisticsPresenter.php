@@ -6,12 +6,12 @@ namespace Runalyze\Plugins\Statistics\Trainingspartner;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsFilterFactory;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsInterface;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Symfony\Component\HttpFoundation\InputBag;
 
-final readonly class TrainingPartnerStatisticsPresenter implements ModernStatisticsInterface
+final readonly class TrainingPartnerStatisticsPresenter implements StatisticsInterface
 {
     public const string KEY = 'RunalyzePluginStat_Trainingspartner';
 

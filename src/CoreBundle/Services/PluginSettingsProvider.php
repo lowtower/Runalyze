@@ -7,20 +7,20 @@ namespace Runalyze\Bundle\CoreBundle\Services;
 use Ajax;
 use Icon;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelConfigurationInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsConfigurationInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\PanelConfigurationInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\PanelInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\PanelRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsConfigurationInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsRegistry;
 
 final readonly class PluginSettingsProvider
 {
     public function __construct(
         private PluginInstallationManager $installationManager,
         private PluginDiscovery $pluginDiscovery,
-        private ModernPanelRegistry $modernPanelRegistry,
-        private ModernStatisticsRegistry $modernStatisticsRegistry
+        private PanelRegistry $panelRegistry,
+        private StatisticsRegistry $statisticsRegistry
     ) {}
 
     /**
@@ -49,10 +49,10 @@ final readonly class PluginSettingsProvider
             }
 
             $statistic = $data['type'] === Plugin::TYPE_STAT
-                ? $this->modernStatisticsRegistry->find($data['key'])
+                ? $this->statisticsRegistry->find($data['key'])
                 : null;
 
-            if ($statistic instanceof ModernStatisticsInterface) {
+            if ($statistic instanceof StatisticsInterface) {
                 $entries[] = [
                     'id' => $data['id'],
                     'key' => $data['key'],
@@ -61,7 +61,7 @@ final readonly class PluginSettingsProvider
                     'type' => Plugin::TYPE_STAT,
                     'active' => $data['active'],
                     'order' => $data['order'],
-                    'config_link' => $statistic instanceof ModernStatisticsConfigurationInterface
+                    'config_link' => $statistic instanceof StatisticsConfigurationInterface
                         ? $this->configurationLink($data['id'])
                         : null,
                 ];
@@ -70,10 +70,10 @@ final readonly class PluginSettingsProvider
             }
 
             $panel = $data['type'] === Plugin::TYPE_PANEL
-                ? $this->modernPanelRegistry->find($data['key'])
+                ? $this->panelRegistry->find($data['key'])
                 : null;
 
-            if ($panel instanceof ModernPanelInterface) {
+            if ($panel instanceof PanelInterface) {
                 $entries[] = [
                     'id' => $data['id'],
                     'key' => $data['key'],
@@ -82,7 +82,7 @@ final readonly class PluginSettingsProvider
                     'type' => Plugin::TYPE_PANEL,
                     'active' => $data['active'],
                     'order' => $data['order'],
-                    'config_link' => $panel instanceof ModernPanelConfigurationInterface
+                    'config_link' => $panel instanceof PanelConfigurationInterface
                         ? $this->configurationLink($data['id'])
                         : null,
                 ];
@@ -105,9 +105,9 @@ final readonly class PluginSettingsProvider
                 continue;
             }
 
-            $statistic = $this->modernStatisticsRegistry->find($key);
+            $statistic = $this->statisticsRegistry->find($key);
 
-            if ($statistic instanceof ModernStatisticsInterface) {
+            if ($statistic instanceof StatisticsInterface) {
                 $entries[] = [
                     'key' => $key,
                     'name' => $statistic->getName(),
@@ -118,9 +118,9 @@ final readonly class PluginSettingsProvider
                 continue;
             }
 
-            $panel = $this->modernPanelRegistry->find($key);
+            $panel = $this->panelRegistry->find($key);
 
-            if ($panel instanceof ModernPanelInterface) {
+            if ($panel instanceof PanelInterface) {
                 $entries[] = [
                     'key' => $key,
                     'name' => $panel->getName(),

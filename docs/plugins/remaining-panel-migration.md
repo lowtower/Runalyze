@@ -1,13 +1,13 @@
 # Legacy panel migration record
 
-The modern panel architecture is described in [architecture.md](architecture.md).
+The panel architecture is described in [architecture.md](architecture.md).
 This record documents the last two panel cutovers and the removal of shared legacy discovery.
 
 ## Scope
 
 Goals and Rechenspiele completed the panel cutover to Symfony.
 
-| Stable installation key | Modern implementation |
+| Stable installation key | Implementation |
 | --- | --- |
 | `RunalyzePluginPanel_Ziele` | `plugins/Panels/Goals/` (calendar, totals, progress calculator, presenter, Twig and configuration) |
 | `RunalyzePluginPanel_Rechenspiele` | `plugins/Panels/Rechenspiele/` (dashboard presenter, data provider, calculator, explanation-window provider, configuration) |
@@ -17,8 +17,8 @@ The panel and statistics registries now supply the plugin catalog, installation 
 ## Migration rules
 
 - Preserve each stable `RunalyzePluginPanel_*` key and installed plugin records.
-- Implement `ModernPanelInterface` and add
-  `ModernPanelConfigurationInterface` where needed.
+- Implement `PanelInterface` and add
+  `PanelConfigurationInterface` where needed.
 - Keep configuration keys and defaults exactly as stored for existing users.
 - Use account-scoped repositories, not direct `DB::getInstance()` queries.
 - Preserve existing window URLs and the current AJAX response behavior.
@@ -32,14 +32,14 @@ The panel and statistics registries now supply the plugin catalog, installation 
 
 1. **Goals calendar ranges:** `GoalsTimeRangeProvider` covers all five legacy ranges.
 2. **Goals dashboard:** `GoalsPanelPresenter` is tagged as
-   `runalyze.modern_panel` and reuses `GoalsTrainingDataProvider`,
+   `runalyze.panel` and reuses `GoalsTrainingDataProvider`,
    `TrainingRepository::findTrainingTotalsSince()`, and
    `GoalsProgressCalculator`. The dashboard renders through
    `@Goals/panel.html.twig` using the legacy range-switching conventions.
    The old panel class, its direct SQL, and its reflection tests are removed;
-   modern presenter, calculation, template, repository, and controller tests
+   presenter, calculation, template, repository, and controller tests
    cover the replacement.
-3. **Goals administration:** `GoalsPanelPresenter` implements modern
+3. **Goals administration:** `GoalsPanelPresenter` implements
    metadata and configuration interfaces with the stable plugin key. The
    `@Goals/configuration.html.twig` editor preserves `ziel_show_*`,
    `ziel_*`, and `details`, including checkbox defaults and active-state
@@ -58,7 +58,7 @@ The panel and statistics registries now supply the plugin catalog, installation 
    `findBasicEnduranceRunsFor()` queries, without legacy `Formular`
    includes or direct database access.
 5. **Calculations administration:** `RechenspielePanelPresenter` implements
-   modern metadata and configuration interfaces with the stable plugin key.
+   metadata and configuration interfaces with the stable plugin key.
    The `@Rechenspiele/configuration.html.twig` editor preserves the four
    boolean keys `show_trimpvalues`, `show_trimpvalues_extra`,
    `show_vo2max` and `show_basicendurance`, including their defaults and

@@ -7,11 +7,11 @@ use HTML;
 use InvalidArgumentException;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin as PluginInstallation;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRequestHandlerInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRequestHandlerInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\PanelRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\PanelRequestHandlerInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsRequestHandlerInterface;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\LegacyContentResponseFactory;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
@@ -33,9 +33,9 @@ abstract class AbstractPluginsAwareController extends AbstractController
         protected PluginInstallationManager $pluginInstallationManager,
         protected LegacyContentResponseFactory $legacyContentResponseFactory,
         protected PluginSettingsProvider $pluginSettingsProvider,
-        protected ModernPanelRegistry $modernPanelRegistry,
+        protected PanelRegistry $panelRegistry,
         protected ConfigurationManager $configurationManager,
-        protected ModernStatisticsRegistry $modernStatisticsRegistry,
+        protected StatisticsRegistry $statisticsRegistry,
         protected TokenStorageInterface $tokenStorage,
         protected ParameterBagInterface $parameterBag,
         protected RequestStack $requestStack
@@ -50,7 +50,7 @@ abstract class AbstractPluginsAwareController extends AbstractController
 
         foreach ($this->pluginSettingsProvider->getInstalledPluginData() as $pluginData) {
             if ($pluginData['type'] !== PluginInstallation::TYPE_PANEL || $pluginData['active'] === PluginInstallation::STATE_INACTIVE
-                || ! $this->modernPanelRegistry->has($pluginData['key'])
+                || ! $this->panelRegistry->has($pluginData['key'])
             ) {
                 continue;
             }
@@ -58,8 +58,8 @@ abstract class AbstractPluginsAwareController extends AbstractController
             $installation = $this->pluginInstallationManager->getInstallationForAccount($account, $pluginData['id']);
 
             if ($installation instanceof PluginInstallation) {
-                $panel = $this->modernPanelRegistry->get($pluginData['key']);
-                $panelContent = $this->getResponseForModernPanel($account, $installation, $request)->getContent();
+                $panel = $this->panelRegistry->get($pluginData['key']);
+                $panelContent = $this->getResponseForPanel($account, $installation, $request)->getContent();
                 $panelClass = $panel->shouldReloadAfterTraining() ? 'panel' : 'panel dont-reload-for-training';
                 $content .= '<div class="' . $panelClass . '" id="panel-' . $pluginData['id'] . '">' . $panelContent . '</div>';
             }
@@ -79,16 +79,16 @@ abstract class AbstractPluginsAwareController extends AbstractController
             $installation instanceof PluginInstallation
             && $installation->isPanel()
             && ! $installation->isInactive()
-            && $this->modernPanelRegistry->has($installation->getKey())
+            && $this->panelRegistry->has($installation->getKey())
         ) {
-            return $this->getResponseForModernPanel($account, $installation, $request);
+            return $this->getResponseForPanel($account, $installation, $request);
         }
 
         if ($installation instanceof PluginInstallation && $installation->isStatistic()) {
-            $statistic = $this->modernStatisticsRegistry->find($installation->getKey());
+            $statistic = $this->statisticsRegistry->find($installation->getKey());
 
-            if ($statistic instanceof ModernStatisticsInterface) {
-                if ($statistic instanceof ModernStatisticsRequestHandlerInterface) {
+            if ($statistic instanceof StatisticsInterface) {
+                if ($statistic instanceof StatisticsRequestHandlerInterface) {
                     $statistic->handleRequest($account, $installation, $request->query);
                 }
 
@@ -100,13 +100,13 @@ abstract class AbstractPluginsAwareController extends AbstractController
     }
 
     /**
-     * @throws InvalidArgumentException if a modern panel rejects the installation or request parameters
+     * @throws InvalidArgumentException if a panel rejects the installation or request parameters
      */
-    private function getResponseForModernPanel(Account $account, PluginInstallation $installation, Request $request): Response
+    private function getResponseForPanel(Account $account, PluginInstallation $installation, Request $request): Response
     {
-        $panel = $this->modernPanelRegistry->get($installation->getKey());
+        $panel = $this->panelRegistry->get($installation->getKey());
 
-        if ($panel instanceof ModernPanelRequestHandlerInterface) {
+        if ($panel instanceof PanelRequestHandlerInterface) {
             $panel->handleRequest($account, $installation, $request->query->all());
         }
 

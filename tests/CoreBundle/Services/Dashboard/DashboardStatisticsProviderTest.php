@@ -9,9 +9,9 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
-use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
-use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Panel\PanelRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsInterface;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsRegistry;
 use Runalyze\Bundle\CoreBundle\Repository\PluginRepository;
 use Runalyze\Bundle\CoreBundle\Services\Dashboard\DashboardStatisticsProvider;
 use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
@@ -161,11 +161,11 @@ final class DashboardStatisticsProviderTest extends TestCase
         $tokenStorage = $this->createStub(TokenStorageInterface::class);
         $tokenStorage->method('getToken')->willReturn($token);
 
-        $panels = new ModernPanelRegistry([]);
-        $statistic = $this->createStub(ModernStatisticsInterface::class);
+        $panels = new PanelRegistry([]);
+        $statistic = $this->createStub(StatisticsInterface::class);
         $statistic->method('getKey')->willReturn('TestStatistic');
         $statistic->method('getName')->willReturn('Test statistics');
-        $statistics = new ModernStatisticsRegistry([$statistic]);
+        $statistics = new StatisticsRegistry([$statistic]);
 
         return new DashboardStatisticsProvider(
             new PluginSettingsProvider(
