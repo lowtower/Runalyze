@@ -26,10 +26,6 @@ use Runalyze\Bundle\CoreBundle\Form\Settings\SportTypeType;
 use Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaType;
 use Runalyze\Bundle\CoreBundle\Form\Tools\PosterType;
 use Runalyze\Bundle\CoreBundle\Form\Tools\TrendAnalysis\TrendAnalysisType;
-use Runalyze\Bundle\CoreBundle\Form\Type\ActivityEquipmentType;
-use Runalyze\Bundle\CoreBundle\Form\Type\ActivityLapIntensityChoiceType;
-use Runalyze\Bundle\CoreBundle\Form\Type\ActivityTypeChoiceType;
-use Runalyze\Bundle\CoreBundle\Form\Type\SportChoiceType;
 use Runalyze\Bundle\CoreBundle\MessageHandler\BackupGenerationMessageHandler;
 use Runalyze\Bundle\CoreBundle\MessageHandler\PosterGenerationMessageHandler;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
@@ -354,10 +350,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(SportTypeType::class);
 
-    $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\Type\\', __DIR__ . '/../src/CoreBundle/Form/Type/{DistanceType,ElevationType,EnergyType,EnergyKcalType,HrZoneBoundType,PowerType,TemperatureType,WeightType,WindSpeedType}.php');
+    $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\Type\\', __DIR__ . '/../src/CoreBundle/Form/Type/{ActivityEquipmentType,ActivityLapIntensityChoiceType,ActivityTypeChoiceType,DistanceType,ElevationType,EnergyType,EnergyKcalType,HrZoneBoundType,PowerType,SportChoiceType,TemperatureType,WeightType,WindSpeedType}.php');
 
-
-    $services->set(ActivityEquipmentType::class);
 
     $services->set(AnovaType::class);
 
@@ -369,12 +363,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 
 
-
-    $services->set(SportChoiceType::class);
-
-    $services->set(ActivityTypeChoiceType::class);
-
-    $services->set(ActivityLapIntensityChoiceType::class);
 
 
     $services->set(AutomaticReloadFlagSetter::class);
