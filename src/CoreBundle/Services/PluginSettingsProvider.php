@@ -10,6 +10,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelConfigurationInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Panel\ModernPanelRegistry;
+use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsConfigurationInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsInterface;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\ModernStatisticsRegistry;
 
@@ -60,7 +61,9 @@ final readonly class PluginSettingsProvider
                     'type' => Plugin::TYPE_STAT,
                     'active' => $data['active'],
                     'order' => $data['order'],
-                    'config_link' => null,
+                    'config_link' => $statistic instanceof ModernStatisticsConfigurationInterface
+                        ? $this->configurationLink($data['id'])
+                        : null,
                 ];
 
                 continue;
@@ -80,10 +83,7 @@ final readonly class PluginSettingsProvider
                     'active' => $data['active'],
                     'order' => $data['order'],
                     'config_link' => $panel instanceof ModernPanelConfigurationInterface
-                        ? Ajax::window(
-                            '<a href="call/call.Plugin.config.php?id=' . $data['id'] . '">' . Icon::$CONF . '</a>',
-                            'small'
-                        )
+                        ? $this->configurationLink($data['id'])
                         : null,
                 ];
             }
@@ -131,5 +131,10 @@ final readonly class PluginSettingsProvider
         }
 
         return $entries;
+    }
+
+    private function configurationLink(int $id): string
+    {
+        return Ajax::window('<a href="call/call.Plugin.config.php?id=' . $id . '">' . Icon::$CONF . '</a>', 'small');
     }
 }

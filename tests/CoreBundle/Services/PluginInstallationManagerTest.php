@@ -83,6 +83,18 @@ final class PluginInstallationManagerTest extends TestCase
         $this->createManagerWithoutAuthenticatedAccount()->install('some-plugin');
     }
 
+    public function testInstallRejectsAnUnregisteredPluginWithoutPersistingIt(): void
+    {
+        $repository = $this->createMock(PluginRepository::class);
+        $repository->method('findForAccountAndKey')->willReturn(null);
+        $repository->expects($this->never())->method('installForAccount');
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessageIsOrContains('Unknown plugin key "unregistered-plugin".');
+
+        $this->createManagerWithAuthenticatedAccount($repository)->install('unregistered-plugin');
+    }
+
     public function testUpdateInstalledPluginSettingsRequiresAnAuthenticatedAccount(): void
     {
         $this->expectException(LogicException::class);
@@ -161,8 +173,11 @@ final class PluginInstallationManagerTest extends TestCase
         $this->assertTrue($manager->install('ModernPanelWithoutLegacyClass'));
     }
 
-    private function createManagerWithAuthenticatedAccount(): PluginInstallationManager
+    private function createManagerWithAuthenticatedAccount(?PluginRepository $repository = null): PluginInstallationManager
     {
+        $doctrine = $this->createStub(ManagerRegistry::class);
+        $doctrine->method('getRepository')->willReturn($repository ?? $this->createStub(PluginRepository::class));
+
         $token = $this->createStub(TokenInterface::class);
         $token->method('getUser')->willReturn(new Account());
 
@@ -170,7 +185,7 @@ final class PluginInstallationManagerTest extends TestCase
         $tokenStorage->method('getToken')->willReturn($token);
 
         return new PluginInstallationManager(
-            $this->createStub(ManagerRegistry::class),
+            $doctrine,
             $tokenStorage,
             new ModernPanelRegistry([]),
             new ModernStatisticsRegistry([])
