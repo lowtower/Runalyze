@@ -12,9 +12,9 @@ use Formular;
 use FormularCheckbox;
 use FormularFieldset;
 use FormularInput;
-use FormularUnit;
 use Request;
 use Runalyze\Configuration;
+use Runalyze\Metrics\Velocity\Unit\SecondsPerKilometer;
 
 /**
  * Display form for laps window
@@ -124,7 +124,7 @@ class Form
     protected function paceField(): \FormularInput
     {
         $Field = new FormularInput('demanded-pace', '<small>' . __('or') . ':</small> ' . __('Pace goal'));
-        $Field->setUnit(FormularUnit::$PACE);
+        $Field->setUnit(new SecondsPerKilometer()->getAppendix());
 
         return $Field;
     }

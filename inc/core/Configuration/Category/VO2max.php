@@ -3,10 +3,10 @@
 namespace Runalyze\Configuration\Category;
 
 use Ajax;
-use FormularUnit;
 use Helper;
 use Runalyze\Configuration\Fieldset;
 use Runalyze\Configuration\Messages;
+use Runalyze\Metrics\Distance\Unit\Meter;
 use Runalyze\Parameter\Boolean;
 use Runalyze\Parameter\FloatingPoint;
 use Runalyze\Parameter\Integer;
@@ -127,13 +127,13 @@ class VO2max extends \Runalyze\Configuration\Category
         $Fieldset->addHandle($this->handle('VO2MAX_CORRECTION_POSITIVE_ELEVATION'), [
             'label' => __('Correction per positive elevation'),
             'tooltip' => __('Add for each meter upwards X meter to the distance.') . ' (' . __('Only for VO2max estimation') . ')',
-            'unit' => FormularUnit::$M,
+            'unit' => new Meter()->getAppendix(),
         ]);
 
         $Fieldset->addHandle($this->handle('VO2MAX_CORRECTION_NEGATIVE_ELEVATION'), [
             'label' => __('Correction per negative elevation'),
             'tooltip' => __('Add for each meter downwards X meter to the distance.') . ' (' . __('Only for VO2max estimation') . ')',
-            'unit' => FormularUnit::$M,
+            'unit' => new Meter()->getAppendix(),
         ]);
 
         return $Fieldset;
