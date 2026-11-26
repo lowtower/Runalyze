@@ -469,7 +469,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(FileImporter::class)
         ->arg('$DirectoryForFailedImports', '%app.data_directory%/import/activity/failed')
-        ->arg('$logger', service('logger'))
         ->tag('monolog.logger', [
             'channel' => 'activity_uploads',
         ]);
@@ -477,7 +476,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(ActivityDataContainerToActivityContextConverter::class);
 
     $services->set(ActivityDataContainerFilter::class)
-        ->arg('$logger', service('logger'))
         ->tag('monolog.logger', [
             'channel' => 'activity_uploads',
         ]);
@@ -493,7 +491,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(DarkSky::class)
         ->arg('$ApiKey', '%app.darksky_api_key%')
-        ->arg('$logger', service('logger'))
         ->tag('monolog.logger', [
             'channel' => 'external_services',
         ]);
@@ -501,7 +498,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(OpenWeatherMap::class)
         ->arg('$ApiKey', '%app.openweathermap_api_key%')
         ->arg('$Proxy', '%app.weather_proxy%')
-        ->arg('$logger', service('logger'))
         ->arg('$maxAgeInSeconds', '%app.weather_max_age_for_current_conditions%')
         ->tag('monolog.logger', [
             'channel' => 'external_services',
@@ -510,7 +506,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(MeteostatNet::class)
         ->arg('$ApiKey', '%app.meteostatnet_api_key%')
         ->arg('$Proxy', '%app.weather_proxy%')
-        ->arg('$logger', service('logger'))
         ->tag('monolog.logger', [
             'channel' => 'external_services',
         ]);
@@ -529,13 +524,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(Geonames::class)
         ->arg('$GeonamesUsername', '%app.geonames_username%')
-        ->arg('$logger', service('logger'))
         ->tag('monolog.logger', [
             'channel' => 'external_services',
         ]);
 
     $services->set(GoogleMaps::class)
-        ->arg('$logger', service('logger'))
         ->tag('monolog.logger', [
             'channel' => 'external_services',
         ]);
@@ -551,7 +544,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(RouteNameEvalOsm::class)
         ->arg('$Url', '%app.osm_overpass_url%')
         ->arg('$Proxy', '%app.osm_overpass_proxy%')
-        ->arg('$logger', service('logger'))
         ->tag('monolog.logger', [
             'channel' => 'external_services',
         ]);
