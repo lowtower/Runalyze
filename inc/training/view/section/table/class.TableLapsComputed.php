@@ -74,7 +74,7 @@ class TableLapsComputed extends TableLapsAbstract
         $rows = [];
         $paceFormatter = new PaceFormatter($this->Context->sport()->getSpeedUnit());
         foreach ($this->Laps->objects() as $Lap) {
-            $pace = $Lap->pace()?->secondsPerKm();
+            $pace = $Lap->paceInSecondsPerKilometer();
             $paceValue = $pace === null ? '' : $paceFormatter->value($pace);
             $paceAppendix = $pace === null ? '' : $paceFormatter->appendix();
 

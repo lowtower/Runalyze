@@ -179,7 +179,7 @@ class Table
     protected function tableRowFor(int $i): string
     {
         $Lap = $this->Laps->at($i);
-        $lapPace = $Lap->pace()?->secondsPerKm();
+        $lapPace = $Lap->paceInSecondsPerKilometer();
 
         return '<tr class="c ' . ($Lap->isActive() ? '' : 'unimportant') . '">'
                 . '<td class="small">' . ($Lap->isActive() ? ($this->IndexActive++) . '.' : '(' . ($this->IndexResting++) . '.)') . '</td>'

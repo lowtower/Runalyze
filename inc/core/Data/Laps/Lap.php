@@ -11,7 +11,7 @@ use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\HeartRate;
 use Runalyze\Activity\LapIntensity;
-use Runalyze\Activity\Pace;
+use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
 use Runalyze\Context;
 
 /**
@@ -26,7 +26,7 @@ class Lap
 
     protected Distance $LapDistance;
 
-    protected ?Pace $LapPace = null;
+    private readonly ?int $paceInSecondsPerKilometer;
 
     /**
      * #TSC Mode is the "old" name and i dont want to change it.
@@ -65,7 +65,7 @@ class Lap
         $this->setDuration($duration);
         $this->setDistance($distance);
         $this->setMode($mode);
-        $this->setPace($duration, $distance);
+        $this->paceInSecondsPerKilometer = $distance > 0.0 ? PaceFormatter::secondsPerKilometer($duration, $distance) : null;
 
         $this->Athlete = Context::Athlete();
     }
@@ -84,13 +84,6 @@ class Lap
     public function setDistance(float $distance): void
     {
         $this->LapDistance = new Distance($distance);
-    }
-
-    public function setPace(float $duration, float $distance): void
-    {
-        if ($distance > 0.0) {
-            $this->LapPace = new Pace($duration, $distance);
-        }
     }
 
     public function setMode(LapIntensity $mode): void
@@ -145,9 +138,9 @@ class Lap
         return $this->LapDistance;
     }
 
-    public function pace(): ?Pace
+    public function paceInSecondsPerKilometer(): ?int
     {
-        return $this->LapPace;
+        return $this->paceInSecondsPerKilometer;
     }
 
     /**
