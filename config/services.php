@@ -328,13 +328,17 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 
 
-    $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\', __DIR__ . '/../src/CoreBundle/Form/{ActivityType,BodyValuesType,EquipmentCategoryType,EquipmentType,MultiImporterType,RaceResultType}.php');
+    $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\', __DIR__ . '/../src/CoreBundle/Form/{ActivityType,BodyValuesType,EquipmentCategoryType,EquipmentType,MultiImporterType,RaceResultType}.php')
+        ->private();
 
-    $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\Settings\\', __DIR__ . '/../src/CoreBundle/Form/Settings/{SportType,SportTypeType}.php');
+    $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\Settings\\', __DIR__ . '/../src/CoreBundle/Form/Settings/{SportType,SportTypeType}.php')
+        ->private();
 
-    $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\Tools\\', __DIR__ . '/../src/CoreBundle/Form/Tools/{Anova/AnovaType,PosterType,TrendAnalysis/TrendAnalysisType}.php');
+    $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\Tools\\', __DIR__ . '/../src/CoreBundle/Form/Tools/{Anova/AnovaType,PosterType,TrendAnalysis/TrendAnalysisType}.php')
+        ->private();
 
-    $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\Type\\', __DIR__ . '/../src/CoreBundle/Form/Type/{ActivityEquipmentType,ActivityLapIntensityChoiceType,ActivityTypeChoiceType,DistanceType,ElevationType,EnergyType,EnergyKcalType,HrZoneBoundType,PowerType,SportChoiceType,TemperatureType,WeightType,WindSpeedType}.php');
+    $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\Type\\', __DIR__ . '/../src/CoreBundle/Form/Type/{ActivityEquipmentType,ActivityLapIntensityChoiceType,ActivityTypeChoiceType,DistanceType,ElevationType,EnergyType,EnergyKcalType,HrZoneBoundType,PowerType,SportChoiceType,TemperatureType,WeightType,WindSpeedType}.php')
+        ->private();
 
 
 
