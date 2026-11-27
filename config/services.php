@@ -366,9 +366,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(SportSelectionFactory::class);
 
-    $services->set(UnitSystemFactory::class);
+    $services->set(UnitSystemFactory::class)
+        ->private();
 
     $services->set('app.unit_system.distance', AbstractDistanceUnit::class)
+        ->private()
         ->factory([
             service(UnitSystemFactory::class),
             'getDistanceUnit',
@@ -378,6 +380,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ]);
 
     $services->set('app.unit_system.elevation', AbstractDistanceUnit::class)
+        ->private()
         ->factory([
             service(UnitSystemFactory::class),
             'getElevationUnit',
@@ -391,6 +394,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(AbstractDistanceUnit::class . ' $elevationUnit', 'app.unit_system.elevation');
 
     $services->set('app.unit_system.energy', AbstractEnergyUnit::class)
+        ->private()
         ->factory([
             service(UnitSystemFactory::class),
             'getEnergyUnit',
@@ -402,6 +406,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(AbstractEnergyUnit::class . ' $energyUnit', 'app.unit_system.energy');
 
     $services->set('app.unit_system.temperature', AbstractTemperatureUnit::class)
+        ->private()
         ->factory([
             service(UnitSystemFactory::class),
             'getTemperatureUnit',
@@ -413,6 +418,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(AbstractTemperatureUnit::class . ' $temperatureUnit', 'app.unit_system.temperature');
 
     $services->set('app.unit_system.wind_speed', AbstractPaceInDecimalFormatUnit::class)
+        ->private()
         ->factory([
             service(UnitSystemFactory::class),
             'getWindSpeedUnit',
@@ -424,6 +430,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(AbstractPaceInDecimalFormatUnit::class . ' $velocityUnit', 'app.unit_system.wind_speed');
 
     $services->set('app.unit_system.weight', AbstractWeightUnit::class)
+        ->private()
         ->factory([
             service(UnitSystemFactory::class),
             'getWeightUnit',
