@@ -277,6 +277,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$appSecret', '%app.secret%');
 
     $services->set(TablePrefixSubscriber::class)
+        ->private()
         ->arg('$prefix', '%app.database_prefix%');
 
     $services->set(AccountMailer::class);
@@ -317,6 +318,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->private();
 
     $services->set(EquipmentUpdateSubscriber::class)
+        ->private()
         ->tag('doctrine.event_listener', [
             'event' => 'onFlush',
             'connection' => 'default',
