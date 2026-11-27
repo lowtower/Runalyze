@@ -259,6 +259,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(FinderFactoryInterface::class, FinderFactory::class);
 
     $services->load('Runalyze\Migrations\\', __DIR__ . '/../migrations/*')
+        ->private()
         ->bind('$DatabasePrefix', '%app.database_prefix%');
 
     $services->alias(EntityManager::class, 'doctrine.orm.default_entity_manager');
