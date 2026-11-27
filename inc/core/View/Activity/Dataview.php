@@ -18,7 +18,6 @@ use Runalyze\Activity\StrideLength;
 use Runalyze\Activity\Temperature;
 use Runalyze\Activity\TrainingEffect;
 use Runalyze\Activity\VerticalRatio;
-use Runalyze\Calculation\Activity\GradeAdjustedPaceCalculator;
 use Runalyze\Configuration;
 use Runalyze\Context as GeneralContext;
 use Runalyze\Data\Cadence;
@@ -38,8 +37,6 @@ use SessionAccountHandler;
 
 class Dataview
 {
-    public ?Pace $GAPace = null;
-
     protected ?Duration $Duration = null;
 
     protected ?Energy $Energy = null;
@@ -182,20 +179,6 @@ class Dataview
     public function pace(): Pace
     {
         return $this->object($this->Pace, fn (Activity\Entity $Activity): Pace => new Pace($Activity->duration(), $Activity->distance(), GeneralContext::Factory()->sport($Activity->sportid())->getLegacyPaceUnitEnum()));
-    }
-
-    /**
-     * Get the grade adjusted pace
-     */
-    public function GApace(\Runalyze\View\Activity\Context $context): Pace
-    {
-        // calc the pace based on the continous data time&distance&evaluation
-        $GaPaceCalculator = new GradeAdjustedPaceCalculator($context);
-        $adjTime = $GaPaceCalculator->getAdjustedTime();
-
-        return $this->object($this->GAPace, function (Activity\Entity $Activity) use (&$adjTime): Pace {
-            return new Pace($adjTime, $Activity->distance(), GeneralContext::Factory()->sport($Activity->sportid())->getLegacyPaceUnitEnum());
-        });
     }
 
     public function cadence(): \Runalyze\Data\Cadence\AbstractCadence
