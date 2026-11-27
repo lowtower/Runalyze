@@ -4,12 +4,35 @@ declare(strict_types=1);
 
 namespace Runalyze\Tests\View\Splits;
 
+use Runalyze\Metrics\Velocity\Unit\KilometerPerHour;
 use Runalyze\Model\Activity\Splits\Entity;
 use Runalyze\Model\Activity\Splits\Split;
+use Runalyze\Parameter\Application\PaceUnit;
 use Runalyze\View\Splits\Table;
 
 final class TableTest extends \PHPUnit\Framework\TestCase
 {
+    public function testTypedSpeedPreservesValuesInTwigAndHtml(): void
+    {
+        $splits = new Entity([
+            new Split(1.0, 280, true),
+            new Split(0.25, 60, false),
+            new Split(1.0, 330, true),
+        ]);
+        $table = new Table($splits, new KilometerPerHour());
+        $legacyTable = new Table($splits, PaceUnit::KM_PER_H);
+        $table->setDemandedPace(300.0);
+        $legacyTable->setDemandedPace(300.0);
+
+        $data = $table->templateData();
+        $this->assertSame('12,9<small>&nbsp;km/h</small>', $data['bodies'][0]['rows'][0]['cells'][3]['content']);
+        $this->assertSame('<span class="plus">+0,9&nbsp;km/h</span>', $data['bodies'][0]['rows'][0]['cells'][4]['content']);
+        $this->assertSame('12,0&nbsp;km/h', $data['bodies'][1]['rows'][0]['cells'][1]['content']);
+        $this->assertSame($legacyTable->templateData(), $data);
+        $this->assertSame($legacyTable->code(), $table->code());
+        $this->assertStringContainsString('<td>12,9<small>&nbsp;km/h</small></td>', $table->code());
+    }
+
     public function testThatEmptySplitsResultInAnEmptyTable(): void
     {
         $data = new Table(new Entity())->templateData();

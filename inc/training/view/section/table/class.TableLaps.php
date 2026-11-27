@@ -41,7 +41,7 @@ class TableLaps extends TableLapsAbstract
 
             $Splits = $this->Context->activity()
                 ->splits();
-            $SplitsView = new Splits\Table($Splits, $this->Context->dataview()->pace()->unitEnum());
+            $SplitsView = new Splits\Table($Splits, $this->Context->sport()->getSpeedUnit());
             $SplitsView->setDemandedPace($Reader->findDemandedPace());
 
             if ($this->Context->trackdata()->has(Trackdata\Entity::DISTANCE) && $this->Context->hasRaceResult()) {

@@ -9,8 +9,10 @@ namespace Runalyze\View\Splits;
 
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
-use Runalyze\Activity\Pace;
-use Runalyze\Parameter\Application\PaceUnit;
+use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
+use Runalyze\Metrics\LegacyUnitConverter;
+use Runalyze\Metrics\Velocity\Unit\AbstractPaceUnit;
+use Runalyze\Metrics\Velocity\Unit\SecondsPerKilometer;
 
 /**
  * Abstract view object
@@ -25,20 +27,15 @@ class Table
      */
     protected array $Halfs = [];
 
-    /**
-     * Demanded pace
-     */
-    protected Pace $demandedPace;
+    private readonly PaceFormatter $paceFormatter;
 
-    /**
-     * Achieved pace
-     */
-    protected Pace $achievedPace;
+    protected int $demandedPace = 0;
 
-    /**
-     * Achieved pace (active rounds)
-     */
-    protected Pace $achievedPaceActive;
+    protected int $achievedPace;
+
+    private bool $hasAchievedPace;
+
+    protected ?int $achievedPaceActive = null;
 
     /**
      * Code
@@ -46,12 +43,13 @@ class Table
     protected string $Code = '';
 
     /**
-     * @param int $PaceUnit enum
+     * @param AbstractPaceUnit|int $PaceUnit typed unit or legacy unit ID
      */
     public function __construct(
         protected \Runalyze\Model\Activity\Splits\Entity $Splits,
-        protected int $PaceUnit = PaceUnit::MIN_PER_KM
+        AbstractPaceUnit|int $PaceUnit = new SecondsPerKilometer()
     ) {
+        $this->paceFormatter = new PaceFormatter(is_int($PaceUnit) ? new LegacyUnitConverter()->getPaceUnit($PaceUnit) : $PaceUnit);
         $this->init();
     }
 
@@ -69,7 +67,10 @@ class Table
 
     private function init(): void
     {
-        $this->achievedPace = new Pace($this->Splits->totalTime(), $this->Splits->totalDistance(), $this->PaceUnit);
+        $totalTime = $this->Splits->totalTime();
+        $totalDistance = $this->Splits->totalDistance();
+        $this->achievedPace = PaceFormatter::secondsPerKilometer($totalTime, $totalDistance);
+        $this->hasAchievedPace = $totalTime > 0 && $totalDistance > 0.0;
 
         if ($this->Splits->hasActiveAndInactiveLaps()) {
             $timeActive = 0;
@@ -82,17 +83,15 @@ class Table
                 }
             }
 
-            $this->achievedPaceActive = new Pace($timeActive, $distanceActive, $this->PaceUnit);
-        } else {
-            $this->achievedPaceActive = new Pace(0, 0, $this->PaceUnit);
+            if ($timeActive > 0 && $distanceActive > 0.0) {
+                $this->achievedPaceActive = PaceFormatter::secondsPerKilometer($timeActive, $distanceActive);
+            }
         }
-
-        $this->demandedPace = new Pace(0, 0, $this->PaceUnit);
     }
 
     public function setDemandedPace(float $demandedPace): void
     {
-        $this->demandedPace = new Pace(round($demandedPace), 1, $this->PaceUnit);
+        $this->demandedPace = (int) round($demandedPace);
     }
 
     public function setHalfsOfCompetition(array $Halfs): void
@@ -165,8 +164,6 @@ class Table
         $showOnlyActive = $this->Splits->hasActiveAndInactiveLaps() && $this->Splits->hasActiveLaps(2);
 
         foreach ($this->Splits->asArray() as $Split) {
-            $PaceObj = $Split->pace($this->PaceUnit);
-
             if ($showOnlyActive && ! $Split->isActive()) {
                 if (! $seperated && ($i > 0)) {
                     $rows[] = $this->separatorRow('space-line');
@@ -179,8 +176,10 @@ class Table
 
             $seperated = false;
 
+            $pace = PaceFormatter::secondsPerKilometer($Split->time(), $Split->distance());
+
             // #TSC hide distance&pace if not available
-            if ($Split->distance() > 0 || ! $PaceObj->isEmpty()) {
+            if ($Split->distance() > 0) {
                 $hasDistance = true;
             }
 
@@ -191,8 +190,8 @@ class Table
                     $this->numberCell(++$i),
                     $this->cell($hasDistance ? Distance::format($Split->distance(), true, Distance::$DefaultDecimalsSplitTable) : ''),
                     $this->cell(Duration::format($Split->time())),
-                    $this->cell($hasDistance ? $PaceObj->value() . '<small>' . $PaceObj->appendix() . '</small>' : ''),
-                    $this->cell($hasDistance ? $this->tdForPaceDifference($PaceObj) : ''),
+                    $this->cell($hasDistance ? $this->paceFormatter->value($pace) . '<small>' . $this->paceFormatter->appendix() . '</small>' : ''),
+                    $this->cell($hasDistance ? $this->tdForPaceDifference($pace) : ''),
                 ],
             ];
         }
@@ -205,7 +204,7 @@ class Table
      */
     private function appendGoalRow(array &$rows): void
     {
-        if ($this->demandedPace->isEmpty()) {
+        if ($this->demandedPace <= 0) {
             return;
         }
 
@@ -214,7 +213,7 @@ class Table
             'style' => '',
             'cells' => [
                 $this->spanCell(__('Goal') . ': ', 3),
-                $this->cell($this->demandedPace->valueWithAppendix()),
+                $this->cell($this->paceFormatter->format($this->demandedPace)),
                 $this->cell(''),
             ],
         ];
@@ -225,13 +224,13 @@ class Table
      */
     private function appendAverageRows(array &$rows): void
     {
-        if (! $this->achievedPaceActive->isEmpty()) {
+        if ($this->achievedPaceActive !== null) {
             $rows[] = [
                 'class' => 'small r no-zebra',
                 'style' => '',
                 'cells' => [
                     $this->spanCell(__('Average (active)') . ': ', 3),
-                    $this->cell($this->achievedPaceActive->valueWithAppendix()),
+                    $this->cell($this->paceFormatter->format($this->achievedPaceActive)),
                     $this->cell($this->tdForPaceDifference($this->achievedPaceActive, true)),
                 ],
             ];
@@ -242,7 +241,7 @@ class Table
             'style' => '',
             'cells' => [
                 $this->spanCell(__('Average (total)') . ': ', 3),
-                $this->cell($this->achievedPace->valueWithAppendix()),
+                $this->cell($this->paceFormatter->format($this->achievedPace)),
                 $this->cell(''),
             ],
         ];
@@ -276,10 +275,10 @@ class Table
             $totalDist += $Half['km'];
         }
 
-        $TotalPace = new Pace($totalTime, $totalDist, $this->PaceUnit);
+        $totalPace = PaceFormatter::secondsPerKilometer($totalTime, $totalDist);
 
         for ($i = 0, $num = count($this->Halfs); $i < $num; $i++) {
-            $Pace = new Pace($this->Halfs[$i]['s'], $this->Halfs[$i]['km'], $this->PaceUnit);
+            $pace = PaceFormatter::secondsPerKilometer($this->Halfs[$i]['s'], $this->Halfs[$i]['km'] ?? 0.0);
 
             $rows[] = [
                 'class' => 'r',
@@ -288,8 +287,8 @@ class Table
                     $this->cell(''),
                     $this->cell(Distance::format($this->Halfs[$i]['km'], true, Distance::$DefaultDecimalsSplitTable)),
                     $this->cell(Duration::format($this->Halfs[$i]['s'])),
-                    $this->cell($Pace->valueWithAppendix()),
-                    $this->cell($Pace->compareTo($TotalPace)),
+                    $this->cell($this->paceFormatter->format($pace)),
+                    $this->cell($this->paceFormatter->compare($pace, $totalPace)),
                 ],
             ];
         }
@@ -401,8 +400,6 @@ class Table
         $showOnlyActive = $this->Splits->hasActiveAndInactiveLaps() && $this->Splits->hasActiveLaps(2);
 
         foreach ($this->Splits->asArray() as $Split) {
-            $PaceObj = $Split->pace($this->PaceUnit);
-
             if ($showOnlyActive && ! $Split->isActive()) {
                 if (! $seperated && ($i > 0)) { // && ($i < $num_active)) {
                     $this->Code .= '<tr class="space-line"><td colspan="5"></td></tr>';
@@ -415,8 +412,10 @@ class Table
 
             $seperated = false;
 
+            $pace = PaceFormatter::secondsPerKilometer($Split->time(), $Split->distance());
+
             // #TSC hide distance&pace if not available
-            if ($Split->distance() > 0 || ! $PaceObj->isEmpty()) {
+            if ($Split->distance() > 0) {
                 $hasDistance = true;
             }
 
@@ -424,8 +423,8 @@ class Table
             $this->Code .= '<td class="c">' . (++$i) . '.</td>';
             $this->Code .= '<td>' . ($hasDistance ? Distance::format($Split->distance(), true, Distance::$DefaultDecimalsSplitTable) : '') . '</td>';
             $this->Code .= '<td>' . Duration::format($Split->time()) . '</td>';
-            $this->Code .= '<td>' . ($hasDistance ? $PaceObj->value() . '<small>' . $PaceObj->appendix() : '') . '</small></td>';
-            $this->Code .= '<td>' . ($hasDistance ? $this->tdForPaceDifference($PaceObj) : '') . '</td>';
+            $this->Code .= '<td>' . ($hasDistance ? $this->paceFormatter->value($pace) . '<small>' . $this->paceFormatter->appendix() : '') . '</small></td>';
+            $this->Code .= '<td>' . ($hasDistance ? $this->tdForPaceDifference($pace) : '') . '</td>';
             $this->Code .= '</tr>';
         }
 
@@ -438,47 +437,47 @@ class Table
      * Get td for pace difference
      * @param bool $compareOnlyToDemanded [optional] default false
      */
-    private function tdForPaceDifference(Pace $Pace, bool $compareOnlyToDemanded = false): string
+    private function tdForPaceDifference(int $pace, bool $compareOnlyToDemanded = false): string
     {
         if (
-            ($compareOnlyToDemanded && ($this->demandedPace->isEmpty()))
-            || ($this->achievedPaceActive->isEmpty()) && ($this->achievedPace->isEmpty())
+            ($compareOnlyToDemanded && $this->demandedPace <= 0)
+            || ($this->achievedPaceActive === null && ! $this->hasAchievedPace)
         ) {
             return '';
         }
 
-        if (! $this->demandedPace->isEmpty()) {
-            return $Pace->compareTo($this->demandedPace);
+        if ($this->demandedPace > 0) {
+            return $this->paceFormatter->compare($pace, $this->demandedPace);
         }
 
-        if (! $this->achievedPaceActive->isEmpty()) {
-            return $Pace->compareTo($this->achievedPaceActive);
+        if ($this->achievedPaceActive !== null) {
+            return $this->paceFormatter->compare($pace, $this->achievedPaceActive);
         }
 
-        return $Pace->compareTo($this->achievedPace);
+        return $this->paceFormatter->compare($pace, $this->achievedPace);
     }
 
     private function setInstruction(): void
     {
-        if ($this->demandedPace->isEmpty()) {
+        if ($this->demandedPace <= 0) {
             return;
         }
 
         $this->Code .= '
 			<tr class="small r no-zebra">
 				<td colspan="3">' . __('Goal') . ': </td>
-					<td>' . $this->demandedPace->valueWithAppendix() . '</td>
+					<td>' . $this->paceFormatter->format($this->demandedPace) . '</td>
 				<td></td>
 			</tr>';
     }
 
     private function setAverage(): void
     {
-        if (! $this->achievedPaceActive->isEmpty()) {
+        if ($this->achievedPaceActive !== null) {
             $this->Code .= '
 				<tr class="small r no-zebra">
 					<td colspan="3">' . __('Average (active)') . ': </td>
-					<td>' . $this->achievedPaceActive->valueWithAppendix() . '</td>
+					<td>' . $this->paceFormatter->format($this->achievedPaceActive) . '</td>
 					<td>' . $this->tdForPaceDifference($this->achievedPaceActive, true) . '</td>
 				</tr>';
         }
@@ -486,7 +485,7 @@ class Table
         $this->Code .= '
 			<tr class="small r no-zebra">
 				<td colspan="3">' . __('Average (total)') . ': </td>
-					<td>' . $this->achievedPace->valueWithAppendix() . '</td>
+					<td>' . $this->paceFormatter->format($this->achievedPace) . '</td>
 				<td></td>
 			</tr>';
     }
@@ -511,17 +510,17 @@ class Table
             $totalDist += $Half['km'];
         }
 
-        $TotalPace = new Pace($totalTime, $totalDist, $this->PaceUnit);
+        $totalPace = PaceFormatter::secondsPerKilometer($totalTime, $totalDist);
 
         for ($i = 0, $num = count($this->Halfs); $i < $num; $i++) {
-            $Pace = new Pace($this->Halfs[$i]['s'], $this->Halfs[$i]['km'], $this->PaceUnit);
+            $pace = PaceFormatter::secondsPerKilometer($this->Halfs[$i]['s'], $this->Halfs[$i]['km'] ?? 0.0);
 
             $this->Code .= '<tr class="r">
 								<td></td>
 								<td>' . Distance::format($this->Halfs[$i]['km'], true, Distance::$DefaultDecimalsSplitTable) . '</td>
 								<td>' . Duration::format($this->Halfs[$i]['s']) . '</td>
-								<td>' . $Pace->valueWithAppendix() . '</td>
-								<td>' . $Pace->compareTo($TotalPace) . '</td>
+								<td>' . $this->paceFormatter->format($pace) . '</td>
+								<td>' . $this->paceFormatter->compare($pace, $totalPace) . '</td>
 							</tr>';
         }
     }
