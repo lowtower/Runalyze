@@ -8,6 +8,7 @@ use Ajax;
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Metrics\Velocity\Unit\AbstractPaceUnit;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 use Runalyze\Util\LocalTime;
 use Twig\Environment;
@@ -39,7 +40,7 @@ final readonly class PrognoseCalculatorWindowRenderer
         float $currentShape,
         int $marathonShape,
         DistanceUnitSystem $unitSystem,
-        int $legacyPaceUnit
+        AbstractPaceUnit $paceUnit
     ): string {
         $input = $this->formInput->prepare(
             $submittedInput,
@@ -65,7 +66,7 @@ final readonly class PrognoseCalculatorWindowRenderer
             $runningSportId,
             $distances,
             $prognosis,
-            $legacyPaceUnit,
+            $paceUnit,
             $unitSystem
         );
 

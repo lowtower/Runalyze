@@ -7,8 +7,9 @@ namespace Runalyze\Plugins\Panels\Prognose;
 use Ajax;
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
-use Runalyze\Activity\Pace;
+use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Metrics\Velocity\Unit\AbstractPaceUnit;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 use Runalyze\Sports\Running\Prognosis\PrognosisInterface;
 use Runalyze\Sports\Running\VO2max\EffectiveVO2max;
@@ -30,7 +31,7 @@ final readonly class PrognoseCalculatorPredictionRows
         int $runningSportId,
         array $distances,
         PrognosisInterface $prognosis,
-        int $legacyPaceUnit,
+        AbstractPaceUnit $paceUnit,
         DistanceUnitSystem $distanceUnitSystem
     ): array {
         if (! $prognosis->areValuesValid()) {
@@ -38,6 +39,7 @@ final readonly class PrognoseCalculatorPredictionRows
         }
 
         $personalBests = $this->personalBestProvider->findForDistances($account, $runningSportId, $distances);
+        $formatter = new PaceFormatter($paceUnit);
         $rows = [];
 
         foreach ($distances as $kilometers) {
@@ -51,9 +53,6 @@ final readonly class PrognoseCalculatorPredictionRows
 
             $personalBestVO2max = new EffectiveVO2max();
             $personalBestVO2max->fromPace($distance, (int) $personalBestSeconds);
-
-            $predictionPace = new Pace($seconds, $distance, $legacyPaceUnit);
-            $personalBestPace = new Pace($personalBestSeconds, $distance, $legacyPaceUnit);
 
             $personalBestDate = $personalBest !== null
                 ? Ajax::trainingLink(
@@ -76,7 +75,7 @@ final readonly class PrognoseCalculatorPredictionRows
             $rows[] = [
                 'distance' => $formattedDistance,
                 'prognosis' => $seconds > 0 ? Duration::format($seconds) : '-',
-                'prognosis-pace' => $predictionPace->valueWithAppendix(),
+                'prognosis-pace' => $formatter->format(PaceFormatter::secondsPerKilometer($seconds, $distance)),
                 'prognosis-vo2max' => $seconds > 0 ? $predictionVO2max->uncorrectedValue() : '-',
                 'diff' => $personalBest === null || $seconds == 0
                     ? '-'
@@ -84,7 +83,9 @@ final readonly class PrognoseCalculatorPredictionRows
                         . Duration::format(abs(round($personalBestSeconds - $seconds))),
                 'diff-class' => $personalBestSeconds > $seconds ? 'plus' : 'minus',
                 'pb' => $personalBestSeconds > 0 ? Duration::format($personalBestSeconds) : '-',
-                'pb-pace' => $personalBestSeconds > 0 ? $personalBestPace->valueWithAppendix() : '-',
+                'pb-pace' => $personalBestSeconds > 0
+                    ? $formatter->format(PaceFormatter::secondsPerKilometer($personalBestSeconds, $distance))
+                    : '-',
                 'pb-vo2max' => $personalBestSeconds > 0 ? $personalBestVO2max->uncorrectedValue() : '-',
                 'pb-date' => $personalBestDate,
             ];
