@@ -12,7 +12,6 @@ use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\Elevation;
 use Runalyze\Activity\Energy;
-use Runalyze\Activity\Pace;
 use Runalyze\Activity\StrideLength;
 use Runalyze\Activity\Temperature;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
@@ -300,10 +299,7 @@ class SearchResults
      */
     private function addPaceCondition(array &$conditions): void
     {
-        $pace = new Pace(0);
-        $pace->fromMinPerKm($_POST['pace']);
-
-        $value = $pace->secondsPerKm();
+        $value = (int) round(new Duration($_POST['pace'])->seconds());
         $sign = $this->signForKey('pace');
 
         $conditions[] = '`t`.`distance` > 0';
