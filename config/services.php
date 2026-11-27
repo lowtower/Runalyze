@@ -313,7 +313,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 
 
-    $services->load('Runalyze\\Bundle\\CoreBundle\\EntityListener\\', __DIR__ . '/../src/CoreBundle/EntityListener/{ActivityListener,RaceResultListener,RouteListener,UserListener}.php');
+    $services->load('Runalyze\\Bundle\\CoreBundle\\EntityListener\\', __DIR__ . '/../src/CoreBundle/EntityListener/{ActivityListener,RaceResultListener,RouteListener,UserListener}.php')
+        ->private();
 
     $services->set(EquipmentUpdateSubscriber::class)
         ->tag('doctrine.event_listener', [
