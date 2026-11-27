@@ -10,8 +10,9 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
+use Runalyze\Metrics\Velocity\Unit\SecondsPerKilometer;
+use Runalyze\Metrics\Velocity\Unit\SecondsPerMile;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
-use Runalyze\Parameter\Application\PaceUnit;
 use Runalyze\Plugins\Panels\Prognose\PrognoseCalculatorPersonalBestProvider;
 use Runalyze\Plugins\Panels\Prognose\PrognoseCalculatorPredictionRows;
 use Runalyze\Sports\Running\Prognosis\PrognosisInterface;
@@ -47,7 +48,7 @@ final class PrognoseCalculatorPredictionRowsTest extends TestCase
             3,
             [5.72],
             $this->prognosis(2100.0),
-            PaceUnit::MIN_PER_KM,
+            new SecondsPerKilometer(),
             new DistanceUnitSystem(DistanceUnitSystem::METRIC)
         );
 
@@ -59,7 +60,8 @@ final class PrognoseCalculatorPredictionRowsTest extends TestCase
         $this->assertSame('34:24', $rows[0]['pb']);
         $this->assertSame('- 0:36', $rows[0]['diff']);
         $this->assertSame('minus', $rows[0]['diff-class']);
-        $this->assertStringContainsString('/km', $rows[0]['prognosis-pace']);
+        $this->assertSame('6:07/km', $rows[0]['prognosis-pace']);
+        $this->assertSame('6:01/km', $rows[0]['pb-pace']);
         $this->assertStringContainsString('activity/51', $rows[0]['pb-date']);
         $this->assertStringContainsString('Runalyze.Overlay.close()', $rows[0]['pb-date']);
     }
@@ -78,7 +80,7 @@ final class PrognoseCalculatorPredictionRowsTest extends TestCase
             3,
             [8.9],
             $this->prognosis(2400.0),
-            PaceUnit::MIN_PER_MILE,
+            new SecondsPerMile(),
             new DistanceUnitSystem(DistanceUnitSystem::IMPERIAL)
         );
 
@@ -91,7 +93,7 @@ final class PrognoseCalculatorPredictionRowsTest extends TestCase
         $this->assertSame("5.530\u{00A0}mi", $rows[0]['distance']);
         $this->assertStringNotContainsString('&nbsp;', $rows[0]['distance']);
         $this->assertStringContainsString("\u{00A0}mi", $rows[0]['distance']);
-        $this->assertStringContainsString('/mi', $rows[0]['prognosis-pace']);
+        $this->assertSame('7:15/mi', $rows[0]['prognosis-pace']);
     }
 
     public function testFormatsTrackDistancesWithNonbreakingSpaceBeforeMeters(): void
@@ -110,7 +112,7 @@ final class PrognoseCalculatorPredictionRowsTest extends TestCase
             3,
             [1.0, 3.0, 5.0],
             $this->prognosis(1200.0),
-            PaceUnit::MIN_PER_KM,
+            new SecondsPerKilometer(),
             new DistanceUnitSystem(DistanceUnitSystem::METRIC)
         );
 
@@ -134,7 +136,7 @@ final class PrognoseCalculatorPredictionRowsTest extends TestCase
             3,
             [5.72],
             $prognosis,
-            PaceUnit::MIN_PER_KM,
+            new SecondsPerKilometer(),
             new DistanceUnitSystem(DistanceUnitSystem::METRIC)
         ));
     }
@@ -153,11 +155,12 @@ final class PrognoseCalculatorPredictionRowsTest extends TestCase
             3,
             [5.72],
             $this->prognosis(null),
-            PaceUnit::MIN_PER_KM,
+            new SecondsPerKilometer(),
             new DistanceUnitSystem(DistanceUnitSystem::METRIC)
         );
 
         $this->assertSame('-', $rows[0]['prognosis']);
+        $this->assertSame('-:--/km', $rows[0]['prognosis-pace']);
         $this->assertSame('-', $rows[0]['prognosis-vo2max']);
         $this->assertSame('-', $rows[0]['diff']);
     }

@@ -9,8 +9,9 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
+use Runalyze\Metrics\Velocity\Unit\SecondsPerKilometer;
+use Runalyze\Metrics\Velocity\Unit\SecondsPerMile;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
-use Runalyze\Parameter\Application\PaceUnit;
 use Runalyze\Plugins\Panels\Prognose\PrognoseCalculatorFormInput;
 use Runalyze\Plugins\Panels\Prognose\PrognoseCalculatorModelFactory;
 use Runalyze\Plugins\Panels\Prognose\PrognoseCalculatorModelHintRenderer;
@@ -37,7 +38,7 @@ final class PrognoseCalculatorWindowRendererTest extends TestCase
             50.0,
             80,
             new DistanceUnitSystem(DistanceUnitSystem::METRIC),
-            PaceUnit::MIN_PER_KM
+            new SecondsPerKilometer()
         );
 
         $this->assertStringContainsString('id="prognosis-calculator"', $html);
@@ -80,7 +81,7 @@ final class PrognoseCalculatorWindowRendererTest extends TestCase
             50.0,
             80,
             new DistanceUnitSystem(DistanceUnitSystem::METRIC),
-            PaceUnit::MIN_PER_KM
+            new SecondsPerKilometer()
         );
 
         $this->assertStringContainsString('value="robert-bock" selected', $html);
@@ -107,7 +108,7 @@ final class PrognoseCalculatorWindowRendererTest extends TestCase
             50.0,
             80,
             new DistanceUnitSystem(DistanceUnitSystem::METRIC),
-            PaceUnit::MIN_PER_KM
+            new SecondsPerKilometer()
         );
 
         $this->assertStringContainsString('Your two best results:', $html);
@@ -126,7 +127,7 @@ final class PrognoseCalculatorWindowRendererTest extends TestCase
             50.0,
             80,
             new DistanceUnitSystem(DistanceUnitSystem::IMPERIAL),
-            PaceUnit::MIN_PER_MILE
+            new SecondsPerMile()
         );
 
         $this->assertStringContainsString('name="distances" value="3.11"', $html);

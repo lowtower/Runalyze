@@ -80,7 +80,7 @@ final class PrognoseWindowController extends AbstractController
 
         $paceUnit = Context::Factory()
             ->sport(Configuration::General()->runningSport())
-            ->getLegacyPaceUnitEnum();
+            ->getSpeedUnit();
 
         return $this->legacyContentResponseFactory->create(
             $windowRenderer->render(
