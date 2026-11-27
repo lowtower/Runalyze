@@ -9,7 +9,6 @@ namespace Runalyze\View\RaceResult;
 
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
-use Runalyze\Activity\Pace;
 use Runalyze\Configuration;
 use Runalyze\View\Tooltip;
 
@@ -50,14 +49,6 @@ class Dataview
     public function officialTime(): \Runalyze\Activity\Duration
     {
         return new Duration($this->RaceResult->officialTime());
-    }
-
-    /**
-     * Get a string for the speed depending on sportid
-     */
-    public function pace(int $sportid): \Runalyze\Activity\Pace
-    {
-        return new Pace((float) $this->RaceResult->officialTime(), $this->RaceResult->officialDistance(), \Runalyze\Context::Factory()->sport($sportid)->getLegacyPaceUnitEnum());
     }
 
     /**

@@ -53,11 +53,6 @@ interface ProfileInterface
     public function getPaceUnitEnum();
 
     /**
-     * @return \Runalyze\Activity\PaceUnit\AbstractUnit|int see \Runalyze\Parameter\Application\PaceUnit
-     */
-    public function getLegacyPaceUnitEnum();
-
-    /**
      * @return bool
      */
     public function usesShortDisplay();

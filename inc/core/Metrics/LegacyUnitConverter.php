@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Metrics;
 
 use Runalyze\Metrics\Energy\Unit\AbstractEnergyUnit;
@@ -74,39 +76,6 @@ class LegacyUnitConverter
         }
 
         return PaceEnum::get(PaceEnum::KILOMETER_PER_HOUR);
-    }
-
-    /**
-     * @param mixed $paceEnum see \Runalyze\Metrics\Velocity\Unit\PaceEnum
-     * @param bool $returnLegacyEnum
-     */
-    public function getLegacyPaceUnit($paceEnum, $returnLegacyEnum = false): int|\Runalyze\Activity\PaceUnit\AbstractUnit
-    {
-        $parameter = new Application\PaceUnit();
-
-        $paceUnitMap = [
-            PaceEnum::KILOMETER_PER_HOUR => Application\PaceUnit::KM_PER_H,
-            PaceEnum::MILES_PER_HOUR => Application\PaceUnit::MILES_PER_H,
-            PaceEnum::SECONDS_PER_KILOMETER => Application\PaceUnit::MIN_PER_KM,
-            PaceEnum::SECONDS_PER_MILE => Application\PaceUnit::MIN_PER_MILE,
-            PaceEnum::METER_PER_SECOND => Application\PaceUnit::M_PER_S,
-            PaceEnum::SECONDS_PER_100M => Application\PaceUnit::MIN_PER_100M,
-            PaceEnum::SECONDS_PER_100Y => Application\PaceUnit::MIN_PER_100Y,
-            PaceEnum::SECONDS_PER_500M => Application\PaceUnit::MIN_PER_500M,
-            PaceEnum::SECONDS_PER_500Y => Application\PaceUnit::MIN_PER_500Y,
-        ];
-
-        if ($returnLegacyEnum) {
-            return $paceUnitMap[$paceEnum] ?? Application\PaceUnit::KM_PER_H;
-        }
-
-        if (isset($paceUnitMap[$paceEnum])) {
-            $parameter->set($paceUnitMap[$paceEnum]);
-        } else {
-            $parameter->set(Application\PaceUnit::KM_PER_H);
-        }
-
-        return $parameter->object();
     }
 
     /**

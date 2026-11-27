@@ -50,6 +50,17 @@ final class TableTest extends \PHPUnit\Framework\TestCase
         $this->assertSame([], $data['bodies'][1]['rows']);
     }
 
+    public function testUnknownLegacyPaceUnitFallsBackToKilometersPerHour(): void
+    {
+        $splits = new Entity([
+            new Split(1.0, 300, true),
+        ]);
+
+        $data = new Table($splits, 999)->templateData();
+
+        $this->assertSame('12,0<small>&nbsp;km/h</small>', $data['bodies'][0]['rows'][0]['cells'][3]['content']);
+    }
+
     public function testThatRestingSplitsAreSeparatedFromActiveSplits(): void
     {
         $splits = new Entity([

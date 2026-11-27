@@ -8,8 +8,6 @@
 namespace Runalyze\Model\Sport;
 
 use InvalidArgumentException;
-use Runalyze\Activity\PaceUnit\AbstractUnit;
-use Runalyze\Metrics\LegacyUnitConverter;
 use Runalyze\Metrics\Velocity\Unit\AbstractPaceUnit;
 use Runalyze\Metrics\Velocity\Unit\KilometerPerHour;
 use Runalyze\Metrics\Velocity\Unit\PaceEnum;
@@ -176,11 +174,6 @@ class Entity extends Model\EntityWithID implements ProfileInterface
         return (int) $this->Data[self::HR_AVG];
     }
 
-    public function legacyPaceUnit(): AbstractUnit
-    {
-        return new LegacyUnitConverter()->getLegacyPaceUnit($this->Data[self::PACE_UNIT]);
-    }
-
     public function getSpeedUnit(): AbstractPaceUnit
     {
         try {
@@ -188,14 +181,6 @@ class Entity extends Model\EntityWithID implements ProfileInterface
         } catch (InvalidArgumentException) {
             return new KilometerPerHour();
         }
-    }
-
-    /**
-     * @return int see \Runalyze\Activity\Pace or \Runalyze\Parameter\Application\PaceUnit
-     */
-    public function getLegacyPaceUnitEnum(): int
-    {
-        return new LegacyUnitConverter()->getLegacyPaceUnit($this->Data[self::PACE_UNIT], true);
     }
 
     public function getPaceUnitEnum(): int
