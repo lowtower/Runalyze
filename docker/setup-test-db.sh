@@ -9,26 +9,43 @@ set -euo pipefail
 
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
-DB_HOST="${DB_TEST_HOST:-${DB_HOST:-db}}"
-DB_PORT="${DB_TEST_PORT:-${DB_PORT:-3306}}"
+export DB_TEST_HOST="${DB_TEST_HOST:-db-test}"
+export DB_TEST_PORT="${DB_TEST_PORT:-3306}"
 DB_ROOT_USER="${DB_ROOT_USER:-root}"
 DB_ROOT_PASSWORD="${DB_ROOT_PASSWORD:-root}"
-DB_UNITTEST_NAME="${DB_UNITTEST_NAME:-runalyze_unittest}"
-DB_TEST_EMPTY_NAME="${DB_TEST_EMPTY_NAME:-runalyze_test_empty}"
+export DB_UNITTEST_NAME="${DB_UNITTEST_NAME:-runalyze_unittest}"
+export DB_TEST_EMPTY_NAME="${DB_TEST_EMPTY_NAME:-runalyze_test_empty}"
 DB_WAIT_TIMEOUT="${DB_WAIT_TIMEOUT:-60}"
-
-mysql_args=(-h"${DB_HOST}" -P"${DB_PORT}" -u"${DB_ROOT_USER}" -p"${DB_ROOT_PASSWORD}")
 
 log() {
     echo "[test-setup] $*"
 }
 
-log "Waiting for MySQL at ${DB_HOST}:${DB_PORT} ..."
+if [[ "${DB_TEST_HOST}" == "db" ]]; then
+    log "ERROR: Refusing to recreate test databases on the development database service." >&2
+    exit 1
+fi
+
+if [[ ! "${DB_UNITTEST_NAME}" =~ ^[a-zA-Z0-9_]+$ || ! "${DB_TEST_EMPTY_NAME}" =~ ^[a-zA-Z0-9_]+$ ]]; then
+    log "ERROR: Test database names must contain only letters, digits and underscores." >&2
+    exit 1
+fi
+
+if [[ "${DB_UNITTEST_NAME}" == "${DB_TEST_EMPTY_NAME}" ||
+      "${DB_UNITTEST_NAME}" == "${DATABASE_NAME:-runalyze}" ||
+      "${DB_TEST_EMPTY_NAME}" == "${DATABASE_NAME:-runalyze}" ]]; then
+    log "ERROR: Test database names must be distinct from each other and the application database." >&2
+    exit 1
+fi
+
+mysql_args=(-h"${DB_TEST_HOST}" -P"${DB_TEST_PORT}" -u"${DB_ROOT_USER}" -p"${DB_ROOT_PASSWORD}")
+
+log "Waiting for MySQL at ${DB_TEST_HOST}:${DB_TEST_PORT} ..."
 
 waited=0
 until mysqladmin ping "${mysql_args[@]}" --silent > /dev/null; do
     if [ "${waited}" -ge "${DB_WAIT_TIMEOUT}" ]; then
-        log "ERROR: MySQL at ${DB_HOST}:${DB_PORT} did not answer within ${DB_WAIT_TIMEOUT}s." >&2
+        log "ERROR: MySQL at ${DB_TEST_HOST}:${DB_TEST_PORT} did not answer within ${DB_WAIT_TIMEOUT}s." >&2
         exit 1
     fi
 
