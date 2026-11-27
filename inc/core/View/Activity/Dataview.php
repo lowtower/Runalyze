@@ -12,7 +12,6 @@ use Runalyze\Activity\Energy;
 use Runalyze\Activity\FitTrainingEffectBenefit;
 use Runalyze\Activity\GroundcontactBalance;
 use Runalyze\Activity\HeartRate;
-use Runalyze\Activity\Pace;
 use Runalyze\Activity\PerformanceCondition;
 use Runalyze\Activity\StrideLength;
 use Runalyze\Activity\Temperature;
@@ -24,6 +23,7 @@ use Runalyze\Context as GeneralContext;
 use Runalyze\Data\Cadence;
 use Runalyze\Data\Weather\HeatIndex;
 use Runalyze\Data\Weather\WindChillFactor;
+use Runalyze\Metrics\Velocity\Unit\KilometerPerHour;
 use Runalyze\Model\Activity;
 use Runalyze\Model\Factory;
 use Runalyze\Sports\Running\VO2max\EffectiveVO2max;
@@ -442,7 +442,7 @@ class Dataview
             $Activity->weather()
                 ->windSpeed(),
             new Temperature($Activity->weather()->temperature()->value()),
-            new Pace($Activity->duration(), $Activity->distance())
+            round(new KilometerPerHour()->fromBaseUnit($this->paceInSecondsPerKilometer()), 1)
         ));
     }
 
