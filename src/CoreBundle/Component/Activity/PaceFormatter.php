@@ -26,15 +26,23 @@ final readonly class PaceFormatter
 
     public function format(float $secondsPerKilometer): string
     {
+        return $this->value($secondsPerKilometer) . $this->appendix();
+    }
+
+    public function value(float $secondsPerKilometer): string
+    {
         if ($this->isTimeFormat()) {
-            $value = $secondsPerKilometer === 0.0
+            return $secondsPerKilometer === 0.0
                 ? '-:--'
                 : Duration::format(round($this->unit->fromBaseUnit($secondsPerKilometer)));
-
-            return $value . $this->unit->getAppendix();
         }
 
-        return number_format($this->unit->fromBaseUnit($secondsPerKilometer), 1, ',', '') . '&nbsp;' . $this->unit->getAppendix();
+        return number_format($this->unit->fromBaseUnit($secondsPerKilometer), 1, ',', '');
+    }
+
+    public function appendix(): string
+    {
+        return ($this->isTimeFormat() ? '' : '&nbsp;') . $this->unit->getAppendix();
     }
 
     public function compare(int $pace, int $reference): string
