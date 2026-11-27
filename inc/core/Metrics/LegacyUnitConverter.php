@@ -9,8 +9,6 @@ use Runalyze\Metrics\Energy\Unit\EnergyEnum;
 use Runalyze\Metrics\HeartRate\Unit\HeartRateEnum;
 use Runalyze\Metrics\Temperature\Unit\AbstractTemperatureUnit;
 use Runalyze\Metrics\Temperature\Unit\TemperatureEnum;
-use Runalyze\Metrics\Velocity\Unit\AbstractPaceUnit;
-use Runalyze\Metrics\Velocity\Unit\PaceEnum;
 use Runalyze\Metrics\Weight\Unit\AbstractWeightUnit;
 use Runalyze\Metrics\Weight\Unit\WeightEnum;
 use Runalyze\Parameter\Application;
@@ -51,31 +49,6 @@ class LegacyUnitConverter
         }
 
         return HeartRateEnum::get(HeartRateEnum::BEATS_PER_MINUTE, $maximalHeartRate, $restingHeartRate);
-    }
-
-    /**
-     * @param mixed $legacyPaceEnum see \Runalyze\Parameter\Application\PaceUnit
-     * @return AbstractPaceUnit
-     */
-    public function getPaceUnit($legacyPaceEnum)
-    {
-        $paceUnitMap = [
-            Application\PaceUnit::KM_PER_H => PaceEnum::KILOMETER_PER_HOUR,
-            Application\PaceUnit::MILES_PER_H => PaceEnum::MILES_PER_HOUR,
-            Application\PaceUnit::MIN_PER_KM => PaceEnum::SECONDS_PER_KILOMETER,
-            Application\PaceUnit::MIN_PER_MILE => PaceEnum::SECONDS_PER_MILE,
-            Application\PaceUnit::M_PER_S => PaceEnum::METER_PER_SECOND,
-            Application\PaceUnit::MIN_PER_100M => PaceEnum::SECONDS_PER_100M,
-            Application\PaceUnit::MIN_PER_100Y => PaceEnum::SECONDS_PER_100Y,
-            Application\PaceUnit::MIN_PER_500M => PaceEnum::SECONDS_PER_500M,
-            Application\PaceUnit::MIN_PER_500Y => PaceEnum::SECONDS_PER_500Y,
-        ];
-
-        if (isset($paceUnitMap[$legacyPaceEnum])) {
-            return PaceEnum::get($paceUnitMap[$legacyPaceEnum]);
-        }
-
-        return PaceEnum::get(PaceEnum::KILOMETER_PER_HOUR);
     }
 
     /**

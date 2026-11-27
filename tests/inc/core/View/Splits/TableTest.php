@@ -7,7 +7,6 @@ namespace Runalyze\Tests\View\Splits;
 use Runalyze\Metrics\Velocity\Unit\KilometerPerHour;
 use Runalyze\Model\Activity\Splits\Entity;
 use Runalyze\Model\Activity\Splits\Split;
-use Runalyze\Parameter\Application\PaceUnit;
 use Runalyze\View\Splits\Table;
 
 final class TableTest extends \PHPUnit\Framework\TestCase
@@ -20,16 +19,12 @@ final class TableTest extends \PHPUnit\Framework\TestCase
             new Split(1.0, 330, true),
         ]);
         $table = new Table($splits, new KilometerPerHour());
-        $legacyTable = new Table($splits, PaceUnit::KM_PER_H);
         $table->setDemandedPace(300.0);
-        $legacyTable->setDemandedPace(300.0);
 
         $data = $table->templateData();
         $this->assertSame('12,9<small>&nbsp;km/h</small>', $data['bodies'][0]['rows'][0]['cells'][3]['content']);
         $this->assertSame('<span class="plus">+0,9&nbsp;km/h</span>', $data['bodies'][0]['rows'][0]['cells'][4]['content']);
         $this->assertSame('12,0&nbsp;km/h', $data['bodies'][1]['rows'][0]['cells'][1]['content']);
-        $this->assertSame($legacyTable->templateData(), $data);
-        $this->assertSame($legacyTable->code(), $table->code());
         $this->assertStringContainsString('<td>12,9<small>&nbsp;km/h</small></td>', $table->code());
     }
 
@@ -48,17 +43,6 @@ final class TableTest extends \PHPUnit\Framework\TestCase
         $this->assertSame([], $data['bodies'][0]['rows']);
         $this->assertSame('top-spacer', $data['bodies'][1]['class']);
         $this->assertSame([], $data['bodies'][1]['rows']);
-    }
-
-    public function testUnknownLegacyPaceUnitFallsBackToKilometersPerHour(): void
-    {
-        $splits = new Entity([
-            new Split(1.0, 300, true),
-        ]);
-
-        $data = new Table($splits, 999)->templateData();
-
-        $this->assertSame('12,0<small>&nbsp;km/h</small>', $data['bodies'][0]['rows'][0]['cells'][3]['content']);
     }
 
     public function testThatRestingSplitsAreSeparatedFromActiveSplits(): void

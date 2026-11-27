@@ -2,13 +2,13 @@
 
 namespace Runalyze\View\Activity;
 
+use Runalyze\Metrics\Velocity\Unit\PaceEnum;
 use Runalyze\Model\Activity;
 use Runalyze\Model\HRV;
 use Runalyze\Model\Route;
 use Runalyze\Model\Sport;
 use Runalyze\Model\Swimdata;
 use Runalyze\Model\Trackdata;
-use Runalyze\Parameter\Application\PaceUnit;
 
 /**
  * Fake activity context
@@ -72,7 +72,7 @@ final class FakeContext extends Context
             new HRV\Entity([]),
             new Sport\Entity([
                 Sport\Entity::NAME => 'Sport',
-                Sport\Entity::PACE_UNIT => PaceUnit::KM_PER_H,
+                Sport\Entity::PACE_UNIT => PaceEnum::SECONDS_PER_KILOMETER,
                 Sport\Entity::HAS_DISTANCES => true,
                 Sport\Entity::IS_OUTSIDE => true,
             ])
@@ -125,7 +125,7 @@ final class FakeContext extends Context
             new HRV\Entity([]),
             new Sport\Entity([
                 Sport\Entity::NAME => 'Sport',
-                Sport\Entity::PACE_UNIT => PaceUnit::KM_PER_H,
+                Sport\Entity::PACE_UNIT => PaceEnum::SECONDS_PER_KILOMETER,
                 Sport\Entity::HAS_DISTANCES => false,
                 Sport\Entity::IS_OUTSIDE => false,
             ])
@@ -166,7 +166,7 @@ final class FakeContext extends Context
             new HRV\Entity([]),
             new Sport\Entity([
                 Sport\Entity::NAME => 'Sport',
-                Sport\Entity::PACE_UNIT => PaceUnit::KM_PER_H,
+                Sport\Entity::PACE_UNIT => PaceEnum::SECONDS_PER_KILOMETER,
                 Sport\Entity::HAS_DISTANCES => true,
                 Sport\Entity::IS_OUTSIDE => true,
             ])

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Activity;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
@@ -13,6 +14,27 @@ use Runalyze\Metrics\Velocity\Unit\SecondsPerKilometer;
 
 final class PaceFormatterTest extends TestCase
 {
+    #[DataProvider('sportUnits')]
+    public function testFormatsEveryPersistedSportUnit(int $unitId, string $expected): void
+    {
+        $sport = new Sport()->setSpeed($unitId);
+
+        $this->assertSame($expected, PaceFormatter::forSport($sport)->format(300));
+    }
+
+    public static function sportUnits(): iterable
+    {
+        yield 'seconds per kilometer' => [0, '5:00/km'];
+        yield 'seconds per mile' => [1, '8:03/mi'];
+        yield 'seconds per 500 m' => [2, '2:30/500m'];
+        yield 'seconds per 500 yd' => [3, '2:17/500y'];
+        yield 'seconds per 100 m' => [4, '0:30/100m'];
+        yield 'seconds per 100 yd' => [5, '0:27/100y'];
+        yield 'kilometers per hour' => [6, '12,0&nbsp;km/h'];
+        yield 'miles per hour' => [7, '7,5&nbsp;mph'];
+        yield 'meters per second' => [8, '3,3&nbsp;m/s'];
+    }
+
     public function testFormatsUsingSportUnitOrFallback(): void
     {
         $sport = new Sport()->setSpeed(PaceEnum::MILES_PER_HOUR);
