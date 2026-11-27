@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Runalyze\Plugins\Statistics\Analyse;
 
 use DateTimeImmutable;
-use Runalyze\Activity\Pace;
+use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
@@ -20,7 +20,6 @@ use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TypeRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\DoctrinePluginConfigurationStorage;
-use Runalyze\Metrics\LegacyUnitConverter;
 use Runalyze\Parameter\Application\HeartRateUnit;
 use Runalyze\Util\Time;
 use Symfony\Component\HttpFoundation\InputBag;
@@ -342,9 +341,7 @@ final readonly class AnalysisStatisticsPresenter implements StatisticsInterface,
         }
 
         ['slowest' => $slowest, 'fastest' => $fastest, 'step' => $step] = $limits;
-        $unit = new LegacyUnitConverter()->getLegacyPaceUnit($sport->getSpeed(), true);
-        assert(is_int($unit));
-        $pace = new Pace(0, 1, $unit);
+        $paceFormatter = PaceFormatter::forSport($sport);
 
         $span = $slowest - $fastest;
         $groups = [$slowest, $fastest];
@@ -363,9 +360,9 @@ final readonly class AnalysisStatisticsPresenter implements StatisticsInterface,
         $labels = [];
         foreach ($groups as $group) {
             $text = match ($group) {
-                $fastest => __('faster than') . ' ' . $pace->setTime($fastestThreshold)->valueWithAppendix(),
-                $slowest => __('up to') . ' ' . $pace->setTime($group)->valueWithAppendix(),
-                default => $pace->setTime($group + $step)->value() . ' ' . __('to') . ' ' . $pace->setTime($group)->valueWithAppendix(),
+                $fastest => __('faster than') . ' ' . $paceFormatter->format($fastestThreshold),
+                $slowest => __('up to') . ' ' . $paceFormatter->format($group),
+                default => $paceFormatter->value($group + $step) . ' ' . __('to') . ' ' . $paceFormatter->format($group),
             };
             $labels[$group] = [
                 'text' => html_entity_decode($text, ENT_QUOTES, 'UTF-8'),
