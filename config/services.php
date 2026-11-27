@@ -523,10 +523,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(ElevationCorrection::class);
 
-    $services->set(RouteNameEvalFactory::class)
-        ->tag('monolog.logger', [
-            'channel' => 'external_services',
-        ]);
+    $services->set(RouteNameEvalFactory::class);
 
     $services->set(RouteNameEvalOsm::class)
         ->arg('$Url', '%app.osm_overpass_url%')
