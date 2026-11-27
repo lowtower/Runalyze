@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use Runalyze\Metrics\Velocity\Unit\PaceEnum;
 use Runalyze\Model\Factory;
 use Runalyze\Sports\Running\VO2max\EffectiveVO2maxCorrector;
 use Runalyze\Tests\DatabaseTestCase;
@@ -139,6 +141,40 @@ final class TrainingViewTest extends DatabaseTestCase
         $this->assertSame('', $data['navigation_next']);
 
         $this->assertThatSectionsProvideTheOverviewRow($data);
+    }
+
+    #[DataProvider('fitThresholds')]
+    public function testFitDetailsDisplayTheLactateThreshold(int $unit, ?int $heartRate, ?float $speed, string $expected): void
+    {
+        $this->DB->exec('UPDATE `' . PREFIX . 'sport` SET `speed` = ' . $unit . ' WHERE `id` = ' . self::SPORT_ID);
+        $this->DB->exec(
+            'UPDATE `' . PREFIX . 'training` SET `fit_lactate_threshold_hr` = ' . ($heartRate ?? 'NULL')
+            . ', `fit_lactate_threshold_pace_ms` = ' . ($speed ?? 'NULL') . ' WHERE `id` = ' . self::TRAINING_ID
+        );
+
+        $data = $this->trainingViewFor(self::TRAINING_ID)->templateData();
+        foreach ($data['sections'] as $section) {
+            foreach ($section['rows'] as $row) {
+                foreach ($row['data']['plot']['tabs'] ?? [] as $tab) {
+                    if ($tab['key'] === 'fitdetails') {
+                        $values = array_column($tab['table']['rows'], 'value', 'desc');
+                        $this->assertSame($expected, $values['New lactate treshhold (bpm | pace):']);
+                        return;
+                    }
+                }
+            }
+        }
+
+        $this->fail('The FIT details tab is missing.');
+    }
+
+    public static function fitThresholds(): iterable
+    {
+        yield 'running pace' => [PaceEnum::SECONDS_PER_KILOMETER, 165, 3.22, '165 | 5:11/km'];
+        yield 'speed without heart rate' => [PaceEnum::KILOMETER_PER_HOUR, null, 3.22, '- | 11,6&nbsp;km/h'];
+        yield 'heart rate without speed' => [PaceEnum::SECONDS_PER_KILOMETER, 165, null, '165 | -'];
+        yield 'missing values' => [PaceEnum::SECONDS_PER_KILOMETER, null, null, '-'];
+        yield 'zero speed' => [PaceEnum::SECONDS_PER_KILOMETER, 165, 0.0, '165 | -'];
     }
 
     /**
