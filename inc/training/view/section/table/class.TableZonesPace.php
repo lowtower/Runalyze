@@ -8,9 +8,11 @@ declare(strict_types=1);
  */
 
 use Runalyze\Activity\HeartRate;
-use Runalyze\Activity\Pace;
+use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
 use Runalyze\Calculation\Activity\PaceSmoother;
 use Runalyze\Calculation\Distribution\TimeSeriesForTrackdata;
+use Runalyze\Metrics\Velocity\Unit\AbstractPaceInTimeFormatUnit;
+use Runalyze\Metrics\Velocity\Unit\AbstractPaceUnit;
 use Runalyze\Model\Trackdata;
 
 /**
@@ -26,7 +28,7 @@ class TableZonesPace extends TableZonesAbstract
      */
     public const int STEP_SIZE = 10;
 
-    protected \Runalyze\Activity\PaceUnit\AbstractUnit $PaceUnit;
+    protected AbstractPaceUnit $paceUnit;
 
     /**
      * Get title for average
@@ -38,22 +40,19 @@ class TableZonesPace extends TableZonesAbstract
 
     protected function initData()
     {
-        $this->PaceUnit = $this->Context->sport()
-            ->legacyPaceUnit();
+        $this->paceUnit = $this->Context->sport()->getSpeedUnit();
 
         $Zones = $this->computeZones();
-        $Pace = new Pace(0, 1);
-        $Pace->setUnit($this->PaceUnit);
+        $paceFormatter = new PaceFormatter($this->paceUnit);
 
         $HR = new HeartRate(0, Runalyze\Context::Athlete());
 
         foreach ($Zones as $paceInSeconds => $Info) {
             if ($Info['time'] > parent::MINIMUM_TIME_IN_ZONE) {
-                $Pace->setTime($paceInSeconds);
                 $HR->setBPM($Info['time'] > 0 ? $Info['hr'] / $Info['time'] : 0);
 
                 $this->Data[] = [
-                    'zone' => $paceInSeconds == 0 ? __('faster') : '&gt; ' . $Pace->valueWithAppendix(),
+                    'zone' => $paceInSeconds == 0 ? __('faster') : '&gt; ' . $paceFormatter->format($paceInSeconds),
                     'time' => $Info['time'],
                     'distance' => $Info['distance'],
                     'average' => $HR->asBPM() > 0 ? $HR->string() : '-',
@@ -109,14 +108,11 @@ class TableZonesPace extends TableZonesAbstract
             return 0;
         }
 
-        if ($this->PaceUnit->isDecimalFormat()) {
-            $dividend = $this->PaceUnit->dividendForUnit();
-
-            return $paceInSeconds > $dividend ? 0 : (int) ($dividend / floor($dividend / $paceInSeconds));
+        $value = $this->paceUnit->fromBaseUnit($paceInSeconds);
+        if ($this->paceUnit instanceof AbstractPaceInTimeFormatUnit) {
+            return (int) round($this->paceUnit->toBaseUnit(30 * floor($value / 30)));
         }
 
-        $factor = $this->PaceUnit->factorForUnit();
-
-        return (int) round(30 * floor($factor * $paceInSeconds / 30) / $factor);
+        return $value < 1.0 ? 0 : (int) $this->paceUnit->toBaseUnit(floor($value));
     }
 }

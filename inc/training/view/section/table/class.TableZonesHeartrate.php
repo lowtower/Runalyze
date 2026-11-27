@@ -5,7 +5,7 @@
  * @package Runalyze\DataObjects\Training\View\Section
  */
 
-use Runalyze\Activity\Pace;
+use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
 use Runalyze\Calculation\Activity\HrZonesCalculator;
 use Runalyze\Calculation\Distribution\TimeSeriesForTrackdata;
 use Runalyze\Model\Trackdata;
@@ -59,13 +59,11 @@ class TableZonesHeartrate extends TableZonesAbstract
     protected function initData()
     {
         $Zones = $this->computeZones();
-        $Pace = new Pace(0, 0);
-        $Pace->setUnit($this->Context->sport()->legacyPaceUnit());
+        $paceFormatter = new PaceFormatter($this->Context->sport()->getSpeedUnit());
 
         foreach ($Zones as $Info) {
             if ($Info['time'] > parent::MINIMUM_TIME_IN_ZONE || $Info['#start'] > self::MINIMUM_TIME_IN_ZONE_MIN_HR) {
-                $Pace->setTime($Info['time']);
-                $Pace->setDistance($Info['distance']);
+                $pace = PaceFormatter::secondsPerKilometer($Info['time'], $Info['distance']);
 
                 // #TSC add more info in the zone column: the range of the % and numbers incl. a text if available
                 $perRange = $this->threeNumbers($Info['%start']) . ' -' . $this->threeNumbers($Info['%end']) . ' &#37;';
@@ -75,7 +73,7 @@ class TableZonesHeartrate extends TableZonesAbstract
                     'zone' => $Info['text'] . ' ' . $perRange . ' / ' . $bpmRange,
                     'time' => $Info['time'],
                     'distance' => $Info['distance'],
-                    'average' => $Pace->value() > 0 ? $Pace->valueWithAppendix() : '-',
+                    'average' => $paceFormatter->value($pace) > 0 ? $paceFormatter->format($pace) : '-',
                     'color' => $Info['color'], # TSC support for colors
                 ];
             }
