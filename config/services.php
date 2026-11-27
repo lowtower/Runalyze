@@ -7,9 +7,6 @@ use Doctrine\Persistence\ObjectManager;
 use GuzzleHttp\Client;
 use Runalyze\Bundle\CoreBundle\ArgumentResolver\AccountValueResolver;
 use Runalyze\Bundle\CoreBundle\Command\ActivityBulkRouteNameEvaluationCommand;
-use Runalyze\Bundle\CoreBundle\Command\CleanupBackupCommand;
-use Runalyze\Bundle\CoreBundle\Command\InstallDatabaseCommand;
-use Runalyze\Bundle\CoreBundle\Command\InstallFilesystemCommand;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\FinderFactory;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\FinderFactoryInterface;
@@ -236,12 +233,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->load('Runalyze\Bundle\CoreBundle\Repository\\', __DIR__ . '/../src/CoreBundle/Repository')
         ->exclude(__DIR__ . '/../src/CoreBundle/Repository/{DatasetRepository.php,HrvRepository.php,PluginConfRepository.php,PluginRepository.php,RouteRepository.php,SwimdataRepository.php,TrackdataRepository.php}');
-
-    $services->set(CleanupBackupCommand::class);
-
-    $services->set(InstallDatabaseCommand::class);
-
-    $services->set(InstallFilesystemCommand::class);
 
     $services->set(ActivityBulkRouteNameEvaluationCommand::class)
         ->arg('$osmOverpassUrl', '%app.osm_overpass_url%');
