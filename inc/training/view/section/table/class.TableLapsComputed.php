@@ -7,6 +7,7 @@
 
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Elevation;
+use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
 use Runalyze\Configuration;
 use Runalyze\Data\Laps\Laps;
 use Runalyze\Model\Trackdata;
@@ -71,19 +72,11 @@ class TableLapsComputed extends TableLapsAbstract
         }
 
         $rows = [];
-        $unit = $this->Context->sport()
-            ->legacyPaceUnit();
+        $paceFormatter = new PaceFormatter($this->Context->sport()->getSpeedUnit());
         foreach ($this->Laps->objects() as $Lap) {
-            $paceValue = '';
-            $paceAppendix = '';
-            if ($Lap->pace()) {
-                $Lap->pace()
-                    ->setUnit($unit);
-                $paceValue = $Lap->pace()
-                    ->value();
-                $paceAppendix = $Lap->pace()
-                    ->appendix();
-            }
+            $pace = $Lap->pace()?->secondsPerKm();
+            $paceValue = $pace === null ? '' : $paceFormatter->value($pace);
+            $paceAppendix = $pace === null ? '' : $paceFormatter->appendix();
 
             $cells = [
                 $this->cell($Lap->trackDistance()->string(true, Distance::$DefaultDecimalsSplitTable)),
