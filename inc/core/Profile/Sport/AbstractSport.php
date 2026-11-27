@@ -1,8 +1,8 @@
 <?php
 
-namespace Runalyze\Profile\Sport;
+declare(strict_types=1);
 
-use Runalyze\Metrics\LegacyUnitConverter;
+namespace Runalyze\Profile\Sport;
 
 abstract class AbstractSport implements ProfileInterface
 {
@@ -36,14 +36,5 @@ abstract class AbstractSport implements ProfileInterface
     final public function isSwimming(): bool
     {
         return $this->Enum === SportProfile::SWIMMING;
-    }
-
-    /**
-     * @return \Runalyze\Activity\PaceUnit\AbstractUnit|int
-     * @see \Runalyze\Parameter\Application\PaceUnit
-     */
-    public function getLegacyPaceUnitEnum()
-    {
-        return new LegacyUnitConverter()->getLegacyPaceUnit($this->getPaceUnitEnum(), true);
     }
 }

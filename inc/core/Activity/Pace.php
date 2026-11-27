@@ -8,7 +8,6 @@
 namespace Runalyze\Activity;
 
 use Runalyze\Activity\PaceUnit\AbstractUnit;
-use Runalyze\Metrics\LegacyUnitConverter;
 use Runalyze\Parameter\Application\PaceUnit as PaceUnitOption;
 
 /**
@@ -99,11 +98,6 @@ class Pace
         $Option->set($legacyPaceUnitEnum);
 
         $this->UnitObject = $Option->object();
-    }
-
-    public function setNewUnitEnum(int $unitEnum): void
-    {
-        $this->UnitObject = new LegacyUnitConverter()->getLegacyPaceUnit($unitEnum);
     }
 
     public function setUnitEnum(): void
