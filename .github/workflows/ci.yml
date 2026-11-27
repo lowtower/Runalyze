@@ -16,7 +16,7 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
-  PHP_VERSION: '8.5.12'
+  PHP_VERSION: '8.5.13'
   COVERAGE_CACHE_PREFIX: coverage-main-xdebug-
 
 jobs:
@@ -60,7 +60,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['8.5.12']
+        php-version: ['8.5.13']
     services:
       mariadb:
         image: mariadb:12.3
