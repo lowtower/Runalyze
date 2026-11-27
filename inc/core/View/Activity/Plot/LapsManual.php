@@ -8,7 +8,6 @@
 namespace Runalyze\View\Activity\Plot;
 
 use Runalyze\Activity\Distance;
-use Runalyze\Activity\Pace as PaceObject;
 use Runalyze\Model\Activity\Splits;
 use Runalyze\Util\StringReader;
 use Runalyze\View\Activity;
@@ -65,8 +64,6 @@ class LapsManual extends Laps
     protected function manipulateData(int $num)
     {
         $distanceUnit = \Runalyze\Configuration::General()->distanceUnitSystem()->distanceUnit();
-        $Pace = new PaceObject(0, 1);
-        $Pace->setUnit($this->PaceUnit);
 
         foreach ($this->Data as $key => $val) {
             if ($num > 35) {
@@ -79,13 +76,7 @@ class LapsManual extends Laps
                 $this->Labels[$key] = [$key, $this->Labels[$key] . ' ' . $distanceUnit];
             }
 
-            $Pace->setTime($val);
-
-            if ($this->PaceUnit->isTimeFormat()) {
-                $this->Data[$key] = 1000 * round($Pace->secondsPerKm() * $this->PaceUnit->factorForUnit());
-            } else {
-                $this->Data[$key] = (float) str_replace(',', '.', $Pace->value());
-            }
+            $this->Data[$key] = $this->barValue((int) round($val));
         }
 
         $this->Plot->Data[] = [
