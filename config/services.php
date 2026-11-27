@@ -45,9 +45,6 @@ use Runalyze\Bundle\CoreBundle\Services\LegacyCache;
 use Runalyze\Bundle\CoreBundle\Services\LegacyContentResponseFactory;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
-use Runalyze\Bundle\CoreBundle\Services\PluginDiscovery;
-use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
-use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
 use Runalyze\Bundle\CoreBundle\Services\PrivacyGuard;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
@@ -194,11 +191,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autowire(true)
         ->autoconfigure(true);
 
-    $services->set(PluginDiscovery::class);
-
-    $services->set(PluginInstallationManager::class);
-
-    $services->set(PluginSettingsProvider::class);
+    $services->load('Runalyze\\Bundle\\CoreBundle\\Services\\', __DIR__ . '/../src/CoreBundle/Services/{PluginDiscovery,PluginInstallationManager,PluginSettingsProvider}.php');
 
     $services->set(PanelRegistry::class)
         ->arg('$panels', tagged_iterator('runalyze.panel'));
