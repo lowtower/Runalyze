@@ -8,8 +8,10 @@
 namespace Runalyze\View\Activity\Plot;
 
 use Helper;
-use Runalyze\Activity\Pace as PaceObject;
+use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
 use Runalyze\Configuration;
+use Runalyze\Metrics\Velocity\Unit\AbstractPaceInTimeFormatUnit;
+use Runalyze\Metrics\Velocity\Unit\AbstractPaceUnit;
 use Runalyze\View\Activity;
 
 /**
@@ -36,22 +38,18 @@ abstract class Laps extends ActivityPlot
 
     protected string $title;
 
-    /**
-     * Unit
-     */
-    protected \Runalyze\Activity\PaceUnit\AbstractUnit $PaceUnit;
+    private AbstractPaceUnit $paceUnit;
 
     abstract protected function loadData(Activity\Context $context);
 
     protected function initData(Activity\Context $context)
     {
-        $this->PaceUnit = $context->sport()
-            ->legacyPaceUnit();
+        $this->paceUnit = $context->sport()->getSpeedUnit();
 
         $this->SplitsAreNotComplete = $this->splitsAreNotComplete($context);
         $this->loadData($context);
 
-        if ($this->Data !== [] && $this->PaceUnit->isTimeFormat()) {
+        if ($this->Data !== [] && $this->paceUnit instanceof AbstractPaceInTimeFormatUnit) {
             $min = Helper::floorFor(min($this->Data), 30000);
             $max = Helper::ceilFor(max($this->Data), 30000);
 
@@ -60,9 +58,7 @@ abstract class Laps extends ActivityPlot
             $min = floor(min($this->Data));
             $max = ceil(max($this->Data));
 
-            $Pace = new PaceObject(0, 1);
-            $Pace->setUnit($this->PaceUnit);
-            $this->Plot->addYUnit(1, str_replace('&nbsp;', '', $Pace->appendix()), 1);
+            $this->Plot->addYUnit(1, $this->paceUnit->getAppendix(), 1);
         } else {
             // #TSC if we have no distance data set nothing => will result in "no data" notice
             return;
@@ -85,26 +81,29 @@ abstract class Laps extends ActivityPlot
     protected function addAnnotations()
     {
         if ($this->demandedPace > 0) {
-            $demandedPace = (float) $this->PaceUnit->rawValue($this->demandedPace);
-
-            if ($this->PaceUnit->isTimeFormat()) {
-                $demandedPace *= 1000;
-            }
-
-            $this->Plot->addThreshold('y', round($demandedPace), 'rgb(180,0,0)');
-            // $this->Plot->addAnnotation(count($Data)-1, round($demandedPace), 'Soll: '.$this->PaceUnit->format($this->demandedPace), -10, -7);
+            $this->Plot->addThreshold('y', $this->thresholdValue($this->demandedPace), 'rgb(180,0,0)');
         }
 
         if ($this->achievedPace > 0) {
-            $achievedPace = (float) $this->PaceUnit->rawValue($this->achievedPace);
-
-            if ($this->PaceUnit->isTimeFormat()) {
-                $achievedPace *= 1000;
-            }
-
-            $this->Plot->addThreshold('y', round($achievedPace), 'rgb(0,180,0)');
-            $this->Plot->addAnnotation(0, round($achievedPace), __('avg:') . ' ' . $this->PaceUnit->format($this->achievedPace), -40, -7);
+            $achievedPace = $this->thresholdValue($this->achievedPace);
+            $formattedPace = new PaceFormatter($this->paceUnit)->value($this->achievedPace);
+            $this->Plot->addThreshold('y', $achievedPace, 'rgb(0,180,0)');
+            $this->Plot->addAnnotation(0, $achievedPace, __('avg:') . ' ' . $formattedPace, -40, -7);
         }
+    }
+
+    protected function barValue(int $secondsPerKilometer): float
+    {
+        $value = $this->paceUnit->fromBaseUnit($secondsPerKilometer);
+
+        return $this->paceUnit instanceof AbstractPaceInTimeFormatUnit ? 1000 * round($value) : round($value, 1);
+    }
+
+    private function thresholdValue(float $secondsPerKilometer): float
+    {
+        $value = $this->paceUnit->fromBaseUnit($secondsPerKilometer);
+
+        return round($this->paceUnit instanceof AbstractPaceInTimeFormatUnit ? 1000 * $value : $value);
     }
 
     /**

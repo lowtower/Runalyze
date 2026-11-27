@@ -7,7 +7,7 @@
 
 namespace Runalyze\View\Activity\Plot;
 
-use Runalyze\Activity\Pace as PaceObject;
+use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
 use Runalyze\Configuration;
 use Runalyze\Model\Trackdata;
 use Runalyze\View\Activity;
@@ -38,8 +38,6 @@ class LapsComputed extends Laps
 
         $laps = $this->computeRounds($context);
         $num = $laps->num();
-        $Pace = new PaceObject(0, 1);
-        $Pace->setUnit($this->PaceUnit);
 
         foreach ($laps->objects() as $i => $lap) {
             $km = $i + 1;
@@ -54,18 +52,10 @@ class LapsComputed extends Laps
             }
 
             $this->Labels[$i] = [$i, $label];
-            $Pace->setDistance($lap->distance()->kilometer())
-                ->setTime($lap->duration()->seconds());
-
-            if ($this->PaceUnit->isTimeFormat()) {
-                $this->Data[$i] = 1000 * round($Pace->secondsPerKm() * $this->PaceUnit->factorForUnit());
-            } else {
-                $this->Data[$i] = (float) str_replace(',', '.', $Pace->value());
-            }
+            $this->Data[$i] = $this->barValue(PaceFormatter::secondsPerKilometer($lap->duration()->seconds(), $lap->distance()->kilometer()));
         }
 
-        $avgPace = new PaceObject($context->activity()->duration(), $context->activity()->distance());
-        $this->achievedPace = $avgPace->secondsPerKm();
+        $this->achievedPace = PaceFormatter::secondsPerKilometer($context->activity()->duration(), $context->activity()->distance());
         $this->Plot->Data[] = [
             'label' => $this->title,
             'data' => $this->Data,
