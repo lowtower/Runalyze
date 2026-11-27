@@ -72,6 +72,7 @@ use Runalyze\Service\ElevationCorrection\Strategy\GeoTiff;
 use Runalyze\Service\ElevationCorrection\Strategy\GoogleMaps;
 use Runalyze\Service\RouteNameEvaluation\RouteNameEvalFactory;
 use Runalyze\Service\RouteNameEvaluation\RouteNameEvalOsm;
+use Runalyze\Service\WeatherForecast\DatabaseCacheInterface;
 use Runalyze\Service\WeatherForecast\Strategy\DarkSky;
 use Runalyze\Service\WeatherForecast\Strategy\DatabaseCache;
 use Runalyze\Service\WeatherForecast\Strategy\MeteostatNet;
@@ -498,11 +499,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'channel' => 'external_services',
         ]);
 
-    $services->set(DatabaseCache::class)
-        ->arg('$Cache', service(WeathercacheRepository::class));
+    $services->alias(DatabaseCacheInterface::class, WeathercacheRepository::class);
 
-    $services->set(WeatherForecast::class)
-        ->arg('$DatabaseCache', service(WeathercacheRepository::class));
+    $services->set(DatabaseCache::class);
+
+    $services->set(WeatherForecast::class);
 
     $services->set(GeoTiffReader::class)
         ->arg('$directory', '%app.data_directory%/srtm');
