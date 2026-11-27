@@ -7,7 +7,6 @@
 
 namespace Runalyze\Data\Weather;
 
-use Runalyze\Activity\Pace;
 use Runalyze\Activity\Temperature as ActivityTemperature;
 use Runalyze\Activity\ValueInterface;
 
@@ -22,11 +21,11 @@ class WindChillFactor implements ValueInterface
     protected ActivityTemperature $AdjustedTemperature;
 
     /**
-     * Construct WindChillFactor
+     * @param float $activitySpeedKmh Activity speed in km/h
      */
-    public function __construct(WindSpeed $windSpeed, ActivityTemperature $temperature, ?Pace $activitySpeed = null)
+    public function __construct(WindSpeed $windSpeed, ActivityTemperature $temperature, float $activitySpeedKmh = 0.0)
     {
-        $this->setFrom($windSpeed, $temperature, $activitySpeed);
+        $this->setFrom($windSpeed, $temperature, $activitySpeedKmh);
     }
 
     /**
@@ -44,33 +43,18 @@ class WindChillFactor implements ValueInterface
 
     /**
      * Calculate and set adjusted temperature
+     * @param float $activitySpeedKmh Activity speed in km/h
      * @throws \InvalidArgumentException
      * @see https://en.wikipedia.org/wiki/Wind_chill#North_American_and_United_Kingdom_wind_chill_index
      */
-    public function setFrom(WindSpeed $windSpeed, ActivityTemperature $temperature, ?Pace $activitySpeed = null): void
+    public function setFrom(WindSpeed $windSpeed, ActivityTemperature $temperature, float $activitySpeedKmh = 0.0): void
     {
         if ($windSpeed->isUnknown() || $temperature->isEmpty()) {
             throw new \InvalidArgumentException('Wind speed and temperature must be known. Null value(s) given.');
         }
 
-        $kmh = $windSpeed->inKilometerPerHour();
+        $kmh = $windSpeed->inKilometerPerHour() + $activitySpeedKmh;
         $calc = $temperature->celsius();
-
-        // #TSC: $activitySpeed->asKmPerHour() can be the string "11,7".
-        // so if not numeric: replace , with . and convert
-        // if there are problems, the (float) cast is robust :-)
-        if ($activitySpeed instanceof \Runalyze\Activity\Pace) {
-            if (is_numeric($activitySpeed->asKmPerHour())) {
-                // if numeric use direct
-                $actSpeed = $activitySpeed->asKmPerHour();
-            } else {
-                // if string try to "convert"
-                $akm = str_replace(',', '.', $activitySpeed->asKmPerHour());
-                $actSpeed = (float) $akm;
-            }
-
-            $kmh = $windSpeed->inKilometerPerHour() + $actSpeed;
-        }
 
         if ($kmh >= 5) {
             $calc = 13.12 + 0.6215 * $temperature->celsius() - 11.37 * $kmh ** 0.16 + 0.3965 * $temperature->celsius() * $kmh ** 0.16;
