@@ -272,7 +272,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$path', '%app.data_directory%');
 
     $services->set(LoadAccountData::class)
-        ->arg('$passwordHasher', service('security.user_password_hasher'))
         ->tag('doctrine.fixture.orm');
 
     $services->set(Registration::class);
@@ -542,7 +541,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$SilentExceptions', true);
 
     $services->set(SessionRequestProcessor::class)
-        ->autowire(true)
         ->tag('monolog.processor', [
             'method' => 'processRecord',
         ]);
