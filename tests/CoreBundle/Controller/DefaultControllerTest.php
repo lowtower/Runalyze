@@ -913,7 +913,7 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Group('plugin')]
-    public function testPrognosisPlotWindowRequiresInstalledPanel(): void
+    public function testPrognosisWindowsRequireInstalledPanel(): void
     {
         $entityManager = $this->getEntityManager();
         $plugin = $entityManager->getRepository(PluginEntity::class)->findOneBy([
@@ -928,7 +928,9 @@ final class DefaultControllerTest extends AbstractFixturesAwareWebTestCase
         $this->loginClient($this->Client, $this->Account, 'default');
 
         $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.plot.php');
+        $this->assertStatusCode(404, $this->Client);
 
+        $this->Client->request('GET', '/plugin/RunalyzePluginPanel_Prognose/window.php');
         $this->assertStatusCode(404, $this->Client);
     }
 
