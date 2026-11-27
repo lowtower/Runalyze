@@ -13,8 +13,6 @@ x-app-environment: &app-environment
   DATABASE_USER: ${DATABASE_USER:-runalyze}
   DATABASE_PASSWORD: ${DATABASE_PASSWORD:-runalyze}
   SQLITE_MOD_SPATIALITE: mod_spatialite.so
-  SMTP_HOST: mailhog
-  SMTP_PORT: 1025
 
 x-worker-environment: &worker-environment
   <<: *app-environment
