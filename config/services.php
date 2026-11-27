@@ -432,6 +432,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ]);
 
     $services->load('Runalyze\Bundle\CoreBundle\Twig\\', __DIR__ . '/../src/CoreBundle/Twig/*Extension.php')
+        ->private()
         ->tag('twig.attribute_extension');
 
     $services->set(GenerateJsonData::class)
