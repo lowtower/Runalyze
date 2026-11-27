@@ -9,9 +9,7 @@ namespace Runalyze\Model\Activity\Splits;
 
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\LapIntensity;
-use Runalyze\Activity\Pace;
 use Runalyze\Model\StringObject;
-use Runalyze\Parameter\Application\PaceUnit;
 
 /**
  * Single split
@@ -121,11 +119,6 @@ class Split extends StringObject
     public function time(): int
     {
         return $this->Time;
-    }
-
-    public function pace(int $legacyPaceUnitEnum = PaceUnit::MIN_PER_KM): Pace
-    {
-        return new Pace($this->Time, $this->Distance, $legacyPaceUnitEnum);
     }
 
     public function getIntensity(): LapIntensity

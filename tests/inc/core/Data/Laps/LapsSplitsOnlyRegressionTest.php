@@ -37,6 +37,14 @@ final class LapsSplitsOnlyRegressionTest extends \PHPUnit\Framework\TestCase
 
         $this->assertFalse($Lap->hasTrackValues());
         $this->assertFalse($Lap->hasHR());
+        $this->assertSame(300, $Lap->paceInSecondsPerKilometer());
+    }
+
+    public function testPacePreservesRoundingAndMissingDistance(): void
+    {
+        $this->assertSame(301, new Lap(300.5, 1.0)->paceInSecondsPerKilometer());
+        $this->assertSame(0, new Lap(0.0, 1.0)->paceInSecondsPerKilometer());
+        $this->assertNull(new Lap(300.0, 0.0)->paceInSecondsPerKilometer());
     }
 
     public function testTrackDurationOnSplitsOnlyLapThrowsRuntimeException(): void
