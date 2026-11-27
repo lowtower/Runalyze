@@ -637,7 +637,9 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         );
         $this->assertSame('4:00/km', $fastest->first()->text());
         $this->assertSame('/activity/' . $activities['longer_fast']->getId(), $fastest->first()->attr('href'));
-        $this->assertSame((string) $activities['cycling']->getId(), $tables->eq(0)->filter('tbody tr')->eq(1)->filter('a.training')->attr('rel'));
+        $cyclingRecord = $tables->eq(0)->filter('tbody tr')->eq(1)->filter('a.training');
+        $this->assertSame((string) $activities['cycling']->getId(), $cyclingRecord->attr('rel'));
+        $this->assertSame("30,0\u{00a0}km/h", $cyclingRecord->text());
 
         $longest = $tables->eq(1)->filter('tbody tr')->first()->filter('a.training');
         $this->assertSame((string) $activities['longest']->getId(), $longest->first()->attr('rel'));
@@ -1484,6 +1486,7 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $fragment = $this->Client->xmlHttpRequest('GET', $url . '?sport=' . $cycling->getId());
         $this->assertStatusCode(200, $this->Client);
         $this->assertSame('Cycling race', $fragment->filter('#all-competitions-table a.training')->text());
+        $this->assertStringContainsString("22,5\u{00a0}km/h", $fragment->filter('#all-competitions-table tbody')->text());
         $this->assertStringNotContainsString('Age grade', $fragment->filter('#pb-table thead')->text());
 
         foreach (['fun-' . $otherResult, 'fun-abc', 'fun-' . $funId . '-extra'] as $invalid) {

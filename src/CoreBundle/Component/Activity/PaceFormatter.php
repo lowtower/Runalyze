@@ -4,15 +4,27 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Component\Activity;
 
+use InvalidArgumentException;
 use Runalyze\Activity\Duration;
+use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Metrics\Velocity\Unit\AbstractPaceInTimeFormatUnit;
 use Runalyze\Metrics\Velocity\Unit\AbstractPaceUnit;
+use Runalyze\Metrics\Velocity\Unit\KilometerPerHour;
 
 final readonly class PaceFormatter
 {
     public function __construct(
         private AbstractPaceUnit $unit
     ) {}
+
+    public static function forSport(?Sport $sport): self
+    {
+        try {
+            return new self($sport?->getSpeedUnit() ?? new KilometerPerHour());
+        } catch (InvalidArgumentException) {
+            return new self(new KilometerPerHour());
+        }
+    }
 
     public static function secondsPerKilometer(float $seconds, float $kilometers): int
     {

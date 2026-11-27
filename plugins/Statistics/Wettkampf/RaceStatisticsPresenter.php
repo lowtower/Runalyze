@@ -8,11 +8,11 @@ use DataBrowserLinker;
 use Plot;
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
-use Runalyze\Activity\Pace;
 use Runalyze\Activity\Temperature;
 use Runalyze\AgeGrade\Lookup;
 use Runalyze\AgeGrade\Table\FemaleTable;
 use Runalyze\AgeGrade\Table\MaleTable;
+use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
@@ -24,7 +24,6 @@ use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
 use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Data\Weather\Condition;
-use Runalyze\Metrics\LegacyUnitConverter;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 use Runalyze\Profile\Athlete\Gender;
 use Runalyze\View\RaceResult\Dataview;
@@ -120,14 +119,14 @@ final readonly class RaceStatisticsPresenter implements StatisticsInterface, Sta
         $ageGrade = $isRunning && $birthYear !== null && $birthYear < $currentYear && in_array($gender, [Gender::MALE, Gender::FEMALE], true)
             ? new Lookup($gender === Gender::FEMALE ? new FemaleTable() : new MaleTable(), $currentYear - $birthYear)
             : null;
-        $paceUnit = new LegacyUnitConverter()->getLegacyPaceUnit($sport?->getSpeed(), true);
+        $paceFormatter = PaceFormatter::forSport($sport);
 
         $funIds = array_fill_keys($settings['funIds'], true);
         $rows = [];
         $groups = [];
         foreach ($races as $race) {
             $id = $race['id'];
-            $rows[$id] = $this->raceRow($race, $configuration, $paceUnit, $ageGrade, $currentYear, isset($funIds[$id]));
+            $rows[$id] = $this->raceRow($race, $configuration, $paceFormatter, $ageGrade, $currentYear, isset($funIds[$id]));
             $groups[(string) ($race['officialDistance'] ?? 0)][] = $race;
         }
 
@@ -185,7 +184,7 @@ final readonly class RaceStatisticsPresenter implements StatisticsInterface, Sta
     private function raceRow(
         array $race,
         RunalyzeConfigurationList $configuration,
-        int $paceUnit,
+        PaceFormatter $paceFormatter,
         ?Lookup $ageGrade,
         int $currentYear,
         bool $fun
@@ -193,7 +192,7 @@ final readonly class RaceStatisticsPresenter implements StatisticsInterface, Sta
         $general = $configuration->getGeneral();
         $distance = new Distance($race['officialDistance'], $general->getDistanceUnitSystem());
         $duration = new Duration($race['officialTime']);
-        $pace = new Pace($race['officialTime'], $race['officialDistance'], $paceUnit);
+        $pace = PaceFormatter::secondsPerKilometer($race['officialTime'], $race['officialDistance'] ?? 0.0);
         $condition = new Condition($race['weatherid']);
         $temperature = new Temperature($race['temperature'], $general->getTemperatureUnit());
         $weatherIcon = $condition->icon();
@@ -214,7 +213,7 @@ final readonly class RaceStatisticsPresenter implements StatisticsInterface, Sta
                 ? ($race['isTrack'] ? $distance->stringMeter() : $distance->string(true, (int) $configuration->get('activity-view.TRAINING_DECIMALS')))
                 : '',
             'time' => $duration->string(Duration::FORMAT_COMPETITION),
-            'pace' => $pace->valueWithAppendix(),
+            'pace' => $paceFormatter->format($pace),
             'heartRate' => ($race['pulseAvg'] ?: '?') . ' / ' . ($race['pulseMax'] ?: '?') . ' bpm',
             'weather' => $condition->isUnknown() && $temperature->isEmpty()
                 ? '' : $weatherIcon->code() . ' ' . $condition->string() . ' ' . __('at') . ' ' . $temperature->string(),

@@ -6,11 +6,23 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Component\Activity;
 
 use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
+use Runalyze\Bundle\CoreBundle\Entity\Sport;
+use Runalyze\Metrics\Velocity\Unit\PaceEnum;
 use Runalyze\Metrics\Velocity\Unit\SecondsPer100m;
 use Runalyze\Metrics\Velocity\Unit\SecondsPerKilometer;
 
 final class PaceFormatterTest extends TestCase
 {
+    public function testFormatsUsingSportUnitOrFallback(): void
+    {
+        $sport = new Sport()->setSpeed(PaceEnum::MILES_PER_HOUR);
+        $this->assertSame('7,5&nbsp;mph', PaceFormatter::forSport($sport)->format(300));
+
+        $sport->setSpeed(999);
+        $this->assertSame('12,0&nbsp;km/h', PaceFormatter::forSport($sport)->format(300));
+        $this->assertSame('12,0&nbsp;km/h', PaceFormatter::forSport(null)->format(300));
+    }
+
     public function testFormatsRunningPaceAndMissingDistance(): void
     {
         $formatter = new PaceFormatter(new SecondsPerKilometer());

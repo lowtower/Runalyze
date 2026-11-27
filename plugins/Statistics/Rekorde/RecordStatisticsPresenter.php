@@ -7,7 +7,7 @@ namespace Runalyze\Plugins\Statistics\Rekorde;
 use DateTimeImmutable;
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
-use Runalyze\Activity\Pace;
+use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsFilterFactory;
@@ -15,7 +15,6 @@ use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsInterface;
 use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
-use Runalyze\Metrics\LegacyUnitConverter;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 use Runalyze\Util\Time;
 use Symfony\Component\HttpFoundation\InputBag;
@@ -69,19 +68,18 @@ final readonly class RecordStatisticsPresenter implements StatisticsInterface
         ], [
             'id' => 'ASC',
         ]);
-        $paceUnits = new LegacyUnitConverter();
         foreach ($sports as $sport) {
             $sportId = $sport->getId();
             assert($sportId !== null);
             $records = $this->trainingRepository->findActivityRecordsFor($account, $sportId, $period['from'], $period['until']);
-            $paceUnit = $paceUnits->getLegacyPaceUnit($sport->getSpeed(), true);
+            $paceFormatter = PaceFormatter::forSport($sport);
 
             foreach ($records as $type => $rows) {
                 if ($rows !== []) {
                     $activityRecords[$type][] = [
                         'sport' => $sport,
                         'records' => array_map(
-                            fn (array $row): array => $this->activityRecord($row, $units, $type === 'fastest' ? $paceUnit : null),
+                            fn (array $row): array => $this->activityRecord($row, $units, $type === 'fastest' ? $paceFormatter : null),
                             $rows
                         ),
                     ];
@@ -122,12 +120,12 @@ final readonly class RecordStatisticsPresenter implements StatisticsInterface
      * @param array{id: int, time: int, duration: ?float, distance: ?float} $row
      * @return array{id: int, date: string, value: string}
      */
-    private function activityRecord(array $row, DistanceUnitSystem $units, ?int $paceUnit): array
+    private function activityRecord(array $row, DistanceUnitSystem $units, ?PaceFormatter $paceFormatter): array
     {
         $distance = $row['distance'] ?? 0.0;
         $duration = $row['duration'] ?? 0.0;
         $value = match (true) {
-            $paceUnit !== null => new Pace($duration, $distance, $paceUnit)->valueWithAppendix(),
+            $paceFormatter instanceof PaceFormatter => $paceFormatter->format(PaceFormatter::secondsPerKilometer($duration, $distance)),
             $distance !== 0.0 => new Distance($distance, $units)->string(),
             default => Duration::format($duration),
         };
