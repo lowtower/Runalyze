@@ -239,6 +239,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->private();
 
     $services->load('Runalyze\Bundle\CoreBundle\Repository\\', __DIR__ . '/../src/CoreBundle/Repository')
+        ->private()
         ->exclude(__DIR__ . '/../src/CoreBundle/Repository/{DatasetRepository.php,HrvRepository.php,PluginConfRepository.php,PluginRepository.php,RouteRepository.php,SwimdataRepository.php,TrackdataRepository.php}');
 
     $services->set(CleanupBackupCommand::class)
