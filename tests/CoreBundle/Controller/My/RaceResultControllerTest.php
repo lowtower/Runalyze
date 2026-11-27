@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller\My;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Repository\RaceresultRepository;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
+use Runalyze\Metrics\Velocity\Unit\PaceEnum;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
 #[\PHPUnit\Framework\Attributes\Group('requiresClient')]
@@ -98,14 +100,25 @@ final class RaceResultControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStatusCode(403, $client);
     }
 
-    public function testRaceresultFormActionRendersFormForNewRaceResult(): void
+    #[DataProvider('sportPaceUnits')]
+    public function testRaceresultFormActionRendersFormForNewRaceResult(int $unitId, string $expectedPace): void
     {
         $activity = $this->insertActivityFor($this->Account);
+        $activity->setDistance(12.0);
+        $activity->getSport()->setSpeed($unitId);
+        $this->EntityManager->flush();
 
         $client = $this->makeAuthenticatedClient();
-        $client->request('GET', '/my/raceresult/' . $activity->getId());
+        $crawler = $client->request('GET', '/my/raceresult/' . $activity->getId());
 
         $this->assertStatusCode(200, $client);
+        $this->assertStringContainsString($expectedPace, $crawler->filter('p.file')->text());
+    }
+
+    public static function sportPaceUnits(): iterable
+    {
+        yield 'typed sport pace' => [PaceEnum::SECONDS_PER_KILOMETER, '5:00/km'];
+        yield 'unknown unit falls back to speed' => [999, "12.0\u{00A0}km/h"];
     }
 
     public function testRaceresultFormActionRendersFormForExistingRaceResult(): void
