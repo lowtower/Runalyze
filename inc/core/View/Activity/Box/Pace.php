@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Runalyze\View\Activity\Box;
 
+use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
+
 /**
  * Boxed value for pace
  *
@@ -19,13 +21,12 @@ class Pace extends AbstractBox
 {
     public function __construct(\Runalyze\View\Activity\Context $Context)
     {
-        $Pace = $Context->dataview()
-            ->pace();
+        $formatter = new PaceFormatter($Context->sport()->getSpeedUnit());
 
         parent::__construct(
-            $Pace->value(),
-            $Pace->appendix(),
-            __('avg.') . ' ' . ($Pace->unit()->isTimeFormat() ? __('Pace') : __('Speed'))
+            $formatter->value($Context->dataview()->paceInSecondsPerKilometer()),
+            $formatter->appendix(),
+            __('avg.') . ' ' . ($formatter->isTimeFormat() ? __('Pace') : __('Speed'))
         );
     }
 }

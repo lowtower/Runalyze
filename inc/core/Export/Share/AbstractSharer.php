@@ -8,6 +8,7 @@
 namespace Runalyze\Export\Share;
 
 use HTML;
+use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
 use Runalyze\Export\AbstractExporter;
 use Runalyze\View\Activity\Linker;
 use System;
@@ -38,7 +39,7 @@ abstract class AbstractSharer extends AbstractExporter
             $Text .= $this->Context->dataview()
                 ->duration()
                 ->string() . ' ';
-            $Text .= '(' . $this->Context->dataview()->pace()->valueWithAppendix() . ')';
+            $Text .= '(' . $this->formattedPace() . ')';
         } else {
             $Text .= $this->Context->dataview()
                 ->duration()
@@ -52,6 +53,12 @@ abstract class AbstractSharer extends AbstractExporter
         }
 
         return strip_tags(str_replace('&nbsp;', '', $Text));
+    }
+
+    final protected function formattedPace(): string
+    {
+        return new PaceFormatter($this->Context->sport()->getSpeedUnit())
+            ->format($this->Context->dataview()->paceInSecondsPerKilometer());
     }
 
     final protected function publicURL(): string

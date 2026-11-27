@@ -18,6 +18,7 @@ use Runalyze\Activity\StrideLength;
 use Runalyze\Activity\Temperature;
 use Runalyze\Activity\TrainingEffect;
 use Runalyze\Activity\VerticalRatio;
+use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
 use Runalyze\Configuration;
 use Runalyze\Context as GeneralContext;
 use Runalyze\Data\Cadence;
@@ -47,8 +48,6 @@ class Dataview
 
     protected ?HeartRate $HRavgActive = null;
 
-    protected ?Pace $Pace = null;
-
     protected ?EffectiveVO2max $VO2max = null;
 
     protected ?Cadence\AbstractCadence $Cadence = null;
@@ -68,7 +67,7 @@ class Dataview
     /**
      * @return mixed
      */
-    protected function object(\Runalyze\Activity\Duration|\Runalyze\Activity\Pace|\Runalyze\Data\Cadence\AbstractCadence|\Runalyze\Activity\StrideLength|\Runalyze\Activity\Energy|\Runalyze\Activity\HeartRate|\Runalyze\Activity\Elevation|\Runalyze\Data\Weather\WindChillFactor|\Runalyze\Data\Weather\HeatIndex|\Runalyze\Sports\Running\VO2max\EffectiveVO2max|null &$value, \Closure $constructor)
+    protected function object(\Runalyze\Activity\Duration|\Runalyze\Data\Cadence\AbstractCadence|\Runalyze\Activity\StrideLength|\Runalyze\Activity\Energy|\Runalyze\Activity\HeartRate|\Runalyze\Activity\Elevation|\Runalyze\Data\Weather\WindChillFactor|\Runalyze\Data\Weather\HeatIndex|\Runalyze\Sports\Running\VO2max\EffectiveVO2max|null &$value, \Closure $constructor)
     {
         $value ??= $constructor($this->Activity);
 
@@ -173,12 +172,9 @@ class Dataview
             ->string();
     }
 
-    /**
-     * Get a string for the speed depending on sportid
-     */
-    public function pace(): Pace
+    public function paceInSecondsPerKilometer(): int
     {
-        return $this->object($this->Pace, fn (Activity\Entity $Activity): Pace => new Pace($Activity->duration(), $Activity->distance(), GeneralContext::Factory()->sport($Activity->sportid())->getLegacyPaceUnitEnum()));
+        return PaceFormatter::secondsPerKilometer($this->Activity->duration(), $this->Activity->distance() ?? 0.0);
     }
 
     public function cadence(): \Runalyze\Data\Cadence\AbstractCadence

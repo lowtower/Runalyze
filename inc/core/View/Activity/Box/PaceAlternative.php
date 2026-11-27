@@ -7,8 +7,10 @@
 
 namespace Runalyze\View\Activity\Box;
 
-use Runalyze\Activity\PaceUnit;
+use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
 use Runalyze\Configuration;
+use Runalyze\Metrics\Velocity\Unit\SecondsPerKilometer;
+use Runalyze\Metrics\Velocity\Unit\SecondsPerMile;
 
 /**
  * Boxed value for pace alternative (instead of speed, if pace is already in a decimal unit)
@@ -20,18 +22,14 @@ class PaceAlternative extends AbstractBox
 {
     public function __construct(\Runalyze\View\Activity\Context $Context)
     {
-        $Pace = clone $Context->dataview()
-            ->pace();
-
-        if (Configuration::General()->distanceUnitSystem()->isImperial()) {
-            $Pace->setUnit(new PaceUnit\MinPerMile());
-        } else {
-            $Pace->setUnit(new PaceUnit\MinPerKilometer());
-        }
+        $unit = Configuration::General()->distanceUnitSystem()->isImperial()
+            ? new SecondsPerMile()
+            : new SecondsPerKilometer();
+        $formatter = new PaceFormatter($unit);
 
         parent::__construct(
-            $Pace->value(),
-            $Pace->appendix(),
+            $formatter->value($Context->dataview()->paceInSecondsPerKilometer()),
+            $formatter->appendix(),
             __('avg.') . ' ' . __('Pace')
         );
     }

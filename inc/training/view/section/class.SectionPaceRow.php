@@ -5,6 +5,7 @@
  * @package Runalyze\DataObjects\Training\View\Section
  */
 
+use Runalyze\Metrics\Velocity\Unit\AbstractPaceInDecimalFormatUnit;
 use Runalyze\View\Activity;
 
 /**
@@ -63,14 +64,11 @@ class SectionPaceRow extends TrainingViewSectionRowTabbedPlot
     protected function addAveragePace()
     {
         if ($this->Context->activity()->distance() > 0 && $this->Context->activity()->duration() > 0) {
-            $Pace = $this->Context->dataview()
-                ->pace();
+            $this->BoxedValues[] = new Activity\Box\Pace($this->Context);
 
-            if ($Pace->unit()->isDecimalFormat()) {
-                $this->BoxedValues[] = new Activity\Box\Pace($this->Context);
+            if ($this->Context->sport()->getSpeedUnit() instanceof AbstractPaceInDecimalFormatUnit) {
                 $this->BoxedValues[] = new Activity\Box\PaceAlternative($this->Context);
             } else {
-                $this->BoxedValues[] = new Activity\Box\Pace($this->Context);
                 $this->BoxedValues[] = new Activity\Box\Speed($this->Context);
             }
 

@@ -81,10 +81,7 @@ class Html extends AbstractSnippetSharer
             ->distance() . ' ' : '';
         $Title .= $this->Context->dataview()
             ->titleByTypeOrSport();
-        $Pace = $this->Context->activity()
-            ->distance() > 0 ? $this->Context->dataview()
-            ->pace()
-            ->valueWithAppendix() : '';
+        $Pace = $this->Context->activity()->distance() > 0 ? $this->formattedPace() : '';
         $Elev = $this->Context->activity()
             ->elevation() > 0 ? $this->Context->dataview()
             ->elevation()
