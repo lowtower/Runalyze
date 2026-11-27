@@ -36,14 +36,11 @@ use Runalyze\Bundle\CoreBundle\Services\Dashboard\DashboardStatisticsProvider;
 use Runalyze\Bundle\CoreBundle\Services\DisposableDomainProvider;
 use Runalyze\Bundle\CoreBundle\Services\DoctrinePluginConfigurationStorage;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityCache;
-use Runalyze\Bundle\CoreBundle\Services\Import\ActivityContextAdapterFactory;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityDataContainerFilter;
-use Runalyze\Bundle\CoreBundle\Services\Import\ActivityDataContainerToActivityContextConverter;
 use Runalyze\Bundle\CoreBundle\Services\Import\ElevationCorrection;
 use Runalyze\Bundle\CoreBundle\Services\Import\FileImporter;
 use Runalyze\Bundle\CoreBundle\Services\Import\GeoTiffReader;
 use Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookup;
-use Runalyze\Bundle\CoreBundle\Services\Import\WeatherForecast;
 use Runalyze\Bundle\CoreBundle\Services\LegacyCache;
 use Runalyze\Bundle\CoreBundle\Services\LegacyContentResponseFactory;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
@@ -455,13 +452,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(TtbinConverter::class)
         ->arg('$PathToConverter', '%kernel.project_dir%/%app.ttbin_path%');
 
+    $services->load('Runalyze\\Bundle\\CoreBundle\\Services\\Import\\', __DIR__ . '/../src/CoreBundle/Services/Import/{ActivityContextAdapterFactory,ActivityDataContainerToActivityContextConverter,WeatherForecast}.php');
+
     $services->set(FileImporter::class)
         ->arg('$DirectoryForFailedImports', '%app.data_directory%/import/activity/failed')
         ->tag('monolog.logger', [
             'channel' => 'activity_uploads',
         ]);
-
-    $services->set(ActivityDataContainerToActivityContextConverter::class);
 
     $services->set(ActivityDataContainerFilter::class)
         ->tag('monolog.logger', [
@@ -470,8 +467,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(ActivityCache::class)
         ->arg('$Cache', service('app.cache.activity_uploads'));
-
-    $services->set(ActivityContextAdapterFactory::class);
 
     $services->set(DataSeriesRemover::class);
 
@@ -501,8 +496,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(DatabaseCacheInterface::class, WeathercacheRepository::class);
 
     $services->set(DatabaseCache::class);
-
-    $services->set(WeatherForecast::class);
 
     $services->set(GeoTiffReader::class)
         ->arg('$directory', '%app.data_directory%/srtm');
