@@ -1,7 +1,7 @@
 x-worker-build-args: &worker-build-args
   APP_ENV: ${APP_ENV:-dev}
 
-x-worker-environment: &worker-environment
+x-app-environment: &app-environment
   LANG: C.UTF-8
   LANGUAGE: C.UTF-8
   LC_ALL: C.UTF-8
@@ -15,8 +15,14 @@ x-worker-environment: &worker-environment
   SQLITE_MOD_SPATIALITE: mod_spatialite.so
   SMTP_HOST: mailhog
   SMTP_PORT: 1025
+
+x-worker-environment: &worker-environment
+  <<: *app-environment
   XDEBUG_MODE: "off"
   ENTRYPOINT_ROLE: worker
+
+x-app-env-file: &app-env-file
+  - .env.local
 
 x-worker-depends-on: &worker-depends-on
   db:
@@ -57,19 +63,9 @@ services:
       args:
         APP_ENV: ${APP_ENV:-dev}
     container_name: runalyze43-app
-    env_file:
-      - .env.local
+    env_file: *app-env-file
     environment:
-      LANG: C.UTF-8
-      LANGUAGE: C.UTF-8
-      LC_ALL: C.UTF-8
-      TZ: ${TZ:-Europe/Berlin}
-      APP_ENV: ${APP_ENV:-dev}
-      DATABASE_HOST: db
-      DATABASE_PORT: 3306
-      DATABASE_NAME: ${DATABASE_NAME:-runalyze}
-      DATABASE_USER: ${DATABASE_USER:-runalyze}
-      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-runalyze}
+      <<: *app-environment
       DB_ROOT_USER: root
       DB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
       DB_TEST_HOST: db-test
@@ -77,9 +73,6 @@ services:
       DB_TEST_USER: ${DB_TEST_USER:-runalyze_test}
       DB_TEST_PASSWORD: ${DB_TEST_PASSWORD:-password}
       DB_UNITTEST_NAME: ${DB_UNITTEST_NAME:-runalyze_unittest}
-      SQLITE_MOD_SPATIALITE: mod_spatialite.so
-      SMTP_HOST: mailhog
-      SMTP_PORT: 1025
       TEST_TIMEZONE: Europe/Berlin
       # The lean app image keeps only the system python3 and rsvg-convert for the
       # poster availability check (Component/Tool/Poster/Availability); the
@@ -118,8 +111,7 @@ services:
     container_name: runalyze43-worker-backup
     entrypoint: ["/usr/local/bin/runalyze-entrypoint.sh"]
     command: ["php", "bin/console", "messenger:consume", "backup", "--time-limit=3600", "--memory-limit=256M", "--no-interaction"]
-    env_file:
-      - .env.local
+    env_file: *app-env-file
     environment: *worker-environment
     depends_on: *worker-depends-on
     volumes: *worker-volumes
@@ -135,8 +127,7 @@ services:
     container_name: runalyze43-worker-poster
     entrypoint: ["/usr/local/bin/runalyze-entrypoint.sh"]
     command: ["php", "bin/console", "messenger:consume", "poster", "--time-limit=3600", "--memory-limit=256M", "--no-interaction"]
-    env_file:
-      - .env.local
+    env_file: *app-env-file
     environment:
       <<: *worker-environment
       # gpxtrackposter is pip-installed into /opt/venv in this image (see Dockerfile)
@@ -155,8 +146,7 @@ services:
     container_name: runalyze43-worker-garmin
     entrypoint: ["/usr/local/bin/runalyze-entrypoint.sh"]
     command: ["php", "bin/console", "messenger:consume", "garmin", "--time-limit=3600", "--memory-limit=256M", "--no-interaction"]
-    env_file:
-      - .env.local
+    env_file: *app-env-file
     environment: *worker-environment
     depends_on: *worker-depends-on
     volumes: *worker-volumes
