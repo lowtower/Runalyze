@@ -10,11 +10,11 @@ export LC_ALL="${LC_ALL:-C.UTF-8}"
 
 cd /var/www/html
 
-DB_HOST="${DB_HOST:-db}"
-DB_PORT="${DB_PORT:-3306}"
-DB_NAME="${DB_NAME:-runalyze}"
-DB_USER="${DB_USER:-runalyze}"
-DB_PASSWORD="${DB_PASSWORD:-runalyze}"
+DATABASE_HOST="${DATABASE_HOST:-db}"
+DATABASE_PORT="${DATABASE_PORT:-3306}"
+DATABASE_NAME="${DATABASE_NAME:-runalyze}"
+DATABASE_USER="${DATABASE_USER:-runalyze}"
+DATABASE_PASSWORD="${DATABASE_PASSWORD:-runalyze}"
 
 ENTRYPOINT_ROLE="${ENTRYPOINT_ROLE:-app}"
 
@@ -86,10 +86,10 @@ setup() {
     echo ""
     log "Waiting for database ..."
     until mysqladmin ping \
-        -h "${DB_HOST}" \
-        -P "${DB_PORT}" \
-        -u "${DB_USER}" \
-        -p"${DB_PASSWORD}" \
+        -h "${DATABASE_HOST}" \
+        -P "${DATABASE_PORT}" \
+        -u "${DATABASE_USER}" \
+        -p"${DATABASE_PASSWORD}" \
         --silent
     do
         log "Database not ready yet ..."
@@ -153,7 +153,7 @@ echo "Hostname    : $(hostname)"
 echo "IPs         : $(hostname -I)"
 echo "Port        : 8080"
 echo "web-address : http://localhost:8080"
-echo "DB Host     : ${DB_HOST}"
+echo "DB Host     : ${DATABASE_HOST}"
 echo "phpMyAdmin  : http://localhost:8081"
 echo "Redis Host  : redis"
 echo "MailHog Host: http://localhost:8025"
