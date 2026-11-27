@@ -229,11 +229,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(DashboardStatisticsProvider::class);
 
-    $services->load('Runalyze\Bundle\CoreBundle\Controller\\', __DIR__ . '/../src/CoreBundle/Controller')
-        ->tag('controller.service_arguments');
+    $services->load('Runalyze\Bundle\CoreBundle\Controller\\', __DIR__ . '/../src/CoreBundle/Controller');
 
-    $services->load('Runalyze\Bundle\GlossaryBundle\Controller\\', __DIR__ . '/../vendor/runalyze/glossary/Controller')
-        ->tag('controller.service_arguments');
+    $services->load('Runalyze\Bundle\GlossaryBundle\Controller\\', __DIR__ . '/../vendor/runalyze/glossary/Controller');
 
     $services->load('Runalyze\Bundle\CoreBundle\Command\\', __DIR__ . '/../src/CoreBundle/Command')
         ->private();
