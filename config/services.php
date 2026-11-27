@@ -197,8 +197,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->defaults()
         ->autowire(true)
-        ->autoconfigure(true)
-        ->public();
+        ->autoconfigure(true);
 
     $services->set(PluginDiscovery::class);
 
@@ -233,24 +232,18 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->load('Runalyze\Bundle\GlossaryBundle\Controller\\', __DIR__ . '/../vendor/runalyze/glossary/Controller');
 
-    $services->load('Runalyze\Bundle\CoreBundle\Command\\', __DIR__ . '/../src/CoreBundle/Command')
-        ->private();
+    $services->load('Runalyze\Bundle\CoreBundle\Command\\', __DIR__ . '/../src/CoreBundle/Command');
 
     $services->load('Runalyze\Bundle\CoreBundle\Repository\\', __DIR__ . '/../src/CoreBundle/Repository')
-        ->private()
         ->exclude(__DIR__ . '/../src/CoreBundle/Repository/{DatasetRepository.php,HrvRepository.php,PluginConfRepository.php,PluginRepository.php,RouteRepository.php,SwimdataRepository.php,TrackdataRepository.php}');
 
-    $services->set(CleanupBackupCommand::class)
-        ->private();
+    $services->set(CleanupBackupCommand::class);
 
-    $services->set(InstallDatabaseCommand::class)
-        ->private();
+    $services->set(InstallDatabaseCommand::class);
 
-    $services->set(InstallFilesystemCommand::class)
-        ->private();
+    $services->set(InstallFilesystemCommand::class);
 
     $services->set(ActivityBulkRouteNameEvaluationCommand::class)
-        ->private()
         ->arg('$osmOverpassUrl', '%app.osm_overpass_url%');
 
     $services->set(FinderFactory::class);
@@ -258,7 +251,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(FinderFactoryInterface::class, FinderFactory::class);
 
     $services->load('Runalyze\Migrations\\', __DIR__ . '/../migrations/*')
-        ->private()
         ->bind('$DatabasePrefix', '%app.database_prefix%');
 
     $services->alias(EntityManager::class, 'doctrine.orm.default_entity_manager');
@@ -270,11 +262,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'priority' => 150,
         ]);
 
-    $services->load('Runalyze\\Bundle\\CoreBundle\\EventListener\\', __DIR__ . '/../src/CoreBundle/EventListener/{AccountLastActionListener,ConsoleExceptionListener,LocaleListener,MaintenanceListener,UserLocaleListener,UserTimezoneListener}.php')
-        ->private();
+    $services->load('Runalyze\\Bundle\\CoreBundle\\EventListener\\', __DIR__ . '/../src/CoreBundle/EventListener/{AccountLastActionListener,ConsoleExceptionListener,LocaleListener,MaintenanceListener,UserLocaleListener,UserTimezoneListener}.php');
 
-    $services->set(RecalculationTasksPerformerListener::class)
-        ->private();
+    $services->set(RecalculationTasksPerformerListener::class);
 
     $services->set(Sha256SaltedEncoder::class);
 
@@ -282,7 +272,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$appSecret', '%app.secret%');
 
     $services->set(TablePrefixSubscriber::class)
-        ->private()
         ->arg('$prefix', '%app.database_prefix%');
 
     $services->set(AccountMailer::class);
@@ -319,11 +308,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 
 
-    $services->load('Runalyze\\Bundle\\CoreBundle\\EntityListener\\', __DIR__ . '/../src/CoreBundle/EntityListener/{ActivityListener,RaceResultListener,RouteListener,UserListener}.php')
-        ->private();
+    $services->load('Runalyze\\Bundle\\CoreBundle\\EntityListener\\', __DIR__ . '/../src/CoreBundle/EntityListener/{ActivityListener,RaceResultListener,RouteListener,UserListener}.php');
 
     $services->set(EquipmentUpdateSubscriber::class)
-        ->private()
         ->tag('doctrine.event_listener', [
             'event' => 'onFlush',
             'connection' => 'default',
@@ -333,17 +320,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 
 
-    $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\', __DIR__ . '/../src/CoreBundle/Form/{ActivityType,BodyValuesType,EquipmentCategoryType,EquipmentType,MultiImporterType,RaceResultType}.php')
-        ->private();
+    $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\', __DIR__ . '/../src/CoreBundle/Form/{ActivityType,BodyValuesType,EquipmentCategoryType,EquipmentType,MultiImporterType,RaceResultType}.php');
 
-    $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\Settings\\', __DIR__ . '/../src/CoreBundle/Form/Settings/{SportType,SportTypeType}.php')
-        ->private();
+    $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\Settings\\', __DIR__ . '/../src/CoreBundle/Form/Settings/{SportType,SportTypeType}.php');
 
-    $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\Tools\\', __DIR__ . '/../src/CoreBundle/Form/Tools/{Anova/AnovaType,PosterType,TrendAnalysis/TrendAnalysisType}.php')
-        ->private();
+    $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\Tools\\', __DIR__ . '/../src/CoreBundle/Form/Tools/{Anova/AnovaType,PosterType,TrendAnalysis/TrendAnalysisType}.php');
 
-    $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\Type\\', __DIR__ . '/../src/CoreBundle/Form/Type/{ActivityEquipmentType,ActivityLapIntensityChoiceType,ActivityTypeChoiceType,DistanceType,ElevationType,EnergyType,EnergyKcalType,HrZoneBoundType,PowerType,SportChoiceType,TemperatureType,WeightType,WindSpeedType}.php')
-        ->private();
+    $services->load('Runalyze\\Bundle\\CoreBundle\\Form\\Type\\', __DIR__ . '/../src/CoreBundle/Form/Type/{ActivityEquipmentType,ActivityLapIntensityChoiceType,ActivityTypeChoiceType,DistanceType,ElevationType,EnergyType,EnergyKcalType,HrZoneBoundType,PowerType,SportChoiceType,TemperatureType,WeightType,WindSpeedType}.php');
 
 
 
@@ -366,11 +349,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(SportSelectionFactory::class);
 
-    $services->set(UnitSystemFactory::class)
-        ->private();
+    $services->set(UnitSystemFactory::class);
 
     $services->set('app.unit_system.distance', AbstractDistanceUnit::class)
-        ->private()
         ->factory([
             service(UnitSystemFactory::class),
             'getDistanceUnit',
@@ -380,7 +361,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ]);
 
     $services->set('app.unit_system.elevation', AbstractDistanceUnit::class)
-        ->private()
         ->factory([
             service(UnitSystemFactory::class),
             'getElevationUnit',
@@ -394,7 +374,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(AbstractDistanceUnit::class . ' $elevationUnit', 'app.unit_system.elevation');
 
     $services->set('app.unit_system.energy', AbstractEnergyUnit::class)
-        ->private()
         ->factory([
             service(UnitSystemFactory::class),
             'getEnergyUnit',
@@ -406,7 +385,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(AbstractEnergyUnit::class . ' $energyUnit', 'app.unit_system.energy');
 
     $services->set('app.unit_system.temperature', AbstractTemperatureUnit::class)
-        ->private()
         ->factory([
             service(UnitSystemFactory::class),
             'getTemperatureUnit',
@@ -418,7 +396,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(AbstractTemperatureUnit::class . ' $temperatureUnit', 'app.unit_system.temperature');
 
     $services->set('app.unit_system.wind_speed', AbstractPaceInDecimalFormatUnit::class)
-        ->private()
         ->factory([
             service(UnitSystemFactory::class),
             'getWindSpeedUnit',
@@ -430,7 +407,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(AbstractPaceInDecimalFormatUnit::class . ' $velocityUnit', 'app.unit_system.wind_speed');
 
     $services->set('app.unit_system.weight', AbstractWeightUnit::class)
-        ->private()
         ->factory([
             service(UnitSystemFactory::class),
             'getWeightUnit',
@@ -448,7 +424,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ]);
 
     $services->load('Runalyze\Bundle\CoreBundle\Twig\\', __DIR__ . '/../src/CoreBundle/Twig/*Extension.php')
-        ->private()
         ->tag('twig.attribute_extension');
 
     $services->set(GenerateJsonData::class)
@@ -467,7 +442,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$DataDir', '%app.data_directory%');
 
     $services->set(BackupGenerationMessageHandler::class)
-        ->private()
         ->arg('$dataDirectory', '%app.data_directory%')
         ->arg('$databasePrefix', '%app.database_prefix%')
         ->arg('$runalyzeVersion', '%RUNALYZE_VERSION%');
@@ -475,7 +449,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(PosterGenerationStateResolver::class);
 
     $services->set(PosterGenerationMessageHandler::class)
-        ->private()
         ->arg('$logger', service('monolog.logger.queue'))
         ->arg('$dataDirectory', '%app.data_directory%')
         ->arg('$rsvgPath', '%app.rsvg_path%');
@@ -586,6 +559,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(DisposableDomainProvider::class)
         ->arg('$projectDir', '%kernel.project_dir%');
 
-    $services->load('Runalyze\\Bundle\\CoreBundle\\Validator\\Constraints\\', __DIR__ . '/../src/CoreBundle/Validator/Constraints/*Validator.php')
-        ->private();
+    $services->load('Runalyze\\Bundle\\CoreBundle\\Validator\\Constraints\\', __DIR__ . '/../src/CoreBundle/Validator/Constraints/*Validator.php');
 };
