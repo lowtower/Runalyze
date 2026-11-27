@@ -7,11 +7,12 @@
 
 use Runalyze\Activity as runActivity;
 use Runalyze\Activity\Duration;
-use Runalyze\Activity\Pace;
 use Runalyze\Activity\Temperature;
 use Runalyze\AgeGrade\Lookup;
 use Runalyze\AgeGrade\Table\FemaleTable;
 use Runalyze\AgeGrade\Table\MaleTable;
+use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
+use Runalyze\Metrics\Velocity\Unit\MeterPerSecond;
 use Runalyze\Model\Trackdata;
 use Runalyze\Profile\Athlete\Gender;
 use Runalyze\View;
@@ -495,23 +496,17 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
     {
         $activity = $this->Context->activity();
 
-        // #TSC lactate threshold
-        if ($activity->fitLactateThresholdHR() == null && $activity->fitLactateThresholdPace() == null) {
-            $lt = '-';
-        } else {
-            $lthr = $activity->fitLactateThresholdHR() != null ? $activity->fitLactateThresholdHR() : '-';
-            if ($activity->fitLactateThresholdPace() != null) {
-                $ltp = new Pace($activity->fitLactateThresholdPace(), 1.0, $this->Context->sport()->getLegacyPaceUnitEnum());
-                // the previous Pace instancing will not work: for 3.22 m/s the result is a pace of 5:22/km; because of the first parameter time is a int!
-                // so use this: example for 3.22m/s: 3,22*3,6=11,592km/h -> 1/11,592km/h=0,0862h/km -> 0,0862×60=5,17min/km -> function needs second/float -> 5,17min/km*60=316,56sec/km
-                $ltp->fromMinPerKm((string) (1 / ($activity->fitLactateThresholdPace() * 3.6) * 60 * 60));
-                $ltp = $ltp->valueWithAppendix();
-            } else {
-                $ltp = '-';
-            }
-
-            $lt = $lthr . ' | ' . $ltp;
+        $thresholdHeartRate = $activity->fitLactateThresholdHR() ?: null;
+        $thresholdSpeed = $activity->fitLactateThresholdPace();
+        $thresholdPace = null;
+        if ($thresholdSpeed !== null && $thresholdSpeed > 0.0) {
+            $secondsPerKilometer = round(new MeterPerSecond()->toBaseUnit($thresholdSpeed));
+            $thresholdPace = new PaceFormatter($this->Context->sport()->getSpeedUnit())->format($secondsPerKilometer);
         }
+
+        $lt = $thresholdHeartRate === null && $thresholdPace === null
+            ? '-'
+            : ($thresholdHeartRate ?? '-') . ' | ' . ($thresholdPace ?? '-');
 
         return [
             'template' => 'activity/training_view/fitdetails.html.twig',
