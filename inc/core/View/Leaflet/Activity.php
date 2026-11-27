@@ -11,8 +11,9 @@ use League\Geotools\Geohash\Geohash;
 use League\Geotools\Geotools;
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
-use Runalyze\Activity\Pace;
+use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
 use Runalyze\Configuration;
+use Runalyze\Metrics\Velocity\Unit\SecondsPerKilometer;
 use Runalyze\Model\Route;
 use Runalyze\Model\Trackdata;
 use Runalyze\View\Leaflet\Route as LeafletRoute;
@@ -204,10 +205,11 @@ class Activity extends LeafletRoute
         }
 
         if (round(new Distance($this->TrackdataLoop->distance())->valueInPreferredUnit(), 2) >= $this->Dist) {
-            $Pace = new Pace($this->TrackdataLoop->time() - $this->Time);
+            $time = $this->TrackdataLoop->time();
+            $splitTime = new PaceFormatter(new SecondsPerKilometer())->value($time - $this->Time);
 
-            $Tooltip = sprintf(__('<strong>%s. %s</strong> in %s'), $this->Dist, Configuration::General()->distanceUnitSystem()->distanceUnit(), $Pace->asMinPerKm()) . '<br>';
-            $Tooltip .= sprintf(__('<strong>Time:</strong> %s'), Duration::format($this->TrackdataLoop->time()));
+            $Tooltip = sprintf(__('<strong>%s. %s</strong> in %s'), $this->Dist, Configuration::General()->distanceUnitSystem()->distanceUnit(), $splitTime) . '<br>';
+            $Tooltip .= sprintf(__('<strong>Time:</strong> %s'), Duration::format($time));
 
             $this->addMarkerGeohash(
                 $this->RouteLoop->geohash(),
@@ -216,7 +218,7 @@ class Activity extends LeafletRoute
             );
 
             ++$this->Dist;
-            $this->Time = $this->TrackdataLoop->time();
+            $this->Time = $time;
         }
     }
 
