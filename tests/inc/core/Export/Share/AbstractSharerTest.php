@@ -6,6 +6,11 @@ namespace Runalyze\Export\Share;
 
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
+use Runalyze\Metrics\Velocity\Unit\PaceEnum;
+use Runalyze\Model\Activity\Entity as Activity;
+use Runalyze\Model\Sport\Entity as Sport;
+use Runalyze\View\Activity\Context;
+use Runalyze\View\Activity\Dataview;
 
 final class AbstractSharerTestFixture extends AbstractSharer
 {
@@ -37,6 +42,11 @@ final class AbstractSharerTestFixture extends AbstractSharer
     public function exposeExternalLink(string $text = ''): string
     {
         return $this->externalLink($text);
+    }
+
+    public function exposeText(): string
+    {
+        return $this->text();
     }
 }
 
@@ -82,5 +92,29 @@ final class AbstractSharerTest extends TestCase
 
         $this->assertStringContainsString('<strong>ExampleService</strong>', $html);
         $this->assertStringNotContainsString('<strong>0</strong>', $html);
+    }
+
+    public function testShareTextUsesTheSportPaceUnit(): void
+    {
+        $activity = new Activity([
+            Activity::DISTANCE => 5.0,
+            Activity::TIME_IN_SECONDS => 1500,
+        ]);
+        $dataview = new class($activity) extends Dataview {
+            #[\Override]
+            public function titleByTypeOrSport(): string
+            {
+                return 'Running';
+            }
+        };
+
+        $context = $this->createStub(Context::class);
+        $context->method('activity')->willReturn($activity);
+        $context->method('dataview')->willReturn($dataview);
+        $context->method('sport')->willReturn(new Sport([
+            Sport::PACE_UNIT => PaceEnum::SECONDS_PER_MILE,
+        ]));
+
+        $this->assertStringContainsString('(8:03/mi)', new AbstractSharerTestFixture($context)->exposeText());
     }
 }
