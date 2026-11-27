@@ -7,9 +7,11 @@
 
 namespace Runalyze\Dataset\Keys;
 
-use Runalyze\Activity;
+use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
 use Runalyze\Dataset\Context;
 use Runalyze\Dataset\SummaryMode;
+use Runalyze\Metrics\Velocity\Unit\AbstractPaceInTimeFormatUnit;
+use Runalyze\Metrics\Velocity\Unit\KilometerPerHour;
 use Runalyze\Profile\Sport\SportProfile;
 
 /**
@@ -75,12 +77,14 @@ class Pace extends AbstractKey
      */
     public function stringFor(Context $context): string
     {
-        $pace = $this->getPace($context);
-        if (! $pace instanceof \Runalyze\Activity\Pace) {
+        $pace = $this->secondsPerKilometer($context);
+        if ($pace === null) {
             return '';
         }
 
-        return $pace->valueWithAppendix();
+        $unit = $context->hasSport() ? $context->sport()->getSpeedUnit() : new KilometerPerHour();
+
+        return new PaceFormatter($unit)->format($pace);
     }
 
     /**
@@ -99,28 +103,20 @@ class Pace extends AbstractKey
         return 'small';
     }
 
-    private function getPace(Context $context): ?\Runalyze\Activity\Pace
+    private function secondsPerKilometer(Context $context): ?int
     {
-        if ($context->activity()->distance() > 0) {
-            if ($context->hasData(self::DURATION_SUM_WITH_DISTANCE_KEY)) {
-                if ($context->data(self::DURATION_SUM_WITH_DISTANCE_KEY) > 0) {
-                    return new Activity\Pace(
-                        $context->data(self::DURATION_SUM_WITH_DISTANCE_KEY),
-                        $context->activity()
-                            ->distance(),
-                        $context->hasSport() ? $context->sport()
-                            ->getLegacyPaceUnitEnum() : Activity\Pace::STANDARD
-                    );
-                }
-
-                return null;
-            }
-
-            return $context->dataview()
-                ->pace();
+        $activity = $context->activity();
+        $distance = $activity->distance();
+        if ($distance === null || $distance <= 0) {
+            return null;
         }
 
-        return null;
+        $durationWithDistance = $context->data(self::DURATION_SUM_WITH_DISTANCE_KEY, true);
+        if ($durationWithDistance !== null && $durationWithDistance <= 0) {
+            return null;
+        }
+
+        return PaceFormatter::secondsPerKilometer((float) ($durationWithDistance ?? $activity->duration()), $distance);
     }
 
     /**
@@ -130,33 +126,24 @@ class Pace extends AbstractKey
      */
     public function valueDependendCssStyle(Context $context): ?array
     {
-        if (! $context->hasSport() || ! array_key_exists($context->sport()->getInternalProfileEnum(), self::P_MIN_MAX)) {
+        if (! $context->hasSport()) {
             return null;
         }
 
-        $pace = $this->getPace($context);
-        if ($pace instanceof \Runalyze\Activity\Pace) {
-            $minMax = self::P_MIN_MAX[$context->Sport()->getInternalProfileEnum()];
-
-            $kmh = 1 / ($pace->secondsPerKm() / 60 / 60); // kmPerHour
-            $v = round(100 * ($kmh - $minMax['min']) / ($minMax['max'] - $minMax['min']));
-
-            // we must differ between time-base (lower is better) and decimal-based (higher is faster) representaion
-            if ($pace->unit()->isTimeFormat()) {
-                // time-base (lower is better): example: running pace like 5 minutes for 1 kilometer (=5:00min/km)
-                $class = 'bar gray';
-                $v = 100 - $v;
-            } else {
-                // decimal-base (more km is better): example: cycling 20 km in one hour (=20km/h)
-                $class = 'bar blue';
-            }
-
-            return [
-                'class' => $class,
-                'style' => '--perc: ' . $v . '%;',
-            ];
+        $sport = $context->sport();
+        $minMax = self::P_MIN_MAX[$sport->getInternalProfileEnum()] ?? null;
+        $pace = $this->secondsPerKilometer($context);
+        if ($minMax === null || $pace === null || $pace <= 0) {
+            return null;
         }
 
-        return null;
+        $kmh = new KilometerPerHour()->fromBaseUnit($pace);
+        $percentage = round(100 * ($kmh - $minMax['min']) / ($minMax['max'] - $minMax['min']));
+        $timeFormat = $sport->getSpeedUnit() instanceof AbstractPaceInTimeFormatUnit;
+
+        return [
+            'class' => $timeFormat ? 'bar gray' : 'bar blue',
+            'style' => '--perc: ' . ($timeFormat ? 100 - $percentage : $percentage) . '%;',
+        ];
     }
 }
