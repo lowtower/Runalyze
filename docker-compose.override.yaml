@@ -6,8 +6,8 @@ services:
     environment:
       PMA_HOST: db
       PMA_PORT: 3306
-      PMA_USER: runalyze
-      PMA_PASSWORD: runalyze
+      PMA_USER: ${DATABASE_USER:-runalyze}
+      PMA_PASSWORD: ${DATABASE_PASSWORD:-runalyze}
     depends_on:
       db:
         condition: service_healthy
