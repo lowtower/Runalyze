@@ -235,18 +235,23 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->load('Runalyze\Bundle\GlossaryBundle\Controller\\', __DIR__ . '/../vendor/runalyze/glossary/Controller')
         ->tag('controller.service_arguments');
 
-    $services->load('Runalyze\Bundle\CoreBundle\Command\\', __DIR__ . '/../src/CoreBundle/Command');
+    $services->load('Runalyze\Bundle\CoreBundle\Command\\', __DIR__ . '/../src/CoreBundle/Command')
+        ->private();
 
     $services->load('Runalyze\Bundle\CoreBundle\Repository\\', __DIR__ . '/../src/CoreBundle/Repository')
         ->exclude(__DIR__ . '/../src/CoreBundle/Repository/{DatasetRepository.php,HrvRepository.php,PluginConfRepository.php,PluginRepository.php,RouteRepository.php,SwimdataRepository.php,TrackdataRepository.php}');
 
-    $services->set(CleanupBackupCommand::class);
+    $services->set(CleanupBackupCommand::class)
+        ->private();
 
-    $services->set(InstallDatabaseCommand::class);
+    $services->set(InstallDatabaseCommand::class)
+        ->private();
 
-    $services->set(InstallFilesystemCommand::class);
+    $services->set(InstallFilesystemCommand::class)
+        ->private();
 
     $services->set(ActivityBulkRouteNameEvaluationCommand::class)
+        ->private()
         ->arg('$osmOverpassUrl', '%app.osm_overpass_url%');
 
     $services->set(FinderFactory::class);
