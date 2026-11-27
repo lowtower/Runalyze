@@ -7,7 +7,6 @@ use Doctrine\Persistence\ObjectManager;
 use GuzzleHttp\Client;
 use Runalyze\Bundle\CoreBundle\ArgumentResolver\AccountValueResolver;
 use Runalyze\Bundle\CoreBundle\Command\ActivityBulkRouteNameEvaluationCommand;
-use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\FinderFactory;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\FinderFactoryInterface;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\Availability;
@@ -24,8 +23,6 @@ use Runalyze\Bundle\CoreBundle\Plugin\Panel\PanelRegistry;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsFilterFactory;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsRegistry;
 use Runalyze\Bundle\CoreBundle\Repository\WeathercacheRepository;
-use Runalyze\Bundle\CoreBundle\Services\AccountChecker;
-use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Runalyze\Bundle\CoreBundle\Services\Activity\ActivityContextFactory;
 use Runalyze\Bundle\CoreBundle\Services\Activity\AgeGradeLookup;
 use Runalyze\Bundle\CoreBundle\Services\Activity\DataSeriesRemover;
@@ -256,17 +253,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(TablePrefixSubscriber::class)
         ->arg('$prefix', '%app.database_prefix%');
 
-    $services->set(AccountMailer::class);
+    $services->load('Runalyze\\Bundle\\CoreBundle\\', __DIR__ . '/../src/CoreBundle/{Component/Account/Registration,Services/AccountChecker,Services/AccountMailer}.php');
 
     $services->set(LegacyCache::class)
         ->arg('$path', '%app.data_directory%');
 
     $services->set(LoadAccountData::class)
         ->tag('doctrine.fixture.orm');
-
-    $services->set(Registration::class);
-
-    $services->set(AccountChecker::class);
 
 
 
