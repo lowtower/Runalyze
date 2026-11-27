@@ -13,8 +13,9 @@ use Helper;
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\Elevation;
 use Runalyze\Activity\HeartRate;
-use Runalyze\Activity\Pace;
+use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
 use Runalyze\Data\Laps\Laps;
+use Runalyze\Metrics\Velocity\Unit\AbstractPaceUnit;
 use Runalyze\Model\Activity;
 use Runalyze\Model\Swimdata;
 use Runalyze\Parser\Activity\FileType\FitWorkoutStep;
@@ -31,7 +32,9 @@ class Table
 {
     public const string CSS_ID = 'rounds-info-window';
 
-    protected Pace $AveragePace;
+    protected int $averageSecondsPerKilometer;
+
+    private readonly PaceFormatter $paceFormatter;
 
     protected ?Duration $AverageTime = null;
 
@@ -51,10 +54,12 @@ class Table
     public function __construct(
         protected Laps $Laps,
         protected Duration $DemandedTime,
-        protected Pace $DemandedPace,
+        private readonly float $demandedSecondsPerKilometer,
+        AbstractPaceUnit $paceUnit,
         int $internalSportProfileEnum,
         ?array $splitsAdditional = null
     ) {
+        $this->paceFormatter = new PaceFormatter($paceUnit);
         $this->defineAdditionalKeys($internalSportProfileEnum === SportProfile::RUNNING);
 
         // #TSC: parse the additional infos (only if it has the same lap count)
@@ -87,9 +92,9 @@ class Table
         }
     }
 
-    public function setAverage(Pace $pace, ?Duration $time = null): void
+    public function setAverage(int $secondsPerKilometer, ?Duration $time = null): void
     {
-        $this->AveragePace = $pace;
+        $this->averageSecondsPerKilometer = $secondsPerKilometer;
         $this->AverageTime = $time;
     }
 
@@ -119,8 +124,8 @@ class Table
                         . '<th class="{sorter: \'distance\'}">' . __('Lap') . '</th>'
                         . '<th class="{sorter: \'resulttime\'}">' . __('Duration') . '</th>'
                         . ($this->DemandedTime->isZero() ? '' : '<th>' . __('Diff.') . '</th>')
-                        . '<th>' . ($this->DemandedPace->unit()->isTimeFormat() ? __('Pace') : __('Speed')) . '</th>'
-                        . ($this->DemandedPace->isEmpty() ? '' : '<th>' . __('Diff.') . '</th>')
+                        . '<th>' . ($this->paceFormatter->isTimeFormat() ? __('Pace') : __('Speed')) . '</th>'
+                        . ($this->demandedSecondsPerKilometer <= 0.0 ? '' : '<th>' . __('Diff.') . '</th>')
                         . '<th>' . __('avg.') . ' ' . __('HR') . '</th>'
                         . '<th>' . __('max.') . ' ' . __('HR') . '</th>'
                         . '<th class="{sorter: false}">' . __('elevation') . '</th>'
@@ -174,10 +179,7 @@ class Table
     protected function tableRowFor(int $i): string
     {
         $Lap = $this->Laps->at($i);
-        if ($Lap->pace() instanceof \Runalyze\Activity\Pace) {
-            $Lap->pace()
-                ->setUnit($this->DemandedPace->unit());
-        }
+        $lapPace = $Lap->pace()?->secondsPerKm();
 
         return '<tr class="c ' . ($Lap->isActive() ? '' : 'unimportant') . '">'
                 . '<td class="small">' . ($Lap->isActive() ? ($this->IndexActive++) . '.' : '(' . ($this->IndexResting++) . '.)') . '</td>'
@@ -187,8 +189,8 @@ class Table
                 . '<td>' . $Lap->distance()->string() . '</td>'
                 . '<td>' . $Lap->duration()->string() . '</td>'
                 . ($this->DemandedTime->isZero() ? '' : '<td>' . $Lap->duration()->compareTo($this->DemandedTime, true) . '</td>')
-                . '<td>' . ($Lap->pace() instanceof \Runalyze\Activity\Pace ? $Lap->pace()->valueWithAppendix() : '-') . '</td>'
-                . ($this->DemandedPace->isEmpty() ? '' : '<td>' . ($Lap->pace() instanceof \Runalyze\Activity\Pace ? $Lap->pace()->compareTo($this->DemandedPace) : '-') . '</td>')
+                . '<td>' . ($lapPace !== null ? $this->paceFormatter->format($lapPace) : '-') . '</td>'
+                . ($this->demandedSecondsPerKilometer <= 0.0 ? '' : '<td>' . ($lapPace !== null ? $this->paceFormatter->compare($lapPace, (int) round($this->demandedSecondsPerKilometer)) : '-') . '</td>')
                 . '<td>' . ($Lap->hasHR() ? Helper::Unknown($Lap->HRavg()->string(), '-') : '-') . '</td>'
                 . '<td>' . ($Lap->hasHR() ? Helper::Unknown($Lap->HRmax()->string(), '-') : '-') . '</td>'
                 . '<td>' . ($Lap->hasElevation() ? '+' . Elevation::format($Lap->elevationUp(), false) . '/-' . Elevation::format($Lap->elevationDown(), false) : '-') . '</td>'
@@ -269,21 +271,17 @@ class Table
 
         $obj = $this->splitsAdditional['data'][$idx];
 
-        // clone a pace & HR from the first lap as "template"
+        // Use the first lap as a template for HR formatting.
         $FirstLap = $this->Laps->at(0);
 
-        // #TSC: the first lap can be without pace or HR, e.g. if the laps are built from times only
-        $pace = $FirstLap->pace() instanceof Pace ? clone $FirstLap->pace() : clone $this->DemandedPace;
-        $pace->setTime(1);
-        // set one second
         $hr = $FirstLap->hasHR() ? clone $FirstLap->HRavg() : new HeartRate(null);
 
         foreach ($this->splitsAdditional['keys'] as $key) {
             if (array_key_exists((string) $key, $obj)) {
                 if (str_contains($key, FitWorkoutStep::ADD_TARGET_SPEED)) {
                     // if additional is a pace-unit
-                    $pace->setDistance($obj[$key] / 1000); // unit is m/s: set km in this one second
-                    $Code .= '<td>' . $pace->valueWithAppendix() . '</td>';
+                    $pace = PaceFormatter::secondsPerKilometer(1.0, $obj[$key] / 1000); // target speed is in m/s
+                    $Code .= '<td>' . $this->paceFormatter->format($pace) . '</td>';
                 } elseif (str_contains($key, FitWorkoutStep::ADD_TARGET_HR)) {
                     // if additional is a HR
                     $hr->setBPM($obj[$key]);
@@ -305,8 +303,8 @@ class Table
         $Code .= '<tr class="no-zebra"><td colspan="' . ($this->showIntensity ? '5' : '4') . '" class="r">' . __('Average') . ':</td>';
         $Code .= '<td class="c">' . ($this->AverageTime instanceof Duration ? $this->AverageTime->string() : '') . '</td>';
         $Code .= ($this->DemandedTime->isZero() ? '' : '<td></td>');
-        $Code .= '<td class="c">' . $this->AveragePace->valueWithAppendix() . '</td>';
-        $Code .= ($this->DemandedPace->isEmpty() ? '' : '<td></td>');
+        $Code .= '<td class="c">' . $this->paceFormatter->format($this->averageSecondsPerKilometer) . '</td>';
+        $Code .= ($this->demandedSecondsPerKilometer <= 0.0 ? '' : '<td></td>');
         $Code .= '<td colspan="' . (3 + count($this->AdditionalKeys)) . '"></td>';
         $Code .= '</tr>';
         $Code .= '</tbody>';

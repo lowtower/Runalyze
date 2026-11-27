@@ -7,7 +7,7 @@
 
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
-use Runalyze\Bundle\CoreBundle\Component\Activity\TimePaceFormatter;
+use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
 use Runalyze\Data\Stroketype;
 use Runalyze\Metrics\Velocity\Unit\SecondsPer100m;
 use Runalyze\Model\Activity\Splits;
@@ -76,7 +76,7 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract
         $strokes = 0;
         $prevStrokes = 0;
 
-        $paceFormatter = new TimePaceFormatter(new SecondsPer100m());
+        $paceFormatter = new PaceFormatter(new SecondsPer100m());
         $prevPace = 0;
 
         $stroketypePrimary = [];
@@ -111,7 +111,7 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract
                     $cells[] = $this->cell($distance100->stringMeter());
 
                     // pace
-                    $pace = TimePaceFormatter::secondsPerKilometer($duration->seconds(), $distance100->value());
+                    $pace = PaceFormatter::secondsPerKilometer($duration->seconds(), $distance100->value());
                     $cells[] = $this->cell($paceFormatter->format($pace));
                     // make it very easy: the pace seconds define the bar-width
                     $cells[] = [
