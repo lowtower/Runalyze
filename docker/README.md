@@ -33,9 +33,11 @@ The explicit env file replaces Compose's default interpolation file; the Compose
 
 The app, workers, MariaDB and phpMyAdmin use the same interpolated database credentials. `DATABASE_HOST=db` and `DATABASE_PORT=3306` are fixed inside the development network. `DB_PORT` is only the published host port. Changing MariaDB initialization variables does not change existing database accounts in an initialized volume; update those accounts separately before changing credentials.
 
-Migrate old Compose overrides `DB_NAME`, `DB_USER` and `DB_PASSWORD` to `DATABASE_NAME`, `DATABASE_USER` and `DATABASE_PASSWORD`. Do not put Compose database credential overrides solely in Symfony's local Dotenv files.
+Migrate old Compose overrides `DB_NAME`, `DB_USER` and `DB_PASSWORD` to `DATABASE_NAME`, `DATABASE_USER` and `DATABASE_PASSWORD`. Do not put Compose database credential overrides solely in Symfony's local Dotenv files. Doctrine reads the individual `DATABASE_*` settings directly; a database connection URL is not used.
 
 ## Symfony configuration
+
+The committed `.env` contains development defaults. `.env.dist` is a reference for non-development configuration, not a complete production deployment. Supply a unique application secret and database password for production; do not copy development credentials.
 
 Symfony reads Dotenv files directly from the mounted checkout. Compose no longer injects the entire `.env.local` as real environment variables. A local file is not required for startup.
 
