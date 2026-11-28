@@ -6,6 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
 use Cache;
 use DB;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
@@ -144,7 +145,8 @@ final class SharedControllerTest extends AbstractFixturesAwareWebTestCase
         $this->isSuccessful($this->Client->getResponse(), true);
     }
 
-    public function testPublicActivityUsesItsOwnerAndCanonicalUrl(): void
+    #[DataProvider('publicActivityUrls')]
+    public function testPublicActivityUsesItsOwnerAndCanonicalUrl(string $basePath, string $legacySuffix): void
     {
         $activity = $this->createTrainingForAccount($this->Account, isPublic: true);
         $viewer = $this->getDefaultAccount();
@@ -161,19 +163,30 @@ final class SharedControllerTest extends AbstractFixturesAwareWebTestCase
             Cache::delete('training' . $activity->getId());
 
             $client = $this->makeAuthenticatedClient();
-            $crawler = $client->request('GET', 'https://example.test/shared/' . $hash . '?user=' . $viewer->getUsername());
+            $activityUrl = 'https://example.test' . $basePath . '/shared/' . $hash;
+            $crawler = $client->request('GET', $activityUrl . $legacySuffix . '?user=' . $viewer->getUsername(), server: [
+                'SCRIPT_NAME' => $basePath . '/index.php',
+                'SCRIPT_FILENAME' => '/var/www/public/index.php',
+            ]);
 
             $this->assertStatusCode(200, $client);
             $this->assertStringContainsString($this->Account->getUsername(), $crawler->filter('title')->text());
             $this->assertStringContainsString('Owner running', (string) $crawler->filter('meta[property="og:title"]')->attr('content'));
-            $this->assertSame('https://example.test/shared/' . $hash, $crawler->filter('meta[property="og:url"]')->attr('content'));
-            $athleteUrl = '/athlete/' . $this->Account->getUsername();
-            $this->assertCount(1, $crawler->filter('.panel-menu a[href="' . $athleteUrl . '"][target="_blank"]'));
+            $this->assertSame($activityUrl, $crawler->filter('meta[property="og:url"]')->attr('content'));
+            $athleteUrl = $basePath . '/athlete/' . $this->Account->getUsername();
+            $this->assertCount(1, $crawler->filter('.panel-menu a[href="' . $activityUrl . '"][target="_blank"] .fa-link'));
+            $this->assertCount(1, $crawler->filter('.panel-menu a[href="' . $athleteUrl . '"][target="_blank"] .fa-table'));
         } finally {
             $db->rollBack();
             unset(Factory::$StaticCache['sport']);
             Cache::delete('training' . $activity->getId());
         }
+    }
+
+    public static function publicActivityUrls(): iterable
+    {
+        yield 'canonical URL at the web root' => ['', ''];
+        yield 'legacy URL with a deployment prefix' => ['/runalyze', '&legacy'];
     }
 
     public function testOldSharedUserActionRedirectsPermanentlyToSharedAthlete(): void

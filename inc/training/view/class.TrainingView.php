@@ -38,14 +38,15 @@ class TrainingView
 
     private function initToolbarLinks(): void
     {
-        $Linker = new Linker($this->Context->activity());
-
-        if (! Request::isOnSharedPage()) {
-            $this->initShareLinks($Linker);
-            $this->initExportLinks();
-            $this->initToolsLinks();
-            $this->initEditLinks($Linker);
+        if (Request::isOnSharedPage()) {
+            return;
         }
+
+        $Linker = new Linker($this->Context->activity());
+        $this->initShareLinks($Linker);
+        $this->initExportLinks();
+        $this->initToolsLinks();
+        $this->initEditLinks($Linker);
 
         $this->ToolbarLinks[] = Ajax::tooltip($Linker->weekLink(), '<em>' . __('Show week') . '</em><br>' . $this->Context->dataview()->weekday() . ', ' . $this->Context->dataview()->dateAndDaytime());
     }
@@ -246,25 +247,12 @@ class TrainingView
         return [
             'is_shared' => $isShared,
             'title' => $this->Context->dataview()->titleWithComment(),
-            'toolbar_links' => $isShared ? $this->sharedToolbarLinks() : $this->ToolbarLinks,
+            'toolbar_links' => $this->ToolbarLinks,
             'navigation_prev' => $isShared ? '' : $this->navigationLink(Linker::prevId($this->Context->activity()->id(), $this->Context->activity()->timestamp()), 'left'),
             'navigation_next' => $isShared ? '' : $this->navigationLink(Linker::nextId($this->Context->activity()->id(), $this->Context->activity()->timestamp()), 'right'),
             'refresh_icon' => Icon::$REFRESH_SMALL,
             'sections' => $this->sectionsTemplateData(),
             'plots_js' => Ajax::wrapJSforDocumentReady('RunalyzePlot.resizeTrainingCharts();'),
-        ];
-    }
-
-    /**
-     * Toolbar links for the shared activity view
-     *
-     * @return string[]
-     */
-    private function sharedToolbarLinks(): array
-    {
-        return [
-            SharedLinker::getStandardLinkTo($this->Context->activity()->id(), Icon::$ATTACH),
-            '<a href="' . DataBrowserShared::getBaseUrl() . '" target="_blank">' . Icon::$TABLE . '</a>',
         ];
     }
 

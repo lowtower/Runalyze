@@ -128,11 +128,10 @@ final class TrainingViewTest extends DatabaseTestCase
         $this->assertStringContainsString('RunalyzePlot.resizeTrainingCharts();', (string) $data['plots_js']);
     }
 
-    public function testThatTheSharedActivityViewShowsTheSharedToolbarAndNoNavigation(): void
+    public function testThatTheSharedActivityViewOmitsThePrivateToolbarAndNavigation(): void
     {
         $request = SymfonyRequest::create('/shared/training');
         $request->attributes->set(SharedLinker::ACCOUNT_ATTRIBUTE, self::ACCOUNT_ID);
-        $request->attributes->set(DataBrowserShared::BASE_URL_ATTRIBUTE, '/athlete/' . self::USERNAME);
 
         $requestStack = new RequestStack([$request]);
         Request::setRequestStack($requestStack);
@@ -141,9 +140,7 @@ final class TrainingViewTest extends DatabaseTestCase
 
         $this->assertTrue($data['is_shared']);
 
-        $this->assertCount(2, $data['toolbar_links']);
-        $this->assertStringContainsString('shared/', (string) $data['toolbar_links'][0]);
-        $this->assertStringContainsString('athlete/' . self::USERNAME, (string) $data['toolbar_links'][1]);
+        $this->assertSame([], $data['toolbar_links']);
 
         $this->assertSame('', $data['navigation_prev']);
         $this->assertSame('', $data['navigation_next']);
