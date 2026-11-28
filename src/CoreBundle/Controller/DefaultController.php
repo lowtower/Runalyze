@@ -16,6 +16,7 @@ use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsRegistry;
 use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
+use Runalyze\Bundle\CoreBundle\Services\Activity\ActivityShareMenu;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Dashboard\DashboardStatisticsProvider;
 use Runalyze\Bundle\CoreBundle\Services\LegacyContentResponseFactory;
@@ -57,7 +58,8 @@ class DefaultController extends AbstractPluginsAwareController
         private readonly AccountMailer $accountMailer,
         ConfigurationManager $configurationManager,
         StatisticsRegistry $statisticsRegistry,
-        RequestStack $requestStack
+        RequestStack $requestStack,
+        private readonly ActivityShareMenu $shareMenu
     ) {
         parent::__construct(
             $doctrine,
@@ -113,7 +115,8 @@ class DefaultController extends AbstractPluginsAwareController
         $statistics = $provider->getStatistics($request);
 
         if ($statistics->activityId !== null) {
-            $trainingView = new TrainingView(new ActivityContext($statistics->activityId, SessionAccountHandler::getId()));
+            $context = new ActivityContext($statistics->activityId, SessionAccountHandler::getId());
+            $trainingView = new TrainingView($context, $this->shareMenu->links($context, $request));
             $content = $this->renderView('activity/training_view.html.twig', $trainingView->templateData());
         } elseif ($statistics->pluginId !== null) {
             assert($account instanceof Account);

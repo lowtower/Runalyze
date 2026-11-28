@@ -25,12 +25,11 @@ class TrainingView
     protected array $Sections = [];
 
     /**
-     * Toolbar links
+     * @param list<string> $ToolbarLinks
      */
-    protected array $ToolbarLinks = [];
-
     public function __construct(
-        protected \Runalyze\View\Activity\Context $Context
+        protected \Runalyze\View\Activity\Context $Context,
+        protected array $ToolbarLinks = []
     ) {
         $this->initToolbarLinks();
         $this->initSections();
@@ -43,35 +42,11 @@ class TrainingView
         }
 
         $Linker = new Linker($this->Context->activity());
-        $this->initShareLinks($Linker);
         $this->initExportLinks();
         $this->initToolsLinks();
         $this->initEditLinks($Linker);
 
         $this->ToolbarLinks[] = Ajax::tooltip($Linker->weekLink(), '<em>' . __('Show week') . '</em><br>' . $this->Context->dataview()->weekday() . ', ' . $this->Context->dataview()->dateAndDaytime());
-    }
-
-    /**
-     * Init social share links
-     */
-    protected function initShareLinks(Linker $linker)
-    {
-        $this->ToolbarLinks[] = '<li class="with-submenu"><span class="link"><i class="fa fa-fw fa-share-alt"></i> ' . __('Share') . '</span><ul class="submenu">';
-
-        if ($this->Context->activity()->isPublic()) {
-            $this->ToolbarLinks[] = '<li><a href="' . $linker->publicUrl() . '" target="_blank">' . Icon::$ATTACH . ' ' . __('Public link') . '</a></li>';
-        }
-
-        foreach (Export\Share\Types::getEnum() as $typeid) {
-            $Exporter = Export\Share\Types::get($typeid, $this->Context);
-
-            if ($Exporter->isPossible()) {
-                $link = '<li><a href="' . $Exporter->url() . '"' . ($Exporter->isExternalLink() ? ' target="_blank"' : '') . '><i class="fa fa-fw ' . $Exporter->iconClass() . '"></i> ' . $Exporter->name() . '</a></li>';
-                $this->ToolbarLinks[] = ! $Exporter->isExternalLink() ? Ajax::window($link) : $link;
-            }
-        }
-
-        $this->ToolbarLinks[] = '</ul></li>';
     }
 
     /**
