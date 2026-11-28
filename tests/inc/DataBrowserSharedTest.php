@@ -6,6 +6,7 @@ use Runalyze\Configuration;
 use Runalyze\Parameter\Application\DataBrowserMode;
 use Runalyze\Tests\DatabaseTestCase;
 use Runalyze\Util\LocalTime;
+use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]
@@ -22,30 +23,17 @@ final class DataBrowserSharedTest extends DatabaseTestCase
 
     private const int PRIVATE_TRAINING_ID = 222222;
 
-    private string $previousRequestUri;
-
-    /**
-     * @var array<string, mixed>
-     */
-    private array $previousGet;
-
     protected function setUp(): void
     {
         parent::setUp();
 
-        // Reset the request bridge used by the legacy navigation links.
-        Request::setRequestStack(new RequestStack());
+        $url = '/athlete/' . self::USERNAME;
+        $request = SymfonyRequest::create($url);
+        $request->attributes->set(SharedLinker::ACCOUNT_ATTRIBUTE, self::ACCOUNT_ID);
+        $request->attributes->set(DataBrowserShared::BASE_URL_ATTRIBUTE, $url);
 
-        $this->previousRequestUri = $_SERVER['REQUEST_URI'];
-        $this->previousGet = $_GET;
-
-        $_SERVER['REQUEST_URI'] = '/athlete/' . self::USERNAME;
-        $_GET = [
-            'user' => self::USERNAME,
-            'sport' => '999999',
-        ];
-
-        SharedLinker::$USER_ID = 1;
+        $requestStack = new RequestStack([$request]);
+        Request::setRequestStack($requestStack);
 
         // Statements that the legacy db wrapper rewrites get the id of the shared
         // athlete, the same way a shared-page Frontend request sets it up.
@@ -61,11 +49,7 @@ final class DataBrowserSharedTest extends DatabaseTestCase
     {
         parent::tearDown();
 
-        $_SERVER['REQUEST_URI'] = $this->previousRequestUri;
-        $_GET = $this->previousGet;
         Request::setRequestStack(new RequestStack());
-
-        SharedLinker::$USER_ID = 0;
         SessionAccountHandler::setAccount([
             'id' => 0,
             'username' => 'runalyze',
