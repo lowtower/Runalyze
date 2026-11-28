@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Services;
 
+use Monolog\Attribute\AsMonologProcessor;
 use Monolog\LogRecord;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -16,6 +17,7 @@ class SessionRequestProcessor
         private readonly RequestStack $requestStack
     ) {}
 
+    #[AsMonologProcessor]
     public function processRecord(LogRecord $record): LogRecord
     {
         $request = $this->requestStack->getMainRequest();
