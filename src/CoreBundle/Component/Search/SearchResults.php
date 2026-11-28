@@ -4,7 +4,6 @@ namespace Runalyze\Bundle\CoreBundle\Component\Search;
 
 use Ajax;
 use DB;
-use FormularValueParser;
 use Icon;
 use PDOforRunalyze;
 use Request;
@@ -443,13 +442,44 @@ class SearchResults
      */
     private function addTimeRangeCondition(array &$conditions): void
     {
-        if (
-            FormularValueParser::validatePost('date-from', FormularValueParser::$PARSER_DATE)
-            && FormularValueParser::validatePost('date-to', FormularValueParser::$PARSER_DATE)
-            && $_POST['date-to'] > 0
-        ) {
-            $conditions[] = '`t`.`time` BETWEEN ' . LocalTime::fromServerTime($_POST['date-from'])->getTimestamp() . ' AND ' . (LocalTime::fromServerTime($_POST['date-to'])->getTimestamp() + DAY_IN_S);
+        $fromInput = $_POST['date-from'];
+        $toInput = $_POST['date-to'];
+        if ($toInput === '') {
+            return;
         }
+
+        $from = $this->parseSearchDate($fromInput);
+        $to = $this->parseSearchDate($toInput);
+        if ($from === null || $to === null || $to <= 0 || $from > $to) {
+            $conditions[] = '1 = 0';
+            return;
+        }
+
+        $conditions[] = '`t`.`time` BETWEEN ' . $from . ' AND ' . ($to + DAY_IN_S);
+    }
+
+    private function parseSearchDate(mixed $value): ?int
+    {
+        if (! is_string($value) || preg_match('/^(\d{1,2})\.(\d{1,2})(?:\.(\d{1,4}))?\.?$/D', trim($value), $parts) !== 1) {
+            return null;
+        }
+
+        $day = (int) $parts[1];
+        $month = (int) $parts[2];
+        $year = isset($parts[3]) ? (int) $parts[3] : (int) date('Y');
+        // Keep the short-year convention used by mktime().
+        $year = match (true) {
+            $year <= 69 => $year + 2000,
+            $year <= 100 => $year + 1900,
+            default => $year,
+        };
+        if (! checkdate($month, $day, $year)) {
+            return null;
+        }
+
+        $timestamp = LocalTime::mktime(0, 0, 0, $month, $day, $year);
+
+        return $timestamp <= LocalTime::now() ? $timestamp : null;
     }
 
     /**
