@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Runalyze\Plugins\Statistics\Wettkampf;
 
-use DataBrowserLinker;
 use Plot;
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
@@ -12,6 +11,7 @@ use Runalyze\Activity\Temperature;
 use Runalyze\AgeGrade\Lookup;
 use Runalyze\AgeGrade\Table\FemaleTable;
 use Runalyze\AgeGrade\Table\MaleTable;
+use Runalyze\Bundle\CoreBundle\Component\Activity\DataBrowserLinker;
 use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
@@ -208,7 +208,7 @@ final readonly class RaceStatisticsPresenter implements StatisticsInterface, Sta
         return [
             'id' => $race['id'],
             'name' => $race['name'],
-            'dateLink' => DataBrowserLinker::weekLink(gmdate('d.m.Y', $race['time']), $race['time']),
+            'dateLink' => new DataBrowserLinker()->weekLink(gmdate('d.m.Y', $race['time']), $race['time']),
             'distance' => $race['officialDistance'] > 0
                 ? ($race['isTrack'] ? $distance->stringMeter() : $distance->string(true, (int) $configuration->get('activity-view.TRAINING_DECIMALS')))
                 : '',

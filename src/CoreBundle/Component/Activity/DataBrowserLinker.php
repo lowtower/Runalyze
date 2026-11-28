@@ -1,20 +1,16 @@
 <?php
 
-/**
- * This file contains class::DataBrowserLinker
- * @package Runalyze\DataBrowser
- */
+namespace Runalyze\Bundle\CoreBundle\Component\Activity;
 
+use Ajax;
 use Runalyze\Util\LocalTime;
 
-/**
- * Linker for DataBrowser
- *
- * @author Hannes Christiansen
- * @package Runalyze\DataBrowser
- */
-class DataBrowserLinker
+final readonly class DataBrowserLinker
 {
+    public function __construct(
+        private ?string $athleteUrl = null
+    ) {}
+
     /**
      * Get a ajax-link to a specified DataBrowser
      * @param string $name Name to be displayed as link
@@ -24,15 +20,15 @@ class DataBrowserLinker
      * @param string $title title for the link
      * @return string HTML-link
      */
-    public static function link(string $name, $startTimestampInNoTimezone, $endTimestampInNoTimezone, string $title = '', string $rel = '', ?int $sportid = null): string
+    public function link(string $name, $startTimestampInNoTimezone, $endTimestampInNoTimezone, string $title = '', string $rel = '', ?int $sportid = null): string
     {
-        if (Request::isOnSharedPage()) {
-            return DataBrowserShared::getLink($name, $startTimestampInNoTimezone, $endTimestampInNoTimezone, $title, $sportid);
+        $href = ($this->athleteUrl ?? 'call/call.DataBrowser.display.php') . '?start=' . $startTimestampInNoTimezone . '&end=' . $endTimestampInNoTimezone;
+        if ($sportid !== null) {
+            $href .= '&sport=' . $sportid;
         }
 
-        $href = 'call/call.DataBrowser.display.php?start=' . $startTimestampInNoTimezone . '&end=' . $endTimestampInNoTimezone;
-        if ($sportid !== null) {
-            $href = $href . '&sport=' . $sportid; // #TSC add sport selection criteria
+        if ($this->athleteUrl !== null) {
+            return Ajax::link($name, 'publicList', $href, '', $title);
         }
 
         return Ajax::link($name, 'data-browser-inner', $href, $rel, $title, 'Pace.restart()');
@@ -46,11 +42,11 @@ class DataBrowserLinker
      * @param int $sportid sport-id to filter one sport
      * @return string HTML-link
      */
-    public static function weekLink(string $name, $time, $transformToLocalTime = true, ?int $sportid = null): string
+    public function weekLink(string $name, $time, $transformToLocalTime = true, ?int $sportid = null): string
     {
         $localTime = $transformToLocalTime ? LocalTime::fromServerTime($time) : new LocalTime($time);
 
-        return self::link($name, $localTime->weekstart(), $localTime->weekend(), '', 'week-link', $sportid);
+        return $this->link($name, $localTime->weekstart(), $localTime->weekend(), '', 'week-link', $sportid);
     }
 
     /**
@@ -60,11 +56,11 @@ class DataBrowserLinker
      * @param int $sportid sport-id to filter one sport
      * @return string HTML-link
      */
-    public static function monthLink(string $name, $timestampInNoTimezone, ?int $sportid = null): string
+    public function monthLink(string $name, $timestampInNoTimezone, ?int $sportid = null): string
     {
         $localTime = new LocalTime($timestampInNoTimezone);
 
-        return self::link($name, $localTime->monthStart(), $localTime->monthEnd(), '', 'month-link', $sportid);
+        return $this->link($name, $localTime->monthStart(), $localTime->monthEnd(), '', 'month-link', $sportid);
     }
 
     /**
@@ -74,11 +70,11 @@ class DataBrowserLinker
      * @param int $sportid sport-id to filter one sport
      * @return string HTML-link
      */
-    public static function yearLink(string $name, $timestampInNoTimezone, ?int $sportid = null): string
+    public function yearLink(string $name, $timestampInNoTimezone, ?int $sportid = null): string
     {
         $localTime = new LocalTime($timestampInNoTimezone);
 
-        return self::link($name, $localTime->yearStart(), $localTime->yearEnd(), '', 'year-link', $sportid);
+        return $this->link($name, $localTime->yearStart(), $localTime->yearEnd(), '', 'year-link', $sportid);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Runalyze\Configuration;
 use Runalyze\Parameter\Application\DataBrowserMode;
 use Runalyze\Tests\DatabaseTestCase;
@@ -17,6 +18,8 @@ final class DataBrowserSharedTest extends DatabaseTestCase
 
     private const string USERNAME = 'databrowser_shared_test';
 
+    private const string ATHLETE_URL = '/runalyze/athlete/' . self::USERNAME;
+
     private const int SPORT_ID = 654321;
 
     private const int PUBLIC_TRAINING_ID = 111111;
@@ -27,10 +30,8 @@ final class DataBrowserSharedTest extends DatabaseTestCase
     {
         parent::setUp();
 
-        $url = '/athlete/' . self::USERNAME;
-        $request = SymfonyRequest::create($url);
+        $request = SymfonyRequest::create('/athlete/another-user?user=another-user');
         $request->attributes->set(SharedLinker::ACCOUNT_ATTRIBUTE, self::ACCOUNT_ID);
-        $request->attributes->set(DataBrowserShared::BASE_URL_ATTRIBUTE, $url);
 
         $requestStack = new RequestStack([$request]);
         Request::setRequestStack($requestStack);
@@ -101,10 +102,33 @@ final class DataBrowserSharedTest extends DatabaseTestCase
         $data = new DataBrowserShared(self::ACCOUNT_ID, [
             'start' => LocalTime::fromString('2020-01-13 00:00:00')->getTimestamp(),
             'end' => LocalTime::fromString('2020-01-19 23:59:59')->getTimestamp(),
-        ], false)->templateData();
+        ], false, self::ATHLETE_URL)->templateData();
 
         $this->assertCount(1, $data['sport_links']);
+        $this->assertStringContainsString('href="' . self::ATHLETE_URL . '?start=', (string) $data['sport_links'][0]);
         $this->assertStringContainsString('&sport=' . self::SPORT_ID, (string) $data['sport_links'][0]);
+        $this->assertStringContainsString('href="' . self::ATHLETE_URL . '?type=month"', (string) $data['icon_links']);
+        $this->assertStringContainsString('href="' . self::ATHLETE_URL . '?type=week"', (string) $data['icon_links']);
+    }
+
+    #[DataProvider('publicDateRanges')]
+    public function testPublicNavigationMovesToTheAdjacentPeriod(string $start, string $end, string $nextStart, string $nextEnd): void
+    {
+        $browser = new DataBrowserShared(self::ACCOUNT_ID, [
+            'start' => LocalTime::fromString($start)->getTimestamp(),
+            'end' => LocalTime::fromString($end)->getTimestamp(),
+            'sport' => self::SPORT_ID,
+        ], false, self::ATHLETE_URL);
+
+        $nextUrl = self::ATHLETE_URL . '?start=' . LocalTime::fromString($nextStart)->getTimestamp()
+            . '&end=' . LocalTime::fromString($nextEnd)->getTimestamp() . '&sport=' . self::SPORT_ID;
+        $this->assertStringContainsString('href="' . $nextUrl . '" target="publicList"', $browser->navigationLinks());
+    }
+
+    public static function publicDateRanges(): iterable
+    {
+        yield 'year' => ['2020-01-01 00:00:00', '2020-12-31 23:59:59', '2021-01-01 00:00:00', '2021-12-31 23:59:59'];
+        yield 'month ending on leap day' => ['2020-01-01 00:00:00', '2020-01-31 23:59:59', '2020-02-01 00:00:00', '2020-02-29 23:59:59'];
     }
 
     public function testDataBrowserKeepsExplicitDatesAndUsesMonthPreferenceForInvalidDates(): void
@@ -117,6 +141,7 @@ final class DataBrowserSharedTest extends DatabaseTestCase
         ])->templateData();
         $this->assertSame($start, $data['timestamp_start']);
         $this->assertSame($end, $data['timestamp_end']);
+        $this->assertStringContainsString('href="call/call.DataBrowser.display.php?start=', (string) $data['navigation_links']);
 
         $mode = Configuration::DataBrowser()->mode();
         $previous = $mode->valueAsString();
@@ -140,7 +165,7 @@ final class DataBrowserSharedTest extends DatabaseTestCase
             'start' => (string) LocalTime::fromString('2020-01-13 00:00:00')->getTimestamp(),
             'end' => (string) LocalTime::fromString('2020-01-19 23:59:59')->getTimestamp(),
             'sport' => (string) self::SPORT_ID,
-        ], $showPrivateActivities);
+        ], $showPrivateActivities, self::ATHLETE_URL);
     }
 
     private function insertAccount(): void

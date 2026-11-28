@@ -14,8 +14,6 @@ use Runalyze\Util\LocalTime;
  */
 class DataBrowserShared extends DataBrowser
 {
-    public const string BASE_URL_ATTRIBUTE = '_shared_athlete_url';
-
     /**
      * Number of additional columns
      */
@@ -35,9 +33,10 @@ class DataBrowserShared extends DataBrowser
     public function __construct(
         int $accountId,
         array $query,
-        private readonly bool $showPrivateActivities
+        private readonly bool $showPrivateActivities,
+        private readonly string $athleteUrl
     ) {
-        parent::__construct($accountId, $query);
+        parent::__construct($accountId, $query, $athleteUrl);
     }
 
     /**
@@ -89,48 +88,12 @@ class DataBrowserShared extends DataBrowser
         return $this->getRefreshLink();
     }
 
-    public static function getBaseUrl(): string
-    {
-        return Request::attribute(self::BASE_URL_ATTRIBUTE) ?? 'athlete/' . Request::param('user');
-    }
-
-    /**
-     * Get a ajax-link to a specified DataBrowser
-     * @param string $name Name to be displayed as link
-     * @param int $start Timestamp for first date in browser
-     * @param int $end Timestamp for last date in browser
-     * @param string $title title for the link
-     * @param int|null $sportid sport-id to filter one sport
-     */
-    public static function getLink(string $name, $start, $end, string $title = '', ?int $sportid = null): string
-    {
-        $href = self::getBaseUrl() . '?start=' . $start . '&end=' . $end;
-        if ($sportid !== null) {
-            $href .= '&sport=' . $sportid;
-        }
-
-        return Ajax::link($name, 'publicList', $href, '', $title);
-    }
-
-    public static function getUrlForMonthKm(): string
-    {
-        return self::getBaseUrl() . '?type=month';
-    }
-
-    /**
-     * Get URL for month km
-     */
-    public static function getUrlForWeekKm(): string
-    {
-        return self::getBaseUrl() . '?type=week';
-    }
-
     /**
      * Get ajax-link for showing month-kilometer
      */
     protected function getMonthKmLink(): string
     {
-        return Ajax::window('<a href="' . self::getUrlForMonthKm() . '">' . Ajax::tooltip(Icon::$BARS_BIG, __('Activity per month')) . '</a>');
+        return Ajax::window('<a href="' . $this->athleteUrl . '?type=month">' . Ajax::tooltip(Icon::$BARS_BIG, __('Activity per month')) . '</a>');
     }
 
     /**
@@ -138,7 +101,7 @@ class DataBrowserShared extends DataBrowser
      */
     protected function getWeekKmLink(): string
     {
-        return Ajax::window('<a href="' . self::getUrlForWeekKm() . '">' . Ajax::tooltip(Icon::$BARS_SMALL, __('Activity per week')) . '</a>');
+        return Ajax::window('<a href="' . $this->athleteUrl . '?type=week">' . Ajax::tooltip(Icon::$BARS_SMALL, __('Activity per week')) . '</a>');
     }
 
     /**
