@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
+use Cache;
+use DB;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Repository\ConfRepository;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
+use Runalyze\Dataset\Keys;
+use Runalyze\Model\Factory;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
@@ -121,6 +125,62 @@ final class CallControllerTest extends AbstractFixturesAwareWebTestCase
     {
         yield 'public profile' => [true];
         yield 'privacy settings link' => [false];
+    }
+
+    #[DataProvider('datasetPages')]
+    public function testDatasetShareLinksUseThePublicRoute(string $method, string $path): void
+    {
+        $db = DB::getInstance();
+        $accountId = $this->Account->getId();
+        $sportId = 2302;
+        $publicId = 2303;
+        $privateId = 2304;
+        $time = time();
+        $db->beginTransaction();
+        try {
+            $db->prepare('INSERT INTO ' . PREFIX . 'sport (id, accountid, name) VALUES (?, ?, ?)')
+                ->execute([$sportId, $accountId, 'Running']);
+            $dataset = $db->prepare('INSERT INTO ' . PREFIX . 'dataset (keyid, accountid, position) VALUES (?, ?, ?)');
+            $dataset->execute([Keys::SHARED_LINK, $accountId, 1]);
+            $dataset->execute([Keys::SETTING, $accountId, 2]);
+            $training = $db->prepare('INSERT INTO ' . PREFIX . 'training (id, accountid, sportid, time, s, distance, is_public) VALUES (?, ?, ?, ?, 1800, 5, ?)');
+            $training->execute([$publicId, $accountId, $sportId, $time, 1]);
+            $training->execute([$privateId, $accountId, $sportId, $time, 0]);
+            unset(Factory::$StaticCache['sport']);
+            Cache::delete('training' . $publicId);
+            Cache::delete('training' . $privateId);
+
+            $this->loginClient($this->Client, $this->Account, 'default');
+            $base = 'https://example.test/runalyze';
+            $page = $this->Client->request($method, $base . $path . '?start=' . ($time - 86400) . '&end=' . ($time + 86400), [
+                'resultsPerPage' => 10,
+                'page' => 1,
+            ], server: [
+                'SCRIPT_NAME' => '/runalyze/index.php',
+                'SCRIPT_FILENAME' => '/var/www/public/index.php',
+                'HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest',
+            ]);
+
+            $this->assertStatusCode(200, $this->Client);
+            $this->assertCount(1, $page->filter('[data-action="privacy"][data-activityid="' . $publicId . '"]'));
+            $this->assertCount(1, $page->filter('[data-action="privacy"][data-activityid="' . $privateId . '"]'));
+            $publicUrl = $base . '/shared/' . base_convert((string) $publicId, 10, 35);
+            $privateUrl = $base . '/shared/' . base_convert((string) $privateId, 10, 35);
+            $this->assertCount(2, $page->filter('a[href="' . $publicUrl . '"][target="_blank"]'));
+            $this->assertCount(1, $page->filter('.inline-menu a[href="' . $publicUrl . '"][onclick]'));
+            $this->assertCount(0, $page->filter('a[href="' . $privateUrl . '"]'));
+        } finally {
+            $db->rollBack();
+            unset(Factory::$StaticCache['sport']);
+            Cache::delete('training' . $publicId);
+            Cache::delete('training' . $privateId);
+        }
+    }
+
+    public static function datasetPages(): iterable
+    {
+        yield 'activity browser' => ['GET', '/databrowser'];
+        yield 'search results' => ['POST', '/my/search'];
     }
 
     public function testSavePngActionRequiresAuthentication(): void

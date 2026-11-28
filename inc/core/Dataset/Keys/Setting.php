@@ -109,9 +109,10 @@ class Setting extends AbstractKey
         $html = '<li>' . \Ajax::window('<a href="' . $context->linker()->editUrl() . '">' . \Icon::$EDIT . ' ' . __('Edit') . '</a> ', 'small') . '</li>';
         $html .= '<li><span class="link" data-action="privacy" data-activityid="' . $id . '">' . $this->privacyIconAndLabel($context) . '</span></li>';
         $html .= '<li><span class="link" data-action="delete" data-activityid="' . $id . '" data-confirm="' . __('Do you really want to delete this activity?') . '"><i class="fa fa-fw fa-trash"></i> ' . __('Delete activity') . '</span></li>';
-        $html .= ($context->activity()->isPublic())
-            ? '<li><a href="' . $context->linker()->publicUrl() . '" target="_blank" onclick="(arguments[0] || window.event).stopPropagation();">' . \Icon::$ATTACH . ' ' . __('Public link') . '</a></li>'
-            : '';
+        $publicUrl = $context->publicActivityUrl();
+        if ($publicUrl !== null) {
+            $html .= '<li><a href="' . htmlspecialchars($publicUrl) . '" target="_blank" onclick="(arguments[0] || window.event).stopPropagation();">' . \Icon::$ATTACH . ' ' . __('Public link') . '</a></li>';
+        }
 
         // #TSC also include the tools
         $html .= '<li class="separator"></li>';

@@ -126,8 +126,13 @@ class SharedController extends AbstractController
     }
 
     #[Route(path: '/athlete/{username}', name: 'shared-athlete', methods: ['GET'])]
-    public function sharedUserAction(string $username, Request $request, SummaryTableProvider $summaryTables, SumPlotFactory $plotFactory): Response
-    {
+    public function sharedUserAction(
+        string $username,
+        Request $request,
+        SummaryTableProvider $summaryTables,
+        SumPlotFactory $plotFactory,
+        SharedActivityUrlGenerator $sharedActivityUrls
+    ): Response {
         /** @var AccountRepository $repository */
         $repository = $this->doctrine
             ->getRepository(Account::class);
@@ -175,7 +180,8 @@ class SharedController extends AbstractController
             'accountStatistics' => $accountStatistics,
             'yearComparisonTable' => $yearComparisonTable,
             'raceYearComparison' => $raceYearComparison,
-            'dataBrowser' => new DataBrowserShared($account->getId(), $request->query->all(), $privacy->isListShowingAllActivities(), $athleteUrl),
+            'dataBrowser' => new DataBrowserShared($account->getId(), $request->query->all(), $privacy->isListShowingAllActivities(), $athleteUrl)
+                ->templateData($sharedActivityUrls),
             'username' => $username,
             'hasPublicList' => $publicList,
         ]);

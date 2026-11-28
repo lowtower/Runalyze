@@ -17,6 +17,7 @@ use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Runalyze\Bundle\CoreBundle\Services\Activity\ActivityShareMenu;
+use Runalyze\Bundle\CoreBundle\Services\Activity\SharedActivityUrlGenerator;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Dashboard\DashboardStatisticsProvider;
 use Runalyze\Bundle\CoreBundle\Services\LegacyContentResponseFactory;
@@ -59,7 +60,8 @@ class DefaultController extends AbstractPluginsAwareController
         ConfigurationManager $configurationManager,
         StatisticsRegistry $statisticsRegistry,
         RequestStack $requestStack,
-        private readonly ActivityShareMenu $shareMenu
+        private readonly ActivityShareMenu $shareMenu,
+        private readonly SharedActivityUrlGenerator $sharedActivityUrls
     ) {
         parent::__construct(
             $doctrine,
@@ -91,7 +93,7 @@ class DefaultController extends AbstractPluginsAwareController
 
         new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
-        $dataBrowserContent = $this->renderView('my/data_browser.html.twig', new DataBrowser()->templateData());
+        $dataBrowserContent = $this->renderView('my/data_browser.html.twig', new DataBrowser()->templateData($this->sharedActivityUrls));
 
         $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
             ->getContent();
@@ -260,7 +262,7 @@ class DefaultController extends AbstractPluginsAwareController
     {
         new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
-        $dataBrowserContent = $this->renderView('my/data_browser.html.twig', new DataBrowser()->templateData());
+        $dataBrowserContent = $this->renderView('my/data_browser.html.twig', new DataBrowser()->templateData($this->sharedActivityUrls));
 
         $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
             ->getContent();

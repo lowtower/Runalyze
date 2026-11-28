@@ -13,6 +13,7 @@ use Runalyze\Activity\Elevation;
 use Runalyze\Activity\Energy;
 use Runalyze\Activity\StrideLength;
 use Runalyze\Activity\Temperature;
+use Runalyze\Bundle\CoreBundle\Services\Activity\SharedActivityUrlGenerator;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Data\Weather\WindSpeed;
 use Runalyze\Dataset\Configuration as DatasetConfiguration;
@@ -625,7 +626,7 @@ class SearchResults
     /**
      * @return array<string, mixed> data for templates/my/search_results.html.twig
      */
-    public function templateData(): array
+    public function templateData(?SharedActivityUrlGenerator $sharedActivityUrls = null): array
     {
         if (! $this->withResults) {
             return [
@@ -644,7 +645,7 @@ class SearchResults
             'nextIcon' => Icon::$NEXT,
             'foundText' => sprintf(__('Found %s activities'), $this->totalNumberOfTrainings),
             'columnLabels' => $table->codeForColumnLabels(new DatasetIcon(DatasetIcon::INFO)->code()),
-            'rows' => $this->rowsForTemplate($table),
+            'rows' => $this->rowsForTemplate($table, $sharedActivityUrls),
             'paginationJs' => $this->paginationJs(),
         ];
     }
@@ -652,10 +653,10 @@ class SearchResults
     /**
      * @return list<array{dateLink: string, cells: string}>
      */
-    private function rowsForTemplate(Table $table): array
+    private function rowsForTemplate(Table $table, ?SharedActivityUrlGenerator $sharedActivityUrls): array
     {
         $rows = [];
-        $context = new Context(new Entity(), $this->accountId);
+        $context = new Context(new Entity(), $this->accountId, sharedActivityUrls: $sharedActivityUrls);
 
         foreach ($this->trainings as $training) {
             $context->setActivityData($training);

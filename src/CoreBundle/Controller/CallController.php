@@ -9,6 +9,7 @@ use ConfigTabs;
 use DataBrowser;
 use Frontend;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Services\Activity\SharedActivityUrlGenerator;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
 use Runalyze\Bundle\CoreBundle\Services\LegacyContentResponseFactory;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
@@ -46,13 +47,13 @@ class CallController extends AbstractController
      */
     #[Route(path: '/call/call.DataBrowser.display.php', methods: ['GET'])]
     #[Route(path: 'databrowser', name: 'databrowser', methods: ['GET'])]
-    public function dataBrowserAction(): Response
+    public function dataBrowserAction(SharedActivityUrlGenerator $sharedActivityUrls): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
-        $dataBrowserContent = $this->renderView('my/data_browser.html.twig', new DataBrowser()->templateData());
+        $dataBrowserContent = $this->renderView('my/data_browser.html.twig', new DataBrowser()->templateData($sharedActivityUrls));
 
         return $this->legacyContentResponseFactory->create($dataBrowserContent, $this->requestStack->getCurrentRequest());
     }
