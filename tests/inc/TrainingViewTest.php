@@ -8,6 +8,7 @@ use Runalyze\Model\Factory;
 use Runalyze\Sports\Running\VO2max\EffectiveVO2maxCorrector;
 use Runalyze\Tests\DatabaseTestCase;
 use Runalyze\Util\LocalTime;
+use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 #[\PHPUnit\Framework\Attributes\Group('dependsOn')]
@@ -76,7 +77,6 @@ final class TrainingViewTest extends DatabaseTestCase
         $_GET = $this->previousGet;
         Request::setRequestStack(new RequestStack());
 
-        SharedLinker::$USER_ID = 0;
         SessionAccountHandler::setAccount([
             'id' => 0,
             'username' => 'runalyze',
@@ -100,9 +100,13 @@ final class TrainingViewTest extends DatabaseTestCase
 
     public function testThatTheActivityViewProvidesTitleToolbarNavigationAndSections(): void
     {
+        $requestStack = new RequestStack([SymfonyRequest::create('/activity/' . self::TRAINING_ID . '?return=/shared/training&user=another-user')]);
+        Request::setRequestStack($requestStack);
+
         $data = $this->trainingViewFor(self::TRAINING_ID)->templateData();
 
         $this->assertFalse($data['is_shared']);
+        $this->assertSame(self::ACCOUNT_ID, SessionAccountHandler::getId());
         $this->assertSame('Running: My Test Activity', $data['title']);
 
         $this->assertNotEmpty($data['toolbar_links']);
@@ -126,9 +130,12 @@ final class TrainingViewTest extends DatabaseTestCase
 
     public function testThatTheSharedActivityViewShowsTheSharedToolbarAndNoNavigation(): void
     {
-        $_SERVER['REQUEST_URI'] = '/shared/training';
-        $_GET['user'] = self::USERNAME;
-        SharedLinker::$USER_ID = self::ACCOUNT_ID;
+        $request = SymfonyRequest::create('/shared/training');
+        $request->attributes->set(SharedLinker::ACCOUNT_ATTRIBUTE, self::ACCOUNT_ID);
+        $request->attributes->set(DataBrowserShared::BASE_URL_ATTRIBUTE, '/athlete/' . self::USERNAME);
+
+        $requestStack = new RequestStack([$request]);
+        Request::setRequestStack($requestStack);
 
         $data = $this->trainingViewFor(self::TRAINING_ID)->templateData();
 

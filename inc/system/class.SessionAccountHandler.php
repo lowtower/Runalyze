@@ -38,25 +38,13 @@ class SessionAccountHandler
     }
 
     /**
-     * Try to set account from request
-     */
-    public static function setAccountFromRequest(): void
-    {
-        if (self::$Account === []) {
-            self::$Account = DB::getInstance()->query('SELECT * FROM `' . PREFIX . 'account` WHERE `id`="' . SharedLinker::getUserId() . '" LIMIT 1')->fetch();
-        }
-    }
-
-    /**
      * Get ID of current user
      */
     public static function getId(): int
     {
-        if (SharedLinker::isOnSharedPage()) {
-            return SharedLinker::getUserId();
-        }
+        $sharedAccountId = SharedLinker::getUserId();
 
-        return self::$Account['id'] ?? -1;
+        return $sharedAccountId > 0 ? $sharedAccountId : (self::$Account['id'] ?? -1);
     }
 
     /**
