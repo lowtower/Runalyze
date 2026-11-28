@@ -15,7 +15,6 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\GenerateJsonData;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\GeneratePoster;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Poster\PosterGenerationStateResolver;
 use Runalyze\Bundle\CoreBundle\EntityListener\EquipmentUpdateSubscriber;
-use Runalyze\Bundle\CoreBundle\EventListener\RecalculationTasksPerformerListener;
 use Runalyze\Bundle\CoreBundle\EventListener\TablePrefixSubscriber;
 use Runalyze\Bundle\CoreBundle\MessageHandler\BackupGenerationMessageHandler;
 use Runalyze\Bundle\CoreBundle\MessageHandler\PosterGenerationMessageHandler;
@@ -238,9 +237,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'priority' => 150,
         ]);
 
-    $services->load('Runalyze\\Bundle\\CoreBundle\\EventListener\\', __DIR__ . '/../src/CoreBundle/EventListener/{AccountLastActionListener,ConsoleExceptionListener,LocaleListener,MaintenanceListener,UserLocaleListener,UserTimezoneListener}.php');
-
-    $services->set(RecalculationTasksPerformerListener::class);
+    $services->load('Runalyze\\Bundle\\CoreBundle\\EventListener\\', __DIR__ . '/../src/CoreBundle/EventListener/{AccountLastActionListener,ConsoleExceptionListener,LocaleListener,MaintenanceListener,RecalculationTasksPerformerListener,UserLocaleListener,UserTimezoneListener}.php');
 
     $services->set(Sha256SaltedEncoder::class);
 
