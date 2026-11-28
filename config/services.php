@@ -35,8 +35,6 @@ use Runalyze\Bundle\CoreBundle\Services\Import\FileImporter;
 use Runalyze\Bundle\CoreBundle\Services\Import\GeoTiffReader;
 use Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookup;
 use Runalyze\Bundle\CoreBundle\Services\LegacyCache;
-use Runalyze\Bundle\CoreBundle\Services\LegacyContentResponseFactory;
-use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Runalyze\Bundle\CoreBundle\Services\PluginConfigurationStorageInterface;
 use Runalyze\Bundle\CoreBundle\Services\PrivacyGuard;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager;
@@ -184,7 +182,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autowire(true)
         ->autoconfigure(true);
 
-    $services->load('Runalyze\\Bundle\\CoreBundle\\Services\\', __DIR__ . '/../src/CoreBundle/Services/{PluginDiscovery,PluginInstallationManager,PluginSettingsProvider}.php');
+    $services->load('Runalyze\\Bundle\\CoreBundle\\Services\\', __DIR__ . '/../src/CoreBundle/Services/{DoctrinePluginConfigurationStorage,LegacyContentResponseFactory,LegacyPluginOutputRenderer,PluginDiscovery,PluginInstallationManager,PluginSettingsProvider}.php');
 
     $services->set(PanelRegistry::class)
         ->arg('$panels', tagged_iterator('runalyze.panel'));
@@ -200,12 +198,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(SharedAthleteStatisticsProvider::class);
 
-    $services->set(DoctrinePluginConfigurationStorage::class);
     $services->alias(PluginConfigurationStorageInterface::class, DoctrinePluginConfigurationStorage::class);
-
-    $services->set(LegacyPluginOutputRenderer::class);
-
-    $services->set(LegacyContentResponseFactory::class);
 
     $services->set(DashboardStatisticsProvider::class);
 
