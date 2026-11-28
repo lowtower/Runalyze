@@ -24,12 +24,7 @@ final class AbstractSnippetSharerTestFixture extends AbstractSnippetSharer
         return 1;
     }
 
-    public function display(): void {}
-
-    protected function codeSnippet(): string
-    {
-        return '';
-    }
+    public function display(string $activityUrl, bool $isLocalhost): void {}
 }
 
 #[Group('default')]

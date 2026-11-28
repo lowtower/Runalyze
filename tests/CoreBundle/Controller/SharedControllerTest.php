@@ -249,6 +249,31 @@ final class SharedControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertSame('text/xml; charset=UTF-8', $this->Client->getResponse()->headers->get('content-type'));
     }
 
+    public function testPublicFeedOnlyLinksToPublicActivities(): void
+    {
+        $publicActivity = $this->createTrainingForAccount($this->Account, isPublic: true);
+        $privateActivity = $this->createTrainingForAccount($this->Account, isPublic: false);
+        $privateActivity->setTitle('Private feed activity');
+
+        $em = $this->getEntityManager();
+        foreach (['TRAINING_LIST_PUBLIC', 'TRAINING_LIST_ALL'] as $key) {
+            $em->persist(new Conf()->setAccount($this->Account)->setCategory('privacy')->setKey($key)->setValue('true'));
+        }
+        $em->flush();
+
+        $base = 'https://example.test/runalyze';
+        $this->Client->request('GET', $base . '/athlete/' . $this->Account->getUsername() . '/feed', server: [
+            'SCRIPT_NAME' => '/runalyze/index.php',
+            'SCRIPT_FILENAME' => '/var/www/public/index.php',
+        ]);
+
+        $this->assertStatusCode(200, $this->Client);
+        $content = (string) $this->Client->getResponse()->getContent();
+        $this->assertStringContainsString($base . '/shared/' . $this->encodeActivityHash($publicActivity->getId()) . '?utm_medium=feed', $content);
+        $this->assertStringContainsString('Private feed activity', $content);
+        $this->assertStringNotContainsString($base . '/shared/' . $this->encodeActivityHash($privateActivity->getId()) . '?', $content);
+    }
+
     public function testPublicWeeklyPlotKeepsItsOwnerAndFiltersInNavigation(): void
     {
         $em = $this->getEntityManager();

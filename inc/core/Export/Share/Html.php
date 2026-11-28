@@ -10,8 +10,6 @@ namespace Runalyze\Export\Share;
 use Formular;
 use FormularFieldset;
 use FormularTextarea;
-use Runalyze\View\Activity\Linker;
-use System;
 
 /**
  * Exporter for: Html
@@ -37,9 +35,9 @@ class Html extends AbstractSnippetSharer
         return __('HTML');
     }
 
-    public function display(): void
+    public function display(string $activityUrl, bool $isLocalhost): void
     {
-        $Code = str_replace(["\r", "\n", "\t"], ['', '', ''], $this->codeSnippet());
+        $Code = str_replace(["\r", "\n", "\t"], ['', '', ''], $this->codeSnippet($activityUrl, $isLocalhost));
 
         $CodeField = new FormularTextarea('code', __('Code'), $Code);
         $CodeField->addCSSclass('fullwidth');
@@ -66,11 +64,8 @@ class Html extends AbstractSnippetSharer
     /**
      * Get HTML code for snippet
      */
-    protected function codeSnippet(): string
+    private function codeSnippet(string $activityUrl, bool $isLocalhost): string
     {
-        $Linker = new Linker($this->Context->activity());
-        $TextUrl = $Linker->publicUrl();
-        $Url = $Linker->publicUrl() . '?utm_medium=referral&utm_source=sharehtml';
         $Date = $this->Context->dataview()
             ->date();
         $Time = $this->Context->dataview()
@@ -108,7 +103,9 @@ class Html extends AbstractSnippetSharer
             $Spans .= '<span class="runalyze-emb-elev">' . $Elev . '</span>';
         }
 
-        $UrlLink = (System::isAtLocalhost() || ! $this->Context->activity()->isPublic()) ? '' : '<a href="' . $Url . '" class="runalyze-emb-share">' . $TextUrl . '</a>';
+        $UrlLink = ($isLocalhost || ! $this->Context->activity()->isPublic())
+            ? ''
+            : '<a href="' . htmlspecialchars($activityUrl) . '?utm_medium=referral&amp;utm_source=sharehtml" class="runalyze-emb-share">' . htmlspecialchars($activityUrl) . '</a>';
 
         return '<div class="runalyze-emb">
 	<a href="https://runalyze.com/" class="runalyze-emb-runalyze">runalyze.com</a>

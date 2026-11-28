@@ -4,9 +4,14 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller\Activity;
 
+use Cache;
+use DB;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
+use Runalyze\Export\Share\Types;
+use Runalyze\Model\Factory;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
@@ -84,5 +89,53 @@ final class ExportControllerTest extends AbstractFixturesAwareWebTestCase
             $this->Client->getResponse()
                 ->getContent()
         );
+    }
+
+    #[DataProvider('embedVariants')]
+    public function testEmbedUrlsUseTheSymfonyRequestContext(int $typeId, bool $isPublic, string $host): void
+    {
+        $db = DB::getInstance();
+        $accountId = $this->Account->getId();
+        $activityId = 2301;
+        $sportId = 2302;
+        $db->beginTransaction();
+        try {
+            $db->prepare('INSERT INTO ' . PREFIX . 'sport (id, accountid, name) VALUES (?, ?, ?)')
+                ->execute([$sportId, $accountId, 'Running']);
+            $db->prepare('INSERT INTO ' . PREFIX . 'training (id, accountid, sportid, time, s, distance, is_public) VALUES (?, ?, ?, ?, 1800, 5, ?)')
+                ->execute([$activityId, $accountId, $sportId, time(), (int) $isPublic]);
+            Cache::delete('training' . $activityId);
+            unset(Factory::$StaticCache['sport']);
+
+            $this->loginClient($this->Client, $this->Account, 'default');
+            $base = 'https://' . $host . '/runalyze';
+            $crawler = $this->Client->request('GET', $base . '/activity/' . $activityId . '/export/social/' . $typeId, server: [
+                'SCRIPT_NAME' => '/runalyze/index.php',
+                'SCRIPT_FILENAME' => '/var/www/public/index.php',
+            ]);
+
+            $this->assertStatusCode(200, $this->Client);
+            $activityUrl = $base . '/shared/' . base_convert((string) $activityId, 10, 35);
+            if ($typeId === Types::IFRAME) {
+                $this->assertSame($activityUrl . '?mode=iframe&utm_medium=referral&utm_source=iframe', $crawler->filter('iframe')->attr('src'));
+                $this->assertStringContainsString('Only people in your local network', $crawler->text());
+            } elseif ($isPublic && $host !== 'localhost') {
+                $this->assertSame($activityUrl . '?utm_medium=referral&utm_source=sharehtml', $crawler->filter('a.runalyze-emb-share')->attr('href'));
+            } else {
+                $this->assertCount(0, $crawler->filter('a.runalyze-emb-share'));
+            }
+        } finally {
+            $db->rollBack();
+            unset(Factory::$StaticCache['sport']);
+            Cache::delete('training' . $activityId);
+        }
+    }
+
+    public static function embedVariants(): iterable
+    {
+        yield 'public HTML' => [Types::HTML, true, 'example.test'];
+        yield 'private HTML' => [Types::HTML, false, 'example.test'];
+        yield 'HTML on localhost' => [Types::HTML, true, 'localhost'];
+        yield 'widget on localhost' => [Types::IFRAME, true, 'localhost'];
     }
 }
