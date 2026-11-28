@@ -23,9 +23,6 @@ use Runalyze\Bundle\CoreBundle\Plugin\Panel\PanelRegistry;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsFilterFactory;
 use Runalyze\Bundle\CoreBundle\Plugin\Statistics\StatisticsRegistry;
 use Runalyze\Bundle\CoreBundle\Repository\WeathercacheRepository;
-use Runalyze\Bundle\CoreBundle\Services\Activity\ActivityContextFactory;
-use Runalyze\Bundle\CoreBundle\Services\Activity\AgeGradeLookup;
-use Runalyze\Bundle\CoreBundle\Services\Activity\DataSeriesRemover;
 use Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
@@ -311,7 +308,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(PrivacyGuard::class);
 
-    $services->set(ActivityContextFactory::class);
+    $services->load('Runalyze\\Bundle\\CoreBundle\\Services\\Activity\\', __DIR__ . '/../src/CoreBundle/Services/Activity/{ActivityContextFactory,AgeGradeLookup,DataSeriesRemover}.php');
 
     $services->set(ConfigurationManager::class);
 
@@ -435,10 +432,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(ActivityCache::class)
         ->arg('$Cache', service('app.cache.activity_uploads'));
-
-    $services->set(DataSeriesRemover::class);
-
-    $services->set(AgeGradeLookup::class);
 
     $services->set(DarkSky::class)
         ->arg('$ApiKey', '%app.darksky_api_key%')
