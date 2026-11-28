@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
+use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Bundle\CoreBundle\Form\Type\SportChoiceType;
 use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
@@ -22,9 +23,13 @@ final class SportChoiceTypeTest extends TestCase
 {
     public function testChoicesAndEquipmentCategoriesFollowTheAccount(): void
     {
+        $defaultActivityType = $this->createStub(Type::class);
+        $defaultActivityType->method('getId')->willReturn(301);
+
         $firstAccount = new Account();
         $firstSport = $this->createStub(Sport::class);
         $firstSport->method('getId')->willReturn(1);
+        $firstSport->method('getDefaultType')->willReturn($defaultActivityType);
         $firstAccount->getSports()->add($firstSport);
 
         $secondAccount = new Account();
@@ -71,7 +76,12 @@ final class SportChoiceTypeTest extends TestCase
         $secondAttributes = $secondConfig->getOption('choice_attr');
         $this->assertInstanceOf(Closure::class, $firstAttributes);
         $this->assertInstanceOf(Closure::class, $secondAttributes);
-        $this->assertSame('[101]', $firstAttributes($firstSport, 0, '1')['data-equipment-types']);
-        $this->assertSame('[202]', $secondAttributes($secondSport, 0, '2')['data-equipment-types']);
+        $firstMetadata = $firstAttributes($firstSport, 0, '1');
+        $secondMetadata = $secondAttributes($secondSport, 0, '2');
+
+        $this->assertSame('[101]', $firstMetadata['data-equipment-types']);
+        $this->assertSame('[202]', $secondMetadata['data-equipment-types']);
+        $this->assertSame(301, $firstMetadata['data-activity-type']);
+        $this->assertSame('', $secondMetadata['data-activity-type']);
     }
 }
