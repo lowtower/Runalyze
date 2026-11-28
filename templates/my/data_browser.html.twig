@@ -8,7 +8,24 @@
 #}
 <div class="panel-heading">
     <div class="panel-menu">
-        {{ icon_links|raw }}
+        {% if shared_browser|default(false) %}
+            {% for link in icon_links %}
+                {{ link|raw }}
+            {% endfor %}
+        {% else %}
+            <ul>
+                <li>
+                    {% if config(app.user).privacy.listPublic %}
+                        <a href="{{ path('shared-athlete', {username: app.user.username}) }}" target="_blank" rel="tooltip" title="{{ 'Your public athlete page'|trans }}"><i class="fa far fa-fw fa-address-card"></i></a>
+                    {% else %}
+                        <a href="{{ path('settings-privacy') }}" class="window" rel="tooltip" title="{{ 'You can activate your public athlete page at <em>Configuration->Privacy</em>'|trans }}"><i class="fa far fa-fw fa-address-card"></i></a>
+                    {% endif %}
+                </li>
+                {% for link in icon_links %}
+                    <li>{{ link|raw }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
     </div>
     <div class="icons-left">{{ navigation_links|raw }}</div>
     <h1>{{ title|raw }}</h1>

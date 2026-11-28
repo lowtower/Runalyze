@@ -180,7 +180,6 @@ class Frontend
 
             SessionAccountHandler::setAccount([
                 'id' => $user->getId(),
-                'username' => $user->getUsername(),
                 'language' => $user->getLanguage(),
                 'timezone' => $user->getTimezone(),
                 'mail' => $user->getMail(),

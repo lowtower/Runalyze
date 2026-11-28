@@ -107,8 +107,8 @@ final class DataBrowserSharedTest extends DatabaseTestCase
         $this->assertCount(1, $data['sport_links']);
         $this->assertStringContainsString('href="' . self::ATHLETE_URL . '?start=', (string) $data['sport_links'][0]);
         $this->assertStringContainsString('&sport=' . self::SPORT_ID, (string) $data['sport_links'][0]);
-        $this->assertStringContainsString('href="' . self::ATHLETE_URL . '?type=month"', (string) $data['icon_links']);
-        $this->assertStringContainsString('href="' . self::ATHLETE_URL . '?type=week"', (string) $data['icon_links']);
+        $this->assertStringContainsString('href="' . self::ATHLETE_URL . '?type=month"', (string) $data['icon_links'][0]);
+        $this->assertStringContainsString('href="' . self::ATHLETE_URL . '?type=week"', (string) $data['icon_links'][1]);
     }
 
     #[DataProvider('publicDateRanges')]

@@ -73,13 +73,12 @@ class DataBrowserShared extends DataBrowser
     }
 
     /**
-     * Icon links: only the sum plots, without the surrounding list of the
-     * default data browser
+     * @return list<string>
      */
     #[\Override]
-    public function iconLinks(): string
+    public function iconLinks(): array
     {
-        return $this->getMonthKmLink() . $this->getWeekKmLink();
+        return [$this->getMonthKmLink(), $this->getWeekKmLink()];
     }
 
     #[\Override]

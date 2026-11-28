@@ -1417,6 +1417,7 @@ final class PluginControllerTest extends AbstractFixturesAwareWebTestCase
         $page = $this->Client->request('GET', $url . '?_shared_athlete_account_id=' . $visitor->getId() . '&user=' . $visitor->getUsername());
         $this->assertStatusCode(200, $this->Client);
         $this->assertStringStartsWith($url . '?start=', (string) $page->filter('#publicList #refreshDataBrowser')->attr('href'));
+        $this->assertCount(0, $page->filter('#publicList .panel-menu .fa-address-card'));
         $year = $page->filter('#statistics-years .summary-year tbody tr')->reduce(static fn ($row): bool => $row->filter('a')->text() === '2025');
         $this->assertSame('publicList', $year->filter('a')->attr('target'));
         $this->assertStringContainsString($url, (string) $year->filter('a')->attr('href'));
