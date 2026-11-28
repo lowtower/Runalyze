@@ -329,18 +329,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->factory([
             service(UnitSystemFactory::class),
             'getDistanceUnit',
-        ])
-        ->args([
-            service(ConfigurationManager::class),
         ]);
 
     $services->set('app.unit_system.elevation', AbstractDistanceUnit::class)
         ->factory([
             service(UnitSystemFactory::class),
             'getElevationUnit',
-        ])
-        ->args([
-            service(ConfigurationManager::class),
         ]);
 
     $services->alias(AbstractDistanceUnit::class . ' $distanceUnit', 'app.unit_system.distance');
@@ -351,9 +345,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->factory([
             service(UnitSystemFactory::class),
             'getEnergyUnit',
-        ])
-        ->args([
-            service(ConfigurationManager::class),
         ]);
 
     $services->alias(AbstractEnergyUnit::class . ' $energyUnit', 'app.unit_system.energy');
@@ -362,9 +353,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->factory([
             service(UnitSystemFactory::class),
             'getTemperatureUnit',
-        ])
-        ->args([
-            service(ConfigurationManager::class),
         ]);
 
     $services->alias(AbstractTemperatureUnit::class . ' $temperatureUnit', 'app.unit_system.temperature');
@@ -373,9 +361,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->factory([
             service(UnitSystemFactory::class),
             'getWindSpeedUnit',
-        ])
-        ->args([
-            service(ConfigurationManager::class),
         ]);
 
     $services->alias(AbstractPaceInDecimalFormatUnit::class . ' $velocityUnit', 'app.unit_system.wind_speed');
@@ -384,9 +369,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->factory([
             service(UnitSystemFactory::class),
             'getWeightUnit',
-        ])
-        ->args([
-            service(ConfigurationManager::class),
         ]);
 
     $services->alias(AbstractWeightUnit::class . ' $weightUnit', 'app.unit_system.weight');
