@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Form\Type;
 
+use Doctrine\Common\Collections\Collection;
 use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Bundle\CoreBundle\Form\AbstractTokenStorageAwareType;
 use Runalyze\Bundle\CoreBundle\Form\ConfigurationManagerAwareTrait;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -25,7 +27,7 @@ class ActivityTypeChoiceType extends AbstractTokenStorageAwareType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'choices' => $this->getConfigurationList()
+            'choices' => fn (Options $options): Collection => $this->getConfigurationList()
                 ->getActivityForm()
                 ->getDatabaseOrderForTypes()
                 ->sortCollection(
