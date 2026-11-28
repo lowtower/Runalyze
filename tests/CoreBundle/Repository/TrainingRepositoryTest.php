@@ -433,6 +433,24 @@ final class TrainingRepositoryTest extends AbstractRepositoryTestCase
         return $activity;
     }
 
+    public function testDetachedSportIsReplacedWithManagedSport(): void
+    {
+        $entityManager = $this->getEntityManager();
+        $detachedSport = $this->getDefaultAccountsRunningSport();
+        $sportId = $detachedSport->getId();
+        $entityManager->detach($detachedSport);
+
+        $activity = new Training();
+        $activity->setSport($detachedSport);
+
+        $this->TrainingRepository->ensureThatSportAndTypeAreManaged($activity);
+
+        $managedSport = $activity->getSport();
+        $this->assertNotSame($detachedSport, $managedSport);
+        $this->assertSame($sportId, $managedSport->getId());
+        $this->assertTrue($entityManager->contains($managedSport));
+    }
+
     public function testThatSportIsSetToDefaultIfEmpty(): void
     {
         $activity = new Training();
