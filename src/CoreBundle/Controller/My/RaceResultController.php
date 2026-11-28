@@ -3,6 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\Controller\My;
 
 use Doctrine\Persistence\ManagerRegistry;
+use InvalidArgumentException;
 use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
@@ -14,7 +15,7 @@ use Runalyze\Bundle\CoreBundle\Repository\SportRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Activity\AgeGradeLookup;
 use Runalyze\Bundle\CoreBundle\Services\LegacyCache;
-use Runalyze\Metrics\LegacyUnitConverter;
+use Runalyze\Metrics\Velocity\Unit\KilometerPerHour;
 use Runalyze\Sports\Running\VO2max\Estimation\DanielsGilbertFormula;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -89,11 +90,17 @@ class RaceResultController extends AbstractController
                 ->clearRaceResultCache($raceResult);
         }
 
+        try {
+            $paceUnit = $activity->getSport()->getSpeedUnit();
+        } catch (InvalidArgumentException) {
+            $paceUnit = new KilometerPerHour();
+        }
+
         return $this->render('my/raceresult/form.html.twig', [
             'form' => $form->createView(),
             'isNew' => $isNew,
             'activity' => $activity,
-            'unitConverter' => new LegacyUnitConverter(),
+            'paceUnit' => $paceUnit,
         ]);
     }
 

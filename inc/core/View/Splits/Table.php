@@ -10,7 +10,6 @@ namespace Runalyze\View\Splits;
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
 use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
-use Runalyze\Metrics\LegacyUnitConverter;
 use Runalyze\Metrics\Velocity\Unit\AbstractPaceUnit;
 use Runalyze\Metrics\Velocity\Unit\SecondsPerKilometer;
 
@@ -42,14 +41,11 @@ class Table
      */
     protected string $Code = '';
 
-    /**
-     * @param AbstractPaceUnit|int $PaceUnit typed unit or legacy unit ID
-     */
     public function __construct(
         protected \Runalyze\Model\Activity\Splits\Entity $Splits,
-        AbstractPaceUnit|int $PaceUnit = new SecondsPerKilometer()
+        AbstractPaceUnit $paceUnit = new SecondsPerKilometer()
     ) {
-        $this->paceFormatter = new PaceFormatter(is_int($PaceUnit) ? new LegacyUnitConverter()->getPaceUnit($PaceUnit) : $PaceUnit);
+        $this->paceFormatter = new PaceFormatter($paceUnit);
         $this->init();
     }
 
