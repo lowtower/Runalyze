@@ -82,6 +82,41 @@ final class ConfigurationManagerTest extends TestCase
         $this->assertSame($firstCall, $secondCall, 'both calls must resolve to the identical cached instance');
     }
 
+    public function testCurrentConfigurationFollowsAccountSwitchAndLogout(): void
+    {
+        $firstAccount = new Account();
+        $this->setAccountId($firstAccount, 5);
+        $secondAccount = new Account();
+        $this->setAccountId($secondAccount, 99);
+
+        $imperial = new Conf();
+        $imperial->setCategory('general');
+        $imperial->setKey('DISTANCE_UNIT_SYSTEM');
+        $imperial->setValue('imperial');
+
+        $repository = $this->createMock(ConfRepository::class);
+        $repository->expects($this->exactly(2))
+            ->method('findForAccount')
+            ->willReturnMap([
+                [$firstAccount, []],
+                [$secondAccount, [$imperial]],
+            ]);
+
+        $tokenStorage = $this->createLoggedInTokenStorage($firstAccount);
+        $manager = new ConfigurationManager($repository, $tokenStorage);
+        $first = $manager->getList();
+
+        $tokenStorage->setToken(new UsernamePasswordToken($secondAccount, 'main'));
+        $second = $manager->getList($secondAccount);
+
+        $tokenStorage->setToken(null);
+        $guest = $manager->getList();
+
+        $this->assertSame('metric', $first->get('general.DISTANCE_UNIT_SYSTEM'));
+        $this->assertSame('imperial', $second->get('general.DISTANCE_UNIT_SYSTEM'));
+        $this->assertSame('metric', $guest->get('general.DISTANCE_UNIT_SYSTEM'));
+    }
+
     public function testGetListForDifferentAccountIsNeverCachedAndAlwaysQueriesRepository(): void
     {
         $loggedInUser = new Account();

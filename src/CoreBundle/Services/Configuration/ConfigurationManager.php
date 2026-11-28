@@ -16,6 +16,8 @@ class ConfigurationManager
 
     protected ?RunalyzeConfigurationList $DefaultList = null;
 
+    private ?Account $currentConfigurationAccount = null;
+
     public function __construct(
         protected ConfRepository $Repository,
         TokenStorageInterface $tokenStorage
@@ -28,9 +30,12 @@ class ConfigurationManager
      */
     public function getList(?Account $account = null): RunalyzeConfigurationList
     {
-        if (! $account instanceof Account || ($this->knowsUser() && $account->getId() == $this->getUser()->getId())) {
-            if (! $this->CurrentConfigurationList instanceof RunalyzeConfigurationList) {
+        $currentAccount = $this->getUser();
+
+        if (! $account instanceof Account || ($currentAccount instanceof Account && $account->getId() == $currentAccount->getId())) {
+            if (! $this->CurrentConfigurationList instanceof RunalyzeConfigurationList || $this->currentConfigurationAccount !== $currentAccount) {
                 $this->setListForCurrentUser();
+                $this->currentConfigurationAccount = $currentAccount;
             }
 
             return $this->CurrentConfigurationList;
@@ -67,5 +72,6 @@ class ConfigurationManager
     public function reloadCurrentList(): void
     {
         $this->CurrentConfigurationList = null;
+        $this->currentConfigurationAccount = null;
     }
 }
