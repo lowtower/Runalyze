@@ -477,10 +477,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$SpatialiteExtensionName', '%app.sqlite_mod_spatialite%')
         ->arg('$SilentExceptions', true);
 
-    $services->set(SessionRequestProcessor::class)
-        ->tag('monolog.processor', [
-            'method' => 'processRecord',
-        ]);
+    $services->set(SessionRequestProcessor::class);
 
 
     $services->set(DisposableDomainProvider::class)
