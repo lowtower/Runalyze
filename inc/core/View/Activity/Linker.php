@@ -8,10 +8,10 @@
 namespace Runalyze\View\Activity;
 
 use Ajax;
-use DataBrowserLinker;
 use DB;
 use Icon;
 use Runalyze\Activity\Duration;
+use Runalyze\Bundle\CoreBundle\Component\Activity\DataBrowserLinker;
 use Runalyze\Model\Activity;
 use Runalyze\Util\LocalTime;
 use SessionAccountHandler;
@@ -87,7 +87,7 @@ class Linker
             $name = new LocalTime($this->Activity->timestamp())->format('d.m.Y');
         }
 
-        return DataBrowserLinker::weekLink($name, $this->Activity->timestamp());
+        return new DataBrowserLinker()->weekLink($name, $this->Activity->timestamp());
     }
 
     public function urlToElevationCorrection(): string

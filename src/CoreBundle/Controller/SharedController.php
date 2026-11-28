@@ -155,8 +155,6 @@ class SharedController extends AbstractController
             ]);
         }
 
-        $request->attributes->set(DataBrowserShared::BASE_URL_ATTRIBUTE, $athleteUrl);
-
         if ($privacy->isListWithStatistics()) {
             $accountStatistics = $this->getTrainingRepository()
                 ->getAccountStatistics($account);
@@ -178,7 +176,7 @@ class SharedController extends AbstractController
             'accountStatistics' => $accountStatistics,
             'yearComparisonTable' => $yearComparisonTable,
             'raceYearComparison' => $raceYearComparison,
-            'dataBrowser' => new DataBrowserShared($account->getId(), $request->query->all(), $privacy->isListShowingAllActivities()),
+            'dataBrowser' => new DataBrowserShared($account->getId(), $request->query->all(), $privacy->isListShowingAllActivities(), $athleteUrl),
             'username' => $username,
             'hasPublicList' => $publicList,
         ]);
