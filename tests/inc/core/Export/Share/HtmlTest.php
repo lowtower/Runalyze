@@ -32,7 +32,7 @@ final class HtmlTest extends \PHPUnit\Framework\TestCase
             $Sharer = new Html($context);
 
             ob_start();
-            $Sharer->display();
+            $Sharer->display('https://example.test/shared/1', false);
             $output = ob_get_clean();
 
             $this->assertIsString($output);

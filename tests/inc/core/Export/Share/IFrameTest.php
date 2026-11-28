@@ -9,7 +9,7 @@ use Runalyze\View\Activity\FakeContext;
 
 final class IFrameTest extends \PHPUnit\Framework\TestCase
 {
-    public function checkFeasibility(): void
+    public function testFeasibility(): void
     {
         $this->assertFalse(new IFrame(FakeContext::onlyWithActivity(
             new Activity\Entity([
@@ -28,12 +28,14 @@ final class IFrameTest extends \PHPUnit\Framework\TestCase
     {
         ob_start();
 
-        $Sharer = new IFrame(FakeContext::emptyContext());
-        $Sharer->display();
+        $context = FakeContext::emptyContext();
+        $Sharer = new IFrame($context);
+        $Sharer->display('https://example.test/shared/1', false);
 
         $output = ob_get_clean();
 
         $this->assertNotEmpty($output, 'Output should not be empty after displaying the IFrame.');
         $this->assertStringContainsString('<iframe', (string) $output, 'Output should contain an iframe tag.');
+        $this->assertFalse($context->activity()->isPublic());
     }
 }

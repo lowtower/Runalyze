@@ -10,6 +10,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Activity\ActivityContextFactory;
+use Runalyze\Bundle\CoreBundle\Services\Activity\SharedActivityUrlGenerator;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\PrivacyGuard;
 use Runalyze\Bundle\CoreBundle\Services\SharedAthleteStatisticsProvider;
@@ -64,7 +65,7 @@ class SharedController extends AbstractController
     #[Route(path: '/shared/{activityHash}', name: 'shared-activity', requirements: [
         'activityHash' => '[a-zA-Z0-9]+',
     ], methods: ['GET'])]
-    public function sharedTrainingAction(string $activityHash, Request $request): Response
+    public function sharedTrainingAction(string $activityHash, Request $request, SharedActivityUrlGenerator $sharedActivityUrls): Response
     {
         $activityId = (int) base_convert($activityHash, 35, 10);
         /** @var ?Training $activity */
@@ -109,9 +110,7 @@ class SharedController extends AbstractController
             'username' => $account->getUsername(),
             'activity' => $activity,
             'hasPublicList' => $publicList,
-            'activityUrl' => $this->generateUrl('shared-activity', [
-                'activityHash' => base_convert((string) $activityId, 10, 35),
-            ], UrlGeneratorInterface::ABSOLUTE_URL),
+            'activityUrl' => $sharedActivityUrls->generate($activityId),
             'activityHasRoute' => $hasRoute,
             'metaTitle' => new Facebook($activityContextLegacy)->metaTitle(),
             'view' => new TrainingView($activityContextLegacy),

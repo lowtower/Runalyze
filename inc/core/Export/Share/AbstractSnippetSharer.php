@@ -43,7 +43,5 @@ abstract class AbstractSnippetSharer extends AbstractSharer
 
     abstract public function enum(): int;
 
-    abstract public function display(): void;
-
-    abstract protected function codeSnippet(): string;
+    abstract public function display(string $activityUrl, bool $isLocalhost): void;
 }

@@ -6,12 +6,14 @@ namespace Runalyze\Bundle\CoreBundle\Controller\Activity;
 
 use Frontend;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Services\Activity\SharedActivityUrlGenerator;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Runalyze\Export\File;
 use Runalyze\Export\Share;
 use Runalyze\View\Activity\Context;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -33,7 +35,7 @@ class ExportController extends AbstractController
     #[Route(path: '/activity/{id}/export/social/{typeid}', requirements: [
         'id' => '\d+',
     ], methods: ['GET'])]
-    public function exporterExportAction(int $id, int $typeid, ?Account $account = null): Response
+    public function exporterExportAction(int $id, int $typeid, Request $request, SharedActivityUrlGenerator $sharedActivityUrls, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -50,8 +52,11 @@ class ExportController extends AbstractController
             return new Response();
         }
 
-        return $this->legacyPluginOutputRenderer->render(function () use ($exporter): void {
-            $exporter->display();
+        $activityUrl = $sharedActivityUrls->generate($context->activity()->id() ?? 0);
+        $isLocalhost = $request->getHost() === 'localhost';
+
+        return $this->legacyPluginOutputRenderer->render(function () use ($exporter, $activityUrl, $isLocalhost): void {
+            $exporter->display($activityUrl, $isLocalhost);
         });
     }
 

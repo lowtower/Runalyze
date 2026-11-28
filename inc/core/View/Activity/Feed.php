@@ -8,10 +8,10 @@ use Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Bundle\CoreBundle\Services\Activity\ActivityContextFactory;
+use Runalyze\Bundle\CoreBundle\Services\Activity\SharedActivityUrlGenerator;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Twig\ValueExtension;
 use Runalyze\Util\LocalTime;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class Feed
@@ -25,7 +25,7 @@ class Feed
     public function __construct(
         protected TranslatorInterface $Translator,
         protected ActivityContextFactory $ActivityContextFactory,
-        protected UrlGeneratorInterface $UrlGenerator,
+        protected SharedActivityUrlGenerator $sharedActivityUrls,
         protected ConfigurationManager $ConfigurationManager
     ) {
         $this->FeedBuilder = new Rss20FeedBuilder();
@@ -82,7 +82,7 @@ class Feed
         return $this;
     }
 
-    private function createItemContent(Training $activity, ValueExtension $valueDecorator): string
+    private function createItemContent(Training $activity, ValueExtension $valueDecorator, ?string $activityUrl): string
     {
         $content = '<b>' . $this->Translator->trans('Sport') . '</b>: ' . $activity->getSport()->getName();
 
@@ -102,11 +102,8 @@ class Feed
             $content .= '<br><b>' . $this->Translator->trans('Notes') . '</b>:<br>' . $activity->getNotes();
         }
 
-        if ($activity->isPublic()) {
-            $content .= '<br><a href="' . $this->UrlGenerator->generate('shared-activity', [
-                'activityHash' => base_convert((string) $activity->getId(), 10, 35),
-            ], UrlGeneratorInterface::ABSOLUTE_URL);
-            $content .= '?utm_medium=feed&utm_campaign=feed">' . $this->Translator->trans('View full activity') . '</a>';
+        if ($activityUrl !== null) {
+            $content .= '<br><a href="' . $activityUrl . '">' . $this->Translator->trans('View full activity') . '</a>';
         }
 
         return $content;
@@ -116,16 +113,17 @@ class Feed
     {
         $item = new Rss20ItemBuilder($this->FeedBuilder);
         $valueDecorator = new ValueExtension($this->ConfigurationManager);
+        $activityUrl = $activity->isPublic()
+            ? $this->sharedActivityUrls->generate($activity->getId()) . '?utm_medium=feed&utm_campaign=feed'
+            : null;
 
         $item->withTitle($this->getFeedTitle($activity, $valueDecorator));
         $item->withPublishedDate(new LocalTime($activity->getTime()));
-        $item->withContent($this->createItemContent($activity, $valueDecorator));
+        $item->withContent($this->createItemContent($activity, $valueDecorator, $activityUrl));
         $item->withAuthor($activity->getAccount()->getUsername());
 
-        if ($activity->isPublic()) {
-            $item->withUrl($this->UrlGenerator->generate('shared-activity', [
-                'activityHash' => base_convert((string) $activity->getId(), 10, 35),
-            ], UrlGeneratorInterface::ABSOLUTE_URL) . '?utm_medium=feed&utm_campaign=feed');
+        if ($activityUrl !== null) {
+            $item->withUrl($activityUrl);
         }
 
         $this->FeedBuilder->withItem($item);
