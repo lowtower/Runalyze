@@ -15,11 +15,10 @@ class HrZoneBoundType extends AbstractType implements DataTransformerInterface
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->addModelTransformer($this);
+        $transformer = clone $this;
+        $transformer->IsRequired = $options['required'] ?? $this->IsRequired;
 
-        if (isset($options['required'])) {
-            $this->IsRequired = $options['required'];
-        }
+        $builder->addModelTransformer($transformer);
     }
 
     public function setRequired(bool $flag = true): void
