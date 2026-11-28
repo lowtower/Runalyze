@@ -9,6 +9,7 @@ use DB;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Conf;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
@@ -187,6 +188,30 @@ final class SharedControllerTest extends AbstractFixturesAwareWebTestCase
     {
         yield 'canonical URL at the web root' => ['', ''];
         yield 'legacy URL with a deployment prefix' => ['/runalyze', '&legacy'];
+    }
+
+    public function testPublicActivityEmbedLinksToTheOwnersPublicProfile(): void
+    {
+        $activity = $this->createTrainingForAccount($this->Account, isPublic: true)
+            ->setDistance(5.0)
+            ->setElevation(30)
+            ->setKcal(250)
+            ->setPulseAvg(145)
+            ->setPulseMax(162)
+            ->setTrimp(40);
+        $this->getTrainingRepository()->save($activity);
+        $em = $this->getEntityManager();
+        $em->persist(new Conf()->setAccount($this->Account)->setCategory('privacy')->setKey('TRAINING_LIST_PUBLIC')->setValue('true'));
+        $em->flush();
+
+        $crawler = $this->Client->request('GET', '/shared/' . $this->encodeActivityHash($activity->getId()) . '?mode=iframe');
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertCount(1, $crawler->filter('#shared-iframe #training-overview'));
+        $this->assertSame(
+            'http://localhost/athlete/' . $this->Account->getUsername(),
+            $crawler->filter('#shared-iframe .panel-heading a')->attr('href')
+        );
     }
 
     public function testOldSharedUserActionRedirectsPermanentlyToSharedAthlete(): void
