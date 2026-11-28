@@ -15,11 +15,9 @@ class DurationType extends AbstractType implements DataTransformerInterface
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->addModelTransformer($this);
-
-        if (isset($options['required'])) {
-            $this->IsRequired = $options['required'];
-        }
+        $transformer = clone $this;
+        $transformer->IsRequired = $options['required'] ?? $this->IsRequired;
+        $builder->addModelTransformer($transformer);
     }
 
     public function setRequired(bool $flag = true): void
