@@ -127,6 +127,7 @@ final class TrainingViewTest extends DatabaseTestCase
     public function testThatTheSharedActivityViewShowsTheSharedToolbarAndNoNavigation(): void
     {
         $_SERVER['REQUEST_URI'] = '/shared/training';
+        $_GET['user'] = self::USERNAME;
         SharedLinker::$USER_ID = self::ACCOUNT_ID;
 
         $data = $this->trainingViewFor(self::TRAINING_ID)->templateData();

@@ -167,6 +167,8 @@ final class SharedControllerTest extends AbstractFixturesAwareWebTestCase
             $this->assertStringContainsString($this->Account->getUsername(), $crawler->filter('title')->text());
             $this->assertStringContainsString('Owner running', (string) $crawler->filter('meta[property="og:title"]')->attr('content'));
             $this->assertSame('https://example.test/shared/' . $hash, $crawler->filter('meta[property="og:url"]')->attr('content'));
+            $athleteUrl = '/athlete/' . $this->Account->getUsername();
+            $this->assertCount(1, $crawler->filter('.panel-menu a[href="' . $athleteUrl . '"][target="_blank"]'));
         } finally {
             $db->rollBack();
             unset(Factory::$StaticCache['sport']);

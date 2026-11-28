@@ -262,12 +262,9 @@ class TrainingView
      */
     private function sharedToolbarLinks(): array
     {
-        $User = DB::getInstance()->query('SELECT * FROM `' . PREFIX . 'account` WHERE `id`="' . SharedLinker::getUserId() . '" LIMIT 1')->fetch();
-        $username = is_array($User) ? (string) ($User['username'] ?? '') : '';
-
         return [
             SharedLinker::getStandardLinkTo($this->Context->activity()->id(), Icon::$ATTACH),
-            '<a href="athlete/' . $username . '" target="_blank">' . Icon::$TABLE . '</a>',
+            '<a href="' . DataBrowserShared::getBaseUrl() . '" target="_blank">' . Icon::$TABLE . '</a>',
         ];
     }
 
