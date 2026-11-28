@@ -249,9 +249,11 @@ final class CallControllerTest extends AbstractFixturesAwareWebTestCase
     {
         $this->loginClient($this->Client, $this->Account, 'default');
 
-        $this->Client->request('GET', '/call/window.plotSumData.php');
+        $page = $this->Client->request('GET', '/call/window.plotSumData.php');
 
         $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('Monthly chart:', $page->filter('.panel-heading h1')->text());
+        $this->assertGreaterThan(0, $page->filter('.panel-menu li.active a[href^="/call/window.plotSumData.php?type=month&y=last12months"]')->count());
         $this->assertStringNotContainsString(
             'Failed to start the session',
             (string) $this->Client->getResponse()

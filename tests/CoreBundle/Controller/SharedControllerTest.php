@@ -248,4 +248,23 @@ final class SharedControllerTest extends AbstractFixturesAwareWebTestCase
         $this->isSuccessful($this->Client->getResponse(), true);
         $this->assertSame('text/xml; charset=UTF-8', $this->Client->getResponse()->headers->get('content-type'));
     }
+
+    public function testPublicWeeklyPlotKeepsItsOwnerAndFiltersInNavigation(): void
+    {
+        $em = $this->getEntityManager();
+        $em->persist(new Conf()->setAccount($this->Account)->setCategory('privacy')->setKey('TRAINING_LIST_PUBLIC')->setValue('true'));
+        $em->flush();
+
+        $url = '/runalyze/athlete/' . $this->Account->getUsername();
+        $sport = $this->getRunningSportForAccount($this->Account)->getId();
+        $query = '?type=week&y=2025&sportid=' . $sport . '&group=types&analysis=trimp';
+        $crawler = $this->Client->request('GET', $url . $query, server: [
+            'SCRIPT_NAME' => '/runalyze/index.php',
+            'SCRIPT_FILENAME' => '/var/www/public/index.php',
+        ]);
+
+        $this->assertStatusCode(200, $this->Client);
+        $this->assertStringContainsString('Weekly chart:', $crawler->filter('.panel-heading h1')->text());
+        $this->assertGreaterThan(0, $crawler->filter('.panel-menu li.active a[href="' . $url . $query . '"]')->count());
+    }
 }

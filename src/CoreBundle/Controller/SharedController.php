@@ -5,9 +5,6 @@ namespace Runalyze\Bundle\CoreBundle\Controller;
 use DataBrowserShared;
 use Doctrine\Persistence\ManagerRegistry;
 use Frontend;
-use PlotMonthSumData;
-use PlotSumData;
-use PlotWeekSumData;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Repository\AccountRepository;
@@ -16,6 +13,7 @@ use Runalyze\Bundle\CoreBundle\Services\Activity\ActivityContextFactory;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\PrivacyGuard;
 use Runalyze\Bundle\CoreBundle\Services\SharedAthleteStatisticsProvider;
+use Runalyze\Bundle\CoreBundle\Services\SumPlotFactory;
 use Runalyze\Export\Share\Facebook;
 use Runalyze\Plugins\Statistics\Statistiken\SummaryTableProvider;
 use Runalyze\View\Activity\Context;
@@ -80,7 +78,7 @@ class SharedController extends AbstractController
         }
 
         $account = $activity->getAccount();
-        $this->bindSharedOwner($request, $account);
+        $request->attributes->set(SharedLinker::ACCOUNT_ATTRIBUTE, $account->getId());
         $publicList = $this->configurationManager
             ->getList($account)
             ->getPrivacy()
@@ -129,7 +127,7 @@ class SharedController extends AbstractController
     }
 
     #[Route(path: '/athlete/{username}', name: 'shared-athlete', methods: ['GET'])]
-    public function sharedUserAction(string $username, Request $request, SummaryTableProvider $summaryTables): Response
+    public function sharedUserAction(string $username, Request $request, SummaryTableProvider $summaryTables, SumPlotFactory $plotFactory): Response
     {
         /** @var AccountRepository $repository */
         $repository = $this->doctrine
@@ -142,16 +140,22 @@ class SharedController extends AbstractController
             return $this->render('shared/invalid_athlete.html.twig');
         }
 
-        $this->bindSharedOwner($request, $account);
+        $request->attributes->set(SharedLinker::ACCOUNT_ATTRIBUTE, $account->getId());
+        $athleteUrl = $this->generateUrl('shared-athlete', [
+            'username' => $account->getUsername(),
+        ]);
 
         new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack, isSharedPage: true);
 
         if ($request->query->has('type')) {
             return $this->render('shared/athlete/base_plot_sum_data.html.twig', [
                 'username' => $username,
-                'plot' => $this->getPlotSumData($request),
+                'hasPublicList' => true,
+                'plot' => $plotFactory->create($request->query, $athleteUrl),
             ]);
         }
+
+        $request->attributes->set(DataBrowserShared::BASE_URL_ATTRIBUTE, $athleteUrl);
 
         if ($privacy->isListWithStatistics()) {
             $accountStatistics = $this->getTrainingRepository()
@@ -214,22 +218,5 @@ class SharedController extends AbstractController
                 'content-type' => 'text/xml',
             ]
         );
-    }
-
-    private function bindSharedOwner(Request $request, Account $account): void
-    {
-        $request->attributes->set(SharedLinker::ACCOUNT_ATTRIBUTE, $account->getId());
-        $request->attributes->set(DataBrowserShared::BASE_URL_ATTRIBUTE, $this->generateUrl('shared-athlete', [
-            'username' => $account->getUsername(),
-        ]));
-    }
-
-    protected function getPlotSumData(Request $request): PlotSumData
-    {
-        if ($request->query->get('y') === null) {
-            $request->query->set('y', PlotSumData::LAST_12_MONTHS);
-        }
-
-        return $request->query->get('type', 'month') == 'week' ? new PlotWeekSumData() : new PlotMonthSumData();
     }
 }

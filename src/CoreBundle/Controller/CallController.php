@@ -8,15 +8,13 @@ use ConfigTabPlugins;
 use ConfigTabs;
 use DataBrowser;
 use Frontend;
-use PlotMonthSumData;
-use PlotSumData;
-use PlotWeekSumData;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
 use Runalyze\Bundle\CoreBundle\Services\LegacyContentResponseFactory;
 use Runalyze\Bundle\CoreBundle\Services\LegacyPluginOutputRenderer;
 use Runalyze\Bundle\CoreBundle\Services\PluginInstallationManager;
 use Runalyze\Bundle\CoreBundle\Services\PluginSettingsProvider;
+use Runalyze\Bundle\CoreBundle\Services\SumPlotFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -151,31 +149,18 @@ class CallController extends AbstractController
         return new Response();
     }
 
-    protected function getPlotSumData(): PlotSumData
-    {
-        $request = $this->requestStack->getCurrentRequest();
-
-        if ($request->query->get('y') === null) {
-            $request->query->set('y', PlotSumData::LAST_12_MONTHS);
-        }
-
-        return $request->query->get('type', 'month') == 'week' ? new PlotWeekSumData() : new PlotMonthSumData();
-    }
-
-    #[Route(path: '/call/window.plotSumData.php', methods: ['GET'])]
-    public function windowsPlotSumDataAction(): Response
+    #[Route(path: '/call/window.plotSumData.php', name: 'runalyze_core_call_windowsplotsumdata', methods: ['GET'])]
+    public function windowsPlotSumDataAction(Request $request, SumPlotFactory $plotFactory): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
+        $plot = $plotFactory->create($request->query, $this->generateUrl('runalyze_core_call_windowsplotsumdata'));
+
         return $this->legacyContentResponseFactory->create(
-            $this->renderView(
-                'shared/athlete/plot_sum_data.html.twig',
-                $this->getPlotSumData()
-                    ->templateData()
-            ),
-            $this->requestStack->getCurrentRequest()
+            $this->renderView('shared/athlete/plot_sum_data.html.twig', $plot->templateData()),
+            $request
         );
     }
 

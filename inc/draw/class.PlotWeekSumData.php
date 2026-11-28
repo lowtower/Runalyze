@@ -17,24 +17,22 @@ class PlotWeekSumData extends PlotSumData
 {
     protected WeekStart $WeekStart;
 
-    public function __construct()
+    protected function initTimer(): void
     {
         $this->timerStart = 1;
         $this->WeekStart = Runalyze\Configuration::General()->weekStart();
 
-        if (Request::param('y') === self::LAST_6_MONTHS) {
+        if ($this->Year === self::LAST_6_MONTHS) {
             $this->timerEnd = 26;
         } else {
-            if (Request::param('y') === self::LAST_12_MONTHS) {
+            if ($this->Year === self::LAST_12_MONTHS) {
                 $yearEnd = date('Y') - 1;
             } else {
-                $yearEnd = (int) Request::param('y');
+                $yearEnd = (int) $this->Year;
             }
 
             $this->timerEnd = (int) date('W', mktime(0, 0, 0, 12, 28, $yearEnd)); // http://de.php.net/manual/en/function.date.php#49457
         }
-
-        parent::__construct();
     }
 
     protected function getCSSid(): string
