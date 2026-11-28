@@ -14,6 +14,8 @@ use Runalyze\Util\LocalTime;
  */
 class DataBrowserShared extends DataBrowser
 {
+    public const string BASE_URL_ATTRIBUTE = '_shared_athlete_url';
+
     /**
      * Number of additional columns
      */
@@ -76,7 +78,7 @@ class DataBrowserShared extends DataBrowser
 
     public static function getBaseUrl(): string
     {
-        return 'athlete/' . Request::param('user') . '';
+        return Request::attribute(self::BASE_URL_ATTRIBUTE) ?? 'athlete/' . Request::param('user');
     }
 
     /**

@@ -80,7 +80,7 @@ class SharedController extends AbstractController
         }
 
         $account = $activity->getAccount();
-        $request->attributes->set(SharedLinker::ACCOUNT_ATTRIBUTE, $account->getId());
+        $this->bindSharedOwner($request, $account);
         $publicList = $this->configurationManager
             ->getList($account)
             ->getPrivacy()
@@ -142,8 +142,7 @@ class SharedController extends AbstractController
             return $this->render('shared/invalid_athlete.html.twig');
         }
 
-        $request->query->set('user', $username);
-        $request->attributes->set(SharedLinker::ACCOUNT_ATTRIBUTE, $account->getId());
+        $this->bindSharedOwner($request, $account);
 
         new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack, isSharedPage: true);
 
@@ -215,6 +214,14 @@ class SharedController extends AbstractController
                 'content-type' => 'text/xml',
             ]
         );
+    }
+
+    private function bindSharedOwner(Request $request, Account $account): void
+    {
+        $request->attributes->set(SharedLinker::ACCOUNT_ATTRIBUTE, $account->getId());
+        $request->attributes->set(DataBrowserShared::BASE_URL_ATTRIBUTE, $this->generateUrl('shared-athlete', [
+            'username' => $account->getUsername(),
+        ]));
     }
 
     protected function getPlotSumData(Request $request): PlotSumData
