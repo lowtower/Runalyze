@@ -53,7 +53,7 @@ class DataBrowser
     /**
      * sportid to be displayed
      */
-    protected ?int $SportId = null;
+    protected ?int $SportId;
 
     /**
      * Number of days to be displayed
@@ -88,6 +88,11 @@ class DataBrowser
 
     protected int $AccountID;
 
+    /**
+     * @var array<string, mixed>
+     */
+    protected readonly array $query;
+
     protected \PDOforRunalyze $DB;
 
     protected \Runalyze\Dataset\Configuration $DatasetConfig;
@@ -113,8 +118,13 @@ class DataBrowser
      */
     protected bool $AllDaysEmpty = true;
 
-    public function __construct()
+    /**
+     * @param array<string, mixed>|null $query
+     */
+    public function __construct(?int $accountId = null, ?array $query = null)
     {
+        $this->AccountID = $accountId ?? SessionAccountHandler::getId();
+        $this->query = $query ?? $_GET;
         $this->initInternalObjects();
         $this->initTimestamps();
         $this->initSports(); // #TSC
@@ -126,7 +136,6 @@ class DataBrowser
      */
     protected function initInternalObjects()
     {
-        $this->AccountID = SessionAccountHandler::getId();
         $this->DB = DB::getInstance();
         $this->DatasetConfig = new Dataset\Configuration($this->DB, $this->AccountID);
         $this->DatasetQuery = new Dataset\Query($this->DatasetConfig, $this->DB, $this->AccountID);
@@ -140,7 +149,9 @@ class DataBrowser
      */
     protected function initTimestamps()
     {
-        if (! isset($_GET['start']) || ! isset($_GET['end']) || ! is_numeric($_GET['start']) || ! is_numeric($_GET['end'])) {
+        $start = $this->query['start'] ?? null;
+        $end = $this->query['end'] ?? null;
+        if (! is_numeric($start) || ! is_numeric($end)) {
             $Mode = Configuration::DataBrowser()->mode();
 
             if ($Mode->showMonth()) {
@@ -151,8 +162,8 @@ class DataBrowser
                 $this->TimestampEnd = new LocalTime()->weekend();
             }
         } else {
-            $this->TimestampStart = $_GET['start'];
-            $this->TimestampEnd = $_GET['end'];
+            $this->TimestampStart = (int) $start;
+            $this->TimestampEnd = (int) $end;
         }
 
         $this->DayCount = (int) round(($this->TimestampEnd - $this->TimestampStart) / 86400);
@@ -164,12 +175,8 @@ class DataBrowser
      */
     protected function initSports()
     {
-        // set the sport from the request to this model
-        if (! isset($_GET['sport']) || ! is_numeric($_GET['sport'])) {
-            $this->SportId = null;
-        } else {
-            $this->SportId = $_GET['sport'];
-        }
+        $sport = $this->query['sport'] ?? null;
+        $this->SportId = is_numeric($sport) ? (int) $sport : null;
 
         // get sports where activities exists
         $Statement = $this->DatasetQuery->statementToFetchActivitySports($this->TimestampStart, $this->TimestampEnd, $this->SportId);

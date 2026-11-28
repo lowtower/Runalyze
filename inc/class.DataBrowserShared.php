@@ -28,13 +28,24 @@ class DataBrowserShared extends DataBrowser
     protected bool $ShowEditLink = false;
 
     /**
+     * @param array<string, mixed> $query
+     */
+    public function __construct(
+        int $accountId,
+        array $query,
+        private readonly bool $showPrivateActivities
+    ) {
+        parent::__construct($accountId, $query);
+    }
+
+    /**
      * Init pointer to DB/Error-object
      */
     protected function initInternalObjects()
     {
         parent::initInternalObjects();
 
-        if (! \Runalyze\Configuration::Privacy()->showPrivateActivitiesInList()) {
+        if (! $this->showPrivateActivities) {
             $this->DatasetQuery->showOnlyPublicActivities();
         }
     }
@@ -44,8 +55,10 @@ class DataBrowserShared extends DataBrowser
      */
     protected function initTimestamps()
     {
-        $this->TimestampStart = isset($_GET['start']) && is_numeric($_GET['start']) ? $_GET['start'] : LocalTime::fromString('first day of this month 00:00:00')->getTimestamp();
-        $this->TimestampEnd = isset($_GET['end']) && is_numeric($_GET['end']) ? $_GET['end'] : LocalTime::fromString('last day of this month 23:59:59')->getTimestamp();
+        $start = $this->query['start'] ?? null;
+        $end = $this->query['end'] ?? null;
+        $this->TimestampStart = is_numeric($start) ? (int) $start : LocalTime::fromString('first day of this month 00:00:00')->getTimestamp();
+        $this->TimestampEnd = is_numeric($end) ? (int) $end : LocalTime::fromString('last day of this month 23:59:59')->getTimestamp();
 
         $this->DayCount = (int) round(($this->TimestampEnd - $this->TimestampStart) / 86400);
     }

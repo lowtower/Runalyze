@@ -175,7 +175,7 @@ class SharedController extends AbstractController
             'accountStatistics' => $accountStatistics,
             'yearComparisonTable' => $yearComparisonTable,
             'raceYearComparison' => $raceYearComparison,
-            'dataBrowser' => new DataBrowserShared(),
+            'dataBrowser' => new DataBrowserShared($account->getId(), $request->query->all(), $privacy->isListShowingAllActivities()),
             'username' => $username,
             'hasPublicList' => $publicList,
         ]);

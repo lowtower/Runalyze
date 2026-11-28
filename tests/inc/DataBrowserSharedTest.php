@@ -31,9 +31,7 @@ final class DataBrowserSharedTest extends DatabaseTestCase
     {
         parent::setUp();
 
-        // The shared athlete page reads its context (username, timerange) from the
-        // request. Reset the request bridge so that this test does not depend on
-        // whatever request state preceding tests have left behind.
+        // Reset the request bridge used by the legacy navigation links.
         Request::setRequestStack(new RequestStack());
 
         $this->previousRequestUri = $_SERVER['REQUEST_URI'];
@@ -42,11 +40,10 @@ final class DataBrowserSharedTest extends DatabaseTestCase
         $_SERVER['REQUEST_URI'] = '/athlete/' . self::USERNAME;
         $_GET = [
             'user' => self::USERNAME,
-            'start' => (string) LocalTime::fromString('2020-01-13 00:00:00')->getTimestamp(),
-            'end' => (string) LocalTime::fromString('2020-01-19 23:59:59')->getTimestamp(),
+            'sport' => '999999',
         ];
 
-        SharedLinker::$USER_ID = 0;
+        SharedLinker::$USER_ID = 1;
 
         // Statements that the legacy db wrapper rewrites get the id of the shared
         // athlete, the same way a shared-page Frontend request sets it up.
@@ -87,7 +84,7 @@ final class DataBrowserSharedTest extends DatabaseTestCase
 
     public function testThatAPublicActivityIsRenderedWithThePublicLinkColumn(): void
     {
-        $data = new DataBrowserShared()->templateData();
+        $data = $this->dataBrowser(false)->templateData();
 
         $this->assertFalse($data['all_days_empty']);
 
@@ -101,6 +98,25 @@ final class DataBrowserSharedTest extends DatabaseTestCase
 
         $this->assertNotNull($publicRow, 'The public activity must be rendered as a clickable training row.');
         $this->assertSame('<td class="link">' . Icon::$ADD_SMALL_GREEN . '</td>', $publicRow['additional_columns_html']);
+        $this->assertCount(1, array_filter($data['days'], static fn (array $row): bool => ! $row['is_empty']));
+    }
+
+    public function testOwnerCanIncludeAReadOnlyRowForPrivateActivity(): void
+    {
+        $data = $this->dataBrowser(true)->templateData();
+        $rows = array_values(array_filter($data['days'], static fn (array $row): bool => ! $row['is_empty']));
+
+        $this->assertCount(2, $rows);
+        $this->assertCount(1, array_filter($rows, static fn (array $row): bool => $row['row_attributes'] === ''));
+    }
+
+    private function dataBrowser(bool $showPrivateActivities): DataBrowserShared
+    {
+        return new DataBrowserShared(self::ACCOUNT_ID, [
+            'start' => (string) LocalTime::fromString('2020-01-13 00:00:00')->getTimestamp(),
+            'end' => (string) LocalTime::fromString('2020-01-19 23:59:59')->getTimestamp(),
+            'sport' => (string) self::SPORT_ID,
+        ], $showPrivateActivities);
     }
 
     private function insertAccount(): void
