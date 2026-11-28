@@ -6,6 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Form\Type;
 
 use Runalyze\Bundle\CoreBundle\Form\Type\DurationType;
 use Symfony\Component\Form\Exception\TransformationFailedException;
+use Symfony\Component\Form\Forms;
 
 final class DurationTypeTest extends \PHPUnit\Framework\TestCase
 {
@@ -34,6 +35,24 @@ final class DurationTypeTest extends \PHPUnit\Framework\TestCase
 
         $this->Type->setRequired(true);
         $this->Type->reverseTransform(null);
+    }
+
+    public function testRequiredOptionIsIsolatedPerField(): void
+    {
+        $formFactory = Forms::createFormFactory();
+        $required = $formFactory->create(DurationType::class, null, [
+            'required' => true,
+        ]);
+        $optional = $formFactory->create(DurationType::class, null, [
+            'required' => false,
+        ]);
+
+        $required->submit('');
+        $optional->submit('');
+
+        $this->assertFalse($required->isSynchronized());
+        $this->assertTrue($optional->isSynchronized());
+        $this->assertNull($optional->getData());
     }
 
     public function testReverseTransform(): void
