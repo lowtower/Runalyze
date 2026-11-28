@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Runalyze\Configuration;
+use Runalyze\Parameter\Application\DataBrowserMode;
 use Runalyze\Tests\DatabaseTestCase;
 use Runalyze\Util\LocalTime;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -108,6 +110,44 @@ final class DataBrowserSharedTest extends DatabaseTestCase
 
         $this->assertCount(2, $rows);
         $this->assertCount(1, array_filter($rows, static fn (array $row): bool => $row['row_attributes'] === ''));
+    }
+
+    public function testPublicListSportLinkSelectsAnUnfilteredSport(): void
+    {
+        $data = new DataBrowserShared(self::ACCOUNT_ID, [
+            'start' => LocalTime::fromString('2020-01-13 00:00:00')->getTimestamp(),
+            'end' => LocalTime::fromString('2020-01-19 23:59:59')->getTimestamp(),
+        ], false)->templateData();
+
+        $this->assertCount(1, $data['sport_links']);
+        $this->assertStringContainsString('&sport=' . self::SPORT_ID, (string) $data['sport_links'][0]);
+    }
+
+    public function testDataBrowserKeepsExplicitDatesAndUsesMonthPreferenceForInvalidDates(): void
+    {
+        $start = LocalTime::fromString('2020-01-13 00:00:00')->getTimestamp();
+        $end = LocalTime::fromString('2020-01-19 23:59:59')->getTimestamp();
+        $data = new DataBrowser(self::ACCOUNT_ID, [
+            'start' => (string) $start,
+            'end' => (string) $end,
+        ])->templateData();
+        $this->assertSame($start, $data['timestamp_start']);
+        $this->assertSame($end, $data['timestamp_end']);
+
+        $mode = Configuration::DataBrowser()->mode();
+        $previous = $mode->valueAsString();
+        try {
+            $mode->set(DataBrowserMode::MONTH);
+            $data = new DataBrowser(self::ACCOUNT_ID, [
+                'start' => 'invalid',
+                'end' => (string) $end,
+            ])->templateData();
+
+            $this->assertSame(LocalTime::fromString('first day of this month 00:00:00')->getTimestamp(), $data['timestamp_start']);
+            $this->assertSame(LocalTime::fromString('last day of this month 23:59:59')->getTimestamp(), $data['timestamp_end']);
+        } finally {
+            $mode->set($previous);
+        }
     }
 
     private function dataBrowser(bool $showPrivateActivities): DataBrowserShared
