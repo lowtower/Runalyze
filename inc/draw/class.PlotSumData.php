@@ -9,6 +9,7 @@ use Runalyze\Activity\Distance;
 use Runalyze\Calculation\BasicEndurance;
 use Runalyze\Configuration;
 use Runalyze\Profile\Sport\SportProfile;
+use Symfony\Component\HttpFoundation\InputBag;
 
 /**
  * Plot sum data
@@ -42,11 +43,6 @@ abstract class PlotSumData extends Plot
      * URL to window
      */
     public static string $URL = 'call/window.plotSumData.php';
-
-    /**
-     * URL to shared window
-     */
-    public static string $URL_SHARED = 'call/window.plotSumData.shared.php';
 
     /**
      * Year
@@ -89,19 +85,21 @@ abstract class PlotSumData extends Plot
 
     protected string $ParamGroup;
 
-    protected string $ParamType;
+    public function __construct(
+        InputBag $query,
+        private readonly string $navigationUrl,
+        private readonly string $type
+    ) {
+        $this->ParamSportId = $query->getString('sportid');
+        $this->ParamYear = $query->getString('y', self::LAST_12_MONTHS);
+        $this->ParamGroup = $query->getString('group');
+        $this->Analysis = $query->getString('analysis') === self::ANALYSIS_TRIMP ? self::ANALYSIS_TRIMP : self::ANALYSIS_DEFAULT;
 
-    public function __construct()
-    {
-        $this->ParamSportId = Request::param('sportid');
-        $this->ParamYear = Request::param('y');
-        $this->ParamGroup = Request::param('group');
-        $this->ParamType = Request::param('type');
-
-        $sportid = is_scalar($this->ParamSportId) && $this->ParamSportId !== '' ? (int) $this->ParamSportId : Configuration::General()->runningSport();
+        $sportid = $this->ParamSportId !== '' ? (int) $this->ParamSportId : Configuration::General()->runningSport();
 
         $this->Year = $this->getRequestedYear();
         $this->Sport = \Runalyze\Context::Factory()->sport($sportid);
+        $this->initTimer();
 
         parent::__construct($this->getCSSid(), 800, 500);
 
@@ -274,12 +272,19 @@ abstract class PlotSumData extends Plot
             $analysis = $this->Analysis;
         }
 
-        if (Request::isOnSharedPage()) {
-            return Ajax::window('<li' . ($current ? ' class="active"' : '') . '><a href="' . DataBrowserShared::getBaseUrl() . '?type=' . ($this->ParamType === 'week' ? 'week' : 'month') . '&type=' . $this->ParamType . '&y=' . $year . '&sportid=' . $sportid . '&group=' . $group . '&analysis=' . $analysis . '">' . $text . '</a></li>');
-        }
+        $query = http_build_query([
+            'type' => $this->type,
+            'y' => $year,
+            'sportid' => $sportid,
+            'group' => $group,
+            'analysis' => $analysis,
+        ]);
+        $href = htmlspecialchars($this->navigationUrl . '?' . $query, ENT_QUOTES, 'UTF-8');
 
-        return Ajax::window('<li' . ($current ? ' class="active"' : '') . '><a href="' . self::$URL . '?type=' . $this->ParamType . '&y=' . $year . '&sportid=' . $sportid . '&group=' . $group . '&analysis=' . $analysis . '">' . $text . '</a></li>');
+        return Ajax::window('<li' . ($current ? ' class="active"' : '') . '><a href="' . $href . '">' . $text . '</a></li>');
     }
+
+    abstract protected function initTimer(): void;
 
     abstract protected function getCSSid(): string;
 
@@ -352,22 +357,10 @@ abstract class PlotSumData extends Plot
             || $this->Year === self::LAST_6_MONTHS
             || $this->Year === self::LAST_12_MONTHS
         )) {
-            $this->defineAnalysis();
             $this->loadData();
             $this->setData();
         } else {
             $this->raiseError(__('There are no data for this timerange.'));
-        }
-    }
-
-    private function defineAnalysis()
-    {
-        $request = Request::param('analysis');
-
-        if ($request === self::ANALYSIS_TRIMP) {
-            $this->Analysis = self::ANALYSIS_TRIMP;
-        } else {
-            $this->Analysis = self::ANALYSIS_DEFAULT;
         }
     }
 

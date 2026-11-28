@@ -16,12 +16,10 @@ use Runalyze\Util\Time;
  */
 class PlotMonthSumData extends PlotSumData
 {
-    public function __construct()
+    protected function initTimer(): void
     {
-        $this->timerStart = Request::param('y') === parent::LAST_6_MONTHS ? 7 : 1;
+        $this->timerStart = $this->Year === parent::LAST_6_MONTHS ? 7 : 1;
         $this->timerEnd = 12;
-
-        parent::__construct();
     }
 
     protected function getCSSid(): string

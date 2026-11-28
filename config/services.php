@@ -191,7 +191,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $containerConfigurator->import(__DIR__ . '/../plugins/{Panels,Statistics}/*/config/services.php');
 
-    $services->load('Runalyze\\Bundle\\CoreBundle\\Services\\', __DIR__ . '/../src/CoreBundle/Services/{Dashboard/DashboardStatisticsProvider,SharedAthleteStatisticsProvider}.php');
+    $services->load('Runalyze\\Bundle\\CoreBundle\\Services\\', __DIR__ . '/../src/CoreBundle/Services/{Dashboard/DashboardStatisticsProvider,SharedAthleteStatisticsProvider,SumPlotFactory}.php');
 
     $services->alias(PluginConfigurationStorageInterface::class, DoctrinePluginConfigurationStorage::class);
 
