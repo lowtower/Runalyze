@@ -7,8 +7,6 @@
 
 namespace Runalyze\Export\Share;
 
-use System;
-
 /**
  * Exporter for: Facebook
  *
@@ -27,31 +25,22 @@ class Facebook extends AbstractSocialSharer
 
     public function isPossible(): bool
     {
-        return $this->Context->activity()
-            ->isPublic() && ! System::isAtLocalhost();
+        return $this->publicActivityUrl !== null;
     }
 
     public function url(): string
     {
-        // TODO
-        // check: on runalyze.com
-        // access_token, see http://www.espend.de/artikel/facebook-api-oauth-access-token-generieren.html
-        // publish, call https://graph.facebook.com/me/fitness.runs?access_token=XXX&method=POST&course=...
-        // for testing, see https://developers.facebook.com/tools/explorer/473795412675725/?path=me%2Ffitness.runs&method=POST
-        // @see https://developers.facebook.com/docs/reference/opengraph/action-type/fitness.runs
-        // @see https://developers.facebook.com/docs/reference/opengraph/object-type/fitness.course
+        $url = $this->publicActivityUrl . '?utm_medium=referral&utm_source=facebook';
 
-        $url = urlencode($this->publicURL() . '?utm_medium=referral&utm_source=facebook');
-        $title = urlencode($this->Context->dataview()->titleWithComment());
-        $text = urlencode($this->text());
-        $image = System::getFullDomainWithProtocol() . 'public/assets/images/runalyze.png';
-
-        if (System::isAtLocalhost()) {
-            $image = 'https://runalyze.com/public/assets/images/runalyze.png';
-        }
-
-        return 'https://www.facebook.com/dialog/feed?app_id=' . self::$APP_ID . '&link=' . $url . '&picture=' . $image . '&name=' . $title . '&caption=' . $url . '&description=' . $text . '&redirect_uri=http://www.facebook.com';
-        // $FbUrl = 'https://facebook.com/sharer.php?s=100&amp;p[url]='.$url.'&amp;p[title]='.$title.'&amp;p[summary]='.$text.'&amp;p[images][0]='.$image;
+        return 'https://www.facebook.com/dialog/feed?' . http_build_query([
+            'app_id' => self::$APP_ID,
+            'link' => $url,
+            'picture' => $this->shareImageUrl,
+            'name' => $this->Context->dataview()->titleWithComment(),
+            'caption' => $url,
+            'description' => $this->text(),
+            'redirect_uri' => 'http://www.facebook.com',
+        ]);
     }
 
     public function name(): string

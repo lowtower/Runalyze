@@ -41,16 +41,4 @@ class System
     {
         return Request::getProtocol() . ':' . self::getFullDomain();
     }
-
-    /**
-     * Is this script running on localhost?
-     */
-    public static function isAtLocalhost(): bool
-    {
-        if (! isset($_SERVER['SERVER_NAME'])) {
-            return false;
-        }
-
-        return $_SERVER['SERVER_NAME'] == 'localhost';
-    }
 }

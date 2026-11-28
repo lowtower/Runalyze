@@ -291,7 +291,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(PrivacyGuard::class);
 
-    $services->load('Runalyze\\Bundle\\CoreBundle\\Services\\Activity\\', __DIR__ . '/../src/CoreBundle/Services/Activity/{ActivityContextFactory,AgeGradeLookup,DataSeriesRemover,SharedActivityUrlGenerator}.php');
+    $services->load('Runalyze\\Bundle\\CoreBundle\\Services\\Activity\\', __DIR__ . '/../src/CoreBundle/Services/Activity/{ActivityContextFactory,ActivityShareMenu,AgeGradeLookup,DataSeriesRemover,SharedActivityUrlGenerator}.php');
 
     $services->set(ConfigurationManager::class);
 

@@ -9,8 +9,6 @@ declare(strict_types=1);
 
 namespace Runalyze\Export\Share;
 
-use System;
-
 /**
  * Exporter for: Google+
  *
@@ -27,13 +25,12 @@ class GooglePlus extends AbstractSocialSharer
 
     public function isPossible(): bool
     {
-        return $this->Context->activity()
-            ->isPublic() && ! System::isAtLocalhost();
+        return $this->publicActivityUrl !== null;
     }
 
     public function url(): string
     {
-        return 'https://plus.google.com/share?url=' . urlencode($this->publicURL() . '?utm_medium=referral&utm_source=googleplus');
+        return 'https://plus.google.com/share?url=' . urlencode($this->publicActivityUrl . '?utm_medium=referral&utm_source=googleplus');
     }
 
     public function name(): string

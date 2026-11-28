@@ -17,6 +17,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Repository\TrackdataRepository;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Activity\ActivityContextFactory;
+use Runalyze\Bundle\CoreBundle\Services\Activity\ActivityShareMenu;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\LegacyCache;
 use Runalyze\Bundle\CoreBundle\Services\LegacyContentResponseFactory;
@@ -87,7 +88,7 @@ class ViewController extends AbstractController
     #[Route(path: '/activity/{id}', name: 'ActivityShow', requirements: [
         'id' => '\d+',
     ], methods: ['GET'])]
-    public function displayAction(Request $request, int $id, ?Account $account = null): Response
+    public function displayAction(Request $request, int $id, ActivityShareMenu $shareMenu, ?Account $account = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -124,7 +125,7 @@ class ViewController extends AbstractController
             new Frontend($this->tokenStorage, $this->parameterBag, $this->requestStack);
 
             $context = new Context($activity->getId(), $activity->getAccount()->getId());
-            $view = new TrainingView($context);
+            $view = new TrainingView($context, $shareMenu->links($context, $request));
 
             return $this->legacyContentResponseFactory->create(
                 $this->renderView('activity/training_view.html.twig', $view->templateData()),

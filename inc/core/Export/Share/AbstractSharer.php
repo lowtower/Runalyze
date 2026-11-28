@@ -7,11 +7,9 @@
 
 namespace Runalyze\Export\Share;
 
-use HTML;
 use Runalyze\Bundle\CoreBundle\Component\Activity\PaceFormatter;
 use Runalyze\Export\AbstractExporter;
-use Runalyze\View\Activity\Linker;
-use System;
+use Runalyze\View\Activity\Context;
 
 /**
  * Create sharing links for given type
@@ -21,6 +19,14 @@ use System;
  */
 abstract class AbstractSharer extends AbstractExporter
 {
+    public function __construct(
+        ?Context $context,
+        protected readonly ?string $publicActivityUrl = null,
+        protected readonly ?string $shareImageUrl = null
+    ) {
+        parent::__construct($context);
+    }
+
     abstract public function isExternalLink(): bool;
 
     abstract public function url(): string;
@@ -61,13 +67,6 @@ abstract class AbstractSharer extends AbstractExporter
             ->format($this->Context->dataview()->paceInSecondsPerKilometer());
     }
 
-    final protected function publicURL(): string
-    {
-        $Linker = new Linker($this->Context->activity());
-
-        return $Linker->publicUrl();
-    }
-
     final protected function externalLink(string $text = ''): string
     {
         if (empty($text)) {
@@ -75,17 +74,5 @@ abstract class AbstractSharer extends AbstractExporter
         }
 
         return '<a href="' . $this->url() . '" target="_blank" style="display:block!important"><i class="fa ' . $this->iconClass() . '"></i> <strong>' . $text . '</strong></a>';
-    }
-
-    final protected function errorForLocalhost(): string
-    {
-        if (System::isAtLocalhost()) {
-            return HTML::error(
-                __('Runalyze is running on a local server.') . ' '
-                . __('Linking your activity in a social network does not make sense - nobody will be able to see your activity.')
-            );
-        }
-
-        return '';
     }
 }

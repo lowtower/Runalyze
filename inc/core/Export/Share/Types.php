@@ -33,7 +33,7 @@ final class Types extends AbstractEnum
      * @param int $typeid int from internal enum
      * @throws \InvalidArgumentException
      */
-    public static function get(int $typeid, Context $context): AbstractSharer
+    public static function get(int $typeid, Context $context, ?string $publicActivityUrl = null, ?string $shareImageUrl = null): AbstractSharer
     {
         $classNames = self::classNamesArray();
 
@@ -43,7 +43,7 @@ final class Types extends AbstractEnum
 
         $className = 'Runalyze\\Export\\Share\\' . $classNames[$typeid];
 
-        return new $className($context);
+        return new $className($context, $publicActivityUrl, $shareImageUrl);
     }
 
     /**

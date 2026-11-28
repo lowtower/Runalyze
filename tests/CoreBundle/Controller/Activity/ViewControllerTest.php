@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller\Activity;
 
+use Cache;
+use DB;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
+use Runalyze\Model\Factory;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
@@ -142,6 +146,66 @@ final class ViewControllerTest extends AbstractFixturesAwareWebTestCase
             (string) $this->Client->getResponse()
                 ->getContent()
         );
+    }
+
+    #[DataProvider('shareMenuVariants')]
+    public function testDisplayActionRendersTheShareMenuWithTheRequestUrl(bool $isPublic, string $host, bool $dashboard = false): void
+    {
+        $activity = $this->createTrainingForAccount($this->Account, $isPublic);
+        $id = $activity->getId();
+        $sportId = $activity->getSport()->getId();
+        $accountId = $this->Account->getId();
+        $db = DB::getInstance();
+        $db->beginTransaction();
+        try {
+            $db->prepare('INSERT INTO ' . PREFIX . 'sport (id, accountid, name) VALUES (?, ?, ?)')
+                ->execute([$sportId, $accountId, 'Running']);
+            $db->prepare('INSERT INTO ' . PREFIX . 'training (id, accountid, sportid, time, s, distance, is_public, title) VALUES (?, ?, ?, ?, 1800, 5, ?, ?)')
+                ->execute([$id, $accountId, $sportId, $activity->getTime(), (int) $isPublic, 'Tempo & hills']);
+            Cache::delete('training' . $id);
+            unset(Factory::$StaticCache['sport']);
+
+            $this->loginClient($this->Client, $this->Account, 'default');
+            $base = 'https://' . $host . '/runalyze';
+            $path = $dashboard ? '/dashboard?id=' . $id : '/activity/' . $id;
+            $page = $this->Client->request('GET', $base . $path, server: [
+                'SCRIPT_NAME' => '/runalyze/index.php',
+                'SCRIPT_FILENAME' => '/var/www/public/index.php',
+            ]);
+            $this->assertStatusCode(200, $this->Client);
+
+            $sharedUrl = $base . '/shared/' . base_convert((string) $id, 10, 35);
+            $this->assertCount($isPublic ? 1 : 0, $page->filter('.panel-menu a[href="' . $sharedUrl . '"]'));
+            $twitter = $page->filter('.panel-menu a[href^="https://twitter.com/intent/tweet?"]');
+            parse_str((string) parse_url((string) $twitter->attr('href'), PHP_URL_QUERY), $tweet);
+            $this->assertStringContainsString('Tempo & hills', (string) $tweet['text']);
+
+            $facebook = $page->filter('.panel-menu a[href^="https://www.facebook.com/dialog/feed?"]');
+            $googlePlus = $page->filter('.panel-menu a[href^="https://plus.google.com/share?"]');
+            if ($isPublic && $host !== 'localhost') {
+                $this->assertSame($sharedUrl . '?utm_medium=referral&utm_source=twitter', $tweet['url']);
+                parse_str((string) parse_url((string) $facebook->attr('href'), PHP_URL_QUERY), $facebookParameters);
+                $this->assertSame($sharedUrl . '?utm_medium=referral&utm_source=facebook', $facebookParameters['link']);
+                $this->assertSame($base . '/assets/images/runalyze.png', $facebookParameters['picture']);
+                $this->assertCount(1, $googlePlus);
+            } else {
+                $this->assertArrayNotHasKey('url', $tweet);
+                $this->assertCount(0, $facebook);
+                $this->assertCount(0, $googlePlus);
+            }
+        } finally {
+            $db->rollBack();
+            unset(Factory::$StaticCache['sport']);
+            Cache::delete('training' . $id);
+        }
+    }
+
+    public static function shareMenuVariants(): iterable
+    {
+        yield 'public activity' => [true, 'example.test'];
+        yield 'private activity' => [false, 'example.test'];
+        yield 'public activity on localhost' => [true, 'localhost'];
+        yield 'public activity in the dashboard' => [true, 'example.test', true];
     }
 
     public function testDisplayActionChangePrivacyTogglesPrivacyForOwnActivity(): void
