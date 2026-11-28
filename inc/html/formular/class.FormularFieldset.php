@@ -158,13 +158,6 @@ class FormularFieldset extends HtmlTag
         }
     }
 
-    final public function validateAllFields(): void
-    {
-        foreach ($this->fields as &$Field) {
-            $Field->validate();
-        }
-    }
-
     /**
      * Display this fieldset
      */

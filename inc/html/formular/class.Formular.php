@@ -98,13 +98,6 @@ class Formular extends HtmlTag
         $this->fieldsets[] = $Fieldset;
     }
 
-    final public function validateAllFieldsets(): void
-    {
-        foreach ($this->fieldsets as &$Fieldset) {
-            $Fieldset->validateAllFields();
-        }
-    }
-
     /**
      * @param string $name optional, default 'submit'
      */
