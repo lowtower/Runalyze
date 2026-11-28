@@ -455,24 +455,11 @@ class DataBrowser
     }
 
     /**
-     * Specific icon-links
+     * @return list<string>
      */
-    public function iconLinks(): string
+    public function iconLinks(): array
     {
-        return '<ul>'
-            . '<li>' . $this->getSharedListLink() . '</li>'
-            . '<li>' . $this->getMonthKmLink() . '</li>'
-            . '<li>' . $this->getWeekKmLink() . '</li>'
-            . '<li>' . $this->getAddLink() . '</li>'
-            . '</ul>';
-    }
-
-    /**
-     * Display specific icon-links
-     */
-    public function displayIconLinks(): void
-    {
-        echo $this->iconLinks();
+        return [$this->getMonthKmLink(), $this->getWeekKmLink(), $this->getAddLink()];
     }
 
     public function hoverLinks(): string
@@ -675,14 +662,6 @@ class DataBrowser
     protected function getWeekKmLink(): string
     {
         return Ajax::window('<a href="' . PlotSumData::$URL . '?type=week" ' . Ajax::tooltip('', __('Activity per week'), false, true) . '>' . Icon::$BARS_SMALL . '</a>');
-    }
-
-    /**
-     * Get list to shared list
-     */
-    protected function getSharedListLink(): string
-    {
-        return SharedLinker::getListLinkForCurrentUser();
     }
 
     /**

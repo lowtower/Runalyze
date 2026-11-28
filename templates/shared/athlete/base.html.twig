@@ -65,7 +65,7 @@
         <div id="publicList">
     {% endif %}
 
-    {% include 'my/data_browser.html.twig' with dataBrowser.templateData() %}
+    {% include 'my/data_browser.html.twig' with dataBrowser.templateData()|merge({shared_browser: true}) %}
 
     {% if not app.request.xmlHttpRequest %}
         </div>

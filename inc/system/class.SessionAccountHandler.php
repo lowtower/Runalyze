@@ -106,16 +106,4 @@ class SessionAccountHandler
 
         return (string) self::$Account['timezone'];
     }
-
-    /**
-     * Get username of current user
-     */
-    public static function getUsername(): string
-    {
-        if (! isset(self::$Account['username'])) {
-            return '';
-        }
-
-        return self::$Account['username'];
-    }
 }

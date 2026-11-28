@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Repository\ConfRepository;
@@ -86,6 +87,40 @@ final class CallControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStringContainsString('zebra-style', $content);
         $this->assertStringContainsString('id="calendar-start"', $content);
         $this->assertStringContainsString('id="direct-timerange"', $content);
+    }
+
+    #[DataProvider('athletePageVisibility')]
+    public function testDataBrowserAthleteLinkUsesTheAccountsPrivacySetting(bool $isPublic): void
+    {
+        self::getContainer()->get(ConfRepository::class)->updateOrInsert(
+            $this->Account,
+            'privacy',
+            'TRAINING_LIST_PUBLIC',
+            $isPublic ? 'true' : 'false'
+        );
+        $this->loginClient($this->Client, $this->Account, 'default');
+        $page = $this->Client->request('GET', '/runalyze/databrowser', server: [
+            'SCRIPT_NAME' => '/runalyze/index.php',
+            'SCRIPT_FILENAME' => '/var/www/public/index.php',
+            'HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest',
+        ]);
+
+        $this->assertStatusCode(200, $this->Client);
+        $link = $page->filter('.panel-menu a')->reduce(static fn ($link): bool => $link->filter('i.fa-address-card')->count() === 1);
+        $this->assertCount(1, $link);
+        if ($isPublic) {
+            $this->assertSame('/runalyze/athlete/' . $this->Account->getUsername(), $link->attr('href'));
+            $this->assertSame('_blank', $link->attr('target'));
+        } else {
+            $this->assertSame('/runalyze/settings/privacy', $link->attr('href'));
+            $this->assertSame('window', $link->attr('class'));
+        }
+    }
+
+    public static function athletePageVisibility(): iterable
+    {
+        yield 'public profile' => [true];
+        yield 'privacy settings link' => [false];
     }
 
     public function testSavePngActionRequiresAuthentication(): void
