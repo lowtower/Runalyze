@@ -38,8 +38,14 @@ final class SportChoiceTypeTest extends TestCase
 
         $sportRepository = $this->createStub(SportRepository::class);
         $sportRepository->method('findEquipmentCategoryIdsFor')->willReturnMap([
-            [[1], [['sport_id' => 1, 'equipment_type_id' => 101]]],
-            [[2], [['sport_id' => 2, 'equipment_type_id' => 202]]],
+            [[1], [[
+                'sport_id' => 1,
+                'equipment_type_id' => 101,
+            ]]],
+            [[2], [[
+                'sport_id' => 2,
+                'equipment_type_id' => 202,
+            ]]],
         ]);
 
         $formFactory = Forms::createFormFactoryBuilder()
