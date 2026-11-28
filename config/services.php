@@ -116,16 +116,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters->set('app.mail_localdomain', '%env(MAIL_LOCALDOMAIN)%');
 
-    $parameters->set('app.smtp_host', '%env(string:SMTP_HOST)%');
-
-    $parameters->set('app.smtp_port', '%env(int:SMTP_PORT)%');
-
-    $parameters->set('app.smtp_security', '%env(string:SMTP_SECURITY)%');
-
-    $parameters->set('app.smtp_username', '%env(string:SMTP_USERNAME)%');
-
-    $parameters->set('app.smtp_password', '%env(string:SMTP_PASSWORD)%');
-
     $parameters->set('app.weather_max_age_for_current_conditions', '%env(int:WEATHER_MAX_AGE_FOR_CURRENT_CONDITIONS)%');
 
     $parameters->set('app.weather_proxy', '%env(string:WEATHER_PROXY)%');

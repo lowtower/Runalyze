@@ -335,6 +335,10 @@ Please notice:
 * I don't take any responsibility if you running this version on your infrastructure and have problems.
 * The extensions i made was done on a release version. So i do not build a release. I have no translations for the new features (always use german language).
 
+## Development environment
+
+See [Docker/Podman development configuration](docker/README.md) for local environment overrides and database configuration.
+
 ## Database migration
 
 For Migration of the Database use the commands:

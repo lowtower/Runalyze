@@ -28,6 +28,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
+      - name: Validate development Compose configuration
+        run: |
+          docker compose config --quiet
+          docker compose --profile garmin config --quiet
+
+      - name: Test database setup safeguards
+        run: |
+          bash -n docker/setup-test-db.sh
+          bash -n docker/runalyze-entrypoint.sh
+          bash tests/shell/setup-test-db-test.sh
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
