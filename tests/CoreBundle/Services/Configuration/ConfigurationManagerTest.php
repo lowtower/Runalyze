@@ -117,6 +117,21 @@ final class ConfigurationManagerTest extends TestCase
         $this->assertSame('metric', $guest->get('general.DISTANCE_UNIT_SYSTEM'));
     }
 
+    public function testDistinctAccountsWithoutAnIdDoNotShareConfiguration(): void
+    {
+        $currentAccount = new Account();
+        $otherAccount = new Account();
+
+        $repository = $this->getConfRepositoryMockExpectingCalls([], 2);
+        $manager = new ConfigurationManager($repository, $this->createLoggedInTokenStorage($currentAccount));
+
+        $currentList = $manager->getList($currentAccount);
+        $otherList = $manager->getList($otherAccount);
+
+        $this->assertNotSame($currentList, $otherList);
+        $this->assertSame($currentList, $manager->getList());
+    }
+
     public function testGetListForDifferentAccountIsNeverCachedAndAlwaysQueriesRepository(): void
     {
         $loggedInUser = new Account();

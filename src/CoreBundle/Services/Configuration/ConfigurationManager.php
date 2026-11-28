@@ -32,16 +32,17 @@ class ConfigurationManager
     {
         $currentAccount = $this->getUser();
 
-        if (! $account instanceof Account || ($currentAccount instanceof Account && $account->getId() == $currentAccount->getId())) {
-            if (! $this->CurrentConfigurationList instanceof RunalyzeConfigurationList || $this->currentConfigurationAccount !== $currentAccount) {
-                $this->setListForCurrentUser();
-                $this->currentConfigurationAccount = $currentAccount;
-            }
-
-            return $this->CurrentConfigurationList;
+        if ($account instanceof Account && $account !== $currentAccount
+            && ($account->getId() === null || $account->getId() !== $currentAccount?->getId())) {
+            return $this->getListFor($account);
         }
 
-        return $this->getListFor($account);
+        if (! $this->CurrentConfigurationList instanceof RunalyzeConfigurationList || $this->currentConfigurationAccount !== $currentAccount) {
+            $this->setListForCurrentUser();
+            $this->currentConfigurationAccount = $currentAccount;
+        }
+
+        return $this->CurrentConfigurationList;
     }
 
     protected function getListFor(Account $account): RunalyzeConfigurationList
