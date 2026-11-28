@@ -34,17 +34,6 @@ class SharedLinker
     }
 
     /**
-     * Get link to a given training
-     * @param ?string $text [optional]
-     */
-    public static function getStandardLinkTo(int $trainingID, ?string $text = null): string
-    {
-        $text ??= Icon::$ATTACH;
-
-        return '<a href="' . self::getUrlFor($trainingID) . '" target="_blank">' . $text . '</a>';
-    }
-
-    /**
      * Get link to shared list for current user
      * @param ?string $text [optional]
      */

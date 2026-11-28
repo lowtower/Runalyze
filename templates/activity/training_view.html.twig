@@ -14,13 +14,18 @@
 <div class="panel-heading">
     <div class="panel-menu">
         <ul>
-            {% for link in toolbar_links %}
-                {% if link starts with '<li' or link starts with '</' %}
-                    {{ link|raw }}
-                {% else %}
-                    <li>{{ link|raw }}</li>
-                {% endif %}
-            {% endfor %}
+            {% if is_shared %}
+                <li><a href="{{ activityUrl }}" target="_blank"><i class="fa far fa-fw fa-link"></i></a></li>
+                <li><a href="{{ path('shared-athlete', {username: username}) }}" target="_blank"><i class="fa far fa-fw fa-table"></i></a></li>
+            {% else %}
+                {% for link in toolbar_links %}
+                    {% if link starts with '<li' or link starts with '</' %}
+                        {{ link|raw }}
+                    {% else %}
+                        <li>{{ link|raw }}</li>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         </ul>
     </div>
     {% if not is_shared %}
