@@ -12,21 +12,6 @@
 abstract class FormularField extends HtmlTag
 {
     /**
-     * CSS-class if validation failed
-     */
-    public static string $CSS_VALIDATION_FAILED = 'validation-failed';
-
-    /**
-     * Array with all failed keys
-     */
-    private static array $FAILED_KEYS = [];
-
-    /**
-     * Array with all validation failures
-     */
-    private static array $VALIDATION_FAILURES = [];
-
-    /**
      * Value
      * @var string|array
      */
@@ -44,46 +29,9 @@ abstract class FormularField extends HtmlTag
     protected array $layoutClasses = [];
 
     /**
-     * Enum from FormularValueParser
-     * @var string enum
-     */
-    protected $parser;
-
-    /**
-     * Array with options for parser
-     */
-    protected array $parserOptions = [];
-
-    /**
      * Field is prepared for being displayed
      */
     private bool $prepared = false;
-
-    public static function setKeyAsFailed(string $key)
-    {
-        self::$FAILED_KEYS[] = $key;
-    }
-
-    /**
-     * Set key as failed
-     */
-    public static function hasKeyFailed(string $key): bool
-    {
-        return in_array($key, self::$FAILED_KEYS);
-    }
-
-    public static function addValidationFailure(string $failure)
-    {
-        self::$VALIDATION_FAILURES[] = $failure;
-    }
-
-    /**
-     * Get all validation failures
-     */
-    public static function getValidationFailures(): array
-    {
-        return self::$VALIDATION_FAILURES;
-    }
 
     /**
      * Construct a new field
@@ -155,43 +103,10 @@ abstract class FormularField extends HtmlTag
         $this->layoutClasses[] = $layout;
     }
 
-    public function setParser(string $parser, array $options = [])
-    {
-        $this->parser = $parser;
-        $this->parserOptions = $options;
-    }
-
     /**
      * Prepare for beeing display, may be overwritten
      */
     protected function prepareForDisplay() {}
-
-    /**
-     * Parse value for display
-     */
-    final protected function parseForDisplay(): void
-    {
-        FormularValueParser::parse($this->value, $this->parser, $this->parserOptions);
-
-        if (self::hasKeyFailed($this->name)) {
-            $this->addCSSclass(self::$CSS_VALIDATION_FAILED);
-        }
-    }
-
-    /**
-     * Validate value
-     */
-    public function validate(): bool
-    {
-        $validation = FormularValueParser::validatePost($this->name, $this->parser, $this->parserOptions);
-
-        if (! $validation) {
-            self::setKeyAsFailed($this->name);
-            self::addValidationFailure(is_string($validation) ? $validation : __('Your input is not allowed.') . ' (' . $this->name . ')');
-        }
-
-        return $validation;
-    }
 
     /**
      * Display this field
@@ -229,7 +144,6 @@ abstract class FormularField extends HtmlTag
     private function prepare()
     {
         if (! $this->prepared) {
-            $this->parseForDisplay();
             $this->prepareForDisplay();
 
             $this->prepared = true;
