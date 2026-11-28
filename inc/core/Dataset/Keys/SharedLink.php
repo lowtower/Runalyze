@@ -68,10 +68,13 @@ class SharedLink extends AbstractKey
      */
     public function stringFor(Context $context): string
     {
-        if ($context->activity()->isPublic()) {
-            return '<a href="' . $context->linker()->publicUrl() . '" target="_blank">' . Icon::$ATTACH . '</a>';
-        }
+        $url = $context->publicActivityUrl();
 
-        return '';
+        return $url !== null ? '<a href="' . htmlspecialchars($url) . '" target="_blank">' . Icon::$ATTACH . '</a>' : '';
+    }
+
+    public function stringForExample(Context $context): string
+    {
+        return $context->activity()->isPublic() ? Icon::$ATTACH : '';
     }
 }

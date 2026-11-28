@@ -6,6 +6,7 @@
  */
 
 use Runalyze\Bundle\CoreBundle\Component\Activity\DataBrowserLinker;
+use Runalyze\Bundle\CoreBundle\Services\Activity\SharedActivityUrlGenerator;
 use Runalyze\Configuration;
 use Runalyze\Dataset;
 use Runalyze\Model\Factory;
@@ -260,12 +261,12 @@ class DataBrowser
      *
      * @return array<string, mixed>
      */
-    public function templateData(): array
+    public function templateData(?SharedActivityUrlGenerator $sharedActivityUrls = null): array
     {
         $showActiveDaysOnly = Configuration::DataBrowser()->showActiveDaysOnly();
 
         $Table = new View\Dataset\Table($this->DatasetConfig);
-        $Context = new Dataset\Context(new \Runalyze\Model\Activity\Entity(), $this->AccountID);
+        $Context = new Dataset\Context(new \Runalyze\Model\Activity\Entity(), $this->AccountID, sharedActivityUrls: $sharedActivityUrls);
 
         $this->Table = $Table;
         $this->Context = $Context;

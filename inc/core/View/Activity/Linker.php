@@ -15,8 +15,6 @@ use Runalyze\Bundle\CoreBundle\Component\Activity\DataBrowserLinker;
 use Runalyze\Model\Activity;
 use Runalyze\Util\LocalTime;
 use SessionAccountHandler;
-use SharedLinker;
-use System;
 
 /**
  * Linker for activities
@@ -29,15 +27,6 @@ class Linker
     public function __construct(
         protected Activity\Entity $Activity
     ) {}
-
-    public function publicUrl(): string
-    {
-        if ($this->Activity->isPublic()) {
-            return System::getFullDomainWithProtocol() . SharedLinker::getUrlFor($this->Activity->id());
-        }
-
-        return '';
-    }
 
     public function editUrl(): string
     {

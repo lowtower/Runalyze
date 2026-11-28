@@ -7,6 +7,7 @@
 
 namespace Runalyze\Dataset;
 
+use Runalyze\Bundle\CoreBundle\Services\Activity\SharedActivityUrlGenerator;
 use Runalyze\Model;
 use Runalyze\Profile\Sport\SportProfile;
 use Runalyze\View\Activity\Dataview;
@@ -62,7 +63,8 @@ class Context
     public function __construct(
         $dataOrObject,
         private readonly int $accountID,
-        private readonly ?Model\Sport\Entity $summarySport = null
+        private readonly ?Model\Sport\Entity $summarySport = null,
+        private readonly ?SharedActivityUrlGenerator $sharedActivityUrls = null
     ) {
         if (is_array($dataOrObject)) {
             $this->setActivityData($dataOrObject);
@@ -115,6 +117,13 @@ class Context
     public function linker(): Linker
     {
         return $this->Linker;
+    }
+
+    public function publicActivityUrl(): ?string
+    {
+        $id = $this->Activity->id();
+
+        return $id > 0 && $this->Activity->isPublic() ? $this->sharedActivityUrls?->generate($id) : null;
     }
 
     public function hasSport(): bool

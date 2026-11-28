@@ -63,26 +63,6 @@ class Request
         return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
     }
 
-    public static function isHttps(): bool
-    {
-        $request = self::current();
-
-        if ($request instanceof SymfonyRequest) {
-            return $request->isSecure();
-        }
-
-        return isset($_SERVER['HTTPS']) && ! empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off';
-    }
-
-    public static function getProtocol(): string
-    {
-        if (self::isHttps()) {
-            return 'https';
-        }
-
-        return 'http';
-    }
-
     /**
      * Get ID send as post or get
      */

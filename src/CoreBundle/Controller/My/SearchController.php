@@ -5,6 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Controller\My;
 use Frontend;
 use Runalyze\Bundle\CoreBundle\Component\Search\SearchFormFields;
 use Runalyze\Bundle\CoreBundle\Component\Search\SearchResults;
+use Runalyze\Bundle\CoreBundle\Services\Activity\SharedActivityUrlGenerator;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -25,7 +26,7 @@ class SearchController extends AbstractController
     ) {}
 
     #[Route(path: '/my/search', name: 'my-search', methods: ['GET', 'POST'])]
-    public function searchAction(Request $request): RedirectResponse|Response
+    public function searchAction(Request $request, SharedActivityUrlGenerator $sharedActivityUrls): RedirectResponse|Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -64,7 +65,7 @@ class SearchController extends AbstractController
         return $this->render('my/search.html.twig', [
             'showForm' => $showForm,
             'fields' => new SearchFormFields($this->configurationManager)->fields(),
-            'results' => $searchResults->templateData(),
+            'results' => $searchResults->templateData($sharedActivityUrls),
         ]);
     }
 
