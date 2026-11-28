@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Plugin\Statistics;
 
 use LogicException;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 
 final readonly class StatisticsRegistry
 {
@@ -16,8 +17,10 @@ final readonly class StatisticsRegistry
     /**
      * @param iterable<StatisticsInterface> $statistics
      */
-    public function __construct(iterable $statistics)
-    {
+    public function __construct(
+        #[AutowireIterator('runalyze.stat')]
+        iterable $statistics
+    ) {
         $registered = [];
 
         foreach ($statistics as $statistic) {

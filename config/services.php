@@ -64,7 +64,6 @@ use Runalyze\View\Activity\Feed;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $localesFile = __DIR__ . '/locales.php';
@@ -182,11 +181,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->load('Runalyze\\Bundle\\CoreBundle\\Services\\', __DIR__ . '/../src/CoreBundle/Services/{DoctrinePluginConfigurationStorage,LegacyContentResponseFactory,LegacyPluginOutputRenderer,PluginDiscovery,PluginInstallationManager,PluginSettingsProvider}.php');
 
-    $services->set(PanelRegistry::class)
-        ->arg('$panels', tagged_iterator('runalyze.panel'));
+    $services->set(PanelRegistry::class);
 
-    $services->set(StatisticsRegistry::class)
-        ->arg('$statistics', tagged_iterator('runalyze.stat'));
+    $services->set(StatisticsRegistry::class);
 
     $services->set(StatisticsFilterFactory::class);
 

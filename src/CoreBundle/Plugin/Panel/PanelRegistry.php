@@ -6,6 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Plugin\Panel;
 
 use InvalidArgumentException;
 use LogicException;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 
 final readonly class PanelRegistry
 {
@@ -17,8 +18,10 @@ final readonly class PanelRegistry
     /**
      * @param iterable<PanelInterface> $panels
      */
-    public function __construct(iterable $panels)
-    {
+    public function __construct(
+        #[AutowireIterator('runalyze.panel')]
+        iterable $panels
+    ) {
         $registeredPanels = [];
 
         foreach ($panels as $panel) {
