@@ -20,7 +20,6 @@ use Runalyze\Export\Share\Facebook;
 use Runalyze\Plugins\Statistics\Statistiken\SummaryTableProvider;
 use Runalyze\View\Activity\Context;
 use Runalyze\View\Activity\Feed;
-use Runalyze\View\Activity\Linker;
 use Runalyze\View\Leaflet\Activity;
 use SharedLinker;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -80,12 +79,8 @@ class SharedController extends AbstractController
             return $this->render('shared/invalid_activity.html.twig');
         }
 
-        $request->query->set('user', $activity->getAccount()->getUsername());
-
-        /** @var AccountRepository $repository */
-        $repository = $this->doctrine
-            ->getRepository(Account::class);
-        $account = $repository->findForUsername($activity->getAccount()->getUsername());
+        $account = $activity->getAccount();
+        $request->attributes->set(SharedLinker::ACCOUNT_ATTRIBUTE, $account->getId());
         $publicList = $this->configurationManager
             ->getList($account)
             ->getPrivacy()
@@ -95,14 +90,13 @@ class SharedController extends AbstractController
 
         $activityContext = $this->activityContextFactory
             ->getContext($activity);
-        $activityContextLegacy = new Context($activity->getId(), $activity->getAccount()->getId());
+        $activityContextLegacy = new Context($activityId, $account->getId());
         $hasRoute = $activityContext->canShowMap() && $this->privacyGuard
             ->isMapVisible($activity, $activityContext->getRaceResult());
 
         if ($request->query->get('mode') == 'iframe') {
             return $this->render('shared/widget/iframe/base.html.twig', [
-                'username' => $activity->getAccount()
-                    ->getUsername(),
+                'username' => $account->getUsername(),
                 'hasPublicList' => $publicList,
                 'context' => $activityContext,
                 'route' => $hasRoute ? new Activity(
@@ -114,11 +108,12 @@ class SharedController extends AbstractController
         }
 
         return $this->render('shared/activity/base.html.twig', [
-            'username' => $activity->getAccount()
-                ->getUsername(),
+            'username' => $account->getUsername(),
             'activity' => $activity,
             'hasPublicList' => $publicList,
-            'activityUrl' => new Linker($activityContextLegacy->activity())->publicUrl(),
+            'activityUrl' => $this->generateUrl('shared-activity', [
+                'activityHash' => base_convert((string) $activityId, 10, 35),
+            ], UrlGeneratorInterface::ABSOLUTE_URL),
             'activityHasRoute' => $hasRoute,
             'metaTitle' => new Facebook($activityContextLegacy)->metaTitle(),
             'view' => new TrainingView($activityContextLegacy),

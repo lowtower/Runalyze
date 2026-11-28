@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Controller;
 
+use Cache;
+use DB;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Repository\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCase;
+use Runalyze\Model\Factory;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('requiresKernel')]
@@ -139,6 +142,36 @@ final class SharedControllerTest extends AbstractFixturesAwareWebTestCase
         $this->request('GET', '/shared/' . $this->encodeActivityHash($activity->getId()));
 
         $this->isSuccessful($this->Client->getResponse(), true);
+    }
+
+    public function testPublicActivityUsesItsOwnerAndCanonicalUrl(): void
+    {
+        $activity = $this->createTrainingForAccount($this->Account, isPublic: true);
+        $viewer = $this->getDefaultAccount();
+        $hash = $this->encodeActivityHash($activity->getId());
+        $db = DB::getInstance();
+        $db->beginTransaction();
+        try {
+            $db->prepare('INSERT INTO `' . PREFIX . 'sport` (`id`, `accountid`, `name`) VALUES (?, ?, ?)')
+                ->execute([$activity->getSport()->getId(), $this->Account->getId(), 'Owner running']);
+            $db->prepare('INSERT INTO `' . PREFIX . 'training`
+                (`id`, `accountid`, `sportid`, `time`, `s`, `distance`, `kcal`, `is_public`) VALUES (?, ?, ?, ?, 1800, 5, 200, 1)')
+                ->execute([$activity->getId(), $this->Account->getId(), $activity->getSport()->getId(), $activity->getTime()]);
+            unset(Factory::$StaticCache['sport']);
+            Cache::delete('training' . $activity->getId());
+
+            $client = $this->makeAuthenticatedClient();
+            $crawler = $client->request('GET', 'https://example.test/shared/' . $hash . '?user=' . $viewer->getUsername());
+
+            $this->assertStatusCode(200, $client);
+            $this->assertStringContainsString($this->Account->getUsername(), $crawler->filter('title')->text());
+            $this->assertStringContainsString('Owner running', (string) $crawler->filter('meta[property="og:title"]')->attr('content'));
+            $this->assertSame('https://example.test/shared/' . $hash, $crawler->filter('meta[property="og:url"]')->attr('content'));
+        } finally {
+            $db->rollBack();
+            unset(Factory::$StaticCache['sport']);
+            Cache::delete('training' . $activity->getId());
+        }
     }
 
     public function testOldSharedUserActionRedirectsPermanentlyToSharedAthlete(): void
