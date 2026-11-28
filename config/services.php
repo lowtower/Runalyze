@@ -25,7 +25,6 @@ use Runalyze\Bundle\CoreBundle\Repository\WeathercacheRepository;
 use Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
-use Runalyze\Bundle\CoreBundle\Services\Dashboard\DashboardStatisticsProvider;
 use Runalyze\Bundle\CoreBundle\Services\DisposableDomainProvider;
 use Runalyze\Bundle\CoreBundle\Services\DoctrinePluginConfigurationStorage;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityCache;
@@ -41,7 +40,6 @@ use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager;
 use Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory;
 use Runalyze\Bundle\CoreBundle\Services\SessionRequestProcessor;
 use Runalyze\Bundle\CoreBundle\Services\Sha256SaltedEncoder;
-use Runalyze\Bundle\CoreBundle\Services\SharedAthleteStatisticsProvider;
 use Runalyze\Bundle\CoreBundle\Services\UnitSystemFactory;
 use Runalyze\Bundle\CoreBundle\Services\UnsubscribeHashGenerator;
 use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\ORM\LoadAccountData;
@@ -196,11 +194,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $containerConfigurator->import(__DIR__ . '/../plugins/{Panels,Statistics}/*/config/services.php');
 
-    $services->set(SharedAthleteStatisticsProvider::class);
+    $services->load('Runalyze\\Bundle\\CoreBundle\\Services\\', __DIR__ . '/../src/CoreBundle/Services/{Dashboard/DashboardStatisticsProvider,SharedAthleteStatisticsProvider}.php');
 
     $services->alias(PluginConfigurationStorageInterface::class, DoctrinePluginConfigurationStorage::class);
-
-    $services->set(DashboardStatisticsProvider::class);
 
     $services->load('Runalyze\Bundle\CoreBundle\Controller\\', __DIR__ . '/../src/CoreBundle/Controller');
 
